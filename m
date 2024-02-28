@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A810A1FDA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Feb 2024 00:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836C02D607
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Feb 2024 08:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709078482; cv=none; b=RqPM01G3cmK4Csvx+GnzWv0WiZiLoUOH5Cv/D1gwde+5thQrYcwogdN2oXAtgvQFnQ9HbkPQsDjupjYnOgi8MEA4bG/1x6sowbxcfQ1+k/02cfgTdCGxXc33cDAO1khRhe34AJ4tbjM82dG89mSnut2YYUM+jNep0ZwO9fU1pZM=
+	t=1709110064; cv=none; b=A9NOza5kg9/vkkZq8qwiZRu7r4mHxlJjTFU1smrIoSmpGYOjK4SM6iJ/mbW4CC48n7/Mn7Xih1/Sd968czUdUgen+W4COKGMF7OfgzinlGOQmTdMbYYPQrJYjL0fkwvS4UIAgB0nOiyEZlJQDyiZNpEOKzc11CEjZwpHsCUhTNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709078482; c=relaxed/simple;
-	bh=UXjOkNZvkQAVDVd2jZEbdOY8MJ/Ova4bIjlZT8eQVO4=;
+	s=arc-20240116; t=1709110064; c=relaxed/simple;
+	bh=e8C/HtZ1IHSr3abgvvQYBQmb8cc74rFrskWcsthQq78=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=QiC5zC7hllrr7GjgSy7/dnW499mJ4eS2XerAroHCQbgDI4MfePz1JsdlQ9N4SrBThfwemqOXlGtz6Nb8SQBRDHarvvxc21SUg0IZAp5Xl0M57U5W1dfGEXB8gPL7LWhtRJ6tnDohiyXMb6xmFCzno+5e5dovEu1rdEkRHocD4y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H3DikvmA; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=qEkxVPt4H1DJkPDLHrWlvQvLzDE+bVBpGd6Ym6o7Cu2WE5THOusbOj9GYKoPGTXoBTDThye1KNufG75koXAWl6lt+7pV6cjVw5K57uIRtbL6AjKGHjtKLpFCBucHt1EaXfmA3NhgNBWy/lTvlcAkpjCzl7rcs6chudfREgrwpYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PmKaaI03; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H3DikvmA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PmKaaI03"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709078481; x=1740614481;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=UXjOkNZvkQAVDVd2jZEbdOY8MJ/Ova4bIjlZT8eQVO4=;
-  b=H3DikvmAgWHNIpHjspijcBpT8ouIa+KNo3QrkoyXLOwZk3YC1cccd2Kh
-   giKjbWxqqC2fOiS8IlwhwpbENpwfJCx2DC8HYi+2jfFLNmSpiqzMv4h+9
-   Lg5MRMvhNU9qHom+qBD0BUXAwwxPNQT/Zf/5cacEp5cFlWs/9a0812YQu
-   8bLcMJXRRafgooZBS1/sfmf0ROuKKdOx7rcpKgrP85CuZnVihG+3QdByM
-   Ys6t5n8aGB+/5MVYKH0eyg3rjPGcHxs3+MNcCXpxhzl2QTPJiptatC6im
-   4pWovwp8aAMVTA146cmYTRpd9zsrNWxjGbBl9uBnGoPO/9JRiiDFVfbIf
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="14876732"
-X-IronPort-AV: E=Sophos;i="6.06,189,1705392000"; 
-   d="scan'208";a="14876732"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2024 16:01:20 -0800
+  t=1709110062; x=1740646062;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e8C/HtZ1IHSr3abgvvQYBQmb8cc74rFrskWcsthQq78=;
+  b=PmKaaI03tft1uwBqBYU0abMqgxWhkavIuh/YC0wVr1M+d7CVVWo3QlhE
+   EkCFsxZcz3OVaQp5VceBSljGDSaqYhRdwEpNoXxoz3SiKLQMjLnWqa4nn
+   K/jKa77+CqK/jkSL2CsnzKdcF9/sLfgF8epaYlsDJkHQCoZpg3gxWXWkN
+   UcY8xhMZoFu9sfg2cGYGbrBHC4S9ZYwa2R4T4fszuu0/Bh55xEyb83U2Y
+   TFZYMUh/gLuSATIssiXMWDJTHMkEKuO7zoiDPvTOIe8uWbPpAUXlt3rx7
+   jBHl6b38UK5nG1uBstanl/3BnZ11eXBuFy+J86UpUcKEI/CfmOe/AwyGb
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="3659886"
+X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; 
+   d="scan'208";a="3659886"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 00:47:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,189,1705392000"; 
-   d="scan'208";a="38044511"
+X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; 
+   d="scan'208";a="7296398"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 27 Feb 2024 16:01:18 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 28 Feb 2024 00:47:41 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rf7Ns-000BcN-1i;
-	Wed, 28 Feb 2024 00:01:16 +0000
-Date: Wed, 28 Feb 2024 08:00:29 +0800
+	id 1rfFbG-000Bw0-1p;
+	Wed, 28 Feb 2024 08:47:38 +0000
+Date: Wed, 28 Feb 2024 16:47:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Badhri Jagan Sridharan <badhri@google.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1] usb: typec: tpcm: Fix PORT_RESET behavior for self
- powered devices
-Message-ID: <Zd53nWRnXBECCAbd@fdb2c0c3c270>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/in_nmi_bool 8/8] include/linux/preempt.h:144:79: error:
+ expected ';' before '}' token
+Message-ID: <202402281636.8gB3QQeJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,23 +57,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240227235832.744908-1-badhri@google.com>
 
-Hi,
+tree:   https://github.com/sean-jc/linux x86/in_nmi_bool
+head:   d0492e5e30b653d0c203cfabae6c31cea4583c40
+commit: d0492e5e30b653d0c203cfabae6c31cea4583c40 [8/8] preempt: Convert in_task() to boolean-returning function
+config: arm-gemini_defconfig (https://download.01.org/0day-ci/archive/20240228/202402281636.8gB3QQeJ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240228/202402281636.8gB3QQeJ-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402281636.8gB3QQeJ-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+   In file included from include/linux/sched.h:15,
+                    from arch/arm/kernel/asm-offsets.c:11:
+   include/linux/preempt.h: In function 'in_task':
+>> include/linux/preempt.h:144:79: error: expected ';' before '}' token
+     144 |         return !(preempt_count() & (NMI_MASK | HARDIRQ_MASK | SOFTIRQ_OFFSET))
+         |                                                                               ^
+         |                                                                               ;
+     145 | #endif
+     146 | }
+         | ~                                                                              
+   make[3]: *** [scripts/Makefile.build:116: arch/arm/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1199: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v1] usb: typec: tpcm: Fix PORT_RESET behavior for self powered devices
-Link: https://lore.kernel.org/stable/20240227235832.744908-1-badhri%40google.com
+
+vim +144 include/linux/preempt.h
+
+   138	
+   139	static __always_inline bool in_task(void)
+   140	{
+   141	#ifdef CONFIG_PREEMPT_RT
+   142		return !((preempt_count() & (NMI_MASK | HARDIRQ_MASK)) || in_serving_softirq());
+   143	#else
+ > 144		return !(preempt_count() & (NMI_MASK | HARDIRQ_MASK | SOFTIRQ_OFFSET))
+   145	#endif
+   146	}
+   147	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
