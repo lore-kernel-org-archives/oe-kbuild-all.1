@@ -1,54 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35DB142A8C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Feb 2024 23:51:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EF72916
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Feb 2024 23:51:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709250694; cv=none; b=YnVZfDYMhlLEylkvNcac+6u+QnHWIdnr0IXPOBqjzbf+Bjcv5o+g1lmy2C6xKZKl79VQOIwpcWR5sz7pUlp3RESfTYBU40o2jKVaj855CBul3vT+1ZtKLH8nWKz5EAAeTD4I8yVuXdyH/wbGHdvtgkkKqR/KnEEqbSdCeyD3fxM=
+	t=1709250722; cv=none; b=bMsbtcB4uHJArOM2umO+ejoeGboSEmqcEnBg4SkGem44wKKWGC39oJBRTIlimxn24i9pzFJzWiZ7KqsD7WcNBEVl8ZyQaGfms6LGYy6BhTit600pnsltONTGxY2qBv0FfYzdrhLuCRsfxQscz8d3VRzsvaQgJ6FJBW2uPgQTvW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709250694; c=relaxed/simple;
-	bh=3afL44A9OfRgjGCXkEVjm949oRnDi6c9ScBM9BityGs=;
+	s=arc-20240116; t=1709250722; c=relaxed/simple;
+	bh=r8k1NPUPw/Fj2VoqL6lDNqhcZI6e7BK9xkIPeXR4pro=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IMLEP3I4qrfsyRIktl2gn4aS2PLi9uOfrixakBZYwtYVKE7EXwaHqSdKfBZ95f/bONZO2jd0w2gonAP/s+WJ2z4knb6y29hDs+xEeV4ZBHZo+E0cKUq0GJMtu05HrlS9EzNyAOZZm00f31b3BtNcCyhdA07vtLxUzd+A+Z1sjt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eQmLqrHZ; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=txqwmwJs3s7IY6//cmnWYvh0hu+C4S9W/8reac8M1q4D1/yqO2kkzoBITmBSq757UxeHUdn+ZtWqU1HtV5Wv8Yhpuru0wKF4PQXsDQz+JZf9q2qM1k+2SpTiK8CLypNaa3wEPdoY6MPXjjnZR22/Wq5Qjpc9bieXz+X4nkFC6Ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NeC4hTll; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eQmLqrHZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NeC4hTll"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709250692; x=1740786692;
+  t=1709250718; x=1740786718;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3afL44A9OfRgjGCXkEVjm949oRnDi6c9ScBM9BityGs=;
-  b=eQmLqrHZrBtjmuOeMxQSiR4vvFvIruU7WbwIlVL1yNx/CWnIj0tkyKT+
-   3K+hUPFuiHHPolFijfbDCjosXsc6p8BiVo9EmNSXp6f5GJ3eMC1PHfL2L
-   N+qGNWb+/1dfnmNdYkm3dh2IK6u93mCvnzCOWyCdnHGJKqb0c50nP/uvy
-   q4axt5eQbg+RZIWkdTCOLObl2nbYQzfLz2Xk5NZFJz4IIjSr9epieBi8r
-   Dd4edPfNNFDkX2C+/WMUsDopUnPtGnmrXiX9Q1YKM6tMWs4NiSrek13q0
-   sWP8AM0y214Wzyfrkgfot/jlQjJwbBxEuZIXZv6ioGGQOj3KdBOphhfuj
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="14405089"
+  bh=r8k1NPUPw/Fj2VoqL6lDNqhcZI6e7BK9xkIPeXR4pro=;
+  b=NeC4hTllo5KvZ8cTS7BrSteHGCnvwHzF/WQV2fcSyE/fkfuw2sJKGzoL
+   E+x0suTFSiMKps/SV7RPWU4XXRWAHzhH2pnygGn5o8pVEPKIc4OBh97Tr
+   f3t0d1+JxRyrRs2QZMLzL2XuV2E9I27u6TG37BszEKrMYYF39vPvRCDXx
+   Du1QK+5QXnC/aNUCfd99PZU+ErJVOSmHzVzyXqu8IhWNqYyZ4L2juyo0/
+   5BTYPWKlQzC5TzwFSqCCtIleTGPMKBG8rpYvXBUYvb7FZ00IPo9E/Kgf+
+   EAOYliQ9AFTwEUS+W73Z6xse3njUv6d2xcUCnsR0LSeevMkQRxYXYwmeF
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="14405148"
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="14405089"
+   d="scan'208";a="14405148"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 15:51:30 -0800
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 15:51:58 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="7922407"
+   d="scan'208";a="7922488"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Feb 2024 15:51:27 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 29 Feb 2024 15:51:57 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rfqBH-000DMh-0p;
-	Thu, 29 Feb 2024 23:51:16 +0000
+	id 1rfqBR-000DMj-0e;
+	Thu, 29 Feb 2024 23:51:31 +0000
 Date: Fri, 1 Mar 2024 07:50:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:x86/core 2/6] arch/x86/kernel/process.c:962: undefined
- reference to `arch_needs_tick_broadcast'
-Message-ID: <202403010750.FsLGD1sH-lkp@intel.com>
+Subject: [morimoto:card2-trigger-order-2023-02-28 28/33]
+ drivers/of/property.c:618 of_graph_get_port_by_id() warn: unsigned 'id' is
+ never less than zero.
+Message-ID: <202403010727.ETPPAf9c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,52 +59,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/core
-head:   d42b836ad1ab53c53f6b7016a79fad44d96854aa
-commit: e6ca848f8fee8742f078dc7f458475e45ec4549c [2/6] x86/idle: Sanitize X86_BUG_AMD_E400 handling
-config: i386-randconfig-014-20240301 (https://download.01.org/0day-ci/archive/20240301/202403010750.FsLGD1sH-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403010750.FsLGD1sH-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux card2-trigger-order-2023-02-28
+head:   7954e5e1bfde7e92159d3cc1922b94fbd5957915
+commit: 306307b7761c3666ffe63b9ecf2eac74629a8139 [28/33] of: property: ignore id check if id < 0 on of_graph_get_port_by_id()
+config: powerpc-randconfig-r071-20240228 (https://download.01.org/0day-ci/archive/20240301/202403010727.ETPPAf9c-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403010750.FsLGD1sH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403010727.ETPPAf9c-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/of/property.c:618 of_graph_get_port_by_id() warn: unsigned 'id' is never less than zero.
 
-   ld: arch/x86/kernel/process.o: in function `arch_post_acpi_subsys_init':
->> arch/x86/kernel/process.c:962: undefined reference to `arch_needs_tick_broadcast'
+vim +/id +618 drivers/of/property.c
 
-
-vim +962 arch/x86/kernel/process.c
-
-   940	
-   941	void __init arch_post_acpi_subsys_init(void)
-   942	{
-   943		u32 lo, hi;
-   944	
-   945		if (!boot_cpu_has_bug(X86_BUG_AMD_E400))
-   946			return;
-   947	
-   948		/*
-   949		 * AMD E400 detection needs to happen after ACPI has been enabled. If
-   950		 * the machine is affected K8_INTP_C1E_ACTIVE_MASK bits are set in
-   951		 * MSR_K8_INT_PENDING_MSG.
-   952		 */
-   953		rdmsr(MSR_K8_INT_PENDING_MSG, lo, hi);
-   954		if (!(lo & K8_INTP_C1E_ACTIVE_MASK))
-   955			return;
-   956	
-   957		boot_cpu_set_bug(X86_BUG_AMD_APIC_C1E);
-   958	
-   959		if (!boot_cpu_has(X86_FEATURE_NONSTOP_TSC))
-   960			mark_tsc_unstable("TSC halt in AMD C1E");
-   961	
- > 962		static_branch_enable(&arch_needs_tick_broadcast);
-   963		pr_info("System has AMD C1E erratum E400. Workaround enabled.\n");
-   964	}
-   965	
+   602	
+   603	/**
+   604	 * of_graph_get_port_by_id() - get the port matching a given id
+   605	 * @parent: pointer to the parent device node
+   606	 * @id: id of the port
+   607	 *
+   608	 * Return: A 'port' node pointer with refcount incremented. id is ignored when
+   609	 * it was < 0. The caller has to use of_node_put() on it when done.
+   610	 */
+   611	struct device_node *of_graph_get_port_by_id(struct device_node *parent, u32 id)
+   612	{
+   613		struct device_node *port;
+   614	
+   615		for_each_of_graph_port(parent, port) {
+   616			u32 port_id = 0;
+   617	
+ > 618			if (id < 0)
+   619				break;
+   620	
+   621			of_property_read_u32(port, "reg", &port_id);
+   622			if (id == port_id)
+   623				break;
+   624		}
+   625	
+   626		return port;
+   627	}
+   628	EXPORT_SYMBOL(of_graph_get_port_by_id);
+   629	
 
 -- 
 0-DAY CI Kernel Test Service
