@@ -1,59 +1,105 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4325F16FF47
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Feb 2024 22:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306634595C;
+	Thu, 29 Feb 2024 23:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709246990; cv=none; b=kYK7zW/aod5Ua5vayyTaOwzloHQXuQmeAlIbcKDSj8L0ZebZcFOxCNFDiK/6CyoKhdDq3AtiJcqDHuovpm/8IUnVaEz0XkwrKIZIy8bWibx7FJoyaps9KwLnt4XeCzp/JmI8NCmuV9ML7ezSKJoeSFxannkwBy85LZA9LO/6lV0=
+	t=1709247851; cv=none; b=ZO8Fw1v85LUOUHuFNLKdfDGTHw5vQNsenaNBiOl4ZItrm4ch5DMMxvRgChCE9QR798R/CWMBfHgYRhHS4mE4puZt5Aq1+70AwrtNXrtI7Tj2hEVMo9ytws6plN8vyBUv+znp+N4D/cPOvpKL7PD5vuvFeLR0Yo6BVlX4VJetcGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709246990; c=relaxed/simple;
-	bh=wKh4WJDuu+cHiftZVTrqopfOEHL1ES286MfTNzKpego=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SvoJrw6u4FKeAkkPQdZ2ul6A73OGRnC20GZTmyqtiGhZVTm7QFex8v0egg+m4mp0oRp9cpbzGhcCYNcXM/DrRW6xwf/DcCaMwzEpI/l59QUWNU59yLLeZ+1vjlrtl97e09TogxqZ7e22nErZfT1rugZdgkUrDgyg7aJtyLPDjkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QHBkBQ6K; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QHBkBQ6K"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Tvxx0XOl167OXKPfhPr4+olP60H4CwQ7OYSe4HZ4wsQ=; b=QHBkBQ6Ks/cdK25nZcmlB66hVU
-	g+kIgbw24PsRfQJVqTEL/OgGvEM9l0X8pTe3XQ9DVZ7WBULwEq9VCIRpG0pqX99/agSqapxnuKxLD
-	HaTnntfOgVJfbU6DdmiXYIbCncsZdTPOdvDT8EGvCxgNv55XwCL4t3NMEdkIWJGTiK0iKl55k2yQk
-	Ec5WlW5UOrfUg7naJGozPS2+ql4XmrnQqQfPrcEiZLi9CALg7x9Su9SL4Ahlllwu9TozrdRQz/Exm
-	FKrnEj1S7egYxOo/8cRDviSP7qteVZYkPxyD6HU9WrH3YHpD9z9lGWAHwiGdapKLZu8SsRRXMt1or
-	ID+TT4Ow==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfpDk-00000009FiU-24k9;
-	Thu, 29 Feb 2024 22:49:44 +0000
-Date: Thu, 29 Feb 2024 22:49:44 +0000
-From: Matthew Wilcox <willy@infradead.org>
+	s=arc-20240116; t=1709247851; c=relaxed/simple;
+	bh=sEiG2zLVQSXGzfvv0dbjmyrxlw1+zG1McQAjZM3IKkY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EoPx/EhGBVv34YcfVu/SJez+lc3ki0TpsJ3EdQ2XuC1Z0eVLSsR0TMe4ZNJGmd5mxyLKNGV0o7YCP7z90+SJohaDhSkIBV/WDradPTDuRJ4LqDaayWcMIYzMRjraIdVSOkf52p0D3HuTbehL0KdIpZyUyWYu55vpV9li+KeLz5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 219BAC433C7;
+	Thu, 29 Feb 2024 23:04:08 +0000 (UTC)
+Date: Thu, 29 Feb 2024 18:06:16 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
 To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [linux-next:master 10835/11156]
- include/asm-generic/pgtable-nop4d.h:11:33: error: 'PGDIR_SHIFT' undeclared;
- did you mean 'PUD_SHIFT'?
-Message-ID: <ZeEKCIcqiFaOuXgQ@casper.infradead.org>
-References: <202403010621.qsTLLsab-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, "Masami Hiramatsu
+ (Google)" <mhiramat@kernel.org>
+Subject: Re: [trace:trace/for-next 28/29]
+ include/trace/events/sunrpc.h:703:4: warning: result of comparison against
+ a string literal is unspecified (use an explicit string comparison function
+ instead)
+Message-ID: <20240229180616.48d2c0eb@gandalf.local.home>
+In-Reply-To: <202402292111.KIdExylU-lkp@intel.com>
+References: <202402292111.KIdExylU-lkp@intel.com>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202403010621.qsTLLsab-lkp@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 01, 2024 at 06:46:29AM +0800, kernel test robot wrote:
->    mm/debug.c: In function '__dump_page':
-> >> include/asm-generic/pgtable-nop4d.h:11:33: error: 'PGDIR_SHIFT' undeclared (first use in this function); did you mean 'PUD_SHIFT'?
->       11 | #define P4D_SHIFT               PGDIR_SHIFT
->          |                                 ^~~~~~~~~~~
+On Thu, 29 Feb 2024 21:35:53 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-Thanks; already reported, fixed and merged.  Try tomorrow's linux-next.
+> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace trace/for-next
+> head:   eb1533d156d307c2125943eaf1925e268094d984
+> commit: 433e1d88a3be93222989e52fa99594fe9eb93622 [28/29] tracing: Add warning if string in __assign_str() does not match __string()
+> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240229/202402292111.KIdExylU-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240229/202402292111.KIdExylU-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202402292111.KIdExylU-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from net/sunrpc/sched.c:31:
+>    In file included from include/trace/events/sunrpc.h:2520:
+>    In file included from include/trace/define_trace.h:102:
+>    In file included from include/trace/trace_events.h:419:
+> >> include/trace/events/sunrpc.h:703:4: warning: result of comparison against a string literal is unspecified (use an explicit string comparison function instead) [-Wstring-compare]  
+>      663 |                         __assign_str(progname,
+>          |                         ~~~~~~~~~~~~~~~~~~~~~~
+>      664 |                                      task->tk_client->cl_program->name);
+>          |                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>      665 |                         __entry->version = task->tk_client->cl_vers;
+>          |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>      666 |                         __assign_str(procedure, task->tk_msg.rpc_proc->p_name);
+>          |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>      667 |                 } else {
+>          |                 ~~~~~~~~
+>      668 |                         __entry->task_id = -1;
+>          |                         ~~~~~~~~~~~~~~~~~~~~~~
+>      669 |                         __entry->client_id = -1;
+>          |                         ~~~~~~~~~~~~~~~~~~~~~~~~
+>      670 |                         __assign_str(progname, "unknown");
+>          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>      671 |                         __entry->version = 0;
+>          |                         ~~~~~~~~~~~~~~~~~~~~~
+>      672 |                         __assign_str(procedure, "unknown");
+>          |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>      673 |                 }
+
+
+I don't build with clang, does this quiet the warning?
+
+-- Steve
+
+diff --git a/include/trace/stages/stage6_event_callback.h b/include/trace/stages/stage6_event_callback.h
+index a0c15f67eabe..83da83a0c14f 100644
+--- a/include/trace/stages/stage6_event_callback.h
++++ b/include/trace/stages/stage6_event_callback.h
+@@ -35,7 +35,9 @@
+ 	do {								\
+ 		char *__str__ = __get_str(dst);				\
+ 		int __len__ = __get_dynamic_array_len(dst) - 1;		\
+-		WARN_ON_ONCE((src) != __data_offsets.dst##_ptr_);	\
++		WARN_ON_ONCE(__builtin_constant_p(src) ?		\
++			     strcmp((src), __data_offsets.dst##_ptr_) :	\
++			     (src) != __data_offsets.dst##_ptr_);	\
+ 		memcpy(__str__, __data_offsets.dst##_ptr_ ? :		\
+ 		       EVENT_NULL_STR, __len__);			\
+ 		__str__[__len__] = '\0';				\
+-- 
+2.43.0
+
