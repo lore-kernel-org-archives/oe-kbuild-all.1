@@ -1,55 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763631FA3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Feb 2024 12:20:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6018D7D3FC;
+	Thu, 29 Feb 2024 12:30:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709209221; cv=none; b=W1FlyZf8E988Yg/N/+tk8s+wGXUnByVrsj6yuLNzEZ+6uxMv/LnDgG3W5jhkaGdMXzNa2aToEEEdNjL1LDoRxHKI/grGxI5A98Q1OsSET8QamGv3eXf1Q1IhYE7GwKNOqRdha58a81LXzBihS0NMSYpd5T1YHQHSvv3n4yqHgR0=
+	t=1709209839; cv=none; b=Jmq7lzzcus5JQSthGBVoMUXwq4OI0AQeXhrhssfBUSJpwqtFj1fC87GK79DbK4Am/52rIu7rnRCpO40yCeGf55sHqryvhMQt+9GR3TKxVS7p3APlklokVL00GVgq4qb4A96z4s2hRfpTIG1yrpj0xb7t3TyvqYWv5389FV4WA5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709209221; c=relaxed/simple;
-	bh=XpXH1a1EHT3qU8Y1JEqqB2K3x6wWZKja9/Qr3xBHJOo=;
+	s=arc-20240116; t=1709209839; c=relaxed/simple;
+	bh=AQfUKgl3r5f1Z6qgEZHGOxgxEjdFUiCldurNSlZlskQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZF0BG/kOPEGd6+LS76hzBhPvgr9GLXv7Vf3zxd4HZhNS370s6cBIljkIytGVY290uoP4NADRe8lQ+YuXAqgRxC2o5JJ0KNaaTRT9qJH4B8Y0Wvrgqia9UUFWDFmYgWqRTnJiq+oeV7LqGIiZHAYaVrWbjrNNT8JIDJvhYXwXjXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a8K6LecA; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=erL0lEynI1V73dXO1uXBncYbPCKlmgAD9b9iCQ7qtjrR++taRcH0E2jrbWQJru+Jitlvxqo0DIXGcp1rOtrlLOPjwcAPPJAtPLMWAPNTfygrR5mliaB+PdsiK+N83YOEUaRixlduoy3XS46zuKHxsgM3nX1/qVvYcm8O0pXgpNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TGjQE2QQ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a8K6LecA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TGjQE2QQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709209219; x=1740745219;
+  t=1709209837; x=1740745837;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XpXH1a1EHT3qU8Y1JEqqB2K3x6wWZKja9/Qr3xBHJOo=;
-  b=a8K6LecAa8JEorisQkZ98u+Z3AQ05Laz9Va1TyHy6FdQ+aCIVo3SYocI
-   /YqS7Yq6bSO4uIlYWx2bAbzsLrqbFcUNtexoTECwa4Bcipwo065DMx1bg
-   ScVLm0MfNPc2FGbxe4cn8iF3aEQORVkFw6FiP4MWBkhMkpbO8GVXw3H8g
-   FsqhH2SKE2eu9uKBcCaJILHpgv7/vobKGzeLGRXSztGZj7rmM8pnVcIMU
-   SAk+/HqYdkTIN992NHA1+7gTO+bJqWDq2wQZTlpIk8CfT/IfnYFIWW3Zx
-   kegqlkAL7zPMw2MYQZkfPUXHEY98ZcIolGHiBNO/SvY8lAAGoV9NpR9LW
+  bh=AQfUKgl3r5f1Z6qgEZHGOxgxEjdFUiCldurNSlZlskQ=;
+  b=TGjQE2QQPfYd9m+h4mY8+YH53cfdkiqcO35xs+ytElgU4AT852OCdc49
+   GQQzvVAw6LpjQUS4Muv9RAKRNz3qfydkcKNHqVFitm5F/hrhBzOyL3sS8
+   CNi8XvZBHe+d/d9TJxc8KKZgSUMzIPsiXKYuDSqxRMELbYUUlw4zdNJMw
+   w2diLPPswd9lHYx+ap1C08NwgBtFnGMmc/Ewo9pVlDT9tXyC0EPyUj2Fw
+   AF/mgbZIbllQh1umm/sssPT4inBsV2KysDt4beeM1SjYjv8gUloxCAt7f
+   BTg8cu6mNg7XcXdo6xMbB4pvXdYLYxE/3z8U0NLZyBSLDn6HOaLToIXM+
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="3520040"
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="3521545"
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="3520040"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 04:20:17 -0800
+   d="scan'208";a="3521545"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 04:30:36 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="7680956"
+   d="scan'208";a="12375379"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Feb 2024 04:20:16 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 29 Feb 2024 04:30:34 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rffOR-000CvL-1D;
-	Thu, 29 Feb 2024 12:20:09 +0000
-Date: Thu, 29 Feb 2024 20:19:23 +0800
+	id 1rffYA-000CwB-2p;
+	Thu, 29 Feb 2024 12:30:28 +0000
+Date: Thu, 29 Feb 2024 20:30:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chenyi Qiang <chenyi.qiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject: [intel-tdx:guest-filter 36/36] arch/x86/coco/tdx/filter.c:126:33:
- warning: unused variable 'pdev'
-Message-ID: <202402292034.5PqAPooQ-lkp@intel.com>
+To: Ira Weiny <ira.weiny@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [weiny2:cxl-cper-testing 6/6] drivers/acpi/apei/ghes-dbg.c:47:10:
+ warning: result of comparison of constant 18446744073709551615 with
+ expression of type 'u8' (aka 'unsigned char') is always false
+Message-ID: <202402292010.n19SpyCZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,85 +59,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git guest-filter
-head:   765f146fe3ca453ecbec8aaa4545f82f6878c488
-commit: 765f146fe3ca453ecbec8aaa4545f82f6878c488 [36/36] tdx: Fix wrong pci device error state setting from filter
-config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240229/202402292034.5PqAPooQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240229/202402292034.5PqAPooQ-lkp@intel.com/reproduce)
+tree:   https://github.com/weiny2/linux-kernel.git cxl-cper-testing
+head:   6c540a23cb1194d67a9dcfefb702774a99afc3b1
+commit: 6c540a23cb1194d67a9dcfefb702774a99afc3b1 [6/6] acpi/ghes: Add CXL CPER injection debugfs
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240229/202402292010.n19SpyCZ-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project edd4aee4dd9b5b98b2576a6f783e4086173d902a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240229/202402292010.n19SpyCZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402292034.5PqAPooQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402292010.n19SpyCZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/x86/coco/tdx/filter.c: In function 'authorized_node_match':
->> arch/x86/coco/tdx/filter.c:126:33: warning: unused variable 'pdev' [-Wunused-variable]
-     126 |                 struct pci_dev *pdev = to_pci_dev(dev);
-         |                                 ^~~~
+   In file included from drivers/acpi/apei/ghes-dbg.c:9:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:39:
+   In file included from include/acpi/acpi_io.h:7:
+   In file included from arch/arm64/include/asm/acpi.h:14:
+   In file included from include/linux/memblock.h:12:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/acpi/apei/ghes-dbg.c:47:10: warning: result of comparison of constant 18446744073709551615 with expression of type 'u8' (aka 'unsigned char') is always false [-Wtautological-constant-out-of-range-compare]
+      47 |         if (bus == ULONG_MAX)
+         |             ~~~ ^  ~~~~~~~~~
+   6 warnings generated.
 
 
-vim +/pdev +126 arch/x86/coco/tdx/filter.c
+vim +47 drivers/acpi/apei/ghes-dbg.c
 
-10ed08896cf831 Sebastien Boeuf            2022-09-01   98  
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21   99  static bool authorized_node_match(struct device *dev,
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  100  				  struct authorize_node *node)
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  101  {
-6b2e047f2a73b4 Kuppuswamy Sathyanarayanan 2022-03-13  102  	int i;
-6b2e047f2a73b4 Kuppuswamy Sathyanarayanan 2022-03-13  103  
-6b2e047f2a73b4 Kuppuswamy Sathyanarayanan 2022-03-13  104  
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  105  	/* If bus matches "ALL" and dev_list is NULL, return true */
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  106  	if (!strcmp(node->bus, "ALL") && !node->dev_list)
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  107  		return true;
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  108  
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  109  	/*
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  110  	 * Since next step involves bus specific comparison, make
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  111  	 * sure the bus name matches with filter node. If not
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  112  	 * return false.
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  113  	 */
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  114  	if (strcmp(node->bus, dev->bus->name))
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  115  		return false;
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  116  
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  117  	/* If dev_list is NULL, allow all and return true */
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  118  	if (!node->dev_list)
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  119  		return true;
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  120  
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  121  	/*
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  122  	 * Do bus specific device ID match. Currently only PCI
-6b2e047f2a73b4 Kuppuswamy Sathyanarayanan 2022-03-13  123  	 * and ACPI bus is supported.
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  124  	 */
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  125  	if (dev_is_pci(dev)) {
-3106226f028497 Andi Kleen                 2021-11-10 @126  		struct pci_dev *pdev = to_pci_dev(dev);
-3106226f028497 Andi Kleen                 2021-11-10  127  
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  128  		if (pci_match_id((struct pci_device_id *)node->dev_list,
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  129  				 to_pci_dev(dev)))
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  130  			return true;
-3106226f028497 Andi Kleen                 2021-11-10  131  
-6b2e047f2a73b4 Kuppuswamy Sathyanarayanan 2022-03-13  132  	} else if (dev_is_acpi(dev)) {
-6b2e047f2a73b4 Kuppuswamy Sathyanarayanan 2022-03-13  133  		for (i = 0; i < ARRAY_SIZE(acpi_allow_hids); i++) {
-6b2e047f2a73b4 Kuppuswamy Sathyanarayanan 2022-03-13  134  			if (!strncmp(acpi_allow_hids[i], dev_name(dev),
-6b2e047f2a73b4 Kuppuswamy Sathyanarayanan 2022-03-13  135  						strlen(acpi_allow_hids[i])))
-6b2e047f2a73b4 Kuppuswamy Sathyanarayanan 2022-03-13  136  				return true;
-6b2e047f2a73b4 Kuppuswamy Sathyanarayanan 2022-03-13  137  		}
-10ed08896cf831 Sebastien Boeuf            2022-09-01  138  	} else if (dev_is_platform(dev)) {
-10ed08896cf831 Sebastien Boeuf            2022-09-01  139  		for (i = 0; i < ARRAY_SIZE(platform_allow_hids); i++) {
-10ed08896cf831 Sebastien Boeuf            2022-09-01  140  			if (!strncmp(platform_allow_hids[i], dev_name(dev),
-10ed08896cf831 Sebastien Boeuf            2022-09-01  141  						strlen(platform_allow_hids[i])))
-10ed08896cf831 Sebastien Boeuf            2022-09-01  142  				return true;
-10ed08896cf831 Sebastien Boeuf            2022-09-01  143  		}
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  144  	}
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  145  
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  146  	return false;
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  147  }
-e621120050dd06 Kuppuswamy Sathyanarayanan 2021-09-21  148  
-
-:::::: The code at line 126 was first introduced by commit
-:::::: 3106226f028497f0e1ed0f1072bc442a84147c03 tdx: Add basic pci config space filter
-
-:::::: TO: Andi Kleen <ak@linux.intel.com>
-:::::: CC: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+    27	
+    28	static void ghes_cper_inject(char *bdfstr)
+    29	{
+    30		struct cxl_cper_event_rec rec;
+    31		char *segstr, *busstr, *devstr;
+    32		u8 seg, bus, dev, func;
+    33	
+    34		segstr = strsep(&bdfstr, ":");
+    35		if (!segstr || !bdfstr)
+    36			return;
+    37		seg = strtoul(segstr, NULL, 16);
+    38		busstr = strsep(&bdfstr, ":");
+    39		if (!busstr || !bdfstr)
+    40			return;
+    41		bus = strtoul(busstr, NULL, 16);
+    42		devstr = strsep(&bdfstr, ".");
+    43		if (!devstr || !bdfstr)
+    44			return;
+    45		dev = strtoul(devstr, NULL, 16);
+    46		func = strtoul(bdfstr, NULL, 16);
+  > 47		if (bus == ULONG_MAX)
+    48			return;
+    49	
+    50		pr_debug("Record %u:%u:%u.%u\n", seg, bus, dev, func);
+    51	
+    52		rec = (struct cxl_cper_event_rec) {
+    53			.hdr = {
+    54				.device_id = {
+    55					.func_num = func,
+    56					.device_num = dev,
+    57					.bus_num = bus,
+    58					.segment_num = seg,
+    59				},
+    60				.dev_serial_num = {
+    61					.lower_dw = 0xBEEF,
+    62					.upper_dw = 0xDEAD,
+    63				},
+    64			},
+    65		};
+    66	
+    67		/* Fail; invalid record length (0) */
+    68		mock_ghes_poll(CXL_CPER_EVENT_GEN_MEDIA, &rec);
+    69	
+    70		rec.hdr.length = sizeof(rec);
+    71		/* Fail; log valid bit not set */
+    72		mock_ghes_poll(CXL_CPER_EVENT_GEN_MEDIA, &rec);
+    73	
+    74		rec.hdr.validation_bits |= CPER_CXL_COMP_EVENT_LOG_VALID;
+    75		mock_ghes_poll(CXL_CPER_EVENT_GEN_MEDIA, &rec);
+    76		mock_ghes_poll(CXL_CPER_EVENT_DRAM, &rec);
+    77		mock_ghes_poll(CXL_CPER_EVENT_MEM_MODULE, &rec);
+    78	}
+    79	
 
 -- 
 0-DAY CI Kernel Test Service
