@@ -1,104 +1,88 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B00374DE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Feb 2024 07:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144EF47F6F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Feb 2024 09:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709193388; cv=none; b=jZZXq32gl60OjCbItUXF37I0s6DZRTEEEJJEtt1hqpqshYFxCVXBWeXwQNC43Pqm9da/c6M9JQN2rojl2FmjeSdJp2s/5Gtf+s2p4SujCLluWr8lHkA+8S7TW76YTOAPHfQbB9tT6i/47MZcdD7f77VnvogqDzK+/W8UaDsBsIs=
+	t=1709198149; cv=none; b=CgrxYkjMki78BuKuc83NhZd4zolErRXMKITDGoudEWQnF8APGt2uQwK2ElvvkaIrYzQY70O4CLo/qyQwgvgzXhwlp3hOP763N5goO15Sbs5D0aSpjjQHKOYaU8Z8cpm9VKlpRW6/W2rB9+bXk9UN/iyZre4CQBm9Z6qqMSqXHTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709193388; c=relaxed/simple;
-	bh=q5m5axH+BLCl2agZv8n9DXtP46+hpfFVeTafKX3WiDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=KiNSr3BK1BKqzgqO7LSBBjR88o7SOL7tn5seUIQFp5nI0ArnDUCQFkN3o0vL7vwj5RIfg21e33EXtoNrD0vIiL9erWotOouHKQo3VnZJKDn4sLt5hQEO+A8zSPgLS5HMU64bi8gmCyh43LObTnvgaz4lLmyrlb7fSNsWItfz/vY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SVCiZHVy; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1709198149; c=relaxed/simple;
+	bh=s7qmVoKp4GQ9e1uUNoZFNaaxvpqqu61i+9Hqa1PRaHY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=K/mUQn540U61pd5p2JtVCersTXOWNih5bGP3DWRSYT9uGlQkYmgdumArdwb1+l+lYweRga+ad8F99DEjCpX2ESHXULrfdRu4t2g4N3FZytCf9vd3BfU3dhFilsVNiuQlne6vSsKJZdX5D+m7I1Y9pyPubkr8xatQ9pNNAkzBQRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IxP009Kp; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SVCiZHVy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1709193385;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rZYUQ2/MyEIs+wTU4JfVi5JkU9l2GM3/3Nd9NcCBnAo=;
-	b=SVCiZHVyOpKDd8Rb+a1TSIVcyMibzkUsOw0AizCIdzh60HqThEkLHCq4EvOsitDRZNBdbI
-	nd/GS4SX06DQEoe4AAGtGsecTer1Q6jyt72KZaT+bWpIq0Pjj0jAeT8C+PIRf5HnyherGh
-	6G2I2X4Lge3oWbfTmSpsvKLiFYE0ghs=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-647-HqPtjT_HNzS2PvTQyT44DQ-1; Thu, 29 Feb 2024 02:56:23 -0500
-X-MC-Unique: HqPtjT_HNzS2PvTQyT44DQ-1
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3651eecf80dso1091705ab.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Feb 2024 23:56:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709193382; x=1709798182;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rZYUQ2/MyEIs+wTU4JfVi5JkU9l2GM3/3Nd9NcCBnAo=;
-        b=vE3Qj0EiwCHyxnXxOkMQfC0hfiHxfiVSQOQi0GBAbVyzJBeIDnjr070k5BajtjYoDr
-         lZ/7Fja9HWdG8w9HGCIymgrkXnaSJnDDWBX307ZsPpNG8e7HI+/TMGwylPvLUxXIJUeW
-         Cqixr7qcYzRc1nC1+r6tZNsRozfA6xzhlm31XfzqMBemJvMpFBkbfZsNxJre0xQemyTX
-         Esg70VxpVGjoUAVm7kq7g4BYpm/8xWxMB0D3Fd6WfTfbfYsPiGBIxWTymokBqzeCLGki
-         9+7ryCtq4/JrvK10hDQCDKU1Rk9OEpjgelasm3sHm0tDFJy90ryl+cDO1+6LVNNDxRLi
-         dEpg==
-X-Forwarded-Encrypted: i=1; AJvYcCUMj8I0HxAf5ba9WVc0EqaOkqSCUg1/EdwTQ7yu/H32FIug+o+lMupaR00/qEkTmLBTlnKIo0fIhHxXO9kFuXsCiXl6+yQGEBKYrdZoew==
-X-Gm-Message-State: AOJu0YxxLXAKMBhstNWakswE5kgJ+kDGojQoFPFOqYS51N+kuFOthAEC
-	McTB0sGEfeRqjbLbRJk/pFR1tCu2zsM7oPOFHvy7f+Wb6K2jdlvb/rv186XAzfW1MrwKpBrm5ZQ
-	pYkvP7SNeO12AwS0X6H+WZweNg88lTeJNautx4izAH6fnq+d0/thgNyebfa7iB1A=
-X-Received: by 2002:a05:6e02:20ee:b0:365:aeb8:26d1 with SMTP id q14-20020a056e0220ee00b00365aeb826d1mr1725576ilv.0.1709193382285;
-        Wed, 28 Feb 2024 23:56:22 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFK2Caj/CnSM8btPacrXhbRxxuWkGYLUk6S0weGtsslNFGdZ2LEbvNGX15pEdr1SssPwwCMDw==
-X-Received: by 2002:a05:6e02:20ee:b0:365:aeb8:26d1 with SMTP id q14-20020a056e0220ee00b00365aeb826d1mr1725558ilv.0.1709193381990;
-        Wed, 28 Feb 2024 23:56:21 -0800 (PST)
-Received: from x1n ([43.228.180.230])
-        by smtp.gmail.com with ESMTPSA id ff11-20020a056a002f4b00b006e57b37a932sm664588pfb.9.2024.02.28.23.56.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Feb 2024 23:56:21 -0800 (PST)
-Date: Thu, 29 Feb 2024 15:56:11 +0800
-From: Peter Xu <peterx@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, Yang Shi <shy828301@gmail.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Jason Gunthorpe <jgg@nvidia.com>, x86@kernel.org,
-	"Kirill A . Shutemov" <kirill@shutemov.name>,
-	linuxppc-dev@lists.ozlabs.org,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH 5/5] mm/treewide: Drop pXd_large()
-Message-ID: <ZeA4m7DK03oHE1Kz@x1n>
-References: <20240228085350.520953-6-peterx@redhat.com>
- <202402291233.CVhChP2c-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IxP009Kp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709198148; x=1740734148;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=s7qmVoKp4GQ9e1uUNoZFNaaxvpqqu61i+9Hqa1PRaHY=;
+  b=IxP009KpREkmlDzXaXoi4Fr2pYARorsPZudJDmyklrCeU7nHWql8rVIe
+   UFuPLxz0kDm5PNyUpC4Kes+jBFZEanQ6l8kMc2P+JFogjaJI0qsJ49cpY
+   VKKHIQGJTM2Hf5VTx3l79A1508Ha9xr7E0GdLhONUAWBoZadTbBa6/QgZ
+   rmpRnlN0rKJ5auE03WdOPms9peoSJi1JCJbVkj/P4oa/cqwMBje3UOpFW
+   sCJzrAW5ppZDC+KFyhVDcirTZgvGw/lb1icvMFNKbaZDnBLsDfhhU6s6t
+   bdi0T9z8P4GXtkIiw3R6XouU9AOydXlU01NT1rZBQt3sXkIP8Ka06Vssl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="26119190"
+X-IronPort-AV: E=Sophos;i="6.06,192,1705392000"; 
+   d="scan'208";a="26119190"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 01:15:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,192,1705392000"; 
+   d="scan'208";a="38592746"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 29 Feb 2024 01:15:45 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rfcVk-000CoJ-24;
+	Thu, 29 Feb 2024 09:15:37 +0000
+Date: Thu, 29 Feb 2024 17:12:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zc/rx-v4 896/922] dev.c:undefined reference to
+ `gen_pool_for_each_chunk'
+Message-ID: <202402291731.rKyq9zIp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202402291233.CVhChP2c-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Feb 29, 2024 at 01:17:36PM +0800, kernel test robot wrote:
-> >> arch/x86/include/asm/pgtable.h:1099:19: error: redefinition of 'pud_leaf'
->     1099 | static inline int pud_leaf(pud_t pud)
->          |                   ^
->    include/asm-generic/pgtable-nopmd.h:34:19: note: previous definition is here
->       34 | static inline int pud_leaf(pud_t pud)           { return 0; }
->          |                   ^
+tree:   https://github.com/isilence/linux zc/rx-v4
+head:   c13f97bb45f13d99fc22c4452f9926dd4a53d6ce
+commit: 97ebf80b3d6202c352319049101721960920f73e [896/922] netdev: support binding dma-buf to netdevice
+config: loongarch-randconfig-001-20240229 (https://download.01.org/0day-ci/archive/20240229/202402291731.rKyq9zIp-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240229/202402291731.rKyq9zIp-lkp@intel.com/reproduce)
 
-This is CONFIG_PGTABLE_LEVELS=2.  IIUC patch 5 didn't do anything wrong,
-but when renaming pud_large() it caused this confliction, while in the past
-it was a silent confliction between the old pud_leaf() macro and pud_leaf()
-defintion, the macro could have silently overwrote the function.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402291731.rKyq9zIp-lkp@intel.com/
 
-IIUC such pud_leaf() is not needed as we have a global fallback.  I'll add
-a pre-requisite patch to remove such pXd_leaf() definitions.
+All errors (new ones prefixed by >>):
+
+   loongarch64-linux-ld: net/core/dev.o: in function `__netdev_dmabuf_binding_free':
+>> dev.c:(.text+0x11028): undefined reference to `gen_pool_for_each_chunk'
+>> loongarch64-linux-ld: dev.c:(.text+0x11038): undefined reference to `gen_pool_size'
+>> loongarch64-linux-ld: dev.c:(.text+0x1104c): undefined reference to `gen_pool_avail'
+>> loongarch64-linux-ld: dev.c:(.text+0x11060): undefined reference to `gen_pool_destroy'
+   loongarch64-linux-ld: net/core/dev.o: in function `netdev_bind_dmabuf':
+>> dev.c:(.text+0x11628): undefined reference to `gen_pool_create'
+>> loongarch64-linux-ld: dev.c:(.text+0x11744): undefined reference to `gen_pool_add_owner'
+>> loongarch64-linux-ld: dev.c:(.text+0x11848): undefined reference to `gen_pool_for_each_chunk'
+   loongarch64-linux-ld: dev.c:(.text+0x11858): undefined reference to `gen_pool_destroy'
 
 -- 
-Peter Xu
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
