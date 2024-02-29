@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8E979B7A;
-	Thu, 29 Feb 2024 10:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CEC7C6DE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Feb 2024 11:48:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709203046; cv=none; b=kpoR5ztSFuNSqbtGYOrcaso8+ThhTZU6gdZVk7C5OH0yXMUO8bi1mLnz8ozD/DF+iNh32JL/095XeZjHsFR+rwrYgmOIvWcxMQyfXQPuxb13/INeNMeRBz4s0VzXC+jkmj+FwaZVFhNSWmym+7IZYFMgN3xYylcGZDiUXsIVW8g=
+	t=1709207293; cv=none; b=RduJBvGb/lnEgaV3m4aSVYDNmLvnmhzRarsPTTwGGJyL6vylX2271nOvBVhsP8UZ9wS51qNXnG97l8GOO2eq/dTU90wMS1pAgDX1B0kyAvXaKPxYtjQZyTRraC1rnmePUk8+ve2wdJLjDwfrMHdcfS7QSQ4V77nECw1ZApvhcZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709203046; c=relaxed/simple;
-	bh=1uP6ppIuzb6JcAiltD8pD+1RusOOirH+ZmPuCJbJl0E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lE2Ea9mDz0FX3eLbP09CUrpOiuI7qo5sof84/KQ+Ik7biwnd86MebUHXhM2gznOhp03gqJN2agJF3dejUvgWJRwMlUpg+DGgR9BRQkAOE1yhbNvklPwttTspwJVr8cv4XZCZYw6RwuMLHFe9G46KkvNXDyYQC7DAgggy7PT6gb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S98YRIFu; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1709207293; c=relaxed/simple;
+	bh=FMzv0FtmUzxhyUrE/CNu+kff5l2BZLY3vQle/Lfv1Hw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g56Eaqe5IpJrApmE5Is4Ps4fKhNPo4Ku3d6GpvWrzANJBiHnMQQrHhEOz8uvIr9EFtY3VdJdZ+xFhhirmrpyOXsKDXHeUqvB5OM8KmQ0udsyT0J8hmm0uTZsp6AXxthQWiPCZZk/8zyAAPpG3pEQR6OMg3QpH4NtPxWIRZuRcKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bqniiIGK; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S98YRIFu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bqniiIGK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709203045; x=1740739045;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1uP6ppIuzb6JcAiltD8pD+1RusOOirH+ZmPuCJbJl0E=;
-  b=S98YRIFuvmcjFC2BibaufbmWQ21h7/NulXsZz2A7QZuu0nmlhA5jnOcK
-   DfIWuhcXedvanqs/e3mFaUyFDQqoBmeCou7PZBhMyimQdt9X1qTRVaVTp
-   FrGaDuGVGvZ6Z7Pgh90oFE6Y9B3drrY2HTBKIcSzW5tdtZMqi0peYJ/gH
-   pbJZjHv0gsOMv7uySvgCIzjKP9HUfHspd16L2v5MeYUMbXnr8N1+0d844
-   l5n9+GlVubYbiVcx0uXQ1JGGoRzQ0WNrpG19Wp2aWk56xm/mEMlqxoQ+L
-   Y0FrT0gqmeRNvAINdHcGqzRAUTQRDb89ny2Ew2+MItcnLdfPlRPQbeD4E
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="3828189"
+  t=1709207291; x=1740743291;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FMzv0FtmUzxhyUrE/CNu+kff5l2BZLY3vQle/Lfv1Hw=;
+  b=bqniiIGKXsAJ4H3+0qnY4/F69id7jyEpnbbg46hRff6zu5JnecmJhSOn
+   7ZzmkWN/iC1YmZNy3PX661FpV19HIRgUzmm7tA7ai8haW/3+cMPyQrrfD
+   1X7en8V8wmBxCu2g2A2Vy+9m908UFUfd+NWFBKWMpkONEKymBQBeKRlsf
+   G9GuTZUBr/tReKv0Kv2Jw6wVtppYlQNqLliZpBenW66nouZIhYdZ0BMHi
+   lpN2ljUTjufVRqVI/EJ+AgFXYO5SXcXOJ6L/XFSnumfxmTl5kYKzM+s9a
+   1X69/0xA/i7kzVrJghnA5tpdMUaPh8tnEBpLyMH0zT2jTtXIR4q1FynRn
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="14307063"
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="3828189"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 02:37:24 -0800
+   d="scan'208";a="14307063"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 03:48:10 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="45290512"
+   d="scan'208";a="12370575"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 29 Feb 2024 02:37:22 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 29 Feb 2024 03:48:08 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rfdmx-000Crr-0Y;
-	Thu, 29 Feb 2024 10:37:19 +0000
-Date: Thu, 29 Feb 2024 18:35:17 +0800
+	id 1rfetS-000Cu5-23;
+	Thu, 29 Feb 2024 11:48:06 +0000
+Date: Thu, 29 Feb 2024 19:47:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	virtualization@lists.linux.dev
-Subject: Re: [PATCH net-next v3 3/6] virtio_net: support device stats
-Message-ID: <202402291808.cmzZAiYX-lkp@intel.com>
-References: <20240227080303.63894-4-xuanzhuo@linux.alibaba.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [drm-misc:drm-misc-next 4/5]
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c:191:17: error: implicit declaration
+ of function 'drm_atomic_get_new_connector_state'; did you mean
+ 'drm_atomic_helper_connector_reset'?
+Message-ID: <202402291942.zVb1Vx4Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,148 +60,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240227080303.63894-4-xuanzhuo@linux.alibaba.com>
 
-Hi Xuan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_net-introduce-device-stats-feature-and-structures/20240227-161123
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240227080303.63894-4-xuanzhuo%40linux.alibaba.com
-patch subject: [PATCH net-next v3 3/6] virtio_net: support device stats
-config: x86_64-randconfig-121-20240229 (https://download.01.org/0day-ci/archive/20240229/202402291808.cmzZAiYX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240229/202402291808.cmzZAiYX-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   be318d01a90366029e181068e8857c6252e1fadc
+commit: 358e76fd613a762bdba18b6b9fb0469a481de3a3 [4/5] drm/sun4i: hdmi: Consolidate atomic_check and mode_valid
+config: xtensa-randconfig-002-20240229 (https://download.01.org/0day-ci/archive/20240229/202402291942.zVb1Vx4Y-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240229/202402291942.zVb1Vx4Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402291808.cmzZAiYX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402291942.zVb1Vx4Y-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/virtio_net.c:3571:57: sparse: sparse: cast to restricted __le64
+All error/warnings (new ones prefixed by >>):
 
-vim +3571 drivers/net/virtio_net.c
+   drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c: In function 'sun4i_hdmi_connector_atomic_check':
+>> drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c:191:17: error: implicit declaration of function 'drm_atomic_get_new_connector_state'; did you mean 'drm_atomic_helper_connector_reset'? [-Werror=implicit-function-declaration]
+     191 |                 drm_atomic_get_new_connector_state(state, connector);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 drm_atomic_helper_connector_reset
+>> drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c:191:17: warning: initialization of 'struct drm_connector_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   cc1: some warnings being treated as errors
 
-  3466	
-  3467	static int virtnet_get_hw_stats(struct virtnet_info *vi,
-  3468					struct virtnet_stats_ctx *ctx)
-  3469	{
-  3470		struct virtio_net_ctrl_queue_stats *req;
-  3471		struct virtio_net_stats_reply_hdr *hdr;
-  3472		struct scatterlist sgs_in, sgs_out;
-  3473		u32 num_rx, num_tx, num_cq, offset;
-  3474		int qnum, i, j,  qid, res_size;
-  3475		struct virtnet_stats_map *m;
-  3476		void *reply, *p;
-  3477		u64 bitmap;
-  3478		int ok;
-  3479		u64 *v;
-  3480	
-  3481		if (!virtio_has_feature(vi->vdev, VIRTIO_NET_F_DEVICE_STATS))
-  3482			return 0;
-  3483	
-  3484		qnum = 0;
-  3485		if (ctx->bitmap_cq)
-  3486			qnum += 1;
-  3487	
-  3488		if (ctx->bitmap_rx)
-  3489			qnum += vi->curr_queue_pairs;
-  3490	
-  3491		if (ctx->bitmap_tx)
-  3492			qnum += vi->curr_queue_pairs;
-  3493	
-  3494		req = kcalloc(qnum, sizeof(*req), GFP_KERNEL);
-  3495		if (!req)
-  3496			return -ENOMEM;
-  3497	
-  3498		res_size = (ctx->size_rx + ctx->size_tx) * vi->curr_queue_pairs + ctx->size_cq;
-  3499		reply = kmalloc(res_size, GFP_KERNEL);
-  3500		if (!reply) {
-  3501			kfree(req);
-  3502			return -ENOMEM;
-  3503		}
-  3504	
-  3505		j = 0;
-  3506		for (i = 0; i < vi->curr_queue_pairs; ++i) {
-  3507			if (ctx->bitmap_rx) {
-  3508				req->stats[j].vq_index = cpu_to_le16(i * 2);
-  3509				req->stats[j].types_bitmap[0] = cpu_to_le64(ctx->bitmap_rx);
-  3510				++j;
-  3511			}
-  3512	
-  3513			if (ctx->bitmap_tx) {
-  3514				req->stats[j].vq_index = cpu_to_le16(i * 2 + 1);
-  3515				req->stats[j].types_bitmap[0] = cpu_to_le64(ctx->bitmap_tx);
-  3516				++j;
-  3517			}
-  3518		}
-  3519	
-  3520		if (ctx->size_cq) {
-  3521			req->stats[j].vq_index = cpu_to_le16(vi->max_queue_pairs * 2);
-  3522			req->stats[j].types_bitmap[0] = cpu_to_le64(ctx->bitmap_cq);
-  3523			++j;
-  3524		}
-  3525	
-  3526		sg_init_one(&sgs_out, req, sizeof(*req) * j);
-  3527		sg_init_one(&sgs_in, reply, res_size);
-  3528	
-  3529		ok = virtnet_send_command(vi, VIRTIO_NET_CTRL_STATS,
-  3530					  VIRTIO_NET_CTRL_STATS_GET,
-  3531					  &sgs_out, &sgs_in);
-  3532		kfree(req);
-  3533	
-  3534		if (!ok) {
-  3535			kfree(reply);
-  3536			return ok;
-  3537		}
-  3538	
-  3539		num_rx = VIRTNET_RQ_STATS_LEN + ctx->num_rx;
-  3540		num_tx = VIRTNET_SQ_STATS_LEN + ctx->num_tx;
-  3541		num_cq = ctx->num_tx;
-  3542	
-  3543		for (p = reply; p - reply < res_size; p += le16_to_cpu(hdr->size)) {
-  3544			hdr = p;
-  3545	
-  3546			qid = le16_to_cpu(hdr->vq_index);
-  3547	
-  3548			if (qid == vi->max_queue_pairs * 2) {
-  3549				offset = 0;
-  3550				bitmap = ctx->bitmap_cq;
-  3551			} else if (qid % 2) {
-  3552				offset = num_cq + num_rx * vi->curr_queue_pairs + num_tx * (qid / 2);
-  3553				offset += VIRTNET_SQ_STATS_LEN;
-  3554				bitmap = ctx->bitmap_tx;
-  3555			} else {
-  3556				offset = num_cq + num_rx * (qid / 2) + VIRTNET_RQ_STATS_LEN;
-  3557				bitmap = ctx->bitmap_rx;
-  3558			}
-  3559	
-  3560			for (i = 0; i < ARRAY_SIZE(virtio_net_stats_map); ++i) {
-  3561				m = &virtio_net_stats_map[i];
-  3562	
-  3563				if (m->stat_type & bitmap)
-  3564					offset += m->num;
-  3565	
-  3566				if (hdr->type != m->reply_type)
-  3567					continue;
-  3568	
-  3569				for (j = 0; j < m->num; ++j) {
-  3570					v = p + m->desc[j].offset;
-> 3571					ctx->data[offset + j] = le64_to_cpu(*v);
-  3572				}
-  3573	
-  3574				break;
-  3575			}
-  3576		}
-  3577	
-  3578		kfree(reply);
-  3579		return 0;
-  3580	}
-  3581	
+
+vim +191 drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+
+   186	
+   187	static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
+   188						     struct drm_atomic_state *state)
+   189	{
+   190		struct drm_connector_state *conn_state =
+ > 191			drm_atomic_get_new_connector_state(state, connector);
+   192		struct drm_crtc *crtc = conn_state->crtc;
+   193		struct drm_crtc_state *crtc_state = crtc->state;
+   194		struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+   195		enum drm_mode_status status;
+   196	
+   197		status = sun4i_hdmi_connector_clock_valid(connector, mode,
+   198							  mode->clock * 1000);
+   199		if (status != MODE_OK)
+   200			return -EINVAL;
+   201	
+   202		return 0;
+   203	}
+   204	
 
 -- 
 0-DAY CI Kernel Test Service
