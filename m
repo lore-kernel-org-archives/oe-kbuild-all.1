@@ -1,162 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A189936B00
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Feb 2024 01:04:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C5D374DE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Feb 2024 02:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709168668; cv=none; b=YrEF9B8e0xG9VVM2huqYPfneB/NfxUDnLT/+MbNHRSQzB/7TD8vsBOhZ8KFEOmqrBOND6vVDBZlCz/WKBBe/1rRV1gcgAq40dP0F4Snxo/n7Hxms+um2oHDRyV1FJ2+0YdKyRA97nBlrOM5vSkekTzHZ5MGF6yigmiOqP0+x56o=
+	t=1709172870; cv=none; b=oFQL2Y7KxJUDNLIJbSpUgx5ObW6aL013M9V2CplBi0cnXcNO+m3IHYPSMsJn89MzA2K0fWykTz1bDSLlWoC9IFy8lVoX8vntUE1XOrR7BHOP2zmfE1X39wokQ4XuBfygY2Bue8tv2yTYQGg7lq5demLvxKDEIrhaqkOm/Hu7Hk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709168668; c=relaxed/simple;
-	bh=qwiHpBwvd7mTExGs1GV2dkN1e/wxax9pvV1yppylhR8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P/M9ollN8+Jz0OWAnhKLfKtRbf9aemkmwqPf/6Ku3xQqjcNV/I6aOywfa+EqrFoOQOJuGlzxBqUz43U01lJjGWyhufyeyL6+o0581eGVnqX9+5LnY/UPJMi4Ir5PBTjI2ZULNdtECMPTMGxA/d3UZIWuKNPdC5q/B0/LvpPK6j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SoBLsVXR; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709172870; c=relaxed/simple;
+	bh=t4n7NqO/eGJfuQL92yZe0R/kLsbhDYn0bFf9hpUybEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rYFRAZrZNOhYU0neC79lvATpDbQrPde7gntMbSMEUDIi9nVeX4Ir8dYwjYJGbKMeODeK9vZXHAzGNuNljSEE1BGz+SV3SWFyIGzvXo4jzuVrBTBTigTyJNWXXxRT6Ck24RJb2E8ItycImQIaD3vpwYagZp1F5QqhFIbLoCNoSlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=HjrW2vpU; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SoBLsVXR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709168665; x=1740704665;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qwiHpBwvd7mTExGs1GV2dkN1e/wxax9pvV1yppylhR8=;
-  b=SoBLsVXRnIcFqQdlVXlPNHE4W8aIFXkoynVeOHfY2YoH5Snli8SsReSv
-   vqnCplQHnsNhSUEPr5hKe9ukr70BGhM/0moal5A5P5ihGKehHWSr3Utzg
-   dimy7VXSRmYt04/GKsZewXqyrkM9XL5/Mb4R+xUFGMqU/EVQ7kwodnCfD
-   UwkPJHqMgBcZuFQrzlBte5yj9zyHZwk+wJwm/VUvjQbSoHWv2a6maPXHe
-   uHBdCPU22mx2u8ehtUK19WVAA8DpDIBKk6rA69ALKWVr/w1GT/Jgg8IX5
-   nN158Y/lMGbTowpLIim+MaC6S9ADj/E8LvK7qFbs6/Xhfwzieq09DKJyw
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="3491501"
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; 
-   d="scan'208";a="3491501"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 17:04:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; 
-   d="scan'208";a="7857733"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Feb 2024 17:04:23 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rfUqT-000CWt-1b;
-	Thu, 29 Feb 2024 01:04:21 +0000
-Date: Thu, 29 Feb 2024 09:03:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wenyu Huang <huangwenyu5@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1659/3426] kernel/sched/fair.c:143:14: sparse:
- sparse: symbol 'sysctl_overload_detect_period' was not declared. Should it
- be static?
-Message-ID: <202402290858.u7zfnMrE-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="HjrW2vpU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID
+	:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID
+	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+	Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
+	:List-Post:List-Owner:List-Archive;
+	bh=5X4ZFtqJh2YMcavC0p7SKpdrU7j7PjPMsYOdmDbzzfs=; b=HjrW2vpUCzy9L1l+GYsdZTkt1J
+	mOVI/M/dZVkPjLn5BxO5FyB3HnWiwxjAGVAJUsOazBnah8TmrtL4zxAn/4RmSASKIL/TLM4BoUKB+
+	Iyt+YJf2yF3DnftH64e+tChdf0H8w3Xe0MlO74PT/u28dkxmG0KUIiroVEQcGtdHfwBpXeslYkJMh
+	+p62ENJZYVyRbU1UBPLwLb2iBzTuiHrnvOvR20k+2WpOZGw/ooXPeoqjaw7OKqurpAAvg4wEspF8W
+	aLUL7jOudEx5HhDRy3xozoO1JBk3GFphXJtN4pFueYZ/l+0jKRxIub5SIBcJ/jJh0Ls7L+qdc/aU8
+	ZSTi5YCg==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1rfVba-00ADEq-2M;
+	Thu, 29 Feb 2024 01:53:02 +0000
+Date: Thu, 29 Feb 2024 01:53:02 +0000
+From: "Dr. David Alan Gilbert" <dave@treblig.org>
+To: Andreas Larsson <andreas@gaisler.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [alarsson-sparc:for-next 2/7] kismet: WARNING: unmet direct
+ dependencies detected for FONT_SUN8x16 when selected by EARLYFB
+Message-ID: <Zd_jfka4MFCxQHJR@gallifrey>
+References: <202402241539.epQT43nI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+In-Reply-To: <202402241539.epQT43nI-lkp@intel.com>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-17-amd64 (x86_64)
+X-Uptime: 01:51:49 up 57 days,  4:41,  1 user,  load average: 0.00, 0.00, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   54465add6cb7660c781c0ae7b4d3e3d56185624e
-commit: a3c9f2da0a35df4e41751556be4308f57bdaf3d6 [1659/3426] sched: Introduce handle priority reversion mechanism
-config: arm64-randconfig-r111-20240227 (https://download.01.org/0day-ci/archive/20240229/202402290858.u7zfnMrE-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240229/202402290858.u7zfnMrE-lkp@intel.com/reproduce)
+* kernel test robot (lkp@intel.com) wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/alarsson/linux-sparc.git for-next
+> head:   626db6ee8ee1edac206610db407114aa83b53fd3
+> commit: 0f1991949d9bd5cf6d4e1c490b7e9ba2d2d56d7f [2/7] sparc: Use shared font data
+> config: sparc64-kismet-CONFIG_FONT_SUN8x16-CONFIG_EARLYFB-0-0 (https://download.01.org/0day-ci/archive/20240224/202402241539.epQT43nI-lkp@intel.com/config)
+> reproduce: (https://download.01.org/0day-ci/archive/20240224/202402241539.epQT43nI-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202402241539.epQT43nI-lkp@intel.com/
+> 
+> kismet warnings: (new ones prefixed by >>)
+> >> kismet: WARNING: unmet direct dependencies detected for FONT_SUN8x16 when selected by EARLYFB
+>    
+>    WARNING: unmet direct dependencies detected for FONT_SUN8x16
+>      Depends on [n]: FONT_SUPPORT [=y] && (FRAMEBUFFER_CONSOLE [=n] && (FONTS [=n] || SPARC [=y]) || BOOTX_TEXT)
+>      Selected by [y]:
+>      - EARLYFB [=y] && SPARC64 [=y]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402290858.u7zfnMrE-lkp@intel.com/
+Hmm just looking at that; I'd seen and nailed those on the PPC side
+but hadnt hit them on SPARC before.
+(I'm really tempted to simplify the heck out of that line, I'm not sure
+why it's anywhere near so complicated)
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sched/fair.c:143:14: sparse: sparse: symbol 'sysctl_overload_detect_period' was not declared. Should it be static?
->> kernel/sched/fair.c:144:14: sparse: sparse: symbol 'sysctl_offline_wait_interval' was not declared. Should it be static?
-   kernel/sched/fair.c:1236:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1236:34: sparse:     expected struct sched_entity const *se
-   kernel/sched/fair.c:1236:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:12477:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12477:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12477:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:5766:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:5766:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:5766:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:6508:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:6508:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:6508:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:7809:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:7809:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:7809:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8014:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8014:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:8014:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8113:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8113:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8113:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:8333:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:8333:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:8333:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:8687:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8687:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8687:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:9680:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:9680:40: sparse:     expected struct sched_domain *child
-   kernel/sched/fair.c:9680:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:10317:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:10317:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:10317:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:11749:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11749:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:11749:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:11406:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11406:44: sparse:     expected struct sched_domain *sd_parent
-   kernel/sched/fair.c:11406:44: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:11845:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11845:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:11845:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2145:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2145:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2145:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2309:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2309:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2309:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2145:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2145:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2145:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2145:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2145:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2145:25: sparse:    struct task_struct *
+Dave
 
-vim +/sysctl_overload_detect_period +143 kernel/sched/fair.c
-
-   139	
-   140	static DEFINE_PER_CPU_SHARED_ALIGNED(struct list_head, qos_throttled_cfs_rq);
-   141	static DEFINE_PER_CPU_SHARED_ALIGNED(struct hrtimer, qos_overload_timer);
-   142	static DEFINE_PER_CPU(int, qos_cpu_overload);
- > 143	unsigned int sysctl_overload_detect_period = 5000;  /* in ms */
- > 144	unsigned int sysctl_offline_wait_interval = 100;  /* in ms */
-   145	static int one_thousand = 1000;
-   146	static int hundred_thousand = 100000;
-   147	static int unthrottle_qos_cfs_rqs(int cpu);
-   148	#endif
-   149	
-
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
