@@ -1,54 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C20174C1B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Feb 2024 21:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482EA16FF2B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Feb 2024 21:45:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709241842; cv=none; b=OzTWIJyaJaM5WM++618p1bwGNlwWeY9kFTvkdzhPSHlAav7UMjtJn+tvjLDQENEfqztDLjNXKPBMumc9SmXuCtj4TNH0gZo4/vwTegZPYQzV6tR1aqJkdNB0Wl/xWybIDF2F50jtzbGY2na/1aEM5krlPesUVxkZFuD8PG/jQ/Y=
+	t=1709243127; cv=none; b=lsPmokP5FWv6cNUVnJz12MLzf+MGGDlT7lQeNwl0TjLBpn8SYlNTjrWMfM2a8eUAtEd+zywkCTeuGPbX1tcLhrQiFccOUBkyWfqjD67zKOiO91hZLR4Bi2fve6hBsRHtuwZU0N2DgTT+H0i21HGiA2YSiAtQLgQLzn3xX8agdhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709241842; c=relaxed/simple;
-	bh=Kg1zK5x0zfXqjxN9uM+sr0RL5dUiq3ZH20GfQp2PUOk=;
+	s=arc-20240116; t=1709243127; c=relaxed/simple;
+	bh=ood3HPCunqo7jcNEC6w0Vr8FEuBGcz/7UvR555n6Mr8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TuFiyHLVETV5wvlHbN9xahmO7cFBMyPpUxBl0bvxKlXxDCXObIvgsDYCnRrDaDRM3T5OJT7IpDewysqdaPgmWsfKDAfKwr01KZjjTzZGjJyKa/HnFtQWlbwck8dxJ0QEzqwzJraKLmdmAhwX9AVTKdwETMpO3k1/pSpAgNiCHk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jWna1nJf; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=tBro0LCdgUODk2XWlsQhCJtKOqHSyv+Y7FOvUcEAZ2SvtfqB1WF0rrfXjsUWEo5KaOYa/EfQa3Zo+REp98s1/QpYYeblx/XfqfLXXd8heC/HQ2lDYnqZ8vJwhMorlc5j/6IjS20m3iVVdwhNfo8NAcHf3xSeLNr2I+0q32D1YCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iLTmva74; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jWna1nJf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iLTmva74"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709241840; x=1740777840;
+  t=1709243125; x=1740779125;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Kg1zK5x0zfXqjxN9uM+sr0RL5dUiq3ZH20GfQp2PUOk=;
-  b=jWna1nJfQcO9g6/Y2cz3FRoQrz8a2qWzEJ0eV2kyVcKCzX3ZHGteqXpX
-   t1uDmS8qeirrS3+fNWbQsRq//pVzYIPf605SsEU2wL1Ofd8HE//gerB3v
-   wWrifM/NYBh5bhy1KV12Z4zdiorQWYcJHH+efT8/7dFAhIwfcfg/WYsAk
-   eDtXezHrf56YrFDnK3vp3lmUHFE9xGLmvGd6S2iq/3NQwxs5KeG0Aw+Yq
-   r1xKy1/QHHTjNLIQy+vmjhEiaeATD/OYdoo7HCkw9QN4ZcXb71l65TuCO
-   UzuioS1zlpzcV0hrf3CR2id4IFW2SNq8X3SeD38m2qt4ePGSQlCxv2KTh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3635283"
+  bh=ood3HPCunqo7jcNEC6w0Vr8FEuBGcz/7UvR555n6Mr8=;
+  b=iLTmva74rCEby5augt4sFT6aWXn2pXhdNrZWBCbV4cFeF+MkHCkHW4j9
+   6eFf8Mvhugdajeq8jZK9C9giGIrEpLobN7iuOMWkG1SQX1jIQZ4ak6/AV
+   oaadPMv0bSJtunAnt2udVhAEFR31nvCfUyYluydyUSqBCY1prlzRzCCvG
+   0z12bgOzSL4mrU1EeR4RBa3lvb1CXRHirSRGAnf8QSV0nRwXE8j+NWO37
+   4RaZjgCsAJ67NoNJokb4aFhf4o/xQq/m1KW6pTKuQLoC9o6rcfZOz8KOR
+   UsWj3uF2Xq18JpzvG3F9rZFFpi6C2ycEPchLOx7BfBcXvEUYnpef+Knuu
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="14458670"
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="3635283"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 13:24:00 -0800
+   d="scan'208";a="14458670"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 13:45:24 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="38806501"
+   d="scan'208";a="12521531"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 29 Feb 2024 13:23:58 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 29 Feb 2024 13:45:23 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rfnsh-000DIZ-2r;
-	Thu, 29 Feb 2024 21:23:55 +0000
-Date: Fri, 1 Mar 2024 05:23:31 +0800
+	id 1rfoDQ-000DJ7-0D;
+	Thu, 29 Feb 2024 21:45:21 +0000
+Date: Fri, 1 Mar 2024 05:44:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [weiny2:cxl-cper-testing 5/6] include/ras/ras_event.h:494: undefined
- reference to `__tracepoint_cper_cxl_gen_event'
-Message-ID: <202403010527.QVTDAyL7-lkp@intel.com>
+To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jaegeuk Kim <jaegeuk@kernel.org>
+Subject: [linux-next:master 10211/11156] WARNING: modpost: "__divdi3"
+ [fs/f2fs/f2fs.ko] undefined!
+Message-ID: <202403010535.t38jUq2L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,103 +60,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/weiny2/linux-kernel.git cxl-cper-testing
-head:   6c540a23cb1194d67a9dcfefb702774a99afc3b1
-commit: 2b9557834645e8bef6b602691c392c898d45afa2 [5/6] ras/events: Trace CXL CPER events even without the CXL stack loaded
-config: x86_64-randconfig-011-20240229 (https://download.01.org/0day-ci/archive/20240301/202403010527.QVTDAyL7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403010527.QVTDAyL7-lkp@intel.com/reproduce)
+Hi Chao,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f303a3e2bcfba900efb5aee55236d17030e9f882
+commit: 5fa6a97d27842dab159344dcba824dcb8afbdde0 [10211/11156] f2fs: introduce SEGS_TO_BLKS/BLKS_TO_SEGS for cleanup
+config: microblaze-randconfig-s041-20221116 (https://download.01.org/0day-ci/archive/20240301/202403010535.t38jUq2L-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403010535.t38jUq2L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403010527.QVTDAyL7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403010535.t38jUq2L-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   ld: vmlinux.o: in function `trace_cper_cxl_gen_event':
->> include/ras/ras_event.h:494: undefined reference to `__tracepoint_cper_cxl_gen_event'
->> ld: include/ras/ras_event.h:494: undefined reference to `__tracepoint_cper_cxl_gen_event'
->> ld: include/ras/ras_event.h:494: undefined reference to `__SCT__tp_func_cper_cxl_gen_event'
->> ld: include/ras/ras_event.h:494: undefined reference to `__tracepoint_cper_cxl_gen_event'
->> ld: vmlinux.o:(__jump_table+0x17ae8): undefined reference to `__tracepoint_cper_cxl_gen_event'
->> ld: vmlinux.o:(.static_call_sites+0x3d7c): undefined reference to `__SCK__tp_func_cper_cxl_gen_event'
-
-
-vim +494 include/ras/ras_event.h
-
-   443	
-   444	/*
-   445	 * Define macros for the common header of each CPER CXL event.
-   446	 *
-   447	 * Tracepoints using these macros must do 3 things:
-   448	 *
-   449	 *	1) Add CPER_CXL_EVT_TP_entry to TP_STRUCT__entry
-   450	 *	2) Use CPER_CXL_EVT_TP_fast_assign within TP_fast_assign;
-   451	 *	   pass the serial number and CXL event header
-   452	 *	3) Use CPER_CXL_EVT_TP_printk() instead of TP_printk()
-   453	 *
-   454	 * See the generic_event tracepoint as an example.
-   455	 */
-   456	#define CPER_CXL_EVT_TP_entry					\
-   457		__field(u16, segment)					\
-   458		__field(u8, bus)					\
-   459		__field(u8, device)					\
-   460		__field(u8, func)					\
-   461		__field(u64, serial)					\
-   462		__field(u32, hdr_flags)					\
-   463		__field(u16, hdr_handle)				\
-   464		__field(u16, hdr_related_handle)			\
-   465		__field(u64, hdr_timestamp)				\
-   466		__field(u8, hdr_length)					\
-   467		__field(u8, hdr_maint_op_class)
-   468	
-   469	#define CPER_CXL_EVT_TP_fast_assign(cper_rec, evt_hdr)				\
-   470		__entry->segment = cper_rec->hdr.device_id.segment_num;			\
-   471		__entry->bus = cper_rec->hdr.device_id.bus_num;				\
-   472		__entry->device = cper_rec->hdr.device_id.device_num;			\
-   473		__entry->func = cper_rec->hdr.device_id.func_num;			\
-   474		__entry->serial = (((u64)cper_rec->hdr.dev_serial_num.upper_dw) << 32) |\
-   475				 cper_rec->hdr.dev_serial_num.lower_dw;			\
-   476		__entry->hdr_length = (evt_hdr).length;					\
-   477		__entry->hdr_flags = get_unaligned_le24((evt_hdr).flags);		\
-   478		__entry->hdr_handle = le16_to_cpu((evt_hdr).handle);			\
-   479		__entry->hdr_related_handle = le16_to_cpu((evt_hdr).related_handle);	\
-   480		__entry->hdr_timestamp = le64_to_cpu((evt_hdr).timestamp);		\
-   481		__entry->hdr_maint_op_class = (evt_hdr).maint_op_class
-   482	
-   483	#define CPER_CXL_EVT_TP_printk(fmt, ...) 					\
-   484		TP_printk("PCIe=%04x:%02x:%02x.%02x serial=%lld : time=%llu "		\
-   485			"len=%d flags='%s' handle=%x related_handle=%x "		\
-   486			"maint_op_class=%u : " fmt,					\
-   487			__entry->segment, __entry->bus, __entry->device, __entry->func,	\
-   488			__entry->serial,						\
-   489			__entry->hdr_timestamp, __entry->hdr_length,			\
-   490			show_hdr_flags(__entry->hdr_flags), __entry->hdr_handle,	\
-   491			__entry->hdr_related_handle, __entry->hdr_maint_op_class,	\
-   492			##__VA_ARGS__)
-   493	
- > 494	TRACE_EVENT(cper_cxl_gen_event,
-   495	
-   496		TP_PROTO(struct cxl_cper_event_rec *cper_rec,
-   497			 struct cxl_event_generic *gen_rec),
-   498	
-   499		TP_ARGS(cper_rec, gen_rec),
-   500	
-   501		TP_STRUCT__entry(
-   502			CPER_CXL_EVT_TP_entry
-   503			__array(u8, data, CXL_EVENT_RECORD_DATA_LENGTH)
-   504		),
-   505	
-   506		TP_fast_assign(
-   507			CPER_CXL_EVT_TP_fast_assign(cper_rec, gen_rec->hdr);
-   508			memcpy(__entry->data, gen_rec->data, CXL_EVENT_RECORD_DATA_LENGTH);
-   509		),
-   510	
-   511		CPER_CXL_EVT_TP_printk("%s",
-   512			__print_hex(__entry->data, CXL_EVENT_RECORD_DATA_LENGTH))
-   513	);
-   514	
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp852.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp860.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp949.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-7.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-ru.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-cyrillic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-inuit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ext4/ext4-inode-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/jbd2/jbd2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_hash.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-gw-pld.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/dmatest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_ring.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ttyprintk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap3-rom-rng.o
+WARNING: modpost: drivers/char/hw_random/mxc-rnga: section mismatch in reference: mxc_rnga_driver+0x8 (section: .data) -> mxc_rnga_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/gud/gud.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/udl/udl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb-serial-simple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
+>> WARNING: modpost: "__divdi3" [fs/f2fs/f2fs.ko] undefined!
+>> WARNING: modpost: "__moddi3" [fs/f2fs/f2fs.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
