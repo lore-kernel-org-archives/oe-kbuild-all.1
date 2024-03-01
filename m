@@ -1,108 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272EC25610
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 23:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF60357310
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 23:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709336353; cv=none; b=DYGiRdlQKUW+S8ZJxj+o6aHJ63hAgBcU+K++nLBRK0cafSXf/bfRaDjMs6EdMgR8AKYzgpFR/kGSToDX8PFwvuOS7sFzN5zPwppkk4eZMGgfsnw9DySK/lzgKdmgejnKH87e1CvPqBfomSgz5cRwo28mlzXBVlNvkD9xAL5rUeY=
+	t=1709336962; cv=none; b=ksnjUKj95vCwv3BeHj0hUFWxaCuHEFXS7FxFaxcvlCDduziU3fsrb2bamegpJXLhOTznQ/e2WSkObpLsKXrQqo9IPP7XyygymHNsJUI8w/S9MDAaMXK0oTTjl/tpx+aqF4nGweDqsE1uJd0eV3pUdMFZrY6EG5HbAmn+v9xmLWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709336353; c=relaxed/simple;
-	bh=Xpwvyla5lFNXJfYIBFpVAkRNrmDnzHSbXe+jg6R+9Dk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HrcgnhitYUfKN4LFYrQZnIt6kK6CybweiMk6wS5kXP7Jd+C1O6OLus7Zf/alxVw1ehoMNP+wvwpTInsi6KQnqc+TUv0lvpzE+ddSilTxU1kMf8AphJSsr2cS0gekDQJw3pOd2wQxjRoNg5CpigFbWI6LHz157M19nSU3qc7OPe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F8JiJ+3F; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709336962; c=relaxed/simple;
+	bh=4yFQVN6Z3zwGDJgs3QMQjw11XVWKSudhtUWj8jqRuvE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=i2IMuiY8OalNv0zBffmFx9hXMDojIQ4m0QEkBwEoU3YMk+ZhTvl/+K4LoyuxQzyksB0BWFhnTF043gEWoM9BzoKgionv3n2ZIQQnmSjH8PCvLYxALxAaiSWd5+6/fvmuHZKKN0BNWBudhm9Bict/Z11xDTiRTLO85/Ca4rZbMIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=44Eeg3Qv; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QAjuBIDm; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F8JiJ+3F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709336350; x=1740872350;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Xpwvyla5lFNXJfYIBFpVAkRNrmDnzHSbXe+jg6R+9Dk=;
-  b=F8JiJ+3FxpsKSpPzZ1uEnGjbsdHs8U6xsoGBsorYTbHSZobgnPO/qn7B
-   99kYMR0nRfU5WhqtzaiENE0YZ6ENn/Wj41GqFEdi1BnVjm2Q7jYxHcLH3
-   JRRbGRuvFkugfHADOadqs8ht5Ck+kmt8WZe2QVMeTxau9Ky6op15Qcfcr
-   nKro7dGW3h7e0oXfiqm8mVyuTOcnkRIPIo5MpIly1nE+NHQfdN7mqmo+L
-   92XAzzexAW0Rlu/eYqdzEYHDWFtN3I0SsSBChqASh7H6nkxBCU0lOoDI6
-   IvCuyv8C8oX3ePjClebsZl9EOa5XYMcNJBx0bfq493kCoPsHVZmPcsakB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="26359078"
-X-IronPort-AV: E=Sophos;i="6.06,197,1705392000"; 
-   d="scan'208";a="26359078"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 15:39:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,197,1705392000"; 
-   d="scan'208";a="39359054"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Mar 2024 15:39:08 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rgCT4-000EB1-0G;
-	Fri, 01 Mar 2024 23:39:06 +0000
-Date: Sat, 2 Mar 2024 07:38:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/x86/kernel/cpu/debugfs.c:11:33: sparse: sparse: incorrect type
- in initializer (different address spaces)
-Message-ID: <202403020747.CxX5V2dB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="44Eeg3Qv";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QAjuBIDm"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1709336958;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/i1V2icgGuwaQkdg1eB8PJzeYOX9pq5WMw5wIBkgF0Q=;
+	b=44Eeg3QvBdLWRq2GLlJotFGuMmo45T2dwFdDVBk4A2fOWM/9PHFYT0W8+zfa84sK1LNsdr
+	gm5vaCZL9MVOd3DbOGUy50JPWNkAfFqtXLqSVxZotSmuZjS5CZoAzndbfKNiXXuIACbmIF
+	9sufHDmDt8ub2m27cnp4RSjJcLVBk129FfvIe6/PnGf4VBKdV8DKroTC6qUuK3MG0/jAmj
+	2N6U6fdOh66t8WNFK6m9JYdMVqO3vwCmXQ3btkETpB61/nBb1vTgd1kmzStVYo9//jbaPP
+	xeJuQxiWxpF4hFDu+4FaJYfBdph0Ib/7MMdB+rcpcCcfaZ1IU8wYUg1rYmIBjg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1709336958;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/i1V2icgGuwaQkdg1eB8PJzeYOX9pq5WMw5wIBkgF0Q=;
+	b=QAjuBIDmkn7LKN/8CBgrO91mO7wLcx61a5iJNyCon4u/dsuiXhqwCYmif23OzJDd/ZXs58
+	QuTc45wOTpocyTCA==
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, x86@kernel.org
+Subject: Re: arch/x86/kernel/cpu/debugfs.c:11:33: sparse: sparse: incorrect
+ type in initializer (different address spaces)
+In-Reply-To: <202403020747.CxX5V2dB-lkp@intel.com>
+References: <202403020747.CxX5V2dB-lkp@intel.com>
+Date: Sat, 02 Mar 2024 00:49:18 +0100
+Message-ID: <874jdpwm0x.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d17468c6f1f49e6259698f6401b8d7a5b90eac68
-commit: 48525fd1ea1cfa059a580e77b10ea8790914efa2 x86/cpu: Provide debug interface
-date:   5 months ago
-config: x86_64-randconfig-121-20240301 (https://download.01.org/0day-ci/archive/20240302/202403020747.CxX5V2dB-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403020747.CxX5V2dB-lkp@intel.com/reproduce)
+On Sat, Mar 02 2024 at 07:38, kernel test robot wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403020747.CxX5V2dB-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   d17468c6f1f49e6259698f6401b8d7a5b90eac68
+> commit: 48525fd1ea1cfa059a580e77b10ea8790914efa2 x86/cpu: Provide debug interface
+> date:   5 months ago
+> config: x86_64-randconfig-121-20240301 (https://download.01.org/0day-ci/archive/20240302/202403020747.CxX5V2dB-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403020747.CxX5V2dB-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403020747.CxX5V2dB-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>
+>
+> vim +11 arch/x86/kernel/cpu/debugfs.c
+>
+>      7	
+>      8	static int cpu_debug_show(struct seq_file *m, void *p)
+>      9	{
+>     10		unsigned long cpu = (unsigned long)m->private;
+>   > 11		struct cpuinfo_x86 *c = per_cpu_ptr(&cpu_info, cpu);
 
-sparse warnings: (new ones prefixed by >>)
+This is the line which allegdly causes that new bogus warning, but your
+report does not include the warning itself. How useful...
 
+Though don't bother to send me the warning. It's going to be completely
+bogus anyway as all the other ones.
 
-vim +11 arch/x86/kernel/cpu/debugfs.c
+Thanks,
 
-     7	
-     8	static int cpu_debug_show(struct seq_file *m, void *p)
-     9	{
-    10		unsigned long cpu = (unsigned long)m->private;
-  > 11		struct cpuinfo_x86 *c = per_cpu_ptr(&cpu_info, cpu);
-    12	
-    13		seq_printf(m, "online:              %d\n", cpu_online(cpu));
-    14		if (!c->initialized)
-    15			return 0;
-    16	
-    17		seq_printf(m, "initial_apicid:      %x\n", c->topo.initial_apicid);
-    18		seq_printf(m, "apicid:              %x\n", c->topo.apicid);
-    19		seq_printf(m, "pkg_id:              %u\n", c->topo.pkg_id);
-    20		seq_printf(m, "die_id:              %u\n", c->topo.die_id);
-    21		seq_printf(m, "cu_id:               %u\n", c->topo.cu_id);
-    22		seq_printf(m, "core_id:             %u\n", c->topo.core_id);
-    23		seq_printf(m, "logical_pkg_id:      %u\n", c->topo.logical_pkg_id);
-    24		seq_printf(m, "logical_die_id:      %u\n", c->topo.logical_die_id);
-    25		seq_printf(m, "llc_id:              %u\n", c->topo.llc_id);
-    26		seq_printf(m, "l2c_id:              %u\n", c->topo.l2c_id);
-    27		seq_printf(m, "max_cores:           %u\n", c->x86_max_cores);
-    28		seq_printf(m, "max_die_per_pkg:     %u\n", __max_die_per_package);
-    29		seq_printf(m, "smp_num_siblings:    %u\n", smp_num_siblings);
-    30		return 0;
-    31	}
-    32	
+        tglx
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
