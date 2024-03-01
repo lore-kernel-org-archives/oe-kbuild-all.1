@@ -1,56 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCD36D1BB;
-	Fri,  1 Mar 2024 12:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C315F6D505
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 12:09:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709294951; cv=none; b=LgGRASkcqsZQb6OHalrb3WdFof64zw2pPP/lfkKGk8b5tCiNIBYa2qBdirm1qdxJRPWgsL3SG9rW4/ORuLZiu/cFlxneo7z8uxh7DCpQDBGEhzGGiaCGdV8JhWU0xC/s1qeDy39EnpzRyKHc+m6rDwWUYct5yjokPBLOlyQoP/o=
+	t=1709294952; cv=none; b=SpjRZG3O0Qm73UV6jNH9i9gtODzRgFp+u0A/ypIO18AiIRnRhnHNGZAKMLus2oYQHH17FjUHpDTvsFA1q8tFXIqILCj5HppkL+xK4JEOo4LVr2aJOFtaRL+04jQDhSPMQrw7S7SkyRLCghb7onDkW8tQ2Ff1MaYI/G3mCBNP9JQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709294951; c=relaxed/simple;
-	bh=EbLAQNSS3Pm3QYvTcV3hpjWBdOguLcx05zflaG0H2lo=;
+	s=arc-20240116; t=1709294952; c=relaxed/simple;
+	bh=mzRJEphcLhvNOvK3qQIt5Sm6ecGfCfg/vGKnwceyVBQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eEzVVEBAVP4Ph+faCkrgYpKqR2bucYccCSKmsNgM7jX3TOfe0X7X2mNC/0hZ8CpVYSuOO7mhYMlLylzgNDSKJsAYzPFTlo6kBPtytZ+h+LNPlPvzHH1/joHQeYoa5P8KsmDPWHXE0ac/aKJex+x+B9hdqyUhAva1RKCOWZACak0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nB1LhmHL; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Dzof3UP2n8I8G3ixkvk2TrfANN3M/JLOhiliofhQsb3Mh9WBmHn1SU3x3gyPid2Uzv7uUcP1zoIiaecZsGYC3hKS+7IqndBNuTk0DeEQKyXk/E7nBPvPBDriCUjAqBdhM48tIPRcV6ItStC07XLWwR1ZQ9flFQCyHIAe11YImP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oICTOxHL; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nB1LhmHL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oICTOxHL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709294949; x=1740830949;
+  t=1709294951; x=1740830951;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EbLAQNSS3Pm3QYvTcV3hpjWBdOguLcx05zflaG0H2lo=;
-  b=nB1LhmHLS+XgiePTHb0/XztourLw06oMrd7TVqOgSv3TdDSm8G+VUZsW
-   pfCQx2NmjgM4UqCE11qJl9SSun+EXYq2SKYt7/WiA3aIgBpwsk7XJXi6b
-   q1yHSBbhjG9rBb8jOar7LXir6l6nuVCz8R3eKHmu6LRXAnBaYpleYYLUe
-   XhlcjjfTjSqH6lCsDQagooT7/55EIJWZID5GNKA1w5NXYlZRS8iLn6IEC
-   KFWsGjL04o0XsfGSKEWnQQJ3IAKOPFfvz7HZBkQTuPQc8yHPwIeqmEpXx
-   Kbi4YTDTwsRGPu24Ax3YsFSbXVe56Lr/5DmghMvf7TgLKYUkEEUrWLOoi
+  bh=mzRJEphcLhvNOvK3qQIt5Sm6ecGfCfg/vGKnwceyVBQ=;
+  b=oICTOxHLfcZwseyU/bg9XfDzGFtqM48yxZLAqsG138YABRN5j17rE8Xd
+   slg3f6tRKVqu06kWAYRURV2tcg0E+8BiSBymOO2TtFVq3IMr/i7CnwfjM
+   uYjfDVrqARvyZUsxX8q4Sve3jwDy2LP2bI01fgbcX6BR0jeAh+/JDGypb
+   WUYe/pP28GJZwJ0mz6jZHC9wNYhBqN0u5QrF5qeOskaKMFKa9m8Pj7VDS
+   Hnenq7BSoNydRuFxTqWYaswuSKTbeGycrBlJnMuf6n4whhk1AyBZ64BtE
+   v09vjLVnUACYuxezSOu+RpZG8ebc5V0neQVbYdbBvqLbT1XWN8f82zKMM
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3717187"
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="21283895"
 X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
-   d="scan'208";a="3717187"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 04:09:09 -0800
+   d="scan'208";a="21283895"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 04:09:11 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
-   d="scan'208";a="12732728"
+   d="scan'208";a="8079318"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 01 Mar 2024 04:09:07 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 01 Mar 2024 04:09:08 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rg1hH-000Dpn-2B;
-	Fri, 01 Mar 2024 12:09:04 +0000
-Date: Fri, 1 Mar 2024 20:08:06 +0800
+	id 1rg1hI-000Dpp-2t;
+	Fri, 01 Mar 2024 12:09:05 +0000
+Date: Fri, 1 Mar 2024 20:08:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ido Schimmel <idosch@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Petr Machata <petrm@nvidia.com>
-Subject: [jpirko-mlxsw:combined_queue 8/48] net/ipv4/nexthop.c:826:7:
- warning: variable 'nest' is used uninitialized whenever 'if' condition is
- true
-Message-ID: <202403012001.jTkxJeiu-lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: WARNING: modpost: "strcpy" [drivers/base/regmap/regmap-kunit.ko] has
+ no CRC!
+Message-ID: <202403011914.TnZPFgsx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,104 +58,117 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jpirko/linux_mlxsw combined_queue
-head:   f8e2d2b1d2a7d523921c4b02caf453919b7a7df5
-commit: 001978ea519441f0295912034d00dd1af9eb5b93 [8/48] net: nexthop: Expose nexthop group HW stats to user space
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240301/202403012001.jTkxJeiu-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403012001.jTkxJeiu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   87adedeba51a822533649b143232418b9e26d08b
+commit: 2238959b6ad27040275439edd6893e309bc729a3 regmap: Add some basic kunit tests
+date:   11 months ago
+config: alpha-randconfig-r023-20230913 (https://download.01.org/0day-ci/archive/20240301/202403011914.TnZPFgsx-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403011914.TnZPFgsx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403012001.jTkxJeiu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403011914.TnZPFgsx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> net/ipv4/nexthop.c:826:7: warning: variable 'nest' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     826 |                 if (nla_put_u32(skb, NHA_HW_STATS_USED, hw_stats_used))
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/nexthop.c:845:23: note: uninitialized use occurs here
-     845 |         nla_nest_cancel(skb, nest);
-         |                              ^~~~
-   net/ipv4/nexthop.c:826:3: note: remove the 'if' if its condition is always false
-     826 |                 if (nla_put_u32(skb, NHA_HW_STATS_USED, hw_stats_used))
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     827 |                         goto nla_put_failure;
-         |                         ~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/nexthop.c:823:7: warning: variable 'nest' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     823 |                 if (err)
-         |                     ^~~
-   net/ipv4/nexthop.c:845:23: note: uninitialized use occurs here
-     845 |         nla_nest_cancel(skb, nest);
-         |                              ^~~~
-   net/ipv4/nexthop.c:823:3: note: remove the 'if' if its condition is always false
-     823 |                 if (err)
-         |                 ^~~~~~~~
-     824 |                         goto hw_stats_update_fail;
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/nexthop.c:817:6: warning: variable 'nest' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     817 |         if (nla_put_u32(skb, NHA_HW_STATS_ENABLE, nhg->hw_stats))
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/nexthop.c:845:23: note: uninitialized use occurs here
-     845 |         nla_nest_cancel(skb, nest);
-         |                              ^~~~
-   net/ipv4/nexthop.c:817:2: note: remove the 'if' if its condition is always false
-     817 |         if (nla_put_u32(skb, NHA_HW_STATS_ENABLE, nhg->hw_stats))
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     818 |                 goto nla_put_failure;
-         |                 ~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/nexthop.c:812:21: note: initialize the variable 'nest' to silence this warning
-     812 |         struct nlattr *nest;
-         |                            ^
-         |                             = NULL
-   3 warnings generated.
-
-
-vim +826 net/ipv4/nexthop.c
-
-   807	
-   808	static int nla_put_nh_group_stats(struct sk_buff *skb, struct nexthop *nh,
-   809					  u32 op_flags)
-   810	{
-   811		struct nh_group *nhg = rtnl_dereference(nh->nh_grp);
-   812		struct nlattr *nest;
-   813		bool hw_stats_used;
-   814		int err;
-   815		int i;
-   816	
-   817		if (nla_put_u32(skb, NHA_HW_STATS_ENABLE, nhg->hw_stats))
-   818			goto nla_put_failure;
-   819	
-   820		if (op_flags & NHA_OP_FLAG_DUMP_HW_STATS &&
-   821		    nhg->hw_stats) {
-   822			err = nh_grp_hw_stats_update(nh, &hw_stats_used);
-   823			if (err)
-   824				goto hw_stats_update_fail;
-   825	
- > 826			if (nla_put_u32(skb, NHA_HW_STATS_USED, hw_stats_used))
-   827				goto nla_put_failure;
-   828		}
-   829	
-   830		nest = nla_nest_start(skb, NHA_GROUP_STATS);
-   831		if (!nest)
-   832			return -EMSGSIZE;
-   833	
-   834		for (i = 0; i < nhg->num_nh; i++)
-   835			if (nla_put_nh_group_stats_entry(skb, &nhg->nh_entries[i],
-   836							 op_flags))
-   837				goto nla_put_failure;
-   838	
-   839		nla_nest_end(skb, nest);
-   840		return 0;
-   841	
-   842	nla_put_failure:
-   843		err = -EMSGSIZE;
-   844	hw_stats_update_fail:
-   845		nla_nest_cancel(skb, nest);
-   846		return err;
-   847	}
-   848	
+WARNING: modpost: vmlinux.o: EXPORT_SYMBOL used for init/exit symbol: page_is_ram (section: .init.text)
+WARNING: modpost: EXPORT symbol "strcpy" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strcpy" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "strcat" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strcat" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "strncpy" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strncpy" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "strncat" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strncat" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: "strncpy" [fs/reiserfs/reiserfs.ko] has no CRC!
+WARNING: modpost: "strcpy" [fs/autofs/autofs4.ko] has no CRC!
+WARNING: modpost: "strncpy" [fs/xfs/xfs.ko] has no CRC!
+WARNING: modpost: "strcpy" [fs/btrfs/btrfs.ko] has no CRC!
+WARNING: modpost: "strcat" [drivers/video/backlight/sky81452-backlight.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/mmp/fb/mmpfb.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/cyber2000fb.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/s3fb.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_cmdline_parser_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_connector_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_dp_mst_helper_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_framebuffer_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_plane_helper_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_probe_helper_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/drm.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/gpu/drm/drm.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/nouveau/nouveau.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/gpu/drm/nouveau/nouveau.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/gpu/drm/virtio/virtio-gpu.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/gpu/drm/etnaviv/etnaviv.ko] has no CRC!
+>> WARNING: modpost: "strcpy" [drivers/base/regmap/regmap-kunit.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/misc/eeprom/idt_89hpesx.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/misc/enclosure.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/misc/c2port/core.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/nvdimm/nd_btt.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/dax/dax.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/scsi/scsi_mod.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/scsi/snic/snic.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/scsi/BusLogic.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/scsi/aic7xxx/aic7xxx.ko] has no CRC!
+WARNING: modpost: "strcat" [drivers/scsi/aic7xxx/aic7xxx.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/scsi/aic7xxx/aic79xx.ko] has no CRC!
+WARNING: modpost: "strcat" [drivers/scsi/aic7xxx/aic79xx.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/scsi/ips.ko] has no CRC!
+WARNING: modpost: "strcat" [drivers/scsi/qla2xxx/qla2xxx.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/scsi/qla4xxx/qla4xxx.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/scsi/qla4xxx/qla4xxx.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/scsi/elx/efct.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/scsi/bfa/bfa.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/scsi/hpsa.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/scsi/smartpqi/smartpqi.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/scsi/mpt3sas/mpt3sas.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/scsi/mpt3sas/mpt3sas.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/scsi/myrs.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/nvme/host/nvme-fabrics.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/phy/nxp-c45-tja11xx.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/ethernet/asix/ax88796c.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/ethernet/broadcom/bnxt/bnxt_en.ko] has no CRC!
+WARNING: modpost: "strncat" [drivers/net/ethernet/broadcom/bnxt/bnxt_en.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/ethernet/intel/e100.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/ethernet/intel/igb/igb.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/ethernet/intel/igc/igc.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/ethernet/intel/fm10k/fm10k.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/ethernet/marvell/mvpp2/mvpp2.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/ethernet/sfc/siena/sfc-siena.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/ethernet/apm/xgene/xgene-enet.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/plip/plip.ko] has no CRC!
+WARNING: modpost: "strcat" [drivers/usb/host/ehci-hcd.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/usb/host/isp1362-hcd.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/usb/misc/usbsevseg.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/usb/musb/musb_hdrc.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/input/misc/axp20x-pek.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/ptp/ptp_ocp.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/w1/slaves/w1_therm.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/power/supply/bq24190_charger.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/md/md-mod.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/md/md-mod.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/md/dm-mod.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/md/dm-mod.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/md/dm-cache.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/md/dm-zoned.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/mmc/host/vub300.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/leds/leds-lp3952.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/hid/uhid.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/staging/rts5208/rts5208.ko] has no CRC!
+WARNING: modpost: "strcat" [drivers/staging/sm750fb/sm750fb.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/staging/greybus/gb-firmware.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/rpmsg/qcom_glink.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/hwtracing/intel_th/intel_th.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/target/target_core_mod.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/target/target_core_mod.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/mtd/devices/phram.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/mtd/devices/block2mtd.ko] has no CRC!
+WARNING: modpost: "strcat" [drivers/atm/solos-pci.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/most/most_core.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/bluetooth/bluetooth.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/rfkill/rfkill.ko] has no CRC!
 
 -- 
 0-DAY CI Kernel Test Service
