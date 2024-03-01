@@ -1,116 +1,85 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33F83D55D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 20:43:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67F43D547
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 20:43:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709325833; cv=none; b=LX6ZJo4NKw6Pv2cdYrCtIBDi/D4UmImC8Z7Iyj24nYR51TW2An3xVYekBlabcekUsBz2W0POm6CHV9NV0AE4QKlMneUXU48GmeTEuYA2MDO0RuYdpTI1/A7CUyS3+lxrblCa5m+fTmuksa1EEpLaxfqnWIt+PT0vYlFz6PViwEk=
+	t=1709325834; cv=none; b=BkHBJZd8uuJKBWranEBt210PhKKkIZpc/mFzixaZRqo++dL841gF+a1nTiWtjyWQ5BKPWll1O9aURmONMh/3SFW9HB4yRqv9rREMyCLYZtq/rPRXdT9J5lPoDt8IB98Rnk9hh96cg/duwP4hIEfHAGYZHiCW+iurqtuDzcaMgNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709325833; c=relaxed/simple;
-	bh=kUyMdHkVkpeJxiyTY9gwfrRpGuWeFO/2yLcwV4ze4PY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eJRpnTlhHr0/POhRK6S128M0PD4l1vnUCVb3a+jkjufx2wCkOfYTLlwqQarJr5piEUVN36gskxrH1KLtR6aS1WKOqFOrId2J1zRiW0JBnv2zMkF+k96aHS43hYOkELuuPiI+KzirBdcTk2TbtfrQx6u16W7I0pC9v2PO4Io01CQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f2tfdDL6; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1709325834; c=relaxed/simple;
+	bh=sMwS1pRUwLlZ/u0/ZOBgAXSDUBOpSCR2E2o/5ksE3Y8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=b6vTnCqvsi7lfY0rhyWa/R06gp5Ic1WbEuEOZ7wz1SAJtUoqySBCDyDkVipLuue0hOfkCLEIO3EeXyg6XJ+QHtCauor31OiGKd4n/cLyOWbaJ1mmPhSakfxRlQbZ/RnnuNER/0Oms7mSZqelavSWFx0du3TS8RKPJ+9OV3oRfig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M8bK77ga; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f2tfdDL6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M8bK77ga"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709325831; x=1740861831;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=kUyMdHkVkpeJxiyTY9gwfrRpGuWeFO/2yLcwV4ze4PY=;
-  b=f2tfdDL6UqYJP+VE5kyWjczWUdo9FCaDGRGfj0O6SO3KqfILQ+Ru3fQq
-   1sX1LC33LD5ET3ZNE2j7Ku/LGBMSf3swsESRNOlhVZV0uGsRwRaKmqG0A
-   zZ9zmqEjz8J6QNWQlvknzDRy74JUZwIlutCPlE4lSmlIV8tOlXQ2iUsGL
-   hXkC9sVtErgcuNvSpsaS8QHxELZLkA2PtfKx/kWMTBD4TcTknGiwNYqYB
-   QVRWbbhC958JBNFULOgl3bOsa1c9vCOUuZSexBcCjWPgkuIhl1wYRtGmY
-   FRV/rmMj3y6LZrxCfKLjWkab7P0P+2Tn2reypcs5eemDjLPcYZoFU3Tg4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="3808092"
+  t=1709325833; x=1740861833;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sMwS1pRUwLlZ/u0/ZOBgAXSDUBOpSCR2E2o/5ksE3Y8=;
+  b=M8bK77gaPsV2yrLssWnHgsZZ8srsDvMsrfTM2fP6zYBXJ58ht5cLy8YC
+   AmStCeNjFEmA39gauxIsy3bqJRH3UeDFnCb7qZewzCf9PqcbX9TavnDUn
+   fqn3Xc91MY5Q0jvVVwH4QtNujS3/M5bobzufbSPdddbDTUxO+0zUxdPYG
+   cfgytJ6jYPqHzBSpfYAt73QCB4yimgb9VLmkeo7gtzCl3ImzrzEr/hdx9
+   LkZXDjyUwZUqyF1KHpzr31QoLAiDSL8uNXJBCPdwRtC8XhNdS+mlsy1jR
+   1w7D/kioC5QM1XIFMezLjFV+F6hnI7VE6QbB63VGz1IquqM6eFf+uO4Ek
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="3808102"
 X-IronPort-AV: E=Sophos;i="6.06,197,1705392000"; 
-   d="scan'208";a="3808092"
+   d="scan'208";a="3808102"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 12:43:51 -0800
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 12:43:52 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,197,1705392000"; 
-   d="scan'208";a="8374083"
+   d="scan'208";a="8374170"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 01 Mar 2024 12:43:42 -0800
+  by orviesa009.jf.intel.com with ESMTP; 01 Mar 2024 12:43:49 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rg9j3-000E5D-2e;
-	Fri, 01 Mar 2024 20:43:32 +0000
-Date: Sat, 2 Mar 2024 04:42:59 +0800
+	id 1rg9jH-000E5F-2s;
+	Fri, 01 Mar 2024 20:43:41 +0000
+Date: Sat, 2 Mar 2024 04:43:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Brendan Higgins <brendanhiggins@google.com>,
-	David Gow <davidgow@google.com>, Kees Cook <keescook@chromium.org>,
-	Rae Moar <rmoar@google.com>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Alan Maguire <alan.maguire@oracle.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-	James Morris <jamorris@linux.microsoft.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
-	Marco Pagani <marpagan@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Thara Gopinath <tgopinath@microsoft.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Wanpeng Li <wanpengli@tencent.com>,
-	Zahra Tarkhani <ztarkhani@microsoft.com>, kvm@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-um@lists.infradead.org, x86@kernel.org
-Subject: Re: [PATCH v1 8/8] kunit: Add tests for faults
-Message-ID: <202403020418.NnNnFElm-lkp@intel.com>
-References: <20240229170409.365386-9-mic@digikod.net>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: htmldocs: Warning: Documentation/bpf/ringbuf.rst references a file
+ that doesn't exist: Documentation/litmus_tests/bpf-rb/_
+Message-ID: <202403020445.u6LIJUqj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240229170409.365386-9-mic@digikod.net>
 
-Hi Mickaël,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d206a76d7d2726f3b096037f2079ce0bd3ba329b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Micka-l-Sala-n/kunit-Run-tests-when-the-kernel-is-fully-setup/20240301-011020
-base:   d206a76d7d2726f3b096037f2079ce0bd3ba329b
-patch link:    https://lore.kernel.org/r/20240229170409.365386-9-mic%40digikod.net
-patch subject: [PATCH v1 8/8] kunit: Add tests for faults
-config: x86_64-randconfig-122-20240301 (https://download.01.org/0day-ci/archive/20240302/202403020418.NnNnFElm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403020418.NnNnFElm-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
+head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
+commit: 676f55be3767bf96579418df1ed999b50a9e7d46 docs/bpf: Add BPF ring buffer design notes
+date:   1 year, 6 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20240302/202403020445.u6LIJUqj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403020418.NnNnFElm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403020445.u6LIJUqj-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> lib/kunit/kunit-test.c:142:11: sparse: sparse: symbol 'test_const' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/test_const +142 lib/kunit/kunit-test.c
-
-   141	
- > 142	const int test_const = 1;
-   143	
+>> Warning: Documentation/bpf/ringbuf.rst references a file that doesn't exist: Documentation/litmus_tests/bpf-rb/_
+   Warning: Documentation/devicetree/bindings/cpu/cpu-topology.txt references a file that doesn't exist: Documentation/devicetree/bindings/riscv/cpus.txt
+   Warning: Documentation/devicetree/bindings/timer/ingenic,tcu.txt references a file that doesn't exist: Documentation/mips/ingenic-tcu.txt
+   Warning: Documentation/driver-api/gpio/driver.rst references a file that doesn't exist: Documentation/driver-model/design-patterns.txt
+   Warning: Documentation/hwmon/inspur-ipsps1.rst references a file that doesn't exist: Documentation/i2c/instantiating-devices
+   Warning: Documentation/kernel-hacking/hacking.rst references a file that doesn't exist: Documentation/kbuild/namespaces.rst
 
 -- 
 0-DAY CI Kernel Test Service
