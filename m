@@ -1,57 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154FD39FF2
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 18:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BEEC38F9B;
+	Fri,  1 Mar 2024 18:46:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709318338; cv=none; b=MIBZ97X3tEcwTBKSGbC5waf3AsKx63AxdzOeJQHfCgKv6H8ErW4RGVj2Bc0CTXwjO20WBZaUVRELNXa2VLQ9lmaLUe7CfQK3HmfUAI8lSkNcIaWGz/qfnhhz8vq/gGiN0A/oQ0ubLvVXWev1oC9c0Oc6k9fnG2rF1FDgCAgkJgI=
+	t=1709318783; cv=none; b=UVLRBbvF+igovw2b9z1u8gj7cwT7kZXMwN96k8u3jehw8tGD8tEUlAfN44JOFUSrxJA+NJWtObBUj8Y+7Sv7IsnkrxrucUWku8SbXqp8pyEgs4L27srXQ7tsLCR6EzXTknTHb2hyrWOAdFahTODSN96N93gTN8TqhdZefXERL6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709318338; c=relaxed/simple;
-	bh=jRwGA/rv+7veOU4KYQwBsBLeYPZVRE2xRNTq6IvprOc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gBmQNht2aeLNyb9xzXtDDW94y+F3pO6KpI8tQF+llrRlX0eaBL18IV9EA1MIeUoxy+E+jQRO8ztGehIFbv+07vgjS2P4NhY93xInEj4TrAcF9/ovocOJGkvWSDDrTr1mlkU62udbBPPGMP0Lg3VR8o6gf4RzIIiaSffhI9QIF0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LfDlsBpe; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709318783; c=relaxed/simple;
+	bh=ZrxLpa0Ycn3DPNJvqNvgq9pdtt1id5qDBOEFk9y0E8w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d2KXKUllCqVqG9wmaflBxD6zGEiBDKSVx2CAm5rIya5HxoWHAAYOwMdNjbnjBuDVsxXDGncZNGSYsGpDASula/T4gUisv1sNbv+GwRjNyjM32iE4pRa0Q20jIyz4FYxtyT5VPvn1EoyC4+kDoabaHDh4BTCkG97gTfc+ZMJ9rQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BhtEj71c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LfDlsBpe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709318336; x=1740854336;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jRwGA/rv+7veOU4KYQwBsBLeYPZVRE2xRNTq6IvprOc=;
-  b=LfDlsBpeg16gP558wS+qjhXGW+gbLOkqF5oZu2diLekdotKXdnUudxF/
-   8OO8osblcnV/T84QXXHh/J30Y3PgPKTAofs9G+Iw+r//KgMhSeclZoNB4
-   ec1yPBhMf00AEDvPiGIt+5zVgBm6Rhh8bM2NCl6Fzj4Hl9SxJ/O729qc7
-   gw0QHIVa7VMmU7sVx8+W1g31j3Hk7gYz57NsO8KQjkJbyGGZEv0uFWieG
-   uWiWvoDxUEOpCVjFGNRpUhVIrUREYTFxOt54465aAdHtl6UTorxc1l+sB
-   xjbpBg+Qm4scsCePzUHTMQnewIG8TNpVP5ropCvzkKpByuT5a4PDlWmu7
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="4038633"
-X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
-   d="scan'208";a="4038633"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 10:38:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
-   d="scan'208";a="8711292"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 01 Mar 2024 10:38:54 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rg7mV-000E2F-0H;
-	Fri, 01 Mar 2024 18:38:51 +0000
-Date: Sat, 2 Mar 2024 02:38:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Grygorii Strashko <grygorii.strashko@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Praneeth Bajjuri <praneeth@ti.com>,
-	Manorit Chawdhry <m-chawdhry@ti.com>
-Subject: [ti:ti-rt-linux-6.6.y-cicd 203/339]
- drivers/net/ethernet/ti/am65-cpsw-qos.c:79:15: error: use of undeclared
- identifier 'BYTES_PER_MBIT'
-Message-ID: <202403020243.dFDidzsP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BhtEj71c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EF60C433F1;
+	Fri,  1 Mar 2024 18:46:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709318782;
+	bh=ZrxLpa0Ycn3DPNJvqNvgq9pdtt1id5qDBOEFk9y0E8w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BhtEj71cqlqVi1FmTKHd+5+drYwzluF2f3zf7n4Qm5vB8D6A7g3jIEGli8JRy/9rW
+	 eJjnshhoyY+sXnmUFHOoc90ifI/iSjCMtNjAaOOZppeqOSiVCKC1tzfPXq15aBl9KE
+	 LPhZpUrbW4h8yqlmr+uDHY3pTKPGYjHhW3zgA/v1ZBeDaVSxvPCfB5gniF+7su8fQ8
+	 5MHzi1pjcPYZ1vQjZVSyBo55AAC69dmVixOquX4xOhrFJHAC2odUHxVy4tw01Def+Q
+	 9DUyBssoxVYrSjLUXbOzbdSMDAvZ5RppmdDmVDEodEdcyTsXri5nGeRGOlCWPzlykm
+	 xemPYxvMg3JvA==
+Date: Fri, 1 Mar 2024 11:46:20 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Subject: Re: [trace:trace/for-next 28/29]
+ include/trace/events/sunrpc.h:703:4: warning: result of comparison against a
+ string literal is unspecified (use an explicit string comparison function
+ instead)
+Message-ID: <20240301184620.GA150304@dev-arch.thelio-3990X>
+References: <202402292111.KIdExylU-lkp@intel.com>
+ <20240229180616.48d2c0eb@gandalf.local.home>
+ <20240229234455.GA1020819@dev-arch.thelio-3990X>
+ <20240229185558.70b6ea86@gandalf.local.home>
+ <20240301041131.GB577965@dev-arch.thelio-3990X>
+ <20240301104753.7ca87282@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,157 +51,142 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240301104753.7ca87282@gandalf.local.home>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y-cicd
-head:   142648780df65f4985e75c962ada0f0e06dac85a
-commit: f6a4257c2c593fb01628e8075061d436f3df1398 [203/339] net: ethernet: ti: am65-cpsw: add mqprio qdisc offload in channel mode
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240302/202403020243.dFDidzsP-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403020243.dFDidzsP-lkp@intel.com/reproduce)
+On Fri, Mar 01, 2024 at 10:47:53AM -0500, Steven Rostedt wrote:
+> On Thu, 29 Feb 2024 21:11:31 -0700
+> Nathan Chancellor <nathan@kernel.org> wrote:
+> 
+> > > #define __assign_str(dst, src)						\
+> > > 	do {								\
+> > > 		char *__str__ = __get_str(dst);				\
+> > > 		int __len__ = __get_dynamic_array_len(dst) - 1;		\
+> > > 		if (__builtin_constant_p(src))				\
+> > > 			WARN_ON_ONCE(strcmp((src), __data_offsets.dst##_ptr_)); \
+> > > 		else							\
+> > > 			WARN_ON_ONCE((src) != __data_offsets.dst##_ptr_);\
+> > > 		memcpy(__str__, __data_offsets.dst##_ptr_ ? :		\
+> > > 		       EVENT_NULL_STR, __len__);			\
+> > > 		__str__[__len__] = '\0';				\
+> > > 	} while (0)
+> > > 
+> > > Then the compiler may be better in optimizing out the "bad" portion.  
+> > 
+> > No, that does not work either, I diffed the warnings and they are
+> > identical minus line numbers. I don't think clang takes
+> > __builtin_constant_p() into account in the front end but I could be
+> > wrong. In fact, I think clang (and even gcc sometimes) will still warn
+> > for code even if it is within an 'if (0)' block, it's been used as
+> > justification before in commit 37b47298ab86 ("sched: Disable
+> > -Wunused-but-set-variable").
+> 
+> Hmm, well, the original warning was indeed a bug, but I think that the
+> __builtin_constant_p() should be the fix. So clang helped in finding the
+> bug, but is being stupid about allowing the solution (unless it thinks
+> "some-string" is not a constant?).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403020243.dFDidzsP-lkp@intel.com/
+No, I just don't think that it makes any determination on whether src is
+constant or not at the point in the pipeline that this warning fires.
 
-All errors (new ones prefixed by >>):
+> I'll add the patch regardless and even keep the reported by. But I'll
+> replace the "closes" link with just "link" as it's not technically closed.
 
-   In file included from drivers/net/ethernet/ti/am65-cpsw-qos.c:13:
-   In file included from include/net/pkt_cls.h:7:
-   In file included from include/net/sch_generic.h:5:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm64/include/asm/cacheflush.h:11:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2168:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/ti/am65-cpsw-qos.c:79:15: error: use of undeclared identifier 'BYTES_PER_MBIT'
-      79 |                 rate_mbps = TO_MBPS(mqprio->min_rate[tc]);
-         |                             ^
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:20:38: note: expanded from macro 'TO_MBPS'
-      20 | #define TO_MBPS(x)      DIV_ROUND_UP((x), BYTES_PER_MBIT)
-         |                                           ^
->> drivers/net/ethernet/ti/am65-cpsw-qos.c:79:15: error: use of undeclared identifier 'BYTES_PER_MBIT'
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:20:38: note: expanded from macro 'TO_MBPS'
-      20 | #define TO_MBPS(x)      DIV_ROUND_UP((x), BYTES_PER_MBIT)
-         |                                           ^
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:89:16: error: use of undeclared identifier 'BYTES_PER_MBIT'
-      89 |                         rate_mbps = TO_MBPS(rate_mbps);
-         |                                     ^
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:20:38: note: expanded from macro 'TO_MBPS'
-      20 | #define TO_MBPS(x)      DIV_ROUND_UP((x), BYTES_PER_MBIT)
-         |                                           ^
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:89:16: error: use of undeclared identifier 'BYTES_PER_MBIT'
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:20:38: note: expanded from macro 'TO_MBPS'
-      20 | #define TO_MBPS(x)      DIV_ROUND_UP((x), BYTES_PER_MBIT)
-         |                                           ^
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:173:19: error: use of undeclared identifier 'BYTES_PER_MBIT'
-     173 |         min_rate_total = TO_MBPS(min_rate_total);
-         |                          ^
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:20:38: note: expanded from macro 'TO_MBPS'
-      20 | #define TO_MBPS(x)      DIV_ROUND_UP((x), BYTES_PER_MBIT)
-         |                                           ^
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:173:19: error: use of undeclared identifier 'BYTES_PER_MBIT'
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:20:38: note: expanded from macro 'TO_MBPS'
-      20 | #define TO_MBPS(x)      DIV_ROUND_UP((x), BYTES_PER_MBIT)
-         |                                           ^
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:174:19: error: use of undeclared identifier 'BYTES_PER_MBIT'
-     174 |         max_rate_total = TO_MBPS(max_rate_total);
-         |                          ^
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:20:38: note: expanded from macro 'TO_MBPS'
-      20 | #define TO_MBPS(x)      DIV_ROUND_UP((x), BYTES_PER_MBIT)
-         |                                           ^
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:174:19: error: use of undeclared identifier 'BYTES_PER_MBIT'
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:20:38: note: expanded from macro 'TO_MBPS'
-      20 | #define TO_MBPS(x)      DIV_ROUND_UP((x), BYTES_PER_MBIT)
-         |                                           ^
-   5 warnings and 8 errors generated.
+This diff on top of that suggestion above will hide the warning. There
+will be a semantic conflict against Andrew's -mm tree in -next due to
+bumping the minimum supported version of LLVM there but that is easy for
+both Stephen and Linus to handle (change '11' -> '13').
 
+diff --git a/include/trace/stages/stage6_event_callback.h b/include/trace/stages/stage6_event_callback.h
+index c7789a851536..f272ab0b5cce 100644
+--- a/include/trace/stages/stage6_event_callback.h
++++ b/include/trace/stages/stage6_event_callback.h
+@@ -37,8 +37,13 @@
+ 		int __len__ = __get_dynamic_array_len(dst) - 1;		\
+ 		if (__builtin_constant_p(src))				\
+ 			WARN_ON_ONCE(strcmp((src), __data_offsets.dst##_ptr_)); \
+-		else							\
++		else {							\
++			__diag_push();					\
++			__diag_ignore(clang, 11, "-Wstring-compare",	\
++				      "Invalid for this branch");	\
+ 			WARN_ON_ONCE((src) != __data_offsets.dst##_ptr_);\
++			__diag_pop();					\
++		}							\
+ 		memcpy(__str__, __data_offsets.dst##_ptr_ ? :		\
+ 		       EVENT_NULL_STR, __len__);			\
+ 		__str__[__len__] = '\0';				\
 
-vim +/BYTES_PER_MBIT +79 drivers/net/ethernet/ti/am65-cpsw-qos.c
+However, your suggested change appears to cause
+-Wincompatible-pointer-types when building that configuration fully,
+although it seems to be the inverse problem as above, so maybe the same
+__diag macros can be used to shut it up as well.
 
-    47	
-    48	static void am65_cpsw_tx_pn_shaper_apply(struct am65_cpsw_port *port)
-    49	{
-    50		struct am65_cpsw_mqprio *p_mqprio = &port->qos.mqprio;
-    51		struct am65_cpsw_common *common = port->common;
-    52		struct tc_mqprio_qopt_offload *mqprio;
-    53		bool enable, shaper_susp = false;
-    54		u32 rate_mbps;
-    55		int tc, prio;
-    56	
-    57		mqprio = &p_mqprio->mqprio_hw;
-    58		/* takes care of no link case as well */
-    59		if (p_mqprio->max_rate_total > port->qos.link_speed)
-    60			shaper_susp = true;
-    61	
-    62		am65_cpsw_tx_pn_shaper_reset(port);
-    63	
-    64		enable = p_mqprio->shaper_en && !shaper_susp;
-    65		if (!enable)
-    66			return;
-    67	
-    68		/* Rate limit is specified per Traffic Class but
-    69		 * for CPSW, rate limit can be applied per priority
-    70		 * at port FIFO.
-    71		 *
-    72		 * We have assigned the same priority (TCn) to all queues
-    73		 * of a Traffic Class so they share the same shaper
-    74		 * bandwidth.
-    75		 */
-    76		for (tc = 0; tc < mqprio->qopt.num_tc; tc++) {
-    77			prio = tc;
-    78	
-  > 79			rate_mbps = TO_MBPS(mqprio->min_rate[tc]);
-    80			rate_mbps = am65_cpsw_qos_tx_rate_calc(rate_mbps,
-    81							       common->bus_freq);
-    82			writel(rate_mbps,
-    83			       port->port_base + AM65_CPSW_PN_REG_PRI_CIR(prio));
-    84	
-    85			rate_mbps = 0;
-    86	
-    87			if (mqprio->max_rate[tc]) {
-    88				rate_mbps = mqprio->max_rate[tc] - mqprio->min_rate[tc];
-    89				rate_mbps = TO_MBPS(rate_mbps);
-    90				rate_mbps = am65_cpsw_qos_tx_rate_calc(rate_mbps,
-    91								       common->bus_freq);
-    92			}
-    93	
-    94			writel(rate_mbps,
-    95			       port->port_base + AM65_CPSW_PN_REG_PRI_EIR(prio));
-    96		}
-    97	}
-    98	
+  In file included from net/core/net-traces.c:37:
+  In file included from include/trace/events/qdisc.h:153:
+  In file included from include/trace/define_trace.h:102:
+  In file included from include/trace/trace_events.h:419:
+  include/trace/events/qdisc.h:116:3: error: incompatible pointer types passing 'struct net_device *' to parameter of type 'const char *' [-Werror,-Wincompatible-pointer-types]
+    102 |                 __string(       dev,            qdisc_dev(q)    )
+        |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    103 |                 __string(       kind,           q->ops->id      )
+        |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    104 |                 __field(        u32,            parent          )
+        |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    105 |                 __field(        u32,            handle          )
+        |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    106 |         ),
+        |         ~~
+    107 |
+    108 |         TP_fast_assign(
+        |         ~~~~~~~~~~~~~~~
+    109 |                 __assign_str(dev, qdisc_dev(q));
+        |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    110 |                 __assign_str(kind, q->ops->id);
+        |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    111 |                 __entry->parent = q->parent;
+        |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    112 |                 __entry->handle = q->handle;
+        |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    113 |         ),
+        |         ~~
+    114 |
+    115 |         TP_printk("dev=%s kind=%s parent=%x:%x handle=%x:%x", __get_str(dev),
+        |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    116 |                   __get_str(kind), TC_H_MAJ(__entry->parent) >> 16, TC_H_MIN(__entry->parent),
+        |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    117 |                   TC_H_MAJ(__entry->handle) >> 16, TC_H_MIN(__entry->handle))
+        |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  include/trace/stages/stage6_event_callback.h:39:24: note: expanded from macro '__assign_str'
+     39 |                         WARN_ON_ONCE(strcmp((src), __data_offsets.dst##_ptr_)); \
+        |                                             ^
+  include/asm-generic/bug.h:111:25: note: expanded from macro 'WARN_ON_ONCE'
+    111 |         int __ret_warn_on = !!(condition);                      \
+        |                                ^
+  include/trace/stages/stage6_event_callback.h:142:33: note: expanded from macro 'TP_fast_assign'
+    142 | #define TP_fast_assign(args...) args
+        |                                 ^
+  include/trace/trace_events.h:44:16: note: expanded from macro 'TRACE_EVENT'
+     40 |         DECLARE_EVENT_CLASS(name,                              \
+        |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     41 |                              PARAMS(proto),                    \
+        |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     42 |                              PARAMS(args),                     \
+        |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     43 |                              PARAMS(tstruct),                  \
+        |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     44 |                              PARAMS(assign),                   \
+        |                              ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     45 |                              PARAMS(print));                   \
+        |                              ~~~~~~~~~~~~~~
+  include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+    107 | #define PARAMS(args...) args
+        |                         ^
+  include/trace/trace_events.h:402:4: note: expanded from macro 'DECLARE_EVENT_CLASS'
+    402 |         { assign; }                                                     \
+        |           ^~~~~~
+  include/linux/string.h:86:31: note: passing argument to parameter here
+     86 | extern int strcmp(const char *,const char *);
+        |                               ^
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
