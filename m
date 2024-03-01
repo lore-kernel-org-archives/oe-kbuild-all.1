@@ -1,61 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44EA3A8CD
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 02:16:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817463A8C6;
+	Fri,  1 Mar 2024 02:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709259400; cv=none; b=IZbkDaaFjQS2d1hTfwwwVvOxQxdJRbBqCAVJdPXrJ1Z3f9BJfbBABjj0OjiLsTrbbm1qP97SiWeM1JP7fW89gEiy7/7q4/xeYyZy+PUpBB2zOtvurnSmhuRIfbxnZUzhcCdO9zBn2MdWiVPe1jALIW5ZXMCpID/y87w7wKaGGhU=
+	t=1709259904; cv=none; b=SviIQ2lMgNTffCQu0Ugr3pcWwBbCFE3ss0Kk9UMgWaj0aFnF2pFs8GVCxsgDQNOKugvfE7TwZ1mutbJd7sXtLrxsEfOb5y/zFC6w2oCpLmq6QwJHA+oKqgRAZ7WSZiBDeZdc2cjJysllH+PZU0y4RhgSG/m/MFHdvBBFHz8Z/vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709259400; c=relaxed/simple;
-	bh=RbrEEZsqVty5ml9wrCO0wtqgLU15qLcwFhqxiLa6py4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LboaixiWIUAqZTU3Ft5hdvoh2CBYwFTpH9b/00RcAyeTI2QgBnvX1ZNgwXblVURe8OUu/SNsLQzteZ45ddElxfIe/TaFBHD/VLsw/6UTf1EKClO4Hho4/GWua9Bqda1UIGVwvDB7rZbgVLoaTR0OjJsYG7UwKPL2nUUw9Ch1wLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EGlrUp+Q; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1709259904; c=relaxed/simple;
+	bh=wFO2u4X20ld4vQKIrm80n+9r92jthAzf6Mbc9kgYygY=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MpwYEG93k9/Ac448Ckkj5mVHdy6v5wZcIaHuMu/OSba4DLu91pZgyiGHhXdlbAZtjoyWNB7qBlpBALbzOa2Hh7ZJJwWk9KkZjKePLBD+3ajGXn98bXqBFYZU1Cm5x79patGSQ+MNme8zfIiZzanIpoXustXsaLUxwYRIeahQXxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=REhAThrZ; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EGlrUp+Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="REhAThrZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709259399; x=1740795399;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RbrEEZsqVty5ml9wrCO0wtqgLU15qLcwFhqxiLa6py4=;
-  b=EGlrUp+QeZ4TEW4GA23Nzx84XRufnRuE065UIS3vrHRF3PgUtRz12aY3
-   S/SsiuvaGt5ibapkwIn4dr2d19HQGMEUpLBY8A+CLyteNp37c8bpXg8Oz
-   1s437vob+Yz4s06V/6EsmdQY6BEIcxCRftD1ipLXjsGlTKHptAw6fOwo8
-   mAOLkKISXwxxD9nxQIwcADG+dHvdcb586OiUJUQplj4UO5rBKLM6H8Pf+
-   guggs8m4DVIq6g5jroifSe2/jQpxjpLLzBCIw2yOn7wJTvwhNBBcji1cJ
-   P8LVg7fDJVZou2E0+NSjHAanB+RVygHkjuSTBUaUrLPFbKIonNoW9HQsm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="15214254"
+  t=1709259902; x=1740795902;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=wFO2u4X20ld4vQKIrm80n+9r92jthAzf6Mbc9kgYygY=;
+  b=REhAThrZuSfOjPf8hC5uodO4+lqxExwKvzg/Lt88SePmmN5R1CuOkX24
+   IjjxyrkSRYysCaoEBf4zSDg+XlokdFhHxyiJ3fEReKNuiITc5Gl6IBgfM
+   hIo8FWSrtbnztFPE6dvrRYT0OfJYGVZWM4zqnT3bEPWpqhekPr41m6ySx
+   mJGHaJT3YgUKAZB7ytwNuls8V4VQOgjL+81a1VUjb4Ol574vJpssA/VK1
+   sn2muhV9fHRtcXYYdgGp67g8Gr7ye0MFlj6+cKAxstE4e3Ve+S6GEQcLN
+   tm4fzhAui0j6PXHPLQBzdcAysR17v+mHybf5090yAqcffRPpIJeWgfLj6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="21320933"
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="15214254"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 18:16:38 -0800
+   d="scan'208";a="21320933"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 18:25:02 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="31225619"
+   d="scan'208";a="8172537"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 29 Feb 2024 18:16:35 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 29 Feb 2024 18:25:01 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rfsR8-000DT8-2M;
-	Fri, 01 Mar 2024 02:16:01 +0000
-Date: Fri, 1 Mar 2024 10:13:52 +0800
+	id 1rfsZt-000DTH-0i;
+	Fri, 01 Mar 2024 02:24:52 +0000
+Date: Fri, 1 Mar 2024 10:24:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
-	tzimmermann@suse.de, airlied@redhat.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net,
-	noralf@tronnes.org
-Cc: oe-kbuild-all@lists.linux.dev, gpiccoli@igalia.com,
-	Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v8 4/8] drm/fb_dma: Add generic set_scanout_buffer() for
- drm_panic
-Message-ID: <202403010934.Yop7HCSQ-lkp@intel.com>
-References: <20240227100459.194478-5-jfalempe@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: drivers/iommu/exynos-iommu.o: warning: objtool: exynos_sysmmu_irq()
+ falls through to next function __cfi_exynos_iommu_identity_attach()
+Message-ID: <202403011005.JHczfBsc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,52 +56,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240227100459.194478-5-jfalempe@redhat.com>
 
-Hi Jocelyn,
+CC: linux-kernel@vger.kernel.org
+TO: Jason Gunthorpe <jgg@nvidia.com>
+CC: Joerg Roedel <jroedel@suse.de>
+CC: Jerry Snitselaar <jsnitsel@redhat.com>
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bfa4437fd3938ae2e186e7664b2db65bb8775670]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-format-helper-Add-drm_fb_blit_from_r1-and-drm_fb_fill/20240227-185901
-base:   bfa4437fd3938ae2e186e7664b2db65bb8775670
-patch link:    https://lore.kernel.org/r/20240227100459.194478-5-jfalempe%40redhat.com
-patch subject: [PATCH v8 4/8] drm/fb_dma: Add generic set_scanout_buffer() for drm_panic
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240301/202403010934.Yop7HCSQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403010934.Yop7HCSQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   87adedeba51a822533649b143232418b9e26d08b
+commit: b3d14960e629f9ee8c82f8feb211ae43e1cb3246 iommu/exynos: Implement an IDENTITY domain
+date:   5 months ago
+config: x86_64-buildonly-randconfig-001-20240301 (https://download.01.org/0day-ci/archive/20240301/202403011005.JHczfBsc-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403011005.JHczfBsc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403010934.Yop7HCSQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403011005.JHczfBsc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/pl111/pl111_display.c:18:
->> include/drm/drm_fb_dma_helper.h:23:46: warning: 'struct drm_plane' declared inside parameter list will not be visible outside of this definition or declaration
-      23 | void drm_panic_gem_set_scanout_buffer(struct drm_plane *plane,
-         |                                              ^~~~~~~~~
-
-
-vim +23 include/drm/drm_fb_dma_helper.h
-
-    11	
-    12	struct drm_gem_dma_object *drm_fb_dma_get_gem_obj(struct drm_framebuffer *fb,
-    13		unsigned int plane);
-    14	
-    15	dma_addr_t drm_fb_dma_get_gem_addr(struct drm_framebuffer *fb,
-    16					   struct drm_plane_state *state,
-    17					   unsigned int plane);
-    18	
-    19	void drm_fb_dma_sync_non_coherent(struct drm_device *drm,
-    20					  struct drm_plane_state *old_state,
-    21					  struct drm_plane_state *state);
-    22	
-  > 23	void drm_panic_gem_set_scanout_buffer(struct drm_plane *plane,
-    24					     struct drm_framebuffer *fb);
-    25	
+>> drivers/iommu/exynos-iommu.o: warning: objtool: exynos_sysmmu_irq() falls through to next function __cfi_exynos_iommu_identity_attach()
 
 -- 
 0-DAY CI Kernel Test Service
