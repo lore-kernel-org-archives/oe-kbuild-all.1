@@ -1,56 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7C45F546
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 06:23:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626BF63407
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 06:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709274185; cv=none; b=NjBI0wcI96AVcP0cmQOgK9C7ibVzjCOYqCcHOt2z8dybp9qF2sOUu44+7CLwBeoZWXP5rKsQe2ZP04B5pt7bXT9IIVlOND2dKD1WobiTPpcZRjKH6UkDCFUdwC6HWJrTtzbglax71ZJlJ9QYcLf7osvrBcr5mheam5jmQyw+ixU=
+	t=1709274796; cv=none; b=rVhXkI/R2vCLAlLTIHp4FJUlFmnAn8L0FMO3cUrEyY7vVER0NWkfId6uX2gQaC6CtukSvsDAMgx2LviHXmsPD3SNUF7+6tVbCVTbe0y8gqgGnnnU/9BmoLp5c7lCg3TgZa0Qu62dT3oxD9aDX/sI9OQpVACJ21Em97xWPiVqwIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709274185; c=relaxed/simple;
-	bh=A9Dzo0/4S7DIrl5L1/Lw9AVypBhjc/YcVTTR3x/OcGc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZzQil0esKFqK7oAIoOsv1L8MM49d27nXBzT4/0VjOQKeXvGdsAooG0Km6bIy2Ay6aOoMEPZgzGhVQ4Nroy7sN07esyrklz7LWV+COf1ZKn2IgWJtCJmRnnR3CmAFZHY0b7UxmOcf/cm//1wJMJaUOj84XtqKyLWnNc7LmRxHKBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DPqs0nKL; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709274796; c=relaxed/simple;
+	bh=1A49pWCrKxjDV0YLcbE2h1uhtFbcqlO7mDjyc4a8aDM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qyr71FXH51Jh6LFrOdQql6uR9vQ3Cb4SRz4M40hlICdKGEaUfG6IvJgYCCEB5jnCObLFYyK0feCdii+XpbmkpSWoe82/fz9u4GBpFPVit1U9x6BPpkFp02OrD+PLC9a2jD0J2DbygVTbJJBKHbxyv9Qcgr0ux7VXEZ8UHUPROPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jKCYSsP3; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DPqs0nKL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709274183; x=1740810183;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A9Dzo0/4S7DIrl5L1/Lw9AVypBhjc/YcVTTR3x/OcGc=;
-  b=DPqs0nKLbTSFl6hE7NbAyb1mK3iXzRWyrGKVQIj9L1s3nQuEHo7oh7Si
-   SI8WT2JtuZnIpSLtUhEfeXowE+e5Frl3GQD7lKVD3EMQVAwsThV3bnkL4
-   zyUcag/czyw6dqOEmvPomFY33cuLeix/CuWXeLGL0SmyCqsH00j1NXbqG
-   a5oAsIQ3poX84bdbt1w9GK/xGQr6qerfci5fqGbOvv9pCXilYFA9KVwYr
-   3SBYWMBMuQ+swnn2a+oHqrG+vma1FpL/OQAJ4m3WRUHPkm3mLEjKDcYmt
-   ZrsfpZ2yUJBWs0cj2ddD59y5nyXMuskMeDAyzH0B+KKeciKnTsqIRFZEp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="15207230"
-X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; 
-   d="scan'208";a="15207230"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 22:23:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; 
-   d="scan'208";a="8161321"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 29 Feb 2024 22:23:00 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rfwIL-000DaZ-1U;
-	Fri, 01 Mar 2024 06:22:57 +0000
-Date: Fri, 1 Mar 2024 14:22:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>,
-	Michael Shavit <mshavit@google.com>
-Subject: [arm-perf:for-joerg/arm-smmu/updates 5/20]
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1144:39: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202403011441.5WqGrYjp-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jKCYSsP3"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1d94b222a3aso18973695ad.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Feb 2024 22:33:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1709274795; x=1709879595; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gQwQz/QJ5mWY5tSctsi2zwWFgf7B4XFbDdy0fTpAkBg=;
+        b=jKCYSsP3ap8d49nbHTMJRQ5r4LDBU1T36JYBGTcOV4QLu/DQozOyQndhR8chciVQsQ
+         Ag8H2Bcz6OolkClrhnsYYcXXCmAz3kjpNWKb7zmQ6wJr2fvFiKfAT08CJjfmHkQe0HL0
+         ZXuqXkMWzI3w7rkmvD1RJJAIZhGx9NZZD1Rgw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709274795; x=1709879595;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gQwQz/QJ5mWY5tSctsi2zwWFgf7B4XFbDdy0fTpAkBg=;
+        b=PYGBVH5NlPfUsI+ItrRlFNnwC3wlfsMWOUZpvNH+WT5GqiGjEaTxxnDx0bkaJXs1Tf
+         +HyRRKuGLuhbEs4WJ50AtAC4FL3++pICvBnWNYHdzM7GuWeA9vBNZCv4OwUV+W5JgqGh
+         p8YGeoA+qltlJqnHmB/t/JTzsbPJyo2EQ7cxnVGeAxktJxhwXV/8GpUmJ4l6T1WrdpJJ
+         pZ7LLU4NuxIzYAkq6FZgSDCuXqitHCxK0Dr9tZYu38pSOF4vWsbI06HmjCZZ+CEueLVY
+         P36iqIHv9tvgs7pQlOnbykDs6Bhvx+m11+8iB03t6wtlx73j34QDU/ihzGPWXw9hxgNX
+         mLWA==
+X-Forwarded-Encrypted: i=1; AJvYcCXiKwChm0cG5zmpSevQGFVQLh6izpaxuE6eDhenQKs+IlgElTaCN6sCjUTB7qEO1UT22N32c8mP5mhloZasYbqReLhSmrhhGANXPHLL5Q==
+X-Gm-Message-State: AOJu0Yw8qVvCeaFMFqWeC7U56UcXO2tNx6fBSwiO2ZF6ZZKAUuXfYfwk
+	PV0n4wbR7PloLu3NvrdWSt1vXuRtUOpNwBAh61r8pt3hUPrOA0ShN/Mf5Cq7jQ==
+X-Google-Smtp-Source: AGHT+IGtxhru9efUicC8Zpnox8H1x+W+BNgnhPRPfG5fxB3Z5iWoADp4ruD8eC+7D+TUCAYpeIHX5A==
+X-Received: by 2002:a17:902:c412:b0:1dc:3c3f:c64b with SMTP id k18-20020a170902c41200b001dc3c3fc64bmr1019191plk.24.1709274794801;
+        Thu, 29 Feb 2024 22:33:14 -0800 (PST)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id p1-20020a170902e74100b001d9ef7f4bfdsm2586276plf.164.2024.02.29.22.33.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Feb 2024 22:33:14 -0800 (PST)
+Date: Thu, 29 Feb 2024 22:33:13 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, oe-kbuild-all@lists.linux.dev,
+	kernel test robot <lkp@intel.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] objtool: Fix UNWIND_HINT_{SAVE,RESTORE} across basic
+ blocks
+Message-ID: <202402292232.2D9E913F@keescook>
+References: <202402240702.zJFNmahW-lkp@intel.com>
+ <202402231632.D90831AE51@keescook>
+ <20240227073527.avcm5naavbv3cj5s@treble>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,124 +69,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240227073527.avcm5naavbv3cj5s@treble>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git for-joerg/arm-smmu/updates
-head:   327e10b47ae99f76ac53f0b8b73a0539f390d2d2
-commit: 7da51af9125c624318c8099de13c5ddefd47e9e8 [5/20] iommu/arm-smmu-v3: Make STE programming independent of the callers
-config: arm64-randconfig-r131-20240301 (https://download.01.org/0day-ci/archive/20240301/202403011441.5WqGrYjp-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce: (https://download.01.org/0day-ci/archive/20240301/202403011441.5WqGrYjp-lkp@intel.com/reproduce)
+On Mon, Feb 26, 2024 at 11:35:27PM -0800, Josh Poimboeuf wrote:
+> On Fri, Feb 23, 2024 at 04:45:22PM -0800, Kees Cook wrote:
+> > Josh, Peter, can you give a clue about what's happened here? For
+> > added context, the referenced commit is changing a noreturn function
+> > prototype[1], which I know gets some special objtool handling, but it's
+> > converting a pointer arg to a u8... I can't imagine what has gone weird
+> > here. :P
+> 
+> I think this convinced GCC to reshuffle some basic blocks, which
+> uncovered an objtool bug.  Or, objtool just wasn't smart enough, as the
+> warning says ;-)
+> 
+> This should fix it, absent any more warnings.  Kees, feel free to take
+> it in your branch if that helps.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403011441.5WqGrYjp-lkp@intel.com/
+Thanks very much! I'll carry it in my tree.
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1144:52: sparse: sparse: restricted __le64 degrades to integer
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1144:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 @@     got unsigned long long @@
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1144:39: sparse:     expected restricted __le64
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1144:39: sparse:     got unsigned long long
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: note: in included file (through arch/arm64/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
-   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
-   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: note: in included file (through include/linux/resource_ext.h, include/linux/acpi.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-
-vim +1144 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-
-  1080	
-  1081	/*
-  1082	 * Update the STE/CD to the target configuration. The transition from the
-  1083	 * current entry to the target entry takes place over multiple steps that
-  1084	 * attempts to make the transition hitless if possible. This function takes care
-  1085	 * not to create a situation where the HW can perceive a corrupted entry. HW is
-  1086	 * only required to have a 64 bit atomicity with stores from the CPU, while
-  1087	 * entries are many 64 bit values big.
-  1088	 *
-  1089	 * The difference between the current value and the target value is analyzed to
-  1090	 * determine which of three updates are required - disruptive, hitless or no
-  1091	 * change.
-  1092	 *
-  1093	 * In the most general disruptive case we can make any update in three steps:
-  1094	 *  - Disrupting the entry (V=0)
-  1095	 *  - Fill now unused qwords, execpt qword 0 which contains V
-  1096	 *  - Make qword 0 have the final value and valid (V=1) with a single 64
-  1097	 *    bit store
-  1098	 *
-  1099	 * However this disrupts the HW while it is happening. There are several
-  1100	 * interesting cases where a STE/CD can be updated without disturbing the HW
-  1101	 * because only a small number of bits are changing (S1DSS, CONFIG, etc) or
-  1102	 * because the used bits don't intersect. We can detect this by calculating how
-  1103	 * many 64 bit values need update after adjusting the unused bits and skip the
-  1104	 * V=0 process. This relies on the IGNORED behavior described in the
-  1105	 * specification.
-  1106	 */
-  1107	static void arm_smmu_write_ste(struct arm_smmu_master *master, u32 sid,
-  1108				       struct arm_smmu_ste *entry,
-  1109				       const struct arm_smmu_ste *target)
-  1110	{
-  1111		unsigned int num_entry_qwords = ARRAY_SIZE(target->data);
-  1112		struct arm_smmu_device *smmu = master->smmu;
-  1113		struct arm_smmu_ste unused_update;
-  1114		u8 used_qword_diff;
-  1115	
-  1116		used_qword_diff =
-  1117			arm_smmu_entry_qword_diff(entry, target, &unused_update);
-  1118		if (hweight8(used_qword_diff) == 1) {
-  1119			/*
-  1120			 * Only one qword needs its used bits to be changed. This is a
-  1121			 * hitless update, update all bits the current STE is ignoring
-  1122			 * to their new values, then update a single "critical qword" to
-  1123			 * change the STE and finally 0 out any bits that are now unused
-  1124			 * in the target configuration.
-  1125			 */
-  1126			unsigned int critical_qword_index = ffs(used_qword_diff) - 1;
-  1127	
-  1128			/*
-  1129			 * Skip writing unused bits in the critical qword since we'll be
-  1130			 * writing it in the next step anyways. This can save a sync
-  1131			 * when the only change is in that qword.
-  1132			 */
-  1133			unused_update.data[critical_qword_index] =
-  1134				entry->data[critical_qword_index];
-  1135			entry_set(smmu, sid, entry, &unused_update, 0, num_entry_qwords);
-  1136			entry_set(smmu, sid, entry, target, critical_qword_index, 1);
-  1137			entry_set(smmu, sid, entry, target, 0, num_entry_qwords);
-  1138		} else if (used_qword_diff) {
-  1139			/*
-  1140			 * At least two qwords need their inuse bits to be changed. This
-  1141			 * requires a breaking update, zero the V bit, write all qwords
-  1142			 * but 0, then set qword 0
-  1143			 */
-> 1144			unused_update.data[0] = entry->data[0] & (~STRTAB_STE_0_V);
-  1145			entry_set(smmu, sid, entry, &unused_update, 0, 1);
-  1146			entry_set(smmu, sid, entry, target, 1, num_entry_qwords - 1);
-  1147			entry_set(smmu, sid, entry, target, 0, 1);
-  1148		} else {
-  1149			/*
-  1150			 * No inuse bit changed. Sanity check that all unused bits are 0
-  1151			 * in the entry. The target was already sanity checked by
-  1152			 * compute_qword_diff().
-  1153			 */
-  1154			WARN_ON_ONCE(
-  1155				entry_set(smmu, sid, entry, target, 0, num_entry_qwords));
-  1156		}
-  1157	
-  1158		/* It's likely that we'll want to use the new STE soon */
-  1159		if (!(smmu->options & ARM_SMMU_OPT_SKIP_PREFETCH)) {
-  1160			struct arm_smmu_cmdq_ent
-  1161				prefetch_cmd = { .opcode = CMDQ_OP_PREFETCH_CFG,
-  1162						 .prefetch = {
-  1163							 .sid = sid,
-  1164						 } };
-  1165	
-  1166			arm_smmu_cmdq_issue_cmd(smmu, &prefetch_cmd);
-  1167		}
-  1168	}
-  1169	
+-Kees
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kees Cook
