@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F7629411;
-	Fri,  1 Mar 2024 01:02:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182B62B9B9
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 01:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709254928; cv=none; b=UgC53YkE4B5/uwPHbMZUpT6pnoiWg1am04AAfSSVjLTPtVMzMJbXTmPTW8nCrvFUBjr+EBZ0WKL8EbyzkRJnZX8QPEnEYhNeGI4Gz1bQ7iVZr/KzBLpxbwiQn/9Kmylumnu1THLiCJWJnvAdphLS/J6fKf4bsoeLNLhEjO3492I=
+	t=1709256206; cv=none; b=OUk3d/reTpdIFUJ5E0ji3ZP0lmltB29hxvllE1cY8GuoZY/I9zKZ1tCMyN4f4ArC9zujJVCd4HL+rUpXBpglxTurj9EdFU839zirnjl8lusBCZM3Jg7xl6bdPtU1hfFpFUS9WOnIuRT+Z4k8TMMjyQaEuFgoZnAw0cl0ImuXAs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709254928; c=relaxed/simple;
-	bh=rCjcOu/4hm1LXhiywe6K84Rd4gAOaOfOyVzhv2ma4ak=;
+	s=arc-20240116; t=1709256206; c=relaxed/simple;
+	bh=PK3x9qvwQAKdigg0rxRLH92bMStrJCs6HTEnAD6fklI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DPSC0t+9nNyT8VsZOC1q4RX9XJCsAXV7XgQOJhRqeZjjiMPEm8SZMS8V6T8uGh63tm2PIiUD7GEEnUs9tkv0OgFpDHarsczE+YOxI7udsFWzJA0tIJi5Ch8UY677Q7v+Rgk1efH2jsA/JgX7yJlQef5g9Uo6LdScsFxfE1k+9Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JFyZzQWb; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=lM6EOZo7Dux6juPIqvky1EpG6jaCqRW7nFr4B1gimci+m5qqXXHCfRAxuqQDpbQUOQbsnFl25GrYvTiqKS1fNX0UapC72MdxB6CsgP37l4Ffye7Fj/bbvl3bMwB33O2raqbdX4NzT2YnBUkFBLgDmpzSpYUog1b02V9USJCazMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Of11QqIc; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JFyZzQWb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Of11QqIc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709254927; x=1740790927;
+  t=1709256203; x=1740792203;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rCjcOu/4hm1LXhiywe6K84Rd4gAOaOfOyVzhv2ma4ak=;
-  b=JFyZzQWb1CbYZ6oJBK+wdYa73aUYryPhe4gvSsyBD8DeHtbd/HUIM0jq
-   YuGqozqzW5/9Lpiv+Q4HbnsOap9LCDamzAGMSRivP1gpOGrPOsG573BNm
-   c4Za/CRzKovhsYoI59Nk6h5f2RaTCfKuAMwT/u1+TKzQpjoKHGJ5eiSoY
-   m5qblSmSKY7dnHKYFEubLBL5pWMEkXIg+l3hVuMO+T/yz/dEmKFiR2otu
-   S4BYcDTHfuH2s1USl72KsXxvgo7xB1+SttpCEVoePb0QB9rHah8gQc6te
-   sWcVHfRltNXJh3n9iNR0SNOzCWL76yCGTV7xpDEvy7Kv3vBayCqUV6KUU
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="14340386"
+  bh=PK3x9qvwQAKdigg0rxRLH92bMStrJCs6HTEnAD6fklI=;
+  b=Of11QqIchRg2bLP9lH/q7WcSbvLUh6nbOVohaHK2VNNSDEiEDSxdc5y4
+   4RAajvicbyhnouh7uOkU6GUETLKMce7NY/2L8s/vmkHtCHtmjOSSDBHc/
+   SZpWJeqBV4/UgH1sguqVCv+a2Zm4+cz6fAmgT7W2OT+D2ddAOKe8rRsEm
+   ynOhWi2/EJnHHLRkxFnvorY/XvzWNiCG/9Pcy9/as5iZVlvA40m3202/C
+   GKJXvmFwxdJLrXsIjojyonovY60PuqXNCsD4jxOKZs2iHODlo7oLCNiaq
+   9mRoEy6uDP7J5dQaxISENaWESgcfpjAlh6vs8kFkGrHFBc+Zr3FG/SLd6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3660814"
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="14340386"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 17:02:06 -0800
+   d="scan'208";a="3660814"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 17:23:22 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="7941869"
+   d="scan'208";a="7971948"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Feb 2024 17:02:01 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 29 Feb 2024 17:23:21 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rfrH7-000DPX-0Z;
-	Fri, 01 Mar 2024 01:01:35 +0000
-Date: Fri, 1 Mar 2024 08:57:56 +0800
+	id 1rfrbW-000DQD-0b;
+	Fri, 01 Mar 2024 01:22:53 +0000
+Date: Fri, 1 Mar 2024 09:19:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Florian Westphal <fw@strlen.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>
-Subject: net/netfilter/nf_bpf_link.c:186:33: warning: bitwise operation
- between different enumeration types ('enum bpf_reg_type' and 'enum
- bpf_type_flag')
-Message-ID: <202403010842.hhJY5TFK-lkp@intel.com>
+To: Michal Simek <monstr@monstr.eu>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Jianqiang Chen <jianqiang.chen@xilinx.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.6 383/860]
+ drivers/gpu/drm/xlnx/zynqmp_dp.c:361:9: error: implicit declaration of
+ function 'writel'
+Message-ID: <202403010949.G9HvjrQM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,117 +60,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   87adedeba51a822533649b143232418b9e26d08b
-commit: fd9c663b9ad67dedfc9a3fd3429ddd3e83782b4d bpf: minimal support for programs hooked into netfilter framework
-date:   10 months ago
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240301/202403010842.hhJY5TFK-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project edd4aee4dd9b5b98b2576a6f783e4086173d902a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403010842.hhJY5TFK-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6
+head:   24eec56fe5bd68cae795c37c61276b4dcf218a53
+commit: bdf045814d4629c0ab369b168755b12635532dc3 [383/860] drm: xlnx: Update DP subsystem with downstream version
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240301/202403010949.G9HvjrQM-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403010949.G9HvjrQM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403010842.hhJY5TFK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403010949.G9HvjrQM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from net/netfilter/nf_bpf_link.c:2:
-   In file included from include/linux/bpf.h:21:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:1970:
-   include/linux/vmstat.h:516:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     516 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from net/netfilter/nf_bpf_link.c:2:
-   include/linux/bpf.h:706:48: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     706 |         ARG_PTR_TO_MAP_VALUE_OR_NULL    = PTR_MAYBE_NULL | ARG_PTR_TO_MAP_VALUE,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:707:43: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     707 |         ARG_PTR_TO_MEM_OR_NULL          = PTR_MAYBE_NULL | ARG_PTR_TO_MEM,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:708:43: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     708 |         ARG_PTR_TO_CTX_OR_NULL          = PTR_MAYBE_NULL | ARG_PTR_TO_CTX,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:709:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     709 |         ARG_PTR_TO_SOCKET_OR_NULL       = PTR_MAYBE_NULL | ARG_PTR_TO_SOCKET,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:710:44: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     710 |         ARG_PTR_TO_STACK_OR_NULL        = PTR_MAYBE_NULL | ARG_PTR_TO_STACK,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:711:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     711 |         ARG_PTR_TO_BTF_ID_OR_NULL       = PTR_MAYBE_NULL | ARG_PTR_TO_BTF_ID,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:715:38: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     715 |         ARG_PTR_TO_UNINIT_MEM           = MEM_UNINIT | ARG_PTR_TO_MEM,
-         |                                           ~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:717:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     717 |         ARG_PTR_TO_FIXED_SIZE_MEM       = MEM_FIXED_SIZE | ARG_PTR_TO_MEM,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:740:48: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     740 |         RET_PTR_TO_MAP_VALUE_OR_NULL    = PTR_MAYBE_NULL | RET_PTR_TO_MAP_VALUE,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:741:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     741 |         RET_PTR_TO_SOCKET_OR_NULL       = PTR_MAYBE_NULL | RET_PTR_TO_SOCKET,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:742:47: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     742 |         RET_PTR_TO_TCP_SOCK_OR_NULL     = PTR_MAYBE_NULL | RET_PTR_TO_TCP_SOCK,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:743:50: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     743 |         RET_PTR_TO_SOCK_COMMON_OR_NULL  = PTR_MAYBE_NULL | RET_PTR_TO_SOCK_COMMON,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:745:49: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     745 |         RET_PTR_TO_DYNPTR_MEM_OR_NULL   = PTR_MAYBE_NULL | RET_PTR_TO_MEM,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:746:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     746 |         RET_PTR_TO_BTF_ID_OR_NULL       = PTR_MAYBE_NULL | RET_PTR_TO_BTF_ID,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:747:43: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     747 |         RET_PTR_TO_BTF_ID_TRUSTED       = PTR_TRUSTED    | RET_PTR_TO_BTF_ID,
-         |                                           ~~~~~~~~~~~    ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:858:44: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     858 |         PTR_TO_MAP_VALUE_OR_NULL        = PTR_MAYBE_NULL | PTR_TO_MAP_VALUE,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:859:42: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     859 |         PTR_TO_SOCKET_OR_NULL           = PTR_MAYBE_NULL | PTR_TO_SOCKET,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
-   include/linux/bpf.h:860:46: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     860 |         PTR_TO_SOCK_COMMON_OR_NULL      = PTR_MAYBE_NULL | PTR_TO_SOCK_COMMON,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:861:44: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     861 |         PTR_TO_TCP_SOCK_OR_NULL         = PTR_MAYBE_NULL | PTR_TO_TCP_SOCK,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~
-   include/linux/bpf.h:862:42: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     862 |         PTR_TO_BTF_ID_OR_NULL           = PTR_MAYBE_NULL | PTR_TO_BTF_ID,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
->> net/netfilter/nf_bpf_link.c:186:33: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     186 |         info->reg_type = PTR_TO_BTF_ID | PTR_TRUSTED;
-         |                          ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   22 warnings generated.
+   drivers/gpu/drm/xlnx/zynqmp_dp.c: In function 'zynqmp_dp_write':
+>> drivers/gpu/drm/xlnx/zynqmp_dp.c:361:9: error: implicit declaration of function 'writel' [-Werror=implicit-function-declaration]
+     361 |         writel(val, base + offset);
+         |         ^~~~~~
+   drivers/gpu/drm/xlnx/zynqmp_dp.c: In function 'zynqmp_dp_read':
+>> drivers/gpu/drm/xlnx/zynqmp_dp.c:366:16: error: implicit declaration of function 'readl' [-Werror=implicit-function-declaration]
+     366 |         return readl(base + offset);
+         |                ^~~~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_PANEL_SIMPLE
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_PANEL [=y] && OF [=y] && BACKLIGHT_CLASS_DEVICE [=y] && PM
+   Selected by [y]:
+   - DRM_XLNX_DSI [=y] && HAS_IOMEM [=y] && DRM_XLNX [=y]
 
 
-vim +186 net/netfilter/nf_bpf_link.c
+vim +/writel +361 drivers/gpu/drm/xlnx/zynqmp_dp.c
 
-   170	
-   171	static bool nf_ptr_to_btf_id(struct bpf_insn_access_aux *info, const char *name)
-   172	{
-   173		struct btf *btf;
-   174		s32 type_id;
-   175	
-   176		btf = bpf_get_btf_vmlinux();
-   177		if (IS_ERR_OR_NULL(btf))
-   178			return false;
-   179	
-   180		type_id = btf_find_by_name_kind(btf, name, BTF_KIND_STRUCT);
-   181		if (WARN_ON_ONCE(type_id < 0))
-   182			return false;
-   183	
-   184		info->btf = btf;
-   185		info->btf_id = type_id;
- > 186		info->reg_type = PTR_TO_BTF_ID | PTR_TRUSTED;
-   187		return true;
-   188	}
-   189	
+   358	
+   359	static void zynqmp_dp_write(void __iomem *base, int offset, u32 val)
+   360	{
+ > 361		writel(val, base + offset);
+   362	}
+   363	
+   364	static u32 zynqmp_dp_read(void __iomem *base, int offset)
+   365	{
+ > 366		return readl(base + offset);
+   367	}
+   368	
 
 -- 
 0-DAY CI Kernel Test Service
