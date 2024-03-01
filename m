@@ -1,72 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4485942A8C;
-	Thu, 29 Feb 2024 23:53:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA90B622
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 00:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709250832; cv=none; b=ChufQ5T127liqT/rjru8z5LqBHQxsqLzpzJKuOPcKQyotfncLWKC7A0RB4g8Gv/lVPa+bpkYr+yPkxmfWcKtpOm4aFk2pvNRBnH5d6KoJLiaqKPkIRJtj5fQ9WVpWeOhg27OH3d1nnguPh+6LWcQKjqaYTU5Cuy2+tKQbHz5Crw=
+	t=1709251466; cv=none; b=MwYanX1uw/NJ7UIs9r/ScdG6W3klAOZDERcHdj6pDfPEmChGppZAYkKkkXiam0YowCVfKUknoRCv4Hv7rzF9M0TfPr5n2IdxoitbneUscmFHCEknL0Br9Kt5vXWaSo6me3ny6PQoRSxRIxYyB39c5akBzBOvi5LUnIq2xWxZpa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709250832; c=relaxed/simple;
-	bh=eHl8B1CMIHuSaQlPbbcBDyQ4UjfGLvJoMWAmDGjFEh8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=heOUriTP390cUWRi7nWIJ1S5E4kiYKN5yf/v/b/0zr1d2OoOQDvfu+xQBjJi7YAs1TnXVJAwuRkVbq0UJozKtPhwE9xLqv6IAG9od5Fy+TnlCvbn16ISY8H6lAdXG+OD8qLO9vQqc6tCjvw7Hhy4InqXFL1jC5bIoHMMs2vjLaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28593C433F1;
-	Thu, 29 Feb 2024 23:53:51 +0000 (UTC)
-Date: Thu, 29 Feb 2024 18:55:58 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, "Masami Hiramatsu (Google)"
- <mhiramat@kernel.org>
-Subject: Re: [trace:trace/for-next 28/29]
- include/trace/events/sunrpc.h:703:4: warning: result of comparison against
- a string literal is unspecified (use an explicit string comparison function
- instead)
-Message-ID: <20240229185558.70b6ea86@gandalf.local.home>
-In-Reply-To: <20240229234455.GA1020819@dev-arch.thelio-3990X>
-References: <202402292111.KIdExylU-lkp@intel.com>
-	<20240229180616.48d2c0eb@gandalf.local.home>
-	<20240229234455.GA1020819@dev-arch.thelio-3990X>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1709251466; c=relaxed/simple;
+	bh=J7Z6MgJrfOTC4po2eFseGMRCFvJG7iHI0IxNmfGXVrE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uTPxZP619FJSrsPKqDRK44DddgoQ86TlOWH+x8k+WpVjUbUx3pj38IIlf3T2sQeYIdLcBaTkC7vt93Q85fCsuQVqdRiSeVrHIqH+4BLq0xtdaVQRvSl/9bgUqMszzRXpD4BvgUGgL4Y8lplbVX1UfDw4ZEzQKfZ9SCIdMX9lqcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hkEfifYc; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hkEfifYc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709251464; x=1740787464;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=J7Z6MgJrfOTC4po2eFseGMRCFvJG7iHI0IxNmfGXVrE=;
+  b=hkEfifYcs8MlStGwAGXU2y9Fpo4FL2Ao6DMT93qqpzdqCDJV0aaDE6TQ
+   +oEISFwZakduq4nd0myICdsyp3MtlijWOuB1kqJnbd37NPtHW8Zxkxzko
+   Y0otTPwUXggJ0PTLuX9IATMuZc9/qBui8rEJpgEnJN/otpum+5D38XRhD
+   HeTpCgmUNS9+7q5JeJg5eExpBIdTnRHyUzIiRWzg3wpdOZ+2mj1gsEQht
+   vNTvwZi8/UiLLpn78JTvpH7YBd4NG/h+jF0hJ4cVPsv1+Nmw/zASRk+j0
+   EMsLVSOyrGg2ZQ7M9yvGpBLfNrRlOZtDFV2+19jsEVEjr3l5UCBEk/rwJ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="7590696"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="7590696"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 16:04:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="7893715"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 29 Feb 2024 16:04:18 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rfqMQ-000DMx-0E;
+	Fri, 01 Mar 2024 00:03:17 +0000
+Date: Fri, 1 Mar 2024 08:02:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Brian Gerst <brgerst@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Ingo Molnar <mingo@kernel.org>
+Subject: [tip:x86/boot 9/9] arch/x86/include/asm/desc.h:60:16: sparse:
+ sparse: incorrect type in initializer (different address spaces)
+Message-ID: <202403010704.oGQZPu0P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 29 Feb 2024 16:44:55 -0700
-Nathan Chancellor <nathan@kernel.org> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/boot
+head:   891f8890a4a3663da7056542757022870b499bc1
+commit: 11e36b0f7c2150a6453872b79555767b43c846d0 [9/9] x86/boot/64: Load the final kernel GDT during early boot directly, remove startup_gdt[]
+config: i386-randconfig-061-20240229 (https://download.01.org/0day-ci/archive/20240301/202403010704.oGQZPu0P-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403010704.oGQZPu0P-lkp@intel.com/reproduce)
 
-> > I don't build with clang, does this quiet the warning?  
-> 
-> Unfortunately, it does not. I tested with LLVM 17.0.6 from kernel.org:
-> 
-> https://mirrors.edge.kernel.org/pub/tools/llvm/
-> 
-> If there is no other way to silence it, we could potentially use the
-> diag infrastructure to silence it, I could look at that tomorrow.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403010704.oGQZPu0P-lkp@intel.com/
 
-Is it the exact same warning? I wonder if I make it into an if statement,
-it would be better?
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/events/core.c:2809:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct desc_struct * @@
+   arch/x86/events/core.c:2809:24: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   arch/x86/events/core.c:2809:24: sparse:     got struct desc_struct *
+   arch/x86/events/core.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+--
+   arch/x86/kernel/doublefault_32.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   arch/x86/kernel/doublefault_32.c: note: in included file (through arch/x86/include/asm/elf.h, include/linux/elf.h, include/linux/module.h, ...):
+>> arch/x86/include/asm/desc.h:60:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct gdt_page * @@
+   arch/x86/include/asm/desc.h:60:16: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   arch/x86/include/asm/desc.h:60:16: sparse:     got struct gdt_page *
+   arch/x86/include/asm/desc.h:54:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct gdt_page * @@
+   arch/x86/include/asm/desc.h:54:16: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   arch/x86/include/asm/desc.h:54:16: sparse:     got struct gdt_page *
+--
+   arch/x86/kernel/process.c:798:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct cpuinfo_x86 * @@
+   arch/x86/kernel/process.c:798:33: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   arch/x86/kernel/process.c:798:33: sparse:     got struct cpuinfo_x86 *
+   arch/x86/kernel/process.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   arch/x86/kernel/process.c: note: in included file (through arch/x86/include/asm/elf.h, include/linux/elf.h, include/linux/module.h, ...):
+>> arch/x86/include/asm/desc.h:60:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct gdt_page * @@
+   arch/x86/include/asm/desc.h:60:16: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   arch/x86/include/asm/desc.h:60:16: sparse:     got struct gdt_page *
 
-#define __assign_str(dst, src)						\
-	do {								\
-		char *__str__ = __get_str(dst);				\
-		int __len__ = __get_dynamic_array_len(dst) - 1;		\
-		if (__builtin_constant_p(src))				\
-			WARN_ON_ONCE(strcmp((src), __data_offsets.dst##_ptr_)); \
-		else							\
-			WARN_ON_ONCE((src) != __data_offsets.dst##_ptr_);\
-		memcpy(__str__, __data_offsets.dst##_ptr_ ? :		\
-		       EVENT_NULL_STR, __len__);			\
-		__str__[__len__] = '\0';				\
-	} while (0)
+vim +60 arch/x86/include/asm/desc.h
 
-Then the compiler may be better in optimizing out the "bad" portion.
+a939098afcfa5f include/asm-x86/desc.h      Glauber Costa  2008-05-28  56  
+69218e47994da6 arch/x86/include/asm/desc.h Thomas Garnier 2017-03-14  57  /* Provide the current original GDT */
+69218e47994da6 arch/x86/include/asm/desc.h Thomas Garnier 2017-03-14  58  static inline struct desc_struct *get_current_gdt_rw(void)
+69218e47994da6 arch/x86/include/asm/desc.h Thomas Garnier 2017-03-14  59  {
+69218e47994da6 arch/x86/include/asm/desc.h Thomas Garnier 2017-03-14 @60  	return this_cpu_ptr(&gdt_page)->gdt;
+69218e47994da6 arch/x86/include/asm/desc.h Thomas Garnier 2017-03-14  61  }
+69218e47994da6 arch/x86/include/asm/desc.h Thomas Garnier 2017-03-14  62  
 
--- Steve
+:::::: The code at line 60 was first introduced by commit
+:::::: 69218e47994da614e7af600bf06887750ab6657a x86: Remap GDT tables in the fixmap section
+
+:::::: TO: Thomas Garnier <thgarnie@google.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
