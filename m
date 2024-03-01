@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2CC30FA4
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 19:10:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF6E11C88
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 19:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709320252; cv=none; b=lJU9NvTNMb6ZreAQSLmrmnXV3rC57WR+dkKF3e0k8eOYIQsD/p6YkkVysJ88AVWKSFYUjzK8e+KDAR/N7tSVeRb4rZH4IvM8Hg1RXRHZkHvHZopYRrGufjGjZyuKT+7sPdG6X88yOyoxLJ8IHDdOJ1iL4Am1DRAorWJwAASruYk=
+	t=1709320849; cv=none; b=ct+v2loDRDZLr+2slVhiWmAmmxlZ9Wf9eomXL6bmvf9KRbRjFQavCZ6ZCtncXjyNUW/XSa/rLklV7Vo9HPcm2eJBTWUjHlawo4qPIaERxukpm25YwwtCPuUxr8XmLOkERa3erogKJVFqOKlO5cjkSnSzYaBw81NtRzt0DgeqRdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709320252; c=relaxed/simple;
-	bh=fEKIpA/vu/ISzYihZSoCfppTN3DXZK0j+7gauTyn9/Y=;
+	s=arc-20240116; t=1709320849; c=relaxed/simple;
+	bh=18lXVBXJsW9AhxGIMFBSGP7Po5iolnOllvR/0grSWd4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Tanm4lkwomXX9Z+nmm7ffGfPKzF9yqUqEGvW4bzb6ilUOr5oljoXZNMVKH6N7tFA6+b/hnT8Rj7YlMLaDSYjh4Kc1NuuGCuNyx8Wxl8A5sw6KQFe/4EiLUHJ7qRQ5BmytcaVA08+I9smGBLGQcAU7kN/kTHQwiYUjvEMyVkLvNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fnY5l8X7; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=SmInUDYnqITX3wnQZTRYcdhJpuDoJ3tFGpLoWXMK/pYny1New3z80coiVxbcDC3sh1YwvHiBgwo6lLtPrAYJv9bka7oCAl67AhcTOm8ojsIz+PR1fiGDpH5Y5dTbxKYNFHsvmEAkzwOKYD/5bJNdZOHmKkyb6NqxSytAY2Idbys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m9a75SJK; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fnY5l8X7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m9a75SJK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709320247; x=1740856247;
+  t=1709320847; x=1740856847;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fEKIpA/vu/ISzYihZSoCfppTN3DXZK0j+7gauTyn9/Y=;
-  b=fnY5l8X7Nhq0a6crRro0s2aTaVNjF2FVcMBQkAK56BaIorZiVdhQ7cTV
-   Q2sv1YCwswb/d6VZNJDVaHilKCHwqPsk+kbM96PAvgE6bPtlJPk/fdZup
-   6+GPhODD4uT1O3mgINM1qNZbB3wHZ5U15z88meezEEk1pUZXvKGpneAkP
-   khfc9VSfqacO+E3SPdoo23ydEatkxYoV5p76+fCju7tFjuIZPCnAjbeMt
-   nSGAnFNzctw5imPAQ1FtUt44AfHGYjlw4Zzt4epX87t/z6G8AGiUjscF/
-   nv5DdJuFTg8k27IIC6Gby3vkiC1WWZ7VCkn8yIpgsd8Q7OgEDzJd18Hcq
+  bh=18lXVBXJsW9AhxGIMFBSGP7Po5iolnOllvR/0grSWd4=;
+  b=m9a75SJKFz5O/zIneT9B3vabu+9IZG6gLoMJ4SEe7BcdY7SyW8U2Cj1I
+   X8R2wGXsPaL40RTZoYTttuMJCnAY/d48DaHqFMsNMESe3WoNiz1luvQFv
+   h1wJ6qW/0RlP5gZknACNco8V1DMZZFjnuoU7Hgb1FVEwBViN1t8bTBYTf
+   h+yO6K/KOiElxnJTtZgqQ+SRxUqFJBcI5gK3ytCqrz11xavKbSoalI5wo
+   uks/4zgyFbdfzdZaAImYL2h93mCNn8SAGwomi9TtoWQvDHBw+em0JU14B
+   1EV7iZMXeK0d0lCMbwojbFyCOWHdI4Hpcu2Xa8TfBW4RjfBxlL//XmbWZ
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="15308848"
+X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="3739344"
 X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
-   d="scan'208";a="15308848"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 11:10:47 -0800
+   d="scan'208";a="3739344"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 11:20:46 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
-   d="scan'208";a="8724270"
+   d="scan'208";a="8854089"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 01 Mar 2024 11:10:45 -0800
+  by orviesa008.jf.intel.com with ESMTP; 01 Mar 2024 11:20:45 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rg8HK-000E2n-2e;
-	Fri, 01 Mar 2024 19:10:42 +0000
-Date: Sat, 2 Mar 2024 03:10:06 +0800
+	id 1rg8R0-000E2t-2o;
+	Fri, 01 Mar 2024 19:20:42 +0000
+Date: Sat, 2 Mar 2024 03:20:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 5/7]
- include/trace/trace_events.h:27:23: warning:
- 'str__blk_mq__trace_system_name' defined but not used
-Message-ID: <202403020338.da9r1i6C-lkp@intel.com>
+Subject: [android-common:android15-6.6 1/2] fs/btrfs/extent_io.c:1003:9:
+ error: use of undeclared label 'out'
+Message-ID: <202403020352.RMGolaXR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,235 +58,226 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   91714391174041bea724e68eff7ed9b5c1f439df
-commit: 6912e0c8e9ff6035679c642c15ea31c077f248e2 [5/7] ANDROID: add hooks into blk-ma-tag.c for customized I/O scheduler
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240302/202403020338.da9r1i6C-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403020338.da9r1i6C-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   afe0324feb92c8165b03153d81cb2eb608955f33
+commit: 982031a7a2c868aa28f34250596679cd5bbc5a66 [1/2] ANDROID: Revert "mm: remove cleancache"
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240302/202403020352.RMGolaXR-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403020352.RMGolaXR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403020338.da9r1i6C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403020352.RMGolaXR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the android-common/android15-6.6 HEAD afe0324feb92c8165b03153d81cb2eb608955f33 builds fine.
+      It only hurts bisectability.
 
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/creds.h:41,
-                    from drivers/android/vendor_hooks.c:53:
-   include/trace/trace_events.h:27:23: warning: 'str__creds__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/avc.h:33,
-                    from drivers/android/vendor_hooks.c:52:
-   include/trace/trace_events.h:27:23: warning: 'str__avc__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/traps.h:42,
-                    from drivers/android/vendor_hooks.c:51:
-   include/trace/trace_events.h:27:23: warning: 'str__traps__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sys.h:22,
-                    from drivers/android/vendor_hooks.c:50:
-   include/trace/trace_events.h:27:23: warning: 'str__sys__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cgroup.h:43,
-                    from drivers/android/vendor_hooks.c:49:
-   include/trace/trace_events.h:27:23: warning: 'str__cgroup__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/blk_mq.h:33,
-                    from drivers/android/vendor_hooks.c:48:
->> include/trace/trace_events.h:27:23: warning: 'str__blk_mq__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/block.h:119,
-                    from drivers/android/vendor_hooks.c:47:
-   include/trace/trace_events.h:27:23: warning: 'str__block__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ufshcd.h:114,
-                    from drivers/android/vendor_hooks.c:46:
-   include/trace/trace_events.h:27:23: warning: 'str__ufshcd__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/thermal.h:34,
-                    from drivers/android/vendor_hooks.c:45:
-   include/trace/trace_events.h:27:23: warning: 'str__thermal__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/iommu.h:53,
-                    from drivers/android/vendor_hooks.c:44:
-   include/trace/trace_events.h:27:23: warning: 'str__iommu__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fault.h:45,
-                    from drivers/android/vendor_hooks.c:43:
-   include/trace/trace_events.h:27:23: warning: 'str__fault__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+All errors (new ones prefixed by >>):
+
+>> fs/btrfs/extent_io.c:1003:9: error: use of undeclared label 'out'
+    1003 |                         goto out;
+         |                              ^
+   1 error generated.
 
 
-vim +/str__blk_mq__trace_system_name +27 include/trace/trace_events.h
+vim +/out +1003 fs/btrfs/extent_io.c
 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+   939	
+   940	static struct extent_map *
+   941	__get_extent_map(struct inode *inode, struct page *page, size_t pg_offset,
+   942			 u64 start, u64 len, struct extent_map **em_cached)
+   943	{
+   944		struct extent_map *em;
+   945	
+   946		if (em_cached && *em_cached) {
+   947			em = *em_cached;
+   948			if (extent_map_in_tree(em) && start >= em->start &&
+   949			    start < extent_map_end(em)) {
+   950				refcount_inc(&em->refs);
+   951				return em;
+   952			}
+   953	
+   954			free_extent_map(em);
+   955			*em_cached = NULL;
+   956		}
+   957	
+   958		em = btrfs_get_extent(BTRFS_I(inode), page, pg_offset, start, len);
+   959		if (em_cached && !IS_ERR(em)) {
+   960			BUG_ON(*em_cached);
+   961			refcount_inc(&em->refs);
+   962			*em_cached = em;
+   963		}
+   964		return em;
+   965	}
+   966	/*
+   967	 * basic readpage implementation.  Locked extent state structs are inserted
+   968	 * into the tree that are removed when the IO is done (by the end_io
+   969	 * handlers)
+   970	 * XXX JDM: This needs looking at to ensure proper page locking
+   971	 * return 0 on success, otherwise return error
+   972	 */
+   973	static int btrfs_do_readpage(struct page *page, struct extent_map **em_cached,
+   974			      struct btrfs_bio_ctrl *bio_ctrl, u64 *prev_em_start)
+   975	{
+   976		struct inode *inode = page->mapping->host;
+   977		struct btrfs_fs_info *fs_info = btrfs_sb(inode->i_sb);
+   978		u64 start = page_offset(page);
+   979		const u64 end = start + PAGE_SIZE - 1;
+   980		u64 cur = start;
+   981		u64 extent_offset;
+   982		u64 last_byte = i_size_read(inode);
+   983		u64 block_start;
+   984		struct extent_map *em;
+   985		int ret = 0;
+   986		size_t pg_offset = 0;
+   987		size_t iosize;
+   988		size_t blocksize = inode->i_sb->s_blocksize;
+   989		struct extent_io_tree *tree = &BTRFS_I(inode)->io_tree;
+   990	
+   991		ret = set_page_extent_mapped(page);
+   992		if (ret < 0) {
+   993			unlock_extent(tree, start, end, NULL);
+   994			unlock_page(page);
+   995			return ret;
+   996		}
+   997	
+   998		if (!PageUptodate(page)) {
+   999			if (cleancache_get_page(page) == 0) {
+  1000				BUG_ON(blocksize != PAGE_SIZE);
+  1001				unlock_extent(tree, start, end, NULL);
+  1002				unlock_page(page);
+> 1003				goto out;
+  1004			}
+  1005		}
+  1006	
+  1007		if (page->index == last_byte >> PAGE_SHIFT) {
+  1008			size_t zero_offset = offset_in_page(last_byte);
+  1009	
+  1010			if (zero_offset) {
+  1011				iosize = PAGE_SIZE - zero_offset;
+  1012				memzero_page(page, zero_offset, iosize);
+  1013			}
+  1014		}
+  1015		bio_ctrl->end_io_func = end_bio_extent_readpage;
+  1016		begin_page_read(fs_info, page);
+  1017		while (cur <= end) {
+  1018			enum btrfs_compression_type compress_type = BTRFS_COMPRESS_NONE;
+  1019			bool force_bio_submit = false;
+  1020			u64 disk_bytenr;
+  1021	
+  1022			ASSERT(IS_ALIGNED(cur, fs_info->sectorsize));
+  1023			if (cur >= last_byte) {
+  1024				iosize = PAGE_SIZE - pg_offset;
+  1025				memzero_page(page, pg_offset, iosize);
+  1026				unlock_extent(tree, cur, cur + iosize - 1, NULL);
+  1027				end_page_read(page, true, cur, iosize);
+  1028				break;
+  1029			}
+  1030			em = __get_extent_map(inode, page, pg_offset, cur,
+  1031					      end - cur + 1, em_cached);
+  1032			if (IS_ERR(em)) {
+  1033				unlock_extent(tree, cur, end, NULL);
+  1034				end_page_read(page, false, cur, end + 1 - cur);
+  1035				return PTR_ERR(em);
+  1036			}
+  1037			extent_offset = cur - em->start;
+  1038			BUG_ON(extent_map_end(em) <= cur);
+  1039			BUG_ON(end < cur);
+  1040	
+  1041			if (test_bit(EXTENT_FLAG_COMPRESSED, &em->flags))
+  1042				compress_type = em->compress_type;
+  1043	
+  1044			iosize = min(extent_map_end(em) - cur, end - cur + 1);
+  1045			iosize = ALIGN(iosize, blocksize);
+  1046			if (compress_type != BTRFS_COMPRESS_NONE)
+  1047				disk_bytenr = em->block_start;
+  1048			else
+  1049				disk_bytenr = em->block_start + extent_offset;
+  1050			block_start = em->block_start;
+  1051			if (test_bit(EXTENT_FLAG_PREALLOC, &em->flags))
+  1052				block_start = EXTENT_MAP_HOLE;
+  1053	
+  1054			/*
+  1055			 * If we have a file range that points to a compressed extent
+  1056			 * and it's followed by a consecutive file range that points
+  1057			 * to the same compressed extent (possibly with a different
+  1058			 * offset and/or length, so it either points to the whole extent
+  1059			 * or only part of it), we must make sure we do not submit a
+  1060			 * single bio to populate the pages for the 2 ranges because
+  1061			 * this makes the compressed extent read zero out the pages
+  1062			 * belonging to the 2nd range. Imagine the following scenario:
+  1063			 *
+  1064			 *  File layout
+  1065			 *  [0 - 8K]                     [8K - 24K]
+  1066			 *    |                               |
+  1067			 *    |                               |
+  1068			 * points to extent X,         points to extent X,
+  1069			 * offset 4K, length of 8K     offset 0, length 16K
+  1070			 *
+  1071			 * [extent X, compressed length = 4K uncompressed length = 16K]
+  1072			 *
+  1073			 * If the bio to read the compressed extent covers both ranges,
+  1074			 * it will decompress extent X into the pages belonging to the
+  1075			 * first range and then it will stop, zeroing out the remaining
+  1076			 * pages that belong to the other range that points to extent X.
+  1077			 * So here we make sure we submit 2 bios, one for the first
+  1078			 * range and another one for the third range. Both will target
+  1079			 * the same physical extent from disk, but we can't currently
+  1080			 * make the compressed bio endio callback populate the pages
+  1081			 * for both ranges because each compressed bio is tightly
+  1082			 * coupled with a single extent map, and each range can have
+  1083			 * an extent map with a different offset value relative to the
+  1084			 * uncompressed data of our extent and different lengths. This
+  1085			 * is a corner case so we prioritize correctness over
+  1086			 * non-optimal behavior (submitting 2 bios for the same extent).
+  1087			 */
+  1088			if (test_bit(EXTENT_FLAG_COMPRESSED, &em->flags) &&
+  1089			    prev_em_start && *prev_em_start != (u64)-1 &&
+  1090			    *prev_em_start != em->start)
+  1091				force_bio_submit = true;
+  1092	
+  1093			if (prev_em_start)
+  1094				*prev_em_start = em->start;
+  1095	
+  1096			free_extent_map(em);
+  1097			em = NULL;
+  1098	
+  1099			/* we've found a hole, just zero and go on */
+  1100			if (block_start == EXTENT_MAP_HOLE) {
+  1101				memzero_page(page, pg_offset, iosize);
+  1102	
+  1103				unlock_extent(tree, cur, cur + iosize - 1, NULL);
+  1104				end_page_read(page, true, cur, iosize);
+  1105				cur = cur + iosize;
+  1106				pg_offset += iosize;
+  1107				continue;
+  1108			}
+  1109			/* the get_extent function already copied into the page */
+  1110			if (block_start == EXTENT_MAP_INLINE) {
+  1111				unlock_extent(tree, cur, cur + iosize - 1, NULL);
+  1112				end_page_read(page, true, cur, iosize);
+  1113				cur = cur + iosize;
+  1114				pg_offset += iosize;
+  1115				continue;
+  1116			}
+  1117	
+  1118			if (bio_ctrl->compress_type != compress_type) {
+  1119				submit_one_bio(bio_ctrl);
+  1120				bio_ctrl->compress_type = compress_type;
+  1121			}
+  1122	
+  1123			if (force_bio_submit)
+  1124				submit_one_bio(bio_ctrl);
+  1125			submit_extent_page(bio_ctrl, disk_bytenr, page, iosize,
+  1126					   pg_offset);
+  1127			cur = cur + iosize;
+  1128			pg_offset += iosize;
+  1129		}
+  1130	
+  1131		return 0;
+  1132	}
+  1133	
 
 -- 
 0-DAY CI Kernel Test Service
