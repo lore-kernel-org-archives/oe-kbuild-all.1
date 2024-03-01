@@ -1,127 +1,87 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AD854273
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 22:26:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2435915C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 23:17:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709332004; cv=none; b=e05sDMjC15osxYPkp7jkfafrpTfuUbz6u094cxm+1Qv7T8YXFbejvBWIifbLJhrnEwRuDdDxcvgQEIMmREYOVm6V4MWE7/nbOSA+OeQM61GFMr7hQB6Akn/kXU7i0iH8jG9vhRNtMb6mbYifdnXq2/zCMLh84SZO6Pt3Q00CZi4=
+	t=1709335072; cv=none; b=sXGdBgy7fds1ne876uGy2ZUP1emQlF1gBkbvIui2ghA1PedaRr5zkrbnDaQVFa0gkunHM0FTriHQNlMlUVk7U81KkccuRvH2e+bu/rRi9kvxviFCQzBWkt21Edhq+7BqevzpBX9iXGYqYA7qL7iiTGKHQaIpkFN2Wv8Ur541h60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709332004; c=relaxed/simple;
-	bh=IN6JRKtqw3vFCB6giVFudPNWSiuT9ONdqL6N7win0MM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=s+yjZO6vIgZNryAQUi67ZoDOdBUXGA3+sycBtOaA8KygsPheIBFd7HlV9SW4qA7mnGjImYq8CRQqpEPPYfGc4hwJ8OF3sWYvuQwBTHoN7vtPaxzN8SWjyt1EAXvq2BOkuWvE5SqpluDwLfyn1lG71akHSRtZmNlGL2GXM/tygg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oJcDlh65; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Psw1Iw80; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1709335072; c=relaxed/simple;
+	bh=gLeibuaPXgoUSdwEaciakkBqj+/6BTNTQQrvBWT304c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qiSaWlrYznM5KGysyMDrpx1OYWvnhU3KokXiSLizvZNoT58wlW5HHgs+PAxuDCyjPC5HsHJVQr7IR39ZyBMyh13WqjvV4bJ8A/IW8jyr+XgZFVdZhUj/cGHXhmuRROu4PeS+06oEzEfwJ+pYsDsnYbvaRJIfloOFCDZ9FBnsUbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Np1gf2W0; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oJcDlh65";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Psw1Iw80"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1709331996;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cJM8o0dTZP9U5vHZ05HO7IC/rt7sp3jInBHTx/HcMEc=;
-	b=oJcDlh65rNJTdki55CleIS9AsLFQXvvxF/JOue0xbiLJqS2sBeHTwyN827SeCda7zBb/iF
-	v0m8KLubTheQ1WC23ofqeLjR4tWwzcb3oxTY5ROo1lAEpkPdbM4rtVonbUGKliKSaIeMhj
-	/usZj3HVF8Z8TgDWJkX998Yhq127usfPt9gay4Y7hFAZVCIxAMCplMQtsqd8BOCKus82QL
-	4n34bKODO1FKzap4b2LuN/a9Ds6FpB6oAqn8uHrLzBzFve9AMhcHkQhP9Pr1un8T6zjr6X
-	TjtiPRWJ5/tzn6G+iC3V29gYA15rfCy0fX6xOH9mAK7+/qX/bbz+GtsmmEWKpg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1709331996;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cJM8o0dTZP9U5vHZ05HO7IC/rt7sp3jInBHTx/HcMEc=;
-	b=Psw1Iw80zlQEHBMp+q0ZZKpSWAoGe97qc3WdsQYzCfN+acIbyaUO7R1FYStWCzEvG2qSJC
-	Ls7tCBVQ7lAQ8FDA==
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Arjan van
- de Ven <arjan@linux.intel.com>, x86@kernel.org
-Subject: Re: arch/x86/include/asm/processor.h:698:16: sparse: sparse:
- incorrect type in initializer (different address spaces)
-In-Reply-To: <87edctwr6y.ffs@tglx>
-References: <202403020457.RCJoQ3ts-lkp@intel.com> <87edctwr6y.ffs@tglx>
-Date: Fri, 01 Mar 2024 23:26:35 +0100
-Message-ID: <87a5nhwpus.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Np1gf2W0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709335070; x=1740871070;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gLeibuaPXgoUSdwEaciakkBqj+/6BTNTQQrvBWT304c=;
+  b=Np1gf2W028wgmxD119ca9Q03293BGuDIVUc0neJQLv84tyzLDa95OMbK
+   SKGkagFUtYphsbH9+effOTvtvtKi1pgIB7Z3JzWQjBtKJ1CMIbY3rFWkn
+   zs3be0oSVme1fWbGdTE9ppr1uPS2MEbOMlDmdU2cyL4z1hCGVccGfhaX1
+   VhrIYPoS4U3R5QX10z159yPnKHFfhkrk/cncaWLKuZL8ED3rJYx6oxhYa
+   Iv6YzQ+31UMa9v77tnYLEBk8+bdmG5bkE5Ui+fa/djwaFJibe50kLKJuS
+   heampzzzLZtTfqB6pcXG3EhJhCmqPGTf6EDx+cKwadDYIbR+AGHQqbY1z
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="4019481"
+X-IronPort-AV: E=Sophos;i="6.06,197,1705392000"; 
+   d="scan'208";a="4019481"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 15:17:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,197,1705392000"; 
+   d="scan'208";a="8288637"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 01 Mar 2024 15:17:45 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rgC8N-000EAZ-1C;
+	Fri, 01 Mar 2024 23:17:43 +0000
+Date: Sat, 2 Mar 2024 07:17:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: htmldocs: Warning: tools/bpf/bpf_asm.c references a file that
+ doesn't exist: Documentation/networking/filter.rst
+Message-ID: <202403020729.6jEZRk6L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Mar 01 2024 at 22:57, Thomas Gleixner wrote:
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
+head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
+commit: af2ddee074010b709289319d0b9c4cc8cf5744f6 bpftool: sync bpftool from 5.10
+date:   1 year, 6 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20240302/202403020729.6jEZRk6L-lkp@intel.com/reproduce)
 
-> On Sat, Mar 02 2024 at 04:12, kernel test robot wrote:
->> FYI, the error/warning was bisected to this commit, please ignore it
->> if it's irrelevant.
->
-> I have no idea to which previous thread you are replying to because your
-> mail lacks any references.
->
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->> head:   87adedeba51a822533649b143232418b9e26d08b
->> commit: 6e29032340b60f7aa7475c8234b17273e4424007 x86/cpu: Move cpu_l[l2]c_id into topology info
->> date:   5 months ago
->> config: i386-randconfig-062-20240301 (https://download.01.org/0day-ci/archive/20240302/202403020457.RCJoQ3ts-lkp@intel.com/config)
->> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403020457.RCJoQ3ts-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202403020457.RCJoQ3ts-lkp@intel.com/
->>
->> sparse warnings: (new ones prefixed by >>)
->>
->> vim +698 arch/x86/include/asm/processor.h
->>
->>    695	
->>    696	static inline u16 per_cpu_llc_id(unsigned int cpu)
->>    697	{
->>  > 698		return per_cpu(cpu_info.topo.llc_id, cpu);
->>    699	}
->>    700	
->
-> This is bogus and I looked at another related bogosity today:
->
->   https://lore.kernel.org/all/202403010704.oGQZPu0P-lkp@intel.com
->
-> which has similar complaints.
->
-> So I went and downloaded the config and followed the reproduction
-> instructions except for one detail.
->
-> The only difference is the sparse version:
->
->     1) I had the regular debian variant installed.
->
->        Version:  0.6.4 (Debian: 0.6.4-3)
->
->     2) I updated my sparse clone and rebuilt
->
->        Version:  v0.6.4-66-g0196afe16a50
->
-> Neither one of them exposed the problem, but you are using:
->
->        sparse version: v0.6.4-66-g0196afe1-dirty
->
-> which is obviously based on the latest upstream tree, but seems to have
-> some extra muck on top which I don't know what it is.
->
-> Does this reproduce with an unpatched upstream sparse for you?
->
-> If so then I'm really curious why it does not reproduce here.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403020729.6jEZRk6L-lkp@intel.com/
 
-Sorry, my fault. I can reproduce now but it still does not make any
-sense. The code is correct...
+All warnings (new ones prefixed by >>):
 
-Let me put something together which the sparse folks can digest.
+   Warning: drivers/media/v4l2-core/v4l2-fwnode.c references a file that doesn't exist: Documentation/acpi/dsd
+   Warning: drivers/net/ethernet/faraday/ftgmac100.c references a file that doesn't exist: Documentation/networking/phy.txt
+   Warning: drivers/net/ethernet/pensando/ionic/ionic_if.h references a file that doesn't exist: Documentation/networking/checksum-
+   Warning: fs/cifs/cifsfs.c references a file that doesn't exist: Documentation/workqueue.txt
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/kunit/
+>> Warning: tools/bpf/bpf_asm.c references a file that doesn't exist: Documentation/networking/filter.rst
+>> Warning: tools/bpf/bpf_dbg.c references a file that doesn't exist: Documentation/networking/filter.rst
 
-Thanks,
-
-        tglx
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
