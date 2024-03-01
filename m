@@ -1,56 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69312B9B9
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 01:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0226C2E3FE
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 01:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709256371; cv=none; b=k9L6lPFcSCM8dsecC8YInS2lMsZp5kpWFVQSznMmfz6Dk0J0CDhCBFoSucAo+fxFjKxL7mSi7ME/pvYWSHH6m7D97yt8Wq/vaCv/UVyXsLa0zEqedYAv9Tp4efX9e1FkC8CK63Ivi9CbiLP3nM/7tWO1EMMsoSz8KRxct9cLjrQ=
+	t=1709257356; cv=none; b=pyy2DjWTSDfC69dPn7IUH5aJTMFdkjE+o1B508V3P2PnXBwPn63V5zgYUI1cfPRq5fusTuTPocokAoaDZn7Z0vJ5EXyqRqCTqJq8BNvZJQGOg3U2TvLDF5ICwtzDAU0O32C9n6d0vSTQduQLacKSVic+MthU9+iO0Vo8ZmDbr+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709256371; c=relaxed/simple;
-	bh=tjI5EJECWTIGGblI6PhqL9t3HYI9lwx/S4FOUA1gj5A=;
+	s=arc-20240116; t=1709257356; c=relaxed/simple;
+	bh=xcpzZg/4YOfnTo5nXHx8CCFMze+iOum22XkcK3e96V0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=atVhFmi1MCbnhpoEMuKEg80duhYpHKt5iDkQmLswE3TJgB8JwRZmN8ODcb1C7AbAeAoIsx8ukhszlJ09/F23zIJsDUNeYo5tvLPYxtmqRWwC+a1yIcIoJeMFLMR5wpf6ou+ewaIdetJzBZ/LzvFfOljldqvkOXiuC3fkEXwrrqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=je2tkMMR; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=sfmoAP5yEyISFmNiu3MKgAnQt8r8NPBmUthNo3NvHhWSJdHtNDU4FQ1nCxhJsMfcSXCwTZ6wMox0Ycrn4NVgUg0ax6zjIJReu2JXqjgs+y7v2jw59pevVu/2qwmdENPs/vlNJbg/orS7MGTBhI3SHcq+PgItSic0L0dIRIJo6C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LaG8wixR; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="je2tkMMR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LaG8wixR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709256369; x=1740792369;
+  t=1709257355; x=1740793355;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tjI5EJECWTIGGblI6PhqL9t3HYI9lwx/S4FOUA1gj5A=;
-  b=je2tkMMR9l9NZumpruTXFULb3XeYDe0/d98BjNJZKXcnVPDScH1Td0uC
-   sLR+Ovs1R3rPIyKO9KKgzwrb7nPNP9HycjDNy3Fmh41UtBDbCdkdRG+FA
-   gUxGMbwzBz9ighFU7A0wFDWvFOztL21FMbVVw5WCcrgLFJNBTOegregYA
-   8Y+V2kuGCI1urfFuzNHeGsGpiUQpA5h4y2bYVbBG8tU8kuBWah1jr0Kez
-   ZqR2+AKHFcrdSdA2MBgNaCSkJf3OFPWlRW1Sa9QMtcUX76OqispsGB9+g
-   JqWCZ7XinzUFIzsWCZv0S6UeuAAipaCr4KSAzez1IQd3l+Na9aEXI+nw4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3639024"
+  bh=xcpzZg/4YOfnTo5nXHx8CCFMze+iOum22XkcK3e96V0=;
+  b=LaG8wixR2Nnvme2G18EjvIUrxXpfC07sTBoUCl79PJYnmO6FLfgVu7B7
+   09QyRtw3q6YfRoF7kL1YNeEn3zTJ5xgYweD0+29kBbXQN3RWxPveFzAM9
+   vVCOlyO5h0q1ZcgxUE8zNCcVxl+q5eaNdLyK4tECLHFBM4HUgpLZCX26Y
+   W2yjJR3Jq1JaRgcrr5YfEaVQYFiNBfVn9QQaDf6TlnEkPHNMrgXF5Ulij
+   L6PXFCrzeUXeTN/t48p3XePgytJls8e8weF1JZ1mDI8ROjpscInCpkakY
+   lfHm6sT9fp64uI9xeghnIuMd7KC2JBkDi8qCLPsQuKZKw5lBQZ8j0wPS0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="7593559"
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="3639024"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 17:26:09 -0800
+   d="scan'208";a="7593559"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 17:42:34 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="12569328"
+   d="scan'208";a="7951147"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 29 Feb 2024 17:26:07 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 29 Feb 2024 17:42:33 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rfre7-000DQL-1f;
-	Fri, 01 Mar 2024 01:25:27 +0000
-Date: Fri, 1 Mar 2024 09:19:45 +0800
+	id 1rfrug-000DRT-1N;
+	Fri, 01 Mar 2024 01:42:16 +0000
+Date: Fri, 1 Mar 2024 09:41:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Kubiak <michal.kubiak@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexander Lobakin <aleksander.lobakin@intel.com>
-Subject: [alobakin:idpf-libie-new 71/72] include/linux/netlink.h:116:13:
- warning: ')' directive output truncated writing 1 byte into a region of size
- 0
-Message-ID: <202403010924.SixwMcSa-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:x86/core 2/6] process.c:undefined reference to
+ `arch_needs_tick_broadcast'
+Message-ID: <202403010941.6f9ecn59-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,79 +58,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alobakin/linux idpf-libie-new
-head:   4f5b0ffad42edcd350b108d426044e00b0d80809
-commit: b7c6db5781926c1802dd865aeaacf65b0b573e93 [71/72] idpf: implement Rx path for AF_XDP
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240301/202403010924.SixwMcSa-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403010924.SixwMcSa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/core
+head:   d42b836ad1ab53c53f6b7016a79fad44d96854aa
+commit: e6ca848f8fee8742f078dc7f458475e45ec4549c [2/6] x86/idle: Sanitize X86_BUG_AMD_E400 handling
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20240301/202403010941.6f9ecn59-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403010941.6f9ecn59-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403010924.SixwMcSa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403010941.6f9ecn59-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/neighbour.h:6,
-                    from include/linux/netdevice.h:45,
-                    from include/linux/if_vlan.h:10,
-                    from include/net/pkt_sched.h:7,
-                    from drivers/net/ethernet/intel/idpf/idpf.h:12,
-                    from drivers/net/ethernet/intel/idpf/idpf_xsk.c:4:
-   drivers/net/ethernet/intel/idpf/idpf_xsk.c: In function 'idpf_xsk_pool_setup':
->> include/linux/netlink.h:116:13: warning: ')' directive output truncated writing 1 byte into a region of size 0 [-Wformat-truncation=]
-     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_xsk.c:757:17: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-     757 |                 NL_SET_ERR_MSG_FMT_MOD(bpf->extack,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:13: note: 'snprintf' output between 82 and 115 bytes into a destination of size 80
-     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_xsk.c:757:17: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-     757 |                 NL_SET_ERR_MSG_FMT_MOD(bpf->extack,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +116 include/linux/netlink.h
-
-2d4bc93368f5a0 Johannes Berg 2017-04-12  107  
-51c352bdbcd23d Edward Cree   2022-10-18  108  /* We splice fmt with %s at each end even in the snprintf so that both calls
-51c352bdbcd23d Edward Cree   2022-10-18  109   * can use the same string constant, avoiding its duplication in .ro
-51c352bdbcd23d Edward Cree   2022-10-18  110   */
-51c352bdbcd23d Edward Cree   2022-10-18  111  #define NL_SET_ERR_MSG_FMT(extack, fmt, args...) do {			       \
-51c352bdbcd23d Edward Cree   2022-10-18  112  	struct netlink_ext_ack *__extack = (extack);			       \
-51c352bdbcd23d Edward Cree   2022-10-18  113  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  114  	if (!__extack)							       \
-51c352bdbcd23d Edward Cree   2022-10-18  115  		break;							       \
-51c352bdbcd23d Edward Cree   2022-10-18 @116  	if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,	       \
-51c352bdbcd23d Edward Cree   2022-10-18  117  		     "%s" fmt "%s", "", ##args, "") >=			       \
-51c352bdbcd23d Edward Cree   2022-10-18  118  	    NETLINK_MAX_FMTMSG_LEN)					       \
-51c352bdbcd23d Edward Cree   2022-10-18  119  		net_warn_ratelimited("%s" fmt "%s", "truncated extack: ",      \
-51c352bdbcd23d Edward Cree   2022-10-18  120  				     ##args, "\n");			       \
-51c352bdbcd23d Edward Cree   2022-10-18  121  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  122  	do_trace_netlink_extack(__extack->_msg_buf);			       \
-51c352bdbcd23d Edward Cree   2022-10-18  123  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  124  	__extack->_msg = __extack->_msg_buf;				       \
-51c352bdbcd23d Edward Cree   2022-10-18  125  } while (0)
-51c352bdbcd23d Edward Cree   2022-10-18  126  
-
-:::::: The code at line 116 was first introduced by commit
-:::::: 51c352bdbcd23d7ce46b06c1e64c82754dc44044 netlink: add support for formatted extack messages
-
-:::::: TO: Edward Cree <ecree.xilinx@gmail.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+   ld: arch/x86/kernel/process.o: in function `arch_post_acpi_subsys_init':
+>> process.c:(.init.text+0xff): undefined reference to `arch_needs_tick_broadcast'
+>> ld: process.c:(.init.text+0x10d): undefined reference to `arch_needs_tick_broadcast'
+   ld: process.c:(.init.text+0x131): undefined reference to `arch_needs_tick_broadcast'
+   ld: process.c:(.init.text+0x158): undefined reference to `arch_needs_tick_broadcast'
 
 -- 
 0-DAY CI Kernel Test Service
