@@ -1,54 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0226C2E3FE
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 01:42:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10552E3FE
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 01:42:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709257356; cv=none; b=pyy2DjWTSDfC69dPn7IUH5aJTMFdkjE+o1B508V3P2PnXBwPn63V5zgYUI1cfPRq5fusTuTPocokAoaDZn7Z0vJ5EXyqRqCTqJq8BNvZJQGOg3U2TvLDF5ICwtzDAU0O32C9n6d0vSTQduQLacKSVic+MthU9+iO0Vo8ZmDbr+E=
+	t=1709257360; cv=none; b=bzzmweGAI/lAOoRuwleTUF/xEoVTK88Vagmo8ZdUcD+YytB7Co1FVajCe6q7ZlhSC6HL0kitXHIhjVjN/gXtrFvhaAOyL6sSRKctv6BuJ/2itPcm753jaoZh8X7hAcaiOQESBJjftqPM8fPar+SgYgvtEcyfZu28ARfzjp+Q/6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709257356; c=relaxed/simple;
-	bh=xcpzZg/4YOfnTo5nXHx8CCFMze+iOum22XkcK3e96V0=;
+	s=arc-20240116; t=1709257360; c=relaxed/simple;
+	bh=1KbdRL2WXdTJTyY1S+KqMtAfKq8kJioaxA3f0dfO1XI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sfmoAP5yEyISFmNiu3MKgAnQt8r8NPBmUthNo3NvHhWSJdHtNDU4FQ1nCxhJsMfcSXCwTZ6wMox0Ycrn4NVgUg0ax6zjIJReu2JXqjgs+y7v2jw59pevVu/2qwmdENPs/vlNJbg/orS7MGTBhI3SHcq+PgItSic0L0dIRIJo6C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LaG8wixR; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=AdCHWxuVQnsNuyeOv8Vl/JJ7VLdfgFYgXg1njGriPzUGmxEi5OA2zdQn0+5Po2+UNStBQ1ksAM7Oq8d+0OctLAu295NI0PLRJeQlAJTn2ZvuRZJ2uqMPROTZyb/RSzudWDosdcaY/0HNRCgYuLU+DPUV1wZya0Dg65jMRxI+JBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TyAiSP13; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LaG8wixR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TyAiSP13"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709257355; x=1740793355;
+  t=1709257358; x=1740793358;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xcpzZg/4YOfnTo5nXHx8CCFMze+iOum22XkcK3e96V0=;
-  b=LaG8wixR2Nnvme2G18EjvIUrxXpfC07sTBoUCl79PJYnmO6FLfgVu7B7
-   09QyRtw3q6YfRoF7kL1YNeEn3zTJ5xgYweD0+29kBbXQN3RWxPveFzAM9
-   vVCOlyO5h0q1ZcgxUE8zNCcVxl+q5eaNdLyK4tECLHFBM4HUgpLZCX26Y
-   W2yjJR3Jq1JaRgcrr5YfEaVQYFiNBfVn9QQaDf6TlnEkPHNMrgXF5Ulij
-   L6PXFCrzeUXeTN/t48p3XePgytJls8e8weF1JZ1mDI8ROjpscInCpkakY
-   lfHm6sT9fp64uI9xeghnIuMd7KC2JBkDi8qCLPsQuKZKw5lBQZ8j0wPS0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="7593559"
+  bh=1KbdRL2WXdTJTyY1S+KqMtAfKq8kJioaxA3f0dfO1XI=;
+  b=TyAiSP13pN1Rp/LA1gSYlkeXV/BOAV8LYeWA89b9zdl38ynU811dh6mt
+   0KTqa40OWemkDgUg/nvXfs3FbpS34QnataSl3LNYw3qiINC6TCaTaRGNg
+   l4/7VuGdDdjUp8+FiDHBApJXKn2GrS7Nm1/oW67ojnu3ElD3NkZzoMpf5
+   dRr1tHl0CPBamtR5TK4iJOHRtVHCibpBp5nQwCDswJguk3Kj9ECop80IA
+   lCtvANHx3X6A5ze/J7Kpv5dp7WNj6Fx7wcRALf11hxRJq6xrC/kj+AXJD
+   LOnFy8HvadS1SQBdY6NoUXwPhsBk46yQRHaviq/GVj8EcYqMq0dsCJoXi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3631992"
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="7593559"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 17:42:34 -0800
+   d="scan'208";a="3631992"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 17:42:38 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="7951147"
+   d="scan'208";a="8585187"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Feb 2024 17:42:33 -0800
+  by orviesa008.jf.intel.com with ESMTP; 29 Feb 2024 17:42:36 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rfrug-000DRT-1N;
-	Fri, 01 Mar 2024 01:42:16 +0000
-Date: Fri, 1 Mar 2024 09:41:26 +0800
+	id 1rfrux-000DRW-1I;
+	Fri, 01 Mar 2024 01:42:31 +0000
+Date: Fri, 1 Mar 2024 09:41:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:x86/core 2/6] process.c:undefined reference to
- `arch_needs_tick_broadcast'
-Message-ID: <202403010941.6f9ecn59-lkp@intel.com>
+To: =?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [linusw-pinctrl:ib-nomadik-gpio 7/25] kismet: WARNING: unmet direct
+ dependencies detected for GPIO_NOMADIK when selected by PINCTRL_NOMADIK
+Message-ID: <202403010917.pnDhdS1Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,25 +61,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/core
-head:   d42b836ad1ab53c53f6b7016a79fad44d96854aa
-commit: e6ca848f8fee8742f078dc7f458475e45ec4549c [2/6] x86/idle: Sanitize X86_BUG_AMD_E400 handling
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20240301/202403010941.6f9ecn59-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403010941.6f9ecn59-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git ib-nomadik-gpio
+head:   6ad679cfaeea9291e9dce3247e34656080fc1d29
+commit: ae82f5d2b18a6c6cd95f8896010b221780114cac [7/25] pinctrl: nomadik: Kconfig: allow building with COMPILE_TEST
+config: alpha-kismet-CONFIG_GPIO_NOMADIK-CONFIG_PINCTRL_NOMADIK-0-0 (https://download.01.org/0day-ci/archive/20240301/202403010917.pnDhdS1Y-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240301/202403010917.pnDhdS1Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403010941.6f9ecn59-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403010917.pnDhdS1Y-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   ld: arch/x86/kernel/process.o: in function `arch_post_acpi_subsys_init':
->> process.c:(.init.text+0xff): undefined reference to `arch_needs_tick_broadcast'
->> ld: process.c:(.init.text+0x10d): undefined reference to `arch_needs_tick_broadcast'
-   ld: process.c:(.init.text+0x131): undefined reference to `arch_needs_tick_broadcast'
-   ld: process.c:(.init.text+0x158): undefined reference to `arch_needs_tick_broadcast'
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GPIO_NOMADIK when selected by PINCTRL_NOMADIK
+   
+   WARNING: unmet direct dependencies detected for GPIO_NOMADIK
+     Depends on [n]: GPIOLIB [=n] && HAS_IOMEM [=y] && (ARCH_U8500 || ARCH_NOMADIK || COMPILE_TEST [=y])
+     Selected by [y]:
+     - PINCTRL_NOMADIK [=y] && PINCTRL [=y] && (ARCH_U8500 || ARCH_NOMADIK || COMPILE_TEST [=y]) && OF [=y]
 
 -- 
 0-DAY CI Kernel Test Service
