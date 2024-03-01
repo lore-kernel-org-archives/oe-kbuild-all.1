@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD8367E6C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 08:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EDA69D23
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 08:32:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709281424; cv=none; b=JYxrGzAxBZJxTH4CrBaQIjiPxP44bvBTaRaOt/kyA3mstRkl8zFdRTONPDeGq5ccOfIILbJPlC/0tPLpxpEGA4jhm8SLFdYmr/geP3bvaURmxoZv0HskLRRwTW2j8qRsIqUh4gv4cCyPDnYmaKajUQkC7u21jMW1EK/W+9e1jn0=
+	t=1709281980; cv=none; b=XBqphxGAqnHfxcFx0kBfFDhJcc7yx+5gIXZw3c4pNZDuXbiGXjTSj5CuykZjdP3vNTRqC+iN9U2cHI8O2/lZg8yelerdL18bdPIdvfgPNgSzYVxcrz8x1WGR0sPKMKYVEf7aIXqkpl3Yoon3YM0yvBC4haT2PooeWfHMFk0tkEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709281424; c=relaxed/simple;
-	bh=H0D6r3dS36fDdj1CTWsE9Tr5mk9sm+q/XVqjCoJL6g4=;
+	s=arc-20240116; t=1709281980; c=relaxed/simple;
+	bh=slUj0GYA5VCixoSZUqcCiYYNJzR2IKn3fOrV7YvW7HM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YuNABrYP9NZG63gbzPHj8ueH6FqTYMvLGPu702euocpH8tjvO+7sWNpVaxBP7wpbDxD2mKGR57SPwyZDserV0SyayPsmUth+ckPrG3bAHA31L8bPbdg4Hzzmi4PXFfmKgR0QIj7EGtme+LGseeueo0vcQCa4KHTtNBUl9+r38uM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=isKMqoO3; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=IhbZLzqIJWkCjeO7BRROWJKxK7pUHIJkPhUkWIJuI+uBZ7uEmMn4+I4Qb6MAZkrJ+clSbMHxsYYGG3dJHfXmGisXF++qsUWSMqWZapfUUfNgRP783ba9Qe44ShK0YK5g3rXQOHqIaabJVFTcPZJdJziem7JINZh8tru8ssPQ7RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C7wmyjqd; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="isKMqoO3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C7wmyjqd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709281422; x=1740817422;
+  t=1709281978; x=1740817978;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H0D6r3dS36fDdj1CTWsE9Tr5mk9sm+q/XVqjCoJL6g4=;
-  b=isKMqoO3cR2vjI91DNz5WjSe2R9r2DQLDw4tUmceHBXfc4jyKe7kulVo
-   APFk3cKkwu9vfzPMYMz49L5oShYtrE9whcz5emSMGavjlMAVZIgngQ4vt
-   30HMso1MWql8oipoYPSuENdl1dEqOK4+IGEp4gVaUWBbEIY/XYDML0H8V
-   lSrDlbX48nWh63QoOFaWdur5PtlIYdMpwJXxs9Rcpmb4pYkgsGgt4p2ec
-   1kyj6j99XTn3+hMCKdNb/ArsFPuL9GAv5iYHKyFutOCQQZzToYiIXaUOL
-   RR5+6iFfqWbD5X7zBWGx5i/FKTQ/1Wyw6XesIf2RBwOcT7zF1J9AL8l+o
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3979873"
+  bh=slUj0GYA5VCixoSZUqcCiYYNJzR2IKn3fOrV7YvW7HM=;
+  b=C7wmyjqdFJLA37f9fuLtavi4OZaooLjbkcFcGZ4O4VmGGzb2/q+ckd02
+   dbep/ZFSzL5fqAokrLZ/G8dVsb/LCNstDK35Q70Ylpuf/MOfy78VXGAko
+   Wbc4iqyU/92EBf79Ro2jdZ8pLximcty3JUhECBvpHksc2X0seA/X9XGeY
+   QWaDCQHSER+el9JNtU9tIYQNm0oW4dDzFT3AVLKPHbJjz5GmBDo7iIDto
+   9dWtpzCk2XAUKv3sqZLLgWvoThkWXu4hV9L37hGoh9tyripBYG7ima6Cp
+   GDwAtQobgvjGzXaEWggIzffE8xYxcehIKDi9YEF6kLJtutLBrBZ0GkhnH
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="14446981"
 X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; 
-   d="scan'208";a="3979873"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 00:23:41 -0800
+   d="scan'208";a="14446981"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 00:32:56 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; 
-   d="scan'208";a="8271371"
+   d="scan'208";a="8062250"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 01 Mar 2024 00:23:39 -0800
+  by orviesa010.jf.intel.com with ESMTP; 01 Mar 2024 00:32:55 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rfyB7-000DfJ-0M;
-	Fri, 01 Mar 2024 08:23:37 +0000
-Date: Fri, 1 Mar 2024 16:22:18 +0800
+	id 1rfyK3-000Dff-1q;
+	Fri, 01 Mar 2024 08:32:51 +0000
+Date: Fri, 1 Mar 2024 16:32:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
+To: kernel@openeuler.org, Yuan Can <yuancan@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zc/rx-v4-dmamap 914/923] io_uring/zc_rx.c:224:13: error:
- implicit declaration of function 'io_file_need_scm'
-Message-ID: <202403011641.JSfilvH0-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1683/3700] mm/memcontrol.c:3147:6: sparse:
+ sparse: symbol 'hisi_oom_recover' was not declared. Should it be static?
+Message-ID: <202403011613.m2fhHDHp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,91 +58,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/isilence/linux zc/rx-v4-dmamap
-head:   a25700398698f032509948d0bdc60ad210a8590a
-commit: ab1d3b45c1a77979ac37c8c1ed6db2cfc14cc217 [914/923] io_uring/zcrx: implement socket registration
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240301/202403011641.JSfilvH0-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   7f1397339b784f46c104e2e1257952c885c84128
+commit: b498d9f1bacd40d583c0970cab02ad522127a7e7 [1683/3700] arm64/ascend: Add new enable_oom_killer interface for oom contrl
+config: arm64-randconfig-r111-20240227 (https://download.01.org/0day-ci/archive/20240301/202403011613.m2fhHDHp-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403011641.JSfilvH0-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20240301/202403011613.m2fhHDHp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403011641.JSfilvH0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403011613.m2fhHDHp-lkp@intel.com/
 
-Note: the isilence/zc/rx-v4-dmamap HEAD a25700398698f032509948d0bdc60ad210a8590a builds fine.
-      It only hurts bisectability.
+sparse warnings: (new ones prefixed by >>)
+>> mm/memcontrol.c:3147:6: sparse: sparse: symbol 'hisi_oom_recover' was not declared. Should it be static?
+   mm/memcontrol.c:4228:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4228:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4228:21: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4230:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4230:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4230:21: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4386:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4386:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4386:9: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4480:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4480:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4480:9: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:6198:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:6198:23: sparse:    struct task_struct [noderef] __rcu *
+   mm/memcontrol.c:6198:23: sparse:    struct task_struct *
+   mm/memcontrol.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   mm/memcontrol.c: note: in included file:
+   include/linux/memcontrol.h:751:9: sparse: sparse: context imbalance in 'folio_lruvec_lock' - wrong count at exit
+   include/linux/memcontrol.h:751:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irq' - wrong count at exit
+   include/linux/memcontrol.h:751:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irqsave' - wrong count at exit
+   mm/memcontrol.c:2111:6: sparse: sparse: context imbalance in 'folio_memcg_lock' - wrong count at exit
+   mm/memcontrol.c:2158:17: sparse: sparse: context imbalance in '__folio_memcg_unlock' - unexpected unlock
+   mm/memcontrol.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   mm/memcontrol.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
+   include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in 'mem_cgroup_count_precharge_pte_range' - unexpected unlock
+   include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in 'mem_cgroup_move_charge_pte_range' - unexpected unlock
 
-All errors (new ones prefixed by >>):
+vim +/hisi_oom_recover +3147 mm/memcontrol.c
 
-   io_uring/zc_rx.c: In function 'io_register_zc_rx_sock':
->> io_uring/zc_rx.c:224:13: error: implicit declaration of function 'io_file_need_scm' [-Werror=implicit-function-declaration]
-     224 |         if (io_file_need_scm(file)) {
-         |             ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/io_file_need_scm +224 io_uring/zc_rx.c
-
-   196	
-   197	int io_register_zc_rx_sock(struct io_ring_ctx *ctx,
-   198				   struct io_uring_zc_rx_sock_reg __user *arg)
-   199	{
-   200		struct io_uring_zc_rx_sock_reg sr;
-   201		struct io_zc_rx_ifq *ifq;
-   202		struct socket *sock;
-   203		struct file *file;
-   204		int ret = -EEXIST;
-   205		int idx;
-   206	
-   207		if (copy_from_user(&sr, arg, sizeof(sr)))
-   208			return -EFAULT;
-   209		if (sr.__resv[0] || sr.__resv[1])
-   210			return -EINVAL;
-   211		if (sr.zc_rx_ifq_idx != 0 || !ctx->ifq)
-   212			return -EINVAL;
-   213	
-   214		ifq = ctx->ifq;
-   215		if (ifq->nr_sockets >= ARRAY_SIZE(ifq->sockets))
-   216			return -EINVAL;
-   217	
-   218		BUILD_BUG_ON(ARRAY_SIZE(ifq->sockets) > IO_ZC_IFQ_IDX_MASK);
-   219	
-   220		file = fget(sr.sockfd);
-   221		if (!file)
-   222			return -EBADF;
-   223	
- > 224		if (io_file_need_scm(file)) {
-   225			fput(file);
-   226			return -EBADF;
-   227		}
-   228	
-   229		sock = sock_from_file(file);
-   230		if (unlikely(!sock || !sock->sk)) {
-   231			fput(file);
-   232			return -ENOTSOCK;
-   233		}
-   234	
-   235		idx = ifq->nr_sockets;
-   236		lock_sock(sock->sk);
-   237		if (!sock->zc_rx_idx) {
-   238			unsigned token;
-   239	
-   240			token = idx + (sr.zc_rx_ifq_idx << IO_ZC_IFQ_IDX_OFFSET);
-   241			WRITE_ONCE(sock->zc_rx_idx, token);
-   242			ret = 0;
-   243		}
-   244		release_sock(sock->sk);
-   245	
-   246		if (ret) {
-   247			fput(file);
-   248			return ret;
-   249		}
-   250		ifq->sockets[idx] = file;
-   251		ifq->nr_sockets++;
-   252		return 0;
-   253	}
-   254	
+  3145	
+  3146	#ifdef CONFIG_ASCEND_OOM
+> 3147	void hisi_oom_recover(struct obj_cgroup *objcg)
+  3148	{
+  3149		struct mem_cgroup *memcg;
+  3150	
+  3151		memcg = get_mem_cgroup_from_objcg(objcg);
+  3152		if (!mem_cgroup_is_root(memcg))
+  3153			memcg_oom_recover(memcg);
+  3154		css_put(&memcg->css);
+  3155	}
+  3156	#else
+  3157	static inline void hisi_oom_recover(struct obj_cgroup *objcg) { }
+  3158	#endif
+  3159	
 
 -- 
 0-DAY CI Kernel Test Service
