@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 557EB3BB55
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 20:13:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702E8365
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 20:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709323983; cv=none; b=gfx1TG6QW1k2lxjx+v7E76hFtSTSRi0SVY3g2IXUBdPJr+kEMo6jazxiXKMKQDqOUFNl1vW4ElivRszRL6cwfwuZtbrTNSOOUS3+9KCmJFQRkgdsR/eWUoQUNvayuxlAgORyhRvmyZ5kN8fvd0QiFV48cF89LlbXASPhhylgNq4=
+	t=1709325209; cv=none; b=po5GThjlWjcbDQk//RScknN8p6P1+lBg/CICqzSo7KqGuGjBeoLqR8yO6KpdOL0jfAAuCt2Or/G2LZ0x9bpSy5XqPr2Us6FoGaaJCEcQFnTP//Al/3mNcZc0f4stfrPVnGtF/Lc9JF35s1Kbpn6qu3jD2Bip9QagLoQU96r3Ly0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709323983; c=relaxed/simple;
-	bh=D+EhPZ+fZWYYQBAJI9TX8JmHQ+KmcncAzm/iN9Wb/78=;
+	s=arc-20240116; t=1709325209; c=relaxed/simple;
+	bh=Tqx24KMmELGXTQsdlLJbdNJXBR7jNdhNS8zVcu7osy4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AnkyKc5/D3MBbcQJLBGSBhGJcGsSYnwd9OZn8i1n9bL5qXWbzQoNqvt3vz7EXv5f/aZGm/A7bJnhycWPNbA3sDtKohnCmRGQfmXJHs4vdFTTZxlPRelQZaUt/ZTXV9uyBWyPWv1hW3TCsPMWfSRhX+14gkD7PgkkfdKqg822M2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iqTaE3oQ; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=oZd/3q4o84YQvfDtdG9rdSTiaEOTQGh3tAU0fJerZzV4Paoj5XxwGLKNf+6+YVjjOLfFGa2Js4lqPT9Rg8gcj5eHlijmKBSvWLQcbpc3SJAakGE/dH2j2vKfAAlbOxTv/aVr7hnpBORU9rpb/lnJF4/T0OvHAHz0sRtO/dtfwMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IfO5tOrX; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iqTaE3oQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IfO5tOrX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709323981; x=1740859981;
+  t=1709325208; x=1740861208;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D+EhPZ+fZWYYQBAJI9TX8JmHQ+KmcncAzm/iN9Wb/78=;
-  b=iqTaE3oQz7KhY6HRt/kH97YX0t0FDFy55TsiDYK6TyT9JxbVoe1HmIV+
-   R+AlHBeKgNPAh7n/s/kNB6nxWWAZ02KLjO5DryqdlTRWD9B7KlX1Aa+3t
-   Y3jboRaxl2TvljFMrC2QBEO1YKf0ASgZzUMlivlrJGuZeXBuELj1OxNsc
-   POdyze6dVjmD+rFOcW9fb5dpHos/+oatw+rDMP3vcbwrePDmcxUj7uv8l
-   L7zCXNjj4cOOqgomTl1jL3/1Px0WUrFjVSO60YnQpeL2sb124Rz2n5Eer
-   CMwaLN6NMRdg6RAC3Er3PxLdKneoHXzbcPT4sBWeCD7JGiOpQp7jR27Kl
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="3744656"
+  bh=Tqx24KMmELGXTQsdlLJbdNJXBR7jNdhNS8zVcu7osy4=;
+  b=IfO5tOrXSPxjb1Ydz4Hgz3aP8Ui+ChHG6cpRdlQ7vuZqCpy+XqrbOtqq
+   8Yp7/sXSUlbtxBZkZv9joutX5B2dnJPj8DDrsLJXDyu+/mSP0SmxXpRdj
+   z35qmmfZuc0WWIWiiTdU0Oa9w/T4CXGc34wuIY4dynniOppAD44X/j72D
+   R2iH6egaU14ii0daSxXfyuLI7HvaEsR6iLL4piXQ5Q9Wlh3pJXTWLR05I
+   1Qn7yKMy7ciS8Ot3Ce/f9v2bB/LTqqsQEjYztUAcS6/LZYE/NUTu0s6wh
+   VwWhkTTkCL+5b384xNlFb4Mxs6fdm1j4NXsBbUGoWPxxN7WA27mAtvuYN
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="4052219"
 X-IronPort-AV: E=Sophos;i="6.06,197,1705392000"; 
-   d="scan'208";a="3744656"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 12:13:00 -0800
+   d="scan'208";a="4052219"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 12:33:27 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,197,1705392000"; 
-   d="scan'208";a="8681079"
+   d="scan'208";a="12895744"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 01 Mar 2024 12:12:58 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 01 Mar 2024 12:33:24 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rg9FK-000E4V-2y;
-	Fri, 01 Mar 2024 20:12:47 +0000
-Date: Sat, 2 Mar 2024 04:12:16 +0800
+	id 1rg9Z8-000E4x-1V;
+	Fri, 01 Mar 2024 20:33:16 +0000
+Date: Sat, 2 Mar 2024 04:32:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Arjan van de Ven <arjan@linux.intel.com>
-Subject: arch/x86/include/asm/processor.h:698:16: sparse: sparse: incorrect
- type in initializer (different address spaces)
-Message-ID: <202403020457.RCJoQ3ts-lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 78/98] mm/page-writeback.c:1644:6: warning: no
+ previous prototype for 'blkcg_update_bandwidth'
+Message-ID: <202403020423.7wOYdBZ5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,34 +61,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Thomas,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   87adedeba51a822533649b143232418b9e26d08b
-commit: 6e29032340b60f7aa7475c8234b17273e4424007 x86/cpu: Move cpu_l[l2]c_id into topology info
-date:   5 months ago
-config: i386-randconfig-062-20240301 (https://download.01.org/0day-ci/archive/20240302/202403020457.RCJoQ3ts-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403020457.RCJoQ3ts-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   a4b2dc2ffad1810ebe7a86710aa1e5cc312aa2a1
+commit: 654899c63919700fc86017419a41419e38d7aed1 [78/98] blkcg: add buffer IO throttle for cgroup v1
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240302/202403020423.7wOYdBZ5-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403020423.7wOYdBZ5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403020457.RCJoQ3ts-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403020423.7wOYdBZ5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
+All warnings (new ones prefixed by >>):
+
+>> mm/page-writeback.c:1644:6: warning: no previous prototype for 'blkcg_update_bandwidth' [-Wmissing-prototypes]
+    1644 | void blkcg_update_bandwidth(struct blkcg *blkcg)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +698 arch/x86/include/asm/processor.h
+vim +/blkcg_update_bandwidth +1644 mm/page-writeback.c
 
-   695	
-   696	static inline u16 per_cpu_llc_id(unsigned int cpu)
-   697	{
- > 698		return per_cpu(cpu_info.topo.llc_id, cpu);
-   699	}
-   700	
+  1643	
+> 1644	void blkcg_update_bandwidth(struct blkcg *blkcg)
+  1645	{
+  1646		unsigned long now = jiffies;
+  1647		unsigned long dirtied;
+  1648		unsigned long elapsed;
+  1649	
+  1650		if (!blkcg)
+  1651			return;
+  1652		if (!spin_trylock(&blkcg->lock))
+  1653			return;
+  1654	
+  1655		elapsed = now - blkcg->bw_time_stamp;
+  1656		dirtied = percpu_counter_read(&blkcg->nr_dirtied);
+  1657	
+  1658		if (elapsed > MAX_PAUSE * 2)
+  1659			goto snapshot;
+  1660		if (elapsed <= MAX_PAUSE)
+  1661			goto unlock;
+  1662	
+  1663		blkcg_update_dirty_ratelimit(blkcg, dirtied, elapsed);
+  1664	snapshot:
+  1665		blkcg->dirtied_stamp = dirtied;
+  1666		blkcg->bw_time_stamp = now;
+  1667	unlock:
+  1668		spin_unlock(&blkcg->lock);
+  1669	}
+  1670	#endif
+  1671	
 
 -- 
 0-DAY CI Kernel Test Service
