@@ -1,54 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CB616FF3A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 10:30:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9657B6BFB4;
+	Fri,  1 Mar 2024 10:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709289061; cv=none; b=k7rEOytxXqokvcmJ6PTRYF/tbFKnWneIyXK1i87nzvavtf5D2f7sFo+kgRonmIWZ1S0aTafurlGfrY2HYv69cbfcSnjlXwYoxjC0jWuz3Q2wWblutGniwfU1uSdngFGbA9Y4uBKP5i8s/JsvX8Q/BaxdRlfxWGWyeB9TARlidTs=
+	t=1709290439; cv=none; b=Cbrv69vPxlZpi3/wQTEYtHc7kavADFtAUFm11oRr2+CN4SanmIydbVr8wVL/H2FkIwSIzRqL0y/RP6pSfuflITaHjmGm58JCQOaIGw1z585mcBUgQ4UvMMQTB604xq6i0DuyBWxEbkO2FX3ZXtXhTfUDWC/EeNF7lVh1hF2rx7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709289061; c=relaxed/simple;
-	bh=wMwubyVN54UZ/N+d3ZmQxqgsA4jzx4FPRpq6DubH86U=;
+	s=arc-20240116; t=1709290439; c=relaxed/simple;
+	bh=O7FykDERM1cZMb+Kp9vhesXP0YTP+mj94nFjMH4/UhM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AeqmR6gL+9qaW8rOJOTTe4/q1fj92PLmrJIb1g1WsC89s8HTf6g4P3McXFxcLEZwOirOovL8DBdLapgTClbK/rlwVUPwxVB7xWNy/BA72XsiCPQyS5DaenwnX91vC9KXH/D452vzUzGVbppRdKgsupe4wHfXqI3AAPdC68k51sg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YroM1Mlz; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=marWfZWijlnWix/mx3GF8pG0IzygGf5Wf8owuG/aJZN+Y4ZrezXpD/BuBzlgRodpeC6+tuVAgMldOdrCFHtruYyUN1jwGlF0jEYguh7Zt+ZcCjLurYFJszxuhR2/VV6UIJz00OA4gERE+HL90QQRiMUmkRw1RXSOEvOh+Qq1s2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nRn+8TQp; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YroM1Mlz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nRn+8TQp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709289059; x=1740825059;
+  t=1709290437; x=1740826437;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wMwubyVN54UZ/N+d3ZmQxqgsA4jzx4FPRpq6DubH86U=;
-  b=YroM1MlzilEHo4TO4eIg7E/gGisT0cW/pO+YORulbnYk44mpuU8fR5Fx
-   vnTfkVuWivsx2P/0jQjnKbfUFn/3uw/KWZZn3g+qmocpEVUGDxR9//GAH
-   py37WvxpoMnYlL4ZvqWsPgbhGx3aIZ6dtO80n0f/uepMteI5MaE5XbHrv
-   owJbq9Ct0niZCHH7B4Gxw9p+dn7jNN3R6HDRoscDdacSpxzObB+m1BKDW
-   B8j/UxmJB5OpUC+y1OmGrYgnkOA3Zwqq/CtLqLhBGREAiT6EbUCnGF5tF
-   2u8O190S5bCcq7H0VoIPpzyXucEO/OmfHRNNpZac+UXiwnRJm1fcnHLc7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="14460010"
+  bh=O7FykDERM1cZMb+Kp9vhesXP0YTP+mj94nFjMH4/UhM=;
+  b=nRn+8TQparnd4qA08Pz5luGpRxMkQN+xYRrSYnLwWt9vaXE/OiT11Vat
+   t1020499voqrz1GPTMVW5n+rvBQoUsmG2ILzlUcopOJK7TIJRzIlSVigj
+   K6sccFN+VgfpEKHTT6hhMKqNEj9UgV72Jwiezrh0cLbkooy6umi/LaP3e
+   52l2syZQSwW9X1Peunf/5C1oXALSvOiC5Jf4oXgle/nkdPJoPkRoC1YID
+   5umme8EZvHagZmb77GcA1RgK3V09ZLQdYtWg0c+i+j6GDtePN3cj/u2Xq
+   Ks5oXnYRPo5eV/YEn0+e6iowQ44l/OXDP58w/hjYLC6WdhZ3BtYyrQixd
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3985111"
 X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
-   d="scan'208";a="14460010"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 02:30:59 -0800
+   d="scan'208";a="3985111"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 02:53:55 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
-   d="scan'208";a="12761918"
+   d="scan'208";a="8711184"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 01 Mar 2024 02:30:58 -0800
+  by orviesa008.jf.intel.com with ESMTP; 01 Mar 2024 02:53:54 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rg0AJ-000Dn5-2i;
-	Fri, 01 Mar 2024 10:30:55 +0000
-Date: Fri, 1 Mar 2024 18:29:58 +0800
+	id 1rg0WR-000DnT-0h;
+	Fri, 01 Mar 2024 10:53:50 +0000
+Date: Fri, 1 Mar 2024 18:52:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zc/rx-v4-dmamap 914/923] io_uring/zc_rx.c:224:6: error:
- implicit declaration of function 'io_file_need_scm' is invalid in C99
-Message-ID: <202403011840.Q402C3TQ-lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [drm-misc:drm-misc-next 4/5] WARNING: modpost: "__udivdi3"
+ [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+Message-ID: <202403011839.KLiXh4wC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,90 +60,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/isilence/linux zc/rx-v4-dmamap
-head:   a25700398698f032509948d0bdc60ad210a8590a
-commit: ab1d3b45c1a77979ac37c8c1ed6db2cfc14cc217 [914/923] io_uring/zcrx: implement socket registration
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240301/202403011840.Q402C3TQ-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403011840.Q402C3TQ-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   be318d01a90366029e181068e8857c6252e1fadc
+commit: 358e76fd613a762bdba18b6b9fb0469a481de3a3 [4/5] drm/sun4i: hdmi: Consolidate atomic_check and mode_valid
+config: powerpc-randconfig-003-20240301 (https://download.01.org/0day-ci/archive/20240301/202403011839.KLiXh4wC-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403011839.KLiXh4wC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403011840.Q402C3TQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403011839.KLiXh4wC-lkp@intel.com/
 
-Note: the isilence/zc/rx-v4-dmamap HEAD a25700398698f032509948d0bdc60ad210a8590a builds fine.
-      It only hurts bisectability.
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-All errors (new ones prefixed by >>):
-
->> io_uring/zc_rx.c:224:6: error: implicit declaration of function 'io_file_need_scm' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           if (io_file_need_scm(file)) {
-               ^
-   1 error generated.
-
-
-vim +/io_file_need_scm +224 io_uring/zc_rx.c
-
-   196	
-   197	int io_register_zc_rx_sock(struct io_ring_ctx *ctx,
-   198				   struct io_uring_zc_rx_sock_reg __user *arg)
-   199	{
-   200		struct io_uring_zc_rx_sock_reg sr;
-   201		struct io_zc_rx_ifq *ifq;
-   202		struct socket *sock;
-   203		struct file *file;
-   204		int ret = -EEXIST;
-   205		int idx;
-   206	
-   207		if (copy_from_user(&sr, arg, sizeof(sr)))
-   208			return -EFAULT;
-   209		if (sr.__resv[0] || sr.__resv[1])
-   210			return -EINVAL;
-   211		if (sr.zc_rx_ifq_idx != 0 || !ctx->ifq)
-   212			return -EINVAL;
-   213	
-   214		ifq = ctx->ifq;
-   215		if (ifq->nr_sockets >= ARRAY_SIZE(ifq->sockets))
-   216			return -EINVAL;
-   217	
-   218		BUILD_BUG_ON(ARRAY_SIZE(ifq->sockets) > IO_ZC_IFQ_IDX_MASK);
-   219	
-   220		file = fget(sr.sockfd);
-   221		if (!file)
-   222			return -EBADF;
-   223	
- > 224		if (io_file_need_scm(file)) {
-   225			fput(file);
-   226			return -EBADF;
-   227		}
-   228	
-   229		sock = sock_from_file(file);
-   230		if (unlikely(!sock || !sock->sk)) {
-   231			fput(file);
-   232			return -ENOTSOCK;
-   233		}
-   234	
-   235		idx = ifq->nr_sockets;
-   236		lock_sock(sock->sk);
-   237		if (!sock->zc_rx_idx) {
-   238			unsigned token;
-   239	
-   240			token = idx + (sr.zc_rx_ifq_idx << IO_ZC_IFQ_IDX_OFFSET);
-   241			WRITE_ONCE(sock->zc_rx_idx, token);
-   242			ret = 0;
-   243		}
-   244		release_sock(sock->sk);
-   245	
-   246		if (ret) {
-   247			fput(file);
-   248			return ret;
-   249		}
-   250		ifq->sockets[idx] = file;
-   251		ifq->nr_sockets++;
-   252		return 0;
-   253	}
-   254	
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r40-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-v3s-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-de2-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/clk-qcom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/lpass-gfm-sm8250.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/gcc-msm8976.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/videocc-sdm845.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/ti/omap-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/imx/soc-imx8m.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/tps6286x-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/esp32_acm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_gem_shmem_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/timberdale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/core/cxl_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_port.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/macintosh/ans-lcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-goldfish.o
+WARNING: modpost: drivers/media/i2c/et8ek8/et8ek8: section mismatch in reference: et8ek8_i2c_driver+0x8 (section: .data) -> et8ek8_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/videobuf2/videobuf2-dvb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/marvell/mmp_camera.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/marvell/mcam-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos-fimc-lite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos-fimc-is.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos4-is-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/ttpci/budget-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-empress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-dvb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cpufreq/cpufreq-dt-platdev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
+WARNING: modpost: drivers/mmc/host/davinci_mmc: section mismatch in reference: davinci_mmcsd_driver+0x8 (section: .data) -> davinci_mmcsd_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/renesas_sdhi_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/blink/leds-bcm63138.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/sa2ul.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/cxl_pmu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82365.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+>> WARNING: modpost: "__udivdi3" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
