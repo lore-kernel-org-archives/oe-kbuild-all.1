@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65151E886;
-	Fri,  1 Mar 2024 10:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CB616FF3A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Mar 2024 10:30:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709288055; cv=none; b=gqnW3nwGyDW1A/9l6xG0WL8wPqh2iM3hDGvIEs30+IInapLrHBGNK/gKdQeoNF0ergqsVTxWxKBXZCz9VuKd6MnCk9m9CxpO1bMx+hwQl9n6qHLeMvjT1Nn+tVHB2j9tBmfMUQ1V1w7eHnd7/FBEkbKzdpew5QfF9GcP+JdQJY0=
+	t=1709289061; cv=none; b=k7rEOytxXqokvcmJ6PTRYF/tbFKnWneIyXK1i87nzvavtf5D2f7sFo+kgRonmIWZ1S0aTafurlGfrY2HYv69cbfcSnjlXwYoxjC0jWuz3Q2wWblutGniwfU1uSdngFGbA9Y4uBKP5i8s/JsvX8Q/BaxdRlfxWGWyeB9TARlidTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709288055; c=relaxed/simple;
-	bh=j/Y/cEzyqAeWcpPtzsjUIhY/VPM4RREHXoXAYQJ9DuY=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HzXsjYe+etchIFmYRYeDj1qRwTXVkeqE2+kKIykzdL1rUdPWxkcFCG8RZrHuh6lXxzz769WARaMXxgRnzXxvQZvIsYVjhpqlO8KEmPCAAs7/v0rWl6DOoohhqzBJ6CdoVZ5nKT6ox1AkIkQ4mEDjXA4iloh9/onjioUVl7Hxlsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E6ZtThn+; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1709289061; c=relaxed/simple;
+	bh=wMwubyVN54UZ/N+d3ZmQxqgsA4jzx4FPRpq6DubH86U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AeqmR6gL+9qaW8rOJOTTe4/q1fj92PLmrJIb1g1WsC89s8HTf6g4P3McXFxcLEZwOirOovL8DBdLapgTClbK/rlwVUPwxVB7xWNy/BA72XsiCPQyS5DaenwnX91vC9KXH/D452vzUzGVbppRdKgsupe4wHfXqI3AAPdC68k51sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YroM1Mlz; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E6ZtThn+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YroM1Mlz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709288053; x=1740824053;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=j/Y/cEzyqAeWcpPtzsjUIhY/VPM4RREHXoXAYQJ9DuY=;
-  b=E6ZtThn+DG7iWR7jpNyBll3OJrFAXFCKDH0lg5pfhd+7au21HL2vMPD4
-   jUunboke0cb2yQV2jTThVL7HDtRskBUTVX/gZVeVqUbwUD2MMXDi4dO6b
-   Ce90pIPtPHSK65oiruMsMW4GbV8X2lRtBP8Z7XFxSIOLRXa9b71FDdzJo
-   1xen9SkWshLhLhpTpbFzEUZryKfqllo7trq2MrfMXrZo/oZWd/qDE5kzn
-   UcAWxEmNHUbxGblS2BDoCZImnQ714UL+Lx3KVstL7iYoZnaHAFkrhrrri
-   faSCv43y7aU1wgb/nrLgpeU9F5yj4N2QFlCJlwJL/ezzQsI4L6WXFtIeA
+  t=1709289059; x=1740825059;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wMwubyVN54UZ/N+d3ZmQxqgsA4jzx4FPRpq6DubH86U=;
+  b=YroM1MlzilEHo4TO4eIg7E/gGisT0cW/pO+YORulbnYk44mpuU8fR5Fx
+   vnTfkVuWivsx2P/0jQjnKbfUFn/3uw/KWZZn3g+qmocpEVUGDxR9//GAH
+   py37WvxpoMnYlL4ZvqWsPgbhGx3aIZ6dtO80n0f/uepMteI5MaE5XbHrv
+   owJbq9Ct0niZCHH7B4Gxw9p+dn7jNN3R6HDRoscDdacSpxzObB+m1BKDW
+   B8j/UxmJB5OpUC+y1OmGrYgnkOA3Zwqq/CtLqLhBGREAiT6EbUCnGF5tF
+   2u8O190S5bCcq7H0VoIPpzyXucEO/OmfHRNNpZac+UXiwnRJm1fcnHLc7
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="15229228"
-X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; 
-   d="scan'208";a="15229228"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 02:14:13 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="14460010"
+X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
+   d="scan'208";a="14460010"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 02:30:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; 
-   d="scan'208";a="8071526"
+X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
+   d="scan'208";a="12761918"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 01 Mar 2024 02:14:12 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 01 Mar 2024 02:30:58 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rfzt8-000DlR-0D;
-	Fri, 01 Mar 2024 10:13:36 +0000
-Date: Fri, 1 Mar 2024 18:09:10 +0800
+	id 1rg0AJ-000Dn5-2i;
+	Fri, 01 Mar 2024 10:30:55 +0000
+Date: Fri, 1 Mar 2024 18:29:58 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: net/devlink/devl_internal.h:21:19: warning: arithmetic between
- different enumeration types ('enum devlink_reload_limit' and 'enum
- devlink_reload_action')
-Message-ID: <202403011851.eZFO8wwv-lkp@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zc/rx-v4-dmamap 914/923] io_uring/zc_rx.c:224:6: error:
+ implicit declaration of function 'io_file_need_scm' is invalid in C99
+Message-ID: <202403011840.Q402C3TQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,275 +58,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-TO: Jakub Kicinski <kuba@kernel.org>
-CC: Jacob Keller <jacob.e.keller@intel.com>
-CC: Jiri Pirko <jiri@nvidia.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   87adedeba51a822533649b143232418b9e26d08b
-commit: 687125b5799cd5120437fa455cfccbe8537916ff devlink: split out core code
-date:   1 year, 2 months ago
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240301/202403011851.eZFO8wwv-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403011851.eZFO8wwv-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux zc/rx-v4-dmamap
+head:   a25700398698f032509948d0bdc60ad210a8590a
+commit: ab1d3b45c1a77979ac37c8c1ed6db2cfc14cc217 [914/923] io_uring/zcrx: implement socket registration
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240301/202403011840.Q402C3TQ-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403011840.Q402C3TQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403011851.eZFO8wwv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403011840.Q402C3TQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the isilence/zc/rx-v4-dmamap HEAD a25700398698f032509948d0bdc60ad210a8590a builds fine.
+      It only hurts bisectability.
 
-   In file included from net/devlink/leftover.c:10:
-   In file included from include/linux/etherdevice.h:20:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:10:
-   In file included from include/linux/mm.h:1856:
-   include/linux/vmstat.h:502:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     502 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     503 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:509:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     509 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     510 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:516:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     516 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:521:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     521 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     522 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:530:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     530 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     531 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from net/devlink/leftover.c:10:
-   In file included from include/linux/etherdevice.h:20:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:31:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from net/devlink/leftover.c:10:
-   In file included from include/linux/etherdevice.h:20:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:31:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from net/devlink/leftover.c:10:
-   In file included from include/linux/etherdevice.h:20:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:31:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from net/devlink/leftover.c:34:
->> net/devlink/devl_internal.h:21:19: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      21 |         u32 reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:22:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      22 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/leftover.c:4473:20: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-    4473 |                 stat_idx = limit * __DEVLINK_RELOAD_ACTION_MAX + action;
-         |                            ~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/leftover.c:4521:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-    4521 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   21 warnings generated.
---
-   In file included from include/linux/mm.h:1856:
-   include/linux/vmstat.h:502:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     502 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     503 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:509:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     509 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     510 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:516:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     516 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:521:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     521 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     522 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:530:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     530 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     531 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from net/devlink/core.c:7:
-   In file included from include/net/genetlink.h:5:
-   In file included from include/linux/genetlink.h:5:
-   In file included from include/uapi/linux/genetlink.h:6:
-   In file included from include/linux/netlink.h:7:
-   In file included from include/linux/skbuff.h:31:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from net/devlink/core.c:7:
-   In file included from include/net/genetlink.h:5:
-   In file included from include/linux/genetlink.h:5:
-   In file included from include/uapi/linux/genetlink.h:6:
-   In file included from include/linux/netlink.h:7:
-   In file included from include/linux/skbuff.h:31:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from net/devlink/core.c:7:
-   In file included from include/net/genetlink.h:5:
-   In file included from include/linux/genetlink.h:5:
-   In file included from include/uapi/linux/genetlink.h:6:
-   In file included from include/linux/netlink.h:7:
-   In file included from include/linux/skbuff.h:31:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from net/devlink/core.c:9:
->> net/devlink/devl_internal.h:21:19: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      21 |         u32 reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:22:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      22 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   19 warnings generated.
+All errors (new ones prefixed by >>):
+
+>> io_uring/zc_rx.c:224:6: error: implicit declaration of function 'io_file_need_scm' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           if (io_file_need_scm(file)) {
+               ^
+   1 error generated.
 
 
-vim +21 net/devlink/devl_internal.h
+vim +/io_file_need_scm +224 io_uring/zc_rx.c
 
-    16	
-    17	#define DEVLINK_RELOAD_STATS_ARRAY_SIZE \
-    18		(__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-    19	
-    20	struct devlink_dev_stats {
-  > 21		u32 reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-    22		u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-    23	};
-    24	
+   196	
+   197	int io_register_zc_rx_sock(struct io_ring_ctx *ctx,
+   198				   struct io_uring_zc_rx_sock_reg __user *arg)
+   199	{
+   200		struct io_uring_zc_rx_sock_reg sr;
+   201		struct io_zc_rx_ifq *ifq;
+   202		struct socket *sock;
+   203		struct file *file;
+   204		int ret = -EEXIST;
+   205		int idx;
+   206	
+   207		if (copy_from_user(&sr, arg, sizeof(sr)))
+   208			return -EFAULT;
+   209		if (sr.__resv[0] || sr.__resv[1])
+   210			return -EINVAL;
+   211		if (sr.zc_rx_ifq_idx != 0 || !ctx->ifq)
+   212			return -EINVAL;
+   213	
+   214		ifq = ctx->ifq;
+   215		if (ifq->nr_sockets >= ARRAY_SIZE(ifq->sockets))
+   216			return -EINVAL;
+   217	
+   218		BUILD_BUG_ON(ARRAY_SIZE(ifq->sockets) > IO_ZC_IFQ_IDX_MASK);
+   219	
+   220		file = fget(sr.sockfd);
+   221		if (!file)
+   222			return -EBADF;
+   223	
+ > 224		if (io_file_need_scm(file)) {
+   225			fput(file);
+   226			return -EBADF;
+   227		}
+   228	
+   229		sock = sock_from_file(file);
+   230		if (unlikely(!sock || !sock->sk)) {
+   231			fput(file);
+   232			return -ENOTSOCK;
+   233		}
+   234	
+   235		idx = ifq->nr_sockets;
+   236		lock_sock(sock->sk);
+   237		if (!sock->zc_rx_idx) {
+   238			unsigned token;
+   239	
+   240			token = idx + (sr.zc_rx_ifq_idx << IO_ZC_IFQ_IDX_OFFSET);
+   241			WRITE_ONCE(sock->zc_rx_idx, token);
+   242			ret = 0;
+   243		}
+   244		release_sock(sock->sk);
+   245	
+   246		if (ret) {
+   247			fput(file);
+   248			return ret;
+   249		}
+   250		ifq->sockets[idx] = file;
+   251		ifq->nr_sockets++;
+   252		return 0;
+   253	}
+   254	
 
 -- 
 0-DAY CI Kernel Test Service
