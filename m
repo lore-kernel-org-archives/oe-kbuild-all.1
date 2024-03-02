@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33C546A4
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 01:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D701B63AE
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 02:14:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709343169; cv=none; b=O59mVZAA6DVNucvEc8/TmHftsMWWJbXy/FiSJxHWHkn2rctGrfV+6fZiA3vuXTO9O8VY4xuXu0zFXh2hKbkaLZllwmc8603BIjbBjhdaATENGvOmU8vcgLy5p1UiTGNSGtc8pJzMVjdhXyRwh+OEkth8zJtfssZq05zsiJLWLB0=
+	t=1709345653; cv=none; b=mpAtzz2g/XL7d19rZQ2FKI77eUSmRVYlZJsUxU+Y2/o9tWYtu+Hcmp4nTag6HsuLKYrJK2G5JJuJ6yiMoUYWNweSIVAhRGdtGiGRCxaO2j95Vtjm7y2orPFDSylLaivHLZ/TXzwe7PN1UqQRCTUQ13TR0Wy9fTdEStainD54byI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709343169; c=relaxed/simple;
-	bh=DaGHktFENi2ZJYLcY73o0fUZ5OobUE3Tlbzhy1KTogY=;
+	s=arc-20240116; t=1709345653; c=relaxed/simple;
+	bh=T/cXfI0ZJf++oh+EggnTdQexIN70HL9nEw+PGNShMFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XkpSMOpcgvH2rNkSjuUVIqMA0Fga6PHi9WVX7qGkLuybUlArTptcPyQsznyAM6yPAztKwSsG09yolpqnRjLKBxlapfbUjSr93Pw/uTMs7Ijj+22C6qzj55GJ+lcyd7IoPVcxSTG3eufV1Gv0LMtZ+HJ6JsoUe7I4HOau2/KE8zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PtkCJ88i; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=dFdLFlpDAfcUvhAwggqI8MmJwoW8Vo58h2RuMUKiH4i1gx0Z9qyvsA2N/5WH4ujPmpQoPZnZloocqx+va3spCp2yo/bT1GfGqWKJQ1qpUGjuPxP2E0LAULOqMHhMnqzXMn67qQKAqmotXjMVf43uO9BLSU/zv+dZiDtxKz4uHx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O8uCrqWe; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PtkCJ88i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8uCrqWe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709343167; x=1740879167;
+  t=1709345650; x=1740881650;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DaGHktFENi2ZJYLcY73o0fUZ5OobUE3Tlbzhy1KTogY=;
-  b=PtkCJ88iSl/K+fJjUgRr3/x9LSne0MGng92y1aqSeemBhrHGI9Ce8Njg
-   qqciWt0eArLaALNIj6rdjaXd6/0xWRmwI+WPN1cl41T5EJCvh9DxY1CGx
-   HJNE4jzSFmzqz8N53ufeH+pgSqNZGb1Y7LF7UdxArAuc/uqS0lWC1qu0d
-   RcSr5lIbjqjBlJ37yjdikjkQ86c1adtbBlgpwyWmu9bGuBHIKRuICdgan
-   uRoKpnhAUN4HWTwyYFOI+4CieY0HjMtrf3ArbngCUHBSjoqTlA2WQI98S
-   vzDp14kECzQNr6aVX2Fh0DDLSRWdbvPhADRWfcRjwM9FF9gzmQvY6l7hi
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="21356785"
+  bh=T/cXfI0ZJf++oh+EggnTdQexIN70HL9nEw+PGNShMFw=;
+  b=O8uCrqWeVh7gbNPx/FU2hIgQaAdi3WBly+YWveymuT1HiIG+gX6jxTJ3
+   T0f+Z453JNNCnrd4RTVpaFxPYCce7lxvp76Y+xhMgkGSPmeccGevX5MCX
+   gsE5GzsX+p6kRPVnQFcNsqmbifqz1XWA8eEimEw73cDVWkwCqGN5S9rJn
+   vJaapE9brLTEEwMkbzt59zn1rS400tNb0lNw2gXGNG34GUawKvvH3wYO8
+   2Tx0f1dxOlJqyv0xQqBthu/er87M9bzVQMKrwUa0wW3N5rOmppQqjzwwX
+   d/rJnZBWW2OKMdOZZ3AWT98xzuqfTJkyKUF0hvJU1N9HCUzoNF1B1qwLo
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="6853181"
 X-IronPort-AV: E=Sophos;i="6.06,197,1705392000"; 
-   d="scan'208";a="21356785"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 17:32:46 -0800
+   d="scan'208";a="6853181"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 18:14:10 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,197,1705392000"; 
-   d="scan'208";a="12894512"
+   d="scan'208";a="8934357"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 01 Mar 2024 17:32:44 -0800
+  by orviesa008.jf.intel.com with ESMTP; 01 Mar 2024 18:14:06 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgEF0-000EDN-2S;
-	Sat, 02 Mar 2024 01:32:42 +0000
-Date: Sat, 2 Mar 2024 09:32:05 +0800
+	id 1rgEt1-000EFN-2t;
+	Sat, 02 Mar 2024 02:14:03 +0000
+Date: Sat, 2 Mar 2024 10:14:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sandipan Das <sandipan.das@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: arch/x86/events/amd/uncore.c:601:10: sparse: sparse: incorrect type
- in initializer (different address spaces)
-Message-ID: <202403020941.UCnNA0rh-lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 16/98] kernel/tkernel/netatop/netatop.o: warning:
+ objtool: init_module(): not an indirect call target
+Message-ID: <202403021032.2WwGDzvi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,46 +61,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d17468c6f1f49e6259698f6401b8d7a5b90eac68
-commit: 07888daa056e809de0b6b234116b575c11f9f99d perf/x86/amd/uncore: Move discovery and registration
-date:   5 months ago
-config: x86_64-randconfig-r122-20240301 (https://download.01.org/0day-ci/archive/20240302/202403020941.UCnNA0rh-lkp@intel.com/config)
+Hi katrinzhou,
+
+First bad commit (maybe != root cause):
+
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   a4b2dc2ffad1810ebe7a86710aa1e5cc312aa2a1
+commit: 1c4e7e7a520f8614da85f7ae82d7e19d261a39e4 [16/98] tkernel: netatop: add netatop module in kernel/tkernel/
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240302/202403021032.2WwGDzvi-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403020941.UCnNA0rh-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403021032.2WwGDzvi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403020941.UCnNA0rh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403021032.2WwGDzvi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
+All warnings (new ones prefixed by >>):
 
-
-vim +601 arch/x86/events/amd/uncore.c
-
-   582	
-   583	static
-   584	void amd_uncore_df_ctx_scan(struct amd_uncore *uncore, unsigned int cpu)
-   585	{
-   586		union cpuid_0x80000022_ebx ebx;
-   587		union amd_uncore_info info;
-   588	
-   589		if (!boot_cpu_has(X86_FEATURE_PERFCTR_NB))
-   590			return;
-   591	
-   592		info.split.aux_data = 0;
-   593		info.split.num_pmcs = NUM_COUNTERS_NB;
-   594		info.split.cid = topology_die_id(cpu);
-   595	
-   596		if (pmu_version >= 2) {
-   597			ebx.full = cpuid_ebx(EXT_PERFMON_DEBUG_FEATURES);
-   598			info.split.num_pmcs = ebx.split.num_df_pmc;
-   599		}
-   600	
- > 601		*per_cpu_ptr(uncore->info, cpu) = info;
-   602	}
-   603	
+   kernel/tkernel/netatop/netatop.c: In function 'gctaskexit':
+   kernel/tkernel/netatop/netatop.c:1017:1: warning: old-style function definition [-Wold-style-definition]
+    1017 | gctaskexit()
+         | ^~~~~~~~~~
+   kernel/tkernel/netatop/netatop.c: In function 'gcsockinfo':
+   kernel/tkernel/netatop/netatop.c:1051:1: warning: old-style function definition [-Wold-style-definition]
+    1051 | gcsockinfo()
+         | ^~~~~~~~~~
+   kernel/tkernel/netatop/netatop.c: In function 'gctaskinfo':
+   kernel/tkernel/netatop/netatop.c:1261:1: warning: old-style function definition [-Wold-style-definition]
+    1261 | gctaskinfo()
+         | ^~~~~~~~~~
+   kernel/tkernel/netatop/netatop.c: In function 'wipesockinfo':
+   kernel/tkernel/netatop/netatop.c:1334:1: warning: old-style function definition [-Wold-style-definition]
+    1334 | wipesockinfo()
+         | ^~~~~~~~~~~~
+   kernel/tkernel/netatop/netatop.c: In function 'wipetaskinfo':
+   kernel/tkernel/netatop/netatop.c:1362:1: warning: old-style function definition [-Wold-style-definition]
+    1362 | wipetaskinfo()
+         | ^~~~~~~~~~~~
+   kernel/tkernel/netatop/netatop.c: In function 'wipetaskexit':
+   kernel/tkernel/netatop/netatop.c:1390:1: warning: old-style function definition [-Wold-style-definition]
+    1390 | wipetaskexit()
+         | ^~~~~~~~~~~~
+   kernel/tkernel/netatop/netatop.c: In function 'init_module':
+   kernel/tkernel/netatop/netatop.c:1677:1: warning: old-style function definition [-Wold-style-definition]
+    1677 | init_module()
+         | ^~~~~~~~~~~
+   kernel/tkernel/netatop/netatop.c: In function 'cleanup_module':
+   kernel/tkernel/netatop/netatop.c:1768:1: warning: old-style function definition [-Wold-style-definition]
+    1768 | cleanup_module()
+         | ^~~~~~~~~~~~~~
+>> kernel/tkernel/netatop/netatop.o: warning: objtool: init_module(): not an indirect call target
+>> kernel/tkernel/netatop/netatop.o: warning: objtool: cleanup_module(): not an indirect call target
 
 -- 
 0-DAY CI Kernel Test Service
