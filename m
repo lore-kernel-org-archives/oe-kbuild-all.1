@@ -1,54 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313F83E46D
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 19:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE13A3FE4C;
+	Sat,  2 Mar 2024 19:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709406600; cv=none; b=aLXmoDFTE9ayy0iDSCDKfZ2YkwtKe12N8qsD/zwLSrgQ2+5iXm72vGsYkmlqO949CvcIwBOHo/vv3oWnKVJcCfaOl32mJOxFP630Uk0v9sKTe4HQgGKyVzhDIykNX1hQhAWb8mKAGjrZG5ZvYY6G2ELAL56HtX5AeJd+HlLit8g=
+	t=1709409124; cv=none; b=EkfwXzPk8dMkxUAGz5jSSf8f6Gs+nHnGey8Tr9jFF0qsGTumqCh5Y1jcYXJhmjXZcPXZ/Z1aIo3K04sV72cMWBberayDnhkubyslfKWE5h6GAlwLACq/G2z4dzKyWnKAejsSNi+LJEQbYKn0mFkvRfUaXqwxJfuLeWmQ6HFWP2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709406600; c=relaxed/simple;
-	bh=fMtOSkZhN/R47JLT2m64xrPfRSiHqKjiiaRO6ZGVSgM=;
+	s=arc-20240116; t=1709409124; c=relaxed/simple;
+	bh=ahDtg+kKR0S0D516Cn+GCzeWrgeB2zLtP2svBWTxSrc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gHTQMRdYYhibGg1+9FNvmFDvwb72yhXIoePbdsTLvZZHCCeGwlpTS4ea86u+heE64nYq5pj1PbNujlJgHy7QlcRwmdDPOpFcPz4Pq5Ue5usZ6uETFH0lz1cMkDm27/HONekKvejJrL9M9RDOc0LRDhSFhrmPCvYXsWOuWrSKT9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nFXqqjRL; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=Q4uWMkd9KW5nQgSrPtm+2M1irdGQhbJKTClDJLqcgdJlD6y+1xPtJRwPdf8QNijRe4APrUz2fafuX16BMLJHimibCD1u9/na3UMc23afJdhLDtevpkhGURne44f8X8T3X7kDjQos22q64dZNgAq+Se6K4szHV6IIXuWWe8RfEBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JOPuzf6H; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nFXqqjRL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JOPuzf6H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709406598; x=1740942598;
+  t=1709409122; x=1740945122;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fMtOSkZhN/R47JLT2m64xrPfRSiHqKjiiaRO6ZGVSgM=;
-  b=nFXqqjRLombx6jZov5NP7i90JPJDBxP38b6XlMVwKiyEefJMJjXSHrHc
-   ljoQXza94GTx19KcyfJ8H5r7QPMbVrAuH3rXReI7U7duWuzxhUDCJXrvi
-   UtXMhPdB+712Z8KbJmUVbJ6tO+gzumP2CLJZIlysfBXJGFI+cfv9tFtF4
-   nTAtmr33FAbDaP/OCcgIqiAXon/44UPge43i0lwSgUNOGfoHTTjA0VxtW
-   ZBS3tKN37Uzcgdss5GShUS+XDqE2oNvGekJp02zh+3L/40u8ckABpXe8s
-   AAJME8PSU6iBAR4WVxMo5atMdxFHnghb4ze0FB/1VKL5S3FpfdmAQ/88v
+  bh=ahDtg+kKR0S0D516Cn+GCzeWrgeB2zLtP2svBWTxSrc=;
+  b=JOPuzf6HyhwTLP9GdTfzrN/ogluO08SjIWkQMLokmolBAVTsuKfwTVrm
+   9PCGWhFdFZdD5T5zMHaKD6nCluakoliy4SCVNLkSLMlzF7YhNPtDOEYsF
+   laPoA69mPiXxnIt+iyb4464DfwwWotALct1/tndfoTHRocD2CdHiLWV91
+   PcglWlLzRt4gLLlz9PDkZgeWN/9P08uVxjb/BvdAUVzvpHKndOUM9An4P
+   OmZs6Ap4cgsQ9lFLcAGD9NibJ5VcOiXLuuK0TQUZEq4t7r1gHV47pEq3g
+   hW1ZgUk+/qKUUR3i+LnyK7tVrFBoZWnQLGIx6tfOQ2/hi6j5T3+3rf5uF
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="4104944"
+X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="14583715"
 X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="4104944"
+   d="scan'208";a="14583715"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 11:09:58 -0800
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 11:51:59 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="8483639"
+   d="scan'208";a="8488011"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Mar 2024 11:09:56 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 02 Mar 2024 11:51:58 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgUk6-0000ES-24;
-	Sat, 02 Mar 2024 19:09:54 +0000
-Date: Sun, 3 Mar 2024 03:09:10 +0800
+	id 1rgVOl-0000G4-1H;
+	Sat, 02 Mar 2024 19:51:55 +0000
+Date: Sun, 3 Mar 2024 03:51:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zc/rx-latest 39/42] zc_rx.c:(.text+0x1b44): dangerous
- relocation: unsupported relocation
-Message-ID: <202403030235.FpSzvsNW-lkp@intel.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [linusw-pinctrl:ib-nomadik-gpio 27/27]
+ drivers/pinctrl/nomadik/pinctrl-nomadik.c:1193:22: error: incompatible
+ pointer types initializing 'struct device_node *' with an expression of type
+ 'struct fwnode_handle *'
+Message-ID: <202403030335.VHvC2QUS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,28 +62,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/isilence/linux zc/rx-latest
-head:   c1d6911c6966e5ee49ee8fb26fa57101979dab2e
-commit: 8d815a70f4122606af44db04b82ed8612b8a5d53 [39/42] io_uring: add io_recvzc request
-config: arm64-randconfig-002-20240302 (https://download.01.org/0day-ci/archive/20240303/202403030235.FpSzvsNW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403030235.FpSzvsNW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git ib-nomadik-gpio
+head:   528904342169c582c128c4f83fbc4a7c9611fb0a
+commit: 528904342169c582c128c4f83fbc4a7c9611fb0a [27/27] gpio: nomadik: Finish conversion to use firmware node APIs
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240303/202403030335.VHvC2QUS-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403030335.VHvC2QUS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403030235.FpSzvsNW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403030335.VHvC2QUS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: io_uring/zc_rx.o: in function `io_zc_rx_recv':
-   zc_rx.c:(.text+0x1b44): undefined reference to `tcp_recvmsg'
-   aarch64-linux-ld: io_uring/zc_rx.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `tcp_recvmsg' which may bind externally can not be used when making a shared object; recompile with -fPIC
->> zc_rx.c:(.text+0x1b44): dangerous relocation: unsupported relocation
-   aarch64-linux-ld: zc_rx.c:(.text+0x1b4c): undefined reference to `tcp_recvmsg'
-   aarch64-linux-ld: zc_rx.c:(.text+0x1bc0): undefined reference to `tcp_read_sock'
+>> drivers/pinctrl/nomadik/pinctrl-nomadik.c:1193:22: error: incompatible pointer types initializing 'struct device_node *' with an expression of type 'struct fwnode_handle *' [-Werror,-Wincompatible-pointer-types]
+           struct device_node *fwnode = dev_fwnode(&pdev->dev);
+                               ^        ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/nomadik/pinctrl-nomadik.c:1222:39: error: incompatible pointer types passing 'struct device_node *' to parameter of type 'const struct fwnode_handle *' [-Werror,-Wincompatible-pointer-types]
+                   gpio_fwnode = fwnode_find_reference(fwnode, "nomadik-gpio-chips", i);
+                                                       ^~~~~~
+   include/linux/property.h:144:73: note: passing argument to parameter 'fwnode' here
+   struct fwnode_handle *fwnode_find_reference(const struct fwnode_handle *fwnode,
+                                                                           ^
+   drivers/pinctrl/nomadik/pinctrl-nomadik.c:1236:38: error: incompatible pointer types passing 'struct device_node *' to parameter of type 'const struct fwnode_handle *' [-Werror,-Wincompatible-pointer-types]
+           prcm_fwnode = fwnode_find_reference(fwnode, "prcm", 0);
+                                               ^~~~~~
+   include/linux/property.h:144:73: note: passing argument to parameter 'fwnode' here
+   struct fwnode_handle *fwnode_find_reference(const struct fwnode_handle *fwnode,
+                                                                           ^
+>> drivers/pinctrl/nomadik/pinctrl-nomadik.c:1236:14: error: incompatible pointer types assigning to 'struct device_node *' from 'struct fwnode_handle *' [-Werror,-Wincompatible-pointer-types]
+           prcm_fwnode = fwnode_find_reference(fwnode, "prcm", 0);
+                       ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/nomadik/pinctrl-nomadik.c:1238:34: error: incompatible pointer types passing 'struct device_node *' to parameter of type 'struct fwnode_handle *' [-Werror,-Wincompatible-pointer-types]
+                   npct->prcm_base = fwnode_iomap(prcm_fwnode, 0);
+                                                  ^~~~~~~~~~~
+   include/linux/property.h:452:50: note: passing argument to parameter 'fwnode' here
+   void __iomem *fwnode_iomap(struct fwnode_handle *fwnode, int index);
+                                                    ^
+   drivers/pinctrl/nomadik/pinctrl-nomadik.c:1239:21: error: incompatible pointer types passing 'struct device_node *' to parameter of type 'struct fwnode_handle *' [-Werror,-Wincompatible-pointer-types]
+                   fwnode_handle_put(prcm_fwnode);
+                                     ^~~~~~~~~~~
+   include/linux/property.h:190:46: note: passing argument to parameter 'fwnode' here
+   void fwnode_handle_put(struct fwnode_handle *fwnode);
+                                                ^
+   6 errors generated.
+
+
+vim +1193 drivers/pinctrl/nomadik/pinctrl-nomadik.c
+
+  1190	
+  1191	static int nmk_pinctrl_probe(struct platform_device *pdev)
+  1192	{
+> 1193		struct device_node *fwnode = dev_fwnode(&pdev->dev);
+  1194		struct device_node *prcm_fwnode;
+  1195		struct nmk_pinctrl *npct;
+  1196		uintptr_t version = 0;
+  1197		int i;
+  1198	
+  1199		npct = devm_kzalloc(&pdev->dev, sizeof(*npct), GFP_KERNEL);
+  1200		if (!npct)
+  1201			return -ENOMEM;
+  1202	
+  1203		version = (uintptr_t)device_get_match_data(&pdev->dev);
+  1204	
+  1205		/* Poke in other ASIC variants here */
+  1206		if (version == PINCTRL_NMK_STN8815)
+  1207			nmk_pinctrl_stn8815_init(&npct->soc);
+  1208		if (version == PINCTRL_NMK_DB8500)
+  1209			nmk_pinctrl_db8500_init(&npct->soc);
+  1210	
+  1211		/*
+  1212		 * Since we depend on the GPIO chips to provide clock and register base
+  1213		 * for the pin control operations, make sure that we have these
+  1214		 * populated before we continue. Follow the phandles to instantiate
+  1215		 * them. The GPIO portion of the actual hardware may be probed before
+  1216		 * or after this point: it shouldn't matter as the APIs are orthogonal.
+  1217		 */
+  1218		for (i = 0; i < NMK_MAX_BANKS; i++) {
+  1219			struct fwnode_handle *gpio_fwnode;
+  1220			struct nmk_gpio_chip *nmk_chip;
+  1221	
+> 1222			gpio_fwnode = fwnode_find_reference(fwnode, "nomadik-gpio-chips", i);
+  1223			if (IS_ERR(gpio_fwnode))
+  1224				continue;
+  1225	
+  1226			dev_info(&pdev->dev, "populate NMK GPIO %d \"%pfwP\"\n", i, gpio_fwnode);
+  1227			nmk_chip = nmk_gpio_populate_chip(gpio_fwnode, pdev);
+  1228			if (IS_ERR(nmk_chip))
+  1229				dev_err(&pdev->dev,
+  1230					"could not populate nmk chip struct - continue anyway\n");
+  1231			fwnode_handle_put(gpio_fwnode);
+  1232			/* We are NOT compatible with mobileye,eyeq5-gpio. */
+  1233			BUG_ON(nmk_chip->is_mobileye_soc);
+  1234		}
+  1235	
+> 1236		prcm_fwnode = fwnode_find_reference(fwnode, "prcm", 0);
+  1237		if (!IS_ERR(prcm_fwnode)) {
+> 1238			npct->prcm_base = fwnode_iomap(prcm_fwnode, 0);
+  1239			fwnode_handle_put(prcm_fwnode);
+  1240		}
+  1241		if (!npct->prcm_base) {
+  1242			if (version == PINCTRL_NMK_STN8815) {
+  1243				dev_info(&pdev->dev,
+  1244					 "No PRCM base, assuming no ALT-Cx control is available\n");
+  1245			} else {
+  1246				dev_err(&pdev->dev, "missing PRCM base address\n");
+  1247				return -EINVAL;
+  1248			}
+  1249		}
+  1250	
+  1251		nmk_pinctrl_desc.pins = npct->soc->pins;
+  1252		nmk_pinctrl_desc.npins = npct->soc->npins;
+  1253		npct->dev = &pdev->dev;
+  1254	
+  1255		npct->pctl = devm_pinctrl_register(&pdev->dev, &nmk_pinctrl_desc, npct);
+  1256		if (IS_ERR(npct->pctl)) {
+  1257			dev_err(&pdev->dev, "could not register Nomadik pinctrl driver\n");
+  1258			return PTR_ERR(npct->pctl);
+  1259		}
+  1260	
+  1261		platform_set_drvdata(pdev, npct);
+  1262		dev_info(&pdev->dev, "initialized Nomadik pin control driver\n");
+  1263	
+  1264		return 0;
+  1265	}
+  1266	
 
 -- 
 0-DAY CI Kernel Test Service
