@@ -1,67 +1,54 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881C81427A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 10:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4152F16FF4F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 10:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709374977; cv=none; b=ONrkX7kNYAv1AIYYx+e9CoBu/SDmdjOAEtJ7SPzJNo3MxBZTlPfI9CP1gZs6tbXWUEB85vEwqReNTdixrYCsyLYayhIQd3M6ZYkkGxhuSPpO/iXbzlsIysbVGbsetg2qUoUf8iTrJtgHWg9+PelKhMNxLGM/8lCKVxeCjtAV1EI=
+	t=1709377048; cv=none; b=qDKOGE1qnbL0JRVBqISxIJtG+QxtWe/01Sjp+VxC/+eFmFUfhQk/lGrJ3F181wcPCSa5hCRhlgt1u+jLKyyDA90XLquTWIV0sfkobdkbYsQTnWq8S/k3XNn9WFlf85u48J4jsmXip+oyffdqi2GJhtcL1x+hgFPPq3kjeUmq3TY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709374977; c=relaxed/simple;
-	bh=/0QmJ9fSROWFqfGEyhsejzGlrxyZAkEvZidBoUr+Jm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gdVjRsVL71hspTQMaHDZ4KxSz1ghY2mWmk2pYRUiJnroNtIDkt6gh0TQa8TY3s6wxM3qzkIokFT7oT3PNJ+4Mqd5/idN3Ka6SBKTBia3a7aDdP2pDufvvyzq7H6MQIY9mhIzjEAKdVr2qZBcqbh65feXpbbANoIMKM3SLQMH3kQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m1/pfYsQ; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1709377048; c=relaxed/simple;
+	bh=sW4Amv+bfSPTytN7KXKV7NTTi+cPJ7HEPBTAJMxiyi4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kydE9nvTmHgSwxICJm1N58TMEIAoohSNZlqa95AIX40AUNJ5TJZTdP5ohfMiH1ZzqnXMls4O3rL87fwTdy4MnFvV2f6jtaojsJTwf4VKlPpCnLOteLk6N4xWGhSKeKgrQSx9IYwmHmkTyhFYOb182OJh1WUi3bXeTx+aVVjbiVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YyPg4KC6; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m1/pfYsQ"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-412d6906338so1205675e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 02 Mar 2024 02:22:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709374974; x=1709979774; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pMdekztujkt4AzA7D7S8LzaTnjsciXQ/ToTUP2Gu6E0=;
-        b=m1/pfYsQJWg/L7C6VMkDJ6UDKPPKUuzeooucA1Ig3qq93MBl3GCUETiABZad3Ktp0g
-         tmfYg0j2mZ8I/D5HrpV9lGeIQ6Dz3X9lU/cc479xdj2wjNy8TlXdQ1ciy4ItmDNpw9AH
-         PIzlg2qqckGoBS6+SJ2VnPj7qafJTX+Qlxq0W4V4ugMKyDbxehUgW3mT5vZOqDZjbuYR
-         sK8TYQkJeylgZcPHujl8psCphWM+9PD5kg+BMRByyJNRnGj2L/ag7X6sGbKCejUTzem3
-         n0yYlerjrRkjUHkY3NzEjG7fwSPT8NLBB6t4vaGoRoZMqF05bCYCs/zSacaIdwwb4i3u
-         +z1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709374974; x=1709979774;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pMdekztujkt4AzA7D7S8LzaTnjsciXQ/ToTUP2Gu6E0=;
-        b=s8YB44W/Jc4o+SJxhCpPTEaHbjZysnV/185pryDFKDugszY0nfCDjGRWlnFBbtppas
-         3AQvNOiAoRMY6MeoPZKqNjlJ5BNFjAactUsRw/z+rOQ7GJzGdA1yq+4grpw0a7/JF5LC
-         aebg4dj3Tm3ylYNJif5Of3JOMxJEpbYpITsv56M/7zdsH7XmRjfyN0b/5TjcX2NEH85v
-         eSYIZGE9BIORitCTOVUTnjtTo6Jz4xca1Q1iSRT5OXlRWEm1NkjtpHo50P3pW6xIgdF8
-         IP9yF+DnFqrh3khC/GQoVQIDs9SBN0d0ASxLmjEu+DnHyN/u8RHzSh1BfCOAjb5DV4fH
-         pdAg==
-X-Forwarded-Encrypted: i=1; AJvYcCVjhZnoIuC2zD3AXVQhrMwofhTemRK368uX8tBZBHX6NOAo/3nFitX9gF3m5IuS68XCyEltIgSImfcQhtiDw+R3KlmfD8tTcXTw7hnFXw==
-X-Gm-Message-State: AOJu0YwkR6kMHsmj9bazf6rtidwfN4ZYfKsxTPM80yuj6GeGnTUogwWf
-	TY2LGhdDMKssBIVTdOaunU1r2moB1HQZB45ZZyQTAolpaIXpekPC2ig3X2ABqkM=
-X-Google-Smtp-Source: AGHT+IGto6zf48uW6nzQNBBDCaj4Rx9fjM8ygjSJUN3ZcpzxRro+pdXUvseP3v/8bDsBxgZ2BNgAPA==
-X-Received: by 2002:a05:600c:3149:b0:412:b652:27b7 with SMTP id h9-20020a05600c314900b00412b65227b7mr4001193wmo.33.1709374973835;
-        Sat, 02 Mar 2024 02:22:53 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id jl24-20020a05600c6a9800b004126732390asm11126200wmb.37.2024.03.02.02.22.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Mar 2024 02:22:53 -0800 (PST)
-Date: Sat, 2 Mar 2024 13:22:49 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Xi Pardee <xi.pardee@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
-	Rajvi Jingar <rajvi.jingar@linux.intel.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: Re: drivers/platform/x86/intel/pmc/core.c:500
- pmc_core_send_ltr_ignore() error: uninitialized symbol 'map'.
-Message-ID: <047a3af2-682b-4a2a-89ea-ab2112e0cdea@moroto.mountain>
-References: <cdae87ea-ad8b-44d4-936a-c3b698186932@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YyPg4KC6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709377045; x=1740913045;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sW4Amv+bfSPTytN7KXKV7NTTi+cPJ7HEPBTAJMxiyi4=;
+  b=YyPg4KC6ACwdE5LfeVmmtS8Hc6AxDJVZ2XHnJW0IgMxe/QLiHJkuFHhS
+   E/zkLJbLnSZOf0u2Al1T+/ztbZzRXHV6fgyMjc4s6iJb8j++XvXY2MoQX
+   pD3CyoxpjsaXhyXTA8JF5LIYxNRBQNtFQAfqBGiKukQGjZIhlLZ7QTnqs
+   xxrSeSgB+uDyjWd+9Hps7UXDlbZDN+UrrS4q+ZomkK1kGAKj7v6UbqOR9
+   YmuGjI5w0PL+9fPaLMo6jh5p7nb38dP9wUnYYe4Wk6Ku4jbmhTr5eUGnw
+   3n/AChN9A/x/qft/MwNlX9Nv3P9Vg6O/LgMq68ISTP8MXI/se4cBBHQMd
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="6871515"
+X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
+   d="scan'208";a="6871515"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 02:57:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
+   d="scan'208";a="8892606"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 02 Mar 2024 02:57:24 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rgN3B-000EYJ-0n;
+	Sat, 02 Mar 2024 10:57:14 +0000
+Date: Sat, 2 Mar 2024 18:54:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michal Simek <monstr@monstr.eu>
+Subject: arch/microblaze/kernel/entry.S:945: Error: unknown opcode "suspend"
+Message-ID: <202403021817.I7WRFyV9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,50 +57,157 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cdae87ea-ad8b-44d4-936a-c3b698186932@moroto.mountain>
 
-On Sat, Mar 02, 2024 at 01:05:45PM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   5ad3cb0ed525b80c7f66c32b49a68c1f3510bec9
-> commit: 2bcef4529222424559ac9b45948ee9d82c09d9b5 platform/x86:intel/pmc: Enable debugfs multiple PMC support
-> config: i386-randconfig-141-20240302 (https://download.01.org/0day-ci/archive/20240302/202403021544.6qtkaAly-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202403021544.6qtkaAly-lkp@intel.com/
-> 
-> New smatch warnings:
-> drivers/platform/x86/intel/pmc/core.c:500 pmc_core_send_ltr_ignore() error: uninitialized symbol 'map'.
-> 
-> Old smatch warnings:
-> drivers/platform/x86/intel/pmc/core.c:500 pmc_core_send_ltr_ignore() error: uninitialized symbol 'pmc'.
-> 
-> vim +/map +500 drivers/platform/x86/intel/pmc/core.c
-> 
-> 92f530edd7c955 drivers/platform/x86/intel/pmc/core.c Gayatri Kammela   2022-11-14  463  int pmc_core_send_ltr_ignore(struct pmc_dev *pmcdev, u32 value)
-> 9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  464  {
-> 2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  465  	struct pmc *pmc;
-> 2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  466  	const struct pmc_reg_map *map;
-> 36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  467  	u32 reg;
-> 2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  468  	int pmc_index, ltr_index;
-> 9592438886756c drivers/platform/x86/intel_pmc_core.c Andy Shevchenko   2019-12-18  469  
-> 2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  470  	ltr_index = value;
-> 2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  471  	/* For platforms with multiple pmcs, ltr index value given by user
-> 2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  472  	 * is based on the contiguous indexes from ltr_show output.
-> 2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  473  	 * pmc index and ltr index needs to be calculated from it.
-> 2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  474  	 */
-> 2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  475  	for (pmc_index = 0; pmc_index < ARRAY_SIZE(pmcdev->pmcs) && ltr_index > 0; pmc_index++) {
-> 
-> 
-> ltr_index comes from the user via pmc_core_ltr_ignore_write()  Assume
-> that it is zero.
+Hi Appana,
 
-Never mind.  This was fixed in fbcf67ce5a9e ("platform/x86/intel/pmc:
-Fix hang in pmc_core_send_ltr_ignore()").
+FYI, the error/warning still remains.
 
-regards,
-dan carpenter
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5ad3cb0ed525b80c7f66c32b49a68c1f3510bec9
+commit: 88707ebe77e23e856981e597f322cabbf6415662 microblaze: Add custom break vector handler for mb manager
+date:   1 year, 5 months ago
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240302/202403021817.I7WRFyV9-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403021817.I7WRFyV9-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403021817.I7WRFyV9-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arch/microblaze/kernel/entry.S: Assembler messages:
+>> arch/microblaze/kernel/entry.S:945: Error: unknown opcode "suspend"
+
+
+vim +/suspend +945 arch/microblaze/kernel/entry.S
+
+   825	
+   826		/* restore all the tlb's */
+   827		addik	r3, r0, TOPHYS(tlb_skip)
+   828		addik	r6, r0, PT_TLBL0
+   829		addik	r7, r0, PT_TLBH0
+   830	restore_tlb:
+   831		add	r6, r6, r1
+   832		add	r7, r7, r1
+   833		lwi	r2, r6, 0
+   834		mts 	rtlblo, r2
+   835		lwi	r2, r7, 0
+   836		mts	rtlbhi, r2
+   837		addik	r6, r6, 4
+   838		addik	r7, r7, 4
+   839		bgtid	r3, restore_tlb
+   840		addik	r3, r3, -1
+   841	
+   842		lwi  	r5, r0, TOPHYS(xmb_manager_dev)
+   843		lwi	r8, r0, TOPHYS(xmb_manager_reset_callback)
+   844		set_vms
+   845		/* return from reset need -8 to adjust for rtsd r15, 8 */
+   846		addik   r15, r0, ret_from_reset - 8
+   847		rtbd	r8, 0
+   848		nop
+   849	
+   850	ret_from_reset:
+   851		set_bip /* Ints masked for state restore */
+   852		VM_OFF
+   853		/* MS: Restore all regs */
+   854		RESTORE_REGS
+   855		lwi	r14, r1, PT_R14
+   856		lwi	r16, r1, PT_PC
+   857		addik	r1, r1, PT_SIZE + 36
+   858		rtbd	r16, 0
+   859		nop
+   860	
+   861	/*
+   862	 * Break handler for MB Manager. Enter to _xmb_manager_break by
+   863	 * injecting fault in one of the TMR Microblaze core.
+   864	 * FIXME: This break handler supports getting
+   865	 * called from kernel space only.
+   866	 */
+   867	C_ENTRY(_xmb_manager_break):
+   868		/*
+   869		 * Reserve memory in the stack for context store/restore
+   870		 * (which includes memory for storing tlbs (max two tlbs))
+   871		 */
+   872		addik	r1, r1, -PT_SIZE - 36
+   873		swi	r1, r0, xmb_manager_stackpointer
+   874		SAVE_REGS
+   875		swi	r14, r1, PT_R14	/* rewrite saved R14 value */
+   876		swi	r16, r1, PT_PC; /* PC and r16 are the same */
+   877	
+   878		lwi	r6, r0, TOPHYS(xmb_manager_baseaddr)
+   879		lwi	r7, r0, TOPHYS(xmb_manager_crval)
+   880		/*
+   881		 * When the break vector gets asserted because of error injection,
+   882		 * the break signal must be blocked before exiting from the
+   883		 * break handler, below code configures the tmr manager
+   884		 * control register to block break signal.
+   885		 */
+   886		swi	r7, r6, 0
+   887	
+   888		/* Save the special purpose registers  */
+   889		mfs	r2, rpid
+   890		swi	r2, r1, PT_PID
+   891	
+   892		mfs	r2, rtlbx
+   893		swi	r2, r1, PT_TLBI
+   894	
+   895		mfs	r2, rzpr
+   896		swi	r2, r1, PT_ZPR
+   897	
+   898	#if CONFIG_XILINX_MICROBLAZE0_USE_FPU
+   899		mfs	r2, rfsr
+   900		swi	r2, r1, PT_FSR
+   901	#endif
+   902		mfs	r2, rmsr
+   903		swi	r2, r1, PT_MSR
+   904	
+   905		/* Save all the tlb's */
+   906		addik	r3, r0, TOPHYS(tlb_skip)
+   907		addik	r6, r0, PT_TLBL0
+   908		addik	r7, r0, PT_TLBH0
+   909	save_tlb:
+   910		add	r6, r6, r1
+   911		add	r7, r7, r1
+   912		mfs	r2, rtlblo
+   913		swi	r2, r6, 0
+   914		mfs	r2, rtlbhi
+   915		swi	r2, r7, 0
+   916		addik	r6, r6, 4
+   917		addik	r7, r7, 4
+   918		bgtid	r3, save_tlb
+   919		addik	r3, r3, -1
+   920	
+   921		lwi  	r5, r0, TOPHYS(xmb_manager_dev)
+   922		lwi	r8, r0, TOPHYS(xmb_manager_callback)
+   923		/* return from break need -8 to adjust for rtsd r15, 8 */
+   924		addik   r15, r0, ret_from_break - 8
+   925		rtbd	r8, 0
+   926		nop
+   927	
+   928	ret_from_break:
+   929		/* flush the d-cache */
+   930		bralid	r15, mb_flush_dcache
+   931		nop
+   932	
+   933		/*
+   934		 * To make sure microblaze i-cache is in a proper state
+   935		 * invalidate the i-cache.
+   936		 */
+   937		bralid	r15, mb_invalidate_icache
+   938		nop
+   939	
+   940		set_bip; /* Ints masked for state restore */
+   941		VM_OFF;
+   942		mbar	1
+   943		mbar	2
+   944		bri	4
+ > 945		suspend
+   946		nop
+   947	#endif
+   948	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
