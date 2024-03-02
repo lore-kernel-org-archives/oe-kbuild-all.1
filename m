@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9117211C92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C5E10A1F
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 08:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709367607; cv=none; b=Wm084dh4TZb6LcpoIghNznrGz8lZjR03LejnJckVV0k4O8e++zJ1kv/mo0Wmq18hS8WuiSj6qB8+cxVpga+viHLiwhl4ix4F3/OaNGSdXHcpqh1uWbOhZc+0LL2K3v0md2Go3vvnqEzH2sSJDPsExpJATTt/m1rcW4Q+0B4aT70=
+	t=1709367607; cv=none; b=hwxZ7VN92acAbHS4E+b1y/Wbc3v4JBX+Hi6Qg6Eke3d6NVNAeQhHM5Ko9SKeRp8r+xNGvY4d54M+YRl7tMlz8aJHUTAMerxX4s3KqQkHA7usm8Itqpu02vApN0MCFkeaPiMDnedsuuSCL18SJBSBZykaMqP9EpUTAGTcmnikM74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1709367607; c=relaxed/simple;
-	bh=4tXcOXcUrP0+jqLgD1fyYl1ENBstb08f2mCwSq9QMNA=;
+	bh=h1Mig9LcHQuMM29YmwBschmo5BIaCsvhFyTfAzlk8nY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L7CH1tPQ6aOjir3CbXztqeQa8yb/v6hLieh8ULqVT59ExphNtIzAISUYQGQYP1e/lAtaYejZUMR97IsS6Ya8H3V1WqzLlKLe5pi/ry4OYYeA60QCsrRxj8/VuqVY4SYSUjq9W4aonLecJr2ZJfaDa7SLnjcSSNX79XPBeVKwXWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kMv+Trd9; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=WUjJFCqOu3Was0KIwAA8FsF6xIMamXazohLKx0DAoAFcPG+t+i7QKt20qlx3MGwxcdEHASyJxBPSK1mSoAZ/JjcRtlBFhAzCgCPpY/1Yi6TjQO2oQz3O8/0tJLhZsTht9jV1evFEfPZ6rMsD6nrdLXYrAMOaiE/xbIhzwkC7j/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GQDdb9f7; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kMv+Trd9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GQDdb9f7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709367605; x=1740903605;
+  t=1709367606; x=1740903606;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4tXcOXcUrP0+jqLgD1fyYl1ENBstb08f2mCwSq9QMNA=;
-  b=kMv+Trd9Itc2YBgjqZCSOVwf1O3nvnwVV35ZAE23h+x11HhYpehzMq6e
-   YnrZgtNhnoXFKe0F8KR6i9sTeRQ4zQ3ATL7GAAfG2NodITJKlRiI9ezB9
-   aOtuxq9LBfH9uVY/uc96xxcVurjGgL3NPPEv5pyH5mywk0/tqu9WTKGGX
-   XlzunnnNqLyxd+ZDbdFKJZgNa7nscDD/uYZYcwtcuolWA30S0jVNw1doz
-   g4hW+PSMR4aXylOxjk2y75Mg0OAdsIwH1QxVpA0cqf80ajMbmeb7zVU3D
-   6DlNkX/qXHfuAztKySfyoeGWnc9xcgO3Orny0Ht7OHA/Fl4PQdP5HlRLu
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="21456083"
+  bh=h1Mig9LcHQuMM29YmwBschmo5BIaCsvhFyTfAzlk8nY=;
+  b=GQDdb9f7JxIV+mA90EBrfPgdbariTqOqP50y7/pH2sWJOTSZFjFS8KyT
+   E0z2nHa1Slltn0tNEDlsxbUQuJ5Qf1Dj0GW3vxXp0AxwoIKJTqEhy0DMv
+   lJV0M8FsMQGa4ccj1ZC9ehsma03RsxR7iKAkq768+0/aQehFwyeIvp88M
+   vpDHvpJb+I4fQxv0B5QPIIZTcmSsX0pTVn6sFysGcrneUOyMU0sYPhJEv
+   6IDWK/mNN5NZXqikdHpqbIEjJ3SeYkD3S3ozCSbOn6yFtX7MXSJ/ZGwgh
+   JE90W1ruyt+WT2IejoLx8/PG3t/+Djbw+4/+71CGDrUHK9P/rhoJDBelW
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="4087856"
 X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="21456083"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 00:20:05 -0800
+   d="scan'208";a="4087856"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 00:20:05 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="8567841"
+   d="scan'208";a="13099786"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Mar 2024 00:20:03 -0800
+  by orviesa004.jf.intel.com with ESMTP; 02 Mar 2024 00:20:04 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgKbB-000ESX-1U;
+	id 1rgKbB-000ESZ-1b;
 	Sat, 02 Mar 2024 08:20:01 +0000
 Date: Sat, 2 Mar 2024 16:19:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Gerst <brgerst@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Ingo Molnar <mingo@kernel.org>
-Subject: [tip:x86/boot 9/9] arch/x86/include/asm/desc.h:54:16: sparse:
- sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202403021605.gg6Sr3yI-lkp@intel.com>
+To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2676/3767] rdtgroup.c:undefined reference to
+ `lockdep_is_cpus_held'
+Message-ID: <202403021655.4zz3RhBO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,36 +58,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/boot
-head:   721f791ce1cddfa5f2bf524ac14741bfa0f72697
-commit: 11e36b0f7c2150a6453872b79555767b43c846d0 [9/9] x86/boot/64: Load the final kernel GDT during early boot directly, remove startup_gdt[]
-config: x86_64-randconfig-121-20240301 (https://download.01.org/0day-ci/archive/20240302/202403021605.gg6Sr3yI-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403021605.gg6Sr3yI-lkp@intel.com/reproduce)
+Hi James,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   236cb940335e3542c9d5ac16b5d8546a0cbbdfc1
+commit: c054efea286659a6504fdeafc0a611c6a3b124cc [2676/3767] x86/resctrl: Claim get_domain_from_cpu() for resctrl
+config: x86_64-buildonly-randconfig-004-20240301 (https://download.01.org/0day-ci/archive/20240302/202403021655.4zz3RhBO-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403021655.4zz3RhBO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403021605.gg6Sr3yI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403021655.4zz3RhBO-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
+All errors (new ones prefixed by >>):
 
-
-vim +54 arch/x86/include/asm/desc.h
-
-a939098afcfa5f include/asm-x86/desc.h      Glauber Costa  2008-05-28  50  
-69218e47994da6 arch/x86/include/asm/desc.h Thomas Garnier 2017-03-14  51  /* Provide the original GDT */
-69218e47994da6 arch/x86/include/asm/desc.h Thomas Garnier 2017-03-14  52  static inline struct desc_struct *get_cpu_gdt_rw(unsigned int cpu)
-a939098afcfa5f include/asm-x86/desc.h      Glauber Costa  2008-05-28  53  {
-a939098afcfa5f include/asm-x86/desc.h      Glauber Costa  2008-05-28 @54  	return per_cpu(gdt_page, cpu).gdt;
-a939098afcfa5f include/asm-x86/desc.h      Glauber Costa  2008-05-28  55  }
-a939098afcfa5f include/asm-x86/desc.h      Glauber Costa  2008-05-28  56  
-
-:::::: The code at line 54 was first introduced by commit
-:::::: a939098afcfa5f81d3474782ec15c6d114e57763 x86: move x86_64 gdt closer to i386
-
-:::::: TO: Glauber Costa <gcosta@redhat.com>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+   ld: arch/x86/kernel/cpu/resctrl/core.o: in function `rdt_ctrl_update':
+   core.c:(.text+0x2561): undefined reference to `lockdep_is_cpus_held'
+   ld: arch/x86/kernel/cpu/resctrl/rdtgroup.o: in function `resctrl_offline_cpu':
+>> rdtgroup.c:(.text+0x12301): undefined reference to `lockdep_is_cpus_held'
+   ld: arch/x86/kernel/cpu/resctrl/monitor.o: in function `update_mba_bw':
+   monitor.c:(.text+0x31e): undefined reference to `lockdep_is_cpus_held'
 
 -- 
 0-DAY CI Kernel Test Service
