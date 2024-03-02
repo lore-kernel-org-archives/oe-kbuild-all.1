@@ -1,78 +1,110 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567D72C697
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 18:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FB022075
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 18:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709402965; cv=none; b=XVNeQIBKtWb2OKcLX4Q07H6IhL/hDEsWAvm+JgL8ASHoiHewKi27fDPGDn8ssDGIjPSSE003LI87W8zH2dxnpac4hdCfap99YBldYiEzQvka1N/Q2NOTTn+nqtLqVcM/aleJd1rt32KkJr9MVs7UZZx38gD8u74bg2UQoBicXF0=
+	t=1709403419; cv=none; b=pk14Tip7TMuC/5uaduNXjPqfQC3JfvYNEXjjKlA9YxKK4M+cCPz1e+wPs4pEhZ1EO3sQ920hd5yEC5smqgQdw2YGSmL8q9Vjjwhto1EahRYE9/P/UTYh2qWWqTGRFA8zy+9EDDP9OXYRe8pr6Acpq4M7QW5dvRVoTjP7ptawluc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709402965; c=relaxed/simple;
-	bh=FU/QoHhtyAxcZ4mjSjKgf0gjq7NkU2ZbECBmB3zef5s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q89ilYbItoi5p2CBWpu3W+08X2BLVSqG44FMYwBsm3RejwTCZqi9RAG13etibJlGCGrYUqYxkGL3QSuL2CRh9g9QQElUtvb/NdqMovNkjHC57cgORnn0AzgCPH4R+yVxFhPZyxRUS+jb/DmwBuRWd3ygx+uwZwI6BTr45KXZcTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=p9Ssb6+q; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1709403419; c=relaxed/simple;
+	bh=dhpC1z1VlOjYv5PCibNXLQn4/9V+7BuN441NiWBMd68=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KN0TlcpPw/qxOGk8tXnpUIu9nXgWrcQHa4mc9v5lwJW4BXD4Hh22ML29Va2H9Y3SN0b/VuyQJm/VPDEearMbAKgRHFgLLLgzuQRkG2/GaZeOjQEMS9w906SOBQk6s6PB7j/t1L+2agieM7a4ow+VrY3lO25b6wkDH0o31ly26Z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HegcN9C2; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="p9Ssb6+q"
-Message-ID: <ef878388-ecef-45ff-a33a-d7b2e18d5220@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1709402960;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bgPk+rTxpwWNQqzbhXb+NEtPGoKxdfgxofmyHTrXzyo=;
-	b=p9Ssb6+q75aDDRXy/EedCObSwLFirqYarxxnaXMkGnv+UYPAuaFmxAizFSvnsOPhHPH2Q9
-	3kgMaIKSZBZiSUP7inPqcNWIf5dA0Z+AQ6bJFk5NiKngw2focF1iCH6rMJhaDyY6A2XOis
-	EgGtHPhjhPfIfG1nvZBJm36yGMkeSck=
-Date: Sat, 2 Mar 2024 10:09:12 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HegcN9C2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709403418; x=1740939418;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dhpC1z1VlOjYv5PCibNXLQn4/9V+7BuN441NiWBMd68=;
+  b=HegcN9C22YDjJfzUYiwd5BMYErKollyhPityRkTEcEgXsPtnfi00Omc8
+   WBmumuAyk+w5SPOrgkAJFI/GpNkQmf1GbV5jbjuYglTFbJRXaB7YrGqnx
+   XPuhhEOl3MPZA+lZERDym6u1b0LyIImMFgFcJk7egatDQ/M+eb3L2HFbR
+   dWIf9wEIqC8ySJGOwqAO48ep9tNd7nb841GQqPJVreV4ZOC2TtzVZaY7z
+   txqk+4vyVi9mppn9Uu4qQJMW6tInav7g1JKtEY1/GcAUfNlz6n+uTtVU5
+   dWlw1ln+ZDSUw+meC7ElCOvkz/DiVcdpNsC4ETx4lMRmlioCNi9VCHay/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="14510791"
+X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
+   d="scan'208";a="14510791"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 10:16:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
+   d="scan'208";a="8755118"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 02 Mar 2024 10:16:56 -0800
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rgTuo-0000DI-06;
+	Sat, 02 Mar 2024 18:16:54 +0000
+Date: Sun, 3 Mar 2024 02:16:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: WARNING: modpost: "strncat" [lib/strcat_kunit.ko] has no CRC!
+Message-ID: <202403030236.qOy0rBIN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [linux-next:master 5519/11156]
- kernel/bpf/bpf_struct_ops.c:247:16: warning: bitwise operation between
- different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type')
-Content-Language: en-GB
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
- Kui-Feng Lee <sinquersw@gmail.com>
-Cc: Thinker Li <thinker.li@gmail.com>, kernel test robot <lkp@intel.com>,
- oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>,
- Martin KaFai Lau <martin.lau@kernel.org>, bpf <bpf@vger.kernel.org>
-References: <202403010423.0vNdUDBW-lkp@intel.com>
- <CAFVMQ6QYvHfc_=cpOddWgoWDTRt3GHG5+LLB3NoFFRRiCMWDLw@mail.gmail.com>
- <73e0fa99-7dff-4cb9-bfed-fd3368e54542@gmail.com>
- <CAADnVQJUZZXusOS3h9fnUUoFQ7=o5iJDDANaUqNBheuhHrUXeg@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <CAADnVQJUZZXusOS3h9fnUUoFQ7=o5iJDDANaUqNBheuhHrUXeg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5ad3cb0ed525b80c7f66c32b49a68c1f3510bec9
+commit: 3bf301e1ab85e18ed0e337ce124dc71d6d7b5fd7 string: Add Kunit tests for strcat() family
+date:   10 months ago
+config: alpha-randconfig-r024-20230814 (https://download.01.org/0day-ci/archive/20240303/202403030236.qOy0rBIN-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403030236.qOy0rBIN-lkp@intel.com/reproduce)
 
-On 3/1/24 10:27 AM, Alexei Starovoitov wrote:
-> On Fri, Mar 1, 2024 at 10:26 AM Kui-Feng Lee <sinquersw@gmail.com> wrote:
->> For BPF,
->>
->> We have a lot of code mixing bpf_type_flag and bpf_reg_type in bpf.
->> They cause the warning messages described in the message following.
->> Do we want to fix them all, or keep them as they are?
->>
->> They can be fixed by merging two enum types or casting here and there if
->> we want. Any other idea?
-> We probably should add -Wno-enum-enum-conversion to kernel/bpf/Makefile instead.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403030236.qOy0rBIN-lkp@intel.com/
 
-The warnings are only triggered with latest llvm19 development branch.
-The warnings are triggered in many subsystems, bpf, mm, etc.
-The following commandline can workaround the issue:
-    make LLVM=1 -j KCFLAGS=-Wno-enum-enum-conversion
-There is a discussion how to fix it here:
-   https://github.com/ClangBuiltLinux/linux/issues/2002
-No conclusion yet.
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
+WARNING: modpost: vmlinux.o: EXPORT_SYMBOL used for init/exit symbol: page_is_ram (section: .init.text)
+WARNING: modpost: EXPORT symbol "strcpy" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strcpy" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "strcat" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strcat" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "strncpy" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strncpy" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "strncat" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strncat" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: "strcpy" [fs/ecryptfs/ecryptfs.ko] has no CRC!
+WARNING: modpost: "strncpy" [fs/ecryptfs/ecryptfs.ko] has no CRC!
+WARNING: modpost: "strncpy" [security/keys/encrypted-keys/encrypted-keys.ko] has no CRC!
+WARNING: modpost: "strncat" [lib/kunit/kunit.ko] has no CRC!
+>> WARNING: modpost: "strncat" [lib/strcat_kunit.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/mmp/fb/mmpfb.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/cyber2000fb.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/char/ipmi/ipmi_msghandler.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/char/ipmi/ipmi_watchdog.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/tty/n_gsm.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/base/regmap/regmap-kunit.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/nfc/pn544/pn544_i2c.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/mtd/devices/phram.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/mtd/nand/raw/r852.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/auxdisplay/panel.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/usb/misc/usbsevseg.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/input/rmi4/rmi_core.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/power/supply/bq24190_charger.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/mmc/core/mmc_core.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/crypto/cavium/nitrox/n5pf.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/hid/uhid.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/iio/test/iio-test-rescale.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/bluetooth/bluetooth.ko] has no CRC!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
