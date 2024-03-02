@@ -1,196 +1,223 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BC21755F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 13:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709385446; cv=fail; b=sTkBnc3Tu+aNzn5bqR1jhUBGJggIFtVB1zxY8fRXWXjkq4yS7NUorI59JH33a1mJhoPkrtChIWJ3EBYhAjSDrqlGf0RzTXt6d95CinrDyOsqkTDQMpEsYNrixPRrNi7NVK7EMH+k/C3lL6YgkQ4R5OQPEDOe0rj4MsJEVEKVLo8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709385446; c=relaxed/simple;
-	bh=hz+51oVgObz6tQwL9dL7u+Iazb+v9D0i3rB6XSlbBtk=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ewYydmruwtvQTdNnUByE3Q7iDVuVa5Lbbts14/W9DuJTOIuQ8Gexawx9/v6uZqjihWuWf/5QPHM17fvP7uqHCnSFgOu+wfqKO+3kWuHbyBux6i0IlyxBRTaakopvHKcqB1vSSKEi1erorOBkUelrnRgNMQlqX0943ClO80yxgUc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHNEQCFu; arc=fail smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C9D1C16
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 13:27:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709386074; cv=none; b=p8kDItmqtXvXwxnmCfuRTqRfnquq60+QA1DtkmgUpk+zwLzj3u6WdWHcHLB9xt2gYZ6UROrGu8t2zRErIUqlZp5ltEVUrROTpgHr031WGEIcU9uwCS7+Ih0EHvTimtg5fxZi8jP9OowyMdcpHtMOHX7RrD1KYMU8nVkabO6cYBg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709386074; c=relaxed/simple;
+	bh=leFVYK67Bkb/qy8zlddc8odTktk+676f6Ta8NISHrqo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hwBF0JoEhtKxfLpA1qZmqN6snzS+4P1BKJR0vMOiIuFoveCsBhENjYM3D6ePzBt4x/2sX1UzNojTOXKzUY43FSYgFoT71tbmHIa+0vKcmc44JXmmSPvR5UDnh9M+MdDLgUIT6jIE+IudmftInrE5j1MhIvL5GDX+IOnLbvLIuEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EwzQJDa8; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHNEQCFu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EwzQJDa8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709385445; x=1740921445;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=hz+51oVgObz6tQwL9dL7u+Iazb+v9D0i3rB6XSlbBtk=;
-  b=QHNEQCFu7GzGDl+EuDHd2Is0+RypUnSVbuaLblQam8JwLiukQeuVSdjF
-   AvjvFTI9jQ2XZBywPIeL/wy9TW31pdSBee4KAVSfvWrZn6mVdo3Ct1GTC
-   39Zu3T+N1Puq8LxOsFiGRtH6MMh0l+bxWZTlflEZt/y7Ct7+c0aRMaEwt
-   adjfCTXFn0eQLlOMRRMjHd98tbvnfLwUG/9Lxq+/Ghlm6Hr0rZBUIG6Vb
-   LviypnXPQCa/xoNkurJKKQxFJtEzFjO7yRrLKZcXJcKynM56ll0G8bUcX
-   CbTOgP5tvb9dWGkSb6Uo6hVX7vYRm5SnT6DLV0Olf5WdMooNdYCvGow+B
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="3787943"
+  t=1709386073; x=1740922073;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=leFVYK67Bkb/qy8zlddc8odTktk+676f6Ta8NISHrqo=;
+  b=EwzQJDa8P4d3nYeGp5c5l4HJUYQ76G6WZq6auZ1/QFWzAilbAVAubqLM
+   Ln7mpMraj4NrtdgK74qgamU7npPfJZ3elsr62Ux5lFgIaun5++usYwEYD
+   P0C6MU9L6SEJXvaOhEKHGxr20qV2qjRrJHeBP8WBUTTMK7L0MrT+xh2kV
+   zMffDThT/Z1cJhIs4ViTkjMY5Raalx+suntQoXtjjq6I4LJIWiCudFCbb
+   vcaujjLvpIBE7FypHnikylPYYSWWILfQV0Vf6NZ1q2zflRu9H83X2khUg
+   u0gWW5E2+uHsmsSuFTncRxUULJ4bJpi3kKAhwV+2kV8B9opnlGd7gDWt0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="7738803"
 X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="3787943"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 05:17:24 -0800
+   d="scan'208";a="7738803"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 05:27:52 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="8619365"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 Mar 2024 05:17:23 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sat, 2 Mar 2024 05:17:22 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Sat, 2 Mar 2024 05:17:22 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Sat, 2 Mar 2024 05:17:22 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RfOBGuHdqB6/s/fyDSphdZ7lzEESVYMtnwlUZIdZYfrL2YbSfuUpRJvyEIFc1otxhuahGVA5Nzljigbpl46h7UbDXyYhRC8yT2FUkm+oPep/F096LUPz6+s3ll3bf8MgbHfJQycPOuoWBi2mvAaOv7ZN6uoAifeVdl68jYdr+eFxLTxI/OaABW1BshUowYghMdBafbD0Z0iVkyugMpr81a3PRZVEx0abbimHybBUxZ4FZPI+kvQRafbLQP2OQoKNM0tmaNeWjrCx+MHrLOjLmdQ48bOW5JOTdriFsGYifsJSCggKx42GdcxhpOv/lJSy8RJJYdWWLyRRkRoe7aYwUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CV9UMNR1d1PDFltJWqYYoEOo8afP/5/nQSmbKexhfKk=;
- b=kT9TvQSjth6MlAOzUQTmmJjjYO5wgcFanMq9Ivd5PcWv8Ky4wsRdwqizqJam5TtwiQWuvbBOcABXr+P2zEfJNiBoXoF2PicUjwqEo2t11v5vUbAs6PNkYwzVQ/vQBSCgM88uyJz+ZW78eCEM9RX3Ha+DQ5VqCVMHPqK4ioUIDcbkY0A/5X0S1zGqqbLUfP90zhefRXNAwipN10frmHXCXxlsPxHJokmcceXOCInYXHz/LJCqU0XHNAFrLnPIdZ9neyj+wL/U/z48450HFpUtJuaBy81OoH79KTMWELERO9YfuXYxOj0f2/alzPbBsqjmqZSj6HNLnyVvkFCP/C1Y3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by CY8PR11MB7242.namprd11.prod.outlook.com (2603:10b6:930:95::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.25; Sat, 2 Mar
- 2024 13:17:20 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::7118:c3d4:7001:cf9d]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::7118:c3d4:7001:cf9d%5]) with mapi id 15.20.7362.015; Sat, 2 Mar 2024
- 13:17:20 +0000
-Date: Sat, 2 Mar 2024 21:10:30 +0800
-From: Yujie Liu <yujie.liu@intel.com>
-To: kernel test robot <lkp@intel.com>
-CC: Sandipan Das <sandipan.das@amd.com>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>
-Subject: Re: arch/x86/events/amd/uncore.c:601:10: sparse: sparse: incorrect
- type in initializer (different address spaces)
-Message-ID: <ZeMlRmZs6zX+wqje@yujie-X299>
-References: <202403020941.UCnNA0rh-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <202403020941.UCnNA0rh-lkp@intel.com>
-X-ClientProxiedBy: SI2PR02CA0009.apcprd02.prod.outlook.com
- (2603:1096:4:194::11) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="8864489"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 02 Mar 2024 05:27:50 -0800
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rgPP1-00001k-1M;
+	Sat, 02 Mar 2024 13:27:47 +0000
+Date: Sat, 2 Mar 2024 21:27:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <yuchao0@huawei.com>,
+	Chao Yu <chao@kernel.org>
+Subject: [chao:feature/fs_param 1/1] fs/f2fs/super.c:231:19: sparse: sparse:
+ symbol 'f2fs_mount_opts' was not declared. Should it be static?
+Message-ID: <202403022141.0P5rChKd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|CY8PR11MB7242:EE_
-X-MS-Office365-Filtering-Correlation-Id: fc52c1d5-e25e-4997-7dcf-08dc3abb1759
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0TJ/37Y5AgZf70oTN4bhBMfbSb4nUUNOOkmhdIlPodfNemGAsyVhRPC8b+x72CIDRtLg4qu7j/0EGbwKK4lGJ+5GJezDeXgN4Dj+0mzKkI4p884PbY8uZEgarAgnJ23E0AGzRqOAKc39iXNMLPPRNcPcO5zeazzLvAYvucHV93C3QBj2bHwCFyb0/ZWAU3ZW5JwlquKfCSmnV+daRANcmZJSA+yFepeMBGiiRhKpqnly0Z7JmpW2LKFhmS+ccy5o+6fTErEh0qDFDHPdbw3lqfym3uBvMO0vwHptB8B+xvP+zgFIHgNoVEYIikIJlrQHFBg4NqVaPDnukm3psFCrtP5W8rc9nm6OTcdGrrhpctp9L8caCzccPxzJskWt8GHIYUquFWxz3DHy82YEOvRmh1EP7yjc9FzFr2Qs7CObkeaDJCIuj3BshYXgcTKmU89D/ydj54bn4+NCwreSY0K4LY60vk0LoPGoaRQTFnlkRWXdlmkYp02pbvJG5dgEMCDwDcpSM68XvNDqp3wITWq/j2akVahDDywYjrGT8DvuWAvHLPoJ++Xheote71P5Kzi0hXW3qilJfllz4PKeYUR8Kt6XyLO2O1XBIy4yY/l+xX0YGJMqfnwdEDvaj1CYcqtt
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?G0q3J6TgJ7039Y/onG3XDr1/Vu8LFscsmRiEkEkUOvRyu2HwlAF5t67l2bF4?=
- =?us-ascii?Q?HL8krduajOBaJNFxZUNtHV/29iRB0SrFf7aXiKjRELSTrVS3Dy/ZGr8aGw/V?=
- =?us-ascii?Q?Fbw6i+wEFRFruyvrFTsyOdEgMl3buhtVCRFzkskNDyIjzJczAYgDS5/8/fOy?=
- =?us-ascii?Q?ORaHml/s6A48G5m9GpqAPOcFMXqQeXIZUVCXH7di24DRPK23RTOqdZMSbr0q?=
- =?us-ascii?Q?NUyZO4JiXmrgZkm5JfHw0lfrBYpOL92H3v8vxElX7clg8dqkBFuIxk1ihkiQ?=
- =?us-ascii?Q?q2DnS2W6xT98vp+fDYbgPSXho7WuGZyKHB7qgqY9jU+rATDcQU8oHxTIWRzz?=
- =?us-ascii?Q?MXSRcgWRtQmd2XLIaDT88Y2viDv6nuYWi2vfpt0mAbYoMnzCHUg/ELFSqkIL?=
- =?us-ascii?Q?7PoTQCkyU5+y3GYgl1TBu97NrMdZXKZr5xnDiF7w36Tx2ci1guHb4bLt4Pmf?=
- =?us-ascii?Q?VBh0nW9vncjlRD9uCiBAgUMkrBmJY6XcMXXQqhpOLE9ZW+M2F2Y+DtXYinV/?=
- =?us-ascii?Q?scFX3xbhEQwR9rDrhXekaaYrBaWjFpyC2h1sqpPL83bZJdoBHUPand/tHYbR?=
- =?us-ascii?Q?de7V8nMvIOluMTcAUCUqbyuVwWBVz95wAjIEQ2TZKkKPiLpc5kO8CaaQA3s9?=
- =?us-ascii?Q?8H1tN4doTwB559im/j6imY3oAIsGZ4xaOikedL+JHpkiyrsy3m2ZRMDYxW+4?=
- =?us-ascii?Q?vDyTGfP0NGHY6GtEuvKludpg3jtcpEqmD43Xy9t+Uaa2cLDvpV5Po/7vaRyO?=
- =?us-ascii?Q?yndpQMMYrj8Pqb1GorWt2pYyXH0a1XIvj7MChlp8uehoHsQLcuFduSj2DmYJ?=
- =?us-ascii?Q?KE5COaBu3ouIXYk2x7IY5t0qpj5S1ge1VwMFbo1Ovr022eVyOeFcCQjRqUGu?=
- =?us-ascii?Q?baM1PW41VIwHgnACV2VXl6geDFU84el76aWLpF7Iizc5riS4zdLYKof/mS1t?=
- =?us-ascii?Q?/LgNxvdNpUkeQgSlvFUCTBlofMOxrd7sGsK4558QR+GlZTbVp1k/UL254XGo?=
- =?us-ascii?Q?uBibV4OXzqwIQEkZqGD+o2isgyzur4LEETVTfXE3WZq5b9kc3uqC7jwboPSU?=
- =?us-ascii?Q?rnbEP0nNt8ysSd+pdrLXbUXJej90x/M+oDHTPuA/6FvRIqc3PgIGzJwE8UCu?=
- =?us-ascii?Q?5nCg2IFFzWfQTBZLhwvkIHemqWq+rG61Ge8uF+uKdAiC8OOf7KGgXZaxuIjn?=
- =?us-ascii?Q?nUoKcaUwcqCtQ+91KQ8PvR2qPUNzubW6p3jgNgiXX3btpMWBQc2k4uz/zZZZ?=
- =?us-ascii?Q?OZqx0fltW9IkdZGLoqAZj737kejvbNn0OFXEVGsx2b/Ow5Vncup7/NT44wM9?=
- =?us-ascii?Q?uwPBzt7nyrJHiIvZ2XuuzTE/BIjYkjy5kmepuCl4rmb3CwaeVfI3WjudsTzZ?=
- =?us-ascii?Q?RFnyQMjIHFtUaZ3c2wavfQwSIHvRBnMDsq0C+yI11cXBje2YNHC6fl7vZBLl?=
- =?us-ascii?Q?4ENp+742rF9ZT7WxEfoaYyJHEjpzt+gha61dT5fyym8O+WkEpdUwCtcJKsL0?=
- =?us-ascii?Q?xTyYzxUD01NWBodMoh4sQt2e8ZeGwT00gWyx9pso7RSSbqFVy/UaMYbl1yFT?=
- =?us-ascii?Q?Vb4FSuWh21g48ejv6T+XSOmkQSNbzkawWcCc027w?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc52c1d5-e25e-4997-7dcf-08dc3abb1759
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2024 13:17:20.5633
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sT3xNNfe4rRS48VdUQhBQLvPhVaZy8wLgxV9sQhKBNUEDZ/wF4iSOBhEMKrgH6FPmRGfhx5PXbQwrs7rA+WeKg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7242
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, Mar 02, 2024 at 09:32:05AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   d17468c6f1f49e6259698f6401b8d7a5b90eac68
-> commit: 07888daa056e809de0b6b234116b575c11f9f99d perf/x86/amd/uncore: Move discovery and registration
-> date:   5 months ago
-> config: x86_64-randconfig-r122-20240301 (https://download.01.org/0day-ci/archive/20240302/202403020941.UCnNA0rh-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403020941.UCnNA0rh-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403020941.UCnNA0rh-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git feature/fs_param
+head:   d4eac172f8f9f4594056366859b67e589e6124c3
+commit: d4eac172f8f9f4594056366859b67e589e6124c3 [1/1] [WIP] f2fs: use new fs_context interface
+config: x86_64-randconfig-121-20240302 (https://download.01.org/0day-ci/archive/20240302/202403022141.0P5rChKd-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403022141.0P5rChKd-lkp@intel.com/reproduce)
 
-Sorry for the empty warning here. The actual sparse warning is:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403022141.0P5rChKd-lkp@intel.com/
 
-arch/x86/events/amd/uncore.c:601:10: sparse: sparse: incorrect type in initializer (different address spaces)
-arch/x86/events/amd/uncore.c:601:10: sparse:     expected void const [noderef] __percpu *__vpp_verify
-arch/x86/events/amd/uncore.c:601:10: sparse:     got union amd_uncore_info *
+sparse warnings: (new ones prefixed by >>)
+   fs/f2fs/super.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/f2fs.h):
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
+   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
+   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
+   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
+   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
+   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
+   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
+   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
+   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
+   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
+   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
+   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
+   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
+   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long flags @@     got restricted vm_fault_t [usertype] ret @@
+   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long flags
+   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t [usertype] ret
+   fs/f2fs/super.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/f2fs.h):
+   include/trace/events/f2fs.h:1121:1: sparse: sparse: cast to restricted blk_opf_t
+   include/trace/events/f2fs.h:1121:1: sparse: sparse: restricted blk_opf_t degrades to integer
+   include/trace/events/f2fs.h:1121:1: sparse: sparse: restricted blk_opf_t degrades to integer
+   include/trace/events/f2fs.h:1121:1: sparse: sparse: cast to restricted blk_opf_t
+   include/trace/events/f2fs.h:1121:1: sparse: sparse: restricted blk_opf_t degrades to integer
+   include/trace/events/f2fs.h:1121:1: sparse: sparse: restricted blk_opf_t degrades to integer
+   include/trace/events/f2fs.h:1180:1: sparse: sparse: cast to restricted blk_opf_t
+   include/trace/events/f2fs.h:1180:1: sparse: sparse: restricted blk_opf_t degrades to integer
+   include/trace/events/f2fs.h:1180:1: sparse: sparse: restricted blk_opf_t degrades to integer
+   include/trace/events/f2fs.h:1180:1: sparse: sparse: cast to restricted blk_opf_t
+   include/trace/events/f2fs.h:1180:1: sparse: sparse: restricted blk_opf_t degrades to integer
+   include/trace/events/f2fs.h:1180:1: sparse: sparse: restricted blk_opf_t degrades to integer
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: cast to restricted vm_fault_t
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: restricted vm_fault_t degrades to integer
+   include/trace/events/f2fs.h:1409:1: sparse: sparse: restricted vm_fault_t degrades to integer
+>> fs/f2fs/super.c:231:19: sparse: sparse: symbol 'f2fs_mount_opts' was not declared. Should it be static?
+   fs/f2fs/super.c:1107:35: sparse: sparse: context imbalance in 'f2fs_drop_inode' - unexpected unlock
+   fs/f2fs/super.c: note: in included file (through include/linux/module.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-> 
-> 
-> vim +601 arch/x86/events/amd/uncore.c
-> 
->    582	
->    583	static
->    584	void amd_uncore_df_ctx_scan(struct amd_uncore *uncore, unsigned int cpu)
->    585	{
->    586		union cpuid_0x80000022_ebx ebx;
->    587		union amd_uncore_info info;
->    588	
->    589		if (!boot_cpu_has(X86_FEATURE_PERFCTR_NB))
->    590			return;
->    591	
->    592		info.split.aux_data = 0;
->    593		info.split.num_pmcs = NUM_COUNTERS_NB;
->    594		info.split.cid = topology_die_id(cpu);
->    595	
->    596		if (pmu_version >= 2) {
->    597			ebx.full = cpuid_ebx(EXT_PERFMON_DEBUG_FEATURES);
->    598			info.split.num_pmcs = ebx.split.num_df_pmc;
->    599		}
->    600	
->  > 601		*per_cpu_ptr(uncore->info, cpu) = info;
->    602	}
->    603	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+vim +/f2fs_mount_opts +231 fs/f2fs/super.c
+
+   230	
+ > 231	struct mount_opts f2fs_mount_opts[] = {
+   232		{Opt_gc_background,		0,				MO_ENUM},
+   233		{Opt_disable_roll_forward,	F2FS_MOUNT_DISABLE_ROLL_FORWARD,
+   234										MO_CLEAR},
+   235		{Opt_norecovery,		F2FS_MOUNT_NORECOVERY,		MO_SET},
+   236		{Opt_discard,			F2FS_MOUNT_DISCARD,		MO_SET},
+   237		{Opt_nodiscard,			F2FS_MOUNT_DISCARD,		MO_CLEAR},
+   238		{Opt_noheap, 			F2FS_MOUNT_NOHEAP,		MO_DEPRECATED},
+   239		{Opt_heap, 			F2FS_MOUNT_NOHEAP,		MO_DEPRECATED},
+   240		{Opt_acl, 			F2FS_MOUNT_POSIX_ACL,		MO_SET | MO_ACL},
+   241		{Opt_noacl, 			F2FS_MOUNT_POSIX_ACL,		MO_CLEAR | MO_ACL},
+   242		{Opt_user_xattr,		F2FS_MOUNT_XATTR_USER,		MO_SET | MO_XATTR},
+   243		{Opt_nouser_xattr,		F2FS_MOUNT_XATTR_USER,		MO_CLEAR | MO_XATTR},
+   244		{Opt_inline_xattr,		F2FS_MOUNT_INLINE_XATTR,	MO_SET | MO_XATTR},
+   245		{Opt_noinline_xattr,		F2FS_MOUNT_INLINE_XATTR,	MO_CLEAR | MO_XATTR},
+   246		{Opt_inline_xattr_size, 	0,				MO_SET | MO_XATTR},
+   247		{Opt_active_logs, 		0,				MO_ALONE},
+   248		{Opt_disable_ext_identify, 	F2FS_MOUNT_DISABLE_EXT_IDENTIFY,
+   249										MO_SET},
+   250		{Opt_inline_data,		F2FS_MOUNT_INLINE_DATA,		MO_SET},
+   251		{Opt_noinline_data,		F2FS_MOUNT_INLINE_DATA,		MO_CLEAR},
+   252		{Opt_inline_dentry,		F2FS_MOUNT_INLINE_DENTRY,	MO_SET},
+   253		{Opt_noinline_dentry,		F2FS_MOUNT_INLINE_DENTRY,	MO_CLEAR},
+   254		{Opt_flush_merge,		F2FS_MOUNT_FLUSH_MERGE,		MO_SET},
+   255		{Opt_noflush_merge,		F2FS_MOUNT_FLUSH_MERGE,		MO_CLEAR},
+   256		{Opt_barrier,			F2FS_MOUNT_NOBARRIER,		MO_CLEAR},
+   257		{Opt_nobarrier,			F2FS_MOUNT_NOBARRIER,		MO_SET},
+   258		{Opt_fastboot,			F2FS_MOUNT_FASTBOOT,		MO_SET},
+   259		{Opt_extent_cache,		F2FS_MOUNT_READ_EXTENT_CACHE,	MO_SET},
+   260		{Opt_noextent_cache,		F2FS_MOUNT_READ_EXTENT_CACHE,	MO_CLEAR},
+   261		{Opt_data_flush,		F2FS_MOUNT_DATA_FLUSH,		MO_SET},
+   262		{Opt_reserve_root,		F2FS_MOUNT_RESERVE_ROOT,	MO_SET},
+   263		{Opt_resgid,			0,				MO_ALONE},
+   264		{Opt_resuid,			0,				MO_ALONE},
+   265		{Opt_mode,			0,				MO_ENUM},
+   266		{Opt_io_size_bits,		0, 				MO_DEPRECATED},
+   267		{Opt_fault_injection,		0,				MO_ALONE | MO_FAULT},
+   268		{Opt_fault_type,		0,				MO_ALONE | MO_FAULT},
+   269		{Opt_lazytime,			0,				MO_ALONE},
+   270		{Opt_nolazytime,		0,				MO_ALONE},
+   271		{Opt_quota,			F2FS_MOUNT_USRQUOTA,		MO_SET | MO_QUOTA},
+   272		{Opt_usrquota,			F2FS_MOUNT_USRQUOTA,		MO_SET | MO_QUOTA},
+   273		{Opt_grpquota,			F2FS_MOUNT_GRPQUOTA,		MO_SET | MO_QUOTA},
+   274		{Opt_prjquota,			F2FS_MOUNT_PRJQUOTA,		MO_SET | MO_QUOTA},
+   275		{Opt_usrjquota,			F2FS_MOUNT_QUOTA,		MO_ALONE | MO_QUOTA},
+   276		{Opt_grpjquota,			F2FS_MOUNT_QUOTA,		MO_ALONE | MO_QUOTA},
+   277		{Opt_prjjquota,			F2FS_MOUNT_QUOTA,		MO_ALONE | MO_QUOTA},
+   278		{Opt_offusrjquota,		F2FS_MOUNT_QUOTA,		MO_ALONE | MO_QUOTA},
+   279		{Opt_offgrpjquota,		F2FS_MOUNT_QUOTA,		MO_ALONE | MO_QUOTA},
+   280		{Opt_offprjjquota,		F2FS_MOUNT_QUOTA,		MO_ALONE | MO_QUOTA},
+   281		{Opt_noquota,			F2FS_MOUNT_QUOTA | F2FS_MOUNT_USRQUOTA |
+   282						F2FS_MOUNT_GRPQUOTA | F2FS_MOUNT_PRJQUOTA,
+   283										MO_CLEAR | MO_QUOTA},
+   284		{Opt_alloc,			0,				MO_ALONE},
+   285		{Opt_fsync,			0,				MO_ALONE},
+   286		{Opt_test_dummy_encryption,	0,				MO_ALONE},
+   287		{Opt_inlinecrypt,		0,				MO_ALONE | MO_INLINECRYPT},
+   288		{Opt_checkpoint_disable,	F2FS_MOUNT_DISABLE_CHECKPOINT,	MO_SET},
+   289		{Opt_checkpoint_enable,		F2FS_MOUNT_DISABLE_CHECKPOINT,	MO_CLEAR},
+   290		{Opt_checkpoint_merge,		F2FS_MOUNT_MERGE_CHECKPOINT,	MO_SET},
+   291		{Opt_nocheckpoint_merge,	F2FS_MOUNT_MERGE_CHECKPOINT,	MO_CLEAR},
+   292		{Opt_compress_algorithm,	0,				MO_ALONE | MO_COMPR},
+   293		{Opt_compress_log_size,		0,				MO_ALONE | MO_COMPR},
+   294		{Opt_compress_extension,	0,				MO_ALONE | MO_COMPR},
+   295		{Opt_nocompress_extension,	0,				MO_ALONE | MO_COMPR},
+   296		{Opt_compress_chksum,		0,				MO_ALONE | MO_COMPR},
+   297		{Opt_compress_mode,		0,				MO_ENUM | MO_COMPR},
+   298		{Opt_compress_cache,		F2FS_MOUNT_COMPRESS_CACHE,	MO_SET | MO_COMPR},
+   299		{Opt_atgc,			F2FS_MOUNT_ATGC,		MO_SET},
+   300		{Opt_gc_merge,			F2FS_MOUNT_GC_MERGE,		MO_SET},
+   301		{Opt_nogc_merge,		F2FS_MOUNT_GC_MERGE,		MO_CLEAR},
+   302		{Opt_discard_unit,		0,				MO_ENUM},
+   303		{Opt_memory_mode,		0,				MO_ENUM},
+   304		{Opt_age_extent_cache,		F2FS_MOUNT_AGE_EXTENT_CACHE,	MO_SET},
+   305		{Opt_errors,			0,				MO_ENUM},
+   306		{Opt_err,			0,				0}
+   307	};
+   308	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
