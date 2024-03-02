@@ -1,55 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E693FE2E
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 20:11:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9BD17C69
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 21:04:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709410322; cv=none; b=Zv/Kst1hq9Gnsrolee3WgpasEIhmWavRl16d9C3TCcZAHSdDZS3oGeT737pVIYO7i907tmaRvroy0zrcpAsYsm7M9YWUAps/oBl9CIw865drBV7AyvgTMr0C836DB55b9/VS1GU8pqHOrnwic08ewl7I0EExYEqA2lCdAogoYYs=
+	t=1709413445; cv=none; b=eFeWmPEx907+tKwawrW6mE3mCTJJY5likCesXMZCwcJJ9dKLulQufmKP8Ua1zg3Lyu65PeBgUcF5wxo/gsCvSI+lEWecIidaoy1Ir7Z41hBWvdtruMaKkZumVC/6FjoiYVS8Q+QwBvBSDUpF4tSnvzZeeohwtZHYy1WeThcUuT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709410322; c=relaxed/simple;
-	bh=yOZfqIG18s9v8a6qqAQeq1QYdLCUJa4UtLVvXekQicA=;
+	s=arc-20240116; t=1709413445; c=relaxed/simple;
+	bh=CvDFPTR5bxCmyegy/HhmI0ulJ0TMd5XSslrNTSwJpdQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C/sv1bCzhZ29LYvU0CzI/uP0OOCSgODrnITfKz5amXC07AHYSFtO83H4TVc81KgtnQhjWqX0ySyvdZ20fe5c7WqqoYexWjQMlvPlyhgmg4QQuxoPvekbMpN1qfyxqOHfuvj3kUyF61wqQgFepNVW0oZ0/9AnQlUD/iF+jgkenWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JuSiBbMR; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=NSjvWs3darXmAyFE32o5VEk7QOLfqG9AySuKc2fAikg+ojtVBDoD3SnAHalYXbD0pAOmhueXZhuxsaVM7ktcn2zVNDiOx0T/fQNW4C5/Lk9onYbgFwEIL4atPWxRzxC2G5EZoMPo65FqNFNJZv5UAyXwfyFektm6izOM2G5KKCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gw9S8Upe; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JuSiBbMR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gw9S8Upe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709410320; x=1740946320;
+  t=1709413444; x=1740949444;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yOZfqIG18s9v8a6qqAQeq1QYdLCUJa4UtLVvXekQicA=;
-  b=JuSiBbMRNklJFbK5ro9b9X2134PDlfDdt0I9T3SUgDZyL8yFdZxXrxEG
-   DZ9HMKpsRTWjXPBzNRhMyR7pLZHNyVJfUaWlpxm025cFg4qSma6GFwrVJ
-   qe6Xag0Gm06JSEeD3HQsGC6wp8Yo3p2IMvZ0cLjjVIrgbhQIZQBEYs+TB
-   qkpGscNIOsyEembnhtuFrvPrD3vgGl4jTKxF3FCdZPASFPj/3jhP2lMXo
-   pAG9XvSLn6dX0NgJCsBMSJRTUZCFXUmEc3YXjavVKlj+3/3EkKIMdog0U
-   CW00mfdLMbnSLEwCuiTt4T9lk3DZkHgtTdVoX9TciB2LlWt5OevCxihSW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="7754558"
+  bh=CvDFPTR5bxCmyegy/HhmI0ulJ0TMd5XSslrNTSwJpdQ=;
+  b=gw9S8UpeYZk6t1yBjjZqQJm6o9Bh3F+dUmL9YJGTqa36pDDFP32wvkWV
+   XJxVGiRgVwO2Uv2jEVIrqPaEnHbSB5Z+pj42ifQOHYSuQZIUPxk12+DZW
+   TmGN+tVZtyJ0UIY0ujQ5TJ1Swgt4feI6RJ5kHB+FUpabg9j8mKN63PgRr
+   kAHPFwuxn/i9SA4tGa+16RnOHmZKkJrEQghagIUuxeBjMReqpJRC1nVnD
+   pl6dxTGa/7w+nhQtlDsGaMzcJ6LYJ/+wYfHE4o+QaNdkya3qNXMbbX7h1
+   WiaSBoL/xD+W59sL/YQ79K1rw1h7WTQpEgIHInhCGVd8mfZ1m/5Qfp4+F
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="7751664"
 X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="7754558"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 12:11:59 -0800
+   d="scan'208";a="7751664"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 13:04:03 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="39551500"
+   d="scan'208";a="8503065"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Mar 2024 12:11:58 -0800
+  by orviesa010.jf.intel.com with ESMTP; 02 Mar 2024 13:03:59 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgVi7-0000HI-34;
-	Sat, 02 Mar 2024 20:11:55 +0000
-Date: Sun, 3 Mar 2024 04:11:42 +0800
+	id 1rgWWS-0000Iq-2A;
+	Sat, 02 Mar 2024 21:03:56 +0000
+Date: Sun, 3 Mar 2024 05:03:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 257/27938]
- sound/soc/sof/intel/pci-tng.c:155:27: error: 'intel_ipc_msg_data' undeclared
- here (not in a function); did you mean 'sof_ipc_msg_data'?
-Message-ID: <202403030441.iaO6tKtC-lkp@intel.com>
+To: Jon Maxwell <jmaxwell37@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ulrich Hecht <uli@kernel.org>,
+	David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Suraj Jitindar Singh <surajjs@amazon.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [cip:linux-4.4.y-st-rc 1986/2011] net/decnet/dn_route.c:140:33:
+ warning: initialization of 'void (*)(struct dst_ops *)' from incompatible
+ pointer type 'int (*)(struct dst_ops *)'
+Message-ID: <202403030444.INp1cZul-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,111 +62,399 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   d761b18f6bc83bce94251467e3c0974243318456
-commit: 51b86bcaf08f3cd48122cdbee63e8f469dcb3e64 [257/27938] LF-3774-1 ASoC: sof: Make Intel IPC stream ops generic
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240303/202403030441.iaO6tKtC-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403030441.iaO6tKtC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-st-rc
+head:   b01c108f53cc00abfe18491837bb94881ee164b8
+commit: 21d825d4ad52272442958325e792a5266fd1a9f2 [1986/2011] ipv6: remove max_size check inline with ipv4
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240303/202403030444.INp1cZul-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403030444.INp1cZul-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403030441.iaO6tKtC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403030444.INp1cZul-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> sound/soc/sof/intel/pci-tng.c:155:27: error: 'intel_ipc_msg_data' undeclared here (not in a function); did you mean 'sof_ipc_msg_data'?
-     155 |         .ipc_msg_data   = intel_ipc_msg_data,
-         |                           ^~~~~~~~~~~~~~~~~~
-         |                           sof_ipc_msg_data
->> sound/soc/sof/intel/pci-tng.c:156:27: error: 'intel_ipc_pcm_params' undeclared here (not in a function); did you mean 'sof_ipc_pcm_params'?
-     156 |         .ipc_pcm_params = intel_ipc_pcm_params,
-         |                           ^~~~~~~~~~~~~~~~~~~~
-         |                           sof_ipc_pcm_params
->> sound/soc/sof/intel/pci-tng.c:170:27: error: 'intel_pcm_open' undeclared here (not in a function)
-     170 |         .pcm_open       = intel_pcm_open,
-         |                           ^~~~~~~~~~~~~~
->> sound/soc/sof/intel/pci-tng.c:171:27: error: 'intel_pcm_close' undeclared here (not in a function)
-     171 |         .pcm_close      = intel_pcm_close,
-         |                           ^~~~~~~~~~~~~~~
+   include/linux/rhashtable.h: In function 'rht_grow_above_max':
+   include/linux/rhashtable.h:302:41: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     302 |                atomic_read(&ht->nelems) >= ht->p.insecure_max_entries;
+         |                                         ^~
+   include/linux/netdevice.h: In function '__skb_gro_checksum_validate_needed':
+   include/linux/netdevice.h:2396:48: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+    2396 |                 skb_checksum_start_offset(skb) <
+         |                                                ^
+   In file included from include/uapi/linux/stddef.h:1,
+                    from include/linux/stddef.h:4,
+                    from include/uapi/linux/posix_types.h:4,
+                    from include/uapi/linux/types.h:13,
+                    from include/linux/types.h:5,
+                    from net/decnet/dn_route.c:59:
+   include/linux/netdevice.h: In function 'get_netdev_rx_queue_index':
+   include/linux/netdevice.h:3034:22: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+    3034 |         BUG_ON(index >= dev->num_rx_queues);
+         |                      ^~
+   include/linux/compiler.h:182:45: note: in definition of macro 'unlikely'
+     182 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/netdevice.h:3034:9: note: in expansion of macro 'BUG_ON'
+    3034 |         BUG_ON(index >= dev->num_rx_queues);
+         |         ^~~~~~
+   include/linux/netdevice.h: In function 'netif_msg_init':
+   include/linux/netdevice.h:3310:44: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+    3310 |         if (debug_value < 0 || debug_value >= (sizeof(u32) * 8))
+         |                                            ^~
+   include/linux/highmem.h: In function 'kmap_atomic_idx_push':
+   include/linux/highmem.h:97:20: warning: comparison of integer expressions of different signedness: 'int' and 'long unsigned int' [-Wsign-compare]
+      97 |         BUG_ON(idx >= KM_TYPE_NR);
+         |                    ^~
+   include/linux/compiler.h:182:45: note: in definition of macro 'unlikely'
+     182 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/highmem.h:97:9: note: in expansion of macro 'BUG_ON'
+      97 |         BUG_ON(idx >= KM_TYPE_NR);
+         |         ^~~~~~
+   In file included from include/linux/writeback.h:192,
+                    from include/linux/memcontrol.h:30,
+                    from include/net/sock.h:58,
+                    from net/decnet/dn_route.c:70:
+   include/linux/bio.h: In function 'bio_next_split':
+   include/linux/bio.h:424:21: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     424 |         if (sectors >= bio_sectors(bio))
+         |                     ^~
+   In file included from include/net/rtnetlink.h:5,
+                    from include/net/sch_generic.h:12,
+                    from include/linux/filter.h:16,
+                    from include/net/sock.h:62:
+   include/net/netlink.h: In function 'nlmsg_ok':
+   include/net/netlink.h:337:32: warning: comparison of integer expressions of different signedness: '__u32' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+     337 |                 nlh->nlmsg_len <= remaining);
+         |                                ^~
+   include/net/netlink.h: In function 'nlmsg_parse':
+   include/net/netlink.h:372:28: warning: comparison of integer expressions of different signedness: '__u32' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+     372 |         if (nlh->nlmsg_len < nlmsg_msg_size(hdrlen))
+         |                            ^
+   include/net/netlink.h: In function 'nlmsg_validate':
+   include/net/netlink.h:405:28: warning: comparison of integer expressions of different signedness: '__u32' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+     405 |         if (nlh->nlmsg_len < nlmsg_msg_size(hdrlen))
+         |                            ^
+   include/net/rtnetlink.h: In function 'rtnl_msg_family':
+   include/net/rtnetlink.h:20:28: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+      20 |         if (nlmsg_len(nlh) >= sizeof(struct rtgenmsg))
+         |                            ^~
+   include/net/sch_generic.h: In function 'qdisc_cb_private_validate':
+   include/net/sch_generic.h:267:40: warning: comparison of integer expressions of different signedness: 'unsigned int' and 'int' [-Wsign-compare]
+     267 |         BUILD_BUG_ON(sizeof(qcb->data) < sz);
+         |                                        ^
+   include/linux/compiler.h:493:33: note: in definition of macro '__compiletime_assert'
+     493 |                 bool __cond = !(condition);                             \
+         |                                 ^~~~~~~~~
+   include/linux/compiler.h:513:9: note: in expansion of macro '_compiletime_assert'
+     513 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/bug.h:50:37: note: in expansion of macro 'compiletime_assert'
+      50 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bug.h:74:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      74 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/net/sch_generic.h:267:9: note: in expansion of macro 'BUILD_BUG_ON'
+     267 |         BUILD_BUG_ON(sizeof(qcb->data) < sz);
+         |         ^~~~~~~~~~~~
+   include/linux/filter.h: In function 'bpf_needs_clear_a':
+   include/linux/filter.h:517:30: warning: comparison of integer expressions of different signedness: '__u32' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+     517 |                 if (first->k == SKF_AD_OFF + SKF_AD_ALU_XOR_X)
+         |                              ^~
+   include/net/sock.h: In function 'skb_do_copy_data_nocache':
+   include/net/sock.h:1859:68: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+    1859 |                 if (csum_and_copy_from_iter(to, copy, &csum, from) != copy)
+         |                                                                    ^~
+   include/net/sock.h:1863:60: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+    1863 |                 if (copy_from_iter_nocache(to, copy, from) != copy)
+         |                                                            ^~
+   include/net/sock.h:1865:51: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+    1865 |         } else if (copy_from_iter(to, copy, from) != copy)
+         |                                                   ^~
+   net/decnet/dn_route.c: At top level:
+>> net/decnet/dn_route.c:140:33: warning: initialization of 'void (*)(struct dst_ops *)' from incompatible pointer type 'int (*)(struct dst_ops *)' [-Wincompatible-pointer-types]
+     140 |         .gc =                   dn_dst_gc,
+         |                                 ^~~~~~~~~
+   net/decnet/dn_route.c:140:33: note: (near initialization for 'dn_dst_ops.gc')
+   net/decnet/dn_route.c: In function 'dn_dst_check_expire':
+   net/decnet/dn_route.c:199:23: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     199 |         for (i = 0; i <= dn_rt_hash_mask; i++) {
+         |                       ^~
+   net/decnet/dn_route.c: In function 'dn_dst_gc':
+   net/decnet/dn_route.c:231:23: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     231 |         for (i = 0; i <= dn_rt_hash_mask; i++) {
+         |                       ^~
+   net/decnet/dn_route.c: In function 'dn_run_flush':
+   net/decnet/dn_route.c:368:23: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     368 |         for (i = 0; i < dn_rt_hash_mask; i++) {
+         |                       ^
+   net/decnet/dn_route.c: In function 'dn_cache_dump':
+   net/decnet/dn_route.c:1733:32: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+    1733 |         if (nlmsg_len(cb->nlh) < sizeof(struct rtmsg))
+         |                                ^
+   net/decnet/dn_route.c:1742:22: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+    1742 |         for(h = 0; h <= dn_rt_hash_mask; h++) {
+         |                      ^~
+   net/decnet/dn_route.c: In function 'dn_route_init':
+   net/decnet/dn_route.c:1882:39: warning: comparison of integer expressions of different signedness: 'long unsigned int' and 'int' [-Wsign-compare]
+    1882 |         for(order = 0; (1UL << order) < goal; order++)
+         |                                       ^
+   net/decnet/dn_route.c:1911:22: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+    1911 |         for(i = 0; i <= dn_rt_hash_mask; i++) {
+         |                      ^~
+   net/decnet/dn_route.c:510: warning: No description found for parameter 'net'
+   net/decnet/dn_route.c:510: warning: No description found for parameter 'sk'
+--
+         |                      ^~
+   include/linux/compiler.h:182:45: note: in definition of macro 'unlikely'
+     182 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/netdevice.h:3034:9: note: in expansion of macro 'BUG_ON'
+    3034 |         BUG_ON(index >= dev->num_rx_queues);
+         |         ^~~~~~
+   include/linux/netdevice.h: In function 'netif_msg_init':
+   include/linux/netdevice.h:3310:44: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+    3310 |         if (debug_value < 0 || debug_value >= (sizeof(u32) * 8))
+         |                                            ^~
+   In file included from include/net/rtnetlink.h:5,
+                    from include/net/neighbour.h:29,
+                    from include/net/dst.h:17,
+                    from net/ipv4/xfrm4_policy.c:15:
+   include/net/netlink.h: In function 'nlmsg_ok':
+   include/net/netlink.h:337:32: warning: comparison of integer expressions of different signedness: '__u32' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+     337 |                 nlh->nlmsg_len <= remaining);
+         |                                ^~
+   include/net/netlink.h: In function 'nlmsg_parse':
+   include/net/netlink.h:372:28: warning: comparison of integer expressions of different signedness: '__u32' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+     372 |         if (nlh->nlmsg_len < nlmsg_msg_size(hdrlen))
+         |                            ^
+   include/net/netlink.h: In function 'nlmsg_validate':
+   include/net/netlink.h:405:28: warning: comparison of integer expressions of different signedness: '__u32' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+     405 |         if (nlh->nlmsg_len < nlmsg_msg_size(hdrlen))
+         |                            ^
+   include/net/rtnetlink.h: In function 'rtnl_msg_family':
+   include/net/rtnetlink.h:20:28: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+      20 |         if (nlmsg_len(nlh) >= sizeof(struct rtgenmsg))
+         |                            ^~
+   include/linux/highmem.h: In function 'kmap_atomic_idx_push':
+   include/linux/highmem.h:97:20: warning: comparison of integer expressions of different signedness: 'int' and 'long unsigned int' [-Wsign-compare]
+      97 |         BUG_ON(idx >= KM_TYPE_NR);
+         |                    ^~
+   include/linux/compiler.h:182:45: note: in definition of macro 'unlikely'
+     182 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/highmem.h:97:9: note: in expansion of macro 'BUG_ON'
+      97 |         BUG_ON(idx >= KM_TYPE_NR);
+         |         ^~~~~~
+   In file included from include/linux/writeback.h:192,
+                    from include/linux/memcontrol.h:30,
+                    from include/net/sock.h:58,
+                    from include/net/xfrm.h:17,
+                    from net/ipv4/xfrm4_policy.c:16:
+   include/linux/bio.h: In function 'bio_next_split':
+   include/linux/bio.h:424:21: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     424 |         if (sectors >= bio_sectors(bio))
+         |                     ^~
+   include/net/sch_generic.h: In function 'qdisc_cb_private_validate':
+   include/net/sch_generic.h:267:40: warning: comparison of integer expressions of different signedness: 'unsigned int' and 'int' [-Wsign-compare]
+     267 |         BUILD_BUG_ON(sizeof(qcb->data) < sz);
+         |                                        ^
+   include/linux/compiler.h:493:33: note: in definition of macro '__compiletime_assert'
+     493 |                 bool __cond = !(condition);                             \
+         |                                 ^~~~~~~~~
+   include/linux/compiler.h:513:9: note: in expansion of macro '_compiletime_assert'
+     513 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/bug.h:50:37: note: in expansion of macro 'compiletime_assert'
+      50 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bug.h:74:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      74 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/net/sch_generic.h:267:9: note: in expansion of macro 'BUILD_BUG_ON'
+     267 |         BUILD_BUG_ON(sizeof(qcb->data) < sz);
+         |         ^~~~~~~~~~~~
+   In file included from include/net/sock.h:62:
+   include/linux/filter.h: In function 'bpf_needs_clear_a':
+   include/linux/filter.h:517:30: warning: comparison of integer expressions of different signedness: '__u32' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+     517 |                 if (first->k == SKF_AD_OFF + SKF_AD_ALU_XOR_X)
+         |                              ^~
+   include/net/sock.h: In function 'skb_do_copy_data_nocache':
+   include/net/sock.h:1859:68: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+    1859 |                 if (csum_and_copy_from_iter(to, copy, &csum, from) != copy)
+         |                                                                    ^~
+   include/net/sock.h:1863:60: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+    1863 |                 if (copy_from_iter_nocache(to, copy, from) != copy)
+         |                                                            ^~
+   include/net/sock.h:1865:51: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+    1865 |         } else if (copy_from_iter(to, copy, from) != copy)
+         |                                                   ^~
+   In file included from include/linux/tcp.h:23,
+                    from include/linux/ipv6.h:72,
+                    from include/net/ipv6.h:16,
+                    from include/net/inetpeer.h:15,
+                    from include/net/route.h:28,
+                    from include/net/ip.h:31,
+                    from include/net/xfrm.h:19:
+   include/net/inet_connection_sock.h: In function 'inet_csk_reqsk_queue_is_full':
+   include/net/inet_connection_sock.h:294:45: warning: comparison of integer expressions of different signedness: 'int' and 'u32' {aka 'unsigned int'} [-Wsign-compare]
+     294 |         return inet_csk_reqsk_queue_len(sk) >= sk->sk_max_ack_backlog;
+         |                                             ^~
+   net/ipv4/xfrm4_policy.c: In function 'xfrm4_garbage_collect':
+   net/ipv4/xfrm4_policy.c:227:43: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     227 |         return (dst_entries_get_slow(ops) > ops->gc_thresh * 2);
+         |                                           ^
+   net/ipv4/xfrm4_policy.c: At top level:
+>> net/ipv4/xfrm4_policy.c:268:33: warning: initialization of 'void (*)(struct dst_ops *)' from incompatible pointer type 'int (*)(struct dst_ops *)' [-Wincompatible-pointer-types]
+     268 |         .gc =                   xfrm4_garbage_collect,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/xfrm4_policy.c:268:33: note: (near initialization for 'xfrm4_dst_ops_template.gc')
+   net/ipv4/xfrm4_policy.c:1: warning: no structured comments found
+--
+                    from net/ipv6/xfrm6_policy.c:14:
+   include/linux/netdevice.h: In function 'get_netdev_rx_queue_index':
+   include/linux/netdevice.h:3034:22: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+    3034 |         BUG_ON(index >= dev->num_rx_queues);
+         |                      ^~
+   include/linux/compiler.h:182:45: note: in definition of macro 'unlikely'
+     182 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/netdevice.h:3034:9: note: in expansion of macro 'BUG_ON'
+    3034 |         BUG_ON(index >= dev->num_rx_queues);
+         |         ^~~~~~
+   include/linux/netdevice.h: In function 'netif_msg_init':
+   include/linux/netdevice.h:3310:44: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+    3310 |         if (debug_value < 0 || debug_value >= (sizeof(u32) * 8))
+         |                                            ^~
+   include/linux/highmem.h: In function 'kmap_atomic_idx_push':
+   include/linux/highmem.h:97:20: warning: comparison of integer expressions of different signedness: 'int' and 'long unsigned int' [-Wsign-compare]
+      97 |         BUG_ON(idx >= KM_TYPE_NR);
+         |                    ^~
+   include/linux/compiler.h:182:45: note: in definition of macro 'unlikely'
+     182 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/highmem.h:97:9: note: in expansion of macro 'BUG_ON'
+      97 |         BUG_ON(idx >= KM_TYPE_NR);
+         |         ^~~~~~
+   In file included from include/linux/writeback.h:192,
+                    from include/linux/memcontrol.h:30,
+                    from include/net/sock.h:58,
+                    from include/linux/tcp.h:22,
+                    from include/linux/ipv6.h:72,
+                    from include/net/if_inet6.h:19,
+                    from include/net/addrconf.h:52,
+                    from net/ipv6/xfrm6_policy.c:17:
+   include/linux/bio.h: In function 'bio_next_split':
+   include/linux/bio.h:424:21: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     424 |         if (sectors >= bio_sectors(bio))
+         |                     ^~
+   In file included from include/net/rtnetlink.h:5,
+                    from include/net/sch_generic.h:12,
+                    from include/linux/filter.h:16,
+                    from include/net/sock.h:62:
+   include/net/netlink.h: In function 'nlmsg_ok':
+   include/net/netlink.h:337:32: warning: comparison of integer expressions of different signedness: '__u32' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+     337 |                 nlh->nlmsg_len <= remaining);
+         |                                ^~
+   include/net/netlink.h: In function 'nlmsg_parse':
+   include/net/netlink.h:372:28: warning: comparison of integer expressions of different signedness: '__u32' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+     372 |         if (nlh->nlmsg_len < nlmsg_msg_size(hdrlen))
+         |                            ^
+   include/net/netlink.h: In function 'nlmsg_validate':
+   include/net/netlink.h:405:28: warning: comparison of integer expressions of different signedness: '__u32' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+     405 |         if (nlh->nlmsg_len < nlmsg_msg_size(hdrlen))
+         |                            ^
+   include/net/rtnetlink.h: In function 'rtnl_msg_family':
+   include/net/rtnetlink.h:20:28: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+      20 |         if (nlmsg_len(nlh) >= sizeof(struct rtgenmsg))
+         |                            ^~
+   include/net/sch_generic.h: In function 'qdisc_cb_private_validate':
+   include/net/sch_generic.h:267:40: warning: comparison of integer expressions of different signedness: 'unsigned int' and 'int' [-Wsign-compare]
+     267 |         BUILD_BUG_ON(sizeof(qcb->data) < sz);
+         |                                        ^
+   include/linux/compiler.h:493:33: note: in definition of macro '__compiletime_assert'
+     493 |                 bool __cond = !(condition);                             \
+         |                                 ^~~~~~~~~
+   include/linux/compiler.h:513:9: note: in expansion of macro '_compiletime_assert'
+     513 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/bug.h:50:37: note: in expansion of macro 'compiletime_assert'
+      50 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bug.h:74:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      74 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/net/sch_generic.h:267:9: note: in expansion of macro 'BUILD_BUG_ON'
+     267 |         BUILD_BUG_ON(sizeof(qcb->data) < sz);
+         |         ^~~~~~~~~~~~
+   include/linux/filter.h: In function 'bpf_needs_clear_a':
+   include/linux/filter.h:517:30: warning: comparison of integer expressions of different signedness: '__u32' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+     517 |                 if (first->k == SKF_AD_OFF + SKF_AD_ALU_XOR_X)
+         |                              ^~
+   include/net/sock.h: In function 'skb_do_copy_data_nocache':
+   include/net/sock.h:1859:68: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+    1859 |                 if (csum_and_copy_from_iter(to, copy, &csum, from) != copy)
+         |                                                                    ^~
+   include/net/sock.h:1863:60: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+    1863 |                 if (copy_from_iter_nocache(to, copy, from) != copy)
+         |                                                            ^~
+   include/net/sock.h:1865:51: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'unsigned int'} and 'int' [-Wsign-compare]
+    1865 |         } else if (copy_from_iter(to, copy, from) != copy)
+         |                                                   ^~
+   In file included from include/linux/tcp.h:23:
+   include/net/inet_connection_sock.h: In function 'inet_csk_reqsk_queue_is_full':
+   include/net/inet_connection_sock.h:294:45: warning: comparison of integer expressions of different signedness: 'int' and 'u32' {aka 'unsigned int'} [-Wsign-compare]
+     294 |         return inet_csk_reqsk_queue_len(sk) >= sk->sk_max_ack_backlog;
+         |                                             ^~
+   net/ipv6/xfrm6_policy.c: In function 'xfrm6_garbage_collect':
+   net/ipv6/xfrm6_policy.c:224:42: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     224 |         return dst_entries_get_fast(ops) > ops->gc_thresh * 2;
+         |                                          ^
+   net/ipv6/xfrm6_policy.c: At top level:
+>> net/ipv6/xfrm6_policy.c:284:33: warning: initialization of 'void (*)(struct dst_ops *)' from incompatible pointer type 'int (*)(struct dst_ops *)' [-Wincompatible-pointer-types]
+     284 |         .gc =                   xfrm6_garbage_collect,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~
+   net/ipv6/xfrm6_policy.c:284:33: note: (near initialization for 'xfrm6_dst_ops_template.gc')
+   net/ipv6/xfrm6_policy.c: In function '_decode_session6':
+   net/ipv6/xfrm6_policy.c:153:35: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     153 |                         onlyproto = 1;
+         |                         ~~~~~~~~~~^~~
+   net/ipv6/xfrm6_policy.c:154:17: note: here
+     154 |                 case NEXTHDR_ROUTING:
+         |                 ^~~~
+   net/ipv6/xfrm6_policy.c:1: warning: no structured comments found
 
 
-vim +155 sound/soc/sof/intel/pci-tng.c
+vim +140 net/decnet/dn_route.c
 
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  126  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  127  const struct snd_sof_dsp_ops sof_tng_ops = {
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  128  	/* device init */
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  129  	.probe		= tangier_pci_probe,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  130  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  131  	/* DSP core boot / reset */
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  132  	.run		= atom_run,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  133  	.reset		= atom_reset,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  134  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  135  	/* Register IO */
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  136  	.write		= sof_io_write,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  137  	.read		= sof_io_read,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  138  	.write64	= sof_io_write64,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  139  	.read64		= sof_io_read64,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  140  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  141  	/* Block IO */
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  142  	.block_read	= sof_block_read,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  143  	.block_write	= sof_block_write,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  144  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  145  	/* doorbell */
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  146  	.irq_handler	= atom_irq_handler,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  147  	.irq_thread	= atom_irq_thread,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  148  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  149  	/* ipc */
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  150  	.send_msg	= atom_send_msg,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  151  	.fw_ready	= sof_fw_ready,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  152  	.get_mailbox_offset = atom_get_mailbox_offset,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  153  	.get_window_offset = atom_get_window_offset,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  154  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05 @155  	.ipc_msg_data	= intel_ipc_msg_data,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05 @156  	.ipc_pcm_params	= intel_ipc_pcm_params,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  157  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  158  	/* machine driver */
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  159  	.machine_select = atom_machine_select,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  160  	.machine_register = sof_machine_register,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  161  	.machine_unregister = sof_machine_unregister,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  162  	.set_mach_params = atom_set_mach_params,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  163  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  164  	/* debug */
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  165  	.debug_map	= tng_debugfs,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  166  	.debug_map_count	= ARRAY_SIZE(tng_debugfs),
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  167  	.dbg_dump	= atom_dump,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  168  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  169  	/* stream callbacks */
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05 @170  	.pcm_open	= intel_pcm_open,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05 @171  	.pcm_close	= intel_pcm_close,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  172  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  173  	/* module loading */
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  174  	.load_module	= snd_sof_parse_module_memcpy,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  175  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  176  	/*Firmware loading */
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  177  	.load_firmware	= snd_sof_load_firmware_memcpy,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  178  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  179  	/* DAI drivers */
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  180  	.drv = atom_dai,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  181  	.num_drv = 3, /* we have only 3 SSPs on byt*/
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  182  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  183  	/* ALSA HW info flags */
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  184  	.hw_info =	SNDRV_PCM_INFO_MMAP |
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  185  			SNDRV_PCM_INFO_MMAP_VALID |
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  186  			SNDRV_PCM_INFO_INTERLEAVED |
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  187  			SNDRV_PCM_INFO_PAUSE |
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  188  			SNDRV_PCM_INFO_BATCH,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  189  
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  190  	.arch_ops = &sof_xtensa_arch_ops,
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  191  };
-47fad2393b0446 Pierre-Louis Bossart 2021-05-05  192  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  136  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  137  static struct dst_ops dn_dst_ops = {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  138  	.family =		PF_DECnet,
+^1da177e4c3f41 Linus Torvalds   2005-04-16  139  	.gc_thresh =		128,
+^1da177e4c3f41 Linus Torvalds   2005-04-16 @140  	.gc =			dn_dst_gc,
+^1da177e4c3f41 Linus Torvalds   2005-04-16  141  	.check =		dn_dst_check,
+0dbaee3b37e118 David S. Miller  2010-12-13  142  	.default_advmss =	dn_dst_default_advmss,
+ebb762f27fed08 Steffen Klassert 2011-11-23  143  	.mtu =			dn_dst_mtu,
+62fa8a846d7de4 David S. Miller  2011-01-26  144  	.cow_metrics =		dst_cow_metrics_generic,
+62fa8a846d7de4 David S. Miller  2011-01-26  145  	.destroy =		dn_dst_destroy,
+fccd7d5c77ff61 David S. Miller  2012-07-02  146  	.ifdown =		dn_dst_ifdown,
+^1da177e4c3f41 Linus Torvalds   2005-04-16  147  	.negative_advice =	dn_dst_negative_advice,
+^1da177e4c3f41 Linus Torvalds   2005-04-16  148  	.link_failure =		dn_dst_link_failure,
+^1da177e4c3f41 Linus Torvalds   2005-04-16  149  	.update_pmtu =		dn_dst_update_pmtu,
+b587ee3ba21f58 David S. Miller  2012-07-12  150  	.redirect =		dn_dst_redirect,
+d3aaeb38c40e5a David S. Miller  2011-07-18  151  	.neigh_lookup =		dn_dst_neigh_lookup,
+^1da177e4c3f41 Linus Torvalds   2005-04-16  152  };
+^1da177e4c3f41 Linus Torvalds   2005-04-16  153  
 
-:::::: The code at line 155 was first introduced by commit
-:::::: 47fad2393b0446229883f95e373067441794e22f ASoC: SOF: Intel: move common ATOM stuff to module
+:::::: The code at line 140 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
