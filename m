@@ -1,53 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FB022075
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 18:16:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313F83E46D
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 19:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709403419; cv=none; b=pk14Tip7TMuC/5uaduNXjPqfQC3JfvYNEXjjKlA9YxKK4M+cCPz1e+wPs4pEhZ1EO3sQ920hd5yEC5smqgQdw2YGSmL8q9Vjjwhto1EahRYE9/P/UTYh2qWWqTGRFA8zy+9EDDP9OXYRe8pr6Acpq4M7QW5dvRVoTjP7ptawluc=
+	t=1709406600; cv=none; b=aLXmoDFTE9ayy0iDSCDKfZ2YkwtKe12N8qsD/zwLSrgQ2+5iXm72vGsYkmlqO949CvcIwBOHo/vv3oWnKVJcCfaOl32mJOxFP630Uk0v9sKTe4HQgGKyVzhDIykNX1hQhAWb8mKAGjrZG5ZvYY6G2ELAL56HtX5AeJd+HlLit8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709403419; c=relaxed/simple;
-	bh=dhpC1z1VlOjYv5PCibNXLQn4/9V+7BuN441NiWBMd68=;
+	s=arc-20240116; t=1709406600; c=relaxed/simple;
+	bh=fMtOSkZhN/R47JLT2m64xrPfRSiHqKjiiaRO6ZGVSgM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KN0TlcpPw/qxOGk8tXnpUIu9nXgWrcQHa4mc9v5lwJW4BXD4Hh22ML29Va2H9Y3SN0b/VuyQJm/VPDEearMbAKgRHFgLLLgzuQRkG2/GaZeOjQEMS9w906SOBQk6s6PB7j/t1L+2agieM7a4ow+VrY3lO25b6wkDH0o31ly26Z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HegcN9C2; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=gHTQMRdYYhibGg1+9FNvmFDvwb72yhXIoePbdsTLvZZHCCeGwlpTS4ea86u+heE64nYq5pj1PbNujlJgHy7QlcRwmdDPOpFcPz4Pq5Ue5usZ6uETFH0lz1cMkDm27/HONekKvejJrL9M9RDOc0LRDhSFhrmPCvYXsWOuWrSKT9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nFXqqjRL; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HegcN9C2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nFXqqjRL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709403418; x=1740939418;
+  t=1709406598; x=1740942598;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dhpC1z1VlOjYv5PCibNXLQn4/9V+7BuN441NiWBMd68=;
-  b=HegcN9C22YDjJfzUYiwd5BMYErKollyhPityRkTEcEgXsPtnfi00Omc8
-   WBmumuAyk+w5SPOrgkAJFI/GpNkQmf1GbV5jbjuYglTFbJRXaB7YrGqnx
-   XPuhhEOl3MPZA+lZERDym6u1b0LyIImMFgFcJk7egatDQ/M+eb3L2HFbR
-   dWIf9wEIqC8ySJGOwqAO48ep9tNd7nb841GQqPJVreV4ZOC2TtzVZaY7z
-   txqk+4vyVi9mppn9Uu4qQJMW6tInav7g1JKtEY1/GcAUfNlz6n+uTtVU5
-   dWlw1ln+ZDSUw+meC7ElCOvkz/DiVcdpNsC4ETx4lMRmlioCNi9VCHay/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="14510791"
+  bh=fMtOSkZhN/R47JLT2m64xrPfRSiHqKjiiaRO6ZGVSgM=;
+  b=nFXqqjRLombx6jZov5NP7i90JPJDBxP38b6XlMVwKiyEefJMJjXSHrHc
+   ljoQXza94GTx19KcyfJ8H5r7QPMbVrAuH3rXReI7U7duWuzxhUDCJXrvi
+   UtXMhPdB+712Z8KbJmUVbJ6tO+gzumP2CLJZIlysfBXJGFI+cfv9tFtF4
+   nTAtmr33FAbDaP/OCcgIqiAXon/44UPge43i0lwSgUNOGfoHTTjA0VxtW
+   ZBS3tKN37Uzcgdss5GShUS+XDqE2oNvGekJp02zh+3L/40u8ckABpXe8s
+   AAJME8PSU6iBAR4WVxMo5atMdxFHnghb4ze0FB/1VKL5S3FpfdmAQ/88v
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="4104944"
 X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="14510791"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 10:16:57 -0800
+   d="scan'208";a="4104944"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 11:09:58 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="8755118"
+   d="scan'208";a="8483639"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Mar 2024 10:16:56 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 02 Mar 2024 11:09:56 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgTuo-0000DI-06;
-	Sat, 02 Mar 2024 18:16:54 +0000
-Date: Sun, 3 Mar 2024 02:16:31 +0800
+	id 1rgUk6-0000ES-24;
+	Sat, 02 Mar 2024 19:09:54 +0000
+Date: Sun, 3 Mar 2024 03:09:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: WARNING: modpost: "strncat" [lib/strcat_kunit.ko] has no CRC!
-Message-ID: <202403030236.qOy0rBIN-lkp@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zc/rx-latest 39/42] zc_rx.c:(.text+0x1b44): dangerous
+ relocation: unsupported relocation
+Message-ID: <202403030235.FpSzvsNW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,53 +58,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5ad3cb0ed525b80c7f66c32b49a68c1f3510bec9
-commit: 3bf301e1ab85e18ed0e337ce124dc71d6d7b5fd7 string: Add Kunit tests for strcat() family
-date:   10 months ago
-config: alpha-randconfig-r024-20230814 (https://download.01.org/0day-ci/archive/20240303/202403030236.qOy0rBIN-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403030236.qOy0rBIN-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux zc/rx-latest
+head:   c1d6911c6966e5ee49ee8fb26fa57101979dab2e
+commit: 8d815a70f4122606af44db04b82ed8612b8a5d53 [39/42] io_uring: add io_recvzc request
+config: arm64-randconfig-002-20240302 (https://download.01.org/0day-ci/archive/20240303/202403030235.FpSzvsNW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403030235.FpSzvsNW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403030236.qOy0rBIN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403030235.FpSzvsNW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: vmlinux.o: EXPORT_SYMBOL used for init/exit symbol: page_is_ram (section: .init.text)
-WARNING: modpost: EXPORT symbol "strcpy" [vmlinux] version generation failed, symbol will not be versioned.
-Is "strcpy" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "strcat" [vmlinux] version generation failed, symbol will not be versioned.
-Is "strcat" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "strncpy" [vmlinux] version generation failed, symbol will not be versioned.
-Is "strncpy" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "strncat" [vmlinux] version generation failed, symbol will not be versioned.
-Is "strncat" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: "strcpy" [fs/ecryptfs/ecryptfs.ko] has no CRC!
-WARNING: modpost: "strncpy" [fs/ecryptfs/ecryptfs.ko] has no CRC!
-WARNING: modpost: "strncpy" [security/keys/encrypted-keys/encrypted-keys.ko] has no CRC!
-WARNING: modpost: "strncat" [lib/kunit/kunit.ko] has no CRC!
->> WARNING: modpost: "strncat" [lib/strcat_kunit.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/fbdev/mmp/fb/mmpfb.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/fbdev/cyber2000fb.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/char/ipmi/ipmi_msghandler.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/char/ipmi/ipmi_watchdog.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/tty/n_gsm.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/base/regmap/regmap-kunit.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/nfc/pn544/pn544_i2c.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/mtd/devices/phram.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/mtd/nand/raw/r852.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/auxdisplay/panel.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/usb/misc/usbsevseg.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/input/rmi4/rmi_core.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/power/supply/bq24190_charger.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/mmc/core/mmc_core.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/crypto/cavium/nitrox/n5pf.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/hid/uhid.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/iio/test/iio-test-rescale.ko] has no CRC!
-WARNING: modpost: "strcpy" [net/bluetooth/bluetooth.ko] has no CRC!
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: io_uring/zc_rx.o: in function `io_zc_rx_recv':
+   zc_rx.c:(.text+0x1b44): undefined reference to `tcp_recvmsg'
+   aarch64-linux-ld: io_uring/zc_rx.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `tcp_recvmsg' which may bind externally can not be used when making a shared object; recompile with -fPIC
+>> zc_rx.c:(.text+0x1b44): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: zc_rx.c:(.text+0x1b4c): undefined reference to `tcp_recvmsg'
+   aarch64-linux-ld: zc_rx.c:(.text+0x1bc0): undefined reference to `tcp_read_sock'
 
 -- 
 0-DAY CI Kernel Test Service
