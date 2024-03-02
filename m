@@ -1,111 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9856E2BB12
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 18:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567D72C697
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 18:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709402759; cv=none; b=aE3AbA8tO086In5P6bJuvwDujQwmKOYSAYKwwdzcihUbQd16MvjeZ08J81RujI+EQ1pVhuRXVbmFzn0qalkNijADF97sXBLJtjyB2TmOp9q1dngOph7aRId6Ho+f+baH6zqf+88JhELh5iBm1AnuA24duf/WDion52WlJmqJgK4=
+	t=1709402965; cv=none; b=XVNeQIBKtWb2OKcLX4Q07H6IhL/hDEsWAvm+JgL8ASHoiHewKi27fDPGDn8ssDGIjPSSE003LI87W8zH2dxnpac4hdCfap99YBldYiEzQvka1N/Q2NOTTn+nqtLqVcM/aleJd1rt32KkJr9MVs7UZZx38gD8u74bg2UQoBicXF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709402759; c=relaxed/simple;
-	bh=FItxO4Gzn9C4zkOxZ8RUqQLHe3bEGYUL4by8AAL31lU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F+OwJ5uelt0yVkgIDpd18Nfy8OiwtZ8gJji645/GANSN7e3MDkOiIZ9iuXk3vo65Lxdan0OolrOGGRjN5GMIaMWHd8si3wk4Wo/SZ1mqOvMVnfL2gyj2znwdPySvfKtLPxDVR3fjbNyQXvCc0JwwTbRs73Mu09A7tKjTXMizyX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kZzZxM4e; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709402965; c=relaxed/simple;
+	bh=FU/QoHhtyAxcZ4mjSjKgf0gjq7NkU2ZbECBmB3zef5s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=q89ilYbItoi5p2CBWpu3W+08X2BLVSqG44FMYwBsm3RejwTCZqi9RAG13etibJlGCGrYUqYxkGL3QSuL2CRh9g9QQElUtvb/NdqMovNkjHC57cgORnn0AzgCPH4R+yVxFhPZyxRUS+jb/DmwBuRWd3ygx+uwZwI6BTr45KXZcTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=p9Ssb6+q; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kZzZxM4e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709402758; x=1740938758;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FItxO4Gzn9C4zkOxZ8RUqQLHe3bEGYUL4by8AAL31lU=;
-  b=kZzZxM4eDnJWBgJV8UtcMW29X2hWQagwQg4dEc/CxwDpUhF0bTKeDAat
-   4RhTXUK13ALE4nq3ZB6DW32Ithx1WpqMW79hI57ye6lcywzV2xUHP7N1L
-   0NqebB40Fgx714q8cnqz/2/YoJ/UfsFoXnENOlconlUcar5tSVFbS3lH2
-   7pL5COH1R/mqPjy8R7hJkvCfc+sZ6vvDpHTOdUrIqt3qPiVCdmJXLZgxY
-   LXLj10YilPWZmd6KKasNkFiJZP5wKy1QL8PSyuAnGPdoI3+94JB0u1cRP
-   8pu6KqLq1XWd7whbmV2Hu0nOPrJzH9X54ijNN5ipB1bSyTGSZMhcfCqIz
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="14642546"
-X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="14642546"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 10:05:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="8753780"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Mar 2024 10:05:56 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rgTk9-0000D5-2t;
-	Sat, 02 Mar 2024 18:05:53 +0000
-Date: Sun, 3 Mar 2024 02:05:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 780/3769] arch/loongarch/kernel/dma.c:37:42:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202403030238.Vu4FjlZ9-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="p9Ssb6+q"
+Message-ID: <ef878388-ecef-45ff-a33a-d7b2e18d5220@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1709402960;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bgPk+rTxpwWNQqzbhXb+NEtPGoKxdfgxofmyHTrXzyo=;
+	b=p9Ssb6+q75aDDRXy/EedCObSwLFirqYarxxnaXMkGnv+UYPAuaFmxAizFSvnsOPhHPH2Q9
+	3kgMaIKSZBZiSUP7inPqcNWIf5dA0Z+AQ6bJFk5NiKngw2focF1iCH6rMJhaDyY6A2XOis
+	EgGtHPhjhPfIfG1nvZBJm36yGMkeSck=
+Date: Sat, 2 Mar 2024 10:09:12 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Subject: Re: [linux-next:master 5519/11156]
+ kernel/bpf/bpf_struct_ops.c:247:16: warning: bitwise operation between
+ different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type')
+Content-Language: en-GB
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Kui-Feng Lee <sinquersw@gmail.com>
+Cc: Thinker Li <thinker.li@gmail.com>, kernel test robot <lkp@intel.com>,
+ oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Martin KaFai Lau <martin.lau@kernel.org>, bpf <bpf@vger.kernel.org>
+References: <202403010423.0vNdUDBW-lkp@intel.com>
+ <CAFVMQ6QYvHfc_=cpOddWgoWDTRt3GHG5+LLB3NoFFRRiCMWDLw@mail.gmail.com>
+ <73e0fa99-7dff-4cb9-bfed-fd3368e54542@gmail.com>
+ <CAADnVQJUZZXusOS3h9fnUUoFQ7=o5iJDDANaUqNBheuhHrUXeg@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yonghong Song <yonghong.song@linux.dev>
+In-Reply-To: <CAADnVQJUZZXusOS3h9fnUUoFQ7=o5iJDDANaUqNBheuhHrUXeg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   fbcd4a3032a53350f6d182c9daeaa4c46e65d964
-commit: 90d2bbc1ade2216bda17fb582a1aaabf7567478f [780/3769] LoongArch: use arch specific phys_to_dma
-config: loongarch-randconfig-r112-20240302 (https://download.01.org/0day-ci/archive/20240303/202403030238.Vu4FjlZ9-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240303/202403030238.Vu4FjlZ9-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403030238.Vu4FjlZ9-lkp@intel.com/
+On 3/1/24 10:27 AM, Alexei Starovoitov wrote:
+> On Fri, Mar 1, 2024 at 10:26 AM Kui-Feng Lee <sinquersw@gmail.com> wrote:
+>> For BPF,
+>>
+>> We have a lot of code mixing bpf_type_flag and bpf_reg_type in bpf.
+>> They cause the warning messages described in the message following.
+>> Do we want to fix them all, or keep them as they are?
+>>
+>> They can be fixed by merging two enum types or casting here and there if
+>> we want. Any other idea?
+> We probably should add -Wno-enum-enum-conversion to kernel/bpf/Makefile instead.
 
-sparse warnings: (new ones prefixed by >>)
->> arch/loongarch/kernel/dma.c:37:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void volatile * @@
-   arch/loongarch/kernel/dma.c:37:42: sparse:     expected void const volatile [noderef] __iomem *addr
-   arch/loongarch/kernel/dma.c:37:42: sparse:     got void volatile *
+The warnings are only triggered with latest llvm19 development branch.
+The warnings are triggered in many subsystems, bpf, mm, etc.
+The following commandline can workaround the issue:
+    make LLVM=1 -j KCFLAGS=-Wno-enum-enum-conversion
+There is a discussion how to fix it here:
+   https://github.com/ClangBuiltLinux/linux/issues/2002
+No conclusion yet.
 
-vim +37 arch/loongarch/kernel/dma.c
-
-    29	
-    30	void acpi_arch_dma_setup(struct device *dev)
-    31	{
-    32		int ret;
-    33		u64 mask, end = 0;
-    34		const struct bus_dma_region *map = NULL;
-    35	
-    36		if (node_id_offset == 0) {
-  > 37			node_id_offset = ((readl(LS7A_DMA_CFG) & LS7A_DMA_NODE_MASK) >> LS7A_DMA_NODE_SHF);
-    38			node_id_offset += 36;
-    39		}
-    40	
-    41		ret = acpi_dma_get_range(dev, &map);
-    42		if (!ret && map) {
-    43			const struct bus_dma_region *r = map;
-    44	
-    45			for (end = 0; r->size; r++) {
-    46				if (r->dma_start + r->size - 1 > end)
-    47					end = r->dma_start + r->size - 1;
-    48			}
-    49	
-    50			mask = DMA_BIT_MASK(ilog2(end) + 1);
-    51			dev->bus_dma_limit = end;
-    52			dev->dma_range_map = map;
-    53			dev->coherent_dma_mask = min(dev->coherent_dma_mask, mask);
-    54			*dev->dma_mask = min(*dev->dma_mask, mask);
-    55		}
-    56	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
