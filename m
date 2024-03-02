@@ -1,67 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293637EC
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 13:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BC21755F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 13:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709385252; cv=fail; b=UInUEhV4KZuPiGIsYd1jICT3ZXnLXJiNj0o9qHzpLyPJ8X6wCQogGp5/vlXTeR4nrDvpgZ7gH+dDydwYimGBK2yJrfSqO1gyIoHa2oUm32UbR97IuXZOYi2LjBii2zFQUSXNfNFzuxiuOpOxUDGHFU9zCVjrH75fpKB6l6UE2rA=
+	t=1709385446; cv=fail; b=sTkBnc3Tu+aNzn5bqR1jhUBGJggIFtVB1zxY8fRXWXjkq4yS7NUorI59JH33a1mJhoPkrtChIWJ3EBYhAjSDrqlGf0RzTXt6d95CinrDyOsqkTDQMpEsYNrixPRrNi7NVK7EMH+k/C3lL6YgkQ4R5OQPEDOe0rj4MsJEVEKVLo8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709385252; c=relaxed/simple;
-	bh=vjJat66o0YOE62PckDqcnvPjP16yQYcegqjY2jXdNn8=;
+	s=arc-20240116; t=1709385446; c=relaxed/simple;
+	bh=hz+51oVgObz6tQwL9dL7u+Iazb+v9D0i3rB6XSlbBtk=;
 	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=RvgJx+lHOkrBdCewCOetOBQQM2vJVwMe5CvrD+vEg6rWvjdbl8rtQqjZUc7e3g0q2dXXaPrcZ5n5wWruWFP8tMLKoBQhjNzSvq6co18GgS5Js1IPPq44TjeWyStoi68uguFjU78tGml+G+oaGBOVvGWxjL/OUziQUbAWh9CJ9ho=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l+DUmhYq; arc=fail smtp.client-ip=198.175.65.19
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ewYydmruwtvQTdNnUByE3Q7iDVuVa5Lbbts14/W9DuJTOIuQ8Gexawx9/v6uZqjihWuWf/5QPHM17fvP7uqHCnSFgOu+wfqKO+3kWuHbyBux6i0IlyxBRTaakopvHKcqB1vSSKEi1erorOBkUelrnRgNMQlqX0943ClO80yxgUc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHNEQCFu; arc=fail smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l+DUmhYq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHNEQCFu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709385250; x=1740921250;
+  t=1709385445; x=1740921445;
   h=date:from:to:cc:subject:message-id:references:
    in-reply-to:mime-version;
-  bh=vjJat66o0YOE62PckDqcnvPjP16yQYcegqjY2jXdNn8=;
-  b=l+DUmhYqU1dxlHAlV31CqCyPiCDz9+dRKFNwrcyE1SVZafWHfjc0sdJp
-   Ch79C/T15ZoHO9i9H5l2x4jsc/1EfFKUIY+4jZk3NN/BI++ANKJcYnUyY
-   UCDmfJJb53P0bjPe1LKYY5avNxWNBUWLxHyKGxhQZxceI8gm5awFk42no
-   yNnOOU4ExuVy149QTomgbRos5Ec4+iOCoBBa1En3rYnH0Y5lnwin/Ie+r
-   ARexo1linmdYc5hdv0Bm4iOFFCJ5a30U9M3uOY8ds5FVFUSynuB+xxMM5
-   rg/fEuZLZLJdi4bxVbqvQQOoymw/DMXWKERZjdEPYKT6cWYQ6yH1CqYHc
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="3777913"
+  bh=hz+51oVgObz6tQwL9dL7u+Iazb+v9D0i3rB6XSlbBtk=;
+  b=QHNEQCFu7GzGDl+EuDHd2Is0+RypUnSVbuaLblQam8JwLiukQeuVSdjF
+   AvjvFTI9jQ2XZBywPIeL/wy9TW31pdSBee4KAVSfvWrZn6mVdo3Ct1GTC
+   39Zu3T+N1Puq8LxOsFiGRtH6MMh0l+bxWZTlflEZt/y7Ct7+c0aRMaEwt
+   adjfCTXFn0eQLlOMRRMjHd98tbvnfLwUG/9Lxq+/Ghlm6Hr0rZBUIG6Vb
+   LviypnXPQCa/xoNkurJKKQxFJtEzFjO7yRrLKZcXJcKynM56ll0G8bUcX
+   CbTOgP5tvb9dWGkSb6Uo6hVX7vYRm5SnT6DLV0Olf5WdMooNdYCvGow+B
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="3787943"
 X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="3777913"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 05:14:10 -0800
+   d="scan'208";a="3787943"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 05:17:24 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="13188979"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 Mar 2024 05:14:09 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+   d="scan'208";a="8619365"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 Mar 2024 05:17:23 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sat, 2 Mar 2024 05:14:09 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ 15.1.2507.35; Sat, 2 Mar 2024 05:17:22 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sat, 2 Mar 2024 05:14:08 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Sat, 2 Mar 2024 05:14:08 -0800
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.40) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.1.2507.35 via Frontend Transport; Sat, 2 Mar 2024 05:17:22 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Sat, 2 Mar 2024 05:14:08 -0800
+ 15.1.2507.35; Sat, 2 Mar 2024 05:17:22 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a6j3SGjDYB0D2C085QG6Zh0UKxeAT0WjEIl5hfdXKedNx1w5kyy1C1cS75pWjTJ0345kGikKk/5GqEC0C2bEEyp6Op22OxV3KbkxJfeH1CDZIFLRAsZDEFSOP76l5yWMAe13TF8iJFk3MGa9a/kNPsvBMwVkt74OXGsSYEp54CMopYtLK3hYLTltxvxb0wfksO66h+Cilo5q8L2hj/UvGFAxZPNiXLpy9d+LoRWiLbJXTir7PK7MSdsmOHT5nDSvn3P6QwhwgEvenwtFudQ84IXxFTyNsDczsyVyBAlAcPNDz21QruUXCDvP9fMIclw19HYd/WA4L7j5RD3dsi5QjQ==
+ b=RfOBGuHdqB6/s/fyDSphdZ7lzEESVYMtnwlUZIdZYfrL2YbSfuUpRJvyEIFc1otxhuahGVA5Nzljigbpl46h7UbDXyYhRC8yT2FUkm+oPep/F096LUPz6+s3ll3bf8MgbHfJQycPOuoWBi2mvAaOv7ZN6uoAifeVdl68jYdr+eFxLTxI/OaABW1BshUowYghMdBafbD0Z0iVkyugMpr81a3PRZVEx0abbimHybBUxZ4FZPI+kvQRafbLQP2OQoKNM0tmaNeWjrCx+MHrLOjLmdQ48bOW5JOTdriFsGYifsJSCggKx42GdcxhpOv/lJSy8RJJYdWWLyRRkRoe7aYwUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GotvNV5XEABigcwZbJN4nTRzvA0PIjjcBg2MY6wambA=;
- b=GkkrerjeubOWXZESnz5n13YOJnkHmnn4tevs2l0+yvJmH2d0wA2m3jD1hYHorz+wK5VhA96YQgytZWzxfo59Bcnx9WiUWp5iN3JH34xChT1JGrKvTM8BQNq6OeaJkvSN+AcpCeYpFtk0rwSSVTfk3oCdPHHCuDZ8sT0PQQWFR1Y8TFakLPLi0UBWC/8t7qjwalTvnKXXdoihLsk0GSjH6etmgV2K7gCLGz7DHlRkxtPIyWwecFGjVZNsfQGgl92J+87ztxm78UVJM5qxwFMFQQF0Gw9uh6LFUAtRY2lXMs7PzThGAk1tW8jD7TiZUQK7Yr8l2FU6x4Ipw7hGmpiltQ==
+ bh=CV9UMNR1d1PDFltJWqYYoEOo8afP/5/nQSmbKexhfKk=;
+ b=kT9TvQSjth6MlAOzUQTmmJjjYO5wgcFanMq9Ivd5PcWv8Ky4wsRdwqizqJam5TtwiQWuvbBOcABXr+P2zEfJNiBoXoF2PicUjwqEo2t11v5vUbAs6PNkYwzVQ/vQBSCgM88uyJz+ZW78eCEM9RX3Ha+DQ5VqCVMHPqK4ioUIDcbkY0A/5X0S1zGqqbLUfP90zhefRXNAwipN10frmHXCXxlsPxHJokmcceXOCInYXHz/LJCqU0XHNAFrLnPIdZ9neyj+wL/U/z48450HFpUtJuaBy81OoH79KTMWELERO9YfuXYxOj0f2/alzPbBsqjmqZSj6HNLnyVvkFCP/C1Y3g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -71,26 +67,25 @@ Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
  by CY8PR11MB7242.namprd11.prod.outlook.com (2603:10b6:930:95::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.25; Sat, 2 Mar
- 2024 13:14:06 +0000
+ 2024 13:17:20 +0000
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::7118:c3d4:7001:cf9d]) by CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::7118:c3d4:7001:cf9d%5]) with mapi id 15.20.7362.015; Sat, 2 Mar 2024
- 13:14:06 +0000
-Date: Sat, 2 Mar 2024 21:07:17 +0800
+ 13:17:20 +0000
+Date: Sat, 2 Mar 2024 21:10:30 +0800
 From: Yujie Liu <yujie.liu@intel.com>
 To: kernel test robot <lkp@intel.com>
-CC: <cros-kernel-buildreports@googlegroups.com>,
-	<oe-kbuild-all@lists.linux.dev>
-Subject: Re: [android-common:android14-6.1 1338/19018]
- kernel/sched/core.c:190:22: sparse: sparse: incorrect type in initializer
- (different address spaces)
-Message-ID: <ZeMkhRYTvz9H6c4H@yujie-X299>
-References: <202403021241.WnfpzlvR-lkp@intel.com>
+CC: Sandipan Das <sandipan.das@amd.com>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>
+Subject: Re: arch/x86/events/amd/uncore.c:601:10: sparse: sparse: incorrect
+ type in initializer (different address spaces)
+Message-ID: <ZeMlRmZs6zX+wqje@yujie-X299>
+References: <202403020941.UCnNA0rh-lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <202403021241.WnfpzlvR-lkp@intel.com>
-X-ClientProxiedBy: SG2PR04CA0197.apcprd04.prod.outlook.com
- (2603:1096:4:14::35) To CY5PR11MB6392.namprd11.prod.outlook.com
+In-Reply-To: <202403020941.UCnNA0rh-lkp@intel.com>
+X-ClientProxiedBy: SI2PR02CA0009.apcprd02.prod.outlook.com
+ (2603:1096:4:194::11) To CY5PR11MB6392.namprd11.prod.outlook.com
  (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -100,202 +95,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|CY8PR11MB7242:EE_
-X-MS-Office365-Filtering-Correlation-Id: 28c0d62a-3c89-466e-5d5c-08dc3abaa355
+X-MS-Office365-Filtering-Correlation-Id: fc52c1d5-e25e-4997-7dcf-08dc3abb1759
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NLhsOeHpZ5YFASBSdjVpKNHQQcLAc/RN2q0ZKA2AOFEyWljd64Y6o7XWr3CaZcCe9jw1i28+3hon9sMV56CnGW5t5knowWOGI2sFKlF9+MgZTjEQmaf0Te4nieUEAmyE0IVX3MU/cjGgUVmlnktXQuuLmZOHtrjiJjgxNNhW9OS8bFuZOLg82TrW6BGWkhMVv1UrQ9P/EAhqMsQxFMq06EdkztdSFE11ezLiLOrOmf2DB8elVI7WHhxdX0QNOK0buB6cMNteellUZynp/7fm4WQg5El8uqjXPCildc3sBlGtS99uY0g0qz4wirVNmSBwTDM6mWJQhgsVXdfpmPPzIw9sHdWMFhYGP0UI/3dn4UK8IygHqhdxaaAiimxdOqUVtOahm51W2hNezwEUgU/3XdcMYP+xYuNkm1x/LqWnBihgBzNhSZMRbm2Ygl2d7JXdAPoDAtx+yoqWRulhU/DAzVXjOdXKdLHazlGx0j1ngEMr06DuJs5v3Qos1ruxEwysaRKgvP0uQJLqDfc18KdNSR2skFy1b3dAmZwfP9HNsmE0emz0iCFBf+Q0g4OdW4LdwB/Ki3nYBBD4Mtufsgka5En1o/28eaTLBj1mo8zG+JC/58YX9eEcyGbGZqlVsj1t
+X-Microsoft-Antispam-Message-Info: 0TJ/37Y5AgZf70oTN4bhBMfbSb4nUUNOOkmhdIlPodfNemGAsyVhRPC8b+x72CIDRtLg4qu7j/0EGbwKK4lGJ+5GJezDeXgN4Dj+0mzKkI4p884PbY8uZEgarAgnJ23E0AGzRqOAKc39iXNMLPPRNcPcO5zeazzLvAYvucHV93C3QBj2bHwCFyb0/ZWAU3ZW5JwlquKfCSmnV+daRANcmZJSA+yFepeMBGiiRhKpqnly0Z7JmpW2LKFhmS+ccy5o+6fTErEh0qDFDHPdbw3lqfym3uBvMO0vwHptB8B+xvP+zgFIHgNoVEYIikIJlrQHFBg4NqVaPDnukm3psFCrtP5W8rc9nm6OTcdGrrhpctp9L8caCzccPxzJskWt8GHIYUquFWxz3DHy82YEOvRmh1EP7yjc9FzFr2Qs7CObkeaDJCIuj3BshYXgcTKmU89D/ydj54bn4+NCwreSY0K4LY60vk0LoPGoaRQTFnlkRWXdlmkYp02pbvJG5dgEMCDwDcpSM68XvNDqp3wITWq/j2akVahDDywYjrGT8DvuWAvHLPoJ++Xheote71P5Kzi0hXW3qilJfllz4PKeYUR8Kt6XyLO2O1XBIy4yY/l+xX0YGJMqfnwdEDvaj1CYcqtt
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JMP/6PO2MknLuW9erl/zlqtXdjqTtMZFhTaOYht0McZCS6QGEPAIq/B2ll8P?=
- =?us-ascii?Q?ZS3Sx9tLTpNjH4NLNvQKXncIVu6Z75b858KUilZhy3qT+bXcXscwOEKdYL5c?=
- =?us-ascii?Q?ice4XODCXn92TNQR3Z6EE8Et9UxbouzEY+zPCGrqHMtIOTvjwjT+9cALq2JV?=
- =?us-ascii?Q?u0bdNU7B8rCDjFJhqiplQyttJ3N04oK8WJ3nsv3sLUaqX4A8tTegDCDmVAr0?=
- =?us-ascii?Q?Z4qcMeq3UzXjjjjsIuPY07C+aZFlgJKCTIsQkSQ5jaPNW8gYSRXwH7wwzKi0?=
- =?us-ascii?Q?Q+h01QbGgtPzv9lPVpFgWcY37WJdcyjG0u0mhsw/Fb012L5JzK/iAT8pDKJ2?=
- =?us-ascii?Q?0RPR+ykwJ8NWTa3ImbawPhlSPip2okAAuOQCreLvy9p5e8+nEH0dMzusGEM9?=
- =?us-ascii?Q?0K2rTzJBbWdJl1qrb5/u8Y3j9Ftwpm9DXqWCNs4ttiNmpQ5AWKsyWOG5Yxyv?=
- =?us-ascii?Q?Vuk6RH1qamaPylhd0EF07xNi2LYF8GTaad3kfPoKfWNA3XRWti47hZ9tXNoL?=
- =?us-ascii?Q?PDwUQCQIGvWybhCSqg91bUDIXQwBNwf88zlnNdn10DnXN0ePmez5Q3phDYMo?=
- =?us-ascii?Q?7dOd8tm1Ub8htEjZRdMkekVGieYnrpqPPVVzh6kH3c/JF0nzLwFuVz/cfzUT?=
- =?us-ascii?Q?Hl9gx7xLIu+yVp+TaeLNL67PPAaxxdeJUtxQY2BGU9CzlXfXtp0Ma32YMc9s?=
- =?us-ascii?Q?nJZK/P02mq6sSprCsDEiTVEGykBjegDWRL0qmFJ+v11NaXp0ztdn6AeNAMZS?=
- =?us-ascii?Q?NBPqS2YLtanruA9T3PfbtZ62ZK43+2TBLpUyWybcauvt20om3IAXfuj4A/hL?=
- =?us-ascii?Q?6Ekwo3F7xxBO/2lWvbKnFcytBye7Eoauk39PUpsOZbt4DGkuy5GNgL6snvdf?=
- =?us-ascii?Q?oOYogY9y9D//OMqbYyqaWsmE2GRVKSgeZ5ysARrbuOP7PvmD6DVsudxSJH9l?=
- =?us-ascii?Q?of5K17vR3dpfkNRhXIySP7ePyqw1iXGL/bZpQtCyFR7C0ynJv7w3H/M5tOtd?=
- =?us-ascii?Q?hne+zesok291gEBa2799+tc1ufEVPqKbPxlEfHd4cR/0Qv3sxckzIyGcxDNT?=
- =?us-ascii?Q?h5tLmbjJfWKf3yfJ1VVVU+2kBwnreYa4vqQlQvNfg4BhVyGedhQo5ykRXsC1?=
- =?us-ascii?Q?lVMw8H5xlBX2yGh2TAadNUsN4flAg3/eeasuWKk1vh4DUCJqau+If2bjhvAe?=
- =?us-ascii?Q?bIelmOBTApCEaiL+4x5cIloebzZbwMrb/0999I947tIi3TPW72KYz6RMH1VX?=
- =?us-ascii?Q?q9rK3F3nFPvd53mScfgttGIVj7jzoWkg/JVYN5Brj+Oxao9AWpLEmN0bObLK?=
- =?us-ascii?Q?ZW9L1VstuoKRsvJ/4og12Eu24+GLJkhGHuy0gVhxNSuHpHz55y9sN7Y4WMoe?=
- =?us-ascii?Q?O1IufcIaOBySXp9em7OBW0EXczjm2NtxDs44/7FRpbHdfls6lIAymYi0mTgu?=
- =?us-ascii?Q?BwW0IjTI30rnArvgY2L1lpkNCCc47o4c8MGG7CdpnivrgeEDQaCkqkzEQo6o?=
- =?us-ascii?Q?p40weeu+OOZxNbPKrUd7Mttafvo8VfqJyvFaNaUEE4WIeTnX1qzLK4Rk3dHd?=
- =?us-ascii?Q?BL6RR64na9r53qkxBJdty+UAqnJfqatQgDPlKA1i?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28c0d62a-3c89-466e-5d5c-08dc3abaa355
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?G0q3J6TgJ7039Y/onG3XDr1/Vu8LFscsmRiEkEkUOvRyu2HwlAF5t67l2bF4?=
+ =?us-ascii?Q?HL8krduajOBaJNFxZUNtHV/29iRB0SrFf7aXiKjRELSTrVS3Dy/ZGr8aGw/V?=
+ =?us-ascii?Q?Fbw6i+wEFRFruyvrFTsyOdEgMl3buhtVCRFzkskNDyIjzJczAYgDS5/8/fOy?=
+ =?us-ascii?Q?ORaHml/s6A48G5m9GpqAPOcFMXqQeXIZUVCXH7di24DRPK23RTOqdZMSbr0q?=
+ =?us-ascii?Q?NUyZO4JiXmrgZkm5JfHw0lfrBYpOL92H3v8vxElX7clg8dqkBFuIxk1ihkiQ?=
+ =?us-ascii?Q?q2DnS2W6xT98vp+fDYbgPSXho7WuGZyKHB7qgqY9jU+rATDcQU8oHxTIWRzz?=
+ =?us-ascii?Q?MXSRcgWRtQmd2XLIaDT88Y2viDv6nuYWi2vfpt0mAbYoMnzCHUg/ELFSqkIL?=
+ =?us-ascii?Q?7PoTQCkyU5+y3GYgl1TBu97NrMdZXKZr5xnDiF7w36Tx2ci1guHb4bLt4Pmf?=
+ =?us-ascii?Q?VBh0nW9vncjlRD9uCiBAgUMkrBmJY6XcMXXQqhpOLE9ZW+M2F2Y+DtXYinV/?=
+ =?us-ascii?Q?scFX3xbhEQwR9rDrhXekaaYrBaWjFpyC2h1sqpPL83bZJdoBHUPand/tHYbR?=
+ =?us-ascii?Q?de7V8nMvIOluMTcAUCUqbyuVwWBVz95wAjIEQ2TZKkKPiLpc5kO8CaaQA3s9?=
+ =?us-ascii?Q?8H1tN4doTwB559im/j6imY3oAIsGZ4xaOikedL+JHpkiyrsy3m2ZRMDYxW+4?=
+ =?us-ascii?Q?vDyTGfP0NGHY6GtEuvKludpg3jtcpEqmD43Xy9t+Uaa2cLDvpV5Po/7vaRyO?=
+ =?us-ascii?Q?yndpQMMYrj8Pqb1GorWt2pYyXH0a1XIvj7MChlp8uehoHsQLcuFduSj2DmYJ?=
+ =?us-ascii?Q?KE5COaBu3ouIXYk2x7IY5t0qpj5S1ge1VwMFbo1Ovr022eVyOeFcCQjRqUGu?=
+ =?us-ascii?Q?baM1PW41VIwHgnACV2VXl6geDFU84el76aWLpF7Iizc5riS4zdLYKof/mS1t?=
+ =?us-ascii?Q?/LgNxvdNpUkeQgSlvFUCTBlofMOxrd7sGsK4558QR+GlZTbVp1k/UL254XGo?=
+ =?us-ascii?Q?uBibV4OXzqwIQEkZqGD+o2isgyzur4LEETVTfXE3WZq5b9kc3uqC7jwboPSU?=
+ =?us-ascii?Q?rnbEP0nNt8ysSd+pdrLXbUXJej90x/M+oDHTPuA/6FvRIqc3PgIGzJwE8UCu?=
+ =?us-ascii?Q?5nCg2IFFzWfQTBZLhwvkIHemqWq+rG61Ge8uF+uKdAiC8OOf7KGgXZaxuIjn?=
+ =?us-ascii?Q?nUoKcaUwcqCtQ+91KQ8PvR2qPUNzubW6p3jgNgiXX3btpMWBQc2k4uz/zZZZ?=
+ =?us-ascii?Q?OZqx0fltW9IkdZGLoqAZj737kejvbNn0OFXEVGsx2b/Ow5Vncup7/NT44wM9?=
+ =?us-ascii?Q?uwPBzt7nyrJHiIvZ2XuuzTE/BIjYkjy5kmepuCl4rmb3CwaeVfI3WjudsTzZ?=
+ =?us-ascii?Q?RFnyQMjIHFtUaZ3c2wavfQwSIHvRBnMDsq0C+yI11cXBje2YNHC6fl7vZBLl?=
+ =?us-ascii?Q?4ENp+742rF9ZT7WxEfoaYyJHEjpzt+gha61dT5fyym8O+WkEpdUwCtcJKsL0?=
+ =?us-ascii?Q?xTyYzxUD01NWBodMoh4sQt2e8ZeGwT00gWyx9pso7RSSbqFVy/UaMYbl1yFT?=
+ =?us-ascii?Q?Vb4FSuWh21g48ejv6T+XSOmkQSNbzkawWcCc027w?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc52c1d5-e25e-4997-7dcf-08dc3abb1759
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2024 13:14:06.1136
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2024 13:17:20.5633
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: syccdDYJ+4zl8xGvJqbxQAbsWdZPk25TjQVkrI91e42iCgv4wQN0i9PvkrVS00wzRMpf5ZQ6eXhM2C3PhM108w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: sT3xNNfe4rRS48VdUQhBQLvPhVaZy8wLgxV9sQhKBNUEDZ/wF4iSOBhEMKrgH6FPmRGfhx5PXbQwrs7rA+WeKg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7242
 X-OriginatorOrg: intel.com
 
-On Sat, Mar 02, 2024 at 12:28:55PM +0800, kernel test robot wrote:
-> tree:   https://android.googlesource.com/kernel/common android14-6.1
-> head:   09ca5740fbbe445af407b1db7ceb5c53c191fe74
-> commit: 6b0a9dc6df8d8be21c8d178a01e0711b0fe6ce73 [1338/19018] ANDROID: GKI: core: Export for runqueues
-> config: x86_64-randconfig-121-20240301 (https://download.01.org/0day-ci/archive/20240302/202403021241.WnfpzlvR-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403021241.WnfpzlvR-lkp@intel.com/reproduce)
+On Sat, Mar 02, 2024 at 09:32:05AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   d17468c6f1f49e6259698f6401b8d7a5b90eac68
+> commit: 07888daa056e809de0b6b234116b575c11f9f99d perf/x86/amd/uncore: Move discovery and registration
+> date:   5 months ago
+> config: x86_64-randconfig-r122-20240301 (https://download.01.org/0day-ci/archive/20240302/202403020941.UCnNA0rh-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403020941.UCnNA0rh-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403021241.WnfpzlvR-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403020941.UCnNA0rh-lkp@intel.com/
 > 
 > sparse warnings: (new ones prefixed by >>)
 
 Sorry for the empty warning here. The actual sparse warning is:
 
-kernel/sched/core.c:190:22: sparse: sparse: incorrect type in initializer (different address spaces)
-kernel/sched/core.c:190:22: sparse:     expected void const [noderef] __percpu *__vpp_verify
-kernel/sched/core.c:190:22: sparse:     got struct rq *
+arch/x86/events/amd/uncore.c:601:10: sparse: sparse: incorrect type in initializer (different address spaces)
+arch/x86/events/amd/uncore.c:601:10: sparse:     expected void const [noderef] __percpu *__vpp_verify
+arch/x86/events/amd/uncore.c:601:10: sparse:     got union amd_uncore_info *
 
 > 
 > 
-> vim +190 kernel/sched/core.c
+> vim +601 arch/x86/events/amd/uncore.c
 > 
-> fa85ae2418e684 kernel/sched.c      Peter Zijlstra 2008-01-25   84  
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   85  
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   86  /*
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   87   * Serialization rules:
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   88   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   89   * Lock order:
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   90   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   91   *   p->pi_lock
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   92   *     rq->lock
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   93   *       hrtimer_cpu_base->lock (hrtimer_start() for bandwidth controls)
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   94   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   95   *  rq1->lock
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   96   *    rq2->lock  where: rq1 < rq2
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   97   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   98   * Regular state:
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02   99   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  100   * Normal scheduling state is serialized by rq->lock. __schedule() takes the
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  101   * local CPU's rq->lock, it optionally removes the task from the runqueue and
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  102   * always looks at the local rq data structures to find the most elegible task
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  103   * to run next.
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  104   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  105   * Task enqueue is also under rq->lock, possibly taken from another CPU.
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  106   * Wakeups from another LLC domain might use an IPI to transfer the enqueue to
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  107   * the local CPU to avoid bouncing the runqueue state around [ see
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  108   * ttwu_queue_wakelist() ]
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  109   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  110   * Task wakeup, specifically wakeups that involve migration, are horribly
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  111   * complicated to avoid having to take two rq->locks.
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  112   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  113   * Special state:
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  114   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  115   * System-calls and anything external will use task_rq_lock() which acquires
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  116   * both p->pi_lock and rq->lock. As a consequence the state they change is
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  117   * stable while holding either lock:
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  118   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  119   *  - sched_setaffinity()/
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  120   *    set_cpus_allowed_ptr():	p->cpus_ptr, p->nr_cpus_allowed
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  121   *  - set_user_nice():		p->se.load, p->*prio
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  122   *  - __sched_setscheduler():	p->sched_class, p->policy, p->*prio,
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  123   *				p->se.load, p->rt_priority,
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  124   *				p->dl.dl_{runtime, deadline, period, flags, bw, density}
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  125   *  - sched_setnuma():		p->numa_preferred_nid
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  126   *  - sched_move_task()/
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  127   *    cpu_cgroup_fork():	p->sched_task_group
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  128   *  - uclamp_update_active()	p->uclamp*
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  129   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  130   * p->state <- TASK_*:
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  131   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  132   *   is changed locklessly using set_current_state(), __set_current_state() or
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  133   *   set_special_state(), see their respective comments, or by
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  134   *   try_to_wake_up(). This latter uses p->pi_lock to serialize against
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  135   *   concurrent self.
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  136   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  137   * p->on_rq <- { 0, 1 = TASK_ON_RQ_QUEUED, 2 = TASK_ON_RQ_MIGRATING }:
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  138   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  139   *   is set by activate_task() and cleared by deactivate_task(), under
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  140   *   rq->lock. Non-zero indicates the task is runnable, the special
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  141   *   ON_RQ_MIGRATING state is used for migration without holding both
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  142   *   rq->locks. It indicates task_cpu() is not stable, see task_rq_lock().
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  143   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  144   * p->on_cpu <- { 0, 1 }:
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  145   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  146   *   is set by prepare_task() and cleared by finish_task() such that it will be
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  147   *   set before p is scheduled-in and cleared after p is scheduled-out, both
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  148   *   under rq->lock. Non-zero indicates the task is running on its CPU.
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  149   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  150   *   [ The astute reader will observe that it is possible for two tasks on one
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  151   *     CPU to have ->on_cpu = 1 at the same time. ]
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  152   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  153   * task_cpu(p): is changed by set_task_cpu(), the rules are:
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  154   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  155   *  - Don't call set_task_cpu() on a blocked task:
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  156   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  157   *    We don't care what CPU we're not running on, this simplifies hotplug,
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  158   *    the CPU assignment of blocked tasks isn't required to be valid.
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  159   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  160   *  - for try_to_wake_up(), called under p->pi_lock:
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  161   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  162   *    This allows try_to_wake_up() to only take one rq->lock, see its comment.
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  163   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  164   *  - for migration called under rq->lock:
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  165   *    [ see task_on_rq_migrating() in task_rq_lock() ]
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  166   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  167   *    o move_queued_task()
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  168   *    o detach_task()
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  169   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  170   *  - for migration called under double_rq_lock():
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  171   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  172   *    o __migrate_swap_task()
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  173   *    o push_rt_task() / pull_rt_task()
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  174   *    o push_dl_task() / pull_dl_task()
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  175   *    o dl_task_offline_migration()
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  176   *
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  177   */
-> 58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  178  
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  179  /*
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  180   * __task_rq_lock - lock the rq @p resides on.
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  181   */
-> eb58075149b7f0 kernel/sched/core.c Peter Zijlstra 2015-07-31  182  struct rq *__task_rq_lock(struct task_struct *p, struct rq_flags *rf)
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  183  	__acquires(rq->lock)
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  184  {
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  185  	struct rq *rq;
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  186  
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  187  	lockdep_assert_held(&p->pi_lock);
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  188  
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  189  	for (;;) {
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28 @190  		rq = task_rq(p);
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  191  		raw_spin_lock(&rq->lock);
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  192  		if (likely(rq == task_rq(p) && !task_on_rq_migrating(p))) {
-> d8ac897137a230 kernel/sched/core.c Matt Fleming   2016-09-21  193  			rq_pin_lock(rq, rf);
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  194  			return rq;
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  195  		}
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  196  		raw_spin_unlock(&rq->lock);
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  197  
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  198  		while (unlikely(task_on_rq_migrating(p)))
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  199  			cpu_relax();
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  200  	}
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  201  }
-> 3e71a462dd483c kernel/sched/core.c Peter Zijlstra 2016-04-28  202  
-> 
-> :::::: The code at line 190 was first introduced by commit
-> :::::: 3e71a462dd483ce508a723356b293731e7d788ea sched/core: Move task_rq_lock() out of line
-> 
-> :::::: TO: Peter Zijlstra <peterz@infradead.org>
-> :::::: CC: Ingo Molnar <mingo@kernel.org>
+>    582	
+>    583	static
+>    584	void amd_uncore_df_ctx_scan(struct amd_uncore *uncore, unsigned int cpu)
+>    585	{
+>    586		union cpuid_0x80000022_ebx ebx;
+>    587		union amd_uncore_info info;
+>    588	
+>    589		if (!boot_cpu_has(X86_FEATURE_PERFCTR_NB))
+>    590			return;
+>    591	
+>    592		info.split.aux_data = 0;
+>    593		info.split.num_pmcs = NUM_COUNTERS_NB;
+>    594		info.split.cid = topology_die_id(cpu);
+>    595	
+>    596		if (pmu_version >= 2) {
+>    597			ebx.full = cpuid_ebx(EXT_PERFMON_DEBUG_FEATURES);
+>    598			info.split.num_pmcs = ebx.split.num_df_pmc;
+>    599		}
+>    600	
+>  > 601		*per_cpu_ptr(uncore->info, cpu) = info;
+>    602	}
+>    603	
 > 
 > -- 
 > 0-DAY CI Kernel Test Service
