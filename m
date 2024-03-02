@@ -1,213 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4152F16FF4F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 10:57:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552A61754E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Mar 2024 11:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709377048; cv=none; b=qDKOGE1qnbL0JRVBqISxIJtG+QxtWe/01Sjp+VxC/+eFmFUfhQk/lGrJ3F181wcPCSa5hCRhlgt1u+jLKyyDA90XLquTWIV0sfkobdkbYsQTnWq8S/k3XNn9WFlf85u48J4jsmXip+oyffdqi2GJhtcL1x+hgFPPq3kjeUmq3TY=
+	t=1709379454; cv=none; b=NXMz/HiacpcY0R3PT1FgTbPRsyj8wjtyck75KFx4OMX9qUP3VvK5OlQPUjmdv8uB0H9QsKFKbujBSF3HHHVnE18yolSXs8feKr2Iz9R4CVUGhomifNMr/NnBNoL7K3+swYQEWvub2KD33GtQ/pmN/tyRRizlcMcCDjxC2V/oV3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709377048; c=relaxed/simple;
-	bh=sW4Amv+bfSPTytN7KXKV7NTTi+cPJ7HEPBTAJMxiyi4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kydE9nvTmHgSwxICJm1N58TMEIAoohSNZlqa95AIX40AUNJ5TJZTdP5ohfMiH1ZzqnXMls4O3rL87fwTdy4MnFvV2f6jtaojsJTwf4VKlPpCnLOteLk6N4xWGhSKeKgrQSx9IYwmHmkTyhFYOb182OJh1WUi3bXeTx+aVVjbiVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YyPg4KC6; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709379454; c=relaxed/simple;
+	bh=lK4U4ZLcWMRofj4C36viEsAPI2ibBqPBg1dl/C+Vbbc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=IElRmF9v4T2Hi+DFhrVbDxbLFB5EGaZC6P4MSRxi6K1vAABChEdkhV3e4qAXbjvWsfIpm6XcJK+plQRCFmsh2CuCfspK7tbuIDx6dbERP8AJw9Npgv1UhG90bP/JYwnftHsJqNFz3PJcEsNP6U82/bV16MVGVGk+k8fM/ZBh+RQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=D+k8uPyE; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=C2g7laN4; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YyPg4KC6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709377045; x=1740913045;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sW4Amv+bfSPTytN7KXKV7NTTi+cPJ7HEPBTAJMxiyi4=;
-  b=YyPg4KC6ACwdE5LfeVmmtS8Hc6AxDJVZ2XHnJW0IgMxe/QLiHJkuFHhS
-   E/zkLJbLnSZOf0u2Al1T+/ztbZzRXHV6fgyMjc4s6iJb8j++XvXY2MoQX
-   pD3CyoxpjsaXhyXTA8JF5LIYxNRBQNtFQAfqBGiKukQGjZIhlLZ7QTnqs
-   xxrSeSgB+uDyjWd+9Hps7UXDlbZDN+UrrS4q+ZomkK1kGAKj7v6UbqOR9
-   YmuGjI5w0PL+9fPaLMo6jh5p7nb38dP9wUnYYe4Wk6Ku4jbmhTr5eUGnw
-   3n/AChN9A/x/qft/MwNlX9Nv3P9Vg6O/LgMq68ISTP8MXI/se4cBBHQMd
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="6871515"
-X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="6871515"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 02:57:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="8892606"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 02 Mar 2024 02:57:24 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rgN3B-000EYJ-0n;
-	Sat, 02 Mar 2024 10:57:14 +0000
-Date: Sat, 2 Mar 2024 18:54:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michal Simek <monstr@monstr.eu>
-Subject: arch/microblaze/kernel/entry.S:945: Error: unknown opcode "suspend"
-Message-ID: <202403021817.I7WRFyV9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="D+k8uPyE";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="C2g7laN4"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1709379450;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kg/HWn0RBgyKR0X6ry85czEeS/YqxSOJwvJfCZhfBZE=;
+	b=D+k8uPyEfOjyY7Y0Omj3cDddiEEu8SaBgIHTay1QinYalGHInnrklrlVczSIpdy/E7rQPi
+	m6EDAtJ0M/MAisOkml9qRxBTCn5oTE4q3uHL/+ZveRqpuWWIYebRWPokmgQizgjHSs/pEi
+	TYKEDPzd04wuvLmlN/XdYx1YV6KsdQ1zKiER/uf/GcyJhY2ktmA2HoBlbj2pqo3LQj4mIQ
+	zc2BqjxQMWImomdPstx38eNXjg10lLEj53Vm4c5B2Y7ZK2Pj8ebKn2d85Bg2iHGtHwTZmj
+	b5a45iReS/WDwdDzEc46RVscRi9YHSi6pPJNpogyYU8tzATG+wdn2PQODJ/GsQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1709379450;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kg/HWn0RBgyKR0X6ry85czEeS/YqxSOJwvJfCZhfBZE=;
+	b=C2g7laN4Pmwh8tpWg9OdccAbRvdNL0XIMpX8TyeXV/MolAmcZZRzkxZ8/SBG5y2yIHM3/C
+	1rqICYqY6avmkXCQ==
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Arjan van
+ de Ven <arjan@linux.intel.com>, x86@kernel.org
+Subject: Re: arch/x86/include/asm/processor.h:698:16: sparse: sparse:
+ incorrect type in initializer (different address spaces)
+In-Reply-To: <87a5nhwpus.ffs@tglx>
+References: <202403020457.RCJoQ3ts-lkp@intel.com> <87edctwr6y.ffs@tglx>
+ <87a5nhwpus.ffs@tglx>
+Date: Sat, 02 Mar 2024 12:37:29 +0100
+Message-ID: <87y1b0vp8m.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-Hi Appana,
+On Fri, Mar 01 2024 at 23:26, Thomas Gleixner wrote:
+> Sorry, my fault. I can reproduce now but it still does not make any
+> sense. The code is correct...
+>
+> Let me put something together which the sparse folks can digest.
 
-FYI, the error/warning still remains.
+Bah. sparse is actually right. I completely missed the fact that this is
+an UP build which has:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5ad3cb0ed525b80c7f66c32b49a68c1f3510bec9
-commit: 88707ebe77e23e856981e597f322cabbf6415662 microblaze: Add custom break vector handler for mb manager
-date:   1 year, 5 months ago
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240302/202403021817.I7WRFyV9-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403021817.I7WRFyV9-lkp@intel.com/reproduce)
+extern struct cpuinfo_x86	boot_cpu_data;
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403021817.I7WRFyV9-lkp@intel.com/
+#define cpu_info		boot_cpu_data
 
-All errors (new ones prefixed by >>):
+So any access with this_cpu*(), per_cpu*() etc. is actually incorrect from
+sparse's point of view.
 
-   arch/microblaze/kernel/entry.S: Assembler messages:
->> arch/microblaze/kernel/entry.S:945: Error: unknown opcode "suspend"
+From a compiler point of view it just works because __percpu dissolves
+and the whole thing produces correct code magically.
 
+Most places in x86 use cpu_data(cpu) to access per cpu data which is
+defined as per_cpu(cpu_info, cpu) for SMP and boot_cpu_info for UP.
 
-vim +/suspend +945 arch/microblaze/kernel/entry.S
+That's fine, but there are places like the MCE code which really needs
+raw_cpu_ptr(). Sure we can write ugly wrappers for that and for some
+other accessors. But that's all just wrong and ugly.
 
-   825	
-   826		/* restore all the tlb's */
-   827		addik	r3, r0, TOPHYS(tlb_skip)
-   828		addik	r6, r0, PT_TLBL0
-   829		addik	r7, r0, PT_TLBH0
-   830	restore_tlb:
-   831		add	r6, r6, r1
-   832		add	r7, r7, r1
-   833		lwi	r2, r6, 0
-   834		mts 	rtlblo, r2
-   835		lwi	r2, r7, 0
-   836		mts	rtlbhi, r2
-   837		addik	r6, r6, 4
-   838		addik	r7, r7, 4
-   839		bgtid	r3, restore_tlb
-   840		addik	r3, r3, -1
-   841	
-   842		lwi  	r5, r0, TOPHYS(xmb_manager_dev)
-   843		lwi	r8, r0, TOPHYS(xmb_manager_reset_callback)
-   844		set_vms
-   845		/* return from reset need -8 to adjust for rtsd r15, 8 */
-   846		addik   r15, r0, ret_from_reset - 8
-   847		rtbd	r8, 0
-   848		nop
-   849	
-   850	ret_from_reset:
-   851		set_bip /* Ints masked for state restore */
-   852		VM_OFF
-   853		/* MS: Restore all regs */
-   854		RESTORE_REGS
-   855		lwi	r14, r1, PT_R14
-   856		lwi	r16, r1, PT_PC
-   857		addik	r1, r1, PT_SIZE + 36
-   858		rtbd	r16, 0
-   859		nop
-   860	
-   861	/*
-   862	 * Break handler for MB Manager. Enter to _xmb_manager_break by
-   863	 * injecting fault in one of the TMR Microblaze core.
-   864	 * FIXME: This break handler supports getting
-   865	 * called from kernel space only.
-   866	 */
-   867	C_ENTRY(_xmb_manager_break):
-   868		/*
-   869		 * Reserve memory in the stack for context store/restore
-   870		 * (which includes memory for storing tlbs (max two tlbs))
-   871		 */
-   872		addik	r1, r1, -PT_SIZE - 36
-   873		swi	r1, r0, xmb_manager_stackpointer
-   874		SAVE_REGS
-   875		swi	r14, r1, PT_R14	/* rewrite saved R14 value */
-   876		swi	r16, r1, PT_PC; /* PC and r16 are the same */
-   877	
-   878		lwi	r6, r0, TOPHYS(xmb_manager_baseaddr)
-   879		lwi	r7, r0, TOPHYS(xmb_manager_crval)
-   880		/*
-   881		 * When the break vector gets asserted because of error injection,
-   882		 * the break signal must be blocked before exiting from the
-   883		 * break handler, below code configures the tmr manager
-   884		 * control register to block break signal.
-   885		 */
-   886		swi	r7, r6, 0
-   887	
-   888		/* Save the special purpose registers  */
-   889		mfs	r2, rpid
-   890		swi	r2, r1, PT_PID
-   891	
-   892		mfs	r2, rtlbx
-   893		swi	r2, r1, PT_TLBI
-   894	
-   895		mfs	r2, rzpr
-   896		swi	r2, r1, PT_ZPR
-   897	
-   898	#if CONFIG_XILINX_MICROBLAZE0_USE_FPU
-   899		mfs	r2, rfsr
-   900		swi	r2, r1, PT_FSR
-   901	#endif
-   902		mfs	r2, rmsr
-   903		swi	r2, r1, PT_MSR
-   904	
-   905		/* Save all the tlb's */
-   906		addik	r3, r0, TOPHYS(tlb_skip)
-   907		addik	r6, r0, PT_TLBL0
-   908		addik	r7, r0, PT_TLBH0
-   909	save_tlb:
-   910		add	r6, r6, r1
-   911		add	r7, r7, r1
-   912		mfs	r2, rtlblo
-   913		swi	r2, r6, 0
-   914		mfs	r2, rtlbhi
-   915		swi	r2, r7, 0
-   916		addik	r6, r6, 4
-   917		addik	r7, r7, 4
-   918		bgtid	r3, save_tlb
-   919		addik	r3, r3, -1
-   920	
-   921		lwi  	r5, r0, TOPHYS(xmb_manager_dev)
-   922		lwi	r8, r0, TOPHYS(xmb_manager_callback)
-   923		/* return from break need -8 to adjust for rtsd r15, 8 */
-   924		addik   r15, r0, ret_from_break - 8
-   925		rtbd	r8, 0
-   926		nop
-   927	
-   928	ret_from_break:
-   929		/* flush the d-cache */
-   930		bralid	r15, mb_flush_dcache
-   931		nop
-   932	
-   933		/*
-   934		 * To make sure microblaze i-cache is in a proper state
-   935		 * invalidate the i-cache.
-   936		 */
-   937		bralid	r15, mb_invalidate_icache
-   938		nop
-   939	
-   940		set_bip; /* Ints masked for state restore */
-   941		VM_OFF;
-   942		mbar	1
-   943		mbar	2
-   944		bri	4
- > 945		suspend
-   946		nop
-   947	#endif
-   948	
+The proper solution would be to force SMP for x86, but Linus shot it
+down when I wanted to do that last time.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Let me think about it.
+
+Thanks,
+
+        tglx
