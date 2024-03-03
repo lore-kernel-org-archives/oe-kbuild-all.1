@@ -1,55 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7B07A71E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51787AE4F
 	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 23:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709508574; cv=none; b=HPscU3xKGzOB1ILu45lHT82tAF2VtPsHbki+7xMy8m5+l59m4Jo1ArRm6JWPJe5vnJg7D4NkNP6tMAdswTFgGVm1msUl/hhSTMIKXfNgBuWy7O+fdJGQFJapsDz74rys4zcr5EKvjGoP3wF0oglobDlRaJY63CftVLQ2L2WYpWg=
+	t=1709508575; cv=none; b=XPZtSrACjBM9D7S82UmZjhDMHwKcm1Me1g3W1B/hGoUjJkiH4njUbyp9fSVnsz/VcxW/BdIMvP2emVrLsWqBYjtuusPxP8xSJ4ef82GdAppGhE3ajOVFpjWQCV9hiRDSiPsk5InwxZNOJGqp7UdXzb9Bq7mTS6C90/E6fX7aFBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709508574; c=relaxed/simple;
-	bh=D1vFSL652eq5XYxvhYww6NjwsV4IxEk5X1Symbmcki0=;
+	s=arc-20240116; t=1709508575; c=relaxed/simple;
+	bh=YlmYJbfJBhoa9aEJz/R6jtxDm6+NzvXtj8C245JkjP0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NzW8UwbLYPCEM0IbbMISan5MwcdYZCzd/yB8RGshy5YWSKJ8KBb5iR4+9Sdtax9QbAaVhlVdhTKR52q5nkv9GLXX2l5+BedPjnwswM/tJILEZjdhXiGD3GFm4enMqyAZAJODccBiknWLl1ZjmuJQ4UWgDb7FihHwmU1sE7RMB+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lje46P7k; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=Ncn8kHcBbV4CvyVA5t1nS9EfVXQQWGc0S3Ljb2u0mLnf1KI8tS0IMFULeahFJRSntDZUFP4nlwuV2FQr8Xt7BlLKLegnkqTMsWviFmkL1IkOw/RA7hI0kFl6hkJj8lJA4CToW5VZhPSN+0vflksDn/KBUf6wAsT7VxlQU3v5lpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WnXxZ7q/; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lje46P7k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WnXxZ7q/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1709508571; x=1741044571;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D1vFSL652eq5XYxvhYww6NjwsV4IxEk5X1Symbmcki0=;
-  b=Lje46P7kRbQgwHheUVSetO6wCmV6Ck7fIam1LHL1TjEIw4PqUYVQisBS
-   fwC0iXtI+9EAE0erYV25OHBlGMEShBLgJkmyWzEI0DkQ448OF+HvbFkt4
-   5iUCfng26DQPEkhnh9CkOW/XLNmB8QBHAm2K13s0NiZ2AaHWZcAOpM3MB
-   A0FJ66VT3Xy/D9pQJari9881n8gY6wSR9qVSEC92E2Yzz5RIWFBNT71kg
-   sCamGRfb7/845pmLjlBs46j/Qo/mH0hEDXssDotOMzxa3vRjvaJ8qznIe
-   wA9PZvZTHFMcfIZ4+4PdRkfmBMF3xfBy2B2x9LgsA6e5FN6IEeNG8JR1T
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="7803776"
+  bh=YlmYJbfJBhoa9aEJz/R6jtxDm6+NzvXtj8C245JkjP0=;
+  b=WnXxZ7q/eTJ/7vqSR4e9QwW2mmEc5FWYpf9s4J+YJnY1QrThbA6KnP8F
+   O1HJzH7lh/66lq1ZHwoFy1nMJn3FjmlAXNQDpAxnsAgZm63sK9UkibCFf
+   BqLfP3obGEKbmYYqkttp4XRo254v0oHm050k74dS8P3D61gLyeauMxsSW
+   w9oVdRdjWGSsT64Ut6fb3G62dJ6A2KT7tyGmuM5CJhmTRbk3A51AMJKr+
+   AoeX1zvJ8+eyJvUW16aCQTvhMZkT198OOmtmtHXbAqYWuP6Hu6PTkx/Qq
+   sbzEZefaxTFJQTj5MSRoBny1KHFj1hLDtr6Ekchoylr29ZKabaowROfq1
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="3851281"
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="7803776"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 15:29:30 -0800
+   d="scan'208";a="3851281"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 15:29:31 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="9370451"
+   d="scan'208";a="9245946"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 03 Mar 2024 15:29:30 -0800
+  by orviesa006.jf.intel.com with ESMTP; 03 Mar 2024 15:29:30 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgvGp-0002Aa-0c;
+	id 1rgvGp-0002Ai-0q;
 	Sun, 03 Mar 2024 23:29:27 +0000
-Date: Mon, 4 Mar 2024 07:29:19 +0800
+Date: Mon, 4 Mar 2024 07:29:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexey Gladkov <legion@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [legion:patchset/cons-font-info/v1.0 1/5]
- drivers/tty/vt/vt_ioctl.c:483:3: error: a label can only be part of a
- statement and a declaration is not a statement
-Message-ID: <202403040754.RKosvxAE-lkp@intel.com>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: WARNING: modpost: "strcpy" [drivers/clk/clk_test.ko] has no CRC!
+Message-ID: <202403040734.dhA2hwnR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,174 +57,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/legion/linux.git patchset/cons-font-info/v1.0
-head:   06733914c1d2d19ebb61cdf6cd96d0a45d4da6ba
-commit: 784438040507c68171fd2c47597f8ab85c8e6ab8 [1/5] VT: Add KDFONTINFO ioctl
-config: x86_64-randconfig-121-20240303 (https://download.01.org/0day-ci/archive/20240304/202403040754.RKosvxAE-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040754.RKosvxAE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   90d35da658da8cff0d4ecbb5113f5fac9d00eb72
+commit: 831187c6946f29ba8309d386d5ca466eec8b9f79 clk: Parameterize clk_leaf_mux_set_rate_parent
+date:   5 months ago
+config: alpha-randconfig-s032-20220318 (https://download.01.org/0day-ci/archive/20240304/202403040734.dhA2hwnR-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040734.dhA2hwnR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403040754.RKosvxAE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403040734.dhA2hwnR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/tty/vt/vt_ioctl.c: In function 'vt_k_ioctl':
->> drivers/tty/vt/vt_ioctl.c:483:3: error: a label can only be part of a statement and a declaration is not a statement
-      struct console_font_info fnt_info;
-      ^~~~~~
-
-
-vim +483 drivers/tty/vt/vt_ioctl.c
-
-   355	
-   356		/* Linux m68k/i386 interface for setting the keyboard delay/repeat rate */
-   357	
-   358		case KDKBDREP:
-   359		{
-   360			struct kbd_repeat kbrep;
-   361	
-   362			if (!capable(CAP_SYS_TTY_CONFIG))
-   363				return -EPERM;
-   364	
-   365			if (copy_from_user(&kbrep, up, sizeof(struct kbd_repeat)))
-   366				return -EFAULT;
-   367	
-   368			ret = kbd_rate(&kbrep);
-   369			if (ret)
-   370				return ret;
-   371			if (copy_to_user(up, &kbrep, sizeof(struct kbd_repeat)))
-   372				return -EFAULT;
-   373			break;
-   374		}
-   375	
-   376		case KDSETMODE:
-   377			if (!perm)
-   378				return -EPERM;
-   379	
-   380			console_lock();
-   381			ret = vt_kdsetmode(vc, arg);
-   382			console_unlock();
-   383			return ret;
-   384	
-   385		case KDGETMODE:
-   386			return put_user(vc->vc_mode, (int __user *)arg);
-   387	
-   388		case KDMAPDISP:
-   389		case KDUNMAPDISP:
-   390			/*
-   391			 * these work like a combination of mmap and KDENABIO.
-   392			 * this could be easily finished.
-   393			 */
-   394			return -EINVAL;
-   395	
-   396		case KDSKBMODE:
-   397			if (!perm)
-   398				return -EPERM;
-   399			ret = vt_do_kdskbmode(console, arg);
-   400			if (ret)
-   401				return ret;
-   402			tty_ldisc_flush(tty);
-   403			break;
-   404	
-   405		case KDGKBMODE:
-   406			return put_user(vt_do_kdgkbmode(console), (int __user *)arg);
-   407	
-   408		/* this could be folded into KDSKBMODE, but for compatibility
-   409		   reasons it is not so easy to fold KDGKBMETA into KDGKBMODE */
-   410		case KDSKBMETA:
-   411			return vt_do_kdskbmeta(console, arg);
-   412	
-   413		case KDGKBMETA:
-   414			/* FIXME: should review whether this is worth locking */
-   415			return put_user(vt_do_kdgkbmeta(console), (int __user *)arg);
-   416	
-   417		case KDGETKEYCODE:
-   418		case KDSETKEYCODE:
-   419			if(!capable(CAP_SYS_TTY_CONFIG))
-   420				perm = 0;
-   421			return vt_do_kbkeycode_ioctl(cmd, up, perm);
-   422	
-   423		case KDGKBENT:
-   424		case KDSKBENT:
-   425			return vt_do_kdsk_ioctl(cmd, up, perm, console);
-   426	
-   427		case KDGKBSENT:
-   428		case KDSKBSENT:
-   429			return vt_do_kdgkb_ioctl(cmd, up, perm);
-   430	
-   431		/* Diacritical processing. Handled in keyboard.c as it has
-   432		   to operate on the keyboard locks and structures */
-   433		case KDGKBDIACR:
-   434		case KDGKBDIACRUC:
-   435		case KDSKBDIACR:
-   436		case KDSKBDIACRUC:
-   437			return vt_do_diacrit(cmd, up, perm);
-   438	
-   439		/* the ioctls below read/set the flags usually shown in the leds */
-   440		/* don't use them - they will go away without warning */
-   441		case KDGKBLED:
-   442		case KDSKBLED:
-   443		case KDGETLED:
-   444		case KDSETLED:
-   445			return vt_do_kdskled(console, cmd, arg, perm);
-   446	
-   447		/*
-   448		 * A process can indicate its willingness to accept signals
-   449		 * generated by pressing an appropriate key combination.
-   450		 * Thus, one can have a daemon that e.g. spawns a new console
-   451		 * upon a keypress and then changes to it.
-   452		 * See also the kbrequest field of inittab(5).
-   453		 */
-   454		case KDSIGACCEPT:
-   455			if (!perm || !capable(CAP_KILL))
-   456				return -EPERM;
-   457			if (!valid_signal(arg) || arg < 1 || arg == SIGKILL)
-   458				return -EINVAL;
-   459	
-   460			spin_lock_irq(&vt_spawn_con.lock);
-   461			put_pid(vt_spawn_con.pid);
-   462			vt_spawn_con.pid = get_pid(task_pid(current));
-   463			vt_spawn_con.sig = arg;
-   464			spin_unlock_irq(&vt_spawn_con.lock);
-   465			break;
-   466	
-   467		case KDFONTOP: {
-   468			struct console_font_op op;
-   469	
-   470			if (copy_from_user(&op, up, sizeof(op)))
-   471				return -EFAULT;
-   472			if (!perm && op.op != KD_FONT_OP_GET)
-   473				return -EPERM;
-   474			ret = con_font_op(vc, &op);
-   475			if (ret)
-   476				return ret;
-   477			if (copy_to_user(up, &op, sizeof(op)))
-   478				return -EFAULT;
-   479			break;
-   480		}
-   481	
-   482		case KDFONTINFO:
- > 483			struct console_font_info fnt_info;
-   484	
-   485			if (copy_from_user(&fnt_info, up, sizeof(fnt_info)))
-   486				return -EFAULT;
-   487			ret = con_font_info(vc, &fnt_info);
-   488			if (ret)
-   489				return ret;
-   490			if (copy_to_user(up, &fnt_info, sizeof(fnt_info)))
-   491				return -EFAULT;
-   492			break;
-   493	
-   494		default:
-   495			return -ENOIOCTLCMD;
-   496		}
-   497	
-   498		return 0;
-   499	}
-   500	
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pv951.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-rc6-mce.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-real-audio-220-32-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-reddo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-snapstream-firefly.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-streamzap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-su3000.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tanix-tx3mini.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tanix-tx5max.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tbs-nec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-technisat-ts35.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-technisat-usb2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-c-pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-s2-hd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-xs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-slim-2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-slim.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tevii-nec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tivo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-total-media-in-hand-02.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-total-media-in-hand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-trekstor.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tt-1500.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan1027.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan-dtv-cab-ci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-vega-s9x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-m1f.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-s350.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-tv-pvr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videostrong-kii-pro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-play2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast-usbii-deluxe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-x96max.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-360.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-dvd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-zx-irdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-empress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-dvb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-semitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/core/dev_addr_lists_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/mrp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
+WARNING: modpost: EXPORT symbol "strcpy" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strcpy" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "strcat" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strcat" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "strncpy" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strncpy" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "strncat" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strncat" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: "strcat" [kernel/rcu/refscale.ko] has no CRC!
+WARNING: modpost: "strcat" [fs/overlayfs/overlay.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/char/ipmi/ipmi_msghandler.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/char/ipmi/ipmi_ssif.ko] has no CRC!
+>> WARNING: modpost: "strcpy" [drivers/clk/clk_test.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/tty/n_gsm.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_cmdline_parser_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_connector_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_dp_mst_helper_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_framebuffer_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_plane_helper_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_probe_helper_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/drm.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/gpu/drm/drm.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/base/regmap/regmap-kunit.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/misc/eeprom/idt_89hpesx.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/misc/ti-st/st_drv.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/misc/c2port/core.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/nfc/s3fwrn5/s3fwrn5.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/mtd/ubi/ubi.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/wireless/broadcom/brcm80211/brcmfmac/brcmfmac.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/wireless/marvell/mwifiex/mwifiex.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/wireless/marvell/mwifiex/mwifiex_sdio.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/plip/plip.ko] has no CRC!
+WARNING: modpost: "strncat" [drivers/net/ieee802154/adf7242.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/auxdisplay/panel.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/w1/slaves/w1_ds28e17.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/power/supply/bq24190_charger.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/power/supply/bq2515x_charger.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/hwmon/pmbus/pmbus_core.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/mmc/core/mmc_core.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/leds/leds-lp3952.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/parport/parport.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/input/rmi4/rmi_core.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/iio/proximity/sx9324.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/thunderbolt/thunderbolt.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/can/can-bcm.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/rfkill/rfkill.ko] has no CRC!
 
 -- 
 0-DAY CI Kernel Test Service
