@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515771CA8F;
-	Sun,  3 Mar 2024 20:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5832F844
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 21:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709499545; cv=none; b=iLTDcma3spcQT/+84X4aEmbRoKLPQnRKMBMRas5+DRpPDlw6Iimoaw57XIam18vF8o39Cer9w2nxqvJDROnbrNZ2GxGGMXXIxwywNkRUEYUVULMExTriwN6IoCK24sPZVWTJd/EdD3f95UDTgiQl3Z6lLMlBdRMA+LtWVZFlWvA=
+	t=1709500206; cv=none; b=SnvcAh2K1VWfS8ILuGzhVPdfjART2ewsaodXj3iHfIAIXAJn0pJHLE35fdCQ1rxllJ7kFv1ggOXWWSzwG1VjFbqDw5AtZKnVFxQXjJvh5ibCFLALYwpdOfetKpjlY0+JYIWLE4yXf0yDHul83dzvbxM5eizaTTprM6jGxZS55As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709499545; c=relaxed/simple;
-	bh=Shd2GRwjHJOSLqbTorBQLVaSeB+Z7gQi3myuQxEsO5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jrb1IaqlDrBXh1A8ZrN/KIxc9bL51/q/e0U4rPPk0a8WutTjRoxwDty4r+Dyh/9nOX0+U/5efgd00SH9DM4J31rck2iAUsPSerKt7LmPAJceIpXyHFRo42KpfO+ITT+8FL7MXZ51X3ipJdAy67rDES6tD2EJi6lQ5N5gbPoo8iU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SRRQOxeZ; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1709500206; c=relaxed/simple;
+	bh=5mnLM/094kcYFc4TCO+XxHb+B9zkxrId6EN8X9K4HOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cpUBLV+O4j08QerWiFN7xPjfD/kTASLC/VYaDD0fZTDmLoCZsiooB6pGltoIo30NEucmm4XKkc1k/09qVmePys+s2t/1NP1wPP/BfZ4lNG9ey8vPhoPHoORjew+APMj3l9Sn0z9uYjjL8Lh1Np1AyKUNRNdGNwM1ApZpz0WMNn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EcpDOjlI; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SRRQOxeZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EcpDOjlI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709499543; x=1741035543;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Shd2GRwjHJOSLqbTorBQLVaSeB+Z7gQi3myuQxEsO5A=;
-  b=SRRQOxeZmSeNVTfXA9746uUOodwxf7O5oPoy+KD5hdkfb3xTFAhJmcgF
-   IpG3mhR/RRVQncXjUDH2Zkpt8w2yfQacNhAVXUk5h8rim/2A8UoGbIbc6
-   FnU1F6WbwWIVYKnkoVdV1RR5oOLHmi0aZUtHC8ifL8xUBvaVU6BiEISSp
-   OWfa3potxjk36UBheDYnSEnX/vfVg+gX7ZWAB6Pehi/CwdY3xjGuJl/jm
-   KGQtsfi48afcSTXcnDRn3q8nCWzf1IBkpiP9URFaP15ZvAC3J73hpSnwI
-   /YdRQR5jywkLU0VzhO7Y0C9JL9MrqT5CsXxFiVWN+k64b8xX4zbtYi0Er
+  t=1709500203; x=1741036203;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5mnLM/094kcYFc4TCO+XxHb+B9zkxrId6EN8X9K4HOk=;
+  b=EcpDOjlIo7tjTWMaSFxOj0Vx40714wc/k2US9R49REHy97Wpvfdo4uZN
+   78t81dGibI5a7PmSj2KvLUOQKT6QmXUXPVE/bqljUIcSvVr7dtoY9Ufll
+   LEpUym7QDBEL7pZEdwWguTdZC4ScgwsQ6ltuKon+H97bWvQc88IHX5anq
+   7VJSyNGSYSC39mNK4Y7YToFQYcTlOLE73+BeVD8k4MEoQQkmzsx6m8Skh
+   t66Nwj/qkQTMbmF2jwHWFzMyZgqwd3wO2XrS5uGmaP+uuZu+Qp8C8jsuK
+   nJDzYzu8GduF6BABtimZhI+vVYOBHADcHq0HqNAM4s6x5BBsfbjxZj5Uo
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="3871788"
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="15388783"
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="3871788"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 12:59:02 -0800
+   d="scan'208";a="15388783"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 13:10:02 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="8848219"
+   d="scan'208";a="13345950"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 03 Mar 2024 12:59:02 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 03 Mar 2024 13:10:01 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgsvC-00026U-37;
-	Sun, 03 Mar 2024 20:58:58 +0000
-Date: Mon, 4 Mar 2024 04:58:20 +0800
+	id 1rgt5r-00026u-0m;
+	Sun, 03 Mar 2024 21:09:59 +0000
+Date: Mon, 4 Mar 2024 05:09:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v8 02/12] firmware: qcom: scm: enable the TZ mem allocator
-Message-ID: <202403040445.XAdJO3Ta-lkp@intel.com>
-References: <20240303150115.133633-3-brgl@bgdev.pl>
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/firmware/microchip/mpfs-auto-update.c:387:72-78: ERROR:
+ application of sizeof to pointer
+Message-ID: <202403040516.CYxoWTXw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,68 +57,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240303150115.133633-3-brgl@bgdev.pl>
 
-Hi Bartosz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on krzk-dt/for-next linus/master v6.8-rc6 next-20240301]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/firmware-qcom-add-a-dedicated-TrustZone-buffer-allocator/20240303-230933
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20240303150115.133633-3-brgl%40bgdev.pl
-patch subject: [PATCH v8 02/12] firmware: qcom: scm: enable the TZ mem allocator
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240304/202403040445.XAdJO3Ta-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040445.XAdJO3Ta-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   58c806d867bf265c6fd16fc3bc62e2d3c156b5c9
+commit: ec5b0f1193ad461e53d083edad8fab0298fe68e3 firmware: microchip: add PolarFire SoC Auto Update support
+date:   3 months ago
+config: microblaze-randconfig-r061-20240303 (https://download.01.org/0day-ci/archive/20240304/202403040516.CYxoWTXw-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403040445.XAdJO3Ta-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403040516.CYxoWTXw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/firmware/microchip/mpfs-auto-update.c:387:72-78: ERROR: application of sizeof to pointer
+   drivers/firmware/microchip/mpfs-auto-update.c:170:72-78: ERROR: application of sizeof to pointer
 
->> drivers/firmware/qcom/qcom_tzmem.c:266:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-           case QCOM_TZMEM_POLICY_ON_DEMAND:
-           ^
-   drivers/firmware/qcom/qcom_tzmem.c:266:2: note: insert 'break;' to avoid fall-through
-           case QCOM_TZMEM_POLICY_ON_DEMAND:
-           ^
-           break; 
-   1 warning generated.
+vim +387 drivers/firmware/microchip/mpfs-auto-update.c
 
-
-vim +266 drivers/firmware/qcom/qcom_tzmem.c
-
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  250  
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  251  static bool qcom_tzmem_try_grow_pool(struct qcom_tzmem_pool *pool,
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  252  				     size_t requested, gfp_t gfp)
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  253  {
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  254  	size_t current_size = gen_pool_size(pool->genpool);
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  255  
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  256  	lockdep_assert_held(&pool->lock);
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  257  
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  258  	if (pool->max_size && (current_size + requested) > pool->max_size)
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  259  		return false;
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  260  
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  261  	switch (pool->policy) {
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  262  	case QCOM_TZMEM_POLICY_STATIC:
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  263  		return false;
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  264  	case QCOM_TZMEM_POLICY_MULTIPLIER:
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  265  		requested = current_size * pool->increment;
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03 @266  	case QCOM_TZMEM_POLICY_ON_DEMAND:
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  267  		break;
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  268  	}
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  269  
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  270  	return !qcom_tzmem_pool_add_memory(pool, requested, gfp);
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  271  }
-4798c267ce94f6 Bartosz Golaszewski 2024-03-03  272  
+   379	
+   380	static int mpfs_auto_update_available(struct mpfs_auto_update_priv *priv)
+   381	{
+   382		struct mpfs_mss_response *response;
+   383		struct mpfs_mss_msg *message;
+   384		u32 *response_msg;
+   385		int ret;
+   386	
+ > 387		response_msg = devm_kzalloc(priv->dev, AUTO_UPDATE_FEATURE_RESP_SIZE * sizeof(response_msg),
+   388					    GFP_KERNEL);
+   389		if (!response_msg)
+   390			return -ENOMEM;
+   391	
+   392		response = devm_kzalloc(priv->dev, sizeof(struct mpfs_mss_response), GFP_KERNEL);
+   393		if (!response)
+   394			return -ENOMEM;
+   395	
+   396		message = devm_kzalloc(priv->dev, sizeof(struct mpfs_mss_msg), GFP_KERNEL);
+   397		if (!message)
+   398			return -ENOMEM;
+   399	
+   400		/*
+   401		 * To verify that Auto Update is possible, the "Query Security Service
+   402		 * Request" is performed.
+   403		 * This service has no command data & does not overload mbox_offset.
+   404		 */
+   405		response->resp_msg = response_msg;
+   406		response->resp_size = AUTO_UPDATE_FEATURE_RESP_SIZE;
+   407		message->cmd_opcode = AUTO_UPDATE_FEATURE_CMD_OPCODE;
+   408		message->cmd_data_size = AUTO_UPDATE_FEATURE_CMD_DATA_SIZE;
+   409		message->response = response;
+   410		message->cmd_data = AUTO_UPDATE_FEATURE_CMD_DATA;
+   411		message->mbox_offset = AUTO_UPDATE_DEFAULT_MBOX_OFFSET;
+   412		message->resp_offset = AUTO_UPDATE_DEFAULT_RESP_OFFSET;
+   413	
+   414		ret = mpfs_blocking_transaction(priv->sys_controller, message);
+   415		if (ret)
+   416			return ret;
+   417	
+   418		/*
+   419		 * Currently, the system controller's firmware does not generate any
+   420		 * interrupts for failed services, so mpfs_blocking_transaction() should
+   421		 * time out & therefore return an error.
+   422		 * Hitting this check is highly unlikely at present, but if the system
+   423		 * controller's behaviour changes so that it does generate interrupts
+   424		 * for failed services, it will be required.
+   425		 */
+   426		if (response->resp_status)
+   427			return -EIO;
+   428	
+   429		/*
+   430		 * Bit 5 of byte 1 is "UL_Auto Update" & if it is set, Auto Update is
+   431		 * not possible.
+   432		 */
+   433		if (response_msg[1] & AUTO_UPDATE_FEATURE_ENABLED)
+   434			return -EPERM;
+   435	
+   436		return 0;
+   437	}
+   438	
 
 -- 
 0-DAY CI Kernel Test Service
