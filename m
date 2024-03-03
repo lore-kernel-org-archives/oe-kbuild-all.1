@@ -1,55 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715717AE6B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B738E7B3DE
 	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 23:29:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709508576; cv=none; b=mr/n/3u9Y4hToIVHkB5Tl15YuidHxZcoB3Gu1zqS9abBAV06eUB/9AR4rF0QTVATOC5gUgM9kWUTsgjd+wn4ttleaHrkI/VaB+xhVowkYk+XbED40QfG+hpjDZnjtXhb7e4zvtfSB68L33d0825Gp+SwlMlQXpD2zoEwu4HhCgw=
+	t=1709508576; cv=none; b=igZMFZKUmMDNTdRIdH0EeFQMlk/sCpK89r4pYckxOfU9/hlmm07sKZvCHtCjSA0g42++KYeTlMbxpuyTxAvbSAfg2ip18M34kyxWQcJzoqHVl9sEjf5s0024CW9F4uUSl5fq/hhE+gD1w2tyaSWRJkLu0DUBW4JnmCsjbiKfaP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1709508576; c=relaxed/simple;
-	bh=HeUneA9obTz7RjwyEAOPnFHe3ZFcG/qwtodDpDT+duA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U2ei/ULN9LiOdVG0fKagvC/A8qdiOCE6ld7lQE12joYwfa2KNh7ffobCoorztGGKaEb/YXQAenBW4m3YEY307xQkvMQQKYDeJNa46Kuqc9HxDSml4ZdWgnaG6uwLKtK+XTMq7DrnWn3yUpwP/aS1Xjv7DupHqNJLiuygf+kKCjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=niN31r/a; arc=none smtp.client-ip=198.175.65.15
+	bh=CyGQyvmbBBdQkWE0hZjr/baDC3wB1RFELJ1ax71eAF4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q/pB4I7aLN7WMLVIYXVPYJxcMFxSFhE8780GS1bi5dV54IwGe+BreAL/odqqAdTxgxJxON7LxrAk/OmVBcw0shIZ9CLMgHWKDum89Qd/BCzwCWTrl4O774eFhFyzNLTcImHLsP3HaFuGTdmBZsBfF92xJlUZnxjuYWU1l/Vgm0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hmd8ZKGI; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="niN31r/a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hmd8ZKGI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709508574; x=1741044574;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HeUneA9obTz7RjwyEAOPnFHe3ZFcG/qwtodDpDT+duA=;
-  b=niN31r/aac6gwzgdQzu5f1b81V4RlttBBJnUxy0ALuRjWyW4DjSJRa85
-   iWuu9zIdYCvWCJmh0JLndVjNtAhKwMAKs+pWhwnKy1/WPzFQSv19HFBHK
-   hUPcDRWyLlUuDOue9nU6EOYQR63oyhTkgHufx9X/I6y3/A4h1lqNxK5mX
-   KD6GeoIJajtDl7NUx9se3KotHDFDH/IRdIq5Zd+35dwpmNDZj/DBWmcaI
-   WKEdf7CuCafI3Z8oT2X8TMrbJn1yIcfHCzu1qAHTXYTB9+n5F5pKDWA0M
-   1VviEX62i9s0SJZTZOPO+UaqmYRs+TBn5xPYidSi+z+CqQlXVp+wZwPOU
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="7803778"
+  t=1709508575; x=1741044575;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CyGQyvmbBBdQkWE0hZjr/baDC3wB1RFELJ1ax71eAF4=;
+  b=Hmd8ZKGI/3RiIyFtNSDS9uBRhiY/6CT0x9MkFuaLnZzynSHjDYhtRV+j
+   /15qeH5oKpSnvkpTPdjmsIh6jhY+RPc6o+5NrTHdx0qqifG+fEgjpZJtG
+   LyE7OEGPnF8byvO2EiNMjump+Jh0eIknqclA+z4t6TPLhoegN7PUR5ANm
+   1ArGfibkEpJ0wxT0lh/BjV7MCOP7eIupXgIrV9bg/f8BlpeB1ole+T47n
+   1huonchyuoPPeD9bT6mDt7QfKq3t1yYh2v5YZWhYhzIvqyg2nZXKQGb+M
+   DR9dD6eyOlNRJxMdA+Zoo4Nf8NYgnymwpZgFbcC8f5IJnr249akniwcUH
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="7803784"
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="7803778"
+   d="scan'208";a="7803784"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 15:29:31 -0800
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 15:29:34 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="9370450"
+   d="scan'208";a="9370453"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 03 Mar 2024 15:29:30 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgvGp-0002Af-0m;
+	id 1rgvGp-0002Ao-13;
 	Sun, 03 Mar 2024 23:29:27 +0000
 Date: Mon, 4 Mar 2024 07:29:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shenghao Ding <13916275206@139.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>
-Subject: WARNING: modpost: "strcpy" [sound/soc/codecs/snd-soc-tas2781-i2c.ko]
- has no CRC!
-Message-ID: <202403040744.AiIxkdJG-lkp@intel.com>
+To: Canfeng Zhuang <quic_czhuang@quicinc.com>,
+	Derek Kiernan <derek.kiernan@amd.com>,
+	Dragan Cvetic <dragan.cvetic@amd.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Canfeng Zhuang <quic_czhuang@quicinc.com>
+Subject: Re: [PATCH 1/2] misc: qualcomm: QRC driver for Robotic SDK MCU
+Message-ID: <202403040745.kD48ZDkC-lkp@intel.com>
+References: <20240304-qcom_qrc-v1-1-2a709f95fd61@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,70 +70,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240304-qcom_qrc-v1-1-2a709f95fd61@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   90d35da658da8cff0d4ecbb5113f5fac9d00eb72
-commit: ef3bcde75d06d65f78ba38a30d5a87fb83a5cdae ASoC: tas2781: Add tas2781 driver
-date:   9 months ago
-config: alpha-randconfig-r062-20231218 (https://download.01.org/0day-ci/archive/20240304/202403040744.AiIxkdJG-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040744.AiIxkdJG-lkp@intel.com/reproduce)
+Hi Canfeng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 805d849d7c3cc1f38efefd48b2480d62b7b5dcb7]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Canfeng-Zhuang/misc-qualcomm-QRC-driver-for-Robotic-SDK-MCU/20240304-005601
+base:   805d849d7c3cc1f38efefd48b2480d62b7b5dcb7
+patch link:    https://lore.kernel.org/r/20240304-qcom_qrc-v1-1-2a709f95fd61%40quicinc.com
+patch subject: [PATCH 1/2] misc: qualcomm: QRC driver for Robotic SDK MCU
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240304/202403040745.kD48ZDkC-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040745.kD48ZDkC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403040744.AiIxkdJG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403040745.kD48ZDkC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: "saved_config" [vmlinux] is COMMON symbol
-WARNING: modpost: vmlinux.o: EXPORT_SYMBOL used for init/exit symbol: page_is_ram (section: .init.text)
-WARNING: modpost: EXPORT symbol "strcpy" [vmlinux] version generation failed, symbol will not be versioned.
-Is "strcpy" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "strcat" [vmlinux] version generation failed, symbol will not be versioned.
-Is "strcat" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "strncpy" [vmlinux] version generation failed, symbol will not be versioned.
-Is "strncpy" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "strncat" [vmlinux] version generation failed, symbol will not be versioned.
-Is "strncat" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: "strncpy" [fs/reiserfs/reiserfs.ko] has no CRC!
-WARNING: modpost: "strcpy" [fs/fuse/fuse.ko] has no CRC!
-WARNING: modpost: "strncpy" [fs/xfs/xfs.ko] has no CRC!
-WARNING: modpost: "strcpy" [fs/btrfs/btrfs.ko] has no CRC!
-WARNING: modpost: "strncpy" [security/keys/encrypted-keys/encrypted-keys.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/fbdev/cyber2000fb.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/fbdev/riva/rivafb.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/fbdev/s3fb.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/fbdev/mmp/fb/mmpfb.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/misc/eeprom/idt_89hpesx.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/dax/dax.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/scsi/aic7xxx/aic7xxx.ko] has no CRC!
-WARNING: modpost: "strcat" [drivers/scsi/aic7xxx/aic7xxx.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/scsi/BusLogic.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/scsi/hpsa.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/scsi/smartpqi/smartpqi.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/scsi/ipr.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/message/fusion/mptctl.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/i2c/busses/i2c-taos-evm.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/w1/slaves/w1_ds28e17.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/power/supply/bq24190_charger.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/power/supply/bq25980_charger.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/power/supply/bq256xx_charger.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/hwmon/pmbus/pmbus_core.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/mmc/core/mmc_core.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/rpmsg/qcom_glink.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/nvdimm/libnvdimm.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/iio/adc/stm32-adc.ko] has no CRC!
-WARNING: modpost: "strcpy" [sound/core/snd.ko] has no CRC!
-WARNING: modpost: "strcat" [sound/core/snd.ko] has no CRC!
-WARNING: modpost: "strcpy" [sound/core/snd-rawmidi.ko] has no CRC!
-WARNING: modpost: "strcpy" [sound/core/seq/snd-seq.ko] has no CRC!
-WARNING: modpost: "strcpy" [sound/core/seq/snd-seq-midi.ko] has no CRC!
-WARNING: modpost: "strcpy" [sound/pci/hda/snd-hda-codec.ko] has no CRC!
-WARNING: modpost: "strncat" [sound/pci/hda/snd-hda-codec.ko] has no CRC!
-WARNING: modpost: "strcpy" [sound/pci/hda/snd-hda-codec-generic.ko] has no CRC!
->> WARNING: modpost: "strcpy" [sound/soc/codecs/snd-soc-tas2781-i2c.ko] has no CRC!
-WARNING: modpost: "strncpy" [sound/soc/fsl/snd-soc-fsl-micfil.ko] has no CRC!
+   In file included from include/linux/device.h:15,
+                    from include/linux/serdev.h:9,
+                    from drivers/misc/qrc/qrc_uart.c:10:
+   drivers/misc/qrc/qrc_uart.c: In function 'qrcuart_xmit':
+>> drivers/misc/qrc/qrc_uart.c:203:35: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     203 |                 dev_err(dev->dev, "qrcuart transmit date overflow %ld\n", data_length);
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/misc/qrc/qrc_uart.c:203:17: note: in expansion of macro 'dev_err'
+     203 |                 dev_err(dev->dev, "qrcuart transmit date overflow %ld\n", data_length);
+         |                 ^~~~~~~
+   drivers/misc/qrc/qrc_uart.c:203:69: note: format string is defined here
+     203 |                 dev_err(dev->dev, "qrcuart transmit date overflow %ld\n", data_length);
+         |                                                                   ~~^
+         |                                                                     |
+         |                                                                     long int
+         |                                                                   %d
+
+
+vim +203 drivers/misc/qrc/qrc_uart.c
+
+   190	
+   191	static enum qrcdev_tx qrcuart_xmit(const char __user  *buf,
+   192					   size_t data_length, struct qrc_dev *dev)
+   193	{
+   194		struct qrcuart *qrc = qrc_get_data(dev);
+   195		struct qrc_device_stats *n_stats = &dev->stats;
+   196		size_t written;
+   197		u8 *pos;
+   198	
+   199		WARN_ON(qrc->tx_left);
+   200	
+   201		pos = qrc->tx_buffer + qrc->tx_left;
+   202		if ((data_length + qrc->tx_left) > QRC_TX_BUFF_SIZE) {
+ > 203			dev_err(dev->dev, "qrcuart transmit date overflow %ld\n", data_length);
+   204			return __QRCDEV_TX_MIN;
+   205		}
+   206	
+   207		if (copy_from_user(pos, buf, data_length))
+   208			return __QRCDEV_TX_MIN;
+   209	
+   210		pos += data_length;
+   211	
+   212		spin_lock(&qrc->lock);
+   213	
+   214		written = serdev_device_write_buf(qrc->serdev, qrc->tx_buffer,
+   215						  pos - qrc->tx_buffer);
+   216		if (written > 0) {
+   217			qrc->tx_left = (pos - qrc->tx_buffer) - written;
+   218			qrc->tx_head = qrc->tx_buffer + written;
+   219			n_stats->tx_bytes += written;
+   220		}
+   221	
+   222		spin_unlock(&qrc->lock);
+   223	
+   224		return QRCDEV_TX_OK;
+   225	}
+   226	
 
 -- 
 0-DAY CI Kernel Test Service
