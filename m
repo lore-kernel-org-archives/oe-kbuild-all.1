@@ -1,54 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F32B28E7
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 12:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF718C121
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 13:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709469113; cv=none; b=BEyCCn6gOKCyrZXqEF9DJi182Zpda0j9mto7Uuo4/KeN7HECaUOTHyZ0ZOjUbkaBCgOp9FzG9haZJv84DWAbfMv5oncLTwvelptVU56lv3r+N7nLANf6BDfJcvfcpHGmYyu4XHocLwitSVlHPbyCQkU8Q9YXVknuXdx34Onw5jU=
+	t=1709471035; cv=none; b=rAK55WKb/e9kJy3uzvw/J+QlofLxopMgg4pG9H18+lB2jUguAqaeSZF/p4aVYU5FJPgKixGVtIiwhe/BcEdPDw6oA2xMX9p/YLf3QUzJWLeOCBYGhHiv3jDL6TsALnqhv4o9Er8RYoGRN05d6P4iw0dddZ/hKm4tDkKAzpZHkMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709469113; c=relaxed/simple;
-	bh=kQF3d3dPi7g6TAPJDmp0J1HA61sRtsFr7fXKDIUL23Q=;
+	s=arc-20240116; t=1709471035; c=relaxed/simple;
+	bh=UdEabIOMuGXimUOBjIwbGvb/JTJ673funtWnezzpM9s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lcRFwjMkxk7agyGwyKud1gT7NktM6V52U2jc01xfNXJ8GfqlPzPRwMXFhTa7yvCqdTbvzlxEKtzRcqNz4u6cGRsGZLxMWCvwYIrIhffbv57dwvF1ypmz6R3FWuXiQ3opYwZeV9zXTvn2UA69QtIIjznIGcyHF2Bwebei4kpX+H8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZD7vuLAv; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=AE974kH1EeNc8w+eqtQk7yCDYFGjinjYK+CY4F1hxw1kaRpt/9zwhUApEoTp2rxTFNYYkgVT26jVRgYQZ9onZv6OD31pb5RxBNX00jV8lQdz/rnLWEQSoqgEfqqjs5+7rQIZg+CGzFDeZSdPCZJ60WtRQhorDZqptVFOTLcATHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=er9iBUNq; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZD7vuLAv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="er9iBUNq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709469111; x=1741005111;
+  t=1709471032; x=1741007032;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kQF3d3dPi7g6TAPJDmp0J1HA61sRtsFr7fXKDIUL23Q=;
-  b=ZD7vuLAv3A9zJJdAWfzi4lIB7Uc6NI/HpBrqmXF2mx7SlyAU7G+dsuCw
-   R+yLswMTcRA5WpW3hC6scMw+OiWEX3bmOOnS23TKRkokyByMCjq1+WSGT
-   nXoSm1y2Y2rdB5Y8/AWnJCOxshk/KYRs8uJo6HfpW8dbrHSol++4kV0sA
-   1JqDidPNdTGMX09AxJGJQ51TgezECLJnP+CPAwUi9QxgtrV+cYpI6rfxO
-   JnY+pT8H1UlmUSknrvcePcsKvjI3L/crSFsyL7o8TxP39jFQrBlNo71oQ
-   9wIBXAtI6y2Hd7kxRnlkTSM5MVPZgLL0U1m4HPSHEqQuY2ddiUD3sKus3
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="14610411"
-X-IronPort-AV: E=Sophos;i="6.06,200,1705392000"; 
-   d="scan'208";a="14610411"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 04:31:50 -0800
+  bh=UdEabIOMuGXimUOBjIwbGvb/JTJ673funtWnezzpM9s=;
+  b=er9iBUNqTZ0/lsyQcG8+J/tvgAWQFyx5UqDfAZBNLillLJy722cTmqH6
+   JxSdOV/bgrtaL9KQd1QN/ANRSkXbkk148zm/D7Xe4+JGg8ejazz7DoX+T
+   ff7P2b6PhZcTmTePDqhJelmDUlwDl6bRtxo1mEbGVyUm+vIs/NHyGWZAA
+   LhDwEfs1B/JjTDbSoB2SYmuYreF8IFqxMvH0Vc3735okKAIvnwHJGFaB+
+   V9azhpmr9yjy8zPcGoQJbWVTqIq/ynlzDwccfdX5Ir1G4zKO+4gfVHupT
+   neQ4e/yRndj6GgtectvCK4ugFgQxAxMTMNvm+uF63KULS3nh+/5p7Fytx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="4130871"
+X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
+   d="scan'208";a="4130871"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 05:03:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,200,1705392000"; 
-   d="scan'208";a="8629151"
+X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
+   d="scan'208";a="13399775"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Mar 2024 04:31:48 -0800
+  by orviesa005.jf.intel.com with ESMTP; 03 Mar 2024 05:03:48 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgl0L-0001lI-0X;
-	Sun, 03 Mar 2024 12:31:45 +0000
-Date: Sun, 3 Mar 2024 20:31:01 +0800
+	id 1rglVJ-0001m4-27;
+	Sun, 03 Mar 2024 13:03:45 +0000
+Date: Sun, 3 Mar 2024 21:02:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yuan Can <yuancan@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1683/3769] mm/memcontrol.c:3147:6: sparse:
- sparse: symbol 'hisi_oom_recover' was not declared. Should it be static?
-Message-ID: <202403032008.Rzqq5udk-lkp@intel.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: WARNING: modpost: "strcpy" [net/dsa/dsa_core.ko] has no CRC!
+Message-ID: <202403032017.GWhmSRWd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,67 +57,130 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   fbcd4a3032a53350f6d182c9daeaa4c46e65d964
-commit: b498d9f1bacd40d583c0970cab02ad522127a7e7 [1683/3769] arm64/ascend: Add new enable_oom_killer interface for oom contrl
-config: arm64-randconfig-r111-20240227 (https://download.01.org/0day-ci/archive/20240303/202403032008.Rzqq5udk-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240303/202403032008.Rzqq5udk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   04b8076df2534f08bb4190f90a24e0f7f8930aca
+commit: 9538ebce88ffa074202d592d468521995cb1e714 net: dsa: add trace points for FDB/MDB operations
+date:   11 months ago
+config: alpha-randconfig-r014-20221225 (https://download.01.org/0day-ci/archive/20240303/202403032017.GWhmSRWd-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403032017.GWhmSRWd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403032008.Rzqq5udk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403032017.GWhmSRWd-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/memcontrol.c:3147:6: sparse: sparse: symbol 'hisi_oom_recover' was not declared. Should it be static?
-   mm/memcontrol.c:4228:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4228:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol.c:4228:21: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:4230:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4230:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol.c:4230:21: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:4386:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4386:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol.c:4386:9: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:4480:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4480:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol.c:4480:9: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:6198:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:6198:23: sparse:    struct task_struct [noderef] __rcu *
-   mm/memcontrol.c:6198:23: sparse:    struct task_struct *
-   mm/memcontrol.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/memcontrol.c: note: in included file:
-   include/linux/memcontrol.h:751:9: sparse: sparse: context imbalance in 'folio_lruvec_lock' - wrong count at exit
-   include/linux/memcontrol.h:751:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irq' - wrong count at exit
-   include/linux/memcontrol.h:751:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irqsave' - wrong count at exit
-   mm/memcontrol.c:2111:6: sparse: sparse: context imbalance in 'folio_memcg_lock' - wrong count at exit
-   mm/memcontrol.c:2158:17: sparse: sparse: context imbalance in '__folio_memcg_unlock' - unexpected unlock
-   mm/memcontrol.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/memcontrol.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
-   include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in 'mem_cgroup_count_precharge_pte_range' - unexpected unlock
-   include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in 'mem_cgroup_move_charge_pte_range' - unexpected unlock
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/hisi_oom_recover +3147 mm/memcontrol.c
-
-  3145	
-  3146	#ifdef CONFIG_ASCEND_OOM
-> 3147	void hisi_oom_recover(struct obj_cgroup *objcg)
-  3148	{
-  3149		struct mem_cgroup *memcg;
-  3150	
-  3151		memcg = get_mem_cgroup_from_objcg(objcg);
-  3152		if (!mem_cgroup_is_root(memcg))
-  3153			memcg_oom_recover(memcg);
-  3154		css_put(&memcg->css);
-  3155	}
-  3156	#else
-  3157	static inline void hisi_oom_recover(struct obj_cgroup *objcg) { }
-  3158	#endif
-  3159	
+Is "strcat" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "strncpy" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strncpy" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "strncat" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strncat" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: "strcat" [fs/dlm/dlm.ko] has no CRC!
+WARNING: modpost: "strcpy" [fs/ext4/ext4.ko] has no CRC!
+WARNING: modpost: "strncpy" [fs/ext4/ext4.ko] has no CRC!
+WARNING: modpost: "strcpy" [fs/overlayfs/overlay.ko] has no CRC!
+WARNING: modpost: "strcat" [fs/overlayfs/overlay.ko] has no CRC!
+WARNING: modpost: "strncpy" [fs/xfs/xfs.ko] has no CRC!
+WARNING: modpost: "strcpy" [fs/ocfs2/ocfs2.ko] has no CRC!
+WARNING: modpost: "strncpy" [fs/ocfs2/ocfs2.ko] has no CRC!
+WARNING: modpost: "strcpy" [fs/ocfs2/ocfs2_stackglue.ko] has no CRC!
+WARNING: modpost: "strcpy" [fs/ocfs2/cluster/ocfs2_nodemanager.ko] has no CRC!
+WARNING: modpost: "strcpy" [fs/btrfs/btrfs.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/backlight/backlight.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/pm2fb.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/matrox/matroxfb_base.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/matrox/matroxfb_crtc2.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/neofb.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/vt8623fb.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/sm501fb.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/mb862xx/mb862xxfb.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/ocfb.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/tty/n_gsm.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/char/tpm/tpm.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/hisilicon/hibmc/hibmc-drm.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/drm.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/gpu/drm/drm.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/radeon/radeon.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/mgag200/mgag200.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/nouveau/nouveau.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/gpu/drm/nouveau/nouveau.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/ast/ast.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/gpu/drm/virtio/virtio-gpu.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/misc/eeprom/idt_89hpesx.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/misc/cb710/cb710.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/nfc/s3fwrn5/s3fwrn5.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/scsi/scsi_transport_fc.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/scsi/sd_mod.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/mdio/mdio-gpio.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/ethernet/brocade/bna/bna.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/ethernet/brocade/bna/bna.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/ethernet/chelsio/cxgb3/cxgb3.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/ethernet/chelsio/cxgb4/cxgb4.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/ethernet/mellanox/mlx4/mlx4_core.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/ethernet/mellanox/mlx4/mlx4_core.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/ethernet/mellanox/mlx4/mlx4_en.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko] has no CRC!
+WARNING: modpost: "strcat" [drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko] has no CRC!
+WARNING: modpost: "strncat" [drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/wireless/intel/ipw2x00/ipw2200.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/wireless/intel/ipw2x00/ipw2200.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/wireless/intel/iwlwifi/iwlwifi.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/wireless/marvell/mwifiex/mwifiex.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/wireless/marvell/mwifiex/mwifiex_pcie.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/wireless/marvell/mwl8k.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/can/sja1000/peak_pci.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/dsa/qca/qca8k.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/dsa/mt7530.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/net/dsa/lan9303-core.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/net/plip/plip.ko] has no CRC!
+WARNING: modpost: "strcat" [drivers/message/fusion/mptbase.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/message/fusion/mptbase.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/message/fusion/mptsas.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/auxdisplay/panel.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/i2c/busses/i2c-designware-core.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/i2c/busses/i2c-taos-evm.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/power/supply/bq2415x_charger.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/hwmon/adt7475.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/hwmon/nct7802.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/hwmon/thmc50.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/watchdog/pcwd.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/leds/leds-bd2802.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/leds/leds-lm3530.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/leds/leds-lp3952.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/hid/uhid.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/iio/adc/mcp3422.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/mtd/parsers/redboot.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/mtd/devices/block2mtd.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/mtd/tests/mtd_pagetest.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/mtd/sm_ftl.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/mtd/ubi/ubi.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/w1/slaves/w1_therm.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/w1/slaves/w1_ds28e17.ko] has no CRC!
+WARNING: modpost: "strcat" [drivers/w1/slaves/w1_ds28e17.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/w1/wire.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/fpga/fpga-mgr.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/core/pktgen.ko] has no CRC!
+WARNING: modpost: "strncpy" [net/netfilter/nft_fib.ko] has no CRC!
+WARNING: modpost: "strncpy" [net/netfilter/ipset/ip_set.ko] has no CRC!
+WARNING: modpost: "strncpy" [net/ipv4/netfilter/ip_tables.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/ipv4/netfilter/ip_tables.ko] has no CRC!
+WARNING: modpost: "strncpy" [net/ipv6/netfilter/ip6_tables.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/ipv6/netfilter/ip6_tables.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/ipv6/ipv6.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/ipv6/sit.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/ipv6/ip6_tunnel.ko] has no CRC!
+>> WARNING: modpost: "strcpy" [net/dsa/dsa_core.ko] has no CRC!
+WARNING: modpost: "strncpy" [net/dsa/dsa_core.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/wireless/cfg80211.ko] has no CRC!
+WARNING: modpost: "strncpy" [net/caif/chnl_net.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/can/can-bcm.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/rxrpc/rxrpc.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/tipc/tipc.ko] has no CRC!
+WARNING: modpost: "strncpy" [net/tipc/tipc.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/9p/9pnet_fd.ko] has no CRC!
 
 -- 
 0-DAY CI Kernel Test Service
