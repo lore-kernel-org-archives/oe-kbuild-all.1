@@ -1,56 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B797F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 02:55:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0FD8567D
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 03:37:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709434511; cv=none; b=gezqe9ERqfTpPvP+1HEDdVwgixUv+sKlyjssjp1iVEkaQa0GR1HUQJr7TON+2rIeY8PXpSpPDfazlnumcRZMDL8LAhJ67gzkphP3vx65N8JQcZKlK5R20G1UBL2E8jotbsdmR27V3cOy0lXAKToGqnCOqVFQiFbArAqpW7dtWY8=
+	t=1709437032; cv=none; b=ueicCYudX5w79SkMPyuCO3YUoLxDmaR8gVWBzidQZpfTVaUZIQuI4UuvPYf9xzABxXzQOfa/v9x1W+iQPuaovGg7PKON1Qtt2Zn5IvTTiuiqxHrXtA6icE+QTb3zyF1VsIJkrthdOSXgRasGE2KZe7Ev+XeC6lDuhOXpa1IW29M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709434511; c=relaxed/simple;
-	bh=MUUDNlyQC9V568FLfV8HabwDat8X4P2p2cnsj0mA5j8=;
+	s=arc-20240116; t=1709437032; c=relaxed/simple;
+	bh=bF7vFyDX5q2OU0jwqgNH0eLxV4EBMU9jpnjH9btEcdw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hXVFLZe0EwmtxnCeWLYBGcytbch2ZowBNPzJxD1dyFH/ZCbHhdJNGJq4qDNyRpvAb1WiEn0NtXnJhKz4DKBzcZ7KEI++7mWPJI0Rnlr+8cZ2dpzUQNafHm/d4iNfy0zjC9DKC+xg8gvB7Hset/0l+SuRZFBq0KVqNIHTH0y1nXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I2dYWilS; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=cs0fJLe+/frN3aj/9Q4iPft5GsC/HVRQNBi83aFqP5NmT+1K194/OSkcbK8vNhnSi7G3LKs1kLlBnpNRUA+LsSVqaihDFotCX1g2zFRwfTmpCJYqwLHXzbD/TRAEegA2fKrAh9QDGaPrdwljfnK5Sa9sEXscbATgWjuRrZgyB/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lTTyqP82; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I2dYWilS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lTTyqP82"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709434509; x=1740970509;
+  t=1709437030; x=1740973030;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MUUDNlyQC9V568FLfV8HabwDat8X4P2p2cnsj0mA5j8=;
-  b=I2dYWilSZUIJn5YM/SpzrleFpr5ObMquHTolEwAEatVA8p21vTIKP2c9
-   vboF0SHaGogApD/AhQvBzoemd6G6MsprefzkPm+gqUu/D8vGGiwhPFDLQ
-   uPyNNm+FLE7Nbfp4Rc02woEIaFpGmIRVF/nHhgIUcrY+sqgleUEIqzkLs
-   pLAQ34EBsdMNuTjogZeDi25sNV8hscsG+Ct2v4x5C9iwJoQzDjGiNKLGW
-   DM8NrJirCLH+/+utHAvMq8/gGnEL6sSxskdGGkEIedfOIqcmspefu+rv7
-   hPTLsPEbYb2EX624VnJ1Ob0CJ1QXxyHGgpGPN6h3cNvkW4kwbSjn0+3m0
+  bh=bF7vFyDX5q2OU0jwqgNH0eLxV4EBMU9jpnjH9btEcdw=;
+  b=lTTyqP82mUKCxQ/qg5DTvJoSbZQsxFwE0ypmJkK07P8y4drOCXb9bCku
+   7nEOVG8v6no/zox7kJ7woRe/hl93kEPhi/4srgxxXMpmY7LTa7s6XsUZm
+   9ImAPaQwvJtjd1U6kMdU5cwCeVK0nhnpKjwc6+MxgxBfR0mQPUs+YRkDp
+   mcBecViU2ij18Sn6mWzUDFXVqjlylOXY6byFH5zrTAR/KSMbGEzTNvah8
+   B9k4eRhRWa6ilxYU+rMmmgjTD1x239G+zuqx+/wfDy+RTxiL9XLm6HgPu
+   WHB7d7qqPZ6f+jqBxHQvv74jrGvU70f0iJSCBVVHAWj+fTzCRJfTwRNhg
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="4116712"
+X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="4117907"
 X-IronPort-AV: E=Sophos;i="6.06,200,1705392000"; 
-   d="scan'208";a="4116712"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 18:55:08 -0800
+   d="scan'208";a="4117907"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 19:37:08 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,200,1705392000"; 
-   d="scan'208";a="13287621"
+   d="scan'208";a="8559497"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 02 Mar 2024 18:55:07 -0800
+  by orviesa010.jf.intel.com with ESMTP; 02 Mar 2024 19:37:07 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgc0F-0000Su-2k;
-	Sun, 03 Mar 2024 02:55:03 +0000
-Date: Sun, 3 Mar 2024 10:54:59 +0800
+	id 1rgceu-0000U0-1D;
+	Sun, 03 Mar 2024 03:37:04 +0000
+Date: Sun, 3 Mar 2024 11:36:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Boris Brezillon <bbrezillon@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
 	Steven Price <steven.price@arm.com>
 Subject: [drm-misc:drm-misc-next 12/14]
- drivers/gpu/drm/panthor/panthor_devfreq.c:45: warning: Function parameter or
- struct member 'lock' not described in 'panthor_devfreq'
-Message-ID: <202403031019.6jvrOqGT-lkp@intel.com>
+ drivers/gpu/drm/panthor/panthor_device.c:355:31: error: implicit declaration
+ of function 'virt_to_pfn'; did you mean 'virt_to_kpte'?
+Message-ID: <202403031142.Vl4pW7X6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,146 +67,73 @@ First bad commit (maybe != root cause):
 tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
 head:   216c1282dde38ca87ebdf1ccacee5a0682901574
 commit: d72f049087d4f973f6332b599c92177e718107de [12/14] drm/panthor: Allow driver compilation
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240303/202403031019.6jvrOqGT-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403031019.6jvrOqGT-lkp@intel.com/reproduce)
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240303/202403031142.Vl4pW7X6-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403031142.Vl4pW7X6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403031019.6jvrOqGT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403031142.Vl4pW7X6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/panthor/panthor_devfreq.c:45: warning: Function parameter or struct member 'lock' not described in 'panthor_devfreq'
---
->> drivers/gpu/drm/panthor/panthor_fw.c:133: warning: Excess struct member 'start' description in 'panthor_fw_binary_section_entry_hdr'
->> drivers/gpu/drm/panthor/panthor_fw.c:133: warning: Excess struct member 'end' description in 'panthor_fw_binary_section_entry_hdr'
->> drivers/gpu/drm/panthor/panthor_fw.c:133: warning: Excess struct member 'start' description in 'panthor_fw_binary_section_entry_hdr'
->> drivers/gpu/drm/panthor/panthor_fw.c:133: warning: Excess struct member 'end' description in 'panthor_fw_binary_section_entry_hdr'
->> drivers/gpu/drm/panthor/panthor_fw.c:183: warning: Excess struct member 'buf' description in 'panthor_fw_section'
->> drivers/gpu/drm/panthor/panthor_fw.c:183: warning: Excess struct member 'size' description in 'panthor_fw_section'
->> drivers/gpu/drm/panthor/panthor_fw.c:265: warning: Excess struct member 'ping_work' description in 'panthor_fw'
---
->> drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Function parameter or struct member 'as' not described in 'panthor_mmu'
->> drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'slots_lock' description in 'panthor_mmu'
->> drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'alloc_mask' description in 'panthor_mmu'
->> drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'faulty_mask' description in 'panthor_mmu'
->> drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'slots' description in 'panthor_mmu'
->> drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'lru_list' description in 'panthor_mmu'
->> drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'lock' description in 'panthor_mmu'
->> drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'list' description in 'panthor_mmu'
->> drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'reset_in_progress' description in 'panthor_mmu'
->> drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'wq' description in 'panthor_mmu'
->> drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'count' description in 'panthor_vm_op_ctx'
->> drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'ptr' description in 'panthor_vm_op_ctx'
->> drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'page' description in 'panthor_vm_op_ctx'
->> drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'addr' description in 'panthor_vm_op_ctx'
->> drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'range' description in 'panthor_vm_op_ctx'
->> drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'vm_bo' description in 'panthor_vm_op_ctx'
->> drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'bo_offset' description in 'panthor_vm_op_ctx'
->> drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'sgt' description in 'panthor_vm_op_ctx'
->> drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'new_vma' description in 'panthor_vm_op_ctx'
->> drivers/gpu/drm/panthor/panthor_mmu.c:389: warning: Excess struct member 'start' description in 'panthor_vm'
-   drivers/gpu/drm/panthor/panthor_mmu.c:389: warning: Excess struct member 'size' description in 'panthor_vm'
-   drivers/gpu/drm/panthor/panthor_mmu.c:389: warning: Excess struct member 'id' description in 'panthor_vm'
-   drivers/gpu/drm/panthor/panthor_mmu.c:389: warning: Excess struct member 'active_cnt' description in 'panthor_vm'
-   drivers/gpu/drm/panthor/panthor_mmu.c:389: warning: Excess struct member 'lru_node' description in 'panthor_vm'
-   drivers/gpu/drm/panthor/panthor_mmu.c:389: warning: Excess struct member 'pool' description in 'panthor_vm'
-   drivers/gpu/drm/panthor/panthor_mmu.c:389: warning: Excess struct member 'lock' description in 'panthor_vm'
-   drivers/gpu/drm/panthor/panthor_mmu.c:412: warning: Cannot understand  * @pt_cache: Cache used to allocate MMU page tables.
-    on line 412 - I thought it was a doc line
-   drivers/gpu/drm/panthor/panthor_mmu.c:481: warning: Cannot understand  * @free_pt() - Custom page table free function
-    on line 481 - I thought it was a doc line
-   drivers/gpu/drm/panthor/panthor_mmu.c:701: warning: Function parameter or struct member 'vm' not described in 'panthor_vm_active'
-   drivers/gpu/drm/panthor/panthor_mmu.c:701: warning: Excess function parameter 'VM' description in 'panthor_vm_active'
-   drivers/gpu/drm/panthor/panthor_mmu.c:810: warning: Function parameter or struct member 'vm' not described in 'panthor_vm_idle'
-   drivers/gpu/drm/panthor/panthor_mmu.c:810: warning: Excess function parameter 'VM' description in 'panthor_vm_idle'
-   drivers/gpu/drm/panthor/panthor_mmu.c:1012: warning: Function parameter or struct member 'vm' not described in 'panthor_vm_alloc_va'
-   drivers/gpu/drm/panthor/panthor_mmu.c:1012: warning: Excess function parameter 'VM' description in 'panthor_vm_alloc_va'
-   drivers/gpu/drm/panthor/panthor_mmu.c:1044: warning: Function parameter or struct member 'vm' not described in 'panthor_vm_free_va'
-   drivers/gpu/drm/panthor/panthor_mmu.c:1044: warning: Excess function parameter 'VM' description in 'panthor_vm_free_va'
-   drivers/gpu/drm/panthor/panthor_mmu.c:1466: warning: Function parameter or struct member 'ptdev' not described in 'panthor_vm_pool_create_vm'
-   drivers/gpu/drm/panthor/panthor_mmu.c:1466: warning: Function parameter or struct member 'args' not described in 'panthor_vm_pool_create_vm'
-   drivers/gpu/drm/panthor/panthor_mmu.c:1466: warning: Excess function parameter 'kernel_va_start' description in 'panthor_vm_pool_create_vm'
-   drivers/gpu/drm/panthor/panthor_mmu.c:1466: warning: Excess function parameter 'kernel_va_range' description in 'panthor_vm_pool_create_vm'
---
->> drivers/gpu/drm/panthor/panthor_sched.c:319: warning: Excess struct member 'runnable' description in 'panthor_scheduler'
->> drivers/gpu/drm/panthor/panthor_sched.c:319: warning: Excess struct member 'idle' description in 'panthor_scheduler'
->> drivers/gpu/drm/panthor/panthor_sched.c:319: warning: Excess struct member 'waiting' description in 'panthor_scheduler'
->> drivers/gpu/drm/panthor/panthor_sched.c:319: warning: Excess struct member 'has_ref' description in 'panthor_scheduler'
->> drivers/gpu/drm/panthor/panthor_sched.c:319: warning: Excess struct member 'in_progress' description in 'panthor_scheduler'
->> drivers/gpu/drm/panthor/panthor_sched.c:319: warning: Excess struct member 'stopped_groups' description in 'panthor_scheduler'
->> drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'mem' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'input' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'output' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'input_fw_va' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'output_fw_va' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'gpu_va' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'ref' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'gt' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'sync64' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'bo' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'offset' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'kmap' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'lock' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'id' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'seqno' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:469: warning: Excess struct member 'in_flight_jobs' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:640: warning: Function parameter or struct member 'max_fragment_cores' not described in 'panthor_group'
-   drivers/gpu/drm/panthor/panthor_sched.c:755: warning: Excess struct member 'start' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:755: warning: Excess struct member 'size' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:755: warning: Excess struct member 'latest_flush' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:755: warning: Excess struct member 'start' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:755: warning: Excess struct member 'end' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:996: warning: Cannot understand  * @cs_slot_reset_locked() - Reset a queue slot
-    on line 996 - I thought it was a doc line
-   drivers/gpu/drm/panthor/panthor_sched.c:1598: warning: expecting prototype for panthor_sched_process_global_irq(). Prototype was for sched_process_global_irq_locked() instead
-   drivers/gpu/drm/panthor/panthor_sched.c:1640: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_fw_events'
-   drivers/gpu/drm/panthor/panthor_sched.c:1640: warning: Function parameter or struct member 'events' not described in 'panthor_sched_report_fw_events'
-   drivers/gpu/drm/panthor/panthor_sched.c:1664: warning: Cannot understand  */
-    on line 1664 - I thought it was a doc line
-   drivers/gpu/drm/panthor/panthor_sched.c:2536: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_mmu_fault'
+   drivers/gpu/drm/panthor/panthor_device.c: In function 'panthor_mmio_vm_fault':
+>> drivers/gpu/drm/panthor/panthor_device.c:355:31: error: implicit declaration of function 'virt_to_pfn'; did you mean 'virt_to_kpte'? [-Werror=implicit-function-declaration]
+     355 |                         pfn = virt_to_pfn(ptdev->pm.dummy_latest_flush);
+         |                               ^~~~~~~~~~~
+         |                               virt_to_kpte
+   cc1: some warnings being treated as errors
 
 
-vim +45 drivers/gpu/drm/panthor/panthor_devfreq.c
+vim +355 drivers/gpu/drm/panthor/panthor_device.c
 
-fac9b22df4b110 Boris Brezillon 2024-02-29  14  
-fac9b22df4b110 Boris Brezillon 2024-02-29  15  /**
-fac9b22df4b110 Boris Brezillon 2024-02-29  16   * struct panthor_devfreq - Device frequency management
-fac9b22df4b110 Boris Brezillon 2024-02-29  17   */
-fac9b22df4b110 Boris Brezillon 2024-02-29  18  struct panthor_devfreq {
-fac9b22df4b110 Boris Brezillon 2024-02-29  19  	/** @devfreq: devfreq device. */
-fac9b22df4b110 Boris Brezillon 2024-02-29  20  	struct devfreq *devfreq;
-fac9b22df4b110 Boris Brezillon 2024-02-29  21  
-fac9b22df4b110 Boris Brezillon 2024-02-29  22  	/** @gov_data: Governor data. */
-fac9b22df4b110 Boris Brezillon 2024-02-29  23  	struct devfreq_simple_ondemand_data gov_data;
-fac9b22df4b110 Boris Brezillon 2024-02-29  24  
-fac9b22df4b110 Boris Brezillon 2024-02-29  25  	/** @busy_time: Busy time. */
-fac9b22df4b110 Boris Brezillon 2024-02-29  26  	ktime_t busy_time;
-fac9b22df4b110 Boris Brezillon 2024-02-29  27  
-fac9b22df4b110 Boris Brezillon 2024-02-29  28  	/** @idle_time: Idle time. */
-fac9b22df4b110 Boris Brezillon 2024-02-29  29  	ktime_t idle_time;
-fac9b22df4b110 Boris Brezillon 2024-02-29  30  
-fac9b22df4b110 Boris Brezillon 2024-02-29  31  	/** @time_last_update: Last update time. */
-fac9b22df4b110 Boris Brezillon 2024-02-29  32  	ktime_t time_last_update;
-fac9b22df4b110 Boris Brezillon 2024-02-29  33  
-fac9b22df4b110 Boris Brezillon 2024-02-29  34  	/** @last_busy_state: True if the GPU was busy last time we updated the state. */
-fac9b22df4b110 Boris Brezillon 2024-02-29  35  	bool last_busy_state;
-fac9b22df4b110 Boris Brezillon 2024-02-29  36  
-fac9b22df4b110 Boris Brezillon 2024-02-29  37  	/*
-fac9b22df4b110 Boris Brezillon 2024-02-29  38  	 * @lock: Lock used to protect busy_time, idle_time, time_last_update and
-fac9b22df4b110 Boris Brezillon 2024-02-29  39  	 * last_busy_state.
-fac9b22df4b110 Boris Brezillon 2024-02-29  40  	 *
-fac9b22df4b110 Boris Brezillon 2024-02-29  41  	 * These fields can be accessed concurrently by panthor_devfreq_get_dev_status()
-fac9b22df4b110 Boris Brezillon 2024-02-29  42  	 * and panthor_devfreq_record_{busy,idle}().
-fac9b22df4b110 Boris Brezillon 2024-02-29  43  	 */
-fac9b22df4b110 Boris Brezillon 2024-02-29  44  	spinlock_t lock;
-fac9b22df4b110 Boris Brezillon 2024-02-29 @45  };
-fac9b22df4b110 Boris Brezillon 2024-02-29  46  
+5fe909cae118a7 Boris Brezillon 2024-02-29  332  
+5fe909cae118a7 Boris Brezillon 2024-02-29  333  static vm_fault_t panthor_mmio_vm_fault(struct vm_fault *vmf)
+5fe909cae118a7 Boris Brezillon 2024-02-29  334  {
+5fe909cae118a7 Boris Brezillon 2024-02-29  335  	struct vm_area_struct *vma = vmf->vma;
+5fe909cae118a7 Boris Brezillon 2024-02-29  336  	struct panthor_device *ptdev = vma->vm_private_data;
+5fe909cae118a7 Boris Brezillon 2024-02-29  337  	u64 id = (u64)vma->vm_pgoff << PAGE_SHIFT;
+5fe909cae118a7 Boris Brezillon 2024-02-29  338  	unsigned long pfn;
+5fe909cae118a7 Boris Brezillon 2024-02-29  339  	pgprot_t pgprot;
+5fe909cae118a7 Boris Brezillon 2024-02-29  340  	vm_fault_t ret;
+5fe909cae118a7 Boris Brezillon 2024-02-29  341  	bool active;
+5fe909cae118a7 Boris Brezillon 2024-02-29  342  	int cookie;
+5fe909cae118a7 Boris Brezillon 2024-02-29  343  
+5fe909cae118a7 Boris Brezillon 2024-02-29  344  	if (!drm_dev_enter(&ptdev->base, &cookie))
+5fe909cae118a7 Boris Brezillon 2024-02-29  345  		return VM_FAULT_SIGBUS;
+5fe909cae118a7 Boris Brezillon 2024-02-29  346  
+5fe909cae118a7 Boris Brezillon 2024-02-29  347  	mutex_lock(&ptdev->pm.mmio_lock);
+5fe909cae118a7 Boris Brezillon 2024-02-29  348  	active = atomic_read(&ptdev->pm.state) == PANTHOR_DEVICE_PM_STATE_ACTIVE;
+5fe909cae118a7 Boris Brezillon 2024-02-29  349  
+5fe909cae118a7 Boris Brezillon 2024-02-29  350  	switch (panthor_device_mmio_offset(id)) {
+5fe909cae118a7 Boris Brezillon 2024-02-29  351  	case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
+5fe909cae118a7 Boris Brezillon 2024-02-29  352  		if (active)
+5fe909cae118a7 Boris Brezillon 2024-02-29  353  			pfn = __phys_to_pfn(ptdev->phys_addr + CSF_GPU_LATEST_FLUSH_ID);
+5fe909cae118a7 Boris Brezillon 2024-02-29  354  		else
+5fe909cae118a7 Boris Brezillon 2024-02-29 @355  			pfn = virt_to_pfn(ptdev->pm.dummy_latest_flush);
+5fe909cae118a7 Boris Brezillon 2024-02-29  356  		break;
+5fe909cae118a7 Boris Brezillon 2024-02-29  357  
+5fe909cae118a7 Boris Brezillon 2024-02-29  358  	default:
+5fe909cae118a7 Boris Brezillon 2024-02-29  359  		ret = VM_FAULT_SIGBUS;
+5fe909cae118a7 Boris Brezillon 2024-02-29  360  		goto out_unlock;
+5fe909cae118a7 Boris Brezillon 2024-02-29  361  	}
+5fe909cae118a7 Boris Brezillon 2024-02-29  362  
+5fe909cae118a7 Boris Brezillon 2024-02-29  363  	pgprot = vma->vm_page_prot;
+5fe909cae118a7 Boris Brezillon 2024-02-29  364  	if (active)
+5fe909cae118a7 Boris Brezillon 2024-02-29  365  		pgprot = pgprot_noncached(pgprot);
+5fe909cae118a7 Boris Brezillon 2024-02-29  366  
+5fe909cae118a7 Boris Brezillon 2024-02-29  367  	ret = vmf_insert_pfn_prot(vma, vmf->address, pfn, pgprot);
+5fe909cae118a7 Boris Brezillon 2024-02-29  368  
+5fe909cae118a7 Boris Brezillon 2024-02-29  369  out_unlock:
+5fe909cae118a7 Boris Brezillon 2024-02-29  370  	mutex_unlock(&ptdev->pm.mmio_lock);
+5fe909cae118a7 Boris Brezillon 2024-02-29  371  	drm_dev_exit(cookie);
+5fe909cae118a7 Boris Brezillon 2024-02-29  372  	return ret;
+5fe909cae118a7 Boris Brezillon 2024-02-29  373  }
+5fe909cae118a7 Boris Brezillon 2024-02-29  374  
 
-:::::: The code at line 45 was first introduced by commit
-:::::: fac9b22df4b1108f7fa5a087a77f922489861484 drm/panthor: Add the devfreq logical block
+:::::: The code at line 355 was first introduced by commit
+:::::: 5fe909cae118a757a77afb37174b99436a36d2e2 drm/panthor: Add the device logical block
 
 :::::: TO: Boris Brezillon <boris.brezillon@collabora.com>
 :::::: CC: Boris Brezillon <boris.brezillon@collabora.com>
