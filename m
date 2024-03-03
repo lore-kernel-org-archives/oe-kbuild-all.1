@@ -1,54 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BF17F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 00:19:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24881FA4;
+	Sun,  3 Mar 2024 00:19:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709425147; cv=none; b=ABSCIWF7zRHm9KknSo3UdT8uQgfhoxkmEHKT9npWjlnWeBkeGWjjnZ+VLcBlzMP9mYiThCjDIUuEB5DCr87HnCJwUGuLhrxOuU0ua0ZwMDFSMhvQjAWxuPz3zU3zTzshchN+0Dp9WD37yiq1T0Ui6eJf8GPnqrd6yIndXTOwgwk=
+	t=1709425149; cv=none; b=F5Zlt5QDafiV9XDPR0HHCPNIg6tppi9XcDlN3FViZWMaTOWsMTkeFXpMO3yZrsjTUWqWmB666uUICTJpqp9yAYWgNcXhNhK1ZmA8VX/6EdWEGuTqqqICWESbWUyJ1OtNoqIsYSZRTBiAAPNLTZ8kBWxfnACKK4SDi95qya0KEks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709425147; c=relaxed/simple;
-	bh=2feaPHUNYEnz9qxVDyNrh429et/sj4SiuKVtn8VaMEo=;
+	s=arc-20240116; t=1709425149; c=relaxed/simple;
+	bh=xOaJmeh2KVXZIGe8CpnqAGhw60A7Miufvj5MQ3AHIkQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=niVPGZgnDD7qR2qMQtIeDmmGoNl9Jh9VnsEMHAf7lFOYZV4htgD42j+bIXzr9eli+pbfaA9yuzIFfBu5rBXG3Fiy/It0Fxk6SoD5kZ+xQqMNi2eNHHZUNUbOjuRi/AStvD7hHGm1DGZvqMbqCU8O2dUHV3wgeMc6kIF00bTxedE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Su0uMtMj; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=QwxaMzDR7vFFBAO2Gu2YMTwc5TMxMixETgTF5lLUEaAf9AHJAX5mifoFu1daOhhcdkG+j4nuALzaXbWKsnRQGDHgar770+PmuZSi3ekljM/7sVJbtEWORQ/eQVJhDHtv7tNkcAByupWWuCZwFr+mGMP92qJMxfcAFQG2MuU5eVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=itswd0Sx; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Su0uMtMj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="itswd0Sx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709425146; x=1740961146;
+  t=1709425148; x=1740961148;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2feaPHUNYEnz9qxVDyNrh429et/sj4SiuKVtn8VaMEo=;
-  b=Su0uMtMjJgmIWZBDm9nxxjCnj4tle6n174O+2cvbx90PDPI3Xie+Pi9l
-   ynj1c33xrEDfPtis/SEhuKsIzgHb7pvcArrGx/lNdLDxCov6qLFk79u5e
-   yR2RJQrrcBReIv4BavCl/oPaxmL0wdKeIqXE66+K3TwEDs7U6amu55m+y
-   oJd1MrakkJgQJLN/gmDLcsRhK4btNQFFm8xKdg5Eue/lzlV3bNUxmoTxm
-   qwaPrNV3WEL4fznQ98WuBGSXq0aTRLq32Jm8USMjwJZhQ0JtWaRZvF6D7
-   RHP7f2fKZzVA0gOhIa2JmvOQBNYdMRw5h1qK4THzBc+gcu88i2XjAB5Wk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="3797580"
+  bh=xOaJmeh2KVXZIGe8CpnqAGhw60A7Miufvj5MQ3AHIkQ=;
+  b=itswd0SxUcCAB/pt8npdO64O3bIEVCqxWtU9Gc5j6yJj9paJM9UutROS
+   7JC23gKZkN+Xipawx3jffwl/N6kDDlUTjQ3jy4im0tG1rKt48nwhESQl+
+   pHz8lvgBfkfI/+bAsEkS2zqeB/L+aEw5rjYYttt6kxo6EiTi5gwPWePFv
+   000+KnJqx4zPmLeD66XrLfbA0tgkkxXh4n9nQdUi4I00FM8nJfnj84cks
+   ZmssrPTiYfNL8oB/nuiOBJC0dOe7b6kwaQ2JmE5/jZZSTCSm1Cv3jqO7W
+   GPXrpCkHNtRisiOlre+l2NLZ7Ek//68fDVzYKRVR3kzbfoelt0UaS+UKy
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="3797582"
 X-IronPort-AV: E=Sophos;i="6.06,200,1705392000"; 
-   d="scan'208";a="3797580"
+   d="scan'208";a="3797582"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 16:19:05 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,200,1705392000"; 
-   d="scan'208";a="31748231"
+   d="scan'208";a="31748230"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 02 Mar 2024 16:19:04 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgZZF-0000OG-1y;
+	id 1rgZZF-0000OI-22;
 	Sun, 03 Mar 2024 00:19:01 +0000
-Date: Sun, 3 Mar 2024 08:18:47 +0800
+Date: Sun, 3 Mar 2024 08:18:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 4/7] block/blk-flush.c:484:65:
- sparse: sparse: incorrect type in argument 3 (different base types)
-Message-ID: <202403030804.DH6RiCg3-lkp@intel.com>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [pinchartl:rpi/v6.8/isp/v2 1/22]
+ drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:283:2: warning:
+ unannotated fall-through between switch labels
+Message-ID: <202403030813.vObQHqlO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,64 +61,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   91714391174041bea724e68eff7ed9b5c1f439df
-commit: f76294a6557b6c99c9ca58d89232171cf693eac2 [4/7] ANDROID: add hooks into blk-flush.c for customized I/O scheduler
-config: i386-randconfig-061-20240302 (https://download.01.org/0day-ci/archive/20240303/202403030804.DH6RiCg3-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403030804.DH6RiCg3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git rpi/v6.8/isp/v2
+head:   429a9c05cc5a81e4f62c163c2e8bbdc600cf6b91
+commit: 364969482811f5f21a5c14a8213c5297b027da5e [1/22] staging: vc04_services: Add new vc-sm-cma driver
+config: arm64-randconfig-001-20240303 (https://download.01.org/0day-ci/archive/20240303/202403030813.vObQHqlO-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403030813.vObQHqlO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403030804.DH6RiCg3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403030813.vObQHqlO-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> block/blk-flush.c:484:65: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int flags @@     got restricted gfp_t [usertype] flags @@
-   block/blk-flush.c:484:65: sparse:     expected int flags
-   block/blk-flush.c:484:65: sparse:     got restricted gfp_t [usertype] flags
+All warnings (new ones prefixed by >>):
 
-vim +484 block/blk-flush.c
+>> drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:283:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+     283 |         default:
+         |         ^
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:283:2: note: insert 'break;' to avoid fall-through
+     283 |         default:
+         |         ^
+         |         break; 
+   1 warning generated.
+--
+   In file included from drivers/staging/vc04_services/vc-sm-cma/vc_sm.c:18:
+   In file included from include/linux/dma-buf.h:19:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/staging/vc04_services/vc-sm-cma/vc_sm.c:523:17: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
+     523 |         buffer->in_use = 1;
+         |                        ^ ~
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm.c:419:1: warning: no previous prototype for function 'vc_sm_cma_import_dmabuf_internal' [-Wmissing-prototypes]
+     419 | vc_sm_cma_import_dmabuf_internal(struct sm_state_t *state,
+         | ^
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm.c:418:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     418 | int
+         | ^
+         | static 
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm.c:701:51: error: too few arguments to function call, expected 2, have 1
+     701 |         vchiq_add_connected_callback(vc_sm_connected_init);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~                     ^
+   drivers/staging/vc04_services/vc-sm-cma/../interface/vchiq_arm/vchiq_connected.h:9:6: note: 'vchiq_add_connected_callback' declared here
+       9 | void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void));
+         |      ^                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 warnings and 1 error generated.
 
-   469	
-   470	#include <trace/hooks/block.h>
-   471	struct blk_flush_queue *blk_alloc_flush_queue(int node, int cmd_size,
-   472						      gfp_t flags)
-   473	{
-   474		struct blk_flush_queue *fq;
-   475		int rq_sz = sizeof(struct request);
-   476		bool skip = false;
-   477	
-   478		fq = kzalloc_node(sizeof(*fq), flags, node);
-   479		if (!fq)
-   480			goto fail;
-   481	
-   482		spin_lock_init(&fq->mq_flush_lock);
-   483	
- > 484		trace_android_vh_blk_alloc_flush_queue(&skip, cmd_size, flags, node,
-   485						       fq);
-   486		if (!skip) {
-   487			rq_sz = round_up(rq_sz + cmd_size, cache_line_size());
-   488			fq->flush_rq = kzalloc_node(rq_sz, flags, node);
-   489		}
-   490		if (!fq->flush_rq)
-   491			goto fail_rq;
-   492	
-   493		INIT_LIST_HEAD(&fq->flush_queue[0]);
-   494		INIT_LIST_HEAD(&fq->flush_queue[1]);
-   495		INIT_LIST_HEAD(&fq->flush_data_in_flight);
-   496	
-   497		lockdep_register_key(&fq->key);
-   498		lockdep_set_class(&fq->mq_flush_lock, &fq->key);
-   499	
-   500		return fq;
-   501	
-   502	 fail_rq:
-   503		kfree(fq);
-   504	 fail:
-   505		return NULL;
-   506	}
-   507	
+
+vim +283 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
+
+   267	
+   268	static int vc_sm_cma_vchi_callback(struct vchiq_instance *vchiq_instance,
+   269					   enum vchiq_reason reason,
+   270					   struct vchiq_header *header,
+   271					   unsigned int handle, void *userdata)
+   272	{
+   273		struct sm_instance *instance = vchiq_get_service_userdata(vchiq_instance, handle);
+   274	
+   275		switch (reason) {
+   276		case VCHIQ_MESSAGE_AVAILABLE:
+   277			vchiq_msg_queue_push(vchiq_instance, handle, header);
+   278			complete(&instance->io_cmplt);
+   279			break;
+   280	
+   281		case VCHIQ_SERVICE_CLOSED:
+   282			pr_info("%s: service CLOSED!!", __func__);
+ > 283		default:
+   284			break;
+   285		}
+   286	
+   287		return 0;
+   288	}
+   289	
 
 -- 
 0-DAY CI Kernel Test Service
