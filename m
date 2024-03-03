@@ -1,152 +1,283 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863ED67A0D
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 21:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C8E6CDB6
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 21:20:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709500806; cv=none; b=s95Gj9AM2HPa5yrk3teuNCTGVOyLz9ZNe0opEJO7WgpIMm8wCdxWbdcrCVZoLnSsgX4qyAwyUHWs5wCJ7lQ84moGtfb0IanlLEMoUzbyGu0MElOBKYeXIOLOG6fER/+Z0pqNm6XEdeK3h9rvgrxDhITuzgmhNegVh3CgjiEXGSw=
+	t=1709500808; cv=none; b=WmmrnfL2xT+F2sEdVfpApf1jtq3Dce1h2oEQu4uWBJwliXELYX9/EpILdRJRU2b4RTtotxWnvS97CXSGKwe0uhrcajuO9u9vf/57YOCds6aR7iGj43I1eBigLlpA6zBWZhD95raTQ9dXctf2IUNLUGRThJrMMaBW4twdM82xNJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709500806; c=relaxed/simple;
-	bh=b1+PGDPg3AaCd4KGYAy/tgATvccAE7wfNpG/Ok+p19I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FlUOJNoctnv8wlB1EaqTZ/+OpbY6tE9bvOxNyicVK7ddvtcAcktNI7mgET9S9JatehxytJIS2ywh0g0fAmJm78R4zRFLTPjBlppKt3z6Bf+w6+Wao2P/QAsFlCsHfHjcJLGk8oNhKEy4z2OpKFbDht0dKzbJKmumQLrqek8tJUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bj6VxF64; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709500808; c=relaxed/simple;
+	bh=6bCDrFrw9IHXfqpeecw/kX8uLOXnCNx0fPGUQ7kKHP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nTYITSoZ9NzuLOB56yotL2Gzz6UghXDs3RnQKMuzCo4lmIusCmVYlFuXpLUmv5pUjUfp+EbDS9FF+ggq71Cp/fAdCrEbV4hNfS8kiF4FU/JJP7gTvZQ/dqM4fT7Ck/+iXm9M5DCIUKWtZ/HpnDFrrtM7JaBPR/c8g0wdXTcNNE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ij/kLJxH; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bj6VxF64"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d28e465655so55487661fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Mar 2024 13:20:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709500802; x=1710105602; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2BwYkjBXlBZesoIUNfa0a3rUePDN3R4LPFfw17Gvsbs=;
-        b=bj6VxF64JqHJZ8+Es9oY/3tble9O88WRQqS4i6FsP7lJvmd9hW+ugrkKR76hp/AT81
-         n/l1u5Ag1frxjQF4BLd3ug3pR5LOTDYlUGhNEdHitZUhI9UWigawfnuy9Th44WmsMZUK
-         HtqXRdm0/lhuH8g39IJj+IhqvVXm2wFFBL+T+dRUlkhO5ziC/6zwbRpmoK+UT3CQqQi5
-         Df+drFGSbgwh93JGGcIAjvohWOvbE/uXGODd6/HKJTTmM0R+D9KUbuBUJHJ6foVuJt7N
-         M7QChUOB3jFGuaaWx59qp4KONyAZFh4SMgp4gN+mwYWoUOLhBRjV84MwvohCcuwnL4Jv
-         T6wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709500802; x=1710105602;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2BwYkjBXlBZesoIUNfa0a3rUePDN3R4LPFfw17Gvsbs=;
-        b=ig/hr1GHj3Wg9xdKAux0dpogCBesv+sEGa6niIPc5lf1iAOv+VGuXVZHBVMAcwCRF0
-         6oGe1aClsLwHp+VGaC25WkNez8qqevgwzjVkCpfUheloB36iFOSgKuB/zDJfOtCYsjxV
-         +AtFaIUebpjJPluIiYG3BI2/BRpvfpq2sDP7P3W1HGEhTMc12E5hDv1mrp2UH+gkM368
-         qfOb2GZclVu8T8JUNOaSJBodqK0xdbHFckMzfYd9FW1xlOH7hMTYiWv43zqB9WxVLWgw
-         tCIwAbw++IBReOc7Gzb3milBpkLfTXkJdF7H3DjXJNkpaEAM+Pr/HhwfMNFr3Fo3nIl0
-         E6Bw==
-X-Forwarded-Encrypted: i=1; AJvYcCUDSFobINVT60wIWAl0WDcjidydXXd414ZUss2I1ezzvar3Sz33jye4Z/8j93M2TMECkfgu0j5yXlpomopGv6DyIkhauQbswDR7aBUN7Q==
-X-Gm-Message-State: AOJu0YxpOudrlyBliBbrm9QbtR7gf/JJB3nqF52Bv6XXYJ9QFvNOO4q4
-	W8NELqxPfyzddpeYr9GE0AXQiWcuMYbyGcZupBUf+dqkP/4AdDoAQlDd4jlXvs8cPesxrvLOfzS
-	O1l6jm94yzEtcPhSE1VIYlNxcn4I=
-X-Google-Smtp-Source: AGHT+IFeOfOK6bx9XjIbBUV/ro9/M9cYaBUN1wdFhPsEa+HXrbjG+tPS3TvhIw/LocOC5VYdXXXAFZGpDAO0VhFV6pE=
-X-Received: by 2002:a05:651c:1689:b0:2d2:9fc2:9bb8 with SMTP id
- bd9-20020a05651c168900b002d29fc29bb8mr4590358ljb.25.1709500802496; Sun, 03
- Mar 2024 13:20:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ij/kLJxH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709500806; x=1741036806;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6bCDrFrw9IHXfqpeecw/kX8uLOXnCNx0fPGUQ7kKHP8=;
+  b=Ij/kLJxHDr3E1Kq0CNJ2bZ3YfGPy9jarO0RnZ9Msh+mariM+LdFQXqtW
+   0KekbPQB7/5YYiXgEBgKGdsuajTlAv70E7rC53GSNa0sMFfJwZTxSlKSq
+   MGKhV5fKSV99fjtOHcUiW5xOVYdRc9A9KlR5QzwinaYJ8y3akSH6NOu2m
+   onVPXv5nW3h5nZ1KuHNHcdER0ofHNrQ5u6evUqCm34R6sLTvbwoE3DiIh
+   +mclgfZruJmvb8moP9Q6PLranU85Zv2ov8BaQHODgc9r9EfOg09PgZwaW
+   1046e8R6SkrdxFonrrlGcBtg73Ecx0ay/dHZQkiIdade1Ish9Ai09Nzp2
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="21438319"
+X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
+   d="scan'208";a="21438319"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 13:20:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
+   d="scan'208";a="46292798"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 03 Mar 2024 13:20:02 -0800
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rgtFY-00027M-09;
+	Sun, 03 Mar 2024 21:20:00 +0000
+Date: Mon, 4 Mar 2024 05:19:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Luis Claudio R. Goncalves" <lclaudio@uudg.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [cip:linux-4.19.y-cip-rt-rebase 6311/29558] mm/zswap.c:995:30:
+ warning: 'zswap_dstmem_lock' defined but not used
+Message-ID: <202403040541.1welhCaJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202403020457.RCJoQ3ts-lkp@intel.com> <87edctwr6y.ffs@tglx>
- <87a5nhwpus.ffs@tglx> <87y1b0vp8m.ffs@tglx> <87sf18vdsq.ffs@tglx>
- <87le70uwf0.ffs@tglx> <CAHk-=wiWhfdc4Sw2VBq_2nL2NDxmZS32xG4P7mBVwABGqUoJnw@mail.gmail.com>
- <87edcruvja.ffs@tglx> <CAFULd4bVEUBEidTLbHNzRaJbSjXm99yC8LT=jdzFWb7xnuFH7g@mail.gmail.com>
- <87bk7vuldh.ffs@tglx> <CAFULd4arHT+_fy9_oUNpmsvyfVPGaeB_pdeuqVS3UTpP5R757A@mail.gmail.com>
- <CAFULd4b0HN6eUJsOW6po8Hf16T3eMhjdKUvw-TS8yncNn-+Vyw@mail.gmail.com>
-In-Reply-To: <CAFULd4b0HN6eUJsOW6po8Hf16T3eMhjdKUvw-TS8yncNn-+Vyw@mail.gmail.com>
-From: Uros Bizjak <ubizjak@gmail.com>
-Date: Sun, 3 Mar 2024 22:19:50 +0100
-Message-ID: <CAFULd4ZQwhASjvfya6eYv+9hMf=aQmSpW0wLSKPES4DRm0qeWQ@mail.gmail.com>
-Subject: Re: arch/x86/include/asm/processor.h:698:16: sparse: sparse:
- incorrect type in initializer (different address spaces)
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, kernel test robot <lkp@intel.com>, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Arjan van de Ven <arjan@linux.intel.com>, x86@kernel.org, 
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
-	Sparse Mailing-list <linux-sparse@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Mar 3, 2024 at 9:24=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wrot=
-e:
->
-> On Sun, Mar 3, 2024 at 9:21=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wr=
-ote:
-> >
-> > On Sun, Mar 3, 2024 at 9:10=E2=80=AFPM Thomas Gleixner <tglx@linutronix=
-.de> wrote:
-> > >
-> > > On Sun, Mar 03 2024 at 20:03, Uros Bizjak wrote:
-> > > > On Sun, Mar 3, 2024 at 5:31=E2=80=AFPM Thomas Gleixner <tglx@linutr=
-onix.de> wrote:
-> > > >> I did not follow the __set_gs work closely, so I don't know whethe=
-r Uros
-> > > >> ever tried to actually mark the per CPU variable __set_gs right aw=
-ay,
-> > > >> which would obviously catch the above 'foo' nonsense.
-> > > >
-> > > > No, because [1]:
-> > > >
-> > > > "gcc does not provide a way to remove segment qualifiers, which is =
-needed
-> > > > to use typeof() to create local instances of the per-cpu variable. =
-For
-> > > > this reason, do not use the segment qualifier for per-cpu variables=
-, and
-> > > > do casting using the segment qualifier instead."
-> > >
-> > > Right. I just figured that out myself when playing with it in user
-> > > space.
-> > >
-> > > That's so sad because it would provide us compiler based __percpu
-> > > validation.
-> >
-> > Unfortunately, the c compiler can't strip qualifiers, so typeof() is
-> > of limited use also when const and volatile qualifiers are used.
-> > Perhaps some extension could be introduced to c standard to provide an
-> > unqualified type, e.g. typeof_unqual().
->
-> Oh, there is one in C23 [1].
->
-> [1] https://en.cppreference.com/w/c/language/typeof
+Hi Luis,
 
-FYI: gcc-14 compiles this testcase:
+FYI, the error/warning still remains.
 
---cut here--
-__seg_gs int a;
-__typeof_unqual__(a) b;
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip-rt-rebase
+head:   dce1701e767e33da39db64fe691cd4783ec7dbbf
+commit: 80f3230e0d571c7450ab13b885c8e4273ddb1d86 [6311/29558] mm/zswap: Do not disable preemption in zswap_frontswap_store()
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240304/202403040541.1welhCaJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040541.1welhCaJ-lkp@intel.com/reproduce)
 
-int foo (void)
-{
-  return a;
-}
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403040541.1welhCaJ-lkp@intel.com/
 
-int bar (void)
-{
-  return b;
-}
---cut here--
+All warnings (new ones prefixed by >>):
 
-to (gcc -O2):
+   cc1: warning: arch/um/include/uapi: No such file or directory [-Wmissing-include-dirs]
+   In file included from include/linux/kernel.h:10,
+                    from include/linux/list.h:9,
+                    from include/linux/module.h:9,
+                    from mm/zswap.c:25:
+   include/asm-generic/fixmap.h: In function 'fix_to_virt':
+   include/asm-generic/fixmap.h:31:26: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
+      31 |         BUILD_BUG_ON(idx >= __end_of_fixed_addresses);
+         |                          ^~
+   include/linux/compiler.h:328:23: note: in definition of macro '__compiletime_assert'
+     328 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler.h:348:9: note: in expansion of macro '_compiletime_assert'
+     348 |         _compiletime_assert(condition, msg, __compiletime_assert_, __LINE__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:45:37: note: in expansion of macro 'compiletime_assert'
+      45 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:69:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      69 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/asm-generic/fixmap.h:31:9: note: in expansion of macro 'BUILD_BUG_ON'
+      31 |         BUILD_BUG_ON(idx >= __end_of_fixed_addresses);
+         |         ^~~~~~~~~~~~
+   In file included from include/linux/memremap.h:7,
+                    from include/linux/mm.h:27,
+                    from include/linux/highmem.h:8,
+                    from mm/zswap.c:27:
+   include/linux/mm.h: In function 'pgtable_init':
+   arch/um/include/asm/pgtable.h:35:33: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
+      35 | #define pgtable_cache_init() do ; while (0)
+         |                                 ^
+   include/linux/mm.h:1919:9: note: in expansion of macro 'pgtable_cache_init'
+    1919 |         pgtable_cache_init();
+         |         ^~~~~~~~~~~~~~~~~~
+   In file included from include/linux/uaccess.h:14,
+                    from include/linux/highmem.h:9:
+   arch/um/include/asm/uaccess.h: In function '__access_ok':
+   arch/um/include/asm/uaccess.h:17:36: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
+      17 |           (((unsigned long) (addr) >= FIXADDR_USER_START) && \
+         |                                    ^~
+   arch/um/include/asm/uaccess.h:45:17: note: in expansion of macro '__access_ok_vsyscall'
+      45 |                 __access_ok_vsyscall(addr, size) ||
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   In file included from mm/zswap.c:30:
+   mm/zswap.c: At top level:
+>> mm/zswap.c:995:30: warning: 'zswap_dstmem_lock' defined but not used [-Wunused-const-variable=]
+     995 | static DEFINE_LOCAL_IRQ_LOCK(zswap_dstmem_lock);
+         |                              ^~~~~~~~~~~~~~~~~
+   include/linux/locallock.h:243:71: note: in definition of macro 'DEFINE_LOCAL_IRQ_LOCK'
+     243 | #define DEFINE_LOCAL_IRQ_LOCK(lvar)             __typeof__(const int) lvar
+         |                                                                       ^~~~
 
-foo:
-       movl    %gs:a(%rip), %eax
-       ret
 
-bar:
-       movl    b(%rip), %eax
-       ret
+vim +/zswap_dstmem_lock +995 mm/zswap.c
 
-So, it *does* strip the __seg_gs qualifier here.
+   993	
+   994	/* protect zswap_dstmem from concurrency */
+ > 995	static DEFINE_LOCAL_IRQ_LOCK(zswap_dstmem_lock);
+   996	/*********************************
+   997	* frontswap hooks
+   998	**********************************/
+   999	/* attempts to compress and store an single page */
+  1000	static int zswap_frontswap_store(unsigned type, pgoff_t offset,
+  1001					struct page *page)
+  1002	{
+  1003		struct zswap_tree *tree = zswap_trees[type];
+  1004		struct zswap_entry *entry, *dupentry;
+  1005		struct crypto_comp *tfm;
+  1006		int ret;
+  1007		unsigned int hlen, dlen = PAGE_SIZE;
+  1008		unsigned long handle, value;
+  1009		char *buf;
+  1010		u8 *src, *dst;
+  1011		struct zswap_header zhdr = { .swpentry = swp_entry(type, offset) };
+  1012	
+  1013		/* THP isn't supported */
+  1014		if (PageTransHuge(page)) {
+  1015			ret = -EINVAL;
+  1016			goto reject;
+  1017		}
+  1018	
+  1019		if (!zswap_enabled || !tree) {
+  1020			ret = -ENODEV;
+  1021			goto reject;
+  1022		}
+  1023	
+  1024		/* reclaim space if needed */
+  1025		if (zswap_is_full()) {
+  1026			zswap_pool_limit_hit++;
+  1027			if (zswap_shrink()) {
+  1028				zswap_reject_reclaim_fail++;
+  1029				ret = -ENOMEM;
+  1030				goto reject;
+  1031			}
+  1032	
+  1033			/* A second zswap_is_full() check after
+  1034			 * zswap_shrink() to make sure it's now
+  1035			 * under the max_pool_percent
+  1036			 */
+  1037			if (zswap_is_full()) {
+  1038				ret = -ENOMEM;
+  1039				goto reject;
+  1040			}
+  1041		}
+  1042	
+  1043		/* allocate entry */
+  1044		entry = zswap_entry_cache_alloc(GFP_KERNEL);
+  1045		if (!entry) {
+  1046			zswap_reject_kmemcache_fail++;
+  1047			ret = -ENOMEM;
+  1048			goto reject;
+  1049		}
+  1050	
+  1051		if (zswap_same_filled_pages_enabled) {
+  1052			src = kmap_atomic(page);
+  1053			if (zswap_is_page_same_filled(src, &value)) {
+  1054				kunmap_atomic(src);
+  1055				entry->offset = offset;
+  1056				entry->length = 0;
+  1057				entry->value = value;
+  1058				atomic_inc(&zswap_same_filled_pages);
+  1059				goto insert_entry;
+  1060			}
+  1061			kunmap_atomic(src);
+  1062		}
+  1063	
+  1064		/* if entry is successfully added, it keeps the reference */
+  1065		entry->pool = zswap_pool_current_get();
+  1066		if (!entry->pool) {
+  1067			ret = -EINVAL;
+  1068			goto freepage;
+  1069		}
+  1070	
+  1071		/* compress */
+  1072		dst = get_locked_var(zswap_dstmem_lock, zswap_dstmem);
+  1073		tfm = *this_cpu_ptr(entry->pool->tfm);
+  1074		src = kmap_atomic(page);
+  1075		ret = crypto_comp_compress(tfm, src, PAGE_SIZE, dst, &dlen);
+  1076		kunmap_atomic(src);
+  1077		if (ret) {
+  1078			ret = -EINVAL;
+  1079			goto put_dstmem;
+  1080		}
+  1081	
+  1082		/* store */
+  1083		hlen = zpool_evictable(entry->pool->zpool) ? sizeof(zhdr) : 0;
+  1084		ret = zpool_malloc(entry->pool->zpool, hlen + dlen,
+  1085				   __GFP_NORETRY | __GFP_NOWARN | __GFP_KSWAPD_RECLAIM,
+  1086				   &handle);
+  1087		if (ret == -ENOSPC) {
+  1088			zswap_reject_compress_poor++;
+  1089			goto put_dstmem;
+  1090		}
+  1091		if (ret) {
+  1092			zswap_reject_alloc_fail++;
+  1093			goto put_dstmem;
+  1094		}
+  1095		buf = zpool_map_handle(entry->pool->zpool, handle, ZPOOL_MM_RW);
+  1096		memcpy(buf, &zhdr, hlen);
+  1097		memcpy(buf + hlen, dst, dlen);
+  1098		zpool_unmap_handle(entry->pool->zpool, handle);
+  1099		put_locked_var(zswap_dstmem_lock, zswap_dstmem);
+  1100	
+  1101		/* populate entry */
+  1102		entry->offset = offset;
+  1103		entry->handle = handle;
+  1104		entry->length = dlen;
+  1105	
+  1106	insert_entry:
+  1107		/* map */
+  1108		spin_lock(&tree->lock);
+  1109		do {
+  1110			ret = zswap_rb_insert(&tree->rbroot, entry, &dupentry);
+  1111			if (ret == -EEXIST) {
+  1112				zswap_duplicate_entry++;
+  1113				/* remove from rbtree */
+  1114				zswap_rb_erase(&tree->rbroot, dupentry);
+  1115				zswap_entry_put(tree, dupentry);
+  1116			}
+  1117		} while (ret == -EEXIST);
+  1118		spin_unlock(&tree->lock);
+  1119	
+  1120		/* update stats */
+  1121		atomic_inc(&zswap_stored_pages);
+  1122		zswap_update_total_size();
+  1123	
+  1124		return 0;
+  1125	
+  1126	put_dstmem:
+  1127		put_locked_var(zswap_dstmem_lock, zswap_dstmem);
+  1128		zswap_pool_put(entry->pool);
+  1129	freepage:
+  1130		zswap_entry_cache_free(entry);
+  1131	reject:
+  1132		return ret;
+  1133	}
+  1134	
 
-Uros.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
