@@ -1,46 +1,54 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDD143AB5;
-	Sun,  3 Mar 2024 22:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F147A706
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 22:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709503830; cv=none; b=FhGT2xMS3g3skGgMgVj0Wkiw4mPdt78EImRZ5nsl6/LZVBKkWPHKfMUGixyXNjWgeEZZsGg/04FwaAU+albJdk7suY2uo3VLsqtXsgetOjY4Ox9mQBetAyHtyg+eqTtSiGxKLysj/qBErKQ+xFh6/opheJflZ7ACUbtjHNEN6RM=
+	t=1709504003; cv=none; b=G94yJDL3c9CJYDTY15MD8+9675T9SZRo8I/exUksUj80W6JdjLjYD1jKuzsf8DubSaovWWdFytjFYxiCliN6hyW4bgDClLR5cAKbAs3x0P9O86PtsAZza+02vXW6pvBWmyvBLcfN2P/8qQyPYMI1u52DsiSFF7vUOGvwQEiKdv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709503830; c=relaxed/simple;
-	bh=VAh4dIkTENU2/QEjIcjwE+UuoxnSUGcJoPqGUDx5MCc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YyH6nHowzT2uhUIJLJ2V5mdSqTDV7sJ8sLNselTEGt1AI/z+De1UL0sFKJyYR3MyDzTaLMFfx0ZIXLWvJDKJzEBLGm+dWZ73vQ4Plt3r/mvSLo92fyKt084mJS+vaHdj4RBP3u0U7q9x44mi0UYhNwA/2OdANUrIy8Dj/K7tq7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=UG1mG1Hs; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1709504003; c=relaxed/simple;
+	bh=fohD5AgKSisIb2bizNsyV8lUJxC9bQUqoYgqRlvlClQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g2PUx98cqN95Dd59cARxScZd5OFmHezztVrLudm8RQxsN4q25rBvpoXkNYMTc/qppjAgcI/r/z9Ca1UsM1buvuBAHy1GUR9OVzmOOGNSg9q9yoE0035KIGhRX9OyOw9KnAPbvrWGsRLqGwUA4Ns8eKP+grpAUNTYJIK1GjwhB8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J3BvgTP3; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="UG1mG1Hs"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=0g5zoVT+JVW02GwsTEDCm7DmiF1qRMx3Unb0+lN7s4c=; b=UG1mG1HsZor8kvPgUKPIAi3Dsx
-	ytA6TJVPQOsJZSxzVIrKu2ZwVYh3Plp8NRL9ZDnpJInBen1kxyXw/BQWWU+d/N6BBfgriWQCRDrS+
-	kJ7fF7YJyIk8lZ2IZYtPg/xsgDCL0TEfbAAIV2z2avyiG2AGeyutPjVvRCEgCcP2oUjW09tIDxtXe
-	ya0rgkq5N0PQvthdHeegJcveWc85bJZBfYmwGj+nJ3exIxKlT8laS0MlPT8wJ+gW0w3xVavZYFBNK
-	ftPQfPvSy6OQ8Wph7eUzAprdMvcl+4ylrDWFmEkUVHI3n8TpK33bDd+OZBWxESZddtiZiDrUU1L3N
-	YYUyqtsw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1rgu2D-002GxX-0S;
-	Sun, 03 Mar 2024 22:10:17 +0000
-Date: Sun, 3 Mar 2024 22:10:17 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: kernel test robot <lkp@intel.com>
-Cc: Jing Cai <jing.cai@mediatek.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Chris Lu <chris.lu@mediatek.com>,
-	Sean Wang <sean.wang@mediatek.com>
-Subject: Re: WARNING: modpost: "strcpy" [drivers/bluetooth/btmtk.ko] has no
- CRC!
-Message-ID: <20240303221017.GB524366@ZenIV>
-References: <202403040552.0iyr20St-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J3BvgTP3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709504002; x=1741040002;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fohD5AgKSisIb2bizNsyV8lUJxC9bQUqoYgqRlvlClQ=;
+  b=J3BvgTP3fHuxLo4/oYpl8hn7Dbwn1/eiSp4Cwn0uIq68Nb9rv4bagarP
+   sx6VD9X/XCBeSaKbdg4rGPAINa9jSs5BPZTYFLks4QYaFrg0RNrvy8hKT
+   t8T7KAGsQlyyb65dkCqEYQtAgdzdE1J0Gay1gOiTL5fKAOtQay7yXiS/Y
+   Phasyvxe70yDYFxJdshU/bkpX515jr/DGZKuIeEKIhMlddCw71r+ZXImD
+   TmolmAnNlC7WPHGVFjF154sboqL0WAkB8jihYv4Lt12pOP8TeAwZLmIaj
+   Dk+7jqZqU9NZfl9unPCW5+fGzlbI4C8x9yR4Br4S+zZfPWbcr8iDafVNU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="14562497"
+X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
+   d="scan'208";a="14562497"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 14:13:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
+   d="scan'208";a="39795243"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 03 Mar 2024 14:13:19 -0800
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rgu57-00028m-0Y;
+	Sun, 03 Mar 2024 22:13:17 +0000
+Date: Mon, 4 Mar 2024 06:12:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 16561/21676] mm/pin_mem.c:844:63:
+ error: lvalue required as unary '&' operand
+Message-ID: <202403040641.1SwwRMg7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,108 +57,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202403040552.0iyr20St-lkp@intel.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Mon, Mar 04, 2024 at 06:02:08AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   58c806d867bf265c6fd16fc3bc62e2d3c156b5c9
-> commit: 0b70151328781a89c89e4cf3fae21fc0e98d869e Bluetooth: btusb: mediatek: add MediaTek devcoredump support
-> date:   7 months ago
-> config: alpha-buildonly-randconfig-r004-20220321 (https://download.01.org/0day-ci/archive/20240304/202403040552.0iyr20St-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040552.0iyr20St-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403040552.0iyr20St-lkp@intel.com/
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   415aa2f13fd4c4766b3b6deb471c6b909d39ac51
+commit: 1a378b87531ea80e7847bf0105adedff28a73080 [16561/21676] mm: add pin memory method for checkpoint add restore
+config: arm64-randconfig-001-20240302 (https://download.01.org/0day-ci/archive/20240304/202403040641.1SwwRMg7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040641.1SwwRMg7-lkp@intel.com/reproduce)
 
-commit 8a4a2705ed98c33c2ad5f3e504efe2d379cf72d7
-Author: Al Viro <viro@zeniv.linux.org.uk>
-Date:   Mon Dec 18 22:59:26 2023 -0500
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403040641.1SwwRMg7-lkp@intel.com/
 
-    alpha: fix modversions for strcpy() et.al.
-    
-            On alpha str{n,}{cpy,cat}() implementations are playing
-    fun games with shared chunks of code.  The problem is, they are
-    using direct branches and need to be next to each other.
-            Currently it's done by building them in separate object
-    files, then using ld -r to link those together.  Unfortunately,
-    genksyms machinery has no idea what to do with that - we have
-    generated in arch/alpha/lib/.strcat.S.cmd, but there's nothing
-    to propagate that into .stycpy.S.cmd, so modpost doesn't find
-    anything for those symbols, resulting in
-    WARNING: modpost: EXPORT symbol "strcpy" [vmlinux] version generation failed, symbol will not be versioned.
-    Is "strcpy" prototyped in <asm/asm-prototypes.h>?
-    WARNING: modpost: EXPORT symbol "strcat" [vmlinux] version generation failed, symbol will not be versioned.
-    Is "strcat" prototyped in <asm/asm-prototypes.h>?
-    WARNING: modpost: EXPORT symbol "strncpy" [vmlinux] version generation failed, symbol will not be versioned.
-    Is "strncpy" prototyped in <asm/asm-prototypes.h>?
-    WARNING: modpost: EXPORT symbol "strncat" [vmlinux] version generation failed, symbol will not be versioned.
-    Is "strncat" prototyped in <asm/asm-prototypes.h>?
-    spew on modversion-enabled builds (all 4 functions in question
-    are in fact prototyped in asm-prototypes.h)
-    
-            Fixing doesn't require messing with kbuild, thankfully -
-    just build one object (i.e. have sty{n,}cpy.S with includes of relevant
-    *.S instead of playing with ld -r) and that's it.
-    
-    Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+All errors (new ones prefixed by >>):
 
-diff --git a/arch/alpha/lib/Makefile b/arch/alpha/lib/Makefile
-index 6a779b9018fd..84046e730e6d 100644
---- a/arch/alpha/lib/Makefile
-+++ b/arch/alpha/lib/Makefile
-@@ -44,17 +44,3 @@ AFLAGS___remlu.o =       -DREM -DINTSIZE
- $(addprefix $(obj)/,__divqu.o __remqu.o __divlu.o __remlu.o): \
- 						$(src)/$(ev6-y)divide.S FORCE
- 	$(call if_changed_rule,as_o_S)
--
--# There are direct branches between {str*cpy,str*cat} and stx*cpy.
--# Ensure the branches are within range by merging these objects.
--
--LDFLAGS_stycpy.o := -r
--LDFLAGS_styncpy.o := -r
--
--$(obj)/stycpy.o: $(obj)/strcpy.o $(obj)/$(ev67-y)strcat.o \
--		 $(obj)/$(ev6-y)stxcpy.o FORCE
--	$(call if_changed,ld)
--
--$(obj)/styncpy.o: $(obj)/strncpy.o $(obj)/$(ev67-y)strncat.o \
--		 $(obj)/$(ev6-y)stxncpy.o FORCE
--	$(call if_changed,ld)
-diff --git a/arch/alpha/lib/stycpy.S b/arch/alpha/lib/stycpy.S
-new file mode 100644
-index 000000000000..32ecd9c5f90d
---- /dev/null
-+++ b/arch/alpha/lib/stycpy.S
-@@ -0,0 +1,11 @@
-+#include "strcpy.S"
-+#ifdef CONFIG_ALPHA_EV67
-+#include "ev67-strcat.S"
-+#else
-+#include "strcat.S"
-+#endif
-+#ifdef CONFIG_ALPHA_EV6
-+#include "ev6-stxcpy.S"
-+#else
-+#include "stxcpy.S"
-+#endif
-diff --git a/arch/alpha/lib/styncpy.S b/arch/alpha/lib/styncpy.S
-new file mode 100644
-index 000000000000..72fc2754eb57
---- /dev/null
-+++ b/arch/alpha/lib/styncpy.S
-@@ -0,0 +1,11 @@
-+#include "strncpy.S"
-+#ifdef CONFIG_ALPHA_EV67
-+#include "ev67-strncat.S"
-+#else
-+#include "strncat.S"
-+#endif
-+#ifdef CONFIG_ALPHA_EV6
-+#include "ev6-stxncpy.S"
-+#else
-+#include "stxncpy.S"
-+#endif
+   mm/pin_mem.c:171:6: warning: no previous prototype for 'reserve_page_from_buddy' [-Wmissing-prototypes]
+     171 | void reserve_page_from_buddy(unsigned long nr_pages, struct page *page)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   mm/pin_mem.c:254:6: warning: no previous prototype for 'free_user_map_pages' [-Wmissing-prototypes]
+     254 | void free_user_map_pages(unsigned int pid_index, unsigned int entry_index, unsigned int page_index)
+         |      ^~~~~~~~~~~~~~~~~~~
+   mm/pin_mem.c:311:6: warning: no previous prototype for 'check_redirect_end_valid' [-Wmissing-prototypes]
+     311 | bool check_redirect_end_valid(struct redirect_info *redirect_start,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   mm/pin_mem.c:392:5: warning: no previous prototype for 'calculate_pin_mem_digest' [-Wmissing-prototypes]
+     392 | int calculate_pin_mem_digest(struct pin_mem_dump_info *pmdi, char *digest)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   mm/pin_mem.c:481:5: warning: no previous prototype for 'collect_pmd_huge_pages' [-Wmissing-prototypes]
+     481 | int collect_pmd_huge_pages(struct task_struct *task,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   mm/pin_mem.c:544:5: warning: no previous prototype for 'collect_normal_pages' [-Wmissing-prototypes]
+     544 | int collect_normal_pages(struct task_struct *task,
+         |     ^~~~~~~~~~~~~~~~~~~~
+   mm/pin_mem.c: In function 'collect_normal_pages':
+   mm/pin_mem.c:549:26: warning: variable 'nr_pages' set but not used [-Wunused-but-set-variable]
+     549 |         unsigned long i, nr_pages;
+         |                          ^~~~~~~~
+   mm/pin_mem.c: At top level:
+   mm/pin_mem.c:610:6: warning: no previous prototype for 'free_pin_pages' [-Wmissing-prototypes]
+     610 | void free_pin_pages(struct page_map_entry *pme)
+         |      ^~~~~~~~~~~~~~
+   mm/pin_mem.c:770:12: warning: no previous prototype for 'remap_normal_pages' [-Wmissing-prototypes]
+     770 | vm_fault_t remap_normal_pages(struct mm_struct *mm, struct vm_area_struct *vma,
+         |            ^~~~~~~~~~~~~~~~~~
+   mm/pin_mem.c: In function 'get_hugepage_gfpmask':
+>> mm/pin_mem.c:844:63: error: lvalue required as unary '&' operand
+     844 |         if (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_DIRECT_FLAG, &transparent_hugepage_flags))
+         |                                                               ^
+   mm/pin_mem.c:846:63: error: lvalue required as unary '&' operand
+     846 |         if (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_KSWAPD_FLAG, &transparent_hugepage_flags))
+         |                                                               ^
+   mm/pin_mem.c:848:71: error: lvalue required as unary '&' operand
+     848 |         if (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_KSWAPD_OR_MADV_FLAG, &transparent_hugepage_flags))
+         |                                                                       ^
+   mm/pin_mem.c:851:65: error: lvalue required as unary '&' operand
+     851 |         if (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_REQ_MADV_FLAG, &transparent_hugepage_flags))
+         |                                                                 ^
+   mm/pin_mem.c: At top level:
+   mm/pin_mem.c:857:12: warning: no previous prototype for 'remap_huge_pmd_pages' [-Wmissing-prototypes]
+     857 | vm_fault_t remap_huge_pmd_pages(struct mm_struct *mm, struct vm_area_struct *vma,
+         |            ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +844 mm/pin_mem.c
+
+   839	
+   840	static inline gfp_t get_hugepage_gfpmask(struct vm_area_struct *vma)
+   841	{
+   842		const bool vma_madvised = !!(vma->vm_flags & VM_HUGEPAGE);
+   843	
+ > 844		if (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_DIRECT_FLAG, &transparent_hugepage_flags))
+   845			return GFP_TRANSHUGE | (vma_madvised ? 0 : __GFP_NORETRY);
+   846		if (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_KSWAPD_FLAG, &transparent_hugepage_flags))
+   847			return GFP_TRANSHUGE_LIGHT | __GFP_KSWAPD_RECLAIM;
+   848		if (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_KSWAPD_OR_MADV_FLAG, &transparent_hugepage_flags))
+   849			return GFP_TRANSHUGE_LIGHT | (vma_madvised ? __GFP_DIRECT_RECLAIM :
+   850								     __GFP_KSWAPD_RECLAIM);
+   851		if (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_REQ_MADV_FLAG, &transparent_hugepage_flags))
+   852			return GFP_TRANSHUGE_LIGHT | (vma_madvised ? __GFP_DIRECT_RECLAIM :
+   853								     0);
+   854		return GFP_TRANSHUGE_LIGHT;
+   855	}
+   856	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
