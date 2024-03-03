@@ -1,58 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7653B65C
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 11:38:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19B2BA26
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 11:48:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709465933; cv=none; b=pBoEJE2MZjVNAZWLa6UdUGrz57gwsIw+Eyzx6Mr1oUIIqIR1dC7j6MbGA2Feja3M3j9xxxlfhDEdIJQsibjg5wpehPgFyQPNPIGcnRqAoN40Y1sYaOhu2idUYSG9LT90XTKfUc7BfSVkmrBYh34zm0NIO2Jj83a+dsb5FFXbKvE=
+	t=1709466530; cv=none; b=Xgm8xR2z5LG7wHLpBNJ8y2xIS9/6WK5EPK07so32g+FbZDgwjigtcAkW4oG8antnAvgSCrqjyZGJT4MdJrdIrRNjVAA3KSwXzu1VpaghZOBvj88VEFWldj2wBOvEOHbf6nXRt1nuY3s3yjDjDoGUuVx6wI23bzgOp7RqMYH11Rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709465933; c=relaxed/simple;
-	bh=z2qDJygLlc45+PsDPYUEnz9fD3fIRf8snyhSuRtyYck=;
+	s=arc-20240116; t=1709466530; c=relaxed/simple;
+	bh=aAnlNphlh1AJV/Qtj5hO6xmXb+I8FCMCTXKpdr6yJww=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CksYtb0hzMmpt36h0h42RjGH0YLnGOJfdH3TFyQXjkayvf70fMSrR7Qq14NzJnGUT+W5QwcEUwGBYY/mtx+cHjQB9z3vQRRpF3QFBy7Q7CgGWoV1YNkW2e53I7xfU7RkybBNJaI7R0KyG3gaROap1i2F3MQvN4iyxHPOgYpVAj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DMwsjE3p; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=mBLWEHWuoxZZyXE6XU2a2Wwo05Yin3wXP6dxcGbY2kVt7Q35kl2CPYRaVOH71pW2Bj2grEceeKdLlrEEJC6h5WOMLzd5L3REQoHKsSIRKFS5e9Xueyx2FQ2+QB2tTtnWEYEYjA8EHsY9opvsTeKG9Gf5l9GhuApKg65P5/5Q8Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a6U4xbPn; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DMwsjE3p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a6U4xbPn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709465931; x=1741001931;
+  t=1709466529; x=1741002529;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z2qDJygLlc45+PsDPYUEnz9fD3fIRf8snyhSuRtyYck=;
-  b=DMwsjE3p2OA0DuH3bj2W4kPl97MXvI2VbF/1qpGVf0ejxAN+lE4Oewev
-   562AS1HaSyIdwWizb9JDxgns3YOBO70kOxAJ7Li8K9AUSBTScUYXjE4/1
-   pFfzT6oh9vYGFjDkFLZ5pGrfAboJhVc/YYxbqQX8EyYObvEA1cBbaShNo
-   WqSjqiNfFPrEnRoBb9PvOHm8xUKNcYs0EvZxI8eifasyC8eKvxtp4eqol
-   VLKIBaLc6vD/rQm4oE05xsIoJG4nY4E4gwJRctaHDg6sDtTHAiKwRL0VP
-   xlnw/Afbj540XJR+kPvBRxJ6qAVF/rS2MZgrXrv1b1LGbR2Fbi7qjb7pZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="14539601"
+  bh=aAnlNphlh1AJV/Qtj5hO6xmXb+I8FCMCTXKpdr6yJww=;
+  b=a6U4xbPnevw2q/03SyxLMFnPooUoT0PncMXYcukHraN1jPsxsVuNtxpr
+   Ju/om8eWwFfCDhxLIHsa9/YNvJPK0YbRK9eaPB118W959+d9sDywgN8Nf
+   +H8AoMGxuXVyRP2AAB7b0nG3yGAhy9qK63gyTSVzKW7e8wT1Ei21r9LIf
+   tZXWKMGoQbVOSW419/CmPTk80ulQyGkz/fvt5PheGhVGVuCX01HEdP9Lm
+   sUG2LuihSewU/i1EjZJXJwHd4nxYvZ6kfqLDO/CJYnY3Qc75C7lYLCnel
+   NAI5x4W1jjHvSX9/K069PvihHOspGaHvmqjDystvzxpdGQ1E9Rrot06DG
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="14539846"
 X-IronPort-AV: E=Sophos;i="6.06,200,1705392000"; 
-   d="scan'208";a="14539601"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 03:38:50 -0800
+   d="scan'208";a="14539846"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 03:48:48 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,200,1705392000"; 
-   d="scan'208";a="39531164"
+   d="scan'208";a="8574978"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 03 Mar 2024 03:38:47 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 03 Mar 2024 03:48:47 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgkB2-0001jo-1H;
-	Sun, 03 Mar 2024 11:38:44 +0000
-Date: Sun, 3 Mar 2024 19:38:21 +0800
+	id 1rgkKi-0001k8-1q;
+	Sun, 03 Mar 2024 11:48:44 +0000
+Date: Sun, 3 Mar 2024 19:48:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: mm/memcontrol.c:3528:15: sparse: sparse: symbol
- 'mem_cgroup_pagecache_get_reclaim_pages' was not declared. Should it be
- static?
-Message-ID: <202403031950.J6pAfCyy-lkp@intel.com>
+To: Mike Galbraith <umgwanakikbuti@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Daniel Wagner <wagi@monom.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [cip:linux-4.19.y-cip-rt 1980/30000]
+ drivers/connector/cn_proc.c:58:30: warning: 'send_msg_lock' defined but not
+ used
+Message-ID: <202403031935.OmHC8R5h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,79 +60,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
-head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
-commit: 06d37efeef4689ee10a610bbe91d85de62b88d6c mm: pagecache limit per cgroup support
-date:   2 years, 5 months ago
-config: x86_64-randconfig-122-20240303 (https://download.01.org/0day-ci/archive/20240303/202403031950.J6pAfCyy-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip-rt
+head:   dcbd51e7744fcf9baa3ea87a028b574fda95d428
+commit: aeafc2f2c66c50bc05d537e6638bca7aff765ddb [1980/30000] connector/cn_proc: Protect send_msg() with a local lock on RT
+config: i386-buildonly-randconfig-006-20240303 (https://download.01.org/0day-ci/archive/20240303/202403031935.OmHC8R5h-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403031950.J6pAfCyy-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403031935.OmHC8R5h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403031950.J6pAfCyy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403031935.OmHC8R5h-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/memcontrol.c:3528:15: sparse: sparse: symbol 'mem_cgroup_pagecache_get_reclaim_pages' was not declared. Should it be static?
-   mm/memcontrol.c:4244:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4244:21: sparse:    struct mem_cgroup_threshold_ary [noderef] <asn:4> *
-   mm/memcontrol.c:4244:21: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:4246:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4246:21: sparse:    struct mem_cgroup_threshold_ary [noderef] <asn:4> *
-   mm/memcontrol.c:4246:21: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:4403:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4403:9: sparse:    struct mem_cgroup_threshold_ary [noderef] <asn:4> *
-   mm/memcontrol.c:4403:9: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:4497:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4497:9: sparse:    struct mem_cgroup_threshold_ary [noderef] <asn:4> *
-   mm/memcontrol.c:4497:9: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:5082:23: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:5118:30: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:5119:33: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:5120:32: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:5121:33: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:5122:35: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:5123:37: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:5124:35: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:5125:37: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:5126:35: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:5302:36: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:5303:34: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:5304:36: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:5305:34: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:5306:34: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
-   mm/memcontrol.c:6401:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:6401:23: sparse:    struct task_struct [noderef] <asn:4> *
-   mm/memcontrol.c:6401:23: sparse:    struct task_struct *
-   mm/memcontrol.c:2084:19: sparse: sparse: context imbalance in 'lock_page_memcg' - wrong count at exit
-   mm/memcontrol.c:2139:17: sparse: sparse: context imbalance in '__unlock_page_memcg' - unexpected unlock
-   mm/memcontrol.c:2732:9: sparse: sparse: context imbalance in 'lock_page_lru' - wrong count at exit
-   mm/memcontrol.c:2755:24: sparse: sparse: context imbalance in 'unlock_page_lru' - unexpected unlock
-   mm/memcontrol.c:6250:28: sparse: sparse: context imbalance in 'mem_cgroup_count_precharge_pte_range' - unexpected unlock
-   mm/memcontrol.c:6446:36: sparse: sparse: context imbalance in 'mem_cgroup_move_charge_pte_range' - unexpected unlock
+All warnings (new ones prefixed by >>):
 
-vim +/mem_cgroup_pagecache_get_reclaim_pages +3528 mm/memcontrol.c
+   In file included from drivers/connector/cn_proc.c:35:
+>> drivers/connector/cn_proc.c:58:30: warning: 'send_msg_lock' defined but not used [-Wunused-const-variable=]
+      58 | static DEFINE_LOCAL_IRQ_LOCK(send_msg_lock);
+         |                              ^~~~~~~~~~~~~
+   include/linux/locallock.h:243:71: note: in definition of macro 'DEFINE_LOCAL_IRQ_LOCK'
+     243 | #define DEFINE_LOCAL_IRQ_LOCK(lvar)             __typeof__(const int) lvar
+         |                                                                       ^~~~
+   drivers/connector/cn_proc.c:343: warning: Function parameter or member 'msg' not described in 'cn_proc_mcast_ctl'
+   drivers/connector/cn_proc.c:343: warning: Function parameter or member 'nsp' not described in 'cn_proc_mcast_ctl'
+   drivers/connector/cn_proc.c:343: warning: Excess function parameter 'data' description in 'cn_proc_mcast_ctl'
 
-  3527	
-> 3528	unsigned long mem_cgroup_pagecache_get_reclaim_pages(struct mem_cgroup *memcg)
-  3529	{
-  3530		unsigned long goal_pages_used, pages_used, pages_max;
-  3531	
-  3532		if ((!memcg) || (mem_cgroup_is_root(memcg)))
-  3533			return 0;
-  3534	
-  3535		pages_max = READ_ONCE(memcg->pagecache.max);
-  3536		if (pages_max == PAGE_COUNTER_MAX)
-  3537			return 0;
-  3538	
-  3539		goal_pages_used = (100 - READ_ONCE(memcg->pagecache_reclaim_ratio)) * pages_max / 100;
-  3540		goal_pages_used = max_t(unsigned long, MIN_PAGECACHE_PAGES, goal_pages_used);
-  3541		pages_used = page_counter_read(&memcg->pagecache);
-  3542	
-  3543		return pages_used > pages_max ? pages_used - goal_pages_used : 0;
-  3544	}
-  3545	
+
+vim +/send_msg_lock +58 drivers/connector/cn_proc.c
+
+    55	
+    56	/* proc_event_counts is used as the sequence number of the netlink message */
+    57	static DEFINE_PER_CPU(__u32, proc_event_counts) = { 0 };
+  > 58	static DEFINE_LOCAL_IRQ_LOCK(send_msg_lock);
+    59	
 
 -- 
 0-DAY CI Kernel Test Service
