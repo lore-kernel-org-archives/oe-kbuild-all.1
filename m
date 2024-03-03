@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88F9D524;
-	Sun,  3 Mar 2024 13:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1243659150
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 13:45:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709472953; cv=none; b=f1r9V4lsmqC+A4HKclNMcVeGAOp89kzzIpzjVsv0NYmhqB1aqOiXotcJqF/5TsuLw2jGZaOHnI5kZEtDmwrrh/JQntcAD9kQomSAcqws7RH9Z3Fnd0SCO2Gg28caDYaXtIKQmUMaR+l6LikFrqQhLV0EQj0xrWQzAOb1NrRbYaM=
+	t=1709473554; cv=none; b=AqAYhMEjw3sR58U46TgEhZ3HOGmrjrCtcQHV6+GvbiMwXWHhaHPU3koXbzwiWA6hnd8tu5d2m22CjovoIVOffLRDOUj/hZ0D31VPBqyKzTnAtu1bwG70AIyYpmXfQGA2Qa0lYMBM7Nc+B3LAhifmTpgJ2osJW79W+NBCBq8J+qM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709472953; c=relaxed/simple;
-	bh=fRqyqbtzagsoNSUzbbnk/0zzzjp6RJ6/jLywjH2E6RU=;
+	s=arc-20240116; t=1709473554; c=relaxed/simple;
+	bh=IWKRE9rTwq66mvoUd2HVdFJPa0iXUH5Aenk3rDj2aYw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KLeK7W9K7HC93gmptXfZMBxgGszNYfWz/2ghPWuREIQwVKSEX/KS8IXhK0FNWivmhs9GAO2PR/SG+Ga1PESV5V5DzyrDcj4mD1mTxUtAcIy4evKzEX7sI8lUGio+utoZzEjGiDoaCkcU8/jVHgpXHJvk+UouTB5sPs3k9Albwu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AbRHsT18; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=nZ8bDvy55wYodGW0rdFigg5NMu34KDPVtfijxIzn5CKqEhvORIbQJ+2Ms8L3DeL25atD9E4cK9grAyDskfHEaoMrppWy5ScVXHeaGDJJ6b6FZDK2kbwnOp7anueiribLf30+yUXyQhG+Rd7lh7fHiQcGOnHnyxJH3ogI5sFSQy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z0M2Pqtn; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AbRHsT18"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z0M2Pqtn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709472952; x=1741008952;
+  t=1709473552; x=1741009552;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fRqyqbtzagsoNSUzbbnk/0zzzjp6RJ6/jLywjH2E6RU=;
-  b=AbRHsT18jwlGGwl/CD/L315XIlgXdtl1fjat8pIrRGMU2QmbX0bak+Af
-   kLVIz9wz9g5VPXUzFZ8U8E2T8KuHMxZkgTXi12iHYKay2GHtxS/iFbLiH
-   henJ0y32JDRLZwtnu5MO1zt3gm/zttVDkOK4MWKJxH4JR/fYvNVQuPYRx
-   /2RAP5Jgy0zo96gsRITKk2TCOPjfc7WhJnIdKsxhldxg8mAGGwn7wHWvu
-   yvAqrnWTku/NPvBZp9V88ZBoTnABWTjqdGhiQ6sg+47jIfCVAEhIX9Vc0
-   gFekUkUawR2F0KBHVID7DCT0MHUi6vPwhaTLuL2DqQeNgoXpc/qMHnOyQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="15374534"
+  bh=IWKRE9rTwq66mvoUd2HVdFJPa0iXUH5Aenk3rDj2aYw=;
+  b=Z0M2PqtnHfIUiroWkq5BbSwoj+VonhRu/o9BJqm5Q5g/jNTW1f6z9pDS
+   OH+m4ZFIyYUTGGEh0N1wmuP6/S0C5kIUxSkcBIIKoHxeXNqfoz4kyyQYL
+   9J8wOozRcFo+TcsHBQWVXB/x7irCE5n64P6+TviKESEJ2kMYPLBO/uDQL
+   zTfvSf2FRKBgMrvyivY38vrl07+EBuoANTUYYueqlLtzZG8Zti7E8M3MJ
+   4/q5U1G5JJBSdakyZbJlrHPX8PSek/YSe2idrV/+p/x1k4IxPsW7N4iVJ
+   VzDUi+HZt/LEWsz2NWkD33TZdAFYwOyAGSwKwBXW7zbBXRJnWfjhqJX77
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="14545096"
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="15374534"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 05:35:51 -0800
+   d="scan'208";a="14545096"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 05:45:50 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="46228498"
+   d="scan'208";a="8650879"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 03 Mar 2024 05:35:49 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 03 Mar 2024 05:45:49 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgm0I-0001o0-32;
-	Sun, 03 Mar 2024 13:35:46 +0000
-Date: Sun, 3 Mar 2024 21:34:57 +0800
+	id 1rgm9z-0001oO-0Z;
+	Sun, 03 Mar 2024 13:45:47 +0000
+Date: Sun, 3 Mar 2024 21:45:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devel@driverdev.osuosl.org
-Subject: [driver-core:debugfs_cleanup 11/11] drivers/nvmem/core.c:481:8:
- error: call to undeclared function 'devm_device_add_groups'; ISO C99 and
- later do not support implicit function declarations
-Message-ID: <202403032155.yW6rZVrP-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:5.15-2.2.x-imx 7098/27938]
+ sound/soc/sof/imx/imx8ulp.c:277:9: error: implicit declaration of function
+ 'arm_smccc_smc'
+Message-ID: <202403032111.Z2bCGsLh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,102 +59,139 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git debugfs_cleanup
-head:   d52687b617d2f0d9709ddfe812df75aa25fe202f
-commit: d52687b617d2f0d9709ddfe812df75aa25fe202f [11/11] driver core: remove devm_device_add_groups()
-config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240303/202403032155.yW6rZVrP-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403032155.yW6rZVrP-lkp@intel.com/reproduce)
+Hi Pierre-Louis,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   d761b18f6bc83bce94251467e3c0974243318456
+commit: 48ccb52d8cadf2e6f934edd993d36f13c255a16d [7098/27938] LF-5144-2 ASoC: SOF: i.MX: simplify Kconfig
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240303/202403032111.Z2bCGsLh-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403032111.Z2bCGsLh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403032155.yW6rZVrP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403032111.Z2bCGsLh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/nvmem/core.c:481:8: error: call to undeclared function 'devm_device_add_groups'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     481 |         ret = devm_device_add_groups(&nvmem->dev, nvmem_cells_groups);
-         |               ^
-   drivers/nvmem/core.c:481:8: note: did you mean 'devm_device_add_group'?
-   include/linux/device.h:1204:18: note: 'devm_device_add_group' declared here
-    1204 | int __must_check devm_device_add_group(struct device *dev,
-         |                  ^
-   1 error generated.
+>> sound/soc/sof/imx/imx8.c:466:5: warning: no previous prototype for 'imx8_suspend' [-Wmissing-prototypes]
+     466 | int imx8_suspend(struct snd_sof_dev *sdev)
+         |     ^~~~~~~~~~~~
+>> sound/soc/sof/imx/imx8.c:479:5: warning: no previous prototype for 'imx8_resume' [-Wmissing-prototypes]
+     479 | int imx8_resume(struct snd_sof_dev *sdev)
+         |     ^~~~~~~~~~~
+>> sound/soc/sof/imx/imx8.c:492:5: warning: no previous prototype for 'imx8_dsp_runtime_resume' [-Wmissing-prototypes]
+     492 | int imx8_dsp_runtime_resume(struct snd_sof_dev *sdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/sof/imx/imx8.c:504:5: warning: no previous prototype for 'imx8_dsp_runtime_suspend' [-Wmissing-prototypes]
+     504 | int imx8_dsp_runtime_suspend(struct snd_sof_dev *sdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/sof/imx/imx8.c:517:5: warning: no previous prototype for 'imx8_dsp_suspend' [-Wmissing-prototypes]
+     517 | int imx8_dsp_suspend(struct snd_sof_dev *sdev, unsigned int target_state)
+         |     ^~~~~~~~~~~~~~~~
+>> sound/soc/sof/imx/imx8.c:530:5: warning: no previous prototype for 'imx8_dsp_resume' [-Wmissing-prototypes]
+     530 | int imx8_dsp_resume(struct snd_sof_dev *sdev)
+         |     ^~~~~~~~~~~~~~~
+>> sound/soc/sof/imx/imx8.c:575:5: warning: no previous prototype for 'imx8_dsp_set_power_state' [-Wmissing-prototypes]
+     575 | int imx8_dsp_set_power_state(struct snd_sof_dev *sdev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> sound/soc/sof/imx/imx8m.c:417:5: warning: no previous prototype for 'imx8m_dsp_set_power_state' [-Wmissing-prototypes]
+     417 | int imx8m_dsp_set_power_state(struct snd_sof_dev *sdev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/sof/imx/imx8m.c:425:5: warning: no previous prototype for 'imx8m_resume' [-Wmissing-prototypes]
+     425 | int imx8m_resume(struct snd_sof_dev *sdev)
+         |     ^~~~~~~~~~~~
+>> sound/soc/sof/imx/imx8m.c:438:5: warning: no previous prototype for 'imx8m_suspend' [-Wmissing-prototypes]
+     438 | int imx8m_suspend(struct snd_sof_dev *sdev)
+         |     ^~~~~~~~~~~~~
+--
+   sound/soc/sof/imx/imx8ulp.c:80:5: warning: no previous prototype for 'imx8ulp_configure_sim_lpav' [-Wmissing-prototypes]
+      80 | int imx8ulp_configure_sim_lpav(struct imx8ulp_priv *priv)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sof/imx/imx8ulp.c: In function 'imx8ulp_reset':
+>> sound/soc/sof/imx/imx8ulp.c:277:9: error: implicit declaration of function 'arm_smccc_smc' [-Werror=implicit-function-declaration]
+     277 |         arm_smccc_smc(FSL_SIP_HIFI_XRDC, 0, 0, 0, 0, 0, 0, 0, &smc_resource);
+         |         ^~~~~~~~~~~~~
+   sound/soc/sof/imx/imx8ulp.c: At top level:
+   sound/soc/sof/imx/imx8ulp.c:435:5: warning: no previous prototype for 'imx8ulp_suspend' [-Wmissing-prototypes]
+     435 | int imx8ulp_suspend(struct snd_sof_dev *sdev)
+         |     ^~~~~~~~~~~~~~~
+   sound/soc/sof/imx/imx8ulp.c:450:5: warning: no previous prototype for 'imx8ulp_resume' [-Wmissing-prototypes]
+     450 | int imx8ulp_resume(struct snd_sof_dev *sdev)
+         |     ^~~~~~~~~~~~~~
+   sound/soc/sof/imx/imx8ulp.c:463:5: warning: no previous prototype for 'imx8ulp_dsp_runtime_resume' [-Wmissing-prototypes]
+     463 | int imx8ulp_dsp_runtime_resume(struct snd_sof_dev *sdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sof/imx/imx8ulp.c:475:5: warning: no previous prototype for 'imx8ulp_dsp_runtime_suspend' [-Wmissing-prototypes]
+     475 | int imx8ulp_dsp_runtime_suspend(struct snd_sof_dev *sdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sof/imx/imx8ulp.c:488:5: warning: no previous prototype for 'imx8ulp_dsp_suspend' [-Wmissing-prototypes]
+     488 | int imx8ulp_dsp_suspend(struct snd_sof_dev *sdev, unsigned int target_state)
+         |     ^~~~~~~~~~~~~~~~~~~
+   sound/soc/sof/imx/imx8ulp.c:501:5: warning: no previous prototype for 'imx8ulp_dsp_resume' [-Wmissing-prototypes]
+     501 | int imx8ulp_dsp_resume(struct snd_sof_dev *sdev)
+         |     ^~~~~~~~~~~~~~~~~~
+   sound/soc/sof/imx/imx8ulp.c:535:5: warning: no previous prototype for 'imx8ulp_dsp_set_power_state' [-Wmissing-prototypes]
+     535 | int imx8ulp_dsp_set_power_state(struct snd_sof_dev *sdev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/sound/asound.h:24,
+                    from include/sound/pcm.h:11,
+                    from include/sound/soc.h:23,
+                    from include/sound/sof.h:15,
+                    from sound/soc/sof/imx/imx8ulp.c:19:
+   include/uapi/sound/asound.h:281:41: warning: initialized field overwritten [-Woverride-init]
+     281 | #define SNDRV_PCM_INFO_MMAP             0x00000001      /* hardware supports mmap */
+         |                                         ^~~~~~~~~~
+   sound/soc/sof/imx/imx8ulp.c:603:25: note: in expansion of macro 'SNDRV_PCM_INFO_MMAP'
+     603 |         .hw_info =      SNDRV_PCM_INFO_MMAP |
+         |                         ^~~~~~~~~~~~~~~~~~~
+   include/uapi/sound/asound.h:281:41: note: (near initialization for 'sof_imx8ulp_ops.hw_info')
+     281 | #define SNDRV_PCM_INFO_MMAP             0x00000001      /* hardware supports mmap */
+         |                                         ^~~~~~~~~~
+   sound/soc/sof/imx/imx8ulp.c:603:25: note: in expansion of macro 'SNDRV_PCM_INFO_MMAP'
+     603 |         .hw_info =      SNDRV_PCM_INFO_MMAP |
+         |                         ^~~~~~~~~~~~~~~~~~~
+>> sound/soc/sof/imx/imx8ulp.c:31:22: error: storage size of 'smc_resource' isn't known
+      31 | struct arm_smccc_res smc_resource;
+         |                      ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/devm_device_add_groups +481 drivers/nvmem/core.c
+vim +/arm_smccc_smc +277 sound/soc/sof/imx/imx8ulp.c
 
-84400305271937 Srinivas Kandagatla 2020-03-25  429  
-0331c611949fff Miquel Raynal       2023-12-15  430  static int nvmem_populate_sysfs_cells(struct nvmem_device *nvmem)
-0331c611949fff Miquel Raynal       2023-12-15  431  {
-0331c611949fff Miquel Raynal       2023-12-15  432  	struct bin_attribute **cells_attrs, *attrs;
-0331c611949fff Miquel Raynal       2023-12-15  433  	struct nvmem_cell_entry *entry;
-0331c611949fff Miquel Raynal       2023-12-15  434  	unsigned int ncells = 0, i = 0;
-0331c611949fff Miquel Raynal       2023-12-15  435  	int ret = 0;
-0331c611949fff Miquel Raynal       2023-12-15  436  
-0331c611949fff Miquel Raynal       2023-12-15  437  	mutex_lock(&nvmem_mutex);
-0331c611949fff Miquel Raynal       2023-12-15  438  
-0331c611949fff Miquel Raynal       2023-12-15  439  	if (list_empty(&nvmem->cells) || nvmem->sysfs_cells_populated) {
-0331c611949fff Miquel Raynal       2023-12-15  440  		nvmem_cells_group.bin_attrs = NULL;
-0331c611949fff Miquel Raynal       2023-12-15  441  		goto unlock_mutex;
-0331c611949fff Miquel Raynal       2023-12-15  442  	}
-0331c611949fff Miquel Raynal       2023-12-15  443  
-0331c611949fff Miquel Raynal       2023-12-15  444  	/* Allocate an array of attributes with a sentinel */
-0331c611949fff Miquel Raynal       2023-12-15  445  	ncells = list_count_nodes(&nvmem->cells);
-0331c611949fff Miquel Raynal       2023-12-15  446  	cells_attrs = devm_kcalloc(&nvmem->dev, ncells + 1,
-0331c611949fff Miquel Raynal       2023-12-15  447  				   sizeof(struct bin_attribute *), GFP_KERNEL);
-0331c611949fff Miquel Raynal       2023-12-15  448  	if (!cells_attrs) {
-0331c611949fff Miquel Raynal       2023-12-15  449  		ret = -ENOMEM;
-0331c611949fff Miquel Raynal       2023-12-15  450  		goto unlock_mutex;
-0331c611949fff Miquel Raynal       2023-12-15  451  	}
-0331c611949fff Miquel Raynal       2023-12-15  452  
-0331c611949fff Miquel Raynal       2023-12-15  453  	attrs = devm_kcalloc(&nvmem->dev, ncells, sizeof(struct bin_attribute), GFP_KERNEL);
-0331c611949fff Miquel Raynal       2023-12-15  454  	if (!attrs) {
-0331c611949fff Miquel Raynal       2023-12-15  455  		ret = -ENOMEM;
-0331c611949fff Miquel Raynal       2023-12-15  456  		goto unlock_mutex;
-0331c611949fff Miquel Raynal       2023-12-15  457  	}
-0331c611949fff Miquel Raynal       2023-12-15  458  
-0331c611949fff Miquel Raynal       2023-12-15  459  	/* Initialize each attribute to take the name and size of the cell */
-0331c611949fff Miquel Raynal       2023-12-15  460  	list_for_each_entry(entry, &nvmem->cells, node) {
-0331c611949fff Miquel Raynal       2023-12-15  461  		sysfs_bin_attr_init(&attrs[i]);
-0331c611949fff Miquel Raynal       2023-12-15  462  		attrs[i].attr.name = devm_kasprintf(&nvmem->dev, GFP_KERNEL,
-e20f378d993b10 Arnd Bergmann       2024-02-09  463  						    "%s@%x,%x", entry->name,
-e20f378d993b10 Arnd Bergmann       2024-02-09  464  						    entry->offset,
-e20f378d993b10 Arnd Bergmann       2024-02-09  465  						    entry->bit_offset);
-0331c611949fff Miquel Raynal       2023-12-15  466  		attrs[i].attr.mode = 0444;
-0331c611949fff Miquel Raynal       2023-12-15  467  		attrs[i].size = entry->bytes;
-0331c611949fff Miquel Raynal       2023-12-15  468  		attrs[i].read = &nvmem_cell_attr_read;
-0331c611949fff Miquel Raynal       2023-12-15  469  		attrs[i].private = entry;
-0331c611949fff Miquel Raynal       2023-12-15  470  		if (!attrs[i].attr.name) {
-0331c611949fff Miquel Raynal       2023-12-15  471  			ret = -ENOMEM;
-0331c611949fff Miquel Raynal       2023-12-15  472  			goto unlock_mutex;
-0331c611949fff Miquel Raynal       2023-12-15  473  		}
-0331c611949fff Miquel Raynal       2023-12-15  474  
-0331c611949fff Miquel Raynal       2023-12-15  475  		cells_attrs[i] = &attrs[i];
-0331c611949fff Miquel Raynal       2023-12-15  476  		i++;
-0331c611949fff Miquel Raynal       2023-12-15  477  	}
-0331c611949fff Miquel Raynal       2023-12-15  478  
-0331c611949fff Miquel Raynal       2023-12-15  479  	nvmem_cells_group.bin_attrs = cells_attrs;
-0331c611949fff Miquel Raynal       2023-12-15  480  
-0331c611949fff Miquel Raynal       2023-12-15 @481  	ret = devm_device_add_groups(&nvmem->dev, nvmem_cells_groups);
-0331c611949fff Miquel Raynal       2023-12-15  482  	if (ret)
-0331c611949fff Miquel Raynal       2023-12-15  483  		goto unlock_mutex;
-0331c611949fff Miquel Raynal       2023-12-15  484  
-0331c611949fff Miquel Raynal       2023-12-15  485  	nvmem->sysfs_cells_populated = true;
-0331c611949fff Miquel Raynal       2023-12-15  486  
-0331c611949fff Miquel Raynal       2023-12-15  487  unlock_mutex:
-0331c611949fff Miquel Raynal       2023-12-15  488  	mutex_unlock(&nvmem_mutex);
-0331c611949fff Miquel Raynal       2023-12-15  489  
-0331c611949fff Miquel Raynal       2023-12-15  490  	return ret;
-0331c611949fff Miquel Raynal       2023-12-15  491  }
-0331c611949fff Miquel Raynal       2023-12-15  492  
+2df5369d345df3 Zhang Peng 2021-07-21  259  
+2df5369d345df3 Zhang Peng 2021-07-21  260  static int imx8ulp_reset(struct snd_sof_dev *sdev)
+2df5369d345df3 Zhang Peng 2021-07-21  261  {
+2df5369d345df3 Zhang Peng 2021-07-21  262  	struct imx8ulp_priv *priv = sdev->pdata->hw_pdata;
+2df5369d345df3 Zhang Peng 2021-07-21  263  
+2df5369d345df3 Zhang Peng 2021-07-21  264  	/* HiFi4 Platform Clock Enable: 1 enabled, 0 disabled */
+2df5369d345df3 Zhang Peng 2021-07-21  265  	regmap_update_bits(priv->regmap_sim, SYSCTRL0, PLAT_CLK_BIT, PLAT_CLK_BIT);
+2df5369d345df3 Zhang Peng 2021-07-21  266  	/* HiFi4 PBCLK clock enable: 1 enabled, 0 disabled */
+2df5369d345df3 Zhang Peng 2021-07-21  267  	regmap_update_bits(priv->regmap_sim, SYSCTRL0, PB_CLK_BIT, PB_CLK_BIT);
+2df5369d345df3 Zhang Peng 2021-07-21  268  	/* HiFi4 Clock Enable: 1 enabled, 0 disabled */
+2df5369d345df3 Zhang Peng 2021-07-21  269  	regmap_update_bits(priv->regmap_sim, SYSCTRL0, HIFI4_CLK_BIT, HIFI4_CLK_BIT);
+2df5369d345df3 Zhang Peng 2021-07-21  270  
+2df5369d345df3 Zhang Peng 2021-07-21  271  	regmap_update_bits(priv->regmap_sim, SYSCTRL0, RESET_BIT, RESET_BIT);
+2df5369d345df3 Zhang Peng 2021-07-21  272  	usleep_range(1, 2);
+2df5369d345df3 Zhang Peng 2021-07-21  273  	/* Stall HIFI4 DSP Execution: 1 stall, 0 not stall */
+2df5369d345df3 Zhang Peng 2021-07-21  274  	regmap_update_bits(priv->regmap_sim, SYSCTRL0, EXECUTE_BIT, EXECUTE_BIT);
+2df5369d345df3 Zhang Peng 2021-07-21  275  	usleep_range(1, 2);
+2df5369d345df3 Zhang Peng 2021-07-21  276  
+2df5369d345df3 Zhang Peng 2021-07-21 @277  	arm_smccc_smc(FSL_SIP_HIFI_XRDC, 0, 0, 0, 0, 0, 0, 0, &smc_resource);
+2df5369d345df3 Zhang Peng 2021-07-21  278  
+2df5369d345df3 Zhang Peng 2021-07-21  279  	return 0;
+2df5369d345df3 Zhang Peng 2021-07-21  280  }
+2df5369d345df3 Zhang Peng 2021-07-21  281  
 
-:::::: The code at line 481 was first introduced by commit
-:::::: 0331c611949fffdf486652450901a4dc52bc5cca nvmem: core: Expose cells through sysfs
+:::::: The code at line 277 was first introduced by commit
+:::::: 2df5369d345df34108fc9c4c3ed5581ccd918115 LF-4230-1: ASoC: SOF: Support SOF on 8ULP platform
 
-:::::: TO: Miquel Raynal <miquel.raynal@bootlin.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Zhang Peng <peng.zhang_8@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
