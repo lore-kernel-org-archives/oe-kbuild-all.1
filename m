@@ -1,55 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823F8B653
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 10:46:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7653B65C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 11:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709462810; cv=none; b=qtgzAYWMdS54NLV5rCd6IbWnTJ0QxKS/YK9OxfCvZKVQ0mIN6VDvpv1b2k661bygKtFDDPQKQkJw02XFIRT9mhb5GFETREdlSFXyUBo3pkz9i7wVTLndk31vj5W3EfTyukrOfrMcjtAxfVbiaf6qtA17V4aAmOPPmEGAZDEewHY=
+	t=1709465933; cv=none; b=pBoEJE2MZjVNAZWLa6UdUGrz57gwsIw+Eyzx6Mr1oUIIqIR1dC7j6MbGA2Feja3M3j9xxxlfhDEdIJQsibjg5wpehPgFyQPNPIGcnRqAoN40Y1sYaOhu2idUYSG9LT90XTKfUc7BfSVkmrBYh34zm0NIO2Jj83a+dsb5FFXbKvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709462810; c=relaxed/simple;
-	bh=PWeGO0T0Cg5owYpCndnAvCvhqQ7D62nuX52KKH1eptI=;
+	s=arc-20240116; t=1709465933; c=relaxed/simple;
+	bh=z2qDJygLlc45+PsDPYUEnz9fD3fIRf8snyhSuRtyYck=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j7hXMS036+oGbXWndlM4eS4U2G36CiHPAigfyySDkq4vFWcAPUDHqBc3diiDu0ed/CxtrVZUtJe+SDEkqkHJaLh8AomNFeFYMhdwSWx/SeZeVsnDpSJU8K7Zw0IKhKdDkK3xlW6etxaWxDGEDVH/rhTIqya1McFPIMhdXZYlJFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kk2IkFzu; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=CksYtb0hzMmpt36h0h42RjGH0YLnGOJfdH3TFyQXjkayvf70fMSrR7Qq14NzJnGUT+W5QwcEUwGBYY/mtx+cHjQB9z3vQRRpF3QFBy7Q7CgGWoV1YNkW2e53I7xfU7RkybBNJaI7R0KyG3gaROap1i2F3MQvN4iyxHPOgYpVAj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DMwsjE3p; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kk2IkFzu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DMwsjE3p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709462808; x=1740998808;
+  t=1709465931; x=1741001931;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PWeGO0T0Cg5owYpCndnAvCvhqQ7D62nuX52KKH1eptI=;
-  b=Kk2IkFzuVRbvFHh+tIMFoQdvnTCbh0VuH6tSnLRlX0Haz29GINutDs9t
-   4ZtGc/M7s322JL+dt2wVhFqCZqFCRvy3kQj6JAy6EcKpGvFrwkEwdV7MF
-   QbY0CFeJ46kctIqOVcgl/p4gcVdicllitM6jN4fuoIaaP5XXXkYx+xrdy
-   JYVAG3KbMveMqI1TWzo+TdQ+M+5/DyVf/oWi+NRVzxdgeKgfuwYvLGmDd
-   Jfdxp0DvlaqGZiKrpJaW90s5D7fZfFIyUj+wP1LQlIDWdah/2ce00mcTG
-   aAUU9yV7RlUU1M3yXAjFJ6WoUbdSYhJelT9QlBNTMoOQnS9jOgYFOcgFf
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="3815217"
+  bh=z2qDJygLlc45+PsDPYUEnz9fD3fIRf8snyhSuRtyYck=;
+  b=DMwsjE3p2OA0DuH3bj2W4kPl97MXvI2VbF/1qpGVf0ejxAN+lE4Oewev
+   562AS1HaSyIdwWizb9JDxgns3YOBO70kOxAJ7Li8K9AUSBTScUYXjE4/1
+   pFfzT6oh9vYGFjDkFLZ5pGrfAboJhVc/YYxbqQX8EyYObvEA1cBbaShNo
+   WqSjqiNfFPrEnRoBb9PvOHm8xUKNcYs0EvZxI8eifasyC8eKvxtp4eqol
+   VLKIBaLc6vD/rQm4oE05xsIoJG4nY4E4gwJRctaHDg6sDtTHAiKwRL0VP
+   xlnw/Afbj540XJR+kPvBRxJ6qAVF/rS2MZgrXrv1b1LGbR2Fbi7qjb7pZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="14539601"
 X-IronPort-AV: E=Sophos;i="6.06,200,1705392000"; 
-   d="scan'208";a="3815217"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 02:46:47 -0800
+   d="scan'208";a="14539601"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 03:38:50 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,200,1705392000"; 
-   d="scan'208";a="8635850"
+   d="scan'208";a="39531164"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 03 Mar 2024 02:46:46 -0800
+  by orviesa002.jf.intel.com with ESMTP; 03 Mar 2024 03:38:47 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgjMh-0001iy-33;
-	Sun, 03 Mar 2024 10:46:43 +0000
-Date: Sun, 3 Mar 2024 18:46:13 +0800
+	id 1rgkB2-0001jo-1H;
+	Sun, 03 Mar 2024 11:38:44 +0000
+Date: Sun, 3 Mar 2024 19:38:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 6153/27938]
- sound/soc/fsl/fsl_spdif.c:69: warning: Function parameter or member
- 'cchannel_192b' not described in 'fsl_spdif_soc_data'
-Message-ID: <202403031855.imMM7hPn-lkp@intel.com>
+Subject: mm/memcontrol.c:3528:15: sparse: sparse: symbol
+ 'mem_cgroup_pagecache_get_reclaim_pages' was not declared. Should it be
+ static?
+Message-ID: <202403031950.J6pAfCyy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,62 +62,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dong,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   d761b18f6bc83bce94251467e3c0974243318456
-commit: 0815c79bdd566f7cf60bd567caf91b5481da9782 [6153/27938] Merge branch 'audio/next' into next
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240303/202403031855.imMM7hPn-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403031855.imMM7hPn-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
+head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
+commit: 06d37efeef4689ee10a610bbe91d85de62b88d6c mm: pagecache limit per cgroup support
+date:   2 years, 5 months ago
+config: x86_64-randconfig-122-20240303 (https://download.01.org/0day-ci/archive/20240303/202403031950.J6pAfCyy-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403031950.J6pAfCyy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403031855.imMM7hPn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403031950.J6pAfCyy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/memcontrol.c:3528:15: sparse: sparse: symbol 'mem_cgroup_pagecache_get_reclaim_pages' was not declared. Should it be static?
+   mm/memcontrol.c:4244:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4244:21: sparse:    struct mem_cgroup_threshold_ary [noderef] <asn:4> *
+   mm/memcontrol.c:4244:21: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4246:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4246:21: sparse:    struct mem_cgroup_threshold_ary [noderef] <asn:4> *
+   mm/memcontrol.c:4246:21: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4403:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4403:9: sparse:    struct mem_cgroup_threshold_ary [noderef] <asn:4> *
+   mm/memcontrol.c:4403:9: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4497:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4497:9: sparse:    struct mem_cgroup_threshold_ary [noderef] <asn:4> *
+   mm/memcontrol.c:4497:9: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:5082:23: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:5118:30: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:5119:33: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:5120:32: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:5121:33: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:5122:35: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:5123:37: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:5124:35: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:5125:37: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:5126:35: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:5302:36: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:5303:34: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:5304:36: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:5305:34: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:5306:34: sparse: sparse: undefined identifier 'mem_cgroup_nr_lru_pages'
+   mm/memcontrol.c:6401:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:6401:23: sparse:    struct task_struct [noderef] <asn:4> *
+   mm/memcontrol.c:6401:23: sparse:    struct task_struct *
+   mm/memcontrol.c:2084:19: sparse: sparse: context imbalance in 'lock_page_memcg' - wrong count at exit
+   mm/memcontrol.c:2139:17: sparse: sparse: context imbalance in '__unlock_page_memcg' - unexpected unlock
+   mm/memcontrol.c:2732:9: sparse: sparse: context imbalance in 'lock_page_lru' - wrong count at exit
+   mm/memcontrol.c:2755:24: sparse: sparse: context imbalance in 'unlock_page_lru' - unexpected unlock
+   mm/memcontrol.c:6250:28: sparse: sparse: context imbalance in 'mem_cgroup_count_precharge_pte_range' - unexpected unlock
+   mm/memcontrol.c:6446:36: sparse: sparse: context imbalance in 'mem_cgroup_move_charge_pte_range' - unexpected unlock
 
->> sound/soc/fsl/fsl_spdif.c:69: warning: Function parameter or member 'cchannel_192b' not described in 'fsl_spdif_soc_data'
-   sound/soc/fsl/fsl_spdif.c:142: warning: Function parameter or member 'pll8k_clk' not described in 'fsl_spdif_priv'
-   sound/soc/fsl/fsl_spdif.c:142: warning: Function parameter or member 'pll11k_clk' not described in 'fsl_spdif_priv'
-   sound/soc/fsl/fsl_spdif.c:142: warning: Function parameter or member 'bypass' not described in 'fsl_spdif_priv'
+vim +/mem_cgroup_pagecache_get_reclaim_pages +3528 mm/memcontrol.c
 
-
-vim +69 sound/soc/fsl/fsl_spdif.c
-
-a2388a498ad2f85 Nicolin Chen  2013-08-21  47  
-f61b9273c347980 Shengjiu Wang 2020-06-17  48  /**
-f61b9273c347980 Shengjiu Wang 2020-06-17  49   * struct fsl_spdif_soc_data: soc specific data
-f61b9273c347980 Shengjiu Wang 2020-06-17  50   *
-f61b9273c347980 Shengjiu Wang 2020-06-17  51   * @imx: for imx platform
-f61b9273c347980 Shengjiu Wang 2020-06-17  52   * @shared_root_clock: flag of sharing a clock source with others;
-f61b9273c347980 Shengjiu Wang 2020-06-17  53   *                     so the driver shouldn't set root clock rate
-604e5178444ea1d Viorel Suman  2021-04-26  54   * @raw_capture_mode: if raw capture mode support
-516232e3609f485 Shengjiu Wang 2020-10-15  55   * @interrupts: interrupt number
-516232e3609f485 Shengjiu Wang 2020-10-15  56   * @tx_burst: tx maxburst size
-516232e3609f485 Shengjiu Wang 2020-10-15  57   * @rx_burst: rx maxburst size
-516232e3609f485 Shengjiu Wang 2020-10-15  58   * @tx_formats: tx supported data format
-f61b9273c347980 Shengjiu Wang 2020-06-17  59   */
-f61b9273c347980 Shengjiu Wang 2020-06-17  60  struct fsl_spdif_soc_data {
-f61b9273c347980 Shengjiu Wang 2020-06-17  61  	bool imx;
-f61b9273c347980 Shengjiu Wang 2020-06-17  62  	bool shared_root_clock;
-604e5178444ea1d Viorel Suman  2021-04-26  63  	bool raw_capture_mode;
-f1861edd8d4036e Shengjiu Wang 2021-10-12  64  	bool cchannel_192b;
-516232e3609f485 Shengjiu Wang 2020-10-15  65  	u32 interrupts;
-516232e3609f485 Shengjiu Wang 2020-10-15  66  	u32 tx_burst;
-516232e3609f485 Shengjiu Wang 2020-10-15  67  	u32 rx_burst;
-516232e3609f485 Shengjiu Wang 2020-10-15  68  	u64 tx_formats;
-f61b9273c347980 Shengjiu Wang 2020-06-17 @69  };
-f61b9273c347980 Shengjiu Wang 2020-06-17  70  
-
-:::::: The code at line 69 was first introduced by commit
-:::::: f61b9273c347980f570d1f9cecb867a7835c613d ASoC: fsl_spdif: Add support for imx6sx platform
-
-:::::: TO: Shengjiu Wang <shengjiu.wang@nxp.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+  3527	
+> 3528	unsigned long mem_cgroup_pagecache_get_reclaim_pages(struct mem_cgroup *memcg)
+  3529	{
+  3530		unsigned long goal_pages_used, pages_used, pages_max;
+  3531	
+  3532		if ((!memcg) || (mem_cgroup_is_root(memcg)))
+  3533			return 0;
+  3534	
+  3535		pages_max = READ_ONCE(memcg->pagecache.max);
+  3536		if (pages_max == PAGE_COUNTER_MAX)
+  3537			return 0;
+  3538	
+  3539		goal_pages_used = (100 - READ_ONCE(memcg->pagecache_reclaim_ratio)) * pages_max / 100;
+  3540		goal_pages_used = max_t(unsigned long, MIN_PAGECACHE_PAGES, goal_pages_used);
+  3541		pages_used = page_counter_read(&memcg->pagecache);
+  3542	
+  3543		return pages_used > pages_max ? pages_used - goal_pages_used : 0;
+  3544	}
+  3545	
 
 -- 
 0-DAY CI Kernel Test Service
