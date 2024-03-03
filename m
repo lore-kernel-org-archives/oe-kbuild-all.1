@@ -1,66 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E4117FD;
-	Sun,  3 Mar 2024 01:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C587F;
+	Sun,  3 Mar 2024 02:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709430191; cv=none; b=H2TiJfq3f0KNDA+o+R2NyTKZn3cVKSrNUeW5aAS/DQck1xbjXvJu8h+RsixWxVzJenJiiF3wbGgeQO3H+ZvjXGbUFJHmO/tQ/U0e7ze7QkBEHMnGbVamlDKDTP26fQIPSpoJqWODHpWaaq7UJDMMCV10xU5fjZ0B2IyYhhu9xnM=
+	t=1709433224; cv=none; b=aNUZMH0KQ1gDjH48+RbBTQ3hGHb/ZL2sdqlE8VzaEKSv2KvwbTgh6h1bRsiD3sfa8HJHD8NEIJe/PsAHFjEb9wGKGnNZPxu1TusUHzWjOiYCV2TK8eFaGa8KZA31LdRo7mzl3amvPv9HBbpSh249EJRQdHAGhiFs0L4xYFlxd+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709430191; c=relaxed/simple;
-	bh=bPtaNql4S+FrAHjRxxcQH2iuVQisNn3g9p6ODBEDHVU=;
+	s=arc-20240116; t=1709433224; c=relaxed/simple;
+	bh=yEZHnDxt3aK00X+oGwgMpASVQgIxFgzXMuJx9M47Uqk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=shMfmVOktPAyWD5l+IqJddpHYg4Y4lXpo1DMWwmWvaXMuZGGlbwhvvdwgnZkjfwk1ROyxp0HrSbUquyj38h2jLu+5q4cDrLE0TT44NdG4S8zfGAT3LCKI2Vwg6JAogLuiKhtDx6tjInMn8Yro2Zidx6wYokAZvUzDm89I2sC/TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NN8ctIDa; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NN8ctIDa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709430190; x=1740966190;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bPtaNql4S+FrAHjRxxcQH2iuVQisNn3g9p6ODBEDHVU=;
-  b=NN8ctIDaNi0LvPfqsxqd52+hM0rOJKU2lKZd50EWWf20VmU7DRIIXW9u
-   7pCju84EZxrTgKlNN4Sas6w4+pTVyh7yX6ZzHY6uColmmOq5sqJg015DW
-   NWgRolD3BwTDxcNbslHzeSYakE8I3YwWbQzE8KG6pHX8LerhtEauR56kq
-   lMjJusOXPPaDK6tmZMrzKP1etQfAJmQrK5KGVqJF4K3P4C30zJYOdnDAn
-   2yw6X8AWaQcdXbexAYPMhDQDpW7JA0Fo2WjBAAsZQA3ffRIAL7r1TQzHO
-   KGyGTVpncRJnSUP0OphahOXT512ccPpm4r6rychV+JjIzCje6Wceeg5Nl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="4114458"
-X-IronPort-AV: E=Sophos;i="6.06,200,1705392000"; 
-   d="scan'208";a="4114458"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 17:43:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,200,1705392000"; 
-   d="scan'208";a="8722174"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Mar 2024 17:43:05 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rgasY-0000QO-20;
-	Sun, 03 Mar 2024 01:43:02 +0000
-Date: Sun, 3 Mar 2024 09:42:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-	Abel Vesa <abelvesa@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	imx@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH 2/2] clk: imx: add i.MX95 BLK CTL clk driver
-Message-ID: <202403030856.IfA30QpA-lkp@intel.com>
-References: <20240228-imx95-blk-ctl-v1-2-9b5ae3c14d83@nxp.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ke1mNs447Pd2oXrEqgYLtrNRBsw1Y4ud9f/DutVhTn1QxT1/WpmHpj5GmyJtUZWUdgIL0yL5El8XEf/ahsDFvfaKtUbEzMcPo+r69C2l2eMrPEwB3Z+wMXBYufnb1EII4QFnamNs8tfAbnZ5Optf65040sNnCSw/+6xq+2yl2lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-21ea1aae402so1816103fac.1;
+        Sat, 02 Mar 2024 18:33:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709433222; x=1710038022;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZeOBfZ5Q+fBsbXONI2t1u4E3fjlJdUV+x3b7E4W6R4g=;
+        b=CvJfXmKaFtt0MwWJK053VyUsnWE92H7cU8DwxebdoZOosSbsL6jybtodpQZiLJ1nhx
+         hxCFMw2dfXP6/nzz2yPWd7hzk/6u82CTQOAsT4L1cinw0Uzugtjl2SslrP6OZZDYyx32
+         wPaI4lCwTai8cGQ6E2YO4dfL2Mcf42Efy0/J16kqT4oTL2uRQydCEihiMNDUnhdKMkH8
+         N/uF7JqllgeFv+RIm/PjAaA+18fwZgEavyb84BxKW4ybAHbf7BxaQNB0Xl7NIXk+D5JM
+         bbfGCW7//aP0r7Qqw7La97t3InQl8QmQBaWPJ7TRYf4jQXVorNdiaqSXJ2n9zvwoJUu4
+         Pi+A==
+X-Forwarded-Encrypted: i=1; AJvYcCUQiiciQGW4UhFYQ+Gyq9Z++wM1VsZw3FMrBEMyKksrSpeQZ5vyZAftduVWpidot1h0Nz+u1DoPucyhb6PzC/mTs+fP4uCefvgUFN2f8fp8hTNi0zEp1tZN8tHZhXQa+Z+qoQ0=
+X-Gm-Message-State: AOJu0YyMNxqIbFOeOGcHX9n6ik4iC5w5hkuSa7qlZcMx3UnQMHTHdXMV
+	IRDqWmQuAFiczEOyUX7ZqW93xFI9MAJB+DT28HdTC7ZBEaKaKfkw
+X-Google-Smtp-Source: AGHT+IEBsMGZZYIPXWi9LTZI21qkAKZyfLTzoSrzsxErBRL/BENHQACKtHAh8O2c5xiaGfp3iqdb3A==
+X-Received: by 2002:a05:6870:179a:b0:219:668:3924 with SMTP id r26-20020a056870179a00b0021906683924mr6860718oae.26.1709433222408;
+        Sat, 02 Mar 2024 18:33:42 -0800 (PST)
+Received: from liuwe-devbox-debian-v2 ([20.69.120.36])
+        by smtp.gmail.com with ESMTPSA id ln22-20020a056a003cd600b006e6150afc9csm172088pfb.80.2024.03.02.18.33.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Mar 2024 18:33:41 -0800 (PST)
+Date: Sun, 3 Mar 2024 02:33:37 +0000
+From: Wei Liu <wei.liu@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Saurabh Sengar <ssengar@linux.microsoft.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Wei Liu <wei.liu@kernel.org>,
+	Michael Kelley <mhklinux@outlook.com>
+Subject: Re: [hyperv:hyperv-fixes 11/12] ld.lld: error: undefined symbol:
+ idle_thread_get
+Message-ID: <ZePhgQ5g4s_wyoas@liuwe-devbox-debian-v2>
+References: <202403021151.guImV1Gx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,62 +56,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240228-imx95-blk-ctl-v1-2-9b5ae3c14d83@nxp.com>
+In-Reply-To: <202403021151.guImV1Gx-lkp@intel.com>
 
-Hi Peng,
+On Sat, Mar 02, 2024 at 11:58:04AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git hyperv-fixes
+> head:   ea05b55de1e0af196caaa9ef70ebd0b29a0f7b45
+> commit: 9904eadec6dab60ab590fa800fccfc9715020e46 [11/12] x86/hyperv: Use per cpu initial stack for vtl context
+> config: x86_64-buildonly-randconfig-002-20240302 (https://download.01.org/0day-ci/archive/20240302/202403021151.guImV1Gx-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403021151.guImV1Gx-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403021151.guImV1Gx-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> ld.lld: error: undefined symbol: idle_thread_get
+>    >>> referenced by hv_vtl.c
+>    >>>               arch/x86/hyperv/hv_vtl.o:(hv_vtl_wakeup_secondary_cpu) in archive vmlinux.a
 
-kernel test robot noticed the following build errors:
+Saurabh, I'm dropping the offending patch for now.  Please fix it up and
+resend.
 
-[auto build test ERROR on 22ba90670a51a18c6b36d285fddf92b9887c0bc3]
+Thanks,
+Wei.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan-OSS/dt-bindindgs-clock-support-NXP-i-MX95-BLK-CTL-module/20240228-122408
-base:   22ba90670a51a18c6b36d285fddf92b9887c0bc3
-patch link:    https://lore.kernel.org/r/20240228-imx95-blk-ctl-v1-2-9b5ae3c14d83%40nxp.com
-patch subject: [PATCH 2/2] clk: imx: add i.MX95 BLK CTL clk driver
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240303/202403030856.IfA30QpA-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403030856.IfA30QpA-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403030856.IfA30QpA-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/pm_runtime.h:11,
-                    from drivers/clk/imx/clk-imx95-blk-ctl.c:9:
->> drivers/clk/imx/clk-imx95-blk-ctl.c:425:25: error: 'imx95_blk_ctl_match' undeclared here (not in a function); did you mean 'imx95_bc_of_match'?
-     425 | MODULE_DEVICE_TABLE(of, imx95_blk_ctl_match);
-         |                         ^~~~~~~~~~~~~~~~~~~
-   include/linux/module.h:244:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
-     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |               ^~~~
->> include/linux/module.h:244:21: error: '__mod_of__imx95_blk_ctl_match_device_table' aliased to undefined symbol 'imx95_blk_ctl_match'
-     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |                     ^~~~~~
-   drivers/clk/imx/clk-imx95-blk-ctl.c:425:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
-     425 | MODULE_DEVICE_TABLE(of, imx95_blk_ctl_match);
-         | ^~~~~~~~~~~~~~~~~~~
-
-
-vim +425 drivers/clk/imx/clk-imx95-blk-ctl.c
-
-   415	
-   416	static const struct of_device_id imx95_bc_of_match[] = {
-   417		{ .compatible = "nxp,imx95-cameramix-csr", .data = &camblk_dev_data },
-   418		{ .compatible = "nxp,imx95-display-master-csr", },
-   419		{ .compatible = "nxp,imx95-dispmix-lvds-csr", .data = &lvds_csr_dev_data },
-   420		{ .compatible = "nxp,imx95-dispmix-csr", .data = &dispmix_csr_dev_data },
-   421		{ .compatible = "nxp,imx95-netcmix-blk-ctrl", },
-   422		{ .compatible = "nxp,imx95-vpumix-csr", .data = &vpublk_dev_data },
-   423		{ /* Sentinel */ },
-   424	};
- > 425	MODULE_DEVICE_TABLE(of, imx95_blk_ctl_match);
-   426	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
