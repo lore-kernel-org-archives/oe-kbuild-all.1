@@ -1,127 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA187A707;
-	Sun,  3 Mar 2024 21:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863ED67A0D
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 21:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709500208; cv=none; b=KZwwTeJO5cCZDCCH/TnWZ6O+lNAy6GpuU86gWDL69c0Hbt8Vco+wSt0XPiPp72ou+uda+fBnk3iFkYcO6EKPlpbZb3PU/y5vA5p4UOxaY/XBmt754DlS6HkP893t3QhD3wL3n3exOG2ZeR5rRlVf/89PZnU+Xx367nHEMZbLXE4=
+	t=1709500806; cv=none; b=s95Gj9AM2HPa5yrk3teuNCTGVOyLz9ZNe0opEJO7WgpIMm8wCdxWbdcrCVZoLnSsgX4qyAwyUHWs5wCJ7lQ84moGtfb0IanlLEMoUzbyGu0MElOBKYeXIOLOG6fER/+Z0pqNm6XEdeK3h9rvgrxDhITuzgmhNegVh3CgjiEXGSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709500208; c=relaxed/simple;
-	bh=l/5+AB+S6wvnL8daajqMoYUA/25TXtqAPAnXPbObwkI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=juNlxrHfVgLaugLA0TSzT1qL/QV9MOITQe+RjF5MwGPEra/J88+RDZ8Xi+eSs4ioOw7uQri0gB65LzWXe1elOYAIoxWD/WY39KVTYBLNEwFl6UvBVfUuzBPUHMUMxeOeJDcCTGQP1104OS6o4MVFbeMG0EJXwzFRGcKOVTucsxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y9cmZvQO; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709500806; c=relaxed/simple;
+	bh=b1+PGDPg3AaCd4KGYAy/tgATvccAE7wfNpG/Ok+p19I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FlUOJNoctnv8wlB1EaqTZ/+OpbY6tE9bvOxNyicVK7ddvtcAcktNI7mgET9S9JatehxytJIS2ywh0g0fAmJm78R4zRFLTPjBlppKt3z6Bf+w6+Wao2P/QAsFlCsHfHjcJLGk8oNhKEy4z2OpKFbDht0dKzbJKmumQLrqek8tJUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bj6VxF64; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y9cmZvQO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709500206; x=1741036206;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l/5+AB+S6wvnL8daajqMoYUA/25TXtqAPAnXPbObwkI=;
-  b=Y9cmZvQONSbRH5iDVrZFQFWf3qwCg+VO8b88UHG1xxuzp4HwG4SFWF39
-   sqgQBAteilgDe/jRNldNTucukzT+Xuwzba4Owx8AZRJBX6v+yQLl6QfXW
-   YfmUrZZaSgVR8m63rv/1TaHnIxCcNpEXgPJjPxsa+zWryjO7BEeINdOzK
-   zYxoXkCsQVR9xetnLsXvSCFsQb4u0qYaXpcs6ajrmw9yfSS2R1nmXujx3
-   8j80WkgrCuPXs7nm37Cfxe84FJY+LSMsaZ1SYiZIjMyA70BsR/CfIjty5
-   VrnLCpwUsq9yPcB3N8xjrkiKD/O8IIPuh5LBVUQo7B32uN3AvvKQWMC0e
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="15388784"
-X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="15388784"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 13:10:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="13345952"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Mar 2024 13:10:01 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rgt5r-00026w-0q;
-	Sun, 03 Mar 2024 21:09:59 +0000
-Date: Mon, 4 Mar 2024 05:09:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ye Yang <ye.yang@xilinx.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6 130/860] drivers/misc/xlnx_dpu.h:21:9:
- warning: 'in_range' macro redefined
-Message-ID: <202403040526.fOfrSvgW-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bj6VxF64"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d28e465655so55487661fa.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Mar 2024 13:20:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709500802; x=1710105602; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2BwYkjBXlBZesoIUNfa0a3rUePDN3R4LPFfw17Gvsbs=;
+        b=bj6VxF64JqHJZ8+Es9oY/3tble9O88WRQqS4i6FsP7lJvmd9hW+ugrkKR76hp/AT81
+         n/l1u5Ag1frxjQF4BLd3ug3pR5LOTDYlUGhNEdHitZUhI9UWigawfnuy9Th44WmsMZUK
+         HtqXRdm0/lhuH8g39IJj+IhqvVXm2wFFBL+T+dRUlkhO5ziC/6zwbRpmoK+UT3CQqQi5
+         Df+drFGSbgwh93JGGcIAjvohWOvbE/uXGODd6/HKJTTmM0R+D9KUbuBUJHJ6foVuJt7N
+         M7QChUOB3jFGuaaWx59qp4KONyAZFh4SMgp4gN+mwYWoUOLhBRjV84MwvohCcuwnL4Jv
+         T6wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709500802; x=1710105602;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2BwYkjBXlBZesoIUNfa0a3rUePDN3R4LPFfw17Gvsbs=;
+        b=ig/hr1GHj3Wg9xdKAux0dpogCBesv+sEGa6niIPc5lf1iAOv+VGuXVZHBVMAcwCRF0
+         6oGe1aClsLwHp+VGaC25WkNez8qqevgwzjVkCpfUheloB36iFOSgKuB/zDJfOtCYsjxV
+         +AtFaIUebpjJPluIiYG3BI2/BRpvfpq2sDP7P3W1HGEhTMc12E5hDv1mrp2UH+gkM368
+         qfOb2GZclVu8T8JUNOaSJBodqK0xdbHFckMzfYd9FW1xlOH7hMTYiWv43zqB9WxVLWgw
+         tCIwAbw++IBReOc7Gzb3milBpkLfTXkJdF7H3DjXJNkpaEAM+Pr/HhwfMNFr3Fo3nIl0
+         E6Bw==
+X-Forwarded-Encrypted: i=1; AJvYcCUDSFobINVT60wIWAl0WDcjidydXXd414ZUss2I1ezzvar3Sz33jye4Z/8j93M2TMECkfgu0j5yXlpomopGv6DyIkhauQbswDR7aBUN7Q==
+X-Gm-Message-State: AOJu0YxpOudrlyBliBbrm9QbtR7gf/JJB3nqF52Bv6XXYJ9QFvNOO4q4
+	W8NELqxPfyzddpeYr9GE0AXQiWcuMYbyGcZupBUf+dqkP/4AdDoAQlDd4jlXvs8cPesxrvLOfzS
+	O1l6jm94yzEtcPhSE1VIYlNxcn4I=
+X-Google-Smtp-Source: AGHT+IFeOfOK6bx9XjIbBUV/ro9/M9cYaBUN1wdFhPsEa+HXrbjG+tPS3TvhIw/LocOC5VYdXXXAFZGpDAO0VhFV6pE=
+X-Received: by 2002:a05:651c:1689:b0:2d2:9fc2:9bb8 with SMTP id
+ bd9-20020a05651c168900b002d29fc29bb8mr4590358ljb.25.1709500802496; Sun, 03
+ Mar 2024 13:20:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202403020457.RCJoQ3ts-lkp@intel.com> <87edctwr6y.ffs@tglx>
+ <87a5nhwpus.ffs@tglx> <87y1b0vp8m.ffs@tglx> <87sf18vdsq.ffs@tglx>
+ <87le70uwf0.ffs@tglx> <CAHk-=wiWhfdc4Sw2VBq_2nL2NDxmZS32xG4P7mBVwABGqUoJnw@mail.gmail.com>
+ <87edcruvja.ffs@tglx> <CAFULd4bVEUBEidTLbHNzRaJbSjXm99yC8LT=jdzFWb7xnuFH7g@mail.gmail.com>
+ <87bk7vuldh.ffs@tglx> <CAFULd4arHT+_fy9_oUNpmsvyfVPGaeB_pdeuqVS3UTpP5R757A@mail.gmail.com>
+ <CAFULd4b0HN6eUJsOW6po8Hf16T3eMhjdKUvw-TS8yncNn-+Vyw@mail.gmail.com>
+In-Reply-To: <CAFULd4b0HN6eUJsOW6po8Hf16T3eMhjdKUvw-TS8yncNn-+Vyw@mail.gmail.com>
+From: Uros Bizjak <ubizjak@gmail.com>
+Date: Sun, 3 Mar 2024 22:19:50 +0100
+Message-ID: <CAFULd4ZQwhASjvfya6eYv+9hMf=aQmSpW0wLSKPES4DRm0qeWQ@mail.gmail.com>
+Subject: Re: arch/x86/include/asm/processor.h:698:16: sparse: sparse:
+ incorrect type in initializer (different address spaces)
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, kernel test robot <lkp@intel.com>, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Arjan van de Ven <arjan@linux.intel.com>, x86@kernel.org, 
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	Sparse Mailing-list <linux-sparse@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6
-head:   24eec56fe5bd68cae795c37c61276b4dcf218a53
-commit: 2d9cdbf45fbb41f9314bcf7bcae8a3c19de020c9 [130/860] misc: xlnx_dpu: Add Xilinx DPU IP driver for Vivado tool flow
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240304/202403040526.fOfrSvgW-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040526.fOfrSvgW-lkp@intel.com/reproduce)
+On Sun, Mar 3, 2024 at 9:24=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wrot=
+e:
+>
+> On Sun, Mar 3, 2024 at 9:21=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wr=
+ote:
+> >
+> > On Sun, Mar 3, 2024 at 9:10=E2=80=AFPM Thomas Gleixner <tglx@linutronix=
+.de> wrote:
+> > >
+> > > On Sun, Mar 03 2024 at 20:03, Uros Bizjak wrote:
+> > > > On Sun, Mar 3, 2024 at 5:31=E2=80=AFPM Thomas Gleixner <tglx@linutr=
+onix.de> wrote:
+> > > >> I did not follow the __set_gs work closely, so I don't know whethe=
+r Uros
+> > > >> ever tried to actually mark the per CPU variable __set_gs right aw=
+ay,
+> > > >> which would obviously catch the above 'foo' nonsense.
+> > > >
+> > > > No, because [1]:
+> > > >
+> > > > "gcc does not provide a way to remove segment qualifiers, which is =
+needed
+> > > > to use typeof() to create local instances of the per-cpu variable. =
+For
+> > > > this reason, do not use the segment qualifier for per-cpu variables=
+, and
+> > > > do casting using the segment qualifier instead."
+> > >
+> > > Right. I just figured that out myself when playing with it in user
+> > > space.
+> > >
+> > > That's so sad because it would provide us compiler based __percpu
+> > > validation.
+> >
+> > Unfortunately, the c compiler can't strip qualifiers, so typeof() is
+> > of limited use also when const and volatile qualifiers are used.
+> > Perhaps some extension could be introduced to c standard to provide an
+> > unqualified type, e.g. typeof_unqual().
+>
+> Oh, there is one in C23 [1].
+>
+> [1] https://en.cppreference.com/w/c/language/typeof
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403040526.fOfrSvgW-lkp@intel.com/
+FYI: gcc-14 compiles this testcase:
 
-All warnings (new ones prefixed by >>):
+--cut here--
+__seg_gs int a;
+__typeof_unqual__(a) b;
 
-   In file included from drivers/misc/xlnx_dpu.c:22:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2168:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/misc/xlnx_dpu.c:29:
->> drivers/misc/xlnx_dpu.h:21:9: warning: 'in_range' macro redefined [-Wmacro-redefined]
-      21 | #define in_range(b, start, len) (               \
-         |         ^
-   include/linux/minmax.h:248:9: note: previous definition is here
-     248 | #define in_range(val, start, len)                                       \
-         |         ^
-   6 warnings generated.
+int foo (void)
+{
+  return a;
+}
 
+int bar (void)
+{
+  return b;
+}
+--cut here--
 
-vim +/in_range +21 drivers/misc/xlnx_dpu.h
+to (gcc -O2):
 
-    20	
-  > 21	#define in_range(b, start, len) (		\
-    22	{						\
-    23	typeof(b) b_ = (b);				\
-    24	typeof(start) start_ = (start);			\
-    25	((b_) >= (start_) && (b_) < (start_) + (len));	\
-    26	}						\
-    27	)
-    28	
+foo:
+       movl    %gs:a(%rip), %eax
+       ret
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+bar:
+       movl    b(%rip), %eax
+       ret
+
+So, it *does* strip the __seg_gs qualifier here.
+
+Uros.
