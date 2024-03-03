@@ -1,119 +1,182 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564A967C5C
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 20:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF00A67C5C;
+	Sun,  3 Mar 2024 20:26:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709497456; cv=none; b=VSBvAaW2V9k1IPUPTGWQ34TZILcdQpCOnuC/VLg3UFK04aHAL1vy6dFJuysM9C2a/6mLJgoiEf2uOlHLlWgO8xUHszjs5v6DBMe5nClsiL7TsNiWj2VVa4m4kh8zlWFnAsNm32UIWDom2pfcnPClZrtVqJQemoM0T/Q7jsDow/w=
+	t=1709497565; cv=none; b=b21d0CrDoWgjdHdNWL6LtRNDepGlRimBGkWmO4j/akru4jHSCJSeYRvtraqu68Nqewd3gH3TiTLOiHmQLXPNhhfyAnfMBINska1qlmxXQmV9VzivKVoKjR7wLXIuDNU8zJfJG2U6+tZj849uA7MunFrIDSXcC0vD3GRNP9y8LTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709497456; c=relaxed/simple;
-	bh=wKfsyUf3DPHLb5+bNe7is8QSZZffVwOf6cpgOfSIHKM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EewBtNmDEbHQiYL70csS1JsLIY70yi7d1IgfWGNPohg1W8o8dUPfli/P917VAuPOdKaBKKBc19NX3BIdKiS3Fdb4Aw1Uv3BH98tgoxb1ivshUvc4s69+CzPjj8qyF6pW9rkgT3mPvM+e2+mN0XFmMSMDBlqL3P5ad/2+kwD1q0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cdCKbc4b; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709497565; c=relaxed/simple;
+	bh=bitz5EArSWCtn18+lPpNYT7WN4NuoOfNmHlh8tkOlhA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rjIiaCzXWJtcPl+sOVSsY7pvN1EEHgOSSNM0LMeXGlBy2QUaBGxdWpqGPnLKOcOsjbWZBoCpKYFcxfoy96WOD+Suwe8NtDZHpq6mSH6sj4vYyQ9VAwnteMfuId31hwvLjcmd+chtA5esEd1N8Sya59zSp3ZuQ/1EOH8o2uo3ZKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ERZTPGG8; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cdCKbc4b"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2d21cdbc85bso44530711fa.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Mar 2024 12:24:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709497452; x=1710102252; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wKfsyUf3DPHLb5+bNe7is8QSZZffVwOf6cpgOfSIHKM=;
-        b=cdCKbc4bTANivNK0XMIYLnHGE1TDfs93r/Jbj+CTEH1AkvXl7lNl1g6A9IGX+Ij7nD
-         r7GZDkn9E/p57gsIZ6XX6lxRfPA7DVaUAWaMmv7HFcBAgRV5ETNTn8Qh99eNCJrPjBHf
-         b6lPcjbBgeRhJkS9Fg2CRj6WY5dmb+N/gP0Gx4B55Wcb6dHWuY844iNCSeHZczVgaJmU
-         V5Ge91TJrnoD3lGPkKUFQWc7VScXyibT7TYuW3Bii45CRSu6fu+FA5qZnHItyTdAGw8e
-         y+hJsRPS3ZyYFymJ4h1Dj4qg8a/yT43vTZlbjRg9yyRWfuy9IDBpASnwpbiZQhYh+HBe
-         nf5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709497452; x=1710102252;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wKfsyUf3DPHLb5+bNe7is8QSZZffVwOf6cpgOfSIHKM=;
-        b=ipO4Zck2/mequ0yOYhZZAQkC+ubU9oCe7JxluDHSKDMwPNTvbdrkfvjKnOCFVIznS+
-         wblHRiCcbzPREfGeFD3IsDgYBGYUIpzSuax7VehrTLV9Oq7KQVp5HM++PAXu1rJXs5Ww
-         fthkF7Q1Uckrcdm+9he9jkNvj4q9bv7N6ZoXeufU3397OEuLRQYDGOivcpwb9/9PkaiM
-         jvTDGdjFcVOytMIeugoIIBXk25xOrY/wNMXL5lML3tWhkmb6NvEgtGo6Jyj3mUKzlcbl
-         NWBKtVh7cAcu9YwRuXmNYTum9dtRc75NcXtz2S6rYgA98MeLoLk0N/ZmauvLH0F+/HW5
-         q+Hw==
-X-Forwarded-Encrypted: i=1; AJvYcCVsOPvMbOeWCMYcekjFOwg98wsvGjBYJmTUj3d2jfUFu9LFfnvfOlNAr6QYrmcZjpLmQ/3ZLnEw7UeQuS043UE7eGwUTUMJYGuMwrbNcA==
-X-Gm-Message-State: AOJu0YxoDVcnn/sXmz1IrILiSqsUx6/gM2fojzhZP0RHHbdFs4EGsMYO
-	SXSn7tF4UHqC10VFLv6oDNXudUkQtVL+DyjQF/vhBzJlqyIvNXnV/E879TaJ+UJFToNMcVS/lQc
-	Yw1pBRNgWMfRq9xMJfVA6/6jGr+c=
-X-Google-Smtp-Source: AGHT+IH9bgy2FSfFF72RMPmbMdDYHA6wFzmSr/xvr072k/oq5qVLt8Zj4vIQU4el/XJcMmoQ/A0OKARpu3Bdzci023g=
-X-Received: by 2002:a2e:824f:0:b0:2d2:a19a:8625 with SMTP id
- j15-20020a2e824f000000b002d2a19a8625mr5046603ljh.40.1709497452384; Sun, 03
- Mar 2024 12:24:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ERZTPGG8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709497563; x=1741033563;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bitz5EArSWCtn18+lPpNYT7WN4NuoOfNmHlh8tkOlhA=;
+  b=ERZTPGG8DJUsNrz7Fn25jIZTKLbipzhx4EykVxSLKzbYaN7WbAJmZBdx
+   /SOS+bL2OcS5ohomTFPgO4E15T4coLwKvlUI6BMCvSEosOv23yG+7eSlw
+   jB4Ubb6Yb84tZzP3fuL8cJ/czJwAtamSmDkmN3mVy6s9lUyxfkRDVG54p
+   7jpu2a4n1tpBkN8iOkOY6WWHQ9HPgFt1fBdsDi72x9I84JtJQL58dumz5
+   hEWgbcXflPA+XUHg6ywYFog7UTF0fPAhmLEAjd/N9gs5/ZvOaBacf+K9E
+   0nBV2PcWjWU61tPu/SXlsf8qy/FrG9f5Y9Sa5LZE0U6W6+aLFcMewzqlp
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="3840274"
+X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
+   d="scan'208";a="3840274"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 12:26:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
+   d="scan'208";a="31939878"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 03 Mar 2024 12:26:00 -0800
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rgsPG-00025P-0d;
+	Sun, 03 Mar 2024 20:25:58 +0000
+Date: Mon, 4 Mar 2024 04:25:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-writeback 31/31] ERROR: modpost: "writeback_iter"
+ [fs/netfs/netfs.ko] undefined!
+Message-ID: <202403040404.evfPyTci-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202403020457.RCJoQ3ts-lkp@intel.com> <87edctwr6y.ffs@tglx>
- <87a5nhwpus.ffs@tglx> <87y1b0vp8m.ffs@tglx> <87sf18vdsq.ffs@tglx>
- <87le70uwf0.ffs@tglx> <CAHk-=wiWhfdc4Sw2VBq_2nL2NDxmZS32xG4P7mBVwABGqUoJnw@mail.gmail.com>
- <87edcruvja.ffs@tglx> <CAFULd4bVEUBEidTLbHNzRaJbSjXm99yC8LT=jdzFWb7xnuFH7g@mail.gmail.com>
- <87bk7vuldh.ffs@tglx> <CAFULd4arHT+_fy9_oUNpmsvyfVPGaeB_pdeuqVS3UTpP5R757A@mail.gmail.com>
-In-Reply-To: <CAFULd4arHT+_fy9_oUNpmsvyfVPGaeB_pdeuqVS3UTpP5R757A@mail.gmail.com>
-From: Uros Bizjak <ubizjak@gmail.com>
-Date: Sun, 3 Mar 2024 21:24:00 +0100
-Message-ID: <CAFULd4b0HN6eUJsOW6po8Hf16T3eMhjdKUvw-TS8yncNn-+Vyw@mail.gmail.com>
-Subject: Re: arch/x86/include/asm/processor.h:698:16: sparse: sparse:
- incorrect type in initializer (different address spaces)
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, kernel test robot <lkp@intel.com>, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Arjan van de Ven <arjan@linux.intel.com>, x86@kernel.org, 
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
-	Sparse Mailing-list <linux-sparse@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Mar 3, 2024 at 9:21=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wrot=
-e:
->
-> On Sun, Mar 3, 2024 at 9:10=E2=80=AFPM Thomas Gleixner <tglx@linutronix.d=
-e> wrote:
-> >
-> > On Sun, Mar 03 2024 at 20:03, Uros Bizjak wrote:
-> > > On Sun, Mar 3, 2024 at 5:31=E2=80=AFPM Thomas Gleixner <tglx@linutron=
-ix.de> wrote:
-> > >> I did not follow the __set_gs work closely, so I don't know whether =
-Uros
-> > >> ever tried to actually mark the per CPU variable __set_gs right away=
-,
-> > >> which would obviously catch the above 'foo' nonsense.
-> > >
-> > > No, because [1]:
-> > >
-> > > "gcc does not provide a way to remove segment qualifiers, which is ne=
-eded
-> > > to use typeof() to create local instances of the per-cpu variable. Fo=
-r
-> > > this reason, do not use the segment qualifier for per-cpu variables, =
-and
-> > > do casting using the segment qualifier instead."
-> >
-> > Right. I just figured that out myself when playing with it in user
-> > space.
-> >
-> > That's so sad because it would provide us compiler based __percpu
-> > validation.
->
-> Unfortunately, the c compiler can't strip qualifiers, so typeof() is
-> of limited use also when const and volatile qualifiers are used.
-> Perhaps some extension could be introduced to c standard to provide an
-> unqualified type, e.g. typeof_unqual().
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
+head:   afd4a14c1f0fde0fd833c3d1984c4ebb5981f7f8
+commit: afd4a14c1f0fde0fd833c3d1984c4ebb5981f7f8 [31/31] netfs: Use writeback_iter()
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20240304/202403040404.evfPyTci-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040404.evfPyTci-lkp@intel.com/reproduce)
 
-Oh, there is one in C23 [1].
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403040404.evfPyTci-lkp@intel.com/
 
-[1] https://en.cppreference.com/w/c/language/typeof
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-Uros.
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-ab8500-codec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
+WARNING: modpost: sound/soc/codecs/snd-soc-tlv320adc3xxx: section mismatch in reference: adc3xxx_i2c_driver+0x10 (section: .data) -> adc3xxx_i2c_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/renoir/snd-acp3x-rn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/yc/snd-soc-acp6x-mach.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/acp/snd-acp-i2s.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/acp/snd-acp-pdm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/acp/snd-acp-legacy-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/acp/snd-acp-pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/ps/snd-soc-ps-mach.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-da7219.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-dmic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-es8336.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-i2s-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98927.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98357a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98373.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-nau8825.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-probe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt274.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt286.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt298.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5514.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5663.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5682.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-ssm4567.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-mlink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-skl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-apl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-cnl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-icl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tgl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-mtl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-lnl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8m.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8ulp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/imx-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mtk-adsp-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8195/snd-sof-mt8195.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8186/snd-sof-mt8186.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kprobe_example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kretprobe_example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/livepatch/livepatch-sample.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/livepatch/livepatch-shadow-fix1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/livepatch/livepatch-shadow-fix2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/livepatch/livepatch-callbacks-demo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/livepatch/livepatch-callbacks-mod.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/livepatch/livepatch-callbacks-busymod.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/fprobe/fprobe_example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/video/fbdev.o
+>> ERROR: modpost: "writeback_iter" [fs/netfs/netfs.ko] undefined!
+>> ERROR: modpost: "netfs_writepages" [fs/smb/client/cifs.ko] undefined!
+>> ERROR: modpost: "netfs_writepages" [fs/9p/9p.ko] undefined!
+>> ERROR: modpost: "netfs_writepages" [fs/afs/kafs.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
