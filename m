@@ -1,54 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240D579B98
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 19:42:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5626567A19
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 19:42:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709494923; cv=none; b=o0GY86rEhQ9P/zRagxFcQX4oBcePlxTsJMTSJUaaFqcb5diczFH8eGsUisV+qg7O3XsWt/TeqIXGg1EmJdyl5PYSNUQESj9vkEcY8SJsCa6lD0CdiG9IDpnBE4aLkgRYfmK+rUeHsdKItUR0VICbuEnR5OzFj1cbXxHBScGXtBw=
+	t=1709494926; cv=none; b=k1JVk5z42N7qFoZC7Ciyft5XL1eBhwg6iPRIqcACLuxrHW/g65ZtvthV3XT20RyGyBF+rtQj7iEYtzFh5duLZN21L/ozLGNUMPY7BBuLgvftn/FICeb4ZKwtDvH68PUWI/w9icGW4BeOpfD13nHYP8STaToWm70ebdNYG1FltmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709494923; c=relaxed/simple;
-	bh=M9uwZ9gQe+RdWafjUv/X0+1heN+u8hv3YAvJnWNJqbw=;
+	s=arc-20240116; t=1709494926; c=relaxed/simple;
+	bh=IimADOz3cZMHh2e9cndFz9ePl2dGmwB5lVjaZNtJxy8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qj4t59PBOvEcirvUVT4s3aNZ6s5wRh/IpRuKoBJS0QfNWIwcw4VtfCZsxtgkoLyl8NaWAaJOMFMnwCPCJ5HtGFbBAMyXqg7AA09psy6VbyLFVauVwEPVbbvt18xTJXDZOFmIwaV+aBLwfKQgd/HRh7rFv7fDWrfgPM9akA//swM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=himxEv4p; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=Zpp/4owimUTTpg+ZglRfPZGZAZAlsRfbIbGNHf4Xu0aVbJB86LtaqSZFcEiEn2hZGVUK4Pte12JYc9eNZPrkclJVrjqaNe1jXU+dKPJpcZNjMWGVI0DTs3Yo+K2KeYPP0SfuFnh336KotDRBPN6zkhXxrR66OFLNNVMwYMvm9aM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hm/+E1Jk; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="himxEv4p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hm/+E1Jk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709494921; x=1741030921;
+  t=1709494923; x=1741030923;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M9uwZ9gQe+RdWafjUv/X0+1heN+u8hv3YAvJnWNJqbw=;
-  b=himxEv4p5eKN/UnslYJiA/nTlI+27YXxbL8gvsyeTKRiWv907tNdAfYF
-   bofYi5cUX51+iLYIO6qNP8LX/kN6pkfCMEe5sP8//1ZpQDmNz6WMpM4RX
-   YJbp55tXYw4/duP6SH2SVLYY4nyK2ZoeN3xAVLQv3U4C1gWAh/GPnk/8p
-   uV5ZODyiB4K1kccBLagKSTAu323/NzFIICpkS+Vegqkh6uSSYKIw9pljx
-   s0vRUMLUFub8Nf0eJ4tYqY1/A4ECWmQN+O/TMtiAAH6Gppn263uWINeHH
-   Tm9xkEDd2MMXle/zCyarbTgMK04TbCskEqaDtKDBoE7EaTL7xBlTD+cNX
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="14691684"
+  bh=IimADOz3cZMHh2e9cndFz9ePl2dGmwB5lVjaZNtJxy8=;
+  b=hm/+E1JkEiHa65J78NjCEN2yzan0xZLepInSTr5i9muJ49dOs4B94h+H
+   usFpxe/0HYyWFj5yGaC56gmW57A5Wi34bVCnKiHOlqHMRVU+qwKK9PMbc
+   Z1yG20zyV0IXT5afkrOPAS3zF5nSVbvWO93J889g9yP7YhwczKj27hGSY
+   JuouKjisYczDjR5EIfGjafwdIqFNrJw/e3JgxZu4R6nHGVxfksqliK8YR
+   OVUbNjQK7efZcsk4tiEGSTZ9MaAnjTgHF0eOJum1No7ZeBbqw/Qih3t1X
+   YrpgAPPEXAaAMYogWpkyJs8MXNB2MAyQBjeFBG9nvDKKzwmAYyJbiW9yE
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="14691686"
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="14691684"
+   d="scan'208";a="14691686"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 11:42:00 -0800
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 11:42:02 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="8655997"
+   d="scan'208";a="8656005"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 03 Mar 2024 11:41:59 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgrif-00023k-0s;
+	id 1rgrif-00023m-0w;
 	Sun, 03 Mar 2024 19:41:57 +0000
-Date: Mon, 4 Mar 2024 03:41:21 +0800
+Date: Mon, 4 Mar 2024 03:41:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 16156/27938]
- drivers/soc/imx/imx93-blk-ctrl.c:234:35: error: 'SZ_4K' undeclared
-Message-ID: <202403040321.UZH6D5DW-lkp@intel.com>
+Subject: drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:33:44: sparse:
+ sparse: incorrect type in argument 2 (different address spaces)
+Message-ID: <202403040325.RRbzn2ux-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,137 +61,152 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   d761b18f6bc83bce94251467e3c0974243318456
-commit: 1c3dd14276374d48bfd2a6d41c712cd0bb04163b [16156/27938] LF-6899 soc: imx: imx93-blk-ctrl: restrict register range with access table
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240304/202403040321.UZH6D5DW-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040321.UZH6D5DW-lkp@intel.com/reproduce)
+Hi Jason,
+
+First bad commit (maybe != root cause):
+
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
+head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
+commit: c29a8fe73857e9fa29d3d4bc9897fb7f126a7af2 vfio: IOMMU_API should be selected
+date:   2 years, 11 months ago
+config: arm64-randconfig-r131-20240303 (https://download.01.org/0day-ci/archive/20240304/202403040325.RRbzn2ux-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240304/202403040325.RRbzn2ux-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403040321.UZH6D5DW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403040325.RRbzn2ux-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:33:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void * @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:33:44: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:33:44: sparse:     got void *
+>> drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:34:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got void * @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:34:33: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:34:33: sparse:     got void *
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:44:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void * @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:44:44: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:44:44: sparse:     got void *
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:45:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void * @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:45:33: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:45:33: sparse:     got void *
+>> drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:69:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ioaddr @@     got void [noderef] <asn:2> *ioaddr @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:69:41: sparse:     expected void *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:69:41: sparse:     got void [noderef] <asn:2> *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:71:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ioaddr @@     got void [noderef] <asn:2> *ioaddr @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:71:30: sparse:     expected void *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:71:30: sparse:     got void [noderef] <asn:2> *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:76:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ioaddr @@     got void [noderef] <asn:2> *ioaddr @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:76:49: sparse:     expected void *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:76:49: sparse:     got void [noderef] <asn:2> *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:85:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ioaddr @@     got void [noderef] <asn:2> *ioaddr @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:85:37: sparse:     expected void *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:85:37: sparse:     got void [noderef] <asn:2> *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:87:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ioaddr @@     got void [noderef] <asn:2> *ioaddr @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:87:30: sparse:     expected void *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:87:30: sparse:     got void [noderef] <asn:2> *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:90:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ioaddr @@     got void [noderef] <asn:2> *ioaddr @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:90:30: sparse:     expected void *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:90:30: sparse:     got void [noderef] <asn:2> *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:93:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ioaddr @@     got void [noderef] <asn:2> *ioaddr @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:93:30: sparse:     expected void *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:93:30: sparse:     got void [noderef] <asn:2> *ioaddr
 
-   drivers/soc/imx/imx93-blk-ctrl.c: In function 'imx93_blk_ctrl_probe':
->> drivers/soc/imx/imx93-blk-ctrl.c:234:35: error: 'SZ_4K' undeclared (first use in this function)
-     234 |                 .max_register   = SZ_4K,
-         |                                   ^~~~~
-   drivers/soc/imx/imx93-blk-ctrl.c:234:35: note: each undeclared identifier is reported only once for each function it appears in
+vim +33 drivers/vfio/platform/reset/vfio_platform_amdxgbe.c
 
+^590eaf1fec755 Kaixu Xia 2021-03-16   26  
+^590eaf1fec755 Kaixu Xia 2021-03-16   27  static unsigned int xmdio_read(void *ioaddr, unsigned int mmd,
+^590eaf1fec755 Kaixu Xia 2021-03-16   28  			       unsigned int reg)
+^590eaf1fec755 Kaixu Xia 2021-03-16   29  {
+^590eaf1fec755 Kaixu Xia 2021-03-16   30  	unsigned int mmd_address, value;
+^590eaf1fec755 Kaixu Xia 2021-03-16   31  
+^590eaf1fec755 Kaixu Xia 2021-03-16   32  	mmd_address = (mmd << 16) | ((reg) & 0xffff);
+^590eaf1fec755 Kaixu Xia 2021-03-16  @33  	iowrite32(mmd_address >> 8, ioaddr + (PCS_MMD_SELECT << 2));
+^590eaf1fec755 Kaixu Xia 2021-03-16  @34  	value = ioread32(ioaddr + ((mmd_address & 0xff) << 2));
+^590eaf1fec755 Kaixu Xia 2021-03-16   35  	return value;
+^590eaf1fec755 Kaixu Xia 2021-03-16   36  }
+^590eaf1fec755 Kaixu Xia 2021-03-16   37  
+^590eaf1fec755 Kaixu Xia 2021-03-16   38  static void xmdio_write(void *ioaddr, unsigned int mmd,
+^590eaf1fec755 Kaixu Xia 2021-03-16   39  			unsigned int reg, unsigned int value)
+^590eaf1fec755 Kaixu Xia 2021-03-16   40  {
+^590eaf1fec755 Kaixu Xia 2021-03-16   41  	unsigned int mmd_address;
+^590eaf1fec755 Kaixu Xia 2021-03-16   42  
+^590eaf1fec755 Kaixu Xia 2021-03-16   43  	mmd_address = (mmd << 16) | ((reg) & 0xffff);
+^590eaf1fec755 Kaixu Xia 2021-03-16   44  	iowrite32(mmd_address >> 8, ioaddr + (PCS_MMD_SELECT << 2));
+^590eaf1fec755 Kaixu Xia 2021-03-16   45  	iowrite32(value, ioaddr + ((mmd_address & 0xff) << 2));
+^590eaf1fec755 Kaixu Xia 2021-03-16   46  }
+^590eaf1fec755 Kaixu Xia 2021-03-16   47  
+^590eaf1fec755 Kaixu Xia 2021-03-16   48  static int vfio_platform_amdxgbe_reset(struct vfio_platform_device *vdev)
+^590eaf1fec755 Kaixu Xia 2021-03-16   49  {
+^590eaf1fec755 Kaixu Xia 2021-03-16   50  	struct vfio_platform_region *xgmac_regs = &vdev->regions[0];
+^590eaf1fec755 Kaixu Xia 2021-03-16   51  	struct vfio_platform_region *xpcs_regs = &vdev->regions[1];
+^590eaf1fec755 Kaixu Xia 2021-03-16   52  	u32 dma_mr_value, pcs_value, value;
+^590eaf1fec755 Kaixu Xia 2021-03-16   53  	unsigned int count;
+^590eaf1fec755 Kaixu Xia 2021-03-16   54  
+^590eaf1fec755 Kaixu Xia 2021-03-16   55  	if (!xgmac_regs->ioaddr) {
+^590eaf1fec755 Kaixu Xia 2021-03-16   56  		xgmac_regs->ioaddr =
+^590eaf1fec755 Kaixu Xia 2021-03-16   57  			ioremap_nocache(xgmac_regs->addr, xgmac_regs->size);
+^590eaf1fec755 Kaixu Xia 2021-03-16   58  		if (!xgmac_regs->ioaddr)
+^590eaf1fec755 Kaixu Xia 2021-03-16   59  			return -ENOMEM;
+^590eaf1fec755 Kaixu Xia 2021-03-16   60  	}
+^590eaf1fec755 Kaixu Xia 2021-03-16   61  	if (!xpcs_regs->ioaddr) {
+^590eaf1fec755 Kaixu Xia 2021-03-16   62  		xpcs_regs->ioaddr =
+^590eaf1fec755 Kaixu Xia 2021-03-16   63  			ioremap_nocache(xpcs_regs->addr, xpcs_regs->size);
+^590eaf1fec755 Kaixu Xia 2021-03-16   64  		if (!xpcs_regs->ioaddr)
+^590eaf1fec755 Kaixu Xia 2021-03-16   65  			return -ENOMEM;
+^590eaf1fec755 Kaixu Xia 2021-03-16   66  	}
+^590eaf1fec755 Kaixu Xia 2021-03-16   67  
+^590eaf1fec755 Kaixu Xia 2021-03-16   68  	/* reset the PHY through MDIO*/
+^590eaf1fec755 Kaixu Xia 2021-03-16  @69  	pcs_value = xmdio_read(xpcs_regs->ioaddr, MDIO_MMD_PCS, MDIO_CTRL1);
+^590eaf1fec755 Kaixu Xia 2021-03-16   70  	pcs_value |= MDIO_CTRL1_RESET;
+^590eaf1fec755 Kaixu Xia 2021-03-16   71  	xmdio_write(xpcs_regs->ioaddr, MDIO_MMD_PCS, MDIO_CTRL1, pcs_value);
+^590eaf1fec755 Kaixu Xia 2021-03-16   72  
+^590eaf1fec755 Kaixu Xia 2021-03-16   73  	count = 50;
+^590eaf1fec755 Kaixu Xia 2021-03-16   74  	do {
+^590eaf1fec755 Kaixu Xia 2021-03-16   75  		msleep(20);
+^590eaf1fec755 Kaixu Xia 2021-03-16   76  		pcs_value = xmdio_read(xpcs_regs->ioaddr, MDIO_MMD_PCS,
+^590eaf1fec755 Kaixu Xia 2021-03-16   77  					MDIO_CTRL1);
+^590eaf1fec755 Kaixu Xia 2021-03-16   78  	} while ((pcs_value & MDIO_CTRL1_RESET) && --count);
+^590eaf1fec755 Kaixu Xia 2021-03-16   79  
+^590eaf1fec755 Kaixu Xia 2021-03-16   80  	if (pcs_value & MDIO_CTRL1_RESET)
+^590eaf1fec755 Kaixu Xia 2021-03-16   81  		dev_warn(vdev->device, "%s: XGBE PHY reset timeout\n",
+^590eaf1fec755 Kaixu Xia 2021-03-16   82  			 __func__);
+^590eaf1fec755 Kaixu Xia 2021-03-16   83  
+^590eaf1fec755 Kaixu Xia 2021-03-16   84  	/* disable auto-negotiation */
+^590eaf1fec755 Kaixu Xia 2021-03-16   85  	value = xmdio_read(xpcs_regs->ioaddr, MDIO_MMD_AN, MDIO_CTRL1);
+^590eaf1fec755 Kaixu Xia 2021-03-16   86  	value &= ~MDIO_AN_CTRL1_ENABLE;
+^590eaf1fec755 Kaixu Xia 2021-03-16   87  	xmdio_write(xpcs_regs->ioaddr, MDIO_MMD_AN, MDIO_CTRL1, value);
+^590eaf1fec755 Kaixu Xia 2021-03-16   88  
+^590eaf1fec755 Kaixu Xia 2021-03-16   89  	/* disable AN IRQ */
+^590eaf1fec755 Kaixu Xia 2021-03-16   90  	xmdio_write(xpcs_regs->ioaddr, MDIO_MMD_AN, MDIO_AN_INTMASK, 0);
+^590eaf1fec755 Kaixu Xia 2021-03-16   91  
+^590eaf1fec755 Kaixu Xia 2021-03-16   92  	/* clear AN IRQ */
+^590eaf1fec755 Kaixu Xia 2021-03-16   93  	xmdio_write(xpcs_regs->ioaddr, MDIO_MMD_AN, MDIO_AN_INT, 0);
+^590eaf1fec755 Kaixu Xia 2021-03-16   94  
+^590eaf1fec755 Kaixu Xia 2021-03-16   95  	/* MAC software reset */
+^590eaf1fec755 Kaixu Xia 2021-03-16   96  	dma_mr_value = ioread32(xgmac_regs->ioaddr + DMA_MR);
+^590eaf1fec755 Kaixu Xia 2021-03-16   97  	dma_mr_value |= 0x1;
+^590eaf1fec755 Kaixu Xia 2021-03-16   98  	iowrite32(dma_mr_value, xgmac_regs->ioaddr + DMA_MR);
+^590eaf1fec755 Kaixu Xia 2021-03-16   99  
+^590eaf1fec755 Kaixu Xia 2021-03-16  100  	usleep_range(10, 15);
+^590eaf1fec755 Kaixu Xia 2021-03-16  101  
+^590eaf1fec755 Kaixu Xia 2021-03-16  102  	count = 2000;
+^590eaf1fec755 Kaixu Xia 2021-03-16  103  	while (--count && (ioread32(xgmac_regs->ioaddr + DMA_MR) & 1))
+^590eaf1fec755 Kaixu Xia 2021-03-16  104  		usleep_range(500, 600);
+^590eaf1fec755 Kaixu Xia 2021-03-16  105  
+^590eaf1fec755 Kaixu Xia 2021-03-16  106  	if (!count)
+^590eaf1fec755 Kaixu Xia 2021-03-16  107  		dev_warn(vdev->device, "%s: MAC SW reset failed\n", __func__);
+^590eaf1fec755 Kaixu Xia 2021-03-16  108  
+^590eaf1fec755 Kaixu Xia 2021-03-16  109  	return 0;
+^590eaf1fec755 Kaixu Xia 2021-03-16  110  }
+^590eaf1fec755 Kaixu Xia 2021-03-16  111  
 
-vim +/SZ_4K +234 drivers/soc/imx/imx93-blk-ctrl.c
+:::::: The code at line 33 was first introduced by commit
+:::::: 590eaf1fec755215547690e787cc7d83f58ea948 Init Repo base on linux 5.4.32 long term, and add base tlinux kernel interfaces.
 
-   218	
-   219	static int imx93_blk_ctrl_probe(struct platform_device *pdev)
-   220	{
-   221		struct device *dev = &pdev->dev;
-   222		const struct imx93_blk_ctrl_data *bc_data = of_device_get_match_data(dev);
-   223		const struct imx93_blk_ctrl_domain_data *bus = bc_data->bus;
-   224		struct imx93_blk_ctrl *bc;
-   225		void __iomem *base;
-   226		int i, ret;
-   227	
-   228		struct regmap_config regmap_config = {
-   229			.reg_bits	= 32,
-   230			.val_bits	= 32,
-   231			.reg_stride	= 4,
-   232			.rd_table	= bus->reg_access_table,
-   233			.wr_table	= bus->reg_access_table,
- > 234			.max_register   = SZ_4K,
-   235		};
-   236	
-   237		bc = devm_kzalloc(dev, sizeof(*bc), GFP_KERNEL);
-   238		if (!bc)
-   239			return -ENOMEM;
-   240	
-   241		bc->dev = dev;
-   242	
-   243		base = devm_platform_ioremap_resource(pdev, 0);
-   244		if (IS_ERR(base))
-   245			return PTR_ERR(base);
-   246	
-   247		bc->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);
-   248		if (IS_ERR(bc->regmap))
-   249			return dev_err_probe(dev, PTR_ERR(bc->regmap),
-   250					     "failed to init regmap\n");
-   251	
-   252		bc->domains = devm_kcalloc(dev, bc_data->num_domains + 1,
-   253					   sizeof(struct imx93_blk_ctrl_domain),
-   254					   GFP_KERNEL);
-   255		if (!bc->domains)
-   256			return -ENOMEM;
-   257	
-   258		bc->onecell_data.num_domains = bc_data->num_domains;
-   259		bc->onecell_data.xlate = imx93_blk_ctrl_xlate;
-   260		bc->onecell_data.domains =
-   261			devm_kcalloc(dev, bc_data->num_domains,
-   262				     sizeof(struct generic_pm_domain *), GFP_KERNEL);
-   263		if (!bc->onecell_data.domains)
-   264			return -ENOMEM;
-   265	
-   266		for (i = 0; i < bus->num_clks; i++)
-   267			bc->clks[i].id = bus->clk_names[i];
-   268		bc->num_clks = bus->num_clks;
-   269	
-   270		ret = devm_clk_bulk_get(dev, bc->num_clks, bc->clks);
-   271		if (ret) {
-   272			dev_err_probe(dev, ret, "failed to get bus clock\n");
-   273			return ret;
-   274		}
-   275	
-   276		for (i = 0; i < bc_data->num_domains; i++) {
-   277			const struct imx93_blk_ctrl_domain_data *data = &bc_data->domains[i];
-   278			struct imx93_blk_ctrl_domain *domain = &bc->domains[i];
-   279			int j;
-   280	
-   281			domain->data = data;
-   282	
-   283			for (j = 0; j < data->num_clks; j++)
-   284				domain->clks[j].id = data->clk_names[j];
-   285	
-   286			ret = devm_clk_bulk_get(dev, data->num_clks, domain->clks);
-   287			if (ret) {
-   288				dev_err_probe(dev, ret, "failed to get clock\n");
-   289				goto cleanup_pds;
-   290			}
-   291	
-   292			domain->genpd.name = data->name;
-   293			domain->genpd.power_on = imx93_blk_ctrl_power_on;
-   294			domain->genpd.power_off = imx93_blk_ctrl_power_off;
-   295			domain->bc = bc;
-   296	
-   297			ret = pm_genpd_init(&domain->genpd, NULL, true);
-   298			if (ret) {
-   299				dev_err_probe(dev, ret, "failed to init power domain\n");
-   300				goto cleanup_pds;
-   301			}
-   302	
-   303			bc->onecell_data.domains[i] = &domain->genpd;
-   304		}
-   305	
-   306		pm_runtime_enable(dev);
-   307	
-   308		ret = of_genpd_add_provider_onecell(dev->of_node, &bc->onecell_data);
-   309		if (ret) {
-   310			dev_err_probe(dev, ret, "failed to add power domain provider\n");
-   311			goto cleanup_pds;
-   312		}
-   313	
-   314	
-   315		dev_set_drvdata(dev, bc);
-   316	
-   317		return 0;
-   318	
-   319	cleanup_pds:
-   320		for (i--; i >= 0; i--)
-   321			pm_genpd_remove(&bc->domains[i].genpd);
-   322	
-   323		return ret;
-   324	}
-   325	
+:::::: TO: Kaixu Xia <kaixuxia@tencent.com>
+:::::: CC: Kaixu Xia <kaixuxia@tencent.com>
 
 -- 
 0-DAY CI Kernel Test Service
