@@ -1,207 +1,195 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0520767C55;
-	Sun,  3 Mar 2024 15:51:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9CD433AB
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 16:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709481116; cv=none; b=NSv9qte5/JETFeB04xLQUXiQxr+z3yiTwdDDDMxL5lVLuZ/cilmm7WKDUgJbsbgQCnkqfMZzoaIUsjY7BSWIWecSnPWEwPreV9qOyhkonMZzdrJ3XUhANo7gJRgQa8cDqiwWt3y2Hi3iU17K2eij/THT9RrxM7Q+fBEfKAcdJvc=
+	t=1709483491; cv=none; b=onLpyXfiGCD+A7zPfYVEctxh3z1Vy7NNXd7o4M+lYozWkhGjO9j9LFu+NBDFwHRe+86U6x7mrVlzMHElja1rh54SxEwEqf1b+c4U/PWb+kpMxhYMSDU43l/h4TazbEy+Bh7bfFsHu3TqzY6nc0dy9jiHGjYOoL+ZQmX+sVnShbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709481116; c=relaxed/simple;
-	bh=5QhubwO2w6V6Yvu8mJVOZ4Vttpw237LnNgX9GtUmbPM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hyQ0ftaA0s6+h8rR5fqYvJ1aK78SCVrM2bA0YYtpeZ/dEPCw4ah/GtJL3eXyZWTfFKp2xnnG9zxDn+7RcDpGM/Ls0OIhFNx1mLtPd6xVB4n8DqvkokT3WHwwK4VqzNPf/xje/doWqPpzTX2ul6ytYi6+7HAMWRHZL7nCnz/9/fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WMUJve+B; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709483491; c=relaxed/simple;
+	bh=X+pk8b7tR3gtMrDrQgbHGGcG5RBmg0fmKIppHBXG4iw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=IQBD92jGjjEpxz/OEu/ojqrB5/0iESvk3DARu/0k0sAyrgYzc+zX/X6znrjVK9Bd7UtZd0Jnev+qYhexlh+Xl7YBQ3kq6tHi/n/EIg/CR6LryOmg7w7VwCRLR5FeVgeKWuLcAyFplbs2LXuWVGIBp/UPZPFEutO5ALfTh+odx2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IDoCFjAl; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TufsC5F/; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WMUJve+B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709481114; x=1741017114;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5QhubwO2w6V6Yvu8mJVOZ4Vttpw237LnNgX9GtUmbPM=;
-  b=WMUJve+B4MYY0EJvrCxxUtopKQO0s4XFqp98MW3C/FtXIrQ3zhmVcl9J
-   kAO6hwrp/4PmAnk77p7wDTPpnK+hsRwR+t2+njxDkfmkhc86jjR5AB9Ct
-   QqN7JghUr1CNI66fcFzcq9tsmogUuONZikwDXgrXUl/LdIBK7G9ogT3tM
-   94UTqB4Wn4FWAZHr9T2XnFRqWIbRb2O4yl+wnN9E09dkW0kLN/rX/Ow6K
-   BEGMnj/bk1dRMXVlzeK/FdppTR1LhoFKL0VDdDYRYPnQ0o68a8xxGyHAm
-   cjKMMDdRTWwOmi0npIE1UTHb3aqlKVa8aLVk1csJhJqP3jqyx4lnxc7aA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="4095771"
-X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="4095771"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 07:51:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="46248804"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 03 Mar 2024 07:51:52 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rgo7x-0001sC-0u;
-	Sun, 03 Mar 2024 15:51:49 +0000
-Date: Sun, 3 Mar 2024 23:50:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:dir-deleg 15/18] fs/nfsd/nfs4proc.c:3688:14: error: invalid
- application of 'sizeof' to an incomplete type 'const struct
- nfsd4_operation[]'
-Message-ID: <202403032350.blqWrcFc-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IDoCFjAl";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TufsC5F/"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1709483481;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P54JmtoAfGF/B3ri9buymyAdBatM4sq1A71NktfEGs8=;
+	b=IDoCFjAlgYE2Ij/SpuO9DUycSuo2KilsGsFvafrKTst7oEiMqOJuzDxA1PpwkZyGhRsSUH
+	2iRDWzjv64I7J4KQafb+9gu254ul3wL5XmwxMPvGlwNjj+a25ojY46MmsXtiQTbrEgmXm8
+	E/sxldvidkKnHtBJFg7oT+uh+lgmTuWAtSWuM1lhRXnoQXbZKrLZCGt2v7gVC7YAyrhK3k
+	xa0fS1h3NTi2NFMiI1Go2rlDx88Y/2Jtbw3MjEEwgW6uSYIEvqGc6dzlhGbyXYDDwl1qis
+	MSknsINEm8omErcYj+9jfrG3gEykqpPJVwHXU3NRQmxY4B/dBAXdFZdvIJN2uA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1709483481;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P54JmtoAfGF/B3ri9buymyAdBatM4sq1A71NktfEGs8=;
+	b=TufsC5F/xcavTvzD+l2AFGGnkCpHEZwee+8dOac2cgFy7TC+bwQn/vPUaXY/w4u+Z8eiSj
+	22WI8Gi+C3guQ1Cg==
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Arjan van de Ven <arjan@linux.intel.com>,
+ x86@kernel.org, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, Sparse
+ Mailing-list <linux-sparse@vger.kernel.org>, Uros Bizjak
+ <ubizjak@gmail.com>
+Subject: Re: arch/x86/include/asm/processor.h:698:16: sparse: sparse:
+ incorrect type in initializer (different address spaces)
+In-Reply-To: <CAHk-=wiWhfdc4Sw2VBq_2nL2NDxmZS32xG4P7mBVwABGqUoJnw@mail.gmail.com>
+References: <202403020457.RCJoQ3ts-lkp@intel.com> <87edctwr6y.ffs@tglx>
+ <87a5nhwpus.ffs@tglx> <87y1b0vp8m.ffs@tglx> <87sf18vdsq.ffs@tglx>
+ <87le70uwf0.ffs@tglx>
+ <CAHk-=wiWhfdc4Sw2VBq_2nL2NDxmZS32xG4P7mBVwABGqUoJnw@mail.gmail.com>
+Date: Sun, 03 Mar 2024 17:31:21 +0100
+Message-ID: <87edcruvja.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
-head:   f42386afd352dbfe5939a30e91c251f074d757f4
-commit: 224d396640df4815cf72ba39f71c2b4228649f48 [15/18] nfsd: wire up GET_DIR_DELEGATION handling
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240303/202403032350.blqWrcFc-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403032350.blqWrcFc-lkp@intel.com/reproduce)
+On Sat, Mar 02 2024 at 14:49, Linus Torvalds wrote:
+> On Sat, 2 Mar 2024 at 14:00, Thomas Gleixner <tglx@linutronix.de> wrote:
+>>
+>> I had commented out both. But the real reason is the EXPORT_SYMBOL,
+>> which obviously wants to be EXPORT_PER_CPU_SYMBOL_GPL...
+>
+> Side note: while it's nice to hear that sparse kind of got this right,
+> I wonder what gcc does when we start using the named address spaces
+> for percpu variables.
+>
+> We actively make EXPORT_PER_CPU_SYMBOL_XYZ be a no-op for sparse
+> exactly because sparse ended up warning about the regular
+> EXPORT_SYMBOL, and we didn't have any "real" per-cpu export model.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403032350.blqWrcFc-lkp@intel.com/
+Right.
 
-All errors (new ones prefixed by >>):
+> So EXPORT_PER_CPU_SYMBOL_GPL() is kind of an artificial "shut up
+> sparse".
 
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/nfsd/nfs4proc.c:42:
-   In file included from include/linux/sunrpc/addr.h:14:
-   In file included from include/net/ipv6.h:12:
-   In file included from include/linux/ipv6.h:95:
-   In file included from include/linux/tcp.h:17:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from fs/nfsd/nfs4proc.c:42:
-   In file included from include/linux/sunrpc/addr.h:14:
-   In file included from include/net/ipv6.h:12:
-   In file included from include/linux/ipv6.h:95:
-   In file included from include/linux/tcp.h:17:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from fs/nfsd/nfs4proc.c:42:
-   In file included from include/linux/sunrpc/addr.h:14:
-   In file included from include/net/ipv6.h:12:
-   In file included from include/linux/ipv6.h:95:
-   In file included from include/linux/tcp.h:17:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   fs/nfsd/nfs4proc.c:3517:14: error: use of undeclared identifier 'nfsd4_get_dir_delegation'
-    3517 |                 .op_func = nfsd4_get_dir_delegation,
-         |                            ^
->> fs/nfsd/nfs4proc.c:3688:14: error: invalid application of 'sizeof' to an incomplete type 'const struct nfsd4_operation[]'
-    3688 |         if (opnum < ARRAY_SIZE(nfsd4_ops))
-         |                     ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
-   fs/nfsd/nfs4proc.c:3209:37: warning: tentative array definition assumed to have one element
-    3209 | static const struct nfsd4_operation nfsd4_ops[] = {
-         |                                     ^
-   18 warnings and 2 errors generated.
+Aside of that it's also making it clear what this is about. So I don't
+think it's purely artifical.
+
+> But with __seg_gs/fs support for native percpu symbols with
+> gcc, I wonder if we'll hit the same thing. Or is there something that
+> makes gcc not warn about the named address spaces?
+
+Right now the pending code in tip does not complain about the
+EXPORT_PER_CPU_SYMBOL_GPL() part because our current macro maze is
+hideous. Here is the preprocessor output.
+
+This is DECLARE_PER_CPU() in the header:
+
+extern __attribute__((section(".data..percpu" ""))) __typeof__(u64) x86_spec_ctrl_current;
+
+Here is DEFINE_PER_CPU():
+
+__attribute__((section(".data..percpu" ""))) __typeof__(u64) x86_spec_ctrl_current;
+
+And the EXPORT:
+
+extern typeof(x86_spec_ctrl_current) x86_spec_ctrl_current;
+
+static void * __attribute__((__used__))
+   __attribute__((__section__(".discard.addressable")))
+   __UNIQUE_ID___addressable_x86_spec_ctrl_current804 = (void *)(uintptr_t)&x86_spec_ctrl_current;
+
+   asm(".section \".export_symbol\",\"a\" ;
+       __export_symbol_x86_spec_ctrl_current: ;
+       .asciz \"GPL\" ; .asciz \"\" ; .balign 8 ; .quad x86_spec_ctrl_current ; .previous");
+
+And the __seg_gs magic happens only in the per CPU accessor itself:
+
+__attribute__((__noinline__)) __attribute__((no_instrument_function))
+ __attribute((__section__(".noinstr.text")))
+ __attribute__((__no_sanitize_address__))
+ __attribute__((__no_profile_instrument_function__))
+ u64 spec_ctrl_current(void)
+{
+ return ({
+    // this_cpu_read(x86_spec_ctrl_current)
+
+    typeof(x86_spec_ctrl_current) pscr_ret__;
+
+    do { const void *__vpp_verify = (typeof((&(x86_spec_ctrl_current)) + 0))((void *)0); (void)__vpp_verify;
+    } while (0);
+
+    switch(sizeof(x86_spec_ctrl_current))
+    {
+    case 1: pscr_ret__ = ({
+            *(volatile typeof(x86_spec_ctrl_current) __seg_gs *)(typeof(*&(x86_spec_ctrl_current)) __seg_gs *)(uintptr_t)(&(x86_spec_ctrl_current)); });
+            break;
+    case 2: pscr_ret__ = ({
+            *(volatile typeof(x86_spec_ctrl_current) __seg_gs *)(typeof(*&(x86_spec_ctrl_current)) __seg_gs *)(uintptr_t)(&(x86_spec_ctrl_current)); });
+            break;
+    case 4: pscr_ret__ = ({
+            *(volatile typeof(x86_spec_ctrl_current) __seg_gs *)(typeof(*&(x86_spec_ctrl_current)) __seg_gs *)(uintptr_t)(&(x86_spec_ctrl_current)); });
+            break;
+    case 8: pscr_ret__ = ({
+            *(volatile typeof(x86_spec_ctrl_current) __seg_gs *)(typeof(*&(x86_spec_ctrl_current)) __seg_gs *)(uintptr_t)(&(x86_spec_ctrl_current)); });
+            break;
+
+    default: __bad_size_call_parameter(); break;
+    }
+
+    pscr_ret__;
+  });
+}
+
+So all the export etc. just works because it all operates on a plain
+data type and the __seg_gs is only bolted on via type casts in the
+accessors.
+
+As the per cpu variables are in the .data..percpu section the linker
+puts them at address 0 and upwards. So the cast to a __seg_gs pointer
+makes it end up at the real kernel address because of GSBASE + "offset".
+
+The compiler converts this to RIP relative addressing:
+
+  movq   $0x0,%gs:0x7e14169f(%rip)        # 1ba08 <fpu_fpregs_owner_ctx>
+
+This obviously has a downside. If I do:
+
+   u64 foo;
+
+   this_cpu_read(foo);
+
+the compiler is just happy to build that w/o complaining and it will
+only explode at runtime because foo is a kernel data address which added
+to GSBASE will result in accessing some random address:
+
+  mov    %gs:0x15d08d4(%rip),%rax        # ffffffff834aac60 <x86_spec_ctrl_base>
+
+This is not at all different from the inline ASM based version which is
+in your tree. The only difference is that the macro maze is pure C and
+the __set_gs cast allows the compiler to (micro) optimize, e.g. 'mov
+%gs:...; movzbl' into a single 'movzbl'.
+
+IOW, right now the only defense against such a mistake is actually the
+sparse check. Maybe one of the coccinelle scripts has something similar,
+I don't know.
+
+I did not follow the __set_gs work closely, so I don't know whether Uros
+ever tried to actually mark the per CPU variable __set_gs right away,
+which would obviously catch the above 'foo' nonsense.
+
+I think this should just work, but that would obviously require to do
+the type cast magic at the EXPORT_SYMBOL side and in some other places.
+
+Thanks,
+
+        tglx
 
 
-vim +3688 fs/nfsd/nfs4proc.c
-
-07d1f8020738ba J. Bruce Fields 2014-03-06  3685  
-f1c7f79b6ab4f7 Adrian Bunk     2008-08-08  3686  static const char *nfsd4_op_name(unsigned opnum)
-b001a1b6aa9609 Benny Halevy    2008-07-02  3687  {
-b001a1b6aa9609 Benny Halevy    2008-07-02 @3688  	if (opnum < ARRAY_SIZE(nfsd4_ops))
-b001a1b6aa9609 Benny Halevy    2008-07-02  3689  		return nfsd4_ops[opnum].op_name;
-b001a1b6aa9609 Benny Halevy    2008-07-02  3690  	return "unknown_operation";
-b001a1b6aa9609 Benny Halevy    2008-07-02  3691  }
-b001a1b6aa9609 Benny Halevy    2008-07-02  3692  
-
-:::::: The code at line 3688 was first introduced by commit
-:::::: b001a1b6aa960949a24c2cdc28257dfcc9428d74 nfsd: dprint operation names
-
-:::::: TO: Benny Halevy <bhalevy@panasas.com>
-:::::: CC: J. Bruce Fields <bfields@citi.umich.edu>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
