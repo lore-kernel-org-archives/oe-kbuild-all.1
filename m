@@ -1,108 +1,240 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9901DFCE
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 18:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05947641C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 19:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709492344; cv=none; b=BTKH8/k9RnTKH1fpZ3S5DZlF7BA1Hd22bso5yUZTBt186lSza+FZ1jBijdqHvTGp6eVb/gFgUylMOxtszyb5+hXYiNrnXy1bTXHUYuWMBIJQlFUjHOJL91MjvPINk47sH7mPvEC5I9wd4TXmRhcZrIxpBwm/QgOLbKF8+UOWthc=
+	t=1709492652; cv=none; b=l06fS3o+UllMrbH2GiSNsOZsr5kgPNitLsvAja87mSx8+RA99ONRXCbK9iMQ1vI0Q5HunXXtn1BgQb28l4A9QGO4EwchaD7iyq/lATtgpLlMvwHgG/Y7uxAUcarVT7874TPdBYr2kQ2g/Fm+rq++QGAz0L7aD8rNQrQq67vwEKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709492344; c=relaxed/simple;
-	bh=SbzeXnKX9340Fv1ktHqt5sTSmHjJlbPmkZyGeXjTggc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EhU7VWjPr9J/QoWi9tIp8aeLbU+Dvm23CueT1OUZ6k7Qg5DrH7NNb/+chI3MScffs5mOhEkD/T+Vns8UdxYaJj5MK0tmk7Jj9j50rld9vqjWkJe1RJI7eEr3ezK6f4BVvwaTlxGECJgcRpk+LAfFAqHzDL3oRr+Ozdx5x9lSteU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RzAPIPcY; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709492652; c=relaxed/simple;
+	bh=XcvvUXceBSb176i0TRf9vtM0/PGGD8QMPdQJXgBDrGM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d7b3vbwHLZ53KRcERnPKgtEbZ2TlAjQ6H0MAtqzSymMAiXGCzUBNlkwleObYo9ozo1/zwmdFJnV3kf8Ltl6Rhe+/9nSDvx0NGt1JMWU4lirzuTbSTG09/YXzSk9qjyjD3nez8hcqf+5E2dqx65gnsaoQ3pKpa4v/bRzmLBrPqMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iSOGL+3v; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RzAPIPcY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709492343; x=1741028343;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SbzeXnKX9340Fv1ktHqt5sTSmHjJlbPmkZyGeXjTggc=;
-  b=RzAPIPcY+jbi3sbVJLU7D/PXn4/YFp4/OB/djEu5c70YbVMgYzDx6bJ7
-   gQdGwn6lpBl/1loxZM5DIM5S83iSE4RVmQuH03Ys+tou9tNzyOoXgxb6R
-   2bXh9WkmRS1TNun6hp2gCSHRLzOzpsOx6bZuQdwLisR8zSFxn3W7MyTs9
-   p9eGukLCdIL4NneKr7B8x6fNlE601LMsnBRBRBdBBq8YX3UaYS1nkF+B8
-   nFRlVa3m/1HJIVlB+6PyCkKhIPsT6gubpoabJnU5raCvYQmUlynglsHrr
-   uXbUpn04mHpSTLhOJkY71bVWXXWRaWPmxjO+wI1GHezeEUYZkjSRseKZ8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="7788694"
-X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="7788694"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 10:59:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="13423714"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 03 Mar 2024 10:58:58 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rgr32-000220-0L;
-	Sun, 03 Mar 2024 18:58:56 +0000
-Date: Mon, 4 Mar 2024 02:58:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 13/98] kernel/sysctl.c:1033:45: sparse: sparse:
- incorrect type in argument 3 (different address spaces)
-Message-ID: <202403040201.RbLZa9tB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iSOGL+3v"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d26227d508so42438751fa.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Mar 2024 11:04:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709492648; x=1710097448; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1DVCx1/HHcWKKtGLW0BdzytODfQzaAANbwcrDliILZk=;
+        b=iSOGL+3v/E7ovOPqSqlE4YkUgvSSR1XVHaGCzULMMQ8NNOTpqSQK/x6owyPWk+nG2M
+         wzWHCefH/dXlxDM8/89n/1g8xD46kJFWPYLjR4rFkzdZh0MihGKs6e/oQTyr9wyERGni
+         6wITF8cxYxqm+5pnAX1Nbm4/8MBfdhcQb+xVaaN0PUOt7frLadY83GfnuhlDkc2T46PG
+         KlW/KsLgO7tuSwTErx/Xca2kgVDVMgRE/mT5wgeh032zB2rTRna6kqZ5XTCsP4TLTVKQ
+         D2AidziCLCwWkpqkrj+ZLvh2J2MojOQaEypyU90l+QsaQbsBLPm/dINTqbCjK2p4xzvX
+         4zwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709492648; x=1710097448;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1DVCx1/HHcWKKtGLW0BdzytODfQzaAANbwcrDliILZk=;
+        b=U1NFC2tY6z9EFw3ORNPdmJf3E98DqAuAmk7emuoDY+qdVAPN1+Kl7DpF/QFEZvcRcn
+         BHkTf0ffH00EZ8tHK6cDt9FbC/aMBHsrpDN/dIOw9kepB/UL2W3h7Jf7iN/8g/l7OWNa
+         dpX1vwMZot23W3eG2R4jFAEJgCs7cI6c2SBWHXJC10WWLoyFvJp/me6zLZ+v9gxTv3xW
+         /gA9TwT0X1QPiXHX50sp2+hzwLEs5epM6ARiQ/BexU4sUZ4QSVwcZfD8MwV87WPqYP5l
+         Pz71AtUrzU9dnXkASVaUoiJHpV0TUzsoQcSgeYXAY608oGq+7hgkD5FX1Uuf4mBYWUMT
+         DHUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV2x6ctRq8cX9Dztm0fQHrPAkQZkjklfPwyWs2ygEkp/Kdo4OChYOldz2l2IHuEB3D5Q+SB0E1ouJHVincjFgBS9KqBmy91sbsAH9awPg==
+X-Gm-Message-State: AOJu0Yxyk94prvr2ZPeOGqQ2hoMIqe1pYlnEZCfhafsAB8vEl/M9eoUx
+	T11BAac6PTQ6QDs9sSbOMeRFgo9IlYIUxy013znOjSML5aROd0JPuhx9iHKlfGeQwJsTd0kiP38
+	0TBrF53msqhpPzedCI4QRc5Aopk4=
+X-Google-Smtp-Source: AGHT+IFCSdD6OHt6bljSwkVkmweyQrmbR5W6Rf3Y/xTV8dRYMkGvWt4G0Q4Zm0KA/B2fjDQRxo5V6x5AwJlIy4MUrgI=
+X-Received: by 2002:a2e:6e10:0:b0:2d2:8fb4:46cf with SMTP id
+ j16-20020a2e6e10000000b002d28fb446cfmr4825247ljc.15.1709492647620; Sun, 03
+ Mar 2024 11:04:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202403020457.RCJoQ3ts-lkp@intel.com> <87edctwr6y.ffs@tglx>
+ <87a5nhwpus.ffs@tglx> <87y1b0vp8m.ffs@tglx> <87sf18vdsq.ffs@tglx>
+ <87le70uwf0.ffs@tglx> <CAHk-=wiWhfdc4Sw2VBq_2nL2NDxmZS32xG4P7mBVwABGqUoJnw@mail.gmail.com>
+ <87edcruvja.ffs@tglx>
+In-Reply-To: <87edcruvja.ffs@tglx>
+From: Uros Bizjak <ubizjak@gmail.com>
+Date: Sun, 3 Mar 2024 20:03:56 +0100
+Message-ID: <CAFULd4bVEUBEidTLbHNzRaJbSjXm99yC8LT=jdzFWb7xnuFH7g@mail.gmail.com>
+Subject: Re: arch/x86/include/asm/processor.h:698:16: sparse: sparse:
+ incorrect type in initializer (different address spaces)
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, kernel test robot <lkp@intel.com>, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Arjan van de Ven <arjan@linux.intel.com>, x86@kernel.org, 
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	Sparse Mailing-list <linux-sparse@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   a4b2dc2ffad1810ebe7a86710aa1e5cc312aa2a1
-commit: 95c98461d1dce7fd1d25f055c88ad639b0e3b7d7 [13/98] sysrq: add ALT+LEFTCTRL to trigger crash dump
-config: x86_64-randconfig-122-20240303 (https://download.01.org/0day-ci/archive/20240304/202403040201.RbLZa9tB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040201.RbLZa9tB-lkp@intel.com/reproduce)
+On Sun, Mar 3, 2024 at 5:31=E2=80=AFPM Thomas Gleixner <tglx@linutronix.de>=
+ wrote:
+>
+> On Sat, Mar 02 2024 at 14:49, Linus Torvalds wrote:
+> > On Sat, 2 Mar 2024 at 14:00, Thomas Gleixner <tglx@linutronix.de> wrote=
+:
+> >>
+> >> I had commented out both. But the real reason is the EXPORT_SYMBOL,
+> >> which obviously wants to be EXPORT_PER_CPU_SYMBOL_GPL...
+> >
+> > Side note: while it's nice to hear that sparse kind of got this right,
+> > I wonder what gcc does when we start using the named address spaces
+> > for percpu variables.
+> >
+> > We actively make EXPORT_PER_CPU_SYMBOL_XYZ be a no-op for sparse
+> > exactly because sparse ended up warning about the regular
+> > EXPORT_SYMBOL, and we didn't have any "real" per-cpu export model.
+>
+> Right.
+>
+> > So EXPORT_PER_CPU_SYMBOL_GPL() is kind of an artificial "shut up
+> > sparse".
+>
+> Aside of that it's also making it clear what this is about. So I don't
+> think it's purely artifical.
+>
+> > But with __seg_gs/fs support for native percpu symbols with
+> > gcc, I wonder if we'll hit the same thing. Or is there something that
+> > makes gcc not warn about the named address spaces?
+>
+> Right now the pending code in tip does not complain about the
+> EXPORT_PER_CPU_SYMBOL_GPL() part because our current macro maze is
+> hideous. Here is the preprocessor output.
+>
+> This is DECLARE_PER_CPU() in the header:
+>
+> extern __attribute__((section(".data..percpu" ""))) __typeof__(u64) x86_s=
+pec_ctrl_current;
+>
+> Here is DEFINE_PER_CPU():
+>
+> __attribute__((section(".data..percpu" ""))) __typeof__(u64) x86_spec_ctr=
+l_current;
+>
+> And the EXPORT:
+>
+> extern typeof(x86_spec_ctrl_current) x86_spec_ctrl_current;
+>
+> static void * __attribute__((__used__))
+>    __attribute__((__section__(".discard.addressable")))
+>    __UNIQUE_ID___addressable_x86_spec_ctrl_current804 =3D (void *)(uintpt=
+r_t)&x86_spec_ctrl_current;
+>
+>    asm(".section \".export_symbol\",\"a\" ;
+>        __export_symbol_x86_spec_ctrl_current: ;
+>        .asciz \"GPL\" ; .asciz \"\" ; .balign 8 ; .quad x86_spec_ctrl_cur=
+rent ; .previous");
+>
+> And the __seg_gs magic happens only in the per CPU accessor itself:
+>
+> __attribute__((__noinline__)) __attribute__((no_instrument_function))
+>  __attribute((__section__(".noinstr.text")))
+>  __attribute__((__no_sanitize_address__))
+>  __attribute__((__no_profile_instrument_function__))
+>  u64 spec_ctrl_current(void)
+> {
+>  return ({
+>     // this_cpu_read(x86_spec_ctrl_current)
+>
+>     typeof(x86_spec_ctrl_current) pscr_ret__;
+>
+>     do { const void *__vpp_verify =3D (typeof((&(x86_spec_ctrl_current)) =
++ 0))((void *)0); (void)__vpp_verify;
+>     } while (0);
+>
+>     switch(sizeof(x86_spec_ctrl_current))
+>     {
+>     case 1: pscr_ret__ =3D ({
+>             *(volatile typeof(x86_spec_ctrl_current) __seg_gs *)(typeof(*=
+&(x86_spec_ctrl_current)) __seg_gs *)(uintptr_t)(&(x86_spec_ctrl_current));=
+ });
+>             break;
+>     case 2: pscr_ret__ =3D ({
+>             *(volatile typeof(x86_spec_ctrl_current) __seg_gs *)(typeof(*=
+&(x86_spec_ctrl_current)) __seg_gs *)(uintptr_t)(&(x86_spec_ctrl_current));=
+ });
+>             break;
+>     case 4: pscr_ret__ =3D ({
+>             *(volatile typeof(x86_spec_ctrl_current) __seg_gs *)(typeof(*=
+&(x86_spec_ctrl_current)) __seg_gs *)(uintptr_t)(&(x86_spec_ctrl_current));=
+ });
+>             break;
+>     case 8: pscr_ret__ =3D ({
+>             *(volatile typeof(x86_spec_ctrl_current) __seg_gs *)(typeof(*=
+&(x86_spec_ctrl_current)) __seg_gs *)(uintptr_t)(&(x86_spec_ctrl_current));=
+ });
+>             break;
+>
+>     default: __bad_size_call_parameter(); break;
+>     }
+>
+>     pscr_ret__;
+>   });
+> }
+>
+> So all the export etc. just works because it all operates on a plain
+> data type and the __seg_gs is only bolted on via type casts in the
+> accessors.
+>
+> As the per cpu variables are in the .data..percpu section the linker
+> puts them at address 0 and upwards. So the cast to a __seg_gs pointer
+> makes it end up at the real kernel address because of GSBASE + "offset".
+>
+> The compiler converts this to RIP relative addressing:
+>
+>   movq   $0x0,%gs:0x7e14169f(%rip)        # 1ba08 <fpu_fpregs_owner_ctx>
+>
+> This obviously has a downside. If I do:
+>
+>    u64 foo;
+>
+>    this_cpu_read(foo);
+>
+> the compiler is just happy to build that w/o complaining and it will
+> only explode at runtime because foo is a kernel data address which added
+> to GSBASE will result in accessing some random address:
+>
+>   mov    %gs:0x15d08d4(%rip),%rax        # ffffffff834aac60 <x86_spec_ctr=
+l_base>
+>
+> This is not at all different from the inline ASM based version which is
+> in your tree. The only difference is that the macro maze is pure C and
+> the __set_gs cast allows the compiler to (micro) optimize, e.g. 'mov
+> %gs:...; movzbl' into a single 'movzbl'.
+>
+> IOW, right now the only defense against such a mistake is actually the
+> sparse check. Maybe one of the coccinelle scripts has something similar,
+> I don't know.
+>
+> I did not follow the __set_gs work closely, so I don't know whether Uros
+> ever tried to actually mark the per CPU variable __set_gs right away,
+> which would obviously catch the above 'foo' nonsense.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403040201.RbLZa9tB-lkp@intel.com/
+No, because [1]:
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sysctl.c:1033:45: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *buffer @@     got void [noderef] __user *buffer @@
-   kernel/sysctl.c:1033:45: sparse:     expected void *buffer
-   kernel/sysctl.c:1033:45: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl.c:1791:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/sysctl.c:1791:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/sysctl.c:1791:35: sparse:     got int ( * )( ... )
-   kernel/sysctl.c:312:66: sparse: sparse: self-comparison always evaluates to false
+"gcc does not provide a way to remove segment qualifiers, which is needed
+to use typeof() to create local instances of the per-cpu variable. For
+this reason, do not use the segment qualifier for per-cpu variables, and
+do casting using the segment qualifier instead."
 
-vim +1033 kernel/sysctl.c
+[1] https://lore.kernel.org/lkml/20190823224424.15296-3-namit@vmware.com/
 
-  1026	
-  1027	static int sysrq_use_leftctrl_sysctl_handler(struct ctl_table *table, int write,
-  1028			void __user *buffer, size_t *lenp,
-  1029			loff_t *ppos)
-  1030	{
-  1031		int error;
-  1032	
-> 1033		error = proc_dointvec(table, write, buffer, lenp, ppos);
-  1034		if (error)
-  1035			return error;
-  1036	
-  1037		if (write)
-  1038			sysrq_toggle_sysrq_key(__sysrq_use_leftctrl);
-  1039	
-  1040		return 0;
-  1041	}
-  1042	#endif
-  1043	
+Uros.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> I think this should just work, but that would obviously require to do
+> the type cast magic at the EXPORT_SYMBOL side and in some other places.
+>
+> Thanks,
+>
+>         tglx
+>
+>
