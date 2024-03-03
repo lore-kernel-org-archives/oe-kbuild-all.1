@@ -1,53 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF718C121
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 13:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698B7B66F;
+	Sun,  3 Mar 2024 13:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709471035; cv=none; b=rAK55WKb/e9kJy3uzvw/J+QlofLxopMgg4pG9H18+lB2jUguAqaeSZF/p4aVYU5FJPgKixGVtIiwhe/BcEdPDw6oA2xMX9p/YLf3QUzJWLeOCBYGhHiv3jDL6TsALnqhv4o9Er8RYoGRN05d6P4iw0dddZ/hKm4tDkKAzpZHkMk=
+	t=1709471632; cv=none; b=b/p3XIO6GZ45m2ZVj5c6jnSMYa7XciHhPYp9leeEv22cDgpSk+wLSda4qLvWWWNseDfpEtBt5WsKaUKWzolFGvTvp3/DsiCADR6sS5k8NgE9XGzlHwQm+25jSls0VTFLP0QbZ+KYjML98bmOuxseMSon8SiE4kGbXbwhHxWW2yM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709471035; c=relaxed/simple;
-	bh=UdEabIOMuGXimUOBjIwbGvb/JTJ673funtWnezzpM9s=;
+	s=arc-20240116; t=1709471632; c=relaxed/simple;
+	bh=m/yXCkcN6oOhoRMyXfkQ/SuedEu4kXt7zsCvoGBhUIk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AE974kH1EeNc8w+eqtQk7yCDYFGjinjYK+CY4F1hxw1kaRpt/9zwhUApEoTp2rxTFNYYkgVT26jVRgYQZ9onZv6OD31pb5RxBNX00jV8lQdz/rnLWEQSoqgEfqqjs5+7rQIZg+CGzFDeZSdPCZJ60WtRQhorDZqptVFOTLcATHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=er9iBUNq; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=MftOgPxSgtB2tO+XgF0HwUhv+QVPGEluew4JdhBphTtcwIoJBLxIB8L2582mtxFvA2T57UoJ7ChKXp53us+7pipLEAISNltn9RxhkDd0BsfGUM6xw8omYHNCf7gEQQdHURSY+qxg8LkIscRqBfeHLQfDJT0oABS5SvMuAgdkNKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WUCtE2uj; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="er9iBUNq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WUCtE2uj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709471032; x=1741007032;
+  t=1709471630; x=1741007630;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UdEabIOMuGXimUOBjIwbGvb/JTJ673funtWnezzpM9s=;
-  b=er9iBUNqTZ0/lsyQcG8+J/tvgAWQFyx5UqDfAZBNLillLJy722cTmqH6
-   JxSdOV/bgrtaL9KQd1QN/ANRSkXbkk148zm/D7Xe4+JGg8ejazz7DoX+T
-   ff7P2b6PhZcTmTePDqhJelmDUlwDl6bRtxo1mEbGVyUm+vIs/NHyGWZAA
-   LhDwEfs1B/JjTDbSoB2SYmuYreF8IFqxMvH0Vc3735okKAIvnwHJGFaB+
-   V9azhpmr9yjy8zPcGoQJbWVTqIq/ynlzDwccfdX5Ir1G4zKO+4gfVHupT
-   neQ4e/yRndj6GgtectvCK4ugFgQxAxMTMNvm+uF63KULS3nh+/5p7Fytx
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="4130871"
+  bh=m/yXCkcN6oOhoRMyXfkQ/SuedEu4kXt7zsCvoGBhUIk=;
+  b=WUCtE2uj5jQpYiUhNzP7lhIeIudSb2ig5AyOVw6R+dPNgvZbE7Hco0I7
+   yPUHAxFgAxeNT3Uyg37YAy453LJ8NjbwuPZ6K1QiBS2+kfQA4/uOq+sX0
+   k9LSZ8f7MD5miXF93EpgAn9oQe1p5Lzr1xKEC520nG/UiJmMUqCQV8B2S
+   nfCwPRH5rmf38jw2z+9dytBnKHIwUyZQq3QJQdoZXHaclX0xTZ+ZT5sdc
+   MGXEQInnT8b4IT7jlPSsFGNXvdtFYGDo9YsN1FHz2/gvefOsdo1Qw33Dn
+   x71pL5YnCdBKA1rH9vxwvqjIyr8rWcR5e61s6MtTTFEVxy7+F69pWTKxB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="14676187"
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="4130871"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 05:03:49 -0800
+   d="scan'208";a="14676187"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 05:13:50 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="13399775"
+   d="scan'208";a="8655248"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 03 Mar 2024 05:03:48 -0800
+  by orviesa010.jf.intel.com with ESMTP; 03 Mar 2024 05:13:48 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rglVJ-0001m4-27;
-	Sun, 03 Mar 2024 13:03:45 +0000
-Date: Sun, 3 Mar 2024 21:02:50 +0800
+	id 1rglf0-0001mb-0F;
+	Sun, 03 Mar 2024 13:13:46 +0000
+Date: Sun, 3 Mar 2024 21:13:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: WARNING: modpost: "strcpy" [net/dsa/dsa_core.ko] has no CRC!
-Message-ID: <202403032017.GWhmSRWd-lkp@intel.com>
+To: John Groves <John@groves.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Subject: [riteshharjani:notmuch-cover.1708709155.git.john@groves.net 9/23]
+ drivers/dax/bus.c:1442:9: error: call to undeclared function
+ '_copy_from_iter_flushcache'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202403032136.MEDHWXbG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,130 +61,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   04b8076df2534f08bb4190f90a24e0f7f8930aca
-commit: 9538ebce88ffa074202d592d468521995cb1e714 net: dsa: add trace points for FDB/MDB operations
-date:   11 months ago
-config: alpha-randconfig-r014-20221225 (https://download.01.org/0day-ci/archive/20240303/202403032017.GWhmSRWd-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403032017.GWhmSRWd-lkp@intel.com/reproduce)
+tree:   https://github.com/riteshharjani/linux notmuch-cover.1708709155.git.john@groves.net
+head:   c8318dd2a63c230e5e731bc14750a466d7891ddc
+commit: b1dbe325e1e88d07cf2f245da33393842ff842bc [9/23] dev_dax_iomap: Add CONFIG_DEV_DAX_IOMAP kernel build parameter
+config: i386-buildonly-randconfig-002-20240303 (https://download.01.org/0day-ci/archive/20240303/202403032136.MEDHWXbG-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403032136.MEDHWXbG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403032017.GWhmSRWd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403032136.MEDHWXbG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-Is "strcat" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "strncpy" [vmlinux] version generation failed, symbol will not be versioned.
-Is "strncpy" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "strncat" [vmlinux] version generation failed, symbol will not be versioned.
-Is "strncat" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: "strcat" [fs/dlm/dlm.ko] has no CRC!
-WARNING: modpost: "strcpy" [fs/ext4/ext4.ko] has no CRC!
-WARNING: modpost: "strncpy" [fs/ext4/ext4.ko] has no CRC!
-WARNING: modpost: "strcpy" [fs/overlayfs/overlay.ko] has no CRC!
-WARNING: modpost: "strcat" [fs/overlayfs/overlay.ko] has no CRC!
-WARNING: modpost: "strncpy" [fs/xfs/xfs.ko] has no CRC!
-WARNING: modpost: "strcpy" [fs/ocfs2/ocfs2.ko] has no CRC!
-WARNING: modpost: "strncpy" [fs/ocfs2/ocfs2.ko] has no CRC!
-WARNING: modpost: "strcpy" [fs/ocfs2/ocfs2_stackglue.ko] has no CRC!
-WARNING: modpost: "strcpy" [fs/ocfs2/cluster/ocfs2_nodemanager.ko] has no CRC!
-WARNING: modpost: "strcpy" [fs/btrfs/btrfs.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/backlight/backlight.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/fbdev/pm2fb.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/fbdev/matrox/matroxfb_base.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/fbdev/matrox/matroxfb_crtc2.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/fbdev/neofb.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/fbdev/vt8623fb.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/fbdev/sm501fb.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/fbdev/mb862xx/mb862xxfb.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/video/fbdev/ocfb.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/tty/n_gsm.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/char/tpm/tpm.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/gpu/drm/hisilicon/hibmc/hibmc-drm.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/gpu/drm/drm.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/gpu/drm/drm.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/gpu/drm/radeon/radeon.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/gpu/drm/mgag200/mgag200.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/gpu/drm/nouveau/nouveau.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/gpu/drm/nouveau/nouveau.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/gpu/drm/ast/ast.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/gpu/drm/virtio/virtio-gpu.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/misc/eeprom/idt_89hpesx.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/misc/cb710/cb710.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/nfc/s3fwrn5/s3fwrn5.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/scsi/scsi_transport_fc.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/scsi/sd_mod.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/net/mdio/mdio-gpio.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/net/ethernet/brocade/bna/bna.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/net/ethernet/brocade/bna/bna.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/net/ethernet/chelsio/cxgb3/cxgb3.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/net/ethernet/chelsio/cxgb4/cxgb4.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/net/ethernet/mellanox/mlx4/mlx4_core.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/net/ethernet/mellanox/mlx4/mlx4_core.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/net/ethernet/mellanox/mlx4/mlx4_en.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko] has no CRC!
-WARNING: modpost: "strcat" [drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko] has no CRC!
-WARNING: modpost: "strncat" [drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/net/wireless/intel/ipw2x00/ipw2200.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/net/wireless/intel/ipw2x00/ipw2200.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/net/wireless/intel/iwlwifi/iwlwifi.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/net/wireless/marvell/mwifiex/mwifiex.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/net/wireless/marvell/mwifiex/mwifiex_pcie.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/net/wireless/marvell/mwl8k.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/net/can/sja1000/peak_pci.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/net/dsa/qca/qca8k.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/net/dsa/mt7530.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/net/dsa/lan9303-core.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/net/plip/plip.ko] has no CRC!
-WARNING: modpost: "strcat" [drivers/message/fusion/mptbase.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/message/fusion/mptbase.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/message/fusion/mptsas.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/auxdisplay/panel.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/i2c/busses/i2c-designware-core.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/i2c/busses/i2c-taos-evm.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/power/supply/bq2415x_charger.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/hwmon/adt7475.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/hwmon/nct7802.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/hwmon/thmc50.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/watchdog/pcwd.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/leds/leds-bd2802.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/leds/leds-lm3530.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/leds/leds-lp3952.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/hid/uhid.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/iio/adc/mcp3422.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/mtd/parsers/redboot.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/mtd/devices/block2mtd.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/mtd/tests/mtd_pagetest.ko] has no CRC!
-WARNING: modpost: "strncpy" [drivers/mtd/sm_ftl.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/mtd/ubi/ubi.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/w1/slaves/w1_therm.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/w1/slaves/w1_ds28e17.ko] has no CRC!
-WARNING: modpost: "strcat" [drivers/w1/slaves/w1_ds28e17.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/w1/wire.ko] has no CRC!
-WARNING: modpost: "strcpy" [drivers/fpga/fpga-mgr.ko] has no CRC!
-WARNING: modpost: "strcpy" [net/core/pktgen.ko] has no CRC!
-WARNING: modpost: "strncpy" [net/netfilter/nft_fib.ko] has no CRC!
-WARNING: modpost: "strncpy" [net/netfilter/ipset/ip_set.ko] has no CRC!
-WARNING: modpost: "strncpy" [net/ipv4/netfilter/ip_tables.ko] has no CRC!
-WARNING: modpost: "strcpy" [net/ipv4/netfilter/ip_tables.ko] has no CRC!
-WARNING: modpost: "strncpy" [net/ipv6/netfilter/ip6_tables.ko] has no CRC!
-WARNING: modpost: "strcpy" [net/ipv6/netfilter/ip6_tables.ko] has no CRC!
-WARNING: modpost: "strcpy" [net/ipv6/ipv6.ko] has no CRC!
-WARNING: modpost: "strcpy" [net/ipv6/sit.ko] has no CRC!
-WARNING: modpost: "strcpy" [net/ipv6/ip6_tunnel.ko] has no CRC!
->> WARNING: modpost: "strcpy" [net/dsa/dsa_core.ko] has no CRC!
-WARNING: modpost: "strncpy" [net/dsa/dsa_core.ko] has no CRC!
-WARNING: modpost: "strcpy" [net/wireless/cfg80211.ko] has no CRC!
-WARNING: modpost: "strncpy" [net/caif/chnl_net.ko] has no CRC!
-WARNING: modpost: "strcpy" [net/can/can-bcm.ko] has no CRC!
-WARNING: modpost: "strcpy" [net/rxrpc/rxrpc.ko] has no CRC!
-WARNING: modpost: "strcpy" [net/tipc/tipc.ko] has no CRC!
-WARNING: modpost: "strncpy" [net/tipc/tipc.ko] has no CRC!
-WARNING: modpost: "strcpy" [net/9p/9pnet_fd.ko] has no CRC!
+>> drivers/dax/bus.c:1442:9: error: call to undeclared function '_copy_from_iter_flushcache'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1442 |         return _copy_from_iter_flushcache(addr, bytes, i);
+         |                ^
+   drivers/dax/bus.c:1437:9: warning: variable 'len' set but not used [-Wunused-but-set-variable]
+    1437 |         size_t len, off;
+         |                ^
+   1 warning and 1 error generated.
+
+
+vim +/_copy_from_iter_flushcache +1442 drivers/dax/bus.c
+
+2e58e20034e6b0 John Groves 2024-02-23  1433  
+2e58e20034e6b0 John Groves 2024-02-23  1434  static size_t dev_dax_recovery_write(struct dax_device *dax_dev, pgoff_t pgoff,
+2e58e20034e6b0 John Groves 2024-02-23  1435  		void *addr, size_t bytes, struct iov_iter *i)
+2e58e20034e6b0 John Groves 2024-02-23  1436  {
+2e58e20034e6b0 John Groves 2024-02-23  1437  	size_t len, off;
+2e58e20034e6b0 John Groves 2024-02-23  1438  
+2e58e20034e6b0 John Groves 2024-02-23  1439  	off = offset_in_page(addr);
+2e58e20034e6b0 John Groves 2024-02-23  1440  	len = PFN_PHYS(PFN_UP(off + bytes));
+2e58e20034e6b0 John Groves 2024-02-23  1441  
+2e58e20034e6b0 John Groves 2024-02-23 @1442  	return _copy_from_iter_flushcache(addr, bytes, i);
+2e58e20034e6b0 John Groves 2024-02-23  1443  }
+2e58e20034e6b0 John Groves 2024-02-23  1444  
+
+:::::: The code at line 1442 was first introduced by commit
+:::::: 2e58e20034e6b0d8e6f04e6002c6f684dd1a35bd dev_dax_iomap: Add dax_operations for use by fs-dax on devdax
+
+:::::: TO: John Groves <John@Groves.net>
+:::::: CC: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
