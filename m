@@ -1,57 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698B7B66F;
-	Sun,  3 Mar 2024 13:13:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD180C154
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 13:13:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709471632; cv=none; b=b/p3XIO6GZ45m2ZVj5c6jnSMYa7XciHhPYp9leeEv22cDgpSk+wLSda4qLvWWWNseDfpEtBt5WsKaUKWzolFGvTvp3/DsiCADR6sS5k8NgE9XGzlHwQm+25jSls0VTFLP0QbZ+KYjML98bmOuxseMSon8SiE4kGbXbwhHxWW2yM=
+	t=1709471634; cv=none; b=q5ZeaCQ/moTqQTCrOIl51M9D7AmXx4WYR5p7nieikDqGiOnCa9yCfBx0dQvHr0Vvg5nQtqspO1zVOuGFPU1xzKIoZnk+oUUOeJN6ILvDGJ2LyaGufiAx5ts+QOtOueb+TbMDmCvNUNYjgPxLXVoYQXKSQO6FkPA3jVYhDR7pbJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709471632; c=relaxed/simple;
-	bh=m/yXCkcN6oOhoRMyXfkQ/SuedEu4kXt7zsCvoGBhUIk=;
+	s=arc-20240116; t=1709471634; c=relaxed/simple;
+	bh=185kTR94VxP44dFqN6E1bvtpZ/MRd+mJYZ2MweI4/Ao=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MftOgPxSgtB2tO+XgF0HwUhv+QVPGEluew4JdhBphTtcwIoJBLxIB8L2582mtxFvA2T57UoJ7ChKXp53us+7pipLEAISNltn9RxhkDd0BsfGUM6xw8omYHNCf7gEQQdHURSY+qxg8LkIscRqBfeHLQfDJT0oABS5SvMuAgdkNKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WUCtE2uj; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=LcE/GlVtZs3TrozLDBOQpSfsMPzEfe0Getzw0XAidcQ1x80KPklIXWdqw+swUkbInbH6f90CHcOLzVZgPgiKCpDbs27yMtRWlHO2XruENgDMHphR7NKWh6kuC5JNYqTjxVFyuCL/iqw7OT3ZW6WX9Tm2BydBLX6aU+cA0q4NfoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jNVZcbFV; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WUCtE2uj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jNVZcbFV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709471630; x=1741007630;
+  t=1709471633; x=1741007633;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m/yXCkcN6oOhoRMyXfkQ/SuedEu4kXt7zsCvoGBhUIk=;
-  b=WUCtE2uj5jQpYiUhNzP7lhIeIudSb2ig5AyOVw6R+dPNgvZbE7Hco0I7
-   yPUHAxFgAxeNT3Uyg37YAy453LJ8NjbwuPZ6K1QiBS2+kfQA4/uOq+sX0
-   k9LSZ8f7MD5miXF93EpgAn9oQe1p5Lzr1xKEC520nG/UiJmMUqCQV8B2S
-   nfCwPRH5rmf38jw2z+9dytBnKHIwUyZQq3QJQdoZXHaclX0xTZ+ZT5sdc
-   MGXEQInnT8b4IT7jlPSsFGNXvdtFYGDo9YsN1FHz2/gvefOsdo1Qw33Dn
-   x71pL5YnCdBKA1rH9vxwvqjIyr8rWcR5e61s6MtTTFEVxy7+F69pWTKxB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="14676187"
+  bh=185kTR94VxP44dFqN6E1bvtpZ/MRd+mJYZ2MweI4/Ao=;
+  b=jNVZcbFVay3iF4XOM3Hz0IQaYa5rxDr0mQn6YGsWgUYgqyIpT/va6+y9
+   hSY4DUDNZoLXjToDpn2eRnHfdnYQ7WQugTioDvGjv816E++1NcTB0OkDt
+   +C879LbBbe8SOr2QcODbYQ2+aTxAgoc7YhIMo2tMGsTZLE3xSYtO/8azs
+   5jWrPOgW20mutY2Pj4PGwG574k15RZ+qqag5jVG/N05NdjBtjL4pLS/oR
+   +WrF5yzeUJUje7NyWkEtckGmWDs+lz1JtDQ3CWe4Ts7p8iVv94HDK9Ww1
+   R0UFRDgQmdYDMSHGS/mGxEsGkm4jTueU2Vjhvqqzq7Hx0RiOmp+tCIK8P
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="14676190"
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="14676187"
+   d="scan'208";a="14676190"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 05:13:50 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="8655248"
+   d="scan'208";a="8655247"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 03 Mar 2024 05:13:48 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rglf0-0001mb-0F;
-	Sun, 03 Mar 2024 13:13:46 +0000
-Date: Sun, 3 Mar 2024 21:13:11 +0800
+	id 1rglez-0001mW-38;
+	Sun, 03 Mar 2024 13:13:45 +0000
+Date: Sun, 3 Mar 2024 21:13:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Groves <John@groves.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Subject: [riteshharjani:notmuch-cover.1708709155.git.john@groves.net 9/23]
- drivers/dax/bus.c:1442:9: error: call to undeclared function
- '_copy_from_iter_flushcache'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202403032136.MEDHWXbG-lkp@intel.com>
+To: Ben Hutchings <bwh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Daniel Wagner <wagi@monom.org>
+Subject: [cip:linux-4.19.y-cip-rt-rebase 25246/29558]
+ include/asm-generic/percpu.h:151:9: error: implicit declaration of function
+ 'raw_local_irq_save'
+Message-ID: <202403032119.OKB1owl6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,49 +59,122 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/riteshharjani/linux notmuch-cover.1708709155.git.john@groves.net
-head:   c8318dd2a63c230e5e731bc14750a466d7891ddc
-commit: b1dbe325e1e88d07cf2f245da33393842ff842bc [9/23] dev_dax_iomap: Add CONFIG_DEV_DAX_IOMAP kernel build parameter
-config: i386-buildonly-randconfig-002-20240303 (https://download.01.org/0day-ci/archive/20240303/202403032136.MEDHWXbG-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403032136.MEDHWXbG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip-rt-rebase
+head:   dce1701e767e33da39db64fe691cd4783ec7dbbf
+commit: 2c16891623cc7e8c0c4144f8665d117c7fc94552 [25246/29558] Revert "percpu: include irqflags.h for raw_local_irq_save()"
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20240303/202403032119.OKB1owl6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403032119.OKB1owl6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403032136.MEDHWXbG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403032119.OKB1owl6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/dax/bus.c:1442:9: error: call to undeclared function '_copy_from_iter_flushcache'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1442 |         return _copy_from_iter_flushcache(addr, bytes, i);
-         |                ^
-   drivers/dax/bus.c:1437:9: warning: variable 'len' set but not used [-Wunused-but-set-variable]
-    1437 |         size_t len, off;
-         |                ^
-   1 warning and 1 error generated.
+   cc1: warning: arch/um/include/uapi: No such file or directory [-Wmissing-include-dirs]
+   In file included from ./arch/um/include/generated/asm/percpu.h:1,
+                    from include/linux/percpu.h:13,
+                    from include/linux/bpf-cgroup.h:7,
+                    from kernel/bpf/local_storage.c:2:
+   include/linux/bpf-cgroup.h: In function 'bpf_cgroup_storage_set':
+>> include/asm-generic/percpu.h:151:9: error: implicit declaration of function 'raw_local_irq_save' [-Werror=implicit-function-declaration]
+     151 |         raw_local_irq_save(__flags);                                    \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:337:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     337 | #define this_cpu_write_1(pcp, val)      this_cpu_generic_to_op(pcp, val, =)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:378:25: note: in expansion of macro 'this_cpu_write_1'
+     378 |                 case 1: stem##1(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:509:41: note: in expansion of macro '__pcpu_size_call'
+     509 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/bpf-cgroup.h:112:9: note: in expansion of macro 'this_cpu_write'
+     112 |         this_cpu_write(bpf_cgroup_storage, &buf->data[0]);
+         |         ^~~~~~~~~~~~~~
+>> include/asm-generic/percpu.h:153:9: error: implicit declaration of function 'raw_local_irq_restore' [-Werror=implicit-function-declaration]
+     153 |         raw_local_irq_restore(__flags);                                 \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:337:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     337 | #define this_cpu_write_1(pcp, val)      this_cpu_generic_to_op(pcp, val, =)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:378:25: note: in expansion of macro 'this_cpu_write_1'
+     378 |                 case 1: stem##1(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:509:41: note: in expansion of macro '__pcpu_size_call'
+     509 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/bpf-cgroup.h:112:9: note: in expansion of macro 'this_cpu_write'
+     112 |         this_cpu_write(bpf_cgroup_storage, &buf->data[0]);
+         |         ^~~~~~~~~~~~~~
+   In file included from include/linux/uaccess.h:14,
+                    from include/linux/compat.h:19,
+                    from include/linux/filter.h:12,
+                    from kernel/bpf/local_storage.c:5:
+   arch/um/include/asm/uaccess.h: In function '__access_ok':
+   arch/um/include/asm/uaccess.h:17:36: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
+      17 |           (((unsigned long) (addr) >= FIXADDR_USER_START) && \
+         |                                    ^~
+   arch/um/include/asm/uaccess.h:45:17: note: in expansion of macro '__access_ok_vsyscall'
+      45 |                 __access_ok_vsyscall(addr, size) ||
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/jump_label.h:77,
+                    from include/linux/bpf-cgroup.h:6:
+   include/asm-generic/fixmap.h: In function 'fix_to_virt':
+   include/asm-generic/fixmap.h:31:26: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
+      31 |         BUILD_BUG_ON(idx >= __end_of_fixed_addresses);
+         |                          ^~
+   include/linux/compiler.h:398:23: note: in definition of macro '__compiletime_assert'
+     398 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler.h:418:9: note: in expansion of macro '_compiletime_assert'
+     418 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:45:37: note: in expansion of macro 'compiletime_assert'
+      45 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:69:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      69 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/asm-generic/fixmap.h:31:9: note: in expansion of macro 'BUILD_BUG_ON'
+      31 |         BUILD_BUG_ON(idx >= __end_of_fixed_addresses);
+         |         ^~~~~~~~~~~~
+   In file included from include/linux/memremap.h:7,
+                    from include/linux/mm.h:27,
+                    from include/linux/scatterlist.h:8,
+                    from include/linux/dma-mapping.h:11,
+                    from include/linux/skbuff.h:34,
+                    from include/linux/filter.h:13:
+   include/linux/mm.h: In function 'pgtable_init':
+   arch/um/include/asm/pgtable.h:35:33: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
+      35 | #define pgtable_cache_init() do ; while (0)
+         |                                 ^
+   include/linux/mm.h:1929:9: note: in expansion of macro 'pgtable_cache_init'
+    1929 |         pgtable_cache_init();
+         |         ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/_copy_from_iter_flushcache +1442 drivers/dax/bus.c
+vim +/raw_local_irq_save +151 include/asm-generic/percpu.h
 
-2e58e20034e6b0 John Groves 2024-02-23  1433  
-2e58e20034e6b0 John Groves 2024-02-23  1434  static size_t dev_dax_recovery_write(struct dax_device *dax_dev, pgoff_t pgoff,
-2e58e20034e6b0 John Groves 2024-02-23  1435  		void *addr, size_t bytes, struct iov_iter *i)
-2e58e20034e6b0 John Groves 2024-02-23  1436  {
-2e58e20034e6b0 John Groves 2024-02-23  1437  	size_t len, off;
-2e58e20034e6b0 John Groves 2024-02-23  1438  
-2e58e20034e6b0 John Groves 2024-02-23  1439  	off = offset_in_page(addr);
-2e58e20034e6b0 John Groves 2024-02-23  1440  	len = PFN_PHYS(PFN_UP(off + bytes));
-2e58e20034e6b0 John Groves 2024-02-23  1441  
-2e58e20034e6b0 John Groves 2024-02-23 @1442  	return _copy_from_iter_flushcache(addr, bytes, i);
-2e58e20034e6b0 John Groves 2024-02-23  1443  }
-2e58e20034e6b0 John Groves 2024-02-23  1444  
+e88d62cd4b2f0b1 Mark Rutland    2017-09-26  147  
+eba117889ac444b Tejun Heo       2014-06-17  148  #define this_cpu_generic_to_op(pcp, val, op)				\
+9c28278a24c01c0 Tejun Heo       2014-06-17  149  do {									\
+eba117889ac444b Tejun Heo       2014-06-17  150  	unsigned long __flags;						\
+eba117889ac444b Tejun Heo       2014-06-17 @151  	raw_local_irq_save(__flags);					\
+1b5ca12127427c5 Nicholas Piggin 2016-09-22  152  	raw_cpu_generic_to_op(pcp, val, op);				\
+eba117889ac444b Tejun Heo       2014-06-17 @153  	raw_local_irq_restore(__flags);					\
+9c28278a24c01c0 Tejun Heo       2014-06-17  154  } while (0)
+9c28278a24c01c0 Tejun Heo       2014-06-17  155  
+1b5ca12127427c5 Nicholas Piggin 2016-09-22  156  
 
-:::::: The code at line 1442 was first introduced by commit
-:::::: 2e58e20034e6b0d8e6f04e6002c6f684dd1a35bd dev_dax_iomap: Add dax_operations for use by fs-dax on devdax
+:::::: The code at line 151 was first introduced by commit
+:::::: eba117889ac444bea6e8270049cbaeed48169889 percpu: preffity percpu header files
 
-:::::: TO: John Groves <John@Groves.net>
-:::::: CC: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
