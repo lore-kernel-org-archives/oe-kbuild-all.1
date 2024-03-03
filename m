@@ -1,68 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC381DFC6;
-	Sun,  3 Mar 2024 22:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7B07A71E
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Mar 2024 23:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709506587; cv=none; b=ua8sJY3OxsXgUBYXeot7Ri5IQpOHyogDiTIz3QCceiZUhC+zz477QNTfgHgXc7oced6j5ApzhvmJuCTHhZ+H9BpyCcaX+3PdfAkhScBeKKe7is0LmKb8X2hvrNVZ/Bi94Q5KCTclXQ1W2g0zNuAE4OnyoaU6ILWHCZfN//OKW0Q=
+	t=1709508574; cv=none; b=HPscU3xKGzOB1ILu45lHT82tAF2VtPsHbki+7xMy8m5+l59m4Jo1ArRm6JWPJe5vnJg7D4NkNP6tMAdswTFgGVm1msUl/hhSTMIKXfNgBuWy7O+fdJGQFJapsDz74rys4zcr5EKvjGoP3wF0oglobDlRaJY63CftVLQ2L2WYpWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709506587; c=relaxed/simple;
-	bh=kSLt4h/GbkmQHjLADq6EU92fkgOQTutJY4Qu6S1Krpg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oUr31pHpcoBPFqz0KEruJz87Pnh9dt+Cfd/RX5+hxuDzDPeBeGEXvJzKraq0y1XmDu1R2wAY3lKGYFShAler1cq6rMTvnctyQcFb+t0Am57uftj2crk35apbyAuOsOb/yiyJBZ3nnfq7VTiS65h84VAz+n5epPpXjkSlyOhTV4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mH3VMfKm; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1709508574; c=relaxed/simple;
+	bh=D1vFSL652eq5XYxvhYww6NjwsV4IxEk5X1Symbmcki0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NzW8UwbLYPCEM0IbbMISan5MwcdYZCzd/yB8RGshy5YWSKJ8KBb5iR4+9Sdtax9QbAaVhlVdhTKR52q5nkv9GLXX2l5+BedPjnwswM/tJILEZjdhXiGD3GFm4enMqyAZAJODccBiknWLl1ZjmuJQ4UWgDb7FihHwmU1sE7RMB+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lje46P7k; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mH3VMfKm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lje46P7k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709506585; x=1741042585;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kSLt4h/GbkmQHjLADq6EU92fkgOQTutJY4Qu6S1Krpg=;
-  b=mH3VMfKmzwRSLHF0RowqQfY7nQT2vgHokX1B5fL1TB6IASkGy9PBujTK
-   gJj+KJZ/ENHovvc8UuHgH/B8gz+nkptj7bjb1e2j4LxIPBzNQHZ5f/bHP
-   AMkUoCajZpGThunB4K8V23KsbudTChj2JTY1oA5FfvbHPIu7Qr/vcnT8X
-   3ap5ZwF6DgN5YHmKQqT6JEkL+bWj8d8kh1wxu+esPCxLM8EZzy/xN/QRL
-   QNWgPFFwfekIKqiZbouNUjm+5JhPj59f9caXuBD4SIQVZDSUmEqGYe5PB
-   tCA+3XzBL4v8MbTCBuhocO5Yq6n9ITKudtGRd1iSNWTiOTle+9XhwOk5r
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="7756389"
+  t=1709508571; x=1741044571;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=D1vFSL652eq5XYxvhYww6NjwsV4IxEk5X1Symbmcki0=;
+  b=Lje46P7kRbQgwHheUVSetO6wCmV6Ck7fIam1LHL1TjEIw4PqUYVQisBS
+   fwC0iXtI+9EAE0erYV25OHBlGMEShBLgJkmyWzEI0DkQ448OF+HvbFkt4
+   5iUCfng26DQPEkhnh9CkOW/XLNmB8QBHAm2K13s0NiZ2AaHWZcAOpM3MB
+   A0FJ66VT3Xy/D9pQJari9881n8gY6wSR9qVSEC92E2Yzz5RIWFBNT71kg
+   sCamGRfb7/845pmLjlBs46j/Qo/mH0hEDXssDotOMzxa3vRjvaJ8qznIe
+   wA9PZvZTHFMcfIZ4+4PdRkfmBMF3xfBy2B2x9LgsA6e5FN6IEeNG8JR1T
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="7803776"
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="7756389"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 14:56:24 -0800
+   d="scan'208";a="7803776"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 15:29:30 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="31958628"
+   d="scan'208";a="9370451"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Mar 2024 14:56:19 -0800
+  by orviesa008.jf.intel.com with ESMTP; 03 Mar 2024 15:29:30 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgukj-0002A0-23;
-	Sun, 03 Mar 2024 22:56:17 +0000
-Date: Mon, 4 Mar 2024 06:55:22 +0800
+	id 1rgvGp-0002Aa-0c;
+	Sun, 03 Mar 2024 23:29:27 +0000
+Date: Mon, 4 Mar 2024 07:29:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Canfeng Zhuang <quic_czhuang@quicinc.com>,
-	Derek Kiernan <derek.kiernan@amd.com>,
-	Dragan Cvetic <dragan.cvetic@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Canfeng Zhuang <quic_czhuang@quicinc.com>
-Subject: Re: [PATCH 1/2] misc: qualcomm: QRC driver for Robotic SDK MCU
-Message-ID: <202403040603.Dtb2fV1b-lkp@intel.com>
-References: <20240304-qcom_qrc-v1-1-2a709f95fd61@quicinc.com>
+To: Alexey Gladkov <legion@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [legion:patchset/cons-font-info/v1.0 1/5]
+ drivers/tty/vt/vt_ioctl.c:483:3: error: a label can only be part of a
+ statement and a declaration is not a statement
+Message-ID: <202403040754.RKosvxAE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,305 +58,175 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240304-qcom_qrc-v1-1-2a709f95fd61@quicinc.com>
 
-Hi Canfeng,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 805d849d7c3cc1f38efefd48b2480d62b7b5dcb7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Canfeng-Zhuang/misc-qualcomm-QRC-driver-for-Robotic-SDK-MCU/20240304-005601
-base:   805d849d7c3cc1f38efefd48b2480d62b7b5dcb7
-patch link:    https://lore.kernel.org/r/20240304-qcom_qrc-v1-1-2a709f95fd61%40quicinc.com
-patch subject: [PATCH 1/2] misc: qualcomm: QRC driver for Robotic SDK MCU
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240304/202403040603.Dtb2fV1b-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040603.Dtb2fV1b-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/legion/linux.git patchset/cons-font-info/v1.0
+head:   06733914c1d2d19ebb61cdf6cd96d0a45d4da6ba
+commit: 784438040507c68171fd2c47597f8ab85c8e6ab8 [1/5] VT: Add KDFONTINFO ioctl
+config: x86_64-randconfig-121-20240303 (https://download.01.org/0day-ci/archive/20240304/202403040754.RKosvxAE-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040754.RKosvxAE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403040603.Dtb2fV1b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403040754.RKosvxAE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/misc/qrc/qrc_uart.c:10:
-   In file included from include/linux/serdev.h:10:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/misc/qrc/qrc_uart.c:10:
-   In file included from include/linux/serdev.h:10:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/misc/qrc/qrc_uart.c:10:
-   In file included from include/linux/serdev.h:10:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/misc/qrc/qrc_uart.c:13:
-   In file included from drivers/misc/qrc/qrc_core.h:14:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/misc/qrc/qrc_uart.c:203:61: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-     203 |                 dev_err(dev->dev, "qrcuart transmit date overflow %ld\n", data_length);
-         |                                                                   ~~~     ^~~~~~~~~~~
-         |                                                                   %zu
-   include/linux/dev_printk.h:144:65: note: expanded from macro 'dev_err'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   8 warnings generated.
+   drivers/tty/vt/vt_ioctl.c: In function 'vt_k_ioctl':
+>> drivers/tty/vt/vt_ioctl.c:483:3: error: a label can only be part of a statement and a declaration is not a statement
+      struct console_font_info fnt_info;
+      ^~~~~~
 
 
-vim +203 drivers/misc/qrc/qrc_uart.c
+vim +483 drivers/tty/vt/vt_ioctl.c
 
-  > 13	#include "qrc_core.h"
-    14	
-    15	#define QRC_RX_FIFO_SIZE 0x400
-    16	#define QRC_TX_BUFF_SIZE 0x400
-    17	#define QRCUART_DRV_NAME "qrcuart"
-    18	#define QRC_DRV_VERSION "0.1.0"
-    19	
-    20	static int qrcuart_setup(struct qrc_dev *dev);
-    21	
-    22	static int
-    23	qrc_uart_receive(struct serdev_device *serdev, const unsigned char *data,
-    24			 size_t count)
-    25	{
-    26		struct qrcuart *qrc = serdev_device_get_drvdata(serdev);
-    27		struct qrc_dev *qrc_dev = qrc->qrc_dev;
-    28		int ret;
-    29	
-    30		/* check count */
-    31		ret = kfifo_avail(&qrc->qrc_rx_fifo);
-    32		if (!ret)
-    33			return 0;
-    34	
-    35		if (count > ret)
-    36			count = ret;
-    37	
-    38		ret = kfifo_in(&qrc->qrc_rx_fifo, data, count);
-    39		if (!ret)
-    40			return 0;
-    41	
-    42		wake_up_interruptible(&qrc_dev->r_wait);
-    43	
-    44		return count;
-    45	}
-    46	
-    47	/* Write out any remaining transmit buffer. Scheduled when tty is writable */
-    48	static void qrcuart_transmit(struct work_struct *work)
-    49	{
-    50		struct qrcuart *qrc = container_of(work, struct qrcuart, tx_work);
-    51		int written;
-    52	
-    53		spin_lock_bh(&qrc->lock);
-    54	
-    55		if (qrc->tx_left <= 0) {
-    56			/* Now serial buffer is almost free & we can start
-    57			 * transmission of another packet
-    58			 */
-    59			spin_unlock_bh(&qrc->lock);
-    60			return;
-    61		}
-    62	
-    63		written = serdev_device_write_buf(qrc->serdev, qrc->tx_head,
-    64						  qrc->tx_left);
-    65		if (written > 0) {
-    66			qrc->tx_left -= written;
-    67			qrc->tx_head += written;
-    68		}
-    69		spin_unlock_bh(&qrc->lock);
-    70	}
-    71	
-    72	/* Called by the driver when there's room for more data.
-    73	 * Schedule the transmit.
-    74	 */
-    75	static void qrc_uart_wakeup(struct serdev_device *serdev)
-    76	{
-    77		struct qrcuart *qrc = serdev_device_get_drvdata(serdev);
-    78	
-    79		schedule_work(&qrc->tx_work);
-    80	}
-    81	
-    82	static struct serdev_device_ops qrc_serdev_ops = {
-    83		.receive_buf = qrc_uart_receive,
-    84		.write_wakeup = qrc_uart_wakeup,
-    85	};
-    86	
-    87	/*----------------Interface to QRC core -----------------------------*/
-    88	
-    89	static int qrcuart_open(struct qrc_dev *dev)
-    90	{
-    91		struct qrcuart *qrc = qrc_get_data(dev);
-    92		struct serdev_device *serdev = qrc->serdev;
-    93		int ret;
-    94	
-    95		if (!qrc->is_open) {
-    96			ret = serdev_device_open(serdev);
-    97			if (ret) {
-    98				dev_err(dev->dev, "qrcuart :Unable to open device\n");
-    99				return ret;
-   100			}
-   101			serdev_device_set_baudrate(serdev, 115200);
-   102			serdev_device_set_flow_control(serdev, false);
-   103			qrc->is_open = true;
-   104		}
-   105	
-   106		return 0;
-   107	}
-   108	
-   109	static int qrcuart_close(struct qrc_dev *dev)
-   110	{
-   111		struct qrcuart *qrc = qrc_get_data(dev);
-   112		struct serdev_device *serdev = qrc->serdev;
-   113	
-   114		flush_work(&qrc->tx_work);
-   115		spin_lock_bh(&qrc->lock);
-   116		qrc->tx_left = 0;
-   117		spin_unlock_bh(&qrc->lock);
-   118	
-   119		if (qrc->is_open) {
-   120			serdev_device_close(serdev);
-   121			qrc->is_open = false;
-   122		}
-   123	
-   124		return 0;
-   125	}
-   126	
-   127	static int qrcuart_init(struct qrc_dev *dev)
-   128	{
-   129		struct qrcuart *qrc = qrc_get_data(dev);
-   130		size_t len;
-   131		int ret;
-   132	
-   133		/* Finish setting up the device info. */
-   134		len = QRC_TX_BUFF_SIZE;
-   135		qrc->tx_buffer = devm_kmalloc(&qrc->serdev->dev, len, GFP_KERNEL);
-   136	
-   137		if (!qrc->tx_buffer)
-   138			return -ENOMEM;
-   139	
-   140		qrc->tx_head = qrc->tx_buffer;
-   141		qrc->tx_left = 0;
-   142	
-   143		ret = kfifo_alloc(&qrc->qrc_rx_fifo, QRC_RX_FIFO_SIZE,
-   144				  GFP_KERNEL);
-   145		if (ret)
-   146			return -ENOMEM;
-   147	
-   148		return 0;
-   149	}
-   150	
-   151	static void qrcuart_uninit(struct qrc_dev *dev)
-   152	{
-   153		struct qrcuart *qrc = qrc_get_data(dev);
-   154	
-   155		kfifo_free(&qrc->qrc_rx_fifo);
-   156	}
-   157	
-   158	/*put data from kfifo to qrc fifo */
-   159	static int qrcuart_receive(struct qrc_dev *dev, char __user *buf,
-   160				   size_t count)
-   161	{
-   162		struct qrcuart *qrc = qrc_get_data(dev);
-   163		u32 fifo_len, trans_len;
-   164	
-   165		if (!kfifo_is_empty(&qrc->qrc_rx_fifo)) {
-   166			fifo_len = kfifo_len(&qrc->qrc_rx_fifo);
-   167			if (count > fifo_len)
-   168				count = fifo_len;
-   169			if (kfifo_to_user(&qrc->qrc_rx_fifo,
-   170					  (void *)buf, count, &trans_len))
-   171				return -EFAULT;
-   172			return trans_len;
-   173		}
-   174		return 0;
-   175	}
-   176	
-   177	static int qrcuart_data_status(struct qrc_dev *dev)
-   178	{
-   179		struct qrcuart *qrc = qrc_get_data(dev);
-   180	
-   181		return kfifo_len(&qrc->qrc_rx_fifo);
-   182	}
-   183	
-   184	static void qrcuart_data_clean(struct qrc_dev *dev)
-   185	{
-   186		struct qrcuart *qrc = qrc_get_data(dev);
-   187	
-   188		kfifo_reset(&qrc->qrc_rx_fifo);
-   189	}
-   190	
-   191	static enum qrcdev_tx qrcuart_xmit(const char __user  *buf,
-   192					   size_t data_length, struct qrc_dev *dev)
-   193	{
-   194		struct qrcuart *qrc = qrc_get_data(dev);
-   195		struct qrc_device_stats *n_stats = &dev->stats;
-   196		size_t written;
-   197		u8 *pos;
-   198	
-   199		WARN_ON(qrc->tx_left);
-   200	
-   201		pos = qrc->tx_buffer + qrc->tx_left;
-   202		if ((data_length + qrc->tx_left) > QRC_TX_BUFF_SIZE) {
- > 203			dev_err(dev->dev, "qrcuart transmit date overflow %ld\n", data_length);
-   204			return __QRCDEV_TX_MIN;
-   205		}
-   206	
-   207		if (copy_from_user(pos, buf, data_length))
-   208			return __QRCDEV_TX_MIN;
-   209	
-   210		pos += data_length;
-   211	
-   212		spin_lock(&qrc->lock);
-   213	
-   214		written = serdev_device_write_buf(qrc->serdev, qrc->tx_buffer,
-   215						  pos - qrc->tx_buffer);
-   216		if (written > 0) {
-   217			qrc->tx_left = (pos - qrc->tx_buffer) - written;
-   218			qrc->tx_head = qrc->tx_buffer + written;
-   219			n_stats->tx_bytes += written;
-   220		}
-   221	
-   222		spin_unlock(&qrc->lock);
-   223	
-   224		return QRCDEV_TX_OK;
-   225	}
-   226	
+   355	
+   356		/* Linux m68k/i386 interface for setting the keyboard delay/repeat rate */
+   357	
+   358		case KDKBDREP:
+   359		{
+   360			struct kbd_repeat kbrep;
+   361	
+   362			if (!capable(CAP_SYS_TTY_CONFIG))
+   363				return -EPERM;
+   364	
+   365			if (copy_from_user(&kbrep, up, sizeof(struct kbd_repeat)))
+   366				return -EFAULT;
+   367	
+   368			ret = kbd_rate(&kbrep);
+   369			if (ret)
+   370				return ret;
+   371			if (copy_to_user(up, &kbrep, sizeof(struct kbd_repeat)))
+   372				return -EFAULT;
+   373			break;
+   374		}
+   375	
+   376		case KDSETMODE:
+   377			if (!perm)
+   378				return -EPERM;
+   379	
+   380			console_lock();
+   381			ret = vt_kdsetmode(vc, arg);
+   382			console_unlock();
+   383			return ret;
+   384	
+   385		case KDGETMODE:
+   386			return put_user(vc->vc_mode, (int __user *)arg);
+   387	
+   388		case KDMAPDISP:
+   389		case KDUNMAPDISP:
+   390			/*
+   391			 * these work like a combination of mmap and KDENABIO.
+   392			 * this could be easily finished.
+   393			 */
+   394			return -EINVAL;
+   395	
+   396		case KDSKBMODE:
+   397			if (!perm)
+   398				return -EPERM;
+   399			ret = vt_do_kdskbmode(console, arg);
+   400			if (ret)
+   401				return ret;
+   402			tty_ldisc_flush(tty);
+   403			break;
+   404	
+   405		case KDGKBMODE:
+   406			return put_user(vt_do_kdgkbmode(console), (int __user *)arg);
+   407	
+   408		/* this could be folded into KDSKBMODE, but for compatibility
+   409		   reasons it is not so easy to fold KDGKBMETA into KDGKBMODE */
+   410		case KDSKBMETA:
+   411			return vt_do_kdskbmeta(console, arg);
+   412	
+   413		case KDGKBMETA:
+   414			/* FIXME: should review whether this is worth locking */
+   415			return put_user(vt_do_kdgkbmeta(console), (int __user *)arg);
+   416	
+   417		case KDGETKEYCODE:
+   418		case KDSETKEYCODE:
+   419			if(!capable(CAP_SYS_TTY_CONFIG))
+   420				perm = 0;
+   421			return vt_do_kbkeycode_ioctl(cmd, up, perm);
+   422	
+   423		case KDGKBENT:
+   424		case KDSKBENT:
+   425			return vt_do_kdsk_ioctl(cmd, up, perm, console);
+   426	
+   427		case KDGKBSENT:
+   428		case KDSKBSENT:
+   429			return vt_do_kdgkb_ioctl(cmd, up, perm);
+   430	
+   431		/* Diacritical processing. Handled in keyboard.c as it has
+   432		   to operate on the keyboard locks and structures */
+   433		case KDGKBDIACR:
+   434		case KDGKBDIACRUC:
+   435		case KDSKBDIACR:
+   436		case KDSKBDIACRUC:
+   437			return vt_do_diacrit(cmd, up, perm);
+   438	
+   439		/* the ioctls below read/set the flags usually shown in the leds */
+   440		/* don't use them - they will go away without warning */
+   441		case KDGKBLED:
+   442		case KDSKBLED:
+   443		case KDGETLED:
+   444		case KDSETLED:
+   445			return vt_do_kdskled(console, cmd, arg, perm);
+   446	
+   447		/*
+   448		 * A process can indicate its willingness to accept signals
+   449		 * generated by pressing an appropriate key combination.
+   450		 * Thus, one can have a daemon that e.g. spawns a new console
+   451		 * upon a keypress and then changes to it.
+   452		 * See also the kbrequest field of inittab(5).
+   453		 */
+   454		case KDSIGACCEPT:
+   455			if (!perm || !capable(CAP_KILL))
+   456				return -EPERM;
+   457			if (!valid_signal(arg) || arg < 1 || arg == SIGKILL)
+   458				return -EINVAL;
+   459	
+   460			spin_lock_irq(&vt_spawn_con.lock);
+   461			put_pid(vt_spawn_con.pid);
+   462			vt_spawn_con.pid = get_pid(task_pid(current));
+   463			vt_spawn_con.sig = arg;
+   464			spin_unlock_irq(&vt_spawn_con.lock);
+   465			break;
+   466	
+   467		case KDFONTOP: {
+   468			struct console_font_op op;
+   469	
+   470			if (copy_from_user(&op, up, sizeof(op)))
+   471				return -EFAULT;
+   472			if (!perm && op.op != KD_FONT_OP_GET)
+   473				return -EPERM;
+   474			ret = con_font_op(vc, &op);
+   475			if (ret)
+   476				return ret;
+   477			if (copy_to_user(up, &op, sizeof(op)))
+   478				return -EFAULT;
+   479			break;
+   480		}
+   481	
+   482		case KDFONTINFO:
+ > 483			struct console_font_info fnt_info;
+   484	
+   485			if (copy_from_user(&fnt_info, up, sizeof(fnt_info)))
+   486				return -EFAULT;
+   487			ret = con_font_info(vc, &fnt_info);
+   488			if (ret)
+   489				return ret;
+   490			if (copy_to_user(up, &fnt_info, sizeof(fnt_info)))
+   491				return -EFAULT;
+   492			break;
+   493	
+   494		default:
+   495			return -ENOIOCTLCMD;
+   496		}
+   497	
+   498		return 0;
+   499	}
+   500	
 
 -- 
 0-DAY CI Kernel Test Service
