@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A18612F6
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Mar 2024 17:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7764126293
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Mar 2024 18:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709574507; cv=none; b=uktn9Q8MDpRK6898J5EcxUCo5eU3PuXBu+Vc1y/c2MvSO7x0pU3SbjvMNpvL+D8DYGAVMtSB+8Qy9o8zJmp9nenK9dnQktqYdT66h/wBqa2GHWJZcDji1LMUNHctxOsrjq/wXJKW88e0eCxVkChSkbDRVrL+Auc+63CzLDOOBm8=
+	t=1709575824; cv=none; b=qMP75sxqkmkx5H+NLSHRcAKock3bPzXSb2x4wUI2RsW3PDSoM+dR/FGjqIgMGdgvVUfa041st83KOughAVbe84oRR5iJ3pJozldizC9IWBtuoqERwSo3qur+Z9urni3vOUQeaaGeZkn4NXDfnoN39F5Bi0ed/V/Ox1+5Z/cWNfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709574507; c=relaxed/simple;
-	bh=RwN73zyBb6vkbiMZFV3YrkOYMlg+LQj1eKp5Jy9hYwY=;
+	s=arc-20240116; t=1709575824; c=relaxed/simple;
+	bh=CBz/xRTNiKDbZ9M3GMB2l66g1bnnqYR5f2PzoVIcVrs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UdXkthbacKkkFFyyPZMdCxxyo1ZO61HvtSLiU3/6IJFE9b+qnec7Dwfp87Ob+3/QfmMFLtDlysbJeqYAHk44JIgZv9JXAKEMDGRzNsWeaQW0U8LyQGtv1+33UWxLIK5RJob9Op3t+BaKXzCsBiqjviZ/Z2icde5LY6HjX3l3qC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JbaaRDIZ; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=n42rRc9mJ+we24PxGDZM0eRSC0B0rqUDUBy9fn/Z6GVkHNnbNC9kTexpsXyT9JUVWwiuT6f8qF9iTbTiJokn9S+svfxSXirnHPCvC2JZ5q+muz8GjmhaPSw0fE+XZFzZL/gIzyMPgH2eqN3ALAP5vwMgpmhesO0GIRwhVbj0xF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BPJ/pHAv; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JbaaRDIZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BPJ/pHAv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709574506; x=1741110506;
+  t=1709575822; x=1741111822;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RwN73zyBb6vkbiMZFV3YrkOYMlg+LQj1eKp5Jy9hYwY=;
-  b=JbaaRDIZCgxyiFerCw9ftCK0QvAbuwzvVfLVJF9NhoJUvAqVtBEC+IJY
-   uDlKnpdX2PrRsMm/5aSRWxTk2gAqs5aEEwllOHzlV4a6XlTfC+2/3UUJY
-   UdSwO9uLb/6pA7000uTgpjDkY1kTJdLDLe+/+GRNvp3voJT4h2EU5uq15
-   PCBK7JsnFpfzH/3CtSR2wplhNvNUYElvE0nOY8xS0ms85m5G/99aSLsGY
-   QwsuukvPqrswjCQ1quKZgjocNDIkIVettrFTfftCeTxrr+pMUe+ek05CD
-   sqlpfurYtgmKYRu6ymxYeMW1xC4IUsF/1vwVmxR+Gq8TS2B8gSnAVX88o
+  bh=CBz/xRTNiKDbZ9M3GMB2l66g1bnnqYR5f2PzoVIcVrs=;
+  b=BPJ/pHAv39ZzOx5Z/g2/W6lLmwWsm9tLu5zwaYIH4vgxpM9kvpLV9pAZ
+   XTpNLB3gF5RWzX9B4xbvXgB4xrCcIJFKCOvP1DR7nrussDmuN11zYx47d
+   OX4rLCMLzIaqvqDgy/4f6vyu7Ysl2AGagrhplGM2EJxxS+GrrYIgnxlBx
+   BPGwLBftUUTyL9xRAVhMKPvGP0KcqyURyk6us/3NwsDMRSsPiD2Z1q47+
+   YXVuBenntm63E0mkbuIyxEFQaMYZJKnXrIAZgQV71xKQ3mM/EFx1nrsHP
+   f7ltqBRTVU7tY59Li0N9/LiufyoT20CD+Ws/RHuKQdzMR63Rjy+3LVFq7
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4007902"
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="29510754"
 X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
-   d="scan'208";a="4007902"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 09:48:23 -0800
+   d="scan'208";a="29510754"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 10:10:21 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
-   d="scan'208";a="13773763"
+   d="scan'208";a="8996961"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Mar 2024 09:48:19 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 04 Mar 2024 10:10:18 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhCQC-0002g5-06;
-	Mon, 04 Mar 2024 17:48:16 +0000
-Date: Tue, 5 Mar 2024 01:47:53 +0800
+	id 1rhClU-0002gr-1x;
+	Mon, 04 Mar 2024 18:10:16 +0000
+Date: Tue, 5 Mar 2024 02:09:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
 	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
 	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
 	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma
- expression has no effect
-Message-ID: <202403050153.l8ChdUsk-lkp@intel.com>
+Subject: drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:33:44: sparse:
+ sparse: incorrect type in argument 2 (different address spaces)
+Message-ID: <202403050218.jPy7l2jv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,224 +61,148 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   e116ff64db9be38b70fd5b050f5900435d428547
-commit: 4a9714aa8fd6f64bfb6f213bf613d012ca810daa iommu: Move fwspec->iommu_priv to struct dev_iommu
-date:   9 months ago
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240305/202403050153.l8ChdUsk-lkp@intel.com/config)
+Hi Jason,
+
+First bad commit (maybe != root cause):
+
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
+head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
+commit: c29a8fe73857e9fa29d3d4bc9897fb7f126a7af2 vfio: IOMMU_API should be selected
+date:   2 years, 11 months ago
+config: arm64-randconfig-r131-20240303 (https://download.01.org/0day-ci/archive/20240305/202403050218.jPy7l2jv-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403050153.l8ChdUsk-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20240305/202403050218.jPy7l2jv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403050153.l8ChdUsk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403050218.jPy7l2jv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:33:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void * @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:33:44: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:33:44: sparse:     got void *
+>> drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:34:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got void * @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:34:33: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:34:33: sparse:     got void *
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:44:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void * @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:44:44: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:44:44: sparse:     got void *
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:45:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void * @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:45:33: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:45:33: sparse:     got void *
+>> drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:69:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ioaddr @@     got void [noderef] <asn:2> *ioaddr @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:69:41: sparse:     expected void *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:69:41: sparse:     got void [noderef] <asn:2> *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:71:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ioaddr @@     got void [noderef] <asn:2> *ioaddr @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:71:30: sparse:     expected void *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:71:30: sparse:     got void [noderef] <asn:2> *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:76:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ioaddr @@     got void [noderef] <asn:2> *ioaddr @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:76:49: sparse:     expected void *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:76:49: sparse:     got void [noderef] <asn:2> *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:85:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ioaddr @@     got void [noderef] <asn:2> *ioaddr @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:85:37: sparse:     expected void *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:85:37: sparse:     got void [noderef] <asn:2> *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:87:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ioaddr @@     got void [noderef] <asn:2> *ioaddr @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:87:30: sparse:     expected void *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:87:30: sparse:     got void [noderef] <asn:2> *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:90:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ioaddr @@     got void [noderef] <asn:2> *ioaddr @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:90:30: sparse:     expected void *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:90:30: sparse:     got void [noderef] <asn:2> *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:93:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ioaddr @@     got void [noderef] <asn:2> *ioaddr @@
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:93:30: sparse:     expected void *ioaddr
+   drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:93:30: sparse:     got void [noderef] <asn:2> *ioaddr
 
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_master_alloc_smes':
-   drivers/iommu/arm-smmu.c:1016:49: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1016 |         struct arm_smmu_master_cfg *cfg = fwspec->iommu_priv;
-         |                                                 ^~
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
-     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
-         |                                              ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                           ^~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1024:9: note: in expansion of macro 'for_each_cfg_sme'
-    1024 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
->> drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                                               ^
-   drivers/iommu/arm-smmu.c:1024:9: note: in expansion of macro 'for_each_cfg_sme'
-    1024 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
-     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
-         |                                              ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                           ^~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1057:9: note: in expansion of macro 'for_each_cfg_sme'
-    1057 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
->> drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                                               ^
-   drivers/iommu/arm-smmu.c:1057:9: note: in expansion of macro 'for_each_cfg_sme'
-    1057 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_master_free_smes':
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:112:27: note: in expansion of macro '__fwspec_cfg'
-     112 | #define fwspec_smmu(fw)  (__fwspec_cfg(fw)->smmu)
-         |                           ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1076:40: note: in expansion of macro 'fwspec_smmu'
-    1076 |         struct arm_smmu_device *smmu = fwspec_smmu(fwspec);
-         |                                        ^~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1077:49: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1077 |         struct arm_smmu_master_cfg *cfg = fwspec->iommu_priv;
-         |                                                 ^~
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
-     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
-         |                                              ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                           ^~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1081:9: note: in expansion of macro 'for_each_cfg_sme'
-    1081 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
->> drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                                               ^
-   drivers/iommu/arm-smmu.c:1081:9: note: in expansion of macro 'for_each_cfg_sme'
-    1081 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_domain_add_master':
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
-     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
-         |                                              ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                           ^~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1103:9: note: in expansion of macro 'for_each_cfg_sme'
-    1103 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
->> drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                                               ^
-   drivers/iommu/arm-smmu.c:1103:9: note: in expansion of macro 'for_each_cfg_sme'
-    1103 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_attach_dev':
-   drivers/iommu/arm-smmu.c:1134:20: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1134 |         if (!fwspec->iommu_priv)
-         |                    ^~
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:112:27: note: in expansion of macro '__fwspec_cfg'
-     112 | #define fwspec_smmu(fw)  (__fwspec_cfg(fw)->smmu)
-         |                           ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1137:16: note: in expansion of macro 'fwspec_smmu'
-    1137 |         smmu = fwspec_smmu(fwspec);
-         |                ^~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_add_device':
-   drivers/iommu/arm-smmu.c:1379:15: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1379 |         fwspec->iommu_priv = cfg;
-         |               ^~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_remove_device':
-   drivers/iommu/arm-smmu.c:1417:22: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1417 |         cfg  = fwspec->iommu_priv;
-         |                      ^~
-   drivers/iommu/arm-smmu.c:1430:21: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1430 |         kfree(fwspec->iommu_priv);
-         |                     ^~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_device_group':
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:112:27: note: in expansion of macro '__fwspec_cfg'
-     112 | #define fwspec_smmu(fw)  (__fwspec_cfg(fw)->smmu)
-         |                           ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1437:40: note: in expansion of macro 'fwspec_smmu'
-    1437 |         struct arm_smmu_device *smmu = fwspec_smmu(fwspec);
-         |                                        ^~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
-     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
-         |                                              ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                           ^~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1441:9: note: in expansion of macro 'for_each_cfg_sme'
-    1441 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
->> drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                                               ^
-   drivers/iommu/arm-smmu.c:1441:9: note: in expansion of macro 'for_each_cfg_sme'
-    1441 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: At top level:
-   drivers/iommu/arm-smmu.c:1586:35: error: initialization of 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int,  gfp_t)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int,  unsigned int)'} from incompatible pointer type 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int)'} [-Werror=incompatible-pointer-types]
-    1586 |         .map                    = arm_smmu_map,
-         |                                   ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1586:35: note: (near initialization for 'arm_smmu_ops.map')
-   cc1: some warnings being treated as errors
---
-   drivers/iommu/qcom_iommu.c: In function 'to_iommu':
-   drivers/iommu/qcom_iommu.c:81:22: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-      81 |         return fwspec->iommu_priv;
-         |                      ^~
-   drivers/iommu/qcom_iommu.c: In function 'qcom_iommu_of_xlate':
-   drivers/iommu/qcom_iommu.c:587:20: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     587 |         if (!fwspec->iommu_priv) {
-         |                    ^~
-   drivers/iommu/qcom_iommu.c:588:23: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     588 |                 fwspec->iommu_priv = qcom_iommu;
-         |                       ^~
-   In file included from arch/arm64/include/asm/bug.h:26,
-                    from include/linux/bug.h:5,
-                    from arch/arm64/include/asm/cpufeature.h:19,
-                    from arch/arm64/include/asm/processor.h:31,
-                    from include/linux/mutex.h:19,
-                    from include/linux/notifier.h:14,
-                    from include/linux/clk.h:14,
-                    from drivers/iommu/qcom_iommu.c:11:
-   drivers/iommu/qcom_iommu.c:594:49: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     594 |                 if (WARN_ON(qcom_iommu != fwspec->iommu_priv))
-         |                                                 ^~
-   include/asm-generic/bug.h:114:32: note: in definition of macro 'WARN_ON'
-     114 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   drivers/iommu/qcom_iommu.c: At top level:
-   drivers/iommu/qcom_iommu.c:607:27: error: initialization of 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int,  gfp_t)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int,  unsigned int)'} from incompatible pointer type 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int)'} [-Werror=incompatible-pointer-types]
-     607 |         .map            = qcom_iommu_map,
-         |                           ^~~~~~~~~~~~~~
-   drivers/iommu/qcom_iommu.c:607:27: note: (near initialization for 'qcom_iommu_ops.map')
-   drivers/iommu/qcom_iommu.c: In function 'to_iommu':
->> drivers/iommu/qcom_iommu.c:82:1: warning: control reaches end of non-void function [-Wreturn-type]
-      82 | }
-         | ^
-   cc1: some warnings being treated as errors
+vim +33 drivers/vfio/platform/reset/vfio_platform_amdxgbe.c
 
-
-vim +116 drivers/iommu/arm-smmu.c
-
+^590eaf1fec755 Kaixu Xia 2021-03-16   26  
+^590eaf1fec755 Kaixu Xia 2021-03-16   27  static unsigned int xmdio_read(void *ioaddr, unsigned int mmd,
+^590eaf1fec755 Kaixu Xia 2021-03-16   28  			       unsigned int reg)
+^590eaf1fec755 Kaixu Xia 2021-03-16   29  {
+^590eaf1fec755 Kaixu Xia 2021-03-16   30  	unsigned int mmd_address, value;
+^590eaf1fec755 Kaixu Xia 2021-03-16   31  
+^590eaf1fec755 Kaixu Xia 2021-03-16   32  	mmd_address = (mmd << 16) | ((reg) & 0xffff);
+^590eaf1fec755 Kaixu Xia 2021-03-16  @33  	iowrite32(mmd_address >> 8, ioaddr + (PCS_MMD_SELECT << 2));
+^590eaf1fec755 Kaixu Xia 2021-03-16  @34  	value = ioread32(ioaddr + ((mmd_address & 0xff) << 2));
+^590eaf1fec755 Kaixu Xia 2021-03-16   35  	return value;
+^590eaf1fec755 Kaixu Xia 2021-03-16   36  }
+^590eaf1fec755 Kaixu Xia 2021-03-16   37  
+^590eaf1fec755 Kaixu Xia 2021-03-16   38  static void xmdio_write(void *ioaddr, unsigned int mmd,
+^590eaf1fec755 Kaixu Xia 2021-03-16   39  			unsigned int reg, unsigned int value)
+^590eaf1fec755 Kaixu Xia 2021-03-16   40  {
+^590eaf1fec755 Kaixu Xia 2021-03-16   41  	unsigned int mmd_address;
+^590eaf1fec755 Kaixu Xia 2021-03-16   42  
+^590eaf1fec755 Kaixu Xia 2021-03-16   43  	mmd_address = (mmd << 16) | ((reg) & 0xffff);
+^590eaf1fec755 Kaixu Xia 2021-03-16   44  	iowrite32(mmd_address >> 8, ioaddr + (PCS_MMD_SELECT << 2));
+^590eaf1fec755 Kaixu Xia 2021-03-16   45  	iowrite32(value, ioaddr + ((mmd_address & 0xff) << 2));
+^590eaf1fec755 Kaixu Xia 2021-03-16   46  }
+^590eaf1fec755 Kaixu Xia 2021-03-16   47  
+^590eaf1fec755 Kaixu Xia 2021-03-16   48  static int vfio_platform_amdxgbe_reset(struct vfio_platform_device *vdev)
+^590eaf1fec755 Kaixu Xia 2021-03-16   49  {
+^590eaf1fec755 Kaixu Xia 2021-03-16   50  	struct vfio_platform_region *xgmac_regs = &vdev->regions[0];
+^590eaf1fec755 Kaixu Xia 2021-03-16   51  	struct vfio_platform_region *xpcs_regs = &vdev->regions[1];
+^590eaf1fec755 Kaixu Xia 2021-03-16   52  	u32 dma_mr_value, pcs_value, value;
+^590eaf1fec755 Kaixu Xia 2021-03-16   53  	unsigned int count;
+^590eaf1fec755 Kaixu Xia 2021-03-16   54  
+^590eaf1fec755 Kaixu Xia 2021-03-16   55  	if (!xgmac_regs->ioaddr) {
+^590eaf1fec755 Kaixu Xia 2021-03-16   56  		xgmac_regs->ioaddr =
+^590eaf1fec755 Kaixu Xia 2021-03-16   57  			ioremap_nocache(xgmac_regs->addr, xgmac_regs->size);
+^590eaf1fec755 Kaixu Xia 2021-03-16   58  		if (!xgmac_regs->ioaddr)
+^590eaf1fec755 Kaixu Xia 2021-03-16   59  			return -ENOMEM;
+^590eaf1fec755 Kaixu Xia 2021-03-16   60  	}
+^590eaf1fec755 Kaixu Xia 2021-03-16   61  	if (!xpcs_regs->ioaddr) {
+^590eaf1fec755 Kaixu Xia 2021-03-16   62  		xpcs_regs->ioaddr =
+^590eaf1fec755 Kaixu Xia 2021-03-16   63  			ioremap_nocache(xpcs_regs->addr, xpcs_regs->size);
+^590eaf1fec755 Kaixu Xia 2021-03-16   64  		if (!xpcs_regs->ioaddr)
+^590eaf1fec755 Kaixu Xia 2021-03-16   65  			return -ENOMEM;
+^590eaf1fec755 Kaixu Xia 2021-03-16   66  	}
+^590eaf1fec755 Kaixu Xia 2021-03-16   67  
+^590eaf1fec755 Kaixu Xia 2021-03-16   68  	/* reset the PHY through MDIO*/
+^590eaf1fec755 Kaixu Xia 2021-03-16  @69  	pcs_value = xmdio_read(xpcs_regs->ioaddr, MDIO_MMD_PCS, MDIO_CTRL1);
+^590eaf1fec755 Kaixu Xia 2021-03-16   70  	pcs_value |= MDIO_CTRL1_RESET;
+^590eaf1fec755 Kaixu Xia 2021-03-16   71  	xmdio_write(xpcs_regs->ioaddr, MDIO_MMD_PCS, MDIO_CTRL1, pcs_value);
+^590eaf1fec755 Kaixu Xia 2021-03-16   72  
+^590eaf1fec755 Kaixu Xia 2021-03-16   73  	count = 50;
+^590eaf1fec755 Kaixu Xia 2021-03-16   74  	do {
+^590eaf1fec755 Kaixu Xia 2021-03-16   75  		msleep(20);
+^590eaf1fec755 Kaixu Xia 2021-03-16   76  		pcs_value = xmdio_read(xpcs_regs->ioaddr, MDIO_MMD_PCS,
+^590eaf1fec755 Kaixu Xia 2021-03-16   77  					MDIO_CTRL1);
+^590eaf1fec755 Kaixu Xia 2021-03-16   78  	} while ((pcs_value & MDIO_CTRL1_RESET) && --count);
+^590eaf1fec755 Kaixu Xia 2021-03-16   79  
+^590eaf1fec755 Kaixu Xia 2021-03-16   80  	if (pcs_value & MDIO_CTRL1_RESET)
+^590eaf1fec755 Kaixu Xia 2021-03-16   81  		dev_warn(vdev->device, "%s: XGBE PHY reset timeout\n",
+^590eaf1fec755 Kaixu Xia 2021-03-16   82  			 __func__);
+^590eaf1fec755 Kaixu Xia 2021-03-16   83  
+^590eaf1fec755 Kaixu Xia 2021-03-16   84  	/* disable auto-negotiation */
+^590eaf1fec755 Kaixu Xia 2021-03-16   85  	value = xmdio_read(xpcs_regs->ioaddr, MDIO_MMD_AN, MDIO_CTRL1);
+^590eaf1fec755 Kaixu Xia 2021-03-16   86  	value &= ~MDIO_AN_CTRL1_ENABLE;
+^590eaf1fec755 Kaixu Xia 2021-03-16   87  	xmdio_write(xpcs_regs->ioaddr, MDIO_MMD_AN, MDIO_CTRL1, value);
+^590eaf1fec755 Kaixu Xia 2021-03-16   88  
+^590eaf1fec755 Kaixu Xia 2021-03-16   89  	/* disable AN IRQ */
+^590eaf1fec755 Kaixu Xia 2021-03-16   90  	xmdio_write(xpcs_regs->ioaddr, MDIO_MMD_AN, MDIO_AN_INTMASK, 0);
+^590eaf1fec755 Kaixu Xia 2021-03-16   91  
+^590eaf1fec755 Kaixu Xia 2021-03-16   92  	/* clear AN IRQ */
+^590eaf1fec755 Kaixu Xia 2021-03-16   93  	xmdio_write(xpcs_regs->ioaddr, MDIO_MMD_AN, MDIO_AN_INT, 0);
+^590eaf1fec755 Kaixu Xia 2021-03-16   94  
+^590eaf1fec755 Kaixu Xia 2021-03-16   95  	/* MAC software reset */
+^590eaf1fec755 Kaixu Xia 2021-03-16   96  	dma_mr_value = ioread32(xgmac_regs->ioaddr + DMA_MR);
+^590eaf1fec755 Kaixu Xia 2021-03-16   97  	dma_mr_value |= 0x1;
+^590eaf1fec755 Kaixu Xia 2021-03-16   98  	iowrite32(dma_mr_value, xgmac_regs->ioaddr + DMA_MR);
+^590eaf1fec755 Kaixu Xia 2021-03-16   99  
+^590eaf1fec755 Kaixu Xia 2021-03-16  100  	usleep_range(10, 15);
+^590eaf1fec755 Kaixu Xia 2021-03-16  101  
+^590eaf1fec755 Kaixu Xia 2021-03-16  102  	count = 2000;
+^590eaf1fec755 Kaixu Xia 2021-03-16  103  	while (--count && (ioread32(xgmac_regs->ioaddr + DMA_MR) & 1))
+^590eaf1fec755 Kaixu Xia 2021-03-16  104  		usleep_range(500, 600);
 ^590eaf1fec755 Kaixu Xia 2021-03-16  105  
-^590eaf1fec755 Kaixu Xia 2021-03-16  106  struct arm_smmu_master_cfg {
-^590eaf1fec755 Kaixu Xia 2021-03-16  107  	struct arm_smmu_device		*smmu;
-^590eaf1fec755 Kaixu Xia 2021-03-16  108  	s16				smendx[];
-^590eaf1fec755 Kaixu Xia 2021-03-16  109  };
-^590eaf1fec755 Kaixu Xia 2021-03-16  110  #define INVALID_SMENDX			-1
-^590eaf1fec755 Kaixu Xia 2021-03-16  111  #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-^590eaf1fec755 Kaixu Xia 2021-03-16  112  #define fwspec_smmu(fw)  (__fwspec_cfg(fw)->smmu)
-^590eaf1fec755 Kaixu Xia 2021-03-16  113  #define fwspec_smendx(fw, i) \
-^590eaf1fec755 Kaixu Xia 2021-03-16  114  	(i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
-^590eaf1fec755 Kaixu Xia 2021-03-16  115  #define for_each_cfg_sme(fw, i, idx) \
-^590eaf1fec755 Kaixu Xia 2021-03-16 @116  	for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-^590eaf1fec755 Kaixu Xia 2021-03-16  117  
+^590eaf1fec755 Kaixu Xia 2021-03-16  106  	if (!count)
+^590eaf1fec755 Kaixu Xia 2021-03-16  107  		dev_warn(vdev->device, "%s: MAC SW reset failed\n", __func__);
+^590eaf1fec755 Kaixu Xia 2021-03-16  108  
+^590eaf1fec755 Kaixu Xia 2021-03-16  109  	return 0;
+^590eaf1fec755 Kaixu Xia 2021-03-16  110  }
+^590eaf1fec755 Kaixu Xia 2021-03-16  111  
 
-:::::: The code at line 116 was first introduced by commit
+:::::: The code at line 33 was first introduced by commit
 :::::: 590eaf1fec755215547690e787cc7d83f58ea948 Init Repo base on linux 5.4.32 long term, and add base tlinux kernel interfaces.
 
 :::::: TO: Kaixu Xia <kaixuxia@tencent.com>
