@@ -1,119 +1,131 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125B76138
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Mar 2024 05:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B98E10A2E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Mar 2024 06:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709530992; cv=none; b=DAYuuwZs0jFwDEz8ZVsgnFkdMWAt64QGgI7k4s+pdKLHYzDunG2fWFggHp3EQyRjPdRmy15sHcRXKCDAqQlmJzEkCIuHEPPZ+n7ZIXKmR5S82bxiBtObJdO8m1rsMpJ0675txMA7018Z11URiTNjoGqv17Ctg+PdO6KMr3yAvno=
+	t=1709535256; cv=none; b=iyXX+l7SEnmh8Hm1JtxLuoCi/RH+VLyYwPKV5CALGsce38UiEOqQrKwjRcpzj5N6O12otZnzjh4qR8WJhb3F2ZOFlq5UDde+cKs6J6vopVK5KTBUkM5xYTQ3VoZV9gJpExsb+1ZtO7uPj7u4UlxV3JIJYgf8yd/G5tCkSA/c30s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709530992; c=relaxed/simple;
-	bh=WGkZHzlyAWQ8ISw8UICIlbevVxrfqlLQ1gYQEskJp5s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XkQ04pq5oo0RLQyUvmwD5lqCqVHTspfKTbu5uoaztttvmsExCvXJL7rx+fTTzQWYKxlSbP3dUKaxnBDHKrPX2O3n81lP5TXl2sTUyvk0kq0gBZvqe3Od4FrDnhT+ipabv5x92S/VjIIB5D82EkUo6p/JHGR1YhgD2/L45+yDpNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PSYVy7up; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709535256; c=relaxed/simple;
+	bh=qwDzqEF8GG32Owpd8pywxD5f8JJ2TAEnywKhR1/cXOE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U9OswZeEPZy/8mRismG+Glema4R1EHfF3Npyt2TStNeDRiLaV2mCKmC81dTcNTBwXzmH3HGKjdnxumeVtNL8P15DhdBosnlMbAejtSRoyTS/kR1zvH3Y9kty4hxcIUvzAvCkZPxKZH0SQJpH0JKGyyzJGjpby4WqS6k65Hmecpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qYtoXmG4; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PSYVy7up"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d228a132acso52677811fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Mar 2024 21:43:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qYtoXmG4"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2998950e951so2183132a91.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Mar 2024 22:54:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709530989; x=1710135789; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WGkZHzlyAWQ8ISw8UICIlbevVxrfqlLQ1gYQEskJp5s=;
-        b=PSYVy7upEylmcQ5IYazPtMX0HfLvrqT8f8JBbYx3ouXYfM8yM8vpdfpmOYOyANpeFc
-         J/gSuNC3uBbynr5eoSq6Je9f8+OygmiSktBtSpcwp++nK1DYBQ4IncddfBn15wfMT5ke
-         zNJ+EJW2HdkvrVAZsUwiHBR+FQspcGEk4IRLb+UX4XmJXt+Wkb82O3/DsggI47MT+nXG
-         OVklVWWpRkhc4wJ9gBO/0jpBy0OR3o7IPvkl3IdSgUZqJrQnexBiBhXIjejxYDZ2Qw62
-         AY6KtzBMnWDcUbKsrONecPF8nSF2vWEP8eSHwW5oeWyzn6RyUSOdcSzcYIY051mbbXVQ
-         cJvw==
+        d=linaro.org; s=google; t=1709535254; x=1710140054; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=D8N5jw5DNhX96aWHAoC7hlIkB5rQeSq/PiKBnWFq/Kc=;
+        b=qYtoXmG4j356uK4MXFVsBZBhheWbt83RsA73jpVeC2DcAn8p9ESQAmK3b+CQfw8jBb
+         ICNnpDkO193SEWIjG6vGvhzBe5ile2YXQrBY44hY9f0i5DlfbA6n6f2+ZazkItbOUMVj
+         pdC9XcCEroJFr5FEPXVRA8k1hlhoxNz/6sUNkpA0L+zGW6O7pJ8wQrKBxxgz0UJmg5zS
+         3Ey8DPU2PgrQjMiIL+Nue6ewCivv3hhIB4MESGwSHpDFYOpamGlJaB5Us88GqyTPeTh8
+         o7d2bB9bOgG6stH5F2c73IOo2CVMP4j+wJe/CGSOCIBR1G4zzJhhduTi4NVBLNwTXCVr
+         f97Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709530989; x=1710135789;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WGkZHzlyAWQ8ISw8UICIlbevVxrfqlLQ1gYQEskJp5s=;
-        b=KsIgTKufIkKAxy4rjAF+OCdHrTjmRFLT2q7WLRK+QQXSWhMWzllrzX+ELYkD1YKtmG
-         T9wP4xbnooKsA7b0URj2neWzCbTUJVjsHkx3Q4qe+xLeaNCk0exZqlvt6QKgPbE2280G
-         PBpjjOjT33DInvkwQqCePldvlnF66u7Ck0vMCHJwROcz8lnEs1pjeM//I9A/+fIkzZeF
-         iPf43T4vZrQ8Kc4GTbWT68WjbQ3WM3jBorklhXtTwIfyrgfmHIs+IR2VLbr23JwLKIZb
-         pyQASgtawTtnvdP2gFnumFDA0FDzwOVJMByFYYBK7ItKMJn/KZ4h5pocta9whF5D027P
-         xnig==
-X-Forwarded-Encrypted: i=1; AJvYcCVfIiZz7hEo6g4Zqyhcdfl14AY5rhUGNEhqDoIw1C68QDgt9EZHh9SUYPoWCn9DtotlYhnph/DXm7SfDzz5/WntOREe9BzKtxfZMooa0Q==
-X-Gm-Message-State: AOJu0YwBnJ4wb3ac9yYCP8NPU2ertUZOYxRu6X5GsI6ZsqP4omO4HbeT
-	bl76Mxcwgi2lNSuZWWGzQrqPhz5XAx1NJKdxkPoUkipxKBq1zGrkwEuIMi9TCW65yO4nTNi8VHl
-	xZmo5B9mtKR99hkr48uXJGVleigU=
-X-Google-Smtp-Source: AGHT+IHPkr8MXlXnsTqDQUAH848oUd/FhdaH0EQep/6PvORXBzYeJvj04y1lheh/RMMA5J9aeAhTYUSvWrrqiOjfQ9Q=
-X-Received: by 2002:a2e:86d0:0:b0:2d2:b337:f55d with SMTP id
- n16-20020a2e86d0000000b002d2b337f55dmr5260411ljj.16.1709530988812; Sun, 03
- Mar 2024 21:43:08 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709535254; x=1710140054;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=D8N5jw5DNhX96aWHAoC7hlIkB5rQeSq/PiKBnWFq/Kc=;
+        b=ZxJPHHoztlPJolYo3kL2o1VRl4ZVPG7MquSTM5Z0IEFi4xAUxSS1WYOeZ+dT3qlJx7
+         nZ4iBjtJckitlCx0J9Fhef3BVXDdXdfax1JEoj0AD5Y4Xn8wete/w2A6aTTcsPIpPEin
+         dmjzcD3DAeddHElimLglUPzUxsh/c2c57o3XfhBVkgyESiQxS3Mk6KJ5KsjsxjROCijd
+         GEyWH9ZSb5wjF3cTYMvHRBynm8DBpB/nPzlOSSD4v8R3OdTT7xyYzlBBRDTamC17pltr
+         EOH8jcz/iQzJ/48X7hnbtdlUehzoCqt2ZxdpcyPoFbDzredQmxj7QviZPsflqK2bm4Vc
+         ifTA==
+X-Forwarded-Encrypted: i=1; AJvYcCVqfm+Xrim4OIgbTQdlReBCi/46DgSOJUaQlF74F8pViZNcg2PUTS2ITpJkd+F8voZ/qYEc7UuOTz5//doj27azSB1/18+jonHn4L86cg==
+X-Gm-Message-State: AOJu0YzpDVWjPGrIO+ym5BOPoh/LlTA04d3p80D3rXxGAhVcfcUI91Dt
+	/FFCJKX9+k+DK8WQOYqSo1KoGgv17W/v7Ui/FZBHGNt1vhmJYywrmSz61jA5MEA=
+X-Google-Smtp-Source: AGHT+IHz5qhAqvj0ld03y+Oe0fC9BOHVqZ8VG5Zk/vWgrlA+0AnapYB2A9wkUbEc3qSB4xAkQ6x+SQ==
+X-Received: by 2002:a17:90a:a88b:b0:29b:33eb:1070 with SMTP id h11-20020a17090aa88b00b0029b33eb1070mr2853462pjq.14.1709535253867;
+        Sun, 03 Mar 2024 22:54:13 -0800 (PST)
+Received: from localhost ([122.172.85.206])
+        by smtp.gmail.com with ESMTPSA id y33-20020a17090a53a400b0029ab5abcbe1sm10102638pjh.20.2024.03.03.22.54.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Mar 2024 22:54:13 -0800 (PST)
+Date: Mon, 4 Mar 2024 12:24:11 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: "Liu, Yujie" <yujie.liu@intel.com>
+Cc: lkp <lkp@intel.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
+Subject: Re: drivers/opp/debugfs.c:48:54: warning: '%d' directive output may
+ be truncated writing between 1 and 11 bytes into a region of size 8
+Message-ID: <20240304065411.w34vbaeg2rlq6z5k@vireshk-i7>
+References: <202402141313.81ltVF5g-lkp@intel.com>
+ <20240214055836.c5i3zmkhdllldwon@vireshk-i7>
+ <b41c6cdb78c96d5f4a909fc13c253ef0d8576c86.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202403020457.RCJoQ3ts-lkp@intel.com> <87edctwr6y.ffs@tglx>
- <87a5nhwpus.ffs@tglx> <87y1b0vp8m.ffs@tglx> <87sf18vdsq.ffs@tglx>
- <87le70uwf0.ffs@tglx> <CAHk-=wiWhfdc4Sw2VBq_2nL2NDxmZS32xG4P7mBVwABGqUoJnw@mail.gmail.com>
- <87edcruvja.ffs@tglx> <CAFULd4bVEUBEidTLbHNzRaJbSjXm99yC8LT=jdzFWb7xnuFH7g@mail.gmail.com>
- <87bk7vuldh.ffs@tglx> <CAFULd4arHT+_fy9_oUNpmsvyfVPGaeB_pdeuqVS3UTpP5R757A@mail.gmail.com>
- <CAFULd4b0HN6eUJsOW6po8Hf16T3eMhjdKUvw-TS8yncNn-+Vyw@mail.gmail.com> <87bk7ux4e9.ffs@tglx>
-In-Reply-To: <87bk7ux4e9.ffs@tglx>
-From: Uros Bizjak <ubizjak@gmail.com>
-Date: Mon, 4 Mar 2024 06:42:57 +0100
-Message-ID: <CAFULd4aEe2KU=UXEt2=GeLQq2uTSFvydBiwAdSa7B6T61Am=5w@mail.gmail.com>
-Subject: Re: arch/x86/include/asm/processor.h:698:16: sparse: sparse:
- incorrect type in initializer (different address spaces)
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, kernel test robot <lkp@intel.com>, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Arjan van de Ven <arjan@linux.intel.com>, x86@kernel.org, 
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
-	Sparse Mailing-list <linux-sparse@vger.kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b41c6cdb78c96d5f4a909fc13c253ef0d8576c86.camel@intel.com>
 
-On Mon, Mar 4, 2024 at 12:49=E2=80=AFAM Thomas Gleixner <tglx@linutronix.de=
-> wrote:
->
-> On Sun, Mar 03 2024 at 21:24, Uros Bizjak wrote:
-> > On Sun, Mar 3, 2024 at 9:21=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> =
-wrote:
-> >> On Sun, Mar 3, 2024 at 9:10=E2=80=AFPM Thomas Gleixner <tglx@linutroni=
-x.de> wrote:
-> >> > That's so sad because it would provide us compiler based __percpu
-> >> > validation.
-> >>
-> >> Unfortunately, the c compiler can't strip qualifiers, so typeof() is
-> >> of limited use also when const and volatile qualifiers are used.
-> >> Perhaps some extension could be introduced to c standard to provide an
-> >> unqualified type, e.g. typeof_unqual().
-> >
-> > Oh, there is one in C23 [1].
->
-> Yes. I found it right after ranting.
->
-> gcc >=3D 14 and clang >=3D 16 have support for it of course only when add=
-ing
-> -std=3Dc2x to the command line.
->
-> Sigh. The name space qualifiers are non standard and then the thing
-> which makes them more useful is hidden behind a standard.
+On 21-02-24, 06:01, Liu, Yujie wrote:
+> Hi Viresh,
+> 
+> On Wed, 2024-02-14 at 11:28 +0530, Viresh Kumar wrote:
+> > On 14-02-24, 13:43, kernel test robot wrote:
+> > > Hi Viresh,
+> > > 
+> > > FYI, the error/warning still remains.
+> > > 
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > > head:   7e90b5c295ec1e47c8ad865429f046970c549a66
+> > > commit: 46f48aca2e5aef3f430e95d1a5fb68227ec8ec85 OPP: Fix missing debugfs supply directory for OPPs
+> > > date:   5 years ago
+> > > config: x86_64-buildonly-randconfig-001-20231012 (https://download.01.org/0day-ci/archive/20240214/202402141313.81ltVF5g-lkp@intel.com/config)
+> > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240214/202402141313.81ltVF5g-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > Closes: https://lore.kernel.org/oe-kbuild-all/202402141313.81ltVF5g-lkp@intel.com/
+> > 
+> > I have informed this earlier too, this report is incorrect and applies
+> > to a very old commit.
+> 
+> Really sorry for not responding timely to the questions in the
+> following reports:
+> 
+> [1] https://lore.kernel.org/all/202311061847.BOtfUmbQ-lkp@intel.com/
+> [2] https://lore.kernel.org/all/202312170608.s9xI4TQb-lkp@intel.com/
+> 
+> We see that this still happens on the latest mainline rc regardless of
+> x86_64 or arm64 arch. Please note that this is a "W=1" warning. In our
+> tests, it can be reproduced with gcc-12 and gcc-13, but not with other
+> versions of gcc.
 
-With GCC, you can use __typeof_unqual__ (please note underscores)
-without -std=3Dc2x [1]:
+Okay, I have a different version of gcc. Can you see if this change fixes it or
+not ?
 
-"... Alternate spelling __typeof_unqual__ is available in all C modes
-and provides non-atomic unqualified version of what __typeof__
-operator returns..."
+diff --git a/drivers/opp/debugfs.c b/drivers/opp/debugfs.c
+index ec030b19164a..986c08e18d05 100644
+--- a/drivers/opp/debugfs.c
++++ b/drivers/opp/debugfs.c
+@@ -100,7 +100,7 @@ static void opp_debug_create_supplies(struct dev_pm_opp *opp,
+        int i;
 
-Please also see the example in my last post. It can be compiled without -st=
-d=3D...
+        for (i = 0; i < opp_table->regulator_count; i++) {
+-               char name[15];
++               char name[19];
 
-[1] https://gcc.gnu.org/onlinedocs/gcc/Typeof.html
+                snprintf(name, sizeof(name), "supply-%d", i);
 
-Uros.
+-- 
+viresh
