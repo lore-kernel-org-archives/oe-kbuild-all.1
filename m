@@ -1,57 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8482E19A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Mar 2024 00:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD162399
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Mar 2024 00:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709511044; cv=none; b=SJRarQhJXuVzCk5AD3wO9W2Uvzs5URL6IWSAElN4nsKoq1tuebL6Nq29OIICwEUi0Q2nyQelrgwCEWRM4mBygRrqKdXratM8Lw8zDXuG6jR8954t2ddt2+QkXOHt3rCJ0Co8aazGhPLLnPLtovxyYe1Mxe0G2ON4DnyJRjBkcPY=
+	t=1709512960; cv=none; b=QZGmqb5GHqz2+JW2sk4qillk2Y2uQ7iud7Hi9y2rM5s8RVw7DWz8G//u6GuDQHgPJYNfwn3O9JW/WZ4+saInxrtehLAKx5k9jjbYZgGlYBjpPQ3GNQ8zDGuutcQShLdbIuyZxG9iJl2z/MYRFC8n7WhatlF8ZXarohbYgzIMj7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709511044; c=relaxed/simple;
-	bh=JRdVk+a9Ye+XwSZ119qR/7/pU2o6DEq8Tf/+zNBZsLk=;
+	s=arc-20240116; t=1709512960; c=relaxed/simple;
+	bh=F0oF6tV5B2ADCECHsU9kYJ25Tp5TigLQBJgObzgUKfQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZWvWZHV/yo9/fF8DVjNzMjDV3KcQDRuAy9/0kUN1wKF2UkiQhuDmkwQLo21vMjlA3Z9d9AnNrvAqt8k1D1F7NhhvQwgIOzmS3oBc+ci7UEiT7ams2Yt5NC3WuaXsRGeukYh06sJMAGrN4IURoJShjzUxVUsWYbAWLH/PdriZcl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D0dcjV0X; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=FUMQraFIbBcx8iYTe4FCB3p20Sg7QxZcnDDmnTmlgiqmArVSuq60nsK2/qeUe23DF02jCIzs6F1yenRr1KV50kueHPv4uVq0HeZYhQaHmGQp38SBcJEun8pj3q9mG5Ac4unn9GowdC7j9ztf2CjMkGHPBwO4YRXu5Ss/1WYca2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cVvOYWbe; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D0dcjV0X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cVvOYWbe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709511042; x=1741047042;
+  t=1709512958; x=1741048958;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JRdVk+a9Ye+XwSZ119qR/7/pU2o6DEq8Tf/+zNBZsLk=;
-  b=D0dcjV0XxFrYa6srQ8pflKEOXrvsUssqoScU40vKQyNZ0vW0MG0cDgbb
-   k1VVBvBa/qNMtS9GCSSoRcSvcrhlT37ZwUxvPXemRtDzQxfw4Hf7lfvpW
-   /KqxhwSFA89xEdJFjly6hB8V9eEFXqlyUDmSS3odUNqUJ8Tvsxss8q1Qr
-   i2vYD/jtpO1xPHZ/oNGDH+JaiBxEea0NkK/mFNRnIgmbirWLwO6/EENMm
-   y+n6iGTz3memdCRfGa6KeudEp1AUt+Xtrr3fdQpJfThhM52KcFkyLI2fX
-   B2wvQDqwy5wupNMGzVKl5mQrxbXKcm7UVCQ7Pyxnu5YFn8MSB7bHL8/oR
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="4112211"
+  bh=F0oF6tV5B2ADCECHsU9kYJ25Tp5TigLQBJgObzgUKfQ=;
+  b=cVvOYWbeOvb4WJQLajQZkmQGUgmdX7wwrWfAGGMemp06ZliYCGTJBK09
+   LM58XS+lh8jR9QqPhY8DbFcY+5+IkNe6uoe1jnr1tc7huMagK0h4kzx13
+   PMTlR/Ipfu27N0DM1TCq6hOyhUh0z2TI8QxcOV2huAlSkHf9+jSh8SrIK
+   DQKF4C2mX0E6BfrAA2JVv9k8eT8xLrRYlE5BuNjMbXqFx8Bt1v8KYgiIE
+   46QY5x3uS+j48tnJqcL5SU4IRBb2y8ZTfibiv1/TpeJfqVZ97+gJZl/EA
+   LrPJmZ1lCt9g45Qj8Adge375DZ3MBw9JnQZrDFjTbY5oEnLI4hvLKIJeC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="15423634"
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="4112211"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 16:10:38 -0800
+   d="scan'208";a="15423634"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 16:42:37 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,201,1705392000"; 
-   d="scan'208";a="39810349"
+   d="scan'208";a="31975524"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Mar 2024 16:10:34 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 03 Mar 2024 16:42:36 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgvua-0002CO-0U;
-	Mon, 04 Mar 2024 00:10:32 +0000
-Date: Mon, 4 Mar 2024 08:10:23 +0800
+	id 1rgwPZ-0002E3-1s;
+	Mon, 04 Mar 2024 00:42:33 +0000
+Date: Mon, 4 Mar 2024 08:41:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
+To: Kees Cook <keescook@chromium.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/net/ethernet/broadcom/bnxt/bnxt.c:603:30: sparse: sparse:
- incorrect type in assignment (different address spaces)
-Message-ID: <202403040808.vCNKRzXl-lkp@intel.com>
+Subject: [kees:for-next/kspp 32/48] WARNING: modpost: "strncat"
+ [lib/fortify_kunit.ko] has no CRC!
+Message-ID: <202403040858.7aB2PlIN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,229 +58,165 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
-head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
-commit: 3218a487da04a90ebaac8870a044d48e293215de net: update bnxt_en driver
-date:   3 years ago
-config: x86_64-randconfig-121-20240303 (https://download.01.org/0day-ci/archive/20240304/202403040808.vCNKRzXl-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040808.vCNKRzXl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/kspp
+head:   e36b70fb8c707a0688960184380bc151390d671b
+commit: fa4a3f86d4982b603865ccb97dde82f0ae1e3302 [32/48] fortify: Add KUnit tests for runtime overflows
+config: alpha-randconfig-r016-20221128 (https://download.01.org/0day-ci/archive/20240304/202403040858.7aB2PlIN-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403040858.7aB2PlIN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403040808.vCNKRzXl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403040858.7aB2PlIN-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:603:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] <asn:2> *doorbell @@     got void * @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:603:30: sparse:     expected void [noderef] <asn:2> *doorbell
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:603:30: sparse:     got void *
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:604:34: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] <asn:2> *tx_push_wcb @@     got void * @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:604:34: sparse:     expected void [noderef] <asn:2> *tx_push_wcb
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:604:34: sparse:     got void *
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:1178:19: sparse: sparse: symbol 'bnxt_get_agg' was not declared. Should it be static?
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:1189:19: sparse: sparse: symbol 'bnxt_get_tpa_agg_p5' was not declared. Should it be static?
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:2331:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] pkt_ts @@     got restricted __le32 [usertype] rx_cmp_unused3 @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:2331:58: sparse:     expected unsigned int [usertype] pkt_ts
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:2331:58: sparse:     got restricted __le32 [usertype] rx_cmp_unused3
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:5382:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] l2_ivlan @@     got unsigned short [usertype] vlan @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:5382:31: sparse:     expected restricted __le16 [usertype] l2_ivlan
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:5382:31: sparse:     got unsigned short [usertype] vlan
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:5383:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] l2_ivlan_mask @@     got int @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:5383:36: sparse:     expected restricted __le16 [usertype] l2_ivlan_mask
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:5383:36: sparse:     got int
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:8485:25: sparse: sparse: cast to restricted __le32
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:10884:6: sparse: sparse: symbol '__bnxt_close_nic' was not declared. Should it be static?
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:10987:24: sparse: sparse: cast to restricted __le32
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:10987:24: sparse: sparse: cast from restricted __le16
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:11660:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] producer_index @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:11660:23: sparse:     expected unsigned int [usertype]
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:11660:23: sparse:     got restricted __le32 [usertype] producer_index
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:11661:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] consumer_index @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:11661:23: sparse:     expected unsigned int [usertype]
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:11661:23: sparse:     got restricted __le32 [usertype] consumer_index
---
->> drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:1231:28: sparse: sparse: cast from restricted __be16
->> drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:1231:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [assigned] [usertype] vlan @@     got restricted __be16 [usertype] @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:1231:26: sparse:     expected unsigned short [addressable] [assigned] [usertype] vlan
-   drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:1231:26: sparse:     got restricted __be16 [usertype]
->> drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:4314:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] flags @@     got unsigned char [usertype] compress_flags @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:4314:32: sparse:     expected restricted __le32 [usertype] flags
-   drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:4314:32: sparse:     got unsigned char [usertype] compress_flags
---
->> drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:158:39: sparse: sparse: cast from restricted __le16
->> drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:158:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] func_qcfg_flags @@     got restricted __le16 [usertype] @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:158:37: sparse:     expected unsigned short [usertype] func_qcfg_flags
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:158:37: sparse:     got restricted __le16 [usertype]
->> drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:595:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct bnxt_vf_info *vf @@     got struct bnxt_vf_info [noderef] <asn:4> * @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:595:12: sparse:     expected struct bnxt_vf_info *vf
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:595:12: sparse:     got struct bnxt_vf_info [noderef] <asn:4> *
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:666:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct bnxt_vf_info *vf @@     got struct bnxt_vf_info [noderef] <asn:4> * @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:666:20: sparse:     expected struct bnxt_vf_info *vf
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:666:20: sparse:     got struct bnxt_vf_info [noderef] <asn:4> *
->> drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:700:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct bnxt_vf_info [noderef] <asn:4> *vf @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:700:21: sparse:     expected void const *
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:700:21: sparse:     got struct bnxt_vf_info [noderef] <asn:4> *vf
->> drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:750:61: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct bnxt_vf_info *vf @@     got struct bnxt_vf_info [noderef] <asn:4> * @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:750:61: sparse:     expected struct bnxt_vf_info *vf
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:750:61: sparse:     got struct bnxt_vf_info [noderef] <asn:4> *
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:799:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct bnxt_vf_info *vf @@     got struct bnxt_vf_info [noderef] <asn:4> * @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:799:12: sparse:     expected struct bnxt_vf_info *vf
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:799:12: sparse:     got struct bnxt_vf_info [noderef] <asn:4> *
->> drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:901:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] max_msix @@     got int @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:901:31: sparse:     expected restricted __le16 [usertype] max_msix
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:901:31: sparse:     got int
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:905:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct bnxt_vf_info *vf @@     got struct bnxt_vf_info [noderef] <asn:4> * @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:905:50: sparse:     expected struct bnxt_vf_info *vf
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:905:50: sparse:     got struct bnxt_vf_info [noderef] <asn:4> *
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:1021:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct bnxt_vf_info *vf @@     got struct bnxt_vf_info [noderef] <asn:4> * @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:1021:50: sparse:     expected struct bnxt_vf_info *vf
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:1021:50: sparse:     got struct bnxt_vf_info [noderef] <asn:4> *
->> drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:1555:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [assigned] [usertype] IANA @@     got int @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:1555:19: sparse:     expected restricted __le32 [assigned] [usertype] IANA
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:1555:19: sparse:     got int
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:1556:25: sparse: sparse: cast from restricted __le16
->> drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:1614:56: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct bnxt_vf_info *vf @@     got struct bnxt_vf_info [noderef] <asn:4> * @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:1614:56: sparse:     expected struct bnxt_vf_info *vf
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:1614:56: sparse:     got struct bnxt_vf_info [noderef] <asn:4> *
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:60:28: sparse: sparse: context imbalance in 'bnxt_vf_ndo_prep' - wrong count at exit
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:90:13: sparse: sparse: context imbalance in 'bnxt_vf_ndo_end' - wrong count at exit
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:97:5: sparse: sparse: context imbalance in 'bnxt_set_vf_spoofchk' - different lock contexts for basic block
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:193:5: sparse: sparse: context imbalance in 'bnxt_set_vf_trust' - wrong count at exit
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:385:5: sparse: sparse: context imbalance in 'bnxt_get_vf_config' - wrong count at exit
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:437:5: sparse: sparse: context imbalance in 'bnxt_set_vf_mac' - wrong count at exit
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:472:5: sparse: sparse: context imbalance in 'bnxt_set_vf_vlan' - different lock contexts for basic block
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:524:5: sparse: sparse: context imbalance in 'bnxt_set_vf_bw' - wrong count at exit
-   drivers/net/ethernet/broadcom/bnxt/bnxt_sriov.c:619:5: sparse: sparse: context imbalance in 'bnxt_set_vf_link_state' - wrong count at exit
---
->> drivers/net/ethernet/broadcom/bnxt/bnxt_vfr.c:85:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] fid @@     got unsigned short [noderef] [usertype] <asn:4> fw_fid @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_vfr.c:85:18: sparse:     expected restricted __le16 [usertype] fid
-   drivers/net/ethernet/broadcom/bnxt/bnxt_vfr.c:85:18: sparse:     got unsigned short [noderef] [usertype] <asn:4> fw_fid
->> drivers/net/ethernet/broadcom/bnxt/bnxt_vfr.c:163:31: sparse: sparse: dereference of noderef expression
---
-   drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c: note: in included file:
->> drivers/net/ethernet/broadcom/bnxt/bnxt_vfr.h:28:25: sparse: sparse: dereference of noderef expression
->> drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c:2564:30: sparse: sparse: dereference of noderef expression
-   drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c:2581:22: sparse: sparse: dereference of noderef expression
-   drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c:2585:18: sparse: sparse: dereference of noderef expression
->> drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c:2564:30: sparse: sparse: dereference of noderef expression
-   drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c:2608:22: sparse: sparse: dereference of noderef expression
-   drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c:2608:53: sparse: sparse: dereference of noderef expression
-   drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c:2630:18: sparse: sparse: dereference of noderef expression
---
->> drivers/net/ethernet/broadcom/bnxt/bnxt_lfc.c:77:23: sparse: sparse: symbol 'lfc_device_notifier' was not declared. Should it be static?
->> drivers/net/ethernet/broadcom/bnxt/bnxt_lfc.c:886:5: sparse: sparse: symbol 'bnxt_eem_dmabuf_export_fd' was not declared. Should it be static?
---
->> drivers/net/ethernet/broadcom/bnxt/bnxt_netlink.c:129:14: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned short [usertype] req_type @@     got restricted __le16 [usertype] req_type @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_netlink.c:129:14: sparse:     expected unsigned short [usertype] req_type
-   drivers/net/ethernet/broadcom/bnxt/bnxt_netlink.c:129:14: sparse:     got restricted __le16 [usertype] req_type
->> drivers/net/ethernet/broadcom/bnxt/bnxt_netlink.c:152:52: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int attrlen @@     got restricted __le16 [usertype] resp_len @@
-   drivers/net/ethernet/broadcom/bnxt/bnxt_netlink.c:152:52: sparse:     expected int attrlen
-   drivers/net/ethernet/broadcom/bnxt/bnxt_netlink.c:152:52: sparse:     got restricted __le16 [usertype] resp_len
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +603 drivers/net/ethernet/broadcom/bnxt/bnxt.c
-
-   509	
-   510	static int bnxt_push_xmit_p5(struct bnxt *bp, struct bnxt_tx_ring_info *txr,
-   511				     struct netdev_queue *txq, struct sk_buff *skb,
-   512				     u32 vlan_tag_flags, u32 cfa_action)
-   513	{
-   514		struct bnxt_db_info *db = &txr->tx_push_db;
-   515		struct bnxt_sw_tx_bd *tx_buf;
-   516		struct tx_bd_ext *txbd1;
-   517		int i, push_len, bds;
-   518		u16 prod, last_frag;
-   519		unsigned int length;
-   520		struct tx_bd *txbd;
-   521		void *pdata;
-   522		u64 *end;
-   523		u32 len;
-   524	
-   525		if (unlikely(!db->doorbell))
-   526			return -EOPNOTSUPP;
-   527	
-   528		length = skb->len;
-   529		push_len = TX_PUSH_LEN(length);
-   530		len = skb_headlen(skb);
-   531		prod = txr->tx_prod;
-   532	
-   533		bds = TX_INLINE_BDS(push_len);
-   534		if (bds > (TX_DESC_CNT - TX_IDX(prod)))
-   535			return -E2BIG;
-   536	
-   537		txbd = &txr->tx_desc_ring[TX_RING(prod)][TX_IDX(prod)];
-   538		tx_buf = &txr->tx_buf_ring[RING_TX(prod)];
-   539		last_frag = skb_shinfo(skb)->nr_frags;
-   540	
-   541		/* Set COAL_NOW to be ready quickly for the next push */
-   542		txbd->tx_bd_len_flags_type =
-   543			cpu_to_le32((length << TX_BD_LEN_SHIFT) |
-   544				    TX_BD_TYPE_LONG_TX_BD_INLINE |
-   545				    TX_BD_FLAGS_LHINT_512_AND_SMALLER |
-   546				    TX_BD_FLAGS_COAL_NOW | TX_BD_FLAGS_PACKET_END |
-   547				    (bds << TX_BD_FLAGS_BD_CNT_SHIFT));
-   548		txbd->tx_bd_opaque = prod;
-   549		txbd->tx_bd_haddr = cpu_to_le64(0);
-   550		txbd1 = (struct tx_bd_ext *) (txbd + 1);
-   551	
-   552		if (skb->ip_summed == CHECKSUM_PARTIAL)
-   553			txbd1->tx_bd_hsize_lflags =
-   554					cpu_to_le32(TX_BD_FLAGS_TCP_UDP_CHKSUM);
-   555		else
-   556			txbd1->tx_bd_hsize_lflags = 0;
-   557	
-   558		txbd1->tx_bd_mss = cpu_to_le32(0);
-   559		txbd1->tx_bd_cfa_meta = cpu_to_le32(vlan_tag_flags);
-   560		txbd1->tx_bd_cfa_action =
-   561			cpu_to_le32(cfa_action << TX_BD_CFA_ACTION_SHIFT);
-   562	
-   563		pdata = txbd1 + 1;
-   564		end = pdata + length;
-   565		end = PTR_ALIGN(end, 8) - 1;
-   566		*end = 0;
-   567	
-   568		skb_copy_from_linear_data(skb, pdata, len);
-   569		pdata += len;
-   570		for (i = 0; i < last_frag; i++) {
-   571			skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
-   572			void *fptr;
-   573	
-   574			fptr = skb_frag_address_safe(frag);
-   575			if (!fptr)
-   576				return -EFAULT;
-   577	
-   578			memcpy(pdata, fptr, skb_frag_size(frag));
-   579			pdata += skb_frag_size(frag);
-   580		}
-   581	
-   582		txr->tx_prod = prod + bds;
-   583	
-   584		tx_buf->is_push = 1;
-   585		tx_buf->inline_data_bds = bds - 2;
-   586		netdev_tx_sent_queue(txq, length);
-   587		wmb();	/* Sync is_push and byte queue before pushing data */
-   588	
-   589		push_len = DIV_ROUND_UP(push_len, 8);
-   590	
-   591		if (bp->tx_push_mode == BNXT_PUSH_MODE_WCB) {
-   592			writeq(db->db_key64 | DBR_TYPE_PUSH_START |
-   593			       DB_RING_IDX(db, prod), db->doorbell);
-   594			__iowrite64_copy(txr->tx_push_wcb, txbd, push_len);
-   595			writeq(db->db_key64 | DBR_TYPE_PUSH_END | DBR_PATH_L2 |
-   596			       DB_RING_IDX(db, txr->tx_prod), db->doorbell);
-   597		} else {
-   598			bnxt_db_write_relaxed(bp, db, txr->tx_prod);
-   599			writeq_relaxed(DB_PUSH_INFO(db, push_len, prod),
-   600				       db->doorbell + sizeof(struct dbc_dbc));
-   601			__iowrite64_copy(txr->tx_push_wcb, txbd, push_len);
-   602			/* flip buffers */
- > 603			db->doorbell = (void *)((uintptr_t)db->doorbell ^ DB_PPP_SIZE);
- > 604			txr->tx_push_wcb = (void *)((uintptr_t)txr->tx_push_wcb ^ DB_PPP_SIZE);
-   605		}
-   606	
-   607		return 0;
-   608	}
-   609	
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-innolux-ej030na.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-newvision-nv3052c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-novatek-nt39016.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_mipi_dbi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-fabrics.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-fc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/target/nvmet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-fsl-lib.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-goldfish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/framebuffer-coreboot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole-coreboot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-razer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-semitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
+WARNING: modpost: sound/soc/codecs/snd-soc-tlv320adc3xxx: section mismatch in reference: adc3xxx_i2c_driver+0x10 (section: .data) -> adc3xxx_i2c_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+WARNING: modpost: EXPORT symbol "strcpy" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strcpy" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "strcat" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strcat" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "strncpy" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strncpy" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "strncat" [vmlinux] version generation failed, symbol will not be versioned.
+Is "strncat" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: "strncpy" [fs/squashfs/squashfs.ko] has no CRC!
+WARNING: modpost: "strcpy" [fs/ecryptfs/ecryptfs.ko] has no CRC!
+WARNING: modpost: "strncpy" [fs/ecryptfs/ecryptfs.ko] has no CRC!
+WARNING: modpost: "strcpy" [fs/hpfs/hpfs.ko] has no CRC!
+WARNING: modpost: "strcat" [fs/overlayfs/overlay.ko] has no CRC!
+WARNING: modpost: "strncpy" [fs/udf/udf.ko] has no CRC!
+WARNING: modpost: "strcpy" [lib/kunit/kunit.ko] has no CRC!
+WARNING: modpost: "strncpy" [lib/kunit/kunit.ko] has no CRC!
+WARNING: modpost: "strncpy" [lib/test_hexdump.ko] has no CRC!
+>> WARNING: modpost: "strncat" [lib/fortify_kunit.ko] has no CRC!
+>> WARNING: modpost: "strcat" [lib/fortify_kunit.ko] has no CRC!
+>> WARNING: modpost: "strncpy" [lib/fortify_kunit.ko] has no CRC!
+>> WARNING: modpost: "strcpy" [lib/fortify_kunit.ko] has no CRC!
+WARNING: modpost: "strncat" [lib/strcat_kunit.ko] has no CRC!
+WARNING: modpost: "strcat" [drivers/video/backlight/sky81452-backlight.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/cyber2000fb.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/s3fb.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/video/fbdev/sm501fb.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/clk/clk_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_cmdline_parser_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_connector_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_dp_mst_helper_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_framebuffer_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_plane_helper_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/tests/drm_probe_helper_test.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/drm.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/gpu/drm/nouveau/nouveau.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/base/regmap/regmap-kunit.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/misc/lkdtm/lkdtm.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/nfc/pn544/pn544_i2c.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/nvme/target/nvmet.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/w1/slaves/w1_ds28e17.ko] has no CRC!
+WARNING: modpost: "strcpy" [drivers/md/dm-mod.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/hwmon/pmbus/pmbus_core.ko] has no CRC!
+WARNING: modpost: "strncpy" [drivers/iio/proximity/sx9324.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/core/snd.ko] has no CRC!
+WARNING: modpost: "strcat" [sound/core/snd.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/core/snd-rawmidi.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/drivers/opl3/snd-opl3-lib.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/isa/snd-es18xx.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/isa/ad1816a/snd-ad1816a.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/isa/cs423x/snd-cs4236.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/isa/es1688/snd-es1688-lib.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/isa/gus/snd-gus-lib.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/isa/opti9xx/snd-opti92x-ad1848.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/isa/opti9xx/snd-opti92x-cs4231.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/isa/sb/snd-sb-common.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/isa/sb/snd-sb8.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/isa/sb/snd-sb16.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/isa/sb/snd-sbawe.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/isa/wss/snd-wss-lib.ko] has no CRC!
+WARNING: modpost: "strcpy" [sound/pci/ac97/snd-ac97-codec.ko] has no CRC!
+WARNING: modpost: "strcpy" [net/core/gso_test.ko] has no CRC!
 
 -- 
 0-DAY CI Kernel Test Service
