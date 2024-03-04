@@ -1,55 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE5A4C69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC4CA59
 	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Mar 2024 04:02:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709524929; cv=none; b=ltRgp6bPi/N3bfoAEmbyXx2P9v9srt/8ZiKfLcgMRRYtHV3nXXNylDjnsNUzlUofEnZbHG0tipz+zQ2PV6Beo0BseMkKwZ01dv8r1d34r2B5vlQau2peLagspLbHI5akU/rC1aIBARoL5hxeq1W9SMkWJo2vH4L+7hMnHLiUbms=
+	t=1709524929; cv=none; b=tKJ/TQk9sdrZoHBJtAp1QENDRfWrOagTGjMe0No1eiCYSvFMgOQVHD+Y0krk5LN7432zvzNRs1Ufd7Tp/GIRlhx+kH7iirr4jnOwbAxwS3RZ7SvYUcxvpGh38w4kr198QRPxCHGn3WMUJcEmvAQn+/guFoRxDSwxp8x773XjZas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1709524929; c=relaxed/simple;
-	bh=jbDMdZAhcHQGdUFZ//q9dBwJqLjcwT4iPGW9alPOJJo=;
+	bh=GJADbr/w2XxbkEf4WEUjskk/Uh7+pxupeJaj3PU3nEc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cIUl9GUlwY0ocko+We2hRp5hq1FDeMTFWcCSm12dUOvlYhSStTw9y7OILUKDxWLMvr4Pzrr+NAfs0RjoEfn+TES9QSqgc0XdYTX/d6WnSIM6GLVgPqXWp1tfU9pUr8RFBd3z+JhQpgJmxAmpFY6YOr5VNn+0I2rT6mvdAS87G5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gv0jhwbo; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=IaqN3JOq9nI5k9ZlLhzr492y92k86XDRH0/UH8wItri5W7yPpNul76Wg/p2eFICP6Qj/7wHO9uXFw5uXXpV7QIa/XvQK9QkaGA7EJG+n4InD0OYMflKTIvTjDvqy1EqrbFSVRgKx/ACHD6U5m/8t+aKbzdQ5iO8npiJlHP4AvHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cjfS3Gso; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gv0jhwbo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cjfS3Gso"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709524927; x=1741060927;
+  t=1709524928; x=1741060928;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jbDMdZAhcHQGdUFZ//q9dBwJqLjcwT4iPGW9alPOJJo=;
-  b=gv0jhwbog9uDVQ1uUSQ/0YTLhqnFaQAxSYUwtsDp+zqBeS7QDPsc66N7
-   LvYwngumpCiJdbTtUEqT3xu4KNZPZB6AUNnUXLNb6NS7DZahUPIFF04Sp
-   kbvpurO1LnL0qLr2T4Hlpkod3zXwTDvJVuYsVPe6RjCJDICQGXrkZVYOi
-   fNTgVXbmus5OJ06JYaB5sCRNYe5WRgBF+ombtEp8N1hlzCGwj/xf+O+O/
-   kxIwa2Pqn4zex12HS+pMncLQ8TNKLkrV/ZRhY1zmjvXyj0Oasi4QY4JgJ
-   UVHl9+Jih8rKYr/SS7d+hCk34X4Gb237hhxP0n1V4UXOFMePEoYjQv7iY
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="7770672"
+  bh=GJADbr/w2XxbkEf4WEUjskk/Uh7+pxupeJaj3PU3nEc=;
+  b=cjfS3Gso368iDrohiL32tnU4B23swlsIh43cUfgs8cW/sAL0qvsUC6vq
+   OaAXBaOlXkz1e+nqP4APTH7vL26gX+wy0RutFVrm0EnQJKjSKr2biMWzH
+   oaCULH59EAUDyNhkccR5LLG31JpoBa6l+jauaIAQebXX9vKdpXi1rfwue
+   LyrxlvhBgMnobEZnOFZQcNo2jKzfLUpseSUWEpwmePq5LpHQW10pnshrZ
+   8m3sDXZuMJst15X7uGpK9DTBdBVi7+7jS4pJcrZGzbc2u0SgZn9DL/f0Q
+   1i9jH2h05OR/xjYrXg7pwM9GbYMYNlA1VlkMYBnMVixLXAMQutavPzYWK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="7770676"
 X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="7770672"
+   d="scan'208";a="7770676"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 20:02:05 -0800
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 20:02:07 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="9216842"
+   d="scan'208";a="9216856"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 03 Mar 2024 20:02:04 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rgzWa-0002KV-2k;
+	id 1rgzWa-0002KZ-2s;
 	Mon, 04 Mar 2024 04:02:00 +0000
-Date: Mon, 4 Mar 2024 12:01:17 +0800
+Date: Mon, 4 Mar 2024 12:01:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Li Shuo <lishuo@phytium.com.cn>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 25831/30000]
- drivers/gpu/drm/phytium/phytium_dp.c:300:17: warning: 'strncpy' output may
- be truncated copying 32 bytes from a string of length 439
-Message-ID: <202403041133.ZJq3J9Jk-lkp@intel.com>
+Subject: arch/arm64/mm/fault.c:743:17: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202403041121.daGsdMBe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,158 +61,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   6adee00913b51cd59245584085cdaca64f74465c
-commit: b2a83bcdafcaaaa60199147d04798d431cc800cc [25831/30000] DRM: Phytium display DRM driver
-config: arm64-randconfig-002-20240302 (https://download.01.org/0day-ci/archive/20240304/202403041133.ZJq3J9Jk-lkp@intel.com/config)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
+head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
+commit: e55f6ef6b718005b3cac70670420798aaf0174c3 ampere/arm64: Add a fixup handler for alignment faults in aarch64 code
+date:   2 years, 8 months ago
+config: arm64-randconfig-r131-20240303 (https://download.01.org/0day-ci/archive/20240304/202403041121.daGsdMBe-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403041133.ZJq3J9Jk-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20240304/202403041121.daGsdMBe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403041133.ZJq3J9Jk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403041121.daGsdMBe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/arm64/mm/fault.c:416:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted vm_fault_t @@     got int @@
+   arch/arm64/mm/fault.c:416:24: sparse:     expected restricted vm_fault_t
+   arch/arm64/mm/fault.c:416:24: sparse:     got int
+   arch/arm64/mm/fault.c:424:32: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted vm_fault_t @@     got int @@
+   arch/arm64/mm/fault.c:424:32: sparse:     expected restricted vm_fault_t
+   arch/arm64/mm/fault.c:424:32: sparse:     got int
+   arch/arm64/mm/fault.c:426:32: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted vm_fault_t @@     got int @@
+   arch/arm64/mm/fault.c:426:32: sparse:     expected restricted vm_fault_t
+   arch/arm64/mm/fault.c:426:32: sparse:     got int
+   arch/arm64/mm/fault.c:434:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted vm_fault_t @@     got int @@
+   arch/arm64/mm/fault.c:434:24: sparse:     expected restricted vm_fault_t
+   arch/arm64/mm/fault.c:434:24: sparse:     got int
+   arch/arm64/mm/fault.c:554:13: sparse: sparse: restricted vm_fault_t degrades to integer
+   arch/arm64/mm/fault.c:554:13: sparse: sparse: restricted vm_fault_t degrades to integer
+   arch/arm64/mm/fault.c:616:39: sparse: sparse: restricted vm_fault_t degrades to integer
+>> arch/arm64/mm/fault.c:743:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> * @@     got void * @@
+   arch/arm64/mm/fault.c:743:17: sparse:     expected void volatile [noderef] <asn:2> *
+   arch/arm64/mm/fault.c:743:17: sparse:     got void *
 
-   drivers/gpu/drm/phytium/phytium_dp.c:503:6: warning: no previous prototype for 'phytium_dp_coding_8b10b_need_enable' [-Wmissing-prototypes]
-     503 | bool phytium_dp_coding_8b10b_need_enable(unsigned char test_pattern)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:520:6: warning: no previous prototype for 'phytium_dp_scrambled_need_enable' [-Wmissing-prototypes]
-     520 | bool phytium_dp_scrambled_need_enable(unsigned char test_pattern)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:653:6: warning: no previous prototype for 'phytium_dp_hw_enable_audio' [-Wmissing-prototypes]
-     653 | void phytium_dp_hw_enable_audio(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:822:6: warning: no previous prototype for 'phytium_dp_hw_disable_video' [-Wmissing-prototypes]
-     822 | void phytium_dp_hw_disable_video(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:833:6: warning: no previous prototype for 'phytium_dp_hw_video_is_enable' [-Wmissing-prototypes]
-     833 | bool phytium_dp_hw_video_is_enable(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:844:6: warning: no previous prototype for 'phytium_dp_hw_enable_video' [-Wmissing-prototypes]
-     844 | void phytium_dp_hw_enable_video(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:856:6: warning: no previous prototype for 'phytium_dp_hw_config_video' [-Wmissing-prototypes]
-     856 | void phytium_dp_hw_config_video(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:945:6: warning: no previous prototype for 'phytium_dp_hw_disable_output' [-Wmissing-prototypes]
-     945 | void phytium_dp_hw_disable_output(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:957:6: warning: no previous prototype for 'phytium_dp_hw_enable_output' [-Wmissing-prototypes]
-     957 | void phytium_dp_hw_enable_output(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:969:6: warning: no previous prototype for 'phytium_dp_hw_enable_input_source' [-Wmissing-prototypes]
-     969 | void phytium_dp_hw_enable_input_source(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:980:6: warning: no previous prototype for 'phytium_dp_hw_disable_input_source' [-Wmissing-prototypes]
-     980 | void phytium_dp_hw_disable_input_source(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:990:6: warning: no previous prototype for 'phytium_dp_hw_output_is_enable' [-Wmissing-prototypes]
-     990 | bool phytium_dp_hw_output_is_enable(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:1027:6: warning: no previous prototype for 'phytium_dp_hw_hpd_irq_setup' [-Wmissing-prototypes]
-    1027 | void phytium_dp_hw_hpd_irq_setup(struct phytium_dp_device *phytium_dp, bool enable)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:1042:5: warning: no previous prototype for 'phytium_dp_hw_init' [-Wmissing-prototypes]
-    1042 | int phytium_dp_hw_init(struct phytium_dp_device *phytium_dp)
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:1220:6: warning: no previous prototype for 'phytium_dp_dpcd_sink_dpms' [-Wmissing-prototypes]
-    1220 | void phytium_dp_dpcd_sink_dpms(struct phytium_dp_device *phytium_dp, int mode)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:1445:5: warning: no previous prototype for 'phytium_dp_get_link_train_fallback_values' [-Wmissing-prototypes]
-    1445 | int phytium_dp_get_link_train_fallback_values(struct phytium_dp_device *phytium_dp)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:1494:5: warning: no previous prototype for 'phytium_dp_start_link_train' [-Wmissing-prototypes]
-    1494 | int phytium_dp_start_link_train(struct phytium_dp_device *phytium_dp)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:1799:6: warning: no previous prototype for 'phytium_dp_hpd_poll_handler' [-Wmissing-prototypes]
-    1799 | void phytium_dp_hpd_poll_handler(struct phytium_display_private *priv)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:1946:6: warning: no previous prototype for 'phytium_dp_fast_link_train' [-Wmissing-prototypes]
-    1946 | bool phytium_dp_fast_link_train(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:2137:6: warning: no previous prototype for 'phytium_dp_adjust_link_train_parameter' [-Wmissing-prototypes]
-    2137 | void phytium_dp_adjust_link_train_parameter(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:2197:1: warning: no previous prototype for 'phytium_encoder_mode_valid' [-Wmissing-prototypes]
-    2197 | phytium_encoder_mode_valid(struct drm_encoder *encoder, const struct drm_display_mode *mode)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:2447:5: warning: no previous prototype for 'phytium_get_encoder_crtc_mask' [-Wmissing-prototypes]
-    2447 | int phytium_get_encoder_crtc_mask(struct phytium_dp_device *phytium_dp, int port)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c: In function 'phytium_connector_add_common_modes':
->> drivers/gpu/drm/phytium/phytium_dp.c:300:17: warning: 'strncpy' output may be truncated copying 32 bytes from a string of length 439 [-Wstringop-truncation]
-     300 |                 strncpy(mode->name, common_mode[i].name, DRM_DISPLAY_MODE_LEN);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +743 arch/arm64/mm/fault.c
 
-
-vim +/strncpy +300 drivers/gpu/drm/phytium/phytium_dp.c
-
-   244	
-   245	static int phytium_connector_add_common_modes(struct phytium_dp_device *phytium_dp)
-   246	{
-   247		int i = 0, ret = 0;
-   248		struct drm_device *dev =  phytium_dp->dev;
-   249		struct drm_display_mode *mode = NULL, *current_mode = NULL;
-   250		struct drm_display_mode *native_mode = &phytium_dp->native_mode;
-   251		bool mode_existed = false;
-   252		struct mode_size {
-   253			char name[DRM_DISPLAY_MODE_LEN];
-   254			int w;
-   255			int h;
-   256		} common_mode[] = {
-   257			{  "640x480",  640,  480},
-   258			{  "800x600",  800,  600},
-   259			{ "1024x768", 1024,  768},
-   260			{ "1280x720", 1280,  720},
-   261			{ "1280x800", 1280,  800},
-   262			{"1280x1024", 1280, 1024},
-   263			{ "1440x900", 1440,  900},
-   264			{"1680x1050", 1680, 1050},
-   265			{"1600x1200", 1600, 1200},
-   266			{"1920x1080", 1920, 1080},
-   267			{"1920x1200", 1920, 1200}
-   268		};
-   269	
-   270		if (native_mode->clock == 0)
-   271			return ret;
-   272	
-   273		for (i = 0; i < ARRAY_SIZE(common_mode); i++) {
-   274			mode_existed = false;
-   275	
-   276			if (common_mode[i].w > native_mode->hdisplay ||
-   277			    common_mode[i].h > native_mode->vdisplay ||
-   278			    (common_mode[i].w == native_mode->hdisplay &&
-   279			    common_mode[i].h == native_mode->vdisplay))
-   280				continue;
-   281	
-   282			list_for_each_entry(current_mode, &phytium_dp->connector.probed_modes, head) {
-   283				if (common_mode[i].w == current_mode->hdisplay &&
-   284				    common_mode[i].h == current_mode->vdisplay) {
-   285					mode_existed = true;
-   286					break;
-   287				}
-   288			}
-   289	
-   290			if (mode_existed)
-   291				continue;
-   292	
-   293			mode = drm_mode_duplicate(dev, native_mode);
-   294			if (mode == NULL)
-   295				continue;
-   296	
-   297			mode->hdisplay = common_mode[i].w;
-   298			mode->vdisplay = common_mode[i].h;
-   299			mode->type &= ~DRM_MODE_TYPE_PREFERRED;
- > 300			strncpy(mode->name, common_mode[i].name, DRM_DISPLAY_MODE_LEN);
-   301			drm_mode_probed_add(&phytium_dp->connector, mode);
-   302			ret++;
-   303		}
-   304	
-   305		return ret;
-   306	}
-   307	
+   730	
+   731	static int align_dc_zva(unsigned long addr, struct pt_regs *regs)
+   732	{
+   733		int bs = read_cpuid(DCZID_EL0) & 0xf;
+   734		int sz = 1 << (bs + 2);
+   735	
+   736		addr &= ~(sz - 1);
+   737		if (is_ttbr0_addr(addr)) {
+   738			for (; sz; sz--) {
+   739				if (align_store(addr, 1, 0))
+   740					return 1;
+   741			}
+   742		} else
+ > 743			memset_io((void *)addr, 0, sz);
+   744		return 0;
+   745	}
+   746	
 
 -- 
 0-DAY CI Kernel Test Service
