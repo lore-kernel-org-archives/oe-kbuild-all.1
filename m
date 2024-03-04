@@ -1,138 +1,151 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC12E37157
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Mar 2024 11:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3ED3B29A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Mar 2024 12:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709551267; cv=none; b=mNC7xP8IdW+IFMPKNkFws3tqtyOoxFxQZ8AS9MwOfFcWrVPOffArm2z1JH+JesdF3taQYOkJXVjuBl9Oy4l6qXKxc3gaWek94YXLFIjS0uGk0bRn2v4g1h9CS7/viU07q9PSvJN/XN+SPWvTV0gFNo62optqAQv8j/PSsMG1mjM=
+	t=1709555369; cv=none; b=OflyouFJ7L408cuma1aTlkhtv4OZQDjvhij+J9kk6Ip37hJRG1TBa1xP8rzmsbHtU4xN7aJszI6dKhDHUh+vTW1VokO3xKHvnuN5sDxNu0c1Pik9KqxUQ/EmGYF8LGXU4UvZf7P/6UEh2zhKlyferpuRuyfiTew2I3Noltmg36I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709551267; c=relaxed/simple;
-	bh=89CAsVYAN2zXiJyL10MU+anH7boWcF5E6pDAta4i614=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nWd33hny76W8mFkTPvWgfJKJ77DdGHw4iS/NFGiKwWkB7O3w5VRBgvOzrGuPiXWFs2lVl7cTyVmNshsspkMQc93smWJDzjvvqNx5L125BK1CTgT8yn7KywOAT871Dvo3EWQhwTjiRQAv7x7y/WUXqJ9Tllpf6P9UKMqwveiT6XU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZsoWcjIc; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1709555369; c=relaxed/simple;
+	bh=PrjHc5CL08lYzU32z2CSPf/uehiEuKYK1T7ejhDZPgg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gZrPLrxlP2TDeanOOOf0gl2m6Qt3tfwpvSjJiZ/vgdnyh4e9c0G9IjE1D/Jar2jPGF3RZb2dDdYH7h46D2cgSEm7CEtL9y6dNN7+CXxauDW2UZKgO+zk4iSdfl3c1cT1xYezJ+1oFs2xCoCJHP8D/TNZLo1IPv0/OifgiPqCzAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=g9fe9AOT; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=g9fe9AOT; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZsoWcjIc"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6e617b39877so701324b3a.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 Mar 2024 03:21:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709551265; x=1710156065; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=POpV966jVtwtLNbOuhb8nczXwEjbEx88TFd8lhRobks=;
-        b=ZsoWcjIctlAAkB3H0tm6VEzqGmsWT7V1QHiqhEG20MK0bC6m/KZs1q/DyguSYFpMTF
-         I9bAvXwLAHM1MFfhRqLyFhFPOeHwahPhtMK9ZPCjPH+JvrpHGEn3r++IkCnGjwfvmARx
-         b6KRytok0kX9U1JNK2h3BWEI+XcNS2yUOOaswMFluJjtQb0eO6mvxpNFAfsjkqThTBoG
-         Zn0e96q9ni66qfmhhp7b+ZVMntM7nPaENnaX0bSV5wBowr5tmqds+Nz+k88sCPyYbb6g
-         06yrI+BkIaVxF6Ot7X2PF6Wkj97deTGe9cg7VvSPQNxjJqWafk2gsz9dLic7nnE2TPRK
-         fuVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709551265; x=1710156065;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=POpV966jVtwtLNbOuhb8nczXwEjbEx88TFd8lhRobks=;
-        b=bGKK/2bSwIIP16phSh/OGla0lj2Q8mT2QVTp4poEkdR0CYRy9b6Oxjv4H4iq8DTM37
-         WO6eZ5Ek/9wvSF3LLog5uxqB+hnusXJPBh8GYHr/ySe17DWOH4YdFR9tgwohMVSONFV6
-         19uCEWWJZWTbRX3CqyZyMyULaFBUD+J8AKgLlTqpFWQJKycSXayG6CB22U05yLN80CfF
-         /TeD/FYx4OwFbIWfrRnD1SY8QJnM+tBQCxRSTKlpJ86Lmj/I2mUuGe+0EiItCQgWHSvk
-         3aRxniRVSIGQ16MILi8qQvdXCv6xP3RfYJjvxxsx24Re/G/6kROotRp56m+PZ7dtCwZI
-         jncg==
-X-Forwarded-Encrypted: i=1; AJvYcCV25igHAucUvQQhUwXxWoMqjxW2vZ8HscWwIIE9NvO1vsNK9rhjjmuJXw/LPO7JwXkgIfFmQtrpiGPlgo1h4WfsdJkcwcMzu1AP/hhxAQ==
-X-Gm-Message-State: AOJu0YzLdfKMhUvo89RbCxtyIJ8SZXoWyWai0OsnH/9PIUZk66wxnyuX
-	fH4rD7+0Qz8R7oS8YYJb5c2zNdBpeANcwJ0jjxdfm8Qxs2e/yAOEZDGyT/gOLzWP6PSZxOUPue2
-	S
-X-Google-Smtp-Source: AGHT+IHp9l8/9h1aPTyTCNgQKavrjxYrCX8+UQn+y6+tAOz+DZB+e6L22yyM+IfyPJ5hIGmpQczRCw==
-X-Received: by 2002:a05:6a20:8403:b0:1a0:ebbd:9ae7 with SMTP id c3-20020a056a20840300b001a0ebbd9ae7mr6237970pzd.4.1709551265178;
-        Mon, 04 Mar 2024 03:21:05 -0800 (PST)
-Received: from localhost ([122.172.85.206])
-        by smtp.gmail.com with ESMTPSA id u19-20020aa78393000000b006e6233563cesm1469110pfm.218.2024.03.04.03.21.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 03:21:04 -0800 (PST)
-Date: Mon, 4 Mar 2024 16:51:02 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Yujie Liu <yujie.liu@intel.com>
-Cc: lkp <lkp@intel.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
-Subject: Re: drivers/opp/debugfs.c:48:54: warning: '%d' directive output may
- be truncated writing between 1 and 11 bytes into a region of size 8
-Message-ID: <20240304112102.wih3u5ny3iero47n@vireshk-i7>
-References: <202402141313.81ltVF5g-lkp@intel.com>
- <20240214055836.c5i3zmkhdllldwon@vireshk-i7>
- <b41c6cdb78c96d5f4a909fc13c253ef0d8576c86.camel@intel.com>
- <20240304065411.w34vbaeg2rlq6z5k@vireshk-i7>
- <ZeWGpyXXZBeYjnGW@yujie-X299>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="g9fe9AOT";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="g9fe9AOT"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 064D04E558;
+	Mon,  4 Mar 2024 12:29:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1709555365; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sXhned5hFBMUFO4fhrHcAr+yHR2wDdC9OSNa1VCWmso=;
+	b=g9fe9AOT93/AJ1kfcPnLk647d08j5YNSBSiTit55JteYWs7XZj3G20hyN1wgXSZvnuFcZz
+	SLhPgzgp4Y0yFNQqMytwEJIr3dd6M5j29zpLCIt3zeWFifApIdgrc4Pgg3/sljIYUnufpg
+	gYI3eIuPsejgTSPC8zpzrivcht+dVHU=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1709555365; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sXhned5hFBMUFO4fhrHcAr+yHR2wDdC9OSNa1VCWmso=;
+	b=g9fe9AOT93/AJ1kfcPnLk647d08j5YNSBSiTit55JteYWs7XZj3G20hyN1wgXSZvnuFcZz
+	SLhPgzgp4Y0yFNQqMytwEJIr3dd6M5j29zpLCIt3zeWFifApIdgrc4Pgg3/sljIYUnufpg
+	gYI3eIuPsejgTSPC8zpzrivcht+dVHU=
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 868D5139C6;
+	Mon,  4 Mar 2024 12:29:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id gQp+E6S+5WVFPgAAn2gu4w
+	(envelope-from <mpdesouza@suse.com>); Mon, 04 Mar 2024 12:29:24 +0000
+From: Marcos Paulo de Souza <mpdesouza@suse.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Marcos Paulo de Souza <mpdesouza@suse.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [linux-next:master 10409/11394] ERROR: modpost: "__fentry__" [tools/testing/selftests/livepatch/test_modules/test_klp_atomic_replace.ko] undefined!
+Date: Mon,  4 Mar 2024 09:29:19 -0300
+Message-ID: <20240304122921.31671-1-mpdesouza@suse.com>
+X-Mailer: git-send-email 2.42.1
+In-Reply-To: <202403021440.Rs4qG6fP-lkp@intel.com>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZeWGpyXXZBeYjnGW@yujie-X299>
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=g9fe9AOT
+X-Spamd-Result: default: False [1.89 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 DKIM_TRACE(0.00)[suse.com:+];
+	 MX_GOOD(-0.01)[];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,intel.com:email];
+	 SUBJECT_ENDS_EXCLAIM(0.20)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: 1.89
+X-Rspamd-Queue-Id: 064D04E558
+X-Spam-Level: *
+X-Spam-Flag: NO
+X-Spamd-Bar: +
 
-On 04-03-24, 16:30, Yujie Liu wrote:
-> This fixes the warning for "supply-%d". Seems there are other remaining
-> warnings as shown below. Would you like to take a look as well?
+On Sat, 2 Mar 2024 14:14:12 +0800 kernel test robot <lkp@intel.com> wrote:
 
-How about this instead to fix all warnings (drop the earlier change
-please) ?
+> Hi Marcos,
+> 
+> First bad commit (maybe != root cause):
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   1870cdc0e8dee32e3c221704a2977898ba4c10e8
+> commit: 539cd3f4da3fdbe7dc353634e004e4b0e725c35a [10409/11394] selftests: lib.mk: Do not process TEST_GEN_MODS_DIR
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403021440.Rs4qG6fP-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403021440.Rs4qG6fP-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> WARNING: Module.symvers is missing.
+> Modules may not have dependencies or modversions.
 
-diff --git a/drivers/opp/debugfs.c b/drivers/opp/debugfs.c
-index ec030b19164a..a9ebfdf0b6a1 100644
---- a/drivers/opp/debugfs.c
-+++ b/drivers/opp/debugfs.c
-@@ -37,10 +37,12 @@ static ssize_t bw_name_read(struct file *fp, char __user *userbuf,
-                            size_t count, loff_t *ppos)
- {
-        struct icc_path *path = fp->private_data;
-+       const char *name = icc_get_name(path);
-        char buf[64];
--       int i;
-+       int i = 0;
+This seems suspicious. Can you be sure that kernel-devel was installed properly
+in this machine? We have landed a patch to skip building the tests if
+kernel-devel is not installed. We check if /lib/modules/<kernel-version/build
+is present to start building, but I would expect Module.symvers to be present.
 
--       i = scnprintf(buf, sizeof(buf), "%.62s\n", icc_get_name(path));
-+       if (name)
-+               i = scnprintf(buf, sizeof(buf), "%.62s\n", name);
+Please let me know if we need to adapt our tests further to avoid such problems.
 
-        return simple_read_from_buffer(userbuf, count, ppos, buf, i);
- }
-@@ -56,11 +58,11 @@ static void opp_debug_create_bw(struct dev_pm_opp *opp,
-                                struct dentry *pdentry)
- {
-        struct dentry *d;
--       char name[20];
-+       char name[] = "icc-path-XXXXXXXXXX"; /* Integers can take 10 chars max */
-        int i;
-
-        for (i = 0; i < opp_table->path_count; i++) {
--               snprintf(name, sizeof(name), "icc-path-%.1d", i);
-+               snprintf(name, sizeof(name), "icc-path-%d", i);
-
-                /* Create per-path directory */
-                d = debugfs_create_dir(name, pdentry);
-@@ -78,7 +80,7 @@ static void opp_debug_create_clks(struct dev_pm_opp *opp,
-                                  struct opp_table *opp_table,
-                                  struct dentry *pdentry)
- {
--       char name[12];
-+       char name[] = "rate_hz_XXXXXXXXXX"; /* Integers can take 10 chars max */
-        int i;
-
-        if (opp_table->clk_count == 1) {
-@@ -100,7 +102,7 @@ static void opp_debug_create_supplies(struct dev_pm_opp *opp,
-        int i;
-
-        for (i = 0; i < opp_table->regulator_count; i++) {
--               char name[15];
-+               char name[] = "supply-XXXXXXXXXX"; /* Integers can take 10 chars max */
-
-                snprintf(name, sizeof(name), "supply-%d", i);
-
--- 
-viresh
+> You may get many unresolved symbol errors.
+> You can set KBUILD_MODPOST_WARN=1 to turn errors into warning
+> if you want to proceed at your own risk.
+> >> ERROR: modpost: "__fentry__" [tools/testing/selftests/livepatch/test_modules/test_klp_atomic_replace.ko] undefined!
+> >> ERROR: modpost: "klp_enable_patch" [tools/testing/selftests/livepatch/test_modules/test_klp_atomic_replace.ko] undefined!
+> >> ERROR: modpost: "seq_printf" [tools/testing/selftests/livepatch/test_modules/test_klp_atomic_replace.ko] undefined!
+> >> ERROR: modpost: "param_ops_int" [tools/testing/selftests/livepatch/test_modules/test_klp_atomic_replace.ko] undefined!
+> >> ERROR: modpost: "module_layout" [tools/testing/selftests/livepatch/test_modules/test_klp_atomic_replace.ko] undefined!
+> >> ERROR: modpost: "__fentry__" [tools/testing/selftests/livepatch/test_modules/test_klp_callbacks_busy.ko] undefined!
+> >> ERROR: modpost: "flush_work" [tools/testing/selftests/livepatch/test_modules/test_klp_callbacks_busy.ko] undefined!
+> >> ERROR: modpost: "_printk" [tools/testing/selftests/livepatch/test_modules/test_klp_callbacks_busy.ko] undefined!
+> >> ERROR: modpost: "complete" [tools/testing/selftests/livepatch/test_modules/test_klp_callbacks_busy.ko] undefined!
+> >> ERROR: modpost: "msleep" [tools/testing/selftests/livepatch/test_modules/test_klp_callbacks_busy.ko] undefined!
+> WARNING: modpost: suppressed 80 unresolved symbol warnings because there were too many)
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
