@@ -1,57 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79423FB02
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Mar 2024 15:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28341E487
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Mar 2024 16:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709565141; cv=none; b=WR0YVu/cToqdEGsOsUfhL3FpS8AAAu8D4Kw8ScGXGF0i30wq8+54lNDC+2s3hWI0+AqhwuEweMnXv7IMe/CXXF6iFlOUG0ZsyZAz2cboIdAf8vGt8k9mYUL2t32G7WKGApN4aROop0vvNjgnBesicrJa9PpdB6YU8ZXN02zK9Fo=
+	t=1709570657; cv=none; b=XmikT2SNVTc4+m0ovyqH+IyBdapX9OXMbTRYVEgiEXF9VQlRNkx8kxtymZVkIMiZ+SHAMYAsXzlyc43pLhwCc8/caEkvHeTwqXkag9DSe+iGxQjrf2wia2oSPPkS8E9ygr5LaAthzfT8df791EYcAmK7otcr39+MfwDr8cBqtIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709565141; c=relaxed/simple;
-	bh=VmDiYuLk+ok8H++c1/abMIu96u78WhTmkz+1ym/XKdY=;
+	s=arc-20240116; t=1709570657; c=relaxed/simple;
+	bh=4lMfLCH+SbReP6c3gydx/aquGNIn/j0WW7Gwm8p7Ndo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rNJdoy5c1jNwA7hrx1gtOrqoDOhh/ow9VljfnRQ1HGqRXpK7dyy/uIfo724+mPsSpDsEWDVYUe5X+MSGxWqzup+MO/oWRBhc/VF09vECTRwdDz55bXKdw9YCN4Kv8wKJI12Cz1zlQ502v7ANuyoofoMj12uZTqNVb3YeeoAYTU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=It1yydd0; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=Okw/lsixOm6yi930GRrzgJRKryZhFHny9CWquMYwvRQeMjBp4ezGP7Gn36fW06N7B3AcArkC3tb1nqxLOUzK3ScCtfBiMMKo74pQJamjlTXTf//frjbWgKbDXAFptT6RU9xNSJnmlx9pXTLzC/L7Ndj+8tiLAhZiFiufTuRrqLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KcliiPhr; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="It1yydd0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KcliiPhr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709565140; x=1741101140;
+  t=1709570656; x=1741106656;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VmDiYuLk+ok8H++c1/abMIu96u78WhTmkz+1ym/XKdY=;
-  b=It1yydd0tjgwRAFTxDb6fvfT+et1Pwy9RnQiPN7Nl/mDlHAuO1A6IwC8
-   DuE+LVEZFJ0vI2G62c1dTgaQzVcR3ytA2mENIZV4HA94oet03WtD7dHSp
-   PGK1G4tllSfhnd3Ve3PNEANxJkC5KWKWnAJlgF2aFKob+PhNiKu7N1R+Z
-   IpptZ88BuKGo86xec7uGGkNGY+s1ngb6CMpdmJNYs8zG/ZJE+TkEtpQwg
-   UXZqI3e7cg/cHAoHN2oz1X0l/1IpZrdkZq4sTyOBTNCsGJcp1W8VYBX7T
-   6DMaNjzr+dyidJvPZmG/PO99NMdcMnounotqPIswTwrX5OG1uo8WBs0FP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="3916521"
+  bh=4lMfLCH+SbReP6c3gydx/aquGNIn/j0WW7Gwm8p7Ndo=;
+  b=KcliiPhr2zCj0vBTC5Rnn7a+ifYC+GHw0sVLwTiWbwVrxOybDs/z0si3
+   OYP+GyW2+hFF4CI8ibE4MfXWR9X5bBqV+j31qqgjSN2apG4azWgXGdvYi
+   HZYs2Bq3BNTKz8//X1LFT08p9cL6sYMvcqz7r2d9JXN0dPg/4uZHKZKKo
+   OeUr73IjVT/IXAugjpPJJzBKZcYsplRVpzxJcsEa1hklq2dpnUkUoIdtH
+   SScrTkNdYbYYVHHLUbGICc+xOO63OzIlBqGZvcyV9pdhDf9zDkP61TDeB
+   JICBwKFdK9DNxTySfXcC/Hf6pFFNPJE7j8MCCTWtE2HvCyMMzRQbmEhHe
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="15479099"
 X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="3916521"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 07:12:14 -0800
+   d="scan'208";a="15479099"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 08:44:15 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="8971886"
+   d="scan'208";a="13726753"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 04 Mar 2024 07:12:11 -0800
+  by orviesa003.jf.intel.com with ESMTP; 04 Mar 2024 08:44:14 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rh9z7-0002ZB-0P;
-	Mon, 04 Mar 2024 15:12:09 +0000
-Date: Mon, 4 Mar 2024 23:11:42 +0800
+	id 1rhBQB-0002d1-0T;
+	Mon, 04 Mar 2024 16:44:11 +0000
+Date: Tue, 5 Mar 2024 00:43:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
+To: Ben Hutchings <bwh@kernel.org>, Pavel Machek <pavel@ucw.cz>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: kernel/tkernel/ttools/ttools_module.c:18:10: fatal error:
- asm/sync_core.h: No such file or directory
-Message-ID: <202403042330.7790vS0Q-lkp@intel.com>
+Subject: [cip:linux-6.1.y-cip-rt-rebase 142/216] ERROR: modpost:
+ "rz_mtu3_shared_reg_read" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+Message-ID: <202403050009.HmRLR90k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,31 +58,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   e116ff64db9be38b70fd5b050f5900435d428547
-commit: cbb60ee511380ef1ad4afd2a9f4bdabea19a8df9 x86/cpu: Relocate sync_core() to sync_core.h
-date:   9 months ago
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240304/202403042330.7790vS0Q-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403042330.7790vS0Q-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-6.1.y-cip-rt-rebase
+head:   1ec962d6d01a6eb6fbf3d00e4b012812f96d0541
+commit: f9f66604de4561beeabcc7e197aeedb0f7b3a573 [142/216] mfd: rz-mtu3: Link time dependencies
+config: i386-buildonly-randconfig-003-20240304 (https://download.01.org/0day-ci/archive/20240305/202403050009.HmRLR90k-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403050009.HmRLR90k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403042330.7790vS0Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403050009.HmRLR90k-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> kernel/tkernel/ttools/ttools_module.c:18:10: fatal error: asm/sync_core.h: No such file or directory
-      18 | #include <asm/sync_core.h>
-         |          ^~~~~~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +18 kernel/tkernel/ttools/ttools_module.c
-
-  > 18	#include <asm/sync_core.h>
-    19	
+>> ERROR: modpost: "rz_mtu3_shared_reg_read" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+>> ERROR: modpost: "rz_mtu3_16bit_ch_write" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+>> ERROR: modpost: "rz_mtu3_32bit_ch_write" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+>> ERROR: modpost: "rz_mtu3_16bit_ch_read" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+>> ERROR: modpost: "rz_mtu3_32bit_ch_read" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+>> ERROR: modpost: "rz_mtu3_8bit_ch_read" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+>> ERROR: modpost: "rz_mtu3_8bit_ch_write" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+>> ERROR: modpost: "rz_mtu3_is_enabled" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+>> ERROR: modpost: "rz_mtu3_enable" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+>> ERROR: modpost: "rz_mtu3_disable" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+WARNING: modpost: suppressed 1 unresolved symbol warnings because there were too many)
 
 -- 
 0-DAY CI Kernel Test Service
