@@ -1,73 +1,57 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C067D3EA
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 06:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CE92595
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 06:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709619051; cv=none; b=JlXr3YM2S0s7Ghan3SEbFzKDkv9dP+ZxBA0QbYiS7j49iqAls2269b3yGUgLc/64OJQTVeIcyWCvit/rKbsOx5mAvFA9kgi8P8LI00IvDP/ZFadPhuptaXZK2SbLbY5wM0mkndOPI+5yrJzBhPeg6LdCZ1LkSzt+0C0veaDAw0k=
+	t=1709620363; cv=none; b=WLYwKcvr4qhPG9fJx97uVjCjfkrCMFMZMlMiGYrCjQTSoXa1xJEdOwtCgXvEotMuJdJNxGrLurDinIbn/BQ3Nae9oP556Eag5pEcue7qa9GB2CDiLWZN1f7YPWBPzQ5cwcZQb3qsYNqExfFWM523ClnFqTJCvKfpOgkDcVXS8Io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709619051; c=relaxed/simple;
-	bh=BBLYX/G8lqaAk/priQk9gxGhKUohJC7mD/AOHoUoAnk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IO5E2AffbNogKvm9W9ZR75FjmTTC3v9v2ctqdWtO7KjsN16/H+koMhhZ/JjhGeCE5ZTQv2z8YIvBMWaidEIewAILfG/pifO/bOfVX4nve68+jbCVIBthUPDtSrA7ww98+tmHo1VBlHy7ZyKo9nPm+7G3D4BPsdsHpd2SH+fV7T4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p8agbEFr; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1709620363; c=relaxed/simple;
+	bh=YaBOAm5RM+qxX9XKG4YPKOHM+cZCJjfXP8TIYvvoJrQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=quT9WgN0GLahWFJW9Yjqmx/hjMDDyYR0/TScT4/Fh7JoIyFJPKvoSpP4IAVz3mXp2vR6b8N5n1DdfAh0Rf8pCsIhl79NhA8Z1FMLhaLbMqtP5c9+MswlbZ0uuga64/jJUn/yxw2ErgQNCgywM0zehR5K7Ilq2Nr8rCct0F3vzNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YFoQfY5X; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p8agbEFr"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6de3141f041so3509315b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 Mar 2024 22:10:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709619049; x=1710223849; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=x3HhLSFBCasDaTwrh/hGPbsEPaL6bXvDmjdyuw021d0=;
-        b=p8agbEFrbWoFUp6hpxp5/VkGisbenEVcMZCG5gO4Cuz1I67O9UZbyN7i9xjpKxx6xg
-         rR1blD15bqko+NYxqPD8/E4FFreUQbkzMNKx0T0GkZFAgreSXMaEfssSmka2YvGSLZzW
-         EtmPA+4rzF6kCaPFqnBmimkETp8SsXOpVZZFDu6e/1GbU2X/qlh2550SwWtEl4kXvUq1
-         8zfiQ7L5gECiju+0duHMVb2q7V0WVVOvEvenbxX1t9a+mSijYaeQyHial7w3meLuD8WC
-         /q+yPlakTt89QauNmrhjP4Fa7ME10G51x/oHmUHDjml2L1Fnp6hCTCV3FnNgfj2KEOBA
-         mnWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709619049; x=1710223849;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x3HhLSFBCasDaTwrh/hGPbsEPaL6bXvDmjdyuw021d0=;
-        b=r5hPO3J26ThiPDQHpbh7GLvkt0weXtXQc91ozS5kK7j3LujY0SpQyspP42JHxn3+33
-         uCNyspVe2+PXW55jz94Wl/POyqFwvVQfsMvjwW7EnsuadpadnWsEeiFmdWe/izQeL8XS
-         KNhsQxzUTyda9BW7/12Mi2gOf2GykGJRUh0Mw8mgI99YCFpuLRfwNq56Y0c+CTfjHwsh
-         LOg3XyPdjD/RHTHUcSRo/J6X0j4MPL/VooDTROkBuAq6FLNb7gwQHr0hbeeCLUSVFf7i
-         UMZZbHY/jNLtDNzk7drZNqvO/tn0ooWXhKRfETJZ2jdD1KYmYhXJa8KTWyHVIFCTDxYx
-         Lm+A==
-X-Forwarded-Encrypted: i=1; AJvYcCV5ek2Va35KKkUfrlOLJhQgmRyeGVY3eWHJAur3B7aoDVJ2wBmoWIomVT/wmrtqYyNHe/t8tlYOgJm05425b2rfVkGFioQnNUZZ0OpPpw==
-X-Gm-Message-State: AOJu0Yz6W3vmhqjXzJmsxqGTSCtBdgZij+QpXOsCQGVawu1E++rUpjuQ
-	rtEYrlNKs28JvsFkXn/WnhPnmSzndaP/Bn0W+ZwnYtemSol1aofYyxV2rUxZRWr0gihz3PLqjdC
-	V
-X-Google-Smtp-Source: AGHT+IE6oACOgvAWYNuxhmlkNaKYedbrwaiFIX2CCcZYvwxDXlhWxrJlxe9bZN5BEMGgBQktJ2+tUw==
-X-Received: by 2002:a05:6a20:748d:b0:1a1:4ca8:15dd with SMTP id p13-20020a056a20748d00b001a14ca815ddmr945594pzd.28.1709619048735;
-        Mon, 04 Mar 2024 22:10:48 -0800 (PST)
-Received: from localhost ([122.172.85.206])
-        by smtp.gmail.com with ESMTPSA id k16-20020aa788d0000000b006e5129b41aasm8183481pff.71.2024.03.04.22.10.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 22:10:48 -0800 (PST)
-Date: Tue, 5 Mar 2024 11:40:46 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Yujie Liu <yujie.liu@intel.com>
-Cc: lkp <lkp@intel.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
-Subject: Re: drivers/opp/debugfs.c:48:54: warning: '%d' directive output may
- be truncated writing between 1 and 11 bytes into a region of size 8
-Message-ID: <20240305061046.x2hdu5qy32ext4t7@vireshk-i7>
-References: <202402141313.81ltVF5g-lkp@intel.com>
- <20240214055836.c5i3zmkhdllldwon@vireshk-i7>
- <b41c6cdb78c96d5f4a909fc13c253ef0d8576c86.camel@intel.com>
- <20240304065411.w34vbaeg2rlq6z5k@vireshk-i7>
- <ZeWGpyXXZBeYjnGW@yujie-X299>
- <20240304112102.wih3u5ny3iero47n@vireshk-i7>
- <ZeavsDQNBA/txKyb@yujie-X299>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YFoQfY5X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709620362; x=1741156362;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YaBOAm5RM+qxX9XKG4YPKOHM+cZCJjfXP8TIYvvoJrQ=;
+  b=YFoQfY5XLq9Op6C9/ebCMkCT48BnCc5hgI/g20JxksM7L/5w5E29HeuT
+   Kxy5FgmZYUZUwfIpcgdBJ72sfTifRymtprBAAwCIriUVLNKHxx/TuZy7T
+   enD4zQ08LOj4EZLjs5d3AbMaJNYLbLIG/vslrGiBFaGae2oScikQZbXhq
+   WbG5xobqcJn28Eu/DE5pG7r0nwg5TZnpiMPaqOd9J11fnkfiKZMEMo58w
+   NLWI45fKqYqfmUwRLhMXXxGPMPBYK2L530J6BU0GH6INSwVTGmRN2YeOc
+   qGjJcAPcGXx1qLY4IwCtwv/b9gfuPd1RMzoJvp7V+q5hIY5pCXelkcmzC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4319542"
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
+   d="scan'208";a="4319542"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 22:32:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
+   d="scan'208";a="13934171"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 04 Mar 2024 22:32:35 -0800
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rhOLo-00035h-2M;
+	Tue, 05 Mar 2024 06:32:32 +0000
+Date: Tue, 5 Mar 2024 14:31:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: drivers/scsi/smartpqi/smartpqi_init.c:2143:30: sparse: sparse:
+ incorrect type in assignment (different base types)
+Message-ID: <202403051439.nUHGHvk2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,66 +60,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZeavsDQNBA/txKyb@yujie-X299>
 
-On 05-03-24, 13:37, Yujie Liu wrote:
-> An integer has positive and negative limits, and the range is from
-> -2147483648 to 2147483647 in decimal, so it seems that an integer can
-> have 11 digits at most.
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
+head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
+commit: ff579791c772afff27644ee98312bc5cceceb02a scsi: smartpqi: update driver version to v2.1.8-040
+date:   2 years, 7 months ago
+config: arm64-randconfig-r131-20240303 (https://download.01.org/0day-ci/archive/20240305/202403051439.nUHGHvk2-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240305/202403051439.nUHGHvk2-lkp@intel.com/reproduce)
 
-Ah, thanks. Fixed and pushed for linux-next. Diff:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403051439.nUHGHvk2-lkp@intel.com/
 
-diff --git a/drivers/opp/debugfs.c b/drivers/opp/debugfs.c
-index ec030b19164a..105de7c3274a 100644
---- a/drivers/opp/debugfs.c
-+++ b/drivers/opp/debugfs.c
-@@ -37,10 +37,12 @@ static ssize_t bw_name_read(struct file *fp, char __user *userbuf,
-                            size_t count, loff_t *ppos)
- {
-        struct icc_path *path = fp->private_data;
-+       const char *name = icc_get_name(path);
-        char buf[64];
--       int i;
-+       int i = 0;
- 
--       i = scnprintf(buf, sizeof(buf), "%.62s\n", icc_get_name(path));
-+       if (name)
-+               i = scnprintf(buf, sizeof(buf), "%.62s\n", name);
- 
-        return simple_read_from_buffer(userbuf, count, ppos, buf, i);
- }
-@@ -56,11 +58,11 @@ static void opp_debug_create_bw(struct dev_pm_opp *opp,
-                                struct dentry *pdentry)
- {
-        struct dentry *d;
--       char name[20];
-+       char name[] = "icc-path-XXXXXXXXXXX"; /* Integers can take 11 chars max */
-        int i;
- 
-        for (i = 0; i < opp_table->path_count; i++) {
--               snprintf(name, sizeof(name), "icc-path-%.1d", i);
-+               snprintf(name, sizeof(name), "icc-path-%d", i);
- 
-                /* Create per-path directory */
-                d = debugfs_create_dir(name, pdentry);
-@@ -78,7 +80,7 @@ static void opp_debug_create_clks(struct dev_pm_opp *opp,
-                                  struct opp_table *opp_table,
-                                  struct dentry *pdentry)
- {
--       char name[12];
-+       char name[] = "rate_hz_XXXXXXXXXXX"; /* Integers can take 11 chars max */
-        int i;
- 
-        if (opp_table->clk_count == 1) {
-@@ -100,7 +102,7 @@ static void opp_debug_create_supplies(struct dev_pm_opp *opp,
-        int i;
- 
-        for (i = 0; i < opp_table->regulator_count; i++) {
--               char name[15];
-+               char name[] = "supply-XXXXXXXXXXX"; /* Integers can take 11 chars max */
- 
-                snprintf(name, sizeof(name), "supply-%d", i);
+sparse warnings: (new ones prefixed by >>)
+   drivers/scsi/smartpqi/smartpqi_init.c:8343:16: sparse: sparse: undefined identifier 'dma_zalloc_coherent'
+   drivers/scsi/smartpqi/smartpqi_init.c:1002:9: sparse: sparse: undefined identifier 'time_to_tm'
+   drivers/scsi/smartpqi/smartpqi_init.c:3910:17: sparse: sparse: undefined identifier 'dma_zalloc_coherent'
+   drivers/scsi/smartpqi/smartpqi_init.c:4049:17: sparse: sparse: undefined identifier 'dma_zalloc_coherent'
+   drivers/scsi/smartpqi/smartpqi_init.c:6993:18: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different signedness)) @@     expected int ( *ioctl )( ... ) @@     got int ( * )( ... ) @@
+   drivers/scsi/smartpqi/smartpqi_init.c:8286:25: sparse: sparse: undefined identifier 'dma_zalloc_coherent'
+>> drivers/scsi/smartpqi/smartpqi_init.c:2143:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be64 [usertype] wwid @@     got unsigned long long [usertype] @@
+   drivers/scsi/smartpqi/smartpqi_init.c:2143:30: sparse:     expected restricted __be64 [usertype] wwid
+   drivers/scsi/smartpqi/smartpqi_init.c:2143:30: sparse:     got unsigned long long [usertype]
+   drivers/scsi/smartpqi/smartpqi_init.c: note: in included file:
+   drivers/scsi/smartpqi/smartpqi_kernel_compat.h:497:13: sparse: sparse: undefined identifier 'shost_use_blk_mq'
+   drivers/scsi/smartpqi/smartpqi_init.c:4903:35: sparse: sparse: undefined identifier 'dma_zalloc_coherent'
 
+vim +2143 drivers/scsi/smartpqi/smartpqi_init.c
+
+  2135	
+  2136	static inline void pqi_set_physical_device_wwid(struct pqi_ctrl_info *ctrl_info,
+  2137		struct pqi_scsi_dev *device, struct report_phys_lun_extended_entry *phys_lun_ext_entry)
+  2138	{
+  2139		if (ctrl_info->unique_wwid_in_report_phys_lun_supported ||
+  2140			pqi_is_device_with_sas_address(device))
+  2141			device->wwid = phys_lun_ext_entry->wwid;
+  2142		else
+> 2143			device->wwid = *(u64 *)device->page_83_identifier;
+  2144	}
+  2145	
 
 -- 
-viresh
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
