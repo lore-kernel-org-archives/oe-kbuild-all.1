@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75B517C72
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 01:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3D8CA73
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 02:32:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709603973; cv=none; b=Nxzh15dg1Xq/rtuJctqYcQbA2IsWrqXNs2EWeRylbNiv9jqYmO0l/zN6NqNYwYtudO9uJy30fW/jJYIjezfS1+ybVPs26MSplXOSrQ5VmHwOlA5eQXiaGeFbRaOwg/KKrNJfrsB5IOyMzpoXWBm5msB47IELLTR9Cb3281BjUYc=
+	t=1709605953; cv=none; b=cgBVqCosDVpVSK7lQw1i5X2qlm8BX2kPo0jJco9Jm18iIFccKPoOw6fiDKhg3xnnCWSmg8uO9NNYw30A36KsRFR0fV1MsaMdVrQqGYlEmXxmYQMOX/HVUi8d8TUM1Pl194DR96lW1m3Wa/UnXIydeoogv84W7SrOL5qOjN5Jhjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709603973; c=relaxed/simple;
-	bh=/e4Yin1vIvDSShH7KSTRqRS8pxrMls9Ojhw6xGGDWyM=;
+	s=arc-20240116; t=1709605953; c=relaxed/simple;
+	bh=lKTrfX5HAd2dUycmGNRp6gCjx9vDzRKmY+jKoZcWvuc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=na37le/Pjo+cQ/qj8+vOIXiTKST8Yc+rQav4D/SS69I6eGaHR7X6ReZn1mnznDKyHWslv5QfhBiqzA2haFdLj9xwosBYYSjWAMDfPioqH+kCZO5AiNJsIUzEkWHaUjp9ULOtzsZgNru64mIWxIsaV/J23jSylrIYJQ4NjUV/SvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XhvwiHen; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=uv0+ZHV7cAQ3oiGapCp7iBYuxSjz01UxTvUvKEZp43NP0VJZSxSLh5dSokqyMaYNYQDVGRC3kUqM3zbDvEnT94euOorgtCNW9AePHu2fVqF1Uc2TvttdC8K+/GDMFfelNIU+RM7P+CyjtB3u+xY9Lah3wXh9VlEyNTTTL3iIPS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N65rPeLp; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XhvwiHen"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N65rPeLp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709603972; x=1741139972;
+  t=1709605952; x=1741141952;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/e4Yin1vIvDSShH7KSTRqRS8pxrMls9Ojhw6xGGDWyM=;
-  b=XhvwiHentyGScAcYL1N0PiMFjq1kRqUM3WAL7B7uVo1sgayDiR1P08f3
-   qmLdFUVgnVMmTmakQr4rQLFzTZ9GaYNoFOdDX7kPKOLW6vAfZM7ofMcj+
-   CH1PbHcOXmAfG1MIgLBNlVO9u5l7hV4EH8V8gG9S2MmBV8IehXSVLvPGe
-   AyHx5Ak9huoW2efrL13yQiccnytJCjgVjB0zjk1Q3ZYq8i/k2zVAuQLMl
-   qXFwGsidCJRiTyfH9fjpe1OuNmi8Mcs4jnXk5JnUo0duILCslICBQnEuG
-   i7TXI1A/9QxwivK/lB8xkzB+cpgL7fx7f6D4mnK1Ddb1hKlTOCL7gkZGu
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4300583"
+  bh=lKTrfX5HAd2dUycmGNRp6gCjx9vDzRKmY+jKoZcWvuc=;
+  b=N65rPeLpsOEwzm+mZRXBWZTLSJqlA7yjZ5ru/1W/nY7Q1inPQJYShbHP
+   Ock3t3X6xRU+5n+Far2G6BCdjJ+SY90Vj4F1JBt4z9tsOtoTA4zzdLWDa
+   OnXowAZAr3fQr9TIQW3NtbtQPK/P7gbyDg84LH+QNWUe5YxX8Izq6fdXq
+   UVVT6+I3xoO7Oo4e+NIHBzSoOYPb9+bWaQpv3Wt6imHjDLyPnjveiJKlK
+   uqjpJul7MjPVY6COWgjRgbeRjKkYvtfvnejDut24R6V0OLBJhNKXSs9UJ
+   /Nj4RDIii739pizTXkH+dALfdmqQ1ad5wtgnd4PU3rfgW1Vyh+h023uyU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4256115"
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="4300583"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 17:59:31 -0800
+   d="scan'208";a="4256115"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 18:32:31 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="9158935"
+   d="scan'208";a="9628362"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 04 Mar 2024 17:59:28 -0800
+  by orviesa007.jf.intel.com with ESMTP; 04 Mar 2024 18:32:28 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhK5U-0002uj-37;
-	Tue, 05 Mar 2024 01:59:24 +0000
-Date: Tue, 5 Mar 2024 09:58:46 +0800
+	id 1rhKbR-0002vF-0k;
+	Tue, 05 Mar 2024 02:32:25 +0000
+Date: Tue, 5 Mar 2024 10:32:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
 	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
 	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
 	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1/2454]
- arch/x86/kvm/../../../virt/kvm/kvm_main.c:4486:37: warning:
- 'kvmmmu_reclaim_times_proc_fops' defined but not used
-Message-ID: <202403050926.n2OTc5lm-lkp@intel.com>
+Subject: mm/vmscan.c:4356:5: error: implicit declaration of function
+ 'for_each_mem_cgroup_tree'
+Message-ID: <202403051009.Tksvka1t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,107 +61,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   e116ff64db9be38b70fd5b050f5900435d428547
-commit: b59fce6d7c0295de07c4f8d335e297891ca82471 [1/2454] fix:Don't reclaim kvm mmu pages in mmu_shrink
-config: x86_64-buildonly-randconfig-004-20240305 (https://download.01.org/0day-ci/archive/20240305/202403050926.n2OTc5lm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403050926.n2OTc5lm-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
+head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
+commit: 06d37efeef4689ee10a610bbe91d85de62b88d6c mm: pagecache limit per cgroup support
+date:   2 years, 5 months ago
+config: x86_64-buildonly-randconfig-002-20240305 (https://download.01.org/0day-ci/archive/20240305/202403051009.Tksvka1t-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403051009.Tksvka1t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403050926.n2OTc5lm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403051009.Tksvka1t-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/bug.h:6,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from arch/x86/include/asm/preempt.h:7,
-                    from include/linux/preempt.h:78,
-                    from include/linux/hardirq.h:5,
-                    from include/linux/kvm_host.h:7,
-                    from arch/x86/kvm/../../../virt/kvm/kvm_main.c:18:
-   include/linux/instrumentation.h:8: warning: "instrumentation_begin" redefined
-       8 | #define instrumentation_begin() ({                                      \
-         | 
-   In file included from include/linux/export.h:42,
-                    from include/linux/linkage.h:7,
-                    from include/linux/preempt.h:10:
-   include/linux/compiler.h:139: note: this is the location of the previous definition
-     139 | #define instrumentation_begin() ({                                      \
-         | 
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:674:12: warning: no previous prototype for 'kvm_arch_post_init_vm' [-Wmissing-prototypes]
-     674 | int __weak kvm_arch_post_init_vm(struct kvm *kvm)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:683:13: warning: no previous prototype for 'kvm_arch_pre_destroy_vm' [-Wmissing-prototypes]
-     683 | void __weak kvm_arch_pre_destroy_vm(struct kvm *kvm)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:4493:6: warning: no previous prototype for 'kvm_proc_interface_uninit' [-Wmissing-prototypes]
-    4493 | void kvm_proc_interface_uninit(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:4501:5: warning: no previous prototype for 'kvm_proc_interface_init' [-Wmissing-prototypes]
-    4501 | int kvm_proc_interface_init(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/kvm/../../../virt/kvm/kvm_main.c:4486:37: warning: 'kvmmmu_reclaim_times_proc_fops' defined but not used [-Wunused-const-variable=]
-    4486 | static const struct file_operations kvmmmu_reclaim_times_proc_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/kvm/../../../virt/kvm/kvm_main.c:4468:37: warning: 'kvmmmu_reclaim_try_times_proc_fops' defined but not used [-Wunused-const-variable=]
-    4468 | static const struct file_operations kvmmmu_reclaim_try_times_proc_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/kvm/../../../virt/kvm/kvm_main.c:4449:37: warning: 'kvmmmu_limit_nr_proc_fops' defined but not used [-Wunused-const-variable=]
-    4449 | static const struct file_operations kvmmmu_limit_nr_proc_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/vmscan.c:2777:17: warning: variable 'node_lru_pages' set but not used [-Wunused-but-set-variable]
+    2777 |                 unsigned long node_lru_pages = 0;
+         |                               ^
+>> mm/vmscan.c:4356:5: error: implicit declaration of function 'for_each_mem_cgroup_tree' [-Werror,-Wimplicit-function-declaration]
+    4356 |                                 for_each_mem_cgroup_tree(iter, memcg) {
+         |                                 ^
+>> mm/vmscan.c:4356:42: error: expected ';' after expression
+    4356 |                                 for_each_mem_cgroup_tree(iter, memcg) {
+         |                                                                      ^
+         |                                                                      ;
+   1 warning and 2 errors generated.
+--
+>> mm/filemap.c:869:3: error: implicit declaration of function 'mem_cgroup_shrink_pagecache' [-Werror,-Wimplicit-function-declaration]
+     869 |                 mem_cgroup_shrink_pagecache(memcg, gfp_mask);
+         |                 ^
+   mm/filemap.c:869:3: note: did you mean 'mem_cgroup_shrink_node'?
+   include/linux/swap.h:364:22: note: 'mem_cgroup_shrink_node' declared here
+     364 | extern unsigned long mem_cgroup_shrink_node(struct mem_cgroup *mem,
+         |                      ^
+   mm/filemap.c:849:14: warning: no previous prototype for function '__add_to_page_cache_locked' [-Wmissing-prototypes]
+     849 | noinline int __add_to_page_cache_locked(struct page *page,
+         |              ^
+   mm/filemap.c:849:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     849 | noinline int __add_to_page_cache_locked(struct page *page,
+         |          ^
+         |          static 
+   1 warning and 1 error generated.
 
 
-vim +/kvmmmu_reclaim_times_proc_fops +4486 arch/x86/kvm/../../../virt/kvm/kvm_main.c
+vim +/for_each_mem_cgroup_tree +4356 mm/vmscan.c
 
-  4448	
-> 4449	static const struct file_operations kvmmmu_limit_nr_proc_fops = {
-  4450		.open		= kvmmmu_limit_nr_proc_open,
-  4451		.read		= seq_read,
-  4452		.write		= kvmmmu_limit_nr_proc_write,
-  4453		.llseek		= seq_lseek,
-  4454		.release	= single_release,
-  4455	};
-  4456	
-  4457	static int kvmmmu_reclaim_try_times_proc_show(struct seq_file *m, void *v)
-  4458	{
-  4459		seq_printf(m, "%d\n", kvm_mmu_reclaim_try_times);
-  4460		return 0; 
-  4461	}
-  4462	
-  4463	static int kvmmmu_reclaim_try_times_proc_open(struct inode *inode, struct file *file)
-  4464	{
-  4465		return single_open(file, kvmmmu_reclaim_try_times_proc_show, NULL);
-  4466	}
-  4467	
-> 4468	static const struct file_operations kvmmmu_reclaim_try_times_proc_fops = {
-  4469		.open		= kvmmmu_reclaim_try_times_proc_open,
-  4470		.read		= seq_read,
-  4471		.llseek		= seq_lseek,
-  4472		.release	= single_release,
-  4473	};
-  4474	
-  4475	static int kvmmmu_reclaim_times_proc_show(struct seq_file *m, void *v)
-  4476	{
-  4477		seq_printf(m, "%d\n", kvm_mmu_reclaim_times);
-  4478		return 0; 
-  4479	}
-  4480	
-  4481	static int kvmmmu_reclaim_times_proc_open(struct inode *inode, struct file *file)
-  4482	{
-  4483		return single_open(file, kvmmmu_reclaim_times_proc_show, NULL);
-  4484	}
-  4485	
-> 4486	static const struct file_operations kvmmmu_reclaim_times_proc_fops = {
-  4487		.open		= kvmmmu_reclaim_times_proc_open,
-  4488		.read		= seq_read,
-  4489		.llseek		= seq_lseek,
-  4490		.release	= single_release,
-  4491	};
-  4492	
+  4308	
+  4309		/*
+  4310		 * Return early if there's no work to do.
+  4311		 * Wake up reclaimers that couldn't scan any zone due to congestion.
+  4312		 * There is apparently nothing to do so they do not have to sleep.
+  4313		 * This makes sure that no sleeping reclaimer will stay behind.
+  4314		 * Allow breaching the limit if the task is on the way out.
+  4315		 */
+  4316		if (nr_pages == 0 || fatal_signal_pending(current)) {
+  4317			wake_up_interruptible(&pagecache_reclaim_wq);
+  4318			goto out;
+  4319		}
+  4320	
+  4321		/* But do a few at least */
+  4322		nr_pages = max_t(unsigned long, nr_pages, 8*SWAP_CLUSTER_MAX);
+  4323	
+  4324		current->reclaim_state = &reclaim_state;
+  4325	
+  4326		/*
+  4327		 * Shrink the LRU in 4 passes:
+  4328		 * 0 = Reclaim from inactive_list only (fast)
+  4329		 * 1 = Reclaim from active list but don't reclaim mapped and dirtied (not that fast)
+  4330		 * 2 = Reclaim from active list but don't reclaim mapped (2nd pass)
+  4331		 * it may reclaim dirtied if  vm_pagecache_ignore_dirty = 0
+  4332		 * 3 = same as pass 2, but it will reclaim some few pages , detail in shrink_all_zones
+  4333		 */
+  4334		for (; pass <= 3; pass++) {
+  4335			for (sc.priority = DEF_PRIORITY; sc.priority >= 0; sc.priority--) {
+  4336				unsigned long nr_to_scan = nr_pages - ret;
+  4337				int nid;
+  4338	
+  4339				sc.nr_scanned = 0;
+  4340	
+  4341				/*
+  4342				 * No zone reclaimed because of too many reclaimers. Retry whether
+  4343				 * there is still something to do
+  4344				 */
+  4345				if (!shrink_all_zones(nr_to_scan, pass, &sc))
+  4346					goto retry;
+  4347	
+  4348				ret += sc.nr_reclaimed;
+  4349				if (ret >= nr_pages)
+  4350					goto out;
+  4351	
+  4352				reclaim_state.reclaimed_slab = 0;
+  4353				for_each_online_node(nid) {
+  4354					struct mem_cgroup *iter;
+  4355	
+> 4356					for_each_mem_cgroup_tree(iter, memcg) {
+  4357						shrink_slab(mask, nid, iter, sc.priority);
+  4358					}
+  4359				}
+  4360				ret += reclaim_state.reclaimed_slab;
+  4361	
+  4362				if (ret >= nr_pages)
+  4363					goto out;
+  4364	
+  4365			}
+  4366			if (pass == 1) {
+  4367				if (vm_pagecache_ignore_dirty == 1 ||
+  4368				    (mask & (__GFP_IO | __GFP_FS)) != (__GFP_IO | __GFP_FS) )
+  4369					break;
+  4370				else
+  4371					sc.may_writepage = 1;
+  4372			}
+  4373		}
+  4374	
+  4375	out:
+  4376		current->reclaim_state = old_rs;
+  4377	
+  4378		return sc.nr_reclaimed;
+  4379	}
+  4380	
 
 -- 
 0-DAY CI Kernel Test Service
