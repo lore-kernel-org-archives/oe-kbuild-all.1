@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C2829429
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 03:15:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE991611A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 03:15:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709608537; cv=none; b=Rt8j+Wrqvx6F2OIwwEIu65WKz6lfsk7I1ZLevhU4WUvUKiDwhPNQPltLG64CP2tazxzP8V7StC6Uu/Q/s4Z6z19hbhT/A6jzP3qVpSK3LD47W9Xg7flB2e8IPL0ZKddEAgjuBFHRGfl9lfgztRSThn2NYGmCSGQGX9ZR2W9Ecd0=
+	t=1709608538; cv=none; b=bc9oSUQnUu9ALulh+NlvDNB90zds9Y17P+KBnaUWB3Fps50CVoyC0gjecaM+o0JBSIqdyt0Sw5kSPMZCwMBmqw2YUkis3+MqFw8bVt9k5W/WuJKF3+0XxqY/mA77kX05NHIW0rLOgbS3VJXz61QtJ6B5vwviMilniLkDDpPEVhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709608537; c=relaxed/simple;
-	bh=0jYtQUiAZIH7LFGNXKxGVhZhRclBwxltxpbnW5vHsyw=;
+	s=arc-20240116; t=1709608538; c=relaxed/simple;
+	bh=9E6IJu+SCnaKt6HecP1OYfSeKwb2nRWaScjG/WOMaS8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ulVQolhjWSrIvKtXP8isqPm/yDzK/ohIdWJiz5QBOWL5siL+Fo0HhgqHvkzyzVI1Dcz0bmzfG718vETpe6VSqKnVujetm2QUscJOWdSJj5syDd2p7PeB/1oasKK2Y39TRdV6sGvy7qe/s8u+jH6vQz01zrs+o/G0D/ciaITF7uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jgJAs4w2; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=g+2A9lwG77c0UGJGPvEiB+iWNP37E14s/QXlOzybp3zdaWGrXoTKtx1bVLmkArvcAdduJAfXY0kxQYDcdoYUbyLJ4OxTPK+5xpNaiu/gG3GDbCRNrll52zSrdG11LVHN+moRp+EJS70UMYgdnQpzOdF8gub0N+gsKHjpLCQRmoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S4ZIRXUd; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jgJAs4w2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S4ZIRXUd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1709608536; x=1741144536;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0jYtQUiAZIH7LFGNXKxGVhZhRclBwxltxpbnW5vHsyw=;
-  b=jgJAs4w2UydsSQcFdypfaswHfOItFbBLEMKr2plSNi6NzNipnHDrUA2C
-   VQz4M594h8fNx1uNO5L7idkpeu6JjVpIW8egt9pilwjhErEUiphfD2bUP
-   F7ObZivyNJhBoi8SmK+Tv5wB958iMp8ZxgwJU5haAHdaOMX6Hv1Ea3ZNs
-   fJ8ITmJfIlkyPCGbqO+DZM/TNMri7tY8wnmF/UKnPNh0aa3JARTlCCdCZ
-   PA+ESxSMKYmzpSPjJrsHUTBQG1AYQfa1N48C0V49fKQOntiwa02Y/T+qr
-   9obglgNB7gz3hqY372rmuAVt+LqpYr4IGOzCM+9VQf9WUQ1OYEbEFXDen
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="14780338"
+  bh=9E6IJu+SCnaKt6HecP1OYfSeKwb2nRWaScjG/WOMaS8=;
+  b=S4ZIRXUdMF8JJqUiHIkwWZzmv33Pf7t6s99OjFMyWeexgQ+UGJfdEMDp
+   bq7qOCbD07a0aZCv37GpM5GPbVv+2/DfcydaoV1i9+hUAmT1bLG8qrrWv
+   mXofV1cuUL+TcTBcHAaRb6hjBjPw+hfOZRsRc5fYzL6bq/66/UEkaU1Lk
+   FikFYFoLZJK5Ob8TxZVrFPG8wzxqy8b4rOfwQHeaJNJHBYjeAZ/4JVhKA
+   NKhyPMUpMj5CSCM04ZQHUp/3/5VfbZXP2sK6Jr+RyFWe2GGjh0lA9vSjz
+   o+uDqObDycarhQpZ+r90M7N0ThdJuV5Zxf7nMW4zerdBKhdJq30j1lnWa
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="14780340"
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="14780338"
+   d="scan'208";a="14780340"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 19:15:33 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="9289050"
+   d="scan'208";a="9289053"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 04 Mar 2024 19:15:29 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhLH5-0002yz-0p;
+	id 1rhLH5-0002z1-0t;
 	Tue, 05 Mar 2024 03:15:27 +0000
 Date: Tue, 5 Mar 2024 11:15:09 +0800
 From: kernel test robot <lkp@intel.com>
@@ -49,9 +49,10 @@ To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
 	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
 	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: arch/x86/mm/numa.c:925:5: warning: no previous prototype for
- 'memory_add_physaddr_to_nid'
-Message-ID: <202403051100.7d3q6TbN-lkp@intel.com>
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1/1009] htmldocs:
+ Warning: Documentation/userspace-api/ioasid.rst references a file that
+ doesn't exist: Documentation/driver-api/ioasid.rst
+Message-ID: <202403051156.A0LS850Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,34 +64,33 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
 head:   e116ff64db9be38b70fd5b050f5900435d428547
-commit: 174b9d89c2606874f5d7a8cfa3f5e0e818347a4d x86/sgx: Add a basic NUMA allocation scheme to sgx_alloc_epc_page()
-date:   7 months ago
-config: x86_64-randconfig-074-20240305 (https://download.01.org/0day-ci/archive/20240305/202403051100.7d3q6TbN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403051100.7d3q6TbN-lkp@intel.com/reproduce)
+commit: 68f6eca763fd041d1ffc0587aa41e82dce4977d7 [1/1009] ioasid: Add /dev/ioasid for userspace
+reproduce: (https://download.01.org/0day-ci/archive/20240305/202403051156.A0LS850Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403051100.7d3q6TbN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403051156.A0LS850Y-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/mm/numa.c:925:5: warning: no previous prototype for 'memory_add_physaddr_to_nid' [-Wmissing-prototypes]
-     925 | int memory_add_physaddr_to_nid(u64 start)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   Warning: Documentation/hwmon/inspur-ipsps1.rst references a file that doesn't exist: Documentation/i2c/instantiating-devices
+   Warning: Documentation/kernel-hacking/hacking.rst references a file that doesn't exist: Documentation/kbuild/namespaces.rst
+   Warning: Documentation/kernel-hacking/hacking.rst references a file that doesn't exist: Documentation/kbuild/namespaces.rst
+   Warning: Documentation/mips/ingenic-tcu.rst references a file that doesn't exist: Documentation/devicetree/bindings/mfd/ingenic,tcu.txt
+   Warning: Documentation/networking/device_drivers/mellanox/mlx5.rst references a file that doesn't exist: Documentation/trace/ftrase.rst
+>> Warning: Documentation/userspace-api/ioasid.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/networking/j1939.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/rng/samsung,exynos5250-trng.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/input/sun4i-lradc-keys.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/misc-devices/xilinx_sdfec.rst
+   Warning: dist/templates/kernel.template.spec references a file that doesn't exist: linux-%%{kernel_unamer}/tools/perf/Documentation/examples.txt
 
-
-vim +/memory_add_physaddr_to_nid +925 arch/x86/mm/numa.c
-
-94096826d288b1 Dan Williams 2020-02-16  924  
-94096826d288b1 Dan Williams 2020-02-16 @925  int memory_add_physaddr_to_nid(u64 start)
-
-:::::: The code at line 925 was first introduced by commit
-:::::: 94096826d288b14067cb655fc196aa3bf01b8439 x86/NUMA: Provide a range-to-target_node lookup facility
-
-:::::: TO: Dan Williams <dan.j.williams@intel.com>
-:::::: CC: Zhiquan Li <zhiquan1.li@intel.com>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PCI_MSI_ARCH_FALLBACKS
+   Depends on [n]: PCI [=n]
+   Selected by [y]:
+   - X86 [=y]
 
 -- 
 0-DAY CI Kernel Test Service
