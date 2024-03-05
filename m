@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793261798E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 01:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFBE17BCA
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 01:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709601994; cv=none; b=C46z5QDHwSa+aXKVMunVBuymDKb54so3rCZRftHWZR0KmU6Km+1vDejZQxhtu5piV8i1O89hi3alarpnjqvNq7Rp1nVHgQuy8l6lEpzOebhCw0PcXfccytglGk6N6zr3x9SQwAH0TdlleBlg9WkiXc2LREb+8ioegNa3M1FvvDo=
+	t=1709602651; cv=none; b=G1RY5qdBlY7irm9T2TkUqnbQ8PoE6n7TyA8XpWzjg7m/Tq76aJbJar7N5F1MxfUnHHmOVbCcl17EdL1XCut1jNx7B5+C7UrBgMiZbPrXeob6YqdreiAHFnQkGg8V85pvHt0t3nR44JMI2TCvgol66/CIGZLK2mDCv5M3BtSpq+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709601994; c=relaxed/simple;
-	bh=9uEz8aaXBlaWlRnnYjqJ3bKFKh6aCjF4n8NZPpWflkM=;
+	s=arc-20240116; t=1709602651; c=relaxed/simple;
+	bh=NUG0uC4qsZxl8pBMG398Sy4krjqF1JmRXHrAX6rLfNc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R1uYTOb+eVlAvDOlRdJaRYxPqS916ejI3UdnzRDzpqvjrrA2UUq1eTJf/Q5+x84KKl5x0gA3JbQ9b9F9ErPCw7fCa6tkZsuniFDiX2OE93JBcAjGYVZepTmGJ2i9Vd88CfotMbr5djPCIKYZzDs6eZLTj7c+bwy7lN4ocBmZnPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SJAU0czT; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=HoFoRhnkCuGjRQSj87hDGTD0uyz+IG/AwLr3aSCTYvrSiO9cMYitT2TmhsC31977LgjAo6bC4xJ7qufFGWFmYjPQPu1VTFHG/0CxTq55ghPb/7jkH7r3s/p0+NOUAFo7kMQyhqsrJoltKwOXwi30pHrXiiqckZomWldybkgeqVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j/m1kkTK; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SJAU0czT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j/m1kkTK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709601991; x=1741137991;
+  t=1709602650; x=1741138650;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9uEz8aaXBlaWlRnnYjqJ3bKFKh6aCjF4n8NZPpWflkM=;
-  b=SJAU0czTBugttpvJEe5p2GDVtnQ7VZj2Xb4eBAiHZTHKFGyw7pe4frh4
-   H+t5D0ZILeMhEeijb0Bq/iYUfQO0s+yiy9FNdoJ3+vfLBXY+7XuVZv2uU
-   0pf0wGTBTTE3vwjF3gazbai1uremT9d9tnmuKXFS3jV+g1PbK8Q69arwK
-   dwauV0vlsHoAJRjvTlfye8Wsn/JT+l/eVskbMuE0Z305m8sdQ2UW5/kIG
-   DfwAOn7UBI4anhT+aPOVYyGUzTck015KdrRwy2wCU4hHz3KIMhl+VWXq3
-   ldJ9kR7gplisKqww0vVKuFJGuXm8pHXuGpd9bWbXqRzaVDAe2g2MPj/VU
+  bh=NUG0uC4qsZxl8pBMG398Sy4krjqF1JmRXHrAX6rLfNc=;
+  b=j/m1kkTKynVmL2CRMkBYk3dkqpUagEWPG5vCeRs/cll9bwckYdKAyzH2
+   r8/kBrEVXpuaHjt+HKTsEm3IWEcVkxyea7qoC9hEmTVbeQW+AuegiJJab
+   N0wiR0y4Sx5hcb1BlzWKsu2oGy2EEMZlcoy/+FIm1786IMu5VbkINIdKw
+   6qeSaprXLy0RXikhrxwhiqwuAdLhRuw1IMCk1vWJFnPW0p+W8ELLBZTHc
+   4gsZ1ixsZkBHRqzuRpicT2v3pKA/9KqSryzhNThLNczIpDC1Z3uhIvHL1
+   6D/zm1wWDzQ/aAVlXcwXG6aLa/YhI4ZN4qyP+vrnyngjkXTF4xB7nDW62
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="21584237"
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4252111"
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="21584237"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 17:26:30 -0800
+   d="scan'208";a="4252111"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 17:37:29 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="9608801"
+   d="scan'208";a="9300256"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 04 Mar 2024 17:26:27 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 04 Mar 2024 17:37:27 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhJZY-0002tb-16;
-	Tue, 05 Mar 2024 01:26:24 +0000
-Date: Tue, 5 Mar 2024 09:25:38 +0800
+	id 1rhJkC-0002u9-1n;
+	Tue, 05 Mar 2024 01:37:24 +0000
+Date: Tue, 5 Mar 2024 09:36:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: htmldocs: Warning: Documentation/admin-guide/cgroup-v1/ioasids.rst
- references a file that doesn't exist: Documentation/driver-api/ioasid.rst
-Message-ID: <202403050936.WqwCvQ82-lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>,
+	David Bauer <mail@david-bauer.net>
+Subject: [linusw-pinctrl:b4/awinic-aw9523 2/2]
+ drivers/pinctrl/pinctrl-aw9523.c:582: warning: Function parameter or struct
+ member 'awi' not described in '_aw9523_gpio_get_multiple'
+Message-ID: <202403050916.KBtE6eEj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,31 +61,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   e116ff64db9be38b70fd5b050f5900435d428547
-commit: 3a285a19d4babf1535015f25520248118ec560b6 docs: cgroup-v1: Add IOASIDs controller
-date:   9 months ago
-reproduce: (https://download.01.org/0day-ci/archive/20240305/202403050936.WqwCvQ82-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git b4/awinic-aw9523
+head:   70c38171f464ba4b47c120a90c11388a43fffa6a
+commit: 70c38171f464ba4b47c120a90c11388a43fffa6a [2/2] pinctrl: Add driver for Awinic AW9523/B I2C GPIO Expander
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240305/202403050916.KBtE6eEj-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403050916.KBtE6eEj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403050936.WqwCvQ82-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403050916.KBtE6eEj-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: Documentation/admin-guide/cgroup-v1/ioasids.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
-   Warning: Documentation/bpf/ringbuf.rst references a file that doesn't exist: Documentation/litmus_tests/bpf-rb/_
-   Warning: Documentation/devicetree/bindings/cpu/cpu-topology.txt references a file that doesn't exist: Documentation/devicetree/bindings/riscv/cpus.txt
-   Warning: Documentation/devicetree/bindings/timer/ingenic,tcu.txt references a file that doesn't exist: Documentation/mips/ingenic-tcu.txt
-   Warning: Documentation/driver-api/gpio/driver.rst references a file that doesn't exist: Documentation/driver-model/design-patterns.txt
-   Warning: Documentation/hwmon/inspur-ipsps1.rst references a file that doesn't exist: Documentation/i2c/instantiating-devices
+>> drivers/pinctrl/pinctrl-aw9523.c:582: warning: Function parameter or struct member 'awi' not described in '_aw9523_gpio_get_multiple'
+>> drivers/pinctrl/pinctrl-aw9523.c:582: warning: Function parameter or struct member 'mask' not described in '_aw9523_gpio_get_multiple'
+>> drivers/pinctrl/pinctrl-aw9523.c:582: warning: Excess function parameter 'regmap' description in '_aw9523_gpio_get_multiple'
+>> drivers/pinctrl/pinctrl-aw9523.c:582: warning: Excess function parameter 'pin' description in '_aw9523_gpio_get_multiple'
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PCI_MSI_ARCH_FALLBACKS
-   Depends on [n]: PCI [=n]
-   Selected by [y]:
-   - X86 [=y]
+
+vim +582 drivers/pinctrl/pinctrl-aw9523.c
+
+   570	
+   571	/**
+   572	 * _aw9523_gpio_get_multiple - Get I/O state for an entire port
+   573	 * @regmap: Regmap structure
+   574	 * @pin: gpiolib pin number
+   575	 * @regbit: hw pin index, used to retrieve port number
+   576	 * @state: returned port I/O state
+   577	 *
+   578	 * Return: Zero for success or negative number for error
+   579	 */
+   580	static int _aw9523_gpio_get_multiple(struct aw9523 *awi, u8 regbit,
+   581					     u8 *state, u8 mask)
+ > 582	{
+   583		u32 dir_in, val;
+   584		u8 m;
+   585		int ret;
+   586	
+   587		/* Registers are 8-bits wide */
+   588		ret = regmap_read(awi->regmap, AW9523_REG_CONF_STATE(regbit), &dir_in);
+   589		if (ret)
+   590			return ret;
+   591		*state = 0;
+   592	
+   593		m = mask & dir_in;
+   594		if (m) {
+   595			ret = regmap_read(awi->regmap, AW9523_REG_IN_STATE(regbit),
+   596					  &val);
+   597			if (ret)
+   598				return ret;
+   599			*state |= (u8)val & m;
+   600		}
+   601	
+   602		m = mask & ~dir_in;
+   603		if (m) {
+   604			ret = regmap_read(awi->regmap, AW9523_REG_OUT_STATE(regbit),
+   605					  &val);
+   606			if (ret)
+   607				return ret;
+   608			*state |= (u8)val & m;
+   609		}
+   610	
+   611		return 0;
+   612	}
+   613	
 
 -- 
 0-DAY CI Kernel Test Service
