@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC36817BCC
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 01:37:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75B517C72
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 01:59:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709602652; cv=none; b=PgIhsbHSv9rpwe2JjlTHosebDe+AZVOxRPvx9Js8Kpwl2a2q74P8Uy/2k8G0wuosUiKDa1glZqrmYUk4tfsGt5dMoI80xLNOXYxQz6zNJ66sN7+6Gu4pCdc6P3YctfvGP11fsVxcTjNPH5027CLOPrWGiegkaeF1QY+PYLICgXw=
+	t=1709603973; cv=none; b=Nxzh15dg1Xq/rtuJctqYcQbA2IsWrqXNs2EWeRylbNiv9jqYmO0l/zN6NqNYwYtudO9uJy30fW/jJYIjezfS1+ybVPs26MSplXOSrQ5VmHwOlA5eQXiaGeFbRaOwg/KKrNJfrsB5IOyMzpoXWBm5msB47IELLTR9Cb3281BjUYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709602652; c=relaxed/simple;
-	bh=9+NwejU8flTO6UvnNBwaMC8QS39UsOiHKeezwTPHW1M=;
+	s=arc-20240116; t=1709603973; c=relaxed/simple;
+	bh=/e4Yin1vIvDSShH7KSTRqRS8pxrMls9Ojhw6xGGDWyM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EcwM2vj8znE3mM3deWvpkvFXxQ3ZjgR0EwdL08olg1msqjUxrF0Z7qIJF0DrtI7/QkMTYYDX7cBWQCINwRgR952DeZNxN+/MM4bWkJwcouU9K1ZIdZbj4sk1gGkxUs0zu8OJhG8nirTc2SJ3VvVA4teBvDFpE2cVuxLGhvaQFNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HlQhNNI3; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=na37le/Pjo+cQ/qj8+vOIXiTKST8Yc+rQav4D/SS69I6eGaHR7X6ReZn1mnznDKyHWslv5QfhBiqzA2haFdLj9xwosBYYSjWAMDfPioqH+kCZO5AiNJsIUzEkWHaUjp9ULOtzsZgNru64mIWxIsaV/J23jSylrIYJQ4NjUV/SvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XhvwiHen; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HlQhNNI3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XhvwiHen"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709602650; x=1741138650;
+  t=1709603972; x=1741139972;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9+NwejU8flTO6UvnNBwaMC8QS39UsOiHKeezwTPHW1M=;
-  b=HlQhNNI3hl288GUbGlJRnd3V7f3NZgCrcd6/fXW/pEuzzVtoY/pVLhPc
-   wRKEh10XHF62+Ib3d5dtKyvKGY7hmx+uIsencDCvGnhjvY+EGCGFA5N2x
-   O8JoPf8BdJl5/+ueLvS8Wta07aM35GzT+5oFOADOOAfJEIJfW6A6w+3dX
-   hPG3+G8paS/MAbxplWhv1j05c2T0ucV+f1vEoNnkSj5c5TILbvNjtgSDZ
-   Xiw+kbsSM6+k5+2i193lWcIui55fowdAsj62YFlwjNbU1mBEbfsiizq0Y
-   Gkr++hKcBAAdOm2j3TOvpgMz4EXekV/2TeZZb85rFBVtrwOgfChfnu2pB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="3991114"
+  bh=/e4Yin1vIvDSShH7KSTRqRS8pxrMls9Ojhw6xGGDWyM=;
+  b=XhvwiHentyGScAcYL1N0PiMFjq1kRqUM3WAL7B7uVo1sgayDiR1P08f3
+   qmLdFUVgnVMmTmakQr4rQLFzTZ9GaYNoFOdDX7kPKOLW6vAfZM7ofMcj+
+   CH1PbHcOXmAfG1MIgLBNlVO9u5l7hV4EH8V8gG9S2MmBV8IehXSVLvPGe
+   AyHx5Ak9huoW2efrL13yQiccnytJCjgVjB0zjk1Q3ZYq8i/k2zVAuQLMl
+   qXFwGsidCJRiTyfH9fjpe1OuNmi8Mcs4jnXk5JnUo0duILCslICBQnEuG
+   i7TXI1A/9QxwivK/lB8xkzB+cpgL7fx7f6D4mnK1Ddb1hKlTOCL7gkZGu
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4300583"
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="3991114"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 17:37:30 -0800
+   d="scan'208";a="4300583"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 17:59:31 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="13693124"
+   d="scan'208";a="9158935"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Mar 2024 17:37:27 -0800
+  by orviesa010.jf.intel.com with ESMTP; 04 Mar 2024 17:59:28 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhJkC-0002uB-1q;
-	Tue, 05 Mar 2024 01:37:24 +0000
-Date: Tue, 5 Mar 2024 09:36:41 +0800
+	id 1rhK5U-0002uj-37;
+	Tue, 05 Mar 2024 01:59:24 +0000
+Date: Tue, 5 Mar 2024 09:58:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
 	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
 	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
 	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/next 26256/27434] versioncheck:
- ./drivers/net/ethernet/3snic/sssnic/kcompat/sss_kcompat.h: 236: need
- linux/version.h
-Message-ID: <202403050908.q1rYLY7Y-lkp@intel.com>
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1/2454]
+ arch/x86/kvm/../../../virt/kvm/kvm_main.c:4486:37: warning:
+ 'kvmmmu_reclaim_times_proc_fops' defined but not used
+Message-ID: <202403050926.n2OTc5lm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,137 +62,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
-head:   0e88d1c26496999d1b2e37f3393b602d28b03faf
-commit: 685fe2411cb7b6fb977ed91c535103ba375ce83e [26256/27434] sssnic: support this new driver
-reproduce: (https://download.01.org/0day-ci/archive/20240305/202403050908.q1rYLY7Y-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   e116ff64db9be38b70fd5b050f5900435d428547
+commit: b59fce6d7c0295de07c4f8d335e297891ca82471 [1/2454] fix:Don't reclaim kvm mmu pages in mmu_shrink
+config: x86_64-buildonly-randconfig-004-20240305 (https://download.01.org/0day-ci/archive/20240305/202403050926.n2OTc5lm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403050926.n2OTc5lm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403050908.q1rYLY7Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403050926.n2OTc5lm-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
-   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
-   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
-   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 179: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 54 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
->> ./drivers/net/ethernet/3snic/sssnic/kcompat/sss_kcompat.h: 236: need linux/version.h
->> ./drivers/net/ethernet/3snic/sssnic/kcompat/sss_kcompat_bclinux.h: 20: need linux/version.h
->> ./drivers/net/ethernet/3snic/sssnic/kcompat/sss_kcompat_fusionos.h: 13: need linux/version.h
->> ./drivers/net/ethernet/3snic/sssnic/kcompat/sss_kcompat_kos.h: 15: need linux/version.h
->> ./drivers/net/ethernet/3snic/sssnic/kcompat/sss_kcompat_kylinsecos.h: 18: need linux/version.h
->> ./drivers/net/ethernet/3snic/sssnic/kcompat/sss_kcompat_openeuler.h: 24: need linux/version.h
->> ./drivers/net/ethernet/3snic/sssnic/kcompat/sss_kcompat_rhel.h: 263: need linux/version.h
->> ./drivers/net/ethernet/3snic/sssnic/kcompat/sss_kcompat_uos.h: 27: need linux/version.h
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 35 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/ath/ath9k/ath9k_pci_owl_loader.c: 15 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/thirdparty/bnxt/bnxt_ethtool.c: 5642: need linux/version.h
-   ./drivers/thirdparty/bnxt/bnxt_ulp.c: 11 linux/version.h not needed.
-   ./drivers/thirdparty/bnxt/bnxt_ulp.h: 14 linux/version.h not needed.
-   ./drivers/thirdparty/bnxt/bnxt_xdp.c: 623: need linux/version.h
-   ./drivers/thirdparty/hinic/hinic_ethtool.c: 2728: need linux/version.h
-   ./drivers/thirdparty/hinic/hinic_main.c: 3394: need linux/version.h
-   ./drivers/thirdparty/hinic/hinic_tx.c: 1368: need linux/version.h
-   ./drivers/thirdparty/hinic/ossl_knl_linux.c: 497: need linux/version.h
-   ./drivers/thirdparty/i40e/kcompat.c: 2759: need linux/version.h
-   ./drivers/thirdparty/iavf/kcompat.c: 2684: need linux/version.h
-   ./drivers/thirdparty/iavf/kcompat_sles_defs.h: 149: need linux/version.h
-   ./drivers/thirdparty/iavf/kcompat_std_defs.h: 114: need linux/version.h
-   ./drivers/thirdparty/ice/kcompat.c: 1360: need linux/version.h
-   ./drivers/thirdparty/ice/kcompat_sles_defs.h: 152: need linux/version.h
-   ./drivers/thirdparty/ice/kcompat_std_defs.h: 127: need linux/version.h
-   ./drivers/thirdparty/ixgbe/kcompat.c: 2964: need linux/version.h
-   ./drivers/thirdparty/ixgbe/kcompat_ethtool.c: 1148: need linux/version.h
-   ./drivers/thirdparty/ixgbevf/kcompat.c: 2719: need linux/version.h
-   ./drivers/thirdparty/ixgbevf/kcompat_ethtool.c: 1148: need linux/version.h
-   ./drivers/thirdparty/lpfc/lpfc.h: 25 linux/version.h not needed.
-   ./drivers/thirdparty/lpfc/lpfc_attr.c: 8286: need linux/version.h
-   ./drivers/thirdparty/lpfc/lpfc_auth.c: 2296: need linux/version.h
-   ./drivers/thirdparty/lpfc/lpfc_crtn.h: 719: need linux/version.h
-   ./drivers/thirdparty/lpfc/lpfc_ct.c: 3782: need linux/version.h
-   ./drivers/thirdparty/lpfc/lpfc_els.c: 11238: need linux/version.h
-   ./drivers/thirdparty/lpfc/lpfc_hbadisc.c: 7236: need linux/version.h
-   ./drivers/thirdparty/lpfc/lpfc_init.c: 16102: need linux/version.h
-   ./drivers/thirdparty/lpfc/lpfc_scsi.c: 7667: need linux/version.h
-   ./drivers/thirdparty/lpfc/lpfc_sli.c: 22519: need linux/version.h
-   ./drivers/thirdparty/megaraid_sas/megaraid_sas.h: 2802: need linux/version.h
-   ./drivers/thirdparty/megaraid_sas/megaraid_sas_debugfs.c: 28 linux/version.h not needed.
-   ./drivers/thirdparty/megaraid_sas/megaraid_sas_fp.c: 33 linux/version.h not needed.
-   ./drivers/thirdparty/mpt3sas/mpt3sas_base.h: 2539: need linux/version.h
-   ./drivers/thirdparty/mpt3sas/mpt3sas_config.c: 46 linux/version.h not needed.
-   ./drivers/thirdparty/mpt3sas/mpt3sas_debugfs.c: 43 linux/version.h not needed.
-   ./drivers/thirdparty/mpt3sas/mpt3sas_transport.c: 2657: need linux/version.h
-   ./drivers/thirdparty/mpt3sas/mpt3sas_trigger_diag.c: 47 linux/version.h not needed.
-   ./drivers/thirdparty/mpt3sas/mpt3sas_warpdrive.c: 615: need linux/version.h
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
-   ./kernel/tkernel/irqlatency/irqlatency.c: 25 linux/version.h not needed.
-   ./net/ipv4/netfilter/ipt_WH.c: 1 linux/version.h not needed.
-   ./net/toa/toa.h: 7 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+   In file included from arch/x86/include/asm/bug.h:6,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:12,
+                    from arch/x86/include/asm/preempt.h:7,
+                    from include/linux/preempt.h:78,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/kvm_host.h:7,
+                    from arch/x86/kvm/../../../virt/kvm/kvm_main.c:18:
+   include/linux/instrumentation.h:8: warning: "instrumentation_begin" redefined
+       8 | #define instrumentation_begin() ({                                      \
+         | 
+   In file included from include/linux/export.h:42,
+                    from include/linux/linkage.h:7,
+                    from include/linux/preempt.h:10:
+   include/linux/compiler.h:139: note: this is the location of the previous definition
+     139 | #define instrumentation_begin() ({                                      \
+         | 
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c:674:12: warning: no previous prototype for 'kvm_arch_post_init_vm' [-Wmissing-prototypes]
+     674 | int __weak kvm_arch_post_init_vm(struct kvm *kvm)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c:683:13: warning: no previous prototype for 'kvm_arch_pre_destroy_vm' [-Wmissing-prototypes]
+     683 | void __weak kvm_arch_pre_destroy_vm(struct kvm *kvm)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c:4493:6: warning: no previous prototype for 'kvm_proc_interface_uninit' [-Wmissing-prototypes]
+    4493 | void kvm_proc_interface_uninit(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c:4501:5: warning: no previous prototype for 'kvm_proc_interface_init' [-Wmissing-prototypes]
+    4501 | int kvm_proc_interface_init(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kvm/../../../virt/kvm/kvm_main.c:4486:37: warning: 'kvmmmu_reclaim_times_proc_fops' defined but not used [-Wunused-const-variable=]
+    4486 | static const struct file_operations kvmmmu_reclaim_times_proc_fops = {
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kvm/../../../virt/kvm/kvm_main.c:4468:37: warning: 'kvmmmu_reclaim_try_times_proc_fops' defined but not used [-Wunused-const-variable=]
+    4468 | static const struct file_operations kvmmmu_reclaim_try_times_proc_fops = {
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kvm/../../../virt/kvm/kvm_main.c:4449:37: warning: 'kvmmmu_limit_nr_proc_fops' defined but not used [-Wunused-const-variable=]
+    4449 | static const struct file_operations kvmmmu_limit_nr_proc_fops = {
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/kvmmmu_reclaim_times_proc_fops +4486 arch/x86/kvm/../../../virt/kvm/kvm_main.c
+
+  4448	
+> 4449	static const struct file_operations kvmmmu_limit_nr_proc_fops = {
+  4450		.open		= kvmmmu_limit_nr_proc_open,
+  4451		.read		= seq_read,
+  4452		.write		= kvmmmu_limit_nr_proc_write,
+  4453		.llseek		= seq_lseek,
+  4454		.release	= single_release,
+  4455	};
+  4456	
+  4457	static int kvmmmu_reclaim_try_times_proc_show(struct seq_file *m, void *v)
+  4458	{
+  4459		seq_printf(m, "%d\n", kvm_mmu_reclaim_try_times);
+  4460		return 0; 
+  4461	}
+  4462	
+  4463	static int kvmmmu_reclaim_try_times_proc_open(struct inode *inode, struct file *file)
+  4464	{
+  4465		return single_open(file, kvmmmu_reclaim_try_times_proc_show, NULL);
+  4466	}
+  4467	
+> 4468	static const struct file_operations kvmmmu_reclaim_try_times_proc_fops = {
+  4469		.open		= kvmmmu_reclaim_try_times_proc_open,
+  4470		.read		= seq_read,
+  4471		.llseek		= seq_lseek,
+  4472		.release	= single_release,
+  4473	};
+  4474	
+  4475	static int kvmmmu_reclaim_times_proc_show(struct seq_file *m, void *v)
+  4476	{
+  4477		seq_printf(m, "%d\n", kvm_mmu_reclaim_times);
+  4478		return 0; 
+  4479	}
+  4480	
+  4481	static int kvmmmu_reclaim_times_proc_open(struct inode *inode, struct file *file)
+  4482	{
+  4483		return single_open(file, kvmmmu_reclaim_times_proc_show, NULL);
+  4484	}
+  4485	
+> 4486	static const struct file_operations kvmmmu_reclaim_times_proc_fops = {
+  4487		.open		= kvmmmu_reclaim_times_proc_open,
+  4488		.read		= seq_read,
+  4489		.llseek		= seq_lseek,
+  4490		.release	= single_release,
+  4491	};
+  4492	
 
 -- 
 0-DAY CI Kernel Test Service
