@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA775916A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 10:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0814658AC3
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 10:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709635846; cv=none; b=CNZeOnNE81tdoiIj/t/4ZOXllZIgQTrlXqGte3egdCmVio+Wqe8huVzvarGWjmPm341wzl1b/Up3cNA2lp+q6EdwFiUjmmr7pwQO9FvavBEKTMYZ1CYGpjycUvAvZA27AD/v1xSAu3T/y/Gq/SMKpPmDH5YjFlxDLTMfT6J9LJA=
+	t=1709635847; cv=none; b=jO2ueDYe92Auw9q5nn1wMR6vyPMegkNgOJ35/PJhYS2JHg1Inj5gqrxu9JsiH6LJ3u76F2XC1IeC5Wos+ZgW0yBvKImo/1McYsOxO0GkkV7ALbc4UddWSrDz4lIqEUUlU1WRm1AmBUzkCMrKi+b0QVmAIeLVfQ0DM1yKcMXIXko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709635846; c=relaxed/simple;
-	bh=BNKcXivIbyOw1KRKTpQf43nwoWlhSKJ72ckwHiV5IDo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sPgW1bt/JP9AStbPTzhsFv5DhWryYshzC9OGrd5l8P5nXtbbhBzoK1kOKJC7+/M+IUFVuxsYebjQyTNe34LIUcCg82a5vvI2Z4T56OPUcvZN4aJ3xOLeKDC2je8ECBrWQ8C7CV8yp3Sg7xUSfwMkIR/FHmaeJJrjIVoZFja87To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V/RvHd2h; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1709635847; c=relaxed/simple;
+	bh=nBrUXBdUCj8+tBqi/8EvBy7hpwGTCEMFWpnietkJZ6c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Clke5MQxtFgODskvLCbc7fa0TARRmZ/l/UtgAogtrJSgC5rrnRX42Mc/+rvcwbj/zIiDcBm85RPsLlJl77J+8oh+T0vDjbYgwVscQx3D7zXZZxl2P4+uRuMqrn18CB5So61NyG9aBSFwK8E/9lPHK2dBDSZjMLErBSZBfzgO4Uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KQqz3HvV; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V/RvHd2h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KQqz3HvV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709635845; x=1741171845;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BNKcXivIbyOw1KRKTpQf43nwoWlhSKJ72ckwHiV5IDo=;
-  b=V/RvHd2h2gh/7rJKQeCBo3wqJKKQXcTll1ukI+FjlfspYyzMdslpzAc2
-   GCe8GSfBliAVR5mnigwc/wn/9tj4TmqYC6K8yU847WcVk2I96VfI3wzQh
-   h83U/fO5SPCKpa0RcAVfckP4IwcBaUW+yU2smdI65ebOg5cjgGuwPghY9
-   sFwoRKOFco0AsJehwoJJ+yjFI6MnexO4E10E0R4Xciyb9mScZ7wrjd/4m
-   PbDKuY4W55YM7m2/rqkjsgthIuM5HcJB2bCAZWMEi05lXx3w5SrE2GQJ2
-   M5+lEDBVHimBPYKYM5y0ZXnbvLxeH8hkigtU/OBsbbZmi5upP8NRz/DAS
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="7947011"
+  t=1709635846; x=1741171846;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nBrUXBdUCj8+tBqi/8EvBy7hpwGTCEMFWpnietkJZ6c=;
+  b=KQqz3HvVpNIzIQSMOVrnpmvgaBDRPS8cE2PuVi0Zc0Pu+zTCfHRdKx/3
+   LJNBdH0taOLx7uq6IhYjomSgdnbVsr3g608E3yqpZNjXov8FzSf2U3oD0
+   SZn867BWEsq5nNkhuoOi5dM6CujLKx/5pVhUffXlfUY7dF8kAR/dnQ43I
+   uZSW13uk5ayYsqZAQwVhswpo0Sw+d1P4IGqc0SZrmfcDRnw8oz5kamL4h
+   wvCbDhZujmtrBG/EVScZt/u6N/t+IhTw2FLHeNwDto0soX7S8esM+7XXK
+   8RgmWnmHMMd0PMhbYnu4xoXSi91kcxLmj6frWBpCLU2z5XBR+UFpwlhPs
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4345512"
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="7947011"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 02:50:44 -0800
+   d="scan'208";a="4345512"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 02:50:43 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="9242237"
+   d="scan'208";a="13824052"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Mar 2024 02:50:41 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 05 Mar 2024 02:50:41 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhSNb-0003FT-0s;
+	id 1rhSNb-0003FR-0o;
 	Tue, 05 Mar 2024 10:50:39 +0000
-Date: Tue, 5 Mar 2024 18:49:51 +0800
+Date: Tue, 5 Mar 2024 18:49:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/next 24881/27434]
- drivers/virtio/virtio_balloon.c:161:5: warning: no previous prototype for
- 'virtballoon_free_page_report'
-Message-ID: <202403051851.LKOUDr4r-lkp@intel.com>
+To: Antonio Quartulli <antonio@openvpn.net>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
+	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
+	Antonio Quartulli <antonio@openvpn.net>
+Subject: Re: [PATCH net-next v2 03/22] ovpn: add basic netlink support
+Message-ID: <202403051838.YHYbFiGD-lkp@intel.com>
+References: <20240304150914.11444-4-antonio@openvpn.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,56 +61,160 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240304150914.11444-4-antonio@openvpn.net>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
-head:   0e88d1c26496999d1b2e37f3393b602d28b03faf
-commit: 5624b6f64dffb17eb72a2c6277e78ae5e55a5cfb [24881/27434] virtio-balloon: add support for providing free page reports to host
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240305/202403051851.LKOUDr4r-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403051851.LKOUDr4r-lkp@intel.com/reproduce)
+Hi Antonio,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antonio-Quartulli/netlink-add-NLA_POLICY_MAX_LEN-macro/20240304-232835
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240304150914.11444-4-antonio%40openvpn.net
+patch subject: [PATCH net-next v2 03/22] ovpn: add basic netlink support
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240305/202403051838.YHYbFiGD-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403051838.YHYbFiGD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403051851.LKOUDr4r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403051838.YHYbFiGD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/virtio/virtio_balloon.c:161:5: warning: no previous prototype for 'virtballoon_free_page_report' [-Wmissing-prototypes]
-     161 | int virtballoon_free_page_report(struct page_reporting_dev_info *pr_dev_info,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ovpn/netlink.c:82: warning: Function parameter or struct member 'net' not described in 'ovpn_get_dev_from_attrs'
+>> drivers/net/ovpn/netlink.c:82: warning: Function parameter or struct member 'attrs' not described in 'ovpn_get_dev_from_attrs'
+>> drivers/net/ovpn/netlink.c:181: warning: Function parameter or struct member 'nb' not described in 'ovpn_nl_notify'
+>> drivers/net/ovpn/netlink.c:181: warning: Function parameter or struct member 'state' not described in 'ovpn_nl_notify'
+>> drivers/net/ovpn/netlink.c:181: warning: Function parameter or struct member '_notify' not described in 'ovpn_nl_notify'
+>> drivers/net/ovpn/netlink.c:193: warning: Function parameter or struct member 'ovpn' not described in 'ovpn_nl_init'
 
 
-vim +/virtballoon_free_page_report +161 drivers/virtio/virtio_balloon.c
+vim +82 drivers/net/ovpn/netlink.c
 
-   160	
- > 161	int virtballoon_free_page_report(struct page_reporting_dev_info *pr_dev_info,
-   162					   struct scatterlist *sg, unsigned int nents)
-   163	{
-   164		struct virtio_balloon *vb =
-   165			container_of(pr_dev_info, struct virtio_balloon, pr_dev_info);
-   166		struct virtqueue *vq = vb->reporting_vq;
-   167		unsigned int unused, err;
-   168	
-   169		/* We should always be able to add these buffers to an empty queue. */
-   170		err = virtqueue_add_inbuf(vq, sg, nents, vb, GFP_NOWAIT | __GFP_NOWARN);
-   171	
-   172		/*
-   173		 * In the extremely unlikely case that something has occurred and we
-   174		 * are able to trigger an error we will simply display a warning
-   175		 * and exit without actually processing the pages.
-   176		 */
-   177		if (WARN_ON_ONCE(err))
-   178			return err;
-   179	
-   180		virtqueue_kick(vq);
-   181	
-   182		/* When host has read buffer, this completes via balloon_ack */
-   183		wait_event(vb->acked, virtqueue_get_buf(vq, &unused));
+    76	
+    77	/**
+    78	 * ovpn_get_dev_from_attrs() - retrieve the netdevice a netlink message is targeting
+    79	 */
+    80	static struct net_device *
+    81	ovpn_get_dev_from_attrs(struct net *net, struct nlattr **attrs)
+  > 82	{
+    83		struct net_device *dev;
+    84		int ifindex;
+    85	
+    86		if (!attrs[OVPN_A_IFINDEX])
+    87			return ERR_PTR(-EINVAL);
+    88	
+    89		ifindex = nla_get_u32(attrs[OVPN_A_IFINDEX]);
+    90	
+    91		dev = dev_get_by_index(net, ifindex);
+    92		if (!dev)
+    93			return ERR_PTR(-ENODEV);
+    94	
+    95		if (!ovpn_dev_is_valid(dev))
+    96			goto err_put_dev;
+    97	
+    98		return dev;
+    99	
+   100	err_put_dev:
+   101		dev_put(dev);
+   102	
+   103		return ERR_PTR(-EINVAL);
+   104	}
+   105	
+   106	/**
+   107	 * ovpn_pre_doit() - Prepare ovpn genl doit request
+   108	 * @ops: requested netlink operation
+   109	 * @skb: Netlink message with request data
+   110	 * @info: receiver information
+   111	 *
+   112	 * Return: 0 on success or negative error number in case of failure
+   113	 */
+   114	static int ovpn_pre_doit(const struct genl_split_ops *ops, struct sk_buff *skb,
+   115				 struct genl_info *info)
+   116	{
+   117		struct net *net = genl_info_net(info);
+   118		struct net_device *dev;
+   119	
+   120		/* the OVPN_CMD_NEW_IFACE command is different from the rest as it
+   121		 * just expects an IFNAME, while all the others expect an IFINDEX
+   122		 */
+   123		if (info->genlhdr->cmd == OVPN_CMD_NEW_IFACE) {
+   124			if (!info->attrs[OVPN_A_IFNAME]) {
+   125				GENL_SET_ERR_MSG(info, "no interface name specified");
+   126				return -EINVAL;
+   127			}
+   128			return 0;
+   129		}
+   130	
+   131		dev = ovpn_get_dev_from_attrs(net, info->attrs);
+   132		if (IS_ERR(dev))
+   133			return PTR_ERR(dev);
+   134	
+   135		info->user_ptr[0] = netdev_priv(dev);
+   136	
+   137		return 0;
+   138	}
+   139	
+   140	/**
+   141	 * ovpn_post_doit() - complete ovpn genl doit request
+   142	 * @ops: requested netlink operation
+   143	 * @skb: Netlink message with request data
+   144	 * @info: receiver information
+   145	 */
+   146	static void ovpn_post_doit(const struct genl_split_ops *ops, struct sk_buff *skb,
+   147				   struct genl_info *info)
+   148	{
+   149		struct ovpn_struct *ovpn;
+   150	
+   151		ovpn = info->user_ptr[0];
+   152		/* in case of OVPN_CMD_NEW_IFACE, there is no pre-stored device */
+   153		if (ovpn)
+   154			dev_put(ovpn->dev);
+   155	}
+   156	
+   157	static const struct genl_small_ops ovpn_nl_ops[] = {
+   158	};
+   159	
+   160	static struct genl_family ovpn_nl_family __ro_after_init = {
+   161		.hdrsize = 0,
+   162		.name = OVPN_NL_NAME,
+   163		.version = 1,
+   164		.maxattr = NUM_OVPN_A + 1,
+   165		.policy = ovpn_nl_policy,
+   166		.netnsok = true,
+   167		.pre_doit = ovpn_pre_doit,
+   168		.post_doit = ovpn_post_doit,
+   169		.module = THIS_MODULE,
+   170		.small_ops = ovpn_nl_ops,
+   171		.n_small_ops = ARRAY_SIZE(ovpn_nl_ops),
+   172		.mcgrps = ovpn_nl_mcgrps,
+   173		.n_mcgrps = ARRAY_SIZE(ovpn_nl_mcgrps),
+   174	};
+   175	
+   176	/**
+   177	 * ovpn_nl_notify() - react to openvpn userspace process exit
+   178	 */
+   179	static int ovpn_nl_notify(struct notifier_block *nb, unsigned long state,
+   180				  void *_notify)
+ > 181	{
+   182		return NOTIFY_DONE;
+   183	}
    184	
-   185		return 0;
-   186	}
-   187	
+   185	static struct notifier_block ovpn_nl_notifier = {
+   186		.notifier_call = ovpn_nl_notify,
+   187	};
+   188	
+   189	/**
+   190	 * ovpn_nl_init() - perform any ovpn specific netlink initialization
+   191	 */
+   192	int ovpn_nl_init(struct ovpn_struct *ovpn)
+ > 193	{
+   194		return 0;
+   195	}
+   196	
 
 -- 
 0-DAY CI Kernel Test Service
