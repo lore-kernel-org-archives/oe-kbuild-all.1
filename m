@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4E7AD5E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 05:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6461AD5E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 05:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709616698; cv=none; b=RDXaltWYNkYt+PUcPzNE97HIcsGkSSWcW0s3+t8uwxKcwu6lS7tCtIGc3TZtvTh3b0jRE5wDsXfBSkE2/Oimj96oq1PDJ1sn50q/NQgOS+JDDOoNYdJlHP9f7soQKe9VP2bI2F3HjKgMpn/QsV+C60ao6bLmSDxhiRyauI8Z02w=
+	t=1709617299; cv=none; b=uW5ollITP0gZpQhkSJb9vauuDyj/MIi8ishDKozLZrTzwHNxT6pezpbZdHUW6J1XL0DWHsu81c7z8QE1+0/67B+q0doCDDFYWKCL9NpkPbYx0cpVd40cltZGhb9ZxlVZFFHSeAzlHTU/wOTX6UeA5jbBZBBOHxkVo/Z41YnTpp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709616698; c=relaxed/simple;
-	bh=PfWzanwp9eKjtNwyVqmqFNxkMMzHDEHgnSAMV6tyzJ0=;
+	s=arc-20240116; t=1709617299; c=relaxed/simple;
+	bh=CnghG1myBwDxOCIRRjPME9yHx7gT2xVDB/wLHnFUCCM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=InRkuedDDNa+HrcsCivpxjUmIRkzCC99/ugrr8plMNsXzk096SU/qx+HqpFCsJKdffldB7HmhFjj2quu5bWkYBrm+trMTbUq64ElAZC+W2YNOjjiGH7TxQL5cPZNIJeTh9uZCevHK86U0RB4Olk36wPsmDUMmkOyfB6LK4UaXRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mah69z+X; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=H7PXxqk3dhW1JN4xWXFUJkLXe0KXrHEcddVa/CVtVwVJxVWd+cAVYBcCCMVEJQPp/BxVAnyPsGTA1k/PyYjByzUXGMM6TwrW7CaSFFMqdvVFRa+PzjZaH2bro739As1vg3B0SvTSwuYNWoFAi0VVDOINru6zXZNmQtqMZFSctt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DVdP1KMQ; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mah69z+X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DVdP1KMQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709616696; x=1741152696;
+  t=1709617298; x=1741153298;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PfWzanwp9eKjtNwyVqmqFNxkMMzHDEHgnSAMV6tyzJ0=;
-  b=mah69z+XSc9r68Q9SlzOSJGs2Upm424YoEzeCDbIAIz0tVzMQt/uAqC5
-   7W5Lu+kYsBwYCpREEE6Izs36yUwxqyHuybbJhe2hFpyO/xEWlllKj/N/L
-   T7bu+iyRqtIlfTGtay2Tz60Yq9RTeodZlt3gd6Lo2tG0Lqx6cmdXMtnNq
-   pco/cTuGn2mvhGdKfYWB/L/kyqSnEnW7nKGGCEJ6PXSi1f0WnzvllDuF3
-   d3wZzVjngUpWLEpnAl0zTF/ltiCh9MOfyBNlPtSe5IH873SXEcnQDsGiU
-   BnbkS2SPbXmnian2msZ6qmrbmHvHQAJNzfsq371oTIXtmNSVrIzqSncoD
+  bh=CnghG1myBwDxOCIRRjPME9yHx7gT2xVDB/wLHnFUCCM=;
+  b=DVdP1KMQxy44+f3M7j313boxilAAd/0GALAH3517o7kELV87vw43UWVO
+   JiTpxAgZuettZMQ4ETSgz0vAwmlqxBPqFI08VvXiJQKNWyJxd2MHWGCOS
+   hJhVcxQTpjhk2qMyJ3iot58YS3iEaw2H41X5gRPbpyBo6S5VIy9VDSK0/
+   ZP297+Y3kY+WjviCIaKQu8CtdWOb++IbVTfigUyxAlx0oxkCCidBYZbav
+   Z624zHQkLGR9ahkoOZNGxIBz5y8jjkeCDvT6ylcVDxADIg4F09XWl7fU4
+   0QAEqL5npa6nO/1rXr/XOxBGAmOaWpW7pdvpRr64MruGiLeScNj7cT2Jm
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="15547983"
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="21677092"
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="15547983"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 21:31:35 -0800
+   d="scan'208";a="21677092"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 21:41:37 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="9352246"
+   d="scan'208";a="13754070"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Mar 2024 21:31:34 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 04 Mar 2024 21:41:34 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhNOl-00034L-2d;
-	Tue, 05 Mar 2024 05:31:31 +0000
-Date: Tue, 5 Mar 2024 13:30:59 +0800
+	id 1rhNYS-00034b-0N;
+	Tue, 05 Mar 2024 05:41:32 +0000
+Date: Tue, 5 Mar 2024 13:41:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>
-Cc: oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>
-Subject: [arm-perf:for-next/perf 34/37]
- drivers/perf/starfive_starlink_pmu.c:169:17: error: implicit declaration of
- function 'writeq'; did you mean 'writel'?
-Message-ID: <202403051305.36cANAVm-lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: kernel/cgroup/cgroup.c:5373 cgroup_create() warn: inconsistent
+ indenting
+Message-ID: <202403051342.CzctCXe8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,93 +61,155 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git for-next/perf
-head:   b9f71ab2152e5b344c02eb3ff43637162aaf29e6
-commit: c2b24812f7bc5fbd6f2f92af070856fbe4c37b40 [34/37] perf: starfive: Add StarLink PMU support
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20240305/202403051305.36cANAVm-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403051305.36cANAVm-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
+head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
+commit: 7600f2ca4450f694f3d0ae89dbd741ea1d0f8ffa tqos/rqm: Tencent Quality Monitor Buffer
+date:   2 years, 4 months ago
+config: x86_64-randconfig-161-20240305 (https://download.01.org/0day-ci/archive/20240305/202403051342.CzctCXe8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403051305.36cANAVm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403051342.CzctCXe8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+kernel/cgroup/cgroup.c:5373 cgroup_create() warn: inconsistent indenting
 
-   drivers/perf/starfive_starlink_pmu.c: In function 'starlink_pmu_set_event_period':
->> drivers/perf/starfive_starlink_pmu.c:169:17: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
-     169 |                 writeq(val, starlink_pmu->pmu_base + STARLINK_PMU_CYCLE_COUNTER);
-         |                 ^~~~~~
-         |                 writel
-   drivers/perf/starfive_starlink_pmu.c: In function 'starlink_pmu_counter_start':
->> drivers/perf/starfive_starlink_pmu.c:191:15: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Werror=implicit-function-declaration]
-     191 |         val = readq(starlink_pmu->pmu_base + STARLINK_PMU_INTERRUPT_ENABLE);
-         |               ^~~~~
-         |               readl
-   cc1: some warnings being treated as errors
+vim +5373 kernel/cgroup/cgroup.c
 
-
-vim +169 drivers/perf/starfive_starlink_pmu.c
-
-   154	
-   155	static void starlink_pmu_set_event_period(struct perf_event *event)
-   156	{
-   157		struct starlink_pmu *starlink_pmu = to_starlink_pmu(event->pmu);
-   158		struct hw_perf_event *hwc = &event->hw;
-   159		int idx = event->hw.idx;
-   160	
-   161		/*
-   162		 * Program counter to half of it's max count to handle
-   163		 * cases of extreme interrupt latency.
-   164		 */
-   165		u64 val = STARLINK_PMU_COUNTER_MASK >> 1;
-   166	
-   167		local64_set(&hwc->prev_count, val);
-   168		if (hwc->config == STARLINK_CYCLES)
- > 169			writeq(val, starlink_pmu->pmu_base + STARLINK_PMU_CYCLE_COUNTER);
-   170		else
-   171			writeq(val, starlink_pmu->pmu_base + STARLINK_PMU_EVENT_COUNTER +
-   172			       idx * sizeof(u64));
-   173	}
-   174	
-   175	static void starlink_pmu_counter_start(struct perf_event *event,
-   176					       struct starlink_pmu *starlink_pmu)
-   177	{
-   178		struct hw_perf_event *hwc = &event->hw;
-   179		int idx = event->hw.idx;
-   180		u64 val;
-   181	
-   182		/*
-   183		 * Enable counter overflow interrupt[63:0],
-   184		 * which is mapped as follow:
-   185		 *
-   186		 * event counter 0	- Bit [0]
-   187		 * event counter 1	- Bit [1]
-   188		 * ...
-   189		 * cycle counter	- Bit [63]
-   190		 */
- > 191		val = readq(starlink_pmu->pmu_base + STARLINK_PMU_INTERRUPT_ENABLE);
-   192	
-   193		if (hwc->config == STARLINK_CYCLES) {
-   194			/*
-   195			 * Cycle count has its dedicated register, and it starts
-   196			 * counting as soon as STARLINK_PMU_GLOBAL_ENABLE is set.
-   197			 */
-   198			val |= STARLINK_PMU_CYCLE_OVERFLOW_MASK;
-   199		} else {
-   200			writeq(event->hw.config, starlink_pmu->pmu_base +
-   201			       STARLINK_PMU_EVENT_SELECT + idx * sizeof(u64));
-   202	
-   203			val |= BIT_ULL(idx);
-   204		}
-   205	
-   206		writeq(val, starlink_pmu->pmu_base + STARLINK_PMU_INTERRUPT_ENABLE);
-   207	
-   208		writeq(STARLINK_PMU_GLOBAL_ENABLE, starlink_pmu->pmu_base +
-   209		       STARLINK_PMU_CONTROL);
-   210	}
-   211	
+  5329	
+  5330	/*
+  5331	 * The returned cgroup is fully initialized including its control mask, but
+  5332	 * it isn't associated with its kernfs_node and doesn't have the control
+  5333	 * mask applied.
+  5334	 */
+  5335	static struct cgroup *cgroup_create(struct cgroup *parent)
+  5336	{
+  5337		struct cgroup_root *root = parent->root;
+  5338		struct cgroup *cgrp, *tcgrp;
+  5339		int level = parent->level + 1;
+  5340		int ret;
+  5341	
+  5342		/* allocate the cgroup and its ID, 0 is reserved for the root */
+  5343		cgrp = kzalloc(struct_size(cgrp, ancestor_ids, (level + 1)),
+  5344			       GFP_KERNEL);
+  5345		if (!cgrp)
+  5346			return ERR_PTR(-ENOMEM);
+  5347	
+  5348		ret = percpu_ref_init(&cgrp->self.refcnt, css_release, 0, GFP_KERNEL);
+  5349		if (ret)
+  5350			goto out_free_cgrp;
+  5351	
+  5352		if (cgroup_on_dfl(parent)) {
+  5353			ret = cgroup_rstat_init(cgrp);
+  5354			if (ret)
+  5355				goto out_cancel_ref;
+  5356		}
+  5357	
+  5358		/*
+  5359		 * Temporarily set the pointer to NULL, so idr_find() won't return
+  5360		 * a half-baked cgroup.
+  5361		 */
+  5362		cgrp->id = cgroup_idr_alloc(&root->cgroup_idr, NULL, 2, 0, GFP_KERNEL);
+  5363		if (cgrp->id < 0) {
+  5364			ret = -ENOMEM;
+  5365			goto out_stat_exit;
+  5366		}
+  5367	
+  5368		init_cgroup_housekeeping(cgrp);
+  5369	
+  5370		cgrp->self.parent = &parent->self;
+  5371		cgrp->root = root;
+  5372		cgrp->level = level;
+> 5373	    cgrp->mbuf = NULL;
+  5374	
+  5375		ret = psi_cgroup_alloc(cgrp);
+  5376		if (ret)
+  5377			goto out_idr_free;
+  5378	
+  5379		ret = cgroup_bpf_inherit(cgrp);
+  5380		if (ret)
+  5381			goto out_psi_free;
+  5382	
+  5383		/*
+  5384		 * New cgroup inherits effective freeze counter, and
+  5385		 * if the parent has to be frozen, the child has too.
+  5386		 */
+  5387		cgrp->freezer.e_freeze = parent->freezer.e_freeze;
+  5388		if (cgrp->freezer.e_freeze) {
+  5389			/*
+  5390			 * Set the CGRP_FREEZE flag, so when a process will be
+  5391			 * attached to the child cgroup, it will become frozen.
+  5392			 * At this point the new cgroup is unpopulated, so we can
+  5393			 * consider it frozen immediately.
+  5394			 */
+  5395			set_bit(CGRP_FREEZE, &cgrp->flags);
+  5396			set_bit(CGRP_FROZEN, &cgrp->flags);
+  5397		}
+  5398	
+  5399		spin_lock_irq(&css_set_lock);
+  5400		for (tcgrp = cgrp; tcgrp; tcgrp = cgroup_parent(tcgrp)) {
+  5401			cgrp->ancestor_ids[tcgrp->level] = tcgrp->id;
+  5402	
+  5403			if (tcgrp != cgrp) {
+  5404				tcgrp->nr_descendants++;
+  5405	
+  5406				/*
+  5407				 * If the new cgroup is frozen, all ancestor cgroups
+  5408				 * get a new frozen descendant, but their state can't
+  5409				 * change because of this.
+  5410				 */
+  5411				if (cgrp->freezer.e_freeze)
+  5412					tcgrp->freezer.nr_frozen_descendants++;
+  5413			}
+  5414		}
+  5415		spin_unlock_irq(&css_set_lock);
+  5416	
+  5417		if (notify_on_release(parent))
+  5418			set_bit(CGRP_NOTIFY_ON_RELEASE, &cgrp->flags);
+  5419	
+  5420		if (test_bit(CGRP_CPUSET_CLONE_CHILDREN, &parent->flags))
+  5421			set_bit(CGRP_CPUSET_CLONE_CHILDREN, &cgrp->flags);
+  5422	
+  5423		cgrp->self.serial_nr = css_serial_nr_next++;
+  5424	
+  5425		/* allocation complete, commit to creation */
+  5426		list_add_tail_rcu(&cgrp->self.sibling, &cgroup_parent(cgrp)->self.children);
+  5427		atomic_inc(&root->nr_cgrps);
+  5428		cgroup_get_live(parent);
+  5429	
+  5430		/*
+  5431		 * @cgrp is now fully operational.  If something fails after this
+  5432		 * point, it'll be released via the normal destruction path.
+  5433		 */
+  5434		cgroup_idr_replace(&root->cgroup_idr, cgrp, cgrp->id);
+  5435	
+  5436		/*
+  5437		 * On the default hierarchy, a child doesn't automatically inherit
+  5438		 * subtree_control from the parent.  Each is configured manually.
+  5439		 */
+  5440		if (!cgroup_on_dfl(cgrp))
+  5441			cgrp->subtree_control = cgroup_control(cgrp);
+  5442	
+  5443		cgroup_propagate_control(cgrp);
+  5444	
+  5445		return cgrp;
+  5446	
+  5447	out_psi_free:
+  5448		psi_cgroup_free(cgrp);
+  5449	out_idr_free:
+  5450		cgroup_idr_remove(&root->cgroup_idr, cgrp->id);
+  5451	out_stat_exit:
+  5452		if (cgroup_on_dfl(parent))
+  5453			cgroup_rstat_exit(cgrp);
+  5454	out_cancel_ref:
+  5455		percpu_ref_exit(&cgrp->self.refcnt);
+  5456	out_free_cgrp:
+  5457		kfree(cgrp);
+  5458		return ERR_PTR(ret);
+  5459	}
+  5460	
 
 -- 
 0-DAY CI Kernel Test Service
