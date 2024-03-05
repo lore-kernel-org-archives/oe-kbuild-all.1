@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0C484A48;
-	Tue,  5 Mar 2024 13:37:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC805102B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 14:11:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709645869; cv=none; b=YIqhS1cWrBmWf6Mh3sqF6vL7CB5OXsgZDGTToc1Zo9XVyE2wenbwXqPoaUAMqqY9Trtgt6qaFcNqh2ZOum993mA7poVfUzKU8P2AipU/LMSdO2LzyCL/pj4Bj2SY50Zi02StkxnnNJx3fRH1OITPJ9/RKSWe5i0/why82AEAJHk=
+	t=1709647868; cv=none; b=tiPBloiwuIXlc4EswwBR+EHpCepbSpsKmCQR236VPHV45x0v2CDHStChh4yukfufuKtD6oh0TGrXmzjkuOfrNjVPO2qu44ClEZG0i+VaLZvSuCicavpeDRcjR+WmYBNKWyGgceaRv0kSyj8CHFmu7YUK6NXyagZ2QeAOHH+H3TQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709645869; c=relaxed/simple;
-	bh=ax/AzGyHbaXf9JUnZYDYcZScwOSIjDgnlEjR07TqFE0=;
+	s=arc-20240116; t=1709647868; c=relaxed/simple;
+	bh=bJI1V1e0bqUXbRtIdFLLnydswyPoAtPGpwioWe4X9BA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CxClHjV9eoahaMzteKDQfKkp32K4T9k0TZKgqJFY2A74IB5m8G3xp8MogQh891i2Nic4+rujNmiJ0ztTnA4Uk+atG0/67aLUiGEMucsbJFb7wBdd8zdVxak/m7zfCOT33nUaQxmSbyCpdLIF/hR0BvP6q4i1QD/TrCupJL0hfd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fjuq1jod; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Xm7jm3SdX0s0NgughGDhtGHXzqJ0qUezEDyYVrkxi5GSKraiBWYg6NlNbSupcbqu5hQ9f1l971RMgNMjPGHZbE+60Nyc1u3f7GTHCpwMWKaci/O+B1GS+XUABjNPOrXCYn+VUaAsEBCXA8fcjwdrCDXsK+VylRGh29SRD2dp0mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j5Me3Ubt; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fjuq1jod"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j5Me3Ubt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709645867; x=1741181867;
+  t=1709647864; x=1741183864;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ax/AzGyHbaXf9JUnZYDYcZScwOSIjDgnlEjR07TqFE0=;
-  b=Fjuq1jodADrJvEkxU5yeQvyzV9Lwl8cPef6jHR8WA46Khxo2/9Iqg3bA
-   BeNWV4U98QRAPVnOkIh3Edyu30PbokApfhLSTuy5PqhiokKKDbcENkT2H
-   YXMqQcuGBz1D8AzhBStTlruKLtPvMVbNzz7FXyVbi5QBSD6YrDxkqXnOz
-   Z4lY51opH8tEBAJlhcoiUJy4TMD6Pc50iqKTZTN8yVViVNO0oNBFSu5WQ
-   IUmUHIsaA6m4KiBZ9CG2i2gUzV9ZJqsQNBkuTK4oLNcfp8+v8lt1AM2Nn
-   G/KE2gheo45Wsgq87NNYmnipzJKoM5MUepaADDG1V9XOj4Dv5Yjryx1Ro
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4076134"
+  bh=bJI1V1e0bqUXbRtIdFLLnydswyPoAtPGpwioWe4X9BA=;
+  b=j5Me3UbtDRUaOd/BFYAtwaSApGkuVUdKGoP3pzsF1V3BEHfG8hrTqEEq
+   fSjX6Q9EKXrSW3ft+mkZ3R0BQwxCyWoJD3rMU6Oud+JHJzVElOhBPm8En
+   kEp8+WXeatm/tpRzjzzdhcWK+Sw8qwKtw0dMb6mpA5nSoutoCm3p6XhtO
+   +9NhlVzk93k03Ni9U6trBjX2QzPWYH/WvC+KGJwHVYDrtBYHEieu1I2nB
+   bGsRfTUgsDZO8oHIdRKbgE8y1vR4So7r+yu0beCeGz1TOe9vcA5PZ1N6R
+   0mgvEHHngS5DP7jPhvrmypHXN+mB+qvfM8ikQ5FcNTy7HngLfh2QsBuX2
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="8018098"
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="4076134"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 05:37:47 -0800
+   d="scan'208";a="8018098"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 06:10:51 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="9439917"
+   d="scan'208";a="14076324"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2024 05:37:45 -0800
+  by orviesa005.jf.intel.com with ESMTP; 05 Mar 2024 06:10:45 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhUzF-0003KH-2g;
-	Tue, 05 Mar 2024 13:37:41 +0000
-Date: Tue, 5 Mar 2024 21:37:34 +0800
+	id 1rhVVC-0003M5-2H;
+	Tue, 05 Mar 2024 14:10:42 +0000
+Date: Tue, 5 Mar 2024 22:10:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Leon Romanovsky <leon@kernel.org>
-Subject: [leon-rdma:rdma-next 26/28] block/blk-merge.c:597:9: warning: format
- specifies type 'unsigned long long' but the argument has type 'dma_addr_t'
- (aka 'unsigned int')
-Message-ID: <202403052151.hPT88XvP-lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.phytium 1/41]
+ kernel/tkernel/irqlatency/irqlatency.c:298:37: warning: unused variable
+ 'enable_fops'
+Message-ID: <202403052211.cX4oGWRl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,85 +62,240 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
-head:   9a1309977ab77599d5c66aa6a77b5b308f4f4379
-commit: d6bc00edad972dc9c214c239e8d253c7ba370a4a [26/28] block: add dma_link_range() based API
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240305/202403052151.hPT88XvP-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403052151.hPT88XvP-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.phytium
+head:   974a90e098c75ef0e62d4bbbde4535368a61f98b
+commit: f1c44669cde7e48456dd9f6276cdb4ab848c598e [1/41] irqlatency: add irq latency monitor support
+config: x86_64-buildonly-randconfig-002-20240305 (https://download.01.org/0day-ci/archive/20240305/202403052211.cX4oGWRl-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403052211.cX4oGWRl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403052151.hPT88XvP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403052211.cX4oGWRl-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from block/blk-merge.c:7:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm/include/asm/cacheflush.h:10:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> block/blk-merge.c:597:9: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
-     596 |                 pr_err("dma_mapping_err %d dma_addr 0x%llx dma_offset %llu\n",
-         |                                                       ~~~~
-         |                                                       %x
-     597 |                         ret, dma_addr, dma_offset);
-         |                              ^~~~~~~~
-   include/linux/printk.h:498:33: note: expanded from macro 'pr_err'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                                ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-     455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   block/blk-merge.c:597:19: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
-     596 |                 pr_err("dma_mapping_err %d dma_addr 0x%llx dma_offset %llu\n",
-         |                                                                       ~~~~
-         |                                                                       %u
-     597 |                         ret, dma_addr, dma_offset);
-         |                                        ^~~~~~~~~~
-   include/linux/printk.h:498:33: note: expanded from macro 'pr_err'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                                ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-     455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   3 warnings generated.
+>> kernel/tkernel/irqlatency/irqlatency.c:298:37: warning: unused variable 'enable_fops' [-Wunused-const-variable]
+     298 | static const struct file_operations enable_fops = {
+         |                                     ^~~~~~~~~~~
+>> kernel/tkernel/irqlatency/irqlatency.c:345:37: warning: unused variable 'freq_fops' [-Wunused-const-variable]
+     345 | static const struct file_operations freq_fops = {
+         |                                     ^~~~~~~~~
+>> kernel/tkernel/irqlatency/irqlatency.c:392:37: warning: unused variable 'lat_fops' [-Wunused-const-variable]
+     392 | static const struct file_operations lat_fops = {
+         |                                     ^~~~~~~~
+>> kernel/tkernel/irqlatency/irqlatency.c:488:37: warning: unused variable 'trace_stack_fops' [-Wunused-const-variable]
+     488 | static const struct file_operations trace_stack_fops = {
+         |                                     ^~~~~~~~~~~~~~~~
+>> kernel/tkernel/irqlatency/irqlatency.c:581:37: warning: unused variable 'trace_dist_fops' [-Wunused-const-variable]
+     581 | static const struct file_operations trace_dist_fops = {
+         |                                     ^~~~~~~~~~~~~~~
+   5 warnings generated.
 
 
-vim +597 block/blk-merge.c
+vim +/enable_fops +298 kernel/tkernel/irqlatency/irqlatency.c
 
-   585	
-   586	static dma_addr_t blk_dma_link_page(struct page *page, unsigned int page_offset,
-   587					    struct dma_iova_attrs *iova,
-   588					    dma_addr_t dma_offset)
-   589	{
-   590		dma_addr_t dma_addr;
-   591		int ret;
-   592	
-   593		dma_addr = dma_link_range(page, page_offset, iova, dma_offset);
-   594		ret = dma_mapping_error(iova->dev, dma_addr);
-   595		if (ret) {
-   596			pr_err("dma_mapping_err %d dma_addr 0x%llx dma_offset %llu\n",
- > 597				ret, dma_addr, dma_offset);
-   598			/* better way ? */
-   599			dma_addr = 0;
-   600		}
-   601		return dma_addr;
-   602	}
-   603	
+   297	
+ > 298	static const struct file_operations enable_fops = {
+   299		.open		= enable_open,
+   300		.read		= seq_read,
+   301		.write		= enable_write,
+   302		.llseek		= seq_lseek,
+   303		.release	= single_release,
+   304	};
+   305	
+   306	static int freq_show(struct seq_file *m, void *ptr)
+   307	{
+   308		seq_printf(m, "%llu\n", freq_ms);
+   309	
+   310		return 0;
+   311	}
+   312	
+   313	static int freq_open(struct inode *inode, struct file *file)
+   314	{
+   315		return single_open(file, freq_show, inode->i_private);
+   316	}
+   317	
+   318	static ssize_t freq_write(struct file *file, const char __user *buf,
+   319					     size_t count, loff_t *ppos)
+   320	{
+   321		unsigned long freq;
+   322	
+   323		if (check_enable)
+   324			return -EINVAL;
+   325	
+   326		if (kstrtoul_from_user(buf, count, 0, &freq))
+   327			return -EINVAL;
+   328	
+   329		if (freq == freq_ms)
+   330			return count;
+   331	
+   332		if (freq < MIN_FREQ_MS)
+   333			freq = MIN_FREQ_MS;
+   334		else if (freq > MAX_FREQ_MS)
+   335			freq = MAX_FREQ_MS;
+   336	
+   337		if (freq > (irq_latency_ms >> 1))
+   338			freq = irq_latency_ms >> 1;
+   339	
+   340		freq_ms = freq;
+   341	
+   342		return count;
+   343	}
+   344	
+ > 345	static const struct file_operations freq_fops = {
+   346		.open		= freq_open,
+   347		.read		= seq_read,
+   348		.write		= freq_write,
+   349		.llseek		= seq_lseek,
+   350		.release	= single_release,
+   351	};
+   352	
+   353	static int lat_show(struct seq_file *m, void *ptr)
+   354	{
+   355		seq_printf(m, "%llu\n", irq_latency_ms);
+   356	
+   357		return 0;
+   358	}
+   359	
+   360	static int lat_open(struct inode *inode, struct file *file)
+   361	{
+   362		return single_open(file, lat_show, inode->i_private);
+   363	}
+   364	
+   365	static ssize_t lat_write(struct file *file, const char __user *buf,
+   366					     size_t count, loff_t *ppos)
+   367	{
+   368		unsigned long lat_ms;
+   369	
+   370		if (check_enable)
+   371			return -EINVAL;
+   372	
+   373		if (kstrtoul_from_user(buf, count, 0, &lat_ms))
+   374			return -EINVAL;
+   375	
+   376		if (lat_ms == irq_latency_ms)
+   377			return count;
+   378	
+   379		if (lat_ms < (MIN_FREQ_MS >> 1))
+   380			lat_ms = MIN_FREQ_MS >> 1;
+   381		else if (lat_ms > (MAX_FREQ_MS >> 1))
+   382			lat_ms = MAX_FREQ_MS >> 1;
+   383	
+   384		if (lat_ms < (freq_ms << 1))
+   385			lat_ms = freq_ms << 1;
+   386	
+   387		irq_latency_ms = lat_ms;
+   388	
+   389		return count;
+   390	}
+   391	
+ > 392	static const struct file_operations lat_fops = {
+   393		.open		= lat_open,
+   394		.read		= seq_read,
+   395		.write		= lat_write,
+   396		.llseek		= seq_lseek,
+   397		.release	= single_release,
+   398	};
+   399	
+   400	static ssize_t trace_stack_write(struct file *file, const char __user *buf,
+   401					   size_t count, loff_t *ppos)
+   402	{
+   403		unsigned long lat;
+   404	
+   405		if (kstrtoul_from_user(buf, count, 0, &lat))
+   406			return -EINVAL;
+   407	
+   408		if (!lat) {
+   409			int cpu;
+   410	
+   411			for_each_online_cpu(cpu)
+   412				smp_call_function_single(cpu, reset_latency_trace,
+   413					per_cpu_ptr(detect_data, cpu), true);
+   414			return count;
+   415		}
+   416	
+   417		return -EINVAL;
+   418	}
+   419	
+   420	static void trace_stack_print(struct seq_file *m, struct per_stack *stack)
+   421	{
+   422		int i;
+   423	
+   424		if (WARN_ON(!stack->perstack))
+   425			return;
+   426	
+   427		for (i = 0; i < stack->nr_entries; i++)
+   428			seq_printf(m, "%*c%pS\n", 5, ' ', (void *)stack->perstack[i]);
+   429	}
+   430	
+   431	static void trace_stack_irq_show(struct seq_file *m, void *v, u32 isirq)
+   432	{
+   433		int cpu;
+   434	
+   435		for_each_online_cpu(cpu) {
+   436			int i;
+   437			u64 stack_index;
+   438			struct latency_data *lat_data;
+   439	
+   440			lat_data = isirq ? per_cpu_ptr(&detect_data->irq_data, cpu) :
+   441				per_cpu_ptr(&detect_data->softirq_data, cpu);
+   442	
+   443			/* *
+   444			 * Paired with smp_store_release() in the save_trace().
+   445			 */
+   446			stack_index = smp_load_acquire(&lat_data->stack_index);
+   447			if (!stack_index)
+   448				continue;
+   449	
+   450			seq_printf(m, " cpu: %d\n", cpu);
+   451	
+   452			for (i = 0; i < stack_index; i++) {
+   453				u64 msecs, plus;
+   454	
+   455				msecs = lat_data->latency[i].msecs;
+   456				plus = lat_data->latency[i].plus;
+   457				seq_printf(m, "%*cCOMMAND: %s PID: %d LATENCY: %llu%s\n",
+   458					5, ' ', lat_data->comms[i], lat_data->pids[i],
+   459					msecs, plus ? "+ms" : "ms");
+   460				trace_stack_print(m, lat_data->stacks + i);
+   461				seq_putc(m, '\n');
+   462	
+   463				cond_resched();
+   464			}
+   465		}
+   466	}
+   467	
+   468	static int trace_stack_show(struct seq_file *m, void *v)
+   469	{
+   470		seq_printf(m, "irq_latency_ms: %llu\n\n", irq_latency_ms);
+   471	
+   472		seq_puts(m, " irq:\n");
+   473		trace_stack_irq_show(m, v, true);
+   474	
+   475		seq_putc(m, '\n');
+   476	
+   477		seq_puts(m, " softirq:\n");
+   478		trace_stack_irq_show(m, v, false);
+   479	
+   480		return 0;
+   481	}
+   482	
+   483	static int trace_stack_open(struct inode *inode, struct file *file)
+   484	{
+   485		return single_open(file, trace_stack_show, inode->i_private);
+   486	}
+   487	
+ > 488	static const struct file_operations trace_stack_fops = {
+   489		.owner		= THIS_MODULE,
+   490		.open		= trace_stack_open,
+   491		.read		= seq_read,
+   492		.write		= trace_stack_write,
+   493		.llseek		= seq_lseek,
+   494		.release	= single_release,
+   495	};
+   496	
 
 -- 
 0-DAY CI Kernel Test Service
