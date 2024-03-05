@@ -1,57 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E3CF9DA
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 00:54:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8E7F9FE
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 00:54:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709600075; cv=none; b=tzvjaiL9hHBTROf1b71BeKt5SOnI9ayI4d5/QPdXb5JGYaz2n4tN2kOKg8G6gbaW5jiF14FGiaevIFZX8trkoJUT6+oxmCr1nurJqz+qN/4W30qEvUvl36tAxcE87A7Y8RbfpBiizSABiw2C9daq4PLvI1YmS9leWJ0lL1oNSEU=
+	t=1709600077; cv=none; b=CfGvPumeZgvvZVY6e1lXG3DZY8wbZw4mKdMukbXQzZgCwUWjo9LqjRbmr6O4fYRGH2T2agf0ijQdxI5IdfB/ObI1KYtjTH5YYGCWQJnImHSFbQEiBrP4Pk1zbQVbJtNOwUrtA3D6vvC77xp4tVzKQfPbrNO8pVK2W8suBT/CCbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709600075; c=relaxed/simple;
-	bh=wuTkaSo3Qj6XjjUPHSKNOzcSXfGoyQkdNPaydpr6pCA=;
+	s=arc-20240116; t=1709600077; c=relaxed/simple;
+	bh=57NhiH4lEDAnb+ZYX0QyCF65sZs+Mvv7fkkwOUMLV9A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CAupwdT+3OEfrhqFd+Ia3nrMYuvpaqa3/ADX/BplEyEwPgdUC8MaoUg0gAtke989tSWZ0G9Y3lki26C16uj0YH14191S/l3tnrGiurhYgcm74jTLxJYYhDYOpiZIBbjiNTVW1sIpOw5iZNzq5DYl3dmyT+YvRO1c565+x0QFVxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S/5sXhlh; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=kOAX7AS0qtZl/V+lg1i2xZsLfTZlntA/esCpstOfigxuX1uxZDSn0ghkWSYRQSs4ygPSDDrlVgWaYaDiW9ch1RbKNkfICBsNq2EvvhkeiKrcMR7Lsi+OZYSTBMrywTjOgcXdZyYMBob33j1p0vjj49Ed7oJI8dJDUF+bYk0Rms4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HV8nuOBv; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S/5sXhlh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HV8nuOBv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709600074; x=1741136074;
+  t=1709600076; x=1741136076;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wuTkaSo3Qj6XjjUPHSKNOzcSXfGoyQkdNPaydpr6pCA=;
-  b=S/5sXhlhMDrkswpZeb8g+32nRHo09eZFwv88ucuph5IUJyhRxjLdmFGP
-   uJEr3sp73k+XxmOa8Th0NVh0VkhHxPUGiawElwE6ASSaeE1KKLwDacCg/
-   DQEFnVjWLVh3v+wPgenjhh0DWOxT5ulP/QeZxkWcmX5wXF02guhavj0MR
-   SHCnqSIE32EYTl9neo5VdgUCKRQpEvshRvA3tktB8Vv/DlDo7h4mPzhAT
-   SO78wp5PhzzHvcMRWUdGYMBKWrcFxS0txSSH7G/wts8FutgsYAFX+EN8l
-   KfpWx0oiw9JOAQ58GPXbeqMREjii8c9ncSTFX8IYKATIxn5UZ5gi0/T+0
+  bh=57NhiH4lEDAnb+ZYX0QyCF65sZs+Mvv7fkkwOUMLV9A=;
+  b=HV8nuOBvZ3kVJjYzDWveko0Pooj0tt5XsxXKuIDWwrRatVyViZRwhc0H
+   IrWQyYzHakgxxrPqcsvAkZVDcu7rOVOdlg5bKGoMPwMeAaIzFstVuoHL5
+   XjGB+LldD3QeBUaDa+clYDSK+GsLwpJNym5HZhdMdqf6J8h+dG6UxllR4
+   cTq1wzh3gcai3QlddkpSc8Tk+4ZQc0ImbJ+qzG+BpyeJ54RJeZTPLbZ1V
+   +dbfIGOlbiGyARyWDCikcLttYJqRuCxVgfgQYEaM2WCDZQsMs5lBMYGOc
+   yUeUU4s5T9M3TtLqSpIahNel+IbH5/1465ASSlVqP+A6brLO5l2LLGIhE
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="15529856"
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="15529857"
 X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
-   d="scan'208";a="15529856"
+   d="scan'208";a="15529857"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 16:54:33 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
-   d="scan'208";a="9137071"
+   d="scan'208";a="9137173"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 04 Mar 2024 16:54:26 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhJ4Z-0002rz-1e;
+	id 1rhJ4Z-0002s2-1i;
 	Tue, 05 Mar 2024 00:54:23 +0000
-Date: Tue, 5 Mar 2024 08:54:04 +0800
+Date: Tue, 5 Mar 2024 08:54:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Sandeen <sandeen@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>,
-	Christian Brauner <brauner@kernel.org>
-Subject: [brauner-vfs:vfs.mount.api 3/3] fs/openpromfs/inode.c:417:27: error:
- 'openpromfs_reconfigure' undeclared here (not in a function); did you mean
- 'openprom_reconfigure'?
-Message-ID: <202403050807.RSK5Px2v-lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: drivers/vfio/platform/vfio_platform.c:29:16: error: implicit
+ declaration of function 'platform_get_mem_or_io'; did you mean
+ 'platform_get_device_id'?
+Message-ID: <202403050837.W7PuOYzU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,94 +62,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.mount.api
-head:   0540b5e5fc1fb89be71af08ddfc7c21a22828ec5
-commit: 0540b5e5fc1fb89be71af08ddfc7c21a22828ec5 [3/3] openpromfs: finish conversion to the new mount API
-config: sparc-defconfig (https://download.01.org/0day-ci/archive/20240305/202403050807.RSK5Px2v-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403050807.RSK5Px2v-lkp@intel.com/reproduce)
+Hi Jason,
+
+First bad commit (maybe != root cause):
+
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   e116ff64db9be38b70fd5b050f5900435d428547
+commit: 7bd4091a92dd9ed03a482d8359bc7c54871ff5fc vfio-platform: Add COMPILE_TEST to VFIO_PLATFORM
+date:   9 months ago
+config: x86_64-buildonly-randconfig-003-20240305 (https://download.01.org/0day-ci/archive/20240305/202403050837.W7PuOYzU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403050837.W7PuOYzU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403050807.RSK5Px2v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403050837.W7PuOYzU-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
->> fs/openpromfs/inode.c:417:27: error: 'openpromfs_reconfigure' undeclared here (not in a function); did you mean 'openprom_reconfigure'?
-     417 |         .reconfigure    = openpromfs_reconfigure,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~
-         |                           openprom_reconfigure
->> fs/openpromfs/inode.c:358:12: warning: 'openprom_reconfigure' defined but not used [-Wunused-function]
-     358 | static int openprom_reconfigure(struct fs_context *fc)
-         |            ^~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/iommu.h:16,
+                    from include/linux/vfio.h:12,
+                    from drivers/vfio/platform/vfio_platform.c:9:
+   include/linux/ioasid.h:210:51: error: unknown type name 'ioasid_set_type'
+     210 |                                                   ioasid_set_type type)
+         |                                                   ^~~~~~~~~~~~~~~
+   drivers/vfio/platform/vfio_platform.c: In function 'get_platform_resource':
+>> drivers/vfio/platform/vfio_platform.c:29:16: error: implicit declaration of function 'platform_get_mem_or_io'; did you mean 'platform_get_device_id'? [-Werror=implicit-function-declaration]
+      29 |         return platform_get_mem_or_io(dev, num);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+         |                platform_get_device_id
+>> drivers/vfio/platform/vfio_platform.c:29:16: warning: returning 'int' from a function with return type 'struct resource *' makes pointer from integer without a cast [-Wint-conversion]
+      29 |         return platform_get_mem_or_io(dev, num);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PCI_MSI_ARCH_FALLBACKS
+   Depends on [n]: PCI [=n]
+   Selected by [y]:
+   - X86 [=y]
 
 
-vim +417 fs/openpromfs/inode.c
+vim +29 drivers/vfio/platform/vfio_platform.c
 
-   357	
- > 358	static int openprom_reconfigure(struct fs_context *fc)
-   359	{
-   360		sync_filesystem(fc->root->d_sb);
-   361		fc->sb_flags |= SB_NOATIME;
-   362		return 0;
-   363	}
-   364	
-   365	static const struct super_operations openprom_sops = {
-   366		.alloc_inode	= openprom_alloc_inode,
-   367		.free_inode	= openprom_free_inode,
-   368		.statfs		= simple_statfs,
-   369	};
-   370	
-   371	static int openprom_fill_super(struct super_block *s, struct fs_context *fc)
-   372	{
-   373		struct inode *root_inode;
-   374		struct op_inode_info *oi;
-   375		int ret;
-   376	
-   377		s->s_flags |= SB_NOATIME;
-   378		s->s_blocksize = 1024;
-   379		s->s_blocksize_bits = 10;
-   380		s->s_magic = OPENPROM_SUPER_MAGIC;
-   381		s->s_op = &openprom_sops;
-   382		s->s_time_gran = 1;
-   383		root_inode = openprom_iget(s, OPENPROM_ROOT_INO);
-   384		if (IS_ERR(root_inode)) {
-   385			ret = PTR_ERR(root_inode);
-   386			goto out_no_root;
-   387		}
-   388	
-   389		simple_inode_init_ts(root_inode);
-   390		root_inode->i_op = &openprom_inode_operations;
-   391		root_inode->i_fop = &openprom_operations;
-   392		root_inode->i_mode = S_IFDIR | S_IRUGO | S_IXUGO;
-   393		oi = OP_I(root_inode);
-   394		oi->type = op_inode_node;
-   395		oi->u.node = of_find_node_by_path("/");
-   396		unlock_new_inode(root_inode);
-   397	
-   398		s->s_root = d_make_root(root_inode);
-   399		if (!s->s_root)
-   400			goto out_no_root_dentry;
-   401		return 0;
-   402	
-   403	out_no_root_dentry:
-   404		ret = -ENOMEM;
-   405	out_no_root:
-   406		printk("openprom_fill_super: get root inode failed\n");
-   407		return ret;
-   408	}
-   409	
-   410	static int openpromfs_get_tree(struct fs_context *fc)
-   411	{
-   412		return get_tree_single(fc, openprom_fill_super);
-   413	}
-   414	
-   415	static const struct fs_context_operations openpromfs_context_ops = {
-   416		.get_tree	= openpromfs_get_tree,
- > 417		.reconfigure	= openpromfs_reconfigure,
-   418	};
-   419	
+^590eaf1fec755 Kaixu Xia       2021-03-16  23  
+^590eaf1fec755 Kaixu Xia       2021-03-16  24  static struct resource *get_platform_resource(struct vfio_platform_device *vdev,
+^590eaf1fec755 Kaixu Xia       2021-03-16  25  					      int num)
+^590eaf1fec755 Kaixu Xia       2021-03-16  26  {
+^590eaf1fec755 Kaixu Xia       2021-03-16  27  	struct platform_device *dev = (struct platform_device *) vdev->opaque;
+^590eaf1fec755 Kaixu Xia       2021-03-16  28  
+c82043e721f22c Andy Shevchenko 2020-12-09 @29  	return platform_get_mem_or_io(dev, num);
+^590eaf1fec755 Kaixu Xia       2021-03-16  30  }
+^590eaf1fec755 Kaixu Xia       2021-03-16  31  
+
+:::::: The code at line 29 was first introduced by commit
+:::::: c82043e721f22c84a1fe6936599dfb4e5228891e vfio: platform: Switch to use platform_get_mem_or_io()
+
+:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+:::::: CC: Song, Youquan <youquan.song@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
