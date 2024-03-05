@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964875914F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 10:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA775916A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 10:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709635845; cv=none; b=pO5g6F0Q0DSOh7KNONUPhqOdFgpRpmDyd/ZZUuHWKCKMBa1+onhK6nI+cg/xHhxkjsGYYapYMNfBPXD9r8thXpkQZGLBttuud17Y28jrfI0x4zh6b919tuo8TTMUZVNkEvAwoP/6KY4AxA30/WfDJyGdbPoDWYSNzkxdnz2rDYo=
+	t=1709635846; cv=none; b=CNZeOnNE81tdoiIj/t/4ZOXllZIgQTrlXqGte3egdCmVio+Wqe8huVzvarGWjmPm341wzl1b/Up3cNA2lp+q6EdwFiUjmmr7pwQO9FvavBEKTMYZ1CYGpjycUvAvZA27AD/v1xSAu3T/y/Gq/SMKpPmDH5YjFlxDLTMfT6J9LJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709635845; c=relaxed/simple;
-	bh=6tE8HtyfAZht/6VpAR5/I1qyP5LlMNtaDjd7MEsCwLA=;
+	s=arc-20240116; t=1709635846; c=relaxed/simple;
+	bh=BNKcXivIbyOw1KRKTpQf43nwoWlhSKJ72ckwHiV5IDo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SocWqdxjE1WAqwpyOEjDjA49OppuNsXnBFpFYT2V0DpQclfkZ2HSAszpzLQ3nKLohpOd/mZLidufYy+WVxxWkNIVcCBF8qOM+v7heQOI8U3HP/6wfXkzrRggCgalWxoovYb7fAFv/URPmRduqzbdjDCWDaqQ9Pw9VRXkGDxwm2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MyWAM3sQ; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=sPgW1bt/JP9AStbPTzhsFv5DhWryYshzC9OGrd5l8P5nXtbbhBzoK1kOKJC7+/M+IUFVuxsYebjQyTNe34LIUcCg82a5vvI2Z4T56OPUcvZN4aJ3xOLeKDC2je8ECBrWQ8C7CV8yp3Sg7xUSfwMkIR/FHmaeJJrjIVoZFja87To=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V/RvHd2h; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MyWAM3sQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V/RvHd2h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709635844; x=1741171844;
+  t=1709635845; x=1741171845;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6tE8HtyfAZht/6VpAR5/I1qyP5LlMNtaDjd7MEsCwLA=;
-  b=MyWAM3sQrqkxNzNgqxw+/1TAkdvRmmR93gn/4k7DqE/N+KaE6VoF4fLG
-   bEc5v6GRcAfMt5vlKp1RnMolT2bd8MEK2lgea50dK2QLiWqga6L64hLqr
-   04Yac1dxWo6nbpPnpYK0RClRGi6vXD1jrJaU/48HtuaWi7cDKjNU3ufHl
-   Q0bESdATArnzXAOZJ9eS0j9CplVu9Yji8Vup9Z+DujPBMZvyloXxhCG6a
-   IDBOjX5bPbJIlKJs6Dxt0srn6IA2mfkxiHzPQgakKDt+ydEkvEuAgSjXg
-   ebG3uuSPNs2xzUz9yWSORO3bvcAD+0+U7M3ye+H2K2p01JsKt/FeYw1YT
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4345510"
+  bh=BNKcXivIbyOw1KRKTpQf43nwoWlhSKJ72ckwHiV5IDo=;
+  b=V/RvHd2h2gh/7rJKQeCBo3wqJKKQXcTll1ukI+FjlfspYyzMdslpzAc2
+   GCe8GSfBliAVR5mnigwc/wn/9tj4TmqYC6K8yU847WcVk2I96VfI3wzQh
+   h83U/fO5SPCKpa0RcAVfckP4IwcBaUW+yU2smdI65ebOg5cjgGuwPghY9
+   sFwoRKOFco0AsJehwoJJ+yjFI6MnexO4E10E0R4Xciyb9mScZ7wrjd/4m
+   PbDKuY4W55YM7m2/rqkjsgthIuM5HcJB2bCAZWMEi05lXx3w5SrE2GQJ2
+   M5+lEDBVHimBPYKYM5y0ZXnbvLxeH8hkigtU/OBsbbZmi5upP8NRz/DAS
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="7947011"
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="4345510"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 02:50:43 -0800
+   d="scan'208";a="7947011"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 02:50:44 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="13824053"
+   d="scan'208";a="9242237"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Mar 2024 02:50:41 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 05 Mar 2024 02:50:41 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhSNb-0003FV-0w;
+	id 1rhSNb-0003FT-0s;
 	Tue, 05 Mar 2024 10:50:39 +0000
-Date: Tue, 5 Mar 2024 18:49:50 +0800
+Date: Tue, 5 Mar 2024 18:49:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	David Bauer <mail@david-bauer.net>
-Subject: [linux-next:master 10916/11963] pinctrl-aw9523.c:(.text+0x13a8):
- relocation truncated to fit: R_NIOS2_CALL26 against `__devm_regmap_init_i2c'
-Message-ID: <202403051807.vgb2hT4I-lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/next 24881/27434]
+ drivers/virtio/virtio_balloon.c:161:5: warning: no previous prototype for
+ 'virtballoon_free_page_report'
+Message-ID: <202403051851.LKOUDr4r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,26 +62,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   11afac187274a6177a7ac82997f8691c0f469e41
-commit: bfa5aa367a8226004b548b13ff8409c3b356af68 [10916/11963] pinctrl: Add driver for Awinic AW9523/B I2C GPIO Expander
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20240305/202403051807.vgb2hT4I-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403051807.vgb2hT4I-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
+head:   0e88d1c26496999d1b2e37f3393b602d28b03faf
+commit: 5624b6f64dffb17eb72a2c6277e78ae5e55a5cfb [24881/27434] virtio-balloon: add support for providing free page reports to host
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240305/202403051851.LKOUDr4r-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403051851.LKOUDr4r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403051807.vgb2hT4I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403051851.LKOUDr4r-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   nios2-linux-ld: drivers/pinctrl/pinctrl-aw9523.o: in function `aw9523_probe':
-   pinctrl-aw9523.c:(.text+0x13a8): undefined reference to `__devm_regmap_init_i2c'
->> pinctrl-aw9523.c:(.text+0x13a8): relocation truncated to fit: R_NIOS2_CALL26 against `__devm_regmap_init_i2c'
-   nios2-linux-ld: drivers/pinctrl/pinctrl-aw9523.o: in function `aw9523_driver_init':
-   pinctrl-aw9523.c:(.init.text+0x14): undefined reference to `i2c_register_driver'
->> pinctrl-aw9523.c:(.init.text+0x14): relocation truncated to fit: R_NIOS2_CALL26 against `i2c_register_driver'
+>> drivers/virtio/virtio_balloon.c:161:5: warning: no previous prototype for 'virtballoon_free_page_report' [-Wmissing-prototypes]
+     161 | int virtballoon_free_page_report(struct page_reporting_dev_info *pr_dev_info,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/virtballoon_free_page_report +161 drivers/virtio/virtio_balloon.c
+
+   160	
+ > 161	int virtballoon_free_page_report(struct page_reporting_dev_info *pr_dev_info,
+   162					   struct scatterlist *sg, unsigned int nents)
+   163	{
+   164		struct virtio_balloon *vb =
+   165			container_of(pr_dev_info, struct virtio_balloon, pr_dev_info);
+   166		struct virtqueue *vq = vb->reporting_vq;
+   167		unsigned int unused, err;
+   168	
+   169		/* We should always be able to add these buffers to an empty queue. */
+   170		err = virtqueue_add_inbuf(vq, sg, nents, vb, GFP_NOWAIT | __GFP_NOWARN);
+   171	
+   172		/*
+   173		 * In the extremely unlikely case that something has occurred and we
+   174		 * are able to trigger an error we will simply display a warning
+   175		 * and exit without actually processing the pages.
+   176		 */
+   177		if (WARN_ON_ONCE(err))
+   178			return err;
+   179	
+   180		virtqueue_kick(vq);
+   181	
+   182		/* When host has read buffer, this completes via balloon_ack */
+   183		wait_event(vb->acked, virtqueue_get_buf(vq, &unused));
+   184	
+   185		return 0;
+   186	}
+   187	
 
 -- 
 0-DAY CI Kernel Test Service
