@@ -1,294 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6867214290
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 22:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF3D1429A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 22:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709677987; cv=none; b=NdF/NAg2Se8to8T3KdvvK6FeKbr9SVAcnNbNg/2lLSFTnPrDlulg9Tdt8ETRV820cGF+x/J5AsX++2KJ6jyDtizETldIy10u8/4DWOpXYV0Pn6Auh2/eimvxs123kjb8Qm8dRjiu5a6gp5mbITRYFLENDNYiGV8DJdvPX9qylnc=
+	t=1709678134; cv=none; b=A69m1McKT7l+V+tOaK6fnqVau0YMG7XcIrAmaQTtZ83uaDp1EzBZnQTI4GuIhgv68WkBZNjL4/rLdxiJs+fYl7wGeZQISoWZqNU99Vmh3GNk1YDLYcuj4b+ONM9hefL/MoHuosqdysHbzEOLkiwKQNc6KGL9hXmXIsvTQEimOlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709677987; c=relaxed/simple;
-	bh=rEq6iCdg1Oy6dk++mbLO60T8BTax+ZxhyhVzmc7mEzE=;
+	s=arc-20240116; t=1709678134; c=relaxed/simple;
+	bh=tuechWDabS+rOZFM5oF+zEivMu15U6Zy4NLHefWQa8U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EzLOlV8ckSoisJgQ/SIyCd8wBMYuQws84Zv/8bS3ip2ID3VVplcG3iE/47gtwpmCp9IFy2/rB7LTir7aAzKn6yRLPXGZBadyDLFBqwRqBAGjhYe2JDMozga+o0ZzUz/MJlJjwFwoOYhrRuDiJVDDvPI/IpCigeukpTfs91TJV50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bgOIDma9; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=UiwXlBSpqQX7wTbN8GhS1VOXqX2yKr9xYD+vxI6G+QM8s+tXyMzLUFCRq0f83siLM3NhgqVP5Qn3ryVXOJtoBvGmda8tmqKZNkpEFOFBn50rN0ZWMR4TSgWOaKjC8G7xfbwrSrzx8iyZ1mMP/pJPE7oYh76C32olwrqQzkoAISo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ChvnzVRu; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bgOIDma9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709677986; x=1741213986;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rEq6iCdg1Oy6dk++mbLO60T8BTax+ZxhyhVzmc7mEzE=;
-  b=bgOIDma9l1xVfi5cLxFu9Tha3+8cNVk/L+/c5PK/NqtIpaEJ1N83m4UB
-   ZF1pRBpcaKx2ME+zSIi1ILEfYimQ2QpnIUzWIpervyfv6o2J1L+uyIkFa
-   rorlhCzlCqwItZkZ+Qk6FZYklAEh1+l5lQbcOVg370mXsNVnxo3mpwZcb
-   XrhecuEPmUuf4AYa6ll1Z+IUWg8r1ZMJkbecvDga+yAsoASkrfahpozI+
-   aB01E/u9TwMQJckNXJaT2L8e0t/T8UD5N24Gcaf4VvrWIaG/wVcz5KH0J
-   UCpCLS3ZZ12QjPZYr8m1ZbPTXcGNnWgoAyjo9bxRSefUVaXlx39KUpUPF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4383225"
-X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; 
-   d="scan'208";a="4383225"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 14:33:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; 
-   d="scan'208";a="14105474"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 05 Mar 2024 14:33:02 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rhdLI-0003iP-0Z;
-	Tue, 05 Mar 2024 22:33:00 +0000
-Date: Wed, 6 Mar 2024 06:32:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Qi Zheng <zhengqi.arch@bytedance.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 3/3] s390: supplement for ptdesc conversion
-Message-ID: <202403060651.ld11yLEn-lkp@intel.com>
-References: <04beaf3255056ffe131a5ea595736066c1e84756.1709541697.git.zhengqi.arch@bytedance.com>
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ChvnzVRu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=tuec
+	hWDabS+rOZFM5oF+zEivMu15U6Zy4NLHefWQa8U=; b=ChvnzVRuCI12BSjdcC+p
+	QcdVlGgdw83XEA+hWRkzwai6TbkFBGKQmiawO+ETCat+AdzNBeaToKiEUlc+pDjd
+	H9nV/C+BCcXI/t6twfAYHkieAV8C3tO+98hDomUE5KCgyfBbQ3Dip3jehH6BvEUD
+	gxXimjbFj6GbnAdTKpHLutVuXeTcpqVyB5ZiHxLQH2AavmYA27XPqJz+Jo1zsyki
+	NyhJnJUMUiuMIBNocZufaCk+NIgyJFzQrHBnIzoNCk94o+zTU8ts2iQKojy9gvRE
+	z3TaC8d7bmT5KQtQRmZBq+ARV9JOWr//bYZeGtlOWR48g2EgwpwBRNDgiIVO/Prd
+	9Q==
+Received: (qmail 4027393 invoked from network); 5 Mar 2024 23:35:25 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Mar 2024 23:35:25 +0100
+X-UD-Smtp-Session: l3s3148p1@RZRSdfESmKpehhYI
+Date: Tue, 5 Mar 2024 23:35:24 +0100
+From: "wsa-dev@sang-engineering.com" <wsa-dev@sang-engineering.com>
+To: Hamish Martin <Hamish.Martin@alliedtelesis.co.nz>
+Cc: "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>,
+	"andi.shyti@kernel.org" <andi.shyti@kernel.org>,
+	"naresh.kamboju@linaro.org" <naresh.kamboju@linaro.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"lkp@intel.com" <lkp@intel.com>, "arnd@arndb.de" <arnd@arndb.de>
+Subject: Re: [linux-next:master 11602/11963] ERROR: modpost:
+ "acpi_device_notify_remove" [drivers/i2c/i2c-core.ko] undefined!
+Message-ID: <ZeeeLIPzxZuvOuyd@shikoro>
+References: <202403052102.hlG8I44z-lkp@intel.com>
+ <6da20a8cf84d358841068e7eff3323b6d61e014b.camel@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="0XhZH3p8iGGgsAPF"
+Content-Disposition: inline
+In-Reply-To: <6da20a8cf84d358841068e7eff3323b6d61e014b.camel@alliedtelesis.co.nz>
+
+
+--0XhZH3p8iGGgsAPF
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <04beaf3255056ffe131a5ea595736066c1e84756.1709541697.git.zhengqi.arch@bytedance.com>
-
-Hi Qi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on s390/features]
-[also build test ERROR on kvms390/next linus/master v6.8-rc7]
-[cannot apply to akpm-mm/mm-everything next-20240305]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-pgtable-correct-the-wrong-comment-about-ptdesc-__page_flags/20240304-191006
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-patch link:    https://lore.kernel.org/r/04beaf3255056ffe131a5ea595736066c1e84756.1709541697.git.zhengqi.arch%40bytedance.com
-patch subject: [PATCH 3/3] s390: supplement for ptdesc conversion
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240306/202403060651.ld11yLEn-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403060651.ld11yLEn-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403060651.ld11yLEn-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/smp.h:12,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from include/linux/pagewalk.h:5,
-                    from arch/s390/mm/gmap.c:12:
-   arch/s390/mm/gmap.c: In function 'gmap_free':
->> include/linux/list.h:866:19: error: assignment to 'struct page *' from incompatible pointer type 'struct ptdesc *' [-Werror=incompatible-pointer-types]
-     866 |                 n = list_next_entry(pos, member);                       \
-         |                   ^
-   arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/list.h:868:18: error: assignment to 'struct ptdesc *' from incompatible pointer type 'struct page *' [-Werror=incompatible-pointer-types]
-     868 |              pos = n, n = list_next_entry(n, member))
-         |                  ^
-   arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/kernel.h:22,
-                    from arch/s390/mm/gmap.c:11:
->> arch/s390/mm/gmap.c:212:72: error: 'struct page' has no member named 'pt_list'; did you mean 'pcp_list'?
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                                                                        ^~~~~~~
-   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
-     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:868:27: note: in expansion of macro 'list_next_entry'
-     868 |              pos = n, n = list_next_entry(n, member))
-         |                           ^~~~~~~~~~~~~~~
-   arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/container_of.h:5:
->> arch/s390/mm/gmap.c:212:72: error: 'struct page' has no member named 'pt_list'; did you mean 'pcp_list'?
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                                                                        ^~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
-     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:868:27: note: in expansion of macro 'list_next_entry'
-     868 |              pos = n, n = list_next_entry(n, member))
-         |                           ^~~~~~~~~~~~~~~
-   arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->> arch/s390/mm/gmap.c:212:72: error: 'struct page' has no member named 'pt_list'; did you mean 'pcp_list'?
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                                                                        ^~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
-     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:868:27: note: in expansion of macro 'list_next_entry'
-     868 |              pos = n, n = list_next_entry(n, member))
-         |                           ^~~~~~~~~~~~~~~
-   arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->> arch/s390/mm/gmap.c:212:72: error: 'struct page' has no member named 'pt_list'; did you mean 'pcp_list'?
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                                                                        ^~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
-     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:868:27: note: in expansion of macro 'list_next_entry'
-     868 |              pos = n, n = list_next_entry(n, member))
-         |                           ^~~~~~~~~~~~~~~
-   arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:376:27: error: expression in static assertion is not an integer
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
-     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:868:27: note: in expansion of macro 'list_next_entry'
-     868 |              pos = n, n = list_next_entry(n, member))
-         |                           ^~~~~~~~~~~~~~~
-   arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from arch/s390/include/asm/rwonce.h:29,
-                    from include/linux/compiler.h:251,
-                    from include/linux/array_size.h:5,
-                    from include/linux/kernel.h:16:
->> arch/s390/mm/gmap.c:212:72: error: 'struct page' has no member named 'pt_list'; did you mean 'pcp_list'?
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                                                                        ^~~~~~~
-   include/linux/stddef.h:16:58: note: in definition of macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                                          ^~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
-     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:868:27: note: in expansion of macro 'list_next_entry'
-     868 |              pos = n, n = list_next_entry(n, member))
-         |                           ^~~~~~~~~~~~~~~
-   arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
 
 
-vim +212 arch/s390/mm/gmap.c
+> I was only calling acpi_device_notify_remove() to trigger
+> acpi_unbind_one() anyway, so that seems like what I should do.
 
-   187	
-   188	/**
-   189	 * gmap_free - free a guest address space
-   190	 * @gmap: pointer to the guest address space structure
-   191	 *
-   192	 * No locks required. There are no references to this gmap anymore.
-   193	 */
-   194	static void gmap_free(struct gmap *gmap)
-   195	{
-   196		struct page *page, *next;
-   197	
-   198		/* Flush tlb of all gmaps (if not already done for shadows) */
-   199		if (!(gmap_is_shadow(gmap) && gmap->removed))
-   200			gmap_flush_tlb(gmap);
-   201		/* Free all segment & region tables. */
-   202		list_for_each_entry_safe(page, next, &gmap->crst_list, lru)
-   203			__free_pages(page, CRST_ALLOC_ORDER);
-   204		gmap_radix_tree_free(&gmap->guest_to_host);
-   205		gmap_radix_tree_free(&gmap->host_to_guest);
-   206	
-   207		/* Free additional data for a shadow gmap */
-   208		if (gmap_is_shadow(gmap)) {
-   209			struct ptdesc *ptdesc;
-   210	
-   211			/* Free all page tables. */
- > 212			list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-   213				page_table_free_pgste(ptdesc);
-   214			gmap_rmap_radix_tree_free(&gmap->host_to_rmap);
-   215			/* Release reference to the parent */
-   216			gmap_put(gmap->parent);
-   217		}
-   218	
-   219		kfree(gmap);
-   220	}
-   221	
+Sounds reasonable to me. Mika might have more insight, though.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+--0XhZH3p8iGGgsAPF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmXnnigACgkQFA3kzBSg
+KbbbiA//dqN5XkEy/scru8K+CJLZ50VOZIRrjqXJOw4uz8cGNnA1Tp7DLK2mxVhx
+hAxL89UMl+kDLWXD8+QPh9Hp9c5I4v256pT10CUxmJ3tSf4KP6n2scBGPufa6/VK
++WpXcK6w8Zc8L+xovsD/Gai7JO5b7NpxRf6SGnSKDlbfcuXnC+12ocK5r59PQzRX
+M257gf6+aBMFegRdSn0zQZA62CHpgwI+8b/pEtUeebKE6XWJ9W5RBFRabBPpJo1F
+5hj86cRggAOMmhWjM10dUGhT9V2cKuALfQfbNB2BHPRuitBQbitkJHbqsH6BcVLC
+SqsKZjGvDSUNBTX1uN/8aOVVH7DUfdq792ktXSEYFypEln8nbgqEXvaRfepUxRI3
+3lh5sj7gKUYJesM6eSzxwb4b843MP/8C6raV0kotcDLoxhJZW7Y5A8jfFsf2PSVt
+SqJmTZcMuSlFd/zX93/m5sYVla+njI00vN85EfWxmUc2Xdr5bWJtzrskUXCBdHai
+Nda+ECXeDJbYOFOS43GpcI59NZ1oSJGzEaxSR/HUc/WE7eB9FpMeAxD6BIA+FIl6
+VuFKjZ0xIY3dIS9gJ4qG5M7RVGh0TK4bzH7WqPEOGUkDtkrXo0K5eJwBxok6Mslv
+z7k4yrREetBUJb6iNB7jLYkMCLrkW+od0HDIZCOZNJwYh+ddwRE=
+=YTxx
+-----END PGP SIGNATURE-----
+
+--0XhZH3p8iGGgsAPF--
