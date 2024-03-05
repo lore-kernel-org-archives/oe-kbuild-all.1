@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0DF8665E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 14:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4A637145
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 14:37:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709648459; cv=none; b=GSQMMCcM9GjYoeYBlHXk6gnN7unz1IvWPgelQV+KwJ+qdNwbTlB5jdUNB/B85BO9aiQ4Eea9yPgoIQlYzvxFYoO4iYg7kuIXEzGLFaVp+dBEZkxChg414Mo9IXKqn5Kd/vF5Yk06EeUkeWHswFh0/QRGfha5y8hLql6DhBPfdsM=
+	t=1709649470; cv=none; b=M2cJFGQxN9oS7WTdn8kdbVr4e23Sf9h08V8PwfASmzg8JgpxzYK0Stt187u4rg4RFwm1hJLIaGwp1F7CC7TEerUMJZFPuennJgXbQpY93S9YgZIKWMtHEgepozWBhpbXHDkBnFFAMuXNzO0zKp/EcIMkM8QaeVE1PyL3l6TqSAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709648459; c=relaxed/simple;
-	bh=fdjKF1d0oglgLhtPaSlgBALx/OtfwSPYh6tq0LXE0VM=;
+	s=arc-20240116; t=1709649470; c=relaxed/simple;
+	bh=BSV/h01YnMwAWNgNUuvrI+z73YLfACBI6i+U+zG8XYA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g+2OL/XfQ/ejeZM6BT16UXkmpqJsaG6HQv90TZB7ERx1oAvXO92l1zXtVNl9yWC5mfCMLLxW3X9fXT3n9LOIoOFIoEb33vUQZnLULqeKV7cACtvkkLSd1T7/2lbayjduOm40luRWGUT6Zy178CERn194mwE7FpFXhJ2yHXK/tpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bm4Cpp+U; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=lGjSl45MQnQCQLVTgzYKCU5fSPc3pE8V7+KOkD5PIARacO0+I6ILdbcF8qm04V4V1XH7UQ0NSvsU3YlKXgAxJ1Qi6SbsV/i0OC1zpgw1ChZN8UkzBk64JC3ODWD7O6HCvVCYmxLdfqDh0mjkeg5JtQdv4pKsz07Pd/aH2U+G9XM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cyBLgEOx; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bm4Cpp+U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyBLgEOx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709648457; x=1741184457;
+  t=1709649468; x=1741185468;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fdjKF1d0oglgLhtPaSlgBALx/OtfwSPYh6tq0LXE0VM=;
-  b=Bm4Cpp+UF49QOuYMFzXz3aa+/Kv67HZIjiIon9r97NT1szIA2EhWLqbZ
-   3pUwBq+wPwAWwfqxuzIPaRPMJI1DhRdvca6kC3hgrdIkhkuyB4oJxL8G6
-   HuXHTwy/OaER5Y3+vYyViWSWX1mZfLy5IiVNxOCc744dXXtRWsMoE3wGg
-   YWEeLVJTMcJx4hCF78g/6Uz6thMUAyyga7f/6KhR6MT9/aZbhRhY4qqeT
-   iOb6J/pw5u4aggBU4/EgHtxsNObjTzxQ2+eMA7OUkeRjtD+2/T8c0NJsz
-   3ePeW6uxoimjmdWNdr/RS7LsQvxsNoGyOcUsnB9Hg1lIbUJbiZQCPq5p+
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4326097"
+  bh=BSV/h01YnMwAWNgNUuvrI+z73YLfACBI6i+U+zG8XYA=;
+  b=cyBLgEOxuGSJRa501Yhg1+zAO5Sj+Vu3uQ+p9vzGaRMWMuwxACLK8j0g
+   iY5ozVf5LtWTS3Sn+uDFqRbXCh67hqaqWdFCyYbNj+iW8gQwq1/bAN24+
+   faxVovxXVsWy8ktoeGINuO/RhfQI5YhK6pKpy/3M1GwB2qvvrNnEhuImp
+   1XSs3ZrzJtVKTPI143H3e+PUOxbsqlu4/iQMKnRvGVbVd3dqQka4Ko8KW
+   tLDzxU4uv9WrlEMpEzG1cB3G8qJU+p4PHHXlRMxgwZG0hbQ/3QSL1uyM9
+   PdCoTgqS+xZeQTGXPMLqPSuRmv9XS/Rm5dddrH5QyFBpJnB81yuXREg/g
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="21662400"
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="4326097"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 06:20:48 -0800
+   d="scan'208";a="21662400"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 06:37:47 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="9246585"
+   d="scan'208";a="13959707"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Mar 2024 06:20:45 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 05 Mar 2024 06:37:45 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhVet-0003Md-01;
-	Tue, 05 Mar 2024 14:20:43 +0000
-Date: Tue, 5 Mar 2024 22:20:37 +0800
+	id 1rhVvL-0003Mv-0W;
+	Tue, 05 Mar 2024 14:37:43 +0000
+Date: Tue, 5 Mar 2024 22:37:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/next 27252/27434] kernel/irq/manage.c:350:5:
- warning: no previous prototype for function 'irq_update_affinity_desc'
-Message-ID: <202403052228.1dkOQtdT-lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	David Bauer <mail@david-bauer.net>
+Subject: [linux-next:master 10916/11963] hppa-linux-ld: undefined reference
+ to `i2c_adapter_depth'
+Message-ID: <202403052226.7Y80cqvB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,103 +61,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
-head:   0e88d1c26496999d1b2e37f3393b602d28b03faf
-commit: 17568159e8f86e6ce059ca5b8d54fa54042d1bed [27252/27434] genirq: Export affinity setter for modules
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240305/202403052228.1dkOQtdT-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403052228.1dkOQtdT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   11afac187274a6177a7ac82997f8691c0f469e41
+commit: bfa5aa367a8226004b548b13ff8409c3b356af68 [10916/11963] pinctrl: Add driver for Awinic AW9523/B I2C GPIO Expander
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20240305/202403052226.7Y80cqvB-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403052226.7Y80cqvB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403052228.1dkOQtdT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403052226.7Y80cqvB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the linux-next/master HEAD 11afac187274a6177a7ac82997f8691c0f469e41 builds fine.
+      It may have been fixed somewhere.
 
->> kernel/irq/manage.c:350:5: warning: no previous prototype for function 'irq_update_affinity_desc' [-Wmissing-prototypes]
-     350 | int irq_update_affinity_desc(unsigned int irq,
-         |     ^
-   kernel/irq/manage.c:350:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     350 | int irq_update_affinity_desc(unsigned int irq,
-         | ^
-         | static 
-   1 warning generated.
+All errors (new ones prefixed by >>):
 
-
-vim +/irq_update_affinity_desc +350 kernel/irq/manage.c
-
-   334	
-   335	/**
-   336	 * irq_update_affinity_desc - Update affinity management for an interrupt
-   337	 * @irq:	The interrupt number to update
-   338	 * @affinity:	Pointer to the affinity descriptor
-   339	 *
-   340	 * This interface can be used to configure the affinity management of
-   341	 * interrupts which have been allocated already.
-   342	 *
-   343	 * There are certain limitations on when it may be used - attempts to use it
-   344	 * for when the kernel is configured for generic IRQ reservation mode (in
-   345	 * config GENERIC_IRQ_RESERVATION_MODE) will fail, as it may conflict with
-   346	 * managed/non-managed interrupt accounting. In addition, attempts to use it on
-   347	 * an interrupt which is already started or which has already been configured
-   348	 * as managed will also fail, as these mean invalid init state or double init.
-   349	 */
- > 350	int irq_update_affinity_desc(unsigned int irq,
-   351				     struct irq_affinity_desc *affinity)
-   352	{
-   353		struct irq_desc *desc;
-   354		unsigned long flags;
-   355		bool activated;
-   356		int ret = 0;
-   357	
-   358		/*
-   359		 * Supporting this with the reservation scheme used by x86 needs
-   360		 * some more thought. Fail it for now.
-   361		 */
-   362		if (IS_ENABLED(CONFIG_GENERIC_IRQ_RESERVATION_MODE))
-   363			return -EOPNOTSUPP;
-   364	
-   365		desc = irq_get_desc_buslock(irq, &flags, 0);
-   366		if (!desc)
-   367			return -EINVAL;
-   368	
-   369		/* Requires the interrupt to be shut down */
-   370		if (irqd_is_started(&desc->irq_data)) {
-   371			ret = -EBUSY;
-   372			goto out_unlock;
-   373		}
-   374	
-   375		/* Interrupts which are already managed cannot be modified */
-   376		if (irqd_affinity_is_managed(&desc->irq_data)) {
-   377			ret = -EBUSY;
-   378			goto out_unlock;
-   379		}
-   380	
-   381		/*
-   382		 * Deactivate the interrupt. That's required to undo
-   383		 * anything an earlier activation has established.
-   384		 */
-   385		activated = irqd_is_activated(&desc->irq_data);
-   386		if (activated)
-   387			irq_domain_deactivate_irq(&desc->irq_data);
-   388	
-   389		if (affinity->is_managed) {
-   390			irqd_set(&desc->irq_data, IRQD_AFFINITY_MANAGED);
-   391			irqd_set(&desc->irq_data, IRQD_MANAGED_SHUTDOWN);
-   392		}
-   393	
-   394		cpumask_copy(desc->irq_common_data.affinity, &affinity->mask);
-   395	
-   396		/* Restore the activation state */
-   397		if (activated)
-   398			irq_domain_activate_irq(&desc->irq_data, false);
-   399	
-   400	out_unlock:
-   401		irq_put_desc_busunlock(desc, flags);
-   402		return ret;
-   403	}
-   404	
+   hppa-linux-ld: drivers/pinctrl/pinctrl-aw9523.o: in function `aw9523_probe':
+>> (.text+0x16b8): undefined reference to `__devm_regmap_init_i2c'
+>> hppa-linux-ld: (.text+0x1730): undefined reference to `i2c_adapter_depth'
+   hppa-linux-ld: drivers/pinctrl/pinctrl-aw9523.o: in function `aw9523_driver_init':
+>> (.init.text+0x2c): undefined reference to `i2c_register_driver'
+   hppa-linux-ld: drivers/pinctrl/pinctrl-aw9523.o: in function `aw9523_driver_exit':
+>> (.exit.text+0x18): undefined reference to `i2c_del_driver'
 
 -- 
 0-DAY CI Kernel Test Service
