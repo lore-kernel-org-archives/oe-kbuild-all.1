@@ -1,89 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429461AADC
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 19:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AC01272CC
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 20:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709666700; cv=none; b=A+L7VAfIrJ8UROflIqwxJU+UTPT5AuevuGy8zrRNIC78k7NX+6OJjv8F5t8J+HAfQ9hDYBSK9l0meoJR9TarrlGOEbzY1zK1e//z+r7bhiIVWZKwOc7onLIkX/kuItfN6jjjl2Vg8EkIm6E7uZSN2EXxEmOm1lbLd5oGz63YdB8=
+	t=1709670065; cv=none; b=hdJzA495eoR23ZxNoI7GA5QFC+5RghwLIABRKxaiTOvld0FdGBs4Ndbv4feUFDBnYmUWlheI7Va79wKdS4oMMrjzfWUxoN7oeoeTisALT6fpuK7n7Wp56/B0eBT4trTp7ir6XgyVF2dHmOTulDT23LcmAGYNICMQ2xFNgZG10ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709666700; c=relaxed/simple;
-	bh=HzmnPw/KagddfZrjXeslSsK8iyLWpysbOAo1fgloUD4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UIv4DmOgD/pY+sc/CckUv6oHlF1plpEP6xzDYOfuHB7woDyAaFTjDltO/etXN1en/mcNkzLyAk+wfmymLgzb56QrmmhLPoVJrFQzYZvVWW2okQ0g24+xfMzAJcL862vgEWShKmHKCan73ka0bP4c20prh1FcJVrD+0AFH0xAgto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TpDoza3o; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TpDoza3o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709666698; x=1741202698;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HzmnPw/KagddfZrjXeslSsK8iyLWpysbOAo1fgloUD4=;
-  b=TpDoza3oj/rsjrb/R28aUxVjb7uZXSAi25bUzi/Po7V5PxBivd+Zx+m0
-   Q40S0uGwKnya03e9quVOxVE4zhsjhVonBKczTyaMDWuem08gmUAVug3WW
-   /mtxhl7orjFStxrRjJIua8Iei/TR5LyjT7AiuJEwhdHYZ4YrYV19+y5c1
-   r2fN8woF7sBQ+KVM6THf+Km/vnuKgDkuwNZP2Kx7BjImhoVDmNZ/ME5I0
-   UIm+/QwbUBXjOHBmAfKKc80cWNngw5OGztOl4sio7alM+2mNgTGk3AQZE
-   +ZxPydzo5OMSt3tfsW8zl3v+5kg2KIR3m4pjkYr7gMuXjsrH46eBTPcL1
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4107146"
-X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; 
-   d="scan'208";a="4107146"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 11:24:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; 
-   d="scan'208";a="9349070"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Mar 2024 11:23:57 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rhaOJ-0003bZ-0j;
-	Tue, 05 Mar 2024 19:23:55 +0000
-Date: Wed, 6 Mar 2024 03:23:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/next 26810/27434] htmldocs: Warning:
- fs/overlayfs/Kconfig references a file that doesn't exist:
- Documentation/filesystems/overlayfs.txt
-Message-ID: <202403060305.bRyfBmcH-lkp@intel.com>
+	s=arc-20240116; t=1709670065; c=relaxed/simple;
+	bh=6/AYUfzDqzkrxKkZjplJh9OD3V2IdKBUYScD8zp5YJg=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=V/iCzzHiUmzFlRlSHViWJOY73J0RnOheFfQ2yzHzbO4lXGyK23OJeTNJNHUfWb4cNCp9jvMqdeB2TpUGt3z3Pbpa7IpsenqGKD1ZtQ2o/BHA4arkPidbxmTJVNRjEOrEZChWa42j0Erz/sbeChwUwr0OcPj91pzaY6QiDq/s0/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-365bde344ebso69511205ab.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 05 Mar 2024 12:21:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709670062; x=1710274862;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yUtUYHZsCEOa7X6Z+H+o0TaVUl7jsvxTuXTfFKtx4Og=;
+        b=CBBLz+SCGIaDgCa/PL4pSSWL3rwZNdNh7bCF4PTYbjNTE4XAENNVpsDU2Ol+LDBYuX
+         jZ4hUKb1+dRg75rN8MoOGvXRUbHMvK+5oqcCRcZA+MKOERuLe4TSPcvq2oBawBAWYQhC
+         4nqxDq7KoJOLB1ZioVA9Jze91ThshfEJuxqMwSqs77pTxqnC82Hpmfe3DzMPBTqAyL/e
+         v9wSvdAg1CxeoWH7zaUYFz2Vq/FzqxnqWIGSmbWQDxtOcfiqBfGJUTYcRcmPjmmUoW8F
+         LIj+C6RrpuLYT54sGEImhrEnuL31L3OB1/aToueFIDRku7nV1YrVhxaEXkphm7ToFIEu
+         37HA==
+X-Forwarded-Encrypted: i=1; AJvYcCUd1mXa9h+CCF/LQLA/zA6DRu2T3n3qlvM1RKCLNOT1OHmi361pAV2cNOg2frhrdWNKOdCg6yZvktB3VatB1kAIlXFEd3KIjrRxHCTu7g==
+X-Gm-Message-State: AOJu0YxjEZh+vdGethZnPmBoFyuDCyxN58E4/0P1BAYG6omafrvmoB1w
+	MLC5564zPUDyTKnfSV7HiDJ9T4CauIHIu4vTIycizeReJCfSAkY/fSADN0knuH9LncbXuYhevHc
+	AiT1d/QA8xYSD9a65AmIboaVt6r5/OlapdOQ6qD9OBiFbwh8QH6nkwaw=
+X-Google-Smtp-Source: AGHT+IG0HrTjf9tSzpW5mhEYahI6I+CdKvynp0WSCF6pQbzs6aTIrDo95uQZixM6D1ufLCf+gnTifAlBvx8apq0D07TCgFJ6wpLj
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Received: by 2002:a92:6f0b:0:b0:365:fe09:6450 with SMTP id
+ k11-20020a926f0b000000b00365fe096450mr104480ilc.4.1709670062725; Tue, 05 Mar
+ 2024 12:21:02 -0800 (PST)
+Date: Tue, 05 Mar 2024 12:21:02 -0800
+In-Reply-To: <0000000000000424f205fcf9a132@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c5b2ae0612ef94a9@google.com>
+Subject: Re: [syzbot] [ntfs3?] UBSAN: shift-out-of-bounds in ntfs_iget
+From: syzbot <syzbot+4768a8f039aa677897d0@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, anton@tuxera.com, 
+	axboe@kernel.dk, brauner@kernel.org, ghandatmanas@gmail.com, 
+	gregkh@linuxfoundation.org, jack@suse.cz, linkinjeon@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net, 
+	lkp@intel.com, llvm@lists.linux.dev, ntfs3@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
+	syzkaller@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
-head:   0e88d1c26496999d1b2e37f3393b602d28b03faf
-commit: 2ae16fc533dfb52853bbae122360f58ad7e0f3c8 [26810/27434] docs: filesystems: overlayfs: Rename overlayfs.txt to .rst
-reproduce: (https://download.01.org/0day-ci/archive/20240306/202403060305.bRyfBmcH-lkp@intel.com/reproduce)
+syzbot suspects this issue was fixed by commit:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403060305.bRyfBmcH-lkp@intel.com/
+commit 6f861765464f43a71462d52026fbddfc858239a5
+Author: Jan Kara <jack@suse.cz>
+Date:   Wed Nov 1 17:43:10 2023 +0000
 
-All warnings (new ones prefixed by >>):
+    fs: Block writes to mounted block devices
 
-   Warning: dist/templates/kernel.template.spec references a file that doesn't exist: linux-%%{kernel_unamer}/tools/perf/Documentation/examples.txt
-   Warning: drivers/media/v4l2-core/v4l2-fwnode.c references a file that doesn't exist: Documentation/acpi/dsd
-   Warning: drivers/net/ethernet/faraday/ftgmac100.c references a file that doesn't exist: Documentation/networking/phy.txt
-   Warning: drivers/net/ethernet/pensando/ionic/ionic_if.h references a file that doesn't exist: Documentation/networking/checksum-
-   Warning: fs/cifs/cifsfs.c references a file that doesn't exist: Documentation/workqueue.txt
->> Warning: fs/overlayfs/Kconfig references a file that doesn't exist: Documentation/filesystems/overlayfs.txt
->> Warning: fs/overlayfs/Kconfig references a file that doesn't exist: Documentation/filesystems/overlayfs.txt
->> Warning: fs/overlayfs/Kconfig references a file that doesn't exist: Documentation/filesystems/overlayfs.txt
-   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/kunit/
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12be09f2180000
+start commit:   afead42fdfca Merge tag 'perf-tools-fixes-for-v6.4-2-2023-0..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=162cf2103e4a7453
+dashboard link: https://syzkaller.appspot.com/bug?extid=4768a8f039aa677897d0
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12da9bbd280000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=174e8115280000
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: fs: Block writes to mounted block devices
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
