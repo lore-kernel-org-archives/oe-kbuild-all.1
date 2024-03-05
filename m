@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0814658AC3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 10:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284DE1EB26
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 11:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709635847; cv=none; b=jO2ueDYe92Auw9q5nn1wMR6vyPMegkNgOJ35/PJhYS2JHg1Inj5gqrxu9JsiH6LJ3u76F2XC1IeC5Wos+ZgW0yBvKImo/1McYsOxO0GkkV7ALbc4UddWSrDz4lIqEUUlU1WRm1AmBUzkCMrKi+b0QVmAIeLVfQ0DM1yKcMXIXko=
+	t=1709637109; cv=none; b=dHtwNucjBtEiJc4QEVa8V3nsVO9BU5k69LLnagx8ol0Iiz8rvOL1FfvrhjOXDE8DbRlSpo3qY2JvG3ucKkvkniwuSLGJFCcsqczvNl7n0wJOCFAO3Vb5X7TBvinmT46M/TIz+GGyzVyTb5YA86BX6KEApO+2J8cL999jMmXsRFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709635847; c=relaxed/simple;
-	bh=nBrUXBdUCj8+tBqi/8EvBy7hpwGTCEMFWpnietkJZ6c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Clke5MQxtFgODskvLCbc7fa0TARRmZ/l/UtgAogtrJSgC5rrnRX42Mc/+rvcwbj/zIiDcBm85RPsLlJl77J+8oh+T0vDjbYgwVscQx3D7zXZZxl2P4+uRuMqrn18CB5So61NyG9aBSFwK8E/9lPHK2dBDSZjMLErBSZBfzgO4Uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KQqz3HvV; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1709637109; c=relaxed/simple;
+	bh=qnYbUCGv4i3xK28rdJ04+nAtacxZCaIbBqI/btR76cM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hvl6aePyTTLq9vEvabTyQLgHmM1l2qZ/Mr8ssXjl96J7sc89Vk+UMRVREJHTKVYC8YO5asxXI+ifNW7qr4qYzlyAdyK2+cKRREE+JB403HYh3UKBr/VlGREOKyGhnXq6sDmWqfoD3Shb4MDOznDIarMW6UA2LUvnKvSCHr82E+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nCDDAzUL; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KQqz3HvV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nCDDAzUL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709635846; x=1741171846;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nBrUXBdUCj8+tBqi/8EvBy7hpwGTCEMFWpnietkJZ6c=;
-  b=KQqz3HvVpNIzIQSMOVrnpmvgaBDRPS8cE2PuVi0Zc0Pu+zTCfHRdKx/3
-   LJNBdH0taOLx7uq6IhYjomSgdnbVsr3g608E3yqpZNjXov8FzSf2U3oD0
-   SZn867BWEsq5nNkhuoOi5dM6CujLKx/5pVhUffXlfUY7dF8kAR/dnQ43I
-   uZSW13uk5ayYsqZAQwVhswpo0Sw+d1P4IGqc0SZrmfcDRnw8oz5kamL4h
-   wvCbDhZujmtrBG/EVScZt/u6N/t+IhTw2FLHeNwDto0soX7S8esM+7XXK
-   8RgmWnmHMMd0PMhbYnu4xoXSi91kcxLmj6frWBpCLU2z5XBR+UFpwlhPs
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4345512"
+  t=1709637106; x=1741173106;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qnYbUCGv4i3xK28rdJ04+nAtacxZCaIbBqI/btR76cM=;
+  b=nCDDAzULyFRdHhtrgtK025GfJd/QzGa1ZheNLy/TAPX5D4ryKI/w5Zg9
+   ClbUDYUFRM/7pKUr7tLv+cyoVp4RGMVBPlkEHTKsWG8YpbKi2H7ceUahM
+   p3TJq1OQXQrqpfGM3RVP2a5Y2D7BZGD8aRa6LNK0+Sq8ugwcALqRLpZzW
+   e+YX99ddRt5z7etVGOxBBmDeG/9yX91iWRZdn3nv9TNwqeL7lHT3PC6ch
+   3Uc04TCsO5CreBFojNGByhW8dW0CN/f+iedW8l1UQY7bm2GMqte0s2Of9
+   cXjW4/q02E2vidNDA3Rljz9udZzUjkpsqt8qUxhfRnTIzO+uDo5bDY7hh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4038443"
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="4345512"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 02:50:43 -0800
+   d="scan'208";a="4038443"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 03:11:46 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="13824052"
+   d="scan'208";a="9406941"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Mar 2024 02:50:41 -0800
+  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2024 03:11:42 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhSNb-0003FR-0o;
-	Tue, 05 Mar 2024 10:50:39 +0000
-Date: Tue, 5 Mar 2024 18:49:49 +0800
+	id 1rhShv-0003G9-1l;
+	Tue, 05 Mar 2024 11:11:39 +0000
+Date: Tue, 5 Mar 2024 19:11:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Antonio Quartulli <antonio@openvpn.net>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-	Antonio Quartulli <antonio@openvpn.net>
-Subject: Re: [PATCH net-next v2 03/22] ovpn: add basic netlink support
-Message-ID: <202403051838.YHYbFiGD-lkp@intel.com>
-References: <20240304150914.11444-4-antonio@openvpn.net>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: drivers/scsi/smartpqi/smartpqi_init.c:4066:29: sparse: sparse:
+ incorrect type in assignment (different address spaces)
+Message-ID: <202403051924.O81M00PO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,160 +60,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240304150914.11444-4-antonio@openvpn.net>
 
-Hi Antonio,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Antonio-Quartulli/netlink-add-NLA_POLICY_MAX_LEN-macro/20240304-232835
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240304150914.11444-4-antonio%40openvpn.net
-patch subject: [PATCH net-next v2 03/22] ovpn: add basic netlink support
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240305/202403051838.YHYbFiGD-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403051838.YHYbFiGD-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
+head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
+commit: 947b4728299262baefd907dae678bddf171c5c98 scsi: smartpqi: compat for tk4
+date:   2 years, 7 months ago
+config: arm64-randconfig-r131-20240303 (https://download.01.org/0day-ci/archive/20240305/202403051924.O81M00PO-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240305/202403051924.O81M00PO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403051838.YHYbFiGD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403051924.O81M00PO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/scsi/smartpqi/smartpqi_init.c:4066:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned int [noderef] [usertype] <asn:2> *iq_ci @@     got unsigned int * @@
+   drivers/scsi/smartpqi/smartpqi_init.c:4066:29: sparse:     expected unsigned int [noderef] [usertype] <asn:2> *iq_ci
+   drivers/scsi/smartpqi/smartpqi_init.c:4066:29: sparse:     got unsigned int *
+>> drivers/scsi/smartpqi/smartpqi_init.c:4080:19: sparse: sparse: cast removes address space '<asn:2>' of expression
+   drivers/scsi/smartpqi/smartpqi_init.c:2143:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be64 [usertype] wwid @@     got unsigned long long [usertype] @@
+   drivers/scsi/smartpqi/smartpqi_init.c:2143:30: sparse:     expected restricted __be64 [usertype] wwid
+   drivers/scsi/smartpqi/smartpqi_init.c:2143:30: sparse:     got unsigned long long [usertype]
 
->> drivers/net/ovpn/netlink.c:82: warning: Function parameter or struct member 'net' not described in 'ovpn_get_dev_from_attrs'
->> drivers/net/ovpn/netlink.c:82: warning: Function parameter or struct member 'attrs' not described in 'ovpn_get_dev_from_attrs'
->> drivers/net/ovpn/netlink.c:181: warning: Function parameter or struct member 'nb' not described in 'ovpn_nl_notify'
->> drivers/net/ovpn/netlink.c:181: warning: Function parameter or struct member 'state' not described in 'ovpn_nl_notify'
->> drivers/net/ovpn/netlink.c:181: warning: Function parameter or struct member '_notify' not described in 'ovpn_nl_notify'
->> drivers/net/ovpn/netlink.c:193: warning: Function parameter or struct member 'ovpn' not described in 'ovpn_nl_init'
+vim +4066 drivers/scsi/smartpqi/smartpqi_init.c
 
+^590eaf1fec755 Kaixu Xia  2021-03-16  4038  
+^590eaf1fec755 Kaixu Xia  2021-03-16  4039  static int pqi_alloc_admin_queues(struct pqi_ctrl_info *ctrl_info)
+^590eaf1fec755 Kaixu Xia  2021-03-16  4040  {
+^590eaf1fec755 Kaixu Xia  2021-03-16  4041  	size_t alloc_length;
+^590eaf1fec755 Kaixu Xia  2021-03-16  4042  	struct pqi_admin_queues_aligned *admin_queues_aligned;
+^590eaf1fec755 Kaixu Xia  2021-03-16  4043  	struct pqi_admin_queues *admin_queues;
+^590eaf1fec755 Kaixu Xia  2021-03-16  4044  
+^590eaf1fec755 Kaixu Xia  2021-03-16  4045  	alloc_length = sizeof(struct pqi_admin_queues_aligned) +
+^590eaf1fec755 Kaixu Xia  2021-03-16  4046  		PQI_QUEUE_ELEMENT_ARRAY_ALIGNMENT;
+^590eaf1fec755 Kaixu Xia  2021-03-16  4047  
+^590eaf1fec755 Kaixu Xia  2021-03-16  4048  	ctrl_info->admin_queue_memory_base =
+ff579791c772af Fuhai Wang 2021-07-30  4049  		dma_zalloc_coherent(&ctrl_info->pci_dev->dev,
+ff579791c772af Fuhai Wang 2021-07-30  4050  			alloc_length,
+^590eaf1fec755 Kaixu Xia  2021-03-16  4051  			&ctrl_info->admin_queue_memory_base_dma_handle,
+^590eaf1fec755 Kaixu Xia  2021-03-16  4052  			GFP_KERNEL);
+^590eaf1fec755 Kaixu Xia  2021-03-16  4053  
+^590eaf1fec755 Kaixu Xia  2021-03-16  4054  	if (!ctrl_info->admin_queue_memory_base)
+^590eaf1fec755 Kaixu Xia  2021-03-16  4055  		return -ENOMEM;
+^590eaf1fec755 Kaixu Xia  2021-03-16  4056  
+^590eaf1fec755 Kaixu Xia  2021-03-16  4057  	ctrl_info->admin_queue_memory_length = alloc_length;
+^590eaf1fec755 Kaixu Xia  2021-03-16  4058  
+^590eaf1fec755 Kaixu Xia  2021-03-16  4059  	admin_queues = &ctrl_info->admin_queues;
+^590eaf1fec755 Kaixu Xia  2021-03-16  4060  	admin_queues_aligned = PTR_ALIGN(ctrl_info->admin_queue_memory_base,
+^590eaf1fec755 Kaixu Xia  2021-03-16  4061  		PQI_QUEUE_ELEMENT_ARRAY_ALIGNMENT);
+^590eaf1fec755 Kaixu Xia  2021-03-16  4062  	admin_queues->iq_element_array =
+^590eaf1fec755 Kaixu Xia  2021-03-16  4063  		&admin_queues_aligned->iq_element_array;
+^590eaf1fec755 Kaixu Xia  2021-03-16  4064  	admin_queues->oq_element_array =
+^590eaf1fec755 Kaixu Xia  2021-03-16  4065  		&admin_queues_aligned->oq_element_array;
+^590eaf1fec755 Kaixu Xia  2021-03-16 @4066  	admin_queues->iq_ci = &admin_queues_aligned->iq_ci;
+^590eaf1fec755 Kaixu Xia  2021-03-16  4067  	admin_queues->oq_pi =
+^590eaf1fec755 Kaixu Xia  2021-03-16  4068  		(pqi_index_t __iomem *)&admin_queues_aligned->oq_pi;
+^590eaf1fec755 Kaixu Xia  2021-03-16  4069  
+^590eaf1fec755 Kaixu Xia  2021-03-16  4070  	admin_queues->iq_element_array_bus_addr =
+^590eaf1fec755 Kaixu Xia  2021-03-16  4071  		ctrl_info->admin_queue_memory_base_dma_handle +
+^590eaf1fec755 Kaixu Xia  2021-03-16  4072  		(admin_queues->iq_element_array -
+^590eaf1fec755 Kaixu Xia  2021-03-16  4073  		ctrl_info->admin_queue_memory_base);
+^590eaf1fec755 Kaixu Xia  2021-03-16  4074  	admin_queues->oq_element_array_bus_addr =
+^590eaf1fec755 Kaixu Xia  2021-03-16  4075  		ctrl_info->admin_queue_memory_base_dma_handle +
+^590eaf1fec755 Kaixu Xia  2021-03-16  4076  		(admin_queues->oq_element_array -
+^590eaf1fec755 Kaixu Xia  2021-03-16  4077  		ctrl_info->admin_queue_memory_base);
+^590eaf1fec755 Kaixu Xia  2021-03-16  4078  	admin_queues->iq_ci_bus_addr =
+^590eaf1fec755 Kaixu Xia  2021-03-16  4079  		ctrl_info->admin_queue_memory_base_dma_handle +
+^590eaf1fec755 Kaixu Xia  2021-03-16 @4080  		((void *)admin_queues->iq_ci -
+^590eaf1fec755 Kaixu Xia  2021-03-16  4081  		ctrl_info->admin_queue_memory_base);
+^590eaf1fec755 Kaixu Xia  2021-03-16  4082  	admin_queues->oq_pi_bus_addr =
+^590eaf1fec755 Kaixu Xia  2021-03-16  4083  		ctrl_info->admin_queue_memory_base_dma_handle +
+^590eaf1fec755 Kaixu Xia  2021-03-16  4084  		((void __iomem *)admin_queues->oq_pi -
+^590eaf1fec755 Kaixu Xia  2021-03-16  4085  		(void __iomem *)ctrl_info->admin_queue_memory_base);
+^590eaf1fec755 Kaixu Xia  2021-03-16  4086  
+^590eaf1fec755 Kaixu Xia  2021-03-16  4087  	return 0;
+^590eaf1fec755 Kaixu Xia  2021-03-16  4088  }
+^590eaf1fec755 Kaixu Xia  2021-03-16  4089  
 
-vim +82 drivers/net/ovpn/netlink.c
+:::::: The code at line 4066 was first introduced by commit
+:::::: 590eaf1fec755215547690e787cc7d83f58ea948 Init Repo base on linux 5.4.32 long term, and add base tlinux kernel interfaces.
 
-    76	
-    77	/**
-    78	 * ovpn_get_dev_from_attrs() - retrieve the netdevice a netlink message is targeting
-    79	 */
-    80	static struct net_device *
-    81	ovpn_get_dev_from_attrs(struct net *net, struct nlattr **attrs)
-  > 82	{
-    83		struct net_device *dev;
-    84		int ifindex;
-    85	
-    86		if (!attrs[OVPN_A_IFINDEX])
-    87			return ERR_PTR(-EINVAL);
-    88	
-    89		ifindex = nla_get_u32(attrs[OVPN_A_IFINDEX]);
-    90	
-    91		dev = dev_get_by_index(net, ifindex);
-    92		if (!dev)
-    93			return ERR_PTR(-ENODEV);
-    94	
-    95		if (!ovpn_dev_is_valid(dev))
-    96			goto err_put_dev;
-    97	
-    98		return dev;
-    99	
-   100	err_put_dev:
-   101		dev_put(dev);
-   102	
-   103		return ERR_PTR(-EINVAL);
-   104	}
-   105	
-   106	/**
-   107	 * ovpn_pre_doit() - Prepare ovpn genl doit request
-   108	 * @ops: requested netlink operation
-   109	 * @skb: Netlink message with request data
-   110	 * @info: receiver information
-   111	 *
-   112	 * Return: 0 on success or negative error number in case of failure
-   113	 */
-   114	static int ovpn_pre_doit(const struct genl_split_ops *ops, struct sk_buff *skb,
-   115				 struct genl_info *info)
-   116	{
-   117		struct net *net = genl_info_net(info);
-   118		struct net_device *dev;
-   119	
-   120		/* the OVPN_CMD_NEW_IFACE command is different from the rest as it
-   121		 * just expects an IFNAME, while all the others expect an IFINDEX
-   122		 */
-   123		if (info->genlhdr->cmd == OVPN_CMD_NEW_IFACE) {
-   124			if (!info->attrs[OVPN_A_IFNAME]) {
-   125				GENL_SET_ERR_MSG(info, "no interface name specified");
-   126				return -EINVAL;
-   127			}
-   128			return 0;
-   129		}
-   130	
-   131		dev = ovpn_get_dev_from_attrs(net, info->attrs);
-   132		if (IS_ERR(dev))
-   133			return PTR_ERR(dev);
-   134	
-   135		info->user_ptr[0] = netdev_priv(dev);
-   136	
-   137		return 0;
-   138	}
-   139	
-   140	/**
-   141	 * ovpn_post_doit() - complete ovpn genl doit request
-   142	 * @ops: requested netlink operation
-   143	 * @skb: Netlink message with request data
-   144	 * @info: receiver information
-   145	 */
-   146	static void ovpn_post_doit(const struct genl_split_ops *ops, struct sk_buff *skb,
-   147				   struct genl_info *info)
-   148	{
-   149		struct ovpn_struct *ovpn;
-   150	
-   151		ovpn = info->user_ptr[0];
-   152		/* in case of OVPN_CMD_NEW_IFACE, there is no pre-stored device */
-   153		if (ovpn)
-   154			dev_put(ovpn->dev);
-   155	}
-   156	
-   157	static const struct genl_small_ops ovpn_nl_ops[] = {
-   158	};
-   159	
-   160	static struct genl_family ovpn_nl_family __ro_after_init = {
-   161		.hdrsize = 0,
-   162		.name = OVPN_NL_NAME,
-   163		.version = 1,
-   164		.maxattr = NUM_OVPN_A + 1,
-   165		.policy = ovpn_nl_policy,
-   166		.netnsok = true,
-   167		.pre_doit = ovpn_pre_doit,
-   168		.post_doit = ovpn_post_doit,
-   169		.module = THIS_MODULE,
-   170		.small_ops = ovpn_nl_ops,
-   171		.n_small_ops = ARRAY_SIZE(ovpn_nl_ops),
-   172		.mcgrps = ovpn_nl_mcgrps,
-   173		.n_mcgrps = ARRAY_SIZE(ovpn_nl_mcgrps),
-   174	};
-   175	
-   176	/**
-   177	 * ovpn_nl_notify() - react to openvpn userspace process exit
-   178	 */
-   179	static int ovpn_nl_notify(struct notifier_block *nb, unsigned long state,
-   180				  void *_notify)
- > 181	{
-   182		return NOTIFY_DONE;
-   183	}
-   184	
-   185	static struct notifier_block ovpn_nl_notifier = {
-   186		.notifier_call = ovpn_nl_notify,
-   187	};
-   188	
-   189	/**
-   190	 * ovpn_nl_init() - perform any ovpn specific netlink initialization
-   191	 */
-   192	int ovpn_nl_init(struct ovpn_struct *ovpn)
- > 193	{
-   194		return 0;
-   195	}
-   196	
+:::::: TO: Kaixu Xia <kaixuxia@tencent.com>
+:::::: CC: Kaixu Xia <kaixuxia@tencent.com>
 
 -- 
 0-DAY CI Kernel Test Service
