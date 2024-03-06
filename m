@@ -1,59 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE403E48E;
-	Wed,  6 Mar 2024 06:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8F15C8FB;
+	Wed,  6 Mar 2024 07:16:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709707458; cv=none; b=mN2qrVYPPy/ZOfV88VilUItV2e26t1kGC9dz1Jhbw95tKbWeLPD0FnnQN+VekI0mlC1AQrCuk9UmtHVTdL/LUm/QgaBtsjzMwrO0Q4v81OitI9HoyR2BkqlSymhYGyIAEuwpISN0eO7x3GBRNq+e+08+aPWHddUVLTciWY+pn/Y=
+	t=1709709377; cv=none; b=Fb3ee+r3aBDnV9iqK29v1HQN14TGpNgCLk1+0RZebOmwXm74RptdtsaK+VtSKKHgBFMJ3zW11tJKEqnTxtz8hEWHkGYpwfZ4DUnQl66yhV/1xKdeanXmFDob+UsYIlMGHlDUL8QE2/j2l1aKdmMcezhCOnNByqvmg0qnz8YYSPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709707458; c=relaxed/simple;
-	bh=h+zCD+OVKHxNt7Z/IR4iF60DxdKP9TTZsPWneMKEPuQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q3gt44Iu72LC/IxMUgyyrykjv9YnL8l+heeTCon0ns3OkBZVjllUBoWWPHu2CA79EqL0ulMMYVJkGQHn5dmDYOR81XVDjLlaEH6ZXdsTT7uUX7Vh3MDCFiSht8tn33sez+LQls4QAFtjDIYc3kusaB7ePD0/RmBlxybxbtE5/Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IdcTk21m; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1709709377; c=relaxed/simple;
+	bh=So6Wp8Al0k+esaQo4mTbvivcz+PghHWP7Ld0UdWWP7E=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GuTcCwV41ajGi2UOVBQiUXVFdDFB9DBGnR6DDCH7HKB9saJy6Wwq0c6uKNcfxMHCSExCemL2qDAgedkYVyZE8wHqY3jB1eFlCLESlw7WU3eFYs/pv0HubbAES0deJLx25Cp9UzPRZXlPTsK4lgvSalnaYvnix2eBtBDsASL1n2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z4NM2G3a; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IdcTk21m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z4NM2G3a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709707456; x=1741243456;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=h+zCD+OVKHxNt7Z/IR4iF60DxdKP9TTZsPWneMKEPuQ=;
-  b=IdcTk21mlp1HUmwHCeI/eYRKLqWA6a4LbxANHyw5g1VQv/0iYeTnCwkB
-   6ss+ziBRH09QMov4/+Is7xEgZHye0X2Je+NbJyydaXZiRmZGbP8+sCy6d
-   KKk5xiiTPn0ap3w1yUBEI5CrUfYdp688pRXE3eSUxmgd27a9ms3pmwug5
-   TN9JN8QmeNiRGm8M70EzQyIWaTOZHxuCrlwErKYq3F46alwoOp6caKp9M
-   FM30gNxNMZHG9xPJ6JBVCFM6BQupnYQ5rWRJHfI6pcGCEvPwhPEIttLPo
-   qKPO0Ez+KeQquBfLI4DNW/VuppAXntiHFdfmCCmEyt2CVQP0zNNJXTP/P
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4165137"
+  t=1709709375; x=1741245375;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=So6Wp8Al0k+esaQo4mTbvivcz+PghHWP7Ld0UdWWP7E=;
+  b=Z4NM2G3aPbKke74BYfNKYMO7AvdX56r+2+WFz7TRALaDoWovBx7aJAll
+   5c5GLhvrnzSJbtQbl9JTsD4GqkPtVZgIeCce8+KAgKXnMH2n30zxDX7pc
+   odonA2IAblEqNUN6ZtPqakXrIrIsLuzMFgTLzVsPNQKfVCneHyE8FVj4A
+   Gqb4FpWhUDWRTswx9mil9lGEcvc0TXleWi3DXoOW3Bo6e453ktURriz2/
+   QAQrOdn0068Hp6nd9EBK7WtKWNtv2kXjv6Nicg0JTpxa9WaR7fQWi7Cjl
+   Ilr6cdm474OKgVGBaRKfJxXs++nLTQOUWIZSNP3mnsPrmoYirsan9xpMj
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="8111965"
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="4165137"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 22:44:15 -0800
+   d="scan'208";a="8111965"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 23:16:15 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="10051678"
+   d="scan'208";a="9738899"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 05 Mar 2024 22:44:13 -0800
+  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2024 23:16:13 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhl0c-0003zt-0B;
-	Wed, 06 Mar 2024 06:44:10 +0000
-Date: Wed, 6 Mar 2024 14:43:10 +0800
+	id 1rhlVa-00040m-23;
+	Wed, 06 Mar 2024 07:16:10 +0000
+Date: Wed, 6 Mar 2024 15:15:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>,
-	herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ruud.Derwig@synopsys.com, manjunath.hadli@vayavyalabs.com,
-	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
-Subject: Re: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and
- Makefile file
-Message-ID: <202403061443.w2hFEVfJ-lkp@intel.com>
-References: <20240305112831.3380896-5-pavitrakumarm@vayavyalabs.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: net/devlink/dev.c:248:20: warning: arithmetic between different
+ enumeration types ('enum devlink_reload_limit' and 'enum
+ devlink_reload_action')
+Message-ID: <202403061542.jGhvg3Xs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,205 +57,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240305112831.3380896-5-pavitrakumarm@vayavyalabs.com>
 
-Hi Pavitrakumar,
+CC: linux-kernel@vger.kernel.org
+TO: Moshe Shemesh <moshe@nvidia.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Jiri Pirko <jiri@nvidia.com>
 
-kernel test robot noticed the following build warnings:
+Hi Moshe,
 
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master linus/master v6.8-rc7 next-20240305]
-[cannot apply to xilinx-xlnx/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-M/Add-SPAcc-driver-to-Linux-kernel/20240305-193337
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20240305112831.3380896-5-pavitrakumarm%40vayavyalabs.com
-patch subject: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and Makefile file
-config: i386-buildonly-randconfig-004-20240306 (https://download.01.org/0day-ci/archive/20240306/202403061443.w2hFEVfJ-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403061443.w2hFEVfJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5847c9777c303a792202c609bd761dceb60f4eed
+commit: c6ed7d6ef929a4502cc89c90a3c57e8814f4fcc9 devlink: Move devlink dev reload code to dev
+date:   1 year, 1 month ago
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240306/202403061542.jGhvg3Xs-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403061542.jGhvg3Xs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403061443.w2hFEVfJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403061542.jGhvg3Xs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/crypto/dwc-spacc/spacc_ahash.c:271:9: warning: variable 'sgl_buffer' is uninitialized when used here [-Wuninitialized]
-     271 |                                                   sgl_buffer,
-         |                                                   ^~~~~~~~~~
-   drivers/crypto/dwc-spacc/spacc_ahash.c:231:18: note: initialize the variable 'sgl_buffer' to silence this warning
-     231 |         char *sgl_buffer;
-         |                         ^
-         |                          = NULL
-   drivers/crypto/dwc-spacc/spacc_ahash.c:679:18: warning: variable 'priv' is uninitialized when used here [-Wuninitialized]
-     679 |                                 spacc_close(&priv->spacc, tctx->handle);
-         |                                              ^~~~
-   drivers/crypto/dwc-spacc/spacc_ahash.c:666:25: note: initialize the variable 'priv' to silence this warning
-     666 |         struct spacc_priv *priv;
-         |                                ^
-         |                                 = NULL
->> drivers/crypto/dwc-spacc/spacc_ahash.c:1008:6: warning: variable 'total_len' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    1008 |         if (rc < 0)
-         |             ^~~~~~
-   drivers/crypto/dwc-spacc/spacc_ahash.c:1057:28: note: uninitialized use occurs here
-    1057 |         ctx->fb.hash_req.nbytes = total_len;
-         |                                   ^~~~~~~~~
-   drivers/crypto/dwc-spacc/spacc_ahash.c:1008:2: note: remove the 'if' if its condition is always false
-    1008 |         if (rc < 0)
-         |         ^~~~~~~~~~~
-    1009 |                 goto fallback;
-         |                 ~~~~~~~~~~~~~
-   drivers/crypto/dwc-spacc/spacc_ahash.c:1003:6: warning: variable 'total_len' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    1003 |         if (tctx->handle < 0 || !tctx->ctx_valid ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1004 |             req->nbytes > priv->max_msg_len)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/dwc-spacc/spacc_ahash.c:1057:28: note: uninitialized use occurs here
-    1057 |         ctx->fb.hash_req.nbytes = total_len;
-         |                                   ^~~~~~~~~
-   drivers/crypto/dwc-spacc/spacc_ahash.c:1003:2: note: remove the 'if' if its condition is always false
-    1003 |         if (tctx->handle < 0 || !tctx->ctx_valid ||
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1004 |             req->nbytes > priv->max_msg_len)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1005 |                 goto fallback;
-         |                 ~~~~~~~~~~~~~
->> drivers/crypto/dwc-spacc/spacc_ahash.c:1003:6: warning: variable 'total_len' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
-    1003 |         if (tctx->handle < 0 || !tctx->ctx_valid ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/dwc-spacc/spacc_ahash.c:1057:28: note: uninitialized use occurs here
-    1057 |         ctx->fb.hash_req.nbytes = total_len;
-         |                                   ^~~~~~~~~
-   drivers/crypto/dwc-spacc/spacc_ahash.c:1003:6: note: remove the '||' if its condition is always false
-    1003 |         if (tctx->handle < 0 || !tctx->ctx_valid ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/crypto/dwc-spacc/spacc_ahash.c:1003:6: warning: variable 'total_len' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
-    1003 |         if (tctx->handle < 0 || !tctx->ctx_valid ||
-         |             ^~~~~~~~~~~~~~~~
-   drivers/crypto/dwc-spacc/spacc_ahash.c:1057:28: note: uninitialized use occurs here
-    1057 |         ctx->fb.hash_req.nbytes = total_len;
-         |                                   ^~~~~~~~~
-   drivers/crypto/dwc-spacc/spacc_ahash.c:1003:6: note: remove the '||' if its condition is always false
-    1003 |         if (tctx->handle < 0 || !tctx->ctx_valid ||
-         |             ^~~~~~~~~~~~~~~~~~~
-   drivers/crypto/dwc-spacc/spacc_ahash.c:985:19: note: initialize the variable 'total_len' to silence this warning
-     985 |         int rc, total_len;
-         |                          ^
-         |                           = 0
-   6 warnings generated.
---
-   drivers/crypto/dwc-spacc/spacc_skcipher.c:149:16: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
-     149 |         int err = -1, rc;
-         |                       ^
->> drivers/crypto/dwc-spacc/spacc_skcipher.c:176:40: warning: overlapping comparisons always evaluate to true [-Wtautological-overlap-compare]
-     176 |         if (ctx->mode != CRYPTO_MODE_DES_ECB  ||
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
-     177 |             ctx->mode != CRYPTO_MODE_DES_CBC  ||
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/dwc-spacc/spacc_skcipher.c:400:6: warning: variable 'ivsize' set but not used [-Wunused-but-set-variable]
-     400 |         int ivsize;
-         |             ^
-   3 warnings generated.
---
-   drivers/crypto/dwc-spacc/spacc_core.c:984:26: warning: unused variable 'names' [-Wunused-const-variable]
-     984 | static const char *const names[] = {
-         |                          ^~~~~
->> drivers/crypto/dwc-spacc/spacc_core.c:2835:56: warning: unused variable 'reg_names' [-Wunused-const-variable]
-    2835 | static const struct { unsigned int addr; char *name; } reg_names[] = {
-         |                                                        ^~~~~~~~~
-   2 warnings generated.
+     516 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:521:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     521 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     522 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:530:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     530 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     531 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from net/devlink/dev.c:7:
+   In file included from include/net/genetlink.h:5:
+   In file included from include/linux/genetlink.h:5:
+   In file included from include/uapi/linux/genetlink.h:6:
+   In file included from include/linux/netlink.h:7:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from net/devlink/dev.c:7:
+   In file included from include/net/genetlink.h:5:
+   In file included from include/linux/genetlink.h:5:
+   In file included from include/uapi/linux/genetlink.h:6:
+   In file included from include/linux/netlink.h:7:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from net/devlink/dev.c:7:
+   In file included from include/net/genetlink.h:5:
+   In file included from include/linux/genetlink.h:5:
+   In file included from include/uapi/linux/genetlink.h:6:
+   In file included from include/linux/netlink.h:7:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from net/devlink/dev.c:9:
+   net/devlink/devl_internal.h:21:19: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
+      21 |         u32 reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
+      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/devlink/devl_internal.h:22:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
+      22 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
+      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/devlink/dev.c:248:20: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
+     248 |                 stat_idx = limit * __DEVLINK_RELOAD_ACTION_MAX + action;
+         |                            ~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/devlink/dev.c:349:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
+     349 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
+      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   21 warnings generated.
 
 
-vim +1008 drivers/crypto/dwc-spacc/spacc_ahash.c
+vim +248 net/devlink/dev.c
 
-6ad822cec22644 Pavitrakumar M 2024-03-05   981  
-6ad822cec22644 Pavitrakumar M 2024-03-05   982  static int spacc_hash_digest(struct ahash_request *req)
-6ad822cec22644 Pavitrakumar M 2024-03-05   983  {
-6ad822cec22644 Pavitrakumar M 2024-03-05   984  	int final = 0;
-6ad822cec22644 Pavitrakumar M 2024-03-05   985  	int rc, total_len;
-6ad822cec22644 Pavitrakumar M 2024-03-05   986  	struct crypto_ahash *reqtfm = crypto_ahash_reqtfm(req);
-6ad822cec22644 Pavitrakumar M 2024-03-05   987  	struct spacc_crypto_ctx *tctx = crypto_ahash_ctx(reqtfm);
-6ad822cec22644 Pavitrakumar M 2024-03-05   988  	struct spacc_crypto_reqctx *ctx = ahash_request_ctx(req);
-6ad822cec22644 Pavitrakumar M 2024-03-05   989  	struct spacc_priv *priv = dev_get_drvdata(tctx->dev);
-6ad822cec22644 Pavitrakumar M 2024-03-05   990  
-6ad822cec22644 Pavitrakumar M 2024-03-05   991  	if (tctx->flag_ppp) {
-6ad822cec22644 Pavitrakumar M 2024-03-05   992  		/* from finup */
-6ad822cec22644 Pavitrakumar M 2024-03-05   993  		ctx->single_shot = 0;
-6ad822cec22644 Pavitrakumar M 2024-03-05   994  		ctx->final_part_pck = 1;
-6ad822cec22644 Pavitrakumar M 2024-03-05   995  		final = 2;
-6ad822cec22644 Pavitrakumar M 2024-03-05   996  	} else {
-6ad822cec22644 Pavitrakumar M 2024-03-05   997  		/* direct single shot digest call */
-6ad822cec22644 Pavitrakumar M 2024-03-05   998  		ctx->single_shot = 1;
-6ad822cec22644 Pavitrakumar M 2024-03-05   999  		ctx->rem_len = 0;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1000  		ctx->total_nents = sg_nents(req->src);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1001  	}
-6ad822cec22644 Pavitrakumar M 2024-03-05  1002  
-6ad822cec22644 Pavitrakumar M 2024-03-05 @1003  	if (tctx->handle < 0 || !tctx->ctx_valid ||
-6ad822cec22644 Pavitrakumar M 2024-03-05  1004  	    req->nbytes > priv->max_msg_len)
-6ad822cec22644 Pavitrakumar M 2024-03-05  1005  		goto fallback;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1006  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1007  	rc = spacc_hash_init_dma(tctx->dev, req, final);
-6ad822cec22644 Pavitrakumar M 2024-03-05 @1008  	if (rc < 0)
-6ad822cec22644 Pavitrakumar M 2024-03-05  1009  		goto fallback;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1010  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1011  	if (rc == 0)
-6ad822cec22644 Pavitrakumar M 2024-03-05  1012  		return 0;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1013  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1014  	if (final) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  1015  		if (ctx->total_nents) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  1016  			/* INIT-UPDATE-UPDATE-FINUP/FINAL */
-6ad822cec22644 Pavitrakumar M 2024-03-05  1017  			total_len = tctx->ppp_sgl[0].length;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1018  		} else if (req->src->length == 0 && ctx->total_nents == 0) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  1019  			/* zero msg handling */
-6ad822cec22644 Pavitrakumar M 2024-03-05  1020  			total_len = 0;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1021  		} else {
-6ad822cec22644 Pavitrakumar M 2024-03-05  1022  			/* handle INIT-FINUP sequence, process req->nbytes */
-6ad822cec22644 Pavitrakumar M 2024-03-05  1023  			total_len = req->nbytes;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1024  		}
-6ad822cec22644 Pavitrakumar M 2024-03-05  1025  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1026  		rc = spacc_packet_enqueue_ddt(&priv->spacc, ctx->acb.new_handle,
-6ad822cec22644 Pavitrakumar M 2024-03-05  1027  				&ctx->src, &ctx->dst, total_len,
-6ad822cec22644 Pavitrakumar M 2024-03-05  1028  				0, total_len, 0, 0, 0);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1029  	} else {
-6ad822cec22644 Pavitrakumar M 2024-03-05  1030  		rc = spacc_packet_enqueue_ddt(&priv->spacc, ctx->acb.new_handle,
-6ad822cec22644 Pavitrakumar M 2024-03-05  1031  				&ctx->src, &ctx->dst, req->nbytes,
-6ad822cec22644 Pavitrakumar M 2024-03-05  1032  				0, req->nbytes, 0, 0, 0);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1033  	}
-6ad822cec22644 Pavitrakumar M 2024-03-05  1034  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1035  	if (rc < 0) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  1036  		spacc_hash_cleanup_dma(tctx->dev, req);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1037  		spacc_close(&priv->spacc, ctx->acb.new_handle);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1038  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1039  		if (rc != -EBUSY) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  1040  			pr_debug("Failed to enqueue job, ERR: %d\n", rc);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1041  			return rc;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1042  		}
-6ad822cec22644 Pavitrakumar M 2024-03-05  1043  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1044  		if (!(req->base.flags & CRYPTO_TFM_REQ_MAY_BACKLOG))
-6ad822cec22644 Pavitrakumar M 2024-03-05  1045  			return -EBUSY;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1046  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1047  		goto fallback;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1048  	}
-6ad822cec22644 Pavitrakumar M 2024-03-05  1049  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1050  	return -EINPROGRESS;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1051  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1052  fallback:
-6ad822cec22644 Pavitrakumar M 2024-03-05  1053  	/* Start from scratch as init is not called before digest */
-6ad822cec22644 Pavitrakumar M 2024-03-05  1054  	ctx->fb.hash_req.base = req->base;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1055  	ahash_request_set_tfm(&ctx->fb.hash_req, tctx->fb.hash);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1056  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1057  	ctx->fb.hash_req.nbytes = total_len;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1058  	ctx->fb.hash_req.src = req->src;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1059  	ctx->fb.hash_req.result = req->result;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1060  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1061  	return crypto_ahash_digest(&ctx->fb.hash_req);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1062  }
-6ad822cec22644 Pavitrakumar M 2024-03-05  1063  
+   238	
+   239	static void
+   240	__devlink_reload_stats_update(struct devlink *devlink, u32 *reload_stats,
+   241				      enum devlink_reload_limit limit, u32 actions_performed)
+   242	{
+   243		unsigned long actions = actions_performed;
+   244		int stat_idx;
+   245		int action;
+   246	
+   247		for_each_set_bit(action, &actions, __DEVLINK_RELOAD_ACTION_MAX) {
+ > 248			stat_idx = limit * __DEVLINK_RELOAD_ACTION_MAX + action;
+   249			reload_stats[stat_idx]++;
+   250		}
+   251		devlink_notify(devlink, DEVLINK_CMD_NEW);
+   252	}
+   253	
 
 -- 
 0-DAY CI Kernel Test Service
