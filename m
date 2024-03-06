@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8668911CAB;
-	Wed,  6 Mar 2024 04:53:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9C05381
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 04:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709700794; cv=none; b=MAz+8GtaXZRQyGgBYkb1xdU6CO0PBbXQRpl/5YPJPTjBt3qn+TorLGF+7NucnXc4sohXenqmDWrDekS9YBxlaXs98KYBdc2v74aGfNGlfpNU8c5MVtfzCHJfyE4xvvrcOOfdnKXJ/v3lM/rD0mmjOlXZnc/HytNimdyelvnoIpw=
+	t=1709700794; cv=none; b=GHTR9JC3imC34LJeUY5gDD9D9uSz1jH5kXgHYoKbyibgzeCW0KFgFLzn/dnwNkPCAGK93+iI7LZ/P1Jo1g7CYaQFRisaJS2F4oCN5OENKPySFlrNO8Om4p07eLjUEpnDBkel/viLrV5oGhGIOyFFUEV4C9E0XMy3sSMnpTn1Ums=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1709700794; c=relaxed/simple;
-	bh=o9nZuPPfrCvcN8hxg7uxH33NZEXb0OTzk2Zk0RDgkgs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d8EqH3pGovoUlPU3mFZwJmHw91dK3GeXDlhXsDeEjCZwvx2WxiT/bNkSskPufLocVltcq0Ass0KHmtT5T1XPQktqZXX6NJm/1x7PifiuG62AF7VAV291HTRLqY8Vp8WgU3P73CaxSysCSBylPRqHfFyPtgrh/pofqxHMT/vUfr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CtEe2Vvb; arc=none smtp.client-ip=192.198.163.9
+	bh=8csO4cPUzMeAgjL7T++LpMH2qn+B9vBibNjYikuKkD8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tW59xe9Mrr2rq0E/b8Mg0tfuzuF35WZ7be2cCitgzL6oXc3nNrbWI/uZPoWB/Ee9nUdEu4LqH1GoSGdLKpEbSayLJLTmqB/Fg8RPQpEMJ/Fpvc/Gp7hRuTqwqG4SESMJaU1htnayRr346rWZSCGzNCs9NO0gKx9/AhGQgaxk1gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TZbI23AD; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CtEe2Vvb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TZbI23AD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709700791; x=1741236791;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o9nZuPPfrCvcN8hxg7uxH33NZEXb0OTzk2Zk0RDgkgs=;
-  b=CtEe2VvbSqVxN6cauXIcnd2pU3ZQjlUpptvF4HD+cSEdFhmnJZcIN0jv
-   LdUp3ig5hmP1DB7XvMAAiJvnZLq3EuthXEj/T+NmoHYWuTomFdPEPCDkk
-   KNZ9S2B4e4Jgcyb6svVEhJ4rGWOXDshqu3sZoTsGSCgNttudHV4qRs8Aq
-   MdncCMGiaZei2OhjvogoNa04hzFBS2DWf8/B+jPpvPNg3CXi4/CAtDE8R
-   9K0Qn+SeFshUJlhWOJgHXTf9vqJDz+vIqoise5ANfQCqJSNUUOTG4F3WW
-   zmqEwlTgE0d0BOQfGKlbhPWSHs6LTszEM/DtKXf9WGbtFgNykHcCoMRI4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="15013680"
+  t=1709700792; x=1741236792;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8csO4cPUzMeAgjL7T++LpMH2qn+B9vBibNjYikuKkD8=;
+  b=TZbI23ADVe5Ty23Bm0wRLrBNdtcsfGalcDxOyXSOpXewePEpfw5vrfn2
+   WsxFWW+Te8SweipAjUN2eQbeIuAUXhsNjSc10rZLWXRTCGPQ0zI/Hxi9I
+   JLw/qI060DWHNdT9MBF7hLfUUZAbY217A6L4d29/ZkrV893iem053u6Xp
+   alvEra/5i6CYqP3tQTjwFLKn2PVdnJEvAu44QqoWwqyqzvKjUshi7ZTX9
+   X7kDwY29VQiJAXbPrMJNIKL1Gawfe69NQLzZkvQ6Umv0RO19/Zv6mpsCK
+   O+2Yecu7Cl83+OppKz8xIj2kyAW9xNxjhcOJ6SdkH9EaoWRGlosi0LZ8h
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4157936"
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="15013680"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 20:53:10 -0800
+   d="scan'208";a="4157936"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 20:53:12 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="9566093"
+   d="scan'208";a="14187637"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 05 Mar 2024 20:53:09 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 05 Mar 2024 20:53:09 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhjH9-0003vF-0Z;
+	id 1rhjH9-0003vH-0e;
 	Wed, 06 Mar 2024 04:53:07 +0000
-Date: Wed, 6 Mar 2024 12:53:00 +0800
+Date: Wed, 6 Mar 2024 12:53:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qi Zheng <zhengqi.arch@bytedance.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 3/3] s390: supplement for ptdesc conversion
-Message-ID: <202403061249.4URm4Yxi-lkp@intel.com>
-References: <04beaf3255056ffe131a5ea595736066c1e84756.1709541697.git.zhengqi.arch@bytedance.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: kernel/dma/mapping.c:557:29: sparse: sparse: macro "alloc_pages"
+ passed 5 arguments, but takes just 2
+Message-ID: <202403061212.u0pnci17-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,233 +60,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <04beaf3255056ffe131a5ea595736066c1e84756.1709541697.git.zhengqi.arch@bytedance.com>
 
-Hi Qi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on s390/features]
-[also build test ERROR on kvms390/next linus/master v6.8-rc7]
-[cannot apply to akpm-mm/mm-everything next-20240305]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-pgtable-correct-the-wrong-comment-about-ptdesc-__page_flags/20240304-191006
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-patch link:    https://lore.kernel.org/r/04beaf3255056ffe131a5ea595736066c1e84756.1709541697.git.zhengqi.arch%40bytedance.com
-patch subject: [PATCH 3/3] s390: supplement for ptdesc conversion
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240306/202403061249.4URm4Yxi-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403061249.4URm4Yxi-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   e116ff64db9be38b70fd5b050f5900435d428547
+commit: 7bf38ec8bc7226fa384ae9f39ed8e1e2465b7b1a dma-mapping: add a new dma_alloc_pages API
+date:   9 months ago
+config: x86_64-randconfig-121-20240305 (https://download.01.org/0day-ci/archive/20240306/202403061212.u0pnci17-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403061212.u0pnci17-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403061249.4URm4Yxi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403061212.u0pnci17-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/dma/mapping.c:557:29: sparse: sparse: macro "alloc_pages" passed 5 arguments, but takes just 2
 
-   In file included from arch/s390/mm/gmap.c:12:
-   In file included from include/linux/pagewalk.h:5:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/s390/mm/gmap.c:212:3: error: incompatible pointer types assigning to 'struct page *' from 'typeof (*(ptdesc)) *' (aka 'struct ptdesc *') [-Werror,-Wincompatible-pointer-types]
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:866:5: note: expanded from macro 'list_for_each_entry_safe'
-     866 |                 n = list_next_entry(pos, member);                       \
-         |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/s390/mm/gmap.c:212:3: error: incompatible pointer types assigning to 'struct ptdesc *' from 'struct page *' [-Werror,-Wincompatible-pointer-types]
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                 ^                                ~~~~
-   include/linux/list.h:868:11: note: expanded from macro 'list_for_each_entry_safe'
-     868 |              pos = n, n = list_next_entry(n, member))
-         |                  ^ ~
->> arch/s390/mm/gmap.c:212:58: error: no member named 'pt_list' in 'struct page'; did you mean 'pcp_list'?
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                                                                        ^~~~~~~
-         |                                                                        pcp_list
-   include/linux/list.h:868:39: note: expanded from macro 'list_for_each_entry_safe'
-     868 |              pos = n, n = list_next_entry(n, member))
-         |                                              ^
-   include/linux/list.h:645:20: note: expanded from macro 'list_next_entry'
-     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |                           ^
-   include/linux/list.h:601:15: note: expanded from macro 'list_entry'
-     601 |         container_of(ptr, type, member)
-         |                      ^
-   include/linux/container_of.h:19:26: note: expanded from macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^
-   include/linux/mm_types.h:103:22: note: 'pcp_list' declared here
-     103 |                                 struct list_head pcp_list;
-         |                                                  ^
->> arch/s390/mm/gmap.c:212:58: error: no member named 'pt_list' in 'struct page'; did you mean 'pcp_list'?
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                                                                        ^~~~~~~
-         |                                                                        pcp_list
-   include/linux/list.h:868:39: note: expanded from macro 'list_for_each_entry_safe'
-     868 |              pos = n, n = list_next_entry(n, member))
-         |                                              ^
-   include/linux/list.h:645:20: note: expanded from macro 'list_next_entry'
-     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |                           ^
-   include/linux/list.h:601:15: note: expanded from macro 'list_entry'
-     601 |         container_of(ptr, type, member)
-         |                      ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:376:63: note: expanded from macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                               ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^
-   include/linux/mm_types.h:103:22: note: 'pcp_list' declared here
-     103 |                                 struct list_head pcp_list;
-         |                                                  ^
->> arch/s390/mm/gmap.c:212:58: error: no member named 'pt_list' in 'struct page'; did you mean 'pcp_list'?
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                                                                        ^~~~~~~
-         |                                                                        pcp_list
-   include/linux/list.h:868:39: note: expanded from macro 'list_for_each_entry_safe'
-     868 |              pos = n, n = list_next_entry(n, member))
-         |                                              ^
-   include/linux/list.h:645:49: note: expanded from macro 'list_next_entry'
-     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |                                                        ^
-   include/linux/list.h:601:26: note: expanded from macro 'list_entry'
-     601 |         container_of(ptr, type, member)
-         |                                 ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:376:74: note: expanded from macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^
-   include/linux/mm_types.h:103:22: note: 'pcp_list' declared here
-     103 |                                 struct list_head pcp_list;
-         |                                                  ^
->> arch/s390/mm/gmap.c:212:58: error: no member named 'pt_list' in 'struct page'; did you mean 'pcp_list'?
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                                                                        ^~~~~~~
-         |                                                                        pcp_list
-   include/linux/list.h:868:39: note: expanded from macro 'list_for_each_entry_safe'
-     868 |              pos = n, n = list_next_entry(n, member))
-         |                                              ^
-   include/linux/list.h:645:20: note: expanded from macro 'list_next_entry'
-     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |                           ^
-   include/linux/list.h:601:15: note: expanded from macro 'list_entry'
-     601 |         container_of(ptr, type, member)
-         |                      ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:376:63: note: expanded from macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                               ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^
-   include/linux/mm_types.h:103:22: note: 'pcp_list' declared here
-     103 |                                 struct list_head pcp_list;
-         |                                                  ^
->> arch/s390/mm/gmap.c:212:3: error: no member named 'pt_list' in 'page'
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                 ^                                                      ~~~~~~~
-   include/linux/list.h:868:20: note: expanded from macro 'list_for_each_entry_safe'
-     868 |              pos = n, n = list_next_entry(n, member))
-         |                           ^                  ~~~~~~
-   include/linux/list.h:645:2: note: expanded from macro 'list_next_entry'
-     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^                                              ~~~~~~
-   include/linux/list.h:601:2: note: expanded from macro 'list_entry'
-     601 |         container_of(ptr, type, member)
-         |         ^                       ~~~~~~
-   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
->> arch/s390/mm/gmap.c:212:3: error: assigning to 'struct page *' from incompatible type 'void'
-     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:868:18: note: expanded from macro 'list_for_each_entry_safe'
-     868 |              pos = n, n = list_next_entry(n, member))
-         |                         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   5 warnings and 8 errors generated.
+vim +/alloc_pages +557 kernel/dma/mapping.c
 
-
-vim +212 arch/s390/mm/gmap.c
-
-   187	
-   188	/**
-   189	 * gmap_free - free a guest address space
-   190	 * @gmap: pointer to the guest address space structure
-   191	 *
-   192	 * No locks required. There are no references to this gmap anymore.
-   193	 */
-   194	static void gmap_free(struct gmap *gmap)
-   195	{
-   196		struct page *page, *next;
-   197	
-   198		/* Flush tlb of all gmaps (if not already done for shadows) */
-   199		if (!(gmap_is_shadow(gmap) && gmap->removed))
-   200			gmap_flush_tlb(gmap);
-   201		/* Free all segment & region tables. */
-   202		list_for_each_entry_safe(page, next, &gmap->crst_list, lru)
-   203			__free_pages(page, CRST_ALLOC_ORDER);
-   204		gmap_radix_tree_free(&gmap->guest_to_host);
-   205		gmap_radix_tree_free(&gmap->host_to_guest);
-   206	
-   207		/* Free additional data for a shadow gmap */
-   208		if (gmap_is_shadow(gmap)) {
-   209			struct ptdesc *ptdesc;
-   210	
-   211			/* Free all page tables. */
- > 212			list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
-   213				page_table_free_pgste(ptdesc);
-   214			gmap_rmap_radix_tree_free(&gmap->host_to_rmap);
-   215			/* Release reference to the parent */
-   216			gmap_put(gmap->parent);
-   217		}
-   218	
-   219		kfree(gmap);
-   220	}
-   221	
+   541	
+   542	struct page *dma_alloc_pages(struct device *dev, size_t size,
+   543			dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
+   544	{
+   545		const struct dma_map_ops *ops = get_dma_ops(dev);
+   546		struct page *page;
+   547	
+   548		if (WARN_ON_ONCE(!dev->coherent_dma_mask))
+   549			return NULL;
+   550		if (WARN_ON_ONCE(gfp & (__GFP_DMA | __GFP_DMA32 | __GFP_HIGHMEM)))
+   551			return NULL;
+   552	
+   553		size = PAGE_ALIGN(size);
+   554		if (dma_alloc_direct(dev, ops))
+   555			page = dma_direct_alloc_pages(dev, size, dma_handle, dir, gfp);
+   556		else if (ops->alloc_pages)
+ > 557			page = ops->alloc_pages(dev, size, dma_handle, dir, gfp);
+   558		else
+   559			return NULL;
+   560	
+   561		debug_dma_map_page(dev, page, 0, size, dir, *dma_handle);
+   562	
+   563		return page;
+   564	}
+   565	EXPORT_SYMBOL_GPL(dma_alloc_pages);
+   566	
 
 -- 
 0-DAY CI Kernel Test Service
