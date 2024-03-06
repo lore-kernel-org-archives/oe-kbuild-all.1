@@ -1,68 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4485D461
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 10:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C2A5FDDC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 10:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709720982; cv=none; b=PgnXhwFgH6bYdCqGbZ6sLTNBKG3FMEMvPKzH8ICZ5W6hNhnqiJAzIW+fnx+IUXk1QMrzMQi6XH+Q1aA6kEmZdMoz22EBDbO+vys/2SrPBXz5itwHkgexHdoZLLZdkkhelLlC9puf+EaM+T9AvASM8R8x0ESAPgDhlPiLh9yqzw4=
+	t=1709721601; cv=none; b=m0I2B33RUmVtUWTcaDbaZkOm+T9XxexQe/9A6s0gnbMJnBsj18SeEjI5gDT9owQ9bPEa4Vt5PmJRrnvI5QRsF+ZvbZ19b1RJjosuYt9OZktKx58U+psnCY+Y/ArIfoUBwSBT2Q1llxVqOAeMYStwCPV/jtzCk71yQoeEZ6RufOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709720982; c=relaxed/simple;
-	bh=fG+pUVPghWkddTkxVtl4aaExfhh5wToilqPZ7rhhd3A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Geot3sfNRuAiJk46X5dF6UV6pmwn6SslftrKhZ/zWSScSkznZwi9vTQtGwBzHKweaF/qkHly3hvXkLT/+17iqX5aD4L5cgPQ8gKfj0WGiiGOi/FWX4GYsAsDJ5yiPmZLAl/zDARe97xFvJAuYXX9qgkiC3g12hH3FM41f70hYTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qX18LDlQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709721601; c=relaxed/simple;
+	bh=nn3mGQMyBFEA5/ZzyO2gt4fxv34ajLwB5hBoP5CG4IU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C069t6RoSWv/ULWzdyopeYvQksfCsA7zLpil9vhZ2hH9Yy1OrRnm5yU3JJ9bm7aW7I+GFQkWRmMSASMYAq6zSsZG8nyMiDexpTzTkXEY0sh9+d9wDXJ8GFuKK7fld/Mo0OXbjFIzHjjokI5u7S7wtjMg2oTODZlkFNEgNuRlvZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n5SB1ytJ; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qX18LDlQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88184C433F1;
-	Wed,  6 Mar 2024 10:29:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709720981;
-	bh=fG+pUVPghWkddTkxVtl4aaExfhh5wToilqPZ7rhhd3A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qX18LDlQAvuG7g6QlGpX801D9VWxTEFZ6GXJDBpO6DdXV9zb8zUDpCfRwQJANQRYH
-	 Z4wXi+K9I69GDuiEMcn5QF+usDMkTfbEl0wzaUjY7uvZgDJPCLISigUIJXf7nH+Vvq
-	 tynPu4kE6AXT+SBNqG4pq9xrsXb2+ezxlzhcEfn1qDqd4QjG/aOsvtpN3ijdGP9n75
-	 0ztfEnB1trK8Pe2YTi1XHxse6gqjEc4qoOBviq4tUChzs+pIvkCL/1nNoJuh0UWsPp
-	 YfyGHhROK2pvsQbErCsFXnxOknPDQFTScH4pyFaVzbCIxwLhYNZHkwNYiFw6TxFLR9
-	 uIbrGffB4j4Sg==
-Date: Wed, 6 Mar 2024 11:29:37 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Eric Sandeen <sandeen@redhat.com>, oe-kbuild-all@lists.linux.dev, 
-	Christian Brauner <christianvanbrauner@gmail.com>
-Subject: Re: [brauner-vfs:vfs.mount.api 2/3] fs/freevxfs/vxfs_super.c:186:
- warning: Function parameter or struct member 'fc' not described in
- 'vxfs_fill_super'
-Message-ID: <20240306-lauwarm-leumund-dbc6a58b5ca7@brauner>
-References: <202403061733.YVyoeVPl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n5SB1ytJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709721599; x=1741257599;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nn3mGQMyBFEA5/ZzyO2gt4fxv34ajLwB5hBoP5CG4IU=;
+  b=n5SB1ytJBamYpqtr4H/cQCub85NuZOGurrNl/oUpNckpffSkObMxHcUw
+   tx8B2tKdoaHeF/wS5sXNT9ewahWoPjEY8mxmM99iPmgJapmIR7IisGmkw
+   F4q1pbvLJvbMHPSu/rNnol8AvZkeUXtuYYZojQhdfnFo/ebB7zDLaaLPj
+   NPSw5lFhHn7BCAYtrhx5c+tXd8WoAcbzkgjLNAhfx48XfSoZzKxiz5K4l
+   ZQkZP6HJMTBoDSBIR/NEUoWxsoj/c6OU28onmJHCmrMwrkskaYAmt4jWl
+   eWWsYn7AlimY4W3ksFfVH7zLpzPeaMPWaRPNRaktkllG4b7vEnLu3VAi+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4189780"
+X-IronPort-AV: E=Sophos;i="6.06,208,1705392000"; 
+   d="scan'208";a="4189780"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2024 02:39:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,208,1705392000"; 
+   d="scan'208";a="14373522"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 06 Mar 2024 02:39:20 -0800
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rhog9-000493-0g;
+	Wed, 06 Mar 2024 10:39:17 +0000
+Date: Wed, 6 Mar 2024 18:39:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kernel Patches Daemon <kernel-patches-bot@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tycho:bpf_task_get_cgroup_id 1779/1781]
+ .github/scripts/tests/test_veristat_compare.py: warning: ignored by one of
+ the .gitignore files
+Message-ID: <202403061822.18sTy8UR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202403061733.YVyoeVPl-lkp@intel.com>
 
-On Wed, Mar 06, 2024 at 05:14:51PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.mount.api
-> head:   0540b5e5fc1fb89be71af08ddfc7c21a22828ec5
-> commit: f65b9daeb55bb95583d6fa90762887c22b190406 [2/3] freevxfs: Convert freevxfs to the new mount API.
-> config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240306/202403061733.YVyoeVPl-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403061733.YVyoeVPl-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403061733.YVyoeVPl-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> fs/freevxfs/vxfs_super.c:186: warning: Function parameter or struct member 'fc' not described in 'vxfs_fill_super'
-> >> fs/freevxfs/vxfs_super.c:186: warning: Excess function parameter 'dp' description in 'vxfs_fill_super'
-> >> fs/freevxfs/vxfs_super.c:186: warning: Excess function parameter 'silent' description in 'vxfs_fill_super'
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tycho/linux.git bpf_task_get_cgroup_id
+head:   7c92234950fd064f85d8fd02d81caa32574a0e0b
+commit: 05e0e9a47b4884544a173945509ef287ecf2298a [1779/1781] adding ci files
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240306/202403061822.18sTy8UR-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403061822.18sTy8UR-lkp@intel.com/reproduce)
 
-Fixed.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403061822.18sTy8UR-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   .github/actions/veristat_baseline_compare/action.yml: warning: ignored by one of the .gitignore files
+   .github/scripts/compare-veristat-results.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/get-commit-metadata.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/matrix.py: warning: ignored by one of the .gitignore files
+   .github/scripts/prepare-incremental-builds.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/tar-artifact.sh: warning: ignored by one of the .gitignore files
+>> .github/scripts/tests/test_veristat_compare.py: warning: ignored by one of the .gitignore files
+>> .github/scripts/veristat_compare.py: warning: ignored by one of the .gitignore files
+   .github/workflows/kernel-build-test.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/kernel-build.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/kernel-test.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/kernel-veristat.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/lint.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/test.yml: warning: ignored by one of the .gitignore files
+   ci/diffs/.keep: warning: ignored by one of the .gitignore files
+   ci/diffs/0001-Revert-bpf-Avoid-unnecessary-audit-log-for-CPU-secur.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-bpf-Fix-a-few-selftest-failures-due-to-llvm18-change.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-bpf-Fix-a-verifier-bug-due-to-incorrect-branch-offse.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-net-bpf-Use-sockopt_lock_sock-in-ip_sock_set_tos.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-selftests-bpf-Fix-pyperf180-compilation-failure-with.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-selftests-bpf-disable-detection-of-llvm-when-buildin.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-selftests-bpf-work-around-latest-Clang-smartness.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-selftests-bpf-xskxceiver-ksft_print_msg-fix-format-t.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-tools-resolve_btfids-fix-cross-compilation-to-non-host-endianness.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-tracing-kprobes-Fix-symbol-counting-logic-by-looking.patch: warning: ignored by one of the .gitignore files
+   ci/diffs/0002-tools-resolve_btfids-fix-cross-compilation-to-non-host-endianness.patch: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/config: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/settings: warning: ignored by one of the .gitignore files
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
