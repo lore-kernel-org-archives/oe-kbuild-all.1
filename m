@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713061EA74
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Mar 2024 23:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C604C70
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 00:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709682609; cv=none; b=nfO1SunT2KDTiVW1EJ6/R4QWZJhQS7TYEwyIOd9jqrnHrNWVk5tzqSqsRepdPy4Iz+l2RLPhADxdvwQWU5kT28lMpIonTtaScvNU3b4rdKU5Ym/tdljte55UDssf/S7fwk4Trx6SnmRXozdGjm5h44RVAVnqiX5NZLq/83KGIEw=
+	t=1709683929; cv=none; b=ZW0l0GXclfUtWxSHQpbLKetreVUR96GSaSVXwzixCE6PRNcXvb7NTxVHsE80OFHu5Oay+aHNgGBIGoiZdtUdjkGrz/2lA3bd2Zwqpe2GKd9yrqAuCjPGAeq0/rb9Dx4Mv4pgFuPankx4Vo/gAKZbw8mJeA+ze42HOajTySybSxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709682609; c=relaxed/simple;
-	bh=SXGWmB7sAfeAgLSuK+XBezJoNaOJgWj1e8GhXVR0dDw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jFAfv/PAjB2+XH1rGJ8ag+z71VUR/jbBxs/u+6NUFGVDh3YyvxhnhV+RfbTMLhVDHR+jFug4vNbf23O7eIdMSYc2MCA/+bk2LoqBShEwVR05NcqCe8q7Kng/Qv0W1f+cGu6JgOzklD7PPzmnxgy5M42RBVtrTGviac7E5oWEaSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UbSwJdg8; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1709683929; c=relaxed/simple;
+	bh=rIKkTtnsuXfhoePYJV76asTDSBmLlGQBll0nJfQ3scU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PcpJp8khmHyEookzl1HVrXtsqP9cAO7lg+BpjV7uSKy65vMAOsbOBTzrWc5oVBbUK7m+1Yg+Wrc8LKz4f2Q6c4bg0YBWrENUBVdwrck6AQuPwFQ0ZyfQLNzSeJKqtujBiGNxRjEmjdkHBmcZ/gVSDaLlenkihulmkbIJvide63k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T078iEeZ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UbSwJdg8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T078iEeZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709682606; x=1741218606;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SXGWmB7sAfeAgLSuK+XBezJoNaOJgWj1e8GhXVR0dDw=;
-  b=UbSwJdg8XT0W/24rJUWSSCWoOzEjJlSvD/6V/8sHrXzAZA0rDtEFLVM7
-   nq3jZJmvTeNC5dOq09BSTvR0Yxdw+Y5Fh8pYDRlcpA3Vv8iSSPFLOsrGm
-   R2/kU9WEyzb45D+Ihm0TqqOwgA5Pfvde7QGa2XvUmrue6fiECu++H5DHr
-   vwq9jOm12x7nnoJrLUQJhygEvGKWB7Alrobw7hWZhtitsSUJ4bJWzDtdf
-   XxispUcprCIRojBvwBnIp0PivcYHWNsvdsyifdYsrst+ZQHmK/TeEP9gB
-   r5hRmLXENeFbRV3o7iDwpqh19yH4S3R7+joeTupjeihxXhipA71vjgyVI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="14918288"
+  t=1709683927; x=1741219927;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rIKkTtnsuXfhoePYJV76asTDSBmLlGQBll0nJfQ3scU=;
+  b=T078iEeZRF27v5rWIHa4bWzTt6tyminidy8ehGny0cCtZje0MW0coKgn
+   cMsu92ZRP/q9lgZlzwvk4a9DhMO3XSIEBS45SK+9DTLtM1Ozevt0ckcN1
+   66zEZd4uQESZn1AIj1yW+/NZrBWtQ/fTSxgkFzBUppaefWXky64zTFFre
+   QHBkxeiRzs+G0u/4VoLEV2140EQIVHgQuRSIGQLZJonHrRVBq9+QINgIe
+   2/hyZa7foPAnAM4E4JUUGIbo/NBte9A9giX1sPqcOvn+X/dxlXuKVvH1C
+   9t8RaACqsigmuV5M+QXSwQx5SgrqR2i6oyKzKzJf9+ZzzWcWPUjW0NzI2
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="8092129"
 X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; 
-   d="scan'208";a="14918288"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 15:50:05 -0800
+   d="scan'208";a="8092129"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 16:12:07 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; 
-   d="scan'208";a="9509948"
+   d="scan'208";a="40554566"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 05 Mar 2024 15:50:04 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 05 Mar 2024 16:12:04 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rheXp-0003l4-1D;
-	Tue, 05 Mar 2024 23:50:01 +0000
-Date: Wed, 6 Mar 2024 07:49:02 +0800
+	id 1rhet7-0003ll-2O;
+	Wed, 06 Mar 2024 00:12:01 +0000
+Date: Wed, 6 Mar 2024 08:11:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [pinchartl:rpi/v6.8/isp/v2 1/22]
- drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:476:55: sparse:
- sparse: Using plain integer as NULL pointer
-Message-ID: <202403060746.y7FwXi5T-lkp@intel.com>
+To: Antonio Quartulli <antonio@openvpn.net>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
+	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
+	Antonio Quartulli <antonio@openvpn.net>
+Subject: Re: [PATCH net-next v2 14/22] ovpn: implement peer lookup logic
+Message-ID: <202403060715.DDWfl06q-lkp@intel.com>
+References: <20240304150914.11444-15-antonio@openvpn.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,35 +61,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240304150914.11444-15-antonio@openvpn.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git rpi/v6.8/isp/v2
-head:   429a9c05cc5a81e4f62c163c2e8bbdc600cf6b91
-commit: 364969482811f5f21a5c14a8213c5297b027da5e [1/22] staging: vc04_services: Add new vc-sm-cma driver
-config: alpha-randconfig-r132-20240305 (https://download.01.org/0day-ci/archive/20240306/202403060746.y7FwXi5T-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240306/202403060746.y7FwXi5T-lkp@intel.com/reproduce)
+Hi Antonio,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antonio-Quartulli/netlink-add-NLA_POLICY_MAX_LEN-macro/20240304-232835
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240304150914.11444-15-antonio%40openvpn.net
+patch subject: [PATCH net-next v2 14/22] ovpn: implement peer lookup logic
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240306/202403060715.DDWfl06q-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403060715.DDWfl06q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403060746.y7FwXi5T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403060715.DDWfl06q-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:476:55: sparse: sparse: Using plain integer as NULL pointer
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:505:59: sparse: sparse: Using plain integer as NULL pointer
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +476 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
+>> drivers/net/ovpn/peer.c:289: warning: Function parameter or struct member 'src' not described in 'ovpn_nexthop_lookup4'
+>> drivers/net/ovpn/peer.c:289: warning: Excess function parameter 'dst' description in 'ovpn_nexthop_lookup4'
+>> drivers/net/ovpn/peer.c:325: warning: Function parameter or struct member 'addr' not described in 'ovpn_nexthop_lookup6'
+>> drivers/net/ovpn/peer.c:325: warning: Excess function parameter 'dst' description in 'ovpn_nexthop_lookup6'
 
-   471	
-   472	int vc_sm_cma_vchi_free(struct sm_instance *handle, struct vc_sm_free_t *msg,
-   473				u32 *cur_trans_id)
-   474	{
-   475		return vc_sm_cma_vchi_send_msg(handle, VC_SM_MSG_TYPE_FREE,
- > 476					   msg, sizeof(*msg), 0, 0, cur_trans_id, 0);
-   477	}
-   478	
+
+vim +289 drivers/net/ovpn/peer.c
+
+   275	
+   276	/**
+   277	 * ovpn_nexthop_lookup4() - looks up the IP of the nexthop for the given destination
+   278	 *
+   279	 * Looks up in the IPv4 system routing table the IP of the nexthop to be used
+   280	 * to reach the destination passed as argument. If no nexthop can be found, the
+   281	 * destination itself is returned as it probably has to be used as nexthop.
+   282	 *
+   283	 * @ovpn: the private data representing the current VPN session
+   284	 * @dst: the destination to be looked up
+   285	 *
+   286	 * Return the IP of the next hop if found or the dst itself otherwise
+   287	 */
+   288	static __be32 ovpn_nexthop_lookup4(struct ovpn_struct *ovpn, __be32 src)
+ > 289	{
+   290		struct rtable *rt;
+   291		struct flowi4 fl = {
+   292			.daddr = src
+   293		};
+   294	
+   295		rt = ip_route_output_flow(dev_net(ovpn->dev), &fl, NULL);
+   296		if (IS_ERR(rt)) {
+   297			net_dbg_ratelimited("%s: no nexthop found for %pI4\n", ovpn->dev->name, &src);
+   298			/* if we end up here this packet is probably going to be
+   299			 * thrown away later
+   300			 */
+   301			return src;
+   302		}
+   303	
+   304		if (!rt->rt_uses_gateway)
+   305			goto out;
+   306	
+   307		src = rt->rt_gw4;
+   308	out:
+   309		return src;
+   310	}
+   311	
+   312	/**
+   313	 * ovpn_nexthop_lookup6() - looks up the IPv6 of the nexthop for the given destination
+   314	 *
+   315	 * Looks up in the IPv6 system routing table the IP of the nexthop to be used
+   316	 * to reach the destination passed as argument. If no nexthop can be found, the
+   317	 * destination itself is returned as it probably has to be used as nexthop.
+   318	 *
+   319	 * @ovpn: the private data representing the current VPN session
+   320	 * @dst: the destination to be looked up
+   321	 *
+   322	 * Return the IP of the next hop if found or the dst itself otherwise
+   323	 */
+   324	static struct in6_addr ovpn_nexthop_lookup6(struct ovpn_struct *ovpn, struct in6_addr addr)
+ > 325	{
+   326	#if IS_ENABLED(CONFIG_IPV6)
+   327		struct rt6_info *rt;
+   328		struct flowi6 fl = {
+   329			.daddr = addr,
+   330		};
+   331	
+   332		rt = (struct rt6_info *)ipv6_stub->ipv6_dst_lookup_flow(dev_net(ovpn->dev), NULL, &fl,
+   333									NULL);
+   334		if (IS_ERR(rt)) {
+   335			net_dbg_ratelimited("%s: no nexthop found for %pI6\n", ovpn->dev->name, &addr);
+   336			/* if we end up here this packet is probably going to be thrown away later */
+   337			return addr;
+   338		}
+   339	
+   340		if (rt->rt6i_flags & RTF_GATEWAY)
+   341			addr = rt->rt6i_gateway;
+   342	
+   343		dst_release((struct dst_entry *)rt);
+   344	#endif
+   345		return addr;
+   346	}
+   347	
 
 -- 
 0-DAY CI Kernel Test Service
