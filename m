@@ -1,54 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8F15C8FB;
-	Wed,  6 Mar 2024 07:16:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8794D9EA
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 07:27:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709709377; cv=none; b=Fb3ee+r3aBDnV9iqK29v1HQN14TGpNgCLk1+0RZebOmwXm74RptdtsaK+VtSKKHgBFMJ3zW11tJKEqnTxtz8hEWHkGYpwfZ4DUnQl66yhV/1xKdeanXmFDob+UsYIlMGHlDUL8QE2/j2l1aKdmMcezhCOnNByqvmg0qnz8YYSPY=
+	t=1709710040; cv=none; b=kqdMqGSQ7NXB3ROo7J64w2Zrre614O5E3ofcNxFqGkOh7sjWA4+u7YqXHw/3Uhm3Ej+OsLOTgUg6KapwNg8cyROT/zfMD9yONTMjhZ2I3aqFNEheoGG5itJmO8RzpV3Q9K3SvrRzniBK/p2qjDMIzWVNATCzvjkwiBDftjn61Xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709709377; c=relaxed/simple;
-	bh=So6Wp8Al0k+esaQo4mTbvivcz+PghHWP7Ld0UdWWP7E=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GuTcCwV41ajGi2UOVBQiUXVFdDFB9DBGnR6DDCH7HKB9saJy6Wwq0c6uKNcfxMHCSExCemL2qDAgedkYVyZE8wHqY3jB1eFlCLESlw7WU3eFYs/pv0HubbAES0deJLx25Cp9UzPRZXlPTsK4lgvSalnaYvnix2eBtBDsASL1n2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z4NM2G3a; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1709710040; c=relaxed/simple;
+	bh=4LmBbiEU0kdsSfKtEHLEG/h/dQhOZhi0lWHvBxn4h7s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tri6wf9CdI+nS8x7MXvXkfc8FQrztnRcYdSd7FBAkyWVMkp/9Zz2vAexkBKC1eAeMd8yORw29RbuuvvVxl5rqviFMm49bfYVnvBFOIjKJ3ocg4if7zW+dLf/4EOjEQeO0FE2EKDvckCvCUaGHGQwLYDY0GbsNQsffmOEuWLvf6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KMx7JknK; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z4NM2G3a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KMx7JknK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709709375; x=1741245375;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=So6Wp8Al0k+esaQo4mTbvivcz+PghHWP7Ld0UdWWP7E=;
-  b=Z4NM2G3aPbKke74BYfNKYMO7AvdX56r+2+WFz7TRALaDoWovBx7aJAll
-   5c5GLhvrnzSJbtQbl9JTsD4GqkPtVZgIeCce8+KAgKXnMH2n30zxDX7pc
-   odonA2IAblEqNUN6ZtPqakXrIrIsLuzMFgTLzVsPNQKfVCneHyE8FVj4A
-   Gqb4FpWhUDWRTswx9mil9lGEcvc0TXleWi3DXoOW3Bo6e453ktURriz2/
-   QAQrOdn0068Hp6nd9EBK7WtKWNtv2kXjv6Nicg0JTpxa9WaR7fQWi7Cjl
-   Ilr6cdm474OKgVGBaRKfJxXs++nLTQOUWIZSNP3mnsPrmoYirsan9xpMj
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="8111965"
+  t=1709710037; x=1741246037;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4LmBbiEU0kdsSfKtEHLEG/h/dQhOZhi0lWHvBxn4h7s=;
+  b=KMx7JknKJf+in/jAMwvrTmQnAY3UGt6QTdQNvamatnAowueuwqTD0ATZ
+   MFMjsiH1VUJgIJBt2mgsjGO99t1sGKcXEVnsIbaEEH8nJho8d2ktiH3vQ
+   9BpfO0hwzCMZ43dRNJk7Rk4LiesVCT18kj9yBzUwgT0nxRfSNzt36XFp7
+   ZFnJjYD/lxVf71XKMnQloTrqIw94Ej/i9tYWzlcIZtGqPb6KtNdfc5bA0
+   RgJieK9fP/UJbQTJvqBmd6uSAwcQXQdOogIuo58J3z6GRxNmWgi6gR5Wt
+   cCdKgKGVaeRc/egVqzXQkZInpEwOd4ugxTjYCUvad3f6gktkfDnW8MEkZ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="14955969"
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="8111965"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 23:16:15 -0800
+   d="scan'208";a="14955969"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 23:27:16 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="9738899"
+   d="scan'208";a="14148789"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2024 23:16:13 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 05 Mar 2024 23:27:14 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhlVa-00040m-23;
-	Wed, 06 Mar 2024 07:16:10 +0000
-Date: Wed, 6 Mar 2024 15:15:16 +0800
+	id 1rhlgG-000425-0d;
+	Wed, 06 Mar 2024 07:27:12 +0000
+Date: Wed, 6 Mar 2024 15:26:55 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: net/devlink/dev.c:248:20: warning: arithmetic between different
- enumeration types ('enum devlink_reload_limit' and 'enum
- devlink_reload_action')
-Message-ID: <202403061542.jGhvg3Xs-lkp@intel.com>
+To: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>,
+	herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Ruud.Derwig@synopsys.com,
+	manjunath.hadli@vayavyalabs.com,
+	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
+Subject: Re: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and
+ Makefile file
+Message-ID: <202403061522.phoAmD4a-lkp@intel.com>
+References: <20240305112831.3380896-5-pavitrakumarm@vayavyalabs.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,161 +62,386 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240305112831.3380896-5-pavitrakumarm@vayavyalabs.com>
 
-CC: linux-kernel@vger.kernel.org
-TO: Moshe Shemesh <moshe@nvidia.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Jiri Pirko <jiri@nvidia.com>
+Hi Pavitrakumar,
 
-Hi Moshe,
+kernel test robot noticed the following build warnings:
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master linus/master v6.8-rc7 next-20240305]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5847c9777c303a792202c609bd761dceb60f4eed
-commit: c6ed7d6ef929a4502cc89c90a3c57e8814f4fcc9 devlink: Move devlink dev reload code to dev
-date:   1 year, 1 month ago
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240306/202403061542.jGhvg3Xs-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403061542.jGhvg3Xs-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-M/Add-SPAcc-driver-to-Linux-kernel/20240305-193337
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20240305112831.3380896-5-pavitrakumarm%40vayavyalabs.com
+patch subject: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and Makefile file
+config: x86_64-randconfig-122-20240306 (https://download.01.org/0day-ci/archive/20240306/202403061522.phoAmD4a-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403061522.phoAmD4a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403061542.jGhvg3Xs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403061522.phoAmD4a-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/crypto/dwc-spacc/spacc_interrupt.c:17:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:17:36: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:17:36: sparse:     got void *
+>> drivers/crypto/dwc-spacc/spacc_interrupt.c:21:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:21:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:21:17: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:46:63: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:46:63: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:46:63: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:54:63: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:54:63: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:54:63: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:65:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:65:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:65:25: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:82:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:82:33: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:82:33: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:97:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:97:35: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:97:35: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:108:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:108:36: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:108:36: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:112:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:112:39: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:112:39: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:114:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:114:36: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:114:36: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:116:47: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:116:47: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:116:47: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:121:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:121:36: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:121:36: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:123:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:123:39: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:123:39: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:130:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:130:36: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:130:36: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:139:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:139:36: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:139:36: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:140:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:140:36: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:140:36: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:142:47: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:142:47: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:142:47: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:147:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:147:36: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:147:36: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:149:47: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:149:47: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:149:47: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:154:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:154:36: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:154:36: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:156:47: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:156:47: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:156:47: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:161:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:161:36: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:161:36: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:163:47: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:163:47: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:163:47: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:168:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:168:36: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:168:36: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:170:47: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:170:47: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:170:47: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:175:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:175:36: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:175:36: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:177:47: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:177:47: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:177:47: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:182:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:182:33: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_interrupt.c:182:33: sparse:     got void *
+>> drivers/crypto/dwc-spacc/spacc_interrupt.c:180:6: sparse: sparse: symbol 'spacc_disable_int' was not declared. Should it be static?
+--
+>> drivers/crypto/dwc-spacc/spacc_device.c:106:18: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *baseaddr @@     got void [noderef] __iomem * @@
+   drivers/crypto/dwc-spacc/spacc_device.c:106:18: sparse:     expected void *baseaddr
+   drivers/crypto/dwc-spacc/spacc_device.c:106:18: sparse:     got void [noderef] __iomem *
+>> drivers/crypto/dwc-spacc/spacc_device.c:227:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_device.c:227:36: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_device.c:227:36: sparse:     got void *
+>> drivers/crypto/dwc-spacc/spacc_device.c:229:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_device.c:229:36: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_device.c:229:36: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_device.c:233:28: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_device.c:233:28: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_device.c:233:28: sparse:     got void *
+--
+>> drivers/crypto/dwc-spacc/spacc_skcipher.c:15:17: sparse: sparse: symbol 'possible_ciphers' was not declared. Should it be static?
+>> drivers/crypto/dwc-spacc/spacc_skcipher.c:153:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:153:50: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:153:50: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:477:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:477:44: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:477:44: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:492:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:492:51: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:492:51: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:509:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:509:51: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:509:51: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:526:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:526:51: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:526:51: sparse:     got void *
+>> drivers/crypto/dwc-spacc/spacc_skcipher.c:651:21: sparse: sparse: symbol 'spacc_skcipher_alg' was not declared. Should it be static?
+   drivers/crypto/dwc-spacc/spacc_skcipher.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+--
+>> drivers/crypto/dwc-spacc/spacc_aead.c:522:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_aead.c:522:50: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_aead.c:522:50: sparse:     got void *
+>> drivers/crypto/dwc-spacc/spacc_aead.c:1246:17: sparse: sparse: symbol 'spacc_aead_algs' was not declared. Should it be static?
+   drivers/crypto/dwc-spacc/spacc_aead.c: note: in included file (through include/linux/swait.h, include/linux/completion.h, include/linux/crypto.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+--
+>> drivers/crypto/dwc-spacc/spacc_ahash.c:1106:24: sparse: sparse: symbol 'spacc_hash_template' was not declared. Should it be static?
+   drivers/crypto/dwc-spacc/spacc_ahash.c: note: in included file (through include/linux/swait.h, include/linux/completion.h, include/linux/crypto.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+--
+>> drivers/crypto/dwc-spacc/spacc_hal.c:25:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_hal.c:25:25: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:25:25: sparse:     got void *
+>> drivers/crypto/dwc-spacc/spacc_hal.c:46:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_hal.c:46:32: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:46:32: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_hal.c:48:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_hal.c:48:23: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:48:23: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_hal.c:57:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_hal.c:57:25: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:57:25: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_hal.c:66:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_hal.c:66:25: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:66:25: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_hal.c:86:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_hal.c:86:33: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:86:33: sparse:     got void *
+   drivers/crypto/dwc-spacc/spacc_hal.c:92:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/crypto/dwc-spacc/spacc_hal.c:92:31: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:92:31: sparse:     got void *
+>> drivers/crypto/dwc-spacc/spacc_hal.c:103:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char *addr @@
+   drivers/crypto/dwc-spacc/spacc_hal.c:103:32: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:103:32: sparse:     got unsigned char *addr
+>> drivers/crypto/dwc-spacc/spacc_hal.c:113:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned char *addr @@
+   drivers/crypto/dwc-spacc/spacc_hal.c:113:32: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:113:32: sparse:     got unsigned char *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:130:27: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char *addr @@
+   drivers/crypto/dwc-spacc/spacc_hal.c:130:27: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:130:27: sparse:     got unsigned char *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:142:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned char *addr @@
+   drivers/crypto/dwc-spacc/spacc_hal.c:142:27: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:142:27: sparse:     got unsigned char *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:163:27: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char *addr @@
+   drivers/crypto/dwc-spacc/spacc_hal.c:163:27: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:163:27: sparse:     got unsigned char *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:175:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned char *addr @@
+   drivers/crypto/dwc-spacc/spacc_hal.c:175:27: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:175:27: sparse:     got unsigned char *addr
+>> drivers/crypto/dwc-spacc/spacc_hal.c:212:21: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *addr @@
+   drivers/crypto/dwc-spacc/spacc_hal.c:212:21: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/crypto/dwc-spacc/spacc_hal.c:212:21: sparse:     got void *addr
 
-     516 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:521:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     521 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     522 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:530:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     530 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     531 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from net/devlink/dev.c:7:
-   In file included from include/net/genetlink.h:5:
-   In file included from include/linux/genetlink.h:5:
-   In file included from include/uapi/linux/genetlink.h:6:
-   In file included from include/linux/netlink.h:7:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from net/devlink/dev.c:7:
-   In file included from include/net/genetlink.h:5:
-   In file included from include/linux/genetlink.h:5:
-   In file included from include/uapi/linux/genetlink.h:6:
-   In file included from include/linux/netlink.h:7:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from net/devlink/dev.c:7:
-   In file included from include/net/genetlink.h:5:
-   In file included from include/linux/genetlink.h:5:
-   In file included from include/uapi/linux/genetlink.h:6:
-   In file included from include/linux/netlink.h:7:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from net/devlink/dev.c:9:
-   net/devlink/devl_internal.h:21:19: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      21 |         u32 reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:22:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      22 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/devlink/dev.c:248:20: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-     248 |                 stat_idx = limit * __DEVLINK_RELOAD_ACTION_MAX + action;
-         |                            ~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/dev.c:349:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-     349 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   21 warnings generated.
+vim +17 drivers/crypto/dwc-spacc/spacc_interrupt.c
 
-
-vim +248 net/devlink/dev.c
-
-   238	
-   239	static void
-   240	__devlink_reload_stats_update(struct devlink *devlink, u32 *reload_stats,
-   241				      enum devlink_reload_limit limit, u32 actions_performed)
-   242	{
-   243		unsigned long actions = actions_performed;
-   244		int stat_idx;
-   245		int action;
-   246	
-   247		for_each_set_bit(action, &actions, __DEVLINK_RELOAD_ACTION_MAX) {
- > 248			stat_idx = limit * __DEVLINK_RELOAD_ACTION_MAX + action;
-   249			reload_stats[stat_idx]++;
-   250		}
-   251		devlink_notify(devlink, DEVLINK_CMD_NEW);
-   252	}
-   253	
+6ad822cec22644 Pavitrakumar M 2024-03-05    8  
+6ad822cec22644 Pavitrakumar M 2024-03-05    9  uint32_t spacc_process_irq(struct spacc_device *spacc)
+6ad822cec22644 Pavitrakumar M 2024-03-05   10  {
+6ad822cec22644 Pavitrakumar M 2024-03-05   11  	u32 temp, tempreg;
+6ad822cec22644 Pavitrakumar M 2024-03-05   12  	int x, cmd_max;
+6ad822cec22644 Pavitrakumar M 2024-03-05   13  	unsigned long lock_flag;
+6ad822cec22644 Pavitrakumar M 2024-03-05   14  
+6ad822cec22644 Pavitrakumar M 2024-03-05   15  	spin_lock_irqsave(&spacc->lock, lock_flag);
+6ad822cec22644 Pavitrakumar M 2024-03-05   16  
+6ad822cec22644 Pavitrakumar M 2024-03-05  @17  	temp = readl(spacc->regmap + SPACC_REG_IRQ_STAT);
+6ad822cec22644 Pavitrakumar M 2024-03-05   18  
+6ad822cec22644 Pavitrakumar M 2024-03-05   19  	/* clear interrupt pin and run registered callback */
+6ad822cec22644 Pavitrakumar M 2024-03-05   20  	if (temp & SPACC_IRQ_STAT_STAT) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  @21  		SPACC_IRQ_STAT_CLEAR_STAT(spacc);
+6ad822cec22644 Pavitrakumar M 2024-03-05   22  		if (spacc->op_mode == SPACC_OP_MODE_IRQ) {
+6ad822cec22644 Pavitrakumar M 2024-03-05   23  			spacc->config.fifo_cnt <<= 2;
+6ad822cec22644 Pavitrakumar M 2024-03-05   24  			if (spacc->config.fifo_cnt >=
+6ad822cec22644 Pavitrakumar M 2024-03-05   25  					spacc->config.stat_fifo_depth)
+6ad822cec22644 Pavitrakumar M 2024-03-05   26  				spacc->config.fifo_cnt =
+6ad822cec22644 Pavitrakumar M 2024-03-05   27  					spacc->config.stat_fifo_depth;
+6ad822cec22644 Pavitrakumar M 2024-03-05   28  
+6ad822cec22644 Pavitrakumar M 2024-03-05   29  			/* update fifo count to allow more stati to pile up*/
+6ad822cec22644 Pavitrakumar M 2024-03-05   30  			spacc_irq_stat_enable(spacc, spacc->config.fifo_cnt);
+6ad822cec22644 Pavitrakumar M 2024-03-05   31  			 /* reenable CMD0 empty interrupt*/
+6ad822cec22644 Pavitrakumar M 2024-03-05   32  			spacc_irq_cmdx_enable(spacc, 0, 0);
+6ad822cec22644 Pavitrakumar M 2024-03-05   33  		} else if (spacc->op_mode == SPACC_OP_MODE_WD) {
+6ad822cec22644 Pavitrakumar M 2024-03-05   34  		}
+6ad822cec22644 Pavitrakumar M 2024-03-05   35  		if (spacc->irq_cb_stat)
+6ad822cec22644 Pavitrakumar M 2024-03-05   36  			spacc->irq_cb_stat(spacc);
+6ad822cec22644 Pavitrakumar M 2024-03-05   37  	}
+6ad822cec22644 Pavitrakumar M 2024-03-05   38  
+6ad822cec22644 Pavitrakumar M 2024-03-05   39  	/* Watchdog IRQ */
+6ad822cec22644 Pavitrakumar M 2024-03-05   40  	if (spacc->op_mode == SPACC_OP_MODE_WD) {
+6ad822cec22644 Pavitrakumar M 2024-03-05   41  		if (temp & SPACC_IRQ_STAT_STAT_WD) {
+6ad822cec22644 Pavitrakumar M 2024-03-05   42  			if (++spacc->wdcnt == SPACC_WD_LIMIT) {
+6ad822cec22644 Pavitrakumar M 2024-03-05   43  				/* this happens when you get too many IRQs that
+6ad822cec22644 Pavitrakumar M 2024-03-05   44  				 *  go unanswered
+6ad822cec22644 Pavitrakumar M 2024-03-05   45  				 */
+6ad822cec22644 Pavitrakumar M 2024-03-05   46  				tempreg = readl(spacc->regmap +
+6ad822cec22644 Pavitrakumar M 2024-03-05   47  							SPACC_REG_IRQ_EN);
+6ad822cec22644 Pavitrakumar M 2024-03-05   48  				spacc_irq_stat_wd_disable(spacc);
+6ad822cec22644 Pavitrakumar M 2024-03-05   49  				 /* we set the STAT CNT to 1 so that every job
+6ad822cec22644 Pavitrakumar M 2024-03-05   50  				  * generates an IRQ now
+6ad822cec22644 Pavitrakumar M 2024-03-05   51  				  */
+6ad822cec22644 Pavitrakumar M 2024-03-05   52  				spacc_irq_stat_enable(spacc, 1);
+6ad822cec22644 Pavitrakumar M 2024-03-05   53  				spacc->op_mode = SPACC_OP_MODE_IRQ;
+6ad822cec22644 Pavitrakumar M 2024-03-05   54  				tempreg = readl(spacc->regmap +
+6ad822cec22644 Pavitrakumar M 2024-03-05   55  							SPACC_REG_IRQ_EN);
+6ad822cec22644 Pavitrakumar M 2024-03-05   56  			} else if (spacc->config.wd_timer < (0xFFFFFFUL >> 4)) {
+6ad822cec22644 Pavitrakumar M 2024-03-05   57  				/* if the timer isn't too high lets bump it up
+6ad822cec22644 Pavitrakumar M 2024-03-05   58  				 * a bit so as to give the IRQ a chance to
+6ad822cec22644 Pavitrakumar M 2024-03-05   59  				 * reply
+6ad822cec22644 Pavitrakumar M 2024-03-05   60  				 */
+6ad822cec22644 Pavitrakumar M 2024-03-05   61  				spacc_set_wd_count(spacc,
+6ad822cec22644 Pavitrakumar M 2024-03-05   62  						   spacc->config.wd_timer << 4);
+6ad822cec22644 Pavitrakumar M 2024-03-05   63  			}
+6ad822cec22644 Pavitrakumar M 2024-03-05   64  
+6ad822cec22644 Pavitrakumar M 2024-03-05   65  			SPACC_IRQ_STAT_CLEAR_STAT_WD(spacc);
+6ad822cec22644 Pavitrakumar M 2024-03-05   66  			if (spacc->irq_cb_stat_wd)
+6ad822cec22644 Pavitrakumar M 2024-03-05   67  				spacc->irq_cb_stat_wd(spacc);
+6ad822cec22644 Pavitrakumar M 2024-03-05   68  		}
+6ad822cec22644 Pavitrakumar M 2024-03-05   69  	}
+6ad822cec22644 Pavitrakumar M 2024-03-05   70  
+6ad822cec22644 Pavitrakumar M 2024-03-05   71  	if (spacc->op_mode == SPACC_OP_MODE_IRQ) {
+6ad822cec22644 Pavitrakumar M 2024-03-05   72  		cmd_max = (spacc->config.is_qos ? SPACC_CMDX_MAX_QOS :
+6ad822cec22644 Pavitrakumar M 2024-03-05   73  				SPACC_CMDX_MAX);
+6ad822cec22644 Pavitrakumar M 2024-03-05   74  		for (x = 0; x < cmd_max; x++) {
+6ad822cec22644 Pavitrakumar M 2024-03-05   75  			if (temp & SPACC_IRQ_STAT_CMDX(x)) {
+6ad822cec22644 Pavitrakumar M 2024-03-05   76  				spacc->config.fifo_cnt = 1;
+6ad822cec22644 Pavitrakumar M 2024-03-05   77  				/* disable CMD0 interrupt since STAT=1 */
+6ad822cec22644 Pavitrakumar M 2024-03-05   78  				spacc_irq_cmdx_disable(spacc, x);
+6ad822cec22644 Pavitrakumar M 2024-03-05   79  				spacc_irq_stat_enable(spacc,
+6ad822cec22644 Pavitrakumar M 2024-03-05   80  						      spacc->config.fifo_cnt);
+6ad822cec22644 Pavitrakumar M 2024-03-05   81  
+6ad822cec22644 Pavitrakumar M 2024-03-05   82  				SPACC_IRQ_STAT_CLEAR_CMDX(spacc, x);
+6ad822cec22644 Pavitrakumar M 2024-03-05   83  				/* run registered callback */
+6ad822cec22644 Pavitrakumar M 2024-03-05   84  				if (spacc->irq_cb_cmdx)
+6ad822cec22644 Pavitrakumar M 2024-03-05   85  					spacc->irq_cb_cmdx(spacc, x);
+6ad822cec22644 Pavitrakumar M 2024-03-05   86  			}
+6ad822cec22644 Pavitrakumar M 2024-03-05   87  		}
+6ad822cec22644 Pavitrakumar M 2024-03-05   88  	}
+6ad822cec22644 Pavitrakumar M 2024-03-05   89  
+6ad822cec22644 Pavitrakumar M 2024-03-05   90  	spin_unlock_irqrestore(&spacc->lock, lock_flag);
+6ad822cec22644 Pavitrakumar M 2024-03-05   91  
+6ad822cec22644 Pavitrakumar M 2024-03-05   92  	return temp;
+6ad822cec22644 Pavitrakumar M 2024-03-05   93  }
+6ad822cec22644 Pavitrakumar M 2024-03-05   94  
+6ad822cec22644 Pavitrakumar M 2024-03-05   95  void spacc_set_wd_count(struct spacc_device *spacc, uint32_t val)
+6ad822cec22644 Pavitrakumar M 2024-03-05   96  {
+6ad822cec22644 Pavitrakumar M 2024-03-05   97  	writel(val, spacc->regmap + SPACC_REG_STAT_WD_CTRL);
+6ad822cec22644 Pavitrakumar M 2024-03-05   98  }
+6ad822cec22644 Pavitrakumar M 2024-03-05   99  
+6ad822cec22644 Pavitrakumar M 2024-03-05  100  /* cmdx and cmdx_cnt depend on HW config */
+6ad822cec22644 Pavitrakumar M 2024-03-05  101  /* cmdx can be 0, 1 or 2 */
+6ad822cec22644 Pavitrakumar M 2024-03-05  102  /* cmdx_cnt must be 2^6 or less */
+6ad822cec22644 Pavitrakumar M 2024-03-05  103  void spacc_irq_cmdx_enable(struct spacc_device *spacc, int cmdx, int cmdx_cnt)
+6ad822cec22644 Pavitrakumar M 2024-03-05  104  {
+6ad822cec22644 Pavitrakumar M 2024-03-05  105  	u32 temp;
+6ad822cec22644 Pavitrakumar M 2024-03-05  106  
+6ad822cec22644 Pavitrakumar M 2024-03-05  107  	/* read the reg, clear the bit range and set the new value */
+6ad822cec22644 Pavitrakumar M 2024-03-05  108  	temp = readl(spacc->regmap + SPACC_REG_IRQ_CTRL) &
+6ad822cec22644 Pavitrakumar M 2024-03-05  109  		(~SPACC_IRQ_CTRL_CMDX_CNT_MASK(cmdx));
+6ad822cec22644 Pavitrakumar M 2024-03-05  110  	temp |= SPACC_IRQ_CTRL_CMDX_CNT_SET(cmdx, cmdx_cnt);
+6ad822cec22644 Pavitrakumar M 2024-03-05  111  	writel(temp | SPACC_IRQ_CTRL_CMDX_CNT_SET(cmdx, cmdx_cnt),
+6ad822cec22644 Pavitrakumar M 2024-03-05  112  			spacc->regmap + SPACC_REG_IRQ_CTRL);
+6ad822cec22644 Pavitrakumar M 2024-03-05  113  
+6ad822cec22644 Pavitrakumar M 2024-03-05  114  	writel(readl(spacc->regmap + SPACC_REG_IRQ_EN) |
+6ad822cec22644 Pavitrakumar M 2024-03-05  115  				SPACC_IRQ_EN_CMD(cmdx),
+6ad822cec22644 Pavitrakumar M 2024-03-05  116  				spacc->regmap + SPACC_REG_IRQ_EN);
+6ad822cec22644 Pavitrakumar M 2024-03-05  117  }
+6ad822cec22644 Pavitrakumar M 2024-03-05  118  
+6ad822cec22644 Pavitrakumar M 2024-03-05  119  void spacc_irq_cmdx_disable(struct spacc_device *spacc, int cmdx)
+6ad822cec22644 Pavitrakumar M 2024-03-05  120  {
+6ad822cec22644 Pavitrakumar M 2024-03-05  121  	writel(readl(spacc->regmap + SPACC_REG_IRQ_EN) &
+6ad822cec22644 Pavitrakumar M 2024-03-05  122  			(~SPACC_IRQ_EN_CMD(cmdx)),
+6ad822cec22644 Pavitrakumar M 2024-03-05  123  			spacc->regmap + SPACC_REG_IRQ_EN);
+6ad822cec22644 Pavitrakumar M 2024-03-05  124  }
+6ad822cec22644 Pavitrakumar M 2024-03-05  125  
+6ad822cec22644 Pavitrakumar M 2024-03-05  126  void spacc_irq_stat_enable(struct spacc_device *spacc, int stat_cnt)
+6ad822cec22644 Pavitrakumar M 2024-03-05  127  {
+6ad822cec22644 Pavitrakumar M 2024-03-05  128  	u32 temp;
+6ad822cec22644 Pavitrakumar M 2024-03-05  129  
+6ad822cec22644 Pavitrakumar M 2024-03-05  130  	temp = readl(spacc->regmap + SPACC_REG_IRQ_CTRL);
+6ad822cec22644 Pavitrakumar M 2024-03-05  131  	if (spacc->config.is_qos) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  132  		temp &= (~SPACC_IRQ_CTRL_STAT_CNT_MASK_QOS);
+6ad822cec22644 Pavitrakumar M 2024-03-05  133  		temp |= SPACC_IRQ_CTRL_STAT_CNT_SET_QOS(stat_cnt);
+6ad822cec22644 Pavitrakumar M 2024-03-05  134  	} else {
+6ad822cec22644 Pavitrakumar M 2024-03-05  135  		temp &= (~SPACC_IRQ_CTRL_STAT_CNT_MASK);
+6ad822cec22644 Pavitrakumar M 2024-03-05  136  		temp |= SPACC_IRQ_CTRL_STAT_CNT_SET(stat_cnt);
+6ad822cec22644 Pavitrakumar M 2024-03-05  137  	}
+6ad822cec22644 Pavitrakumar M 2024-03-05  138  
+6ad822cec22644 Pavitrakumar M 2024-03-05  139  	writel(temp, spacc->regmap + SPACC_REG_IRQ_CTRL);
+6ad822cec22644 Pavitrakumar M 2024-03-05  140  	writel(readl(spacc->regmap + SPACC_REG_IRQ_EN) |
+6ad822cec22644 Pavitrakumar M 2024-03-05  141  				SPACC_IRQ_EN_STAT,
+6ad822cec22644 Pavitrakumar M 2024-03-05  142  				spacc->regmap + SPACC_REG_IRQ_EN);
+6ad822cec22644 Pavitrakumar M 2024-03-05  143  }
+6ad822cec22644 Pavitrakumar M 2024-03-05  144  
+6ad822cec22644 Pavitrakumar M 2024-03-05  145  void spacc_irq_stat_disable(struct spacc_device *spacc)
+6ad822cec22644 Pavitrakumar M 2024-03-05  146  {
+6ad822cec22644 Pavitrakumar M 2024-03-05  147  	writel(readl(spacc->regmap + SPACC_REG_IRQ_EN) &
+6ad822cec22644 Pavitrakumar M 2024-03-05  148  				(~SPACC_IRQ_EN_STAT),
+6ad822cec22644 Pavitrakumar M 2024-03-05  149  				spacc->regmap + SPACC_REG_IRQ_EN);
+6ad822cec22644 Pavitrakumar M 2024-03-05  150  }
+6ad822cec22644 Pavitrakumar M 2024-03-05  151  
+6ad822cec22644 Pavitrakumar M 2024-03-05  152  void spacc_irq_stat_wd_enable(struct spacc_device *spacc)
+6ad822cec22644 Pavitrakumar M 2024-03-05  153  {
+6ad822cec22644 Pavitrakumar M 2024-03-05  154  	writel(readl(spacc->regmap + SPACC_REG_IRQ_EN) |
+6ad822cec22644 Pavitrakumar M 2024-03-05  155  				SPACC_IRQ_EN_STAT_WD,
+6ad822cec22644 Pavitrakumar M 2024-03-05  156  				spacc->regmap + SPACC_REG_IRQ_EN);
+6ad822cec22644 Pavitrakumar M 2024-03-05  157  }
+6ad822cec22644 Pavitrakumar M 2024-03-05  158  
+6ad822cec22644 Pavitrakumar M 2024-03-05  159  void spacc_irq_stat_wd_disable(struct spacc_device *spacc)
+6ad822cec22644 Pavitrakumar M 2024-03-05  160  {
+6ad822cec22644 Pavitrakumar M 2024-03-05  161  	writel(readl(spacc->regmap + SPACC_REG_IRQ_EN) &
+6ad822cec22644 Pavitrakumar M 2024-03-05  162  				(~SPACC_IRQ_EN_STAT_WD),
+6ad822cec22644 Pavitrakumar M 2024-03-05  163  				spacc->regmap + SPACC_REG_IRQ_EN);
+6ad822cec22644 Pavitrakumar M 2024-03-05  164  }
+6ad822cec22644 Pavitrakumar M 2024-03-05  165  
+6ad822cec22644 Pavitrakumar M 2024-03-05  166  void spacc_irq_glbl_enable(struct spacc_device *spacc)
+6ad822cec22644 Pavitrakumar M 2024-03-05  167  {
+6ad822cec22644 Pavitrakumar M 2024-03-05  168  	writel(readl(spacc->regmap + SPACC_REG_IRQ_EN) |
+6ad822cec22644 Pavitrakumar M 2024-03-05  169  				SPACC_IRQ_EN_GLBL,
+6ad822cec22644 Pavitrakumar M 2024-03-05  170  				spacc->regmap + SPACC_REG_IRQ_EN);
+6ad822cec22644 Pavitrakumar M 2024-03-05  171  }
+6ad822cec22644 Pavitrakumar M 2024-03-05  172  
+6ad822cec22644 Pavitrakumar M 2024-03-05  173  void spacc_irq_glbl_disable(struct spacc_device *spacc)
+6ad822cec22644 Pavitrakumar M 2024-03-05  174  {
+6ad822cec22644 Pavitrakumar M 2024-03-05 @175  	writel(readl(spacc->regmap + SPACC_REG_IRQ_EN) &
+6ad822cec22644 Pavitrakumar M 2024-03-05  176  				(~SPACC_IRQ_EN_GLBL),
+6ad822cec22644 Pavitrakumar M 2024-03-05  177  				spacc->regmap + SPACC_REG_IRQ_EN);
+6ad822cec22644 Pavitrakumar M 2024-03-05  178  }
+6ad822cec22644 Pavitrakumar M 2024-03-05  179  
+6ad822cec22644 Pavitrakumar M 2024-03-05 @180  void spacc_disable_int (struct spacc_device *spacc)
+6ad822cec22644 Pavitrakumar M 2024-03-05  181  {
+6ad822cec22644 Pavitrakumar M 2024-03-05  182  	writel(0, spacc->regmap + SPACC_REG_IRQ_EN);
+6ad822cec22644 Pavitrakumar M 2024-03-05  183  }
+6ad822cec22644 Pavitrakumar M 2024-03-05  184  
 
 -- 
 0-DAY CI Kernel Test Service
