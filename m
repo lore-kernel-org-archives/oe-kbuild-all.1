@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E0A1BC5E;
-	Wed,  6 Mar 2024 06:09:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94F81BDD5
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 06:21:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709705357; cv=none; b=n0CzGmVltp69d3EdaOjLwaQcyMcwp57ml0WoUjcnG4B214+3eCnHogAxtDFZNnMquYqJVoSxsWaZFmebLqGzo3LGQMvIScFlTsOugSUF88le62FdNcrBRRJMQMMUCeNgTF9kVITkb7DVA89Z3QaKBKFvT6+EdEAY8L9lXucaTAs=
+	t=1709706076; cv=none; b=sdN70Zrkum5RxZBEs9BdeYY6DkOsCKCycOmqYlRfzt4HgZWxS/6Oxjps1meUdJzsAWBSCl2diqh7Mymp9KTYdqMOXy0z4MavuRdxWUhA3t5ojJqeJBYaCgEhbT5r6udyK8WvqKIaOS8SWL5dhy97QlIuU/bLqAHRikxbrhFUgJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709705357; c=relaxed/simple;
-	bh=bXo7COF7poth3DMnVOZCe6ZIAvNHLVPxhC/St+/xxiQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fiPDzmPJQVLKAcB7zvMIk8KHZ+IfJSiF/udLSczW0I5KwOJJuLFZ13tf3X/pWFZDbFvDBi93y9ZMMc3sgPkI0b51brJwvhir2gTRyRm3wb+mrV/Ck12FVy+o+aMJhINKbRllbBR+zlVJnaTMvaIFpHMXHxLDGgBuXiHnHVrn9L4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QL4SYtRB; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1709706076; c=relaxed/simple;
+	bh=NzROCJHC7hYwSm59Z/IzyCa17XPMakUnnUI2ZBQuWUA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=b0gFHy9LmGDr6Ec2NK38wazcqCps6aigrw/8ihbKcm/4lSHBlx/GdKqiEGX+LjHMw7jr+MGlNRlNEpUbjcCKg9pEt53RmJgjd/cTa8a7Lurkx6eLwt64nv31HkAIM7vA9l6YqD2cLWfeJpDV/soBVb2dTZ7NFoet6AxikTDMGpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HexJuX56; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QL4SYtRB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HexJuX56"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709705356; x=1741241356;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bXo7COF7poth3DMnVOZCe6ZIAvNHLVPxhC/St+/xxiQ=;
-  b=QL4SYtRBdBpG4CugNnRL8Zc3+8vFnbsQ+nb97mUFrAcKjMcLFjC6RGLT
-   dR1qVJMnTeJZzt+5zwf1kC7cHvus8vgHN/9391GI+F1M09gygHgRMD8ks
-   sGYmkQHsLGXevNsP0X7cXLSQO7wKhVn5khhsU5gkIlaOiPH2tXkKa217S
-   m11b0wp2kirODHMp1cOqmnpCkrd/NNJOqaDQrJh7BZz/SW7LYz3nXXip9
-   khGwWD4Bc5pgifqQB1sR6fC9Knx50jptCnQRLofM0sw4JPmaiyDtoHKlx
-   HpEx33qNfvilkJY4TlG3wTruAR8hxMlB5KN8/DqqiDHCVm7FR4S5ZrX6Z
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="15445846"
+  t=1709706074; x=1741242074;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NzROCJHC7hYwSm59Z/IzyCa17XPMakUnnUI2ZBQuWUA=;
+  b=HexJuX56I5rhTVYJulzlCuduqwSs30Ur/+sDzrN0H7nlmLS9olY/lnHz
+   eVK38qzXfIXx1S9xaPFtM4FKskQBlUpmhev+I3k6jBG55z2sxm0deGHMK
+   XuoOGcebujdyJ0ZMM7qqh724f/O2bcj699iuQ0+QVOHvVZl5o3FTSb8gI
+   or267UAh4hzDTqOdn/skifpmJ7UQQw6x/lGG+AU5y1X0B62c8/0aexnS7
+   c4SYdDgeSlO/KEkupAHpV5mJSixF48JyJRUQVGp0T/hkOu7CtiftIllRT
+   8V5+BdZzGZENHGjJTIwvrTx1b3wLkCI2JeHMMx5f7jNxATyzv58UDiUqG
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4474822"
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="15445846"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 22:09:15 -0800
+   d="scan'208";a="4474822"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 22:21:14 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="9548168"
+   d="scan'208";a="9732329"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Mar 2024 22:09:11 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 05 Mar 2024 22:21:11 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhkSj-0003y5-09;
-	Wed, 06 Mar 2024 06:09:09 +0000
-Date: Wed, 6 Mar 2024 14:08:41 +0800
+	id 1rhkeL-0003yb-10;
+	Wed, 06 Mar 2024 06:21:09 +0000
+Date: Wed, 6 Mar 2024 14:20:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Soheil Hassas Yeganeh <soheil@google.com>,
-	Neal Cardwell <ncardwell@google.com>, eric.dumazet@gmail.com,
-	Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH net-next 06/18] net: move ip_packet_offload and
- ipv6_packet_offload to net_hotdata
-Message-ID: <202403061318.QMW92UEi-lkp@intel.com>
-References: <20240305160413.2231423-7-edumazet@google.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/next 24881/27434]
+ drivers/virtio/virtio_balloon.c:161:5: sparse: sparse: symbol
+ 'virtballoon_free_page_report' was not declared. Should it be static?
+Message-ID: <202403061439.JbH4zGWA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,171 +61,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240305160413.2231423-7-edumazet@google.com>
 
-Hi Eric,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/net-introduce-struct-net_hotdata/20240306-001407
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240305160413.2231423-7-edumazet%40google.com
-patch subject: [PATCH net-next 06/18] net: move ip_packet_offload and ipv6_packet_offload to net_hotdata
-config: hexagon-defconfig (https://download.01.org/0day-ci/archive/20240306/202403061318.QMW92UEi-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403061318.QMW92UEi-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
+head:   0e88d1c26496999d1b2e37f3393b602d28b03faf
+commit: 5624b6f64dffb17eb72a2c6277e78ae5e55a5cfb [24881/27434] virtio-balloon: add support for providing free page reports to host
+config: x86_64-randconfig-r113-20240305 (https://download.01.org/0day-ci/archive/20240306/202403061439.JbH4zGWA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403061439.JbH4zGWA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403061318.QMW92UEi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403061439.JbH4zGWA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/virtio/virtio_balloon.c:161:5: sparse: sparse: symbol 'virtballoon_free_page_report' was not declared. Should it be static?
+   drivers/virtio/virtio_balloon.c:597:71: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __virtio32 [usertype] val @@     got unsigned int @@
+   drivers/virtio/virtio_balloon.c:597:71: sparse:     expected restricted __virtio32 [usertype] val
+   drivers/virtio/virtio_balloon.c:597:71: sparse:     got unsigned int
+   drivers/virtio/virtio_balloon.c:596:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __virtio32 [usertype] cmd_id_active @@     got unsigned int @@
+   drivers/virtio/virtio_balloon.c:596:27: sparse:     expected restricted __virtio32 [usertype] cmd_id_active
+   drivers/virtio/virtio_balloon.c:596:27: sparse:     got unsigned int
 
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from net/ipv6/ip6_offload.c:9:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from net/ipv6/ip6_offload.c:9:
-   In file included from include/linux/netdevice.h:45:
-   In file included from include/uapi/linux/neighbour.h:6:
-   In file included from include/linux/netlink.h:9:
-   In file included from include/net/scm.h:9:
-   In file included from include/linux/security.h:35:
-   include/linux/bpf.h:736:48: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     736 |         ARG_PTR_TO_MAP_VALUE_OR_NULL    = PTR_MAYBE_NULL | ARG_PTR_TO_MAP_VALUE,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:737:43: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     737 |         ARG_PTR_TO_MEM_OR_NULL          = PTR_MAYBE_NULL | ARG_PTR_TO_MEM,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:738:43: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     738 |         ARG_PTR_TO_CTX_OR_NULL          = PTR_MAYBE_NULL | ARG_PTR_TO_CTX,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:739:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     739 |         ARG_PTR_TO_SOCKET_OR_NULL       = PTR_MAYBE_NULL | ARG_PTR_TO_SOCKET,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:740:44: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     740 |         ARG_PTR_TO_STACK_OR_NULL        = PTR_MAYBE_NULL | ARG_PTR_TO_STACK,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:741:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     741 |         ARG_PTR_TO_BTF_ID_OR_NULL       = PTR_MAYBE_NULL | ARG_PTR_TO_BTF_ID,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:745:38: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     745 |         ARG_PTR_TO_UNINIT_MEM           = MEM_UNINIT | ARG_PTR_TO_MEM,
-         |                                           ~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:747:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     747 |         ARG_PTR_TO_FIXED_SIZE_MEM       = MEM_FIXED_SIZE | ARG_PTR_TO_MEM,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:770:48: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     770 |         RET_PTR_TO_MAP_VALUE_OR_NULL    = PTR_MAYBE_NULL | RET_PTR_TO_MAP_VALUE,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:771:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     771 |         RET_PTR_TO_SOCKET_OR_NULL       = PTR_MAYBE_NULL | RET_PTR_TO_SOCKET,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:772:47: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     772 |         RET_PTR_TO_TCP_SOCK_OR_NULL     = PTR_MAYBE_NULL | RET_PTR_TO_TCP_SOCK,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:773:50: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     773 |         RET_PTR_TO_SOCK_COMMON_OR_NULL  = PTR_MAYBE_NULL | RET_PTR_TO_SOCK_COMMON,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:775:49: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     775 |         RET_PTR_TO_DYNPTR_MEM_OR_NULL   = PTR_MAYBE_NULL | RET_PTR_TO_MEM,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:776:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     776 |         RET_PTR_TO_BTF_ID_OR_NULL       = PTR_MAYBE_NULL | RET_PTR_TO_BTF_ID,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:777:43: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     777 |         RET_PTR_TO_BTF_ID_TRUSTED       = PTR_TRUSTED    | RET_PTR_TO_BTF_ID,
-         |                                           ~~~~~~~~~~~    ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:888:44: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     888 |         PTR_TO_MAP_VALUE_OR_NULL        = PTR_MAYBE_NULL | PTR_TO_MAP_VALUE,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:889:42: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     889 |         PTR_TO_SOCKET_OR_NULL           = PTR_MAYBE_NULL | PTR_TO_SOCKET,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
-   include/linux/bpf.h:890:46: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     890 |         PTR_TO_SOCK_COMMON_OR_NULL      = PTR_MAYBE_NULL | PTR_TO_SOCK_COMMON,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:891:44: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     891 |         PTR_TO_TCP_SOCK_OR_NULL         = PTR_MAYBE_NULL | PTR_TO_TCP_SOCK,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~
-   include/linux/bpf.h:892:42: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     892 |         PTR_TO_BTF_ID_OR_NULL           = PTR_MAYBE_NULL | PTR_TO_BTF_ID,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
->> net/ipv6/ip6_offload.c:481:14: error: no member named 'ipv6_packet_offload' in 'struct net_hotdata'; did you mean 'ip_packet_offload'?
-     481 |         net_hotdata.ipv6_packet_offload = (struct packet_offload) {
-         |                     ^~~~~~~~~~~~~~~~~~~
-         |                     ip_packet_offload
-   include/net/hotdata.h:11:24: note: 'ip_packet_offload' declared here
-      11 |         struct packet_offload   ip_packet_offload;
-         |                                 ^
-   net/ipv6/ip6_offload.c:489:31: error: no member named 'ipv6_packet_offload' in 'struct net_hotdata'; did you mean 'ip_packet_offload'?
-     489 |         dev_add_offload(&net_hotdata.ipv6_packet_offload);
-         |                                      ^~~~~~~~~~~~~~~~~~~
-         |                                      ip_packet_offload
-   include/net/hotdata.h:11:24: note: 'ip_packet_offload' declared here
-      11 |         struct packet_offload   ip_packet_offload;
-         |                                 ^
-   27 warnings and 2 errors generated.
+vim +/virtballoon_free_page_report +161 drivers/virtio/virtio_balloon.c
 
-
-vim +481 net/ipv6/ip6_offload.c
-
-   475	
-   476		if (tcpv6_offload_init() < 0)
-   477			pr_crit("%s: Cannot add TCP protocol offload\n", __func__);
-   478		if (ipv6_exthdrs_offload_init() < 0)
-   479			pr_crit("%s: Cannot add EXTHDRS protocol offload\n", __func__);
-   480	
- > 481		net_hotdata.ipv6_packet_offload = (struct packet_offload) {
-   482			.type = cpu_to_be16(ETH_P_IPV6),
-   483			.callbacks = {
-   484				.gso_segment = ipv6_gso_segment,
-   485				.gro_receive = ipv6_gro_receive,
-   486				.gro_complete = ipv6_gro_complete,
-   487			},
-   488		};
-   489		dev_add_offload(&net_hotdata.ipv6_packet_offload);
-   490	
-   491		inet_add_offload(&sit_offload, IPPROTO_IPV6);
-   492		inet6_add_offload(&ip6ip6_offload, IPPROTO_IPV6);
-   493		inet6_add_offload(&ip4ip6_offload, IPPROTO_IPIP);
-   494	
-   495		return 0;
-   496	}
-   497	
+   160	
+ > 161	int virtballoon_free_page_report(struct page_reporting_dev_info *pr_dev_info,
+   162					   struct scatterlist *sg, unsigned int nents)
+   163	{
+   164		struct virtio_balloon *vb =
+   165			container_of(pr_dev_info, struct virtio_balloon, pr_dev_info);
+   166		struct virtqueue *vq = vb->reporting_vq;
+   167		unsigned int unused, err;
+   168	
+   169		/* We should always be able to add these buffers to an empty queue. */
+   170		err = virtqueue_add_inbuf(vq, sg, nents, vb, GFP_NOWAIT | __GFP_NOWARN);
+   171	
+   172		/*
+   173		 * In the extremely unlikely case that something has occurred and we
+   174		 * are able to trigger an error we will simply display a warning
+   175		 * and exit without actually processing the pages.
+   176		 */
+   177		if (WARN_ON_ONCE(err))
+   178			return err;
+   179	
+   180		virtqueue_kick(vq);
+   181	
+   182		/* When host has read buffer, this completes via balloon_ack */
+   183		wait_event(vb->acked, virtqueue_get_buf(vq, &unused));
+   184	
+   185		return 0;
+   186	}
+   187	
 
 -- 
 0-DAY CI Kernel Test Service
