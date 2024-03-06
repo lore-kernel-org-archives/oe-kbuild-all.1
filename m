@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C604C70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0017EC7
 	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 00:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709683929; cv=none; b=ZW0l0GXclfUtWxSHQpbLKetreVUR96GSaSVXwzixCE6PRNcXvb7NTxVHsE80OFHu5Oay+aHNgGBIGoiZdtUdjkGrz/2lA3bd2Zwqpe2GKd9yrqAuCjPGAeq0/rb9Dx4Mv4pgFuPankx4Vo/gAKZbw8mJeA+ze42HOajTySybSxw=
+	t=1709683929; cv=none; b=nJInsLrSQmNJU9TlvXyxlBDhoW9hxjGiQAdvykdfjyCJFCDqVAOm4RyoZ3u06IgGkM0W3u8KGjfC8vz+KzGFRVDAjVOYi8J4lFRjDpn8pBB8l1jfajPMMSL7ZtpNs6YHl3FSygSJUqaqHhi2RYnlfphhoMAn6JVZPRg9qQh4wWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1709683929; c=relaxed/simple;
-	bh=rIKkTtnsuXfhoePYJV76asTDSBmLlGQBll0nJfQ3scU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PcpJp8khmHyEookzl1HVrXtsqP9cAO7lg+BpjV7uSKy65vMAOsbOBTzrWc5oVBbUK7m+1Yg+Wrc8LKz4f2Q6c4bg0YBWrENUBVdwrck6AQuPwFQ0ZyfQLNzSeJKqtujBiGNxRjEmjdkHBmcZ/gVSDaLlenkihulmkbIJvide63k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T078iEeZ; arc=none smtp.client-ip=198.175.65.14
+	bh=VjqFb+792DmN0ilxw7UhrsTId54QKmptBSdzy0wdoxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eBsblGTNqRtK2n5Z2iqHWF80CaIX5D8kmZxofjJy6QeGNNG5FdSrxMSP0PjThCaLAGTdFOIXWO3tbJx26mrVZwCBMoyT80tXS/CWusu5+oC4mS6FGbml5tCB6U7ZPGJSOuL96PsctmqlGgDwcK7zM0U17hIrBHdT7HpgWtt4rnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WuNuzncz; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T078iEeZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WuNuzncz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1709683927; x=1741219927;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rIKkTtnsuXfhoePYJV76asTDSBmLlGQBll0nJfQ3scU=;
-  b=T078iEeZRF27v5rWIHa4bWzTt6tyminidy8ehGny0cCtZje0MW0coKgn
-   cMsu92ZRP/q9lgZlzwvk4a9DhMO3XSIEBS45SK+9DTLtM1Ozevt0ckcN1
-   66zEZd4uQESZn1AIj1yW+/NZrBWtQ/fTSxgkFzBUppaefWXky64zTFFre
-   QHBkxeiRzs+G0u/4VoLEV2140EQIVHgQuRSIGQLZJonHrRVBq9+QINgIe
-   2/hyZa7foPAnAM4E4JUUGIbo/NBte9A9giX1sPqcOvn+X/dxlXuKVvH1C
-   9t8RaACqsigmuV5M+QXSwQx5SgrqR2i6oyKzKzJf9+ZzzWcWPUjW0NzI2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="8092129"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VjqFb+792DmN0ilxw7UhrsTId54QKmptBSdzy0wdoxI=;
+  b=WuNuznczLAmbFQrv3q0+1A6WsSzgxlh7EQbrpzH2GI+co/621fzWqHrZ
+   YvywNu14h3B1h+f02kAQRgtrgmOIB0Sxo2LSs/3fnyteVKPsx7+tweowl
+   qkDEvccoYv4jOOCzhyf0yBA/YFFbSkKHYnrTmuUXnTVNN+uod+AIlOBZe
+   amYwAR/WJbpdb1ugm6EI3zYWjf6RDkC4cMjVjfC04DNkVRf3qYIICBiyi
+   1qdlqs8ebMapoV87wwn14buWIXW/BCERticVsrx3so9ENmswTyZezlv0C
+   1VPY2KWEaFk8gnV+f9UMdmvOjDD1agIEz9Pcl+6N+Ph8Dvf0eQ7p/bUMD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="14921677"
 X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; 
-   d="scan'208";a="8092129"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 16:12:07 -0800
+   d="scan'208";a="14921677"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 16:12:06 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; 
-   d="scan'208";a="40554566"
+   d="scan'208";a="9519955"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Mar 2024 16:12:04 -0800
+  by orviesa010.jf.intel.com with ESMTP; 05 Mar 2024 16:12:05 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhet7-0003ll-2O;
+	id 1rhet7-0003ln-2S;
 	Wed, 06 Mar 2024 00:12:01 +0000
-Date: Wed, 6 Mar 2024 08:11:04 +0800
+Date: Wed, 6 Mar 2024 08:11:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Antonio Quartulli <antonio@openvpn.net>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-	Antonio Quartulli <antonio@openvpn.net>
-Subject: Re: [PATCH net-next v2 14/22] ovpn: implement peer lookup logic
-Message-ID: <202403060715.DDWfl06q-lkp@intel.com>
-References: <20240304150914.11444-15-antonio@openvpn.net>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Subject: WARNING: modpost: "__udelay"
+ [drivers/media/pci/saa7146/hexium_orion.ko] has no CRC!
+Message-ID: <202403060852.Vgg0tWp7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,110 +59,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240304150914.11444-15-antonio@openvpn.net>
 
-Hi Antonio,
+Hi Hans,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Antonio-Quartulli/netlink-add-NLA_POLICY_MAX_LEN-macro/20240304-232835
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240304150914.11444-15-antonio%40openvpn.net
-patch subject: [PATCH net-next v2 14/22] ovpn: implement peer lookup logic
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240306/202403060715.DDWfl06q-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403060715.DDWfl06q-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   29cd507cbec282e13dcf8f38072a100af96b2bb7
+commit: 39d08ab979b7995d22dd6b3ce74d3179f02847a1 media: Revert "media: saa7146: deprecate hexium_gemini/orion, mxb and ttpci"
+date:   1 year, 1 month ago
+config: sparc-randconfig-s033-20230621 (https://download.01.org/0day-ci/archive/20240306/202403060852.Vgg0tWp7-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403060852.Vgg0tWp7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403060715.DDWfl06q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403060852.Vgg0tWp7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/net/ovpn/peer.c:289: warning: Function parameter or struct member 'src' not described in 'ovpn_nexthop_lookup4'
->> drivers/net/ovpn/peer.c:289: warning: Excess function parameter 'dst' description in 'ovpn_nexthop_lookup4'
->> drivers/net/ovpn/peer.c:325: warning: Function parameter or struct member 'addr' not described in 'ovpn_nexthop_lookup6'
->> drivers/net/ovpn/peer.c:325: warning: Excess function parameter 'dst' description in 'ovpn_nexthop_lookup6'
-
-
-vim +289 drivers/net/ovpn/peer.c
-
-   275	
-   276	/**
-   277	 * ovpn_nexthop_lookup4() - looks up the IP of the nexthop for the given destination
-   278	 *
-   279	 * Looks up in the IPv4 system routing table the IP of the nexthop to be used
-   280	 * to reach the destination passed as argument. If no nexthop can be found, the
-   281	 * destination itself is returned as it probably has to be used as nexthop.
-   282	 *
-   283	 * @ovpn: the private data representing the current VPN session
-   284	 * @dst: the destination to be looked up
-   285	 *
-   286	 * Return the IP of the next hop if found or the dst itself otherwise
-   287	 */
-   288	static __be32 ovpn_nexthop_lookup4(struct ovpn_struct *ovpn, __be32 src)
- > 289	{
-   290		struct rtable *rt;
-   291		struct flowi4 fl = {
-   292			.daddr = src
-   293		};
-   294	
-   295		rt = ip_route_output_flow(dev_net(ovpn->dev), &fl, NULL);
-   296		if (IS_ERR(rt)) {
-   297			net_dbg_ratelimited("%s: no nexthop found for %pI4\n", ovpn->dev->name, &src);
-   298			/* if we end up here this packet is probably going to be
-   299			 * thrown away later
-   300			 */
-   301			return src;
-   302		}
-   303	
-   304		if (!rt->rt_uses_gateway)
-   305			goto out;
-   306	
-   307		src = rt->rt_gw4;
-   308	out:
-   309		return src;
-   310	}
-   311	
-   312	/**
-   313	 * ovpn_nexthop_lookup6() - looks up the IPv6 of the nexthop for the given destination
-   314	 *
-   315	 * Looks up in the IPv6 system routing table the IP of the nexthop to be used
-   316	 * to reach the destination passed as argument. If no nexthop can be found, the
-   317	 * destination itself is returned as it probably has to be used as nexthop.
-   318	 *
-   319	 * @ovpn: the private data representing the current VPN session
-   320	 * @dst: the destination to be looked up
-   321	 *
-   322	 * Return the IP of the next hop if found or the dst itself otherwise
-   323	 */
-   324	static struct in6_addr ovpn_nexthop_lookup6(struct ovpn_struct *ovpn, struct in6_addr addr)
- > 325	{
-   326	#if IS_ENABLED(CONFIG_IPV6)
-   327		struct rt6_info *rt;
-   328		struct flowi6 fl = {
-   329			.daddr = addr,
-   330		};
-   331	
-   332		rt = (struct rt6_info *)ipv6_stub->ipv6_dst_lookup_flow(dev_net(ovpn->dev), NULL, &fl,
-   333									NULL);
-   334		if (IS_ERR(rt)) {
-   335			net_dbg_ratelimited("%s: no nexthop found for %pI6\n", ovpn->dev->name, &addr);
-   336			/* if we end up here this packet is probably going to be thrown away later */
-   337			return addr;
-   338		}
-   339	
-   340		if (rt->rt6i_flags & RTF_GATEWAY)
-   341			addr = rt->rt6i_gateway;
-   342	
-   343		dst_release((struct dst_entry *)rt);
-   344	#endif
-   345		return addr;
-   346	}
-   347	
+WARNING: modpost: vmlinux.o: section mismatch in reference: leon_pci_init (section: .text) -> pci_assign_unassigned_resources (section: .init.text)
+WARNING: modpost: vmlinux.o: section mismatch in reference: grpci2_of_driver (section: .data) -> grpci2_of_match (section: .init.rodata)
+WARNING: modpost: vmlinux.o: section mismatch in reference: grpci1_of_driver (section: .data) -> grpci1_of_match (section: .init.rodata)
+WARNING: modpost: EXPORT symbol "empty_zero_page" [vmlinux] version generation failed, symbol will not be versioned.
+Is "empty_zero_page" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__udelay" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__udelay" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__ndelay" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__ndelay" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__ashldi3" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__ashldi3" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__ashrdi3" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__ashrdi3" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "bzero_1page" [vmlinux] version generation failed, symbol will not be versioned.
+Is "bzero_1page" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__copy_1page" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__copy_1page" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__divdi3" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__divdi3" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "___rw_read_enter" [vmlinux] version generation failed, symbol will not be versioned.
+Is "___rw_read_enter" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "___rw_read_exit" [vmlinux] version generation failed, symbol will not be versioned.
+Is "___rw_read_exit" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "___rw_read_try" [vmlinux] version generation failed, symbol will not be versioned.
+Is "___rw_read_try" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "___rw_write_enter" [vmlinux] version generation failed, symbol will not be versioned.
+Is "___rw_write_enter" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__lshrdi3" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__lshrdi3" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__muldi3" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__muldi3" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: "__udelay" [kernel/locking/locktorture.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [fs/xfs/xfs.ko] has no CRC!
+WARNING: modpost: "__udelay" [fs/xfs/xfs.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [fs/xfs/xfs.ko] has no CRC!
+WARNING: modpost: "__ashrdi3" [fs/xfs/xfs.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [fs/f2fs/f2fs.ko] has no CRC!
+WARNING: modpost: "empty_zero_page" [security/keys/encrypted-keys/encrypted-keys.ko] has no CRC!
+WARNING: modpost: "empty_zero_page" [lib/crypto/libchacha20poly1305.ko] has no CRC!
+WARNING: modpost: "__udelay" [lib/test_lockup.ko] has no CRC!
+WARNING: modpost: "__ndelay" [lib/test_lockup.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/bus/mhi/host/mhi.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/gpio/gpio-latch.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/rapidio/rio-scan.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/video/backlight/ktd253-backlight.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/char/ipmi/ipmi_si.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/clk/clk-palmas.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/tty/serial/sunzilog.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/tty/serial/sc16is7xx.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/tty/serial/jsm/jsm.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/char/hw_random/ba431-rng.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/char/hw_random/omap-rng.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/char/hw_random/stm32-rng.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/char/hw_random/ks-sa-rng.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/block/mtip32xx/mtip32xx.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/misc/hpilo.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/misc/c2port/core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mfd/axp20x.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/scsi/megaraid/megaraid_mbox.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/scsi/aic7xxx/aic7xxx.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/scsi/aic94xx/aic94xx.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/scsi/esp_scsi.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/scsi/sun_esp.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/scsi/a100u2w.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/scsi/ipr.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/scsi/stex.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/scsi/mvumi.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/scsi/esas2r/esas2r.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/scsi/sd_mod.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/mtd/nand/raw/nandsim.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/mtd/nand/raw/nandsim.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/nandsim.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/mtd/tests/mtd_nandbiterrs.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/touchscreen/cyttsp4_core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/touchscreen/elants_i2c.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/touchscreen/mms114.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/touchscreen/raydium_i2c_ts.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/touchscreen/wdt87xx_i2c.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/touchscreen/sx8654.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/misc/adxl34x.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/misc/drv260x.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/rtc/rtc-ds2404.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/rtc/rtc-x1205.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/i2c/busses/i2c-rk3x.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/i3c/master/i3c-master-cdns.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/i3c/master/svc-i3c-master.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/i2c/adv7183.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/i2c/adv7604.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/i2c/bt819.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/i2c/cx25840/cx25840.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/i2c/ks0127.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/i2c/tc358743.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/i2c/vpx3220.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/tuners/max2165.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/tuners/mt20xx.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/tuners/tuner-simple.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/tuners/tda18271.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/common/saa7146/saa7146.ko] has no CRC!
+>> WARNING: modpost: "__udelay" [drivers/media/pci/saa7146/hexium_orion.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/pci/cx25821/cx25821.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/pci/dt3155/dt3155.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/pci/ivtv/ivtv.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/v4l2-core/tuner.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/radio/si4713/si4713.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/media/radio/tea575x.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/w1/masters/ds2482.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/w1/masters/sgi_w1.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/hwmon/lm93.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/hwmon/sht15.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/watchdog/pcwd_pci.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/watchdog/da9062_wdt.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/watchdog/gpio_wdt.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/watchdog/rave-sp-wdt.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mmc/host/sdhci.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mmc/host/sdhci-pci.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mmc/host/sdhci-milbeaut.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mmc/host/cb710-mmc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mmc/host/toshsd.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mmc/host/sdhci-of-dwcmshc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mmc/host/sdhci-omap.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/leds/leds-bd2802.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/leds/leds-lt3593.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/staging/rts5208/rts5208.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/accel/mma9551_core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/adi-axi-adc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/pressure/dlhl60d.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/proximity/ping.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/ata/libata.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/ata/libata.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/ata/libahci.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/ata/sata_sx4.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/pcmcia/pcmcia_core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/fpga/altera-pr-ip-core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mux/mux-core.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/siox/siox-bus-gpio.ko] has no CRC!
 
 -- 
 0-DAY CI Kernel Test Service
