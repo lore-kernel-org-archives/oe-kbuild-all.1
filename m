@@ -1,149 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BD15CDC2
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 07:48:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E16C5CDE8;
+	Wed,  6 Mar 2024 08:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709711301; cv=none; b=JNFMmNYjqBXFs/lb0XBdkefI/cUlODiK4TTZNV+gshvkU8oDUn3xKUa2vL8KZQDB8IMConFIuRLL44abhQj6JMHnhWFNW5L512Gngts8u4rLhg+reS75iLyXx9pljvdvWX39sTUGhzW6hUIKgCuCWjUNoX9Qey3Yg79O7mFoclk=
+	t=1709712030; cv=none; b=H+3uWRFO8hW6likVin8P2kaTvLkng9zEEkKUe/b3xCxP2F7zUkiOdx9aRdbxF7I39tprc2PDjdhr4foPY/G+ggalJ/V3FeMG15TYQl1z8C1IK18B4HceXbFa7K4X/w+pgvtCM6Xu5vxOKiYXfB7kIUVR0VRMS3Sd3K4A1FuPaQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709711301; c=relaxed/simple;
-	bh=SROiXL6MEIo7/+RiXXsQji9Cnsjez+eS+sbgsaW8Lrs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a1+Ahe028GbF3konbmgZT4G0YK6EKs2nRioAFOJUf0F+16Jmdu6bz71C8Ps3r6DfX/Disd9pwlKKFgNbo+UyKo9lnGCRYHXYqC8mHLYuoSQcqm0KNgoHwxnL9NF643Xcmm0dni7QfDAi/bEACl0QpINQ2Go2qbARQw35M+su7zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UNulk5mS; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UNulk5mS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709711299; x=1741247299;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SROiXL6MEIo7/+RiXXsQji9Cnsjez+eS+sbgsaW8Lrs=;
-  b=UNulk5mSDv4V3QN1TnRu46rt7851wsqe4KadgGJxr46y1aaHfuIpECFI
-   wJOv03XbhaNY1A6GAQXKVby0GjnTHPo9g8d1zAoK44JvyC0WiZ8/gSCOq
-   mQAO3sSUEFYw8IPthxrvaUS/Ve0DrTnIDGs+O9fBynbCSb1DV8hFHEqr1
-   8kiuvVuMGekUq2I82AoFFCzjCYflwbni+G4BDxHW6zqr3qbu5iKhlCZ2j
-   t/mpnlOmzocQPePjnf7F8b54PnfBL6kAcEN6sGw3lFaHIcSa8FL1hhbR2
-   0Ki13/WyeDoVz7+ywCW58JKWM+UaPgmUtFr7Qx9zvCjnsSYSVuii44Qg6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4479909"
-X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="4479909"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 23:48:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="9532067"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Mar 2024 23:48:15 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rhm0b-00042r-0m;
-	Wed, 06 Mar 2024 07:48:13 +0000
-Date: Wed, 6 Mar 2024 15:48:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes
- address space '<asn:1>' of expression
-Message-ID: <202403061513.ZfwVU05Z-lkp@intel.com>
+	s=arc-20240116; t=1709712030; c=relaxed/simple;
+	bh=P8YwVMpnErwixhUR1Mbw5c5QEH9e2xTfI7Qrxmz/VcA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kOCGPcC5gLE++yRIlwD1BT6twh5wwqxR0W2a8jhxdsMKMJbopC/p4yKtSDK9TP/0ClFFOOjRmxr7WrCknCJig4+3kxCoqQWOeWIddbq/vIKx+nR1uLCIyrII78GZ0+ocq4R2s16y9nmuof0/kxEn39WQXgzdCvQSjWX+4nJhZ24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-609408d4b31so65611287b3.0;
+        Wed, 06 Mar 2024 00:00:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709712027; x=1710316827;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tIq8A3I+hnCbTkrRhH0vKNCZiun3rTR9oQdT+6QQC+0=;
+        b=BmuWkKJFfVBat/xWgtxOyysrgsw1+R3BlEvQnezDmA79VaWqhiQuDv9hCULvgUxpnW
+         lKB73TCLkrwttnem8fp14+xqGXtuUSMavI3HkpNhwLkH192D7pHDaD9p5wuP3QebLu5L
+         brBaWboElZKvSE0ZGO17ssWp4ehdrStqz1ShKBXYeQ4moprsjXBKIfLrRb8qMJ+HS8K+
+         NvpCcMw5PtZKNmBd0fHOsVP5/fc003PkQrYDhAAKcZ7GSOF3dD4bAndKmdWAJP/1niyY
+         R/33+/CmSfrlauHcLCOlAiqlZrvvEynmosdO/O2OEh6FIpOdKUKTJMAC8ArmMk0152V2
+         2RBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVIYnYTscLqPRhfPmQBxYVxNz21aGLWS+t7ISPMkiUODORqJgYtTQ0+J6ZVJ95PsMAutM5VoqH75QqfaaChXQZzZE7aRjEBwXSWGg18PsLJi8/DSfv8z59SSDy4Lk87PaDwJG4=
+X-Gm-Message-State: AOJu0Yy55UKUpBpLJTOgFg9v/+ykPkQf1kApDoCH0ygDcR9rivyuffR6
+	j/WpAtOtQhObnq/hvzZVfvtiAQ8a9JPJCtJ5w6dsu0Sh7sklti7klKaifdZUtsM=
+X-Google-Smtp-Source: AGHT+IEdFYnPKVa08DJASnaI3KyepwRwy2PlEZsURVBuBNPwv4jTK5LQ5g3eF2TaniMU2+wmZWONig==
+X-Received: by 2002:a25:9101:0:b0:dc2:2d75:5fde with SMTP id v1-20020a259101000000b00dc22d755fdemr10617374ybl.29.1709712026609;
+        Wed, 06 Mar 2024 00:00:26 -0800 (PST)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id t33-20020a25f621000000b00dcda90f43d7sm3080152ybd.59.2024.03.06.00.00.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Mar 2024 00:00:26 -0800 (PST)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-60978e6f9a3so67977687b3.3;
+        Wed, 06 Mar 2024 00:00:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVvOjDDZQDuLyWyvV7XrxpueM7gmdUBwOWWDIf4k2EaqyJGIUDSqrlJBkUHHqehDU7gWYjdcXS0spzZ60J/VmUP9y0YYg4+ch2lrKL5hqAf8uIy4HC0FKcKY1fqSSjI+gULmfE=
+X-Received: by 2002:a81:8494:0:b0:604:9b50:e973 with SMTP id
+ u142-20020a818494000000b006049b50e973mr13895375ywf.44.1709712025743; Wed, 06
+ Mar 2024 00:00:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202403061131.zzApAwRB-lkp@intel.com>
+In-Reply-To: <202403061131.zzApAwRB-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 6 Mar 2024 09:00:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW7mAzU=a3wqpsBaE0fo71-_=66X5NSvsLJDTiiZ5_k=A@mail.gmail.com>
+Message-ID: <CAMuHMdW7mAzU=a3wqpsBaE0fo71-_=66X5NSvsLJDTiiZ5_k=A@mail.gmail.com>
+Subject: Re: [geert-renesas-drivers:master 34/52] drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1340:3:
+ error: field designator 'lanes' does not refer to any field in type 'const
+ struct qmp_phy_cfg'
+To: kernel test robot <lkp@intel.com>
+Cc: Vinod Koul <vkoul@kernel.org>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   e116ff64db9be38b70fd5b050f5900435d428547
-commit: e1d6214f1baf879f571eb4c990ca3f3518fc49ea x86: ia32_setup_rt_frame(): consolidate uaccess areas
-date:   9 months ago
-config: x86_64-randconfig-121-20240305 (https://download.01.org/0day-ci/archive/20240306/202403061513.ZfwVU05Z-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403061513.ZfwVU05Z-lkp@intel.com/reproduce)
+On Wed, Mar 6, 2024 at 4:47=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-dri=
+vers.git master
+> head:   0a76003de2b9029d5898c23d23ddbb90f5a74580
+> commit: 98177a93f8e405ce41969db23f5bf4766aa6a1f4 [34/52] Merge remote-tra=
+cking branch 'phy/next' into renesas-drivers
+> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/202=
+40306/202403061131.zzApAwRB-lkp@intel.com/config)
+> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 3=
+25f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240306/202403061131.zzApAwRB-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403061131.zzApAwRB-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403061513.ZfwVU05Z-lkp@intel.com/
+> >> drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1340:3: error: field designato=
+r 'lanes' does not refer to any field in type 'const struct qmp_phy_cfg'
+>     1340 |         .lanes                  =3D 1,
+>          |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~
+>    7 warnings and 1 error generated.
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:1> * @@     got unsigned long long [usertype] * @@
-   arch/x86/ia32/ia32_signal.c:354:9: sparse:     expected void const volatile [noderef] <asn:1> *
-   arch/x86/ia32/ia32_signal.c:354:9: sparse:     got unsigned long long [usertype] *
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
->> arch/x86/ia32/ia32_signal.c:354:9: sparse: sparse: cast removes address space '<asn:1>' of expression
+Oops, that's a bad merge conflict resolution on my side.
+Please ignore.
 
-vim +354 arch/x86/ia32/ia32_signal.c
+Gr{oetje,eeting}s,
 
-   303	
-   304	int ia32_setup_rt_frame(int sig, struct ksignal *ksig,
-   305				compat_sigset_t *set, struct pt_regs *regs)
-   306	{
-   307		struct rt_sigframe_ia32 __user *frame;
-   308		void __user *restorer;
-   309		void __user *fp = NULL;
-   310	
-   311		/* unsafe_put_user optimizes that into a single 8 byte store */
-   312		static const struct {
-   313			u8 movl;
-   314			u32 val;
-   315			u16 int80;
-   316			u8  pad;
-   317		} __attribute__((packed)) code = {
-   318			0xb8,
-   319			__NR_ia32_rt_sigreturn,
-   320			0x80cd,
-   321			0,
-   322		};
-   323	
-   324		frame = get_sigframe(ksig, regs, sizeof(*frame), &fp);
-   325	
-   326		if (!user_access_begin(frame, sizeof(*frame)))
-   327			return -EFAULT;
-   328	
-   329		unsafe_put_user(sig, &frame->sig, Efault);
-   330		unsafe_put_user(ptr_to_compat(&frame->info), &frame->pinfo, Efault);
-   331		unsafe_put_user(ptr_to_compat(&frame->uc), &frame->puc, Efault);
-   332	
-   333		/* Create the ucontext.  */
-   334		if (static_cpu_has(X86_FEATURE_XSAVE))
-   335			unsafe_put_user(UC_FP_XSTATE, &frame->uc.uc_flags, Efault);
-   336		else
-   337			unsafe_put_user(0, &frame->uc.uc_flags, Efault);
-   338		unsafe_put_user(0, &frame->uc.uc_link, Efault);
-   339		unsafe_compat_save_altstack(&frame->uc.uc_stack, regs->sp, Efault);
-   340	
-   341		if (ksig->ka.sa.sa_flags & SA_RESTORER)
-   342			restorer = ksig->ka.sa.sa_restorer;
-   343		else
-   344			restorer = current->mm->context.vdso +
-   345				vdso_image_32.sym___kernel_rt_sigreturn;
-   346		unsafe_put_user(ptr_to_compat(restorer), &frame->pretcode, Efault);
-   347	
-   348		/*
-   349		 * Not actually used anymore, but left because some gdb
-   350		 * versions need it.
-   351		 */
-   352		unsafe_put_user(*((u64 *)&code), (u64 __user *)frame->retcode, Efault);
-   353		unsafe_put_sigcontext32(&frame->uc.uc_mcontext, fp, regs, set, Efault);
- > 354		unsafe_put_user(*(__u64 *)set, (__u64 *)&frame->uc.uc_sigmask, Efault);
+                        Geert
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
