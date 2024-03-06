@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CE912E78
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 04:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8668911CAB;
+	Wed,  6 Mar 2024 04:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709700194; cv=none; b=nBojbuVaU4XpO90AtMWuvRC0ODLq9IiDsrUXmHqR1vnJUp7LHFgBuaFoThQ83GqM6MmswR7T7qfLdGniZwjy/biQYibpnsnKoklopQDL/jLbVyo5uiChNqdoNXac1ZprNdEi85vyjcPxNt5jcPeGj4qjVUfKmAZNgjqjmvFGmv8=
+	t=1709700794; cv=none; b=MAz+8GtaXZRQyGgBYkb1xdU6CO0PBbXQRpl/5YPJPTjBt3qn+TorLGF+7NucnXc4sohXenqmDWrDekS9YBxlaXs98KYBdc2v74aGfNGlfpNU8c5MVtfzCHJfyE4xvvrcOOfdnKXJ/v3lM/rD0mmjOlXZnc/HytNimdyelvnoIpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709700194; c=relaxed/simple;
-	bh=CiR77+lZ19i68pey4rjfW+qxBsThcbW1hpUDaNeywZs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nhA3Fuuk2R9IiqnnGwW7B/iVmbSd9amSxZoiHK4s8pnb/YK07IuI0kjPAVytWuIxVqlY5YDmbdgvUWTdNXm7I1A0BWLCxpgFFdfLEoaf84SElqaQSfGtA1zSRkCQhMsams4XBbjpsFVi6hYBDWdG18rHrIfvuYGZDANFJl5j7yw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cmRxlbo9; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1709700794; c=relaxed/simple;
+	bh=o9nZuPPfrCvcN8hxg7uxH33NZEXb0OTzk2Zk0RDgkgs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d8EqH3pGovoUlPU3mFZwJmHw91dK3GeXDlhXsDeEjCZwvx2WxiT/bNkSskPufLocVltcq0Ass0KHmtT5T1XPQktqZXX6NJm/1x7PifiuG62AF7VAV291HTRLqY8Vp8WgU3P73CaxSysCSBylPRqHfFyPtgrh/pofqxHMT/vUfr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CtEe2Vvb; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cmRxlbo9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CtEe2Vvb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709700191; x=1741236191;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CiR77+lZ19i68pey4rjfW+qxBsThcbW1hpUDaNeywZs=;
-  b=cmRxlbo9oDObfGD31yTueAq4YQMDg9I9M/b/6pu3eQJohFXR+rMfQE+U
-   4Cn2xhcwx7ZlMmy0TQGoKYD+cj0LA8hQG6n+IM/pPEBb7pk8/xVVGYlsY
-   3qzUqCJm/66LvptvvhA829x49Pviyezwf8u7dSe1OIwDEVZ4ycTIoyXWm
-   3epbA78InF0bquz6pKxLZqeJ6kDU/Ebn7c8Gax1EQOYRbl8BATRTqpeqc
-   Ihl8X/yEle4LpWYRUDytmt/YYTns2t82hQ5J6FY9K0s/ao9R2ws4Y29HD
-   GAqV5a1ReVBCStAeYJ0Woc3pQE8Q+NAOSo1A9mPG1dvSGepRGosYK5iCx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4159691"
+  t=1709700791; x=1741236791;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o9nZuPPfrCvcN8hxg7uxH33NZEXb0OTzk2Zk0RDgkgs=;
+  b=CtEe2VvbSqVxN6cauXIcnd2pU3ZQjlUpptvF4HD+cSEdFhmnJZcIN0jv
+   LdUp3ig5hmP1DB7XvMAAiJvnZLq3EuthXEj/T+NmoHYWuTomFdPEPCDkk
+   KNZ9S2B4e4Jgcyb6svVEhJ4rGWOXDshqu3sZoTsGSCgNttudHV4qRs8Aq
+   MdncCMGiaZei2OhjvogoNa04hzFBS2DWf8/B+jPpvPNg3CXi4/CAtDE8R
+   9K0Qn+SeFshUJlhWOJgHXTf9vqJDz+vIqoise5ANfQCqJSNUUOTG4F3WW
+   zmqEwlTgE0d0BOQfGKlbhPWSHs6LTszEM/DtKXf9WGbtFgNykHcCoMRI4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="15013680"
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="4159691"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 20:43:11 -0800
+   d="scan'208";a="15013680"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 20:53:10 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="9487774"
+   d="scan'208";a="9566093"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Mar 2024 20:43:09 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 05 Mar 2024 20:53:09 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhj7T-0003v1-0M;
-	Wed, 06 Mar 2024 04:43:07 +0000
-Date: Wed, 6 Mar 2024 12:42:24 +0800
+	id 1rhjH9-0003vF-0Z;
+	Wed, 06 Mar 2024 04:53:07 +0000
+Date: Wed, 6 Mar 2024 12:53:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tianfei Zhang <tianfei.zhang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Raghavendra Khadatare <raghavendrax.anand.khadatare@intel.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: WARNING: modpost: "__udelay" [drivers/ptp/ptp_dfl_tod.ko] has no CRC!
-Message-ID: <202403061234.iDDn0x5D-lkp@intel.com>
+To: Qi Zheng <zhengqi.arch@bytedance.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 3/3] s390: supplement for ptdesc conversion
+Message-ID: <202403061249.4URm4Yxi-lkp@intel.com>
+References: <04beaf3255056ffe131a5ea595736066c1e84756.1709541697.git.zhengqi.arch@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,147 +58,233 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <04beaf3255056ffe131a5ea595736066c1e84756.1709541697.git.zhengqi.arch@bytedance.com>
 
-Hi Tianfei,
+Hi Qi,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5847c9777c303a792202c609bd761dceb60f4eed
-commit: 615927f1a487bd9066425df48d06cec3bb3d8dbb ptp: add ToD device driver for Intel FPGA cards
-date:   11 months ago
-config: sparc-randconfig-r034-20230513 (https://download.01.org/0day-ci/archive/20240306/202403061234.iDDn0x5D-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403061234.iDDn0x5D-lkp@intel.com/reproduce)
+[auto build test ERROR on s390/features]
+[also build test ERROR on kvms390/next linus/master v6.8-rc7]
+[cannot apply to akpm-mm/mm-everything next-20240305]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-pgtable-correct-the-wrong-comment-about-ptdesc-__page_flags/20240304-191006
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
+patch link:    https://lore.kernel.org/r/04beaf3255056ffe131a5ea595736066c1e84756.1709541697.git.zhengqi.arch%40bytedance.com
+patch subject: [PATCH 3/3] s390: supplement for ptdesc conversion
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240306/202403061249.4URm4Yxi-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403061249.4URm4Yxi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403061234.iDDn0x5D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403061249.4URm4Yxi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-Is "__udelay" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ndelay" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ndelay" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ashldi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ashldi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ashrdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ashrdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "bzero_1page" [vmlinux] version generation failed, symbol will not be versioned.
-Is "bzero_1page" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__copy_1page" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__copy_1page" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__divdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__divdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_enter" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_enter" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_exit" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_exit" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_try" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_try" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_write_enter" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_write_enter" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__lshrdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__lshrdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__muldi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__muldi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: "empty_zero_page" [lib/crypto/libchacha20poly1305.ko] has no CRC!
-WARNING: modpost: "__udelay" [lib/test_lockup.ko] has no CRC!
-WARNING: modpost: "__ndelay" [lib/test_lockup.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/cadence/phy-cadence-salvo.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/samsung/phy-exynos5-usbdrd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/core/fb_ddc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/aty/aty128fb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/aty/radeonfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/savage/savagefb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/neofb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/s3fb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/cirrusfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/s1d13xxxfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/sm501fb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/carminefb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/mb862xx/mb862xxfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/char/ipmi/ipmi_si.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/dma/dw/dw_dmac_core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/regulator/mt6359-regulator.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/regulator/twl-regulator.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/tty/serial/sunsab.ko] has no CRC!
-ERROR: modpost: "ebus_dma_irq_enable" [drivers/parport/parport_pc.ko] undefined!
-ERROR: modpost: "ebus_dma_unregister" [drivers/parport/parport_pc.ko] undefined!
-ERROR: modpost: "ebus_dma_register" [drivers/parport/parport_pc.ko] undefined!
-ERROR: modpost: "ns87303_lock" [drivers/parport/parport_pc.ko] undefined!
-WARNING: modpost: "__udelay" [drivers/misc/cardreader/rtsx_pci.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/misc/dw-xdata-pcie.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/sm501.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/axp20x.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/cafe_nand.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/cafe_nand.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/mtd/nand/raw/diskonchip.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/diskonchip.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/diskonchip.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/gpio.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/intel-nand-controller.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/firewire/firewire-ohci.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/auxdisplay/ks0108.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/auxdisplay/hd44780.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/sbus/char/uctrl.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/host/isp116x-hcd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/host/uhci-hcd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/host/xhci-hcd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/host/ssb-hcd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/net2280.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/mv_udc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/bdc/bdc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/dwc3/dwc3.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/dwc2/dwc2.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/cdns3/cdns-usb-common.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/usb/c67x00/c67x00.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/serial/keyspan.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/musb/musb_hdrc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/serio/apbps2.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rtc/rtc-ds2404.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rtc/rtc-msm6242.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rtc/rtc-x1205.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/algos/i2c-algo-pcf.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/algos/i2c-algo-pca.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/i2c/busses/i2c-pca-platform.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/busses/i2c-pca-platform.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/muxes/i2c-arb-gpio-challenge.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/muxes/i2c-mux-pca9541.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i3c/master/dw-i3c-master.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i3c/master/svc-i3c-master.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/adv7604.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/bt819.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/imx274.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/imx296.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/mt9v032.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/ov6650.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/tuners/mxl5007t.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/pci/saa7134/saa7134.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/usb/cx231xx/cx231xx.ko] has no CRC!
->> WARNING: modpost: "__udelay" [drivers/ptp/ptp_dfl_tod.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/w1/masters/sgi_w1.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/hwmon/sht15.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/hwmon/pmbus/max15301.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/memstick/host/jmb38x_ms.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/leds-bcm6358.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/leds-bd2802.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/leds-is31fl319x.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rapidio/rapidio.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rapidio/switches/idt_gen2.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rapidio/devices/tsi721_mport.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/gameport/gameport.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ssb/ssb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/accel/mma9551_core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/adi-axi-adc.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/iio/adc/hx711.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/dac/ad5592r-base.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/potentiometer/ad5272.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/fpga/altera-freeze-bridge.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/siox/siox-bus-gpio.ko] has no CRC!
-WARNING: modpost: "empty_zero_page" [net/ceph/libceph.ko] has no CRC!
+   In file included from arch/s390/mm/gmap.c:12:
+   In file included from include/linux/pagewalk.h:5:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> arch/s390/mm/gmap.c:212:3: error: incompatible pointer types assigning to 'struct page *' from 'typeof (*(ptdesc)) *' (aka 'struct ptdesc *') [-Werror,-Wincompatible-pointer-types]
+     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:866:5: note: expanded from macro 'list_for_each_entry_safe'
+     866 |                 n = list_next_entry(pos, member);                       \
+         |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/s390/mm/gmap.c:212:3: error: incompatible pointer types assigning to 'struct ptdesc *' from 'struct page *' [-Werror,-Wincompatible-pointer-types]
+     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
+         |                 ^                                ~~~~
+   include/linux/list.h:868:11: note: expanded from macro 'list_for_each_entry_safe'
+     868 |              pos = n, n = list_next_entry(n, member))
+         |                  ^ ~
+>> arch/s390/mm/gmap.c:212:58: error: no member named 'pt_list' in 'struct page'; did you mean 'pcp_list'?
+     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
+         |                                                                        ^~~~~~~
+         |                                                                        pcp_list
+   include/linux/list.h:868:39: note: expanded from macro 'list_for_each_entry_safe'
+     868 |              pos = n, n = list_next_entry(n, member))
+         |                                              ^
+   include/linux/list.h:645:20: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                           ^
+   include/linux/list.h:601:15: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |                      ^
+   include/linux/container_of.h:19:26: note: expanded from macro 'container_of'
+      19 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^
+   include/linux/mm_types.h:103:22: note: 'pcp_list' declared here
+     103 |                                 struct list_head pcp_list;
+         |                                                  ^
+>> arch/s390/mm/gmap.c:212:58: error: no member named 'pt_list' in 'struct page'; did you mean 'pcp_list'?
+     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
+         |                                                                        ^~~~~~~
+         |                                                                        pcp_list
+   include/linux/list.h:868:39: note: expanded from macro 'list_for_each_entry_safe'
+     868 |              pos = n, n = list_next_entry(n, member))
+         |                                              ^
+   include/linux/list.h:645:20: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                           ^
+   include/linux/list.h:601:15: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |                      ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:376:63: note: expanded from macro '__same_type'
+     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                               ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                                  ^
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^
+   include/linux/mm_types.h:103:22: note: 'pcp_list' declared here
+     103 |                                 struct list_head pcp_list;
+         |                                                  ^
+>> arch/s390/mm/gmap.c:212:58: error: no member named 'pt_list' in 'struct page'; did you mean 'pcp_list'?
+     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
+         |                                                                        ^~~~~~~
+         |                                                                        pcp_list
+   include/linux/list.h:868:39: note: expanded from macro 'list_for_each_entry_safe'
+     868 |              pos = n, n = list_next_entry(n, member))
+         |                                              ^
+   include/linux/list.h:645:49: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                                                        ^
+   include/linux/list.h:601:26: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |                                 ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:376:74: note: expanded from macro '__same_type'
+     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                                          ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                                  ^
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^
+   include/linux/mm_types.h:103:22: note: 'pcp_list' declared here
+     103 |                                 struct list_head pcp_list;
+         |                                                  ^
+>> arch/s390/mm/gmap.c:212:58: error: no member named 'pt_list' in 'struct page'; did you mean 'pcp_list'?
+     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
+         |                                                                        ^~~~~~~
+         |                                                                        pcp_list
+   include/linux/list.h:868:39: note: expanded from macro 'list_for_each_entry_safe'
+     868 |              pos = n, n = list_next_entry(n, member))
+         |                                              ^
+   include/linux/list.h:645:20: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                           ^
+   include/linux/list.h:601:15: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |                      ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:376:63: note: expanded from macro '__same_type'
+     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                               ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                                  ^
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^
+   include/linux/mm_types.h:103:22: note: 'pcp_list' declared here
+     103 |                                 struct list_head pcp_list;
+         |                                                  ^
+>> arch/s390/mm/gmap.c:212:3: error: no member named 'pt_list' in 'page'
+     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
+         |                 ^                                                      ~~~~~~~
+   include/linux/list.h:868:20: note: expanded from macro 'list_for_each_entry_safe'
+     868 |              pos = n, n = list_next_entry(n, member))
+         |                           ^                  ~~~~~~
+   include/linux/list.h:645:2: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^                                              ~~~~~~
+   include/linux/list.h:601:2: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |         ^                       ~~~~~~
+   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^              ~~~~~~
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^                        ~~~~~~
+>> arch/s390/mm/gmap.c:212:3: error: assigning to 'struct page *' from incompatible type 'void'
+     212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:868:18: note: expanded from macro 'list_for_each_entry_safe'
+     868 |              pos = n, n = list_next_entry(n, member))
+         |                         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   5 warnings and 8 errors generated.
+
+
+vim +212 arch/s390/mm/gmap.c
+
+   187	
+   188	/**
+   189	 * gmap_free - free a guest address space
+   190	 * @gmap: pointer to the guest address space structure
+   191	 *
+   192	 * No locks required. There are no references to this gmap anymore.
+   193	 */
+   194	static void gmap_free(struct gmap *gmap)
+   195	{
+   196		struct page *page, *next;
+   197	
+   198		/* Flush tlb of all gmaps (if not already done for shadows) */
+   199		if (!(gmap_is_shadow(gmap) && gmap->removed))
+   200			gmap_flush_tlb(gmap);
+   201		/* Free all segment & region tables. */
+   202		list_for_each_entry_safe(page, next, &gmap->crst_list, lru)
+   203			__free_pages(page, CRST_ALLOC_ORDER);
+   204		gmap_radix_tree_free(&gmap->guest_to_host);
+   205		gmap_radix_tree_free(&gmap->host_to_guest);
+   206	
+   207		/* Free additional data for a shadow gmap */
+   208		if (gmap_is_shadow(gmap)) {
+   209			struct ptdesc *ptdesc;
+   210	
+   211			/* Free all page tables. */
+ > 212			list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
+   213				page_table_free_pgste(ptdesc);
+   214			gmap_rmap_radix_tree_free(&gmap->host_to_rmap);
+   215			/* Release reference to the parent */
+   216			gmap_put(gmap->parent);
+   217		}
+   218	
+   219		kfree(gmap);
+   220	}
+   221	
 
 -- 
 0-DAY CI Kernel Test Service
