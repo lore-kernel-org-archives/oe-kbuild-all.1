@@ -1,312 +1,162 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6791E28F5
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 02:46:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E341613A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 03:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709693217; cv=none; b=CWYUv92VMYBXK767NxX7JZ+c1y6JCJqDNqyY7Q0yR+/CUyIOu5Qg5t+O9ATcWMyxK4aNzred2m9QzocmYLzDTZiLNXZGOl3Q42NAcAZYHIUlwy1g+bgTplLa0AJ8VusQyLoCW4+HaSTyUnapb8lpaAnX1cdnnGf24KTYFsrLeIk=
+	t=1709694848; cv=none; b=CmrC2OOnppyy62cwXbHiUn20ejYfTtjyk2nCPYxlEp02TRNcTjDi6QszvVwn6crnYTZ7dR5twFxND9Bna09SsKrtVQWtiRerq29d0vQ0R687s1rfM+Xu9wSSrce6FoS08LkEUzqjoPnTe973vhgft6AuMS5BdxqxXm2QGAp1t7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709693217; c=relaxed/simple;
-	bh=MIH5Qi3RQ9UnJd0tZRlmS/3dTAs+TslwYiYPsWnCOC4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KMRFp3hXBy8dk+yYUl0tY/3uwrpwZU1HrCViDHWm7BSTu5taiQFs26bjSuc3aiYy7Lp+shhvquYfLxiHsewEirsIYYR90cWik36AYMRc7rJ0yAM8MbDlI4Iq5L4F5l9hLmwskmUKPtM05Fc2j1pvJLP9p6ZAX6LMvl+217rRo/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=DifVA3Oo; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1709694848; c=relaxed/simple;
+	bh=IsSt2yv+A10j+vkfWIG6F73Je/eRRrcf/jpHcJQcAaM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OE3Gb3w0VzJvAoohm9KuR43BlHtfA3mbLEKQFVqpCF/Z75omArXpWToihP7qlvWt+wWcnlAYOY0YF0xZUmM5suXxvrXoe22siPbW3xDtkTUpZHTsFuLS7f0TyoVcMa/d0jf1oBVZpAmQ4gIAmCAERsUOpVDqqNzjQTH7pWO609o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YaPelt0M; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="DifVA3Oo"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-5cfcf509fbdso2407926a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 05 Mar 2024 18:46:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1709693214; x=1710298014; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZCr6ySc1bBgULJ6PnDdM+jqKWeT1mYSFSiXluejWa1Y=;
-        b=DifVA3OomMGNlO9bXILYOOE9vAqOeDu5i3ldaQjEo+G0Y5iUkyPjkDzGqJzeG/x5RX
-         9jd/kjC/xK7iZ3/Qfiaefxl4lHlSOctwShzUMZ7SMbcwRrZjYCuN8J0h+N61HzoGtRmh
-         kxNYWJg1oZItxDR8P1M5HQ6a3N0LmaDeG1eHoELvc1LziIEDmEoRcLDFHyhhki0WU6DX
-         5mSQIz9uVMPbCJ5hUz3G3kh2oVsRITkCWhFsd3ZuheHggBXQavz3Sa1ElJ+uRHbZlLQI
-         afA164FJxriKtI23ZAAuEv51bVpIKFVud+k6p8974A8+vH8DvHQ8BWpC6cvN5y2MDB+z
-         Ze4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709693214; x=1710298014;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZCr6ySc1bBgULJ6PnDdM+jqKWeT1mYSFSiXluejWa1Y=;
-        b=ijVD08FBu/70+1KtIITppdkWaLOp+xU6jTGuB/GnN5lvXYjZzhJkFFFJ+GNETVfqaf
-         K8Iizr9x4W6OfLApWLqRElo2zeWtI6WQX0AEGnsd3pBklSfOFdS8d2LvVZXQJKJMHPWD
-         KLaLQ3DBl9jQhilCODaYsQhWhXgPyl6Q+6i7prfkLj6GVD87W5vw+WNxTH4TXxKdUEw9
-         e9r9hZ0Tpbd8OsK/dq8Qc/LOnF99iFj1TtKlSFVYeCOTxec+c/m5c8Ok7FWiWEjG1a0h
-         8HVCIdkP92cD2ACWfT3AI40QGoAyyDKBSV7kZokXZjNI240RPtlSHNLlOJR8u7wGhjMx
-         YsBQ==
-X-Gm-Message-State: AOJu0YxvV2XymAqO8i622HXnE1D0o4EKbJwVGKlA3zTMiGacDBLCNRa7
-	8QVfI51nW3dgCP7CTOgpNuXrUAn+2BnJ1jD6zjZrZplbrpbhIzjg2p2gLO6tT89+WUr3Cu8gawl
-	a
-X-Google-Smtp-Source: AGHT+IGfxcYjxcq/k7nzALn3dbxFbo8VqlYHyRHRpzmZPT0iRiJR8rbl8TBTk1Kabk3GsDaM1UjDWQ==
-X-Received: by 2002:a17:902:c94a:b0:1dc:fcde:853a with SMTP id i10-20020a170902c94a00b001dcfcde853amr2376964pla.1.1709693214482;
-        Tue, 05 Mar 2024 18:46:54 -0800 (PST)
-Received: from [10.84.154.17] ([203.208.167.155])
-        by smtp.gmail.com with ESMTPSA id h15-20020a170902f54f00b001d974ffa1fcsm11311890plf.173.2024.03.05.18.46.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Mar 2024 18:46:53 -0800 (PST)
-Message-ID: <742a5f0a-8e7f-4993-b3eb-598c6b237ccd@bytedance.com>
-Date: Wed, 6 Mar 2024 10:46:49 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YaPelt0M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709694847; x=1741230847;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IsSt2yv+A10j+vkfWIG6F73Je/eRRrcf/jpHcJQcAaM=;
+  b=YaPelt0MNmYa9+/RZrcrQ/gyU3uk4cJa8uxLKKI4erHQ8zuVFGKKDh/Q
+   MwznrcFEYokk7oRnOwBeXXyv8Pl5EnSw1yh2pu/5ewSygqcUw0duLVPW+
+   j5VVrJ+Fyt7X2mdj0qQP3rox+3z3T9JlqtB5wbwELx5s07e5iCxZngQ/J
+   7dYQao7qpMQ32aLot/0RVmlYTTt2l8dhLrSc9+GLOWuoeVTvuwlEjodSm
+   UbzBB0kGTYDohefgD8Ihs5ICBNxAXU39p6lJF+K6UMgfbhMKJejE/MU5D
+   6sJZWw3qSD0gOuCVcOT1J0iWi4grB9xT+ajPGFFuuE+ATGmwpzJijz2Yi
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4149348"
+X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
+   d="scan'208";a="4149348"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 19:13:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
+   d="scan'208";a="47129812"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 05 Mar 2024 19:13:08 -0800
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rhhiL-0003rx-1h;
+	Wed, 06 Mar 2024 03:13:05 +0000
+Date: Wed, 6 Mar 2024 11:12:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Xia Fukun <xiafukun@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2180/3862] kernel/sched/fair.c:8988:1: sparse:
+ sparse: symbol 'qos_smt_expell_switch' was not declared. Should it be
+ static?
+Message-ID: <202403061134.XUPVJszR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] s390: supplement for ptdesc conversion
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-References: <04beaf3255056ffe131a5ea595736066c1e84756.1709541697.git.zhengqi.arch@bytedance.com>
- <202403060651.ld11yLEn-lkp@intel.com>
-From: Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <202403060651.ld11yLEn-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   f44547cb66ee30ed552adb15046a912cd1409c1f
+commit: a62d532da0b51fe39f726c4c08f3debc8b3bc5d7 [2180/3862] sched/fair: Add cmdline nosmtexpell
+config: arm64-randconfig-r111-20240227 (https://download.01.org/0day-ci/archive/20240306/202403061134.XUPVJszR-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240306/202403061134.XUPVJszR-lkp@intel.com/reproduce)
 
-Thanks a lot for testing! And the following errors have been fixed by
-https://lore.kernel.org/lkml/20240305072154.26168-1-zhengqi.arch@bytedance.com/.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403061134.XUPVJszR-lkp@intel.com/
 
-Thanks,
-Qi
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/fair.c:151:14: sparse: sparse: symbol 'sysctl_overload_detect_period' was not declared. Should it be static?
+   kernel/sched/fair.c:152:14: sparse: sparse: symbol 'sysctl_offline_wait_interval' was not declared. Should it be static?
+   kernel/sched/fair.c:1284:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
+   kernel/sched/fair.c:1284:34: sparse:     expected struct sched_entity const *se
+   kernel/sched/fair.c:1284:34: sparse:     got struct sched_entity [noderef] __rcu *
+   kernel/sched/fair.c:13325:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:13325:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:13325:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:6038:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:6038:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/fair.c:6038:22: sparse:    struct task_struct *
+   kernel/sched/fair.c:6780:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:6780:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:6780:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:8163:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:8163:20: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:8163:20: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:8478:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:8478:9: sparse:     expected struct sched_domain *[assigned] tmp
+   kernel/sched/fair.c:8478:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:8590:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:8590:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:8590:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:8936:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:8936:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/fair.c:8936:22: sparse:    struct task_struct *
+>> kernel/sched/fair.c:8988:1: sparse: sparse: symbol 'qos_smt_expell_switch' was not declared. Should it be static?
+   kernel/sched/fair.c:9122:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *sibling_p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:9122:51: sparse:     expected struct task_struct *sibling_p
+   kernel/sched/fair.c:9122:51: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:9127:30: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:9127:30: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/fair.c:9127:30: sparse:    struct task_struct *
+   kernel/sched/fair.c:9205:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:9454:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:10525:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/fair.c:11162:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:11162:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/fair.c:11162:22: sparse:    struct task_struct *
+   kernel/sched/fair.c:12603:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:12603:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:12603:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:12260:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:12260:44: sparse:     expected struct sched_domain *sd_parent
+   kernel/sched/fair.c:12260:44: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:12699:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:12699:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:12699:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   kernel/sched/fair.c: note: in included file:
+   kernel/sched/sched.h:2182:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2182:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2182:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2346:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2346:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2346:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2346:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2346:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2346:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2182:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2182:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2182:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2182:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2182:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2182:25: sparse:    struct task_struct *
 
-On 2024/3/6 06:32, kernel test robot wrote:
-> Hi Qi,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on s390/features]
-> [also build test ERROR on kvms390/next linus/master v6.8-rc7]
-> [cannot apply to akpm-mm/mm-everything next-20240305]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-pgtable-correct-the-wrong-comment-about-ptdesc-__page_flags/20240304-191006
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-> patch link:    https://lore.kernel.org/r/04beaf3255056ffe131a5ea595736066c1e84756.1709541697.git.zhengqi.arch%40bytedance.com
-> patch subject: [PATCH 3/3] s390: supplement for ptdesc conversion
-> config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240306/202403060651.ld11yLEn-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403060651.ld11yLEn-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403060651.ld11yLEn-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     In file included from include/linux/smp.h:12,
->                      from include/linux/lockdep.h:14,
->                      from include/linux/spinlock.h:63,
->                      from include/linux/mmzone.h:8,
->                      from include/linux/gfp.h:7,
->                      from include/linux/mm.h:7,
->                      from include/linux/pagewalk.h:5,
->                      from arch/s390/mm/gmap.c:12:
->     arch/s390/mm/gmap.c: In function 'gmap_free':
->>> include/linux/list.h:866:19: error: assignment to 'struct page *' from incompatible pointer type 'struct ptdesc *' [-Werror=incompatible-pointer-types]
->       866 |                 n = list_next_entry(pos, member);                       \
->           |                   ^
->     arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
->       212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
->           |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->>> include/linux/list.h:868:18: error: assignment to 'struct ptdesc *' from incompatible pointer type 'struct page *' [-Werror=incompatible-pointer-types]
->       868 |              pos = n, n = list_next_entry(n, member))
->           |                  ^
->     arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
->       212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
->           |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->     In file included from include/linux/kernel.h:22,
->                      from arch/s390/mm/gmap.c:11:
->>> arch/s390/mm/gmap.c:212:72: error: 'struct page' has no member named 'pt_list'; did you mean 'pcp_list'?
->       212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
->           |                                                                        ^~~~~~~
->     include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
->        19 |         void *__mptr = (void *)(ptr);                                   \
->           |                                 ^~~
->     include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
->       645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
->           |         ^~~~~~~~~~
->     include/linux/list.h:868:27: note: in expansion of macro 'list_next_entry'
->       868 |              pos = n, n = list_next_entry(n, member))
->           |                           ^~~~~~~~~~~~~~~
->     arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
->       212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
->           |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->     In file included from include/linux/container_of.h:5:
->>> arch/s390/mm/gmap.c:212:72: error: 'struct page' has no member named 'pt_list'; did you mean 'pcp_list'?
->       212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
->           |                                                                        ^~~~~~~
->     include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
->        78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
->           |                                                        ^~~~
->     include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
->        20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
->           |         ^~~~~~~~~~~~~
->     include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
->        20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
->           |                       ^~~~~~~~~~~
->     include/linux/list.h:601:9: note: in expansion of macro 'container_of'
->       601 |         container_of(ptr, type, member)
->           |         ^~~~~~~~~~~~
->     include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
->       645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
->           |         ^~~~~~~~~~
->     include/linux/list.h:868:27: note: in expansion of macro 'list_next_entry'
->       868 |              pos = n, n = list_next_entry(n, member))
->           |                           ^~~~~~~~~~~~~~~
->     arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
->       212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
->           |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->>> arch/s390/mm/gmap.c:212:72: error: 'struct page' has no member named 'pt_list'; did you mean 'pcp_list'?
->       212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
->           |                                                                        ^~~~~~~
->     include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
->        78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
->           |                                                        ^~~~
->     include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
->        20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
->           |         ^~~~~~~~~~~~~
->     include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
->        20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
->           |                       ^~~~~~~~~~~
->     include/linux/list.h:601:9: note: in expansion of macro 'container_of'
->       601 |         container_of(ptr, type, member)
->           |         ^~~~~~~~~~~~
->     include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
->       645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
->           |         ^~~~~~~~~~
->     include/linux/list.h:868:27: note: in expansion of macro 'list_next_entry'
->       868 |              pos = n, n = list_next_entry(n, member))
->           |                           ^~~~~~~~~~~~~~~
->     arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
->       212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
->           |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->>> arch/s390/mm/gmap.c:212:72: error: 'struct page' has no member named 'pt_list'; did you mean 'pcp_list'?
->       212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
->           |                                                                        ^~~~~~~
->     include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
->        78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
->           |                                                        ^~~~
->     include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
->        20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
->           |         ^~~~~~~~~~~~~
->     include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
->        21 |                       __same_type(*(ptr), void),                        \
->           |                       ^~~~~~~~~~~
->     include/linux/list.h:601:9: note: in expansion of macro 'container_of'
->       601 |         container_of(ptr, type, member)
->           |         ^~~~~~~~~~~~
->     include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
->       645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
->           |         ^~~~~~~~~~
->     include/linux/list.h:868:27: note: in expansion of macro 'list_next_entry'
->       868 |              pos = n, n = list_next_entry(n, member))
->           |                           ^~~~~~~~~~~~~~~
->     arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
->       212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
->           |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->     include/linux/compiler_types.h:376:27: error: expression in static assertion is not an integer
->       376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
->           |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->     include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
->        78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
->           |                                                        ^~~~
->     include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
->        20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
->           |         ^~~~~~~~~~~~~
->     include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
->        20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
->           |                       ^~~~~~~~~~~
->     include/linux/list.h:601:9: note: in expansion of macro 'container_of'
->       601 |         container_of(ptr, type, member)
->           |         ^~~~~~~~~~~~
->     include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
->       645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
->           |         ^~~~~~~~~~
->     include/linux/list.h:868:27: note: in expansion of macro 'list_next_entry'
->       868 |              pos = n, n = list_next_entry(n, member))
->           |                           ^~~~~~~~~~~~~~~
->     arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
->       212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
->           |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->     In file included from include/uapi/linux/posix_types.h:5,
->                      from include/uapi/linux/types.h:14,
->                      from include/linux/types.h:6,
->                      from include/linux/kasan-checks.h:5,
->                      from include/asm-generic/rwonce.h:26,
->                      from arch/s390/include/asm/rwonce.h:29,
->                      from include/linux/compiler.h:251,
->                      from include/linux/array_size.h:5,
->                      from include/linux/kernel.h:16:
->>> arch/s390/mm/gmap.c:212:72: error: 'struct page' has no member named 'pt_list'; did you mean 'pcp_list'?
->       212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
->           |                                                                        ^~~~~~~
->     include/linux/stddef.h:16:58: note: in definition of macro 'offsetof'
->        16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
->           |                                                          ^~~~~~
->     include/linux/list.h:601:9: note: in expansion of macro 'container_of'
->       601 |         container_of(ptr, type, member)
->           |         ^~~~~~~~~~~~
->     include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
->       645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
->           |         ^~~~~~~~~~
->     include/linux/list.h:868:27: note: in expansion of macro 'list_next_entry'
->       868 |              pos = n, n = list_next_entry(n, member))
->           |                           ^~~~~~~~~~~~~~~
->     arch/s390/mm/gmap.c:212:17: note: in expansion of macro 'list_for_each_entry_safe'
->       212 |                 list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
->           |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->     cc1: some warnings being treated as errors
-> 
-> 
-> vim +212 arch/s390/mm/gmap.c
-> 
->     187	
->     188	/**
->     189	 * gmap_free - free a guest address space
->     190	 * @gmap: pointer to the guest address space structure
->     191	 *
->     192	 * No locks required. There are no references to this gmap anymore.
->     193	 */
->     194	static void gmap_free(struct gmap *gmap)
->     195	{
->     196		struct page *page, *next;
->     197	
->     198		/* Flush tlb of all gmaps (if not already done for shadows) */
->     199		if (!(gmap_is_shadow(gmap) && gmap->removed))
->     200			gmap_flush_tlb(gmap);
->     201		/* Free all segment & region tables. */
->     202		list_for_each_entry_safe(page, next, &gmap->crst_list, lru)
->     203			__free_pages(page, CRST_ALLOC_ORDER);
->     204		gmap_radix_tree_free(&gmap->guest_to_host);
->     205		gmap_radix_tree_free(&gmap->host_to_guest);
->     206	
->     207		/* Free additional data for a shadow gmap */
->     208		if (gmap_is_shadow(gmap)) {
->     209			struct ptdesc *ptdesc;
->     210	
->     211			/* Free all page tables. */
->   > 212			list_for_each_entry_safe(ptdesc, next, &gmap->pt_list, pt_list)
->     213				page_table_free_pgste(ptdesc);
->     214			gmap_rmap_radix_tree_free(&gmap->host_to_rmap);
->     215			/* Release reference to the parent */
->     216			gmap_put(gmap->parent);
->     217		}
->     218	
->     219		kfree(gmap);
->     220	}
->     221	
-> 
+vim +/qos_smt_expell_switch +8988 kernel/sched/fair.c
+
+  8986	
+  8987	#ifdef CONFIG_QOS_SCHED_SMT_EXPELLER
+> 8988	DEFINE_STATIC_KEY_TRUE(qos_smt_expell_switch);
+  8989	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
