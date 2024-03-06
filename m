@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A09E6FAF
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 01:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2EEDDA6
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 01:48:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709689090; cv=none; b=B2yLvnPCaNhwTsW2ub6MkSmNBxhJcCgCajei0HurekjtOLrwg9mOmcZTz76VzMUixigYECENFMN5leEMR8CH8KxtjTLRUxmsMKy8m0NTBjMOw3QdqdA4fRrIx5KY8ghcFJJuJKtGnEOe64SZD1C7G7xdnROkbmzAE/mZMU+VksI=
+	t=1709689693; cv=none; b=ub3unlm3T5MZn2MbUP4sMGBwUWuQL2M3JVOH48VauG+DxylhXGNadhiTTGNS/vtGXWusWJdsFzbVd3Ai8JByRBtnwYrZb0KR3GzsQffM9aNdvidvzri5wQawOlPCa0j5DzrQRvLz+rQpbVuRXK5SHTVgAfLnpmqA6p+rykUyrrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709689090; c=relaxed/simple;
-	bh=UnSwrJy8+0X0RBT5+CdywjyF/9r19nTAiVHd/GsAsX4=;
+	s=arc-20240116; t=1709689693; c=relaxed/simple;
+	bh=82h4O2zmqUx14BY09vRC6vJqnKjCnasx1P2TkFB0nrk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=K4uoiusrn6zwTOLPu+dVxTqZVyDQjyRRJcWrA1TuKIrPnBx5RB/L0eEDdNjiLwh5oHfxF3CtNko2FWlJKbrg/t1ICsdAfVKI1P0lHLnw/sVe2t8R6Rar5KbWtXE+E5JNsogSzIXTCEN+fAU3PURdBbbTIbDR5YPuL6xes3de+Io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KDaRKX1/; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=JH139Dqbg2A3BvqkFcfk4jqy5G819Xn81h9vXZXQiwykOtKaXKDgwFJp8Us3ObgGU271YReF0fkL23vUlH7J3EM6N6cfyIsz5KJ04cOQvlGShj5uvqCIqBZtJqLN9zeRtDm8IRRanrd4nv9I3XohVHvbysAbsoqU5wN6KaiIwS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S54QG3tS; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KDaRKX1/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S54QG3tS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709689088; x=1741225088;
+  t=1709689692; x=1741225692;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UnSwrJy8+0X0RBT5+CdywjyF/9r19nTAiVHd/GsAsX4=;
-  b=KDaRKX1/Lr3OEnArRVa3M/+XHE/AgZjgJLkGh4lCb/ar5sJs5E2btRPk
-   GnQleI6WsaFqyQAqMmcEfh9hkf2skDtYaHVE2jMYb+2bp/Ie0JBfPWO4D
-   VSvriiOtrr87JzoyqeO9q3xzzdy6kcS+SCZgfwg85NISZITa63wyjfsX3
-   /xjjJeSSMVB1Zl3LYKv2hNW+tt/6fPMlP610CxdjmumKADRUisVj7RQs3
-   YO+f+oMDdH3s/BETiGfSfgXIGCI8X20dF7mxHd37KfYA2mqSObYgIuIPi
-   8Q9o/moUvJTZxgono+86sU/sn9skKwUngA4vCi4dUY++TCMzFW6dWvliA
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="15425789"
+  bh=82h4O2zmqUx14BY09vRC6vJqnKjCnasx1P2TkFB0nrk=;
+  b=S54QG3tS5OPews988mAfjaXWqoLZ/xxqYetIkWzT7QECBfaXfFNq0ydi
+   Z/D5mWNKpYogjLGdn4qroyHuIy/MZJwr9xqLwOkc+UE2dgvwkKfx3K6ug
+   tQICjh2AzJyiBao2jutkpJu/fWz06DeHx7Y+O8XsEPkNrA0DpQiL2KcSA
+   HSBzDJ7tqKoCw5PEWdVYxUiv+REbYWLOS4bjBS/uK+149aKXgkUOaTeSF
+   i9VemnQNr1aS0K0lxceSmwfTfXSSPRFeaAjLvBAEi4AisRrOeADLEMi7W
+   KF+2B2jGrnZJQY2ymUDHmMSwB0ffFeoxrtzpIDNHfpOmJGtJ4a7dwSstK
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4207047"
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="15425789"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 17:38:08 -0800
+   d="scan'208";a="4207047"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 17:48:11 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="9656236"
+   d="scan'208";a="14240641"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2024 17:38:07 -0800
+  by orviesa003.jf.intel.com with ESMTP; 05 Mar 2024 17:48:07 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhgEN-0003pV-30;
-	Wed, 06 Mar 2024 01:38:03 +0000
-Date: Wed, 6 Mar 2024 09:37:04 +0800
+	id 1rhgO4-0003ph-05;
+	Wed, 06 Mar 2024 01:48:04 +0000
+Date: Wed, 6 Mar 2024 09:47:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [geert-renesas-drivers:master 34/52]
- drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1340:35: warning: initialization of
- 'const struct qmp_usb_offsets *' from 'int' makes pointer from integer
- without a cast
-Message-ID: <202403060928.h7xXMXHi-lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/next 27259/27434]
+ drivers/i2c/busses/i2c-xgene-slimpro.c:96: warning: "PCC_SIGNATURE"
+ redefined
+Message-ID: <202403060942.MuVGlHNs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,60 +62,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-head:   0a76003de2b9029d5898c23d23ddbb90f5a74580
-commit: 98177a93f8e405ce41969db23f5bf4766aa6a1f4 [34/52] Merge remote-tracking branch 'phy/next' into renesas-drivers
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240306/202403060928.h7xXMXHi-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403060928.h7xXMXHi-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
+head:   0e88d1c26496999d1b2e37f3393b602d28b03faf
+commit: 89c467101f1a19edad32a28c584c49243739313f [27259/27434] ACPI: PCC: Add PCC shared memory region command and status bitfields
+config: arm64-randconfig-004-20240305 (https://download.01.org/0day-ci/archive/20240306/202403060942.MuVGlHNs-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403060942.MuVGlHNs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403060928.h7xXMXHi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403060942.MuVGlHNs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1340:10: error: 'const struct qmp_phy_cfg' has no member named 'lanes'
-    1340 |         .lanes                  = 1,
-         |          ^~~~~
->> drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1340:35: warning: initialization of 'const struct qmp_usb_offsets *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1340 |         .lanes                  = 1,
-         |                                   ^
-   drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1340:35: note: (near initialization for 'ipq6018_usb3phy_cfg.offsets')
-   drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1342:35: warning: initialized field overwritten [-Woverride-init]
-    1342 |         .offsets                = &qmp_usb_offsets_v3,
-         |                                   ^
-   drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1342:35: note: (near initialization for 'ipq6018_usb3phy_cfg.offsets')
+>> drivers/i2c/busses/i2c-xgene-slimpro.c:96: warning: "PCC_SIGNATURE" redefined
+      96 | #define PCC_SIGNATURE                   0x50424300
+         | 
+   In file included from drivers/i2c/busses/i2c-xgene-slimpro.c:12:
+   include/acpi/pcc.h:22: note: this is the location of the previous definition
+      22 | #define PCC_SIGNATURE                   0x50434300
+         | 
 
 
-vim +1340 drivers/phy/qualcomm/phy-qcom-qmp-usb.c
+vim +/PCC_SIGNATURE +96 drivers/i2c/busses/i2c-xgene-slimpro.c
 
-2daa9555ba9858 Abel Vesa        2023-12-07  1338  
-62a5df451ab911 Mantas Pucka     2024-01-23  1339  static const struct qmp_phy_cfg ipq6018_usb3phy_cfg = {
-62a5df451ab911 Mantas Pucka     2024-01-23 @1340  	.lanes			= 1,
-62a5df451ab911 Mantas Pucka     2024-01-23  1341  
-d4c08d8b23b228 Dmitry Baryshkov 2024-02-13  1342  	.offsets		= &qmp_usb_offsets_v3,
-62a5df451ab911 Mantas Pucka     2024-01-23  1343  
-62a5df451ab911 Mantas Pucka     2024-01-23  1344  	.serdes_tbl		= ipq9574_usb3_serdes_tbl,
-62a5df451ab911 Mantas Pucka     2024-01-23  1345  	.serdes_tbl_num		= ARRAY_SIZE(ipq9574_usb3_serdes_tbl),
-62a5df451ab911 Mantas Pucka     2024-01-23  1346  	.tx_tbl			= msm8996_usb3_tx_tbl,
-62a5df451ab911 Mantas Pucka     2024-01-23  1347  	.tx_tbl_num		= ARRAY_SIZE(msm8996_usb3_tx_tbl),
-62a5df451ab911 Mantas Pucka     2024-01-23  1348  	.rx_tbl			= ipq8074_usb3_rx_tbl,
-62a5df451ab911 Mantas Pucka     2024-01-23  1349  	.rx_tbl_num		= ARRAY_SIZE(ipq8074_usb3_rx_tbl),
-62a5df451ab911 Mantas Pucka     2024-01-23  1350  	.pcs_tbl		= ipq8074_usb3_pcs_tbl,
-62a5df451ab911 Mantas Pucka     2024-01-23  1351  	.pcs_tbl_num		= ARRAY_SIZE(ipq8074_usb3_pcs_tbl),
-62a5df451ab911 Mantas Pucka     2024-01-23  1352  	.vreg_list		= qmp_phy_vreg_l,
-62a5df451ab911 Mantas Pucka     2024-01-23  1353  	.num_vregs		= ARRAY_SIZE(qmp_phy_vreg_l),
-62a5df451ab911 Mantas Pucka     2024-01-23  1354  	.regs			= qmp_v3_usb3phy_regs_layout,
-62a5df451ab911 Mantas Pucka     2024-01-23  1355  };
-62a5df451ab911 Mantas Pucka     2024-01-23  1356  
+df5da47fe722e3 Hoan Tran 2017-04-24   94  
+df5da47fe722e3 Hoan Tran 2017-04-24   95  /* PCC related defines */
+df5da47fe722e3 Hoan Tran 2017-04-24  @96  #define PCC_SIGNATURE			0x50424300
+df5da47fe722e3 Hoan Tran 2017-04-24   97  #define PCC_STS_CMD_COMPLETE		BIT(0)
+df5da47fe722e3 Hoan Tran 2017-04-24   98  #define PCC_STS_SCI_DOORBELL		BIT(1)
+df5da47fe722e3 Hoan Tran 2017-04-24   99  #define PCC_STS_ERR			BIT(2)
+df5da47fe722e3 Hoan Tran 2017-04-24  100  #define PCC_STS_PLAT_NOTIFY		BIT(3)
+df5da47fe722e3 Hoan Tran 2017-04-24  101  #define PCC_CMD_GENERATE_DB_INT		BIT(15)
+df5da47fe722e3 Hoan Tran 2017-04-24  102  
 
-:::::: The code at line 1340 was first introduced by commit
-:::::: 62a5df451ab911421da96655fcc4d1e269ff6e2f phy: qcom-qmp-usb: fix serdes init sequence for IPQ6018
+:::::: The code at line 96 was first introduced by commit
+:::::: df5da47fe722e36055b97134e6bb9df58c12495c i2c: xgene-slimpro: Add ACPI support by using PCC mailbox
 
-:::::: TO: Mantas Pucka <mantas@8devices.com>
-:::::: CC: Vinod Koul <vkoul@kernel.org>
+:::::: TO: Hoan Tran <hotran@apm.com>
+:::::: CC: Wolfram Sang <wsa@the-dreams.de>
 
 -- 
 0-DAY CI Kernel Test Service
