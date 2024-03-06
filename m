@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E341613A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 03:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFECDDDD8
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Mar 2024 03:25:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709694848; cv=none; b=CmrC2OOnppyy62cwXbHiUn20ejYfTtjyk2nCPYxlEp02TRNcTjDi6QszvVwn6crnYTZ7dR5twFxND9Bna09SsKrtVQWtiRerq29d0vQ0R687s1rfM+Xu9wSSrce6FoS08LkEUzqjoPnTe973vhgft6AuMS5BdxqxXm2QGAp1t7k=
+	t=1709695511; cv=none; b=FkPtcGOlCVbVeuI2mv4MZ6jmYT0xEadxHzL4b/7Ckg3SBzyvBKoi+QKF55z/r/Vme/z6J++LSeCSEiOhP+/5P5prJRcSUdBN0przyeTj3vDNffzS9T/kHSz0Sg40cPgSX/rdmLZuy4zOdRIAX2u102sxDOApR9++YVHqmZppV0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709694848; c=relaxed/simple;
-	bh=IsSt2yv+A10j+vkfWIG6F73Je/eRRrcf/jpHcJQcAaM=;
+	s=arc-20240116; t=1709695511; c=relaxed/simple;
+	bh=Zz2Bz4tlARRgwA/7LOUlZkAX0lQKbj8Y6+rOG5IYKns=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OE3Gb3w0VzJvAoohm9KuR43BlHtfA3mbLEKQFVqpCF/Z75omArXpWToihP7qlvWt+wWcnlAYOY0YF0xZUmM5suXxvrXoe22siPbW3xDtkTUpZHTsFuLS7f0TyoVcMa/d0jf1oBVZpAmQ4gIAmCAERsUOpVDqqNzjQTH7pWO609o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YaPelt0M; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=VlXey3qCzLboTnwp7nlC119uQ60o6c20gxX8ywgrUNPZsgXT3ZfyN2YiC0CF8wi36jVpiL8TCTbpriuWUlaCqGrqBFAlRYvZG4T+nT4LrdNzSyIcDAJk/p+6VzUOn+uqVPbYpTlb/eTsV9sM/7rgikSRr+mVa+xC/ItBLSixybE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=niHxl5W1; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YaPelt0M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="niHxl5W1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709694847; x=1741230847;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IsSt2yv+A10j+vkfWIG6F73Je/eRRrcf/jpHcJQcAaM=;
-  b=YaPelt0MNmYa9+/RZrcrQ/gyU3uk4cJa8uxLKKI4erHQ8zuVFGKKDh/Q
-   MwznrcFEYokk7oRnOwBeXXyv8Pl5EnSw1yh2pu/5ewSygqcUw0duLVPW+
-   j5VVrJ+Fyt7X2mdj0qQP3rox+3z3T9JlqtB5wbwELx5s07e5iCxZngQ/J
-   7dYQao7qpMQ32aLot/0RVmlYTTt2l8dhLrSc9+GLOWuoeVTvuwlEjodSm
-   UbzBB0kGTYDohefgD8Ihs5ICBNxAXU39p6lJF+K6UMgfbhMKJejE/MU5D
-   6sJZWw3qSD0gOuCVcOT1J0iWi4grB9xT+ajPGFFuuE+ATGmwpzJijz2Yi
+  t=1709695509; x=1741231509;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Zz2Bz4tlARRgwA/7LOUlZkAX0lQKbj8Y6+rOG5IYKns=;
+  b=niHxl5W1EgsPLd4KONtAWRgeW1T99E7m47LJP4GkLRNamEIzZl2BWdMJ
+   Q/W2KjqCDi5GDu+4OxJd67diUJpi8wrvCPl5Z85jVvndBqgPurogADLQ+
+   abGhwzGLbwMGPcnQUCvVnEpi2Fuu6z7iFi+yih1SzHYkf44BNobsg5H/4
+   SumsEUY1Ms6nNJs1FwZyKKjAKDhX4us30zQ5q/bid+WFipZhvXjkKPjtR
+   SUS2N1zKmVIDSQ1//Xfo6aC/j5hINOyYX6jCPiPlYymGPv8zlr5/hceaF
+   MRM5PDlh2R9vogzqkyaE5uHolTfz1+cvd/XyoWkqXdgkD8noucUsBlsoz
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4149348"
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4145345"
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="4149348"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 19:13:11 -0800
+   d="scan'208";a="4145345"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 19:25:09 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="47129812"
+   d="scan'208";a="9695798"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 05 Mar 2024 19:13:08 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 05 Mar 2024 19:25:07 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhhiL-0003rx-1h;
-	Wed, 06 Mar 2024 03:13:05 +0000
-Date: Wed, 6 Mar 2024 11:12:36 +0800
+	id 1rhhtx-0003s5-1z;
+	Wed, 06 Mar 2024 03:25:05 +0000
+Date: Wed, 6 Mar 2024 11:24:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xia Fukun <xiafukun@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2180/3862] kernel/sched/fair.c:8988:1: sparse:
- sparse: symbol 'qos_smt_expell_switch' was not declared. Should it be
- static?
-Message-ID: <202403061134.XUPVJszR-lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: [linusw-pinctrl:b4/fix-aw9523 29/29] FATAL: modpost:
+ drivers/pinctrl/pinctrl-aw9523: struct of_device_id is not terminated with a
+ NULL entry!
+Message-ID: <202403061147.85XYVsk3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,105 +59,156 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   f44547cb66ee30ed552adb15046a912cd1409c1f
-commit: a62d532da0b51fe39f726c4c08f3debc8b3bc5d7 [2180/3862] sched/fair: Add cmdline nosmtexpell
-config: arm64-randconfig-r111-20240227 (https://download.01.org/0day-ci/archive/20240306/202403061134.XUPVJszR-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240306/202403061134.XUPVJszR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctr=
+l.git b4/fix-aw9523
+head:   87fee5f6a9b3a5ca2c089be3a090c10afa3bc4a9
+commit: 87fee5f6a9b3a5ca2c089be3a090c10afa3bc4a9 [29/29] pinctrl: aw9523: M=
+ake the driver tristate
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/2024030=
+6/202403061147.85XYVsk3-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20240306/202403061147.85XYVsk3-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403061134.XUPVJszR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403061147.85XYVsk3-lkp@i=
+ntel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/fair.c:151:14: sparse: sparse: symbol 'sysctl_overload_detect_period' was not declared. Should it be static?
-   kernel/sched/fair.c:152:14: sparse: sparse: symbol 'sysctl_offline_wait_interval' was not declared. Should it be static?
-   kernel/sched/fair.c:1284:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1284:34: sparse:     expected struct sched_entity const *se
-   kernel/sched/fair.c:1284:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:13325:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:13325:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:13325:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:6038:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:6038:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:6038:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:6780:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:6780:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:6780:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:8163:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8163:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:8163:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8478:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8478:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:8478:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8590:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8590:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8590:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:8936:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:8936:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:8936:22: sparse:    struct task_struct *
->> kernel/sched/fair.c:8988:1: sparse: sparse: symbol 'qos_smt_expell_switch' was not declared. Should it be static?
-   kernel/sched/fair.c:9122:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *sibling_p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:9122:51: sparse:     expected struct task_struct *sibling_p
-   kernel/sched/fair.c:9122:51: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:9127:30: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:9127:30: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:9127:30: sparse:    struct task_struct *
-   kernel/sched/fair.c:9205:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:9454:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:10525:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:11162:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:11162:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:11162:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:12603:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12603:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12603:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:12260:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12260:44: sparse:     expected struct sched_domain *sd_parent
-   kernel/sched/fair.c:12260:44: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:12699:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12699:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12699:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2182:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2182:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2182:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2346:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2346:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2346:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2346:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2346:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2346:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2182:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2182:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2182:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2182:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2182:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2182:25: sparse:    struct task_struct *
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/qos_smt_expell_switch +8988 kernel/sched/fair.c
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-roman.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/sysv/sysv.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hpfs/hpfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ufs/ufs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/efs/efs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx4/qnx4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx6/qnx6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/adfs/adfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/openpromfs/openpromfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/bcachefs/mean_and_vari=
+ance_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/pstore/pstore.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-key=
+s/trusted.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/apparmor/apparmo=
+r_policy_unpack_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/af_alg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_hash.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_skcipher.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic=
+=2Eo
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in block/t10-pi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-t=
+est.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libpoly1305.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_string.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-string_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hexdump.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_dhry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cpumask_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sysctl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hash.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ida.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ubsan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-kstrtox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_list_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_min_heap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_rhashtable.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_dynamic_debug.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_uuid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_xarray.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kmod.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kprobes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ref_tracker.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_def=
+late.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_kmp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_bm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_fsm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_encoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/bitfield_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/list-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/hashtable_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cmdline_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/memcpy_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/overflow_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strcat_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strscpy_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/irqchip/irq-ts480=
+0.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/irqchip/irq-meson=
+-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/phy/broadcom/phy-=
+bcm-ns-usb2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/phy/broadcom/phy-=
+bcm-ns-usb3.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/bcm/pinct=
+rl-bcm4908.o
+drivers/pinctrl/pinctrl-aw9523: struct of_device_id is 200 bytes.  The last=
+ of 1 is:
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 =
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 =
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 =
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 =
+0x00 0x00 0x00 0x00 0x61 0x77 0x69 0x6e 0x69 0x63 0x2c 0x61 0x77 0x39 0x35 =
+0x32 0x33 0x2d 0x70 0x69 0x6e 0x63 0x74 0x72 0x6c 0x00 0x00 0x00 0x00 0x00 =
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 =
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 =
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 =
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 =
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 =
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 =
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 =
+0x00 0x00 0x00 0x00 0x00
+>> FATAL: modpost: drivers/pinctrl/pinctrl-aw9523: struct of_device_id is n=
+ot terminated with a NULL entry!
 
-  8986	
-  8987	#ifdef CONFIG_QOS_SCHED_SMT_EXPELLER
-> 8988	DEFINE_STATIC_KEY_TRUE(qos_smt_expell_switch);
-  8989	
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
