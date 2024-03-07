@@ -1,68 +1,57 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9441C6B2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 14:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5806D1B94D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 14:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709821475; cv=none; b=XHy+s2F5McKyJT1749tQ+f60UUSxU0S/Hyf2hcNvvOfHoho1u/xq/q21KOBqVNmNvLHpMprw3z4fDxIGIb1qk+n7vkbZW1UCGfK0QPkcYlcAt/8GV2KyJfd9FegeVwPqSq/GdBRNBGJ0kB9WivtxSYTR3nIg6L4IidzWMUYIukg=
+	t=1709823006; cv=none; b=cjbzNEOaricTODIzSgewMnvdN3p0lYQU0yxRq93PQvSawGZK06wgrPIphTxrkkqgdbZIOqMpiAjaWxmlhS9Fi/5uBv25ziAQ2yexP9xguP5RrMsFK2U6siPlfPZegGT+QvgdWlJ9YgLo6vlbR7pNY6yyJm2amj3U/CQrBwI2O8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709821475; c=relaxed/simple;
-	bh=XfdgPqsryEimkaX+ec7UD2N0XK3t6eWPFGrc88DKSis=;
+	s=arc-20240116; t=1709823006; c=relaxed/simple;
+	bh=SQOHQ46R7d55UQ+DyCiL5tHPDLIBckoTvfoIBcBTQ3Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=BVNTjD9GwNAVmmQHkuS7swcBNTOGg9kwvUpr3Iahh90Cp/HJvcVf5X+3WbtYbP5VWUr7JMIOl8NVB4IttGsL1EepAj3OkF7oLQb9irfVGR00pGJ5ZpsC0fyVkU//RqIJJLS//0WD4dKginZgUcvJnuN0sx1TdeHkkhUUrboRjWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IOj8bYRX; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=o3Bb5klQpBIFF+UaBil5FH1IUOBrqc9OUjFVfHFUEcxEuQJSoCegzpaj1nfxAZu4t88RMSosiA5PIWtTnRjFm82nzfAKuS74qbUnc/gdoS5xIKlEVNFQviCFuRGT+uoKUxIFOd4r5TsxDdKqSJm8EHURoqLPKAsMlf3kX6okLEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gXJRq64U; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IOj8bYRX"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-412f1961101so9197925e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Mar 2024 06:24:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709821471; x=1710426271; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KLkEU65YERPzZDXp5EuRPV0oeNk1pD4FHKA6c0/zoZU=;
-        b=IOj8bYRXqr/NyR/UL5PeSGLfyTWLArHwlx+QdqKgnD3nKl7sxsYOKYuoUVVOJ9Tiyw
-         C3lvIx0OkKo1M6C/B0eQxhTXnz6V6maS8mhM6zax7LMAiT0Hfaj4lQ8Vqxpme3fs41ma
-         JUgPQ785UncwsrLd1io30TcuFatUDSWttxOPmJnJGvFzF7JDhCYyTeo+Ew1jmk7DJZcK
-         E3XsTUk9NATXyjUDGHUQ8takuDm4+taDLdiJA6Rf4hcfoEB5wgJwnNM9KZvnscKfjCLQ
-         IJyn7GjcSs7/eg5vu1soxqlNytZC1iQbeI/Y6iu0++++CsHetZyE2gwIzP78Weon4BK9
-         Nhpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709821471; x=1710426271;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KLkEU65YERPzZDXp5EuRPV0oeNk1pD4FHKA6c0/zoZU=;
-        b=rlNpmExWFPnG4lB4oreWQ4XGAudFQWHSflBW/MLXoYnRzV7QZSiQv39sl+kHE0nDdS
-         yt9rWusVzbYozw4c8+ugWggmorchnurnWRiF6/oBk9+Qp1Wc7XSq4QZim39mq6QEnK1T
-         pYBWYrSR/YpnSNdZKkO8K2MPPSAVOJzrEZuvm//j6LaPhmxkTBI4+ZRbzrpAM3y8Nr/L
-         sm+8zDvjyxVeOFf485MXUIw35NKrPyeAQ8JZrGMMXHeZfiXNa9a6cCPhSXWRO13bkMaD
-         aep7GNx0aGUrKKbTxstidXyX9jFyGVPQFdVTm1IMHCZKSkB8Wlq6WGXn3yv65+l0d5dM
-         jslQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX3pD7u/wdTXeTJjXfmDkpGbExre38gUM0xcgzUKn8zDVvZSG+mpgmE44KMve7GX+HyiaZLIYrhiw2zsI506+a59N56xaKGwqKILl/cnA==
-X-Gm-Message-State: AOJu0YzZ2clzY76GfpzS9ajSQRuI67e4qFg+AhMJakkojvG6AoUV90e1
-	mCIwG2fj8Ki+Nsn5dop0H6MnR2dG6fq+LSwFk09wcCybptoll3ngYMu2VYR7LzJtAomz2maKkXH
-	k
-X-Google-Smtp-Source: AGHT+IFkS3QjWn6zABoMsQq7lMuBHhk7E02ZrOa2EckIwNumg7/2o3gzTOlzWBFXp44p7lqgjQ21Kw==
-X-Received: by 2002:a05:600c:474a:b0:412:bf52:9ac2 with SMTP id w10-20020a05600c474a00b00412bf529ac2mr14481024wmo.14.1709821470461;
-        Thu, 07 Mar 2024 06:24:30 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id bq27-20020a5d5a1b000000b0033e6879817esm1363499wrb.58.2024.03.07.06.24.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Mar 2024 06:24:30 -0800 (PST)
-Date: Thu, 7 Mar 2024 17:24:26 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>,
-	herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Ruud.Derwig@synopsys.com,
-	manjunath.hadli@vayavyalabs.com,
-	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
-Subject: Re: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and
- Makefile file
-Message-ID: <c9d89052-74c8-4746-a54c-c199786743fb@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gXJRq64U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709823003; x=1741359003;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SQOHQ46R7d55UQ+DyCiL5tHPDLIBckoTvfoIBcBTQ3Q=;
+  b=gXJRq64UlZUC5ZRRobcK8q5n3/f9Pzp0DUW2Zj3i9XxqixqJKzj2GiDt
+   GMh4+Q/VL5cwAyY3IC/Xi728I9i4fTz9UzxYwQID18Kvl/+hr24QGuXB/
+   jWkB2vEGR6xwr6PTlfjZHY/DGBcYhAM5jse6qRnygk1cEOXSFo6esREU0
+   hAyJGr06gFapbdUTYlZ7fwkRR7RfC2aBU6+vJ02E565W+HmlRKfy2cTB+
+   nBLJgS695qczC5bFBaZckY0Kz9pxfulCJoTW/EWxCWcfO8lCuMDxph5/F
+   Ezk9jAa4Hnbfb8+yTyU6Tnha/GN/RH/fKmiJfDmSixVqh8AmmvrqSPzuD
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="4664610"
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="4664610"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 06:50:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="10693161"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 07 Mar 2024 06:50:01 -0800
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1riF4I-0005HN-28;
+	Thu, 07 Mar 2024 14:49:58 +0000
+Date: Thu, 7 Mar 2024 22:49:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [pinchartl:rpi/v6.8/isp/v2 1/22]
+ drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:476:55: sparse:
+ sparse: Using plain integer as NULL pointer
+Message-ID: <202403072206.EwsgoA5Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,124 +60,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240305112831.3380896-5-pavitrakumarm@vayavyalabs.com>
 
-Hi Pavitrakumar,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-M/Add-SPAcc-driver-to-Linux-kernel/20240305-193337
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20240305112831.3380896-5-pavitrakumarm%40vayavyalabs.com
-patch subject: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and Makefile file
-config: m68k-randconfig-r081-20240307 (https://download.01.org/0day-ci/archive/20240307/202403072256.em3Fk3At-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git rpi/v6.8/isp/v2
+head:   429a9c05cc5a81e4f62c163c2e8bbdc600cf6b91
+commit: 364969482811f5f21a5c14a8213c5297b027da5e [1/22] staging: vc04_services: Add new vc-sm-cma driver
+config: alpha-randconfig-r132-20240305 (https://download.01.org/0day-ci/archive/20240307/202403072206.EwsgoA5Q-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240307/202403072206.EwsgoA5Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403072256.em3Fk3At-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403072206.EwsgoA5Q-lkp@intel.com/
 
-New smatch warnings:
-drivers/crypto/dwc-spacc/spacc_ahash.c:1057 spacc_hash_digest() error: uninitialized symbol 'total_len'.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:476:55: sparse: sparse: Using plain integer as NULL pointer
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:505:59: sparse: sparse: Using plain integer as NULL pointer
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-Old smatch warnings:
-drivers/crypto/dwc-spacc/spacc_ahash.c:271 spacc_hash_init_dma() error: uninitialized symbol 'sgl_buffer'.
+vim +476 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
 
-vim +/total_len +1057 drivers/crypto/dwc-spacc/spacc_ahash.c
-
-6ad822cec22644 Pavitrakumar M 2024-03-05   981  
-6ad822cec22644 Pavitrakumar M 2024-03-05   982  static int spacc_hash_digest(struct ahash_request *req)
-6ad822cec22644 Pavitrakumar M 2024-03-05   983  {
-6ad822cec22644 Pavitrakumar M 2024-03-05   984  	int final = 0;
-6ad822cec22644 Pavitrakumar M 2024-03-05   985  	int rc, total_len;
-6ad822cec22644 Pavitrakumar M 2024-03-05   986  	struct crypto_ahash *reqtfm = crypto_ahash_reqtfm(req);
-6ad822cec22644 Pavitrakumar M 2024-03-05   987  	struct spacc_crypto_ctx *tctx = crypto_ahash_ctx(reqtfm);
-6ad822cec22644 Pavitrakumar M 2024-03-05   988  	struct spacc_crypto_reqctx *ctx = ahash_request_ctx(req);
-6ad822cec22644 Pavitrakumar M 2024-03-05   989  	struct spacc_priv *priv = dev_get_drvdata(tctx->dev);
-6ad822cec22644 Pavitrakumar M 2024-03-05   990  
-6ad822cec22644 Pavitrakumar M 2024-03-05   991  	if (tctx->flag_ppp) {
-6ad822cec22644 Pavitrakumar M 2024-03-05   992  		/* from finup */
-6ad822cec22644 Pavitrakumar M 2024-03-05   993  		ctx->single_shot = 0;
-6ad822cec22644 Pavitrakumar M 2024-03-05   994  		ctx->final_part_pck = 1;
-6ad822cec22644 Pavitrakumar M 2024-03-05   995  		final = 2;
-6ad822cec22644 Pavitrakumar M 2024-03-05   996  	} else {
-6ad822cec22644 Pavitrakumar M 2024-03-05   997  		/* direct single shot digest call */
-6ad822cec22644 Pavitrakumar M 2024-03-05   998  		ctx->single_shot = 1;
-6ad822cec22644 Pavitrakumar M 2024-03-05   999  		ctx->rem_len = 0;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1000  		ctx->total_nents = sg_nents(req->src);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1001  	}
-6ad822cec22644 Pavitrakumar M 2024-03-05  1002  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1003  	if (tctx->handle < 0 || !tctx->ctx_valid ||
-6ad822cec22644 Pavitrakumar M 2024-03-05  1004  	    req->nbytes > priv->max_msg_len)
-6ad822cec22644 Pavitrakumar M 2024-03-05  1005  		goto fallback;
-
-"total_len" not intialized for these gotos
-
-6ad822cec22644 Pavitrakumar M 2024-03-05  1006  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1007  	rc = spacc_hash_init_dma(tctx->dev, req, final);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1008  	if (rc < 0)
-6ad822cec22644 Pavitrakumar M 2024-03-05  1009  		goto fallback;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1010  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1011  	if (rc == 0)
-6ad822cec22644 Pavitrakumar M 2024-03-05  1012  		return 0;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1013  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1014  	if (final) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  1015  		if (ctx->total_nents) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  1016  			/* INIT-UPDATE-UPDATE-FINUP/FINAL */
-6ad822cec22644 Pavitrakumar M 2024-03-05  1017  			total_len = tctx->ppp_sgl[0].length;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1018  		} else if (req->src->length == 0 && ctx->total_nents == 0) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  1019  			/* zero msg handling */
-6ad822cec22644 Pavitrakumar M 2024-03-05  1020  			total_len = 0;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1021  		} else {
-6ad822cec22644 Pavitrakumar M 2024-03-05  1022  			/* handle INIT-FINUP sequence, process req->nbytes */
-6ad822cec22644 Pavitrakumar M 2024-03-05  1023  			total_len = req->nbytes;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1024  		}
-6ad822cec22644 Pavitrakumar M 2024-03-05  1025  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1026  		rc = spacc_packet_enqueue_ddt(&priv->spacc, ctx->acb.new_handle,
-6ad822cec22644 Pavitrakumar M 2024-03-05  1027  				&ctx->src, &ctx->dst, total_len,
-6ad822cec22644 Pavitrakumar M 2024-03-05  1028  				0, total_len, 0, 0, 0);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1029  	} else {
-6ad822cec22644 Pavitrakumar M 2024-03-05  1030  		rc = spacc_packet_enqueue_ddt(&priv->spacc, ctx->acb.new_handle,
-6ad822cec22644 Pavitrakumar M 2024-03-05  1031  				&ctx->src, &ctx->dst, req->nbytes,
-6ad822cec22644 Pavitrakumar M 2024-03-05  1032  				0, req->nbytes, 0, 0, 0);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1033  	}
-6ad822cec22644 Pavitrakumar M 2024-03-05  1034  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1035  	if (rc < 0) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  1036  		spacc_hash_cleanup_dma(tctx->dev, req);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1037  		spacc_close(&priv->spacc, ctx->acb.new_handle);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1038  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1039  		if (rc != -EBUSY) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  1040  			pr_debug("Failed to enqueue job, ERR: %d\n", rc);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1041  			return rc;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1042  		}
-6ad822cec22644 Pavitrakumar M 2024-03-05  1043  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1044  		if (!(req->base.flags & CRYPTO_TFM_REQ_MAY_BACKLOG))
-6ad822cec22644 Pavitrakumar M 2024-03-05  1045  			return -EBUSY;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1046  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1047  		goto fallback;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1048  	}
-6ad822cec22644 Pavitrakumar M 2024-03-05  1049  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1050  	return -EINPROGRESS;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1051  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1052  fallback:
-6ad822cec22644 Pavitrakumar M 2024-03-05  1053  	/* Start from scratch as init is not called before digest */
-6ad822cec22644 Pavitrakumar M 2024-03-05  1054  	ctx->fb.hash_req.base = req->base;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1055  	ahash_request_set_tfm(&ctx->fb.hash_req, tctx->fb.hash);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1056  
-6ad822cec22644 Pavitrakumar M 2024-03-05 @1057  	ctx->fb.hash_req.nbytes = total_len;
-                                                                                  ^^^^^^^^^
-
-6ad822cec22644 Pavitrakumar M 2024-03-05  1058  	ctx->fb.hash_req.src = req->src;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1059  	ctx->fb.hash_req.result = req->result;
-6ad822cec22644 Pavitrakumar M 2024-03-05  1060  
-6ad822cec22644 Pavitrakumar M 2024-03-05  1061  	return crypto_ahash_digest(&ctx->fb.hash_req);
-6ad822cec22644 Pavitrakumar M 2024-03-05  1062  }
+   471	
+   472	int vc_sm_cma_vchi_free(struct sm_instance *handle, struct vc_sm_free_t *msg,
+   473				u32 *cur_trans_id)
+   474	{
+   475		return vc_sm_cma_vchi_send_msg(handle, VC_SM_MSG_TYPE_FREE,
+ > 476					   msg, sizeof(*msg), 0, 0, cur_trans_id, 0);
+   477	}
+   478	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
