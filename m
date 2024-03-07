@@ -1,55 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE101EEEA
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 15:56:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE5412F584
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 15:56:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709826966; cv=none; b=DLXYR3RkqUYGuY5or/W6TsmwIIAZHZLazuljZ4UBUkj3yAJeP+DYnmhuJilz9XgFk7VfPUxuLzGEqSAHD6Kz9eCAHpwZFMOvXbsn/uUHWoUU34ggqz3iuV8wbeJEHJz2KVW1RJVNB6WOWOgkkCuEufUJ3quuC/Ww9HdGGXFrPcU=
+	t=1709826968; cv=none; b=c619Bm7tdPkIC/wPL2EECkh8iBfvOFty6Eb7zXHpdv0ttx1EiS2M1dhi8wdtSGpIUHWcHVjtGCQsuELUf/iB7IoeYy3Cc1Yf980gFF3UU2nLRbn24qElp3YnR6a7gkVs5lClklUUZOGXyKun2izdx8bjwcd1A2xHq09SMI6Om84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709826966; c=relaxed/simple;
-	bh=trhi25RuLxrmsJcGvxn5fZG3+whkfzdIg3uMrBc/8Cg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b8qZdzh2gCxhN+qjtLt4JjaLnn8SAQitL4F9E74j7/mmV4ahu426S+1EYUEl9V4BpaSAtv90nLkw9vEXVrlHALy8P3SGXKikqsDnB+hcdq8Gvev+B8R6IKCQWHUvYS/nECnZ1d/0+L2+RhzAtwYrhYAIb/P3HftFhDgnZbmv1IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EYt/V83v; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1709826968; c=relaxed/simple;
+	bh=C97P1YtElo3JLtKjB9OGWqTuuFxMbHJ54++v1vIY3Tg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SKsKtOn0J4sqhiTFLXvzu7dTNQVnAwJbszg4d/qfi5EXeWrJJpXw0JwBxetg0p72MET2mg5vEw8VREExkIPSr8RwxRm83gmcKWXYs78AlC9xzyNfAMN/ApvOiga6cBNkzOBzYn5B2uIhdDrXqNJXkVThAC6zpBA6M34t2OBGLY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QTSDxFhI; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EYt/V83v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QTSDxFhI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709826965; x=1741362965;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=trhi25RuLxrmsJcGvxn5fZG3+whkfzdIg3uMrBc/8Cg=;
-  b=EYt/V83v/0UE2YPdUHNGNXrpdnHJYRxdYnp4k09FVUfH56HQi8P/i/0i
-   0d8F5pV1ve46xOMrhiHnTbD4bL9PuXnuWhuWEti3lo/gX3IdfamQu+DKh
-   wve80knmXcyhrLK2nkVteJsMOnHdi858WxwdyIFC1binKYsH8H8vCs6GR
-   AdVcAwd+HT+PwJn21VxGx5AfMdsuIFFkcXeteEDthVrq20PFbewTr0pbW
-   1XacdguGuo4gLmaX8/l5mo/26Fy3I1GeA6bU9OFqYP4ToJgoGWTh6noXO
-   gsBA25CmZec81O8k7Krrd31Li75SJOpa7UCz63wiNXQP0vnEuLrbV9Ls4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="15148082"
+  t=1709826967; x=1741362967;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=C97P1YtElo3JLtKjB9OGWqTuuFxMbHJ54++v1vIY3Tg=;
+  b=QTSDxFhIVIi2vCxx5Pxm9vBBEGqxdpnV0CZ2Zrq5yvFaRqn56Opa1lg2
+   JLSEorIfPJdfUQx8DlAohxfX2c9l8xkyWd6uo4BgGTQZlX8f6aMbkzy2M
+   ibA5pCfFItb7AEE+/QdQEA9IFzZ3GTI6WgCtSQJrwR6/OlA2sv3U33ZSY
+   2uJfjt0NPceYPYD0N4rxX9EVNueW7bXkqql+uGBFYPyitQoYmVeVSLE2D
+   +or/RHZvZ7EHubtBmU9xT11/z+jt7bBC1zaZTeToJIouE3GTP/q2vOCsl
+   w7/hJEJyt29wco/BXGWr7dUj6KVTEHyLNkzVULOELF/UmIBT2RJ9L7yU1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="15148083"
 X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="15148082"
+   d="scan'208";a="15148083"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 07:56:04 -0800
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 07:56:05 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="41049481"
+   d="scan'208";a="41049480"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 07 Mar 2024 07:56:02 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1riG6B-0005JL-33;
+	id 1riG6B-0005JO-38;
 	Thu, 07 Mar 2024 15:55:59 +0000
-Date: Thu, 7 Mar 2024 23:55:08 +0800
+Date: Thu, 7 Mar 2024 23:55:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.1 14/57]
- arch/arm64/kvm/hyp/nvhe/iommu/io-pgtable-arm.c:48:5: warning: no previous
- prototype for function 'kvm_arm_io_pgtable_init'
-Message-ID: <202403072337.7mH9g3RT-lkp@intel.com>
+To: Max Kellermann <max.kellermann@ionos.com>, akpm@linux-foundation.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, willy@infradead.org,
+	sfr@canb.auug.org.au, Max Kellermann <max.kellermann@ionos.com>
+Subject: Re: [PATCH v3 06/14] linux/mm.h: move folio_size(), ... to
+ mm/folio_size.h
+Message-ID: <202403072311.1a9jXzWI-lkp@intel.com>
+References: <20240305085919.1601395-7-max.kellermann@ionos.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,148 +61,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240305085919.1601395-7-max.kellermann@ionos.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.1
-head:   6872638c2ef3e7439a7f074a8757cbf3060db80e
-commit: 933ecf6aeb5761783505c30dbe2f646007fc7740 [14/57] BACKPORT: FROMLIST: KVM: arm64: smmu-v3: Support io-pgtable
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240307/202403072337.7mH9g3RT-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240307/202403072337.7mH9g3RT-lkp@intel.com/reproduce)
+Hi Max,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20240305]
+[cannot apply to akpm-mm/mm-everything char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus joro-iommu/next broonie-spi/for-next powerpc/next powerpc/fixes linus/master v6.8-rc7 v6.8-rc6 v6.8-rc5 v6.8-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/drivers-add-missing-includes-on-linux-mm-h-and-others/20240305-170312
+base:   next-20240305
+patch link:    https://lore.kernel.org/r/20240305085919.1601395-7-max.kellermann%40ionos.com
+patch subject: [PATCH v3 06/14] linux/mm.h: move folio_size(), ... to mm/folio_size.h
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240307/202403072311.1a9jXzWI-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240307/202403072311.1a9jXzWI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403072337.7mH9g3RT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403072311.1a9jXzWI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/hyp/nvhe/iommu/io-pgtable-arm.c:5:
-   In file included from arch/arm64/include/asm/kvm_hyp.h:11:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:1959:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/iommu/io-pgtable-arm.c:48:5: warning: no previous prototype for function 'kvm_arm_io_pgtable_init' [-Wmissing-prototypes]
-      48 | int kvm_arm_io_pgtable_init(struct io_pgtable_cfg *cfg,
-         |     ^
-   arch/arm64/kvm/hyp/nvhe/iommu/io-pgtable-arm.c:48:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      48 | int kvm_arm_io_pgtable_init(struct io_pgtable_cfg *cfg,
-         | ^
-         | static 
-   6 warnings generated.
---
-   In file included from arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:11:
-   In file included from include/linux/io-pgtable-arm.h:5:
-   In file included from include/linux/io-pgtable.h:6:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1959:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:143:5: warning: no previous prototype for function '__arm_lpae_map' [-Wmissing-prototypes]
-     143 | int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
-         |     ^
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:143:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     143 | int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
-         | ^
-         | static 
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:264:5: warning: no previous prototype for function 'arm_lpae_map_pages' [-Wmissing-prototypes]
-     264 | int arm_lpae_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |     ^
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:264:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     264 | int arm_lpae_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         | ^
-         | static 
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:471:8: warning: no previous prototype for function '__arm_lpae_unmap_pages' [-Wmissing-prototypes]
-     471 | size_t __arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:471:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     471 | size_t __arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         | ^
-         | static 
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:493:13: warning: no previous prototype for function 'arm_lpae_iova_to_phys' [-Wmissing-prototypes]
-     493 | phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
-         |             ^
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:493:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     493 | phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
-         | ^
-         | static 
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:529:8: warning: no previous prototype for function 'arm_lpae_unmap_pages' [-Wmissing-prototypes]
-     529 | size_t arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:529:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     529 | size_t arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         | ^
-         | static 
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:536:8: warning: no previous prototype for function 'arm_lpae_unmap_pages_walk' [-Wmissing-prototypes]
-     536 | size_t arm_lpae_unmap_pages_walk(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:536:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     536 | size_t arm_lpae_unmap_pages_walk(struct io_pgtable_ops *ops, unsigned long iova,
-         | ^
-         | static 
-   11 warnings generated.
+   In file included from include/linux/mm/folio_size.h:8,
+                    from include/linux/mm.h:5,
+                    from arch/loongarch/include/asm/vdso.h:10,
+                    from arch/loongarch/vdso/vgetcpu.c:6:
+>> include/linux/page-flags.h:202:1: warning: data definition has no type or storage class
+     202 | DECLARE_STATIC_KEY_FALSE(hugetlb_optimize_vmemmap_key);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/page-flags.h:202:1: error: type defaults to 'int' in declaration of 'DECLARE_STATIC_KEY_FALSE' [-Werror=implicit-int]
+>> include/linux/page-flags.h:202:1: warning: parameter names (without types) in function declaration
+   In file included from include/linux/mm/folio_size.h:8,
+                    from include/linux/mm.h:5,
+                    from arch/loongarch/include/asm/vdso.h:10,
+                    from arch/loongarch/include/asm/vdso/vdso.h:11,
+                    from arch/loongarch/include/asm/vdso/gettimeofday.h:13,
+                    from include/vdso/datapage.h:151,
+                    from lib/vdso/gettimeofday.c:5,
+                    from <command-line>:
+>> include/linux/page-flags.h:202:1: warning: data definition has no type or storage class
+     202 | DECLARE_STATIC_KEY_FALSE(hugetlb_optimize_vmemmap_key);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/page-flags.h:202:1: error: type defaults to 'int' in declaration of 'DECLARE_STATIC_KEY_FALSE' [-Werror=implicit-int]
+>> include/linux/page-flags.h:202:1: warning: parameter names (without types) in function declaration
+   include/linux/page-flags.h: In function 'page_fixed_fake_head':
+>> include/linux/page-flags.h:210:14: error: implicit declaration of function 'static_branch_unlikely' [-Werror=implicit-function-declaration]
+     210 |         if (!static_branch_unlikely(&hugetlb_optimize_vmemmap_key))
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/page-flags.h: In function 'page_fixed_fake_head':
+>> include/linux/page-flags.h:210:14: error: implicit declaration of function 'static_branch_unlikely' [-Werror=implicit-function-declaration]
+     210 |         if (!static_branch_unlikely(&hugetlb_optimize_vmemmap_key))
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/page-flags.h:210:38: error: 'hugetlb_optimize_vmemmap_key' undeclared (first use in this function)
+     210 |         if (!static_branch_unlikely(&hugetlb_optimize_vmemmap_key))
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/page-flags.h:210:38: note: each undeclared identifier is reported only once for each function it appears in
+>> include/linux/page-flags.h:210:38: error: 'hugetlb_optimize_vmemmap_key' undeclared (first use in this function)
+     210 |         if (!static_branch_unlikely(&hugetlb_optimize_vmemmap_key))
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/page-flags.h:210:38: note: each undeclared identifier is reported only once for each function it appears in
+   cc1: some warnings being treated as errors
+   cc1: some warnings being treated as errors
+   make[3]: *** [scripts/Makefile.build:244: arch/loongarch/vdso/vgetcpu.o] Error 1
+   make[3]: *** [scripts/Makefile.build:244: arch/loongarch/vdso/vgettimeofday.o] Error 1
+   make[3]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
+   make[2]: *** [arch/loongarch/Makefile:163: vdso_prepare] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/kvm_arm_io_pgtable_init +48 arch/arm64/kvm/hyp/nvhe/iommu/io-pgtable-arm.c
+vim +202 include/linux/page-flags.h
 
-    47	
-  > 48	int kvm_arm_io_pgtable_init(struct io_pgtable_cfg *cfg,
-    49				    struct arm_lpae_io_pgtable *data)
-    50	{
-    51		int ret = arm_lpae_init_pgtable_s2(cfg, data);
-    52	
-    53		if (ret)
-    54			return ret;
-    55	
-    56		data->iop.cfg = *cfg;
-    57		data->iop.fmt	= cfg->fmt;
-    58	
-    59		return 0;
-    60	}
-    61	
+9223b4190fa129 Christoph Lameter 2008-04-28  200  
+47010c040dec8a Muchun Song       2022-04-28  201  #ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
+cf5472e5611338 Muchun Song       2022-06-28 @202  DECLARE_STATIC_KEY_FALSE(hugetlb_optimize_vmemmap_key);
+a6b40850c442bf Muchun Song       2022-03-22  203  
+e7d324850bfcb3 Muchun Song       2022-03-22  204  /*
+838691a1c0ec44 Muchun Song       2022-06-28  205   * Return the real head page struct iff the @page is a fake head page, otherwise
+838691a1c0ec44 Muchun Song       2022-06-28  206   * return the @page itself. See Documentation/mm/vmemmap_dedup.rst.
+e7d324850bfcb3 Muchun Song       2022-03-22  207   */
+e7d324850bfcb3 Muchun Song       2022-03-22  208  static __always_inline const struct page *page_fixed_fake_head(const struct page *page)
+e7d324850bfcb3 Muchun Song       2022-03-22  209  {
+cf5472e5611338 Muchun Song       2022-06-28 @210  	if (!static_branch_unlikely(&hugetlb_optimize_vmemmap_key))
+e7d324850bfcb3 Muchun Song       2022-03-22  211  		return page;
+e7d324850bfcb3 Muchun Song       2022-03-22  212  
+e7d324850bfcb3 Muchun Song       2022-03-22  213  	/*
+e7d324850bfcb3 Muchun Song       2022-03-22  214  	 * Only addresses aligned with PAGE_SIZE of struct page may be fake head
+e7d324850bfcb3 Muchun Song       2022-03-22  215  	 * struct page. The alignment check aims to avoid access the fields (
+e7d324850bfcb3 Muchun Song       2022-03-22  216  	 * e.g. compound_head) of the @page[1]. It can avoid touch a (possibly)
+e7d324850bfcb3 Muchun Song       2022-03-22  217  	 * cold cacheline in some cases.
+e7d324850bfcb3 Muchun Song       2022-03-22  218  	 */
+e7d324850bfcb3 Muchun Song       2022-03-22  219  	if (IS_ALIGNED((unsigned long)page, PAGE_SIZE) &&
+e7d324850bfcb3 Muchun Song       2022-03-22  220  	    test_bit(PG_head, &page->flags)) {
+e7d324850bfcb3 Muchun Song       2022-03-22  221  		/*
+e7d324850bfcb3 Muchun Song       2022-03-22  222  		 * We can safely access the field of the @page[1] with PG_head
+e7d324850bfcb3 Muchun Song       2022-03-22  223  		 * because the @page is a compound page composed with at least
+e7d324850bfcb3 Muchun Song       2022-03-22  224  		 * two contiguous pages.
+e7d324850bfcb3 Muchun Song       2022-03-22  225  		 */
+e7d324850bfcb3 Muchun Song       2022-03-22  226  		unsigned long head = READ_ONCE(page[1].compound_head);
+e7d324850bfcb3 Muchun Song       2022-03-22  227  
+e7d324850bfcb3 Muchun Song       2022-03-22  228  		if (likely(head & 1))
+e7d324850bfcb3 Muchun Song       2022-03-22  229  			return (const struct page *)(head - 1);
+e7d324850bfcb3 Muchun Song       2022-03-22  230  	}
+e7d324850bfcb3 Muchun Song       2022-03-22  231  	return page;
+e7d324850bfcb3 Muchun Song       2022-03-22  232  }
+e7d324850bfcb3 Muchun Song       2022-03-22  233  #else
+e7d324850bfcb3 Muchun Song       2022-03-22  234  static inline const struct page *page_fixed_fake_head(const struct page *page)
+e7d324850bfcb3 Muchun Song       2022-03-22  235  {
+e7d324850bfcb3 Muchun Song       2022-03-22  236  	return page;
+e7d324850bfcb3 Muchun Song       2022-03-22  237  }
+e7d324850bfcb3 Muchun Song       2022-03-22  238  #endif
+e7d324850bfcb3 Muchun Song       2022-03-22  239  
 
 -- 
 0-DAY CI Kernel Test Service
