@@ -1,161 +1,194 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DCF126F3E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 13:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9441C6B2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 14:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709818175; cv=none; b=dzyAIsrYdurjTNUZ/bcfMN+fupzvrMJFGb43BHfaVTb1Ci5/oFX3+co6FdYT22fNCSZOOukk6LCkPjBMFItu2aL+9Aoo214DzIxt8HmHcZwWjgFb83KLDKZrm1C6VMcIcCSmaNN65Gyi5yuSwS1aKhM+6wHDvrxW6XO8DCuJZrg=
+	t=1709821475; cv=none; b=XHy+s2F5McKyJT1749tQ+f60UUSxU0S/Hyf2hcNvvOfHoho1u/xq/q21KOBqVNmNvLHpMprw3z4fDxIGIb1qk+n7vkbZW1UCGfK0QPkcYlcAt/8GV2KyJfd9FegeVwPqSq/GdBRNBGJ0kB9WivtxSYTR3nIg6L4IidzWMUYIukg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709818175; c=relaxed/simple;
-	bh=W2jcBF6K3TDmhtiHyflGL8rb62tH8Nrsiq4B+c2ncCU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IfO5/ura/iEFc9+qnbWgZpzVKxQpnUWU7f317ISS+CEkzSfvDWJ1R1Cn/yE/pKRfGdQHLkXVSmSqvddK30i/Vrgwu4cmj5TAabCS4vrWcLUIuvJ1VDPEbYwTadHS3EVCecHqmjsOVrh+WsSBnWgTVTNSiMBYuRKztAYyE4DASEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=dopcCq8D; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=cMf/FVQG; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1709821475; c=relaxed/simple;
+	bh=XfdgPqsryEimkaX+ec7UD2N0XK3t6eWPFGrc88DKSis=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=BVNTjD9GwNAVmmQHkuS7swcBNTOGg9kwvUpr3Iahh90Cp/HJvcVf5X+3WbtYbP5VWUr7JMIOl8NVB4IttGsL1EepAj3OkF7oLQb9irfVGR00pGJ5ZpsC0fyVkU//RqIJJLS//0WD4dKginZgUcvJnuN0sx1TdeHkkhUUrboRjWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IOj8bYRX; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="dopcCq8D";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="cMf/FVQG"
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A8DAC203DE;
-	Thu,  7 Mar 2024 12:01:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1709812875; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=995ufPHYoStp3vY9XhpwIv0iw26oqoOlOwmeelp/e8E=;
-	b=dopcCq8DHNPe8ICeEoHeLstudjRVKQ0UpjccHl8ItKdvtiVVN6pYChbsIxsoaht0MuQAgj
-	QC4EBQglNy0E2A0pWqIq7cphkvvnV9QzL775Xz1rkc6Evx0n2VcllQZaGGp8sEM1e84uK2
-	qlHnKJlE8E9UhT5Fo8u/qJEMlw5brNk=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1709812873; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=995ufPHYoStp3vY9XhpwIv0iw26oqoOlOwmeelp/e8E=;
-	b=cMf/FVQGurSjot/sK6DzuGsCiDBO4wz0IRN/FI1cvYOvzZSVTd+3XXGQYWg9Eqk/lYojUY
-	XXlITxc0o3CcRWqptJ6WgQDs4KwQGiT/BgJKzPqiqDDqNaoAvG+YqRPKwpc5fzKqhbCwRF
-	c77DgF27kn2gVN2d5z3I4dJR4g+Qd/E=
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 3A497132A4;
-	Thu,  7 Mar 2024 12:01:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id 1kd5AYms6WWYPgAAn2gu4w
-	(envelope-from <mpdesouza@suse.com>); Thu, 07 Mar 2024 12:01:13 +0000
-From: Marcos Paulo de Souza <mpdesouza@suse.com>
-To: Yujie Liu <yujie.liu@intel.com>
-Cc: Marcos Paulo de Souza <mpdesouza@suse.com>,
-	kernel test robot <lkp@intel.com>,
-	oe-kbuild-all@lists.linux.dev,
-	"Linux Memory Management List" <linux-mm@kvack.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [linux-next:master 10409/11394] ERROR: modpost: "__fentry__" [tools/testing/selftests/livepatch/test_modules/test_klp_atomic_replace.ko] undefined!
-Date: Thu,  7 Mar 2024 09:01:09 -0300
-Message-ID: <20240307120110.31508-1-mpdesouza@suse.com>
-X-Mailer: git-send-email 2.42.1
-In-Reply-To: <Zecmuk1OlU7VO8Bk@yujie-X299>
-References: 
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IOj8bYRX"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-412f1961101so9197925e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Mar 2024 06:24:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709821471; x=1710426271; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KLkEU65YERPzZDXp5EuRPV0oeNk1pD4FHKA6c0/zoZU=;
+        b=IOj8bYRXqr/NyR/UL5PeSGLfyTWLArHwlx+QdqKgnD3nKl7sxsYOKYuoUVVOJ9Tiyw
+         C3lvIx0OkKo1M6C/B0eQxhTXnz6V6maS8mhM6zax7LMAiT0Hfaj4lQ8Vqxpme3fs41ma
+         JUgPQ785UncwsrLd1io30TcuFatUDSWttxOPmJnJGvFzF7JDhCYyTeo+Ew1jmk7DJZcK
+         E3XsTUk9NATXyjUDGHUQ8takuDm4+taDLdiJA6Rf4hcfoEB5wgJwnNM9KZvnscKfjCLQ
+         IJyn7GjcSs7/eg5vu1soxqlNytZC1iQbeI/Y6iu0++++CsHetZyE2gwIzP78Weon4BK9
+         Nhpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709821471; x=1710426271;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KLkEU65YERPzZDXp5EuRPV0oeNk1pD4FHKA6c0/zoZU=;
+        b=rlNpmExWFPnG4lB4oreWQ4XGAudFQWHSflBW/MLXoYnRzV7QZSiQv39sl+kHE0nDdS
+         yt9rWusVzbYozw4c8+ugWggmorchnurnWRiF6/oBk9+Qp1Wc7XSq4QZim39mq6QEnK1T
+         pYBWYrSR/YpnSNdZKkO8K2MPPSAVOJzrEZuvm//j6LaPhmxkTBI4+ZRbzrpAM3y8Nr/L
+         sm+8zDvjyxVeOFf485MXUIw35NKrPyeAQ8JZrGMMXHeZfiXNa9a6cCPhSXWRO13bkMaD
+         aep7GNx0aGUrKKbTxstidXyX9jFyGVPQFdVTm1IMHCZKSkB8Wlq6WGXn3yv65+l0d5dM
+         jslQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX3pD7u/wdTXeTJjXfmDkpGbExre38gUM0xcgzUKn8zDVvZSG+mpgmE44KMve7GX+HyiaZLIYrhiw2zsI506+a59N56xaKGwqKILl/cnA==
+X-Gm-Message-State: AOJu0YzZ2clzY76GfpzS9ajSQRuI67e4qFg+AhMJakkojvG6AoUV90e1
+	mCIwG2fj8Ki+Nsn5dop0H6MnR2dG6fq+LSwFk09wcCybptoll3ngYMu2VYR7LzJtAomz2maKkXH
+	k
+X-Google-Smtp-Source: AGHT+IFkS3QjWn6zABoMsQq7lMuBHhk7E02ZrOa2EckIwNumg7/2o3gzTOlzWBFXp44p7lqgjQ21Kw==
+X-Received: by 2002:a05:600c:474a:b0:412:bf52:9ac2 with SMTP id w10-20020a05600c474a00b00412bf529ac2mr14481024wmo.14.1709821470461;
+        Thu, 07 Mar 2024 06:24:30 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id bq27-20020a5d5a1b000000b0033e6879817esm1363499wrb.58.2024.03.07.06.24.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Mar 2024 06:24:30 -0800 (PST)
+Date: Thu, 7 Mar 2024 17:24:26 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>,
+	herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Ruud.Derwig@synopsys.com,
+	manjunath.hadli@vayavyalabs.com,
+	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
+Subject: Re: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and
+ Makefile file
+Message-ID: <c9d89052-74c8-4746-a54c-c199786743fb@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: **
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [2.10 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 URIBL_BLOCKED(0.00)[01.org:url,intel.com:email];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,intel.com:email];
-	 SUBJECT_ENDS_EXCLAIM(0.20)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Score: 2.10
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240305112831.3380896-5-pavitrakumarm@vayavyalabs.com>
 
-On Tue, 5 Mar 2024 22:05:46 +0800 Yujie Liu <yujie.liu@intel.com> wrote:
+Hi Pavitrakumar,
 
-> Hi Marcos,
-> 
-> On Mon, Mar 04, 2024 at 09:29:19AM -0300, Marcos Paulo de Souza wrote:
-> > On Sat, 2 Mar 2024 14:14:12 +0800 kernel test robot <lkp@intel.com> wrote:
-> > 
-> > > Hi Marcos,
-> > > 
-> > > First bad commit (maybe != root cause):
-> > > 
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > > head:   1870cdc0e8dee32e3c221704a2977898ba4c10e8
-> > > commit: 539cd3f4da3fdbe7dc353634e004e4b0e725c35a [10409/11394] selftests: lib.mk: Do not process TEST_GEN_MODS_DIR
-> > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240302/202403021440.Rs4qG6fP-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202403021440.Rs4qG6fP-lkp@intel.com/
-> > > 
-> > > All errors (new ones prefixed by >>, old ones prefixed by <<):
-> > > 
-> > > WARNING: Module.symvers is missing.
-> > > Modules may not have dependencies or modversions.
-> > 
-> > This seems suspicious. Can you be sure that kernel-devel was installed properly
-> > in this machine? We have landed a patch to skip building the tests if
-> > kernel-devel is not installed. We check if /lib/modules/<kernel-version/build
-> > is present to start building, but I would expect Module.symvers to be present.
-> > 
-> > Please let me know if we need to adapt our tests further to avoid such problems.
-> 
-> Sorry, this is another problem due to the different way of organizing
-> the files at the bot side. We are looking into this to put the required
-> materials to the correct path. This report should be a false positive,
-> please ignore it.
+kernel test robot noticed the following build warnings:
 
-Thanks for confirming Yujie.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> 
-> > > You may get many unresolved symbol errors.
-> > > You can set KBUILD_MODPOST_WARN=1 to turn errors into warning
-> > > if you want to proceed at your own risk.
-> > > >> ERROR: modpost: "__fentry__" [tools/testing/selftests/livepatch/test_modules/test_klp_atomic_replace.ko] undefined!
-> > > >> ERROR: modpost: "klp_enable_patch" [tools/testing/selftests/livepatch/test_modules/test_klp_atomic_replace.ko] undefined!
-> > > >> ERROR: modpost: "seq_printf" [tools/testing/selftests/livepatch/test_modules/test_klp_atomic_replace.ko] undefined!
-> > > >> ERROR: modpost: "param_ops_int" [tools/testing/selftests/livepatch/test_modules/test_klp_atomic_replace.ko] undefined!
-> > > >> ERROR: modpost: "module_layout" [tools/testing/selftests/livepatch/test_modules/test_klp_atomic_replace.ko] undefined!
-> > > >> ERROR: modpost: "__fentry__" [tools/testing/selftests/livepatch/test_modules/test_klp_callbacks_busy.ko] undefined!
-> > > >> ERROR: modpost: "flush_work" [tools/testing/selftests/livepatch/test_modules/test_klp_callbacks_busy.ko] undefined!
-> > > >> ERROR: modpost: "_printk" [tools/testing/selftests/livepatch/test_modules/test_klp_callbacks_busy.ko] undefined!
-> > > >> ERROR: modpost: "complete" [tools/testing/selftests/livepatch/test_modules/test_klp_callbacks_busy.ko] undefined!
-> > > >> ERROR: modpost: "msleep" [tools/testing/selftests/livepatch/test_modules/test_klp_callbacks_busy.ko] undefined!
-> > > WARNING: modpost: suppressed 80 unresolved symbol warnings because there were too many)
-> > > 
-> > > -- 
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests/wiki
-> >
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-M/Add-SPAcc-driver-to-Linux-kernel/20240305-193337
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20240305112831.3380896-5-pavitrakumarm%40vayavyalabs.com
+patch subject: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and Makefile file
+config: m68k-randconfig-r081-20240307 (https://download.01.org/0day-ci/archive/20240307/202403072256.em3Fk3At-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202403072256.em3Fk3At-lkp@intel.com/
+
+New smatch warnings:
+drivers/crypto/dwc-spacc/spacc_ahash.c:1057 spacc_hash_digest() error: uninitialized symbol 'total_len'.
+
+Old smatch warnings:
+drivers/crypto/dwc-spacc/spacc_ahash.c:271 spacc_hash_init_dma() error: uninitialized symbol 'sgl_buffer'.
+
+vim +/total_len +1057 drivers/crypto/dwc-spacc/spacc_ahash.c
+
+6ad822cec22644 Pavitrakumar M 2024-03-05   981  
+6ad822cec22644 Pavitrakumar M 2024-03-05   982  static int spacc_hash_digest(struct ahash_request *req)
+6ad822cec22644 Pavitrakumar M 2024-03-05   983  {
+6ad822cec22644 Pavitrakumar M 2024-03-05   984  	int final = 0;
+6ad822cec22644 Pavitrakumar M 2024-03-05   985  	int rc, total_len;
+6ad822cec22644 Pavitrakumar M 2024-03-05   986  	struct crypto_ahash *reqtfm = crypto_ahash_reqtfm(req);
+6ad822cec22644 Pavitrakumar M 2024-03-05   987  	struct spacc_crypto_ctx *tctx = crypto_ahash_ctx(reqtfm);
+6ad822cec22644 Pavitrakumar M 2024-03-05   988  	struct spacc_crypto_reqctx *ctx = ahash_request_ctx(req);
+6ad822cec22644 Pavitrakumar M 2024-03-05   989  	struct spacc_priv *priv = dev_get_drvdata(tctx->dev);
+6ad822cec22644 Pavitrakumar M 2024-03-05   990  
+6ad822cec22644 Pavitrakumar M 2024-03-05   991  	if (tctx->flag_ppp) {
+6ad822cec22644 Pavitrakumar M 2024-03-05   992  		/* from finup */
+6ad822cec22644 Pavitrakumar M 2024-03-05   993  		ctx->single_shot = 0;
+6ad822cec22644 Pavitrakumar M 2024-03-05   994  		ctx->final_part_pck = 1;
+6ad822cec22644 Pavitrakumar M 2024-03-05   995  		final = 2;
+6ad822cec22644 Pavitrakumar M 2024-03-05   996  	} else {
+6ad822cec22644 Pavitrakumar M 2024-03-05   997  		/* direct single shot digest call */
+6ad822cec22644 Pavitrakumar M 2024-03-05   998  		ctx->single_shot = 1;
+6ad822cec22644 Pavitrakumar M 2024-03-05   999  		ctx->rem_len = 0;
+6ad822cec22644 Pavitrakumar M 2024-03-05  1000  		ctx->total_nents = sg_nents(req->src);
+6ad822cec22644 Pavitrakumar M 2024-03-05  1001  	}
+6ad822cec22644 Pavitrakumar M 2024-03-05  1002  
+6ad822cec22644 Pavitrakumar M 2024-03-05  1003  	if (tctx->handle < 0 || !tctx->ctx_valid ||
+6ad822cec22644 Pavitrakumar M 2024-03-05  1004  	    req->nbytes > priv->max_msg_len)
+6ad822cec22644 Pavitrakumar M 2024-03-05  1005  		goto fallback;
+
+"total_len" not intialized for these gotos
+
+6ad822cec22644 Pavitrakumar M 2024-03-05  1006  
+6ad822cec22644 Pavitrakumar M 2024-03-05  1007  	rc = spacc_hash_init_dma(tctx->dev, req, final);
+6ad822cec22644 Pavitrakumar M 2024-03-05  1008  	if (rc < 0)
+6ad822cec22644 Pavitrakumar M 2024-03-05  1009  		goto fallback;
+6ad822cec22644 Pavitrakumar M 2024-03-05  1010  
+6ad822cec22644 Pavitrakumar M 2024-03-05  1011  	if (rc == 0)
+6ad822cec22644 Pavitrakumar M 2024-03-05  1012  		return 0;
+6ad822cec22644 Pavitrakumar M 2024-03-05  1013  
+6ad822cec22644 Pavitrakumar M 2024-03-05  1014  	if (final) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  1015  		if (ctx->total_nents) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  1016  			/* INIT-UPDATE-UPDATE-FINUP/FINAL */
+6ad822cec22644 Pavitrakumar M 2024-03-05  1017  			total_len = tctx->ppp_sgl[0].length;
+6ad822cec22644 Pavitrakumar M 2024-03-05  1018  		} else if (req->src->length == 0 && ctx->total_nents == 0) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  1019  			/* zero msg handling */
+6ad822cec22644 Pavitrakumar M 2024-03-05  1020  			total_len = 0;
+6ad822cec22644 Pavitrakumar M 2024-03-05  1021  		} else {
+6ad822cec22644 Pavitrakumar M 2024-03-05  1022  			/* handle INIT-FINUP sequence, process req->nbytes */
+6ad822cec22644 Pavitrakumar M 2024-03-05  1023  			total_len = req->nbytes;
+6ad822cec22644 Pavitrakumar M 2024-03-05  1024  		}
+6ad822cec22644 Pavitrakumar M 2024-03-05  1025  
+6ad822cec22644 Pavitrakumar M 2024-03-05  1026  		rc = spacc_packet_enqueue_ddt(&priv->spacc, ctx->acb.new_handle,
+6ad822cec22644 Pavitrakumar M 2024-03-05  1027  				&ctx->src, &ctx->dst, total_len,
+6ad822cec22644 Pavitrakumar M 2024-03-05  1028  				0, total_len, 0, 0, 0);
+6ad822cec22644 Pavitrakumar M 2024-03-05  1029  	} else {
+6ad822cec22644 Pavitrakumar M 2024-03-05  1030  		rc = spacc_packet_enqueue_ddt(&priv->spacc, ctx->acb.new_handle,
+6ad822cec22644 Pavitrakumar M 2024-03-05  1031  				&ctx->src, &ctx->dst, req->nbytes,
+6ad822cec22644 Pavitrakumar M 2024-03-05  1032  				0, req->nbytes, 0, 0, 0);
+6ad822cec22644 Pavitrakumar M 2024-03-05  1033  	}
+6ad822cec22644 Pavitrakumar M 2024-03-05  1034  
+6ad822cec22644 Pavitrakumar M 2024-03-05  1035  	if (rc < 0) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  1036  		spacc_hash_cleanup_dma(tctx->dev, req);
+6ad822cec22644 Pavitrakumar M 2024-03-05  1037  		spacc_close(&priv->spacc, ctx->acb.new_handle);
+6ad822cec22644 Pavitrakumar M 2024-03-05  1038  
+6ad822cec22644 Pavitrakumar M 2024-03-05  1039  		if (rc != -EBUSY) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  1040  			pr_debug("Failed to enqueue job, ERR: %d\n", rc);
+6ad822cec22644 Pavitrakumar M 2024-03-05  1041  			return rc;
+6ad822cec22644 Pavitrakumar M 2024-03-05  1042  		}
+6ad822cec22644 Pavitrakumar M 2024-03-05  1043  
+6ad822cec22644 Pavitrakumar M 2024-03-05  1044  		if (!(req->base.flags & CRYPTO_TFM_REQ_MAY_BACKLOG))
+6ad822cec22644 Pavitrakumar M 2024-03-05  1045  			return -EBUSY;
+6ad822cec22644 Pavitrakumar M 2024-03-05  1046  
+6ad822cec22644 Pavitrakumar M 2024-03-05  1047  		goto fallback;
+6ad822cec22644 Pavitrakumar M 2024-03-05  1048  	}
+6ad822cec22644 Pavitrakumar M 2024-03-05  1049  
+6ad822cec22644 Pavitrakumar M 2024-03-05  1050  	return -EINPROGRESS;
+6ad822cec22644 Pavitrakumar M 2024-03-05  1051  
+6ad822cec22644 Pavitrakumar M 2024-03-05  1052  fallback:
+6ad822cec22644 Pavitrakumar M 2024-03-05  1053  	/* Start from scratch as init is not called before digest */
+6ad822cec22644 Pavitrakumar M 2024-03-05  1054  	ctx->fb.hash_req.base = req->base;
+6ad822cec22644 Pavitrakumar M 2024-03-05  1055  	ahash_request_set_tfm(&ctx->fb.hash_req, tctx->fb.hash);
+6ad822cec22644 Pavitrakumar M 2024-03-05  1056  
+6ad822cec22644 Pavitrakumar M 2024-03-05 @1057  	ctx->fb.hash_req.nbytes = total_len;
+                                                                                  ^^^^^^^^^
+
+6ad822cec22644 Pavitrakumar M 2024-03-05  1058  	ctx->fb.hash_req.src = req->src;
+6ad822cec22644 Pavitrakumar M 2024-03-05  1059  	ctx->fb.hash_req.result = req->result;
+6ad822cec22644 Pavitrakumar M 2024-03-05  1060  
+6ad822cec22644 Pavitrakumar M 2024-03-05  1061  	return crypto_ahash_digest(&ctx->fb.hash_req);
+6ad822cec22644 Pavitrakumar M 2024-03-05  1062  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
