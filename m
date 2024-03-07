@@ -1,54 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E966C81F
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 06:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021266311B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 07:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709794431; cv=none; b=IMPjdVBDZUooG1pgiXDFpPCYG4F+Z1cWj2cqXCCWi6O/F2Xmuzn5w5tSbRjVeNqI5jC1dIxl6POS09FdoG0m6lpz3rhWCDwm54NhRlwNzLWtC9Bf9fJFh+pH+nBkBlaIzCs6vKyfPyD10ntNR3HjVUi4zP8hsHWEZQFZMuUZddM=
+	t=1709796951; cv=none; b=JGgaLYItoQhK6iTmshtNs6ZATd3zCaB/33rutWXjU1nT/8fP1shp5qLoJ+c8jamF6y0v3XgqYEVypWy/kXq5pHFf5DsYK6APjtJu+nm/oaQYNB/+9/5avLQq4UeZCsNXcJsLzD82qvS0kzt24rlh9GmS+JaiV2o4/F1ztTX9fVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709794431; c=relaxed/simple;
-	bh=tfWIqxAwEVakhPl9wq+MtTm8Tdx+lKZOe1C1ztImePY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ln1i8cUb3Ob1Ce4zumeIXRuh7PdIJk5ddkwzjmVGTbGPmQQtB76V2QbF6KRGSoSstgSDb83I9w3f1zrLFp4ktbJ9kFJzQwxSR1OVbuTr3uTnBdBuJ20+UVoRwzM36CVlyfKywaRfPdf9LV1G6NbxGTOxcBMRQwxdWvP3zVkWeqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nt0jZw4Y; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1709796951; c=relaxed/simple;
+	bh=wPLZ9ZPwlR/NEMqQ9rg1gHY9xXCIjyxYQ73kX3U5HHY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AfVuabKKcQMjQQRSSmYhjqVmwNuJKJbK1xAZ6T5ZRp7upccY+QDztpkCj4n1bkz+7w3b+BzYlHghR/6ULBn/7IKcSjGVStaSKwSRFv2Wfl7kmgxgFbTKTmleHYS99xP5Hydpe7vfGNpLBPQ3vv+OyFRa8WoXT0sz2dJybFip8GE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W1Jp8Zz7; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nt0jZw4Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W1Jp8Zz7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709794429; x=1741330429;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tfWIqxAwEVakhPl9wq+MtTm8Tdx+lKZOe1C1ztImePY=;
-  b=nt0jZw4Y2yG4cHROaXUVAgSPR9+tL/C9nO/79cGx+U2vfvovlWy5SCW6
-   dpcC2EYTqn8w+9lO19kRUi+B75Y7jdpdytpRXOoPf8oy1Ph9LP5prENUN
-   WDgihLtkjadfn9yinrXviAzI7lxW4C+No7bW8XcN73dwsyWf8jHhfNzy4
-   I7DA03Ik42D7F4jUCL5EDvVA/ZucmoO4VLjHEPvHGiMYL+KlBJUpV0a4S
-   YwvzDdPPO4gTbC8hoUSCG8XlUx0IxwZT8pnUPGFu2x2RbzlSfHMGtrMrF
-   M0Ti7NJn//W6Qwxt/waqrs1qJl8iz/ty1ymF4bG//vQOO9O+yMh4Sh4wB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="15587780"
+  t=1709796950; x=1741332950;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wPLZ9ZPwlR/NEMqQ9rg1gHY9xXCIjyxYQ73kX3U5HHY=;
+  b=W1Jp8Zz7gkDc7LkPzRG9rnVk1krZuXTWIMQ6dh1tGoQWfLYFY1KwmC45
+   b+pRQheF9AuScOBDMxXIMDKrWzzkjG7HgrNnGGW+piZESZ7bByDUUf92B
+   t07AziaZbP5+nf/snqYd2LbjBgnKCrbA2io2sqU6Kjr+d2GHq6b0Qo3cD
+   56Uf9PssZcT+48IxeT6aV/nXSV16tSrUJiqOrgMvwt37WZtLL3lJix6DG
+   MA/KPp4SlJ3+0DrShfo+UkzkFLtmKxT8fvtvQrhR5ch6I/qRLXq6N2P2t
+   Z1RbiPHtzG9Yg9HyoffJEkX+rNa9EJw+gtGFDn3NYkOVPRFsBeNFWMtZd
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="4334668"
 X-IronPort-AV: E=Sophos;i="6.06,210,1705392000"; 
-   d="scan'208";a="15587780"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2024 22:53:48 -0800
+   d="scan'208";a="4334668"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2024 23:35:50 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,210,1705392000"; 
-   d="scan'208";a="9918328"
+   d="scan'208";a="10189891"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 06 Mar 2024 22:53:47 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 06 Mar 2024 23:35:48 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ri7dQ-0004uL-2t;
-	Thu, 07 Mar 2024 06:53:44 +0000
-Date: Thu, 7 Mar 2024 14:53:01 +0800
+	id 1ri8I6-0004x3-0o;
+	Thu, 07 Mar 2024 07:35:46 +0000
+Date: Thu, 7 Mar 2024 15:35:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.1 6086/21518] aarch64-linux-ld: ID map
- text too big or misaligned
-Message-ID: <202403071400.bkgSZPrc-lkp@intel.com>
+Subject: Re: [PATCH 4/4] arm64: dts: freescale: Add device tree for Compulab
+ SB-UCM-iMX8MPLUS
+Message-ID: <202403071500.52BSi2J4-lkp@intel.com>
+References: <20240305004222.622-5-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,60 +59,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240305004222.622-5-laurent.pinchart@ideasonboard.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.1
-head:   6872638c2ef3e7439a7f074a8757cbf3060db80e
-commit: 57f3ff9648991998d008ecf32f2f9e78a08bfb8b [6086/21518] ANDROID: fuse-bpf v1.1
-config: arm64-randconfig-001-20240306 (https://download.01.org/0day-ci/archive/20240307/202403071400.bkgSZPrc-lkp@intel.com/config)
+Hi Laurent,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on shawnguo/for-next]
+[also build test ERROR on robh/for-next linus/master v6.8-rc7]
+[cannot apply to abelloni/rtc-next next-20240306]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Laurent-Pinchart/dt-bindings-arm-fsl-Add-Compulab-SB-UCM-iMX8MPLUS-carrier-board/20240305-084428
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240305004222.622-5-laurent.pinchart%40ideasonboard.com
+patch subject: [PATCH 4/4] arm64: dts: freescale: Add device tree for Compulab SB-UCM-iMX8MPLUS
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240307/202403071500.52BSi2J4-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240307/202403071400.bkgSZPrc-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240307/202403071500.52BSi2J4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403071400.bkgSZPrc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403071500.52BSi2J4-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
->> aarch64-linux-ld: ID map text too big or misaligned
-   aarch64-linux-ld: fs/fuse/backing.o: in function `fuse_handle_bpf_prog':
-   backing.c:(.text+0x51d0): undefined reference to `fuse_get_bpf_prog'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-   Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=n])
-   Selected by [y]:
-   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=y] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=y] && WIRELESS [=y] && PROC_FS [=n] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+>> Error: arch/arm64/boot/dts/freescale/imx8mp-sb-ucm.dts:68.1-10 Label or path hdmi_pvi not found
+>> Error: arch/arm64/boot/dts/freescale/imx8mp-sb-ucm.dts:72.1-9 Label or path hdmi_tx not found
+>> Error: arch/arm64/boot/dts/freescale/imx8mp-sb-ucm.dts:86.1-13 Label or path hdmi_tx_phy not found
+>> Error: arch/arm64/boot/dts/freescale/imx8mp-sb-ucm.dts:208.1-8 Label or path lcdif3 not found
+   FATAL ERROR: Syntax error parsing input tree
 
 -- 
 0-DAY CI Kernel Test Service
