@@ -1,55 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874A411184
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 04:55:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DA9E574
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 05:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709787349; cv=none; b=GRfPwP6IsaMpJT4P3xJjMAZnjvVoJA9XV+AZhefLYZOv7hmOTrKYc1DfIj4FMsKG3J7GLVLx4tCMJfYEwWgIlC1Oc/nc1kImph/e/tUddkBK5OHB5n7qJgVMHNYnsIpxxt3L3w8wkOVlz3lNiU15kYEnKsza5ES/BN5kplkgzZc=
+	t=1709788070; cv=none; b=WoYP+W758GwYZT+uYtL8S79+A23M2i+8a4m9paQM/d9H3WPgThaZvb1oSQg6rREzCiPHDA9FFzCVtuTw7T/oRGEkU27Qvj6FPqfSzHnLVbxQcCczWphCojNgJ+6LqRI5VHhBOXpFOXSaEgJXBePUawNKSCKYbulKVRActPuts64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709787349; c=relaxed/simple;
-	bh=XdWPLT4d0toYaKu+/Is/UVicxk1zKFC1fml86Lp8/Ro=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L3M2tagGM+t54cmrWTAu0DMkaPzmWpQh4KLVYA2IBhnwDBOApMc5PhbzaWJmyCzLY5eiY6w45NbqewO8nU/hZkt/j1TjFh/xqySZbK8ItPnjiZYfv+9sloNxgmwG6qVDwQWSS+WLJ5vrHMMBlK/spZkHu6wtX4qU0bWGae0LCzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hc7BrvHl; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1709788070; c=relaxed/simple;
+	bh=cggzLAZej7awXNRmFV5vavIo22uqi6JqcJGbrKIh6B4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=euI6zbYtRuskiqRtFurXEc20BYO+l4hwXvF6JbECDZdMaGjYtP9hMVG+eepaRTmYBmMll4vE+S9RNSf7yZlQFVPtsNkRQPynhZr3LEYuWiJF7rUIFSukvsCstgy9flyKSfkWnTNHMK6puy2gw9pYh77wHPXp5RYLu2gADIKu97s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XN0Ye787; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hc7BrvHl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XN0Ye787"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709787347; x=1741323347;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XdWPLT4d0toYaKu+/Is/UVicxk1zKFC1fml86Lp8/Ro=;
-  b=Hc7BrvHlyISRqZMT0gP9IE/KSxhf7LO+Js/dDFJe+lw0BNqNU6x+Es1A
-   tvS/+9bI2g7lrZJQsdkI+4WfIxSgFjWtFGgY3nZsRBYaVAcfhxgeRvHpE
-   jsnRJEWFJVjaaA40QSg2t8+PKHk7OyoQiSLUOasH0ihYV86fHcNO359lC
-   b+JVV+snzo2ntt/JTY8QPSyfVXDUZQU1GtPZ/gOJ2v9lRSy5SNdPGeyqI
-   8BLb7vyNce2w86EMGmoD89cL0fJOkgVJUxt776QSGeQ5/Fa2NCfbFnTy6
-   sR4IBwsOUuicdd7xpDt9F/is0cLyNMHcxtp1dI1OqZVGT6R74T0z8m/uj
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="5020111"
+  t=1709788069; x=1741324069;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cggzLAZej7awXNRmFV5vavIo22uqi6JqcJGbrKIh6B4=;
+  b=XN0Ye787XIc4j9c5JUU1e3hGPGBIac4brePvWbYBfj4xl2JASNBPdnj0
+   jdsP5WG2WDf5SDDjvGsLHLRusyYXGqmGpbHxWIFzc/Wl+JdTk0hH4Rg4l
+   Tu3Gdhbt9s0jDlBY+tiBiiNMuFaBWAoIoC/nNM7GeXfu7QIiUI+hvm2aW
+   ZBW1Kn+xd9mEUZEd7mr4U4gwQvocaUBmG7/EPoriUeHvsslwHUBUzcVG0
+   BZe2V3gzBqMgXOS8k9VIw21YfG2bBc55XNThVqb/xy/azUSi9UH8DbmIX
+   g8Qy+JfPQ+pUVMM8INjoCyZAaB8dvuu3Ln5noVhtZZ5YeVTrlu1mAmOzX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="8264785"
 X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
-   d="scan'208";a="5020111"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2024 20:55:46 -0800
+   d="scan'208";a="8264785"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2024 21:07:48 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
-   d="scan'208";a="10415876"
+   d="scan'208";a="40878686"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 06 Mar 2024 20:55:45 -0800
+  by orviesa002.jf.intel.com with ESMTP; 06 Mar 2024 21:07:44 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ri5nB-0004ov-2Y;
-	Thu, 07 Mar 2024 04:55:41 +0000
-Date: Thu, 7 Mar 2024 12:55:14 +0800
+	id 1ri5yn-0004pB-38;
+	Thu, 07 Mar 2024 05:07:41 +0000
+Date: Thu, 7 Mar 2024 13:06:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roberto Sassu <roberto.sassu@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robertosassu:evm-fscaps-v2 29/29] security/security.c:2375:15:
- error: implicit declaration of function 'ima_inode_set_fscaps'; did you mean
- 'evm_inode_set_fscaps'?
-Message-ID: <202403071228.6gAA2DMl-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, jani.nikula@intel.com,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 22/22] drm: ensure drm headers are self-contained and
+ pass kernel-doc
+Message-ID: <202403071204.gJtMneoq-lkp@intel.com>
+References: <e22ab28836ee1689ea4781ed53fd2e4e4f84728e.1709749576.git.jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,123 +65,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <e22ab28836ee1689ea4781ed53fd2e4e4f84728e.1709749576.git.jani.nikula@intel.com>
 
-tree:   https://github.com/robertosassu/linux evm-fscaps-v2
-head:   49621962de7e9bad18b99e21dcb8b32f5af7b61e
-commit: 49621962de7e9bad18b99e21dcb8b32f5af7b61e [29/29] fixes
-config: x86_64-randconfig-122-20240306 (https://download.01.org/0day-ci/archive/20240307/202403071228.6gAA2DMl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240307/202403071228.6gAA2DMl-lkp@intel.com/reproduce)
+Hi Jani,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[cannot apply to drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.8-rc7 next-20240306]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-crtc-make-drm_crtc_internal-h-self-contained/20240307-023603
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/e22ab28836ee1689ea4781ed53fd2e4e4f84728e.1709749576.git.jani.nikula%40intel.com
+patch subject: [PATCH 22/22] drm: ensure drm headers are self-contained and pass kernel-doc
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240307/202403071204.gJtMneoq-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240307/202403071204.gJtMneoq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403071228.6gAA2DMl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403071204.gJtMneoq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   security/security.c: In function 'security_inode_set_fscaps':
->> security/security.c:2375:15: error: implicit declaration of function 'ima_inode_set_fscaps'; did you mean 'evm_inode_set_fscaps'? [-Werror=implicit-function-declaration]
-    2375 |         ret = ima_inode_set_fscaps(idmap, dentry, caps, flags);
-         |               ^~~~~~~~~~~~~~~~~~~~
-         |               evm_inode_set_fscaps
-   security/security.c: In function 'security_inode_remove_fscaps':
->> security/security.c:2434:15: error: implicit declaration of function 'ima_inode_remove_fscaps'; did you mean 'evm_inode_remove_fscaps'? [-Werror=implicit-function-declaration]
-    2434 |         ret = ima_inode_remove_fscaps(dentry);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~
-         |               evm_inode_remove_fscaps
-   cc1: some warnings being treated as errors
+   In file included from <command-line>:
+   drivers/gpu/drm/./drm_crtc_internal.h: In function 'drm_edid_load_firmware':
+>> drivers/gpu/drm/./drm_crtc_internal.h:304:16: error: implicit declaration of function 'ERR_PTR' [-Werror=implicit-function-declaration]
+     304 |         return ERR_PTR(-ENOENT);
+         |                ^~~~~~~
+>> drivers/gpu/drm/./drm_crtc_internal.h:304:25: error: 'ENOENT' undeclared (first use in this function)
+     304 |         return ERR_PTR(-ENOENT);
+         |                         ^~~~~~
+   drivers/gpu/drm/./drm_crtc_internal.h:304:25: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from <command-line>:
+   drivers/gpu/drm/./drm_crtc_internal.h: At top level:
+>> drivers/gpu/drm/./drm_crtc_internal.h:302:1: error: redefinition of 'drm_edid_load_firmware'
+     302 | drm_edid_load_firmware(struct drm_connector *connector)
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/./drm_crtc_internal.h:302:1: note: previous definition of 'drm_edid_load_firmware' with type 'const struct drm_edid *(struct drm_connector *)'
+     302 | drm_edid_load_firmware(struct drm_connector *connector)
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/./drm_crtc_internal.h: In function 'drm_edid_load_firmware':
+>> drivers/gpu/drm/./drm_crtc_internal.h:304:25: error: 'ENOENT' undeclared (first use in this function)
+     304 |         return ERR_PTR(-ENOENT);
+         |                         ^~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +2375 security/security.c
+vim +/ERR_PTR +304 drivers/gpu/drm/./drm_crtc_internal.h
 
-  2353	
-  2354	/**
-  2355	 * security_inode_set_fscaps() - Check if setting fscaps is allowed
-  2356	 * @idmap: idmap of the mount
-  2357	 * @dentry: file
-  2358	 * @caps: fscaps to be written
-  2359	 * @flags: flags for setxattr
-  2360	 *
-  2361	 * Check permission before setting the file capabilities given in @vfs_caps.
-  2362	 *
-  2363	 * Return: Returns 0 if permission is granted.
-  2364	 */
-  2365	int security_inode_set_fscaps(struct mnt_idmap *idmap, struct dentry *dentry,
-  2366				      const struct vfs_caps *caps, int flags)
-  2367	{
-  2368		int ret;
-  2369	
-  2370		if (unlikely(IS_PRIVATE(d_backing_inode(dentry))))
-  2371			return 0;
-  2372		ret = call_int_hook(inode_set_fscaps, 0, idmap, dentry, caps, flags);
-  2373		if (ret)
-  2374			return ret;
-> 2375		ret = ima_inode_set_fscaps(idmap, dentry, caps, flags);
-  2376		if (ret)
-  2377			return ret;
-  2378		return evm_inode_set_fscaps(idmap, dentry, caps, flags);
-  2379	}
-  2380	
-  2381	/**
-  2382	 * security_inode_post_set_fscaps() - Update the inode after setting fscaps
-  2383	 * @idmap: idmap of the mount
-  2384	 * @dentry: file
-  2385	 * @caps: fscaps to be written
-  2386	 * @flags: flags for setxattr
-  2387	 *
-  2388	 * Update inode security field after successfully setting fscaps.
-  2389	 *
-  2390	 */
-  2391	void security_inode_post_set_fscaps(struct mnt_idmap *idmap,
-  2392					    struct dentry *dentry,
-  2393					    const struct vfs_caps *caps, int flags)
-  2394	{
-  2395		if (unlikely(IS_PRIVATE(d_backing_inode(dentry))))
-  2396			return;
-  2397		call_void_hook(inode_post_set_fscaps, idmap, dentry, caps, flags);
-  2398		evm_inode_post_set_fscaps(idmap, dentry, caps, flags);
-  2399	}
-  2400	
-  2401	/**
-  2402	 * security_inode_get_fscaps() - Check if reading fscaps is allowed
-  2403	 * @dentry: file
-  2404	 *
-  2405	 * Check permission before getting fscaps.
-  2406	 *
-  2407	 * Return: Returns 0 if permission is granted.
-  2408	 */
-  2409	int security_inode_get_fscaps(struct mnt_idmap *idmap, struct dentry *dentry)
-  2410	{
-  2411		if (unlikely(IS_PRIVATE(d_backing_inode(dentry))))
-  2412			return 0;
-  2413		return call_int_hook(inode_get_fscaps, 0, idmap, dentry);
-  2414	}
-  2415	
-  2416	/**
-  2417	 * security_inode_remove_fscaps() - Check if removing fscaps is allowed
-  2418	 * @idmap: idmap of the mount
-  2419	 * @dentry: file
-  2420	 *
-  2421	 * Check permission before removing fscaps.
-  2422	 *
-  2423	 * Return: Returns 0 if permission is granted.
-  2424	 */
-  2425	int security_inode_remove_fscaps(struct mnt_idmap *idmap, struct dentry *dentry)
-  2426	{
-  2427		int ret;
-  2428	
-  2429		if (unlikely(IS_PRIVATE(d_backing_inode(dentry))))
-  2430			return 0;
-  2431		ret = call_int_hook(inode_remove_fscaps, 0, idmap, dentry);
-  2432		if (ret)
-  2433			return ret;
-> 2434		ret = ima_inode_remove_fscaps(dentry);
-  2435		if (ret)
-  2436			return ret;
-  2437		return evm_inode_remove_fscaps(dentry);
-  2438	}
-  2439	
+5f2d0ed49036a0 Jani Nikula 2022-10-24  296  
+5f2d0ed49036a0 Jani Nikula 2022-10-24  297  /* drm_edid_load.c */
+5f2d0ed49036a0 Jani Nikula 2022-10-24  298  #ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
+5f2d0ed49036a0 Jani Nikula 2022-10-24  299  const struct drm_edid *drm_edid_load_firmware(struct drm_connector *connector);
+5f2d0ed49036a0 Jani Nikula 2022-10-24  300  #else
+5f2d0ed49036a0 Jani Nikula 2022-10-24  301  static inline const struct drm_edid *
+5f2d0ed49036a0 Jani Nikula 2022-10-24 @302  drm_edid_load_firmware(struct drm_connector *connector)
+5f2d0ed49036a0 Jani Nikula 2022-10-24  303  {
+5f2d0ed49036a0 Jani Nikula 2022-10-24 @304  	return ERR_PTR(-ENOENT);
 
 -- 
 0-DAY CI Kernel Test Service
