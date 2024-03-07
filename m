@@ -1,132 +1,219 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7E51E880
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 16:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC8012D768
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 16:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709828055; cv=none; b=GC0WAgiqHQqyGytxCWijS6uu7t/u8bGFqMUqYvCv7glplNj26EI0G9hMU5PjXraOCcYoa1illIqJG1il+An6qJUCCXgUr6RvxgdcvvT6mwSpaR0rZNTdyu1NgtJdSOrALlT3toGZuhd52+ILmYyXIH7KgY8gsb0OrTEx94XBRlU=
+	t=1709828890; cv=none; b=c+vj8i1P8Rnws/EX0KdKuWvKXYF9367rcvICmqlUV3GJJD2tJUcXlk7HQl29wuleovAX9DJXxCEabSX/unTwWbll2WJkT/MmBg+J4bqFYtR+o2Y0g4VbFc7/holVCs0JSvZ7nBZ/MLs2LzFodh/eVA0wgs/1uKVbmbjH3A3NtKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709828055; c=relaxed/simple;
-	bh=/zZU7TiE32bhPXQryUjgEDJmNxvnT2irI4tJC3exl9g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=msZ3B842ibX1il+F3l6WRAaa1/ZiFCBLQMAt+NIMypvqVW4140VqN5YkXa/hFKaZ4dmDK1oQJrpmsnYtAudMS6MGOP9hmS+KgeyXzlwBhzvlTKD1XTy0hlsrpKj/rJrCNuUJfz9AGrm9qAXq1S+IPT/TN/EtiayzwIWkFEYLW/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=H5DUx9Nz; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1709828890; c=relaxed/simple;
+	bh=tOiZA7kNwDH3dPX6Xkf8bUoULATaqTUSJ7dbpYuoh5M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bcdhD+1pRkGo6vIBjbDPxqyYLsvsCUQxdOVvSRt+6VEZdmgcErjrarvbxiZzEWiQ2uE93e9dFfXLF3RY0bs24jNLZkgSrc6FXZYPEJ0MP0TiLLuQrGwv2ohVQx7SEvGo46BgBM1hjzjWYR0suIYRPUtJrC6PGmOuKJcCM96rGww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DGlcd1gA; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="H5DUx9Nz"
-Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 427FvZPW024748;
-	Thu, 7 Mar 2024 16:14:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : content-type : in-reply-to :
- mime-version; s=pp1; bh=IaMVAJfgY/9saSSlVJiM5pXaETRhhQqn1FGhpRKBL98=;
- b=H5DUx9NzqlEZ+9eAlmMLapS9O4VLHLZSm5P7Dfi76wiHuuaI618pL+dArAS5HAf4OCpe
- yBeAOtE++F9Sk/oR2yODyfFaaBLRajFMvmEZNCMxj4QvEmGSznGJBXnB0v+e+s0q9uMs
- c7n6s9z1zBmxdv4KAimVIMfcVjpdkGks4GqVXrvh9RlmYrQdMyLEZBwTwbbWcUey+WHB
- hgVZ778tvDclMT8hWu009MIy7EexXn5eMgLbpUS3CucRsHlx/SsOvodre3/ho8prMRME
- HnDXF0Y2buUdm/IE1aGNdqDHJhEzUyvGhll0lO3JoCWv2RIbtjgVdDa35p3sgYamH3Di 3A== 
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wqgp28e0u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 Mar 2024 16:14:05 +0000
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 427G1Mcw006073;
-	Thu, 7 Mar 2024 16:14:04 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3wmeetewga-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 Mar 2024 16:14:04 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 427GDwxE41681154
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 7 Mar 2024 16:14:00 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B9ED42004B;
-	Thu,  7 Mar 2024 16:13:58 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 738AE20043;
-	Thu,  7 Mar 2024 16:13:58 +0000 (GMT)
-Received: from osiris (unknown [9.152.212.60])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Thu,  7 Mar 2024 16:13:58 +0000 (GMT)
-Date: Thu, 7 Mar 2024 17:13:56 +0100
-From: Heiko Carstens <hca@linux.ibm.com>
-To: Sumanth Korikkar <sumanthk@linux.ibm.com>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>, gor@linux.ibm.com,
-        kernel test robot <lkp@intel.com>, s-vadapalli@ti.com,
-        r-gunasekaran@ti.com, rogerq@kernel.org, oe-kbuild-all@lists.linux.dev,
-        linux-s390@vger.kernel.org, iii@linux.ibm.com, agordeev@linux.ibm.com,
-        davem@davemloft.net, naresh.kamboju@linaro.org
-Subject: Re: [s390:features 97/98] Unsupported relocation type: 21
-Message-ID: <20240307161356.33873-D-hca@linux.ibm.com>
-References: <202402221404.T2TGs8El-lkp@intel.com>
- <ZdhtYc9THmX4Ddse@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
- <20240223235939.abycpq35ydgahdz2@treble>
- <Zdxt97Ni3p8ptNyv@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
- <ZdyKJMEkm6r_ArrZ@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
- <ZenfbNt966EMJcsY@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZenfbNt966EMJcsY@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: oCTpL17n9a2GXR0vvZgD9Np8kVbagBuq
-X-Proofpoint-ORIG-GUID: oCTpL17n9a2GXR0vvZgD9Np8kVbagBuq
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DGlcd1gA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709828888; x=1741364888;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tOiZA7kNwDH3dPX6Xkf8bUoULATaqTUSJ7dbpYuoh5M=;
+  b=DGlcd1gArwdCmVtLAShu4o42JfURRLd8Afe6Q/RMub+pzcL4xQVL1csi
+   v5LmDNADj7BFEWNX9Ei5nhbtkCKtnLRgTnOdKNumQNiQZHiXQ64myxWLV
+   luvtntt/0WQ5k03UQVzKyEhavKryXR1XAnPAzFF8Rl8DMFben1+vv7SZF
+   IWyuJkxoiTxWIpcg34uSUgtWtGTIfAQUFTlwiWQovVM/gu9l4j5TowHt8
+   OzWaV/zbvQNd6FWCaQE4qimmcGmR1e2E+i+oxKPgf/RcpsfZxhxDeHfgG
+   ViFtTFitjcsU5vN0ZwykSKJQh5pXYOfDzyyJ7SWaZjEID1ibZu4whOmgk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="15647974"
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="15647974"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 08:28:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="10230542"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 07 Mar 2024 08:28:06 -0800
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1riGbD-0005Lj-2F;
+	Thu, 07 Mar 2024 16:28:03 +0000
+Date: Fri, 8 Mar 2024 00:27:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fsnotify-sbinfo 9/12]
+ include/linux/fsnotify_backend.h:490:28: error: 'struct super_block' has no
+ member named 's_fsnotify_info'
+Message-ID: <202403080015.J2oWJynt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-07_08,2024-03-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 mlxscore=0 spamscore=0 mlxlogscore=733 suspectscore=0
- malwarescore=0 phishscore=0 bulkscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2403070110
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Mar 07, 2024 at 04:38:20PM +0100, Sumanth Korikkar wrote:
-> From d6641b8492ade37709a7099cea0ef71f29d062d0 Mon Sep 17 00:00:00 2001
-> From: Sumanth Korikkar <sumanthk@linux.ibm.com>
-> Date: Thu, 7 Mar 2024 09:46:11 +0100
-> Subject: [PATCH] s390/tools: handle rela R_390_GOTPCDBL/R_390_GOTOFF64
-> 
-> lkp test robot reported unhandled relocation type: R_390_GOTPCDBL, when
-> kernel is built with -fno-PIE. relocs tool reads vmlinux and handles
-> absolute relocations.  PC relative relocs doesn't need adjustment.
-> 
-> Also, the R_390_GOTPCDBL/R_390_GOTOFF64 relocations are present
-> currently only when KASAN is enabled.
-> 
-> The following program can create a R_390_GOTPCDBL/R_390_GOTOFF64 reloc
-> (with fPIE/fPIC).
-> 
-> void funcb(int *b) {
->   *b = *b + 100;
-> }
-> 
-> void gen_gotoff(void)
-> {
->   int b = 10;
->   funcb (&b);
-> }
-> 
-> gcc -c sample.c -fPIC -fsanitize=kernel-address --param asan-stack=1
-> 
-> The above example (built with -fPIC) was linked to one of the
-> built-in.a (built with -fno-PIE) and checked for correctness with kaslr
-> enabled. Both the relocs turns out relative and can be skipped.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202402221404.T2TGs8El-lkp@intel.com/
-> Fixes: 55dc65b46023 ("s390: add relocs tool")
-> Signed-off-by: Sumanth Korikkar <sumanthk@linux.ibm.com>
-> ---
->  arch/s390/tools/relocs.c | 2 ++
->  1 file changed, 2 insertions(+)
+tree:   https://github.com/amir73il/linux fsnotify-sbinfo
+head:   937e7579197b4e5cb02d5525370c554378ff8fb8
+commit: 8c7adb172311fa05c785dc2d15dd2f76dfa5e3a6 [9/12] fsnotify: lazy attach fsnotify_sb_info state to sb
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240308/202403080015.J2oWJynt-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240308/202403080015.J2oWJynt-lkp@intel.com/reproduce)
 
-Applied, thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403080015.J2oWJynt-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from <command-line>:
+   include/linux/fsnotify_backend.h: In function 'fsnotify_sb_info':
+>> include/linux/fsnotify_backend.h:490:28: error: 'struct super_block' has no member named 's_fsnotify_info'
+     490 |         return READ_ONCE(sb->s_fsnotify_info);
+         |                            ^~
+   include/linux/compiler_types.h:422:23: note: in definition of macro '__compiletime_assert'
+     422 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:442:9: note: in expansion of macro '_compiletime_assert'
+     442 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fsnotify_backend.h:490:16: note: in expansion of macro 'READ_ONCE'
+     490 |         return READ_ONCE(sb->s_fsnotify_info);
+         |                ^~~~~~~~~
+>> include/linux/fsnotify_backend.h:490:28: error: 'struct super_block' has no member named 's_fsnotify_info'
+     490 |         return READ_ONCE(sb->s_fsnotify_info);
+         |                            ^~
+   include/linux/compiler_types.h:422:23: note: in definition of macro '__compiletime_assert'
+     422 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:442:9: note: in expansion of macro '_compiletime_assert'
+     442 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fsnotify_backend.h:490:16: note: in expansion of macro 'READ_ONCE'
+     490 |         return READ_ONCE(sb->s_fsnotify_info);
+         |                ^~~~~~~~~
+>> include/linux/fsnotify_backend.h:490:28: error: 'struct super_block' has no member named 's_fsnotify_info'
+     490 |         return READ_ONCE(sb->s_fsnotify_info);
+         |                            ^~
+   include/linux/compiler_types.h:422:23: note: in definition of macro '__compiletime_assert'
+     422 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:442:9: note: in expansion of macro '_compiletime_assert'
+     442 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fsnotify_backend.h:490:16: note: in expansion of macro 'READ_ONCE'
+     490 |         return READ_ONCE(sb->s_fsnotify_info);
+         |                ^~~~~~~~~
+>> include/linux/fsnotify_backend.h:490:28: error: 'struct super_block' has no member named 's_fsnotify_info'
+     490 |         return READ_ONCE(sb->s_fsnotify_info);
+         |                            ^~
+   include/linux/compiler_types.h:422:23: note: in definition of macro '__compiletime_assert'
+     422 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:442:9: note: in expansion of macro '_compiletime_assert'
+     442 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fsnotify_backend.h:490:16: note: in expansion of macro 'READ_ONCE'
+     490 |         return READ_ONCE(sb->s_fsnotify_info);
+         |                ^~~~~~~~~
+>> include/linux/fsnotify_backend.h:490:28: error: 'struct super_block' has no member named 's_fsnotify_info'
+     490 |         return READ_ONCE(sb->s_fsnotify_info);
+         |                            ^~
+   include/linux/compiler_types.h:422:23: note: in definition of macro '__compiletime_assert'
+     422 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:442:9: note: in expansion of macro '_compiletime_assert'
+     442 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fsnotify_backend.h:490:16: note: in expansion of macro 'READ_ONCE'
+     490 |         return READ_ONCE(sb->s_fsnotify_info);
+         |                ^~~~~~~~~
+>> include/linux/fsnotify_backend.h:490:28: error: 'struct super_block' has no member named 's_fsnotify_info'
+     490 |         return READ_ONCE(sb->s_fsnotify_info);
+         |                            ^~
+   include/linux/compiler_types.h:398:27: note: in definition of macro '__unqual_scalar_typeof'
+     398 |                 _Generic((x),                                           \
+         |                           ^
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |         ^~~~~~~~~~~
+   include/linux/fsnotify_backend.h:490:16: note: in expansion of macro 'READ_ONCE'
+     490 |         return READ_ONCE(sb->s_fsnotify_info);
+         |                ^~~~~~~~~
+   In file included from ./arch/openrisc/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:251,
+                    from include/linux/array_size.h:5,
+                    from include/linux/string.h:5,
+                    from fs/open.c:8:
+>> include/linux/fsnotify_backend.h:490:28: error: 'struct super_block' has no member named 's_fsnotify_info'
+     490 |         return READ_ONCE(sb->s_fsnotify_info);
+         |                            ^~
+   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+   include/linux/fsnotify_backend.h:490:16: note: in expansion of macro 'READ_ONCE'
+     490 |         return READ_ONCE(sb->s_fsnotify_info);
+         |                ^~~~~~~~~
+
+
+vim +490 include/linux/fsnotify_backend.h
+
+   487	
+   488	static inline struct fsnotify_sb_info *fsnotify_sb_info(struct super_block *sb)
+   489	{
+ > 490		return READ_ONCE(sb->s_fsnotify_info);
+   491	}
+   492	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
