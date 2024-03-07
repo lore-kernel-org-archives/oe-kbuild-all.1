@@ -1,160 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056A812EBCC;
-	Thu,  7 Mar 2024 15:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE87412EBCB
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 15:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709824927; cv=none; b=iuhFa/BeEY+A55xCQczFNtQazFBJ4AduTMZHyyWxrOYorAZFAVZ0czwasmW/8y3GtdgReSrqDdNsl47oLVVOzHz0oThepsZfA2OKxxXU+qtbCqCU9+uxxEzLvBICwTm6iqGeqCFBn1xgSmHOjTWFR75ckudMFrLrhojq0OWSi3c=
+	t=1709825929; cv=none; b=tR4eVRQMqNBx1Mu94Gstxvst3gZ9zGnPKISgCgXH3beRMKFokvgVS0EoaXVngD3O2XptIwxnbDXxweiBulA0ho7Z00DjYt/urhFRHpq0zNsSmXB4jLnA98hPuue+YKzpF6xMafSaCIK7u/49s1rUFheoADO9CZHZmgfcdWnNbPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709824927; c=relaxed/simple;
-	bh=dXXAP6ggtVzzLfF8jgYN0QQav58miECgxTM+SNjFCi0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ul/S2ayaZeOJ/0xPKMwIOFBl07tWMd5BT38cTygN3/zpYvzzyw7lDfa2rytE2zF8yx/KG/2kCMNUaC9I/cca2XMDNK1jiEW2EBG0NbgzaSYGvyEg3Ot+CEUXoQ4vvNsN1xRtas1cHt1V/63FdLEBVIgbONqwUuvw3uiofuRXNWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LgS+NoHh; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709825929; c=relaxed/simple;
+	bh=xH2BmgaZAE2Yhdvdw0dd+tzJMJqTX4TCBlGCIGZeMNA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=En1ZZ+M9ZKPqWLTCMfrZaqL2HUdaekSG7vvA/GdTScFyTxkzyf4pshgHLTx88P+dgSx6iaQnrjn3UPQl4gMwFph7/8/XwfHu8pu5clwOFZrL1ZwXJ7gQ0fgT9quLHhVfrPjdnTwugxF8/6doLUs28EXnO4HiNXa7Md/HRb1Eg0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=iG82JtSs; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LgS+NoHh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709824925; x=1741360925;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dXXAP6ggtVzzLfF8jgYN0QQav58miECgxTM+SNjFCi0=;
-  b=LgS+NoHhmTAdUkTPv42bZ82p3A7xtyqthiwJvUUeRqd5+yAQ+bHL66O9
-   61sH+uvQi+/NSvbhqYwarJk+ZWzAiKAOz2FSlv2mpBVQXX+fJw+AU1qE+
-   SguJwcKYZ+r1tjQC9SQmSD9aashEIHBHVA0MEbjxqqefEOVIJOQ54etBW
-   Eb9SvjMQhr6Owd07TWqjp+2jDCaOdCntpHII2IcTvNR1BA0b9PEOpf0YL
-   KDQzV5HUWTtaDeyq2gX6ZYbNFmRc11fTG7oTcNd6haA4/9b945SGHi2RZ
-   k0v6tqExpoutvdXex3qZB9Ge0gOloYxT/p7lI4IOudD7CUwOevjByh0I6
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="4617587"
-X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="4617587"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 07:22:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="14801134"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 07 Mar 2024 07:22:01 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1riFZG-0005Hr-2x;
-	Thu, 07 Mar 2024 15:21:58 +0000
-Date: Thu, 7 Mar 2024 23:21:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kvm@vger.kernel.org, eric.auger@redhat.com, clg@redhat.com,
-	reinette.chatre@intel.com, linux-kernel@vger.kernel.org,
-	kevin.tian@intel.com, diana.craciun@oss.nxp.com
-Subject: Re: [PATCH 7/7] vfio/fsl-mc: Block calling interrupt handler without
- trigger
-Message-ID: <202403072356.jlxR3E5Q-lkp@intel.com>
-References: <20240306211445.1856768-8-alex.williamson@redhat.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="iG82JtSs"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 427FUfRH013187;
+	Thu, 7 Mar 2024 15:38:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=pp1; bh=wwy+3RD7Wdhflmcy+sG2rwR59Vz285HwtjC3jS2AZ5c=;
+ b=iG82JtSsks8HJNCxwUTSITvcGTtnT/wZNYT5D6Dc2f7b82RwHKvPTf5yzgSt5n5wSlDb
+ GCpLdnlnByb5xAevOxJSZVlE/CyMSPlY0iNlzINhxLW80XPUG7+TyskRKbDBtXXEozil
+ TUfUvprbS2XfkynFcdaSs5FMlBZC5eDVaUQx73VN0fk0QHpndu31ZHsddjkKhMndLwEs
+ 5cznpVbb28DBgUg82E+hj/kILxaYL7zOAkUlzifUCQSdsZ48eVDaJuS/d1HGlC4w2YeL
+ 5C9Lqa76a0oGL9edN5jkp6Tbumt4b8yam2ep46UT2DejK9g6yk6OEAM8K6qIJqhY6SRM wQ== 
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wqg9pg99b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 07 Mar 2024 15:38:29 +0000
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 427F01JA010917;
+	Thu, 7 Mar 2024 15:38:27 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3wmh52p0wg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 07 Mar 2024 15:38:27 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 427FcL7842336670
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 7 Mar 2024 15:38:23 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C533320043;
+	Thu,  7 Mar 2024 15:38:21 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 845CB20040;
+	Thu,  7 Mar 2024 15:38:21 +0000 (GMT)
+Received: from li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com (unknown [9.155.203.167])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Thu,  7 Mar 2024 15:38:21 +0000 (GMT)
+Date: Thu, 7 Mar 2024 16:38:20 +0100
+From: Sumanth Korikkar <sumanthk@linux.ibm.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
+        gor@linux.ibm.com
+Cc: kernel test robot <lkp@intel.com>, s-vadapalli@ti.com,
+        r-gunasekaran@ti.com, rogerq@kernel.org, oe-kbuild-all@lists.linux.dev,
+        linux-s390@vger.kernel.org, iii@linux.ibm.com, agordeev@linux.ibm.com,
+        davem@davemloft.net, naresh.kamboju@linaro.org, sumanthk@linux.ibm.com
+Subject: Re: [s390:features 97/98] Unsupported relocation type: 21
+Message-ID: <ZenfbNt966EMJcsY@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+References: <202402221404.T2TGs8El-lkp@intel.com>
+ <ZdhtYc9THmX4Ddse@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+ <20240223235939.abycpq35ydgahdz2@treble>
+ <Zdxt97Ni3p8ptNyv@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+ <ZdyKJMEkm6r_ArrZ@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZdyKJMEkm6r_ArrZ@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 0tj6Gb9OwEccUAsIA4rVn8THGE303cwq
+X-Proofpoint-ORIG-GUID: 0tj6Gb9OwEccUAsIA4rVn8THGE303cwq
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240306211445.1856768-8-alex.williamson@redhat.com>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-07_08,2024-03-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ lowpriorityscore=0 spamscore=0 malwarescore=0 mlxscore=0 adultscore=0
+ phishscore=0 suspectscore=0 bulkscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2403070087
 
-Hi Alex,
+On Mon, Feb 26, 2024 at 01:55:02PM +0100, Sumanth Korikkar wrote:
+> On Mon, Feb 26, 2024 at 11:54:50AM +0100, Sumanth Korikkar wrote:
+> > Hi Josh,
+> > 
+> > On Fri, Feb 23, 2024 at 03:59:39PM -0800, Josh Poimboeuf wrote:
+> > > On Fri, Feb 23, 2024 at 11:03:13AM +0100, Sumanth Korikkar wrote:
+> > > > In the random config generated by lkp test robot
+> > > > 
+> > > >  CONFIG_TI_CPSW=m
+> > > >  CONFIG_TI_DAVINCI_EMAC=y
+> > > > 
+> > > > In drivers/net/ethernet/ti/Makefile:
+> > > >  11 obj-$(CONFIG_TI_DAVINCI_EMAC) += ti_davinci_emac.o
+> > > >  12 ti_davinci_emac-y := davinci_emac.o davinci_cpdma.o
+> > > >  ...
+> > > >  16 obj-$(CONFIG_TI_CPSW) += ti_cpsw.o
+> > > >  17 ti_cpsw-y := cpsw.o davinci_cpdma.o cpsw_ale.o cpsw_priv.o cpsw_sl.o cpsw_ethtool.o
+> > > > 
+> > > > Here davinci_cpdma.o is used in both   obj-$(CONFIG_TI_DAVINCI_EMAC) and
+> > > > obj-$(CONFIG_TI_CPSW), one built as inbuilt and one built as module
+> > > > correspondingly (randconfig)
+> > > > 
+> > > > This leads to conflict in Kbuild and results in linking  davinci_cpdma.o
+> > > > in vmlinux.
+> > > > * However, davinci_cpdma.o is built with -DMODULE -fPIC.
+> > > > * vmlinux is built with -fno-PIE.
+> > > > 
+> > > > This leads to R_390_GOTENT and R_390_GOTDBL entries in vmlinux, which is
+> > > > not expected when building kernel with -fno-PIE.
+> > > 
+> > > Nice.
+> > > 
+> > > I suppose the current s390 memory model wouldn't support removing
+> > > -fPIC for modules?
+> > 
+> > Answer from our toolchain team - Andreas Krebbel: It should be ideally
+> > feasible to build modules without -fPIC on s390.
+> 
+> FWIW, I'm looking into this right now. Let's see how things go.
 
-kernel test robot noticed the following build warnings:
+From d6641b8492ade37709a7099cea0ef71f29d062d0 Mon Sep 17 00:00:00 2001
+From: Sumanth Korikkar <sumanthk@linux.ibm.com>
+Date: Thu, 7 Mar 2024 09:46:11 +0100
+Subject: [PATCH] s390/tools: handle rela R_390_GOTPCDBL/R_390_GOTOFF64
 
-[auto build test WARNING on awilliam-vfio/next]
-[also build test WARNING on linus/master v6.8-rc7 next-20240307]
-[cannot apply to awilliam-vfio/for-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+lkp test robot reported unhandled relocation type: R_390_GOTPCDBL, when
+kernel is built with -fno-PIE. relocs tool reads vmlinux and handles
+absolute relocations.  PC relative relocs doesn't need adjustment.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Williamson/vfio-pci-Disable-auto-enable-of-exclusive-INTx-IRQ/20240307-051931
-base:   https://github.com/awilliam/linux-vfio.git next
-patch link:    https://lore.kernel.org/r/20240306211445.1856768-8-alex.williamson%40redhat.com
-patch subject: [PATCH 7/7] vfio/fsl-mc: Block calling interrupt handler without trigger
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240307/202403072356.jlxR3E5Q-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240307/202403072356.jlxR3E5Q-lkp@intel.com/reproduce)
+Also, the R_390_GOTPCDBL/R_390_GOTOFF64 relocations are present
+currently only when KASAN is enabled.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403072356.jlxR3E5Q-lkp@intel.com/
+The following program can create a R_390_GOTPCDBL/R_390_GOTOFF64 reloc
+(with fPIE/fPIC).
 
-All warnings (new ones prefixed by >>):
+void funcb(int *b) {
+  *b = *b + 100;
+}
 
->> drivers/vfio/fsl-mc/vfio_fsl_mc_intr.c:111:11: warning: variable 'hwirq' set but not used [-Wunused-but-set-variable]
-     111 |         int ret, hwirq;
-         |                  ^
-   1 warning generated.
+void gen_gotoff(void)
+{
+  int b = 10;
+  funcb (&b);
+}
 
+gcc -c sample.c -fPIC -fsanitize=kernel-address --param asan-stack=1
 
-vim +/hwirq +111 drivers/vfio/fsl-mc/vfio_fsl_mc_intr.c
+The above example (built with -fPIC) was linked to one of the
+built-in.a (built with -fno-PIE) and checked for correctness with kaslr
+enabled. Both the relocs turns out relative and can be skipped.
 
-cc0ee20bd96971 Diana Craciun   2020-10-05  104  
-2e0d29561f593a Diana Craciun   2020-10-05  105  static int vfio_fsl_mc_set_irq_trigger(struct vfio_fsl_mc_device *vdev,
-2e0d29561f593a Diana Craciun   2020-10-05  106  				       unsigned int index, unsigned int start,
-2e0d29561f593a Diana Craciun   2020-10-05  107  				       unsigned int count, u32 flags,
-2e0d29561f593a Diana Craciun   2020-10-05  108  				       void *data)
-2e0d29561f593a Diana Craciun   2020-10-05  109  {
-cc0ee20bd96971 Diana Craciun   2020-10-05  110  	struct fsl_mc_device *mc_dev = vdev->mc_dev;
-cc0ee20bd96971 Diana Craciun   2020-10-05 @111  	int ret, hwirq;
-cc0ee20bd96971 Diana Craciun   2020-10-05  112  	struct vfio_fsl_mc_irq *irq;
-cc0ee20bd96971 Diana Craciun   2020-10-05  113  	struct device *cont_dev = fsl_mc_cont_dev(&mc_dev->dev);
-cc0ee20bd96971 Diana Craciun   2020-10-05  114  	struct fsl_mc_device *mc_cont = to_fsl_mc_device(cont_dev);
-cc0ee20bd96971 Diana Craciun   2020-10-05  115  
-159246378d8483 Diana Craciun   2020-10-15  116  	if (!count && (flags & VFIO_IRQ_SET_DATA_NONE))
-159246378d8483 Diana Craciun   2020-10-15  117  		return vfio_set_trigger(vdev, index, -1);
-159246378d8483 Diana Craciun   2020-10-15  118  
-cc0ee20bd96971 Diana Craciun   2020-10-05  119  	if (start != 0 || count != 1)
-2e0d29561f593a Diana Craciun   2020-10-05  120  		return -EINVAL;
-cc0ee20bd96971 Diana Craciun   2020-10-05  121  
-da119f387e9464 Jason Gunthorpe 2021-08-05  122  	mutex_lock(&vdev->vdev.dev_set->lock);
-cc0ee20bd96971 Diana Craciun   2020-10-05  123  	ret = fsl_mc_populate_irq_pool(mc_cont,
-cc0ee20bd96971 Diana Craciun   2020-10-05  124  			FSL_MC_IRQ_POOL_MAX_TOTAL_IRQS);
-cc0ee20bd96971 Diana Craciun   2020-10-05  125  	if (ret)
-cc0ee20bd96971 Diana Craciun   2020-10-05  126  		goto unlock;
-cc0ee20bd96971 Diana Craciun   2020-10-05  127  
-cc0ee20bd96971 Diana Craciun   2020-10-05  128  	ret = vfio_fsl_mc_irqs_allocate(vdev);
-cc0ee20bd96971 Diana Craciun   2020-10-05  129  	if (ret)
-cc0ee20bd96971 Diana Craciun   2020-10-05  130  		goto unlock;
-da119f387e9464 Jason Gunthorpe 2021-08-05  131  	mutex_unlock(&vdev->vdev.dev_set->lock);
-cc0ee20bd96971 Diana Craciun   2020-10-05  132  
-cc0ee20bd96971 Diana Craciun   2020-10-05  133  	if (flags & VFIO_IRQ_SET_DATA_EVENTFD) {
-cc0ee20bd96971 Diana Craciun   2020-10-05  134  		s32 fd = *(s32 *)data;
-cc0ee20bd96971 Diana Craciun   2020-10-05  135  
-cc0ee20bd96971 Diana Craciun   2020-10-05  136  		return vfio_set_trigger(vdev, index, fd);
-cc0ee20bd96971 Diana Craciun   2020-10-05  137  	}
-cc0ee20bd96971 Diana Craciun   2020-10-05  138  
-d86a6d47bcc6b4 Thomas Gleixner 2021-12-10  139  	hwirq = vdev->mc_dev->irqs[index]->virq;
-cc0ee20bd96971 Diana Craciun   2020-10-05  140  
-cc0ee20bd96971 Diana Craciun   2020-10-05  141  	irq = &vdev->mc_irqs[index];
-cc0ee20bd96971 Diana Craciun   2020-10-05  142  
-cc0ee20bd96971 Diana Craciun   2020-10-05  143  	if (flags & VFIO_IRQ_SET_DATA_NONE) {
-dce72fdf5c6be9 Alex Williamson 2024-03-06  144  		if (irq->trigger)
-dce72fdf5c6be9 Alex Williamson 2024-03-06  145  			eventfd_signal(irq->trigger);
-cc0ee20bd96971 Diana Craciun   2020-10-05  146  
-cc0ee20bd96971 Diana Craciun   2020-10-05  147  	} else if (flags & VFIO_IRQ_SET_DATA_BOOL) {
-cc0ee20bd96971 Diana Craciun   2020-10-05  148  		u8 trigger = *(u8 *)data;
-cc0ee20bd96971 Diana Craciun   2020-10-05  149  
-dce72fdf5c6be9 Alex Williamson 2024-03-06  150  		if (trigger && irq->trigger)
-dce72fdf5c6be9 Alex Williamson 2024-03-06  151  			eventfd_signal(irq->trigger);
-cc0ee20bd96971 Diana Craciun   2020-10-05  152  	}
-cc0ee20bd96971 Diana Craciun   2020-10-05  153  
-cc0ee20bd96971 Diana Craciun   2020-10-05  154  	return 0;
-cc0ee20bd96971 Diana Craciun   2020-10-05  155  
-cc0ee20bd96971 Diana Craciun   2020-10-05  156  unlock:
-da119f387e9464 Jason Gunthorpe 2021-08-05  157  	mutex_unlock(&vdev->vdev.dev_set->lock);
-cc0ee20bd96971 Diana Craciun   2020-10-05  158  	return ret;
-cc0ee20bd96971 Diana Craciun   2020-10-05  159  
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202402221404.T2TGs8El-lkp@intel.com/
+Fixes: 55dc65b46023 ("s390: add relocs tool")
+Signed-off-by: Sumanth Korikkar <sumanthk@linux.ibm.com>
+---
+ arch/s390/tools/relocs.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/arch/s390/tools/relocs.c b/arch/s390/tools/relocs.c
+index db8bcbf9d8f8..30a732c808f3 100644
+--- a/arch/s390/tools/relocs.c
++++ b/arch/s390/tools/relocs.c
+@@ -276,6 +276,8 @@ static int do_reloc(struct section *sec, Elf_Rel *rel)
+ 	case R_390_PC32DBL:
+ 	case R_390_PLT32DBL:
+ 	case R_390_GOTENT:
++	case R_390_GOTPCDBL:
++	case R_390_GOTOFF64:
+ 		break;
+ 	case R_390_64:
+ 		add_reloc(&relocs64, offset);
+--
+2.40.1
+
