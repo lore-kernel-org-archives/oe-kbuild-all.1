@@ -1,69 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AE982D91;
-	Thu,  7 Mar 2024 11:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E5682891
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 11:30:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709809743; cv=none; b=PiXv92FRTaMtelkUIjYtHDNkCN5wcgr+C+tAsf5ebGB9HJNAe7nnLm1Somtt1y7VWFjZoKQBK9Zqf77hXJq0+5biht4r4Bpay/jLzHc62fek9sdutONvkXn5vYz1ivnJ1Ue+1rowqs3OgveJ3JEDwWyZU+dskSZSyVX80Cldaks=
+	t=1709811061; cv=none; b=lsuTHveNdb/wuWqfQOScxBaSC24yZkCgZlAY14LpofIPIOtQcN1I3FnZBwVMlcb43Y5Jx38BAz1kjGusH3tdrfAvFCYD5sRqKThXuO5hhOhsQXrzJ0VTWrBEORUOBlqNPNaDHhfdlkLsK1rZST15KTiSofkMMu6WOgCXnUnVqrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709809743; c=relaxed/simple;
-	bh=ouDZ0ujGuKmlj1Z5zELF5CFA2af4msmT0TU1fhL9Md8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TIcLnusIGJsUlv/kTBMKH0x4j+V82HqlTtUezDtBHrAgDjWJChif6/wRHkLNEk5LTzNLIN4hXl/yEuyVyw/YVqtau/Fn4V315FNEhJCRy+XYaN7PvfHHT1MNPqlny4sqWr8XCJddyAOl4rk6uicY53WYlxVcGVHkVI80/LVBpTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AHZ4oEmv; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1709811061; c=relaxed/simple;
+	bh=HRkNkU9Ia5XFyjG2XEH3c/ueOLKfzwp4TDjYOAOBVfk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KBQW35ffVvwgBANFgdrNiDRmBGuAyB7DwXJS8hWlHU+N8bKvdfk3Hh4apLihMuiSzrhwQRoZ2x+n0GcA0xwTUgTfvSvLChUBy/K2l+LodlJeZcX4EfUTg3od1qM6uKNaJNLCxEe79s5pQnh7MIatb3hg8JzHpL1Txk7hQKsr35g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZHE2RRW8; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AHZ4oEmv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZHE2RRW8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709809742; x=1741345742;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ouDZ0ujGuKmlj1Z5zELF5CFA2af4msmT0TU1fhL9Md8=;
-  b=AHZ4oEmv7zm2M2jcvGE5X+qdtH21AWdeB/fSB99ilbiDIUsxh9Ch2U5M
-   s2dpW08mr6VHoHOzoTSG1Yj7zpO7ahTstQEsvahzsQHJzVU8uu9RUGfD5
-   XvhEDMHHMjE1TsWFhhlMu7Ex1ufcKlCVfRvJ7HQgNf9ruyIu/b/jbhTPK
-   lCQNOPZ+ypZFN6EBcZxSMefxZo8dPCfeEZvS/mdevc3v5Mfk/ybQkzQBo
-   bcB/8sEUHpmU+roCOKWUGVvoiSaF6aR7ew8W2umUKgmcJ0w5ZvVLb3qNu
-   heU0zbACBHcxTpw252NnXxCfOaPHjtYHwLwo5hb+jeaBq2lpN3e2X57xv
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="4329828"
-X-IronPort-AV: E=Sophos;i="6.06,211,1705392000"; 
-   d="scan'208";a="4329828"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 03:09:01 -0800
+  t=1709811059; x=1741347059;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HRkNkU9Ia5XFyjG2XEH3c/ueOLKfzwp4TDjYOAOBVfk=;
+  b=ZHE2RRW8emRHYBMYk+fI7ORLEMUMSKsBSuG27SVmnAREyM61DFjTmP5f
+   T3b6bnD9K1TAKWhR2RMWLRKrc4agwMgjSNQKSHoBQRnvBP9vBRbHNzcP2
+   lPIHsNmCRKUbS7cLw6uTVmP2m+JViEo19DXw96WyGMpZW1RJQ5GGPAJOb
+   00yqaZgU+7CnnM7D+ce1NOFhwKh+6EygTSE4yzsxn2vQ/vM238hgPOy2D
+   apqQ1ohhVd61fCmsJRXfM2airdJ/vdcL+qBW6EiIPZHHEvZSVP/F1cIe6
+   U0kKfnVQA1UyTLyluWp4yxRkeVtCldyINBqiXYstReZwqOABgDBl2kcPF
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="4321000"
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="4321000"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 03:30:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,211,1705392000"; 
-   d="scan'208";a="10057605"
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="47574436"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Mar 2024 03:08:56 -0800
+  by orviesa001.jf.intel.com with ESMTP; 07 Mar 2024 03:30:56 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1riBcK-00056n-2K;
-	Thu, 07 Mar 2024 11:08:52 +0000
-Date: Thu, 7 Mar 2024 19:08:23 +0800
+	id 1riBxd-000589-1s;
+	Thu, 07 Mar 2024 11:30:53 +0000
+Date: Thu, 7 Mar 2024 19:30:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Li Zhijian <lizhijian@fujitsu.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, y-goto@fujitsu.com,
-	Alison Schofield <alison.schofield@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
+To: Filipe Manana <fdmanana@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Baoquan He <bhe@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, hpa@zytor.com,
-	Ingo Molnar <mingo@redhat.com>, Ira Weiny <ira.weiny@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vishal Verma <vishal.l.verma@intel.com>, linux-cxl@vger.kernel.org,
-	nvdimm@lists.linux.dev, x86@kernel.org, kexec@lists.infradead.org,
-	Li Zhijian <lizhijian@fujitsu.com>
-Subject: Re: [PATCH v3 3/7] nvdimm: pmem: assign a parent resource for
- vmemmap region for the fsdax
-Message-ID: <202403071804.b9EgMxWo-lkp@intel.com>
-References: <20240306102846.1020868-4-lizhijian@fujitsu.com>
+	David Sterba <dsterba@suse.com>, Josef Bacik <josef@toxicpanda.com>
+Subject: [linux-next:master 11882/12647] fs/btrfs/extent_io.c:3246:26:
+ warning: 'last_extent_end' may be used uninitialized
+Message-ID: <202403071947.NUYuBx0G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,197 +59,292 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240306102846.1020868-4-lizhijian@fujitsu.com>
 
-Hi Li,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on nvdimm/libnvdimm-for-next]
-[also build test ERROR on tip/x86/core linus/master v6.8-rc7]
-[cannot apply to akpm-mm/mm-everything nvdimm/dax-misc next-20240306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Li-Zhijian/mm-memremap-register-unregister-altmap-region-to-a-separate-resource/20240306-183118
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/nvdimm/nvdimm.git libnvdimm-for-next
-patch link:    https://lore.kernel.org/r/20240306102846.1020868-4-lizhijian%40fujitsu.com
-patch subject: [PATCH v3 3/7] nvdimm: pmem: assign a parent resource for vmemmap region for the fsdax
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240307/202403071804.b9EgMxWo-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240307/202403071804.b9EgMxWo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   1843e16d2df9d98427ef8045589571749d627cf7
+commit: 978b63f7464abcfd364a6c95f734282c50f3decf [11882/12647] btrfs: fix race when detecting delalloc ranges during fiemap
+config: s390-randconfig-c005-20230325 (https://download.01.org/0day-ci/archive/20240307/202403071947.NUYuBx0G-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240307/202403071947.NUYuBx0G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403071804.b9EgMxWo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403071947.NUYuBx0G-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
-   drivers/nvdimm/pmem.c: In function 'pmem_attach_disk':
->> drivers/nvdimm/pmem.c:501:9: error: implicit declaration of function 'pgmap_parent_resource' [-Werror=implicit-function-declaration]
-     501 |         pgmap_parent_resource(&pmem->pgmap, parent);
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+All warnings (new ones prefixed by >>):
+
+   fs/btrfs/extent_io.c: In function 'extent_fiemap':
+>> fs/btrfs/extent_io.c:3246:26: warning: 'last_extent_end' may be used uninitialized [-Wmaybe-uninitialized]
+    3246 |         if (cache.cached && cache.offset + cache.len >= last_extent_end) {
+         |             ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/extent_io.c:3064:13: note: 'last_extent_end' was declared here
+    3064 |         u64 last_extent_end;
+         |             ^~~~~~~~~~~~~~~
 
 
-vim +/pgmap_parent_resource +501 drivers/nvdimm/pmem.c
+vim +/last_extent_end +3246 fs/btrfs/extent_io.c
 
-   448	
-   449	static int pmem_attach_disk(struct device *dev,
-   450			struct nd_namespace_common *ndns)
-   451	{
-   452		struct nd_namespace_io *nsio = to_nd_namespace_io(&ndns->dev);
-   453		struct nd_region *nd_region = to_nd_region(dev->parent);
-   454		int nid = dev_to_node(dev), fua;
-   455		struct resource *res = &nsio->res, *parent;
-   456		struct range bb_range;
-   457		struct nd_pfn *nd_pfn = NULL;
-   458		struct dax_device *dax_dev;
-   459		struct nd_pfn_sb *pfn_sb;
-   460		struct pmem_device *pmem;
-   461		struct request_queue *q;
-   462		struct gendisk *disk;
-   463		void *addr;
-   464		int rc;
-   465	
-   466		pmem = devm_kzalloc(dev, sizeof(*pmem), GFP_KERNEL);
-   467		if (!pmem)
-   468			return -ENOMEM;
-   469	
-   470		rc = devm_namespace_enable(dev, ndns, nd_info_block_reserve());
-   471		if (rc)
-   472			return rc;
-   473	
-   474		/* while nsio_rw_bytes is active, parse a pfn info block if present */
-   475		if (is_nd_pfn(dev)) {
-   476			nd_pfn = to_nd_pfn(dev);
-   477			rc = nvdimm_setup_pfn(nd_pfn, &pmem->pgmap);
-   478			if (rc)
-   479				return rc;
-   480		}
-   481	
-   482		/* we're attaching a block device, disable raw namespace access */
-   483		devm_namespace_disable(dev, ndns);
-   484	
-   485		dev_set_drvdata(dev, pmem);
-   486		pmem->phys_addr = res->start;
-   487		pmem->size = resource_size(res);
-   488		fua = nvdimm_has_flush(nd_region);
-   489		if (!IS_ENABLED(CONFIG_ARCH_HAS_UACCESS_FLUSHCACHE) || fua < 0) {
-   490			dev_warn(dev, "unable to guarantee persistence of writes\n");
-   491			fua = 0;
-   492		}
-   493	
-   494		parent = devm_request_mem_region(dev, res->start, resource_size(res),
-   495					dev_name(&ndns->dev));
-   496		if (!res) {
-   497			dev_warn(dev, "could not reserve region %pR\n", res);
-   498			return -EBUSY;
-   499		}
-   500	
- > 501		pgmap_parent_resource(&pmem->pgmap, parent);
-   502	
-   503		disk = blk_alloc_disk(nid);
-   504		if (!disk)
-   505			return -ENOMEM;
-   506		q = disk->queue;
-   507	
-   508		pmem->disk = disk;
-   509		pmem->pgmap.owner = pmem;
-   510		pmem->pfn_flags = PFN_DEV;
-   511		if (is_nd_pfn(dev)) {
-   512			pmem->pgmap.type = MEMORY_DEVICE_FS_DAX;
-   513			pmem->pgmap.ops = &fsdax_pagemap_ops;
-   514			addr = devm_memremap_pages(dev, &pmem->pgmap);
-   515			pfn_sb = nd_pfn->pfn_sb;
-   516			pmem->data_offset = le64_to_cpu(pfn_sb->dataoff);
-   517			pmem->pfn_pad = resource_size(res) -
-   518				range_len(&pmem->pgmap.range);
-   519			pmem->pfn_flags |= PFN_MAP;
-   520			bb_range = pmem->pgmap.range;
-   521			bb_range.start += pmem->data_offset;
-   522		} else if (pmem_should_map_pages(dev)) {
-   523			pmem->pgmap.range.start = res->start;
-   524			pmem->pgmap.range.end = res->end;
-   525			pmem->pgmap.nr_range = 1;
-   526			pmem->pgmap.type = MEMORY_DEVICE_FS_DAX;
-   527			pmem->pgmap.ops = &fsdax_pagemap_ops;
-   528			addr = devm_memremap_pages(dev, &pmem->pgmap);
-   529			pmem->pfn_flags |= PFN_MAP;
-   530			bb_range = pmem->pgmap.range;
-   531		} else {
-   532			addr = devm_memremap(dev, pmem->phys_addr,
-   533					pmem->size, ARCH_MEMREMAP_PMEM);
-   534			bb_range.start =  res->start;
-   535			bb_range.end = res->end;
-   536		}
-   537	
-   538		if (IS_ERR(addr)) {
-   539			rc = PTR_ERR(addr);
-   540			goto out;
-   541		}
-   542		pmem->virt_addr = addr;
-   543	
-   544		blk_queue_write_cache(q, true, fua);
-   545		blk_queue_physical_block_size(q, PAGE_SIZE);
-   546		blk_queue_logical_block_size(q, pmem_sector_size(ndns));
-   547		blk_queue_max_hw_sectors(q, UINT_MAX);
-   548		blk_queue_flag_set(QUEUE_FLAG_NONROT, q);
-   549		blk_queue_flag_set(QUEUE_FLAG_SYNCHRONOUS, q);
-   550		if (pmem->pfn_flags & PFN_MAP)
-   551			blk_queue_flag_set(QUEUE_FLAG_DAX, q);
-   552	
-   553		disk->fops		= &pmem_fops;
-   554		disk->private_data	= pmem;
-   555		nvdimm_namespace_disk_name(ndns, disk->disk_name);
-   556		set_capacity(disk, (pmem->size - pmem->pfn_pad - pmem->data_offset)
-   557				/ 512);
-   558		if (devm_init_badblocks(dev, &pmem->bb))
-   559			return -ENOMEM;
-   560		nvdimm_badblocks_populate(nd_region, &pmem->bb, &bb_range);
-   561		disk->bb = &pmem->bb;
-   562	
-   563		dax_dev = alloc_dax(pmem, &pmem_dax_ops);
-   564		if (IS_ERR(dax_dev)) {
-   565			rc = PTR_ERR(dax_dev);
-   566			goto out;
-   567		}
-   568		set_dax_nocache(dax_dev);
-   569		set_dax_nomc(dax_dev);
-   570		if (is_nvdimm_sync(nd_region))
-   571			set_dax_synchronous(dax_dev);
-   572		rc = dax_add_host(dax_dev, disk);
-   573		if (rc)
-   574			goto out_cleanup_dax;
-   575		dax_write_cache(dax_dev, nvdimm_has_cache(nd_region));
-   576		pmem->dax_dev = dax_dev;
-   577	
-   578		rc = device_add_disk(dev, disk, pmem_attribute_groups);
-   579		if (rc)
-   580			goto out_remove_host;
-   581		if (devm_add_action_or_reset(dev, pmem_release_disk, pmem))
-   582			return -ENOMEM;
-   583	
-   584		nvdimm_check_and_set_ro(disk);
-   585	
-   586		pmem->bb_state = sysfs_get_dirent(disk_to_dev(disk)->kobj.sd,
-   587						  "badblocks");
-   588		if (!pmem->bb_state)
-   589			dev_warn(dev, "'badblocks' notification disabled\n");
-   590		return 0;
-   591	
-   592	out_remove_host:
-   593		dax_remove_host(pmem->disk);
-   594	out_cleanup_dax:
-   595		kill_dax(pmem->dax_dev);
-   596		put_dax(pmem->dax_dev);
-   597	out:
-   598		put_disk(pmem->disk);
-   599		return rc;
-   600	}
-   601	
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3054  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3055  int extent_fiemap(struct btrfs_inode *inode, struct fiemap_extent_info *fieinfo,
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3056  		  u64 start, u64 len)
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3057  {
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3058  	const u64 ino = btrfs_ino(inode);
+978b63f7464abc Filipe Manana  2024-02-28  3059  	struct extent_state *cached_state = NULL;
+b3e744fe6d289b Filipe Manana  2022-11-11  3060  	struct extent_state *delalloc_cached_state = NULL;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3061  	struct btrfs_path *path;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3062  	struct fiemap_cache cache = { 0 };
+61dbb952f0a5f5 Filipe Manana  2022-10-11  3063  	struct btrfs_backref_share_check_ctx *backref_ctx;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3064  	u64 last_extent_end;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3065  	u64 prev_extent_end;
+b0ad381fa76902 Josef Bacik    2024-02-12  3066  	u64 range_start;
+b0ad381fa76902 Josef Bacik    2024-02-12  3067  	u64 range_end;
+b0ad381fa76902 Josef Bacik    2024-02-12  3068  	const u64 sectorsize = inode->root->fs_info->sectorsize;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3069  	bool stopped = false;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3070  	int ret;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3071  
+978b63f7464abc Filipe Manana  2024-02-28  3072  	cache.entries_size = PAGE_SIZE / sizeof(struct btrfs_fiemap_entry);
+978b63f7464abc Filipe Manana  2024-02-28  3073  	cache.entries = kmalloc_array(cache.entries_size,
+978b63f7464abc Filipe Manana  2024-02-28  3074  				      sizeof(struct btrfs_fiemap_entry),
+978b63f7464abc Filipe Manana  2024-02-28  3075  				      GFP_KERNEL);
+84a7949d409753 Filipe Manana  2022-10-11  3076  	backref_ctx = btrfs_alloc_backref_share_check_ctx();
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3077  	path = btrfs_alloc_path();
+978b63f7464abc Filipe Manana  2024-02-28  3078  	if (!cache.entries || !backref_ctx || !path) {
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3079  		ret = -ENOMEM;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3080  		goto out;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3081  	}
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3082  
+978b63f7464abc Filipe Manana  2024-02-28  3083  restart:
+b0ad381fa76902 Josef Bacik    2024-02-12  3084  	range_start = round_down(start, sectorsize);
+b0ad381fa76902 Josef Bacik    2024-02-12  3085  	range_end = round_up(start + len, sectorsize);
+b0ad381fa76902 Josef Bacik    2024-02-12  3086  	prev_extent_end = range_start;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3087  
+978b63f7464abc Filipe Manana  2024-02-28  3088  	lock_extent(&inode->io_tree, range_start, range_end, &cached_state);
+978b63f7464abc Filipe Manana  2024-02-28  3089  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3090  	ret = fiemap_find_last_extent_offset(inode, path, &last_extent_end);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3091  	if (ret < 0)
+978b63f7464abc Filipe Manana  2024-02-28  3092  		goto out_unlock;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3093  	btrfs_release_path(path);
+fe09e16cc8d444 Liu Bo         2013-09-22  3094  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3095  	path->reada = READA_FORWARD;
+b0ad381fa76902 Josef Bacik    2024-02-12  3096  	ret = fiemap_search_slot(inode, path, range_start);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3097  	if (ret < 0) {
+978b63f7464abc Filipe Manana  2024-02-28  3098  		goto out_unlock;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3099  	} else if (ret > 0) {
+b8f164e3e67f22 Filipe Manana  2022-09-01  3100  		/*
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3101  		 * No file extent item found, but we may have delalloc between
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3102  		 * the current offset and i_size. So check for that.
+b8f164e3e67f22 Filipe Manana  2022-09-01  3103  		 */
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3104  		ret = 0;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3105  		goto check_eof_delalloc;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3106  	}
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3107  
+b0ad381fa76902 Josef Bacik    2024-02-12  3108  	while (prev_extent_end < range_end) {
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3109  		struct extent_buffer *leaf = path->nodes[0];
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3110  		struct btrfs_file_extent_item *ei;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3111  		struct btrfs_key key;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3112  		u64 extent_end;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3113  		u64 extent_len;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3114  		u64 extent_offset = 0;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3115  		u64 extent_gen;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3116  		u64 disk_bytenr = 0;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3117  		u64 flags = 0;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3118  		int extent_type;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3119  		u8 compression;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3120  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3121  		btrfs_item_key_to_cpu(leaf, &key, path->slots[0]);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3122  		if (key.objectid != ino || key.type != BTRFS_EXTENT_DATA_KEY)
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3123  			break;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3124  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3125  		extent_end = btrfs_file_extent_end(path);
+b8f164e3e67f22 Filipe Manana  2022-09-01  3126  
+fe09e16cc8d444 Liu Bo         2013-09-22  3127  		/*
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3128  		 * The first iteration can leave us at an extent item that ends
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3129  		 * before our range's start. Move to the next item.
+fe09e16cc8d444 Liu Bo         2013-09-22  3130  		 */
+b0ad381fa76902 Josef Bacik    2024-02-12  3131  		if (extent_end <= range_start)
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3132  			goto next_item;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3133  
+877c14767f106a Filipe Manana  2022-10-11  3134  		backref_ctx->curr_leaf_bytenr = leaf->start;
+877c14767f106a Filipe Manana  2022-10-11  3135  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3136  		/* We have in implicit hole (NO_HOLES feature enabled). */
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3137  		if (prev_extent_end < key.offset) {
+b0ad381fa76902 Josef Bacik    2024-02-12  3138  			const u64 hole_end = min(key.offset, range_end) - 1;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3139  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3140  			ret = fiemap_process_hole(inode, fieinfo, &cache,
+b3e744fe6d289b Filipe Manana  2022-11-11  3141  						  &delalloc_cached_state,
+61dbb952f0a5f5 Filipe Manana  2022-10-11  3142  						  backref_ctx, 0, 0, 0,
+b0ad381fa76902 Josef Bacik    2024-02-12  3143  						  prev_extent_end, hole_end);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3144  			if (ret < 0) {
+978b63f7464abc Filipe Manana  2024-02-28  3145  				goto out_unlock;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3146  			} else if (ret > 0) {
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3147  				/* fiemap_fill_next_extent() told us to stop. */
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3148  				stopped = true;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3149  				break;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3150  			}
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3151  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3152  			/* We've reached the end of the fiemap range, stop. */
+b0ad381fa76902 Josef Bacik    2024-02-12  3153  			if (key.offset >= range_end) {
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3154  				stopped = true;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3155  				break;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3156  			}
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3157  		}
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3158  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3159  		extent_len = extent_end - key.offset;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3160  		ei = btrfs_item_ptr(leaf, path->slots[0],
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3161  				    struct btrfs_file_extent_item);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3162  		compression = btrfs_file_extent_compression(leaf, ei);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3163  		extent_type = btrfs_file_extent_type(leaf, ei);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3164  		extent_gen = btrfs_file_extent_generation(leaf, ei);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3165  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3166  		if (extent_type != BTRFS_FILE_EXTENT_INLINE) {
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3167  			disk_bytenr = btrfs_file_extent_disk_bytenr(leaf, ei);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3168  			if (compression == BTRFS_COMPRESS_NONE)
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3169  				extent_offset = btrfs_file_extent_offset(leaf, ei);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3170  		}
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3171  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3172  		if (compression != BTRFS_COMPRESS_NONE)
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3173  			flags |= FIEMAP_EXTENT_ENCODED;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3174  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3175  		if (extent_type == BTRFS_FILE_EXTENT_INLINE) {
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3176  			flags |= FIEMAP_EXTENT_DATA_INLINE;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3177  			flags |= FIEMAP_EXTENT_NOT_ALIGNED;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3178  			ret = emit_fiemap_extent(fieinfo, &cache, key.offset, 0,
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3179  						 extent_len, flags);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3180  		} else if (extent_type == BTRFS_FILE_EXTENT_PREALLOC) {
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3181  			ret = fiemap_process_hole(inode, fieinfo, &cache,
+b3e744fe6d289b Filipe Manana  2022-11-11  3182  						  &delalloc_cached_state,
+61dbb952f0a5f5 Filipe Manana  2022-10-11  3183  						  backref_ctx,
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3184  						  disk_bytenr, extent_offset,
+84a7949d409753 Filipe Manana  2022-10-11  3185  						  extent_gen, key.offset,
+84a7949d409753 Filipe Manana  2022-10-11  3186  						  extent_end - 1);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3187  		} else if (disk_bytenr == 0) {
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3188  			/* We have an explicit hole. */
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3189  			ret = fiemap_process_hole(inode, fieinfo, &cache,
+b3e744fe6d289b Filipe Manana  2022-11-11  3190  						  &delalloc_cached_state,
+61dbb952f0a5f5 Filipe Manana  2022-10-11  3191  						  backref_ctx, 0, 0, 0,
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3192  						  key.offset, extent_end - 1);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3193  		} else {
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3194  			/* We have a regular extent. */
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3195  			if (fieinfo->fi_extents_max) {
+ceb707da9ad92a Filipe Manana  2022-10-11  3196  				ret = btrfs_is_data_extent_shared(inode,
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3197  								  disk_bytenr,
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3198  								  extent_gen,
+61dbb952f0a5f5 Filipe Manana  2022-10-11  3199  								  backref_ctx);
+dc046b10c8b7d4 Josef Bacik    2014-09-10  3200  				if (ret < 0)
+978b63f7464abc Filipe Manana  2024-02-28  3201  					goto out_unlock;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3202  				else if (ret > 0)
+fe09e16cc8d444 Liu Bo         2013-09-22  3203  					flags |= FIEMAP_EXTENT_SHARED;
+1506fcc8189cdd Yehuda Sadeh   2009-01-21  3204  			}
+1506fcc8189cdd Yehuda Sadeh   2009-01-21  3205  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3206  			ret = emit_fiemap_extent(fieinfo, &cache, key.offset,
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3207  						 disk_bytenr + extent_offset,
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3208  						 extent_len, flags);
+1506fcc8189cdd Yehuda Sadeh   2009-01-21  3209  		}
+1506fcc8189cdd Yehuda Sadeh   2009-01-21  3210  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3211  		if (ret < 0) {
+978b63f7464abc Filipe Manana  2024-02-28  3212  			goto out_unlock;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3213  		} else if (ret > 0) {
+978b63f7464abc Filipe Manana  2024-02-28  3214  			/* emit_fiemap_extent() told us to stop. */
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3215  			stopped = true;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3216  			break;
+1506fcc8189cdd Yehuda Sadeh   2009-01-21  3217  		}
+09fbc1c8e7b00e Filipe Manana  2022-09-01  3218  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3219  		prev_extent_end = extent_end;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3220  next_item:
+09fbc1c8e7b00e Filipe Manana  2022-09-01  3221  		if (fatal_signal_pending(current)) {
+09fbc1c8e7b00e Filipe Manana  2022-09-01  3222  			ret = -EINTR;
+978b63f7464abc Filipe Manana  2024-02-28  3223  			goto out_unlock;
+09fbc1c8e7b00e Filipe Manana  2022-09-01  3224  		}
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3225  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3226  		ret = fiemap_next_leaf_item(inode, path);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3227  		if (ret < 0) {
+978b63f7464abc Filipe Manana  2024-02-28  3228  			goto out_unlock;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3229  		} else if (ret > 0) {
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3230  			/* No more file extent items for this inode. */
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3231  			break;
+26e726afe01c1c Chengyu Song   2015-03-24  3232  		}
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3233  		cond_resched();
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3234  	}
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3235  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3236  check_eof_delalloc:
+b0ad381fa76902 Josef Bacik    2024-02-12  3237  	if (!stopped && prev_extent_end < range_end) {
+b3e744fe6d289b Filipe Manana  2022-11-11  3238  		ret = fiemap_process_hole(inode, fieinfo, &cache,
+b3e744fe6d289b Filipe Manana  2022-11-11  3239  					  &delalloc_cached_state, backref_ctx,
+b0ad381fa76902 Josef Bacik    2024-02-12  3240  					  0, 0, 0, prev_extent_end, range_end - 1);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3241  		if (ret < 0)
+978b63f7464abc Filipe Manana  2024-02-28  3242  			goto out_unlock;
+b0ad381fa76902 Josef Bacik    2024-02-12  3243  		prev_extent_end = range_end;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3244  	}
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3245  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01 @3246  	if (cache.cached && cache.offset + cache.len >= last_extent_end) {
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3247  		const u64 i_size = i_size_read(&inode->vfs_inode);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3248  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3249  		if (prev_extent_end < i_size) {
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3250  			u64 delalloc_start;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3251  			u64 delalloc_end;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3252  			bool delalloc;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3253  
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3254  			delalloc = btrfs_find_delalloc_in_range(inode,
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3255  								prev_extent_end,
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3256  								i_size - 1,
+b3e744fe6d289b Filipe Manana  2022-11-11  3257  								&delalloc_cached_state,
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3258  								&delalloc_start,
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3259  								&delalloc_end);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3260  			if (!delalloc)
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3261  				cache.flags |= FIEMAP_EXTENT_LAST;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3262  		} else {
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3263  			cache.flags |= FIEMAP_EXTENT_LAST;
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3264  		}
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3265  	}
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3266  
+978b63f7464abc Filipe Manana  2024-02-28  3267  out_unlock:
+978b63f7464abc Filipe Manana  2024-02-28  3268  	unlock_extent(&inode->io_tree, range_start, range_end, &cached_state);
+978b63f7464abc Filipe Manana  2024-02-28  3269  
+978b63f7464abc Filipe Manana  2024-02-28  3270  	if (ret == BTRFS_FIEMAP_FLUSH_CACHE) {
+978b63f7464abc Filipe Manana  2024-02-28  3271  		btrfs_release_path(path);
+978b63f7464abc Filipe Manana  2024-02-28  3272  		ret = flush_fiemap_cache(fieinfo, &cache);
+978b63f7464abc Filipe Manana  2024-02-28  3273  		if (ret)
+978b63f7464abc Filipe Manana  2024-02-28  3274  			goto out;
+978b63f7464abc Filipe Manana  2024-02-28  3275  		len -= cache.next_search_offset - start;
+978b63f7464abc Filipe Manana  2024-02-28  3276  		start = cache.next_search_offset;
+978b63f7464abc Filipe Manana  2024-02-28  3277  		goto restart;
+978b63f7464abc Filipe Manana  2024-02-28  3278  	} else if (ret < 0) {
+978b63f7464abc Filipe Manana  2024-02-28  3279  		goto out;
+978b63f7464abc Filipe Manana  2024-02-28  3280  	}
+978b63f7464abc Filipe Manana  2024-02-28  3281  
+978b63f7464abc Filipe Manana  2024-02-28  3282  	/*
+978b63f7464abc Filipe Manana  2024-02-28  3283  	 * Must free the path before emitting to the fiemap buffer because we
+978b63f7464abc Filipe Manana  2024-02-28  3284  	 * may have a non-cloned leaf and if the fiemap buffer is memory mapped
+978b63f7464abc Filipe Manana  2024-02-28  3285  	 * to a file, a write into it (through btrfs_page_mkwrite()) may trigger
+978b63f7464abc Filipe Manana  2024-02-28  3286  	 * waiting for an ordered extent that in order to complete needs to
+978b63f7464abc Filipe Manana  2024-02-28  3287  	 * modify that leaf, therefore leading to a deadlock.
+978b63f7464abc Filipe Manana  2024-02-28  3288  	 */
+978b63f7464abc Filipe Manana  2024-02-28  3289  	btrfs_free_path(path);
+978b63f7464abc Filipe Manana  2024-02-28  3290  	path = NULL;
+978b63f7464abc Filipe Manana  2024-02-28  3291  
+978b63f7464abc Filipe Manana  2024-02-28  3292  	ret = flush_fiemap_cache(fieinfo, &cache);
+978b63f7464abc Filipe Manana  2024-02-28  3293  	if (ret)
+978b63f7464abc Filipe Manana  2024-02-28  3294  		goto out;
+978b63f7464abc Filipe Manana  2024-02-28  3295  
+5c5aff98f83abc David Sterba   2019-03-20  3296  	ret = emit_last_fiemap_cache(fieinfo, &cache);
+ac3c0d36a2a2f7 Filipe Manana  2022-09-01  3297  out:
+b3e744fe6d289b Filipe Manana  2022-11-11  3298  	free_extent_state(delalloc_cached_state);
+978b63f7464abc Filipe Manana  2024-02-28  3299  	kfree(cache.entries);
+84a7949d409753 Filipe Manana  2022-10-11  3300  	btrfs_free_backref_share_ctx(backref_ctx);
+e02d48eaaed77f Colin Ian King 2019-07-05  3301  	btrfs_free_path(path);
+1506fcc8189cdd Yehuda Sadeh   2009-01-21  3302  	return ret;
+1506fcc8189cdd Yehuda Sadeh   2009-01-21  3303  }
+1506fcc8189cdd Yehuda Sadeh   2009-01-21  3304  
+
+:::::: The code at line 3246 was first introduced by commit
+:::::: ac3c0d36a2a2f7a8f9778faef3f2639f5bf29d44 btrfs: make fiemap more efficient and accurate reporting extent sharedness
+
+:::::: TO: Filipe Manana <fdmanana@suse.com>
+:::::: CC: David Sterba <dsterba@suse.com>
 
 -- 
 0-DAY CI Kernel Test Service
