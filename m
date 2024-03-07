@@ -1,63 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A83135A7E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 19:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3280136663
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 19:38:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709838380; cv=none; b=T5KrgfbQ2paKRoYeaEH3l8HjrftYCvmHg6Ck8v5tfUaBJxQbMMIFYm0rj/13yzCuk4hyo58ClpQ5zhP2ckh7UQYeZkOQ9JdYIHUvtitn3tLao0UwcDPHf2exaPFNwOwH3MZpqe2ZBWLv1+P11JrG07V8FQUj55t0W44k5cjMi1Q=
+	t=1709840301; cv=none; b=cU53xkK+x+JyzgKp3wW2NOXfLikv7NkGhfWOFpdMpDPK+b7KWMT77YZQDEdmyD3vjNLz+28NPLsvbE7b2z5aM0kagUM/IOtVUJVjJ4/8SZPaeSKGxzNJ2TrwmlR2tp1K097kHSAwqKa35hJjG37920pGSbUuvsveP80ew1KY1zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709838380; c=relaxed/simple;
-	bh=5vnN3HzvbNmZuZXAM0Si1YlHaOVxj30ihRTND0eJ1G4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K+owI2MAz6pcuPL7YMgfyxGD5XfnqdTLqkWPg+xZZ1sRkww8/zRU8ucsxfK23G7Kk3X4lkTy+pnLsnlON9NWkrie3jSffoPO+O5YgZpxiuEXrxgYJJfvxbIjYgJM3e1GMRIUmq/W9PpiFAXAzuR0iXF/UwGr1CUCzyvxw/rHVrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LNTZ04HX; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1709840301; c=relaxed/simple;
+	bh=5yNu7USQlVpehCC2tiOvsJ0CW4B0Oooh6dQckwZ3LQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ukUVIUBRL1NJrfwp1sjIy9LnpmgVXXwOIc9OLWMompU4MRqwZDJJiN6FUjUX1cJpP1sI+RM/YEZpiG3z9fCEQsevFOGaEkf1niNjTJxZpFSDFQb30XcqhiKlO2fctLUXGWk1L3Mxcaoz0AWwidDVBSRxVhqx0mLkmSDsUAm6fvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXbx1fLw; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LNTZ04HX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXbx1fLw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709838379; x=1741374379;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5vnN3HzvbNmZuZXAM0Si1YlHaOVxj30ihRTND0eJ1G4=;
-  b=LNTZ04HXkbDIhCKXOEVqtjNx6Ziy4TCQOYCPecriT/73SA+m8zavQuM6
-   deq8a7cewykhP0hm4YnhlviQ783WpmS0W9681mqUM9l1dB2EMRZrizRCj
-   fxlWiJrYTBoSKsz/OeNKvzYz3BKPJOnBdPDS6FKRh1qH8oXUyvF82jKzs
-   w/sHKDcgRscNkl1KDKOqmoaCICDHsjGuL49y4GGMqfIkqg7XDHeyN/Xya
-   f9XEay3ruBbYJkyZKSYnwOXrZE1PrceKOjbFo9QyoXNNSBMZLbRpLHgn3
-   BgA5Yz7e5DkfCn28kxVICzh6fJICX1wLuXmC73BfKGuelFjKWBdWXDAVI
+  t=1709840300; x=1741376300;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5yNu7USQlVpehCC2tiOvsJ0CW4B0Oooh6dQckwZ3LQ4=;
+  b=QXbx1fLwJ8xN0xIH32dEyeMZaE1duBN+nz/mRcS4uvvU9smUNNqL/zbM
+   rG4zHUEtrGs9N1rDglUw6gMwt/yvxGo2qG8SYr2rEoNPJVVPET2foQlZI
+   99h73cpJChumnxerp4gWle5ehVV02Re8SuETQn+9bOWQQUCCD71OQV4BD
+   jdWlJSPxcY3Vph2NPRf9K2YjC3yUJ3rpBe6l0dqBmmArhzTKnZUKn68Oc
+   uOpXq63qDTW8HS8jbMVGOtJaGSoEn8C0roOCdIaVNyPEn58mNCOy0EuEn
+   05lDaya+GB0Ygllzq5f9goAmRZZfXmgLJTkHbVsLwMpoXa9EkuN1TERZ5
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="27000444"
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="4412067"
 X-IronPort-AV: E=Sophos;i="6.07,107,1708416000"; 
-   d="scan'208";a="27000444"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 11:06:18 -0800
+   d="scan'208";a="4412067"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 11:38:20 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,107,1708416000"; 
-   d="scan'208";a="47686842"
+   d="scan'208";a="10657802"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 Mar 2024 11:06:14 -0800
+  by orviesa007.jf.intel.com with ESMTP; 07 Mar 2024 11:38:18 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1riJ4F-0005WT-1M;
-	Thu, 07 Mar 2024 19:06:11 +0000
-Date: Fri, 8 Mar 2024 03:05:45 +0800
+	id 1riJZH-0005dB-2r;
+	Thu, 07 Mar 2024 19:38:15 +0000
+Date: Fri, 8 Mar 2024 03:38:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeremy Linton <jeremy.linton@arm.com>,
-	linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, catalin.marinas@arm.com, will@kernel.org,
-	keescook@chromium.org, Jason@zx2c4.com, gustavoars@kernel.org,
-	mark.rutland@arm.com, rostedt@goodmis.org, arnd@arndb.de,
-	broonie@kernel.org, guohui@uniontech.com, Manoj.Iyer@arm.com,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	Jeremy Linton <jeremy.linton@arm.com>,
-	James Yang <james.yang@arm.com>,
-	Shiyou Huang <shiyou.huang@arm.com>
-Subject: Re: [PATCH 1/1] arm64: syscall: Direct PRNG kstack randomization
-Message-ID: <202403080244.U8fiY8Dy-lkp@intel.com>
-References: <20240305221824.3300322-2-jeremy.linton@arm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10-2023-05 2047/27432] ERROR: modpost:
+ "virtio_dma_buf_attach" [drivers/gpu/drm/virtio/virtio-gpu.ko] undefined!
+Message-ID: <202403080305.41BX1qsD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,46 +57,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240305221824.3300322-2-jeremy.linton@arm.com>
 
-Hi Jeremy,
+Hi Alistair,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on arm/for-next arm/fixes kvmarm/next soc/for-next linus/master v6.8-rc7 next-20240307]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Linton/arm64-syscall-Direct-PRNG-kstack-randomization/20240306-061930
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20240305221824.3300322-2-jeremy.linton%40arm.com
-patch subject: [PATCH 1/1] arm64: syscall: Direct PRNG kstack randomization
-config: arm64-randconfig-r063-20240307 (https://download.01.org/0day-ci/archive/20240308/202403080244.U8fiY8Dy-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240308/202403080244.U8fiY8Dy-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.10-2023-05
+head:   3a023c6c8036e1663e1171da7730608da95b6194
+commit: e03a3cf3cc429a2770817a1721bda8946a8c3989 [2047/27432] ANDROID: GKI: Unhide VIRTIO_DMA_SHARED_BUFFER
+config: i386-randconfig-061-20240306 (https://download.01.org/0day-ci/archive/20240308/202403080305.41BX1qsD-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240308/202403080305.41BX1qsD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403080244.U8fiY8Dy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403080305.41BX1qsD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> arch/arm64/kernel/syscall.c:74:12: warning: 'kstack_rng' defined but not used [-Wunused-function]
-      74 | static u16 kstack_rng(void) { return 0; }
-         |            ^~~~~~~~~~
-
-
-vim +/kstack_rng +74 arch/arm64/kernel/syscall.c
-
-    71	
-    72	arch_initcall(kstack_init);
-    73	#else
-  > 74	static u16 kstack_rng(void) { return 0; }
-    75	#endif /* CONFIG_RANDOMIZE_KSTACK_OFFSET */
-    76	
+>> ERROR: modpost: "virtio_dma_buf_attach" [drivers/gpu/drm/virtio/virtio-gpu.ko] undefined!
+>> ERROR: modpost: "virtio_dma_buf_export" [drivers/gpu/drm/virtio/virtio-gpu.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
