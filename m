@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE32810A34
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Mar 2024 03:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811FFE554;
+	Thu,  7 Mar 2024 03:51:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709782849; cv=none; b=AUagBt3uzUNdv9iDzIxpvfVG/PTqZtld4Gi7Kgayu4k6PY0PiYtvOzrikRJXQLb/cyt2WMysD+o3+lIElSSPcAVvW7/WY6tAw3gjgnMEuvpScY05CMOyc6FmeS+BW35ak5BL9DKdVmi2jaLLVlacf2LbZW+UXNkqbz/zATyi3pw=
+	t=1709783510; cv=none; b=OrfEMqdIoiupj+fIVYbfbpqUHv9FnEeuhBx+xFNIG60hqfjT733YOzMMH8swCCzpERTQaXbVMRSKhclbkaYJIoMrBqgGlU7A8aDbwawIp1+tBWt3dvBqRbDYce5lRaOY8xchHKTZ19hVBJqvfvVVoHvtkJ6174pcno8KBWyq2bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709782849; c=relaxed/simple;
-	bh=NNpZb1JGi8BdQxmhtCLZfL9/ZIEGqrAIgwjk80B8054=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R9fTb6IHWSmapIJ9RCKQOrYFKBMm1AjgAdDFSm83HuKxnenTAjQ9a4u+UQ2bLtys8cMjS2n2bIRWE1VEd/Gf7FT11pFmLFSxPOIXyB8NOA0wrLn6QTH1pr6Z7/DhCnvSPZj+GOhDsB1tdB5rRIt5v/kyidmxbXqe8fX8LLb6P7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D077H6nt; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1709783510; c=relaxed/simple;
+	bh=qHETVGmABCOv5h0hlnwqLErCUvhtOVNNegiNhI6aBxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ngma7cgAw4DOXrXyNIYRVWEMmaotQwpEkwejlMTuRbjkj2vUenraLm52ZQulbn48woCcmb65snb8sstQEMkC83xJao2mEqg7WAfm/A8pB9LeOyICUmOD9Mo/Y54qxjE3ROU7yijlw4L5Ci5R+3ietCkJb0Y4qFuRchWZVRIpBQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NLKl13xC; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D077H6nt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NLKl13xC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709782848; x=1741318848;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NNpZb1JGi8BdQxmhtCLZfL9/ZIEGqrAIgwjk80B8054=;
-  b=D077H6ntMp3gNSFqPSDWe4bmAvvUfSAm99G7ITyv07SiaKm7QaoNKzTw
-   NgT9iJQU09VfYr1XZm7OEkd/sGarvQV3EbFYuW18xoVkmEm4erjieVfca
-   ChjmDEk7KuxhQEOyPi0BEfskkby+EB+JHaYVFJt8OggdP8FRdTL55LP3D
-   VeZ1ezZl2mtJJvgq0N/XSP0+uRcXFbKjuN05bovZvg77yUgGeTNedCyAb
-   TqrBkp58S5aijZDwTSyB/VoOC6PFG2dR0H2DUKAGN1go7Fno4RYI1Tnjm
-   64+iTFETnb3+nkSLZJb3XhvLVPKPL95HkT9rSM85THr7/LnqalNCMJ6YT
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="21884959"
+  t=1709783509; x=1741319509;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qHETVGmABCOv5h0hlnwqLErCUvhtOVNNegiNhI6aBxI=;
+  b=NLKl13xCM/XestgAMCd2C+6xBvS3RdDEwTj44tNI4MR3JF9wJLCglY/y
+   4eNNQZAzkrtiab2Na9JNBYK+gop52xI2AvdH8iYv3bGAwVvKT0ZEv4LRz
+   tp4et2lcC7k/gGp/eaeL90rRd6HEleELo+qebVu+KwZJgUwlmF0oi+kS+
+   +SjDiEltmnuHdbI/dJhYMQzzVLy5yUXKdOWlTWVLFCNppyTk3gQvXsa0Q
+   dpJAgOp4q0+lX38pKaA8a5kcMyKkMdeJ4FgOZ4iQkHGU5u5OgDEb/mWpM
+   MRfIZDj8RzQEVeQ90JXrXzGKeQvNNMqDJBaf4vlmUq+O7adReJuQ461Nd
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="26907513"
 X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
-   d="scan'208";a="21884959"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2024 19:40:47 -0800
+   d="scan'208";a="26907513"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2024 19:51:48 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
-   d="scan'208";a="9893745"
+   d="scan'208";a="10399324"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Mar 2024 19:40:43 -0800
+  by orviesa006.jf.intel.com with ESMTP; 06 Mar 2024 19:51:43 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ri4ca-0004lV-0B;
-	Thu, 07 Mar 2024 03:40:40 +0000
-Date: Thu, 7 Mar 2024 11:40:23 +0800
+	id 1ri4nE-0004ll-0U;
+	Thu, 07 Mar 2024 03:51:40 +0000
+Date: Thu, 7 Mar 2024 11:51:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/next 24881/27434]
- drivers/virtio/virtio_balloon.c:161:5: sparse: sparse: symbol
- 'virtballoon_free_page_report' was not declared. Should it be static?
-Message-ID: <202403071134.503Mycfx-lkp@intel.com>
+To: Chancel Liu <chancel.liu@nxp.com>, shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
+	tiwai@suse.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, linux-imx@nxp.com,
+	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Chancel Liu <chancel.liu@nxp.com>
+Subject: Re: [PATCH 3/4] ASoC: fsl: Let imx-audio-rpmsg register platform
+ device for card
+Message-ID: <202403071138.bdVPDO4p-lkp@intel.com>
+References: <20240306075510.535963-4-chancel.liu@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,58 +67,180 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240306075510.535963-4-chancel.liu@nxp.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
-head:   0e88d1c26496999d1b2e37f3393b602d28b03faf
-commit: 5624b6f64dffb17eb72a2c6277e78ae5e55a5cfb [24881/27434] virtio-balloon: add support for providing free page reports to host
-config: x86_64-randconfig-r113-20240305 (https://download.01.org/0day-ci/archive/20240307/202403071134.503Mycfx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240307/202403071134.503Mycfx-lkp@intel.com/reproduce)
+Hi Chancel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on shawnguo/for-next]
+[also build test ERROR on broonie-sound/for-next linus/master v6.8-rc7 next-20240306]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chancel-Liu/ASoC-fsl-imx_pcm_rpmsg-Register-component-with-rpmsg-channel-name/20240306-155945
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240306075510.535963-4-chancel.liu%40nxp.com
+patch subject: [PATCH 3/4] ASoC: fsl: Let imx-audio-rpmsg register platform device for card
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240307/202403071138.bdVPDO4p-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240307/202403071138.bdVPDO4p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403071134.503Mycfx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403071138.bdVPDO4p-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/virtio/virtio_balloon.c:161:5: sparse: sparse: symbol 'virtballoon_free_page_report' was not declared. Should it be static?
-   drivers/virtio/virtio_balloon.c:597:71: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __virtio32 [usertype] val @@     got unsigned int @@
-   drivers/virtio/virtio_balloon.c:597:71: sparse:     expected restricted __virtio32 [usertype] val
-   drivers/virtio/virtio_balloon.c:597:71: sparse:     got unsigned int
-   drivers/virtio/virtio_balloon.c:596:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __virtio32 [usertype] cmd_id_active @@     got unsigned int @@
-   drivers/virtio/virtio_balloon.c:596:27: sparse:     expected restricted __virtio32 [usertype] cmd_id_active
-   drivers/virtio/virtio_balloon.c:596:27: sparse:     got unsigned int
+All errors (new ones prefixed by >>):
 
-vim +/virtballoon_free_page_report +161 drivers/virtio/virtio_balloon.c
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from sound/soc/fsl/imx-audio-rpmsg.c:6:
+   In file included from sound/soc/fsl/imx-pcm-rpmsg.h:278:
+   In file included from include/sound/dmaengine_pcm.h:11:
+   In file included from include/sound/soc.h:21:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from sound/soc/fsl/imx-audio-rpmsg.c:6:
+   In file included from sound/soc/fsl/imx-pcm-rpmsg.h:278:
+   In file included from include/sound/dmaengine_pcm.h:11:
+   In file included from include/sound/soc.h:21:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from sound/soc/fsl/imx-audio-rpmsg.c:6:
+   In file included from sound/soc/fsl/imx-pcm-rpmsg.h:278:
+   In file included from include/sound/dmaengine_pcm.h:11:
+   In file included from include/sound/soc.h:21:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> sound/soc/fsl/imx-audio-rpmsg.c:107:8: error: use of undeclared label 'fail'
+     107 |                 goto fail;
+         |                      ^
+   17 warnings and 1 error generated.
 
-   160	
- > 161	int virtballoon_free_page_report(struct page_reporting_dev_info *pr_dev_info,
-   162					   struct scatterlist *sg, unsigned int nents)
-   163	{
-   164		struct virtio_balloon *vb =
-   165			container_of(pr_dev_info, struct virtio_balloon, pr_dev_info);
-   166		struct virtqueue *vq = vb->reporting_vq;
-   167		unsigned int unused, err;
-   168	
-   169		/* We should always be able to add these buffers to an empty queue. */
-   170		err = virtqueue_add_inbuf(vq, sg, nents, vb, GFP_NOWAIT | __GFP_NOWARN);
-   171	
-   172		/*
-   173		 * In the extremely unlikely case that something has occurred and we
-   174		 * are able to trigger an error we will simply display a warning
-   175		 * and exit without actually processing the pages.
-   176		 */
-   177		if (WARN_ON_ONCE(err))
-   178			return err;
-   179	
-   180		virtqueue_kick(vq);
-   181	
-   182		/* When host has read buffer, this completes via balloon_ack */
-   183		wait_event(vb->acked, virtqueue_get_buf(vq, &unused));
-   184	
-   185		return 0;
-   186	}
-   187	
+
+vim +/fail +107 sound/soc/fsl/imx-audio-rpmsg.c
+
+    74	
+    75	static int imx_audio_rpmsg_probe(struct rpmsg_device *rpdev)
+    76	{
+    77		struct imx_audio_rpmsg *data;
+    78		int ret = 0;
+    79	
+    80		dev_info(&rpdev->dev, "new channel: 0x%x -> 0x%x!\n",
+    81			 rpdev->src, rpdev->dst);
+    82	
+    83		data = devm_kzalloc(&rpdev->dev, sizeof(*data), GFP_KERNEL);
+    84		if (!data)
+    85			return -ENOMEM;
+    86	
+    87		dev_set_drvdata(&rpdev->dev, data);
+    88	
+    89		/* Register platform driver for rpmsg routine */
+    90		data->rpmsg_pdev = platform_device_register_data(&rpdev->dev,
+    91								 rpdev->id.name,
+    92								 PLATFORM_DEVID_NONE,
+    93								 NULL, 0);
+    94		if (IS_ERR(data->rpmsg_pdev)) {
+    95			dev_err(&rpdev->dev, "failed to register rpmsg platform.\n");
+    96			ret = PTR_ERR(data->rpmsg_pdev);
+    97		}
+    98	
+    99		data->card_pdev = platform_device_register_data(&rpdev->dev,
+   100								"imx-audio-rpmsg",
+   101								PLATFORM_DEVID_AUTO,
+   102								rpdev->id.name,
+   103								strlen(rpdev->id.name));
+   104		if (IS_ERR(data->card_pdev)) {
+   105			dev_err(&rpdev->dev, "failed to register rpmsg card.\n");
+   106			ret = PTR_ERR(data->card_pdev);
+ > 107			goto fail;
+   108		}
+   109	
+   110		return ret;
+   111	}
+   112	
 
 -- 
 0-DAY CI Kernel Test Service
