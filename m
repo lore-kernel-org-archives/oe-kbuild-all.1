@@ -1,322 +1,415 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A41971BDDB
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 08:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C286433AA
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 08:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709887668; cv=none; b=j2xKpRUh9K1yOCl5sWIPqiafbzGqMlKZMeO1XmdU0djUctajUGt15018fVd88CMo3B/Nt76E3qP6Ks1irx/k+F3G8QUj0oi3/CiqS86Z9ewb6Ujf9vq9RmhQbg72L1/frOE1/xuc2GeB5GKeCE0/ZACRnVtq+SRCUDwnm5KFrDc=
+	t=1709887672; cv=none; b=Sz02pkAzmEe+daq9BnMhJt1di/yd69VgpmSXFPxRmbo39LbmJulkgSOeWQxvakBYZb/XO+IkzDxPlHWak7R5844qmb1vwHXe4Px6H3UtzPJ9FGDwXVcWGGYh7v0qOu0M5ktDLbHhllT3edJfkW7n4aElQlDsDOkaOoHpJz1/M2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709887668; c=relaxed/simple;
-	bh=OrZg/sOcdwWTdgdz1FG6WRJduWmdI5Q/g77mQJiTKXM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aAxTsSuuFOatgnWhtUxUHVYk70vVVFz838ruwx5+oRK6oqBh+rY3iyiQ1yp54/ROA5VHYJENuFYq/CQ4OzOOLcl6311gZDOVFSiE7xZz6R1GRQz+asjRiLjGySyvQtT1sYYVvQasTtjrXOlOoWO0j56FIN4jDs2lCC7AhXiEloY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g8H/SBe0; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1709887672; c=relaxed/simple;
+	bh=PTZNCNhRJDslkq3RnkGDtpjjrUDk9ero7gQgpBOYRwg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UDZMMBJNgOAr5T104wevELyDzLRUKL1L6BxgaQT8C+4/WHYA0LirSRjDS11RMsHic5w6ntmCKtQ2y/G/3bVi0/uZyIYitcifHmAZWZIAIhZb97/FhUVWqIC63Dj/cQnfKRu7FrJ/Kpxb8IE8P46/x7i2aGeYZhKx0sfKYvU4Wbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VMTrgmgy; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g8H/SBe0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMTrgmgy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709887667; x=1741423667;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OrZg/sOcdwWTdgdz1FG6WRJduWmdI5Q/g77mQJiTKXM=;
-  b=g8H/SBe0YlnYXMI0EB7zelBaSCUJPAlSy6lYO5tfZHf3mCQjPmucEAYT
-   oFg1QQwlgPukl+bgAdKfPY3ZsDBq3HF7Iye0eydnLmYfc12JBILhmnF6R
-   OQ1pQvas8Oiwv592Bpnua5YZZbRYX0Oj67wHvZh9Y1fsD9YINuVb1YUA2
-   +It2gHm6nnMYDJObZS81uEGd3M+uyNhm+hef2Ifn3S6sPtyI3Vk1TO+7e
-   UXzaX8LvpzbYeYz8SM8LnksNVTSn0i50LncbJLhyMUg+kFhqa+LJwaZOf
-   464xMGsv4JEI/kKWuuZ6z4mSmOcEwUSyltwoO43a5oht1byq+PoGwSTcp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="4737753"
+  t=1709887669; x=1741423669;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=PTZNCNhRJDslkq3RnkGDtpjjrUDk9ero7gQgpBOYRwg=;
+  b=VMTrgmgyVmDsK/FWZP/kzqqzf5MSWIVeJa3Nm5W+sjJ0U5fErzYUGAup
+   U1UoFJYTV0YBfDNuI5TR9TyAi8D5UKfNh2/4tin9N4h+EmXfKJ0MqUkC2
+   ThT3CEETSqbllYz+jmHGZEJxjpetaZsfgyQZRW/qLtKS5b++7/cRxH6RW
+   TvXb4jm/xO6U8K5chvHgdNSAUVLKZCF1ucBMcDTfAbA6GFVGhV/yzcZFA
+   sRzpOmOCzHRKtOVdS3qYtNtO50tzi7OaobBayHZZrqgug115TRnUbyfyj
+   P3TxZQK7WCStVG+pTRjYqbEnW8dch6+LGB242TEz/CTkuknamlOKwg5VB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="15166253"
 X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; 
-   d="scan'208";a="4737753"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 00:47:46 -0800
+   d="scan'208";a="15166253"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 00:47:48 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; 
-   d="scan'208";a="10950542"
+   d="scan'208";a="14887475"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 08 Mar 2024 00:47:45 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 08 Mar 2024 00:47:45 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1riVtG-0006DL-1S;
+	id 1riVtG-0006DN-1W;
 	Fri, 08 Mar 2024 08:47:42 +0000
-Date: Fri, 8 Mar 2024 16:47:29 +0800
+Date: Fri, 8 Mar 2024 16:47:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:fsverity-cleanups-6.9 21/37]
- fs/xfs/libxfs/xfs_ondisk.h:199:18: error: static assertion expression is not
- an integral constant expression
-Message-ID: <202403081651.q1Nu9cP9-lkp@intel.com>
+To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+	boris.brezillon@collabora.com, steven.price@arm.com,
+	liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+	daniel@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, adrian.larumbe@collabora.com,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	kernel@collabora.com
+Subject: Re: [PATCH 1/2] drm/panthor: Enable fdinfo for cycle and time
+ measurements
+Message-ID: <202403081627.Y50ZoOIS-lkp@intel.com>
+References: <20240305211000.659103-2-adrian.larumbe@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240305211000.659103-2-adrian.larumbe@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fsverity-cleanups-6.9
-head:   0dbdaafd38ae4f4af18c8650ff875d6a39f50bc4
-commit: 8d4c4b96db63ef47a68c7ec47792eedf89efaff5 [21/37] xfs: add fs-verity support
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240308/202403081651.q1Nu9cP9-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 503c55e17037436dcd45ac69dea8967e67e3f5e8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240308/202403081651.q1Nu9cP9-lkp@intel.com/reproduce)
+Hi Adrián,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on e635b7eb7062b464bbd9795308b1a80eac0b01f5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panthor-Enable-fdinfo-for-cycle-and-time-measurements/20240306-051418
+base:   e635b7eb7062b464bbd9795308b1a80eac0b01f5
+patch link:    https://lore.kernel.org/r/20240305211000.659103-2-adrian.larumbe%40collabora.com
+patch subject: [PATCH 1/2] drm/panthor: Enable fdinfo for cycle and time measurements
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240308/202403081627.Y50ZoOIS-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240308/202403081627.Y50ZoOIS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403081651.q1Nu9cP9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403081627.Y50ZoOIS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/xfs/xfs_super.c:7:
-   In file included from fs/xfs/xfs.h:22:
-   In file included from fs/xfs/xfs_linux.h:25:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/xfs/xfs_super.c:34:
->> fs/xfs/libxfs/xfs_ondisk.h:199:18: error: static assertion expression is not an integral constant expression
-     199 |         XFS_CHECK_VALUE(strlen(XFS_VERITY_DESCRIPTOR_NAME),
-         |         ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     200 |                         XFS_VERITY_DESCRIPTOR_NAME_LEN);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:19:17: note: expanded from macro 'XFS_CHECK_VALUE'
-      19 |         static_assert((value) == (expected), \
-         |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-      20 |                 "XFS: value of " #value " is wrong, expected " #expected)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   5 warnings and 1 error generated.
+   drivers/gpu/drm/panthor/panthor_sched.c:321: warning: Excess struct member 'runnable' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:321: warning: Excess struct member 'idle' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:321: warning: Excess struct member 'waiting' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:321: warning: Excess struct member 'has_ref' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:321: warning: Excess struct member 'in_progress' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:321: warning: Excess struct member 'stopped_groups' description in 'panthor_scheduler'
+>> drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'nelem' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'mem' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'input' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'output' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'input_fw_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'output_fw_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'gpu_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'ref' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'gt' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'sync64' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'bo' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'offset' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'kmap' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'lock' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'id' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'seqno' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:480: warning: Excess struct member 'in_flight_jobs' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:670: warning: Function parameter or struct member 'max_fragment_cores' not described in 'panthor_group'
+>> drivers/gpu/drm/panthor/panthor_sched.c:670: warning: Excess struct member 'bo' description in 'panthor_group'
+>> drivers/gpu/drm/panthor/panthor_sched.c:670: warning: Excess struct member 'times_offset' description in 'panthor_group'
+>> drivers/gpu/drm/panthor/panthor_sched.c:670: warning: Excess struct member 'data' description in 'panthor_group'
+>> drivers/gpu/drm/panthor/panthor_sched.c:670: warning: Excess struct member 'lock' description in 'panthor_group'
+   drivers/gpu/drm/panthor/panthor_sched.c:800: warning: Excess struct member 'start' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:800: warning: Excess struct member 'size' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:800: warning: Excess struct member 'latest_flush' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:800: warning: Excess struct member 'start' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:800: warning: Excess struct member 'end' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:1043: warning: Cannot understand  * @cs_slot_reset_locked() - Reset a queue slot
+    on line 1043 - I thought it was a doc line
+   drivers/gpu/drm/panthor/panthor_sched.c:1645: warning: expecting prototype for panthor_sched_process_global_irq(). Prototype was for sched_process_global_irq_locked() instead
+   drivers/gpu/drm/panthor/panthor_sched.c:1687: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_fw_events'
+   drivers/gpu/drm/panthor/panthor_sched.c:1687: warning: Function parameter or struct member 'events' not described in 'panthor_sched_report_fw_events'
+   drivers/gpu/drm/panthor/panthor_sched.c:1711: warning: Cannot understand  */
+    on line 1711 - I thought it was a doc line
+   drivers/gpu/drm/panthor/panthor_sched.c:2583: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_mmu_fault'
 
 
-vim +199 fs/xfs/libxfs/xfs_ondisk.h
+vim +480 drivers/gpu/drm/panthor/panthor_sched.c
 
-     8	
-     9	#define XFS_CHECK_STRUCT_SIZE(structname, size) \
-    10		static_assert(sizeof(structname) == (size), \
-    11			"XFS: sizeof(" #structname ") is wrong, expected " #size)
-    12	
-    13	#define XFS_CHECK_OFFSET(structname, member, off) \
-    14		static_assert(offsetof(structname, member) == (off), \
-    15			"XFS: offsetof(" #structname ", " #member ") is wrong, " \
-    16			"expected " #off)
-    17	
-    18	#define XFS_CHECK_VALUE(value, expected) \
-    19		static_assert((value) == (expected), \
-    20			"XFS: value of " #value " is wrong, expected " #expected)
-    21	
-    22	static inline void __init
-    23	xfs_check_ondisk_structs(void)
-    24	{
-    25		/* ag/file structures */
-    26		XFS_CHECK_STRUCT_SIZE(struct xfs_acl,			4);
-    27		XFS_CHECK_STRUCT_SIZE(struct xfs_acl_entry,		12);
-    28		XFS_CHECK_STRUCT_SIZE(struct xfs_agf,			224);
-    29		XFS_CHECK_STRUCT_SIZE(struct xfs_agfl,			36);
-    30		XFS_CHECK_STRUCT_SIZE(struct xfs_agi,			344);
-    31		XFS_CHECK_STRUCT_SIZE(struct xfs_bmbt_key,		8);
-    32		XFS_CHECK_STRUCT_SIZE(struct xfs_bmbt_rec,		16);
-    33		XFS_CHECK_STRUCT_SIZE(struct xfs_bmdr_block,		4);
-    34		XFS_CHECK_STRUCT_SIZE(struct xfs_btree_block_shdr,	48);
-    35		XFS_CHECK_STRUCT_SIZE(struct xfs_btree_block_lhdr,	64);
-    36		XFS_CHECK_STRUCT_SIZE(struct xfs_btree_block,		72);
-    37		XFS_CHECK_STRUCT_SIZE(struct xfs_dinode,		176);
-    38		XFS_CHECK_STRUCT_SIZE(struct xfs_disk_dquot,		104);
-    39		XFS_CHECK_STRUCT_SIZE(struct xfs_dqblk,			136);
-    40		XFS_CHECK_STRUCT_SIZE(struct xfs_dsb,			264);
-    41		XFS_CHECK_STRUCT_SIZE(struct xfs_dsymlink_hdr,		56);
-    42		XFS_CHECK_STRUCT_SIZE(struct xfs_inobt_key,		4);
-    43		XFS_CHECK_STRUCT_SIZE(struct xfs_inobt_rec,		16);
-    44		XFS_CHECK_STRUCT_SIZE(struct xfs_refcount_key,		4);
-    45		XFS_CHECK_STRUCT_SIZE(struct xfs_refcount_rec,		12);
-    46		XFS_CHECK_STRUCT_SIZE(struct xfs_rmap_key,		20);
-    47		XFS_CHECK_STRUCT_SIZE(struct xfs_rmap_rec,		24);
-    48		XFS_CHECK_STRUCT_SIZE(xfs_timestamp_t,			8);
-    49		XFS_CHECK_STRUCT_SIZE(struct xfs_legacy_timestamp,	8);
-    50		XFS_CHECK_STRUCT_SIZE(xfs_alloc_key_t,			8);
-    51		XFS_CHECK_STRUCT_SIZE(xfs_alloc_ptr_t,			4);
-    52		XFS_CHECK_STRUCT_SIZE(xfs_alloc_rec_t,			8);
-    53		XFS_CHECK_STRUCT_SIZE(xfs_inobt_ptr_t,			4);
-    54		XFS_CHECK_STRUCT_SIZE(xfs_refcount_ptr_t,		4);
-    55		XFS_CHECK_STRUCT_SIZE(xfs_rmap_ptr_t,			4);
-    56	
-    57		/* dir/attr trees */
-    58		XFS_CHECK_STRUCT_SIZE(struct xfs_attr3_leaf_hdr,	80);
-    59		XFS_CHECK_STRUCT_SIZE(struct xfs_attr3_leafblock,	80);
-    60		XFS_CHECK_STRUCT_SIZE(struct xfs_attr3_rmt_hdr,		56);
-    61		XFS_CHECK_STRUCT_SIZE(struct xfs_da3_blkinfo,		56);
-    62		XFS_CHECK_STRUCT_SIZE(struct xfs_da3_intnode,		64);
-    63		XFS_CHECK_STRUCT_SIZE(struct xfs_da3_node_hdr,		64);
-    64		XFS_CHECK_STRUCT_SIZE(struct xfs_dir3_blk_hdr,		48);
-    65		XFS_CHECK_STRUCT_SIZE(struct xfs_dir3_data_hdr,		64);
-    66		XFS_CHECK_STRUCT_SIZE(struct xfs_dir3_free,		64);
-    67		XFS_CHECK_STRUCT_SIZE(struct xfs_dir3_free_hdr,		64);
-    68		XFS_CHECK_STRUCT_SIZE(struct xfs_dir3_leaf,		64);
-    69		XFS_CHECK_STRUCT_SIZE(struct xfs_dir3_leaf_hdr,		64);
-    70		XFS_CHECK_STRUCT_SIZE(xfs_attr_leaf_entry_t,		8);
-    71		XFS_CHECK_STRUCT_SIZE(xfs_attr_leaf_hdr_t,		32);
-    72		XFS_CHECK_STRUCT_SIZE(xfs_attr_leaf_map_t,		4);
-    73		XFS_CHECK_STRUCT_SIZE(xfs_attr_leaf_name_local_t,	4);
-    74	
-    75		/* realtime structures */
-    76		XFS_CHECK_STRUCT_SIZE(union xfs_rtword_raw,		4);
-    77		XFS_CHECK_STRUCT_SIZE(union xfs_suminfo_raw,		4);
-    78	
-    79		/*
-    80		 * m68k has problems with xfs_attr_leaf_name_remote_t, but we pad it to
-    81		 * 4 bytes anyway so it's not obviously a problem.  Hence for the moment
-    82		 * we don't check this structure. This can be re-instated when the attr
-    83		 * definitions are updated to use c99 VLA definitions.
-    84		 *
-    85		XFS_CHECK_STRUCT_SIZE(xfs_attr_leaf_name_remote_t,	12);
-    86		 */
-    87	
-    88		XFS_CHECK_OFFSET(xfs_attr_leaf_name_local_t, valuelen,	0);
-    89		XFS_CHECK_OFFSET(xfs_attr_leaf_name_local_t, namelen,	2);
-    90		XFS_CHECK_OFFSET(xfs_attr_leaf_name_local_t, nameval,	3);
-    91		XFS_CHECK_OFFSET(xfs_attr_leaf_name_remote_t, valueblk,	0);
-    92		XFS_CHECK_OFFSET(xfs_attr_leaf_name_remote_t, valuelen,	4);
-    93		XFS_CHECK_OFFSET(xfs_attr_leaf_name_remote_t, namelen,	8);
-    94		XFS_CHECK_OFFSET(xfs_attr_leaf_name_remote_t, name,	9);
-    95		XFS_CHECK_STRUCT_SIZE(xfs_attr_leafblock_t,		32);
-    96		XFS_CHECK_STRUCT_SIZE(struct xfs_attr_sf_hdr,		4);
-    97		XFS_CHECK_OFFSET(struct xfs_attr_sf_hdr, totsize,	0);
-    98		XFS_CHECK_OFFSET(struct xfs_attr_sf_hdr, count,		2);
-    99		XFS_CHECK_OFFSET(struct xfs_attr_sf_entry, namelen,	0);
-   100		XFS_CHECK_OFFSET(struct xfs_attr_sf_entry, valuelen,	1);
-   101		XFS_CHECK_OFFSET(struct xfs_attr_sf_entry, flags,	2);
-   102		XFS_CHECK_OFFSET(struct xfs_attr_sf_entry, nameval,	3);
-   103		XFS_CHECK_STRUCT_SIZE(xfs_da_blkinfo_t,			12);
-   104		XFS_CHECK_STRUCT_SIZE(xfs_da_intnode_t,			16);
-   105		XFS_CHECK_STRUCT_SIZE(xfs_da_node_entry_t,		8);
-   106		XFS_CHECK_STRUCT_SIZE(xfs_da_node_hdr_t,		16);
-   107		XFS_CHECK_STRUCT_SIZE(xfs_dir2_data_free_t,		4);
-   108		XFS_CHECK_STRUCT_SIZE(xfs_dir2_data_hdr_t,		16);
-   109		XFS_CHECK_OFFSET(xfs_dir2_data_unused_t, freetag,	0);
-   110		XFS_CHECK_OFFSET(xfs_dir2_data_unused_t, length,	2);
-   111		XFS_CHECK_STRUCT_SIZE(xfs_dir2_free_hdr_t,		16);
-   112		XFS_CHECK_STRUCT_SIZE(xfs_dir2_free_t,			16);
-   113		XFS_CHECK_STRUCT_SIZE(xfs_dir2_leaf_entry_t,		8);
-   114		XFS_CHECK_STRUCT_SIZE(xfs_dir2_leaf_hdr_t,		16);
-   115		XFS_CHECK_STRUCT_SIZE(xfs_dir2_leaf_t,			16);
-   116		XFS_CHECK_STRUCT_SIZE(xfs_dir2_leaf_tail_t,		4);
-   117		XFS_CHECK_STRUCT_SIZE(xfs_dir2_sf_entry_t,		3);
-   118		XFS_CHECK_OFFSET(xfs_dir2_sf_entry_t, namelen,		0);
-   119		XFS_CHECK_OFFSET(xfs_dir2_sf_entry_t, offset,		1);
-   120		XFS_CHECK_OFFSET(xfs_dir2_sf_entry_t, name,		3);
-   121		XFS_CHECK_STRUCT_SIZE(xfs_dir2_sf_hdr_t,		10);
-   122	
-   123		/* log structures */
-   124		XFS_CHECK_STRUCT_SIZE(struct xfs_buf_log_format,	88);
-   125		XFS_CHECK_STRUCT_SIZE(struct xfs_dq_logformat,		24);
-   126		XFS_CHECK_STRUCT_SIZE(struct xfs_efd_log_format_32,	16);
-   127		XFS_CHECK_STRUCT_SIZE(struct xfs_efd_log_format_64,	16);
-   128		XFS_CHECK_STRUCT_SIZE(struct xfs_efi_log_format_32,	16);
-   129		XFS_CHECK_STRUCT_SIZE(struct xfs_efi_log_format_64,	16);
-   130		XFS_CHECK_STRUCT_SIZE(struct xfs_extent_32,		12);
-   131		XFS_CHECK_STRUCT_SIZE(struct xfs_extent_64,		16);
-   132		XFS_CHECK_STRUCT_SIZE(struct xfs_log_dinode,		176);
-   133		XFS_CHECK_STRUCT_SIZE(struct xfs_icreate_log,		28);
-   134		XFS_CHECK_STRUCT_SIZE(xfs_log_timestamp_t,		8);
-   135		XFS_CHECK_STRUCT_SIZE(struct xfs_log_legacy_timestamp,	8);
-   136		XFS_CHECK_STRUCT_SIZE(struct xfs_inode_log_format_32,	52);
-   137		XFS_CHECK_STRUCT_SIZE(struct xfs_inode_log_format,	56);
-   138		XFS_CHECK_STRUCT_SIZE(struct xfs_qoff_logformat,	20);
-   139		XFS_CHECK_STRUCT_SIZE(struct xfs_trans_header,		16);
-   140		XFS_CHECK_STRUCT_SIZE(struct xfs_attri_log_format,	40);
-   141		XFS_CHECK_STRUCT_SIZE(struct xfs_attrd_log_format,	16);
-   142		XFS_CHECK_STRUCT_SIZE(struct xfs_bui_log_format,	16);
-   143		XFS_CHECK_STRUCT_SIZE(struct xfs_bud_log_format,	16);
-   144		XFS_CHECK_STRUCT_SIZE(struct xfs_cui_log_format,	16);
-   145		XFS_CHECK_STRUCT_SIZE(struct xfs_cud_log_format,	16);
-   146		XFS_CHECK_STRUCT_SIZE(struct xfs_rui_log_format,	16);
-   147		XFS_CHECK_STRUCT_SIZE(struct xfs_rud_log_format,	16);
-   148		XFS_CHECK_STRUCT_SIZE(struct xfs_map_extent,		32);
-   149		XFS_CHECK_STRUCT_SIZE(struct xfs_phys_extent,		16);
-   150	
-   151		XFS_CHECK_OFFSET(struct xfs_bui_log_format, bui_extents,	16);
-   152		XFS_CHECK_OFFSET(struct xfs_cui_log_format, cui_extents,	16);
-   153		XFS_CHECK_OFFSET(struct xfs_rui_log_format, rui_extents,	16);
-   154		XFS_CHECK_OFFSET(struct xfs_efi_log_format, efi_extents,	16);
-   155		XFS_CHECK_OFFSET(struct xfs_efi_log_format_32, efi_extents,	16);
-   156		XFS_CHECK_OFFSET(struct xfs_efi_log_format_64, efi_extents,	16);
-   157	
-   158		/*
-   159		 * The v5 superblock format extended several v4 header structures with
-   160		 * additional data. While new fields are only accessible on v5
-   161		 * superblocks, it's important that the v5 structures place original v4
-   162		 * fields/headers in the correct location on-disk. For example, we must
-   163		 * be able to find magic values at the same location in certain blocks
-   164		 * regardless of superblock version.
-   165		 *
-   166		 * The following checks ensure that various v5 data structures place the
-   167		 * subset of v4 metadata associated with the same type of block at the
-   168		 * start of the on-disk block. If there is no data structure definition
-   169		 * for certain types of v4 blocks, traverse down to the first field of
-   170		 * common metadata (e.g., magic value) and make sure it is at offset
-   171		 * zero.
-   172		 */
-   173		XFS_CHECK_OFFSET(struct xfs_dir3_leaf, hdr.info.hdr,	0);
-   174		XFS_CHECK_OFFSET(struct xfs_da3_intnode, hdr.info.hdr,	0);
-   175		XFS_CHECK_OFFSET(struct xfs_dir3_data_hdr, hdr.magic,	0);
-   176		XFS_CHECK_OFFSET(struct xfs_dir3_free, hdr.hdr.magic,	0);
-   177		XFS_CHECK_OFFSET(struct xfs_attr3_leafblock, hdr.info.hdr, 0);
-   178	
-   179		XFS_CHECK_STRUCT_SIZE(struct xfs_bulkstat,		192);
-   180		XFS_CHECK_STRUCT_SIZE(struct xfs_inumbers,		24);
-   181		XFS_CHECK_STRUCT_SIZE(struct xfs_bulkstat_req,		64);
-   182		XFS_CHECK_STRUCT_SIZE(struct xfs_inumbers_req,		64);
-   183	
-   184		/*
-   185		 * Make sure the incore inode timestamp range corresponds to hand
-   186		 * converted values based on the ondisk format specification.
-   187		 */
-   188		XFS_CHECK_VALUE(XFS_BIGTIME_TIME_MIN - XFS_BIGTIME_EPOCH_OFFSET,
-   189				XFS_LEGACY_TIME_MIN);
-   190		XFS_CHECK_VALUE(XFS_BIGTIME_TIME_MAX - XFS_BIGTIME_EPOCH_OFFSET,
-   191				16299260424LL);
-   192	
-   193		/* Do the same with the incore quota expiration range. */
-   194		XFS_CHECK_VALUE(XFS_DQ_BIGTIME_EXPIRY_MIN << XFS_DQ_BIGTIME_SHIFT, 4);
-   195		XFS_CHECK_VALUE(XFS_DQ_BIGTIME_EXPIRY_MAX << XFS_DQ_BIGTIME_SHIFT,
-   196				16299260424LL);
-   197	
-   198		/* fs-verity descriptor xattr name */
- > 199		XFS_CHECK_VALUE(strlen(XFS_VERITY_DESCRIPTOR_NAME),
-   200				XFS_VERITY_DESCRIPTOR_NAME_LEN);
-   201	}
-   202	
+de85488138247d Boris Brezillon 2024-02-29  396  
+de85488138247d Boris Brezillon 2024-02-29  397  	/** @ringbuf: Command stream ring-buffer. */
+93e3ba65963905 Adrián Larumbe  2024-03-05  398  	struct {
+93e3ba65963905 Adrián Larumbe  2024-03-05  399  		/** @ringbuf: Kernel BO that holds ring buffer. */
+93e3ba65963905 Adrián Larumbe  2024-03-05  400  		struct panthor_kernel_bo *bo;
+93e3ba65963905 Adrián Larumbe  2024-03-05  401  
+93e3ba65963905 Adrián Larumbe  2024-03-05  402  		/** @nelem: Number of slots in the ring buffer. */
+93e3ba65963905 Adrián Larumbe  2024-03-05  403  		unsigned int nelem;
+93e3ba65963905 Adrián Larumbe  2024-03-05  404  	} ringbuf;
+de85488138247d Boris Brezillon 2024-02-29  405  
+de85488138247d Boris Brezillon 2024-02-29  406  	/** @iface: Firmware interface. */
+de85488138247d Boris Brezillon 2024-02-29  407  	struct {
+de85488138247d Boris Brezillon 2024-02-29  408  		/** @mem: FW memory allocated for this interface. */
+de85488138247d Boris Brezillon 2024-02-29  409  		struct panthor_kernel_bo *mem;
+de85488138247d Boris Brezillon 2024-02-29  410  
+de85488138247d Boris Brezillon 2024-02-29  411  		/** @input: Input interface. */
+de85488138247d Boris Brezillon 2024-02-29  412  		struct panthor_fw_ringbuf_input_iface *input;
+de85488138247d Boris Brezillon 2024-02-29  413  
+de85488138247d Boris Brezillon 2024-02-29  414  		/** @output: Output interface. */
+de85488138247d Boris Brezillon 2024-02-29  415  		const struct panthor_fw_ringbuf_output_iface *output;
+de85488138247d Boris Brezillon 2024-02-29  416  
+de85488138247d Boris Brezillon 2024-02-29  417  		/** @input_fw_va: FW virtual address of the input interface buffer. */
+de85488138247d Boris Brezillon 2024-02-29  418  		u32 input_fw_va;
+de85488138247d Boris Brezillon 2024-02-29  419  
+de85488138247d Boris Brezillon 2024-02-29  420  		/** @output_fw_va: FW virtual address of the output interface buffer. */
+de85488138247d Boris Brezillon 2024-02-29  421  		u32 output_fw_va;
+de85488138247d Boris Brezillon 2024-02-29  422  	} iface;
+de85488138247d Boris Brezillon 2024-02-29  423  
+de85488138247d Boris Brezillon 2024-02-29  424  	/**
+de85488138247d Boris Brezillon 2024-02-29  425  	 * @syncwait: Stores information about the synchronization object this
+de85488138247d Boris Brezillon 2024-02-29  426  	 * queue is waiting on.
+de85488138247d Boris Brezillon 2024-02-29  427  	 */
+de85488138247d Boris Brezillon 2024-02-29  428  	struct {
+de85488138247d Boris Brezillon 2024-02-29  429  		/** @gpu_va: GPU address of the synchronization object. */
+de85488138247d Boris Brezillon 2024-02-29  430  		u64 gpu_va;
+de85488138247d Boris Brezillon 2024-02-29  431  
+de85488138247d Boris Brezillon 2024-02-29  432  		/** @ref: Reference value to compare against. */
+de85488138247d Boris Brezillon 2024-02-29  433  		u64 ref;
+de85488138247d Boris Brezillon 2024-02-29  434  
+de85488138247d Boris Brezillon 2024-02-29  435  		/** @gt: True if this is a greater-than test. */
+de85488138247d Boris Brezillon 2024-02-29  436  		bool gt;
+de85488138247d Boris Brezillon 2024-02-29  437  
+de85488138247d Boris Brezillon 2024-02-29  438  		/** @sync64: True if this is a 64-bit sync object. */
+de85488138247d Boris Brezillon 2024-02-29  439  		bool sync64;
+de85488138247d Boris Brezillon 2024-02-29  440  
+de85488138247d Boris Brezillon 2024-02-29  441  		/** @bo: Buffer object holding the synchronization object. */
+de85488138247d Boris Brezillon 2024-02-29  442  		struct drm_gem_object *obj;
+de85488138247d Boris Brezillon 2024-02-29  443  
+de85488138247d Boris Brezillon 2024-02-29  444  		/** @offset: Offset of the synchronization object inside @bo. */
+de85488138247d Boris Brezillon 2024-02-29  445  		u64 offset;
+de85488138247d Boris Brezillon 2024-02-29  446  
+de85488138247d Boris Brezillon 2024-02-29  447  		/**
+de85488138247d Boris Brezillon 2024-02-29  448  		 * @kmap: Kernel mapping of the buffer object holding the
+de85488138247d Boris Brezillon 2024-02-29  449  		 * synchronization object.
+de85488138247d Boris Brezillon 2024-02-29  450  		 */
+de85488138247d Boris Brezillon 2024-02-29  451  		void *kmap;
+de85488138247d Boris Brezillon 2024-02-29  452  	} syncwait;
+de85488138247d Boris Brezillon 2024-02-29  453  
+de85488138247d Boris Brezillon 2024-02-29  454  	/** @fence_ctx: Fence context fields. */
+de85488138247d Boris Brezillon 2024-02-29  455  	struct {
+de85488138247d Boris Brezillon 2024-02-29  456  		/** @lock: Used to protect access to all fences allocated by this context. */
+de85488138247d Boris Brezillon 2024-02-29  457  		spinlock_t lock;
+de85488138247d Boris Brezillon 2024-02-29  458  
+de85488138247d Boris Brezillon 2024-02-29  459  		/**
+de85488138247d Boris Brezillon 2024-02-29  460  		 * @id: Fence context ID.
+de85488138247d Boris Brezillon 2024-02-29  461  		 *
+de85488138247d Boris Brezillon 2024-02-29  462  		 * Allocated with dma_fence_context_alloc().
+de85488138247d Boris Brezillon 2024-02-29  463  		 */
+de85488138247d Boris Brezillon 2024-02-29  464  		u64 id;
+de85488138247d Boris Brezillon 2024-02-29  465  
+de85488138247d Boris Brezillon 2024-02-29  466  		/** @seqno: Sequence number of the last initialized fence. */
+de85488138247d Boris Brezillon 2024-02-29  467  		atomic64_t seqno;
+de85488138247d Boris Brezillon 2024-02-29  468  
+de85488138247d Boris Brezillon 2024-02-29  469  		/**
+de85488138247d Boris Brezillon 2024-02-29  470  		 * @in_flight_jobs: List containing all in-flight jobs.
+de85488138247d Boris Brezillon 2024-02-29  471  		 *
+de85488138247d Boris Brezillon 2024-02-29  472  		 * Used to keep track and signal panthor_job::done_fence when the
+de85488138247d Boris Brezillon 2024-02-29  473  		 * synchronization object attached to the queue is signaled.
+de85488138247d Boris Brezillon 2024-02-29  474  		 */
+de85488138247d Boris Brezillon 2024-02-29  475  		struct list_head in_flight_jobs;
+de85488138247d Boris Brezillon 2024-02-29  476  	} fence_ctx;
+93e3ba65963905 Adrián Larumbe  2024-03-05  477  
+93e3ba65963905 Adrián Larumbe  2024-03-05  478  	/** @time_offset: Offset of fdinfo stats structs in queue's syncobj. */
+93e3ba65963905 Adrián Larumbe  2024-03-05  479  	unsigned long time_offset;
+de85488138247d Boris Brezillon 2024-02-29 @480  };
+de85488138247d Boris Brezillon 2024-02-29  481  
+de85488138247d Boris Brezillon 2024-02-29  482  /**
+de85488138247d Boris Brezillon 2024-02-29  483   * enum panthor_group_state - Scheduling group state.
+de85488138247d Boris Brezillon 2024-02-29  484   */
+de85488138247d Boris Brezillon 2024-02-29  485  enum panthor_group_state {
+de85488138247d Boris Brezillon 2024-02-29  486  	/** @PANTHOR_CS_GROUP_CREATED: Group was created, but not scheduled yet. */
+de85488138247d Boris Brezillon 2024-02-29  487  	PANTHOR_CS_GROUP_CREATED,
+de85488138247d Boris Brezillon 2024-02-29  488  
+de85488138247d Boris Brezillon 2024-02-29  489  	/** @PANTHOR_CS_GROUP_ACTIVE: Group is currently scheduled. */
+de85488138247d Boris Brezillon 2024-02-29  490  	PANTHOR_CS_GROUP_ACTIVE,
+de85488138247d Boris Brezillon 2024-02-29  491  
+de85488138247d Boris Brezillon 2024-02-29  492  	/**
+de85488138247d Boris Brezillon 2024-02-29  493  	 * @PANTHOR_CS_GROUP_SUSPENDED: Group was scheduled at least once, but is
+de85488138247d Boris Brezillon 2024-02-29  494  	 * inactive/suspended right now.
+de85488138247d Boris Brezillon 2024-02-29  495  	 */
+de85488138247d Boris Brezillon 2024-02-29  496  	PANTHOR_CS_GROUP_SUSPENDED,
+de85488138247d Boris Brezillon 2024-02-29  497  
+de85488138247d Boris Brezillon 2024-02-29  498  	/**
+de85488138247d Boris Brezillon 2024-02-29  499  	 * @PANTHOR_CS_GROUP_TERMINATED: Group was terminated.
+de85488138247d Boris Brezillon 2024-02-29  500  	 *
+de85488138247d Boris Brezillon 2024-02-29  501  	 * Can no longer be scheduled. The only allowed action is a destruction.
+de85488138247d Boris Brezillon 2024-02-29  502  	 */
+de85488138247d Boris Brezillon 2024-02-29  503  	PANTHOR_CS_GROUP_TERMINATED,
+de85488138247d Boris Brezillon 2024-02-29  504  };
+de85488138247d Boris Brezillon 2024-02-29  505  
+de85488138247d Boris Brezillon 2024-02-29  506  /**
+de85488138247d Boris Brezillon 2024-02-29  507   * struct panthor_group - Scheduling group object
+de85488138247d Boris Brezillon 2024-02-29  508   */
+de85488138247d Boris Brezillon 2024-02-29  509  struct panthor_group {
+de85488138247d Boris Brezillon 2024-02-29  510  	/** @refcount: Reference count */
+de85488138247d Boris Brezillon 2024-02-29  511  	struct kref refcount;
+de85488138247d Boris Brezillon 2024-02-29  512  
+de85488138247d Boris Brezillon 2024-02-29  513  	/** @ptdev: Device. */
+de85488138247d Boris Brezillon 2024-02-29  514  	struct panthor_device *ptdev;
+de85488138247d Boris Brezillon 2024-02-29  515  
+de85488138247d Boris Brezillon 2024-02-29  516  	/** @vm: VM bound to the group. */
+de85488138247d Boris Brezillon 2024-02-29  517  	struct panthor_vm *vm;
+de85488138247d Boris Brezillon 2024-02-29  518  
+de85488138247d Boris Brezillon 2024-02-29  519  	/** @compute_core_mask: Mask of shader cores that can be used for compute jobs. */
+de85488138247d Boris Brezillon 2024-02-29  520  	u64 compute_core_mask;
+de85488138247d Boris Brezillon 2024-02-29  521  
+de85488138247d Boris Brezillon 2024-02-29  522  	/** @fragment_core_mask: Mask of shader cores that can be used for fragment jobs. */
+de85488138247d Boris Brezillon 2024-02-29  523  	u64 fragment_core_mask;
+de85488138247d Boris Brezillon 2024-02-29  524  
+de85488138247d Boris Brezillon 2024-02-29  525  	/** @tiler_core_mask: Mask of tiler cores that can be used for tiler jobs. */
+de85488138247d Boris Brezillon 2024-02-29  526  	u64 tiler_core_mask;
+de85488138247d Boris Brezillon 2024-02-29  527  
+de85488138247d Boris Brezillon 2024-02-29  528  	/** @max_compute_cores: Maximum number of shader cores used for compute jobs. */
+de85488138247d Boris Brezillon 2024-02-29  529  	u8 max_compute_cores;
+de85488138247d Boris Brezillon 2024-02-29  530  
+de85488138247d Boris Brezillon 2024-02-29  531  	/** @max_compute_cores: Maximum number of shader cores used for fragment jobs. */
+de85488138247d Boris Brezillon 2024-02-29  532  	u8 max_fragment_cores;
+de85488138247d Boris Brezillon 2024-02-29  533  
+de85488138247d Boris Brezillon 2024-02-29  534  	/** @max_tiler_cores: Maximum number of tiler cores used for tiler jobs. */
+de85488138247d Boris Brezillon 2024-02-29  535  	u8 max_tiler_cores;
+de85488138247d Boris Brezillon 2024-02-29  536  
+de85488138247d Boris Brezillon 2024-02-29  537  	/** @priority: Group priority (check panthor_csg_priority). */
+de85488138247d Boris Brezillon 2024-02-29  538  	u8 priority;
+de85488138247d Boris Brezillon 2024-02-29  539  
+de85488138247d Boris Brezillon 2024-02-29  540  	/** @blocked_queues: Bitmask reflecting the blocked queues. */
+de85488138247d Boris Brezillon 2024-02-29  541  	u32 blocked_queues;
+de85488138247d Boris Brezillon 2024-02-29  542  
+de85488138247d Boris Brezillon 2024-02-29  543  	/** @idle_queues: Bitmask reflecting the idle queues. */
+de85488138247d Boris Brezillon 2024-02-29  544  	u32 idle_queues;
+de85488138247d Boris Brezillon 2024-02-29  545  
+de85488138247d Boris Brezillon 2024-02-29  546  	/** @fatal_lock: Lock used to protect access to fatal fields. */
+de85488138247d Boris Brezillon 2024-02-29  547  	spinlock_t fatal_lock;
+de85488138247d Boris Brezillon 2024-02-29  548  
+de85488138247d Boris Brezillon 2024-02-29  549  	/** @fatal_queues: Bitmask reflecting the queues that hit a fatal exception. */
+de85488138247d Boris Brezillon 2024-02-29  550  	u32 fatal_queues;
+de85488138247d Boris Brezillon 2024-02-29  551  
+de85488138247d Boris Brezillon 2024-02-29  552  	/** @tiler_oom: Mask of queues that have a tiler OOM event to process. */
+de85488138247d Boris Brezillon 2024-02-29  553  	atomic_t tiler_oom;
+de85488138247d Boris Brezillon 2024-02-29  554  
+de85488138247d Boris Brezillon 2024-02-29  555  	/** @queue_count: Number of queues in this group. */
+de85488138247d Boris Brezillon 2024-02-29  556  	u32 queue_count;
+de85488138247d Boris Brezillon 2024-02-29  557  
+de85488138247d Boris Brezillon 2024-02-29  558  	/** @queues: Queues owned by this group. */
+de85488138247d Boris Brezillon 2024-02-29  559  	struct panthor_queue *queues[MAX_CS_PER_CSG];
+de85488138247d Boris Brezillon 2024-02-29  560  
+de85488138247d Boris Brezillon 2024-02-29  561  	/**
+de85488138247d Boris Brezillon 2024-02-29  562  	 * @csg_id: ID of the FW group slot.
+de85488138247d Boris Brezillon 2024-02-29  563  	 *
+de85488138247d Boris Brezillon 2024-02-29  564  	 * -1 when the group is not scheduled/active.
+de85488138247d Boris Brezillon 2024-02-29  565  	 */
+de85488138247d Boris Brezillon 2024-02-29  566  	int csg_id;
+de85488138247d Boris Brezillon 2024-02-29  567  
+de85488138247d Boris Brezillon 2024-02-29  568  	/**
+de85488138247d Boris Brezillon 2024-02-29  569  	 * @destroyed: True when the group has been destroyed.
+de85488138247d Boris Brezillon 2024-02-29  570  	 *
+de85488138247d Boris Brezillon 2024-02-29  571  	 * If a group is destroyed it becomes useless: no further jobs can be submitted
+de85488138247d Boris Brezillon 2024-02-29  572  	 * to its queues. We simply wait for all references to be dropped so we can
+de85488138247d Boris Brezillon 2024-02-29  573  	 * release the group object.
+de85488138247d Boris Brezillon 2024-02-29  574  	 */
+de85488138247d Boris Brezillon 2024-02-29  575  	bool destroyed;
+de85488138247d Boris Brezillon 2024-02-29  576  
+de85488138247d Boris Brezillon 2024-02-29  577  	/**
+de85488138247d Boris Brezillon 2024-02-29  578  	 * @timedout: True when a timeout occurred on any of the queues owned by
+de85488138247d Boris Brezillon 2024-02-29  579  	 * this group.
+de85488138247d Boris Brezillon 2024-02-29  580  	 *
+de85488138247d Boris Brezillon 2024-02-29  581  	 * Timeouts can be reported by drm_sched or by the FW. In any case, any
+de85488138247d Boris Brezillon 2024-02-29  582  	 * timeout situation is unrecoverable, and the group becomes useless.
+de85488138247d Boris Brezillon 2024-02-29  583  	 * We simply wait for all references to be dropped so we can release the
+de85488138247d Boris Brezillon 2024-02-29  584  	 * group object.
+de85488138247d Boris Brezillon 2024-02-29  585  	 */
+de85488138247d Boris Brezillon 2024-02-29  586  	bool timedout;
+de85488138247d Boris Brezillon 2024-02-29  587  
+de85488138247d Boris Brezillon 2024-02-29  588  	/**
+de85488138247d Boris Brezillon 2024-02-29  589  	 * @syncobjs: Pool of per-queue synchronization objects.
+de85488138247d Boris Brezillon 2024-02-29  590  	 *
+de85488138247d Boris Brezillon 2024-02-29  591  	 * One sync object per queue. The position of the sync object is
+de85488138247d Boris Brezillon 2024-02-29  592  	 * determined by the queue index.
+de85488138247d Boris Brezillon 2024-02-29  593  	 */
+93e3ba65963905 Adrián Larumbe  2024-03-05  594  
+93e3ba65963905 Adrián Larumbe  2024-03-05  595  	struct {
+93e3ba65963905 Adrián Larumbe  2024-03-05  596  		/** @bo: Kernel BO holding the sync objects. */
+93e3ba65963905 Adrián Larumbe  2024-03-05  597  		struct panthor_kernel_bo *bo;
+93e3ba65963905 Adrián Larumbe  2024-03-05  598  
+93e3ba65963905 Adrián Larumbe  2024-03-05  599  		/** @times_offset: Beginning of time stats after objects of sync pool. */
+93e3ba65963905 Adrián Larumbe  2024-03-05  600  		size_t times_offset;
+93e3ba65963905 Adrián Larumbe  2024-03-05  601  	} syncobjs;
+93e3ba65963905 Adrián Larumbe  2024-03-05  602  
+93e3ba65963905 Adrián Larumbe  2024-03-05  603  	/** @fdinfo: Per-file total cycle and timestamp values reference. */
+93e3ba65963905 Adrián Larumbe  2024-03-05  604  	struct {
+93e3ba65963905 Adrián Larumbe  2024-03-05  605  		/** @data: Pointer to actual per-file sample data. */
+93e3ba65963905 Adrián Larumbe  2024-03-05  606  		struct panthor_gpu_usage *data;
+93e3ba65963905 Adrián Larumbe  2024-03-05  607  
+93e3ba65963905 Adrián Larumbe  2024-03-05  608  		/**
+93e3ba65963905 Adrián Larumbe  2024-03-05  609  		 * @lock: Mutex to govern concurrent access from drm file's fdinfo callback
+93e3ba65963905 Adrián Larumbe  2024-03-05  610  		 * and job post-completion processing function
+93e3ba65963905 Adrián Larumbe  2024-03-05  611  		 */
+93e3ba65963905 Adrián Larumbe  2024-03-05  612  		struct mutex lock;
+93e3ba65963905 Adrián Larumbe  2024-03-05  613  	} fdinfo;
+de85488138247d Boris Brezillon 2024-02-29  614  
+de85488138247d Boris Brezillon 2024-02-29  615  	/** @state: Group state. */
+de85488138247d Boris Brezillon 2024-02-29  616  	enum panthor_group_state state;
+de85488138247d Boris Brezillon 2024-02-29  617  
+de85488138247d Boris Brezillon 2024-02-29  618  	/**
+de85488138247d Boris Brezillon 2024-02-29  619  	 * @suspend_buf: Suspend buffer.
+de85488138247d Boris Brezillon 2024-02-29  620  	 *
+de85488138247d Boris Brezillon 2024-02-29  621  	 * Stores the state of the group and its queues when a group is suspended.
+de85488138247d Boris Brezillon 2024-02-29  622  	 * Used at resume time to restore the group in its previous state.
+de85488138247d Boris Brezillon 2024-02-29  623  	 *
+de85488138247d Boris Brezillon 2024-02-29  624  	 * The size of the suspend buffer is exposed through the FW interface.
+de85488138247d Boris Brezillon 2024-02-29  625  	 */
+de85488138247d Boris Brezillon 2024-02-29  626  	struct panthor_kernel_bo *suspend_buf;
+de85488138247d Boris Brezillon 2024-02-29  627  
+de85488138247d Boris Brezillon 2024-02-29  628  	/**
+de85488138247d Boris Brezillon 2024-02-29  629  	 * @protm_suspend_buf: Protection mode suspend buffer.
+de85488138247d Boris Brezillon 2024-02-29  630  	 *
+de85488138247d Boris Brezillon 2024-02-29  631  	 * Stores the state of the group and its queues when a group that's in
+de85488138247d Boris Brezillon 2024-02-29  632  	 * protection mode is suspended.
+de85488138247d Boris Brezillon 2024-02-29  633  	 *
+de85488138247d Boris Brezillon 2024-02-29  634  	 * Used at resume time to restore the group in its previous state.
+de85488138247d Boris Brezillon 2024-02-29  635  	 *
+de85488138247d Boris Brezillon 2024-02-29  636  	 * The size of the protection mode suspend buffer is exposed through the
+de85488138247d Boris Brezillon 2024-02-29  637  	 * FW interface.
+de85488138247d Boris Brezillon 2024-02-29  638  	 */
+de85488138247d Boris Brezillon 2024-02-29  639  	struct panthor_kernel_bo *protm_suspend_buf;
+de85488138247d Boris Brezillon 2024-02-29  640  
+de85488138247d Boris Brezillon 2024-02-29  641  	/** @sync_upd_work: Work used to check/signal job fences. */
+de85488138247d Boris Brezillon 2024-02-29  642  	struct work_struct sync_upd_work;
+de85488138247d Boris Brezillon 2024-02-29  643  
+de85488138247d Boris Brezillon 2024-02-29  644  	/** @tiler_oom_work: Work used to process tiler OOM events happening on this group. */
+de85488138247d Boris Brezillon 2024-02-29  645  	struct work_struct tiler_oom_work;
+de85488138247d Boris Brezillon 2024-02-29  646  
+de85488138247d Boris Brezillon 2024-02-29  647  	/** @term_work: Work used to finish the group termination procedure. */
+de85488138247d Boris Brezillon 2024-02-29  648  	struct work_struct term_work;
+de85488138247d Boris Brezillon 2024-02-29  649  
+de85488138247d Boris Brezillon 2024-02-29  650  	/**
+de85488138247d Boris Brezillon 2024-02-29  651  	 * @release_work: Work used to release group resources.
+de85488138247d Boris Brezillon 2024-02-29  652  	 *
+de85488138247d Boris Brezillon 2024-02-29  653  	 * We need to postpone the group release to avoid a deadlock when
+de85488138247d Boris Brezillon 2024-02-29  654  	 * the last ref is released in the tick work.
+de85488138247d Boris Brezillon 2024-02-29  655  	 */
+de85488138247d Boris Brezillon 2024-02-29  656  	struct work_struct release_work;
+de85488138247d Boris Brezillon 2024-02-29  657  
+de85488138247d Boris Brezillon 2024-02-29  658  	/**
+de85488138247d Boris Brezillon 2024-02-29  659  	 * @run_node: Node used to insert the group in the
+de85488138247d Boris Brezillon 2024-02-29  660  	 * panthor_group::groups::{runnable,idle} and
+de85488138247d Boris Brezillon 2024-02-29  661  	 * panthor_group::reset.stopped_groups lists.
+de85488138247d Boris Brezillon 2024-02-29  662  	 */
+de85488138247d Boris Brezillon 2024-02-29  663  	struct list_head run_node;
+de85488138247d Boris Brezillon 2024-02-29  664  
+de85488138247d Boris Brezillon 2024-02-29  665  	/**
+de85488138247d Boris Brezillon 2024-02-29  666  	 * @wait_node: Node used to insert the group in the
+de85488138247d Boris Brezillon 2024-02-29  667  	 * panthor_group::groups::waiting list.
+de85488138247d Boris Brezillon 2024-02-29  668  	 */
+de85488138247d Boris Brezillon 2024-02-29  669  	struct list_head wait_node;
+de85488138247d Boris Brezillon 2024-02-29 @670  };
+de85488138247d Boris Brezillon 2024-02-29  671  
 
 -- 
 0-DAY CI Kernel Test Service
