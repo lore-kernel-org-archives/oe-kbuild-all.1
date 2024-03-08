@@ -1,57 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C4C23772;
-	Fri,  8 Mar 2024 14:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE1C1F934
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 15:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709908076; cv=none; b=rU6Qg4lGZKm/aHWGAcsAcM1Z+gQ9h+J3r0/AljE5uA40nAzzAKPapgQmdZGoEFI53pqukMiqa0bMPGeGQL+iSe+VbDnLIM8ph5dnpsIm3a5kjCqDonrRhhTa6FjwIN+XJnMQQyQghJAXX99GZB2QH2tR4V410iOwjZVcTiiUj/A=
+	t=1709912401; cv=none; b=J2olvZrW3AforZG+JsLEV9dEfq5K4c6Y2djupgZ0+2bjRgIpVq3K9stNaXAaH+40hou+XL+i5jW6rGurM84VUvkSe0u4tqaOHaLWKj33DQcJGqzcghOcjz8TKp+N0eaVSbbI72145rQqgqpQmbMl7KSvryWOVNaIkMTQQDvTe7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709908076; c=relaxed/simple;
-	bh=JehrwBSe5jpER7aEjZ7zFG79Kv0Lh6GhsbWnY4NNhEQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ORznxrMtYdClpvrxcBP9fNNAxHikE5w7gIJPaDA226WJYP0LpePMbwjCqMQLdmC216agVClIYZDuwX+nEb6VHzfurDRQ/LgYguqtkZNrEETWo0DFVbFTBrWePmRElJONxfspYOETszRTIzssHSqgoRmNaP2BbLdMYpA0R3ga36s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GnKp1TFH; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1709912401; c=relaxed/simple;
+	bh=0eO6xOMRUPVlNM3MVHgcheRlmwso//Cdy89FhcriVGE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X1xLIMgQfd203RUQxfnhHl/08FT988/gl6H4elYhVdCwph1qexQwNNsjQu79CZiMUDEfmDMzR9vPuXzmldkqXPghLR7O2KALtNeJuyf+pZJ9PKJ6VjyoBXCBXpJYFzxpJigV5duGL1MsTc7FBLB3KFJP9Ybbfsc/uaSomV1ll3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IS0Ir728; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GnKp1TFH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IS0Ir728"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709908074; x=1741444074;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JehrwBSe5jpER7aEjZ7zFG79Kv0Lh6GhsbWnY4NNhEQ=;
-  b=GnKp1TFHxfS+8NDdv8uBhaPd7QAFQY7RS8pKGB9MABd3pKELkBALuqVK
-   DuNZFLp4yKDUaQNGhCMLasxi+AvmGC5LOno+RdIF3ra53D5yAlx6GvNMd
-   y0Aef26pPeSgRgaJP0uqjq2/0yPOCvwbZcrAXoccNLIM87f7yI+u9MBkH
-   OiLOloXsx/hxsNc5sgGfYJhOTBkWqZrhganKPmNfq0F0betlQaBFKzJyj
-   qaej6uw/8z4HQkK5s3ylDs3F7qmm6JOeXKVY8C/q9yk9l2lBhT9847yoH
-   BEXlKbhZUVThedy9oFQXKfEMdvmyY/4n3Js7ybDUup62dG3rObhGur3SG
+  t=1709912399; x=1741448399;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0eO6xOMRUPVlNM3MVHgcheRlmwso//Cdy89FhcriVGE=;
+  b=IS0Ir7287xlo04jdse7gP51wK8ux56frxMwLVJ/FUXCbhTY28SI6YsnT
+   ATMNgPcPnwc2RBqpDsvKd9lS6m6l5+CzdF5xMfW9E2mLMz/X30MfZpYtV
+   tzUzwu1bJQUvqV07kYSv4S01RMUWpq6HGyd4fOMhhZZBNw5TioYEt+/qX
+   l7/rojET0HBdNtqfQYwPdyfScsX/KfTz66aJ1Pet3QEKq5OzOR+MXPAvA
+   WOcmCnBINdIabvajdIjbvr0v1L6LKiFrXd7lvUs2DoF80vk5K5/wgtJch
+   loGCjBdjt3DUhBG13zq4DstJHra2qbA8QzY6vVQ0g1VYKZohpVlFfANAE
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="22153236"
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="8454468"
 X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; 
-   d="scan'208";a="22153236"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 06:27:53 -0800
+   d="scan'208";a="8454468"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 07:39:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; 
-   d="scan'208";a="33614703"
+X-IronPort-AV: E=Sophos;i="6.07,110,1708416000"; 
+   d="scan'208";a="10596160"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Mar 2024 06:27:52 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 08 Mar 2024 07:39:53 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ribCP-0006RD-2I;
-	Fri, 08 Mar 2024 14:27:49 +0000
-Date: Fri, 8 Mar 2024 22:27:03 +0800
+	id 1ricK6-0006TI-2d;
+	Fri, 08 Mar 2024 15:39:50 +0000
+Date: Fri, 8 Mar 2024 23:39:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Golle <daniel@makrotopia.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+To: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Richard Weinberger <richard@nod.at>
-Subject: [linux-next:master 9129/12944] drivers/mtd/ubi/nvmem.c:34:9: error:
- incompatible pointer types passing 'int *' to parameter of type 'uint64_t *'
- (aka 'unsigned long long *')
-Message-ID: <202403082209.vkIG6nqH-lkp@intel.com>
+	Vincent Donnefort <vdonnefort@google.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>, suleiman@google.com,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vineeth Pillai <vineeth@bitbyteword.org>,
+	Youssef Esmat <youssefesmat@google.com>,
+	Beau Belgrave <beaub@linux.microsoft.com>,
+	Alexander Graf <graf@amazon.com>, Baoquan He <bhe@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	David Howells <dhowells@redhat.com>
+Subject: Re: [PATCH 8/8] ring-buffer: Validate boot range memory events
+Message-ID: <202403082327.SiOUrqxy-lkp@intel.com>
+References: <20240306020006.586558735@goodmis.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,133 +76,195 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240306020006.586558735@goodmis.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8ffc8b1bbd505e27e2c8439d326b6059c906c9dd
-commit: 3ce485803da1b79b2692b6d0c2792829292ad838 [9129/12944] mtd: ubi: provide NVMEM layer over UBI volumes
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240308/202403082209.vkIG6nqH-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 503c55e17037436dcd45ac69dea8967e67e3f5e8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240308/202403082209.vkIG6nqH-lkp@intel.com/reproduce)
+Hi Steven,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20240305]
+[cannot apply to tip/x86/core akpm-mm/mm-everything linus/master v6.8-rc7 v6.8-rc6 v6.8-rc5 v6.8-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/ring-buffer-Allow-mapped-field-to-be-set-without-mapping/20240306-100047
+base:   next-20240305
+patch link:    https://lore.kernel.org/r/20240306020006.586558735%40goodmis.org
+patch subject: [PATCH 8/8] ring-buffer: Validate boot range memory events
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240308/202403082327.SiOUrqxy-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240308/202403082327.SiOUrqxy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403082209.vkIG6nqH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403082327.SiOUrqxy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from drivers/mtd/ubi/nvmem.c:7:
-   In file included from drivers/mtd/ubi/ubi.h:28:
-   In file included from include/linux/mtd/ubi.h:13:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/mtd/ubi/nvmem.c:7:
-   In file included from drivers/mtd/ubi/ubi.h:28:
-   In file included from include/linux/mtd/ubi.h:13:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/mtd/ubi/nvmem.c:7:
-   In file included from drivers/mtd/ubi/ubi.h:28:
-   In file included from include/linux/mtd/ubi.h:13:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/mtd/ubi/nvmem.c:7:
-   In file included from drivers/mtd/ubi/ubi.h:28:
-   In file included from include/linux/mtd/ubi.h:13:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   drivers/mtd/ubi/nvmem.c:34:9: warning: comparison of distinct pointer types ('typeof ((lnum)) *' (aka 'int *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
-      34 |         offs = do_div(lnum, unv->usable_leb_size);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
-     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
->> drivers/mtd/ubi/nvmem.c:34:9: error: incompatible pointer types passing 'int *' to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-      34 |         offs = do_div(lnum, unv->usable_leb_size);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
-     238 |                 __rem = __div64_32(&(n), __base);       \
-         |                                    ^~~~
-   include/asm-generic/div64.h:213:38: note: passing argument to parameter 'dividend' here
-     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-         |                                      ^
-   drivers/mtd/ubi/nvmem.c:34:9: warning: shift count >= width of type [-Wshift-count-overflow]
-      34 |         offs = do_div(lnum, unv->usable_leb_size);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
-     234 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^  ~~
-   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+   kernel/trace/ring_buffer.c: In function 'rb_read_data_buffer':
+>> kernel/trace/ring_buffer.c:1629:29: error: 'cpu_buffer' undeclared (first use in this function)
+    1629 |                 atomic_inc(&cpu_buffer->record_disabled);               \
+         |                             ^~~~~~~~~~
+   kernel/trace/ring_buffer.c:1667:33: note: in expansion of macro 'buffer_warn_return'
+    1667 |                                 buffer_warn_return("[CPU: %d]ABSOLUTE TIME WENT BACKWARDS: last ts: %lld absolute ts: %lld\n",
+         |                                 ^~~~~~~~~~~~~~~~~~
+   kernel/trace/ring_buffer.c:1629:29: note: each undeclared identifier is reported only once for each function it appears in
+    1629 |                 atomic_inc(&cpu_buffer->record_disabled);               \
+         |                             ^~~~~~~~~~
+   kernel/trace/ring_buffer.c:1667:33: note: in expansion of macro 'buffer_warn_return'
+    1667 |                                 buffer_warn_return("[CPU: %d]ABSOLUTE TIME WENT BACKWARDS: last ts: %lld absolute ts: %lld\n",
+         |                                 ^~~~~~~~~~~~~~~~~~
+>> kernel/trace/ring_buffer.c:1631:17: error: implicit declaration of function 'dump_buffer_page'; did you mean 'free_buffer_page'? [-Werror=implicit-function-declaration]
+    1631 |                 dump_buffer_page(bpage, info, tail);                    \
+         |                 ^~~~~~~~~~~~~~~~
+   kernel/trace/ring_buffer.c:1667:33: note: in expansion of macro 'buffer_warn_return'
+    1667 |                                 buffer_warn_return("[CPU: %d]ABSOLUTE TIME WENT BACKWARDS: last ts: %lld absolute ts: %lld\n",
+         |                                 ^~~~~~~~~~~~~~~~~~
+>> kernel/trace/ring_buffer.c:1631:34: error: 'bpage' undeclared (first use in this function); did you mean 'dpage'?
+    1631 |                 dump_buffer_page(bpage, info, tail);                    \
+         |                                  ^~~~~
+   kernel/trace/ring_buffer.c:1667:33: note: in expansion of macro 'buffer_warn_return'
+    1667 |                                 buffer_warn_return("[CPU: %d]ABSOLUTE TIME WENT BACKWARDS: last ts: %lld absolute ts: %lld\n",
+         |                                 ^~~~~~~~~~~~~~~~~~
+>> kernel/trace/ring_buffer.c:1631:41: error: 'info' undeclared (first use in this function)
+    1631 |                 dump_buffer_page(bpage, info, tail);                    \
+         |                                         ^~~~
+   kernel/trace/ring_buffer.c:1667:33: note: in expansion of macro 'buffer_warn_return'
+    1667 |                                 buffer_warn_return("[CPU: %d]ABSOLUTE TIME WENT BACKWARDS: last ts: %lld absolute ts: %lld\n",
+         |                                 ^~~~~~~~~~~~~~~~~~
+>> kernel/trace/ring_buffer.c:1636:25: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+    1636 |                         return;                                         \
+         |                         ^~~~~~
+   kernel/trace/ring_buffer.c:1667:33: note: in expansion of macro 'buffer_warn_return'
+    1667 |                                 buffer_warn_return("[CPU: %d]ABSOLUTE TIME WENT BACKWARDS: last ts: %lld absolute ts: %lld\n",
+         |                                 ^~~~~~~~~~~~~~~~~~
+   kernel/trace/ring_buffer.c:1642:12: note: declared here
+    1642 | static int rb_read_data_buffer(struct buffer_data_page *dpage, int tail, int cpu,
+         |            ^~~~~~~~~~~~~~~~~~~
+>> kernel/trace/ring_buffer.c:1667:33: error: label 'out' used but not defined
+    1667 |                                 buffer_warn_return("[CPU: %d]ABSOLUTE TIME WENT BACKWARDS: last ts: %lld absolute ts: %lld\n",
+         |                                 ^~~~~~~~~~~~~~~~~~
+   kernel/trace/ring_buffer.c: In function 'rb_set_commit_to_write':
+   kernel/trace/ring_buffer.c:3588:45: warning: assignment to 'long unsigned int' from 'struct buffer_data_page *' makes integer from pointer without a cast [-Wint-conversion]
+    3588 |                         meta->commit_buffer = cpu_buffer->commit_page->page;
          |                                             ^
-   9 warnings and 1 error generated.
+   kernel/trace/ring_buffer.c: At top level:
+>> kernel/trace/ring_buffer.c:3957:13: warning: conflicting types for 'dump_buffer_page'; have 'void(struct buffer_data_page *, struct rb_event_info *, long unsigned int)'
+    3957 | static void dump_buffer_page(struct buffer_data_page *bpage,
+         |             ^~~~~~~~~~~~~~~~
+>> kernel/trace/ring_buffer.c:3957:13: error: static declaration of 'dump_buffer_page' follows non-static declaration
+   kernel/trace/ring_buffer.c:1631:17: note: previous implicit declaration of 'dump_buffer_page' with type 'void(struct buffer_data_page *, struct rb_event_info *, long unsigned int)'
+    1631 |                 dump_buffer_page(bpage, info, tail);                    \
+         |                 ^~~~~~~~~~~~~~~~
+   kernel/trace/ring_buffer.c:1667:33: note: in expansion of macro 'buffer_warn_return'
+    1667 |                                 buffer_warn_return("[CPU: %d]ABSOLUTE TIME WENT BACKWARDS: last ts: %lld absolute ts: %lld\n",
+         |                                 ^~~~~~~~~~~~~~~~~~
+   kernel/trace/ring_buffer.c: In function 'check_buffer':
+>> kernel/trace/ring_buffer.c:4046:9: error: 'ret' undeclared (first use in this function); did you mean 'net'?
+    4046 |         ret = rb_read_data_buffer(bpage, tail, &ts, cpu_buffer->cpu, true);
+         |         ^~~
+         |         net
+>> kernel/trace/ring_buffer.c:4046:48: warning: passing argument 3 of 'rb_read_data_buffer' makes integer from pointer without a cast [-Wint-conversion]
+    4046 |         ret = rb_read_data_buffer(bpage, tail, &ts, cpu_buffer->cpu, true);
+         |                                                ^~~
+         |                                                |
+         |                                                u64 * {aka long long unsigned int *}
+   kernel/trace/ring_buffer.c:1642:78: note: expected 'int' but argument is of type 'u64 *' {aka 'long long unsigned int *'}
+    1642 | static int rb_read_data_buffer(struct buffer_data_page *dpage, int tail, int cpu,
+         |                                                                          ~~~~^~~
+>> kernel/trace/ring_buffer.c:4046:63: warning: passing argument 4 of 'rb_read_data_buffer' makes pointer from integer without a cast [-Wint-conversion]
+    4046 |         ret = rb_read_data_buffer(bpage, tail, &ts, cpu_buffer->cpu, true);
+         |                                                     ~~~~~~~~~~^~~~~
+         |                                                               |
+         |                                                               int
+   kernel/trace/ring_buffer.c:1643:52: note: expected 'long long unsigned int *' but argument is of type 'int'
+    1643 |                                unsigned long long *timestamp, bool warn)
+         |                                ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>> kernel/trace/ring_buffer.c:4020:13: warning: unused variable 'e' [-Wunused-variable]
+    4020 |         int e;
+         |             ^
+>> kernel/trace/ring_buffer.c:4018:17: warning: unused variable 'delta' [-Wunused-variable]
+    4018 |         u64 ts, delta;
+         |                 ^~~~~
+>> kernel/trace/ring_buffer.c:4016:35: warning: unused variable 'event' [-Wunused-variable]
+    4016 |         struct ring_buffer_event *event;
+         |                                   ^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +34 drivers/mtd/ubi/nvmem.c
+vim +/cpu_buffer +1629 kernel/trace/ring_buffer.c
 
-    22	
-    23	static int ubi_nvmem_reg_read(void *priv, unsigned int from,
-    24				      void *val, size_t bytes)
-    25	{
-    26		int err = 0, lnum = from, offs, bytes_left = bytes, to_read;
-    27		struct ubi_nvmem *unv = priv;
-    28		struct ubi_volume_desc *desc;
-    29	
-    30		desc = ubi_open_volume(unv->ubi_num, unv->vol_id, UBI_READONLY);
-    31		if (IS_ERR(desc))
-    32			return PTR_ERR(desc);
-    33	
-  > 34		offs = do_div(lnum, unv->usable_leb_size);
-    35		while (bytes_left) {
-    36			to_read = unv->usable_leb_size - offs;
-    37	
-    38			if (to_read > bytes_left)
-    39				to_read = bytes_left;
-    40	
-    41			err = ubi_read(desc, lnum, val, offs, to_read);
-    42			if (err)
-    43				break;
-    44	
-    45			lnum += 1;
-    46			offs = 0;
-    47			bytes_left -= to_read;
-    48			val += to_read;
-    49		}
-    50		ubi_close_volume(desc);
-    51	
-    52		if (err)
-    53			return err;
-    54	
-    55		return bytes_left == 0 ? 0 : -EIO;
-    56	}
-    57	
+  1621	
+  1622	#define buffer_warn_return(fmt, ...)					\
+  1623		do {								\
+  1624			/* If another report is happening, ignore this one */	\
+  1625			if (atomic_inc_return(&ts_dump) != 1) {			\
+  1626				atomic_dec(&ts_dump);				\
+  1627				goto out;					\
+  1628			}							\
+> 1629			atomic_inc(&cpu_buffer->record_disabled);		\
+  1630			pr_warn(fmt, ##__VA_ARGS__);				\
+> 1631			dump_buffer_page(bpage, info, tail);			\
+  1632			atomic_dec(&ts_dump);					\
+  1633			/* There's some cases in boot up that this can happen */ \
+  1634			if (WARN_ON_ONCE(system_state != SYSTEM_BOOTING))	\
+  1635				/* Do not re-enable checking */			\
+> 1636				return;						\
+  1637		} while (0)
+  1638	#else
+  1639	#define buffer_warn_return(fmt, ...) do { } while (0)
+  1640	#endif
+  1641	
+  1642	static int rb_read_data_buffer(struct buffer_data_page *dpage, int tail, int cpu,
+> 1643				       unsigned long long *timestamp, bool warn)
+  1644	{
+  1645		struct ring_buffer_event *event;
+  1646		u64 ts, delta;
+  1647		int events = 0;
+  1648		int e;
+  1649	
+  1650		ts = dpage->time_stamp;
+  1651	
+  1652		for (e = 0; e < tail; e += rb_event_length(event)) {
+  1653	
+  1654			event = (struct ring_buffer_event *)(dpage->data + e);
+  1655	
+  1656			switch (event->type_len) {
+  1657	
+  1658			case RINGBUF_TYPE_TIME_EXTEND:
+  1659				delta = rb_event_time_stamp(event);
+  1660				ts += delta;
+  1661				break;
+  1662	
+  1663			case RINGBUF_TYPE_TIME_STAMP:
+  1664				delta = rb_event_time_stamp(event);
+  1665				delta = rb_fix_abs_ts(delta, ts);
+  1666				if (warn && delta < ts) {
+> 1667					buffer_warn_return("[CPU: %d]ABSOLUTE TIME WENT BACKWARDS: last ts: %lld absolute ts: %lld\n",
+  1668							   cpu, ts, delta);
+  1669				}
+  1670				ts = delta;
+  1671				break;
+  1672	
+  1673			case RINGBUF_TYPE_PADDING:
+  1674				if (event->time_delta == 1)
+  1675					break;
+  1676				fallthrough;
+  1677			case RINGBUF_TYPE_DATA:
+  1678				events++;
+  1679				ts += event->time_delta;
+  1680				break;
+  1681	
+  1682			default:
+  1683				return -1;
+  1684			}
+  1685		}
+  1686		*timestamp = ts;
+  1687		return events;
+  1688	}
+  1689	
 
 -- 
 0-DAY CI Kernel Test Service
