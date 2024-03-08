@@ -1,57 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697765E089
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 20:52:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 497145E08D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 20:52:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709931165; cv=none; b=ITH2XUhM5rsMd/yiaecd2xMYsizgN+JiQD9UTEtVbHAS78UyPwvZdyIKxqMH53RwJQeFhwiuSL7ZOY1D/bdmIBVRXUVrsapZVbkF2P1wMA2873qAj+YBy5RngTpczE6g8K5SBAbMZr8/u+446aL3OA/AIdd7UoC72cZCsdSe9Jk=
+	t=1709931167; cv=none; b=scc5lzF8OysBrW+lWXLMybrlaOY5ZSMpEimHEzCX1B4tkaTpW7GZ6fuFT3nry84cT7vEA+19egVLJ/LWnsI1CYIFeSh2dSqvIVLB92nymd+g3zlOjjrxt6fK1p2lQ/IdIj2ObN0hbd3C6FDMOpu5vj8c0RDPh3KETpzfwKAfVD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709931165; c=relaxed/simple;
-	bh=yUlQc2JaaHr99TETPKIRv6aotfBV9inxW5E8hx5dZj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LONVTKjxFcAYCbScbFiVA+ZnZblE7tUnlchVC1+YZ9pTjXhX4sFWpXWP31RaYRM4J78olLTSkP5icsnH0ffmyJt8DducUDRJFT+JXXEaAD5lYc5yN5NVnAIXRipNDEBJZ8Zfdemkl9I2n06ZwsPmG/JNazVnzciwqM7K0kg2ddQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b4GvxywX; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1709931167; c=relaxed/simple;
+	bh=ZB4XLzuTnKuC50gzNd+rXih9ug99YPWfYdi+0hwyfBk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A6LvjR2qoEtf42wGKaf1PHZGyW0USvePpuu/tAdMc4oXdruWTDpWe0mMTPchSuTxnGf1jXSwx5YIMyiSFCyp2uES8ElzKe2CQMg6jFjUcVwZVP6gOmQdKDa4FOc6dDm3aa6ckJSWKl0nG65B00Cuidn1yZKQu9jZvtRdafwK/kQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IEJmyyjq; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b4GvxywX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IEJmyyjq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709931164; x=1741467164;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yUlQc2JaaHr99TETPKIRv6aotfBV9inxW5E8hx5dZj4=;
-  b=b4GvxywXpKh/1+rzpKLKVgdf1S7FEr1DtjdoEV9xfE3NHPbww82J37/y
-   A4WOhbS/12umGihfJgNgqpfuYsdWtZY8GyBk9J88qQbe1cS4DP4JyUCV1
-   f19kbTBv5e5JLdcAFrJUSogh/oxkFnEeCKq8GZ/YoFbJF5vLpF051XWny
-   CHHdGxt5Q5OWJ/kcFF8O5p9Qe6LF7npeV0XkJTI5zMnczW0o4OPFUaGPa
-   skr9U4ZSHjbcHrZvsvgnrZ9Y5ahjNc2/4m3vnkI1jYYRMFe1KRkYdDGaV
-   raqRuDWRlnUwEoZvanVzIhVWZzbZwDcVSQfrWgw4L4EKIaN7EYwvtw0Yh
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="27140622"
+  t=1709931165; x=1741467165;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZB4XLzuTnKuC50gzNd+rXih9ug99YPWfYdi+0hwyfBk=;
+  b=IEJmyyjqV2GP7/Tz87O40DTcn2pD/28+qHK5INebkbZQG3CAhkJr28sV
+   bsWl9/P+8rebe5nzsheSzYLW1zrjB2XSQuogDiXT/dQm2ohyvsKQauxYd
+   1crp2n7RTLxyJRnj9IW0w4Cr9NxhVrhRP449alT2oWRK4irNzRb417aV/
+   Unz4bIE32CWmLrBivwKun+dqy1gHDYiqgz8OM8Hr94z8WUAvUqXBs+vKt
+   e231Jje81jocQ6o8wsKOwFeluRdG+BEjFCcP0fSHjzz2HEltPg2wRb4hC
+   /qz4z6DwWUkdlFp+jms/9dZhbgMI0PJAe3BMi34+x9WePerIg+e41pRcM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="27140618"
 X-IronPort-AV: E=Sophos;i="6.07,110,1708416000"; 
-   d="scan'208";a="27140622"
+   d="scan'208";a="27140618"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 12:52:15 -0800
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 12:52:14 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,110,1708416000"; 
-   d="scan'208";a="41540944"
+   d="scan'208";a="41540941"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 08 Mar 2024 12:52:02 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rihCB-0006hz-2B;
+	id 1rihCB-0006i1-2F;
 	Fri, 08 Mar 2024 20:51:59 +0000
-Date: Sat, 9 Mar 2024 04:51:57 +0800
+Date: Sat, 9 Mar 2024 04:51:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/next 26653/27434] mm/memcontrol.c:6774:12:
- warning: 'mem_cgroup_bind_blkio_show' defined but not used
-Message-ID: <202403090443.itL3XH7r-lkp@intel.com>
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	open list <linux-kernel@vger.kernel.org>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: Re: [PATCH 1/5] media: imx335: Support 2 or 4 lane operation modes
+Message-ID: <202403090429.oocT1Laz-lkp@intel.com>
+References: <20240306081038.212412-2-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,160 +64,134 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240306081038.212412-2-umang.jain@ideasonboard.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
-head:   0e88d1c26496999d1b2e37f3393b602d28b03faf
-commit: a5aa29530f7481ece11a0752dfaefa854ca02b58 [26653/27434] rue/io: add bufio isolation based for cgroup v1
-config: arm64-randconfig-002-20240305 (https://download.01.org/0day-ci/archive/20240309/202403090443.itL3XH7r-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240309/202403090443.itL3XH7r-lkp@intel.com/reproduce)
+Hi Umang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linuxtv-media-stage/master]
+[cannot apply to media-tree/master sailus-media-tree/streams linus/master v6.8-rc7 next-20240308]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/media-imx335-Support-2-or-4-lane-operation-modes/20240306-161903
+base:   https://git.linuxtv.org/media_stage.git master
+patch link:    https://lore.kernel.org/r/20240306081038.212412-2-umang.jain%40ideasonboard.com
+patch subject: [PATCH 1/5] media: imx335: Support 2 or 4 lane operation modes
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240309/202403090429.oocT1Laz-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240309/202403090429.oocT1Laz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403090443.itL3XH7r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403090429.oocT1Laz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from include/linux/page_counter.h:6,
-                    from mm/memcontrol.c:28:
-   mm/memcontrol.c: In function 'mem_cgroup_get_max':
-   include/linux/kernel.h:876:45: warning: comparison of unsigned expression in '< 0' is always false [-Wtype-limits]
-     876 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                                             ^
-   include/linux/kernel.h:859:30: note: in definition of macro '__cmp'
-     859 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-         |                              ^~
-   include/linux/kernel.h:876:25: note: in expansion of macro '__careful_cmp'
-     876 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~
-   mm/memcontrol.c:2314:32: note: in expansion of macro 'min'
-    2314 |                         max += min(READ_ONCE(memcg->swap.max),
-         |                                ^~~
-   include/linux/kernel.h:876:45: warning: comparison of unsigned expression in '< 0' is always false [-Wtype-limits]
-     876 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                                             ^
-   include/linux/kernel.h:859:30: note: in definition of macro '__cmp'
-     859 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-         |                              ^~
-   include/linux/kernel.h:876:25: note: in expansion of macro '__careful_cmp'
-     876 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~
-   mm/memcontrol.c:2321:32: note: in expansion of macro 'min'
-    2321 |                         max += min(swap, (unsigned long)total_swap_pages);
-         |                                ^~~
-   mm/memcontrol.c: At top level:
-   mm/memcontrol.c:3316:6: warning: no previous prototype for 'memory_qos_update' [-Wmissing-prototypes]
-    3316 | void memory_qos_update(void)
-         |      ^~~~~~~~~~~~~~~~~
-   mm/memcontrol.c:3331:5: warning: no previous prototype for 'memory_qos_prio_reclaim_ratio_update' [-Wmissing-prototypes]
-    3331 | int memory_qos_prio_reclaim_ratio_update(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/memcontrol.c: In function 'mem_cgroup_shrink_pagecache':
-   mm/memcontrol.c:4538:63: warning: variable 'pre_used' set but not used [-Wunused-but-set-variable]
-    4538 |         unsigned long pages_used, pages_max, goal_pages_used, pre_used;
-         |                                                               ^~~~~~~~
-   mm/memcontrol.c: At top level:
-   mm/memcontrol.c:4696:15: warning: no previous prototype for 'mem_cgroup_pagecache_get_reclaim_pages' [-Wmissing-prototypes]
-    4696 | unsigned long mem_cgroup_pagecache_get_reclaim_pages(struct mem_cgroup *memcg)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/memcontrol.c: In function 'mem_cgroup_meminfo_read':
-   mm/memcontrol.c:6634:17: error: expected expression before ')' token
-    6634 |                 );
-         |                 ^
-   mm/memcontrol.c:6467:32: warning: variable 'mem_rss_huge' set but not used [-Wunused-but-set-variable]
-    6467 |         unsigned long mem_rss, mem_rss_huge;
-         |                                ^~~~~~~~~~~~
-   mm/memcontrol.c: At top level:
-   mm/memcontrol.c:7648:6: warning: no previous prototype for 'charge_dying_memcgs' [-Wmissing-prototypes]
-    7648 | void charge_dying_memcgs(struct mem_cgroup *memcg)
-         |      ^~~~~~~~~~~~~~~~~~~
-   mm/memcontrol.c:10336:6: warning: no previous prototype for 'reap_slab' [-Wmissing-prototypes]
-   10336 | void reap_slab(struct mem_cgroup *memcg)
-         |      ^~~~~~~~~
->> mm/memcontrol.c:6774:12: warning: 'mem_cgroup_bind_blkio_show' defined but not used [-Wunused-function]
-    6774 | static int mem_cgroup_bind_blkio_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/memcontrol.c:6712:16: warning: 'mem_cgroup_bind_blkio_write' defined but not used [-Wunused-function]
-    6712 | static ssize_t mem_cgroup_bind_blkio_write(struct kernfs_open_file *of,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/mem_cgroup_bind_blkio_show +6774 mm/memcontrol.c
-
-  6711	
-> 6712	static ssize_t mem_cgroup_bind_blkio_write(struct kernfs_open_file *of,
-  6713					char *buf, size_t nbytes, loff_t off)
-  6714	{
-  6715		struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
-  6716		struct cgroup_subsys_state *css;
-  6717		struct path path;
-  6718		char *pbuf;
-  6719		int ret;
-  6720	
-  6721		if (!rue_io_enabled())
-  6722			return -EPERM;
-  6723	
-  6724		buf = strstrip(buf);
-  6725	
-  6726		/* alloc memory outside mutex */
-  6727		pbuf = kzalloc(PATH_MAX, GFP_KERNEL);
-  6728		if (!pbuf)
-  6729			return -ENOMEM;
-  6730		strncpy(pbuf, buf, PATH_MAX - 1);
-  6731	
-  6732		mutex_lock(&memcg_max_mutex);
-  6733	
-  6734		if (memcg->bind_blkio) {
-  6735			WARN_ON(!memcg->bind_blkio_path);
-  6736			kfree(memcg->bind_blkio_path);
-  6737			memcg->bind_blkio_path = NULL;
-  6738			css_put(memcg->bind_blkio);
-  6739			memcg->bind_blkio = NULL;
-  6740	
-  6741			wb_memcg_offline(memcg);
-  6742			INIT_LIST_HEAD(&memcg->cgwb_list);
-  6743		}
-  6744	
-  6745		if (!strnlen(buf, PATH_MAX)) {
-  6746			mutex_unlock(&memcg_max_mutex);
-  6747			kfree(pbuf);
-  6748			return nbytes;
-  6749		}
-  6750	
-  6751		ret = kern_path(pbuf, LOOKUP_FOLLOW, &path);
-  6752		if (ret)
-  6753			goto err;
-  6754	
-  6755		css = css_tryget_online_from_dir(path.dentry, &io_cgrp_subsys);
-  6756		if (IS_ERR(css)) {
-  6757			ret = PTR_ERR(css);
-  6758			path_put(&path);
-  6759			goto err;
-  6760		}
-  6761		path_put(&path);
-  6762	
-  6763		memcg->bind_blkio_path = pbuf;
-  6764		memcg->bind_blkio = css;
-  6765		mutex_unlock(&memcg_max_mutex);
-  6766		return nbytes;
-  6767	
-  6768	err:
-  6769		kfree(pbuf);
-  6770		mutex_unlock(&memcg_max_mutex);
-  6771		return ret;
-  6772	}
-  6773	
-> 6774	static int mem_cgroup_bind_blkio_show(struct seq_file *m, void *v)
-  6775	{
-  6776		struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
-  6777	
-  6778		if (memcg->bind_blkio_path)
-  6779			seq_printf(m, "%s\n", memcg->bind_blkio_path);
-  6780	
-  6781		return 0;
-  6782	}
-  6783	
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82365.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_atari.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_paula.o
+WARNING: modpost: sound/oss/dmasound/dmasound_paula: section mismatch in reference: amiga_audio_driver+0x8 (section: .data) -> amiga_audio_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-ab8500-codec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
+WARNING: modpost: sound/soc/codecs/snd-soc-tlv320adc3xxx: section mismatch in reference: adc3xxx_i2c_driver+0x8 (section: .data) -> adc3xxx_i2c_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8m.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8ulp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/imx-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mtk-adsp-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8195/snd-sof-mt8195.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8186/snd-sof-mt8186.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_cmp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_nbyte.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_u32.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_meta.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_text.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_canid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
+>> ERROR: modpost: "__divdi3" [drivers/media/i2c/imx335.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
