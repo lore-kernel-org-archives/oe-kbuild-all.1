@@ -1,55 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97AB05E065
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 20:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE5C41C6C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 20:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709929564; cv=none; b=gA+Xo83YZGfCCZ0N7jzuTwaq2tQhJybaX2gANdHPlnKy4l9NapsQCBRyQ1JvnsPaCQL4pHhE4hOFi+eI6SzyBQWvRQIfAU0ebvdrkVkactPja+pT7tbozytuqhn2f5OnfzoholkkL93zDpdhq32usrlPhYdn61OjlEvFytC0Xfo=
+	t=1709929926; cv=none; b=Zr4w4DC4bamRffbknaHE/GPe03FnXmSOv5t36gA2sw/LSajSi/UOwvGyF7JJ3Pp5CGXFTzzugJC8grPmvn2i4++Qix7kEVlgEAAHiYPHymXM0KWW9cW8sxx84oiY1Y+zvKIa60U6v2Gv5bbfHUKlUHFX41O+PhfRLxxIC29S7g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709929564; c=relaxed/simple;
-	bh=CFEIiLdV3OWqKes2ws9QfABD/kubasmZ7sRV+beoEA4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=NunvAMepdBt5OqbwNREBw0rkui7mpPB5IgOwbhi4qwbonc9Z+IrWOJxQA6qUTsfAqIMlKXK4HVhY0klLJWDWnnkzXD09LgdMGTsHksdak6eDanEHr5SB56ziJLySzBcyjUNeHnFqI8u8SoXwWBzDFlJws7JRofWa6AGKRsKUL58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lzK5IAPW; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1709929926; c=relaxed/simple;
+	bh=SuGLD/ItYBvvW6ON69TwJnG0wH12j7uSmEc/7cNf2sE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OejpKHiRJ0NrH5Nf8/6oYuemByFnLb16hPPb1ApcEC0dCkAuI44ZNW1Wn7fjZxMO61o9OvRb9rJaPqvERUud6ym82R2FUsi4KSabRtOOkzuOi2DUMl/a59uR2hGHOBAT3QVIQwG6hIz4DfwgIgAvGXueOV4QTmMhGqggFhTstzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WtRHIJfP; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lzK5IAPW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WtRHIJfP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709929563; x=1741465563;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=CFEIiLdV3OWqKes2ws9QfABD/kubasmZ7sRV+beoEA4=;
-  b=lzK5IAPWUjLMoJMaxgjhJB3MQqea5Ue7JNtgY+dMniyXzN6Pa05KRrOT
-   2cN4sjpn+Tb/6b0FiSEQ9Uw0pj6D6h9ut1IDSjxJDYku9bGAeVUtDKhZC
-   RRWOl+LAdHe8iLVZs+kztQR6Q6Ko7v08lng4/VqPhAsPXsrrCcWG5NGHN
-   EHrQ8xwoSVXGxvrNp3TUogTxxZoMEyrE/T59JIcXDf8oqD8l9EQiEx3Tq
-   evdP28XWjnxr5x+QsP/ziAqipbTp7Cojz/RF46Z7Hno1uRGxTbG+LQ/fr
-   DTCqYLstl1EPmO8jZR0wk6PIANwRUq7GTCNLeSSZ0cJ8G5KzGsHoWOu9p
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="4785180"
+  t=1709929924; x=1741465924;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SuGLD/ItYBvvW6ON69TwJnG0wH12j7uSmEc/7cNf2sE=;
+  b=WtRHIJfPY69sZrXTXn8TQuSjBoCzNaCvdh4S+AxyttcNQhlrA1vHa1wz
+   Cj0yT4ohaIRd9JvI059E9VHDjnsvUuS9N3r3bBp/Iq7fEUGK0irqVRqtI
+   D02Jf3k1/LAqWeo1xDX6/mbW7dZwBqm0Stc8Km+s5W6wKO7wgTgMbRNnc
+   gQqLodnKUU1fxHPIwrgv1PRUbWGN5VPg89ON7cIlG7Y203AWDtntETsQn
+   DGnRNuMJ8u0IBa2eiOiqwmxe8Sb72kFLkKeNSY2aXzR/++CapFp5vgsgJ
+   YpoIVDAjf/ZQpI5DiP64I7AZX+C574mrk2m2fn+HGJCbhMccfgXl6csCK
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="30107723"
 X-IronPort-AV: E=Sophos;i="6.07,110,1708416000"; 
-   d="scan'208";a="4785180"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 12:26:02 -0800
+   d="scan'208";a="30107723"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 12:32:03 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,110,1708416000"; 
-   d="scan'208";a="41537653"
+   d="scan'208";a="10664435"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 08 Mar 2024 12:26:01 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 08 Mar 2024 12:32:01 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rign0-0006gF-2V;
-	Fri, 08 Mar 2024 20:25:58 +0000
-Date: Sat, 9 Mar 2024 04:25:37 +0800
+	id 1rigso-0006gP-3D;
+	Fri, 08 Mar 2024 20:31:58 +0000
+Date: Sat, 9 Mar 2024 04:31:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 3/4] drm/i915/gt: Disable tests for CCS engines beyond
- the first
-Message-ID: <Zet0Qav27e7nQ-gr@28e5c5ca316a>
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	open list <linux-kernel@vger.kernel.org>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: Re: [PATCH 1/5] media: imx335: Support 2 or 4 lane operation modes
+Message-ID: <202403090439.t4lCQSzv-lkp@intel.com>
+References: <20240306081038.212412-2-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,23 +64,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240308202223.406384-4-andi.shyti@linux.intel.com>
+In-Reply-To: <20240306081038.212412-2-umang.jain@ideasonboard.com>
 
-Hi,
+Hi Umang,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on linuxtv-media-stage/master]
+[cannot apply to media-tree/master sailus-media-tree/streams linus/master v6.8-rc7 next-20240308]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/media-imx335-Support-2-or-4-lane-operation-modes/20240306-161903
+base:   https://git.linuxtv.org/media_stage.git master
+patch link:    https://lore.kernel.org/r/20240306081038.212412-2-umang.jain%40ideasonboard.com
+patch subject: [PATCH 1/5] media: imx335: Support 2 or 4 lane operation modes
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240309/202403090439.t4lCQSzv-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240309/202403090439.t4lCQSzv-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v5 3/4] drm/i915/gt: Disable tests for CCS engines beyond the first
-Link: https://lore.kernel.org/stable/20240308202223.406384-4-andi.shyti%40linux.intel.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403090439.t4lCQSzv-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   m68k-linux-ld: drivers/media/i2c/imx335.o: in function `imx335_init_controls.constprop.0':
+>> imx335.c:(.text+0x33c): undefined reference to `__divdi3'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
