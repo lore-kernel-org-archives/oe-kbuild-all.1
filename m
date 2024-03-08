@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BDA2B9A9
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 20:32:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697765E089
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 20:52:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709929926; cv=none; b=JLfcJx87j7kp1PdTQ7//4ksNNP2YkoBX4zMCLeEOoyVEydn+1cpww7CFrDqMwP7JQDJ0v58IbdM7TSgiWAhDMidU8hQKNezjheppTIpJ9QG5jHtURlL/HxcFjxaY7CRwf1KYTFmpUxTp1vwjdDmaNEw6qEmNIK55pw+05G0g3Fs=
+	t=1709931165; cv=none; b=ITH2XUhM5rsMd/yiaecd2xMYsizgN+JiQD9UTEtVbHAS78UyPwvZdyIKxqMH53RwJQeFhwiuSL7ZOY1D/bdmIBVRXUVrsapZVbkF2P1wMA2873qAj+YBy5RngTpczE6g8K5SBAbMZr8/u+446aL3OA/AIdd7UoC72cZCsdSe9Jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709929926; c=relaxed/simple;
-	bh=hZEqSZ66CTPHVLbrjpmWJP58OL3M0wac9Y4By8h8Asc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bgSw0WhRuvq4HtS6DZM0/PRs89Cwqad+wJkA++sbdw2FGBg+wI675fSFU0YDLthIHTzM0aDQnUCVd6GITUMrqg4OFBE1JN7IUKZDSDTG2f+JtdhNVNavpZsyiKs8PPp4zq4HfZVM1TdH/wUcVpeqSllX0L/zKEUKqNzNdNTzGNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fv4Mau0R; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1709931165; c=relaxed/simple;
+	bh=yUlQc2JaaHr99TETPKIRv6aotfBV9inxW5E8hx5dZj4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LONVTKjxFcAYCbScbFiVA+ZnZblE7tUnlchVC1+YZ9pTjXhX4sFWpXWP31RaYRM4J78olLTSkP5icsnH0ffmyJt8DducUDRJFT+JXXEaAD5lYc5yN5NVnAIXRipNDEBJZ8Zfdemkl9I2n06ZwsPmG/JNazVnzciwqM7K0kg2ddQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b4GvxywX; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fv4Mau0R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b4GvxywX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709929924; x=1741465924;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hZEqSZ66CTPHVLbrjpmWJP58OL3M0wac9Y4By8h8Asc=;
-  b=fv4Mau0RPNFkh0pQoOdgjYcqudSP5Fmj/8UDnmkRSwn/KVnAsGkdH3mr
-   frx3kppy8I33TYUtde3K5hmNeM4F7IVjM+WGSmdndslx3BQ1ellFh4hUR
-   cT8kK+dbgI3WcpFsFlNb5DlXOSniMLdHkmeQLt270jybIWD0msrKEJkWK
-   mQS6XO+vXgWA80p+F5dns9U5V/SHL//QxY7wrSLjIVMu8REdzHazrvAb/
-   dhaFpWKI+nDjn0g+509thco+sHQKox8gDR6rFjFd1H+hBATPinzwLl9oL
-   6Lt4VPXc/OZETJdfMmN0681OPBhqMKYfCeGd/LEWyOWDouoPXAUnLhyIn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="4836769"
+  t=1709931164; x=1741467164;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yUlQc2JaaHr99TETPKIRv6aotfBV9inxW5E8hx5dZj4=;
+  b=b4GvxywXpKh/1+rzpKLKVgdf1S7FEr1DtjdoEV9xfE3NHPbww82J37/y
+   A4WOhbS/12umGihfJgNgqpfuYsdWtZY8GyBk9J88qQbe1cS4DP4JyUCV1
+   f19kbTBv5e5JLdcAFrJUSogh/oxkFnEeCKq8GZ/YoFbJF5vLpF051XWny
+   CHHdGxt5Q5OWJ/kcFF8O5p9Qe6LF7npeV0XkJTI5zMnczW0o4OPFUaGPa
+   skr9U4ZSHjbcHrZvsvgnrZ9Y5ahjNc2/4m3vnkI1jYYRMFe1KRkYdDGaV
+   raqRuDWRlnUwEoZvanVzIhVWZzbZwDcVSQfrWgw4L4EKIaN7EYwvtw0Yh
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="27140622"
 X-IronPort-AV: E=Sophos;i="6.07,110,1708416000"; 
-   d="scan'208";a="4836769"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 12:32:03 -0800
+   d="scan'208";a="27140622"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 12:52:15 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,110,1708416000"; 
-   d="scan'208";a="41504849"
+   d="scan'208";a="41540944"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 08 Mar 2024 12:32:02 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 08 Mar 2024 12:52:02 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rigso-0006gN-39;
-	Fri, 08 Mar 2024 20:31:58 +0000
-Date: Sat, 9 Mar 2024 04:31:28 +0800
+	id 1rihCB-0006hz-2B;
+	Fri, 08 Mar 2024 20:51:59 +0000
+Date: Sat, 9 Mar 2024 04:51:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yonghong Song <yonghong.song@linux.dev>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH bpf-next 1/5] bpf: Add link support for sk_msg prog
-Message-ID: <202403090440.SJcB4STL-lkp@intel.com>
-References: <20240305202201.3891042-1-yonghong.song@linux.dev>
+Subject: [opencloudos:linux-5.4/next 26653/27434] mm/memcontrol.c:6774:12:
+ warning: 'mem_cgroup_bind_blkio_show' defined but not used
+Message-ID: <202403090443.itL3XH7r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,303 +60,160 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240305202201.3891042-1-yonghong.song@linux.dev>
 
-Hi Yonghong,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yonghong-Song/bpf-Add-link-support-for-sk_msg-prog/20240306-042552
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20240305202201.3891042-1-yonghong.song%40linux.dev
-patch subject: [RFC PATCH bpf-next 1/5] bpf: Add link support for sk_msg prog
-config: i386-buildonly-randconfig-004-20240308 (https://download.01.org/0day-ci/archive/20240309/202403090440.SJcB4STL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240309/202403090440.SJcB4STL-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
+head:   0e88d1c26496999d1b2e37f3393b602d28b03faf
+commit: a5aa29530f7481ece11a0752dfaefa854ca02b58 [26653/27434] rue/io: add bufio isolation based for cgroup v1
+config: arm64-randconfig-002-20240305 (https://download.01.org/0day-ci/archive/20240309/202403090443.itL3XH7r-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240309/202403090443.itL3XH7r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403090440.SJcB4STL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403090443.itL3XH7r-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/security.h:35,
-                    from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/trace_events.h:21,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/events/siox.h:66,
-                    from drivers/siox/siox-core.c:37:
->> include/linux/bpf.h:3087:5: warning: no previous prototype for 'sock_map_prog_update' [-Wmissing-prototypes]
-    3087 | int sock_map_prog_update(struct bpf_map *map, struct bpf_prog *prog,
-         |     ^~~~~~~~~~~~~~~~~~~~
->> include/linux/bpf.h:3092:5: warning: no previous prototype for 'bpf_skmsg_link_create' [-Wmissing-prototypes]
-    3092 | int bpf_skmsg_link_create(const union bpf_attr *attr, struct bpf_prog *prog)
-         |     ^~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/security.h:35,
-                    from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:93,
-                    from include/linux/entry-common.h:7,
-                    from kernel/entry/common.c:4:
->> include/linux/bpf.h:3087:5: warning: no previous prototype for 'sock_map_prog_update' [-Wmissing-prototypes]
-    3087 | int sock_map_prog_update(struct bpf_map *map, struct bpf_prog *prog,
-         |     ^~~~~~~~~~~~~~~~~~~~
->> include/linux/bpf.h:3092:5: warning: no previous prototype for 'bpf_skmsg_link_create' [-Wmissing-prototypes]
-    3092 | int bpf_skmsg_link_create(const union bpf_attr *attr, struct bpf_prog *prog)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/string.h:292,
-                    from arch/x86/include/asm/page_32.h:18,
-                    from arch/x86/include/asm/page.h:14,
-                    from arch/x86/include/asm/processor.h:20,
-                    from include/linux/sched.h:13,
-                    from include/linux/context_tracking.h:5,
-                    from kernel/entry/common.c:3:
-   In function 'fortify_memcpy_chk',
-       inlined from 'syscall_get_arguments' at arch/x86/include/asm/syscall.h:87:2,
-       inlined from 'perf_trace_sys_enter' at include/trace/events/syscalls.h:18:1:
-   include/linux/fortify-string.h:537:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
-     537 |                         __read_overflow2_field(q_size_field, size);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In function 'fortify_memcpy_chk',
-       inlined from 'syscall_get_arguments' at arch/x86/include/asm/syscall.h:87:2,
-       inlined from 'trace_event_raw_event_sys_enter' at include/trace/events/syscalls.h:18:1:
-   include/linux/fortify-string.h:537:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
-     537 |                         __read_overflow2_field(q_size_field, size);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/security.h:35,
-                    from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:93,
-                    from kernel/time/hrtimer.c:30:
->> include/linux/bpf.h:3087:5: warning: no previous prototype for 'sock_map_prog_update' [-Wmissing-prototypes]
-    3087 | int sock_map_prog_update(struct bpf_map *map, struct bpf_prog *prog,
-         |     ^~~~~~~~~~~~~~~~~~~~
->> include/linux/bpf.h:3092:5: warning: no previous prototype for 'bpf_skmsg_link_create' [-Wmissing-prototypes]
-    3092 | int bpf_skmsg_link_create(const union bpf_attr *attr, struct bpf_prog *prog)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:120:35: warning: initialized field overwritten [-Woverride-init]
-     120 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:120:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
-   kernel/time/hrtimer.c:121:35: warning: initialized field overwritten [-Woverride-init]
-     121 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:121:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
-   kernel/time/hrtimer.c:122:35: warning: initialized field overwritten [-Woverride-init]
-     122 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:122:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
-   kernel/time/hrtimer.c:123:35: warning: initialized field overwritten [-Woverride-init]
-     123 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:123:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
---
-   ld: init/do_mounts.o: in function `sock_map_prog_update':
->> do_mounts.c:(.text+0xc): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: init/do_mounts.o: in function `bpf_skmsg_link_create':
->> do_mounts.c:(.text+0x14): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: init/do_mounts_initrd.o: in function `sock_map_prog_update':
-   do_mounts_initrd.c:(.text+0x0): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: init/do_mounts_initrd.o: in function `bpf_skmsg_link_create':
-   do_mounts_initrd.c:(.text+0x8): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: init/initramfs.o: in function `sock_map_prog_update':
-   initramfs.c:(.text+0xf8): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: init/initramfs.o: in function `bpf_skmsg_link_create':
-   initramfs.c:(.text+0x100): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/entry/syscall_32.o: in function `sock_map_prog_update':
-   syscall_32.c:(.text+0x0): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/entry/syscall_32.o: in function `bpf_skmsg_link_create':
-   syscall_32.c:(.text+0x8): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/entry/common.o: in function `sock_map_prog_update':
-   common.c:(.text+0x0): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/entry/common.o: in function `bpf_skmsg_link_create':
-   common.c:(.text+0x8): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/entry/vdso/extable.o: in function `sock_map_prog_update':
-   extable.c:(.text+0x0): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/entry/vdso/extable.o: in function `bpf_skmsg_link_create':
-   extable.c:(.text+0x8): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/events/core.o: in function `sock_map_prog_update':
-   core.c:(.text+0x2530): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/events/core.o: in function `bpf_skmsg_link_create':
-   core.c:(.text+0x2538): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/events/utils.o: in function `sock_map_prog_update':
-   utils.c:(.text+0x3c8): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/events/utils.o: in function `bpf_skmsg_link_create':
-   utils.c:(.text+0x3d0): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/events/amd/core.o: in function `sock_map_prog_update':
-   core.c:(.text+0x1960): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/events/amd/core.o: in function `bpf_skmsg_link_create':
-   core.c:(.text+0x1968): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/events/amd/lbr.o: in function `sock_map_prog_update':
-   lbr.c:(.text+0x444): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/events/amd/lbr.o: in function `bpf_skmsg_link_create':
-   lbr.c:(.text+0x44c): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/events/amd/brs.o: in function `sock_map_prog_update':
-   brs.c:(.text+0x0): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/events/amd/brs.o: in function `bpf_skmsg_link_create':
-   brs.c:(.text+0x8): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/events/amd/power.o: in function `sock_map_prog_update':
-   power.c:(.text+0x4f4): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/events/amd/power.o: in function `bpf_skmsg_link_create':
-   power.c:(.text+0x4fc): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/events/zhaoxin/core.o: in function `sock_map_prog_update':
-   core.c:(.text+0x974): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/events/zhaoxin/core.o: in function `bpf_skmsg_link_create':
-   core.c:(.text+0x97c): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/kernel/process_32.o: in function `sock_map_prog_update':
-   process_32.c:(.text+0x3c): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/kernel/process_32.o: in function `bpf_skmsg_link_create':
-   process_32.c:(.text+0x44): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/kernel/signal.o: in function `sock_map_prog_update':
-   signal.c:(.text+0x14c): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/kernel/signal.o: in function `bpf_skmsg_link_create':
-   signal.c:(.text+0x154): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/kernel/signal_32.o: in function `sock_map_prog_update':
-   signal_32.c:(.text+0x104): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/kernel/signal_32.o: in function `bpf_skmsg_link_create':
-   signal_32.c:(.text+0x10c): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/kernel/traps.o: in function `sock_map_prog_update':
-   traps.c:(.text+0x480): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/kernel/traps.o: in function `bpf_skmsg_link_create':
-   traps.c:(.text+0x488): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/kernel/idt.o: in function `sock_map_prog_update':
-   idt.c:(.text+0x44): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/kernel/idt.o: in function `bpf_skmsg_link_create':
-   idt.c:(.text+0x4c): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/kernel/irq.o: in function `sock_map_prog_update':
-   irq.c:(.text+0x10c): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/kernel/irq.o: in function `bpf_skmsg_link_create':
-   irq.c:(.text+0x114): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/kernel/ioport.o: in function `sock_map_prog_update':
-   ioport.c:(.text+0x0): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/kernel/ioport.o: in function `bpf_skmsg_link_create':
-   ioport.c:(.text+0x8): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/kernel/nmi.o: in function `sock_map_prog_update':
-   nmi.c:(.text+0x6d0): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/kernel/nmi.o: in function `bpf_skmsg_link_create':
-   nmi.c:(.text+0x6d8): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/kernel/ldt.o: in function `sock_map_prog_update':
-   ldt.c:(.text+0x42c): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/kernel/ldt.o: in function `bpf_skmsg_link_create':
-   ldt.c:(.text+0x434): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/kernel/setup.o: in function `sock_map_prog_update':
-   setup.c:(.text+0x34): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/kernel/setup.o: in function `bpf_skmsg_link_create':
-   setup.c:(.text+0x3c): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/kernel/irqinit.o: in function `sock_map_prog_update':
-   irqinit.c:(.text+0x0): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/kernel/irqinit.o: in function `bpf_skmsg_link_create':
-   irqinit.c:(.text+0x8): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/kernel/irq_work.o: in function `sock_map_prog_update':
-   irq_work.c:(.text+0x0): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/kernel/irq_work.o: in function `bpf_skmsg_link_create':
-   irq_work.c:(.text+0x8): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
-   ld: arch/x86/kernel/sys_ia32.o: in function `sock_map_prog_update':
-   sys_ia32.c:(.text+0x0): multiple definition of `sock_map_prog_update'; init/main.o:main.c:(.text+0x798): first defined here
-   ld: arch/x86/kernel/sys_ia32.o: in function `bpf_skmsg_link_create':
-   sys_ia32.c:(.text+0x8): multiple definition of `bpf_skmsg_link_create'; init/main.o:main.c:(.text+0x7a0): first defined here
---
-   In file included from include/linux/security.h:35,
-                    from include/net/scm.h:9,
-                    from include/linux/netlink.h:9,
-                    from include/uapi/linux/neighbour.h:6,
-                    from include/linux/netdevice.h:45,
-                    from include/net/sock.h:46,
-                    from include/linux/tcp.h:19,
-                    from include/linux/ipv6.h:101,
-                    from include/net/addrconf.h:61,
-                    from lib/vsprintf.c:41:
->> include/linux/bpf.h:3087:5: warning: no previous prototype for 'sock_map_prog_update' [-Wmissing-prototypes]
-    3087 | int sock_map_prog_update(struct bpf_map *map, struct bpf_prog *prog,
-         |     ^~~~~~~~~~~~~~~~~~~~
->> include/linux/bpf.h:3092:5: warning: no previous prototype for 'bpf_skmsg_link_create' [-Wmissing-prototypes]
-    3092 | int bpf_skmsg_link_create(const union bpf_attr *attr, struct bpf_prog *prog)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   lib/vsprintf.c: In function 'va_format':
-   lib/vsprintf.c:1683:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1683 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
-         |         ^~~
---
-   In file included from include/linux/security.h:35,
-                    from kernel/ptrace.c:22:
->> include/linux/bpf.h:3087:5: warning: no previous prototype for 'sock_map_prog_update' [-Wmissing-prototypes]
-    3087 | int sock_map_prog_update(struct bpf_map *map, struct bpf_prog *prog,
-         |     ^~~~~~~~~~~~~~~~~~~~
->> include/linux/bpf.h:3092:5: warning: no previous prototype for 'bpf_skmsg_link_create' [-Wmissing-prototypes]
-    3092 | int bpf_skmsg_link_create(const union bpf_attr *attr, struct bpf_prog *prog)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/string.h:292,
-                    from arch/x86/include/asm/page_32.h:18,
-                    from arch/x86/include/asm/page.h:14,
-                    from arch/x86/include/asm/processor.h:20,
-                    from include/linux/sched.h:13,
-                    from kernel/ptrace.c:13:
-   In function 'fortify_memcpy_chk',
-       inlined from 'syscall_get_arguments.constprop' at arch/x86/include/asm/syscall.h:87:2:
-   include/linux/fortify-string.h:537:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
-     537 |                         __read_overflow2_field(q_size_field, size);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/security.h:35,
-                    from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:93,
-                    from include/linux/entry-common.h:7,
-                    from arch/x86/include/asm/idtentry.h:11,
-                    from arch/x86/include/asm/traps.h:9,
-                    from arch/x86/kernel/irq.c:23:
->> include/linux/bpf.h:3087:5: warning: no previous prototype for 'sock_map_prog_update' [-Wmissing-prototypes]
-    3087 | int sock_map_prog_update(struct bpf_map *map, struct bpf_prog *prog,
-         |     ^~~~~~~~~~~~~~~~~~~~
->> include/linux/bpf.h:3092:5: warning: no previous prototype for 'bpf_skmsg_link_create' [-Wmissing-prototypes]
-    3092 | int bpf_skmsg_link_create(const union bpf_attr *attr, struct bpf_prog *prog)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from arch/x86/include/asm/trace/irq_vectors.h:383,
-                    from arch/x86/kernel/irq.c:27:
-   include/trace/stages/init.h:2:23: warning: 'str__irq_vectors__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/bpf_verifier.h:7,
-                    from kernel/bpf/btf.c:19:
->> include/linux/bpf.h:3087:5: warning: no previous prototype for 'sock_map_prog_update' [-Wmissing-prototypes]
-    3087 | int sock_map_prog_update(struct bpf_map *map, struct bpf_prog *prog,
-         |     ^~~~~~~~~~~~~~~~~~~~
->> include/linux/bpf.h:3092:5: warning: no previous prototype for 'bpf_skmsg_link_create' [-Wmissing-prototypes]
-    3092 | int bpf_skmsg_link_create(const union bpf_attr *attr, struct bpf_prog *prog)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/btf.c: In function 'btf_seq_show':
-   kernel/bpf/btf.c:7330:29: warning: function 'btf_seq_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    7330 |         seq_vprintf((struct seq_file *)show->target, fmt, args);
-         |                             ^~~~~~~~
-   kernel/bpf/btf.c: In function 'btf_snprintf_show':
-   kernel/bpf/btf.c:7367:9: warning: function 'btf_snprintf_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    7367 |         len = vsnprintf(show->target, ssnprintf->len_left, fmt, args);
-         |         ^~~
+   In file included from include/linux/page_counter.h:6,
+                    from mm/memcontrol.c:28:
+   mm/memcontrol.c: In function 'mem_cgroup_get_max':
+   include/linux/kernel.h:876:45: warning: comparison of unsigned expression in '< 0' is always false [-Wtype-limits]
+     876 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                                             ^
+   include/linux/kernel.h:859:30: note: in definition of macro '__cmp'
+     859 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+         |                              ^~
+   include/linux/kernel.h:876:25: note: in expansion of macro '__careful_cmp'
+     876 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~
+   mm/memcontrol.c:2314:32: note: in expansion of macro 'min'
+    2314 |                         max += min(READ_ONCE(memcg->swap.max),
+         |                                ^~~
+   include/linux/kernel.h:876:45: warning: comparison of unsigned expression in '< 0' is always false [-Wtype-limits]
+     876 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                                             ^
+   include/linux/kernel.h:859:30: note: in definition of macro '__cmp'
+     859 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+         |                              ^~
+   include/linux/kernel.h:876:25: note: in expansion of macro '__careful_cmp'
+     876 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~
+   mm/memcontrol.c:2321:32: note: in expansion of macro 'min'
+    2321 |                         max += min(swap, (unsigned long)total_swap_pages);
+         |                                ^~~
+   mm/memcontrol.c: At top level:
+   mm/memcontrol.c:3316:6: warning: no previous prototype for 'memory_qos_update' [-Wmissing-prototypes]
+    3316 | void memory_qos_update(void)
+         |      ^~~~~~~~~~~~~~~~~
+   mm/memcontrol.c:3331:5: warning: no previous prototype for 'memory_qos_prio_reclaim_ratio_update' [-Wmissing-prototypes]
+    3331 | int memory_qos_prio_reclaim_ratio_update(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/memcontrol.c: In function 'mem_cgroup_shrink_pagecache':
+   mm/memcontrol.c:4538:63: warning: variable 'pre_used' set but not used [-Wunused-but-set-variable]
+    4538 |         unsigned long pages_used, pages_max, goal_pages_used, pre_used;
+         |                                                               ^~~~~~~~
+   mm/memcontrol.c: At top level:
+   mm/memcontrol.c:4696:15: warning: no previous prototype for 'mem_cgroup_pagecache_get_reclaim_pages' [-Wmissing-prototypes]
+    4696 | unsigned long mem_cgroup_pagecache_get_reclaim_pages(struct mem_cgroup *memcg)
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/memcontrol.c: In function 'mem_cgroup_meminfo_read':
+   mm/memcontrol.c:6634:17: error: expected expression before ')' token
+    6634 |                 );
+         |                 ^
+   mm/memcontrol.c:6467:32: warning: variable 'mem_rss_huge' set but not used [-Wunused-but-set-variable]
+    6467 |         unsigned long mem_rss, mem_rss_huge;
+         |                                ^~~~~~~~~~~~
+   mm/memcontrol.c: At top level:
+   mm/memcontrol.c:7648:6: warning: no previous prototype for 'charge_dying_memcgs' [-Wmissing-prototypes]
+    7648 | void charge_dying_memcgs(struct mem_cgroup *memcg)
+         |      ^~~~~~~~~~~~~~~~~~~
+   mm/memcontrol.c:10336:6: warning: no previous prototype for 'reap_slab' [-Wmissing-prototypes]
+   10336 | void reap_slab(struct mem_cgroup *memcg)
+         |      ^~~~~~~~~
+>> mm/memcontrol.c:6774:12: warning: 'mem_cgroup_bind_blkio_show' defined but not used [-Wunused-function]
+    6774 | static int mem_cgroup_bind_blkio_show(struct seq_file *m, void *v)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/memcontrol.c:6712:16: warning: 'mem_cgroup_bind_blkio_write' defined but not used [-Wunused-function]
+    6712 | static ssize_t mem_cgroup_bind_blkio_write(struct kernfs_open_file *of,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/mem_cgroup_bind_blkio_show +6774 mm/memcontrol.c
+
+  6711	
+> 6712	static ssize_t mem_cgroup_bind_blkio_write(struct kernfs_open_file *of,
+  6713					char *buf, size_t nbytes, loff_t off)
+  6714	{
+  6715		struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
+  6716		struct cgroup_subsys_state *css;
+  6717		struct path path;
+  6718		char *pbuf;
+  6719		int ret;
+  6720	
+  6721		if (!rue_io_enabled())
+  6722			return -EPERM;
+  6723	
+  6724		buf = strstrip(buf);
+  6725	
+  6726		/* alloc memory outside mutex */
+  6727		pbuf = kzalloc(PATH_MAX, GFP_KERNEL);
+  6728		if (!pbuf)
+  6729			return -ENOMEM;
+  6730		strncpy(pbuf, buf, PATH_MAX - 1);
+  6731	
+  6732		mutex_lock(&memcg_max_mutex);
+  6733	
+  6734		if (memcg->bind_blkio) {
+  6735			WARN_ON(!memcg->bind_blkio_path);
+  6736			kfree(memcg->bind_blkio_path);
+  6737			memcg->bind_blkio_path = NULL;
+  6738			css_put(memcg->bind_blkio);
+  6739			memcg->bind_blkio = NULL;
+  6740	
+  6741			wb_memcg_offline(memcg);
+  6742			INIT_LIST_HEAD(&memcg->cgwb_list);
+  6743		}
+  6744	
+  6745		if (!strnlen(buf, PATH_MAX)) {
+  6746			mutex_unlock(&memcg_max_mutex);
+  6747			kfree(pbuf);
+  6748			return nbytes;
+  6749		}
+  6750	
+  6751		ret = kern_path(pbuf, LOOKUP_FOLLOW, &path);
+  6752		if (ret)
+  6753			goto err;
+  6754	
+  6755		css = css_tryget_online_from_dir(path.dentry, &io_cgrp_subsys);
+  6756		if (IS_ERR(css)) {
+  6757			ret = PTR_ERR(css);
+  6758			path_put(&path);
+  6759			goto err;
+  6760		}
+  6761		path_put(&path);
+  6762	
+  6763		memcg->bind_blkio_path = pbuf;
+  6764		memcg->bind_blkio = css;
+  6765		mutex_unlock(&memcg_max_mutex);
+  6766		return nbytes;
+  6767	
+  6768	err:
+  6769		kfree(pbuf);
+  6770		mutex_unlock(&memcg_max_mutex);
+  6771		return ret;
+  6772	}
+  6773	
+> 6774	static int mem_cgroup_bind_blkio_show(struct seq_file *m, void *v)
+  6775	{
+  6776		struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
+  6777	
+  6778		if (memcg->bind_blkio_path)
+  6779			seq_printf(m, "%s\n", memcg->bind_blkio_path);
+  6780	
+  6781		return 0;
+  6782	}
+  6783	
 
 -- 
 0-DAY CI Kernel Test Service
