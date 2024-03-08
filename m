@@ -1,56 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C6521353
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 01:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D621224CC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 02:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709859620; cv=none; b=a5zM6hJrpovaStlKhY5cfSlhRZNp+LJ0LLyp6fuiJL8+WcC/D+rCg2hZSPUPCk866VeZt8GqiMezIVYeKrml/G/HX7Z67zjxBDArm9+bj5T1dGS2o/x5A4ZZkcptpnf6tvX/X/2UN2dHL/28Smoh7H6AX5xEK+hffb2Z226K12M=
+	t=1709863237; cv=none; b=Ng0JpzkJYpdkn0YUG3+r0o810DSgXZPET4pw62zBpvkb3osSBEGi8HE6oxDgIR96qhKBAdqGwJmnx5ilCAhZ5OaOLoJoBoHWhs3UVlPZ2w/Usvy+vmDYTbysOIzGosEQICWOaVQW1y4i8LZ9TA+GHHh40eJmcCsioPJgRRFVvKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709859620; c=relaxed/simple;
-	bh=er9iUe3d1wOEFS6QXl+S8kmpYMEuP3OheavW2bfOwug=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h5lrUekD6rw8GePVYiMr9cnMcly+VFaTc1c1wAycc+Nxd03WW/dCn1u+i/FLttbKjd3waQ9BouG36+l6il70/xVGpmfSeaqsGphYnDyiV8owW2HG719E/+GDViJ9iL+nN9akEIzsZJ0lraugJftvSSRMV22EGiiD4Uf2F2bvfX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mVQh8DB1; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1709863237; c=relaxed/simple;
+	bh=Z/kQqP14W45+1dbzce2Rg7LEgxTDnDikscK2TFckIrE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uI+w0epB3LGhS2kNchx8jSxn1wfhhQg7KSXyaraBt9NlC+FYEzcNSdqEvtL77xGPOcoAZlLyvmsx93Tfjpa7aqXJf0MOuCRpimj9M7jKAr4MjRndZU0rcAVkx579MpizRHfkDo0ZoZ4k2kPcBV1snbWgno67vB+CG//GIXJ32fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g3wQ8xTN; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mVQh8DB1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g3wQ8xTN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709859618; x=1741395618;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=er9iUe3d1wOEFS6QXl+S8kmpYMEuP3OheavW2bfOwug=;
-  b=mVQh8DB17UTGvqXk1IEn0RzrOCKhCv6orCo2gqrGtkX/Aj+dUnYuWDj9
-   S99ax16xUzT3oiKvf73OXnFvEf0ks8SKjd1firwkpooiP4ru+a9tbXUnd
-   KtLFOsrvkqLK3Lvh8DUwoiFr8GVFDW/tAOA5QwWCre2nTVmsj7ONJbB2S
-   PvHTSxyAKQHv569swkSjbaiGGGNoPb4J4kGOpSTSxm9w6w54BlhwSFFsv
-   gQ07sMvOva6YokhNw9QVWK6ep5VkkwxHBzpK9JkCRet4rpnLCcA/9FpeD
-   2s/BPgw4DXuWdYvq0XrZTit+oV/um5m5zWpv4pclEeSm4tCxxXxMTBzpt
+  t=1709863235; x=1741399235;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Z/kQqP14W45+1dbzce2Rg7LEgxTDnDikscK2TFckIrE=;
+  b=g3wQ8xTNM6Cp8yA58YRtRTgQnqV7kFA+yapyt5DLGb2hPTERj8XQ3fJZ
+   yN+ZNEWQ5/oGzdkAzIpra0jKTDlk098VJd5x9jXBS+5zcLMZ363pGfZ+R
+   vGuRbIyzSVGK+re3fN2fZHGz1VXR/n2Dqv99B4rD1zYMv8G6/0/hhpiNj
+   wgVdppkhSkXoEjMexB6hSKg4+B0qTb+DG20O654+vSCMslwZprVvtJM21
+   MwbwVqJuZvIrc+MPn56Be/Hh93GxLJ+77sujOZQze35m6DnN1hIaQe72E
+   v50wqI1QWg0rcJlErKgddb2tggwZ9wP9Zt35DGniC/7CoIirsFq7bgTam
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="15994094"
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="4416076"
 X-IronPort-AV: E=Sophos;i="6.07,108,1708416000"; 
-   d="scan'208";a="15994094"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 16:58:30 -0800
+   d="scan'208";a="4416076"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 18:00:33 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,108,1708416000"; 
-   d="scan'208";a="10417935"
+   d="scan'208";a="41291982"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Mar 2024 16:58:28 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 07 Mar 2024 18:00:29 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1riOZ6-0005qf-1Y;
-	Fri, 08 Mar 2024 00:58:24 +0000
-Date: Fri, 8 Mar 2024 08:57:39 +0800
+	id 1riPX8-0005un-2s;
+	Fri, 08 Mar 2024 02:00:26 +0000
+Date: Fri, 8 Mar 2024 09:59:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sriram Dash <quic_sriramd@quicinc.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 2/3] USB: dwc3: qcom: Add support for firmware managed
- resources
-Message-ID: <202403080837.mI1doJRI-lkp@intel.com>
-References: <1709657858-8563-3-git-send-email-quic_sriramd@quicinc.com>
+Subject: drivers/iommu/rockchip-iommu.c:1130:26: error: initialization of
+ 'void (*)(struct iommu_domain *, long unsigned int,  size_t)' {aka 'void
+ (*)(struct iommu_domain *, long unsigned int,  long unsigned int)'} from
+ incompatible pointer type 'void (*)(struct d...
+Message-ID: <202403080959.bFCMsblt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,88 +62,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1709657858-8563-3-git-send-email-quic_sriramd@quicinc.com>
 
-Hi Sriram,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20240305]
-[cannot apply to robh/for-next usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.8-rc7 v6.8-rc6 v6.8-rc5 v6.8-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sriram-Dash/dt-bindings-usb-qcom-dwc3-Add-support-for-multiple-power-domains/20240306-010051
-base:   next-20240305
-patch link:    https://lore.kernel.org/r/1709657858-8563-3-git-send-email-quic_sriramd%40quicinc.com
-patch subject: [RFC 2/3] USB: dwc3: qcom: Add support for firmware managed resources
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240308/202403080837.mI1doJRI-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240308/202403080837.mI1doJRI-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   e116ff64db9be38b70fd5b050f5900435d428547
+commit: 2ba540b3e8ba5881d28dcd96874423009318eada iommu: Add iova and size as parameters in iotlb_sync_map
+date:   9 months ago
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240308/202403080959.bFCMsblt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240308/202403080959.bFCMsblt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403080837.mI1doJRI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403080959.bFCMsblt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the opencloudos/linux-5.4/lts/5.4.119-20.0009.spr HEAD e116ff64db9be38b70fd5b050f5900435d428547 builds fine.
+      It only hurts bisectability.
 
->> drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c:157: warning: Function parameter or struct member 'pd_list' not described in 'qcom_snps_hsphy'
->> drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c:157: warning: Function parameter or struct member 'genpd_core' not described in 'qcom_snps_hsphy'
->> drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c:157: warning: Function parameter or struct member 'genpd_transfer' not described in 'qcom_snps_hsphy'
->> drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c:157: warning: Function parameter or struct member 'fw_managed' not described in 'qcom_snps_hsphy'
->> drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c:157: warning: Function parameter or struct member 'snps_femto_v2_device_ops' not described in 'qcom_snps_hsphy'
+All errors (new ones prefixed by >>):
+
+   drivers/iommu/rockchip-iommu.c: In function 'rk_iommu_add_device':
+   drivers/iommu/rockchip-iommu.c:1069:17: error: implicit declaration of function 'iommu_group_get_for_dev'; did you mean 'iommu_group_get_by_id'? [-Werror=implicit-function-declaration]
+    1069 |         group = iommu_group_get_for_dev(dev);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+         |                 iommu_group_get_by_id
+   drivers/iommu/rockchip-iommu.c:1069:15: warning: assignment to 'struct iommu_group *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1069 |         group = iommu_group_get_for_dev(dev);
+         |               ^
+   drivers/iommu/rockchip-iommu.c: At top level:
+   drivers/iommu/rockchip-iommu.c:1127:16: error: initialization of 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int,  gfp_t)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int,  unsigned int)'} from incompatible pointer type 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int)'} [-Werror=incompatible-pointer-types]
+    1127 |         .map = rk_iommu_map,
+         |                ^~~~~~~~~~~~
+   drivers/iommu/rockchip-iommu.c:1127:16: note: (near initialization for 'rk_iommu_ops.map')
+   drivers/iommu/rockchip-iommu.c:1129:10: error: 'const struct iommu_ops' has no member named 'add_device'
+    1129 |         .add_device = rk_iommu_add_device,
+         |          ^~~~~~~~~~
+   drivers/iommu/rockchip-iommu.c:1129:23: error: initialization of 'void (*)(struct iommu_domain *)' from incompatible pointer type 'int (*)(struct device *)' [-Werror=incompatible-pointer-types]
+    1129 |         .add_device = rk_iommu_add_device,
+         |                       ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/rockchip-iommu.c:1129:23: note: (near initialization for 'rk_iommu_ops.flush_iotlb_all')
+   drivers/iommu/rockchip-iommu.c:1130:10: error: 'const struct iommu_ops' has no member named 'remove_device'; did you mean 'probe_device'?
+    1130 |         .remove_device = rk_iommu_remove_device,
+         |          ^~~~~~~~~~~~~
+         |          probe_device
+>> drivers/iommu/rockchip-iommu.c:1130:26: error: initialization of 'void (*)(struct iommu_domain *, long unsigned int,  size_t)' {aka 'void (*)(struct iommu_domain *, long unsigned int,  long unsigned int)'} from incompatible pointer type 'void (*)(struct device *)' [-Werror=incompatible-pointer-types]
+    1130 |         .remove_device = rk_iommu_remove_device,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/rockchip-iommu.c:1130:26: note: (near initialization for 'rk_iommu_ops.iotlb_sync_map')
+   cc1: some warnings being treated as errors
 
 
-vim +157 drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c
+vim +1130 drivers/iommu/rockchip-iommu.c
 
-   114	
-   115	/**
-   116	 * struct qcom_snps_hsphy - snps hs phy attributes
-   117	 *
-   118	 * @dev: device structure
-   119	 *
-   120	 * @phy: generic phy
-   121	 * @base: iomapped memory space for snps hs phy
-   122	 *
-   123	 * @num_clks: number of clocks
-   124	 * @clks: array of clocks
-   125	 * @phy_reset: phy reset control
-   126	 * @vregs: regulator supplies bulk data
-   127	 * @phy_initialized: if PHY has been initialized correctly
-   128	 * @mode: contains the current mode the PHY is in
-   129	 * @update_seq_cfg: tuning parameters for phy init
-   130	 */
-   131	struct qcom_snps_hsphy {
-   132		struct device *dev;
-   133	
-   134		struct phy *phy;
-   135		void __iomem *base;
-   136	
-   137		int num_clks;
-   138		struct clk_bulk_data *clks;
-   139		struct reset_control *phy_reset;
-   140		struct regulator_bulk_data vregs[SNPS_HS_NUM_VREGS];
-   141	
-   142		bool phy_initialized;
-   143		enum phy_mode mode;
-   144		struct phy_override_seq update_seq_cfg[NUM_HSPHY_TUNING_PARAMS];
-   145	
-   146		struct dev_pm_domain_list *pd_list;
-   147		struct device *genpd_core;
-   148		struct device *genpd_transfer;
-   149	
-   150		bool fw_managed;
-   151		/* separate resource management for fw_managed vs locally managed devices */
-   152		struct snps_femto_v2_device_ops {
-   153			int (*resume_resource)(struct qcom_snps_hsphy *hsphy);
-   154			int (*suspend_resource)(struct qcom_snps_hsphy *hsphy);
-   155		} snps_femto_v2_device_ops;
-   156	
- > 157	};
-   158	
+^590eaf1fec755 Kaixu Xia 2021-03-16  1121  
+^590eaf1fec755 Kaixu Xia 2021-03-16  1122  static const struct iommu_ops rk_iommu_ops = {
+^590eaf1fec755 Kaixu Xia 2021-03-16  1123  	.domain_alloc = rk_iommu_domain_alloc,
+^590eaf1fec755 Kaixu Xia 2021-03-16  1124  	.domain_free = rk_iommu_domain_free,
+^590eaf1fec755 Kaixu Xia 2021-03-16  1125  	.attach_dev = rk_iommu_attach_device,
+^590eaf1fec755 Kaixu Xia 2021-03-16  1126  	.detach_dev = rk_iommu_detach_device,
+^590eaf1fec755 Kaixu Xia 2021-03-16  1127  	.map = rk_iommu_map,
+^590eaf1fec755 Kaixu Xia 2021-03-16  1128  	.unmap = rk_iommu_unmap,
+^590eaf1fec755 Kaixu Xia 2021-03-16  1129  	.add_device = rk_iommu_add_device,
+^590eaf1fec755 Kaixu Xia 2021-03-16 @1130  	.remove_device = rk_iommu_remove_device,
+^590eaf1fec755 Kaixu Xia 2021-03-16  1131  	.iova_to_phys = rk_iommu_iova_to_phys,
+^590eaf1fec755 Kaixu Xia 2021-03-16  1132  	.device_group = rk_iommu_device_group,
+^590eaf1fec755 Kaixu Xia 2021-03-16  1133  	.pgsize_bitmap = RK_IOMMU_PGSIZE_BITMAP,
+^590eaf1fec755 Kaixu Xia 2021-03-16  1134  	.of_xlate = rk_iommu_of_xlate,
+^590eaf1fec755 Kaixu Xia 2021-03-16  1135  };
+^590eaf1fec755 Kaixu Xia 2021-03-16  1136  
+
+:::::: The code at line 1130 was first introduced by commit
+:::::: 590eaf1fec755215547690e787cc7d83f58ea948 Init Repo base on linux 5.4.32 long term, and add base tlinux kernel interfaces.
+
+:::::: TO: Kaixu Xia <kaixuxia@tencent.com>
+:::::: CC: Kaixu Xia <kaixuxia@tencent.com>
 
 -- 
 0-DAY CI Kernel Test Service
