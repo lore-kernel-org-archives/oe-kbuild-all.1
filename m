@@ -1,55 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6B25339A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 10:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BA255788
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 10:31:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709893912; cv=none; b=YN10XqiOiQk6h0MxjrmLi9pxn9r1z6FqEhxDEsrjL5bI0qYJL0JQk/AR9fiaQQ0rNCuNmURw3yhcd4nNY0fSYuyT9qSuonG1nImp1/t11YryDbKf+EIO4w6S4ElQooXLCbppqvkewLdBgObe7FWxATq+NWb6iNqIT3qQlD8Wq6Q=
+	t=1709893914; cv=none; b=kEJy2kPewzOiUP0qkr+mNVpTvcwh4pRkI9QmLWXgBH2BWkqr6nIPsvacQu5g21tzX3QxFdH5jS8pSvpCRfmTODlDBmTP3n7KlCTcsvknEmmajaD6Ws3Cn4FHIbm2Sfy+Aeu9nPv6VBbUFyqqd7ApLCupJ2r7/WYdSKNjaSeXJjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709893912; c=relaxed/simple;
-	bh=/kBXkIcNCQZbQ5kJSjKv14mDTevrsyVfMY8E33ye9jM=;
+	s=arc-20240116; t=1709893914; c=relaxed/simple;
+	bh=2d9GQJVzm61vTNAph2dMJh9EdnQCDdel5E4CievRllo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WotbumOvIjqQxSzIT0eQ/Pr1Gp6lFY9QL+LsBeDPK4pQSbyFraXjdfEad7E9lsoxqXT/DY2nCrtTTdSdCx/pbWu3LjNu44EgLCOlaUTuH5vjnO2o5q2xCiKde7xKjkdKDBkZRBPbus5bohGFhqUIg/CgSBWELs+DZ2zBcsSDeAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nc2j+Hft; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=mpIjmvGqt2gBYxzU5kGs52IvPMTicbjXD2cyPb0Du7jxcmpZPsbN38iOKjyzPjjLQqG0iekEnhS3T9Qo43fqP6lEXkMIL+Prha/DyL5HlqsDVhfhPyrBNrj+EA63nqYU0M+vdgjIelpwZaPoS/XAbp5htUdmOEED2tnbO9j1/k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d2U97Z0K; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nc2j+Hft"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d2U97Z0K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709893910; x=1741429910;
+  t=1709893913; x=1741429913;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/kBXkIcNCQZbQ5kJSjKv14mDTevrsyVfMY8E33ye9jM=;
-  b=nc2j+HftYLTxMgi+wZDnSgthzzCJGxRrlfLi22sgY8MBJB0qHt/74IJJ
-   2wZFS89CNCGX1/dGZf6jBX9L1dnkefRb5nMfKzu6JpcH3NjuMXnCbL7HM
-   REAb8UYKGjei4R2XCC+fa6kEwb6487D/cuI9t7wT0xT7koKy/1/RgINvY
-   s+D/5vHG4Ta0cwgjr/nL3JmGj8b/pK4jx6exjIoe6D3EC5puvlkbQcv32
-   NkTH8mE3J770LAZmLh3jaIetlE2ER/2HYZ0Sm+PlxO8/blneLZH3MwlwW
-   HBlKCELBxJ5DUVUwbEFb7E4kOH5qEliHJiBO2M8qEvaXL0NeLs7VeA86Z
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="7552450"
+  bh=2d9GQJVzm61vTNAph2dMJh9EdnQCDdel5E4CievRllo=;
+  b=d2U97Z0KxFfoEQLIQjkiJpckRdk8S1oM8c7B9iDBiUvh8VRkxAcr/PXX
+   n10ymXlDYumyPLcwEPO3KuIXSWLaRjAUAYMA5R+/2lLGPtjsd2s3CgDqT
+   f+aVZaZk/kfgfBpUNNSVv+gzHLUCQYJ4XOmjLJE/lg7YIK9hx7cKiL9r+
+   wWl57SruEJ99nsbIGeW1DmOsX5e3z6mGSXD7scBaeGYaLedsOTFbqLtLd
+   u7fAT5OQsFgMy39M6AVKHqzDTj2C9G57USE6fy+UdBe0lbWIHsh+kH8HD
+   rB6dfJKR7y+KkBin9b/wpUeaomvxqRyekE0O2Q7FdzSlOxYz7eqLBQSPg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="7552453"
 X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; 
-   d="scan'208";a="7552450"
+   d="scan'208";a="7552453"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 02:31:49 -0800
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 02:31:50 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; 
-   d="scan'208";a="14903234"
+   d="scan'208";a="14903241"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Mar 2024 02:31:46 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 08 Mar 2024 02:31:47 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1riXVw-0006I3-2f;
+	id 1riXVw-0006I5-2j;
 	Fri, 08 Mar 2024 10:31:44 +0000
 Date: Fri, 8 Mar 2024 18:31:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Phil Elwell <phil@raspberrypi.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [jmondi:pispbe/media-staging/be-upstream 13/143] ERROR: modpost:
- "irq_domain_deactivate_irq" [drivers/mfd/rp1.ko] undefined!
-Message-ID: <202403081816.1zhIVbdO-lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/next 25785/27434]
+ net/ipv4/netfilter/ipt_WH.c:41:18: sparse: sparse: cast from restricted
+ __be32
+Message-ID: <202403081807.TSiHfqWo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,122 +62,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git pispbe/media-staging/be-upstream
-head:   b7b928a1ff80dc548d6f5c1b8c00b2082212e38e
-commit: fb7bbdfe393a7f6a69e780c5b4b4284ad97c81b8 [13/143] mfd: Add rp1 driver
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240308/202403081816.1zhIVbdO-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240308/202403081816.1zhIVbdO-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
+head:   0e88d1c26496999d1b2e37f3393b602d28b03faf
+commit: 09290fb1ad50a24d68b78beb85193a2b20ec73e3 [25785/27434] net: iptables: add iptables target WH and DNATLB
+config: x86_64-randconfig-121-20240305 (https://download.01.org/0day-ci/archive/20240308/202403081807.TSiHfqWo-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240308/202403081807.TSiHfqWo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403081816.1zhIVbdO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403081807.TSiHfqWo-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> net/ipv4/netfilter/ipt_WH.c:41:18: sparse: sparse: cast from restricted __be32
+>> net/ipv4/netfilter/ipt_WH.c:41:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] tmp_ip @@     got restricted __be32 [usertype] @@
+   net/ipv4/netfilter/ipt_WH.c:41:16: sparse:     expected unsigned int [usertype] tmp_ip
+   net/ipv4/netfilter/ipt_WH.c:41:16: sparse:     got restricted __be32 [usertype]
+>> net/ipv4/netfilter/ipt_WH.c:42:20: sparse: sparse: cast from restricted __be16
+>> net/ipv4/netfilter/ipt_WH.c:42:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] tmp_port @@     got restricted __be16 [usertype] @@
+   net/ipv4/netfilter/ipt_WH.c:42:18: sparse:     expected unsigned short [usertype] tmp_port
+   net/ipv4/netfilter/ipt_WH.c:42:18: sparse:     got restricted __be16 [usertype]
 
-WARNING: modpost: sound/soc/codecs/snd-soc-tlv320adc3xxx: section mismatch in reference: adc3xxx_i2c_driver+0x10 (section: .data) -> adc3xxx_i2c_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-da7219.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-dmic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-i2s-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98927.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98357a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98373.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-nau8825.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-probe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt274.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt286.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt298.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5514.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5663.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5682.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-ssm4567.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-mlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-skl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-apl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-cnl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-icl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tgl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-mtl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-lnl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8ulp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/imx-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mtk-adsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8195/snd-sof-mt8195.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8186/snd-sof-mt8186.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kretprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_cmp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_nbyte.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_u32.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_meta.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_text.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_canid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
->> ERROR: modpost: "irq_domain_deactivate_irq" [drivers/mfd/rp1.ko] undefined!
->> ERROR: modpost: "irq_domain_activate_irq" [drivers/mfd/rp1.ko] undefined!
+vim +41 net/ipv4/netfilter/ipt_WH.c
+
+  > 41		tmp_ip = htonl(iph->daddr);
+  > 42		tmp_port = htons(tcph->dest);
+    43		option_addr[0] = 0xfd;
+    44		option_addr[1] = 0x08;
+    45		memcpy(option_addr + 2, &tmp_ip, 4);
+    46		memcpy(option_addr + 6, &tmp_port, 2);
+    47		memcpy(new_head + hdr_len, option_addr, 8);
+    48		d = new_head;
+    49		skb_pull(skb, hdr_len);
+    50		skb_push(skb, hdr_len + 8);
+    51		memcpy(skb->data, new_head, hdr_len + 8);
+    52		skb->transport_header = skb->transport_header - 8;
+    53		skb->network_header = skb->network_header - 8;
+    54		iph = ip_hdr(skb); //update iph point to new ip header
+    55		iph->tot_len = htons(skb->len);
+    56		iph->check = 0; //re-calculate ip checksum
+    57		iph->check = ip_fast_csum(iph, iph->ihl);
+    58	
+    59		tcph = (struct tcphdr *)skb_transport_header(skb);
+    60		tcph->doff = tcph->doff + 2;
+    61		tcph->check = 0;
+    62		data_len = (skb->len - iph->ihl * 4); //tcp segment length
+    63		tcph->check =
+    64			csum_tcpudp_magic(iph->saddr, iph->daddr, data_len,
+    65					  iph->protocol,
+    66					  csum_partial((char *)tcph, data_len, 0));
+    67		skb->ip_summed = CHECKSUM_UNNECESSARY;
+    68	
+    69		return 0;
+    70	}
+    71	
 
 -- 
 0-DAY CI Kernel Test Service
