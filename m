@@ -1,61 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAD1249FA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 18:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACEE56473
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Mar 2024 19:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709923503; cv=none; b=Xy+8A7UOwiWMs9nr0YeroqfRPyWy4plldZxYaGxsBNSxd0WlsT5nBlSxu5Dv37oPHRse6+RZWN02mSgeGH0vx8TbxhppSMxvoaHWZVzFYq6vxpmrJswTFYKIjI8wTJXB2akdu04cj8dYNgjFPUxZQ5UNu1P15PqjiNUUFxCyj/4=
+	t=1709924703; cv=none; b=U9AO8tfQZWVvfUhsnEATE1I+jfrNAEp8OEojco3MgSGDOjsaBPlu4SyGStCoYu7SUubHSg7FrrZYNZIKExFL7r8t2g3WozhBr43oOpgXRL2UTtVMDGYQnndpJqitC96eGTRbrQJV7Xk4iFVmARlEnyZfz/8ouDP0tHk2r0jUwVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709923503; c=relaxed/simple;
-	bh=vzgD06Xgx7tkwYg7uImpMWE/Mimggluy8X3vVv0bFcA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ca4qLqOIyQz/Lxinaed+BCFTAOP75e1HJs76eZXXCXvR78MngwBq8cISpE51kj12rmoGJWaZxfJn37RalrSBc0N9tm3d6F34Vey/pIvNGtrkRLuqJxLdW5ES3u8YgzR8nE0m6O2zw9mSoHle3X+npO+/XhOGgnAbetqmkdoeiPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i/zRRvIX; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1709924703; c=relaxed/simple;
+	bh=KnUy64Ys1+HCcGfbdmmi2sOVxRwA+UinoaRCW53y/oQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kmQQvwsBzex/i7qorPHTOoahqx4k83XTdTk4K5/GJ2DZz1kpKKsLQ/AZiVVWOyw8jVh9D73AJ8BJqafHZ/0+7aL0W2vui6F5/PsBUpmRdgyJnDJ3fI6SqzN5HeUkR2IHfMvmoi+YtCEkT7pF+OVO9DmWfjXfg7erKncunj7slQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jvnG7J3W; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i/zRRvIX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jvnG7J3W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709923502; x=1741459502;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vzgD06Xgx7tkwYg7uImpMWE/Mimggluy8X3vVv0bFcA=;
-  b=i/zRRvIXljlrKoy03X3uY4bgg5esD9VlDpz+NDUAkPl0Fvtq8e5+vEFF
-   yQFSXBrmSNAzrGwge7ciRLO53/T4XgBNtTF20B509dS71Yysnfm2lNAHu
-   cnGUvWhgW1STjR1Y5Rq3hJr+A1r5GDugnfa9VPi5VGaK19ZvU0H6KY2UY
-   vtTFrduHSjsL8hLFQTQv8aEMi6SEW0q0ix7P7Em1Nb5vm/kaxQfXNk5jj
-   GT0ETHhLPc7R9VNar99HJ8Ou5kLMSDeIY0gAhuCnFy9pzYHYG++YnNl/8
-   v85otOr4dZgS1rht5xzfUJYkDb+mJ49yet2Tsm12rJSrsV6WxFxFNTPsD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="27129885"
+  t=1709924701; x=1741460701;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KnUy64Ys1+HCcGfbdmmi2sOVxRwA+UinoaRCW53y/oQ=;
+  b=jvnG7J3W+INkgG3EvUxCiw+pcS7bDhaWYBjxWP/Unr17jBme8NI54P93
+   usUKI2OQmiB099bagsqUfshROgjySe5mxmYlCeGwVoNu3RuMisGYJQdlU
+   jJI9vYinijnQAutB5J09zjZk/yFsF4jvZxbOMqPBcrH23rrZHXFHxNXSH
+   HcCOmtNPUQIk5pBXB7qmhNUPCV+j+0F+JaKWoN6MyofZ3Hj91C43mcY9Q
+   hqGf4rFSBlbS/xZ8mEC5i8UhexEFO2aXbbJfA6Ok7f6j+VdqgqS4yiRiV
+   F928Ss6/9AXGoWRonFLoRKEEsrZtm70FwRYiJiCR4xSV2eq7KHFOV35VR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="4786638"
 X-IronPort-AV: E=Sophos;i="6.07,110,1708416000"; 
-   d="scan'208";a="27129885"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 10:45:01 -0800
+   d="scan'208";a="4786638"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 11:05:00 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,110,1708416000"; 
-   d="scan'208";a="10637531"
+   d="scan'208";a="10987403"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 08 Mar 2024 10:44:59 -0800
+  by orviesa007.jf.intel.com with ESMTP; 08 Mar 2024 11:04:59 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rifDE-0006cJ-2t;
-	Fri, 08 Mar 2024 18:44:56 +0000
-Date: Sat, 9 Mar 2024 02:44:20 +0800
+	id 1rifWb-0006cp-0R;
+	Fri, 08 Mar 2024 19:04:57 +0000
+Date: Sat, 9 Mar 2024 03:04:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	open list <linux-kernel@vger.kernel.org>,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: Re: [PATCH 1/5] media: imx335: Support 2 or 4 lane operation modes
-Message-ID: <202403090232.FqnIE4cy-lkp@intel.com>
-References: <20240306081038.212412-2-umang.jain@ideasonboard.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:fsverity-cleanups-6.9 9/37]
+ include/trace/events/fsverity.h:169:19: warning: format '%lu' expects
+ argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka
+ 'unsigned int'}
+Message-ID: <202403090240.Tm2TfFoc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,88 +59,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240306081038.212412-2-umang.jain@ideasonboard.com>
 
-Hi Umang,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linuxtv-media-stage/master]
-[cannot apply to media-tree/master sailus-media-tree/streams linus/master v6.8-rc7 next-20240308]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/media-imx335-Support-2-or-4-lane-operation-modes/20240306-161903
-base:   https://git.linuxtv.org/media_stage.git master
-patch link:    https://lore.kernel.org/r/20240306081038.212412-2-umang.jain%40ideasonboard.com
-patch subject: [PATCH 1/5] media: imx335: Support 2 or 4 lane operation modes
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20240309/202403090232.FqnIE4cy-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fsverity-cleanups-6.9
+head:   0dbdaafd38ae4f4af18c8650ff875d6a39f50bc4
+commit: 6bcbc002b1f832b03eb57f87dcc64984efa975b5 [9/37] fsverity: add tracepoints
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240309/202403090240.Tm2TfFoc-lkp@intel.com/config)
 compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240309/202403090232.FqnIE4cy-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240309/202403090240.Tm2TfFoc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403090232.FqnIE4cy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403090240.Tm2TfFoc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/media/i2c/imx335.c:181: warning: Function parameter or struct member 'lane_mode' not described in 'imx335'
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/events/fsverity.h:181,
+                    from fs/verity/fsverity_private.h:165,
+                    from fs/verity/init.c:9:
+   include/trace/events/fsverity.h: In function 'trace_raw_output_fsverity_verify_signature':
+>> include/trace/events/fsverity.h:169:19: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     169 |         TP_printk("ino %lu sig_size %lu %s%s%s",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     203 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(print));                   \
+         |                              ^~~~~~
+   include/trace/events/fsverity.h:153:1: note: in expansion of macro 'TRACE_EVENT'
+     153 | TRACE_EVENT(fsverity_verify_signature,
+         | ^~~~~~~~~~~
+   include/trace/events/fsverity.h:169:9: note: in expansion of macro 'TP_printk'
+     169 |         TP_printk("ino %lu sig_size %lu %s%s%s",
+         |         ^~~~~~~~~
+   In file included from include/trace/trace_events.h:237:
+   include/trace/events/fsverity.h:169:39: note: format string is defined here
+     169 |         TP_printk("ino %lu sig_size %lu %s%s%s",
+         |                                     ~~^
+         |                                       |
+         |                                       long unsigned int
+         |                                     %u
 
 
-vim +181 drivers/media/i2c/imx335.c
+vim +169 include/trace/events/fsverity.h
 
-45d19b5fb9aeab Martina Krasteva 2021-05-27  133  
-45d19b5fb9aeab Martina Krasteva 2021-05-27  134  /**
-45d19b5fb9aeab Martina Krasteva 2021-05-27  135   * struct imx335 - imx335 sensor device structure
-45d19b5fb9aeab Martina Krasteva 2021-05-27  136   * @dev: Pointer to generic device
-45d19b5fb9aeab Martina Krasteva 2021-05-27  137   * @client: Pointer to i2c client
-45d19b5fb9aeab Martina Krasteva 2021-05-27  138   * @sd: V4L2 sub-device
-45d19b5fb9aeab Martina Krasteva 2021-05-27  139   * @pad: Media pad. Only one pad supported
-45d19b5fb9aeab Martina Krasteva 2021-05-27  140   * @reset_gpio: Sensor reset gpio
-fea91ee73b7cd1 Kieran Bingham   2023-12-11  141   * @supplies: Regulator supplies to handle power control
-45d19b5fb9aeab Martina Krasteva 2021-05-27  142   * @inclk: Sensor input clock
-45d19b5fb9aeab Martina Krasteva 2021-05-27  143   * @ctrl_handler: V4L2 control handler
-45d19b5fb9aeab Martina Krasteva 2021-05-27  144   * @link_freq_ctrl: Pointer to link frequency control
-45d19b5fb9aeab Martina Krasteva 2021-05-27  145   * @pclk_ctrl: Pointer to pixel clock control
-45d19b5fb9aeab Martina Krasteva 2021-05-27  146   * @hblank_ctrl: Pointer to horizontal blanking control
-45d19b5fb9aeab Martina Krasteva 2021-05-27  147   * @vblank_ctrl: Pointer to vertical blanking control
-45d19b5fb9aeab Martina Krasteva 2021-05-27  148   * @exp_ctrl: Pointer to exposure control
-45d19b5fb9aeab Martina Krasteva 2021-05-27  149   * @again_ctrl: Pointer to analog gain control
-45d19b5fb9aeab Martina Krasteva 2021-05-27  150   * @vblank: Vertical blanking in lines
-8c48b2175e7d73 Kieran Bingham   2024-03-06  151   * @lane_mode Mode for number of connected data lanes
-45d19b5fb9aeab Martina Krasteva 2021-05-27  152   * @cur_mode: Pointer to current selected sensor mode
-45d19b5fb9aeab Martina Krasteva 2021-05-27  153   * @mutex: Mutex for serializing sensor controls
-0862582b5239a6 Umang Jain       2024-02-20  154   * @link_freq_bitmap: Menu bitmap for link_freq_ctrl
-cfa49ff0558a32 Umang Jain       2023-12-11  155   * @cur_mbus_code: Currently selected media bus format code
-45d19b5fb9aeab Martina Krasteva 2021-05-27  156   */
-45d19b5fb9aeab Martina Krasteva 2021-05-27  157  struct imx335 {
-45d19b5fb9aeab Martina Krasteva 2021-05-27  158  	struct device *dev;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  159  	struct i2c_client *client;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  160  	struct v4l2_subdev sd;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  161  	struct media_pad pad;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  162  	struct gpio_desc *reset_gpio;
-fea91ee73b7cd1 Kieran Bingham   2023-12-11  163  	struct regulator_bulk_data supplies[ARRAY_SIZE(imx335_supply_name)];
-fea91ee73b7cd1 Kieran Bingham   2023-12-11  164  
-45d19b5fb9aeab Martina Krasteva 2021-05-27  165  	struct clk *inclk;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  166  	struct v4l2_ctrl_handler ctrl_handler;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  167  	struct v4l2_ctrl *link_freq_ctrl;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  168  	struct v4l2_ctrl *pclk_ctrl;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  169  	struct v4l2_ctrl *hblank_ctrl;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  170  	struct v4l2_ctrl *vblank_ctrl;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  171  	struct {
-45d19b5fb9aeab Martina Krasteva 2021-05-27  172  		struct v4l2_ctrl *exp_ctrl;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  173  		struct v4l2_ctrl *again_ctrl;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  174  	};
-45d19b5fb9aeab Martina Krasteva 2021-05-27  175  	u32 vblank;
-8c48b2175e7d73 Kieran Bingham   2024-03-06  176  	u32 lane_mode;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  177  	const struct imx335_mode *cur_mode;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  178  	struct mutex mutex;
-0862582b5239a6 Umang Jain       2024-02-20  179  	unsigned long link_freq_bitmap;
-cfa49ff0558a32 Umang Jain       2023-12-11  180  	u32 cur_mbus_code;
-45d19b5fb9aeab Martina Krasteva 2021-05-27 @181  };
-45d19b5fb9aeab Martina Krasteva 2021-05-27  182  
+   152	
+   153	TRACE_EVENT(fsverity_verify_signature,
+   154		TP_PROTO(const struct inode *inode, const u8 *signature, size_t sig_size),
+   155		TP_ARGS(inode, signature, sig_size),
+   156		TP_STRUCT__entry(
+   157			__field(ino_t, ino)
+   158			__dynamic_array(u8, signature, sig_size)
+   159			__field(size_t, sig_size)
+   160			__field(size_t, sig_size_show)
+   161		),
+   162		TP_fast_assign(
+   163			__entry->ino = inode->i_ino;
+   164			memcpy(__get_dynamic_array(signature), signature, sig_size);
+   165			__entry->sig_size = sig_size;
+   166			__entry->sig_size_show = (sig_size > FSVERITY_HASH_SHOWN_LEN ?
+   167				FSVERITY_HASH_SHOWN_LEN : sig_size);
+   168		),
+ > 169		TP_printk("ino %lu sig_size %lu %s%s%s",
+   170			(unsigned long) __entry->ino,
+   171			__entry->sig_size,
+   172			(__entry->sig_size ? "sig " : ""),
+   173			__print_hex(__get_dynamic_array(signature),
+   174				__entry->sig_size_show),
+   175			(__entry->sig_size ? "..." : ""))
+   176	);
+   177	
 
 -- 
 0-DAY CI Kernel Test Service
