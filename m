@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B8A45037
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Mar 2024 18:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5364A2A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Mar 2024 19:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710010240; cv=none; b=YM5zFy9Tf6rBjJlU6yPfrDcwqASteDmOofV44uJcYNPiAMUe0y7dKzQ+Hdn6VANON+/My7xHPO5928+qoxBzdd2BbsMtdMd37QJ5hng/gUshc3X4lsXScMvD2ED3rkDlnw5UNI0F+lN/7/eULOIVuN9xgcL6TOUsokc5IFht5/s=
+	t=1710012700; cv=none; b=TC02GfvC53kUlvkCmPRiu8caZQNM3ZnAsjcGGsGlUayi4/5Vnu60RK4Rc7hVT+lN6iOPVRYowQLMlmF86rmkvzin+6De/3e0IAhQ1i3Q66IXbWoWGDZr3KFDYm0GwEv+FwihYeEBnxUjO8lhDvQHcoYMkljM20qFRELS89TXp6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710010240; c=relaxed/simple;
-	bh=NmWqeIT6vigupWLanhNbPV2JboASKytOXX9ZPVH7CU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nktogcQfeqDaBpk0vjQjOk8DLY2LRG2Q5HvFZkNNKSVfgsslfm38GySEygGwKBt7Cb0dt+2pCwKMM9GRw9wK5t/1fOcmRTdcXECn4G6OPJst21OmTlkGZnfLczsUdkS2eBZpN4/UDHGZpQ3Y/2wsapjysnsxwkZvcR8kmjAZ7ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LoXAojIO; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1710012700; c=relaxed/simple;
+	bh=5Xo2SJPNJfCUtSp5MmZxKMQWzDqhN3Wryme0gO5miqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hVqQBav0SwU0GbVduxY4/+g80cvKit0p/Oa5fzFk0nlCHeXr/C2+TWOfFT1DOO4ATTcaD5IZauZBHSkDq3pNh1hd/5G/5cNkfS9wJv7Kut7mIYcsJ4pHPyhNwPs+dV2gufAKAseU4Qnyo07O5zGtKYbb2QCXqXvdgQc2FQBWtYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OQydpNmB; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LoXAojIO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OQydpNmB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710010239; x=1741546239;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NmWqeIT6vigupWLanhNbPV2JboASKytOXX9ZPVH7CU8=;
-  b=LoXAojIO/oOL9c1NNXk2yW7o1vuV0dXXJzQtn827X8Ikq0GT0h5UG05m
-   wrF9nK/gvtfoXPjiMzIrhBcXPW2G8ks+7iEUA1n0u+jaOxWV0lX9RVpM+
-   yrX803Whr9RUkrkLRe4Zu9az87mG2jTmG6ehDCp7Q0YJ9hAFAGJ3NIBP7
-   sKr5xwfoN5PTLd7qntcgqBiKldg2ZYjnMAvHB5SZBWITbt9qUSXZQzwwB
-   ZcdpuK3LHu+ajtD5Yt/SdNFohSlkvSz2orzeWak332OWxssDXOlaIoX/5
-   ib99aBfuoTjvogmRtE+31c3IzJaShyrDwapBriP2DNoRK4nJsErXU8T4y
+  t=1710012699; x=1741548699;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5Xo2SJPNJfCUtSp5MmZxKMQWzDqhN3Wryme0gO5miqU=;
+  b=OQydpNmBFnk/8q5/sb5a37DYZEzs2K51657YSr7g0DJ4RRbI9q0z8JgO
+   azl0R0PYaTuKmoG8DRlIkjiX6+gWPRU7VwfOUvTRSbe5EWzDzQKBGASY3
+   hlx0oa1ctzOPnVJ02pY/8itt+DJlyNqkKPGGKL6vnObrN0TmvzosE3wzC
+   3xXrILOZeTqeG9F9whN/P9q7+Fo5hA1ydhihJuhkP0SAiovLJY42bNc4r
+   093OylvSVk8Fkg9vYc16Np+EsEnKcHMzyW1EBx4FrFjNkVyulnMMJOv6M
+   KpIMzqrWaoAmFt07nO2OLoQ9Y9PVD+m3WYrZYT4W8z0kuAZC12F89xiyI
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="27187010"
+X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="7671354"
 X-IronPort-AV: E=Sophos;i="6.07,113,1708416000"; 
-   d="scan'208";a="27187010"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2024 10:50:38 -0800
+   d="scan'208";a="7671354"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2024 11:31:37 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,113,1708416000"; 
-   d="scan'208";a="15344612"
+   d="scan'208";a="48231131"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 09 Mar 2024 10:50:35 -0800
+  by orviesa001.jf.intel.com with ESMTP; 09 Mar 2024 11:31:36 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rj1mD-0007ad-1o;
-	Sat, 09 Mar 2024 18:50:33 +0000
-Date: Sun, 10 Mar 2024 02:50:22 +0800
+	id 1rj2Pu-0007bb-08;
+	Sat, 09 Mar 2024 19:31:34 +0000
+Date: Sun, 10 Mar 2024 03:31:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: tumic@gpxsee.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Martin =?utf-8?B?VMWvbWE=?= <martin.tuma@digiteqautomotive.com>
-Subject: Re: [PATCH v2 2/2] media: mgb4: Add support for V4L2_CAP_TIMEPERFRAME
-Message-ID: <202403100204.vRfWFcC3-lkp@intel.com>
-References: <20240307121822.1852-3-tumic@gpxsee.org>
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Adam Ford <aford173@gmail.com>
+Subject: [pinchartl:nxp/v6.8/compulab 10/20] sh4-linux-ld:
+ phy-fsl-samsung-hdmi.c:undefined reference to `of_clk_add_provider'
+Message-ID: <202403100351.AEy18IlC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,131 +60,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240307121822.1852-3-tumic@gpxsee.org>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 65e6a2773d655172143cc0b927cdc89549842895]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/tumic-gpxsee-org/media-mgb4-Add-support-for-YUV-image-formats/20240307-192243
-base:   65e6a2773d655172143cc0b927cdc89549842895
-patch link:    https://lore.kernel.org/r/20240307121822.1852-3-tumic%40gpxsee.org
-patch subject: [PATCH v2 2/2] media: mgb4: Add support for V4L2_CAP_TIMEPERFRAME
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240310/202403100204.vRfWFcC3-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240310/202403100204.vRfWFcC3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git nxp/v6.8/compulab
+head:   baaf6f492f51fcffbad4ab0e8d43731d2f3b43b2
+commit: 010f4175dffe95ebabb2078b34ea802d0db1df65 [10/20] phy: freescale: add Samsung HDMI PHY
+config: sh-randconfig-r063-20240309 (https://download.01.org/0day-ci/archive/20240310/202403100351.AEy18IlC-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240310/202403100351.AEy18IlC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403100204.vRfWFcC3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403100351.AEy18IlC-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-ab8500-codec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: sound/soc/codecs/snd-soc-tlv320adc3xxx: section mismatch in reference: adc3xxx_i2c_driver+0x8 (section: .data) -> adc3xxx_i2c_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-fiq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-da7219.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-dmic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-i2s-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98927.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98357a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98373.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-nau8825.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-probe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt274.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt286.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt298.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5514.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5663.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5682.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-ssm4567.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-mlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-skl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-apl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-cnl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-icl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tgl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-mtl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-lnl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8ulp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/imx-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mtk-adsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8195/snd-sof-mt8195.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8186/snd-sof-mt8186.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/ux500/snd-soc-ux500-plat-msp-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kretprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_cmp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_nbyte.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_u32.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_meta.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_text.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_canid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
->> ERROR: modpost: "__aeabi_uldivmod" [drivers/media/pci/mgb4/mgb4.ko] undefined!
->> ERROR: modpost: "__aeabi_ldivmod" [drivers/media/pci/mgb4/mgb4.ko] undefined!
+   sh4-linux-ld: drivers/phy/freescale/phy-fsl-samsung-hdmi.o: in function `fsl_samsung_hdmi_phy_remove':
+   phy-fsl-samsung-hdmi.c:(.text+0xd0): undefined reference to `of_clk_del_provider'
+   sh4-linux-ld: drivers/phy/freescale/phy-fsl-samsung-hdmi.o: in function `fsl_samsung_hdmi_phy_probe':
+   phy-fsl-samsung-hdmi.c:(.text+0x2ec): undefined reference to `__clk_get_name'
+   sh4-linux-ld: phy-fsl-samsung-hdmi.c:(.text+0x2f8): undefined reference to `devm_clk_register'
+>> sh4-linux-ld: phy-fsl-samsung-hdmi.c:(.text+0x2fc): undefined reference to `of_clk_add_provider'
+>> sh4-linux-ld: phy-fsl-samsung-hdmi.c:(.text+0x300): undefined reference to `of_clk_src_simple_get'
 
 -- 
 0-DAY CI Kernel Test Service
