@@ -1,54 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A549A34
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Mar 2024 00:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E490F15AF
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Mar 2024 00:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709944870; cv=none; b=BbYml0MlnS0RrfV743WZVMuv26KB44mAcx30Cdt//iM+r3QzcNIBGX11lR1lhYa9eAmgbLW1ruYHVzdwRNPpV2IiCXcWlmSe0WhPhgYgKloHQnk0dRAiWNX3KNoLRwLED6WFZAIr/emcddhyphCmxWTBdL+HvubflgbLbpmVB+k=
+	t=1709945531; cv=none; b=O0sHecGo0z/vx6cAMRYpcHSishMJfZNxEI8hk9kOJt4SxVUvZQp1rkb6CYGmynqDXP0xO+rY/P7iLbC6nA+QZxwypEE84wONRxYmsogIsswooDoup6jWRQoqOk2H7LH+s4mba+c9s4BiZ7XbS7tkCkgCjakv4BH4vu8jGmQ7/os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709944870; c=relaxed/simple;
-	bh=XGAcrTk36Lx5vsdqYgWUbRMfXEfphRCc/IiGUgzRbK8=;
+	s=arc-20240116; t=1709945531; c=relaxed/simple;
+	bh=S5H3h0AorWfP9PzMyK8o9xcLl3VKXok2EHS3NrSppSQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BmGfWB8ueCKWUJLVdaIL4f8m5r1qhc4pENwA3G6+pjjMkV4mIrI4aepRJhIMPk3K9Lk5EEIh3uzjhhPDH4T7CT30wOuDy1zv3DWE8Umoe5TnuQzoqFCjBBkUuOSh4Wnh6A6nmBbHvzZin94oyE76qW1nlLakv1Pgnlb+qpYg2EE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nmUxU9kc; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=SqFdzkQ79KhEeuhdsNb9yUma47RGKzlSWP3MoJkx7I5gBnT0FdFPjlcwC1hc8auI34+N7a3uOGUfVDF/ohRm3bSDTsJoJQ04J39hP+HwlpShxkWWFvV8XQLDaSvXthWChVrRxGPw8vrvFdUMQ/PaeQ2k4e0cY+pptg45kmNfjRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n++H20PF; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nmUxU9kc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n++H20PF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709944870; x=1741480870;
+  t=1709945530; x=1741481530;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XGAcrTk36Lx5vsdqYgWUbRMfXEfphRCc/IiGUgzRbK8=;
-  b=nmUxU9kccn7W4rRlnEKJuUIy6rEpNIdobFdj9CzZcUvwJSLFXaR/pt8/
-   KTEPGaCU0aJDtZTWe1reO9g3oaIguMdTgXzb9Z4hUuh8tp6ANOpHQqrwZ
-   k8vCm4N1O940Zvu2agA2tgr+Al9CEGaT7fUVlbFoSCUaUbGbGU9Kj3r3m
-   ojhQacx+w9NeDI+KYq0WgOm/0bYqH+NQPxJQ72YBXIcie0vvq7lrYD2pd
-   J0DzSo+EeNXa7ggfnLFdt8nurr+eb6fQ8RgNyJLo1sX6d3QoqBRtZu0z6
-   oR6uS2EPEKC4YfDpRd1RWCQJZE1tMjFqeJmCRU4YJ4bPxJfMVvCeC35Mx
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="4607642"
+  bh=S5H3h0AorWfP9PzMyK8o9xcLl3VKXok2EHS3NrSppSQ=;
+  b=n++H20PFTJSVuGYCku5SzyHtRbqd0uDMeeitl0XgknSDSJAWb7xqTPRc
+   ZGGsKfdnG6Af5QItGNNW9RrW3N5D40rX3szBg8HDDhsoX4Hlvk4qgj1ve
+   3LcfXE1KpovFdOSPuiOlecHSsJ5jiWQ/RhLYJQQ6iRnLQT2gP3vjHCNBf
+   gLTdGCpSjMHigEoHmnAxlyWc5iTBPvcg0kk6Jp0QoHaV9tOLJJ4Mg3L+h
+   nOv4UC6ZRz//vMnEoYeYSWcclyJiFnVXVYIZhLTXcfppMiyNdP8KvQPSw
+   2ATkpajT7nJAYoQTRimjTkAYsSXGWheOkDsGJ82Vh+LZXd5M25egZ9N6k
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="15411340"
 X-IronPort-AV: E=Sophos;i="6.07,111,1708416000"; 
-   d="scan'208";a="4607642"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 16:41:09 -0800
+   d="scan'208";a="15411340"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 16:52:09 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,111,1708416000"; 
-   d="scan'208";a="10536757"
+   d="scan'208";a="15271389"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 08 Mar 2024 16:41:07 -0800
+  by orviesa004.jf.intel.com with ESMTP; 08 Mar 2024 16:52:08 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1riklt-0006pr-0V;
-	Sat, 09 Mar 2024 00:41:05 +0000
-Date: Sat, 9 Mar 2024 08:41:03 +0800
+	id 1rikwX-0006q5-0w;
+	Sat, 09 Mar 2024 00:52:05 +0000
+Date: Sat, 9 Mar 2024 08:51:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master 26/27]
- drivers/media/v4l2-core/v4l2-async.c:623:13: warning: unused variable 'ret'
-Message-ID: <202403090851.cCiC7PN1-lkp@intel.com>
+To: Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>
+Subject: [linux-next:master 1444/12944] /usr/bin/ld: cannot find
+ ../lib/api/libapi.a: No such file or directory
+Message-ID: <202403090834.EHWSv1gO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,46 +60,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/sailus/media_tree.git master
-head:   54ee11761885407056f4ca60309739e2db6b02dc
-commit: 1277bce40e9cfe5831808780228d1b1cf645e1d4 [26/27] media: v4l: async: Don't set notifier's V4L2 device if registering fails
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240309/202403090851.cCiC7PN1-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240309/202403090851.cCiC7PN1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8ffc8b1bbd505e27e2c8439d326b6059c906c9dd
+commit: 3f3174996be6b4312c38f54d5969f5d5b75fec9e [1444/12944] RAS: Introduce AMD Address Translation Library
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240309/202403090834.EHWSv1gO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403090851.cCiC7PN1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403090834.EHWSv1gO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/media/v4l2-core/v4l2-async.c: In function 'v4l2_async_nf_register':
->> drivers/media/v4l2-core/v4l2-async.c:623:13: warning: unused variable 'ret' [-Wunused-variable]
-     623 |         int ret;
-         |             ^~~
-
-
-vim +/ret +623 drivers/media/v4l2-core/v4l2-async.c
-
-a3620cb48d303f Sakari Ailus          2017-09-24  620  
-b8ec754ae4c563 Sakari Ailus          2023-02-23  621  int v4l2_async_nf_register(struct v4l2_async_notifier *notifier)
-a3620cb48d303f Sakari Ailus          2017-09-24  622  {
-a3620cb48d303f Sakari Ailus          2017-09-24 @623  	int ret;
-a3620cb48d303f Sakari Ailus          2017-09-24  624  
-b8ec754ae4c563 Sakari Ailus          2023-02-23  625  	if (WARN_ON(!notifier->v4l2_dev == !notifier->sd))
-a3620cb48d303f Sakari Ailus          2017-09-24  626  		return -EINVAL;
-a3620cb48d303f Sakari Ailus          2017-09-24  627  
-1277bce40e9cfe Sakari Ailus          2024-03-08  628  	return __v4l2_async_nf_register(notifier);
-a3620cb48d303f Sakari Ailus          2017-09-24  629  }
-3c8c153914812a Sakari Ailus          2021-03-05  630  EXPORT_SYMBOL(v4l2_async_nf_register);
-e9e310491bdbc8 Guennadi Liakhovetski 2013-01-08  631  
-
-:::::: The code at line 623 was first introduced by commit
-:::::: a3620cb48d303f07160694c00d9c1c8f0ea96690 media: v4l: async: Prepare for async sub-device notifiers
-
-:::::: TO: Sakari Ailus <sakari.ailus@linux.intel.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+>> /usr/bin/ld: cannot find ../lib/api/libapi.a: No such file or directory
+>> collect2: error: ld returned 1 exit status
+   make[3]: *** [Makefile:22: page-types] Error 1
+   make[3]: *** Waiting for unfinished jobs....
+>> /usr/bin/ld: cannot find ../lib/api/libapi.a: No such file or directory
+>> collect2: error: ld returned 1 exit status
+   make[3]: *** [Makefile:22: slabinfo] Error 1
+>> /usr/bin/ld: cannot find ../lib/api/libapi.a: No such file or directory
+>> collect2: error: ld returned 1 exit status
+   make[3]: *** [Makefile:22: page_owner_sort] Error 1
+--
+   In file included from commands.c:10:
+>> thermal_nl.h:6:10: fatal error: netlink/netlink.h: No such file or directory
+       6 | #include <netlink/netlink.h>
+         |          ^~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+   make[5]: *** [tools/build/Makefile.build:106: tools/lib/thermal/commands.o] Error 1
+   make[5]: *** Waiting for unfinished jobs....
+   In file included from thermal_nl.c:9:
+>> thermal_nl.h:6:10: fatal error: netlink/netlink.h: No such file or directory
+       6 | #include <netlink/netlink.h>
+         |          ^~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+   make[5]: *** [tools/build/Makefile.build:106: tools/lib/thermal/thermal_nl.o] Error 1
+   In file included from events.c:10:
+>> thermal_nl.h:6:10: fatal error: netlink/netlink.h: No such file or directory
+       6 | #include <netlink/netlink.h>
+         |          ^~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+   make[5]: *** [tools/build/Makefile.build:106: tools/lib/thermal/events.o] Error 1
+   make[4]: *** [Makefile:105: tools/lib/thermal/libthermal-in.o] Error 2
+   make[3]: *** [Makefile:120: all] Error 2
+--
+>> thermometer.c:21:10: fatal error: libconfig.h: No such file or directory
+      21 | #include <libconfig.h>
+         |          ^~~~~~~~~~~~~
+   compilation terminated.
+   make[3]: *** [Makefile:23: thermometer] Error 1
+--
+>> Makefile:65: warning: overriding recipe for target 'emit_tests'
+   ../lib.mk:111: warning: ignoring old recipe for target 'emit_tests'
+   make[1]: *** No targets.  Stop.
+   make[1]: *** No targets.  Stop.
+   make[1]: *** No targets.  Stop.
 
 -- 
 0-DAY CI Kernel Test Service
