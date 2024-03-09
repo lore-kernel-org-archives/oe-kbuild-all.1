@@ -1,55 +1,54 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1128C168B7
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Mar 2024 02:05:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA0B33FE;
+	Sat,  9 Mar 2024 02:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709949916; cv=none; b=Hpy0G0XIC85qyxpbUQCJnCKAdaMpSaeENcOe/qcGl8P/Qc6cEIa2hPgGr2wl4+uMRpjzeuulqyn7PYbX5CxCULYjucO4+K+vAoR9/Ir2F5usy4EAUiM3eJSaHO0UnAX7eHbtKIe3zcB0oblatfZcpL4ipw+xqR6yOZErZBc+g+Q=
+	t=1709949916; cv=none; b=H2GWG5N7wZIthSpY5b0zw6bavlQ6+Go8WVZtgEWJbmbbq4fCe31rsPUt7mhFaPY0/DPaxdqm6U+o+hayN9HDu6bZjNlPCnd/mcKkLw12ulzxSH/1TG3HBFYZlgJg3J3VJ5av4sFmOdhuxLdS2nrJitJ2fuiqEkC5PL4obL2T2vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1709949916; c=relaxed/simple;
-	bh=1lrUTwkB6UlX2HgRkpQ7bvh+SaBVwDybTzuoR/uhhws=;
+	bh=rMFXz1JqPCxiQef8sQR5SRKpaDNSHF8H4ksiSYx2ZVE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PGdF9rVdOA8J7umolcEawsXjPQAfLSqezBmcqo2jhdlt/k/OINw2of2cKShd6+g2Dy4jTsHPUpXSeFLjxmdkdydG3ezWlX+cOoyDhWmiNGBRC/kMyhxzeKI8Be9/3kHZy5AbNh4oJyWQdTUXZ+7eklE5RzW5XeQASWpCcN/hyuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TPzxZitT; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=AcXjRRsiAJO7f6j+l/XF/nm2c26KnRMiZu/UVU8ATh1j8s+rmtrCpFnAzTIl1av3y9AxeUA+J01RP5JMURcB59/LZK6mjMDyr2IpgWKbgtHfkOnPsdRHZSm7mnj+RBD6bhbiL02lNyvq/S53sff9H4fyOKdtWEsXlFhcwT+aLo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a5tsuLQC; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TPzxZitT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a5tsuLQC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709949914; x=1741485914;
+  t=1709949915; x=1741485915;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1lrUTwkB6UlX2HgRkpQ7bvh+SaBVwDybTzuoR/uhhws=;
-  b=TPzxZitT6cANDdRP2n//5+Pgata8683uUP5jtK7Uoc67SuSAJTqtMXWC
-   XgrZWGh6LAKKLFybJCzMELb7sojrR4GdDto3uaEKm2uEHReeQtrgFvA5y
-   6Jy8MkyAa4u/zLOuBAAS3N33Rh0cAz8CvF7oatNSPETdDeiDEl0TV0HHl
-   3GRfUARR0LoPVqwDn2l1cJeioy9HhoRra/BlPNA1cFjxV2CmNzLgM9Jhn
-   8tdQFRv3Cq5gY6ux6TBHA9P55PJltPgjO4HSYxmOzsD7rpMZSSz53atbb
-   3UyVtcR2kC8B+/41aMfQY7ae+stzBGnoURBc3zHEKTiG5H5sXKA0u29TA
+  bh=rMFXz1JqPCxiQef8sQR5SRKpaDNSHF8H4ksiSYx2ZVE=;
+  b=a5tsuLQCi2b3EvFOFu4UeRj69/rR6es76KMVxWnOENlQB99QGw0tzMmP
+   luNXu+ViFo59Kco+uWiwvAJk7WgX4ZxoCD/P7QzOBgG87JJ2rN8O2XG9b
+   5mbKjoxl9FXXfbVUrB7tGmw3LLK107g0v0ayi3UTLv8StygyVOKdcsyj4
+   eY6rHQScsbUp2ARlTLjgAH/ozwvYLqEBL/Urm4LqFRVmSfuRpvm3RzJed
+   VDsxDqzqEXtRYT6HIRmIggEStzhh+7JFxinc9WNE878On3gssnvfQNY5k
+   WRYzOVKTbodcZBgeXvg1ATjGTzzK4TOdSMgHD3W9+hEvWyeKXdvi+SsBI
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="7641004"
+X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="7641009"
 X-IronPort-AV: E=Sophos;i="6.07,111,1708416000"; 
-   d="scan'208";a="7641004"
+   d="scan'208";a="7641009"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 18:05:11 -0800
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 18:05:12 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,111,1708416000"; 
-   d="scan'208";a="10696078"
+   d="scan'208";a="10696080"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 08 Mar 2024 18:05:09 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rim5D-0006tJ-2L;
+	id 1rim5D-0006tM-2P;
 	Sat, 09 Mar 2024 02:05:07 +0000
-Date: Sat, 9 Mar 2024 10:04:53 +0800
+Date: Sat, 9 Mar 2024 10:04:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Suleiman Souhlal <suleiman@google.com>
-Subject: [jfern:sched/dlserver.debug.mar3.2024 29987/30000]
- kernel/sched/deadline.c:1363:1: warning: 'update_stats_dequeue_dl' declared
- 'static' but never defined
-Message-ID: <202403090946.eg64AU5m-lkp@intel.com>
+To: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [pablo-gtp:main 15/15] drivers/net/gtp.c:605:14: warning: variable
+ 'pctx' is uninitialized when used here
+Message-ID: <202403090941.W2eIXc1p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,118 +58,215 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git sched/dlserver.debug.mar3.2024
-head:   6890cea305eadbebc9f3fcf8d31c6672af797ee5
-commit: 9711072dc8002713616f71f8235b337aea9b3db8 [29987/30000] BACKPORT: FROMGIT: sched/deadline: Account idle time for deferred server
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240309/202403090946.eg64AU5m-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240309/202403090946.eg64AU5m-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pablo/gtp.git main
+head:   f5dbf4c7905efa93ca29c5bf7d0282871225615f
+commit: f5dbf4c7905efa93ca29c5bf7d0282871225615f [15/15] gtp: identify tunnel via GTP device + GTP version + TEID + family
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240309/202403090941.W2eIXc1p-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 503c55e17037436dcd45ac69dea8967e67e3f5e8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240309/202403090941.W2eIXc1p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403090946.eg64AU5m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403090941.W2eIXc1p-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/sched/deadline.c:1363:1: warning: 'update_stats_dequeue_dl' declared 'static' but never defined [-Wunused-function]
-    1363 | update_stats_dequeue_dl(struct dl_rq *dl_rq, struct sched_dl_entity *dl_se,
-         | ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/gtp.c:15:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from drivers/net/gtp.c:16:
+   In file included from include/linux/udp.h:16:
+   In file included from include/net/inet_sock.h:19:
+   In file included from include/linux/netdevice.h:45:
+   In file included from include/uapi/linux/neighbour.h:6:
+   In file included from include/linux/netlink.h:9:
+   In file included from include/net/scm.h:9:
+   In file included from include/linux/security.h:35:
+   include/linux/bpf.h:736:48: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
+     736 |         ARG_PTR_TO_MAP_VALUE_OR_NULL    = PTR_MAYBE_NULL | ARG_PTR_TO_MAP_VALUE,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:737:43: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
+     737 |         ARG_PTR_TO_MEM_OR_NULL          = PTR_MAYBE_NULL | ARG_PTR_TO_MEM,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   include/linux/bpf.h:738:43: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
+     738 |         ARG_PTR_TO_CTX_OR_NULL          = PTR_MAYBE_NULL | ARG_PTR_TO_CTX,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   include/linux/bpf.h:739:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
+     739 |         ARG_PTR_TO_SOCKET_OR_NULL       = PTR_MAYBE_NULL | ARG_PTR_TO_SOCKET,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:740:44: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
+     740 |         ARG_PTR_TO_STACK_OR_NULL        = PTR_MAYBE_NULL | ARG_PTR_TO_STACK,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:741:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
+     741 |         ARG_PTR_TO_BTF_ID_OR_NULL       = PTR_MAYBE_NULL | ARG_PTR_TO_BTF_ID,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:745:38: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
+     745 |         ARG_PTR_TO_UNINIT_MEM           = MEM_UNINIT | ARG_PTR_TO_MEM,
+         |                                           ~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   include/linux/bpf.h:747:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
+     747 |         ARG_PTR_TO_FIXED_SIZE_MEM       = MEM_FIXED_SIZE | ARG_PTR_TO_MEM,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   include/linux/bpf.h:770:48: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
+     770 |         RET_PTR_TO_MAP_VALUE_OR_NULL    = PTR_MAYBE_NULL | RET_PTR_TO_MAP_VALUE,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:771:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
+     771 |         RET_PTR_TO_SOCKET_OR_NULL       = PTR_MAYBE_NULL | RET_PTR_TO_SOCKET,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:772:47: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
+     772 |         RET_PTR_TO_TCP_SOCK_OR_NULL     = PTR_MAYBE_NULL | RET_PTR_TO_TCP_SOCK,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:773:50: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
+     773 |         RET_PTR_TO_SOCK_COMMON_OR_NULL  = PTR_MAYBE_NULL | RET_PTR_TO_SOCK_COMMON,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:775:49: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
+     775 |         RET_PTR_TO_DYNPTR_MEM_OR_NULL   = PTR_MAYBE_NULL | RET_PTR_TO_MEM,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   include/linux/bpf.h:776:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
+     776 |         RET_PTR_TO_BTF_ID_OR_NULL       = PTR_MAYBE_NULL | RET_PTR_TO_BTF_ID,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:777:43: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
+     777 |         RET_PTR_TO_BTF_ID_TRUSTED       = PTR_TRUSTED    | RET_PTR_TO_BTF_ID,
+         |                                           ~~~~~~~~~~~    ^ ~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:888:44: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
+     888 |         PTR_TO_MAP_VALUE_OR_NULL        = PTR_MAYBE_NULL | PTR_TO_MAP_VALUE,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:889:42: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
+     889 |         PTR_TO_SOCKET_OR_NULL           = PTR_MAYBE_NULL | PTR_TO_SOCKET,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
+   include/linux/bpf.h:890:46: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
+     890 |         PTR_TO_SOCK_COMMON_OR_NULL      = PTR_MAYBE_NULL | PTR_TO_SOCK_COMMON,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:891:44: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
+     891 |         PTR_TO_TCP_SOCK_OR_NULL         = PTR_MAYBE_NULL | PTR_TO_TCP_SOCK,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~
+   include/linux/bpf.h:892:42: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
+     892 |         PTR_TO_BTF_ID_OR_NULL           = PTR_MAYBE_NULL | PTR_TO_BTF_ID,
+         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
+>> drivers/net/gtp.c:605:14: warning: variable 'pctx' is uninitialized when used here [-Wuninitialized]
+     605 |                 netdev_dbg(pctx->dev, "GTP packet does not encapsulate an IP packet\n");
+         |                            ^~~~
+   include/net/net_debug.h:57:21: note: expanded from macro 'netdev_dbg'
+      57 |         dynamic_netdev_dbg(__dev, format, ##args);              \
+         |                            ^~~~~
+   include/linux/dynamic_debug.h:278:7: note: expanded from macro 'dynamic_netdev_dbg'
+     278 |                            dev, fmt, ##__VA_ARGS__)
+         |                            ^~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   drivers/net/gtp.c:580:22: note: initialize the variable 'pctx' to silence this warning
+     580 |         struct pdp_ctx *pctx;
+         |                             ^
+         |                              = NULL
+   drivers/net/gtp.c:824:14: warning: variable 'pctx' is uninitialized when used here [-Wuninitialized]
+     824 |                 netdev_dbg(pctx->dev, "GTP packet does not encapsulate an IP packet\n");
+         |                            ^~~~
+   include/net/net_debug.h:57:21: note: expanded from macro 'netdev_dbg'
+      57 |         dynamic_netdev_dbg(__dev, format, ##args);              \
+         |                            ^~~~~
+   include/linux/dynamic_debug.h:278:7: note: expanded from macro 'dynamic_netdev_dbg'
+     278 |                            dev, fmt, ##__VA_ARGS__)
+         |                            ^~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   drivers/net/gtp.c:786:22: note: initialize the variable 'pctx' to silence this warning
+     786 |         struct pdp_ctx *pctx;
+         |                             ^
+         |                              = NULL
+   39 warnings generated.
 
 
-vim +1363 kernel/sched/deadline.c
+vim +/pctx +605 drivers/net/gtp.c
 
-  1361	
-  1362	static inline void
-> 1363	update_stats_dequeue_dl(struct dl_rq *dl_rq, struct sched_dl_entity *dl_se,
-  1364				int flags);
-  1365	static void update_curr_dl_se(struct rq *rq, struct sched_dl_entity *dl_se, s64 delta_exec)
-  1366	{
-  1367		s64 scaled_delta_exec;
-  1368	
-  1369		if (unlikely(delta_exec <= 0)) {
-  1370			if (unlikely(dl_se->dl_yielded))
-  1371				goto throttle;
-  1372			return;
-  1373		}
-  1374	
-  1375		if (dl_server(dl_se) && dl_se->dl_throttled && !dl_se->dl_defer)
-  1376			return;
-  1377	
-  1378		if (dl_entity_is_special(dl_se))
-  1379			return;
-  1380	
-  1381		scaled_delta_exec = dl_scalled_delta_exec(rq, dl_se, delta_exec);
-  1382	
-  1383		dl_se->runtime -= scaled_delta_exec;
-  1384	
-  1385		if (dl_server(dl_se) && !rq->curr->pid)
-  1386			return;
-  1387	
-  1388		/*
-  1389		 * The fair server can consume its runtime while throttled (not queued).
-  1390		 *
-  1391		 * If the server consumes its entire runtime in this state. The server
-  1392		 * is not required for the current period. Thus, reset the server by
-  1393		 * starting a new period, pushing the activation to the zero-lax time.
-  1394		 */
-  1395		if (dl_se->dl_defer && dl_se->dl_throttled && dl_runtime_exceeded(dl_se)) {
-  1396			s64 runtime_diff = dl_se->runtime + dl_se->dl_runtime;
-  1397	
-  1398			/*
-  1399			 * If this is a regular throttling case, let it run negative until
-  1400			 * the dl_runtime - runtime > 0. The reason being is that the next
-  1401			 * replenishment will result in a positive runtime one period ahead.
-  1402			 *
-  1403			 * Otherwise, the deadline will be pushed more than one period, not
-  1404			 * providing runtime/period anymore.
-  1405			 *
-  1406			 * If the dl_runtime - runtime < 0, then the server was able to get
-  1407			 * the runtime/period before the replenishment. So it is safe
-  1408			 * to start a new deffered period.
-  1409			 */
-  1410			if (!dl_se->dl_defer_armed && runtime_diff > 0)
-  1411				return;
-  1412	
-  1413			hrtimer_try_to_cancel(&dl_se->dl_timer);
-  1414	
-  1415			replenish_dl_new_period(dl_se, dl_se->rq);
-  1416			start_dl_timer(dl_se);
-  1417	
-  1418			return;
-  1419		}
-  1420	
-  1421	throttle:
-  1422		if (dl_runtime_exceeded(dl_se) || dl_se->dl_yielded) {
-  1423			dl_se->dl_throttled = 1;
-  1424	
-  1425			/* If requested, inform the user about runtime overruns. */
-  1426			if (dl_runtime_exceeded(dl_se) &&
-  1427			    (dl_se->flags & SCHED_FLAG_DL_OVERRUN))
-  1428				dl_se->dl_overrun = 1;
-  1429	
-  1430			dequeue_dl_entity(dl_se, 0);
-  1431			if (!dl_server(dl_se))
-  1432				dequeue_pushable_dl_task(rq, dl_task_of(dl_se));
-  1433	
-  1434			if (unlikely(is_dl_boosted(dl_se) || !start_dl_timer(dl_se))) {
-  1435				if (dl_server(dl_se))
-  1436					enqueue_dl_entity(dl_se, ENQUEUE_REPLENISH);
-  1437				else
-  1438					enqueue_task_dl(rq, dl_task_of(dl_se), ENQUEUE_REPLENISH);
-  1439			}
-  1440	
-  1441			if (!is_leftmost(dl_se, &rq->dl))
-  1442				resched_curr(rq);
-  1443		}
-  1444	
-  1445		/*
-  1446		 * The fair server (sole dl_server) does not account for real-time
-  1447		 * workload because it is running fair work.
-  1448		 */
-  1449		if (dl_se == &rq->fair_server)
-  1450			return;
-  1451	
+   573	
+   574	/* 1 means pass up to the stack, -1 means drop and 0 means decapsulated. */
+   575	static int gtp0_udp_encap_recv(struct gtp_dev *gtp, struct sk_buff *skb)
+   576	{
+   577		unsigned int hdrlen = sizeof(struct udphdr) +
+   578				      sizeof(struct gtp0_header);
+   579		struct gtp0_header *gtp0;
+   580		struct pdp_ctx *pctx;
+   581		__u16 inner_proto;
+   582	
+   583		if (!pskb_may_pull(skb, hdrlen))
+   584			return -1;
+   585	
+   586		gtp0 = (struct gtp0_header *)(skb->data + sizeof(struct udphdr));
+   587	
+   588		if ((gtp0->flags >> 5) != GTP_V0)
+   589			return 1;
+   590	
+   591		/* If the sockets were created in kernel, it means that
+   592		 * there is no daemon running in userspace which would
+   593		 * handle echo request.
+   594		 */
+   595		if (gtp0->type == GTP_ECHO_REQ && gtp->sk_created)
+   596			return gtp0_send_echo_resp(gtp, skb);
+   597	
+   598		if (gtp0->type == GTP_ECHO_RSP && gtp->sk_created)
+   599			return gtp0_handle_echo_resp(gtp, skb);
+   600	
+   601		if (gtp0->type != GTP_TPDU)
+   602			return 1;
+   603	
+   604		if (gtp_inner_proto(skb, hdrlen, &inner_proto) < 0) {
+ > 605			netdev_dbg(pctx->dev, "GTP packet does not encapsulate an IP packet\n");
+   606			return -1;
+   607		}
+   608	
+   609		pctx = gtp0_pdp_find(gtp, be64_to_cpu(gtp0->tid),
+   610				     gtp_proto_to_family(inner_proto));
+   611		if (!pctx) {
+   612			netdev_dbg(gtp->dev, "No PDP ctx to decap skb=%p\n", skb);
+   613			return 1;
+   614		}
+   615	
+   616		return gtp_rx(pctx, skb, hdrlen, gtp->role, inner_proto);
+   617	}
+   618	
 
 -- 
 0-DAY CI Kernel Test Service
