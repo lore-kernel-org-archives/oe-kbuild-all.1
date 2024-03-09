@@ -1,95 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75779208A8;
-	Sat,  9 Mar 2024 03:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341BA2033A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Mar 2024 03:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709953696; cv=none; b=rY1ERR3b2zqp2QKebYpZ33R+E/5H8dGlrtPc7Ozr/6+DZTTPj9rrg3SInlDXacFqFqoSw6oIDi2r1e5NCakz6eMsM4aG6KCs1RdjVyUYUdN9RGn0hMEw8SyLOaAoCyJhW3ydXenRYgIEyU/kAsrJiedfKKmt7JbBv/V3THQ7FKY=
+	t=1709954897; cv=none; b=dLSIkkTBPEymDvB4PTK2I0LTuwYTKSmafTP15dT9t9YJQiAPJiR6mfVQ+HmUnNT7SqiGR2NHx32zBiXfQm32W/b0gJrch8QpzOiSuDu8kM2PsdtyZ/uBXjOOzF1h06xap1TIsy1xiIEDjbd3/xoUawxPfEA6Uymz6ByXkZNHsNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709953696; c=relaxed/simple;
-	bh=Ep5PM6I3iI1mAVK5L3i7lju2TuYmqHKvtQdg6W8Mols=;
+	s=arc-20240116; t=1709954897; c=relaxed/simple;
+	bh=8iXFKDNmYF1V2PuWAb42pmRxbFfIlrkeN+P++64jxoc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rpY6XxnI9MefaHJNdMPcxnc6hvvxW5Wrswk5aiamOqdw26rmm92BCr/J+Wd0Rh0kv+oCFpTO/pwll0XYoep6SJnTZVW5HOQc+lkRyXuOsk2CLyvurDFYp6wdAQLVVQvGFUSVIPI5LgnFF/LWFEHy22Ghzv0L2MO8ijyw79TA1GE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZMNysrTm; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=S1s5RP12KQcjTM3JUyrc3BJjQdyEFHRI2e1yAxUQC35WLUnbBHSNrTC7lIy6hamReCjjHuWK6SMS/le1Eg8cBpjd63/1GN+M9czXqmfgekWiTiGV7vH9z0F5Fh4Y0xsRaSRSUSeC2KPc2Gdly9ZwoVJMNSuQ8qnBOHQQM1WLavo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i/A/6B6M; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZMNysrTm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i/A/6B6M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709953693; x=1741489693;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ep5PM6I3iI1mAVK5L3i7lju2TuYmqHKvtQdg6W8Mols=;
-  b=ZMNysrTmTlhsHaZio83tjiaNeep5AT2E7RGhf/M5R+sjB4ncQdE7uOxO
-   vo5xsVeo53QyIwTsuB5xfhwRE4dAPSp3bCqlC6ELx6tDNIgLvyDdkcnE1
-   y+BrOolaz9S8T3CaeX6dYen5GFsJDqhqxeyjUFsiNbyk3Hxc1nEjkSOSn
-   CBO1ZA9EU7tIOmwcXvo7jIwR0los9xDfz+e8T6G54HsmRdZZfjQ/++EV+
-   hGsoDXihxtTjj946ZzCcpGC4QjQT9HcSmY5/7VZxCCqCPRy4Ao/WHuTMt
-   R3B3xjbgaVucplmqdRGXOfKrlAfzgyDtro2euKziqW5BVfBHVcIVFtiqO
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="5286861"
+  t=1709954894; x=1741490894;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8iXFKDNmYF1V2PuWAb42pmRxbFfIlrkeN+P++64jxoc=;
+  b=i/A/6B6MZgnmJLpElcSlhZp6UCXdoyke64wKfCLbESxJ51uY7bSHv/5/
+   YsKe7jOudYxhzJF6UZowEVxMjQgs2r/WeTr9ZpVEE9r3Q8SBjTLWakqj6
+   MH+7L68YiXNeLPlBpACHxtNaMomCDXNqJdJTv3eDJJXyiZsm31WlGF2SG
+   zY558AEch60UU0bU27A0F9nO0EAKqQ7wbPcnR+xlJfJd/hECPhdRhA9kg
+   gNfZUF8UYFbBTcqn1VRDxcSU1KyiF5O17A1ulB8Wl7xJ2uU/ykjbUs28R
+   gbDhSi804BK34VqIM9l2eVYVYlPYHuFOxktbPwf8spNCre15brwP1T3CC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="7644283"
 X-IronPort-AV: E=Sophos;i="6.07,111,1708416000"; 
-   d="scan'208";a="5286861"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 19:08:12 -0800
+   d="scan'208";a="7644283"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 19:28:13 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,111,1708416000"; 
-   d="scan'208";a="10727003"
+   d="scan'208";a="11049827"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 08 Mar 2024 19:08:10 -0800
+  by orviesa006.jf.intel.com with ESMTP; 08 Mar 2024 19:28:11 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rin4C-0006up-1V;
-	Sat, 09 Mar 2024 03:08:08 +0000
-Date: Sat, 9 Mar 2024 11:07:34 +0800
+	id 1rinNZ-0006w7-0d;
+	Sat, 09 Mar 2024 03:28:09 +0000
+Date: Sat, 9 Mar 2024 11:27:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-efi@vger.kernel.org
-Subject: [efi:next 1/7]
- drivers/firmware/efi/libstub/efi-stub-helper.c:225:26: warning: field
- tagged_event within 'struct efistub_measured_event' is less aligned than
- 'TCG_PCClientTaggedEvent' (aka 'struct tdTCG_PCClientTaggedEvent') and is
- usually due to 'struct efistub_measure...
-Message-ID: <202403091104.pfjTGT8z-lkp@intel.com>
+To: "Ricardo B. Marliere" <ricardo@marliere.net>
+Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [driver-core:const_work 180/183]
+ drivers/bus/fsl-mc/fsl-mc-bus.c:409:20: sparse: sparse: incorrect type in
+ initializer (different modifiers)
+Message-ID: <202403091124.VOzGG1lj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
-head:   4749cfc7ffaa827b6ecc916ab8d09bae718688bc
-commit: bb208e67140ccce8c96f370a3e6f432b8a8f1adf [1/7] efi/libstub: Use TPM event typedefs from the TCG PC Client spec
-config: arm-randconfig-001-20240309 (https://download.01.org/0day-ci/archive/20240309/202403091104.pfjTGT8z-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240309/202403091104.pfjTGT8z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git const_work
+head:   77294dd75aa919b6af3a44e9d68c441ea5d7de59
+commit: 3ee4e4da3bc4d912fb1519b56f9922c52f0b12a9 [180/183] bus: fsl-mc: constify the struct device_type usage
+config: arm64-randconfig-r112-20240308 (https://download.01.org/0day-ci/archive/20240309/202403091124.VOzGG1lj-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240309/202403091124.VOzGG1lj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403091104.pfjTGT8z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403091124.VOzGG1lj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:409:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:409:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:409:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:410:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:410:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:410:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:411:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:411:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:411:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:412:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:412:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:412:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:413:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:413:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:413:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:414:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:414:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:414:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:415:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:415:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:415:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:416:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:416:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:416:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:417:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:417:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:417:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:418:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:418:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:418:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:419:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:419:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:419:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:420:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:420:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:420:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:421:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:421:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:421:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:422:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:422:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:422:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:423:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:423:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:423:20: sparse:     got struct device_type const *
+   drivers/bus/fsl-mc/fsl-mc-bus.c:424:20: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct device_type *dev_type @@     got struct device_type const * @@
+   drivers/bus/fsl-mc/fsl-mc-bus.c:424:20: sparse:     expected struct device_type *dev_type
+   drivers/bus/fsl-mc/fsl-mc-bus.c:424:20: sparse:     got struct device_type const *
 
->> drivers/firmware/efi/libstub/efi-stub-helper.c:225:26: warning: field tagged_event within 'struct efistub_measured_event' is less aligned than 'TCG_PCClientTaggedEvent' (aka 'struct tdTCG_PCClientTaggedEvent') and is usually due to 'struct efistub_measured_event' being packed, which can lead to unaligned accesses [-Wunaligned-access]
-           TCG_PCClientTaggedEvent tagged_event;
-                                   ^
-   1 warning generated.
+vim +409 drivers/bus/fsl-mc/fsl-mc-bus.c
 
+a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei       2020-07-17  397  
+3ee4e4da3bc4d9 drivers/bus/fsl-mc/fsl-mc-bus.c         Ricardo B. Marliere 2024-02-19 @398  const struct device_type fsl_mc_bus_dpdbg_type = {
+e70ba1b06c26cd drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei       2021-02-08  399  	.name = "fsl_mc_bus_dpdbg"
+e70ba1b06c26cd drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei       2021-02-08  400  };
+e70ba1b06c26cd drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei       2021-02-08  401  EXPORT_SYMBOL_GPL(fsl_mc_bus_dpdbg_type);
+e70ba1b06c26cd drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei       2021-02-08  402  
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  403  static struct device_type *fsl_mc_get_device_type(const char *type)
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  404  {
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  405  	static const struct {
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  406  		struct device_type *dev_type;
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  407  		const char *type;
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  408  	} dev_types[] = {
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17 @409  		{ &fsl_mc_bus_dprc_type, "dprc" },
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  410  		{ &fsl_mc_bus_dpni_type, "dpni" },
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  411  		{ &fsl_mc_bus_dpio_type, "dpio" },
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  412  		{ &fsl_mc_bus_dpsw_type, "dpsw" },
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  413  		{ &fsl_mc_bus_dpbp_type, "dpbp" },
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  414  		{ &fsl_mc_bus_dpcon_type, "dpcon" },
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  415  		{ &fsl_mc_bus_dpmcp_type, "dpmcp" },
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  416  		{ &fsl_mc_bus_dpmac_type, "dpmac" },
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  417  		{ &fsl_mc_bus_dprtc_type, "dprtc" },
+e9158b35ef9afb drivers/bus/fsl-mc/fsl-mc-bus.c         Horia Geantă        2018-09-12  418  		{ &fsl_mc_bus_dpseci_type, "dpseci" },
+a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei       2020-07-17  419  		{ &fsl_mc_bus_dpdmux_type, "dpdmux" },
+a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei       2020-07-17  420  		{ &fsl_mc_bus_dpdcei_type, "dpdcei" },
+a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei       2020-07-17  421  		{ &fsl_mc_bus_dpaiop_type, "dpaiop" },
+a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei       2020-07-17  422  		{ &fsl_mc_bus_dpci_type, "dpci" },
+a3b7a581823857 drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei       2020-07-17  423  		{ &fsl_mc_bus_dpdmai_type, "dpdmai" },
+e70ba1b06c26cd drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei       2021-02-08  424  		{ &fsl_mc_bus_dpdbg_type, "dpdbg" },
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  425  		{ NULL, NULL }
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  426  	};
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  427  	int i;
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  428  
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  429  	for (i = 0; dev_types[i].dev_type; i++)
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  430  		if (!strcmp(dev_types[i].type, type))
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  431  			return dev_types[i].dev_type;
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  432  
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  433  	return NULL;
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  434  }
+47433b630b7b30 drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor     2017-11-17  435  
 
-vim +225 drivers/firmware/efi/libstub/efi-stub-helper.c
+:::::: The code at line 409 was first introduced by commit
+:::::: 47433b630b7b30d0daa360c64308c0f4c9632986 staging: fsl-mc: add support for device type
 
-   222	
-   223	struct efistub_measured_event {
-   224		efi_tcg2_event_t	event_data;
- > 225		TCG_PCClientTaggedEvent tagged_event;
-   226	} __packed;
-   227	
+:::::: TO: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
