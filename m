@@ -1,165 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280FB36AF2
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Mar 2024 08:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0256C23DB;
+	Sat,  9 Mar 2024 09:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709973747; cv=none; b=ioecAmix8C/gNgCPOBd0Mm9pE/Exq+Cl5NIAldoL8JEH2t+zUKFVaYb27ktVci/rf4xckvb0obUllNKSJwfQBSmd22m/+Ugz/bgP8gk7AmLkUcyvK7KnBHo9Ac1LRWTc6I6ckxX9BC99Xgqca4FmKuwrOzy4l33Aeclxa1KJ3OI=
+	t=1709975473; cv=none; b=TEuc9qTmn4KhV1UT77mt1YXp3JWkRTHgdoCzVPUolAQZqyH5+nR++HrJ6/xYjLGvclceVFZtit0Dui9fWEBKhbfopWCJVb7xJk4iCibFgKihOZ+ZyYbqjR66it8UhlfkikbCCQ5oRb2E8XchJSWo/lPZH6Hb1LpNb/cqgiGj3WY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709973747; c=relaxed/simple;
-	bh=GJ+XCHb1Zm/gTMEvDcf71lf7l1jbXIQqYljMRF3mSSU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GAxr/O4CQvK9Mn1lrfkhVJztw2SV1Qu1dqkce2+UnZAHAtTi2xc1A7vWanC7NJll+KH2GezU/lpwnCt7M4qNjdXATSTbdEDJv1vErR7PZ53dxSljk3V9yp/7VYbHbQyqsZjdpeQz9lORTDDUmKaweOMJ5lbMMnPmagy2qkJfB2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tg5r/rN4; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709975473; c=relaxed/simple;
+	bh=K3WtC2amZZCVq3xeoEFYG11teftFq7BcqSEOPIPEFdY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=dnP8f7sj/HCFOdjPVrO+Orx8Cc7MSQ68Dqlid0T1arNWxgatHLP0WoRhczRTYsY0C+QKeuICW9eJDgE3+PRXKWNixD4a5X5QLdmXvGp35NVILLugSp8Z3dwLmcBZENaplgv6hMoSsQHgw7DyOVhelvQUOhdb4wXrmKFBqSFDYlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ilCMCAin; arc=none smtp.client-ip=209.85.167.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tg5r/rN4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709973744; x=1741509744;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GJ+XCHb1Zm/gTMEvDcf71lf7l1jbXIQqYljMRF3mSSU=;
-  b=Tg5r/rN4FRIfc/X2NFziE1iRbs0IK1nU9cR45vm5ohn/DexXfJmmzk7H
-   rlHX2OIfJCEiWQ0zaiPMIARU6DRI9/fM/EZcrCZplxwpX451R3RWRUqwT
-   cT/lqfoAhf7EXnH7qBBq4B55CV4tza5FV+alP5ygMUZaIHGYKI/wqonwu
-   LQMXXUb1L0DhMFQ5vc8B+c6fNm3CzevxHcj7eDBdp1BEKF19Sh5T8acBc
-   eXREne5F2yEJ/SYl/tyhsG5ZYl4LfdDRr6+dLlUijosVTndrttEdw8aV/
-   g3o2NSSWfNWOMdhaC0Z1aB9E9RjipLf3VxMgYUq1L1W2l934+tRt3DvhL
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="27170678"
-X-IronPort-AV: E=Sophos;i="6.07,112,1708416000"; 
-   d="scan'208";a="27170678"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2024 00:42:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,112,1708416000"; 
-   d="scan'208";a="11119588"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 09 Mar 2024 00:42:20 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1risHZ-0007Ab-1Y;
-	Sat, 09 Mar 2024 08:42:17 +0000
-Date: Sat, 9 Mar 2024 16:42:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Barry Song <v-songbaohua@oppo.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Subject: [herbert-cryptodev-2.6:master 80/80] crypto/scompress.c:174:38:
- warning: unused variable 'dst_page'
-Message-ID: <202403091614.NeUw5zcv-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ilCMCAin"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3c1e6c32a55so818857b6e.2;
+        Sat, 09 Mar 2024 01:11:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709975471; x=1710580271; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eqNmT55jTcvWbN7b37y3AhUIsk2g7VRwP9WuKg2uzU8=;
+        b=ilCMCAina0wgCkBGrTlkD7rie/BuKpTa6kPYfyAbKAFoQ9xfqTkkbPYHSh7T0dj4hW
+         zRqUZ7Ll9RjQNe+e0oyIshKkkBeBxfBy2UcVzxp2jQAk9MfIvmU5wihE+7Qj29B5DIeO
+         SeO371vVUZbp+lcw4A00/F1qDmG8rPWWUBTjNSWLEBI18CizzsjEwbOiWZ2ZPsGYmokz
+         +FoR5yv5uUsFoeh5XaVCQBrme3EK9MPbMHAAmEvUqmWsgyrA5WLIL7dxA4IVcNuNPwiU
+         Fnw9y/xI1EV3AGlwFGz9ZXsavp8vy32oJTtmbTKY65Hqk+DGTBLOeQUP/kTeVdCFFgU9
+         zbAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709975471; x=1710580271;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eqNmT55jTcvWbN7b37y3AhUIsk2g7VRwP9WuKg2uzU8=;
+        b=U+yiDLgxMNL5EF2GoyXDm4on2Q1sRbrxU3LXAlddeT19wK15efJcwzi7fFFltSvuXa
+         t3xfBllk5vsZ6W7qA8F7WWCC1hs3WFQJassA6y8HWq89F6F/ludZqp4ySN4CEu/GZqyG
+         Kfv5Q2vSLbmyHBE2DkVDqqd6tR0dN8yc4xdOOrGdbJ473k2dt1vo/DYCMacq/W4XyWGg
+         78FXJ0574e6k4+/vQcQNBLBgu2th9prBN/nkN2BMH/9nWqhwMEVwzpldaN6BNGjuqisT
+         z8Lf69xREHz4+iQCf2hbWNYAkyBRivKcoUDR1knKZHuYMEeORJucvOdHxGPcK0VoYc6t
+         +lgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCdW2EADrNvpagjrbz4fKOkVYEoxGAPZ2g1CurVc9l/auFqjlicA1SldlFnr86gQ2UBOzlPreDY0ItAB7drhBnrvvpCDB5Im34cwbE8zdkFoZBaioZmaCRk3OpfVFrsExvNhs3//i8PA==
+X-Gm-Message-State: AOJu0YxD273VrI1AEVfnbyfibD76S/TZw+acs9/I2VT58uylBA+f8iet
+	MR/zgw+F0jy+UMr/8GpJ/V/YcS0xMAnR9dOOLjN2owVNEkcfFBua
+X-Google-Smtp-Source: AGHT+IHgkCigzgpR227zt8SJGCW8WseyiFE/Ib1V5+cZSP43pd47WbyG6LUBLoGhFrucgeH0b0LRfQ==
+X-Received: by 2002:a05:6808:2204:b0:3c2:1db6:2513 with SMTP id bd4-20020a056808220400b003c21db62513mr1696818oib.56.1709975470849;
+        Sat, 09 Mar 2024 01:11:10 -0800 (PST)
+Received: from localhost.localdomain ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
+        by smtp.gmail.com with ESMTPSA id p5-20020a637f45000000b005dc1edf7371sm889096pgn.9.2024.03.09.01.11.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Mar 2024 01:11:10 -0800 (PST)
+From: Barry Song <21cnbao@gmail.com>
+To: lkp@intel.com,
+	chenhuacai@kernel.org,
+	kernel@xen0n.name
+Cc: herbert@gondor.apana.org.au,
+	linux-crypto@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	v-songbaohua@oppo.com,
+	loongarch@lists.linux.dev
+Subject: Re: [herbert-cryptodev-2.6:master 80/80] crypto/scompress.c:174:38: warning: unused variable 'dst_page'
+Date: Sat,  9 Mar 2024 22:10:57 +1300
+Message-Id: <20240309091057.7954-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <202403091614.NeUw5zcv-lkp@intel.com>
+References: <202403091614.NeUw5zcv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-head:   77292bb8ca69c808741aadbd29207605296e24af
-commit: 77292bb8ca69c808741aadbd29207605296e24af [80/80] crypto: scomp - remove memcpy if sg_nents is 1 and pages are lowmem
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240309/202403091614.NeUw5zcv-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240309/202403091614.NeUw5zcv-lkp@intel.com/reproduce)
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+> head:   77292bb8ca69c808741aadbd29207605296e24af
+> commit: 77292bb8ca69c808741aadbd29207605296e24af [80/80] crypto: scomp - remove memcpy if sg_nents is 1 and pages are lowmem
+> config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240309/202403091614.NeUw5zcv-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240309/202403091614.NeUw5zcv-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403091614.NeUw5zcv-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from crypto/scompress.c:12:
+>    include/crypto/scatterwalk.h: In function 'scatterwalk_pagedone':
+>    include/crypto/scatterwalk.h:76:30: warning: variable 'page' set but not used [-Wunused-but-set-variable]
+>       76 |                 struct page *page;
+>          |                              ^~~~
+>    crypto/scompress.c: In function 'scomp_acomp_comp_decomp':
+> >> crypto/scompress.c:174:38: warning: unused variable 'dst_page' [-Wunused-variable]
+>      174 |                         struct page *dst_page = sg_page(req->dst);
+>          |                                      ^~~~~~~~
+> 
+> 
+> vim +/dst_page +174 crypto/scompress.c
+> 
+>    112	
+>    113	static int scomp_acomp_comp_decomp(struct acomp_req *req, int dir)
+>    114	{
+>    115		struct crypto_acomp *tfm = crypto_acomp_reqtfm(req);
+>    116		void **tfm_ctx = acomp_tfm_ctx(tfm);
+> [snipped]
+>    171			} else {
+>    172				int nr_pages = DIV_ROUND_UP(req->dst->offset + req->dlen, PAGE_SIZE);
+>    173				int i;
+>  > 174				struct page *dst_page = sg_page(req->dst);
+>    175	
+>    176				for (i = 0; i < nr_pages; i++)
+>    177					flush_dcache_page(dst_page + i);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403091614.NeUw5zcv-lkp@intel.com/
++ Huacai, Xuerui
 
-All warnings (new ones prefixed by >>):
+loongarch code needs a fix, it should have removed the below
+two macros:
 
-   In file included from crypto/scompress.c:12:
-   include/crypto/scatterwalk.h: In function 'scatterwalk_pagedone':
-   include/crypto/scatterwalk.h:76:30: warning: variable 'page' set but not used [-Wunused-but-set-variable]
-      76 |                 struct page *page;
-         |                              ^~~~
-   crypto/scompress.c: In function 'scomp_acomp_comp_decomp':
->> crypto/scompress.c:174:38: warning: unused variable 'dst_page' [-Wunused-variable]
-     174 |                         struct page *dst_page = sg_page(req->dst);
-         |                                      ^~~~~~~~
+diff --git a/arch/loongarch/include/asm/cacheflush.h b/arch/loongarch/include/asm/cacheflush.h
+index 80bd74106985..f8754d08a31a 100644
+--- a/arch/loongarch/include/asm/cacheflush.h
++++ b/arch/loongarch/include/asm/cacheflush.h
+@@ -37,8 +37,6 @@ void local_flush_icache_range(unsigned long start, unsigned long end);
+ #define flush_icache_range     local_flush_icache_range
+ #define flush_icache_user_range        local_flush_icache_range
+ 
+-#define ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE 0
+-
+ #define flush_cache_all()                              do { } while (0)
+ #define flush_cache_mm(mm)                             do { } while (0)
+ #define flush_cache_dup_mm(mm)                         do { } while (0)
+@@ -47,7 +45,6 @@ void local_flush_icache_range(unsigned long start, unsigned long end);
+ #define flush_cache_vmap(start, end)                   do { } while (0)
+ #define flush_cache_vunmap(start, end)                 do { } while (0)
+ #define flush_icache_user_page(vma, page, addr, len)   do { } while (0)
+-#define flush_dcache_page(page)                                do { } while (0)
+ #define flush_dcache_mmap_lock(mapping)                        do { } while (0)
+ #define flush_dcache_mmap_unlock(mapping)              do { } while (0)
 
 
-vim +/dst_page +174 crypto/scompress.c
+as include/asm-generic/cacheflush.h already has the below,
 
-   112	
-   113	static int scomp_acomp_comp_decomp(struct acomp_req *req, int dir)
-   114	{
-   115		struct crypto_acomp *tfm = crypto_acomp_reqtfm(req);
-   116		void **tfm_ctx = acomp_tfm_ctx(tfm);
-   117		struct crypto_scomp *scomp = *tfm_ctx;
-   118		void **ctx = acomp_request_ctx(req);
-   119		struct scomp_scratch *scratch;
-   120		void *src, *dst;
-   121		unsigned int dlen;
-   122		int ret;
-   123	
-   124		if (!req->src || !req->slen || req->slen > SCOMP_SCRATCH_SIZE)
-   125			return -EINVAL;
-   126	
-   127		if (req->dst && !req->dlen)
-   128			return -EINVAL;
-   129	
-   130		if (!req->dlen || req->dlen > SCOMP_SCRATCH_SIZE)
-   131			req->dlen = SCOMP_SCRATCH_SIZE;
-   132	
-   133		dlen = req->dlen;
-   134	
-   135		scratch = raw_cpu_ptr(&scomp_scratch);
-   136		spin_lock(&scratch->lock);
-   137	
-   138		if (sg_nents(req->src) == 1 && !PageHighMem(sg_page(req->src))) {
-   139			src = page_to_virt(sg_page(req->src)) + req->src->offset;
-   140		} else {
-   141			scatterwalk_map_and_copy(scratch->src, req->src, 0,
-   142						 req->slen, 0);
-   143			src = scratch->src;
-   144		}
-   145	
-   146		if (req->dst && sg_nents(req->dst) == 1 && !PageHighMem(sg_page(req->dst)))
-   147			dst = page_to_virt(sg_page(req->dst)) + req->dst->offset;
-   148		else
-   149			dst = scratch->dst;
-   150	
-   151		if (dir)
-   152			ret = crypto_scomp_compress(scomp, src, req->slen,
-   153						    dst, &req->dlen, *ctx);
-   154		else
-   155			ret = crypto_scomp_decompress(scomp, src, req->slen,
-   156						      dst, &req->dlen, *ctx);
-   157		if (!ret) {
-   158			if (!req->dst) {
-   159				req->dst = sgl_alloc(req->dlen, GFP_ATOMIC, NULL);
-   160				if (!req->dst) {
-   161					ret = -ENOMEM;
-   162					goto out;
-   163				}
-   164			} else if (req->dlen > dlen) {
-   165				ret = -ENOSPC;
-   166				goto out;
-   167			}
-   168			if (dst == scratch->dst) {
-   169				scatterwalk_map_and_copy(scratch->dst, req->dst, 0,
-   170							 req->dlen, 1);
-   171			} else {
-   172				int nr_pages = DIV_ROUND_UP(req->dst->offset + req->dlen, PAGE_SIZE);
-   173				int i;
- > 174				struct page *dst_page = sg_page(req->dst);
-   175	
-   176				for (i = 0; i < nr_pages; i++)
-   177					flush_dcache_page(dst_page + i);
-   178			}
-   179		}
-   180	out:
-   181		spin_unlock(&scratch->lock);
-   182		return ret;
-   183	}
-   184	
+#ifndef ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE
+static inline void flush_dcache_page(struct page *page)
+{
+}
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+#define ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE 0
+#endif
+
+>    178			}
+>    179		}
+>    180	out:
+>    181		spin_unlock(&scratch->lock);
+>    182		return ret;
+>    183	}
+>    184	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+
+Thanks
+Barry
+
