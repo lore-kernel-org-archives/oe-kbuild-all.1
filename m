@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934C41F614
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Mar 2024 17:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37810FC1F;
+	Sat,  9 Mar 2024 18:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710006398; cv=none; b=AKlavcnSbXygWba/KlkJPDXF0b51SkTGkR18VFOsWQlv1PmV76x2SwE6Llcq9w34HncL+du5M5bt2n/+YCvDEnGik8c3Qu8fakKDEf4zjK1QGY39GaTIGU90D4PIOq8oUlwhRUI5kVcqXGYbw1YQ30TAfl8UbuaRHD/pQNAOwHg=
+	t=1710007660; cv=none; b=Ux9EntpMO0b7F/L4SDMJHT5/BN6HrRceap7etI9WsLx9rJhvbTXv4mUDpNF9Bob918CoVPHcGU+IBAAtQ0fEyTGqhBP6hLkPp2qGTZxWCVFxjFZpfFMKKodY0dR2jamC8HbJpQFq/UaBKVjlDDowa9qXJaehu9huLvYGG2xLHgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710006398; c=relaxed/simple;
-	bh=Y1opAK+f+xdj6OKv2Cx1YpPuaayuSo727/Othxg4N/Y=;
+	s=arc-20240116; t=1710007660; c=relaxed/simple;
+	bh=jVkS2ad8fPYMwamszZ+6w37dEvmyPSb42Wn52yxBG/g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iy4MNLKJK1vxqym7YFbBIYu5j/0QlFEkTPUyFje9xtgF6CmCLk2jv+5z/s5cQ+V6DkL552KMjqtp+NBRnU0nelq1EBGqC2cPzQqYliPrIRRCZZuEDtRj5FOSE/NhfpSz22XJkzhuXKT431eBcvXnzekhBSIg42prnf7cxqtLooo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ExSbnc4/; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=n2Y2CD4Ie3PbPUrFb2+XS3dtJpy0MrNnQVkrcu7sgCUrY49dGFZdL163+XXm48BQJQtE9ZxWQHQ6dXfl4y+YNLl4EKEQG9gEfYKNEnKI8uwndSvmvwo/DcPzpSRS5VfgZ4FT6k9LUZyfrkiX2HMdjUqIlG8sY24R/rIOLl4IYaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAWfAIUU; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ExSbnc4/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAWfAIUU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710006396; x=1741542396;
+  t=1710007658; x=1741543658;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y1opAK+f+xdj6OKv2Cx1YpPuaayuSo727/Othxg4N/Y=;
-  b=ExSbnc4/JMiSljrvQf5c5pZBtyrk3W0iSMqkwYhKZUFFu8q0XFEFcNEO
-   lPHm/t5gW1snaUXIHYIUgW/fcf7frGufEV00rUtpyHzAsnXJoQMn6tCQk
-   QuGmgQI5ZDAwMvC8EqB4F1tEGveoOAtAjt0q01jSmX/cqlchY/cbFjbbF
-   n6sryWB9sH32xRflO98/+4TlPleUeCtWMwUhfQyKfZJjOL5X1YKtnmG1v
-   gUQmlVeReAR7MSRyn94uAEMQmmLvci+oHagvLJei1yc6lrSyrvFY+/EyO
-   HTSIKY2GE9g25dBeGvc+rH0bKgXLommeD1A0tS+AVptxbJyblFvrQHQFB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="8534411"
+  bh=jVkS2ad8fPYMwamszZ+6w37dEvmyPSb42Wn52yxBG/g=;
+  b=bAWfAIUUoE1m8fHs9aC1nPVBnHzkYduAasj4y6MmNG/3nePq23q5enIE
+   cHyIfdHZGDCuVIl+6gpR4XDPTfYVwrWDSyKQ7BvL1Zq4iWrAVnTu3/CJ3
+   E2YW1nOjsSosvjyGhGx9y/d1tSZilIrsTipjy8gCQaVOt02LmNlGLEhMo
+   5GisZMmWEeAzDKhN055WIhRUz6vctQNpco1nTHToy2xltsAU4qnQY/Zib
+   D7V23ZLCrmYzxdcCADIrVCzJ/4te/VF68Xcbui6fqFRMn1/7TofuBvdRB
+   UC8KCpLTwmar2+lV07OBHMsHe9Y10CeR8ARUu1umleYwHDFOxcH3OCYQ6
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="22173838"
 X-IronPort-AV: E=Sophos;i="6.07,113,1708416000"; 
-   d="scan'208";a="8534411"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2024 09:46:36 -0800
+   d="scan'208";a="22173838"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2024 10:07:37 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,113,1708416000"; 
-   d="scan'208";a="15335345"
+   d="scan'208";a="10852233"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 09 Mar 2024 09:46:35 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 09 Mar 2024 10:07:35 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rj0mG-0007Y0-0i;
-	Sat, 09 Mar 2024 17:46:32 +0000
-Date: Sun, 10 Mar 2024 01:46:23 +0800
+	id 1rj16a-0007ZJ-2y;
+	Sat, 09 Mar 2024 18:07:32 +0000
+Date: Sun, 10 Mar 2024 02:06:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-writeback 21/21] fs/netfs/write_issue.c:236:16:
- warning: format '%lx' expects argument of type 'long unsigned int', but
- argument 2 has type 'size_t' {aka 'unsigned int'}
-Message-ID: <202403100102.cHRJ7tCa-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 136/137]
+ fs/bcachefs/btree_trans_commit.c:999:19: warning: shift count is negative
+Message-ID: <202403100245.i6zMVKd9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,183 +59,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
-head:   4b19245d19affeb7108cfd195f1523e575ca62ce
-commit: 4b19245d19affeb7108cfd195f1523e575ca62ce [21/21] netfs: Use writeback_iter() and improve the writeback algorithm
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240310/202403100102.cHRJ7tCa-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240310/202403100102.cHRJ7tCa-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   d7b003a90209bd1fc2e539148dcf9eb64ae3ca89
+commit: b62187885a0702d5233b59b91b19672f44ffab40 [136/137] bcachefs: map_bit()
+config: i386-buildonly-randconfig-002-20240309 (https://download.01.org/0day-ci/archive/20240310/202403100245.i6zMVKd9-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240310/202403100245.i6zMVKd9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403100102.cHRJ7tCa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403100245.i6zMVKd9-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:31,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/parisc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from fs/netfs/write_issue.c:34:
-   fs/netfs/write_issue.c: In function 'netfs_advance_write':
->> fs/netfs/write_issue.c:236:16: warning: format '%lx' expects argument of type 'long unsigned int', but argument 2 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     236 |         _debug("part %lx/%lx %lx/%lx", subreq->len, subreq->max_len, part, len);
-         |                ^~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~
-         |                                              |
-         |                                              size_t {aka unsigned int}
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
-     129 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   fs/netfs/internal.h:396:26: note: in expansion of macro 'no_printk'
-     396 | #define _debug(FMT, ...) no_printk(FMT, ##__VA_ARGS__)
-         |                          ^~~~~~~~~
-   fs/netfs/write_issue.c:236:9: note: in expansion of macro '_debug'
-     236 |         _debug("part %lx/%lx %lx/%lx", subreq->len, subreq->max_len, part, len);
-         |         ^~~~~~
-   fs/netfs/write_issue.c:236:24: note: format string is defined here
-     236 |         _debug("part %lx/%lx %lx/%lx", subreq->len, subreq->max_len, part, len);
-         |                      ~~^
-         |                        |
-         |                        long unsigned int
-         |                      %x
-   fs/netfs/write_issue.c:236:16: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     236 |         _debug("part %lx/%lx %lx/%lx", subreq->len, subreq->max_len, part, len);
-         |                ^~~~~~~~~~~~~~~~~~~~~~               ~~~~~~~~~~~~~~~
-         |                                                           |
-         |                                                           size_t {aka unsigned int}
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
-     129 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   fs/netfs/internal.h:396:26: note: in expansion of macro 'no_printk'
-     396 | #define _debug(FMT, ...) no_printk(FMT, ##__VA_ARGS__)
-         |                          ^~~~~~~~~
-   fs/netfs/write_issue.c:236:9: note: in expansion of macro '_debug'
-     236 |         _debug("part %lx/%lx %lx/%lx", subreq->len, subreq->max_len, part, len);
-         |         ^~~~~~
-   fs/netfs/write_issue.c:236:28: note: format string is defined here
-     236 |         _debug("part %lx/%lx %lx/%lx", subreq->len, subreq->max_len, part, len);
-         |                          ~~^
-         |                            |
-         |                            long unsigned int
-         |                          %x
-   fs/netfs/write_issue.c:236:16: warning: format '%lx' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     236 |         _debug("part %lx/%lx %lx/%lx", subreq->len, subreq->max_len, part, len);
-         |                ^~~~~~~~~~~~~~~~~~~~~~                                ~~~~
-         |                                                                      |
-         |                                                                      size_t {aka unsigned int}
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
-     129 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   fs/netfs/internal.h:396:26: note: in expansion of macro 'no_printk'
-     396 | #define _debug(FMT, ...) no_printk(FMT, ##__VA_ARGS__)
-         |                          ^~~~~~~~~
-   fs/netfs/write_issue.c:236:9: note: in expansion of macro '_debug'
-     236 |         _debug("part %lx/%lx %lx/%lx", subreq->len, subreq->max_len, part, len);
-         |         ^~~~~~
-   fs/netfs/write_issue.c:236:32: note: format string is defined here
-     236 |         _debug("part %lx/%lx %lx/%lx", subreq->len, subreq->max_len, part, len);
-         |                              ~~^
-         |                                |
-         |                                long unsigned int
-         |                              %x
-   fs/netfs/write_issue.c:236:16: warning: format '%lx' expects argument of type 'long unsigned int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     236 |         _debug("part %lx/%lx %lx/%lx", subreq->len, subreq->max_len, part, len);
-         |                ^~~~~~~~~~~~~~~~~~~~~~                                      ~~~
-         |                                                                            |
-         |                                                                            size_t {aka unsigned int}
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
-     129 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   fs/netfs/internal.h:396:26: note: in expansion of macro 'no_printk'
-     396 | #define _debug(FMT, ...) no_printk(FMT, ##__VA_ARGS__)
-         |                          ^~~~~~~~~
-   fs/netfs/write_issue.c:236:9: note: in expansion of macro '_debug'
-     236 |         _debug("part %lx/%lx %lx/%lx", subreq->len, subreq->max_len, part, len);
-         |         ^~~~~~
-   fs/netfs/write_issue.c:236:36: note: format string is defined here
-     236 |         _debug("part %lx/%lx %lx/%lx", subreq->len, subreq->max_len, part, len);
-         |                                  ~~^
-         |                                    |
-         |                                    long unsigned int
-         |                                  %x
-   fs/netfs/write_issue.c: In function 'netfs_unbuffered_write':
-   fs/netfs/internal.h:394:36: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     394 | #define _enter(FMT, ...) no_printk("==> %s("FMT")", __func__, ##__VA_ARGS__)
-         |                                    ^~~~~~~~~
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
-     129 |                 printk(fmt, ##__VA_ARGS__);             \
+>> fs/bcachefs/btree_trans_commit.c:999:19: warning: shift count is negative [-Wshift-count-negative]
+     999 |         invalid_flags |= map_bit(~flags, BCH_TRANS_COMMIT_no_journal_res, BKEY_INVALID_WRITE);
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/util.h:770:2: note: expanded from macro 'map_bit'
+     770 |         signed_shift((_src) & _src_mask, ilog2(_dst_mask) - ilog2(_src_mask));  \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/util.h:766:10: note: expanded from macro 'signed_shift'
+     766 |          : (_w) >> (_s))
+         |                 ^  ~~~~
+   fs/bcachefs/btree_trans_commit.c:1000:19: warning: shift count is negative [-Wshift-count-negative]
+    1000 |         invalid_flags |= map_bit(~flags, BCH_TRANS_COMMIT_no_journal_res, BKEY_INVALID_COMMIT);
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/util.h:770:2: note: expanded from macro 'map_bit'
+     770 |         signed_shift((_src) & _src_mask, ilog2(_dst_mask) - ilog2(_src_mask));  \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/util.h:766:10: note: expanded from macro 'signed_shift'
+     766 |          : (_w) >> (_s))
+         |                 ^  ~~~~
+   2 warnings generated.
 
 
-vim +236 fs/netfs/write_issue.c
+vim +999 fs/bcachefs/btree_trans_commit.c
 
-   205	
-   206	/*
-   207	 * Add data to the write subrequest, dispatching each as we fill it up or if it
-   208	 * is discontiguous with the previous.  We only fill one part at a time so that
-   209	 * we can avoid overrunning the credits obtained (cifs) and try to parallelise
-   210	 * content-crypto preparation with network writes.
-   211	 */
-   212	int netfs_advance_write(struct netfs_io_request *wreq,
-   213				struct netfs_io_stream *stream,
-   214				loff_t start, size_t len, bool to_eof)
-   215	{
-   216		struct netfs_io_subrequest *subreq = stream->construct;
-   217		size_t part;
-   218	
-   219		if (!stream->avail) {
-   220			_leave("no write");
-   221			return len;
-   222		}
-   223	
-   224		_enter("R=%x[%x]", wreq->debug_id, subreq ? subreq->debug_index : 0x99);
-   225	
-   226		if (subreq && start != subreq->start + subreq->len) {
-   227			netfs_issue_write(wreq, stream);
-   228			subreq = NULL;
-   229		}
-   230	
-   231		if (!stream->construct)
-   232			netfs_prepare_write(wreq, stream, start);
-   233		subreq = stream->construct;
-   234	
-   235		part = min(subreq->max_len - subreq->len, len);
- > 236		_debug("part %lx/%lx %lx/%lx", subreq->len, subreq->max_len, part, len);
-   237		subreq->len += part;
-   238		subreq->nr_segs++;
-   239	
-   240		if (subreq->len >= subreq->max_len ||
-   241		    subreq->nr_segs >= subreq->max_nr_segs ||
-   242		    to_eof) {
-   243			netfs_issue_write(wreq, stream);
-   244			subreq = NULL;
-   245		}
-   246	
-   247		return part;
-   248	}
-   249	
+   981	
+   982	int __bch2_trans_commit(struct btree_trans *trans, unsigned flags)
+   983	{
+   984		struct btree_insert_entry *errored_at = NULL;
+   985		struct bch_fs *c = trans->c;
+   986		int ret = 0;
+   987	
+   988		if (!trans->nr_updates &&
+   989		    !trans->journal_entries_u64s)
+   990			goto out_reset;
+   991	
+   992		memset(&trans->fs_usage_delta, 0, sizeof(trans->fs_usage_delta));
+   993	
+   994		ret = bch2_trans_commit_run_triggers(trans);
+   995		if (ret)
+   996			goto out_reset;
+   997	
+   998		enum bkey_invalid_flags invalid_flags = 0;
+ > 999		invalid_flags |= map_bit(~flags, BCH_TRANS_COMMIT_no_journal_res, BKEY_INVALID_WRITE);
 
 -- 
 0-DAY CI Kernel Test Service
