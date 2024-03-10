@@ -1,65 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0552533C8
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Mar 2024 03:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C1817F6;
+	Sun, 10 Mar 2024 04:32:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710040797; cv=none; b=L6gMhWOYtmCU43anKoErrcIWuo8mRe61Nt3Apdmk0MuB3bfRK1FLNjkjFj3DSEsqWPqDZOe2CZ0hxv/gcrUnVanFsV8xV0X5abEYv86r7sz5x4B7UZPRCqMQaDFGR/69Fzi6SGNyOnDrDq9GZkyQz8KJNrTqBF0/oacHvYNvf6w=
+	t=1710045180; cv=none; b=VXCr29qXx4yRydtfiToPs7E9d5lZgY61i2hH1YmUYnN/2THJ8/Fr/TPnyB35dXm69R9tQ1/UbI9Nwn1Sq13Qxnd/mdjX7fOuHTJsh2ah5Eac6SYB5+ZutdeJiX69Ucx6prblbye8WNfcSfZxk6Zp2sDBDwC0Jk96EyTidy/sq28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710040797; c=relaxed/simple;
-	bh=NGWdQWEHWpFEjdw+zfAGKqF6mfpWb0dLFKBmOsG0MrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eu3Ws6Ut2LQCgYV5c9i6KYYv3UUXGCfSASIDUn8Rb8U2/D4bpa20OmcVAt32YCMcQLGcVW5RmBbxZIYTHr6q88g9681nannQgPNS+QpPcaSvWb6cPaXJY2Yy5TRXK2xFL0c7KmvlkinHIwTCVoyJBdPIE+gPFSl8EXyKMk9pptE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K8Fve5Qf; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1710045180; c=relaxed/simple;
+	bh=MxMzs3gIoduqB+ybuEcZEvsE+ovO/hQQW+HW50OwvdE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=itjRSHA9N58G2XCS4SCBqJ4dySLuP9lBwrL4JXgrB/qNSEZadMPUOh5TRvFdJvgYqKYN+tXHT2YuP+u6qQZF2/sDSuiNiLmlQP/fei5kQ9823/n7UyUm0X8ha5YcN6doMZ2H35sWdAXMsIt3Drwr3Kq+aChBw770VU1KzjYyT+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WKftb+iA; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K8Fve5Qf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WKftb+iA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710040795; x=1741576795;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NGWdQWEHWpFEjdw+zfAGKqF6mfpWb0dLFKBmOsG0MrA=;
-  b=K8Fve5QfNl9xKMmlfkkbYLOLUlHOqOJWQf+RpZL1sZj/QaXGu3BhPbnA
-   cfqO62n+WSYGb21CMXiMquPsq7P/gGfJh+5sEFSZklwEb2b1NcyoTsgkj
-   K9+cmK4iL4fEktNEwWtymsO+6nXRbxc7YbBb1K1DbhCeM6okJX6niff6f
-   TTKuSVx/XnYWqi4tsxycg5Ff53KyjH3o4YRooZ9tUYFQswXdVZb5FiIDM
-   6Zm1lPYuXLKa3iw5I4jhn635rb784uc3bOEIJYq5Uh/mRyoZE18VtM1xf
-   KFCBLb5kGglUtN16YVsZYIkQKyFuMto9QoYIsbRUYfOVIP2kiVYLhFDmo
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="4899939"
+  t=1710045179; x=1741581179;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MxMzs3gIoduqB+ybuEcZEvsE+ovO/hQQW+HW50OwvdE=;
+  b=WKftb+iAgRq4qinyVofUy5F8SOJYo4St2IdrnhCdpf56XKRtigrcUs8D
+   bjxNNBMqIvp/zrqqDabXdJ9XPZDVjKg9rLZtDvn667Ymc+AvSMngNtZ1I
+   87z/wwGB5feVJUnpW08NCXwUEoFb9jwT79z5GVM0pHbNgjtHHYVfHfY8z
+   4C7gmHf6KC2cIoijaxVGOJHgNb4A1tSWeENX5xXMyoxxVn0R+QizZHIy0
+   zQ5IBUO6ckXiWTpOmaGA2oQDU6OI5w3fjHtOE2aH7ZZSC/8Pi4QKhty0l
+   wpep+muOiQCEeL0nor5ax5LnoEEHyel3gA8RsVQkiluGYgjQeT+M8hu1y
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="4654532"
 X-IronPort-AV: E=Sophos;i="6.07,113,1708416000"; 
-   d="scan'208";a="4899939"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2024 19:19:54 -0800
+   d="scan'208";a="4654532"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2024 20:32:54 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,113,1708416000"; 
-   d="scan'208";a="10744501"
+   d="scan'208";a="15338519"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Mar 2024 19:19:51 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 09 Mar 2024 20:32:52 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rj9j2-0007sJ-2V;
-	Sun, 10 Mar 2024 03:19:48 +0000
-Date: Sun, 10 Mar 2024 11:18:59 +0800
+	id 1rjArh-0007up-33;
+	Sun, 10 Mar 2024 04:32:49 +0000
+Date: Sun, 10 Mar 2024 12:32:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
-Subject: Re: [PATCH v4 1/4] remoteproc: Add TEE support
-Message-ID: <202403101139.NIzJMqwP-lkp@intel.com>
-References: <20240308144708.62362-2-arnaud.pouliquen@foss.st.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/session_data 44/48] kernel/trace/bpf_trace.c:3551:5:
+ warning: 'CONFIG_FPROBE' is not defined, evaluates to 0
+Message-ID: <202403101235.eTOM4gMc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,195 +57,138 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240308144708.62362-2-arnaud.pouliquen@foss.st.com>
 
-Hi Arnaud,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 62210f7509e13a2caa7b080722a45229b8f17a0a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnaud-Pouliquen/remoteproc-Add-TEE-support/20240308-225116
-base:   62210f7509e13a2caa7b080722a45229b8f17a0a
-patch link:    https://lore.kernel.org/r/20240308144708.62362-2-arnaud.pouliquen%40foss.st.com
-patch subject: [PATCH v4 1/4] remoteproc: Add TEE support
-config: arm-randconfig-r123-20240310 (https://download.01.org/0day-ci/archive/20240310/202403101139.NIzJMqwP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240310/202403101139.NIzJMqwP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/session_data
+head:   2de3435b691fe601ea42cb119ba482bd6762d173
+commit: 0e436b2093a4fbc9f843e2ce395344d748f5ff20 [44/48] bpf: Add bpf_wrapper_is_return kfunc for multi uprobe
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240310/202403101235.eTOM4gMc-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 503c55e17037436dcd45ac69dea8967e67e3f5e8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240310/202403101235.eTOM4gMc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403101139.NIzJMqwP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403101235.eTOM4gMc-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/remoteproc/tee_remoteproc.c:163:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct resource_table *rsc_table @@     got void [noderef] __iomem * @@
-   drivers/remoteproc/tee_remoteproc.c:163:19: sparse:     expected struct resource_table *rsc_table
-   drivers/remoteproc/tee_remoteproc.c:163:19: sparse:     got void [noderef] __iomem *
->> drivers/remoteproc/tee_remoteproc.c:276:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *io_addr @@     got struct resource_table *rsc_table @@
-   drivers/remoteproc/tee_remoteproc.c:276:23: sparse:     expected void volatile [noderef] __iomem *io_addr
-   drivers/remoteproc/tee_remoteproc.c:276:23: sparse:     got struct resource_table *rsc_table
-   drivers/remoteproc/tee_remoteproc.c:399:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *io_addr @@     got struct resource_table *rsc_table @@
-   drivers/remoteproc/tee_remoteproc.c:399:38: sparse:     expected void volatile [noderef] __iomem *io_addr
-   drivers/remoteproc/tee_remoteproc.c:399:38: sparse:     got struct resource_table *rsc_table
-   drivers/remoteproc/tee_remoteproc.c: note: in included file (through arch/arm/include/asm/traps.h, arch/arm/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All warnings (new ones prefixed by >>):
 
-vim +163 drivers/remoteproc/tee_remoteproc.c
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from kernel/trace/bpf_trace.c:9:
+   In file included from include/linux/bpf_verifier.h:9:
+   In file included from include/linux/filter.h:12:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from kernel/trace/bpf_trace.c:9:
+   In file included from include/linux/bpf_verifier.h:9:
+   In file included from include/linux/filter.h:12:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   kernel/trace/bpf_trace.c:357:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     357 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/trace/bpf_trace.c:403:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     403 |         .arg1_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/trace/bpf_trace.c:458:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     458 |         .arg1_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/trace/bpf_trace.c:460:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     460 |         .arg3_type      = ARG_PTR_TO_MEM | PTR_MAYBE_NULL | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   kernel/trace/bpf_trace.c:502:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     502 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/trace/bpf_trace.c:504:35: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     504 |         .arg4_type      = ARG_PTR_TO_MEM | PTR_MAYBE_NULL | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   kernel/trace/bpf_trace.c:519:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     519 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/trace/bpf_trace.c:543:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     543 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/trace/bpf_trace.c:707:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     707 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/trace/bpf_trace.c:1033:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    1033 |         .arg3_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/trace/bpf_trace.c:1716:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    1716 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/trace/bpf_trace.c:1941:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    1941 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/trace/bpf_trace.c:1996:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    1996 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+>> kernel/trace/bpf_trace.c:3551:5: warning: 'CONFIG_FPROBE' is not defined, evaluates to 0 [-Wundef]
+    3551 | #if CONFIG_FPROBE || CONFIG_UPROBES
+         |     ^
+   51 warnings generated.
+--
+>> kernel/trace/bpf_trace.c:3551:5: warning: 'CONFIG_FPROBE' is not defined, evaluates to 0 [-Wundef]
+    3551 | #if CONFIG_FPROBE || CONFIG_UPROBES
+         |     ^
+   1 warning generated.
 
-   131	
-   132	struct resource_table *tee_rproc_get_loaded_rsc_table(struct rproc *rproc, size_t *table_sz)
-   133	{
-   134		struct tee_ioctl_invoke_arg arg;
-   135		struct tee_param param[MAX_TEE_PARAM_ARRY_MEMBER];
-   136		struct tee_rproc *trproc = rproc->tee_interface;
-   137		struct resource_table *rsc_table;
-   138		int ret;
-   139	
-   140		if (!trproc)
-   141			return ERR_PTR(-EINVAL);
-   142	
-   143		tee_rproc_prepare_args(trproc, TA_RPROC_FW_CMD_GET_RSC_TABLE, &arg, param, 2);
-   144	
-   145		param[1].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT;
-   146		param[2].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT;
-   147	
-   148		ret = tee_client_invoke_func(tee_rproc_ctx->tee_ctx, &arg, param);
-   149		if (ret < 0 || arg.ret != 0) {
-   150			dev_err(tee_rproc_ctx->dev,
-   151				"TA_RPROC_FW_CMD_GET_RSC_TABLE invoke failed TEE err: %x, ret:%x\n",
-   152				arg.ret, ret);
-   153			return ERR_PTR(-EIO);
-   154		}
-   155	
-   156		*table_sz = param[2].u.value.a;
-   157	
-   158		/* If the size is null no resource table defined in the image */
-   159		if (!*table_sz)
-   160			return NULL;
-   161	
-   162		/* Store the resource table address that would be updated by the remote core. */
- > 163		rsc_table = ioremap_wc(param[1].u.value.a, *table_sz);
-   164		if (IS_ERR_OR_NULL(rsc_table)) {
-   165			dev_err(tee_rproc_ctx->dev, "Unable to map memory region: %lld+%zx\n",
-   166				param[1].u.value.a, *table_sz);
-   167			return ERR_PTR(-ENOMEM);
-   168		}
-   169	
-   170		return rsc_table;
-   171	}
-   172	EXPORT_SYMBOL_GPL(tee_rproc_get_loaded_rsc_table);
-   173	
-   174	int tee_rproc_parse_fw(struct rproc *rproc, const struct firmware *fw)
-   175	{
-   176		struct tee_rproc *trproc = rproc->tee_interface;
-   177		struct resource_table *rsc_table;
-   178		size_t table_sz;
-   179		int ret;
-   180	
-   181		ret = tee_rproc_load_fw(rproc, fw);
-   182		if (ret)
-   183			return ret;
-   184	
-   185		rsc_table = tee_rproc_get_loaded_rsc_table(rproc, &table_sz);
-   186		if (IS_ERR(rsc_table))
-   187			return PTR_ERR(rsc_table);
-   188	
-   189		/* Create a copy of the resource table to have same behaviour than the elf loader. */
-   190		rproc->cached_table = kmemdup(rsc_table, table_sz, GFP_KERNEL);
-   191		if (!rproc->cached_table)
-   192			return -ENOMEM;
-   193	
-   194		rproc->table_ptr = rproc->cached_table;
-   195		rproc->table_sz = table_sz;
-   196		trproc->rsc_table = rsc_table;
-   197	
-   198		return 0;
-   199	}
-   200	EXPORT_SYMBOL_GPL(tee_rproc_parse_fw);
-   201	
-   202	struct resource_table *tee_rproc_find_loaded_rsc_table(struct rproc *rproc,
-   203							       const struct firmware *fw)
-   204	{
-   205		struct tee_rproc *trproc = rproc->tee_interface;
-   206		struct resource_table *rsc_table;
-   207		size_t table_sz;
-   208	
-   209		if (!trproc)
-   210			return ERR_PTR(-EINVAL);
-   211	
-   212		/* Check if the resourse table has already been obtained in tee_rproc_parse_fw() */
-   213		if (trproc->rsc_table)
-   214			return trproc->rsc_table;
-   215	
-   216		rsc_table = tee_rproc_get_loaded_rsc_table(rproc, &table_sz);
-   217		if (IS_ERR(rsc_table))
-   218			return rsc_table;
-   219	
-   220		rproc->table_sz = table_sz;
-   221		trproc->rsc_table = rsc_table;
-   222	
-   223		return rsc_table;
-   224	}
-   225	EXPORT_SYMBOL_GPL(tee_rproc_find_loaded_rsc_table);
-   226	
-   227	int tee_rproc_start(struct rproc *rproc)
-   228	{
-   229		struct tee_ioctl_invoke_arg arg;
-   230		struct tee_param param[MAX_TEE_PARAM_ARRY_MEMBER];
-   231		struct tee_rproc *trproc = rproc->tee_interface;
-   232		int ret;
-   233	
-   234		if (!trproc)
-   235			return -EINVAL;
-   236	
-   237		tee_rproc_prepare_args(trproc, TA_RPROC_FW_CMD_START_FW, &arg, param, 0);
-   238	
-   239		ret = tee_client_invoke_func(tee_rproc_ctx->tee_ctx, &arg, param);
-   240		if (ret < 0 || arg.ret != 0) {
-   241			dev_err(tee_rproc_ctx->dev,
-   242				"TA_RPROC_FW_CMD_START_FW invoke failed TEE err: %x, ret:%x\n",
-   243				arg.ret, ret);
-   244			if (!ret)
-   245				ret = -EIO;
-   246		}
-   247	
-   248		return ret;
-   249	}
-   250	EXPORT_SYMBOL_GPL(tee_rproc_start);
-   251	
-   252	int tee_rproc_stop(struct rproc *rproc)
-   253	{
-   254		struct tee_ioctl_invoke_arg arg;
-   255		struct tee_param param[MAX_TEE_PARAM_ARRY_MEMBER];
-   256		struct tee_rproc *trproc = rproc->tee_interface;
-   257		int ret;
-   258	
-   259		if (!trproc)
-   260			return -EINVAL;
-   261	
-   262		tee_rproc_prepare_args(trproc, TA_RPROC_FW_CMD_STOP_FW, &arg, param, 0);
-   263	
-   264		ret = tee_client_invoke_func(tee_rproc_ctx->tee_ctx, &arg, param);
-   265		if (ret < 0 || arg.ret != 0) {
-   266			dev_err(tee_rproc_ctx->dev,
-   267				"TA_RPROC_FW_CMD_STOP_FW invoke failed TEE err: %x, ret:%x\n",
-   268				arg.ret, ret);
-   269			if (!ret)
-   270				ret = -EIO;
-   271		}
-   272	
-   273		if (!rproc->table_ptr)
-   274			return ret;
-   275	
- > 276		iounmap(trproc->rsc_table);
-   277		trproc->rsc_table = NULL;
-   278		rproc->table_ptr = NULL;
-   279	
-   280		return 0;
-   281	}
-   282	EXPORT_SYMBOL_GPL(tee_rproc_stop);
-   283	
+
+vim +/CONFIG_FPROBE +3551 kernel/trace/bpf_trace.c
+
+  3550	
+> 3551	#if CONFIG_FPROBE || CONFIG_UPROBES
+  3552	__bpf_kfunc_start_defs();
+  3553	
 
 -- 
 0-DAY CI Kernel Test Service
