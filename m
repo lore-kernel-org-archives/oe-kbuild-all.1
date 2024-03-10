@@ -1,147 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C363224
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Mar 2024 13:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F398D219E9;
+	Sun, 10 Mar 2024 14:04:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710078316; cv=none; b=GzTngh9Cezyod4/XwKvjLMdYewMv27CZez0th5VRS2MG/lAme/IZPTzIu3qEJ1Jv/P2CcRw0ur8llouSMvJ+fWax+U1Z+KFTMM17udKxYopk5U9mME3ASsdc7aq596/iMx4/T3YqsmZKKsc5wuEtwAlDhQHEoEqjtK3jPDi78uk=
+	t=1710079493; cv=none; b=N5XL68CHEkI/2ZpHnYL6LTKzU/dS91NYWO/OPOsPQ4Ic38S/TDgrQIK3v2CTKi5AlM+Lk3usJqF/dxwvd3TNId+2/+GoP82h9UVI7NT1o/z6Fa23B4ub370/Mc5gG9oCkCTMK5YFD4d8wEOXKntc9eSnsFVPUA8SSnb40LuX1eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710078316; c=relaxed/simple;
-	bh=uvfXNba/olt5FLxcRHbuyCO+g76fVbdLDM6odfx+CGI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XVveSVZFwwsrJ2blRzTjbahybf16Ofd7VFNEDHvAKK3Pk3tnAINi6L/yhmweaxcw6u6WIHAqWseVtH20x82mzEFNVV1KU1W2ngcp5/L0h0QFtJ6ihAcxGyuYnSzLBA864wkgTGfqh87mH3DLYfPtcZhKHy+zhqYfnbwxQaQW4po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=njaCTtix; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710079493; c=relaxed/simple;
+	bh=4cO05FTGfu5CYWVtNolCJgMtg0Om/u7O9trOND68qQI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Rb+WB8i4ISqz2nbxZUn9+FlIDacXbnDxqMiVq13SHr5rDaF0FeH7iJHnRS33DuA6SO4EekLRiTKYIVIVNZ6gun/50qIEg3BuMCddLCUjxthrdmE3r6g2lSfsQAVi+Sv7vcPPSTK2f++ZjjfzgoIdZ4I5ajYKIkj2Vqol7CK2Plc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d6RCFoWR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="njaCTtix"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710078314; x=1741614314;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uvfXNba/olt5FLxcRHbuyCO+g76fVbdLDM6odfx+CGI=;
-  b=njaCTtixf9IDkB5z1rRBQU7Jr8Pd2SNhFuQbymcgxZKs8IRR/w4V8mOc
-   Xz2QRUc7zasIlPxfxMDkq9jItYIMmk71EPNktFrdtMawGoTkNSgaSNTEB
-   5GlE+TieFJHOmXsQhZg53F8Q9XPXZIjQZZpDr7/N5AdAJ+mfOXd7iGkwu
-   ExwZMvFCfRkW0AQu6fOzcrF2GReqSuEo32egIH3sP4TnicW7Dh0dFBdL4
-   q0pbSVQGKowmV6RrJ/8dX9KUMyK0/z0mP0J0tolSBmA6syEI//19Bdlvk
-   6fgVs6U4SAT9AQLdeHJDrhL8vN0y9OAqgmYHhnEjLp1L+3O7RMPQM0M78
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="30190800"
-X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
-   d="scan'208";a="30190800"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 06:45:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
-   d="scan'208";a="41901722"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 10 Mar 2024 06:45:09 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rjJUA-0008Hb-2M;
-	Sun, 10 Mar 2024 13:45:06 +0000
-Date: Sun, 10 Mar 2024 21:45:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/next 24954/27506]
- drivers/net/bonding/bond_main.c:4259:26: sparse: sparse: incompatible types
- in comparison expression (different address spaces):
-Message-ID: <202403102138.yzG2hUVw-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d6RCFoWR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1032C43390;
+	Sun, 10 Mar 2024 14:04:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710079492;
+	bh=4cO05FTGfu5CYWVtNolCJgMtg0Om/u7O9trOND68qQI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=d6RCFoWRL8uPShAzIgJId2f+LTftxOZiRCyVNvsDeeFp3VXjEeI6KgtToLg80Vu+4
+	 yNjYpq3EZKwfY5wU2Na/Ym0xmQgH+Danx6RySFpillJlY09nxW4++pjAibvjYxye9W
+	 xJSRnIY3YLeq2685oWUHC9sioBYiRnulmJc+5iZt15zdkdxvuBoV+YEJ+cbrnQrdR7
+	 wr8nqXB7H6OofXXTUFPQeEPLkMkpF+/MtLj5j8Gp8pCf4ExNP9Tpq6apSydy+XAbfn
+	 bxYCodFvC9mpHvlKo3aPXkRhOc45SHZt4ZsNFd/L2TXJq7GyGxjgIB7mxAnagyjqd9
+	 lTo3fDdjmNnQA==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d4360ab3daso8988191fa.3;
+        Sun, 10 Mar 2024 07:04:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUcH+N/ZbEzU3JUmOihWMi1NhbulK4HHrPPlPuyjirwYNPel3DnixOt5vg/IuWVHGWp4UlD1a63Pe1mKQehaMq+LLeZ1+JQ/2ix7xDPN0alR51elsCd9oCK/GHPJTUqZC7myRPwh7J/3Q==
+X-Gm-Message-State: AOJu0YxF6qzoD7Dze1fhVYhjAGQqqzn7F0dJk51Oz4tG6jYiP48KTY32
+	f+OQWKQ/ZqJ1PWXYAYczmWjkxxIEfR1DeohNnizhpP4oF4ZQFQiiAMwu7zij/5aBQikuUfAPhdg
+	BglCgUHu2rSTL9HUpSghH16v6YfU=
+X-Google-Smtp-Source: AGHT+IHXqojiC1EnAvsrKfFxmT1sF1AwpGUNcpQyx3evJzS8zLgF9OyQu2IBEMPqMaAmlHZf9OFN0VHL1RJu3GZ6CLQ=
+X-Received: by 2002:ac2:5926:0:b0:513:60f5:b488 with SMTP id
+ v6-20020ac25926000000b0051360f5b488mr2527791lfi.24.1710079490832; Sun, 10 Mar
+ 2024 07:04:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202403091614.NeUw5zcv-lkp@intel.com> <20240309091057.7954-1-21cnbao@gmail.com>
+In-Reply-To: <20240309091057.7954-1-21cnbao@gmail.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Sun, 10 Mar 2024 22:04:40 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4VnM=Dw8N7j9ySWNpWVxCKeUnwFTmFOQBmLtTnfopRFQ@mail.gmail.com>
+Message-ID: <CAAhV-H4VnM=Dw8N7j9ySWNpWVxCKeUnwFTmFOQBmLtTnfopRFQ@mail.gmail.com>
+Subject: Re: [herbert-cryptodev-2.6:master 80/80] crypto/scompress.c:174:38:
+ warning: unused variable 'dst_page'
+To: Barry Song <21cnbao@gmail.com>
+Cc: lkp@intel.com, kernel@xen0n.name, herbert@gondor.apana.org.au, 
+	linux-crypto@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
+	v-songbaohua@oppo.com, loongarch@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
-head:   3ba333344123321f5f312e69966bbc8e5533561f
-commit: de86dfa67b19a260c504f7b5b7ca00ba85975b23 [24954/27506] bonding:add the ability to xmit through the local node slaves first
-config: x86_64-randconfig-r113-20240305 (https://download.01.org/0day-ci/archive/20240310/202403102138.yzG2hUVw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240310/202403102138.yzG2hUVw-lkp@intel.com/reproduce)
+Hi, Barry,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403102138.yzG2hUVw-lkp@intel.com/
+On Sat, Mar 9, 2024 at 5:11=E2=80=AFPM Barry Song <21cnbao@gmail.com> wrote=
+:
+>
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptod=
+ev-2.6.git master
+> > head:   77292bb8ca69c808741aadbd29207605296e24af
+> > commit: 77292bb8ca69c808741aadbd29207605296e24af [80/80] crypto: scomp =
+- remove memcpy if sg_nents is 1 and pages are lowmem
+> > config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20=
+240309/202403091614.NeUw5zcv-lkp@intel.com/config)
+> > compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20240309/202403091614.NeUw5zcv-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202403091614.NeUw5zcv-l=
+kp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> >    In file included from crypto/scompress.c:12:
+> >    include/crypto/scatterwalk.h: In function 'scatterwalk_pagedone':
+> >    include/crypto/scatterwalk.h:76:30: warning: variable 'page' set but=
+ not used [-Wunused-but-set-variable]
+> >       76 |                 struct page *page;
+> >          |                              ^~~~
+> >    crypto/scompress.c: In function 'scomp_acomp_comp_decomp':
+> > >> crypto/scompress.c:174:38: warning: unused variable 'dst_page' [-Wun=
+used-variable]
+> >      174 |                         struct page *dst_page =3D sg_page(re=
+q->dst);
+> >          |                                      ^~~~~~~~
+> >
+> >
+> > vim +/dst_page +174 crypto/scompress.c
+> >
+> >    112
+> >    113        static int scomp_acomp_comp_decomp(struct acomp_req *req,=
+ int dir)
+> >    114        {
+> >    115                struct crypto_acomp *tfm =3D crypto_acomp_reqtfm(=
+req);
+> >    116                void **tfm_ctx =3D acomp_tfm_ctx(tfm);
+> > [snipped]
+> >    171                        } else {
+> >    172                                int nr_pages =3D DIV_ROUND_UP(req=
+->dst->offset + req->dlen, PAGE_SIZE);
+> >    173                                int i;
+> >  > 174                                struct page *dst_page =3D sg_page=
+(req->dst);
+> >    175
+> >    176                                for (i =3D 0; i < nr_pages; i++)
+> >    177                                        flush_dcache_page(dst_pag=
+e + i);
+>
+> + Huacai, Xuerui
+>
+> loongarch code needs a fix, it should have removed the below
+> two macros:
+OK, seems reasonable.
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/bonding/bond_main.c:2451:26: sparse: sparse: restricted __be16 degrades to integer
-   drivers/net/bonding/bond_main.c:2457:20: sparse: sparse: restricted __be16 degrades to integer
-   drivers/net/bonding/bond_main.c:2504:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] vlan_proto @@     got int @@
-   drivers/net/bonding/bond_main.c:2504:40: sparse:     expected restricted __be16 [usertype] vlan_proto
-   drivers/net/bonding/bond_main.c:2504:40: sparse:     got int
->> drivers/net/bonding/bond_main.c:4259:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/net/bonding/bond_main.c:4259:26: sparse:    struct bond_up_slave [noderef] __rcu *
-   drivers/net/bonding/bond_main.c:4259:26: sparse:    struct bond_up_slave *
-   drivers/net/bonding/bond_main.c:3332:60: sparse: sparse: restricted __be16 degrades to integer
-   drivers/net/bonding/bond_main.c:3332:60: sparse: sparse: restricted __be16 degrades to integer
+Huacai
 
-vim +4259 drivers/net/bonding/bond_main.c
-
-  4221	
-  4222	static netdev_tx_t bond_xmit_broadcast(struct sk_buff *skb,
-  4223					       struct net_device *bond_dev);
-  4224	/* Use this Xmit function for 3AD as well as XOR modes. The current
-  4225	 * usable slave array is formed in the control path. The xmit function
-  4226	 * just calculates hash and sends the packet out.
-  4227	 */
-  4228	static netdev_tx_t bond_3ad_xor_xmit(struct sk_buff *skb,
-  4229					     struct net_device *dev)
-  4230	{
-  4231		struct bonding *bond = netdev_priv(dev);
-  4232		struct slave *slave;
-  4233		struct bond_up_slave *slaves;
-  4234		unsigned int count;
-  4235		struct bond_up_bynd *slaves_bynd;
-  4236	
-  4237		/* Broadcast arp or nd to all slaves. */
-  4238		if (bond->params.broadcast_arp && ntohs(skb->protocol) == ETH_P_ARP)
-  4239			return bond_xmit_broadcast(skb, dev);
-  4240	
-  4241		if (bond->params.broadcast_nd && ntohs(skb->protocol) == ETH_P_IPV6 &&
-  4242		    pskb_may_pull(skb,
-  4243			sizeof(struct ipv6hdr) + sizeof(struct icmp6hdr)) &&
-  4244		    ipv6_hdr(skb)->nexthdr == IPPROTO_ICMPV6) {
-  4245			struct icmp6hdr *icmph = icmp6_hdr(skb);
-  4246	
-  4247			if ((icmph->icmp6_type ==
-  4248			     NDISC_NEIGHBOUR_SOLICITATION) ||
-  4249			    (icmph->icmp6_type ==
-  4250			     NDISC_NEIGHBOUR_ADVERTISEMENT))
-  4251				return bond_xmit_broadcast(skb, dev);
-  4252		}
-  4253	
-  4254		if (!bond_localnodefirst || !bond_localnodefirst_support) {
-  4255			slaves = rcu_dereference(bond->usable_slaves);
-  4256		} else {
-  4257			/* select local slave first*/
-  4258			slaves_bynd = rcu_dereference(bond->slave_arr_bynd);
-> 4259			slaves = rcu_dereference(slaves_bynd->arr[numa_node_id()]);
-  4260			if (!slaves || !slaves->count)
-  4261				slaves = rcu_dereference(bond->usable_slaves);
-  4262		}
-  4263		count = slaves ? READ_ONCE(slaves->count) : 0;
-  4264		if (likely(count)) {
-  4265			slave = slaves->arr[bond_xmit_hash(bond, skb) % count];
-  4266			bond_dev_queue_xmit(bond, skb, slave->dev);
-  4267		} else {
-  4268			bond_tx_drop(dev, skb);
-  4269		}
-  4270	
-  4271		return NETDEV_TX_OK;
-  4272	}
-  4273	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> diff --git a/arch/loongarch/include/asm/cacheflush.h b/arch/loongarch/inc=
+lude/asm/cacheflush.h
+> index 80bd74106985..f8754d08a31a 100644
+> --- a/arch/loongarch/include/asm/cacheflush.h
+> +++ b/arch/loongarch/include/asm/cacheflush.h
+> @@ -37,8 +37,6 @@ void local_flush_icache_range(unsigned long start, unsi=
+gned long end);
+>  #define flush_icache_range     local_flush_icache_range
+>  #define flush_icache_user_range        local_flush_icache_range
+>
+> -#define ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE 0
+> -
+>  #define flush_cache_all()                              do { } while (0)
+>  #define flush_cache_mm(mm)                             do { } while (0)
+>  #define flush_cache_dup_mm(mm)                         do { } while (0)
+> @@ -47,7 +45,6 @@ void local_flush_icache_range(unsigned long start, unsi=
+gned long end);
+>  #define flush_cache_vmap(start, end)                   do { } while (0)
+>  #define flush_cache_vunmap(start, end)                 do { } while (0)
+>  #define flush_icache_user_page(vma, page, addr, len)   do { } while (0)
+> -#define flush_dcache_page(page)                                do { } wh=
+ile (0)
+>  #define flush_dcache_mmap_lock(mapping)                        do { } wh=
+ile (0)
+>  #define flush_dcache_mmap_unlock(mapping)              do { } while (0)
+>
+>
+> as include/asm-generic/cacheflush.h already has the below,
+>
+> #ifndef ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE
+> static inline void flush_dcache_page(struct page *page)
+> {
+> }
+>
+> #define ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE 0
+> #endif
+>
+> >    178                        }
+> >    179                }
+> >    180        out:
+> >    181                spin_unlock(&scratch->lock);
+> >    182                return ret;
+> >    183        }
+> >    184
+> >
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+>
+> Thanks
+> Barry
+>
