@@ -1,59 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B852B11187
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Mar 2024 08:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4873EA921
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Mar 2024 08:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710058265; cv=none; b=CvE24HmjH1tdijQLHr4BnCzxYfEmywyaZrmpwuTkp0uPdD3X9hlSOd2vFjp6ybBN9d3VW5SSQHOqYMP+zs0bxXCY4eAmbGp9LbzYN1zl2cMndVZHZj5KVMgY++NKc6hl8ehusxJCx8NDpWYVfblxPKHpbqLPUAHft+dS11epVOU=
+	t=1710060125; cv=none; b=ciglqN8vRGFnVTGKu+OR2AWNCjnRUh4hhLyB8PDdMkRViQXuvgrAEWdoHV8dj+7L0nO7Nl5gxq80IvFmy5j/0mqHdqAdLk3AXdjpONVPgvEKyWUyCLVNPnN8rVT6JlRlBm3r+YkiU+lL7cxUAu2qRIfRRlcNKN9zEdlknAO9NMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710058265; c=relaxed/simple;
-	bh=NyobS59p51ZvkD17Zlmw1nLsnnE4sWF0oUiTWFM15VM=;
+	s=arc-20240116; t=1710060125; c=relaxed/simple;
+	bh=QyIOWk9wqj6jh/LiA4KzkOkDEWpngQdU869pAg65qKk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mJeapWY2R8LYvz4Hsy3man6UersIYTXzjNDT/f6kioAsYTpkt0jLBBB/1D/i0df80CM3XOFwTCkFuoN3U3d4mJLKP29ZRYSwIx09d/ktRBtJvGIoPoSLFxtOaiNaQvF6QAq9UVHOXUAxy+cyHe4eDra2gzF6aAFQw8TquVvqm4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HjqdJJRD; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=nyDyFEyl4MsSFQHvwwVZaPp+wGHMiSxXYaMjsqrQzvMzwZm6W2mTKxeey883eTdFL4+ZEZkAjXh3qjjKfPTrHgaFXEPVAvCMtTNezeFiTk2sZKaiLJXsiF4R2Spd+gwetbXE1Zz85eBGSuOm/GP6WWOc5GbPnFyoajSN78yTj/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N1VHepz3; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HjqdJJRD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N1VHepz3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710058262; x=1741594262;
+  t=1710060122; x=1741596122;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NyobS59p51ZvkD17Zlmw1nLsnnE4sWF0oUiTWFM15VM=;
-  b=HjqdJJRDAPcjZPcHvr9qTpwUYFP+XjzAX0/sloro9FN6dasE+c0CN4d+
-   MNASMfnzIbBiGSiAiizO0dU7aZGTHKV42vOdM1dn+uKRnqgY4tYSJsJmt
-   lfAa2WhSoTOIdz6GjZVr27h6Blqkj/dyBQ3EWsDns99Y7XzRpkZ0DnEDl
-   LPAIB+B8kFPRqNGegCk5Cv9p6jxYmW6aYMyJ9nqbacM/s+82xgOkdUkmm
-   tZgb6gHQe0qwg/+x8EUbHCoXS64gLd5AddOh4HdeVzVaE9U2WIJydfTdp
-   /jD7BrscDIr2bREpAe8My2jFAzLtgRkZXn1w0gQ5O3grAjGDvQZICS8VZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="16143948"
+  bh=QyIOWk9wqj6jh/LiA4KzkOkDEWpngQdU869pAg65qKk=;
+  b=N1VHepz3EeW7CYBwYWxVNLGO4buO1jDws4RY9yQFgla4uzszmKRGePc6
+   XkJImMGZ01aPzWJ926updQ9Jl+rOOyERHxixP8JeUJ3AUd0dXaVgzza0W
+   kX4I2yNYt4GH+md/oWUcoQyC3uu4slEt2ilbZWDejSi69IMSpl0XWLhFk
+   sDescDd0+RDEx/viB8BmiYxd6MPpyrlo2do9P7jKcEC1GS5Dgd72TUAKc
+   LPZaNeMwtFeMXfz3E1ZPWCAadByowJ9xAsm0h4QuhX6TinIR8z8wzYELD
+   k5r7ltlpnWZ+lqPsxlJUCulEkU83BDVhnT5zxt4vQ3F8EVi2a6TkAwMdh
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="8557006"
 X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
-   d="scan'208";a="16143948"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 00:11:01 -0800
+   d="scan'208";a="8557006"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 00:42:01 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
-   d="scan'208";a="10754308"
+   d="scan'208";a="10751735"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Mar 2024 00:11:00 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 10 Mar 2024 00:42:00 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rjEGn-00085f-2H;
-	Sun, 10 Mar 2024 08:10:57 +0000
-Date: Sun, 10 Mar 2024 16:10:37 +0800
+	id 1rjEko-00086x-0p;
+	Sun, 10 Mar 2024 08:41:58 +0000
+Date: Sun, 10 Mar 2024 16:41:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>
-Subject: [linux-next:master 12265/12944]
- arch/arm64/include/asm/pgtable.h:904:16: error: implicit declaration of
- function 'pud_leaf'; did you mean 'pmd_leaf'?
-Message-ID: <202403101607.a42gaLOS-lkp@intel.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alobakin:idpf-libie-new 49/61] include/linux/build_bug.h:78:41:
+ error: static assertion failed: "!(sizeof(struct xdp_buff_xsk) %
+ __alignof__(struct libeth_xdp_buff))"
+Message-ID: <202403101608.nYNHGm4I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,60 +59,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8ffc8b1bbd505e27e2c8439d326b6059c906c9dd
-commit: 924bd6a8c96767a05323d575bdefd664631dce73 [12265/12944] mm/x86: drop two unnecessary pud_leaf() definitions
-config: arm64-randconfig-r031-20230409 (https://download.01.org/0day-ci/archive/20240310/202403101607.a42gaLOS-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240310/202403101607.a42gaLOS-lkp@intel.com/reproduce)
+tree:   https://github.com/alobakin/linux idpf-libie-new
+head:   f896c293302a9ec5710485e2bff89b49bb4a77d2
+commit: 8f55117c27aedc17e4724ad1327d292b2688f810 [49/61] libie: add a couple of XDP helpers
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240310/202403101608.nYNHGm4I-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240310/202403101608.nYNHGm4I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403101607.a42gaLOS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403101608.nYNHGm4I-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/pgtable.h:6,
-                    from arch/arm64/include/asm/io.h:12,
-                    from include/linux/io.h:13,
-                    from include/acpi/acpi_io.h:5,
-                    from include/linux/acpi.h:39,
-                    from include/acpi/apei.h:9,
-                    from include/acpi/ghes.h:5,
-                    from include/linux/arm_sdei.h:8,
-                    from arch/arm64/kernel/asm-offsets.c:10:
-   arch/arm64/include/asm/pgtable.h: In function 'pud_user_accessible_page':
->> arch/arm64/include/asm/pgtable.h:904:16: error: implicit declaration of function 'pud_leaf'; did you mean 'pmd_leaf'? [-Werror=implicit-function-declaration]
-     904 |         return pud_leaf(pud) && (pud_user(pud) || pud_user_exec(pud));
-         |                ^~~~~~~~
-         |                pmd_leaf
-   cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:116: arch/arm64/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1199: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/timer.h:5,
+                    from include/linux/netdevice.h:24,
+                    from include/trace/events/xdp.h:8,
+                    from include/linux/bpf_trace.h:5,
+                    from include/net/libeth/xdp.h:7,
+                    from drivers/net/ethernet/intel/libeth/tx.c:4:
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "!(sizeof(struct xdp_buff_xsk) % __alignof__(struct libeth_xdp_buff))"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   include/net/libeth/xdp.h:36:1: note: in expansion of macro 'static_assert'
+      36 | static_assert(!(sizeof(struct xdp_buff_xsk) %
+         | ^~~~~~~~~~~~~
 
 
-vim +904 arch/arm64/include/asm/pgtable.h
+vim +78 include/linux/build_bug.h
 
-ed928a3402d8a2 Tong Tiangen 2022-05-17  901  
-ed928a3402d8a2 Tong Tiangen 2022-05-17  902  static inline bool pud_user_accessible_page(pud_t pud)
-ed928a3402d8a2 Tong Tiangen 2022-05-17  903  {
-730a11f982e61a Liu Shixin   2022-11-22 @904  	return pud_leaf(pud) && (pud_user(pud) || pud_user_exec(pud));
-ed928a3402d8a2 Tong Tiangen 2022-05-17  905  }
-ed928a3402d8a2 Tong Tiangen 2022-05-17  906  #endif
-ed928a3402d8a2 Tong Tiangen 2022-05-17  907  
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
 
-:::::: The code at line 904 was first introduced by commit
-:::::: 730a11f982e61aaef758ab552dfb7c30de79e99b arm64/mm: add pud_user_exec() check in pud_user_accessible_page()
+:::::: The code at line 78 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
 
-:::::: TO: Liu Shixin <liushixin2@huawei.com>
-:::::: CC: Will Deacon <will@kernel.org>
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
