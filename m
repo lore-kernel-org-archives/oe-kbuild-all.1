@@ -1,81 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877163E46D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 12:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8F63D986;
+	Mon, 11 Mar 2024 12:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710159706; cv=none; b=EiMfli3OaOWJ5kHMIEwwYyW6lxu8uJ9I7S6neoeD6JjUdKqN27qfrG7Wn5VecsMMNht1PAvRXllKhMI4/hnhVT6aqBO+b+RQYC7VDjb8ooTUNipqSlMZ4DKrJp3LN/Iqmipy5O5SPpfRr8KV1ZdgenYm6qs4B5SXYiyQl8UoGig=
+	t=1710160303; cv=none; b=Wlb1x6V+WmOPe+j7oVhLPFTLJcLwHDk0l78gmiQB8Y+icKnsb4gNVkFOcsIzekPL1pUzk68XnwXwwOwR9HpC/0MAyWcMaiHNhHop72zgt5jpLzm7QaoPxlxFCmxU8mv+TtuOemtmcNC/M4hhUvYHKGVBJ3RKcpRxhJj3C4QuRrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710159706; c=relaxed/simple;
-	bh=H2gn2oCp41FrailBln/uHNAaPVkpygDjPqc70ELPPWw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EeHn7KvlW9lYlhT7ry+HiWFmDIPk1F/f3mXFwfImcPhdFD18Rfcg4hHxaE3+D6C0WZH3gVB/BhlOrEYIGfX3/5vjKQL4sSUkvm7LmibkVhZGEBTTJC5iQa2ibYDhskHaMohN/mWEaVb5de4opy57hFP36rmRu/UrNwF63eSBmUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a+3AZECT; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710160303; c=relaxed/simple;
+	bh=EdM448FB9/iYoKH61bfb5XVsEpexHAoeqRr6pU6j+XQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ntOas9rcDEQYeKH4mx2FvWzJ2W+eV6U+DCzHSIK02VjkZT/hBcev5Cb6YqGLeSBxqxnxohaHvsGyPlgMKyvROzg7rNeIAzqQAraJTi9qNLRaxi3HWUZtnYxe0bb+Fb/+gHFp5EOmy2mMnz+CJRlZ0f8Po7PBY7Stq2O6mPBU2r8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=daVEEwyj; arc=none smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a+3AZECT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710159704; x=1741695704;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H2gn2oCp41FrailBln/uHNAaPVkpygDjPqc70ELPPWw=;
-  b=a+3AZECTdUbszpLAoKQAK0dwnL4zvS17dH2YhuGUvFJQZgDYYexqoMWD
-   dpMtKYiQ1bid+fbwUQnPNrR7iWZmLzVthh8unBQhz+J/BePkHOCz4hoif
-   AvyKaEGUxptA8DUYN4pVEJisqQmgEDWxS8ja3O+V+QDIKtTtrdhRSHZRg
-   ZFpqd4dW4y+LvJe0+oRYbLml0UuXStjYKYQm/JnHnPVGv9+YCCsq2bosE
-   msZvIsOXk2gkVaWzgV4gZUHxbkvDSP+qZTTlZ7NX7sSL4h9A0eTC1E57h
-   aP1sFTYeq8i8xeNHi7HqdIVi+SWAe2uPAAy31nyXxIBgo0ak0B0MepYNn
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="4661576"
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="4661576"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 05:21:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="11570845"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Mar 2024 05:21:43 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rjeey-000971-2Q;
-	Mon, 11 Mar 2024 12:21:40 +0000
-Date: Mon, 11 Mar 2024 20:21:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Geoffrey D. Bennett" <g@b4.vu>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [geoffreybennett-scarlett-gen2:vocaster 14/14] xtensa-linux-ld:
- mixer_scarlett2.c:undefined reference to `__divdi3'
-Message-ID: <202403112010.tM0wk6QW-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="daVEEwyj"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d09cf00214so44611651fa.0;
+        Mon, 11 Mar 2024 05:31:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710160300; x=1710765100; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EdM448FB9/iYoKH61bfb5XVsEpexHAoeqRr6pU6j+XQ=;
+        b=daVEEwyj3G+i0/2V3KQsAQy6WUx54QzendD7IjLG74EJY094qhpSNAhB68LBSnJtH1
+         jQffknvdWbnVFm9UdwgqE/BpF9ltGy+2mz42hi20nAAW79Z6QBUlSSxjWTuOfMEdzV3q
+         KpRN/alIMNHtD+wApITmTll7DkqNW19Wqv6IBlAzTcSSCno6SX0qGdWULl7Qgrh8Uhsp
+         DhwABsA5UftClp103KFQ47lLc2jsGWtWrWf04Kr3pYrdqNqEOut6qbrch83Zfd7NxKRh
+         9D42UMur/V77qEHTJMxjdF4dtdUZGArfnBetHXVT3G4wv5QDUShh5TqqKmhdtmAko6la
+         IXCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710160300; x=1710765100;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EdM448FB9/iYoKH61bfb5XVsEpexHAoeqRr6pU6j+XQ=;
+        b=bkiKW5Ae8hI9D5DVr+uHPOc8ntHe1zlIWw23zPVnpViJHEAPhlx475Soqc6ZG7hQ3d
+         s2+VnfV3wUFcmkQFgQDxcmv9C0hDmEdDLHpqd1pue6vOv85bK3g7/TIS1dwAVLfz2LYL
+         rWU73TDROZfZkqmYriRhZCdH+BcyNX0X7RJFjuTZxEF+bbTyWB/yUBnM8TZO36FII1b+
+         TFbgAXd0jv3YRhwb2WrCoDawumVl831PpFCSGHbxC7O90S9W3CkwKGK5RrvHNS54FsnM
+         ocX5M6CDrlU9dhhr6yfZ/pfbW5A1UyK8qfE2psaO9au22+1cZrlZLmqsd+4039X+LVoA
+         8pLA==
+X-Forwarded-Encrypted: i=1; AJvYcCVEKKNQOVn67dkXG1ua58DmrxVeFUdG6+KCI1J66p3eOi/oYQcY8B0Xg3yeo1x264Mx9gAjuOBZI88n0MhcOa0zYtLKbO/ZqYbaQOt4babPvjbfu5EK/dzji4ymM2XhsZXMNLA=
+X-Gm-Message-State: AOJu0Yw+6wyHoOpAZH2VESxhO+ajNuF+eMIjBEApgzi2zz+Pqfvj0OLh
+	WhLSDxSJnP5tyynWS+HSFifH+A6KHWb+7hq1d1AELnSTscuU1DFodODVahjqffguABOi9gj46vl
+	l/neaGyWkkoRnaetRyOi9O5OUVxrPv+nGN6MpdVDh
+X-Google-Smtp-Source: AGHT+IGgH3xPWXYHquog9/cefkErcywJeZkFQJJaBl7g2wjM4WpGFZ4qZU1tNDeWqR2UhqFIsDhApBvfggDck69EADk=
+X-Received: by 2002:ac2:4d0f:0:b0:513:a161:2c7d with SMTP id
+ r15-20020ac24d0f000000b00513a1612c7dmr2859243lfi.64.1710160299639; Mon, 11
+ Mar 2024 05:31:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202403092219.dhgcuz2G-lkp@intel.com> <CAADnVQJ+6mFs56fu+KEvumQ5uqM-oLpYx0hGxLJfE9XUCtEWEA@mail.gmail.com>
+ <CANk7y0gT8bvKuhJvxG1yLTxdRycMKNEBtgEv_PsCA56Nv74cDg@mail.gmail.com>
+ <CAADnVQLXFWDDV8xGLVRNd9JXaqOMfCO3ZGtuQUg8CZjrwLjxrA@mail.gmail.com> <CAPhsuW4=OPS+MgbsnsJM=pJCj64vg2xEG4MUq3hufWBkNDr-1w@mail.gmail.com>
+In-Reply-To: <CAPhsuW4=OPS+MgbsnsJM=pJCj64vg2xEG4MUq3hufWBkNDr-1w@mail.gmail.com>
+From: Puranjay Mohan <puranjay12@gmail.com>
+Date: Mon, 11 Mar 2024 13:31:28 +0100
+Message-ID: <CANk7y0jWEx4Ziym=6dNZ7kZFgj=MfKdaS5qYJZPnx_DHCc0GsQ@mail.gmail.com>
+Subject: Re: [bpf-next:master 5/7] kernel/bpf/core.c:900:5: warning:
+ '__pte_index_size' is not defined, evaluates to 0
+To: Song Liu <song@kernel.org>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, kernel test robot <lkp@intel.com>, 
+	bpf <bpf@vger.kernel.org>, clang-built-linux <llvm@lists.linux.dev>, 
+	oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://github.com/geoffreybennett/scarlett-gen2.git vocaster
-head:   dcc04bb3fd937c0335bc2b7bb266339af7ae5ef2
-commit: ce1668580ca3badaca4f8350f738ae5e91ee50c1 [14/14] ALSA: scarlett2: Add support for Focusrite Vocaster One and Two
-config: xtensa-randconfig-002-20240311 (https://download.01.org/0day-ci/archive/20240311/202403112010.tM0wk6QW-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403112010.tM0wk6QW-lkp@intel.com/reproduce)
+> > I think hard coding is cleaner and less surprising.
+> > I'd like to hear what Song thinks about it.
+>
+> Agreed. Let's just hard code it to 2MiB * num_possible_nodes().
+>
+> Thanks,
+> Song
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403112010.tM0wk6QW-lkp@intel.com/
+Here it is: https://lore.kernel.org/all/20240311122722.86232-1-puranjay12@gmail.com/
 
-All errors (new ones prefixed by >>):
-
-   xtensa-linux-ld: sound/usb/mixer_scarlett2.o: in function `scarlett2_hwdep_write':
-   mixer_scarlett2.c:(.text+0x5f8c): undefined reference to `__divdi3'
->> xtensa-linux-ld: mixer_scarlett2.c:(.text+0x6037): undefined reference to `__divdi3'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Puranjay
