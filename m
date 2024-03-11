@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA1155792
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 19:52:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756C357300
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 20:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710186779; cv=none; b=R5Cogw5/aZ9YvBZpOOYxc64cMOkeaquEKykwvzHe0Ciav/MttbhDqxKEONX/USDqbChpWcfTKfRY6orAr+JXzx8cEieIBJtNDA8GYTOX+EtATVnYL5pk6XMXVUp/EhKNRUJB447ZIPAZ9ea6ApN2waaAuDHRlWvYwiM6Qv4x9k8=
+	t=1710188704; cv=none; b=Q6WJPWIVMfp2G7mYl+1YFC5e/QdoFo34bnG/owo+edNye47upIgsIY7LX6d1TseArHHtfYhdIpZ9Nf54mr+KuOr5x1TSg+p0Wa7EeXxN/raTSxdJ/yTNH466MiEuJi/7DB0qrAldLV8b2i7xUTRdBinNUApSKumHWczJpR4t9GU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710186779; c=relaxed/simple;
-	bh=VQ5airRyukx9l8P1GlBKabCIZiSZqjN/GJ1tTpWhemI=;
+	s=arc-20240116; t=1710188704; c=relaxed/simple;
+	bh=T7mauSTu2sykUuDqTQAHXHhjLTTs3N/3D8wENJUbijQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=J9OLhc11Xt/LfYE5+nG1yIEWtZ8GiZ9qAcnkemclPWNEXMZvO5kSLBuFDJ9dEA3HzAawHqjNEU8iWLtJhvFI4vMn1xbT3gQb7246xnekv7mv5k2kTpAPuAXPMUtJozWEKsQt0n7nyx99aiYLZ6AVjy48RW8SCGbVVaFhgpEoRk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dpyaqPPP; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=iYIDjaYtThnklm/VWcX65fcXCQMafHs5N3rO0eZWAyQGa/pwF919EvbOP/UWM941chgkIMC/XjUkHBor/ENan0VQy7Cd1cj3icVole2jf0EFqybYsDxSZhFztaPEFEZvx0kjr7kWGN+MC0hWcWCqMHkf+RR6a9meaZSyhpT5SiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E4kimdKg; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dpyaqPPP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E4kimdKg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710186777; x=1741722777;
+  t=1710188703; x=1741724703;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VQ5airRyukx9l8P1GlBKabCIZiSZqjN/GJ1tTpWhemI=;
-  b=dpyaqPPPveuMg6wXIc5/6gV0k4LOOpy2g4xkZ4f/BqEKOOujumCyfZGj
-   OnaFUMXfd9uBU5nZssx4XEDdHGMTjAQHRRd3rTcHlrrZmio9opFcCJGWQ
-   sgR/qUllSCIgNXuwFCHTDzACS3xy8gOL11qCmIW6MhBtV3/44ZZTIbLU+
-   iN5PfmPjwoELpoG0tqe9iyFZWHhIFkuKhZbyTEQiRXspPasnKN7VIteTK
-   cELkAVp7jsnIkzFj2z3H1Mg0DXzLowSew7dz6AHX1kS14JR3d3UVnsmaB
-   OE0PGzOlhpkH6HolZN3YzmQqWC7MwobtuRUlIbQL5yDOPc2s1FWexm2qv
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4724166"
+  bh=T7mauSTu2sykUuDqTQAHXHhjLTTs3N/3D8wENJUbijQ=;
+  b=E4kimdKgqnFO2ttRjYXAENKs/G1JuZhg2pq+q2gnLHJINp+Sb/H75NRv
+   tbcyTYAabbwiTBDQXmivkXSqkesDWsT+ti8k6StsG/5Gwm17jN7NLaije
+   xqxxw+0rO5pbqdjY3+Q9spM55J8QH7ojUklJYKnJ6/XgIqOoC91e3UvCM
+   nJ0RxBzt4QatJHMEScaZYqQmP9/h3wROG7qd11rTbwJwMxZTpEvxyxz4j
+   JZmbM95WCaHY1l9EMhhyRz4gLaGjpTyrC9k1I5NQecZtY3BQcfbjiBjwu
+   iMNZe0KuilF6NvpWRys+AKkkZH1jDJYgvd13bXe8q/7iXX0n+BgWpqnM5
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="5002696"
 X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="4724166"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 12:52:56 -0700
+   d="scan'208";a="5002696"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 13:25:02 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="11369956"
+   d="scan'208";a="11354634"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 11 Mar 2024 12:52:56 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 11 Mar 2024 13:24:58 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rjlhd-0009PJ-1R;
-	Mon, 11 Mar 2024 19:52:53 +0000
-Date: Tue, 12 Mar 2024 03:52:44 +0800
+	id 1rjmCe-0009Qt-0e;
+	Mon, 11 Mar 2024 20:24:56 +0000
+Date: Tue, 12 Mar 2024 04:24:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/optimized_uprobe_6 1/2]
- arch/x86/kernel/uprobes.c:1110:44: sparse: sparse: incorrect type in
- argument 2 (different address spaces)
-Message-ID: <202403120333.TR6DS6bp-lkp@intel.com>
+Subject: [opencloudos:linux-5.4/next 26638/27506] page_alloc.c:undefined
+ reference to `vm_pagecacache_system_usage'
+Message-ID: <202403120416.MHN1jcwn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,34 +61,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/optimized_uprobe_6
-head:   89ec186aa763b7de4f2846f57d5f7ffc38d72077
-commit: c46975c90ceef8ec72cfa1826b02ebea142c1787 [1/2] uprobe: Add syscall to speed up return probe
-config: x86_64-randconfig-121-20240311 (https://download.01.org/0day-ci/archive/20240312/202403120333.TR6DS6bp-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403120333.TR6DS6bp-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
+head:   3ba333344123321f5f312e69966bbc8e5533561f
+commit: c00014331fe35823156c30381a646b4dd7b20689 [26638/27506] rue/mm: pagecache limit per cgroup support
+config: x86_64-buildonly-randconfig-003-20240310 (https://download.01.org/0day-ci/archive/20240312/202403120416.MHN1jcwn-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403120416.MHN1jcwn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403120333.TR6DS6bp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403120416.MHN1jcwn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/uprobes.c:1110:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void * @@
-   arch/x86/kernel/uprobes.c:1110:44: sparse:     expected void const [noderef] __user *from
-   arch/x86/kernel/uprobes.c:1110:44: sparse:     got void *
+All errors (new ones prefixed by >>):
 
-vim +1110 arch/x86/kernel/uprobes.c
-
-  1102	
-  1103	SYSCALL_DEFINE1(uprobe, unsigned long, cmd)
-  1104	{
-  1105		struct pt_regs *regs = task_pt_regs(current);
-  1106		unsigned long ax, err;
-  1107	
-  1108		uprobe_handle_trampoline(regs);
-  1109	
-> 1110		err = copy_from_user((void*) &ax, (void *) regs->sp, sizeof(ax));
+   ld: mm/page_alloc.o: in function `proc_pagecacache_system_usage':
+>> page_alloc.c:(.text+0x6e47): undefined reference to `vm_pagecacache_system_usage'
+   ld: drivers/acpi/acpi_processor.o: in function `acpi_processor_evaluate_cst':
+   acpi_processor.c:(.text+0x348): undefined reference to `acpi_processor_ffh_cstate_probe'
 
 -- 
 0-DAY CI Kernel Test Service
