@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB25938DE1;
-	Mon, 11 Mar 2024 09:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB283C467;
+	Mon, 11 Mar 2024 10:38:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710150946; cv=none; b=bUvXAwN47e2x2HPS/RVbu7yWgS0Ywn6IP2cXE0s2GibIAtGZRVF2CQNtULV6O2iem0BBMu/2k3BjuM9jX7a6nsu77KtEElrUQaRThgZavsjw0VTAr6vvdFMYFEOx7Llim/+MSJXqO1clDKuge2enBoZZaXgbEvcFw+Cbd6lqaUY=
+	t=1710153525; cv=none; b=eEmpPw8O9RpIL1JVahhOvWnXftmX2C6KXQlzpNOfKo5x5OgaLtDPygDC/7ISoCd2nAomtedGFaIgBCGeiuc2YUTICUEMnw+UHn21JfOSjE6jDzidcyUc46hH5pwb/b7PR3Sn4ZHjoAuAs+29eh5+2XO7F4Rfvn8Th9gGVITghJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710150946; c=relaxed/simple;
-	bh=IRziA5u5KOYYRrfULdeIlofdRRWKz9z9ZrW0q4Jm2PA=;
+	s=arc-20240116; t=1710153525; c=relaxed/simple;
+	bh=W3gGk27wjmYtwUjQ1SGRwd+igJ1d8Lr8QkzZmlSXBU4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hICezRe3hjRyKcr8PzLYCk+2H6MRycW/ofYRUeZSmvURSVQX8KiPavIzL7js3HQzOp4jsq2/Bv09mf2T1/+Vr/20qeo/QlprVaNwhDBnft8aRXn7p151neNOIxrNRVf8Z+MfHpu00RdSu/46MaLSQ5dJmDESkEBkZOLIjMWGSKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jOXux6/v; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=glMutBKlCrp8AVtv7KBXacdKmDY0GIJasHJ+69ARwToWY7udZhtR2p+CQFXl4O3VBT+0EVc0er9BiV02EXRjxy/g3tBFLw6RlzqUBnNnP1w4cnpP4DGIoPQTix1b6SD8HgrArAViUS1uwqZ6QxzpDyq95Oo9xsiDLGLIyzg4ekI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SdduMavW; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jOXux6/v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SdduMavW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710150945; x=1741686945;
+  t=1710153523; x=1741689523;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IRziA5u5KOYYRrfULdeIlofdRRWKz9z9ZrW0q4Jm2PA=;
-  b=jOXux6/v15WvCDpBHdmsKrx8nHr7rJcXkjoQ6M6Pb7xRfr0q4poeGxND
-   sH48PPbbylTZsDFUITfu7n9nBW6pYUFs3v6RqBSs48dTbcNeZm7QmxwL1
-   CBNBAiKlW7YDpGIZ6j/ZfQp65blmFpCGLw7aj7TzTo8oUooAUoLzxWmch
-   FH8NRwOsx+Kh/WXdALZ14ZGLa7lmKS6xShflUPAFlZTVrR0OXCM5JrFrW
-   s9s/IypFIewsoEIMHS9wttx9+87Bzs9OntPU/IVys9T3mTxmEFVfGEG79
-   CPQyRUDmftPFgjm+VbiPlBUIZb5wnfys779cOWZ+y2Yj2LUi2ddGkP6ZC
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="4940540"
+  bh=W3gGk27wjmYtwUjQ1SGRwd+igJ1d8Lr8QkzZmlSXBU4=;
+  b=SdduMavWcEC6JbDwCIA96NbbDDu0jZ52/BE8lptfOMYIh4QY2E0pG5Uk
+   FOQInUe8Ad03smZ/aGRXxYVKTIVn92mp5gpriW743vQ3qw6Z5L9d4TlV9
+   R558qdI/ZW+M4IuCvRx1ispeIuIaIZRQyFfN9cZTYrIFjtyDyp7HIghSr
+   LMP6xXa9DNHIKDvlK92yqUrSntvWgu6238EQHvIhZQFGTLXka6LS5s19O
+   yJ04DU8n6auctSUdtar+BfTv7Nzm+2wXCZpXSdUAXXgw8nvD7N3OxvJzr
+   C3XFs4xALIToFy4UbZb/1VLZM32OJuacL/SvoZhSZFm8zH1fNx3tlp7Hg
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="15537862"
 X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="4940540"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 02:55:42 -0700
+   d="scan'208";a="15537862"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 03:38:42 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="11539618"
+   d="scan'208";a="11695028"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Mar 2024 02:55:41 -0700
+  by orviesa008.jf.intel.com with ESMTP; 11 Mar 2024 03:38:42 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rjcNe-00093P-1H;
-	Mon, 11 Mar 2024 09:55:38 +0000
-Date: Mon, 11 Mar 2024 17:54:59 +0800
+	id 1rjd3H-00094k-0z;
+	Mon, 11 Mar 2024 10:38:39 +0000
+Date: Mon, 11 Mar 2024 18:38:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: Navneet Singh <navneet.singh@intel.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Ira Weiny <ira.weiny@intel.com>
-Subject: [weiny2:dcd-2024-03-10 7/26] drivers/cxl/core/hdm.c:445:3: error:
- expected expression
-Message-ID: <202403111726.SaRLpSrS-lkp@intel.com>
+Subject: [weiny2:dcd-2024-03-10 7/26] drivers/cxl/core/hdm.c:445:3: warning:
+ label followed by a declaration is a C23 extension
+Message-ID: <202403111859.6reDudoo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,33 +62,35 @@ Content-Disposition: inline
 tree:   https://github.com/weiny2/linux-kernel.git dcd-2024-03-10
 head:   0dd99bd79b33de8f6e293c9a2373ca321dad33c7
 commit: 97663934fa1a6024e94de32c480cece7039db3a1 [7/26] cxl/port: Add Dynamic Capacity mode support to endpoint decoders
-config: i386-buildonly-randconfig-001-20240311 (https://download.01.org/0day-ci/archive/20240311/202403111726.SaRLpSrS-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403111726.SaRLpSrS-lkp@intel.com/reproduce)
+config: arm-randconfig-001-20240311 (https://download.01.org/0day-ci/archive/20240311/202403111859.6reDudoo-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 503c55e17037436dcd45ac69dea8967e67e3f5e8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403111859.6reDudoo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403111726.SaRLpSrS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403111859.6reDudoo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/cxl/core/hdm.c:445:3: error: expected expression
+   In file included from drivers/cxl/core/hdm.c:7:
+   In file included from drivers/cxl/cxlmem.h:11:
+   In file included from drivers/cxl/cxl.h:7:
+   In file included from include/linux/libnvdimm.h:14:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm/include/asm/cacheflush.h:10:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/cxl/core/hdm.c:445:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
      445 |                 int rc;
          |                 ^
->> drivers/cxl/core/hdm.c:447:3: error: use of undeclared identifier 'rc'
-     447 |                 rc = dc_mode_to_region_index(mode);
-         |                 ^
-   drivers/cxl/core/hdm.c:448:7: error: use of undeclared identifier 'rc'
-     448 |                 if (rc < 0)
-         |                     ^
-   drivers/cxl/core/hdm.c:449:11: error: use of undeclared identifier 'rc'
-     449 |                         return rc;
-         |                                ^
-   drivers/cxl/core/hdm.c:451:36: error: use of undeclared identifier 'rc'
-     451 |                 if (resource_size(&cxlds->dc_res[rc]) == 0) {
-         |                                                  ^
-   5 errors generated.
+   2 warnings generated.
 
 
 vim +445 drivers/cxl/core/hdm.c
@@ -125,7 +127,7 @@ vim +445 drivers/cxl/core/hdm.c
    444		case CXL_DECODER_DC0 ... CXL_DECODER_DC7:
  > 445			int rc;
    446	
- > 447			rc = dc_mode_to_region_index(mode);
+   447			rc = dc_mode_to_region_index(mode);
    448			if (rc < 0)
    449				return rc;
    450	
