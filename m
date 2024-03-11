@@ -1,80 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10A97EC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 01:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840BE64C;
+	Mon, 11 Mar 2024 01:27:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710119862; cv=none; b=kn1KjI+Bcz4XxkQSkc8v4qypkOJ6oWf/BCNdfRzycjVRrMKeSP+zRnyOtobiJDvS8C91wkf3GfL+2k6JyE9Deay9BkuDN/liwx4yxwqtElRUgyTEe/ZQFXfIkWNUjZWv3N27kxEiPqHiXC4g2hWQKoGWbm4FjzMd/c5nFHnEAcg=
+	t=1710120450; cv=none; b=V6YgAzJHeZOct5r3et/J53XkUcIhPINxVje6ZaDYxIEHs7VOnS6xbbonpU0tyvAwvVqF4YD8CUvNvohIPiptYGybrpyyka5FJ0ASepraXhEvG4HZElX81LqEoaPMEFELo9FBGvhXiEZrW+aLrPR0zwnZrYrKzvCKwFxdffwvQYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710119862; c=relaxed/simple;
-	bh=UGpiGR+bj+jNMMKgQF1FJ4/NU7fqwhisAU1ZdV5siYs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kIa467jAjzEmuNLl4AZqlb8gryyJF1oJnBwTsyM4tKVwbm80WtVWJxQEpSdblBRjV6Dp2KaSNhdFgUNilMvGOqdkbJupwZrxRbBFLlMDBlAqUUXIOb3oSTUK7EI7rj6Ugm3Ug+2JezAlxyjAlrCctCbhOK5uh4vryG/raOhhJ3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JWZkRfoa; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1710120450; c=relaxed/simple;
+	bh=DPlvQk9zd2cnDLglIDXa9D5mPS2edGQIqm28pKQmbng=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Sdg97dMV1apAYYSvgtiKK8gh7rLzTilq/UspSt8bXYcAdy4I4pbauOsj+qT1Glc1u3Y0b6fVbmea1ZppJTSTzH8vQmSPMVRtnxeVSbgpsZU5MJS/QSzkM1hnHqf38Um/i0d2LHTb/NoUS+SserfXvA4eLX88vHtUHI88Xd/2CfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FOc1ZtoB; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JWZkRfoa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FOc1ZtoB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710119861; x=1741655861;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UGpiGR+bj+jNMMKgQF1FJ4/NU7fqwhisAU1ZdV5siYs=;
-  b=JWZkRfoag73PNrZE5PVHOoODFN9hy3P50kqS+wEV+qK+3HE06xWzY8W+
-   Omn+bNBMWxn+7jRuFy4jsz4tWx6yd6FroCHJ4VazpCbRlaA/R/1vElhNj
-   QbhzXUi4vuLIan1N/FJLqX/Zp+0+P8v8+YmD8t2+28UjwvBB2FkI1b+pk
-   +UVOo2QsAIubPni7pUZM5S7K1f70Xw+hg67/nIprmMUS44Z12fNjEh2cN
-   MoePfpvWYUQqoT0lclbzdz0Ve6KVdfT0ndvYA+bTO5dzeNqq0EtNKmSaL
-   17ZY2nLBAV/BHlkQ0gYOnQruurB8vOWVGxQMFUXFA7EOe5KL/UeFAPh8I
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="27237942"
+  t=1710120449; x=1741656449;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DPlvQk9zd2cnDLglIDXa9D5mPS2edGQIqm28pKQmbng=;
+  b=FOc1ZtoBjdiQwl1Ltk8Y5cbFyp6FwQCBuVcXzpApXSdzW/afm6Z3/B+0
+   Va/SWUP46k8WRbhLfPftXlhb30HatH6AsaQIyD9Od5QAF5LOpSXp+dp9/
+   ZQqKD9pOOMcd1yoz3DC1PcLoKWFJHw5gX0QdDhVXZn+4lVlM3RrDbS/y2
+   bNA6rIHCSkzwYsR1WNGyHNPyNFe8eGec+tPY5cxr6RtUxm1yhiqma9oa7
+   a1jKNPpV/DqQjvlYaNjDRiGqb7TessfWp4h7d3jIXCcJBjAR+RbJQU94/
+   0M6dMHIEkRH82wSUSPgTngU/RpIF4E6huGvRw+VPEZfoblY6wFew8rhVC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="16205174"
 X-IronPort-AV: E=Sophos;i="6.07,115,1708416000"; 
-   d="scan'208";a="27237942"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 18:17:34 -0700
+   d="scan'208";a="16205174"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 18:27:29 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,115,1708416000"; 
-   d="scan'208";a="11068462"
+   d="scan'208";a="11020414"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 10 Mar 2024 18:17:26 -0700
+  by orviesa010.jf.intel.com with ESMTP; 10 Mar 2024 18:27:26 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rjUI8-0008mN-0R;
-	Mon, 11 Mar 2024 01:17:24 +0000
-Date: Mon, 11 Mar 2024 09:17:08 +0800
+	id 1rjURo-0008ml-17;
+	Mon, 11 Mar 2024 01:27:24 +0000
+Date: Mon, 11 Mar 2024 09:27:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ian Rogers <irogers@google.com>, Arnd Bergmann <arnd@arndb.de>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Kees Cook <keescook@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH v1 12/13] tools headers: Sync compiler.h headers
-Message-ID: <202403110904.yrRIQbOJ-lkp@intel.com>
-References: <20240310020509.647319-13-irogers@google.com>
+To: "Geoffrey D. Bennett" <g@b4.vu>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [geoffreybennett-scarlett-gen2:vocaster 12/14]
+ sound/usb/mixer_scarlett2.c:5064:6: warning: variable 'err' is used
+ uninitialized whenever 'if' condition is true
+Message-ID: <202403110957.naszvdIe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,300 +58,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240310020509.647319-13-irogers@google.com>
 
-Hi Ian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on perf-tools-next/perf-tools-next]
-[also build test WARNING on perf-tools/perf-tools tip/perf/core]
-[cannot apply to linus/master acme/perf/core v6.8 next-20240308]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Rogers/tools-bpf-Synchronize-bpf-h-with-kernel-uapi-version/20240310-101251
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20240310020509.647319-13-irogers%40google.com
-patch subject: [PATCH v1 12/13] tools headers: Sync compiler.h headers
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240311/202403110904.yrRIQbOJ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403110904.yrRIQbOJ-lkp@intel.com/reproduce)
+tree:   https://github.com/geoffreybennett/scarlett-gen2.git vocaster
+head:   ce1668580ca3badaca4f8350f738ae5e91ee50c1
+commit: dd8657c33cf1b8145bab99aba647a8791f8f81f2 [12/14] ALSA: scarlett2: Add DSP controls
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240311/202403110957.naszvdIe-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403110957.naszvdIe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403110904.yrRIQbOJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403110957.naszvdIe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from tools/objtool/include/objtool/arch.h:11,
-                    from tools/objtool/include/objtool/check.h:11,
-                    from tools/objtool/include/objtool/special.h:10,
-                    from special.c:16:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/include/linux/build_bug.h:5,
-                    from tools/include/linux/kernel.h:8,
-                    from tools/objtool/libsubcmd/include/subcmd/parse-options.h:5,
-                    from tools/objtool/include/objtool/builtin.h:8,
-                    from special.c:15:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from weak.c:10:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/include/linux/build_bug.h:5,
-                    from tools/include/linux/kernel.h:8,
-                    from tools/include/linux/list.h:7,
-                    from tools/objtool/include/objtool/objtool.h:10,
-                    from weak.c:10:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from tools/objtool/include/objtool/arch.h:11,
-                    from tools/objtool/include/objtool/check.h:11,
-                    from tools/objtool/include/objtool/special.h:10,
-                    from arch/x86/special.c:4:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/include/linux/build_bug.h:5,
-                    from tools/include/linux/kernel.h:8,
-                    from tools/include/linux/list.h:7,
-                    from tools/objtool/include/objtool/cfi.h:10,
-                    from tools/objtool/include/objtool/check.h:10,
-                    from tools/objtool/include/objtool/special.h:10,
-                    from arch/x86/special.c:4:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from tools/objtool/include/objtool/arch.h:11,
-                    from check.c:13:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/include/linux/build_bug.h:5,
-                    from tools/include/linux/kernel.h:8,
-                    from tools/objtool/libsubcmd/include/subcmd/parse-options.h:5,
-                    from tools/objtool/include/objtool/builtin.h:8,
-                    from check.c:11:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from builtin-check.c:10:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/include/linux/build_bug.h:5,
-                    from tools/include/linux/kernel.h:8,
-                    from tools/objtool/libsubcmd/include/subcmd/parse-options.h:5,
-                    from builtin-check.c:6:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from tools/objtool/include/objtool/arch.h:11,
-                    from tools/objtool/include/objtool/check.h:11,
-                    from orc_gen.c:12:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/arch/x86/include/asm/orc_types.h:10,
-                    from orc_gen.c:10:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from orc_dump.c:8:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/arch/x86/include/asm/orc_types.h:10,
-                    from orc_dump.c:7:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from objtool.c:16:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/include/linux/build_bug.h:5,
-                    from tools/include/linux/kernel.h:8,
-                    from objtool.c:13:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from tools/objtool/include/objtool/arch.h:11,
-                    from tools/objtool/include/objtool/check.h:11,
-                    from arch/x86/decode.c:18:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/include/linux/build_bug.h:5,
-                    from tools/include/linux/kernel.h:8,
-                    from arch/x86/../../../arch/x86/lib/insn.c:8,
-                    from arch/x86/decode.c:12:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
+>> sound/usb/mixer_scarlett2.c:5064:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+if (oval == val)
+^~~~~~~~~~~
+sound/usb/mixer_scarlett2.c:5078:9: note: uninitialized use occurs here
+return err;
+^~~
+sound/usb/mixer_scarlett2.c:5064:2: note: remove the 'if' if its condition is always false
+if (oval == val)
+^~~~~~~~~~~~~~~~
+sound/usb/mixer_scarlett2.c:5052:20: note: initialize the variable 'err' to silence this warning
+int oval, val, err;
+^
+= 0
+sound/usb/mixer_scarlett2.c:5099:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+if (oval == val)
+^~~~~~~~~~~
+sound/usb/mixer_scarlett2.c:5113:9: note: uninitialized use occurs here
+return err;
+^~~
+sound/usb/mixer_scarlett2.c:5099:2: note: remove the 'if' if its condition is always false
+if (oval == val)
+^~~~~~~~~~~~~~~~
+sound/usb/mixer_scarlett2.c:5087:20: note: initialize the variable 'err' to silence this warning
+int oval, val, err;
+^
+= 0
+2 warnings generated.
 --
-   In file included from weak.c:10:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/include/linux/build_bug.h:5,
-                    from tools/include/linux/kernel.h:8,
-                    from tools/include/linux/list.h:7,
-                    from tools/objtool/include/objtool/objtool.h:10,
-                    from weak.c:10:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from tools/objtool/include/objtool/arch.h:11,
-                    from tools/objtool/include/objtool/check.h:11,
-                    from tools/objtool/include/objtool/special.h:10,
-                    from special.c:16:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/include/linux/build_bug.h:5,
-                    from tools/include/linux/kernel.h:8,
-                    from tools/objtool/libsubcmd/include/subcmd/parse-options.h:5,
-                    from tools/objtool/include/objtool/builtin.h:8,
-                    from special.c:15:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from tools/objtool/include/objtool/arch.h:11,
-                    from check.c:13:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/include/linux/build_bug.h:5,
-                    from tools/include/linux/kernel.h:8,
-                    from tools/objtool/libsubcmd/include/subcmd/parse-options.h:5,
-                    from tools/objtool/include/objtool/builtin.h:8,
-                    from check.c:11:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from builtin-check.c:10:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/include/linux/build_bug.h:5,
-                    from tools/include/linux/kernel.h:8,
-                    from tools/objtool/libsubcmd/include/subcmd/parse-options.h:5,
-                    from builtin-check.c:6:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from tools/objtool/include/objtool/arch.h:11,
-                    from tools/objtool/include/objtool/check.h:11,
-                    from tools/objtool/include/objtool/special.h:10,
-                    from arch/x86/special.c:4:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/include/linux/build_bug.h:5,
-                    from tools/include/linux/kernel.h:8,
-                    from tools/include/linux/list.h:7,
-                    from tools/objtool/include/objtool/cfi.h:10,
-                    from tools/objtool/include/objtool/check.h:10,
-                    from tools/objtool/include/objtool/special.h:10,
-                    from arch/x86/special.c:4:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from objtool.c:16:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/include/linux/build_bug.h:5,
-                    from tools/include/linux/kernel.h:8,
-                    from objtool.c:13:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from orc_dump.c:8:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/arch/x86/include/asm/orc_types.h:10,
-                    from orc_dump.c:7:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from tools/objtool/include/objtool/arch.h:11,
-                    from tools/objtool/include/objtool/check.h:11,
-                    from orc_gen.c:12:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/arch/x86/include/asm/orc_types.h:10,
-                    from orc_gen.c:10:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
-   In file included from tools/objtool/include/objtool/arch.h:11,
-                    from tools/objtool/include/objtool/check.h:11,
-                    from arch/x86/decode.c:18:
->> tools/objtool/include/objtool/objtool.h:15: warning: "__weak" redefined
-      15 | #define __weak __attribute__((weak))
-         | 
-   In file included from tools/include/linux/compiler_types.h:74,
-                    from tools/include/linux/compiler.h:5,
-                    from tools/include/linux/build_bug.h:5,
-                    from tools/include/linux/kernel.h:8,
-                    from arch/x86/../../../arch/x86/lib/insn.c:8,
-                    from arch/x86/decode.c:12:
-   tools/include/linux/compiler_attributes.h:437: note: this is the location of the previous definition
-     437 | # define __weak                          __attribute__((__weak__))
-         | 
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/crypto/aes-arm-bs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/crypto/crc32-arm-ce.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/af_alg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_hash.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_skcipher.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/crypto_simd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libsha256.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-samsung.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/ti/cppi41.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ac97.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-qup.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x-control.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/ohci-exynos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/storage/uas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_acm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ss_lb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_serial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_serial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_obex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_ether.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ncm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_eem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm_subset.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_rndis.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uac1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uac1_legacy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uac2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uvc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_midi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_printer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/libcomposite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/uvc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/marvell/mmp_camera.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/marvell/mcam-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos-fimc-lite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos-fimc-is.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos4-is-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-fiq.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+>> ERROR: modpost: "__aeabi_ldivmod" [sound/usb/snd-usb-audio.ko] undefined!
 
 
-vim +/__weak +15 tools/objtool/include/objtool/objtool.h
+vim +5064 sound/usb/mixer_scarlett2.c
 
-d37c90d47fc465 tools/objtool/objtool.h Matt Helsley   2020-05-19  14  
-eda3dc905834dc tools/objtool/objtool.h Julien Thierry 2020-09-04 @15  #define __weak __attribute__((weak))
-eda3dc905834dc tools/objtool/objtool.h Julien Thierry 2020-09-04  16  
+  5045	
+  5046	static int scarlett2_precomp_flt_switch_ctl_put(
+  5047		struct snd_kcontrol *kctl, struct snd_ctl_elem_value *ucontrol)
+  5048	{
+  5049		struct usb_mixer_elem_info *elem = kctl->private_data;
+  5050		struct usb_mixer_interface *mixer = elem->head.mixer;
+  5051		struct scarlett2_data *private = mixer->private_data;
+  5052		int oval, val, err;
+  5053	
+  5054		mutex_lock(&private->data_mutex);
+  5055	
+  5056		if (private->hwdep_in_use) {
+  5057			err = -EBUSY;
+  5058			goto unlock;
+  5059		}
+  5060	
+  5061		oval = private->precomp_flt_switch[elem->control];
+  5062		val = ucontrol->value.integer.value[0];
+  5063	
+> 5064		if (oval == val)
+  5065			goto unlock;
+  5066	
+  5067		private->precomp_flt_switch[elem->control] = val;
+  5068	
+  5069		/* Send change to the device */
+  5070		err = scarlett2_usb_set_config(
+  5071			mixer, SCARLETT2_CONFIG_PRECOMP_FLT_SWITCH,
+  5072			elem->control, val);
+  5073		if (err == 0)
+  5074			err = 1;
+  5075	
+  5076	unlock:
+  5077		mutex_unlock(&private->data_mutex);
+  5078		return err;
+  5079	}
+  5080	
 
 -- 
 0-DAY CI Kernel Test Service
