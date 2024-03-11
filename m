@@ -1,271 +1,183 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2DBF9CC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 06:09:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710137383; cv=none; b=kj9KTVDow0CeBWQIx6e+ttZo/Jw4ezhsucXvT3ygpTB3eWUim/Jc49wQZ2VC5oI+H/Pb9B1BoKcyVufvfH1PIALvGS9p677Dkqud03WdxYCDdexFh8GSISDftwZjqTkdkQotYA+ss8+bn3nQnKzHO9Vtu/pDMI//QCnJ55kFUNU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710137383; c=relaxed/simple;
-	bh=Yc+HSZj7pi8w+Pe1es3/ExH21auC2FOBsrJ25fREL58=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=fqcxKJrf6vZPM+0VTN2oyNUBNOudhtryMcmsaKcKQJ0yx8ZQaMidiB43jsw+mo56scFdx0iaJ8FfVg7VEnVTGKFRkEDU0u+xdGaIIqB79y3p2hnYTkVYnqdqwnRKmzjRjVlilog4Y8I5A8AZjqroU8D+n5FQlOIyiD1q/47ZZBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wySFCTu/; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC311C20
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 06:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710137516; cv=fail; b=nXKDryhN79y9x2rGpfaX2CalYnJBMdOPGVRbQWvfP+Z+12iDIC6uo/5UQmf1qjZp832cYK/7dQG6UCe5zjrboUhGUPHb/vSETEuVe6ZeUDUVfiTYaBwH/LBi2QNGmBPVAXvi9lCjuij6zLEgpD7PFSOSm8FyMM50CaCERE0Husk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710137516; c=relaxed/simple;
+	bh=95kCCgKqzg202aU/InYzBPOx/7Rsf8WOzRPYb8EoO/k=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=MFBFcJTINDBUNAxISXplfFVOtYg9VtIHNQkL1w2+3BHLJBN4M+aKVyqnSlCnt8UevxHTRA/f41mawLKCY8fIoWZDHyMTl9llgZZ57D9eXAzbgJuzKPZKVwAfZ0rQmizryyflOh1DfECBVjWlvnuQOzaSvchoP+ogx7xQEV1uG6c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nSCZNfuB; arc=fail smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wySFCTu/"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33e570ef661so2155641f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Mar 2024 23:09:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710137379; x=1710742179; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tS9nl4q9NEKZmkXumhR7Y3dmDmz/6iHH99537hhV+SM=;
-        b=wySFCTu/nb6S0JNsOnNWAigJOmVPYaE/mUBbvMd6SDpVet8smun3CJX0jFZVrL1Etp
-         5/SFoHXVONYszHTh2cixbdCxWoKVzyyLi5BAb/ey1VVqpVGqfObFMNZLuOWoAOmxRgRJ
-         3PnDraRVpw7HHFWd8A4yaqc7/wNh7Tk9PC+NutotS4YDALHxNwkrmt0qKLojjaZUG4x1
-         rQBZ8xBTtOeJEX+rX5nwhDodybEUKUKoIEbTSBVGFMy+KsfCUzJ82LCiFZ12wEgLnPy6
-         NCXbZmKj1Y1YuduSCztir5Ux9mI7xXco2Sl4a1M9LE86DOqUh9F5N/h7Of5sRTIAF8Op
-         MTIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710137379; x=1710742179;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tS9nl4q9NEKZmkXumhR7Y3dmDmz/6iHH99537hhV+SM=;
-        b=U90hRNRIPit4+MdVk/U5gdGBTq6v+I/d84ZbR2ZwS0ZgFKAWtjr26pqIp1QcYmDJtT
-         Kvs13dhC9/cWaWndouecly47sAmdG5YQ6s9HbiVawqT98YrKNufGkT5gtasCj/Mryky9
-         rf0yRVUlUEhDqx6f0Yq8MxeLypA6n0Vf6nBxrVVvpYYQGpNN6XBQCQH0+/Z81yNXxIfB
-         Pf/MPkjgSn+X7mXWPpGI9ASJ4cYAMbUE8qbAegykhamUA4GqBufP5+T3cpn7XGPSVso5
-         tCVOgP4ishOsKWjil3AxlDMsRV8L2P/wAJmI9FDSVJmZmsm4reQffOyA1+6sEyOoYL9N
-         WC2g==
-X-Forwarded-Encrypted: i=1; AJvYcCVsB+M3ukRRsCxMQ/kIP0PnJfM73z69m0eZvOgdK3IspT4vRudUH8o2Oh/ZNIKmpZiKFJw9Sanm32Fuiq54SNN4CgqzwvVm4+zxDFPTOg==
-X-Gm-Message-State: AOJu0Yxvra5yrJq0FjqUHif8iMEjniHFeWK2fplWZgbMv8o12UKGtEaz
-	+5Ac/Rs8axdjIkIv7lOxkdKq0WJz1uL5/OIa7ZzKqfW1SZPdc1cqOOCdsMOtWeA=
-X-Google-Smtp-Source: AGHT+IHQ1POGTDHsI+LIBYeNcgHIZPk8uaSuGyN5pzL2gmSR80kQzvMQ7oqidKGFSn5oQZsB8+z63A==
-X-Received: by 2002:a5d:650f:0:b0:33e:4969:f05a with SMTP id x15-20020a5d650f000000b0033e4969f05amr3908051wru.37.1710137379046;
-        Sun, 10 Mar 2024 23:09:39 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id bu29-20020a056000079d00b0033e87564720sm4449600wrb.92.2024.03.10.23.09.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Mar 2024 23:09:38 -0700 (PDT)
-Date: Mon, 11 Mar 2024 09:09:34 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Yosry Ahmed <yosryahmed@google.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/3] x86/mm: make sure LAM is up-to-date during
- context switching
-Message-ID: <a04f0dc9-9f57-47fe-a417-432d5545140b@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nSCZNfuB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710137515; x=1741673515;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=95kCCgKqzg202aU/InYzBPOx/7Rsf8WOzRPYb8EoO/k=;
+  b=nSCZNfuBB/WO+r53XcAQ8XZ+9MWV6DpB7O1f/0XV7IatZ5QZf7CCY3TZ
+   c0yExpsOKX5yie8Pg4UYBB4TMofEweDV9oxUrMG7X/VUtz8tgD0Apg//s
+   WUJI9/vkIOwHdIRPiv2ltAETK3ObSryuLjHlh5G50KnEXu89ElQhQ2br5
+   3YRPS0+NLXx/02M4Fu1v7fqPMOCoud/S5xNT5EXvYFn6dIXjwWtHJZrtq
+   pmYMfGNhQZPtDEHiUDC2cs0cfHlVlM2+gsVG6/IyUh8RCtm31pZDjssjL
+   cCCg1c2N2GPD3WE3rDcc95Mn5EsMogwG7dtx7p2tdFEyZdBfxoZ6qQnCA
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="4963551"
+X-IronPort-AV: E=Sophos;i="6.07,115,1708416000"; 
+   d="scan'208";a="4963551"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 23:11:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,115,1708416000"; 
+   d="scan'208";a="15621757"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Mar 2024 23:11:53 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 10 Mar 2024 23:11:53 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 10 Mar 2024 23:11:52 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Sun, 10 Mar 2024 23:11:52 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Sun, 10 Mar 2024 23:11:52 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JH4R7HQEHWolYD8k7fQIN2Z4jUn7sqmveTXJjIp5CSlIQuI5XZTMJE+42DMfsq2Te43SmhI8YCufkVocrVhOxMqUEyeiVMRDsCYnowN+YsraqheUnbLZcuRRYXjinovzj8XD52cCOa8Ds87ARdCNL6JdM00xcMqOgrojjM7IUoM6ezDgPEtRq9Eav8RD076+onFzGsnqYL8mphi1aRJ1yF489K7Ld5boLJovS9QFj1v5IoUnJYEIQAXQe7/1BFVIqKs4HDTSdirQIWlGv2+gRfG1bYLS+P8D+EFlymlIUu5PEEFGaF8aA3K9kRkRjDec3Vn7MrZIkFOg1miBhZn8pw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LpdvJjs3GYJjF2+wot8XQkNihD5HOiq6OtVSZya4rVc=;
+ b=TtTUzXSLn07KItCAztQc58VB1lKvksAOazYTEhD/ZFg6a99dQbsmCXcBb6AZkRnSW0trzwNk3se5yiT+psRcz6XRlRgBZBV8y5aAIbEapq5Gy7BGxDInIru4jN+QAoYpl3TRG5+aseQhGkwyNH/IRLwp+U6qAaj8GSMPDWevoTX/bGPBz8fpimZsfLthauxCK+Q4Z6/oFrQEBIPFlIACao83ffQKQTBfdp/DbIFzymrNxyexVySIeFkpQXW2T3IK7oE78A0deeNhyFl1hktMPorIguy/TJJSAg7FJ/hdvzTSEx1JVLvTNytS9zIru4MgTCdyUdoKXwMQ6dp6FkESpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by SN7PR11MB7592.namprd11.prod.outlook.com (2603:10b6:806:343::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.10; Mon, 11 Mar
+ 2024 06:11:50 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::7118:c3d4:7001:cf9d]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::7118:c3d4:7001:cf9d%6]) with mapi id 15.20.7386.016; Mon, 11 Mar 2024
+ 06:11:50 +0000
+Date: Mon, 11 Mar 2024 14:05:04 +0800
+From: kernel test robot <yujie.liu@intel.com>
+To: Daniel Bristot de Oliveira <bristot@kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: [bristot:tracing_makefiles 1/3] /usr/bin/ld: cannot find
+ tools/tracing/latency/fixdep-in.o: No such file or directory
+Message-ID: <202403101227.BcMWP1f9-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SI2PR06CA0007.apcprd06.prod.outlook.com
+ (2603:1096:4:186::9) To CY5PR11MB6392.namprd11.prod.outlook.com
+ (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240307133916.3782068-3-yosryahmed@google.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|SN7PR11MB7592:EE_
+X-MS-Office365-Filtering-Correlation-Id: 57bb6a81-80c1-4f9a-193b-08dc419223f7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BAAGbTNhbkvo45pcV4CFg8oFmE7uhVFosrWDI8NtGGobSPGZ4rPg7A2TonKzI7N397CjpKFjQC35c9L4MXrPNB9ty2XULojBmk+EuBOunD/e320faw5IopH5ZCUBstkkIE1POTYKAarZqpVkUqmzPnaFIaiY4/5/MnOC6gl14TGOXKlB7x6DxJbiZCSl5+drbvzkzrrpBKCynUscpuu/sDLdK/qFJgIYnc6Kbf7O1Dgr6IOof2n7qT+Mf0hZudywOIRhlSLMX20gk+3hDfU2YEWiBWnnlhVhLzsoLk5SlGdCxPwvfknnPhj7PkRkOSyRYP5/Y9PsHvUypA1/lpL0TgBF+1D/1KZHDPGgwFoEUsHpegDSjlRXP8Adl8QEkNOqQ3Bk9mGPo4N2j4NOkFVR2gbRhMChqQgwAh70fEQIs8NPZt55iBffrcTZJ5KTEMuLLnNiwXxR65U3S9glR4iV6/hYOCMEPRKiZFdos0NfZUjZRAq7RmTXPQmPzFLI7QEXFMMPCYz0MaYw9+ENmU5IfmQXy5tsZk6xprEHGBDJP9Mgskcr+SpHCxn5Stkyy+sbmO1S/ucf1h5dEDKsonAAOQZI0l85tEk5yxhLBDWP7SmJgfLvDKtNFbhbwIr7tChu
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZKcDUnJM7b1pQnAGv68CtO43/5iv4mlS5cJGyyOINDxXr3EskbX0t91Gg7fB?=
+ =?us-ascii?Q?FV8SQF2fKCucpFS26gDGjg7Ue8/Eu77PAAUzA39UkPOSNZXzHm6NyhqJeMLT?=
+ =?us-ascii?Q?cl+R0/YINlufUDavZYoNl7nv6rCtiov7+b7Ya16c1AJZHWXeAKwatUTlSMmf?=
+ =?us-ascii?Q?FLTTxSkofRD1+dXWYEsEbNtykGqwcZWL3SYRtvRY4vscSIQQUg1miqW/dfyn?=
+ =?us-ascii?Q?/1ErxL5yULGfI4EZnmx+TFW+Z4kiiOccLDfY8sjdHqS5xeqyQANg3ANxiGQJ?=
+ =?us-ascii?Q?LXsMqFp1VIqseHUxfD+o+Opa69u+rtwMqBjqk6C6Fk5tpYhtB8i2GN+D7p0M?=
+ =?us-ascii?Q?J0OXjHw/cNCMETrXFjZ7qAT/10dQhs7cfaoIrX9HQ/MAqffKffFvWSCUmn7C?=
+ =?us-ascii?Q?vN6i3T0K9BUC425+2Jw3q+9njb3ovkof2ZJKbVxQ0AtsJrRy6rOYJyJyYMER?=
+ =?us-ascii?Q?CR8tLi8tOQfsr+QeoXDLJyQWTCKvQHbuioSpZaZukpotmAjI9memXnhZU4vb?=
+ =?us-ascii?Q?my8OuP8sJEaQzmTmlridcJO7/nVRHJe25rdgBfQB87BZV8wR4MN+MGiJnmtj?=
+ =?us-ascii?Q?BTS1W3WmNq8aSIRhkpYjZHcXOrb2DOnNS/nzb3VhyTfCcjFWza9tPhTVxVMO?=
+ =?us-ascii?Q?AhPgWp8Jf380MD2qhXsHGBVY4aeOCfFBaS7kW07ulo5psLn/v1GA+COYv5/3?=
+ =?us-ascii?Q?PoM8Dez5ge8fBOATe25lFEkyBHmbwCmN7sQOb4tmrlWciLw4WZGUinl/E/6R?=
+ =?us-ascii?Q?AVBRh2VtucXa+adyw2VFA09Pzea6NeoTxpfnkkU7Q65cykgoO9hCpqKUxICs?=
+ =?us-ascii?Q?d52+2qpM53xFrHdLm6cgLxX5QHv2YP5pTZQQrV28EH3p5mFn8gcn0Aq2D1AO?=
+ =?us-ascii?Q?jAl587fu4GP/Nxt6nMlPzNjpPu8cGRVanFs5LH3vQgorFBvw+NXx7gMEX2SY?=
+ =?us-ascii?Q?2mTbuSi5heaB/44zm4vPUql5s2Z2hB7ojXBiWe3D6QRus3S0we6p8/DcfVSQ?=
+ =?us-ascii?Q?MCgOjfaLRDtxS0VVq/ddBSCmruIcBsIONbp/dmfaaYvU/8XgTYl6RsdKw2uP?=
+ =?us-ascii?Q?X56G3GCGyJwM5Bvhgz9zwo5wWUXu5D+V5mA0akUzdJ8tJfQGudUuzENfPdXA?=
+ =?us-ascii?Q?x2SvK2d4ae03jWT52wNJ2J/qR4vU/8n+iHzndKsgCprnxOieB+2ASDjBhaJx?=
+ =?us-ascii?Q?pUySg6XDrpM6tro7Rr3GPmw8z58oNzfMTnZwMg7PrNkDANqLKR45EM9v36+x?=
+ =?us-ascii?Q?GowlUkPSxOoszyVGIBQYm3cA1GVWzk/w5SLRX44Y4WUYebb7U0CNwUVniyiJ?=
+ =?us-ascii?Q?sn2OkZedU2Huaq372afgInl+qHILN6rmBqXHPrABbLnCOx6CG0zQis0US0df?=
+ =?us-ascii?Q?mfln79YVsXjaK4PQ4xK8w4QGZz5z9kqEvTNOhImCXxDVfqS6GZNYzUuMjRIT?=
+ =?us-ascii?Q?/zoqf2NPTrWkJJd7dDPHPsaZBhiJhdjK2U44JDgd2NVNvNTV9yQbpWyCsJvZ?=
+ =?us-ascii?Q?W7CPJndVCu04G3XU7oeZMS9m71FEPLrjFfJLOhhl9jqqcaO4rTZFAdV/IqpX?=
+ =?us-ascii?Q?W1J3cNKu9FE58RKa0jP12K9ovdIftvD/y4JTYuaw?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57bb6a81-80c1-4f9a-193b-08dc419223f7
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2024 06:11:50.5079
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8NvZ/aAqpEwj1rbFrKTs+wSuiz/Iaag0VlBkvZbYKkM3KQ/YjFdHAi7WpekJ7STt3WzsY0uA0kquG1UvbTK8LA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7592
+X-OriginatorOrg: intel.com
 
-Hi Yosry,
+Hi Daniel,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/x86-mm-fix-LAM-cr3-mask-inconsistency-during-context-switch/20240307-214052
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240307133916.3782068-3-yosryahmed%40google.com
-patch subject: [RFC PATCH 2/3] x86/mm: make sure LAM is up-to-date during context switching
-config: x86_64-randconfig-161-20240310 (https://download.01.org/0day-ci/archive/20240310/202403101713.eM4pyFpc-lkp@intel.com/config)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/bristot/linux tracing_makefiles
+head:   4ab413bca202fe480bb9fb8e6e1e6a556d50b0c5
+commit: 6f2b86be6286d91ed5fd8e36ec54e07a908cc468 [1/3] tools/tracing: Use tools/build makefiles on latency-collector
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403101713.eM4pyFpc-lkp@intel.com/
+| Reported-by: kernel test robot <yujie.liu@intel.com>
+| Closes: https://lore.kernel.org/r/202403101227.BcMWP1f9-lkp@intel.com/
 
-smatch warnings:
-arch/x86/mm/tlb.c:655 switch_mm_irqs_off() error: uninitialized symbol 'new_asid'.
+New errors:
 
-vim +/new_asid +655 arch/x86/mm/tlb.c
+$ cd linux
+$ make --keep-going tools/all
+...
 
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  501  void switch_mm_irqs_off(struct mm_struct *unused, struct mm_struct *next,
-078194f8e9fe3c Andy Lutomirski    2016-04-26  502  			struct task_struct *tsk)
-69c0319aabba45 Andy Lutomirski    2016-04-26  503  {
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  504  	struct mm_struct *prev = this_cpu_read(cpu_tlbstate.loaded_mm);
-10af6235e0d327 Andy Lutomirski    2017-07-24  505  	u16 prev_asid = this_cpu_read(cpu_tlbstate.loaded_mm_asid);
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  506  	u64 cpu_tlb_gen = this_cpu_read(cpu_tlbstate.ctxs[prev_asid].tlb_gen);
-2f4305b19fe6a2 Nadav Amit         2021-02-20  507  	bool was_lazy = this_cpu_read(cpu_tlbstate_shared.is_lazy);
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  508  	bool need_flush = false, need_lam_update = false;
-94b1b03b519b81 Andy Lutomirski    2017-06-29  509  	unsigned cpu = smp_processor_id();
-897738e46e29e1 Yosry Ahmed        2024-03-07  510  	unsigned long new_lam;
-94b1b03b519b81 Andy Lutomirski    2017-06-29  511  	u64 next_tlb_gen;
-12c4d978fd170c Rik van Riel       2018-09-25  512  	u16 new_asid;
-3d28ebceaffab4 Andy Lutomirski    2017-05-28  513  
-4c1ba3923e6c8a Nadav Amit         2021-02-20  514  	/* We don't want flush_tlb_func() to run concurrently with us. */
-94b1b03b519b81 Andy Lutomirski    2017-06-29  515  	if (IS_ENABLED(CONFIG_PROVE_LOCKING))
-94b1b03b519b81 Andy Lutomirski    2017-06-29  516  		WARN_ON_ONCE(!irqs_disabled());
-94b1b03b519b81 Andy Lutomirski    2017-06-29  517  
-94b1b03b519b81 Andy Lutomirski    2017-06-29  518  	/*
-94b1b03b519b81 Andy Lutomirski    2017-06-29  519  	 * Verify that CR3 is what we think it is.  This will catch
-94b1b03b519b81 Andy Lutomirski    2017-06-29  520  	 * hypothetical buggy code that directly switches to swapper_pg_dir
-10af6235e0d327 Andy Lutomirski    2017-07-24  521  	 * without going through leave_mm() / switch_mm_irqs_off() or that
-10af6235e0d327 Andy Lutomirski    2017-07-24  522  	 * does something like write_cr3(read_cr3_pa()).
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  523  	 *
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  524  	 * Only do this check if CONFIG_DEBUG_VM=y because __read_cr3()
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  525  	 * isn't free.
-94b1b03b519b81 Andy Lutomirski    2017-06-29  526  	 */
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  527  #ifdef CONFIG_DEBUG_VM
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  528  	if (WARN_ON_ONCE(__read_cr3() != build_cr3(prev->pgd, prev_asid,
-82721d8b25d76c Kirill A. Shutemov 2023-03-12  529  						   tlbstate_lam_cr3_mask()))) {
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  530  		/*
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  531  		 * If we were to BUG here, we'd be very likely to kill
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  532  		 * the system so hard that we don't see the call trace.
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  533  		 * Try to recover instead by ignoring the error and doing
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  534  		 * a global flush to minimize the chance of corruption.
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  535  		 *
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  536  		 * (This is far from being a fully correct recovery.
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  537  		 *  Architecturally, the CPU could prefetch something
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  538  		 *  back into an incorrect ASID slot and leave it there
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  539  		 *  to cause trouble down the road.  It's better than
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  540  		 *  nothing, though.)
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  541  		 */
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  542  		__flush_tlb_all();
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  543  	}
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  544  #endif
-09c5272e48614a Nadav Amit         2021-02-20  545  	if (was_lazy)
-2f4305b19fe6a2 Nadav Amit         2021-02-20  546  		this_cpu_write(cpu_tlbstate_shared.is_lazy, false);
-3d28ebceaffab4 Andy Lutomirski    2017-05-28  547  
-306e060435d7a3 Mathieu Desnoyers  2018-01-29  548  	/*
-10bcc80e9dbced Mathieu Desnoyers  2018-01-29  549  	 * The membarrier system call requires a full memory barrier and
-10bcc80e9dbced Mathieu Desnoyers  2018-01-29  550  	 * core serialization before returning to user-space, after
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  551  	 * storing to rq->curr, when changing mm.  This is because
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  552  	 * membarrier() sends IPIs to all CPUs that are in the target mm
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  553  	 * to make them issue memory barriers.  However, if another CPU
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  554  	 * switches to/from the target mm concurrently with
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  555  	 * membarrier(), it can cause that CPU not to receive an IPI
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  556  	 * when it really should issue a memory barrier.  Writing to CR3
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  557  	 * provides that full memory barrier and core serializing
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  558  	 * instruction.
-306e060435d7a3 Mathieu Desnoyers  2018-01-29  559  	 */
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  560  	if (prev == next) {
-82721d8b25d76c Kirill A. Shutemov 2023-03-12  561  		/* Not actually switching mm's */
-e8b9b0cc8269c8 Andy Lutomirski    2017-10-14  562  		VM_WARN_ON(this_cpu_read(cpu_tlbstate.ctxs[prev_asid].ctx_id) !=
-94b1b03b519b81 Andy Lutomirski    2017-06-29  563  			   next->context.ctx_id);
-94b1b03b519b81 Andy Lutomirski    2017-06-29  564  
-3d28ebceaffab4 Andy Lutomirski    2017-05-28  565  		/*
-145f573b89a62b Rik van Riel       2018-09-25  566  		 * Even in lazy TLB mode, the CPU should stay set in the
-145f573b89a62b Rik van Riel       2018-09-25  567  		 * mm_cpumask. The TLB shootdown code can figure out from
-2f4305b19fe6a2 Nadav Amit         2021-02-20  568  		 * cpu_tlbstate_shared.is_lazy whether or not to send an IPI.
-3d28ebceaffab4 Andy Lutomirski    2017-05-28  569  		 */
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  570  		if (WARN_ON_ONCE(prev != &init_mm &&
-b956575bed91ec Andy Lutomirski    2017-10-09  571  				 !cpumask_test_cpu(cpu, mm_cpumask(next))))
-94b1b03b519b81 Andy Lutomirski    2017-06-29  572  			cpumask_set_cpu(cpu, mm_cpumask(next));
-94b1b03b519b81 Andy Lutomirski    2017-06-29  573  
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  574  		/*
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  575  		 * tlbstate_lam_cr3_mask() may be outdated if a different thread
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  576  		 * has enabled LAM while we were borrowing its mm on this CPU.
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  577  		 * Make sure we update CR3 in case we are switching to another
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  578  		 * thread in that process.
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  579  		 */
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  580  		if (tlbstate_lam_cr3_mask() != mm_lam_cr3_mask(next))
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  581  			need_lam_update = true;
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  582  
-145f573b89a62b Rik van Riel       2018-09-25  583  		/*
-145f573b89a62b Rik van Riel       2018-09-25  584  		 * If the CPU is not in lazy TLB mode, we are just switching
-145f573b89a62b Rik van Riel       2018-09-25  585  		 * from one thread in a process to another thread in the same
-145f573b89a62b Rik van Riel       2018-09-25  586  		 * process. No TLB flush required.
-145f573b89a62b Rik van Riel       2018-09-25  587  		 */
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  588  		if (was_lazy) {
-145f573b89a62b Rik van Riel       2018-09-25  589  			/*
-145f573b89a62b Rik van Riel       2018-09-25  590  			 * Read the tlb_gen to check whether a flush is needed.
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  591  			 * If the TLB is up to date, just use it.  The barrier
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  592  			 * synchronizes with the tlb_gen increment in the TLB
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  593  			 * shootdown code.
-145f573b89a62b Rik van Riel       2018-09-25  594  			 */
-145f573b89a62b Rik van Riel       2018-09-25  595  			smp_mb();
-145f573b89a62b Rik van Riel       2018-09-25  596  			next_tlb_gen = atomic64_read(&next->context.tlb_gen);
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  597  			if (cpu_tlb_gen < next_tlb_gen) {
-145f573b89a62b Rik van Riel       2018-09-25  598  				/*
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  599  				 * TLB contents went out of date while we were
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  600  				 * in lazy mode.
-145f573b89a62b Rik van Riel       2018-09-25  601  				 */
-145f573b89a62b Rik van Riel       2018-09-25  602  				new_asid = prev_asid;
+  DESCEND tracing
+  DESCEND latency
 
-new_asid is only initialized if several conditions are true.
+  HOSTCC  fixdep.o
+  HOSTLD  fixdep-in.o
+  LINK    tools/tracing/latency/fixdep
+/usr/bin/ld: cannot find tools/tracing/latency/fixdep-in.o: No such file or directory
+collect2: error: ld returned 1 exit status
+make[5]: *** [Makefile:50: tools/tracing/latency/fixdep] Error 1
+make[4]: *** [tools/build/Makefile.include:5: fixdep] Error 2
+make[3]: *** [Makefile:11: latency] Error 2
+make[2]: *** [Makefile:73: tracing] Error 2
+make[2]: Target 'all' not remade because of errors.
+make[1]: *** [Makefile:1360: tools/all] Error 2
+make: *** [Makefile:240: __sub-make] Error 2
+make: Target 'tools/all' not remade because of errors.
 
-145f573b89a62b Rik van Riel       2018-09-25  603  				need_flush = true;
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  604  			}
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  605  		}
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  606  
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  607  		if (!need_flush && !need_lam_update)
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  608  			return;
-94b1b03b519b81 Andy Lutomirski    2017-06-29  609  	} else {
-18bf3c3ea8ece8 Tim Chen           2018-01-29  610  		/*
-371b09c6fdc436 Balbir Singh       2021-01-08  611  		 * Apply process to process speculation vulnerability
-371b09c6fdc436 Balbir Singh       2021-01-08  612  		 * mitigations if applicable.
-18bf3c3ea8ece8 Tim Chen           2018-01-29  613  		 */
-371b09c6fdc436 Balbir Singh       2021-01-08  614  		cond_mitigation(tsk);
-94b1b03b519b81 Andy Lutomirski    2017-06-29  615  
-e9d8c61557687b Rik van Riel       2018-07-16  616  		/*
-e9d8c61557687b Rik van Riel       2018-07-16  617  		 * Stop remote flushes for the previous mm.
-e9d8c61557687b Rik van Riel       2018-07-16  618  		 * Skip kernel threads; we never send init_mm TLB flushing IPIs,
-e9d8c61557687b Rik van Riel       2018-07-16  619  		 * but the bitmap manipulation can cause cache line contention.
-e9d8c61557687b Rik van Riel       2018-07-16  620  		 */
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  621  		if (prev != &init_mm) {
-e9d8c61557687b Rik van Riel       2018-07-16  622  			VM_WARN_ON_ONCE(!cpumask_test_cpu(cpu,
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  623  						mm_cpumask(prev)));
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  624  			cpumask_clear_cpu(cpu, mm_cpumask(prev));
-e9d8c61557687b Rik van Riel       2018-07-16  625  		}
-e37e43a497d5a8 Andy Lutomirski    2016-08-11  626  
-69c0319aabba45 Andy Lutomirski    2016-04-26  627  		/*
-94b1b03b519b81 Andy Lutomirski    2017-06-29  628  		 * Start remote flushes and then read tlb_gen.
-69c0319aabba45 Andy Lutomirski    2016-04-26  629  		 */
-e9d8c61557687b Rik van Riel       2018-07-16  630  		if (next != &init_mm)
-94b1b03b519b81 Andy Lutomirski    2017-06-29  631  			cpumask_set_cpu(cpu, mm_cpumask(next));
-94b1b03b519b81 Andy Lutomirski    2017-06-29  632  		next_tlb_gen = atomic64_read(&next->context.tlb_gen);
-94b1b03b519b81 Andy Lutomirski    2017-06-29  633  
-10af6235e0d327 Andy Lutomirski    2017-07-24  634  		choose_new_asid(next, next_tlb_gen, &new_asid, &need_flush);
-69c0319aabba45 Andy Lutomirski    2016-04-26  635  
-4012e77a903d11 Andy Lutomirski    2018-08-29  636  		/* Let nmi_uaccess_okay() know that we're changing CR3. */
-4012e77a903d11 Andy Lutomirski    2018-08-29  637  		this_cpu_write(cpu_tlbstate.loaded_mm, LOADED_MM_SWITCHING);
-4012e77a903d11 Andy Lutomirski    2018-08-29  638  		barrier();
-12c4d978fd170c Rik van Riel       2018-09-25  639  	}
-4012e77a903d11 Andy Lutomirski    2018-08-29  640  
-897738e46e29e1 Yosry Ahmed        2024-03-07  641  	/*
-897738e46e29e1 Yosry Ahmed        2024-03-07  642  	 * Even if we are not actually switching mm's, another thread could have
-897738e46e29e1 Yosry Ahmed        2024-03-07  643  	 * updated mm->context.lam_cr3_mask. Make sure tlbstate_lam_cr3_mask()
-897738e46e29e1 Yosry Ahmed        2024-03-07  644  	 * and the loaded CR3 use the up-to-date mask.
-897738e46e29e1 Yosry Ahmed        2024-03-07  645  	 */
-897738e46e29e1 Yosry Ahmed        2024-03-07  646  	new_lam = set_tlbstate_lam_mode(next);
-10af6235e0d327 Andy Lutomirski    2017-07-24  647  	if (need_flush) {
-10af6235e0d327 Andy Lutomirski    2017-07-24  648  		this_cpu_write(cpu_tlbstate.ctxs[new_asid].ctx_id, next->context.ctx_id);
-10af6235e0d327 Andy Lutomirski    2017-07-24  649  		this_cpu_write(cpu_tlbstate.ctxs[new_asid].tlb_gen, next_tlb_gen);
-82721d8b25d76c Kirill A. Shutemov 2023-03-12  650  		load_new_mm_cr3(next->pgd, new_asid, new_lam, true);
-675357362aeba1 Andy Lutomirski    2017-11-04  651  
-bf9282dc26e7fe Peter Zijlstra     2020-08-12  652  		trace_tlb_flush(TLB_FLUSH_ON_TASK_SWITCH, TLB_FLUSH_ALL);
-10af6235e0d327 Andy Lutomirski    2017-07-24  653  	} else {
-10af6235e0d327 Andy Lutomirski    2017-07-24  654  		/* The new ASID is already up to date. */
-82721d8b25d76c Kirill A. Shutemov 2023-03-12 @655  		load_new_mm_cr3(next->pgd, new_asid, new_lam, false);
-675357362aeba1 Andy Lutomirski    2017-11-04  656  
-bf9282dc26e7fe Peter Zijlstra     2020-08-12  657  		trace_tlb_flush(TLB_FLUSH_ON_TASK_SWITCH, 0);
-10af6235e0d327 Andy Lutomirski    2017-07-24  658  	}
-10af6235e0d327 Andy Lutomirski    2017-07-24  659  
-4012e77a903d11 Andy Lutomirski    2018-08-29  660  	/* Make sure we write CR3 before loaded_mm. */
-4012e77a903d11 Andy Lutomirski    2018-08-29  661  	barrier();
-4012e77a903d11 Andy Lutomirski    2018-08-29  662  
-10af6235e0d327 Andy Lutomirski    2017-07-24  663  	this_cpu_write(cpu_tlbstate.loaded_mm, next);
-10af6235e0d327 Andy Lutomirski    2017-07-24  664  	this_cpu_write(cpu_tlbstate.loaded_mm_asid, new_asid);
-69c0319aabba45 Andy Lutomirski    2016-04-26  665  
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  666  	if (next != prev) {
-cb2a02355b042e Thomas Gleixner    2020-04-21  667  		cr4_update_pce_mm(next);
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  668  		switch_ldt(prev, next);
-69c0319aabba45 Andy Lutomirski    2016-04-26  669  	}
-145f573b89a62b Rik van Riel       2018-09-25  670  }
 
 -- 
 0-DAY CI Kernel Test Service
