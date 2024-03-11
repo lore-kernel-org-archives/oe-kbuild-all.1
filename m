@@ -1,141 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC08FC1E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 07:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA90F11724;
+	Mon, 11 Mar 2024 07:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710141640; cv=none; b=iTF1H5pu6axfb4d5pJmNqImBBZtPqroVjHuHR8NrwuHdaSnZ++IG55MipjO/e62+FbdzDLLlAWaFdOnZfltGvuYJoRhtCIxsHYhq5eMkrwyKRHMVx+BALnhjF861DEPC6SG0fTx7Hqu6AL7yhmlsJ61gkvj+uT88TZcoyipMQP8=
+	t=1710142536; cv=none; b=VEJwyX0CJmNx8LJFSYJB5uj7I+/wnNfXRqK0/OvBOhfa/0YtQPgqpU1lZCRCRCwR8gGhrPcD+3uEpddV5yeBFAjYuvfo/xios8zzoySjIleH7i66RKnXP6IT8RaTnig6klwx/9bd1H6o/XdJT0/KvX+GaPVSkJbZF1URObi90fY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710141640; c=relaxed/simple;
-	bh=aqhe5yeM1X+DcMzIDqjhoGwfTjAoptD6YoDR5q/Au50=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YlGZaxPGGqL3iWdMiPaPBEbMgqFFGNPkXLYCOqZ68ovUkU1zXeTDVosoJBmEu80fSF4aSGFGAt+Em3n57wmucFdomPP6s4URCUl3s62MlwEzKrjIcOzwfeJ2505VhiSojJ3ee6KZZOeEHZ9nw0xJa2mc0WOiqdruMr1kyZC4Plk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=barvqIeR; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="barvqIeR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710141637; x=1741677637;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aqhe5yeM1X+DcMzIDqjhoGwfTjAoptD6YoDR5q/Au50=;
-  b=barvqIeRO7iBy/NHFP+f36IFU8RkWBjKzLYrMORcAXs0Saeaa1/wV8gm
-   Rk+ChaVHX3pT/4UeYIbLvnaxH/FqzaD1C8XXms9NQSY2FqhVcIsfk5xsr
-   nzFBoExo0+AF0jpdS2g3Ry45WHOILyo9xiXMlKSMaNqQW0vNGWYEjzRm4
-   OMxrvcxGOeMrt8qYFt0C3MMxqEG2t3sfAh2vZ01mZsBsD7kYwnaKPqunX
-   X1Ir9tqaFamusrqkG5z7YPjpW43XYU6Y5UfM9kLeEWL7Yp9Xg8sZ42xsV
-   yLA3JP7YabHr71z/xXD8uJJzzfv6/TEy6k324JvA7WTX7Wa8L3C9fhFlZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="30230093"
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="30230093"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 00:20:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="10987070"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Mar 2024 00:20:36 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rjZxZ-0008yt-2l;
-	Mon, 11 Mar 2024 07:20:33 +0000
-Date: Mon, 11 Mar 2024 15:20:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/140-pci 9/14]
- drivers/pci/controller/pcie-apple.c:468:40: error: implicit declaration of
- function 'FIELD_PREP'
-Message-ID: <202403111527.L2YieGnK-lkp@intel.com>
+	s=arc-20240116; t=1710142536; c=relaxed/simple;
+	bh=7LH2wzc/LZb2FQlVliTCF9VhxXEg9MBUThqc0qpE1JU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=ipjJMOyzGfnL8/JleEkRxm+DYdNo0Pu2LN+7E/uBW+vAbSwxSdxC833FVHh1sHMTggtJ6RCTvdyRZbhp1+nM3/Y68IQAahIPSlOINCcQ87AiPT+tbEFULr5gHEosr8HOSlD0SsRnN9EroQs7Xjjky2wc4opOnszKfCKpg6Y/64I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4TtT5X5yK0z1h1rl;
+	Mon, 11 Mar 2024 15:33:04 +0800 (CST)
+Received: from dggpemd100001.china.huawei.com (unknown [7.185.36.94])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0BEDD14038F;
+	Mon, 11 Mar 2024 15:35:30 +0800 (CST)
+Received: from [10.67.120.108] (10.67.120.108) by
+ dggpemd100001.china.huawei.com (7.185.36.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28; Mon, 11 Mar 2024 15:35:29 +0800
+Message-ID: <b2762a93-c8e3-f467-aed6-37c7e124f7c8@huawei.com>
+Date: Mon, 11 Mar 2024 15:35:29 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://github.com/AsahiLinux/linux bits/140-pci
-head:   58cab72f915e70990f9e2c9836b7cb6e79a9db35
-commit: 92dbf7fc980de7b1736db46f5a7a3b45330aae72 [9/14] PCIE: apple: Add T602x PCIe support
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240311/202403111527.L2YieGnK-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403111527.L2YieGnK-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403111527.L2YieGnK-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/pci/controller/pcie-apple.c: In function 'apple_pcie_port_setup_irq':
->> drivers/pci/controller/pcie-apple.c:468:40: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     468 |                         writel_relaxed(FIELD_PREP(PORT_MSIMAP_TARGET, i) |
-         |                                        ^~~~~~~~~~
-   cc1: some warnings being treated as errors
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH v3 1/3] scsi: libsas: Allow smp_execute_task() arguments
+ to be on the stack
+Content-Language: en-CA
+To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
+	<john.g.garry@oracle.com>, <yanaijie@huawei.com>, <jejb@linux.ibm.com>,
+	<martin.petersen@oracle.com>, <damien.lemoal@opensource.wdc.com>
+CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-scsi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linuxarm@huawei.com>, <prime.zeng@hisilicon.com>,
+	<chenxiang66@hisilicon.com>, <kangfenglong@huawei.com>
+References: <0cf17536-beba-4a8f-836b-553a9e0d1046@moroto.mountain>
+From: yangxingui <yangxingui@huawei.com>
+In-Reply-To: <0cf17536-beba-4a8f-836b-553a9e0d1046@moroto.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggpemm500024.china.huawei.com (7.185.36.203) To
+ dggpemd100001.china.huawei.com (7.185.36.94)
 
 
-vim +/FIELD_PREP +468 drivers/pci/controller/pcie-apple.c
 
-   430	
-   431	static int apple_pcie_port_setup_irq(struct apple_pcie_port *port)
-   432	{
-   433		struct fwnode_handle *fwnode = &port->np->fwnode;
-   434		struct apple_pcie *pcie = port->pcie;
-   435		unsigned int irq;
-   436	
-   437		/* FIXME: consider moving each interrupt under each port */
-   438		irq = irq_of_parse_and_map(to_of_node(dev_fwnode(port->pcie->dev)),
-   439					   port->idx);
-   440		if (!irq)
-   441			return -ENXIO;
-   442	
-   443		port->domain = irq_domain_create_linear(fwnode, 32,
-   444							&apple_port_irq_domain_ops,
-   445							port);
-   446		if (!port->domain)
-   447			return -ENOMEM;
-   448	
-   449		/* Disable all interrupts */
-   450		writel_relaxed(~0, port->base + PORT_INTMSK);
-   451		writel_relaxed(~0, port->base + PORT_INTSTAT);
-   452		writel_relaxed(~0, port->base + PORT_LINKCMDSTS);
-   453	
-   454		irq_set_chained_handler_and_data(irq, apple_port_irq_handler, port);
-   455	
-   456		/* Configure MSI base address */
-   457		BUG_ON(upper_32_bits(DOORBELL_ADDR));
-   458		writel_relaxed(lower_32_bits(DOORBELL_ADDR),
-   459			       port->base + pcie->hw->port_msiaddr);
-   460		if (pcie->hw->port_msiaddr_hi)
-   461			writel_relaxed(0, port->base + pcie->hw->port_msiaddr_hi);
-   462	
-   463		/* Enable MSIs, shared between all ports */
-   464		if (pcie->hw->port_msimap) {
-   465			int i;
-   466	
-   467			for (i = 0; i < pcie->nvecs; i++) {
- > 468				writel_relaxed(FIELD_PREP(PORT_MSIMAP_TARGET, i) |
-   469					       PORT_MSIMAP_ENABLE,
-   470					       port->base + pcie->hw->port_msimap + 4 * i);
-   471			}
-   472	
-   473			writel_relaxed(PORT_MSICFG_EN, port->base + PORT_MSICFG);
-   474		} else {
-   475			writel_relaxed(0, port->base + PORT_MSIBASE);
-   476			writel_relaxed((ilog2(pcie->nvecs) << PORT_MSICFG_L2MSINUM_SHIFT) |
-   477				PORT_MSICFG_EN, port->base + PORT_MSICFG);
-   478		}
-   479	
-   480		return 0;
-   481	}
-   482	
+On 2024/3/11 13:42, Dan Carpenter wrote:
+> Hi Xingui,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Xingui-Yang/scsi-libsas-Allow-smp_execute_task-arguments-to-be-on-the-stack/20240307-174215
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+> patch link:    https://lore.kernel.org/r/20240307093733.41222-2-yangxingui%40huawei.com
+> patch subject: [PATCH v3 1/3] scsi: libsas: Allow smp_execute_task() arguments to be on the stack
+> config: i386-randconfig-141-20240308 (https://download.01.org/0day-ci/archive/20240310/202403102353.jUPi6fOP-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202403102353.jUPi6fOP-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/scsi/libsas/sas_expander.c:148 smp_execute_task() warn: possible memory leak of '_req'
+> 
+> vim +/_req +148 drivers/scsi/libsas/sas_expander.c
+> 
+> adfd2325dfc5cf6 Xingui Yang     2024-03-07  138  static int smp_execute_task(struct domain_device *dev, void *req, int req_size,
+> adfd2325dfc5cf6 Xingui Yang     2024-03-07  139  			    void *resp, int resp_size)
+> adfd2325dfc5cf6 Xingui Yang     2024-03-07  140  {
+> adfd2325dfc5cf6 Xingui Yang     2024-03-07  141  	struct scatterlist req_sg;
+> adfd2325dfc5cf6 Xingui Yang     2024-03-07  142  	struct scatterlist resp_sg;
+> adfd2325dfc5cf6 Xingui Yang     2024-03-07  143  	void *_req = kmemdup(req, req_size, GFP_KERNEL);
+> adfd2325dfc5cf6 Xingui Yang     2024-03-07  144  	void *_resp = alloc_smp_resp(resp_size);
+> adfd2325dfc5cf6 Xingui Yang     2024-03-07  145  	int ret;
+> adfd2325dfc5cf6 Xingui Yang     2024-03-07  146
+> adfd2325dfc5cf6 Xingui Yang     2024-03-07  147  	if (!_req || !resp)
+> adfd2325dfc5cf6 Xingui Yang     2024-03-07 @148  		return -ENOMEM;
+> 
+> I haven't looked at the callers so I don't know how likely it is for one
+> of the allocations to fail and the other succeed...  But it seems
+> possible.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yes, it's possible. This patch has been canceled in v4. Based on John's 
+suggestion, if there are plans to resubmit modifications , we will pay 
+attention to this, thank you.
+
+Thanks,
+Xingui
