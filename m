@@ -1,67 +1,59 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62FBE54C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 07:40:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C043E1799B;
+	Mon, 11 Mar 2024 09:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710142849; cv=none; b=LsjBAqvre0xqTQo8PN9xWgGNFRHN9TvV0B+0oZFJ6Wbrl+BK/UJhUoMglVwqdTjGgRJ0l2s1cDtEUr+JdjabI4VvPjnbcW1wSa1A27FxjM86hZPioVowZ6nxwSvTY+V5jpj9wDm42C12oK/tPyQE3n4vJ0wF0FFx+rYCsVcFwW4=
+	t=1710149089; cv=none; b=rn8ZJYeH/0qd9J7kFksQTTaAF6318xXv/jSc7t3M0XWV5veq3eMSBkOEkyt0IwGcRjy0n6c32RbJ87S3gw+mELTtsuX7FgjcHWT4qqW0YIH9rtbLpBDC+Y6o/7huGRM2L5cNHB6NLXy4UuYrJLfswqnOosoie65X+/LUppvv9bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710142849; c=relaxed/simple;
-	bh=xQOsuiwh4tTpYKJAUKw8q/WwBDBZDhpNlMtr5qqHVSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=DiZDtAdqLxi593TVN95oU1KMMYL5GCLtaEfRXoTa06VcITrniKrQf1amZB+4iYoEV5xjVwBEi8SLlt15yzw8PYvPsJGHRBiZpqdDKjiiPDZGZFxXlqPGQcHZtar5wcFBX3DeNzo7llbGn8+f9vggLyC7zLzQIGl5JqU3K6sdTp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k7QB86Hj; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1710149089; c=relaxed/simple;
+	bh=ofc6i9ah0Q1DjQTrTrHI3Y7ly2Bw7Phd6oCEjWF20Ic=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ti84pIUlooI52UsYYjjeOKXVUSLwQHI+JJl+y6PhJL8wguA64kDXDomuoST5H093eWzvTB9NUOmDGdXmoOf71I3lFGEvC2r0S/DnTtYh66IgfcB5mSmyEWQqyvj+IMtwNWjfXqahxobJR/xWYh3acDRwEZHEQvXvxqLd0O+yGQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gRPEXaxH; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k7QB86Hj"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33e8f906f3dso1148472f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 00:40:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710142845; x=1710747645; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eVclaOUNNQHaiMY4OSjqHr11jriWi56sAbG66uxHGtw=;
-        b=k7QB86HjUj+4fjSQI9RkwWknJGFhahtFEyf7urlmbM5CrBfrA7+a82QYfANxHNnZpy
-         zjT8QJQx0VujVFOBx4qBAP4ySc74cJacjToA1DGaWLygrO+s9Mq/keIPth1h2AveNHni
-         qDgcWoCPW3VNI9MY8PfGFJyM6TR+fL5YPXuok1Cbjyag1uktdHjvmREEd0AZ2cbrLi6Z
-         VgPebbEe0HZv25JtNKfDfzDpmeW53MojGcKYBTWyg9l3+HPExRBZBkYKO/Q0W+gjoxNB
-         R1HLfDjLgOG1B1fTM37L02TFXhyAR7o5mNU8h3xSgqZH2vtOJ501lb9v7Bf9ovK5g1hO
-         BWgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710142845; x=1710747645;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eVclaOUNNQHaiMY4OSjqHr11jriWi56sAbG66uxHGtw=;
-        b=Dr43Bil7DEfrwXW6llshy94s8Nh/oHtTon9VG1AHOUMpA8u/vX+j5s0giiqs3hZldc
-         CwXKKNOUvU0AgeuOjh/PALbWg4Zyeh7b4LcC+QpR03h1paaDIQP+y2LbZcgEOnt4fA9G
-         IjwsUxKIw0BaWbw4OGPIE+V7i1gQ85zD7CRsAkFWp7Jbfus8rrIYdMjl7F28tb3Y2tw2
-         YQYeeePGWp7sAytPpRQP9PtEbXvGFKAuZ7vuiod8O/SphGEbPD4KAfaU9gtBv0a3vBqg
-         LoLEmE0tyOImkV9leSgxYOqnHc5s+TyutK/dD5nU9U2/Ad+NXRYsbzxGWjsCBtUvaHzZ
-         n3XA==
-X-Forwarded-Encrypted: i=1; AJvYcCWVHp9OVbos9GsU5aPhCsTBc0Ql337r2BDTDHp/vYrebbL1hHtQVYJoYPpsq0MTMc5pbcECA/WDe0PcV7197lFmkihjCViZD2St3YkpOA==
-X-Gm-Message-State: AOJu0YzFMFlGYbq2BDBqGSbfOpbJoHjFc17E7MuncUSslSAJiDGnSrJU
-	C8OMc/Ggh9EU60LDdWTCoO/b5OxEfO+g3M7BnRutI8EihazGyclmRSYKbwVfLLc=
-X-Google-Smtp-Source: AGHT+IFG3p9i/GwaORQw7AYMiRkBM4TiCq3dT5JLYVfKV1sF2G2FrxnJTk2xGSHyD4QUmmll6vYqGg==
-X-Received: by 2002:adf:ef43:0:b0:33d:71e5:f556 with SMTP id c3-20020adfef43000000b0033d71e5f556mr4606485wrp.27.1710142844925;
-        Mon, 11 Mar 2024 00:40:44 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id z2-20020a5d6402000000b0033dedd63382sm5649639wru.101.2024.03.11.00.40.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Mar 2024 00:40:44 -0700 (PDT)
-Date: Mon, 11 Mar 2024 10:40:40 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>,
-	herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Ruud.Derwig@synopsys.com,
-	manjunath.hadli@vayavyalabs.com,
-	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
-Subject: Re: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and
- Makefile file
-Message-ID: <1f00d2ad-185e-4f02-a20f-0e9b101add50@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gRPEXaxH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710149086; x=1741685086;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ofc6i9ah0Q1DjQTrTrHI3Y7ly2Bw7Phd6oCEjWF20Ic=;
+  b=gRPEXaxHNo/xRVKEdkv2UfVxpKttSop8z3z6H/XjPm1GOrfi2SZCUCNE
+   OITBpDGiaMoQY2b3TGOdY1BdNrAImrRVjqqRfrelB/YVO+0aEMLCxdnst
+   5XSDAMABavwjoYlSev2/Ik6why7wnf8lJRJVFsoAuE0gE1D+PKDzW414M
+   O/BlyKOYjNRXYM/OtRi1xsIoiXw5D/cJ7f6JxGxCdOqYNK4K3vmd/jDLJ
+   rx7XkxiRcVVSOFEMvhAJjavMUGFwY0+IMoeNjo+Q9ejUmbIbx/3lhf8QC
+   FdWajSRPH/+a7cjHBjRoYysBiAi4c59GWv49jKLSV9coI1HG6rz9uG6Z8
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="8555619"
+X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
+   d="scan'208";a="8555619"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 02:24:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
+   d="scan'208";a="15672984"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 11 Mar 2024 02:24:40 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rjbtd-00092N-2i;
+	Mon, 11 Mar 2024 09:24:37 +0000
+Date: Mon, 11 Mar 2024 17:24:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com, anjan@momi.ca
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Tree Davies <tdavies@darkphysics.net>
+Subject: Re: [PATCH 11/11] Staging: rtl8192e: Implement BIT macro for bit
+ shift ops
+Message-ID: <202403111745.3SiSUhkl-lkp@intel.com>
+References: <20240310235552.4217-12-tdavies@darkphysics.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,103 +62,289 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240305112831.3380896-5-pavitrakumarm@vayavyalabs.com>
+In-Reply-To: <20240310235552.4217-12-tdavies@darkphysics.net>
 
-Hi Pavitrakumar,
+Hi Tree,
 
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-M/Add-SPAcc-driver-to-Linux-kernel/20240305-193337
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20240305112831.3380896-5-pavitrakumarm%40vayavyalabs.com
-patch subject: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and Makefile file
-config: i386-randconfig-141-20240308 (https://download.01.org/0day-ci/archive/20240311/202403111044.eqxBgcDl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Tree-Davies/Staging-rtl8192e-Rename-variable-ReturnPoint/20240311-075949
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20240310235552.4217-12-tdavies%40darkphysics.net
+patch subject: [PATCH 11/11] Staging: rtl8192e: Implement BIT macro for bit shift ops
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240311/202403111745.3SiSUhkl-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 503c55e17037436dcd45ac69dea8967e67e3f5e8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403111745.3SiSUhkl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403111044.eqxBgcDl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403111745.3SiSUhkl-lkp@intel.com/
 
-New smatch warnings:
-drivers/crypto/dwc-spacc/spacc_skcipher.c:176 spacc_cipher_cb() warn: was && intended here instead of ||?
-drivers/crypto/dwc-spacc/spacc_aead.c:1131 spacc_aead_process() error: uninitialized symbol 'ptaadsize'.
+All warnings (new ones prefixed by >>):
 
-vim +176 drivers/crypto/dwc-spacc/spacc_skcipher.c
+   In file included from drivers/staging/rtl8192e/rtllib_module.c:18:
+   In file included from include/linux/if_arp.h:22:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/powerpc/include/asm/cacheflush.h:7:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/staging/rtl8192e/rtllib_module.c:35:
+>> drivers/staging/rtl8192e/rtllib.h:422:9: warning: 'WLAN_CAPABILITY_ESS' macro redefined [-Wmacro-redefined]
+     422 | #define WLAN_CAPABILITY_ESS BIT(0)
+         |         ^
+   include/linux/ieee80211.h:3218:9: note: previous definition is here
+    3218 | #define WLAN_CAPABILITY_ESS             (1<<0)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtllib_module.c:35:
+>> drivers/staging/rtl8192e/rtllib.h:423:9: warning: 'WLAN_CAPABILITY_IBSS' macro redefined [-Wmacro-redefined]
+     423 | #define WLAN_CAPABILITY_IBSS BIT(1)
+         |         ^
+   include/linux/ieee80211.h:3219:9: note: previous definition is here
+    3219 | #define WLAN_CAPABILITY_IBSS            (1<<1)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtllib_module.c:35:
+>> drivers/staging/rtl8192e/rtllib.h:424:9: warning: 'WLAN_CAPABILITY_PRIVACY' macro redefined [-Wmacro-redefined]
+     424 | #define WLAN_CAPABILITY_PRIVACY BIT(4)
+         |         ^
+   include/linux/ieee80211.h:3231:9: note: previous definition is here
+    3231 | #define WLAN_CAPABILITY_PRIVACY         (1<<4)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtllib_module.c:35:
+>> drivers/staging/rtl8192e/rtllib.h:425:9: warning: 'WLAN_CAPABILITY_SHORT_PREAMBLE' macro redefined [-Wmacro-redefined]
+     425 | #define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
+         |         ^
+   include/linux/ieee80211.h:3232:9: note: previous definition is here
+    3232 | #define WLAN_CAPABILITY_SHORT_PREAMBLE  (1<<5)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtllib_module.c:35:
+>> drivers/staging/rtl8192e/rtllib.h:426:9: warning: 'WLAN_CAPABILITY_SHORT_SLOT_TIME' macro redefined [-Wmacro-redefined]
+     426 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
+         |         ^
+   include/linux/ieee80211.h:3239:9: note: previous definition is here
+    3239 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
+         |         ^
+   10 warnings generated.
+--
+   In file included from drivers/staging/rtl8192e/rtllib_crypt_tkip.c:15:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/powerpc/include/asm/cacheflush.h:7:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/staging/rtl8192e/rtllib_crypt_tkip.c:23:
+>> drivers/staging/rtl8192e/rtllib.h:422:9: warning: 'WLAN_CAPABILITY_ESS' macro redefined [-Wmacro-redefined]
+     422 | #define WLAN_CAPABILITY_ESS BIT(0)
+         |         ^
+   include/linux/ieee80211.h:3218:9: note: previous definition is here
+    3218 | #define WLAN_CAPABILITY_ESS             (1<<0)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtllib_crypt_tkip.c:23:
+>> drivers/staging/rtl8192e/rtllib.h:423:9: warning: 'WLAN_CAPABILITY_IBSS' macro redefined [-Wmacro-redefined]
+     423 | #define WLAN_CAPABILITY_IBSS BIT(1)
+         |         ^
+   include/linux/ieee80211.h:3219:9: note: previous definition is here
+    3219 | #define WLAN_CAPABILITY_IBSS            (1<<1)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtllib_crypt_tkip.c:23:
+>> drivers/staging/rtl8192e/rtllib.h:424:9: warning: 'WLAN_CAPABILITY_PRIVACY' macro redefined [-Wmacro-redefined]
+     424 | #define WLAN_CAPABILITY_PRIVACY BIT(4)
+         |         ^
+   include/linux/ieee80211.h:3231:9: note: previous definition is here
+    3231 | #define WLAN_CAPABILITY_PRIVACY         (1<<4)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtllib_crypt_tkip.c:23:
+>> drivers/staging/rtl8192e/rtllib.h:425:9: warning: 'WLAN_CAPABILITY_SHORT_PREAMBLE' macro redefined [-Wmacro-redefined]
+     425 | #define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
+         |         ^
+   include/linux/ieee80211.h:3232:9: note: previous definition is here
+    3232 | #define WLAN_CAPABILITY_SHORT_PREAMBLE  (1<<5)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtllib_crypt_tkip.c:23:
+>> drivers/staging/rtl8192e/rtllib.h:426:9: warning: 'WLAN_CAPABILITY_SHORT_SLOT_TIME' macro redefined [-Wmacro-redefined]
+     426 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
+         |         ^
+   include/linux/ieee80211.h:3239:9: note: previous definition is here
+    3239 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
+         |         ^
+   drivers/staging/rtl8192e/rtllib_crypt_tkip.c:641:7: warning: variable 'iv32' set but not used [-Wunused-but-set-variable]
+     641 |                 u32 iv32 = tkey->tx_iv32;
+         |                     ^
+   11 warnings generated.
+--
+   In file included from drivers/staging/rtl8192e/rtllib_softmac_wx.c:16:
+>> drivers/staging/rtl8192e/rtllib.h:422:9: warning: 'WLAN_CAPABILITY_ESS' macro redefined [-Wmacro-redefined]
+     422 | #define WLAN_CAPABILITY_ESS BIT(0)
+         |         ^
+   include/linux/ieee80211.h:3218:9: note: previous definition is here
+    3218 | #define WLAN_CAPABILITY_ESS             (1<<0)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtllib_softmac_wx.c:16:
+>> drivers/staging/rtl8192e/rtllib.h:423:9: warning: 'WLAN_CAPABILITY_IBSS' macro redefined [-Wmacro-redefined]
+     423 | #define WLAN_CAPABILITY_IBSS BIT(1)
+         |         ^
+   include/linux/ieee80211.h:3219:9: note: previous definition is here
+    3219 | #define WLAN_CAPABILITY_IBSS            (1<<1)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtllib_softmac_wx.c:16:
+>> drivers/staging/rtl8192e/rtllib.h:424:9: warning: 'WLAN_CAPABILITY_PRIVACY' macro redefined [-Wmacro-redefined]
+     424 | #define WLAN_CAPABILITY_PRIVACY BIT(4)
+         |         ^
+   include/linux/ieee80211.h:3231:9: note: previous definition is here
+    3231 | #define WLAN_CAPABILITY_PRIVACY         (1<<4)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtllib_softmac_wx.c:16:
+>> drivers/staging/rtl8192e/rtllib.h:425:9: warning: 'WLAN_CAPABILITY_SHORT_PREAMBLE' macro redefined [-Wmacro-redefined]
+     425 | #define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
+         |         ^
+   include/linux/ieee80211.h:3232:9: note: previous definition is here
+    3232 | #define WLAN_CAPABILITY_SHORT_PREAMBLE  (1<<5)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtllib_softmac_wx.c:16:
+>> drivers/staging/rtl8192e/rtllib.h:426:9: warning: 'WLAN_CAPABILITY_SHORT_SLOT_TIME' macro redefined [-Wmacro-redefined]
+     426 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
+         |         ^
+   include/linux/ieee80211.h:3239:9: note: previous definition is here
+    3239 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
+         |         ^
+   5 warnings generated.
+--
+   In file included from drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:10:
+   In file included from drivers/staging/rtl8192e/rtl8192e/rtl_core.h:18:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:24:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:10:
+   In file included from drivers/staging/rtl8192e/rtl8192e/rtl_core.h:35:
+>> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:422:9: warning: 'WLAN_CAPABILITY_ESS' macro redefined [-Wmacro-redefined]
+     422 | #define WLAN_CAPABILITY_ESS BIT(0)
+         |         ^
+   include/linux/ieee80211.h:3218:9: note: previous definition is here
+    3218 | #define WLAN_CAPABILITY_ESS             (1<<0)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:10:
+   In file included from drivers/staging/rtl8192e/rtl8192e/rtl_core.h:35:
+>> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:423:9: warning: 'WLAN_CAPABILITY_IBSS' macro redefined [-Wmacro-redefined]
+     423 | #define WLAN_CAPABILITY_IBSS BIT(1)
+         |         ^
+   include/linux/ieee80211.h:3219:9: note: previous definition is here
+    3219 | #define WLAN_CAPABILITY_IBSS            (1<<1)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:10:
+   In file included from drivers/staging/rtl8192e/rtl8192e/rtl_core.h:35:
+>> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:424:9: warning: 'WLAN_CAPABILITY_PRIVACY' macro redefined [-Wmacro-redefined]
+     424 | #define WLAN_CAPABILITY_PRIVACY BIT(4)
+         |         ^
+   include/linux/ieee80211.h:3231:9: note: previous definition is here
+    3231 | #define WLAN_CAPABILITY_PRIVACY         (1<<4)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:10:
+   In file included from drivers/staging/rtl8192e/rtl8192e/rtl_core.h:35:
+>> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:425:9: warning: 'WLAN_CAPABILITY_SHORT_PREAMBLE' macro redefined [-Wmacro-redefined]
+     425 | #define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
+         |         ^
+   include/linux/ieee80211.h:3232:9: note: previous definition is here
+    3232 | #define WLAN_CAPABILITY_SHORT_PREAMBLE  (1<<5)
+         |         ^
+   In file included from drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:10:
+   In file included from drivers/staging/rtl8192e/rtl8192e/rtl_core.h:35:
+>> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:426:9: warning: 'WLAN_CAPABILITY_SHORT_SLOT_TIME' macro redefined [-Wmacro-redefined]
+     426 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
+         |         ^
+   include/linux/ieee80211.h:3239:9: note: previous definition is here
+    3239 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
+         |         ^
+   10 warnings generated.
 
-6ad822cec22644 Pavitrakumar M 2024-03-05  146  static void spacc_cipher_cb(void *spacc, void *tfm)
-6ad822cec22644 Pavitrakumar M 2024-03-05  147  {
-6ad822cec22644 Pavitrakumar M 2024-03-05  148  	struct cipher_cb_data *cb = tfm;
-6ad822cec22644 Pavitrakumar M 2024-03-05  149  	int err = -1, rc;
-6ad822cec22644 Pavitrakumar M 2024-03-05  150  	int total_len;
-6ad822cec22644 Pavitrakumar M 2024-03-05  151  	struct spacc_crypto_reqctx *ctx = skcipher_request_ctx(cb->req);
-6ad822cec22644 Pavitrakumar M 2024-03-05  152  
-6ad822cec22644 Pavitrakumar M 2024-03-05  153  	u32 status_reg = readl(cb->spacc->regmap + SPACC_REG_STATUS);
-6ad822cec22644 Pavitrakumar M 2024-03-05  154  	u32 status_ret = (status_reg >> 24) & 0x03;
-6ad822cec22644 Pavitrakumar M 2024-03-05  155  
-6ad822cec22644 Pavitrakumar M 2024-03-05  156  	if (ctx->mode == CRYPTO_MODE_DES_CBC ||
-6ad822cec22644 Pavitrakumar M 2024-03-05  157  	    ctx->mode == CRYPTO_MODE_3DES_CBC) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  158  		rc = spacc_read_context(cb->spacc, cb->tctx->handle,
-6ad822cec22644 Pavitrakumar M 2024-03-05  159  					SPACC_CRYPTO_OPERATION, NULL, 0,
-6ad822cec22644 Pavitrakumar M 2024-03-05  160  					cb->req->iv, 8);
-6ad822cec22644 Pavitrakumar M 2024-03-05  161  	} else if (ctx->mode != CRYPTO_MODE_DES_ECB  &&
-6ad822cec22644 Pavitrakumar M 2024-03-05  162  		   ctx->mode != CRYPTO_MODE_3DES_ECB &&
-6ad822cec22644 Pavitrakumar M 2024-03-05  163  		   ctx->mode != CRYPTO_MODE_SM4_ECB  &&
-6ad822cec22644 Pavitrakumar M 2024-03-05  164  		   ctx->mode != CRYPTO_MODE_AES_ECB  &&
-6ad822cec22644 Pavitrakumar M 2024-03-05  165  		   ctx->mode != CRYPTO_MODE_SM4_XTS  &&
-6ad822cec22644 Pavitrakumar M 2024-03-05  166  		   ctx->mode != CRYPTO_MODE_KASUMI_ECB) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  167  		if (status_ret == 0x3) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  168  			err = -EINVAL;
-6ad822cec22644 Pavitrakumar M 2024-03-05  169  			goto REQ_DST_CP_SKIP;
-6ad822cec22644 Pavitrakumar M 2024-03-05  170  		}
-6ad822cec22644 Pavitrakumar M 2024-03-05  171  		rc = spacc_read_context(cb->spacc, cb->tctx->handle,
-6ad822cec22644 Pavitrakumar M 2024-03-05  172  					SPACC_CRYPTO_OPERATION, NULL, 0,
-6ad822cec22644 Pavitrakumar M 2024-03-05  173  					cb->req->iv, 16);
-6ad822cec22644 Pavitrakumar M 2024-03-05  174  	}
-6ad822cec22644 Pavitrakumar M 2024-03-05  175  
-6ad822cec22644 Pavitrakumar M 2024-03-05 @176  	if (ctx->mode != CRYPTO_MODE_DES_ECB  ||
-6ad822cec22644 Pavitrakumar M 2024-03-05  177  	    ctx->mode != CRYPTO_MODE_DES_CBC  ||
-6ad822cec22644 Pavitrakumar M 2024-03-05  178  	    ctx->mode != CRYPTO_MODE_3DES_ECB ||
-6ad822cec22644 Pavitrakumar M 2024-03-05  179  	    ctx->mode != CRYPTO_MODE_3DES_CBC) {
 
-ctx->mode can't possibly be equal to multiple values at the same time
-so this condition is always true.  && was intended.
+vim +/WLAN_CAPABILITY_ESS +422 drivers/staging/rtl8192e/rtllib.h
 
-6ad822cec22644 Pavitrakumar M 2024-03-05  180  		if (status_ret == 0x03) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  181  			err = -EINVAL;
-6ad822cec22644 Pavitrakumar M 2024-03-05  182  			goto REQ_DST_CP_SKIP;
-6ad822cec22644 Pavitrakumar M 2024-03-05  183  		}
-6ad822cec22644 Pavitrakumar M 2024-03-05  184  	}
-6ad822cec22644 Pavitrakumar M 2024-03-05  185  
-6ad822cec22644 Pavitrakumar M 2024-03-05  186  	if (ctx->mode == CRYPTO_MODE_SM4_ECB && status_ret == 0x03) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  187  		err = -EINVAL;
-6ad822cec22644 Pavitrakumar M 2024-03-05  188  		goto REQ_DST_CP_SKIP;
-6ad822cec22644 Pavitrakumar M 2024-03-05  189  	}
-6ad822cec22644 Pavitrakumar M 2024-03-05  190  
-6ad822cec22644 Pavitrakumar M 2024-03-05  191  	total_len = cb->req->cryptlen;
-6ad822cec22644 Pavitrakumar M 2024-03-05  192  	if (ctx->mode == CRYPTO_MODE_SM4_XTS && total_len != 16) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  193  		if (status_ret == 0x03) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  194  			err = -EINVAL;
-6ad822cec22644 Pavitrakumar M 2024-03-05  195  			goto REQ_DST_CP_SKIP;
-6ad822cec22644 Pavitrakumar M 2024-03-05  196  		}
-6ad822cec22644 Pavitrakumar M 2024-03-05  197  	}
-6ad822cec22644 Pavitrakumar M 2024-03-05  198  
-6ad822cec22644 Pavitrakumar M 2024-03-05  199  	dma_sync_sg_for_cpu(cb->tctx->dev, cb->req->dst, ctx->dst_nents,
-6ad822cec22644 Pavitrakumar M 2024-03-05  200  				DMA_FROM_DEVICE);
-6ad822cec22644 Pavitrakumar M 2024-03-05  201  
-6ad822cec22644 Pavitrakumar M 2024-03-05  202  	err = cb->spacc->job[cb->new_handle].job_err;
-6ad822cec22644 Pavitrakumar M 2024-03-05  203  REQ_DST_CP_SKIP:
-6ad822cec22644 Pavitrakumar M 2024-03-05  204  	spacc_cipher_cleanup_dma(cb->tctx->dev, cb->req);
-6ad822cec22644 Pavitrakumar M 2024-03-05  205  	spacc_close(cb->spacc, cb->new_handle);
-6ad822cec22644 Pavitrakumar M 2024-03-05  206  
-6ad822cec22644 Pavitrakumar M 2024-03-05  207  	/* call complete */
-6ad822cec22644 Pavitrakumar M 2024-03-05  208  	skcipher_request_complete(cb->req, err);
-6ad822cec22644 Pavitrakumar M 2024-03-05  209  }
+   421	
+ > 422	#define WLAN_CAPABILITY_ESS BIT(0)
+ > 423	#define WLAN_CAPABILITY_IBSS BIT(1)
+ > 424	#define WLAN_CAPABILITY_PRIVACY BIT(4)
+ > 425	#define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
+ > 426	#define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
+   427	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
