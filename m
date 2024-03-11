@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB4D535C6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 18:16:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850E85674D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 18:48:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710181021; cv=none; b=Avvi9pLAwgFwZzD7Lgpnsm4ZF6yskT2iWHuj75pNDMKl+RPci0MXT+oxd5lPttOHX6d7tG/dKkLeJNk/FpyO/8YSqUxGiCY7DstelJoY4EN8PwRJHmr0Qg+AiBU0Tavr6qrXuC5ooVt0UTCpjKxSlHCjdz8iv+OVZiecqJPr1uE=
+	t=1710182940; cv=none; b=Njq7ntSigMrqPsnhb0x51O/MPr0F0Ax3a2Swkh/B6CP1PA+TNnfVATjJvNIX0iRvFBpA1aC75uJ8lEyPlht5tEPVJLX2wnK5bl2KluJLFtGGbiChw9XdckP2olxX1bhSEWiXOCkKErTqZxhIjKt+Yyt6y8x60PT4SLbC66/VphU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710181021; c=relaxed/simple;
-	bh=uA6mHVOMpY8jkuEx3CrAV0lMSrxwYeYxyjYzRflwWqY=;
+	s=arc-20240116; t=1710182940; c=relaxed/simple;
+	bh=wC/imfx7v8PWnwph0hAWT5R0vlWukY03fRFOa1Nvc+Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NNG/R/q7vru7qFN8FM/6vVrvY15FCggDbhaxMjIR/tbgj8lQSR/2dAY8dfuWMy9Q8aOFK/Nn2ufrFiEaSgXPsYo1SEc/SUD+iEVtOTidIQgof0+/hZGryfUJB8zBBAvemA5dLrHx+0sLtW60Jjs7oGN/EQsQb5xqx2p0dLCqbDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LmMx5W+J; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=uFa95GKDadCJCeLGnjdmpPoWlyRUsutzmuzhk7O8oSGQIyFsn9TDMJPDlQf3OFjVjPcg5P+yZHTz1of/S1m5wRUBYRH2qwWHeh/Zk3NN02wK+OwAyPyLKOZSG5+foIjOMsIyWfy+3PJFTsjSbhjSWRb0UKVZwim2SqTONgSzKHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=juHnZglS; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LmMx5W+J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="juHnZglS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710181018; x=1741717018;
+  t=1710182938; x=1741718938;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uA6mHVOMpY8jkuEx3CrAV0lMSrxwYeYxyjYzRflwWqY=;
-  b=LmMx5W+JvYfZQGzh+2kL3coZXmV7ATACCLW5E0Tp/coHZgKCF1VsQCNm
-   0f0EW7e6LWsVaKyQJ1m+AeOI/RJWhBxo6ZE6vRWCpYv/eT3ba8gbuTVwt
-   lNOFdPavpslzpLiq3J3o0mSgLV1UJKsPjm+BvGgscXS+3kABmz6N47+ow
-   zxbl5HvrSK+hKmYxNSL0qqNhkKIEvCOVvScvl5McZrHXTSHF0FYSvifCR
-   ryRNV4u2o11SpsoeK/Jr0G2hmSF5A45VvnZzCLTGD7Ef8BjyoAbwc7LnB
-   7AkpP9I+Kf7J8umhgbHX+qFFb1Zy5hxaoMJrXkS+aApPw/lY38bFE4FBu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4976659"
+  bh=wC/imfx7v8PWnwph0hAWT5R0vlWukY03fRFOa1Nvc+Y=;
+  b=juHnZglSNfhEkp1MpLNZC9UE5f4ATmQV8ZFiNL83LLHilpQOf5QgxAbk
+   0+KKZp2JKATrnaImwKCE47NhKBqD88qS9hY3sdqiaive4TdTTECEBI4gS
+   M3xcQpo84onunqEIx/EaV2J3UY29jufbwzouk1TwZ0qQi6j9mbjZJP6qy
+   bRtW/xDWqlGgf20zLz0TXwrUfRlSIB1qYChOZauIF8FSJse2lDfWhVVSH
+   VC4kaxV0YvxZm3y3tDr757zbJhVuCJIfWbOLDIjoOkrDBvOWRmSOTzJGl
+   cuL2TszCVDNH21iTiNkfLL1/KMoXprAQTNQIm6nCMnRxdoTt0eTyqfFSn
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4717658"
 X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="4976659"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 11:16:55 -0700
+   d="scan'208";a="4717658"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 11:48:58 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="11681334"
+   d="scan'208";a="11178278"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Mar 2024 11:16:54 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 11 Mar 2024 11:48:55 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rjkCh-0009LV-1c;
-	Mon, 11 Mar 2024 18:16:51 +0000
-Date: Tue, 12 Mar 2024 02:16:34 +0800
+	id 1rjkhg-0009N3-0t;
+	Mon, 11 Mar 2024 18:48:52 +0000
+Date: Tue, 12 Mar 2024 02:48:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Hutchings <bwh@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-4.19.y-cip-rt-rebase 91/29558] kernel/sched/swork.c:110:
- warning: Function parameter or member 'sev' not described in 'swork_queue'
-Message-ID: <202403120234.vchyu693-lkp@intel.com>
+Subject: [opencloudos:linux-5.4/next 26390/27506] mm/workingset.c:338:6:
+ warning: no previous prototype for function 'workingset_age_nonresident'
+Message-ID: <202403120208.hIOerlHU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,49 +61,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip-rt-rebase
-head:   dce1701e767e33da39db64fe691cd4783ec7dbbf
-commit: c0c39481390a053a3425c0091ddb2a0a22491088 [91/29558] work-simple: Simple work queue implemenation
-config: arc-randconfig-001-20240303 (https://download.01.org/0day-ci/archive/20240312/202403120234.vchyu693-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403120234.vchyu693-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
+head:   3ba333344123321f5f312e69966bbc8e5533561f
+commit: 21ede7b1285afcc0c41335fa3a834f118e4753b7 [26390/27506] workingset: simplify and use a more intuitive model
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240312/202403120208.hIOerlHU-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403120208.hIOerlHU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403120234.vchyu693-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403120208.hIOerlHU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/sched/swork.c:110: warning: Function parameter or member 'sev' not described in 'swork_queue'
+>> mm/workingset.c:338:6: warning: no previous prototype for function 'workingset_age_nonresident' [-Wmissing-prototypes]
+     338 | void workingset_age_nonresident(struct lruvec *lruvec, unsigned long nr_pages)
+         |      ^
+   mm/workingset.c:338:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     338 | void workingset_age_nonresident(struct lruvec *lruvec, unsigned long nr_pages)
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +110 kernel/sched/swork.c
+vim +/workingset_age_nonresident +338 mm/workingset.c
 
-   101	
-   102	/**
-   103	 * swork_queue - queue swork
-   104	 *
-   105	 * Returns %false if @work was already on a queue, %true otherwise.
-   106	 *
-   107	 * The work is queued and processed on a random CPU
-   108	 */
-   109	bool swork_queue(struct swork_event *sev)
- > 110	{
-   111		unsigned long flags;
-   112	
-   113		if (test_and_set_bit(SWORK_EVENT_PENDING, &sev->flags))
-   114			return false;
-   115	
-   116		raw_spin_lock_irqsave(&glob_worker->lock, flags);
-   117		list_add_tail(&sev->item, &glob_worker->events);
-   118		raw_spin_unlock_irqrestore(&glob_worker->lock, flags);
-   119	
-   120		swake_up_one(&glob_worker->wq);
-   121		return true;
-   122	}
-   123	EXPORT_SYMBOL_GPL(swork_queue);
-   124	
+217288be44c1f3 Yu Zhao         2022-09-18  327  
+f6c5971925af4f Johannes Weiner 2020-06-25  328  /**
+f6c5971925af4f Johannes Weiner 2020-06-25  329   * workingset_age_nonresident - age non-resident entries as LRU ages
+f6c5971925af4f Johannes Weiner 2020-06-25  330   * @memcg: the lruvec that was aged
+f6c5971925af4f Johannes Weiner 2020-06-25  331   * @nr_pages: the number of pages to count
+f6c5971925af4f Johannes Weiner 2020-06-25  332   *
+f6c5971925af4f Johannes Weiner 2020-06-25  333   * As in-memory pages are aged, non-resident pages need to be aged as
+f6c5971925af4f Johannes Weiner 2020-06-25  334   * well, in order for the refault distances later on to be comparable
+f6c5971925af4f Johannes Weiner 2020-06-25  335   * to the in-memory dimensions. This function allows reclaim and LRU
+f6c5971925af4f Johannes Weiner 2020-06-25  336   * operations to drive the non-resident aging along in parallel.
+f6c5971925af4f Johannes Weiner 2020-06-25  337   */
+f6c5971925af4f Johannes Weiner 2020-06-25 @338  void workingset_age_nonresident(struct lruvec *lruvec, unsigned long nr_pages)
+f90f0482078330 Johannes Weiner 2019-11-30  339  {
+f90f0482078330 Johannes Weiner 2019-11-30  340  	/*
+f90f0482078330 Johannes Weiner 2019-11-30  341  	 * Reclaiming a cgroup means reclaiming all its children in a
+f90f0482078330 Johannes Weiner 2019-11-30  342  	 * round-robin fashion. That means that each cgroup has an LRU
+f90f0482078330 Johannes Weiner 2019-11-30  343  	 * order that is composed of the LRU orders of its child
+f90f0482078330 Johannes Weiner 2019-11-30  344  	 * cgroups; and every page has an LRU position not just in the
+f90f0482078330 Johannes Weiner 2019-11-30  345  	 * cgroup that owns it, but in all of that group's ancestors.
+f90f0482078330 Johannes Weiner 2019-11-30  346  	 *
+f90f0482078330 Johannes Weiner 2019-11-30  347  	 * So when the physical inactive list of a leaf cgroup ages,
+f90f0482078330 Johannes Weiner 2019-11-30  348  	 * the virtual inactive lists of all its parents, including
+f90f0482078330 Johannes Weiner 2019-11-30  349  	 * the root cgroup's, age as well.
+f90f0482078330 Johannes Weiner 2019-11-30  350  	 */
+f90f0482078330 Johannes Weiner 2019-11-30  351  	do {
+f6c5971925af4f Johannes Weiner 2020-06-25  352  		atomic_long_add(nr_pages, &lruvec->nonresident_age);
+f6c5971925af4f Johannes Weiner 2020-06-25  353  	} while ((lruvec = parent_lruvec(lruvec)));
+f90f0482078330 Johannes Weiner 2019-11-30  354  }
+f90f0482078330 Johannes Weiner 2019-11-30  355  
+
+:::::: The code at line 338 was first introduced by commit
+:::::: f6c5971925af4f5aa7f337fa42a77347a0504248 mm: workingset: age nonresident information alongside anonymous pages
+
+:::::: TO: Johannes Weiner <hannes@cmpxchg.org>
+:::::: CC: Kairui Song <kasong@tencent.com>
 
 -- 
 0-DAY CI Kernel Test Service
