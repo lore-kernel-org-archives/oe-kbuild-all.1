@@ -1,129 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A496F516;
-	Mon, 11 Mar 2024 05:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B433079FE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 05:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710135395; cv=none; b=f3M3MGJXdq80qlisXdzy8N3UHWWl2lCXYNvSJGWge5rVbIOohHH60yaXb5Q8xZgmrDyzOYxqbk2ITLSFwa/7tXBVaSZB/eCT6Oasf3L3RKoKYOcBemopkGFBC96Y7hIL98aoGVjsWTZ0QzNiJteButgHxy8taN11S2jSQ7bdtEw=
+	t=1710135400; cv=none; b=SDXNtM9IdRmSac8QZLbkfu6UIPdUNwcTzj2e0+Xg5DfBGa+iJATR2kz4d+Dku0cSSxxsXLlje53q8TImJaJNyZUufKvL2VdYZ5GKmIiRm7HxfMjaFCuoQ61PKlU+Wv4hdGkSIqk5PH+92zCib3V5n7iO+z43/yFTwJvPEGzOx0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710135395; c=relaxed/simple;
-	bh=xMF4TtwuURvrqIcEiICWqFl6L9CFb+LKwK76NSZuxPc=;
-	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dQGynepIVFEF+mcrYomuLeYNS0nTzE3L/1yCsb57/mgL4Sk+onzhhpfE+MdakX3bxcmAiBnLk7+lgaIO9ZxX7h4xZxhw3rdQmc6CZyPkkIrq/puPFOen8sdPXWhEKgdwgDdslVSENcIe3DUrK+44cPlt9BtY0u7DAYnooOKmkSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g+3M7G2L; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710135400; c=relaxed/simple;
+	bh=tlz+1P1SFrxPae5frXB+Zga/IJvt/5DEZvEqg/lmYYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=e+m5Wf58OUsmckixqLa408WUjV0uROq138AqGl2M+ZXenVNxtkqi9NKC5NuOPfC40EWZfY46XXN55DNUU6agyBDaB/MbDVESXO70JhyOwDUlHoKtEV6D/tMJ9MvWISzFkNoy8leMzmCZ0Zw1JlLaJpzuaonob43ggHDQvo3yoEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cvn7sZp/; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g+3M7G2L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8840AC43394;
-	Mon, 11 Mar 2024 05:36:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710135394;
-	bh=xMF4TtwuURvrqIcEiICWqFl6L9CFb+LKwK76NSZuxPc=;
-	h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-	b=g+3M7G2Lcjx8ZygWFiCYwpXL1Jrq2J+GcneHnGcJKOyPK326RMmHJsZpg+nXx6Rej
-	 /XQ+CH9USRtRcPw8sh1W1tCFPMo7fcz0h3TEfBMx+6SQVXXQnYuj8Exw+nrYXWF6s9
-	 mKdTU/jEyeO9THLXFOLfzUYPhlg9qesqW4JIz4qbZ6F9k3aWKiURc23YYmc8FtV+hL
-	 S5oMCHNT66v+q82pLs9MxoCsfeDbgqUVBvWbYxnJKA3SGX/YkO8vqbRWgKyRfebmXc
-	 YUk3z7CLCiZOhE0pmpTYKZjFPTf+C1ZeTLg4wZ6JqNBT6dYoREH43Tdd7HHC3MATwn
-	 5E3DDHLK6E31Q==
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6e52dfce542so235457a34.1;
-        Sun, 10 Mar 2024 22:36:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUxK7rTcvudtTFi1aVB/TS9nwEANfGw9+K2D2LKsviss+w+ZE+8EUSgSvu5FP6HmPw2wSIQW9kh/MmzNXb4RUOmFA4JP7dzih4jLSD6/w==
-X-Gm-Message-State: AOJu0Yy41IW0ywsdLJcpW/MqpjAxspLlFB2MMtTpeQnxXey+a/MvvM5n
-	R+itYPpCfunsZHH8edVTDMcTz4TOogZ+sr60bl5OhCRli3Pik0fzX2WCY87k6O+YNZqUkRh2ZfU
-	N2ATMvzac9lo9o8R63LkRgU+YMH4=
-X-Google-Smtp-Source: AGHT+IHMKW+6N0EpBIs8CmxlemvjxNxeMS8hiuwXB9SZJ81oSSwcTe3H5iIPOOzWxawfQK0+PhEzJC5bh39YHxlMpd4=
-X-Received: by 2002:a05:6870:b149:b0:221:9cf3:8ae5 with SMTP id
- a9-20020a056870b14900b002219cf38ae5mr2965984oal.24.1710135393814; Sun, 10 Mar
- 2024 22:36:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cvn7sZp/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710135399; x=1741671399;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tlz+1P1SFrxPae5frXB+Zga/IJvt/5DEZvEqg/lmYYc=;
+  b=cvn7sZp/bLPV6UWgEEJO6P1vTYQJDsLY3tHOWOH85YFph2MQ7/Jmm8k6
+   9ePr4wYlFA9JGDJxe3T0R9NwXl+Kmz94F3bl3FetIpby0OII0F/tWouUp
+   4BnCE5/DD/FQKC7ceDqfI9SwWjTg++6pP22KDQcAGSxed3rSFdmG3yPT3
+   yGPWFEEOiLj2LDrnsU1BjXjJ6byg7zEKVPLSOdFpAa8FXf0PDF3YyDN4s
+   cQ2z/9J11ZTd455Rn2/NO0bS+PJszb3+D6GT4GQxgc5JvqGoyDftipw54
+   87YWz08yn2Po19XvUuxBjs3ZlwXPOPkwbjU/C4fvDmexYYfxtSVnWPV5k
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="22304060"
+X-IronPort-AV: E=Sophos;i="6.07,115,1708416000"; 
+   d="scan'208";a="22304060"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 22:36:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,115,1708416000"; 
+   d="scan'208";a="34187823"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 10 Mar 2024 22:36:33 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rjYKs-0008vn-1V;
+	Mon, 11 Mar 2024 05:36:30 +0000
+Date: Mon, 11 Mar 2024 13:35:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/next 26634/27506]
+ kernel/sched/fair.c:6972:28: warning: 'get_exp_reclaim_task' defined but not
+ used
+Message-ID: <202403111320.I7m1Jmpo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: by 2002:ac9:7bd4:0:b0:51e:5fb5:2f75 with HTTP; Sun, 10 Mar 2024
- 22:36:33 -0700 (PDT)
-In-Reply-To: <cd61edb3-b938-42e9-b9c3-d5c05827b4e1@moroto.mountain>
-References: <cd61edb3-b938-42e9-b9c3-d5c05827b4e1@moroto.mountain>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Mon, 11 Mar 2024 14:36:33 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd9M6Umx+pqU5P0KAG8HaZLWMQC-2CfOVFkZ-ZBA_ezV2w@mail.gmail.com>
-Message-ID: <CAKYAXd9M6Umx+pqU5P0KAG8HaZLWMQC-2CfOVFkZ-ZBA_ezV2w@mail.gmail.com>
-Subject: Re: [samba-ksmbd:ksmbd-for-next-next 4/4] fs/smb/server/smb2pdu.c:2654
- parse_durable_handle_context() warn: passing zero to 'PTR_ERR'
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-2024-03-11 14:16 GMT+09:00, Dan Carpenter <dan.carpenter@linaro.org>:
-> tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
-> head:   f4ab0ca366e96a297b511d020a7fcd212f0268c9
-> commit: f4ab0ca366e96a297b511d020a7fcd212f0268c9 [4/4] ksmbd: add support
-> for durable handles v1/v2
-> config: i386-randconfig-141-20240310
-> (https://download.01.org/0day-ci/archive/20240311/202403110538.jBX2iDwP-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version
-> of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202403110538.jBX2iDwP-lkp@intel.com/
->
-> smatch warnings:
-> fs/smb/server/smb2pdu.c:2654 parse_durable_handle_context() warn: passing
-> zero to 'PTR_ERR'
->
-> vim +/PTR_ERR +2654 fs/smb/server/smb2pdu.c
->
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2637  static int
-> parse_durable_handle_context(struct ksmbd_work *work,
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2638  					struct smb2_create_req
-> *req,
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2639  					struct lease_ctx_info
-> *lc,
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2640  					struct durable_info
-> *dh_info)
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2641  {
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2642  	struct ksmbd_conn *conn =
-> work->conn;
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2643  	struct create_context
-> *context;
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2644  	int dh_idx, err = 0;
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2645  	u64 persistent_id = 0;
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2646  	int req_op_level;
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2647  	static const char * const
-> durable_arr[] = {"DH2C", "DHnC", "DH2Q", "DHnQ"};
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2648
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2649  	req_op_level =
-> req->RequestedOplockLevel;
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2650  	for (dh_idx =
-> DURABLE_RECONN_V2; dh_idx <= ARRAY_SIZE(durable_arr);
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2651  	     dh_idx++) {
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2652  		context =
-> smb2_find_context_vals(req, durable_arr[dh_idx - 1], 4);
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2653  		if (IS_ERR_OR_NULL(context))
-> {
-> f4ab0ca366e96a Namjae Jeon 2024-03-10 @2654  			err = PTR_ERR(context);
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2655  			if (err == -EINVAL)
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2656  				goto out;
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2657  			err = 0;
-> f4ab0ca366e96a Namjae Jeon 2024-03-10  2658  			continue;
->
-Hi Dan,
-> The smb2_find_context_vals() return ERR_PTR(-EINVAL) on error or NULL on
-> not found.  But you're not doing yourself a favor to write it this way...
-> It's confusing to the reader and what about if we add new error codes?
-> Better to write it like:
->
-> 		context = smb2_find_context_vals(req, durable_arr[dh_idx - 1], 4);
-> 		if (IS_ERR(context)) {
-> 			err = PTR_ERR(context);
-> 			goto out;
-> 		}
-> 		if (!context)
-> 			continue;
-Okay. I just updated the patch as you suggest.
-Thank you!
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
+head:   3ba333344123321f5f312e69966bbc8e5533561f
+commit: ccae92c345b515d8124a565b3cb5cc7b5df9c691 [26634/27506] rue/mm: memory expedite reclaim mechanism for memory QoS
+config: arm64-randconfig-001-20240305 (https://download.01.org/0day-ci/archive/20240311/202403111320.I7m1Jmpo-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403111320.I7m1Jmpo-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403111320.I7m1Jmpo-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   kernel/sched/fair.c:5254:6: warning: no previous prototype for 'init_cfs_bandwidth' [-Wmissing-prototypes]
+    5254 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
+         |      ^~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:10764:6: warning: no previous prototype for 'free_fair_sched_group' [-Wmissing-prototypes]
+   10764 | void free_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:10766:5: warning: no previous prototype for 'alloc_fair_sched_group' [-Wmissing-prototypes]
+   10766 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:10771:6: warning: no previous prototype for 'online_fair_sched_group' [-Wmissing-prototypes]
+   10771 | void online_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:10773:6: warning: no previous prototype for 'unregister_fair_sched_group' [-Wmissing-prototypes]
+   10773 | void unregister_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/fair.c:6972:28: warning: 'get_exp_reclaim_task' defined but not used [-Wunused-function]
+    6972 | static struct task_struct *get_exp_reclaim_task(struct rq *rq,
+         |                            ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/get_exp_reclaim_task +6972 kernel/sched/fair.c
+
+  6963	
+  6964	#ifdef CONFIG_MEMCG
+  6965	extern int sysctl_vm_memory_qos;
+  6966	/*
+  6967	 * Try to get the expedited reclaim task
+  6968	 *
+  6969	 * If there is any eligible task, return the task_struct that want to
+  6970	 * be expedited reclaim. Otherwise return NULL.
+  6971	 */
+> 6972	static struct task_struct *get_exp_reclaim_task(struct rq *rq,
+  6973							struct task_struct *prev)
+  6974	{
+  6975		struct cfs_rq *exp_cfs_rq;
+  6976		struct task_struct *p, *exp_task;
+  6977	
+  6978		p = NULL;
+  6979		/* Iterate the tasks that want to be expedited relcaimed */
+  6980		list_for_each_entry(exp_task, &rq->exp_reclaim_list,
+  6981				    se.exp_reclaim_node) {
+  6982			exp_cfs_rq = task_cfs_rq(exp_task);
+  6983			/* Skip the throtted cfs_rq */
+  6984			if (!throttled_hierarchy(exp_cfs_rq)) {
+  6985				p = exp_task;
+  6986				break;
+  6987			}
+  6988		}
+  6989	
+  6990		if (p) {
+  6991			struct sched_entity *se;
+  6992	
+  6993			list_del_init(&p->se.exp_reclaim_node);
+  6994			put_prev_task(rq, prev);
+  6995	
+  6996			/* Iterate tg's hierarchy */
+  6997			se = &p->se;
+  6998			while (se) {
+  6999				set_next_entity(cfs_rq_of(se), se);
+  7000				se = parent_entity(se);
+  7001			}
+  7002		}
+  7003	
+  7004		return p;
+  7005	}
+  7006	#endif
+  7007	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
