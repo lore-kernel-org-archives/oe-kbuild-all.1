@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C309D44C6A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 15:19:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4745641C7F;
+	Mon, 11 Mar 2024 15:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710170390; cv=none; b=C6S26XnwDVAHdW3HWVyKCC8GfQGudZkVYDlukcsVaOjQRB8W4A+4efQIo7ob7jHrwlOU+8qkRt3GXoR7Y10ZpW907A8o6MH3TrytfaIX768nm6mdVt0mueckEqPGccoko35sAHy3m34LZFOAkNZIRZ3gAV9JLLDEb38QCXG5z1I=
+	t=1710171050; cv=none; b=b2AdkPQLBrfUSq7BG9EVZsoVOdlBEx/SxhVXHApz556NsuU4m37FiK8yjFinWpK9hw34+Pf0MsAJLxZZbUbiRhTs//HqdEI0uD0Xtq7KsCqx7iInkzQzpsl5XK6YD6caa3fO37PtGMjZon/TE2Byzyepa+mqzpb+bTR3kGcK03o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710170390; c=relaxed/simple;
-	bh=o132cQB0t6xhPJqGGf6DFFClm74k7/l4N5xJHra/MqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qnrvivzZENwYGhU7ZkMQB3E16ixHbEOvN+z0pvUHXwfJlmxj2g+wG7l//vG85RgLsAsMBf+wRuVMLzCIHRRW51J0eoKAJ4ozrQi5DFxUJquFK3jAml3LhGNV5NQFbO4lK/0AqIQo6/FmFpWjIWw/FbI5xTJsbIzOpVFgl0KlD/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lWdavI9V; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1710171050; c=relaxed/simple;
+	bh=s4fiVm6+6Tws3hnjP0MD6ORSuQ9Fl2z1TbmyD5aBwAI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HRxZ1152+vwmC3j9Y/r3ucLHgucilz0s7BKh/4kZyaUThGMc9QAJXjk+CS5xsiTduOyG6gV3WJSAEB1X8OQW0Vphh1WP/sg81kARmpumqL52VtT2BRl9JnZjd7Bd7vMW7eUAI1CswuknC5+HTt4G2sx/iZWckiP6tdtwUdn/bQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UnZXcPDM; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lWdavI9V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UnZXcPDM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710170388; x=1741706388;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o132cQB0t6xhPJqGGf6DFFClm74k7/l4N5xJHra/MqI=;
-  b=lWdavI9VAR/8BLvza0yvnVp9l+Zx53v0Mp4+fk8xfHyTQumoP06NEGbL
-   W83IXDa1w/+4aDQ3erk6LP583RyjyxW+RaJH981E/Ugqr6X5VtTZC/cdg
-   x7gUr7SmC9KB2jzPEAQgo3q8taKjGtoeVocl9bqGfRNhP5b8wE7DCT0ae
-   iBjoFLPEGeVoqlJHC+mUAsbaI+q5HGyppcx4875rKomqRuHcf/OUV6zF3
-   32ehyTnq7vgYIyqCiEZ4Dn8GAWjjmPRWQ9XQakLKtDY9zvsa7y/nP0j9W
-   yu/4S7xky61n7Lb+E4LqjdJ9ja5mfBmO7aFpfvqhXOc51vfXb/PwdEoOs
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4962720"
+  t=1710171048; x=1741707048;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=s4fiVm6+6Tws3hnjP0MD6ORSuQ9Fl2z1TbmyD5aBwAI=;
+  b=UnZXcPDM+kk2XZ2Oa9dXPKjmHruDK1AGvzf2MUdnDX7o2gKdt+0ehNB2
+   EsKquOGtQO9UDJ0YqLw87FYywcdhzbCCETgcPv011ulSKJ+k0w8KUIsD3
+   xB8uOV1cplJ7CLdHS+QjjxUfLftAUQGOQ208QeXvhBUk8C3x/9tB4bQ6X
+   V3PQU+XbWiKhd+R1AdzXBhRmBkhDG32c9+dDSF5d1mSywqPrnENKoh3U3
+   KJ45XAq3iZC+VzLTD9jtwSaT+CcPNizn/1KSF4Hpuuc+X0/FOODLPi1LX
+   efs7fe96qn6IZCAS20XRpSRe9TNR0M7PmxNfV5GDNpvtBDr34zYrzShq8
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="8655529"
 X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="4962720"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 08:19:47 -0700
+   d="scan'208";a="8655529"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 08:30:47 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="15846209"
+   d="scan'208";a="42116764"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 11 Mar 2024 08:19:46 -0700
+  by orviesa002.jf.intel.com with ESMTP; 11 Mar 2024 08:30:46 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rjhRH-0009Ch-2f;
-	Mon, 11 Mar 2024 15:19:43 +0000
-Date: Mon, 11 Mar 2024 23:19:33 +0800
+	id 1rjhbv-0009Cp-2x;
+	Mon, 11 Mar 2024 15:30:43 +0000
+Date: Mon, 11 Mar 2024 23:30:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH vhost v2 1/4] virtio: find_vqs: pass struct instead of
- multi parameters
-Message-ID: <202403112341.wl8NPpPC-lkp@intel.com>
-References: <20240311072113.67673-2-xuanzhuo@linux.alibaba.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 143/145] fs/bcachefs/fs-ioctl.c:504:5:
+ warning: ignoring return value of function declared with
+ 'warn_unused_result' attribute
+Message-ID: <202403112348.VdoxraGn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,82 +59,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240311072113.67673-2-xuanzhuo@linux.alibaba.com>
 
-Hi Xuan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on remoteproc/rproc-next]
-[also build test ERROR on s390/features linus/master v6.8 next-20240308]
-[cannot apply to uml/next uml/fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio-find_vqs-pass-struct-instead-of-multi-parameters/20240311-152448
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
-patch link:    https://lore.kernel.org/r/20240311072113.67673-2-xuanzhuo%40linux.alibaba.com
-patch subject: [PATCH vhost v2 1/4] virtio: find_vqs: pass struct instead of multi parameters
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240311/202403112341.wl8NPpPC-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403112341.wl8NPpPC-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   964337312db426db662cde052d6a56c96657f7fb
+commit: 57c6ac42e14b4593a73133062c2d7b63a0d6d776 [143/145] bcachefs: new subvol ioctls
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240311/202403112348.VdoxraGn-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 503c55e17037436dcd45ac69dea8967e67e3f5e8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403112348.VdoxraGn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403112341.wl8NPpPC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403112348.VdoxraGn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/virtio/virtio_pci_modern.c: In function 'vp_modern_create_avq':
->> drivers/virtio/virtio_pci_modern.c:761:22: error: assignment of read-only location '*cfg.names'
-     761 |         cfg.names[0] = avq->name;
-         |                      ^
+   In file included from fs/bcachefs/fs-ioctl.c:4:
+   In file included from fs/bcachefs/bcachefs.h:188:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> fs/bcachefs/fs-ioctl.c:504:5: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
+     504 |                   copy_to_user_errcode(&user_arg->buf, path.data, path.nr);
+         |                   ^~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   6 warnings generated.
 
 
-vim +761 drivers/virtio/virtio_pci_modern.c
+vim +/warn_unused_result +504 fs/bcachefs/fs-ioctl.c
 
-   735	
-   736	static int vp_modern_create_avq(struct virtio_device *vdev)
-   737	{
-   738		struct virtio_pci_device *vp_dev = to_vp_device(vdev);
-   739		vq_callback_t *callbacks[] = { NULL };
-   740		struct virtio_vq_config cfg = {};
-   741		struct virtio_pci_admin_vq *avq;
-   742		struct virtqueue *vq;
-   743		const char *names[1];
-   744		u16 admin_q_num;
-   745	
-   746		cfg.nvqs = 1;
-   747		cfg.callbacks = callbacks;
-   748		cfg.names = names;
-   749	
-   750		if (!virtio_has_feature(vdev, VIRTIO_F_ADMIN_VQ))
-   751			return 0;
-   752	
-   753		admin_q_num = vp_modern_avq_num(&vp_dev->mdev);
-   754		if (!admin_q_num)
-   755			return -EINVAL;
-   756	
-   757		avq = &vp_dev->admin_vq;
-   758		avq->vq_index = vp_modern_avq_index(&vp_dev->mdev);
-   759		sprintf(avq->name, "avq.%u", avq->vq_index);
-   760	
- > 761		cfg.names[0] = avq->name;
-   762		cfg.cfg_idx = 0;
-   763		vq = vp_dev->setup_vq(vp_dev, &vp_dev->admin_vq.info, avq->vq_index,
-   764				      &cfg, VIRTIO_MSI_NO_VECTOR);
-   765		if (IS_ERR(vq)) {
-   766			dev_err(&vdev->dev, "failed to setup admin virtqueue, err=%ld",
-   767				PTR_ERR(vq));
-   768			return PTR_ERR(vq);
-   769		}
-   770	
-   771		vp_modern_set_queue_enable(&vp_dev->mdev, avq->info.vq->index, true);
-   772		return 0;
-   773	}
-   774	
+   492	
+   493	static long bch2_ioctl_subvolume_path(struct bch_fs *c, struct file *file,
+   494					      struct bch_ioctl_subvolume_path __user *user_arg)
+   495	{
+   496		struct bch_ioctl_subvolume_path arg;
+   497		darray_char path = {};
+   498	
+   499		int ret = copy_from_user_errcode(&arg, user_arg, sizeof(arg)) ?:
+   500			  bch2_subvol_to_path_checked(c, file->f_path.mnt, arg.subvolid, &path);
+   501			  (path.nr > arg.buflen ? -ERANGE : 0) ?:
+   502			  (arg.buflen = path.nr, 0) ?:
+   503			  copy_to_user_errcode(user_arg, &arg, sizeof(arg)) ?:
+ > 504			  copy_to_user_errcode(&user_arg->buf, path.data, path.nr);
+   505	
+   506		darray_exit(&path);
+   507		return ret;
+   508	}
+   509	
 
 -- 
 0-DAY CI Kernel Test Service
