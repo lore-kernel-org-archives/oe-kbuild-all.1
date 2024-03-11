@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5D254BE0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 19:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 148C55645B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 19:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710184320; cv=none; b=WSZS6uVOjw4LiSq91n5/o1N4k4cmptz/dQQbby41N0jVQUvJieFOUxSrXkNkYcuJr6z/A1iZToBk/ooQ7uirsEq4M+kzj2a+aZbjbthCjKvmk9if6dCkUKOW+Gj46Pah6wsNXPVtCxCJIIhDpxY4P3l92LbA4NMyln1+qrNuKlQ=
+	t=1710185521; cv=none; b=pZ2KubBSNMmd1gDPkOK6SEsoo18dgLxleSaPZP7+xI9lgpwAwWdA+CHphW/MJkdV6CJ+eJiDP4XLDJOlpTuULNm6P0Ytf0+BvjzBjc9W5xOewiz4LIsXW/LWCTMMJdG3hI64325KflUuVQfv2br9CYZZn2mCLNDS2j9G05FQ5IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710184320; c=relaxed/simple;
-	bh=7hYuVl4h7nXnFmVyrCsoLYSn1d8tMpOx3MRZzchbHnE=;
+	s=arc-20240116; t=1710185521; c=relaxed/simple;
+	bh=YjsCB9IxOyPp5bRK4HaT2R658/k2k6UeQETyhkHB2Xw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rChi5wPH2IgBqaNyxgv0I7c82y+yHuDdTYAvh2QsSgaROP8PetC/KLXX6ncA0z1ZO4DLIYH7n7b44L0GVycns2TkEvQ3L4U1o90drk4MFMMATzfUzVNuFb8zYeM46XcaDs0hrj5HwuNRgo1mMTb1njFU55rgqC61z40rLzUL5hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MmviCdjD; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=YPTp/IPNPICYV828zhz9WRf+d6Jfx3ieq6yMqHgvJvuy3SqRTLa/Aijs2IezPlCwHpwgfwuy9/pnJ7Swdv05XfZWDkGAbv2svZJTALwueBEjOo/pn6hHr4ghtTq/mq+xTzxhr6HDXJVVYrC/il1WEB0nsQDxDJtHLzEOdxOrDwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XNxl9E+S; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MmviCdjD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XNxl9E+S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710184318; x=1741720318;
+  t=1710185519; x=1741721519;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7hYuVl4h7nXnFmVyrCsoLYSn1d8tMpOx3MRZzchbHnE=;
-  b=MmviCdjDJzt56ynd/FjdhkUTH/dn6dmhc1Ul7K8HNf2v7UXMMZPqE4wl
-   vlrkh8xarNbh9iQwTAmg+oPi2j+NE0r6dnG9Py+vHbRkWTSVf0OeidKiB
-   HC2HQ9WELlbVesJtZYT7zUh8yIeodzfAy91Mhzku30eIB1X4FYxIeM0MK
-   VI6ea8GUueMa+dk7OSw8oTKfLpeGj7ilvQFAyZe90ef7UCSsUfaCdM6jI
-   +a9rRkj1NShCrsZAOjvXm1lFD6E6WGuhipg21eVFSCNzM1Hu8uUvO/1ho
-   k7mDp5uCnNKYTeOA4YNhfr4dYqVNhyzFN2ADMGtdrril0AW+nPZKd57Af
+  bh=YjsCB9IxOyPp5bRK4HaT2R658/k2k6UeQETyhkHB2Xw=;
+  b=XNxl9E+SQOC2gZgCADFSyY7LY05+wmqcth/lqos5AzpY0i78tKNm9ywx
+   YzbOrfg+SIMgM1Us81a6LgjTqZp/8339DLAYHX5gespTWZCvdcrWtd1nx
+   aQ11x7RJ7dwYRol9jVamB5xuEB+kshqmQ1I7UpwMUNUDxHY1Lkt+oBo1z
+   4EPuAFFnmJ6jpb+fR5WpRY9js6DYoR+mbP7Ni3ff+WwY+VgmOPMTYIV0J
+   Tq9Z0C2ckGdR9+0XQ2ERAUPnEGmIK36fCj9dasL9OVOcx7LVs1wiFJdkt
+   rLCjR02A+SQHcb/ZGeVoJjRJqTHsbI+ap6ncpGMCd1mkzWeQs7KJOLi3e
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="8684296"
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4745250"
 X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="8684296"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 12:11:57 -0700
+   d="scan'208";a="4745250"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 12:31:58 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="11334758"
+   d="scan'208";a="15887350"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 11 Mar 2024 12:11:54 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 11 Mar 2024 12:31:55 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rjl3w-0009O1-2b;
-	Mon, 11 Mar 2024 19:11:52 +0000
-Date: Tue, 12 Mar 2024 03:11:11 +0800
+	id 1rjlNJ-0009P7-1A;
+	Mon, 11 Mar 2024 19:31:53 +0000
+Date: Tue, 12 Mar 2024 03:31:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ratheesh Kannoth <rkannoth@marvell.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Petr Machata <petrm@nvidia.com>,
-	Martin Habets <habetsm.xilinx@gmail.com>,
-	Simon Horman <simon.horman@corigine.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>
-Subject: WARNING: modpost: "__ashldi3" [net/netfilter/nf_tables.ko] has no
- CRC!
-Message-ID: <202403120305.KdTgNyMb-lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/next 26765/27506] kernel/sched/fair.c:4147:9:
+ warning: listing the stack pointer register 'rsp' in a clobber list is
+ deprecated
+Message-ID: <202403120326.vbFOILVL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,133 +62,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ratheesh,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e8f897f4afef0031fe618a8e94127a0934896aba
-commit: 2b3082c6ef3b0104d822f6f18d2afbe5fc9a5c2c net: flow_dissector: Use 64bits for used_keys
-date:   7 months ago
-config: sparc-buildonly-randconfig-r004-20220113 (https://download.01.org/0day-ci/archive/20240312/202403120305.KdTgNyMb-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403120305.KdTgNyMb-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
+head:   3ba333344123321f5f312e69966bbc8e5533561f
+commit: 67c4700e9b94fcd3b84cfa8ed42e5a130ac619e9 [26765/27506] sched: using rbp to restore rsp when exit dequeue_entity
+config: x86_64-buildonly-randconfig-003-20240305 (https://download.01.org/0day-ci/archive/20240312/202403120326.vbFOILVL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403120326.vbFOILVL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403120305.KdTgNyMb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403120326.vbFOILVL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: "__udelay" [drivers/leds/flash/leds-rt8515.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/extcon/extcon-fsa9480.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ntb/hw/epf/ntb_hw_epf.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/fpga/xilinx-spi.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/fsi/fsi-master-hub.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rapidio/rapidio.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rapidio/switches/idt_gen3.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ata/libata.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ata/libata.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/ata/libata.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/ata/libata.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ata/libahci.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ata/libahci.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ata/sata_mv.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/ata/sata_nv.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ata/sata_nv.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ata/sata_promise.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ata/sata_svw.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ata/sata_vsc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ata/pata_hpt37x.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ata/pata_ns87415.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ata/pata_via.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ata/pata_sl82c105.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ata/pata_legacy.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [drivers/mtd/chips/cfi_util.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/chips/cfi_util.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/chips/cfi_cmdset_0002.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [drivers/mtd/chips/cfi_cmdset_0002.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/chips/cfi_cmdset_0001.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [drivers/mtd/chips/cfi_cmdset_0001.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/lpddr/qinfo_probe.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [drivers/mtd/lpddr/lpddr_cmds.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/lpddr/lpddr_cmds.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/mtd/devices/phram.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/mtd/nand/onenand/onenand.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/onenand/onenand.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [drivers/mtd/nand/onenand/onenand.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/mtd/nand/raw/nand.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/nand.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/mtd/nand/raw/nand.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [drivers/mtd/nand/raw/nand.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/nand.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/cafe_nand.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/cafe_nand.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/ams-delta.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/nandsim.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/mtd/nand/raw/nandsim.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/mtd/nand/raw/nandsim.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/gpio.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/mtd/nand/raw/cadence-nand-controller.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/mtd/tests/mtd_nandbiterrs.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/mtd/mtd.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/mtd/mtd_blkdevs.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/mtd/mtdswap.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/comedi/comedi.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/comedi/drivers/dt3000.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/comedi/drivers/gsc_hpdi.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/comedi/drivers/icp_multi.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/comedi/drivers/jr3_pci.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/comedi/drivers/cb_pcidas64.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/comedi/drivers/ni_660x.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/comedi/drivers/ni_pcimio.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/comedi/drivers/s626.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/accel/mma9551_core.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/iio/adc/ad7192.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/ad7476.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/iio/adc/ad7606.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/iio/adc/ad7793.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/iio/adc/ad7793.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/ad7949.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/ad9467.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/iio/adc/ad9467.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/adi-axi-adc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/max1241.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/iio/adc/nau7802.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/nau7802.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/iio/adc/ti-ads1015.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/ti-ads8344.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/ti-ads131e08.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/iio/afe/iio-rescale.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/iio/common/hid-sensors/hid-sensor-iio-common.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/iio/common/ms_sensors/ms_sensors_i2c.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/dac/ad5592r-base.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/dac/ad5755.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/iio/dac/ad5766.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [drivers/iio/dac/dpot-dac.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/gyro/itg3200.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/frequency/ad9523.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/proximity/as3935.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/proximity/ping.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/resolver/ad2s1200.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [drivers/iio/industrialio.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/thunderbolt/thunderbolt.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/thunderbolt/thunderbolt.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/siox/siox-bus-gpio.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [net/sched/act_police.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [net/sched/sch_gred.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [net/sched/sch_sfq.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [net/sched/sch_tbf.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [net/sched/sch_cake.ko] has no CRC!
->> WARNING: modpost: "__ashldi3" [net/netfilter/nf_tables.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [net/netfilter/xt_cluster.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [net/wireless/cfg80211.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [net/rxrpc/rxrpc.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [net/rds/rds.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [net/tipc/tipc.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [net/tipc/tipc.ko] has no CRC!
-WARNING: modpost: "empty_zero_page" [net/ceph/libceph.ko] has no CRC!
+   kernel/sched/fair.c:4851:5: warning: no previous prototype for 'runtime_refresh_within' [-Wmissing-prototypes]
+    4851 | int runtime_refresh_within(struct cfs_bandwidth *cfs_b, u64 min_expire)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:4868:6: warning: no previous prototype for 'start_cfs_slack_bandwidth' [-Wmissing-prototypes]
+    4868 | void start_cfs_slack_bandwidth(struct cfs_bandwidth *cfs_b)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'dequeue_entity':
+>> kernel/sched/fair.c:4147:9: warning: listing the stack pointer register 'rsp' in a clobber list is deprecated [-Wdeprecated]
+    4147 |         asm volatile("" : : : "rsp");
+         |         ^~~
+   kernel/sched/fair.c:4147:9: note: the value of the stack pointer after an 'asm' statement must be the same as it was before the statement
+
+
+vim +/rsp +4147 kernel/sched/fair.c
+
+  4093	
+  4094	static void
+  4095	dequeue_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
+  4096	{
+  4097		/*
+  4098		 * Update run-time statistics of the 'current'.
+  4099		 */
+  4100		update_curr(cfs_rq);
+  4101	
+  4102		/*
+  4103		 * When dequeuing a sched_entity, we must:
+  4104		 *   - Update loads to have both entity and cfs_rq synced with now.
+  4105		 *   - Subtract its load from the cfs_rq->runnable_avg.
+  4106		 *   - Subtract its previous weight from cfs_rq->load.weight.
+  4107		 *   - For group entity, update its weight to reflect the new share
+  4108		 *     of its group cfs_rq.
+  4109		 */
+  4110		update_load_avg(cfs_rq, se, UPDATE_TG);
+  4111		dequeue_runnable_load_avg(cfs_rq, se);
+  4112	
+  4113		update_stats_dequeue(cfs_rq, se, flags);
+  4114	
+  4115		clear_buddies(cfs_rq, se);
+  4116	
+  4117		if (se != cfs_rq->curr)
+  4118			__dequeue_entity(cfs_rq, se);
+  4119		se->on_rq = 0;
+  4120		account_entity_dequeue(cfs_rq, se);
+  4121	
+  4122		/*
+  4123		 * Normalize after update_curr(); which will also have moved
+  4124		 * min_vruntime if @se is the one holding it back. But before doing
+  4125		 * update_min_vruntime() again, which will discount @se's position and
+  4126		 * can move min_vruntime forward still more.
+  4127		 */
+  4128		if (!(flags & DEQUEUE_SLEEP))
+  4129			se->vruntime -= cfs_rq->min_vruntime;
+  4130	
+  4131		/* return excess runtime on last dequeue */
+  4132		return_cfs_rq_runtime(cfs_rq);
+  4133	
+  4134		update_cfs_group(se);
+  4135	
+  4136		/*
+  4137		 * Now advance min_vruntime if @se was the entity holding it back,
+  4138		 * except when: DEQUEUE_SAVE && !DEQUEUE_MOVE, in this case we'll be
+  4139		 * put back on, and if we advance min_vruntime, we'll be placed back
+  4140		 * further than we started -- ie. we'll be penalized.
+  4141		 */
+  4142		if ((flags & (DEQUEUE_SAVE | DEQUEUE_MOVE)) != DEQUEUE_SAVE)
+  4143			update_min_vruntime(cfs_rq);
+  4144	
+  4145	#ifdef	CONFIG_X86_64
+  4146		/* Declare rsp register is destroyed, let gcc using rbp to restore rsp. */
+> 4147		asm volatile("" : : : "rsp");
+  4148	#endif
+  4149	}
+  4150	
 
 -- 
 0-DAY CI Kernel Test Service
