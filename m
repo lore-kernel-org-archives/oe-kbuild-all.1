@@ -1,57 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A98D79C2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 01:47:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAE7801
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 01:48:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710121633; cv=none; b=XtDrW5JBl2zxXnYuSVAdRGq9suOb+gWhjgaHmlnscSvyfPgMwK/wfApimuqk7e/c3Gyw0TVPchJgB4Q+ZCILKIDaIy2MSGZQerBim2Nrc9vLpJad0S5+2jOI71BHUwzElrGK8u3Clt1U7Gdakl07Gg/d3bWd2kwPyB2f+A2ZCkk=
+	t=1710121694; cv=none; b=oq1M+Yj+NpoA9jlRxqs4k2+Q2aH7YjkriZF1HiU82yTK9KHW8o3OD9+hlpO6YS3VmFiJX6kOyqT6PUuoCx386zbDlBGIAPLCz9DboYL/fsoI1KwOKU4WAyeVed2yfM49KxiKwAq4F5NGPROWBI4wmsIS5K+9RVRRU07zYrJAv+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710121633; c=relaxed/simple;
-	bh=ciEnGxbSSve6mJFUhpz7zbC8iGAPgFjGszrG+gOVSJ8=;
+	s=arc-20240116; t=1710121694; c=relaxed/simple;
+	bh=yUB/ZVtBpdybZvKFdb5zbguk9kp1GlIp4Rt4tw3+xBE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XtomkO/7JSHUKeHlwknrNMqX/dz5NvrYdbj/ZcXRUnV7ddKbyP1Bg6BfP0z4oRGlcQMXP9pQcXigeVqqGOnmZA55ptATLxtzSN0Rpwe1ghKpwP7e7fKH+BA9yjfbEo+XpCbZi6EDijGl9U3VqXZAvAD7hKjV9fVYkLyKWHeToO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eFwuZ3ya; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=Q52pjjXCCQct6CYA1akA+kheel7Ik6GhBSqmj9uR9K2YRpI0KAWmAe3r2/hWNRgEftUARswD7y18qvCr0GaY7OVVt8MQqwW1AgylxdZmhRjRIoO6+Mlfb1Pk5rAqpJuuNRJEyUT4/zyQYlQ66+N90kDqt/WCD+muqf6Bskk7riU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IFwNy5Uu; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eFwuZ3ya"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IFwNy5Uu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710121631; x=1741657631;
+  t=1710121690; x=1741657690;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ciEnGxbSSve6mJFUhpz7zbC8iGAPgFjGszrG+gOVSJ8=;
-  b=eFwuZ3yanxIgXHI1t/jVwNm5QoRHJj+5ZOFKSEHpJ3yOx5jujyjeET0J
-   Za72rDaIWm7w+JDMBfigws4hZPwU+sbIPGJivVAZgRFRCyUA3YLaI74Dm
-   yt7gIh1slx3xYqxJPqAJ01QLcQJ1/2+oe6QVl2KZ6fqsNeeettPkCAPni
-   H50RqCW3x5cUGZUvVbAk2xQnYz0uae7kyXYURRVdOQ4qhE56tnxvvo8FD
-   1OjynWm2gNbTbOTdkWLR/GImo33Cqp1jYEIv/tNhL1ej0FazNoYfnvWEI
-   zbLWrt70N7De00t64J+R4BQyZLJ01WYi6w/j153gvuwM6rEeVE4rcj2Lf
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="15410282"
+  bh=yUB/ZVtBpdybZvKFdb5zbguk9kp1GlIp4Rt4tw3+xBE=;
+  b=IFwNy5UuXc59ESo2qft248RJGz+R5fqoHbLxi+aX+9hzh6irCbYIl7LE
+   m0o92vI/QDVcYDwrrTQjxzAQ99jUjW9jxK7D97l3buubhkMg4zAy95nK4
+   zbHTZaiX+Jebfq3k0of4ZZ0DvH5QWAuOvhf0JsCHZMSqA52E/AI+s6EVI
+   l4MFo6Vm0ol3kq4n/L4A5f06CFaDJn+v3/3PSnsyCzQpSFjiniH9mQeC4
+   7gwyZoYL6zVCLiGB3DKt4/PYf8QxcMmCLpryQLySVO7mHheoOU6Xn8VBR
+   Rf1y4cr1CdWJRdU9yWHLpc7aZH5SS/DPT4GJb4WQU6V+9xA883roVhKuP
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="4649630"
 X-IronPort-AV: E=Sophos;i="6.07,115,1708416000"; 
-   d="scan'208";a="15410282"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 18:47:11 -0700
+   d="scan'208";a="4649630"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 18:48:10 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,115,1708416000"; 
-   d="scan'208";a="15506186"
+   d="scan'208";a="11419575"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Mar 2024 18:47:08 -0700
+  by orviesa006.jf.intel.com with ESMTP; 10 Mar 2024 18:48:09 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rjUkr-0008nH-2U;
-	Mon, 11 Mar 2024 01:47:05 +0000
-Date: Mon, 11 Mar 2024 09:46:55 +0800
+	id 1rjUlp-0008nR-2q;
+	Mon, 11 Mar 2024 01:48:05 +0000
+Date: Mon, 11 Mar 2024 09:47:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/next 24632/27506] acpi_processor.c:undefined
- reference to `acpi_processor_ffh_cstate_probe'
-Message-ID: <202403110919.MSAZtUn9-lkp@intel.com>
+Subject: [android-common:android15-6.6 51/57] arch/arm64/kvm/iommu.c:63:15:
+ sparse: sparse: symbol 'kvm_get_iommu_id' was not declared. Should it be
+ static?
+Message-ID: <202403110901.0vaGJWFH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,22 +59,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
-head:   3ba333344123321f5f312e69966bbc8e5533561f
-commit: 6121fcbfad79e7088ffef0d4abb48fc33b26aada [24632/27506] Intel: ACPI: processor: Export acpi_processor_evaluate_cst()
-config: x86_64-buildonly-randconfig-003-20240310 (https://download.01.org/0day-ci/archive/20240311/202403110919.MSAZtUn9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403110919.MSAZtUn9-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   6b00f1b219465a71cb11664536629575c5312bd0
+commit: 9d5e57d93b40eb389a4d67fc606dc62089e1cae6 [51/57] ANDROID: KVM: arm64: iommu: Add kernel wrapper for HOST_HVC PD
+config: arm64-randconfig-r122-20240307 (https://download.01.org/0day-ci/archive/20240311/202403110901.0vaGJWFH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240311/202403110901.0vaGJWFH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403110919.MSAZtUn9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403110901.0vaGJWFH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/iommu.c:63:15: sparse: sparse: symbol 'kvm_get_iommu_id' was not declared. Should it be static?
 
-   ld: drivers/acpi/acpi_processor.o: in function `acpi_processor_evaluate_cst':
->> acpi_processor.c:(.text+0x348): undefined reference to `acpi_processor_ffh_cstate_probe'
+vim +/kvm_get_iommu_id +63 arch/arm64/kvm/iommu.c
+
+    62	
+  > 63	pkvm_handle_t kvm_get_iommu_id(struct device *dev)
+    64	{
+    65		return iommu_driver->get_iommu_id(dev);
+    66	}
+    67	
 
 -- 
 0-DAY CI Kernel Test Service
