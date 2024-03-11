@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5EA94122C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 13:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9903FB95;
+	Mon, 11 Mar 2024 14:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710165291; cv=none; b=ZDrNmzak5PD9XLQ+8pU2Y1q05VNcpGjLjJ7di8A953K6cG8tWCdmn7MKiMFt5jjFNxL91UpXzPMftDn2pV0QDaPucYUlQIOkAvRt91dsidNe8ezCdp7FrnSkm1Vtgp6C9X3DbpreVr5WejCDrNysWcCqTzXjxgeiuNlRtaQba1s=
+	t=1710166608; cv=none; b=a4xY+fCqd7nXRKsfg0z+9h5oqul6abky03lJ34IE3XNAd+/7caSbrCH6kvCGlYRGEqNlF1/pBBN3TlSET6KSAs/wMmxolT9ZD7eDMS0xXG3nhT4p+GiRZm9e/Qrh3LQB0wEaph/4lPRJAUWgHC6Yvp5ZGTQUPynUZcrkz1KGqNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710165291; c=relaxed/simple;
-	bh=B1Lpj+Hb9WLEiqwpHaD0tYio8braNfFDb2G3PVMRKbQ=;
+	s=arc-20240116; t=1710166608; c=relaxed/simple;
+	bh=WSGPC7C5T3gv/BeIbBQR0oTEGkTo2Yp2Jlxul6f5iYs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CbTWZ+0LEoIfD85hkQfH2LlHqsjDMOmIbcAlh8hSS7xVJf+6cF3zm5C29ssLPuFEd0iZTlWkkFZ+L49Joagg89qa6w8RLaVKCuohI+3u+ATsjwNcFDoayw0HZObiyNSSMCQdA4HBossrUetqseCxJKwoMY9vp70Izsvo1IJ8OBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mwfLAmXp; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=C0vZgDxe/CTGqJlCYy5A03xScySZNsyi18K/xNgvjx9PVjfl6eJ+NcdW1P0YzoKgyXX3kU642kQc6H6AfC6Np4UgTxRtIZ5lBtm1hHni+4EPcb+0byGC5T6Gbrlqday19D5FpKi8NHSurv0apZ0qdNFp+I8q0TTY1CjlwrDOV2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9brIOvB; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mwfLAmXp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9brIOvB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710165289; x=1741701289;
+  t=1710166607; x=1741702607;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=B1Lpj+Hb9WLEiqwpHaD0tYio8braNfFDb2G3PVMRKbQ=;
-  b=mwfLAmXpUSThp1kJOqnWad9WTqGAhyIGj86Wk4c0oaW5rQOPhA1G+fFc
-   wIeDH0zr4XxLuKtupa9/fX0OJXungF3zqrOkgOBd2EFzb/ulTQHMMnf75
-   os7qvs2mZyFV1JYAxIZCMzU3+JZt8SPjsL2Ylvpwr21j7dsd1gPq1uRQ/
-   fLRJXM9BJOceBohOgI0LKZPK18tqLm1yM0PfMbAbJxfItkQuETSNUQ5th
-   ZTq4fHay3SQawLmCH6B3axtYnXB1OY9Ou0C2TPsohWGqayRpzz1L4kg1k
-   1Zo2mfZ0rt55VAMEdeSCTOzDOEjPZiUlIuBKi2K+6VCG3IRpEF3snJT5N
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="4963962"
+  bh=WSGPC7C5T3gv/BeIbBQR0oTEGkTo2Yp2Jlxul6f5iYs=;
+  b=U9brIOvBiOYviBe4k6h4cWULejE0MC2pEcoBTzpscNgdtvEH24BRH3eR
+   F6VKNr1A325BiHHmYOoCiUZgxEjHB5iv8quHbGcsetRxZ0/fugZ/W4dda
+   o8MgNVKUqi7OPqAdAInGyv6OZay3WaVKj7NVXooDXC2MhW9u+zuw9qhvr
+   Hzq1Ee2RrMKVKOe6PrixibCN4zF7myI2zhSSvI3mSwT4T4rGXXzNrvsCV
+   v0HfC7yvZ3DFmwebn/8S0l01H5C+v81RSu93nncJIPOcpHg3Y5S9YC4vF
+   iMyplZAYJUrd1ycU6npJc74pwLfWDVaW4ceaQ8bKakUjVqsDsNVk4Dxw4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="4755613"
 X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="4963962"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 06:54:49 -0700
+   d="scan'208";a="4755613"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 07:16:46 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="15666951"
+   d="scan'208";a="11758068"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Mar 2024 06:54:45 -0700
+  by orviesa008.jf.intel.com with ESMTP; 11 Mar 2024 07:16:45 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rjg70-0009A7-1F;
-	Mon, 11 Mar 2024 13:54:42 +0000
-Date: Mon, 11 Mar 2024 21:54:41 +0800
+	id 1rjgSI-0009AX-28;
+	Mon, 11 Mar 2024 14:16:42 +0000
+Date: Mon, 11 Mar 2024 22:16:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 2/2] btrfs: defrag: allow fine-tuning defrag behavior
- based on file extent usage
-Message-ID: <202403112159.IQpF7kcT-lkp@intel.com>
-References: <d87c011eca11395aafa23cf7ea3ac8c0c8812fe6.1710137066.git.wqu@suse.com>
+To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH vhost v2 1/4] virtio: find_vqs: pass struct instead of
+ multi parameters
+Message-ID: <202403112253.omPqb1A5-lkp@intel.com>
+References: <20240311072113.67673-2-xuanzhuo@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,134 +59,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d87c011eca11395aafa23cf7ea3ac8c0c8812fe6.1710137066.git.wqu@suse.com>
+In-Reply-To: <20240311072113.67673-2-xuanzhuo@linux.alibaba.com>
 
-Hi Qu,
+Hi Xuan,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on kdave/for-next]
-[also build test ERROR on linus/master v6.8 next-20240308]
+[auto build test ERROR on remoteproc/rproc-next]
+[also build test ERROR on s390/features linus/master v6.8 next-20240308]
+[cannot apply to uml/next uml/fixes]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-defrag-add-under-utilized-extent-to-defrag-target-list/20240311-141116
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/d87c011eca11395aafa23cf7ea3ac8c0c8812fe6.1710137066.git.wqu%40suse.com
-patch subject: [PATCH v2 2/2] btrfs: defrag: allow fine-tuning defrag behavior based on file extent usage
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20240311/202403112159.IQpF7kcT-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403112159.IQpF7kcT-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio-find_vqs-pass-struct-instead-of-multi-parameters/20240311-152448
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
+patch link:    https://lore.kernel.org/r/20240311072113.67673-2-xuanzhuo%40linux.alibaba.com
+patch subject: [PATCH vhost v2 1/4] virtio: find_vqs: pass struct instead of multi parameters
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240311/202403112253.omPqb1A5-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403112253.omPqb1A5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403112159.IQpF7kcT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403112253.omPqb1A5-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/sysv/sysv.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hpfs/hpfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ufs/ufs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx4/qnx4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx6/qnx6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/bcachefs/mean_and_variance_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/af_alg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_hash.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_skcipher.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libpoly1305.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libsha256.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_string.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-string_helpers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hexdump.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_dhry.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cpumask_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sysctl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hash.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ida.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-kstrtox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_list_sort.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_min_heap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_rhashtable.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sort.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_uuid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_xarray.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kmod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_kmp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_bm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_fsm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/bitfield_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/list-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/hashtable_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cmdline_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/memcpy_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/overflow_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strcat_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strscpy_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/dsp56k.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
-WARNING: modpost: drivers/input/mouse/amimouse: section mismatch in reference: amimouse_driver+0x8 (section: .data) -> amimouse_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: drivers/parport/parport_amiga: section mismatch in reference: amiga_parallel_driver+0x4 (section: .data) -> amiga_parallel_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_atari.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_paula.o
-WARNING: modpost: sound/oss/dmasound/dmasound_paula: section mismatch in reference: amiga_audio_driver+0x8 (section: .data) -> amiga_audio_remove (section: .exit.text)
->> ERROR: modpost: "__udivdi3" [fs/btrfs/btrfs.ko] undefined!
+>> drivers/virtio/virtio_pci_modern.c:761:15: error: read-only variable is not assignable
+           cfg.names[0] = avq->name;
+           ~~~~~~~~~~~~ ^
+   1 error generated.
+
+
+vim +761 drivers/virtio/virtio_pci_modern.c
+
+   735	
+   736	static int vp_modern_create_avq(struct virtio_device *vdev)
+   737	{
+   738		struct virtio_pci_device *vp_dev = to_vp_device(vdev);
+   739		vq_callback_t *callbacks[] = { NULL };
+   740		struct virtio_vq_config cfg = {};
+   741		struct virtio_pci_admin_vq *avq;
+   742		struct virtqueue *vq;
+   743		const char *names[1];
+   744		u16 admin_q_num;
+   745	
+   746		cfg.nvqs = 1;
+   747		cfg.callbacks = callbacks;
+   748		cfg.names = names;
+   749	
+   750		if (!virtio_has_feature(vdev, VIRTIO_F_ADMIN_VQ))
+   751			return 0;
+   752	
+   753		admin_q_num = vp_modern_avq_num(&vp_dev->mdev);
+   754		if (!admin_q_num)
+   755			return -EINVAL;
+   756	
+   757		avq = &vp_dev->admin_vq;
+   758		avq->vq_index = vp_modern_avq_index(&vp_dev->mdev);
+   759		sprintf(avq->name, "avq.%u", avq->vq_index);
+   760	
+ > 761		cfg.names[0] = avq->name;
+   762		cfg.cfg_idx = 0;
+   763		vq = vp_dev->setup_vq(vp_dev, &vp_dev->admin_vq.info, avq->vq_index,
+   764				      &cfg, VIRTIO_MSI_NO_VECTOR);
+   765		if (IS_ERR(vq)) {
+   766			dev_err(&vdev->dev, "failed to setup admin virtqueue, err=%ld",
+   767				PTR_ERR(vq));
+   768			return PTR_ERR(vq);
+   769		}
+   770	
+   771		vp_modern_set_queue_enable(&vp_dev->mdev, avq->info.vq->index, true);
+   772		return 0;
+   773	}
+   774	
 
 -- 
 0-DAY CI Kernel Test Service
