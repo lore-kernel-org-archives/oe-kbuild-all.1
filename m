@@ -1,56 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE7369D02
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Mar 2024 08:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70A277A0E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Mar 2024 08:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710231694; cv=none; b=t18zYLMyOLtXGeJCZovtqrTRfDqlMwLqjtEmIqiZffd2inrLmTWAGZ8O0i9HFCv2M2Z8/+qzoRbjBv3ZatU9gbnN9eFElKm09Tgjcw89d3Y69lN3oJPBOcwIXhN3VisAmkLy8u/wtvuLVfbJmDvJb2q7wWwGlPUpTSE2UxPRsTA=
+	t=1710233190; cv=none; b=rb7oKnp4+oxR6pmIH4bBs4kgCbR9I/FUIdeySru9i2cnmfW1qs4Jyt5gpJ9cJARmEvzZU+cI8qLD/h7lDJC+DPk0az4k8HyRsMOHgb3BmVV2Ex876/ocQPU4u9s6rg9o2ooXNXE3yWrnhQh0gu1tYyrqUEsObnSadJLz3gjR7XY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710231694; c=relaxed/simple;
-	bh=U/tefQul3cyLVhq544Gnba+Ixoy+iJpoMT+vQYCbZY4=;
+	s=arc-20240116; t=1710233190; c=relaxed/simple;
+	bh=5Ko/VT+i8QS/Cf3MYddfAVm1qXw1bPA+rqXN4vv3cMA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hkXpg9xMaxORTViqU8dy9rn1BzIaCZeG8LkUD+V499EFQQoQ37sdVYZL/Lnjh0g1QyV3h9gJoDWVXWp36U3Sf1hhJF/sL5LfCm3YtAaEIh6fe3diS7NtvS/c42z8kj6knvmsxqiYx/+HIRMU3CIPd5Xyn/Vj9Wi013GLRlzrTak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FVIY/Ld5; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=I0Mw0ayZ3ioTkqNMd/7dkN8VXqv+UgQltNquh7lVQZIa2WNJH+xCZjoEMtXkinfp4hi07fPfA4dcqwLOkOK6F6R0of1lUmFplkBkYoUNWm42HXdTvlynIUnvf7q4J7UVqcQQUCbrdffV+xpb3OZsQi5bUiSBnQHj7T/mBLssiwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ULFVxWRL; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FVIY/Ld5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ULFVxWRL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710231692; x=1741767692;
+  t=1710233188; x=1741769188;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=U/tefQul3cyLVhq544Gnba+Ixoy+iJpoMT+vQYCbZY4=;
-  b=FVIY/Ld5A3JR7VwErwKmdCThJsG2XVS3bWJ7BJaah/eAcXaX19jeUIFP
-   h5fN5L4ZSvhNyGTWpmiCYTtGDd+2NPDE66WlokBBqjtJ28hjdn4gRM21o
-   csAS53GGrAcpSxwFtDz+pSjt/PZHUz/gC5VI6+k6y7SLPaIihGH/7ZrBf
-   bkAeXJZmTDrNfx99BRG8krSx2RXjn0qfiBJPCxLTFjjrGqMWU4aGVOHlS
-   Loc9WewdvlQQFLQBp5Ek9sekvT094mU2Yibi5edOPAH1+9Ojl2DmkNfsV
-   c7JyNizRKqPihi50I2td8d0UqdonSTMt+feMDoZl6AjyVd4lgPX3LZMhz
+  bh=5Ko/VT+i8QS/Cf3MYddfAVm1qXw1bPA+rqXN4vv3cMA=;
+  b=ULFVxWRLRD8M7vdeQkwLzFgzYLdz/f4Yyac6oRQ+Rs/jRLe+e1MON/xO
+   nIuilk8gCO7pqAvtBW45CV+V7R+aKjoa8e8Z16BbJDJ8EQZ1QXkKJekum
+   VtoPNtkv6+GQWSWIbhOHPokgyfETLhnUHEIou7ZmEAFaN772JcUTqUlmQ
+   dEo9dnzppAazAZ2jHP3fo3W8sgk9muQ/viTOCitDSKSa9IjnLBU1EdMHe
+   +Z38ZM3EPQX+yiWmm1UVDLE9kL6KlFRFSX73wpnLLcBzUABTfozz4xe7m
+   RBcVBJN2oHRlZROWyfDefO/WOP31XTlyAWmSObxTaTVnSHwIprnTrqNU+
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4855136"
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4783445"
 X-IronPort-AV: E=Sophos;i="6.07,118,1708416000"; 
-   d="scan'208";a="4855136"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 01:21:27 -0700
+   d="scan'208";a="4783445"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 01:46:28 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,118,1708416000"; 
-   d="scan'208";a="48900993"
+   d="scan'208";a="11532773"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 12 Mar 2024 01:21:25 -0700
+  by orviesa009.jf.intel.com with ESMTP; 12 Mar 2024 01:46:26 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rjxNy-0009yF-2X;
-	Tue, 12 Mar 2024 08:21:22 +0000
-Date: Tue, 12 Mar 2024 16:20:31 +0800
+	id 1rjxmB-0009z1-0r;
+	Tue, 12 Mar 2024 08:46:23 +0000
+Date: Tue, 12 Mar 2024 16:45:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xin Long <lucien.xin@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH net-next 4/5] net: integrate QUIC build configuration
- into Kconfig and Makefile
-Message-ID: <202403121645.PBuaPXeH-lkp@intel.com>
-References: <f5678996612dc82c990da0dbceb19dcd062d97bd.1710173427.git.lucien.xin@gmail.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, quic_carlv@quicinc.com,
+	quic_pkanojiy@quicinc.com, stanislaw.gruszka@linux.intel.com,
+	jacek.lawrynowicz@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, ogabbay@kernel.org,
+	Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH 2/3] accel/qaic: Add fifo size debugfs
+Message-ID: <202403121628.x2PPKBRx-lkp@intel.com>
+References: <20240311165826.1728693-3-quic_jhugo@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,128 +62,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f5678996612dc82c990da0dbceb19dcd062d97bd.1710173427.git.lucien.xin@gmail.com>
+In-Reply-To: <20240311165826.1728693-3-quic_jhugo@quicinc.com>
 
-Hi Xin,
+Hi Jeffrey,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on next-20240312]
+[cannot apply to linus/master v6.8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Long/net-define-IPPROTO_QUIC-and-SOL_QUIC-constants-for-QUIC-protocol/20240312-002959
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/f5678996612dc82c990da0dbceb19dcd062d97bd.1710173427.git.lucien.xin%40gmail.com
-patch subject: [RFC PATCH net-next 4/5] net: integrate QUIC build configuration into Kconfig and Makefile
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240312/202403121645.PBuaPXeH-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403121645.PBuaPXeH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/accel-qaic-Add-bootlog-debugfs/20240312-010045
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240311165826.1728693-3-quic_jhugo%40quicinc.com
+patch subject: [PATCH 2/3] accel/qaic: Add fifo size debugfs
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240312/202403121628.x2PPKBRx-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403121628.x2PPKBRx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403121645.PBuaPXeH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403121628.x2PPKBRx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   net/quic/crypto.c: In function 'quic_crypto_set_secret':
->> net/quic/crypto.c:560:29: warning: variable 'keylen' set but not used [-Wunused-but-set-variable]
-     560 |         int err, secretlen, keylen;
-         |                             ^~~~~~
+   drivers/accel/qaic/qaic_debugfs.c: In function 'qaic_debugfs_init':
+>> drivers/accel/qaic/qaic_debugfs.c:112:55: warning: '%03u' directive output may be truncated writing between 3 and 10 bytes into a region of size 6 [-Wformat-truncation=]
+     112 |                 snprintf(name, QAIC_DBC_DIR_NAME, "dbc%03u", i);
+         |                                                       ^~~~
+   drivers/accel/qaic/qaic_debugfs.c:112:51: note: directive argument in the range [0, 4294967294]
+     112 |                 snprintf(name, QAIC_DBC_DIR_NAME, "dbc%03u", i);
+         |                                                   ^~~~~~~~~
+   drivers/accel/qaic/qaic_debugfs.c:112:17: note: 'snprintf' output between 7 and 14 bytes into a destination of size 9
+     112 |                 snprintf(name, QAIC_DBC_DIR_NAME, "dbc%03u", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/keylen +560 net/quic/crypto.c
+vim +112 drivers/accel/qaic/qaic_debugfs.c
 
-b53fc4edb7faf3 Xin Long 2024-03-11  556  
-b53fc4edb7faf3 Xin Long 2024-03-11  557  int quic_crypto_set_secret(struct quic_crypto *crypto, struct quic_crypto_secret *srt,
-b53fc4edb7faf3 Xin Long 2024-03-11  558  			   u32 version, u8 flag)
-b53fc4edb7faf3 Xin Long 2024-03-11  559  {
-b53fc4edb7faf3 Xin Long 2024-03-11 @560  	int err, secretlen, keylen;
-b53fc4edb7faf3 Xin Long 2024-03-11  561  	struct quic_cipher *cipher;
-b53fc4edb7faf3 Xin Long 2024-03-11  562  	void *tfm;
-b53fc4edb7faf3 Xin Long 2024-03-11  563  
-b53fc4edb7faf3 Xin Long 2024-03-11  564  	if (!crypto->cipher) {
-b53fc4edb7faf3 Xin Long 2024-03-11  565  		crypto->version = version;
-b53fc4edb7faf3 Xin Long 2024-03-11  566  		if (srt->type < QUIC_CIPHER_MIN || srt->type > QUIC_CIPHER_MAX)
-b53fc4edb7faf3 Xin Long 2024-03-11  567  			return -EINVAL;
-b53fc4edb7faf3 Xin Long 2024-03-11  568  
-b53fc4edb7faf3 Xin Long 2024-03-11  569  		cipher = &ciphers[srt->type - QUIC_CIPHER_MIN];
-b53fc4edb7faf3 Xin Long 2024-03-11  570  		tfm = crypto_alloc_shash(cipher->shash, 0, 0);
-b53fc4edb7faf3 Xin Long 2024-03-11  571  		if (IS_ERR(tfm))
-b53fc4edb7faf3 Xin Long 2024-03-11  572  			return PTR_ERR(tfm);
-b53fc4edb7faf3 Xin Long 2024-03-11  573  		crypto->secret_tfm = tfm;
-b53fc4edb7faf3 Xin Long 2024-03-11  574  
-b53fc4edb7faf3 Xin Long 2024-03-11  575  		tfm = crypto_alloc_aead(cipher->aead, 0, CRYPTO_ALG_ASYNC);
-b53fc4edb7faf3 Xin Long 2024-03-11  576  		if (IS_ERR(tfm)) {
-b53fc4edb7faf3 Xin Long 2024-03-11  577  			err = PTR_ERR(tfm);
-b53fc4edb7faf3 Xin Long 2024-03-11  578  			goto err;
-b53fc4edb7faf3 Xin Long 2024-03-11  579  		}
-b53fc4edb7faf3 Xin Long 2024-03-11  580  		crypto->tag_tfm = tfm;
-b53fc4edb7faf3 Xin Long 2024-03-11  581  		crypto->cipher = cipher;
-b53fc4edb7faf3 Xin Long 2024-03-11  582  		crypto->cipher_type = srt->type;
-b53fc4edb7faf3 Xin Long 2024-03-11  583  	}
-b53fc4edb7faf3 Xin Long 2024-03-11  584  
-b53fc4edb7faf3 Xin Long 2024-03-11  585  	cipher = crypto->cipher;
-b53fc4edb7faf3 Xin Long 2024-03-11  586  	secretlen = cipher->secretlen;
-b53fc4edb7faf3 Xin Long 2024-03-11  587  	keylen = cipher->keylen;
-b53fc4edb7faf3 Xin Long 2024-03-11  588  	if (!srt->send) {
-b53fc4edb7faf3 Xin Long 2024-03-11  589  		memcpy(crypto->rx_secret, srt->secret, secretlen);
-b53fc4edb7faf3 Xin Long 2024-03-11  590  		tfm = crypto_alloc_aead(cipher->aead, 0, flag);
-b53fc4edb7faf3 Xin Long 2024-03-11  591  		if (IS_ERR(tfm)) {
-b53fc4edb7faf3 Xin Long 2024-03-11  592  			err = PTR_ERR(tfm);
-b53fc4edb7faf3 Xin Long 2024-03-11  593  			goto err;
-b53fc4edb7faf3 Xin Long 2024-03-11  594  		}
-b53fc4edb7faf3 Xin Long 2024-03-11  595  		crypto->rx_tfm[0] = tfm;
-b53fc4edb7faf3 Xin Long 2024-03-11  596  		tfm = crypto_alloc_aead(cipher->aead, 0, flag);
-b53fc4edb7faf3 Xin Long 2024-03-11  597  		if (IS_ERR(tfm)) {
-b53fc4edb7faf3 Xin Long 2024-03-11  598  			err = PTR_ERR(tfm);
-b53fc4edb7faf3 Xin Long 2024-03-11  599  			goto err;
-b53fc4edb7faf3 Xin Long 2024-03-11  600  		}
-b53fc4edb7faf3 Xin Long 2024-03-11  601  		crypto->rx_tfm[1] = tfm;
-b53fc4edb7faf3 Xin Long 2024-03-11  602  		tfm = crypto_alloc_sync_skcipher(cipher->skc, 0, 0);
-b53fc4edb7faf3 Xin Long 2024-03-11  603  		if (IS_ERR(tfm)) {
-b53fc4edb7faf3 Xin Long 2024-03-11  604  			err = PTR_ERR(tfm);
-b53fc4edb7faf3 Xin Long 2024-03-11  605  			goto err;
-b53fc4edb7faf3 Xin Long 2024-03-11  606  		}
-b53fc4edb7faf3 Xin Long 2024-03-11  607  		crypto->rx_hp_tfm = tfm;
-b53fc4edb7faf3 Xin Long 2024-03-11  608  
-b53fc4edb7faf3 Xin Long 2024-03-11  609  		err = quic_crypto_rx_keys_derive_and_install(crypto);
-b53fc4edb7faf3 Xin Long 2024-03-11  610  		if (err)
-b53fc4edb7faf3 Xin Long 2024-03-11  611  			goto err;
-b53fc4edb7faf3 Xin Long 2024-03-11  612  		crypto->recv_ready = 1;
-b53fc4edb7faf3 Xin Long 2024-03-11  613  		return 0;
-b53fc4edb7faf3 Xin Long 2024-03-11  614  	}
-b53fc4edb7faf3 Xin Long 2024-03-11  615  
-b53fc4edb7faf3 Xin Long 2024-03-11  616  	memcpy(crypto->tx_secret, srt->secret, secretlen);
-b53fc4edb7faf3 Xin Long 2024-03-11  617  	tfm = crypto_alloc_aead(cipher->aead, 0, flag);
-b53fc4edb7faf3 Xin Long 2024-03-11  618  	if (IS_ERR(tfm)) {
-b53fc4edb7faf3 Xin Long 2024-03-11  619  		err = PTR_ERR(tfm);
-b53fc4edb7faf3 Xin Long 2024-03-11  620  		goto err;
-b53fc4edb7faf3 Xin Long 2024-03-11  621  	}
-b53fc4edb7faf3 Xin Long 2024-03-11  622  	crypto->tx_tfm[0] = tfm;
-b53fc4edb7faf3 Xin Long 2024-03-11  623  	tfm = crypto_alloc_aead(cipher->aead, 0, flag);
-b53fc4edb7faf3 Xin Long 2024-03-11  624  	if (IS_ERR(tfm)) {
-b53fc4edb7faf3 Xin Long 2024-03-11  625  		err = PTR_ERR(tfm);
-b53fc4edb7faf3 Xin Long 2024-03-11  626  		goto err;
-b53fc4edb7faf3 Xin Long 2024-03-11  627  	}
-b53fc4edb7faf3 Xin Long 2024-03-11  628  	crypto->tx_tfm[1] = tfm;
-b53fc4edb7faf3 Xin Long 2024-03-11  629  	tfm = crypto_alloc_sync_skcipher(cipher->skc, 0, 0);
-b53fc4edb7faf3 Xin Long 2024-03-11  630  	if (IS_ERR(tfm)) {
-b53fc4edb7faf3 Xin Long 2024-03-11  631  		err = PTR_ERR(tfm);
-b53fc4edb7faf3 Xin Long 2024-03-11  632  		goto err;
-b53fc4edb7faf3 Xin Long 2024-03-11  633  	}
-b53fc4edb7faf3 Xin Long 2024-03-11  634  	crypto->tx_hp_tfm = tfm;
-b53fc4edb7faf3 Xin Long 2024-03-11  635  	err = quic_crypto_tx_keys_derive_and_install(crypto);
-b53fc4edb7faf3 Xin Long 2024-03-11  636  	if (err)
-b53fc4edb7faf3 Xin Long 2024-03-11  637  		goto err;
-b53fc4edb7faf3 Xin Long 2024-03-11  638  	crypto->send_ready = 1;
-b53fc4edb7faf3 Xin Long 2024-03-11  639  	return 0;
-b53fc4edb7faf3 Xin Long 2024-03-11  640  err:
-b53fc4edb7faf3 Xin Long 2024-03-11  641  	quic_crypto_destroy(crypto);
-b53fc4edb7faf3 Xin Long 2024-03-11  642  	return err;
-b53fc4edb7faf3 Xin Long 2024-03-11  643  }
-b53fc4edb7faf3 Xin Long 2024-03-11  644  EXPORT_SYMBOL_GPL(quic_crypto_set_secret);
-b53fc4edb7faf3 Xin Long 2024-03-11  645  
+    99	
+   100	void qaic_debugfs_init(struct qaic_drm_device *qddev)
+   101	{
+   102		struct qaic_device *qdev = qddev->qdev;
+   103		struct dentry *debugfs_root;
+   104		struct dentry *debugfs_dir;
+   105		char name[QAIC_DBC_DIR_NAME];
+   106		u32 i;
+   107	
+   108		debugfs_root = to_drm(qddev)->debugfs_root;
+   109	
+   110		debugfs_create_file("bootlog", 0400, debugfs_root, qdev, &bootlog_fops);
+   111		for (i = 0; i < qdev->num_dbc; ++i) {
+ > 112			snprintf(name, QAIC_DBC_DIR_NAME, "dbc%03u", i);
+   113			debugfs_dir = debugfs_create_dir(name, debugfs_root);
+   114			debugfs_create_file("fifo_size", 0400, debugfs_dir, &qdev->dbc[i], &fifo_size_fops);
+   115		}
+   116	}
+   117	
 
 -- 
 0-DAY CI Kernel Test Service
