@@ -1,117 +1,236 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA3646556;
-	Tue, 12 Mar 2024 23:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E16226286
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Mar 2024 23:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710285869; cv=none; b=tX5PBmFWcvFSEKnbwqmmiAVfPPnQfKDdmXfeMy+TLrUGf+La4StC5r49imPNnhzYYPRANyaXxNnuYowhU9TwtE1H7QveGo93ZiR0z8Zbxfc8j2Dd0jtww5oi1J1zEPBEGaygylupLzsY2o93XQQ2Ayp7ncJz6xZpt/zT7q+LMKw=
+	t=1710286589; cv=none; b=TsF3HrfkoyadbiInSkkovIgeZbJVL8oSsuTLCOD1tNJosNxZTz6JuoyBAE+08gq6oCYeOEN8tc5zXFNnRylx1ISsKhnvxCOyjTI0n66HBj0nt/dhLA/56u9PNWpg/6K0bSqMQ56m/JHCO1W48AHXhP+ktlBYP8k5irmcpkhLiOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710285869; c=relaxed/simple;
-	bh=bVz6/tW2fQOIBFFrv5Bm2bT3SqRIIUyQ5B9R5ZlCGRg=;
+	s=arc-20240116; t=1710286589; c=relaxed/simple;
+	bh=YO0nwRbuSKfxHCgjTfexS6L/Ys9CoadV0/JQalQ7GrA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YiIKAY61AjdDKyj9S4IgFA9pIZ3pePJ/eJv5zS1MsCWJ40I2j9BBfZZWjmKlVOTh/v39uVqIWPNoL9MnrWIY4tLXhme5DQ70VY2cgSVrCchtyJwFtzfGDbwAtayaG2dRkIkzzzshwtZclpTCSol4VIEQy7qBB/S1qUY3bkuvr6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZoQrbI9k; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=bC95kReir7N0uOkAViaGqZUnk6WN56U6IPtLutteAk4fxoffe0p8DpDqO/vD7Xl350uF3aOOYq7pPxPmfRMbYKaYoIW2zQ9rWL+HedbnIq2WnjuWLBaykNLytppgraX6R6NdOuXs8IcpCSAXpvyL/kxgFQr7zpHJ2DpcigSOpHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c6BXsUft; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZoQrbI9k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c6BXsUft"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710285867; x=1741821867;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=bVz6/tW2fQOIBFFrv5Bm2bT3SqRIIUyQ5B9R5ZlCGRg=;
-  b=ZoQrbI9kA8U6Y5Stc7T0xPHDTxAiD8bd2QYulqKU45nP8kdhUAlZZv5X
-   ZEkVAjbiddFIIIb1NWJox+LpyDqU8qn1A2tW8FHgfZ4EbvtW/XHDm8vnB
-   KkoHc/TZ0/qKStd0cOVWLg3MU8uGgymtzF0ayq79IN8OFGaokEn2NbtCZ
-   kHbq/hWzYLTUF5rbmIWvK0kYgDTrpHuU3tME0d4/1tjMEwNQ1fD1rsa7I
-   uyEGiXeUKLIkTnFSupm0QprvQHb7q65iEnTb1ep7+/BBSBKOfZVe7WDPL
-   Qpelj5VWRqR4WUjchBKL/iS2UJv/Wgsmy964RdapRJJDcSvyK2uAHvdOL
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4893653"
+  t=1710286587; x=1741822587;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YO0nwRbuSKfxHCgjTfexS6L/Ys9CoadV0/JQalQ7GrA=;
+  b=c6BXsUftMGcaNxmIxCLJCW2771dBLB+md07MxMvfGukyx6zRZCkAQqg1
+   Z0xwsBHb221U99DhWktKij4c21hl5cv0IMB+CsKro4DosHqR1IaI6KGNf
+   u07oikLmKsL0kBIxpXeC2hUpFQZAx0xIFmd6Mmi8mC2s7mEGJP1M7etJ2
+   X1DpeH9TBvIyGVwMRCdLfgx4apsqc4WY1zUa+c22kxDpiX1en/2DxGpZE
+   XH+DLzST/w1KFrSGdHZQ2cArGwpRT/Ig7AJJzhM7GOD6DwrDVe093imGA
+   TwwL83FTRCvjnyV0jTHRifv60VgJs06NXowX+6yg3wByTKjbPxQHAxUQL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="16171459"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="4893653"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 16:24:27 -0700
+   d="scan'208";a="16171459"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 16:36:26 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="11599129"
+   d="scan'208";a="16354687"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 12 Mar 2024 16:24:24 -0700
+  by orviesa003.jf.intel.com with ESMTP; 12 Mar 2024 16:36:25 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkBTq-000Bml-2J;
-	Tue, 12 Mar 2024 23:24:22 +0000
-Date: Wed, 13 Mar 2024 07:24:21 +0800
+	id 1rkBfS-000Bmx-2c;
+	Tue, 12 Mar 2024 23:36:22 +0000
+Date: Wed, 13 Mar 2024 07:35:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Kalle Valo <kvalo@kernel.org>, linux-wireless@vger.kernel.org
-Subject: [wireless-next:main 6/6] drivers/ssb/main.c:1149:2: warning: label
- at end of compound statement is a C2x extension
-Message-ID: <202403130717.TWm17FiD-lkp@intel.com>
+To: Ben Hutchings <bwh@kernel.org>, Ulrich Hecht <uli@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-4.4.y-st-rc 1999/2011]
+ drivers/net/bonding/bond_alb.c:989:12: warning: 'return' with a value, in
+ function returning void
+Message-ID: <202403130724.dcllwgDI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-head:   e27b02e23a701e5761f1d6028643e1203a1c56de
-commit: e27b02e23a701e5761f1d6028643e1203a1c56de [6/6] ssb: drop use of non-existing CONFIG_SSB_DEBUG symbol
-config: i386-buildonly-randconfig-004-20240313 (https://download.01.org/0day-ci/archive/20240313/202403130717.TWm17FiD-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403130717.TWm17FiD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-st-rc
+head:   140bf69dc64d0cace758052e3af9e9cc3e90a09f
+commit: 70118efdad67c6a58eb26267dc4cf53794687180 [1999/2011] bonding: return -ENOMEM instead of BUG in alb_upper_dev_walk
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240313/202403130724.dcllwgDI-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403130724.dcllwgDI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403130717.TWm17FiD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403130724.dcllwgDI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/ssb/main.c:1149:2: warning: label at end of compound statement is a C2x extension [-Wc2x-extensions]
-    1149 |         }
-         |         ^
-   1 warning generated.
+   include/linux/netdevice.h:3310:37: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (debug_value < 0 || debug_value >= (sizeof(u32) * 8))
+                                        ^~
+   In file included from include/linux/writeback.h:192:0,
+                    from include/linux/memcontrol.h:30,
+                    from include/net/sock.h:58,
+                    from include/linux/tcp.h:22,
+                    from include/linux/ipv6.h:72,
+                    from drivers/net/bonding/bond_alb.c:30:
+   include/linux/bio.h: In function 'bio_next_split':
+   include/linux/bio.h:424:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (sectors >= bio_sectors(bio))
+                 ^~
+   In file included from include/net/rtnetlink.h:5:0,
+                    from include/net/sch_generic.h:12,
+                    from include/linux/filter.h:16,
+                    from include/net/sock.h:62,
+                    from include/linux/tcp.h:22,
+                    from include/linux/ipv6.h:72,
+                    from drivers/net/bonding/bond_alb.c:30:
+   include/net/netlink.h: In function 'nlmsg_ok':
+   include/net/netlink.h:337:18: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      nlh->nlmsg_len <= remaining);
+                     ^~
+   include/net/netlink.h: In function 'nlmsg_parse':
+   include/net/netlink.h:372:21: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (nlh->nlmsg_len < nlmsg_msg_size(hdrlen))
+                        ^
+   include/net/netlink.h: In function 'nlmsg_validate':
+   include/net/netlink.h:405:21: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (nlh->nlmsg_len < nlmsg_msg_size(hdrlen))
+                        ^
+   In file included from include/net/sch_generic.h:12:0,
+                    from include/linux/filter.h:16,
+                    from include/net/sock.h:62,
+                    from include/linux/tcp.h:22,
+                    from include/linux/ipv6.h:72,
+                    from drivers/net/bonding/bond_alb.c:30:
+   include/net/rtnetlink.h: In function 'rtnl_msg_family':
+   include/net/rtnetlink.h:20:21: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (nlmsg_len(nlh) >= sizeof(struct rtgenmsg))
+                        ^~
+   In file included from include/linux/linkage.h:4:0,
+                    from include/linux/kernel.h:6,
+                    from include/linux/skbuff.h:17,
+                    from drivers/net/bonding/bond_alb.c:22:
+   include/net/sch_generic.h: In function 'qdisc_cb_private_validate':
+   include/net/sch_generic.h:267:33: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     BUILD_BUG_ON(sizeof(qcb->data) < sz);
+                                    ^
+   include/linux/compiler.h:493:19: note: in definition of macro '__compiletime_assert'
+      bool __cond = !(condition);    \
+                      ^~~~~~~~~
+   include/linux/compiler.h:513:2: note: in expansion of macro '_compiletime_assert'
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/bug.h:50:37: note: in expansion of macro 'compiletime_assert'
+    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                        ^~~~~~~~~~~~~~~~~~
+   include/linux/bug.h:74:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+     ^~~~~~~~~~~~~~~~
+   include/net/sch_generic.h:267:2: note: in expansion of macro 'BUILD_BUG_ON'
+     BUILD_BUG_ON(sizeof(qcb->data) < sz);
+     ^~~~~~~~~~~~
+   In file included from include/net/sock.h:62:0,
+                    from include/linux/tcp.h:22,
+                    from include/linux/ipv6.h:72,
+                    from drivers/net/bonding/bond_alb.c:30:
+   include/linux/filter.h: In function 'bpf_needs_clear_a':
+   include/linux/filter.h:517:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      if (first->k == SKF_AD_OFF + SKF_AD_ALU_XOR_X)
+                   ^~
+   In file included from include/linux/tcp.h:22:0,
+                    from include/linux/ipv6.h:72,
+                    from drivers/net/bonding/bond_alb.c:30:
+   include/net/sock.h: In function 'skb_do_copy_data_nocache':
+   include/net/sock.h:1859:54: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      if (csum_and_copy_from_iter(to, copy, &csum, from) != copy)
+                                                         ^~
+   include/net/sock.h:1863:46: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      if (copy_from_iter_nocache(to, copy, from) != copy)
+                                                 ^~
+   include/net/sock.h:1865:44: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     } else if (copy_from_iter(to, copy, from) != copy)
+                                               ^~
+   In file included from include/linux/tcp.h:23:0,
+                    from include/linux/ipv6.h:72,
+                    from drivers/net/bonding/bond_alb.c:30:
+   include/net/inet_connection_sock.h: In function 'inet_csk_reqsk_queue_is_full':
+   include/net/inet_connection_sock.h:294:38: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     return inet_csk_reqsk_queue_len(sk) >= sk->sk_max_ack_backlog;
+                                         ^~
+   In file included from include/net/bonding.h:29:0,
+                    from drivers/net/bonding/bond_alb.c:40:
+   include/net/bond_3ad.h: In function 'bond_3ad_churn_desc':
+   include/net/bond_3ad.h:288:12: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (state >= max_size)
+               ^~
+   drivers/net/bonding/bond_alb.c: In function 'alb_send_learning_packets':
+>> drivers/net/bonding/bond_alb.c:989:12: warning: 'return' with a value, in function returning void
+        return -ENOMEM;
+               ^
+   drivers/net/bonding/bond_alb.c:953:13: note: declared here
+    static void alb_send_learning_packets(struct slave *slave, u8 mac_addr[],
+                ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/bonding/bond_alb.c:1213: warning: No description found for parameter 'bond'
 
 
-vim +1149 drivers/ssb/main.c
+vim +/return +989 drivers/net/bonding/bond_alb.c
 
-04023afcce2eaf Rafał Miłecki  2011-08-14  1132  
-61e115a56d1aaf Michael Buesch 2007-09-18  1133  u32 ssb_dma_translation(struct ssb_device *dev)
-61e115a56d1aaf Michael Buesch 2007-09-18  1134  {
-61e115a56d1aaf Michael Buesch 2007-09-18  1135  	switch (dev->bus->bustype) {
-61e115a56d1aaf Michael Buesch 2007-09-18  1136  	case SSB_BUSTYPE_SSB:
-61e115a56d1aaf Michael Buesch 2007-09-18  1137  		return 0;
-61e115a56d1aaf Michael Buesch 2007-09-18  1138  	case SSB_BUSTYPE_PCI:
-04023afcce2eaf Rafał Miłecki  2011-08-14  1139  		if (pci_is_pcie(dev->bus->host_pci) &&
-04023afcce2eaf Rafał Miłecki  2011-08-14  1140  		    ssb_read32(dev, SSB_TMSHIGH) & SSB_TMSHIGH_DMA64) {
-04023afcce2eaf Rafał Miłecki  2011-08-14  1141  			return SSB_PCIE_DMA_H32;
-04023afcce2eaf Rafał Miłecki  2011-08-14  1142  		} else {
-04023afcce2eaf Rafał Miłecki  2011-08-14  1143  			if (ssb_dma_translation_special_bit(dev))
-a9770a815d280d Rafał Miłecki  2011-07-20  1144  				return SSB_PCIE_DMA_H32;
-a9770a815d280d Rafał Miłecki  2011-07-20  1145  			else
-61e115a56d1aaf Michael Buesch 2007-09-18  1146  				return SSB_PCI_DMA;
-04023afcce2eaf Rafał Miłecki  2011-08-14  1147  		}
-f225763a7d6c92 Michael Buesch 2008-06-20  1148  	default:
-61e115a56d1aaf Michael Buesch 2007-09-18 @1149  	}
-61e115a56d1aaf Michael Buesch 2007-09-18  1150  	return 0;
-61e115a56d1aaf Michael Buesch 2007-09-18  1151  }
-61e115a56d1aaf Michael Buesch 2007-09-18  1152  EXPORT_SYMBOL(ssb_dma_translation);
-61e115a56d1aaf Michael Buesch 2007-09-18  1153  
-
-:::::: The code at line 1149 was first introduced by commit
-:::::: 61e115a56d1aafd6e6a8a9fee8ac099a6128ac7b [SSB]: add Sonics Silicon Backplane bus support
-
-:::::: TO: Michael Buesch <mb@bu3sch.de>
-:::::: CC: David S. Miller <davem@sunset.davemloft.net>
+   952	
+   953	static void alb_send_learning_packets(struct slave *slave, u8 mac_addr[],
+   954					      bool strict_match)
+   955	{
+   956		struct bonding *bond = bond_get_bond_by_slave(slave);
+   957		struct net_device *upper;
+   958		struct list_head *iter;
+   959		struct bond_vlan_tag *tags;
+   960	
+   961		/* send untagged */
+   962		alb_send_lp_vid(slave, mac_addr, 0, 0);
+   963	
+   964		/* loop through all devices and see if we need to send a packet
+   965		 * for that device.
+   966		 */
+   967		rcu_read_lock();
+   968		netdev_for_each_all_upper_dev_rcu(bond->dev, upper, iter) {
+   969			if (is_vlan_dev(upper) && vlan_get_encap_level(upper) == 0) {
+   970				if (strict_match &&
+   971				    ether_addr_equal_64bits(mac_addr,
+   972							    upper->dev_addr)) {
+   973					alb_send_lp_vid(slave, mac_addr,
+   974							vlan_dev_vlan_proto(upper),
+   975							vlan_dev_vlan_id(upper));
+   976				} else if (!strict_match) {
+   977					alb_send_lp_vid(slave, upper->dev_addr,
+   978							vlan_dev_vlan_proto(upper),
+   979							vlan_dev_vlan_id(upper));
+   980				}
+   981			}
+   982	
+   983			/* If this is a macvlan device, then only send updates
+   984			 * when strict_match is turned off.
+   985			 */
+   986			if (netif_is_macvlan(upper) && !strict_match) {
+   987				tags = bond_verify_device_path(bond->dev, upper, 0);
+   988				if (IS_ERR_OR_NULL(tags))
+ > 989					return -ENOMEM;
+   990	
+   991				alb_send_lp_vid(slave, upper->dev_addr,
+   992						tags[0].vlan_proto, tags[0].vlan_id);
+   993				kfree(tags);
+   994			}
+   995		}
+   996		rcu_read_unlock();
+   997	}
+   998	
 
 -- 
 0-DAY CI Kernel Test Service
