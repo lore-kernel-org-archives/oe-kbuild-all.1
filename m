@@ -1,58 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E39258AAC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Mar 2024 23:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB854191
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Mar 2024 00:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710201187; cv=none; b=FMSg8vzFJ5mZ6TXHI65gofbJ+Q1TJyg35w79CoAOfWm2hNWsxJdexZhuF36BBMmthjLO0+St0/m1BbHB+E94f+ToAaxx2guhNwTpnD0D/Or0uCdtzak2uqulogiufcR4DTUDW38m8Od8nPvoivWimpj6LIRDlNoNszXytOg8Yuk=
+	t=1710201967; cv=none; b=Z+1jC40BOn5ezfimPXBYYIRClGwdqcJjmm3j9VQ5ladZl4tVS82HC2FQ0k+N6Ofk7pK76JXdfF5n8sGDz4xF10sM27NfBBe27soQoPMnLuSrQDos9oMpt07fU2SakQ15uw5chaEM3F9451Cu2XdOXrv/3LwA/72/svUNDKRG2qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710201187; c=relaxed/simple;
-	bh=p48JOH9V4XWyzs3yJclUYkG1DZg+f1rPC2Al4AQV1wg=;
+	s=arc-20240116; t=1710201967; c=relaxed/simple;
+	bh=ADTXyQKfwt+otfeTBfAydbwEmdUnciZOOhTcqpQveU4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TLxw4Gsg3nPr6sIupo+IaoHlAG3vxOu308B7xeWS5pyrFoRMUXJAoiHausX23VHkbCKW/+OsEwHaj3ZJ+bWCzksh9iW8MQHoaccoxISKR1CNdN4ffwYtwX6byRNcBq1GQ4yU6sJ608+XicR7hViwvKF7IXD8nDEiXc8Duo1fq6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YOWK4nTz; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=D5bUwLiktqHrHbGEqyN37boDOJrhN4lstqJA91IIzrnPhUrYC5pzOGiOdf99uMY+PpYOT2fiqOfAR3/d1wpYR1Bu6Y9pRAMhD6P8a8XI30rxBZWaWICaU1S3QNtM7V47qmMQavGfGPfT1VXtZSj7IBl4W9uL3ijmZoydruoT5+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ShD3WIuF; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YOWK4nTz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ShD3WIuF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710201185; x=1741737185;
+  t=1710201966; x=1741737966;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p48JOH9V4XWyzs3yJclUYkG1DZg+f1rPC2Al4AQV1wg=;
-  b=YOWK4nTzJRYqneqEXVaHacTvCWzUpofek82ZuQWPp89CeFmO6nzRSd84
-   q4HmU6vyv7p/BdbnEjDBVBpxcr8OKDAR8rKv9JV5x853moh4H9RP3+7cz
-   kc5InKDSeCKWnTUI0IHsHeJs+Gaudtw9OMFhiu4Q0pOI+DlSePMttKlD+
-   KBMAIsb8RPpR8/rzO3x5kK2lLFYfn7BKZyu2LGnlZN0TA4oaa2G5yAFFv
-   cdOZjYhSnmWxe8wHNn4g1UT6eu83Fv0LyJ4epimKDSc+2a4MJ28UXB+fG
-   PlOs1tpSvM1SOahKj1F8/KO8L3Vt8GmRlDkd+5eogpwLo2LHpTLsl/2NU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="5026470"
+  bh=ADTXyQKfwt+otfeTBfAydbwEmdUnciZOOhTcqpQveU4=;
+  b=ShD3WIuFHubyOGr9jLBz6Gg1a+pRe8ai5+QhlxI6xISnRG95C9PFTEwc
+   Zl8+XONHxXCrck1IqyZuBEeYNqukgfW2aDpy9UU5PUZpmRpLUPq48Y7ek
+   PK+LARRpfmofNsajdOw8nacoe6a/Zphz3sQZwwITtI14f+7L7U8XHMtD3
+   GsFchtYnKNhikbK5V/sj5pdr5ZsXvx53KyngRQhoDgDJbqpnmFfA8gJNn
+   NfHyVGdNZcZat4QS5F2QGpj4MCHR2kVQL89B8vLUq/n7YDyn0er7XJywY
+   cFJ9j/y4yDP1aBEIcg0TQL7TX5yXXW6i/fJH2reR6AwVkDfAbW+lEiqSI
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="22408957"
 X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="5026470"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 16:53:04 -0700
+   d="scan'208";a="22408957"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 17:06:05 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="15990183"
+   d="scan'208";a="48796875"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 11 Mar 2024 16:53:03 -0700
+  by orviesa001.jf.intel.com with ESMTP; 11 Mar 2024 17:06:03 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rjpS0-0009YN-1U;
-	Mon, 11 Mar 2024 23:53:00 +0000
-Date: Tue, 12 Mar 2024 07:52:56 +0800
+	id 1rjpea-0009Yr-2d;
+	Tue, 12 Mar 2024 00:06:00 +0000
+Date: Tue, 12 Mar 2024 08:05:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@intel.com>
-Subject: [drm-intel:for-linux-next 4/6]
- drivers/gpu/drm/i915/display/intel_bios.c:3417:24: error: implicit
- declaration of function 'intel_opregion_vbt_present'; did you mean
- 'intel_opregion_asle_present'?
-Message-ID: <202403120756.JTkGHCip-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.19-stable 13314/30000]
+ drivers/cpuidle/cpuidle.c:598:27: sparse: sparse: incorrect type in
+ initializer (different address spaces)
+Message-ID: <202403120718.pbxsql2G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,79 +59,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://anongit.freedesktop.org/drm-intel for-linux-next
-head:   0e7dd6fe96020e6b7f5e068bf1c66078e0b145d3
-commit: 9d9bb71f3e115b75ec5e38f087e159a87fc0413a [4/6] drm/i915: Extract opregion vbt presence check
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20240312/202403120756.JTkGHCip-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403120756.JTkGHCip-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   cc8336529b300f0423dcd753f75893f14df653b1
+commit: 02f88aaaac53929e0cf4fe50f807cdea4b9e224d [13314/30000] ANDROID: GKI: Export symbols arm_cpuidle_suspend, cpuidle_dev and cpuidle_register_governor
+config: x86_64-randconfig-121-20240310 (https://download.01.org/0day-ci/archive/20240312/202403120718.pbxsql2G-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403120718.pbxsql2G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403120756.JTkGHCip-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403120718.pbxsql2G-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/cpuidle/cpuidle.c:598:27: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct cpuidle_device * @@
+   drivers/cpuidle/cpuidle.c:598:27: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/cpuidle/cpuidle.c:598:27: sparse:     got struct cpuidle_device *
+   drivers/cpuidle/cpuidle.c:630:27: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct cpuidle_device * @@
+   drivers/cpuidle/cpuidle.c:630:27: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/cpuidle/cpuidle.c:630:27: sparse:     got struct cpuidle_device *
 
-   drivers/gpu/drm/i915/display/intel_bios.c: In function 'intel_bios_is_lvds_present':
->> drivers/gpu/drm/i915/display/intel_bios.c:3417:24: error: implicit declaration of function 'intel_opregion_vbt_present'; did you mean 'intel_opregion_asle_present'? [-Werror=implicit-function-declaration]
-    3417 |                 return intel_opregion_vbt_present(i915);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                        intel_opregion_asle_present
-   cc1: some warnings being treated as errors
+vim +598 drivers/cpuidle/cpuidle.c
 
+4f86d3a8e29720 Len Brown      2007-10-03  584  
+1c192d047a0ddc Daniel Lezcano 2013-04-23  585  /**
+4c637b2175a0dc Daniel Lezcano 2013-04-23  586   * cpuidle_unregister: unregister a driver and the devices. This function
+4c637b2175a0dc Daniel Lezcano 2013-04-23  587   * can be used only if the driver has been previously registered through
+4c637b2175a0dc Daniel Lezcano 2013-04-23  588   * the cpuidle_register function.
+4c637b2175a0dc Daniel Lezcano 2013-04-23  589   *
+4c637b2175a0dc Daniel Lezcano 2013-04-23  590   * @drv: a valid pointer to a struct cpuidle_driver
+4c637b2175a0dc Daniel Lezcano 2013-04-23  591   */
+4c637b2175a0dc Daniel Lezcano 2013-04-23  592  void cpuidle_unregister(struct cpuidle_driver *drv)
+4c637b2175a0dc Daniel Lezcano 2013-04-23  593  {
+4c637b2175a0dc Daniel Lezcano 2013-04-23  594  	int cpu;
+4c637b2175a0dc Daniel Lezcano 2013-04-23  595  	struct cpuidle_device *device;
+4c637b2175a0dc Daniel Lezcano 2013-04-23  596  
+82467a5a885ddd Daniel Lezcano 2013-06-07  597  	for_each_cpu(cpu, drv->cpumask) {
+4c637b2175a0dc Daniel Lezcano 2013-04-23 @598  		device = &per_cpu(cpuidle_dev, cpu);
+4c637b2175a0dc Daniel Lezcano 2013-04-23  599  		cpuidle_unregister_device(device);
+4c637b2175a0dc Daniel Lezcano 2013-04-23  600  	}
+4c637b2175a0dc Daniel Lezcano 2013-04-23  601  
+4c637b2175a0dc Daniel Lezcano 2013-04-23  602  	cpuidle_unregister_driver(drv);
+4c637b2175a0dc Daniel Lezcano 2013-04-23  603  }
+4c637b2175a0dc Daniel Lezcano 2013-04-23  604  EXPORT_SYMBOL_GPL(cpuidle_unregister);
+4c637b2175a0dc Daniel Lezcano 2013-04-23  605  
 
-vim +3417 drivers/gpu/drm/i915/display/intel_bios.c
+:::::: The code at line 598 was first introduced by commit
+:::::: 4c637b2175a0dc65d533494225525c6c82d73293 cpuidle: make a single register function for all
 
-  3374	
-  3375	/**
-  3376	 * intel_bios_is_lvds_present - is LVDS present in VBT
-  3377	 * @i915:	i915 device instance
-  3378	 * @i2c_pin:	i2c pin for LVDS if present
-  3379	 *
-  3380	 * Return true if LVDS is present. If no child devices were parsed from VBT,
-  3381	 * assume LVDS is present.
-  3382	 */
-  3383	bool intel_bios_is_lvds_present(struct drm_i915_private *i915, u8 *i2c_pin)
-  3384	{
-  3385		const struct intel_bios_encoder_data *devdata;
-  3386	
-  3387		if (list_empty(&i915->display.vbt.display_devices))
-  3388			return true;
-  3389	
-  3390		list_for_each_entry(devdata, &i915->display.vbt.display_devices, node) {
-  3391			const struct child_device_config *child = &devdata->child;
-  3392	
-  3393			/* If the device type is not LFP, continue.
-  3394			 * We have to check both the new identifiers as well as the
-  3395			 * old for compatibility with some BIOSes.
-  3396			 */
-  3397			if (child->device_type != DEVICE_TYPE_INT_LFP &&
-  3398			    child->device_type != DEVICE_TYPE_LFP)
-  3399				continue;
-  3400	
-  3401			if (intel_gmbus_is_valid_pin(i915, child->i2c_pin))
-  3402				*i2c_pin = child->i2c_pin;
-  3403	
-  3404			/* However, we cannot trust the BIOS writers to populate
-  3405			 * the VBT correctly.  Since LVDS requires additional
-  3406			 * information from AIM blocks, a non-zero addin offset is
-  3407			 * a good indicator that the LVDS is actually present.
-  3408			 */
-  3409			if (child->addin_offset)
-  3410				return true;
-  3411	
-  3412			/* But even then some BIOS writers perform some black magic
-  3413			 * and instantiate the device without reference to any
-  3414			 * additional data.  Trust that if the VBT was written into
-  3415			 * the OpRegion then they have validated the LVDS's existence.
-  3416			 */
-> 3417			return intel_opregion_vbt_present(i915);
-  3418		}
-  3419	
-  3420		return false;
-  3421	}
-  3422	
+:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
