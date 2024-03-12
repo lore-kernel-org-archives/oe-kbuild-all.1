@@ -1,170 +1,282 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCC310E3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Mar 2024 01:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710207371; cv=fail; b=aJD0uKr+NgrzXwobLBYVmd0hxU4Knj9g6cL3MEAmv075QXZpeVaaGl5mqyeHUUHxSoW3Rs4Ri4st2Q809S8Exm9vM0NdcJVi8IFVJwY4gHMvyrur7+zYg56YkcM4fY0YVtg1NYRKGX6wTjv7rCOxO1GcHUNcrmw8hvUQEwqBwp4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710207371; c=relaxed/simple;
-	bh=bQ1i1rV2Y1Xur5nokfgX92mgP18sxXnOqiamrSUsMCI=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=ouIl0SpKt5ZNn2vuo3Yav9+0uZ/1UN2H8+V3dSGn/qCxYPpY3pOzPAjTI0dpKHw4YthVWUdQ/XaJa926EBwU8TgK8jFfvekFxj7/mjnSZpSeHPFon1JLJpan37PpSBpsOtrxR3CmTKe/+3HgqBKJhdQA/3AF9zMu9PBbzedpHbc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IsoXQDDX; arc=fail smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0CC847E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Mar 2024 01:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710207549; cv=none; b=JHX/PXK8bmujnno1mmXAVVNCeGcXPuz7MYHOwWAJPetJrv+dAhn3XGvihfWcOSC2qx/ZuH0cOw6gQ6J4PEis/yd4erCX2lmuPLxQqD7YCS+jg6WlerAe1MJq72s1w002+L7R4x8+3/SmSYFDV+zsqaes8282bdLutswoBOJf3cE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710207549; c=relaxed/simple;
+	bh=wvNv4ZUFguLSMVO40rq29WmE6gRaNzPDphZfN+nv5ds=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pL8C8Mb2rTfg9ksPOZitdivU3CVDM+FmwZgYU/MqyMVPa0NRRtk3NV1cnHPAsio50qyAdkEBkhLI3UQ/Y5jyuhkpZ5H/Tnx6vYA7FOVo3e+Ol9pHkAgFvp/317lpTLW1yXBlZIN5ZL0seexBZnW6HeUwItYTis8VesOtMeK2LwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K3brRoGi; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IsoXQDDX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K3brRoGi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710207371; x=1741743371;
+  t=1710207548; x=1741743548;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bQ1i1rV2Y1Xur5nokfgX92mgP18sxXnOqiamrSUsMCI=;
-  b=IsoXQDDXvsm4JXoMj+5gbhMcAgYCCOrwj2SpLkSeRFpctFXsnMEoye1/
-   LJWizZtng2RLR26GxefOgmnmQYgL2wjSARtK9XYaUGCr7o/OnF0hPutg4
-   TZN377s7g+mF9xl3Bc7KXG3xiRjnGjwDPGPX0KIb8vcApxF033M7aFmvn
-   9U4m9M4QU93CQGVJGHAg14CqnFcjF4WkTwHJYoBcefNDvIphQbdtXbRqh
-   /zSN+jydHDYolOhqJWyl13+BfTXsKypSYyAuk/j43f0qiKy3fm8AEYeXj
-   Ha1uhwToT8nIY6bSilgNcA1RGHReB/G3NepHKfccoSBei+aDGaNqDMb7H
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="15624852"
+  bh=wvNv4ZUFguLSMVO40rq29WmE6gRaNzPDphZfN+nv5ds=;
+  b=K3brRoGi4P+sppeqPV/FbSOLNH9jL100KYHlWIXIWVr3PvLZ0uzOl7Lo
+   rCryn+ZVU3pUXKiultZSNxjiseNR1iRH1jr6vIPvXuik4YTE88occW3jO
+   qncz8gaXTn6dyr7Kvp+3QyzkI9ARCHhu+eazr4DPnYTSNE/7q40LsZTTh
+   RYpwXiI9L1SRW18GYhDJW3wOGG5xV2S6yX2ThiZfDaqyeGImNp9fsiXlT
+   iEJqyP0+LMl/0mTpLtr7knEKtgFHRZwI/Do2WuBYXL/jskQj6wm81r4k/
+   iWjG7u3BTjBBs4i9oH6U6+3NyOrwAkH1HvR8I4D/ZGe5Vm51ieY6WiGv1
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="5034219"
 X-IronPort-AV: E=Sophos;i="6.07,118,1708416000"; 
-   d="scan'208";a="15624852"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 18:36:09 -0700
+   d="scan'208";a="5034219"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 18:39:07 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,118,1708416000"; 
-   d="scan'208";a="15967824"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Mar 2024 18:36:08 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 11 Mar 2024 18:36:07 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 11 Mar 2024 18:36:07 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 11 Mar 2024 18:36:07 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.40) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 11 Mar 2024 18:36:06 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n19k2JFOS5PzzkECX0txupKq2htLryWUundv2kNsfSZUKvQ9mOFRO1iRj7ZbNEghmVrIYzOm4thCKmzgXkF7vmMK6oDiha31jkvPOemmdO7vZyrxS1HvNqMnVWcAs6t0FYxFOFKKDdgZjAKL5m4vpRXWDeu2WRORJU+dJA3O7TwDMcn8HA99OiRT9TM8ZSW2o6TJUT2tzGjKr4Klj3UqYbPs65JL2kDfmYDSc55Ys6c3cDV0tUao8gECcudS/Y9Z4MJH7bK4eZV8SRrN0gFWn+a68m+TYOKUhVUpqLOtB3Y8eiMU3nkoBA+cAFnxSpzxrBgy0skwqUcfQMszwWDYhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dyLnAM6lR7i67STF2WDwYeX27xD+1DO1EoF+SCBqr/o=;
- b=CFsXixOERD2LucayKYxTINU/8c3iSPStKPiouDhEE7TkqSgmC53U4bjrfvqiMSywN2vMskvjgKagHc/TuQSSZlHEpFluJYqBOKycjAEzAxO2mOU1E5ErE4IYpvR8I1vP5JRyGMgKWWWY8Iq1k0/evzl+QWXH9yPOmV58MtVG4+Szx9fGHQzgLh8BfJG3t38I3VvSEG/tXfj3Y4GAF/10MXAUGqs/uvl7XxhLBF2/C+VZa4qZHeGAZfYAOxxebCZI0nEQ2i3FdslhCo1coqefBkG1otE9QDIkK8crDw1VXBZcME50m8cLEhLzBlKgzcEtxQnJCuJElvprmhtM8AuVZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by DS0PR11MB7766.namprd11.prod.outlook.com (2603:10b6:8:138::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.16; Tue, 12 Mar
- 2024 01:35:58 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::7118:c3d4:7001:cf9d]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::7118:c3d4:7001:cf9d%6]) with mapi id 15.20.7386.016; Tue, 12 Mar 2024
- 01:35:58 +0000
-Date: Tue, 12 Mar 2024 09:29:12 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [isilence:zc/rx-v4 906/922] ncdevmem.c:34:10: fatal error:
- netdev-user.h: No such file or directory
-Message-ID: <202403111252.fwYq9Zbp-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SI2PR01CA0025.apcprd01.prod.exchangelabs.com
- (2603:1096:4:192::10) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="11462953"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 11 Mar 2024 18:39:05 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rjr6d-0009ck-0W;
+	Tue, 12 Mar 2024 01:39:03 +0000
+Date: Tue, 12 Mar 2024 09:38:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 135/135] fs/bcachefs/super-io.c:708:21:
+ sparse: sparse: incorrect type in argument 1 (different base types)
+Message-ID: <202403120954.ky4kUKHj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|DS0PR11MB7766:EE_
-X-MS-Office365-Filtering-Correlation-Id: b95f10ab-5e48-4fde-b6a8-08dc4234c4a6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9bpAcMcwc18WgWOz69K3Xdh8xUuYkRdkv7zMqQpNrjz/R4ZUgK9H582pfkb/m3ACGebMWObdIvQpcErJ7xnxrTXORf1dxNWjo6WrsbSgS1HFTp/nIJW6RpGi/kQLN3owjj2U0yP2qWSFI0Dx78zuwWB7qod1Ik9weECJQkGG+Goe/lUkHX4JiFg7oYTf0d07s8IgNc8ZpHIMc6Kg/qAkKyzXWmQTxE/S8EaimBgZg6p3TCDxcaTFzpii/fofE6s99iiVIXab7GIfqt1IZQNkdymLTsUF+eHbFe3Fv8O3a638fDV+GLoa+LqYgCdsIdM+6+9/I5LhPnf6pGTkRTzUJwLcbb5yoCrLPDB6DRGRaE/FUYcUUYLAKnPdcNSPYcXMnYW6jjXqclhsJjMgEFzOPjPLOK3/AmqCRBS565FNXMoW0fiXvZvXa/HS8Zg0vPOX183gkWQlAB49tObRwHJoRH5hnvc1dw0RkSpLV5zzHARXNmp2zs98pma5JYYPLCBLUnITLIwcmHRRh3FgCh4oUby0p7ZSlDxkEpMnJP7yYjNKrtnp7hT2Ex2HIliJg2P+hpoqIzKB3wATF25WU8n0oZgiR07LvIU+e0jRNkjqN+S0/bCuiNDrYx9H0xWurVEy
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zNpum+bpljRyc63wm7soWbc5DjmLJ38B8UwFVe8fB/ISr2TNZTzLOTXCQg8Z?=
- =?us-ascii?Q?BI4zl03MFD4FwDImEurPPjkP/p4XUwzW8BxPmXe91TwQOdkEeqtxSUlL6jtJ?=
- =?us-ascii?Q?wh6B7CwuloPtWIAm5Fo7HJuaYgUfjVes6gNsdwMTG95Mi+dhvBQUrZCgWCK8?=
- =?us-ascii?Q?DEwGGbCIvXVnJnNxtlg83q9dySxXYaiD47cHXg+7t2uSzugRjnFRtmp0TOFy?=
- =?us-ascii?Q?my01lz2+HF1XYtb0nwDMofwRlUve7jYX19z+XZCTHfGwr15+bVMWh8xM9d2U?=
- =?us-ascii?Q?27XzW7U5RRwQguV/qwH520gnpvV66EiJTBYKjRFhOnF0TByAETJuNKm04eyo?=
- =?us-ascii?Q?vBSUmUPwurp2J+6ZPw587h12yWjBLUtYfjR1vOJXHp7TlKQMocJPaH+lM4MK?=
- =?us-ascii?Q?aoxGdydYO+gf6vEWSmhlZI0OukY63LuHpGkuqmXXyteeFUl7SPpqguDVf84i?=
- =?us-ascii?Q?WumnXno1sEJEPRQB19yKxcMXnb46yD/TXLzuBH0Ko1L06OYHpTwqcDcp3Sy2?=
- =?us-ascii?Q?cXU04Dg/nbhGOijNnBX30+kKRFge0SWhF2kHzRZFkbOtti/k8GrCrb1K6qDb?=
- =?us-ascii?Q?5rK82zZq9Xj3ojpFCMsHfBLR8HrCvw3R2jMrdUQm9ia2aBR720J7YFrP/MDW?=
- =?us-ascii?Q?4uM6an0yRiKMSOwUHfK/9GesXF0fc1gKSh7G3tFeEQA3r/KUrrKwUfJzZWfN?=
- =?us-ascii?Q?PUbB8/x5UepqC4nifcNfbMlOsVx5BfV3gN279/T9D6j/lVfppMAJFVP1uDHl?=
- =?us-ascii?Q?6NdrJummOx0MSviESeTW446jSZV5a0nfJZtkDlcNTIdN+vMrKJdwiO5vr3sC?=
- =?us-ascii?Q?TmmJSdRROhtf6tJtNr5X23rHR9GE7YYYHMIfErC5FbnuNnq9aoQSuebhA6Hx?=
- =?us-ascii?Q?TGD1WWoWdALmSuuc1lrnaqPYTrN/OdSubdprnTu1GsIXePp5OT6NzlXzbRwn?=
- =?us-ascii?Q?0HleI7pZ4R8bdc99rUZcmoRDhm6T5GJmUDOBl0PrMTOdjjcV4RPyQy7ayDQR?=
- =?us-ascii?Q?xjmeiGARlGdmCUZZHKmz6jw+yneyj+YAWAFrm6wCrfMJBBFNW+IjSzsy9hHn?=
- =?us-ascii?Q?PMLb1z5BKjiA+Z94o6K/tMHhRThX3i7ciY7Cgu2xousJTl9oF461W1nvhg2q?=
- =?us-ascii?Q?PEVwnC8TbSOz1y291Y3D3e4UBbGizXYmtdvenFU0l4UbIz4B6hvy4DNstAQQ?=
- =?us-ascii?Q?eN9+tODzmwBHdibAMa2KrhdQrjBF/EfIQUQQwC9GLeMV9wNhzVVJMtKD89B2?=
- =?us-ascii?Q?13c2dtMxzy4yKix0BfnRKQElXc4qsnHDGUHuq4RzxWm1D2+P1GTGLkdSdKuU?=
- =?us-ascii?Q?6+TQX+/9kiTnL5JShZzuvKNw+7jKL5xSu7c2WOaphRJOZrAAkDNdUCRGVDvl?=
- =?us-ascii?Q?FE5J2Wa/Cj1kFpG2znEz2jQlTavvmGbhFsWrehgpv7k0/sexERcIIbxoIevj?=
- =?us-ascii?Q?FzWxfNWvPOh/Xu2uM5hi6fjwWHLWyCdr8lYhKOuswF+WK7TOZZTihSTN1LrC?=
- =?us-ascii?Q?MQIgjbEL4K7/52QQcVNG++EfhaZYuQ67LJrJYlJSVRSD5Isxl4B3Rv4pQd4O?=
- =?us-ascii?Q?PB/2viC0ROJGWcKLQg0SgfA44Q3kwNif2TS2mawa?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b95f10ab-5e48-4fde-b6a8-08dc4234c4a6
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2024 01:35:58.5405
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Tnq+Bom0M+sqpXhxgImaFIInNXwNsSboaDj01YslqiqeFtVzKD5OqkRFuYIyjmmHWVrnP24BoLabCLkUh/373A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7766
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://github.com/isilence/linux zc/rx-v4
-head:   c13f97bb45f13d99fc22c4452f9926dd4a53d6ce
-commit: 30cb7b1a2b1cef31c7eebd4f57f56b33d2f418e0 [906/922] selftests: add ncdevmem, netcat for devmem TCP
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   feafe13a65c57864ffce12551ea68cbb3f3163aa
+commit: 7bd0e804984724080ff48f57ffe909779897c63c [135/135] bcachefs: map_bit()
+config: i386-randconfig-r121-20240311 (https://download.01.org/0day-ci/archive/20240312/202403120954.ky4kUKHj-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403120954.ky4kUKHj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202403111252.fwYq9Zbp-lkp@intel.com/
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403120954.ky4kUKHj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/bcachefs/super-io.c: note: in included file:
+   fs/bcachefs/bcachefs.h:1021:9: sparse: sparse: array of flexible structures
+   fs/bcachefs/super-io.c: note: in included file (through fs/bcachefs/bcachefs.h):
+   fs/bcachefs/bcachefs_format.h:832:52: sparse: sparse: array of flexible structures
+   fs/bcachefs/super-io.c:490:19: sparse: sparse: cast to restricted __le32
+   fs/bcachefs/super-io.c:489:19: sparse: sparse: cast to restricted __le64
+>> fs/bcachefs/super-io.c:708:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] n @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:708:21: sparse:     expected unsigned long long [usertype] n
+   fs/bcachefs/super-io.c:708:21: sparse:     got restricted blk_mode_t [usertype]
+>> fs/bcachefs/super-io.c:708:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] n @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:708:21: sparse:     expected unsigned int [usertype] n
+   fs/bcachefs/super-io.c:708:21: sparse:     got restricted blk_mode_t [usertype]
+>> fs/bcachefs/super-io.c:708:21: sparse: sparse: restricted blk_mode_t degrades to integer
+>> fs/bcachefs/super-io.c:708:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected long long @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:708:21: sparse:     expected long long
+   fs/bcachefs/super-io.c:708:21: sparse:     got restricted blk_mode_t [usertype]
+>> fs/bcachefs/super-io.c:708:21: sparse: sparse: dubious: !x & y
+>> fs/bcachefs/super-io.c:708:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] n @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:708:21: sparse:     expected unsigned long long [usertype] n
+   fs/bcachefs/super-io.c:708:21: sparse:     got restricted blk_mode_t [usertype]
+>> fs/bcachefs/super-io.c:708:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] n @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:708:21: sparse:     expected unsigned int [usertype] n
+   fs/bcachefs/super-io.c:708:21: sparse:     got restricted blk_mode_t [usertype]
+>> fs/bcachefs/super-io.c:708:21: sparse: sparse: restricted blk_mode_t degrades to integer
+>> fs/bcachefs/super-io.c:708:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected long long @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:708:21: sparse:     expected long long
+   fs/bcachefs/super-io.c:708:21: sparse:     got restricted blk_mode_t [usertype]
+>> fs/bcachefs/super-io.c:708:21: sparse: sparse: dubious: !x & y
+>> fs/bcachefs/super-io.c:708:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] n @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:708:21: sparse:     expected unsigned long long [usertype] n
+   fs/bcachefs/super-io.c:708:21: sparse:     got restricted blk_mode_t [usertype]
+>> fs/bcachefs/super-io.c:708:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] n @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:708:21: sparse:     expected unsigned int [usertype] n
+   fs/bcachefs/super-io.c:708:21: sparse:     got restricted blk_mode_t [usertype]
+>> fs/bcachefs/super-io.c:708:21: sparse: sparse: restricted blk_mode_t degrades to integer
+>> fs/bcachefs/super-io.c:708:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected long long @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:708:21: sparse:     expected long long
+   fs/bcachefs/super-io.c:708:21: sparse:     got restricted blk_mode_t [usertype]
+>> fs/bcachefs/super-io.c:708:18: sparse: sparse: invalid assignment: |=
+   fs/bcachefs/super-io.c:708:18: sparse:    left side has type restricted blk_mode_t
+   fs/bcachefs/super-io.c:708:18: sparse:    right side has type int
+   fs/bcachefs/super-io.c:709:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] n @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:709:21: sparse:     expected unsigned long long [usertype] n
+   fs/bcachefs/super-io.c:709:21: sparse:     got restricted blk_mode_t [usertype]
+   fs/bcachefs/super-io.c:709:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] n @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:709:21: sparse:     expected unsigned int [usertype] n
+   fs/bcachefs/super-io.c:709:21: sparse:     got restricted blk_mode_t [usertype]
+   fs/bcachefs/super-io.c:709:21: sparse: sparse: restricted blk_mode_t degrades to integer
+   fs/bcachefs/super-io.c:709:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected long long @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:709:21: sparse:     expected long long
+   fs/bcachefs/super-io.c:709:21: sparse:     got restricted blk_mode_t [usertype]
+   fs/bcachefs/super-io.c:709:21: sparse: sparse: dubious: !x & y
+   fs/bcachefs/super-io.c:709:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] n @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:709:21: sparse:     expected unsigned long long [usertype] n
+   fs/bcachefs/super-io.c:709:21: sparse:     got restricted blk_mode_t [usertype]
+   fs/bcachefs/super-io.c:709:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] n @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:709:21: sparse:     expected unsigned int [usertype] n
+   fs/bcachefs/super-io.c:709:21: sparse:     got restricted blk_mode_t [usertype]
+   fs/bcachefs/super-io.c:709:21: sparse: sparse: restricted blk_mode_t degrades to integer
+   fs/bcachefs/super-io.c:709:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected long long @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:709:21: sparse:     expected long long
+   fs/bcachefs/super-io.c:709:21: sparse:     got restricted blk_mode_t [usertype]
+   fs/bcachefs/super-io.c:709:21: sparse: sparse: dubious: !x & y
+   fs/bcachefs/super-io.c:709:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] n @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:709:21: sparse:     expected unsigned long long [usertype] n
+   fs/bcachefs/super-io.c:709:21: sparse:     got restricted blk_mode_t [usertype]
+   fs/bcachefs/super-io.c:709:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] n @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:709:21: sparse:     expected unsigned int [usertype] n
+   fs/bcachefs/super-io.c:709:21: sparse:     got restricted blk_mode_t [usertype]
+   fs/bcachefs/super-io.c:709:21: sparse: sparse: restricted blk_mode_t degrades to integer
+   fs/bcachefs/super-io.c:709:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected long long @@     got restricted blk_mode_t [usertype] @@
+   fs/bcachefs/super-io.c:709:21: sparse:     expected long long
+   fs/bcachefs/super-io.c:709:21: sparse:     got restricted blk_mode_t [usertype]
+   fs/bcachefs/super-io.c:709:18: sparse: sparse: invalid assignment: |=
+   fs/bcachefs/super-io.c:709:18: sparse:    left side has type restricted blk_mode_t
+   fs/bcachefs/super-io.c:709:18: sparse:    right side has type int
+   fs/bcachefs/super-io.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-# linux/tools/testing/selftests/net$ make --keep-going
+vim +708 fs/bcachefs/super-io.c
 
->> /usr/bin/ld: cannot find ../../../net/ynl/lib/ynl.a: No such file or directory
->> /usr/bin/ld: cannot find ../../../net/ynl/generated/protos.a: No such file or directory
-   collect2: error: ld returned 1 exit status
---
->> ncdevmem.c:34:10: fatal error: netdev-user.h: No such file or directory
-      34 | #include "netdev-user.h"
-         |          ^~~~~~~~~~~~~~~
-   compilation terminated.
+   707	
+ > 708		sb->mode |= map_bit(!opt_get(*opts, noexcl), 1, BLK_OPEN_EXCL);
+   709		sb->mode |= map_bit(!opt_get(*opts, nochanges), 1, BLK_OPEN_WRITE);
+   710	
+   711		sb->bdev_handle = bdev_open_by_path(path, sb->mode, sb->holder, &bch2_sb_handle_bdev_ops);
+   712		if (IS_ERR(sb->bdev_handle) &&
+   713		    PTR_ERR(sb->bdev_handle) == -EACCES &&
+   714		    opt_get(*opts, read_only)) {
+   715			sb->mode &= ~BLK_OPEN_WRITE;
+   716	
+   717			sb->bdev_handle = bdev_open_by_path(path, sb->mode, sb->holder, &bch2_sb_handle_bdev_ops);
+   718			if (!IS_ERR(sb->bdev_handle))
+   719				opt_set(*opts, nochanges, true);
+   720		}
+   721	
+   722		if (IS_ERR(sb->bdev_handle)) {
+   723			ret = PTR_ERR(sb->bdev_handle);
+   724			prt_printf(&err, "error opening %s: %s", path, bch2_err_str(ret));
+   725			goto err;
+   726		}
+   727		sb->bdev = sb->bdev_handle->bdev;
+   728	
+   729		ret = bch2_sb_realloc(sb, 0);
+   730		if (ret) {
+   731			prt_printf(&err, "error allocating memory for superblock");
+   732			goto err;
+   733		}
+   734	
+   735		if (bch2_fs_init_fault("read_super")) {
+   736			prt_printf(&err, "dynamic fault");
+   737			ret = -EFAULT;
+   738			goto err;
+   739		}
+   740	
+   741		ret = read_one_super(sb, offset, &err);
+   742		if (!ret)
+   743			goto got_super;
+   744	
+   745		if (opt_defined(*opts, sb))
+   746			goto err;
+   747	
+   748		prt_printf(&err2, "bcachefs (%s): error reading default superblock: %s\n",
+   749		       path, err.buf);
+   750		if (ret == -BCH_ERR_invalid_sb_magic && ignore_notbchfs_msg)
+   751			bch2_print_opts(opts, KERN_INFO "%s", err2.buf);
+   752		else
+   753			bch2_print_opts(opts, KERN_ERR "%s", err2.buf);
+   754	
+   755		printbuf_exit(&err2);
+   756		printbuf_reset(&err);
+   757	
+   758		/*
+   759		 * Error reading primary superblock - read location of backup
+   760		 * superblocks:
+   761		 */
+   762		bio_reset(sb->bio, sb->bdev, REQ_OP_READ|REQ_SYNC|REQ_META);
+   763		sb->bio->bi_iter.bi_sector = BCH_SB_LAYOUT_SECTOR;
+   764		/*
+   765		 * use sb buffer to read layout, since sb buffer is page aligned but
+   766		 * layout won't be:
+   767		 */
+   768		bch2_bio_map(sb->bio, sb->sb, sizeof(struct bch_sb_layout));
+   769	
+   770		ret = submit_bio_wait(sb->bio);
+   771		if (ret) {
+   772			prt_printf(&err, "IO error: %i", ret);
+   773			goto err;
+   774		}
+   775	
+   776		memcpy(&layout, sb->sb, sizeof(layout));
+   777		ret = validate_sb_layout(&layout, &err);
+   778		if (ret)
+   779			goto err;
+   780	
+   781		for (i = layout.sb_offset;
+   782		     i < layout.sb_offset + layout.nr_superblocks; i++) {
+   783			offset = le64_to_cpu(*i);
+   784	
+   785			if (offset == opt_get(*opts, sb))
+   786				continue;
+   787	
+   788			ret = read_one_super(sb, offset, &err);
+   789			if (!ret)
+   790				goto got_super;
+   791		}
+   792	
+   793		goto err;
+   794	
+   795	got_super:
+   796		if (le16_to_cpu(sb->sb->block_size) << 9 <
+   797		    bdev_logical_block_size(sb->bdev) &&
+   798		    opt_get(*opts, direct_io)) {
+   799	#ifndef __KERNEL__
+   800			opt_set(*opts, direct_io, false);
+   801			bch2_free_super(sb);
+   802			goto retry;
+   803	#endif
+   804			prt_printf(&err, "block size (%u) smaller than device block size (%u)",
+   805			       le16_to_cpu(sb->sb->block_size) << 9,
+   806			       bdev_logical_block_size(sb->bdev));
+   807			ret = -BCH_ERR_block_size_too_small;
+   808			goto err;
+   809		}
+   810	
+   811		sb->have_layout = true;
+   812	
+   813		ret = bch2_sb_validate(sb, &err, READ);
+   814		if (ret) {
+   815			bch2_print_opts(opts, KERN_ERR "bcachefs (%s): error validating superblock: %s\n",
+   816					path, err.buf);
+   817			goto err_no_print;
+   818		}
+   819	out:
+   820		printbuf_exit(&err);
+   821		return ret;
+   822	err:
+   823		bch2_print_opts(opts, KERN_ERR "bcachefs (%s): error reading superblock: %s\n",
+   824				path, err.buf);
+   825	err_no_print:
+   826		bch2_free_super(sb);
+   827		goto out;
+   828	}
+   829	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
