@@ -1,59 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E6A16FF3B;
-	Tue, 12 Mar 2024 14:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DFD7B3D2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Mar 2024 14:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710254097; cv=none; b=mzTUWFdIcmkZOEGD9JVL8u5UlVrTIEIrevQ02N1EvF1ff7AU49e1nhuujE8YNPmjm25fHVFcaxse6fXbqFygCoAq1zTw1H1SxhasfNe6qd+6KKT7tW4FKgFBGrqd3ND8FKYbeK9zimVSxmfyYDNfZnY9UvMyslJGFhTZEq+rVjc=
+	t=1710254920; cv=none; b=MHXulkO/YLYUJAM6opTYdj87hqqBen58cWH/lpJv0kiuTLaxytiqfj4jX9j1Z79BizE1ASbtZ071OAjLSbIHyqAx5wislrYoB4HNw91py59So0FBW7a9he8XwwwlTXtXgOl4bUjdTqhoJ19gM2DPRXp5Qr2yl89dcDcXOLEDW2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710254097; c=relaxed/simple;
-	bh=E3DAV2ptqUDrKApNCT+XdDq8H+3SuwMe2QpcmchGQq0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jzG1pYawT2NulPUkJbUMeFTS2s/GQtbSVcqvE5BvUu4PYxyDJNEg7Wxy05Qwl/Q1npRqLLMzeTYqp1KX0X3L8CvY6z/7UhWaB0zAqHuLpswfdUPo+bciNzfHAImnodQSuAUYPhm+pxu6kP1xr68UDXlZ+4BFsD03Vkja+NGBwrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y6+SPzNt; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1710254920; c=relaxed/simple;
+	bh=libnBM0XHfpsmEXLUU481Q5u+voJL23T/m7/7S0zHI4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Zg+P5UrhdM96RL9/SB5+0/04JYDdUAw6ABv7bwgB4P505GWuH+mIVZoKH6n+W31wxHnKZSFbVbuZ90LQCGAjIU49vmRTvkRyYbt0yBfbp11QCPZSjNebf+Q3iruKaE3sNlTkdnpRaWyvPNPEvEW/wsV6MZtZYUTlwCM8dCYNduE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fb0Eyn1k; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y6+SPzNt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fb0Eyn1k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710254094; x=1741790094;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=E3DAV2ptqUDrKApNCT+XdDq8H+3SuwMe2QpcmchGQq0=;
-  b=Y6+SPzNtBWfgWBspG2BPyUT7dfKdpznuy6Y86S9iYNCOcoq19Rf+4ZgT
-   Az6c37gacaJTACAiqRUzLIKpkXjXr8rSbMW0BbXhBPpEIwLvIaQxHbbBR
-   SHazO5ayW4o4VlKagJG0oQbIFURlVyGgkcY7mkAmecxcx7yPGrKBC3M+T
-   T6rh8FT0pvhyVYl5LhgkDlKqfv4jpUNT36e7keOJh1cvUL+QngsGIi17E
-   oZksDn1ageV1YROtQJ1xDcNWhPBPdemTORDq8eRiHUvZoiBw1NhWinEyq
-   DuLsKDlvCcugXxWuosnKRRizmvctMV/JMmJqxVJtrd+w4ACTqu9fbidfp
+  t=1710254918; x=1741790918;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=libnBM0XHfpsmEXLUU481Q5u+voJL23T/m7/7S0zHI4=;
+  b=Fb0Eyn1k73GdM6oR4W3Ifwzi5LCZ5Dj8K75lIivG+pVYC+56fzvect6h
+   UGtXJ34VpsBN2AfxPQcMAmgh2OsS2Z2NzSI9cQmJk7QbStxgcZ4i9VwNo
+   DfJ9FfpXNdTjvQPjANfvjriWfcxEUggsY5kR0TSSqiB9XGwZ3dAFRUUn+
+   33nlTW/rGz/6K7j6V2gEId/I7DpdlXadHIhBZaeZYHPYx6uxsIAuhwUWQ
+   PnZJPV60oeFQQ10GdqH0jrxeZZkvD4hbpyz4mH4x580/vr007f5/+zN4f
+   fIoCjvW4TP9vNYI+PJv3D7df6EJy65hJPkTlUIU8GLurdQ4kYEHzZt0cS
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="5152858"
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="8785532"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="5152858"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 07:34:52 -0700
+   d="scan'208";a="8785532"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 07:48:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="914398421"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="914398421"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 07:34:51 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rk3DM-0000000Buqy-3gEM;
-	Tue, 12 Mar 2024 16:34:48 +0200
-Date: Tue, 12 Mar 2024 16:34:48 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-mips@vger.kernel.org,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: Re: [mips-linux:mips-next 47/56] arch/mips/ralink/timer.c:136:48:
- error: array has incomplete element type 'const struct of_device_id'
-Message-ID: <ZfBoCBta1cnguCww@smile.fi.intel.com>
-References: <202403120926.hoXbeGnb-lkp@intel.com>
+   d="scan'208";a="16168894"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 12 Mar 2024 07:48:36 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rk3Qf-000AFj-1N;
+	Tue, 12 Mar 2024 14:48:33 +0000
+Date: Tue, 12 Mar 2024 22:48:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 18183/21850] mm/share_pool.c:2263:24:
+ error: implicit declaration of function 'hugetlb_alloc_hugepage'; did you
+ mean 'vmalloc_hugepage'?
+Message-ID: <202403122233.J2ozeWSt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,26 +58,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202403120926.hoXbeGnb-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Mar 12, 2024 at 09:38:38AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mips/linux.git mips-next
-> head:   732932220078f6312f3ef57c17523d3d7f995655
-> commit: 5804be0618486f8979208e323188e44f8013a6a3 [47/56] MIPS: ralink: Remove unused of_gpio.h
-> config: mips-rt305x_defconfig (https://download.01.org/0day-ci/archive/20240312/202403120926.hoXbeGnb-lkp@intel.com/config)
-> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 503c55e17037436dcd45ac69dea8967e67e3f5e8)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403120926.hoXbeGnb-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403120926.hoXbeGnb-lkp@intel.com/
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   c38cc0a3be12e5c70b9a2a015cbee44014a52518
+commit: 4a280fac30d27ae2aff096f9f99aa12d50f83426 [18183/21850] ascend: share_pool: support share pool features for ascend platform
+config: arm64-randconfig-003-20240312 (https://download.01.org/0day-ci/archive/20240312/202403122233.J2ozeWSt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403122233.J2ozeWSt-lkp@intel.com/reproduce)
 
-Fix already had been sent and applied.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403122233.J2ozeWSt-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   mm/share_pool.c: In function 'sp_hugetlb_entry':
+   mm/share_pool.c:1542:21: error: implicit declaration of function 'huge_ptep_get' [-Werror=implicit-function-declaration]
+    1542 |         pte_t pte = huge_ptep_get(ptep);
+         |                     ^~~~~~~~~~~~~
+   mm/share_pool.c:1542:21: error: invalid initializer
+   mm/share_pool.c: In function 'sp_alloc_pages':
+>> mm/share_pool.c:2263:24: error: implicit declaration of function 'hugetlb_alloc_hugepage'; did you mean 'vmalloc_hugepage'? [-Werror=implicit-function-declaration]
+    2263 |                 return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~
+         |                        vmalloc_hugepage
+>> mm/share_pool.c:2263:61: error: 'HUGETLB_ALLOC_NONE' undeclared (first use in this function); did you mean 'HUGETLB_ANON_FILE'?
+    2263 |                 return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
+         |                                                             ^~~~~~~~~~~~~~~~~~
+         |                                                             HUGETLB_ANON_FILE
+   mm/share_pool.c:2263:61: note: each undeclared identifier is reported only once for each function it appears in
+   mm/share_pool.c:2266:1: warning: control reaches end of non-void function [-Wreturn-type]
+    2266 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +2263 mm/share_pool.c
+
+  2257	
+  2258	
+  2259	struct page *sp_alloc_pages(struct vm_struct *area, gfp_t mask,
+  2260						  unsigned int page_order, int node)
+  2261	{
+  2262		if (area->flags & VM_HUGE_PAGES)
+> 2263			return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
+  2264		else
+  2265			return alloc_pages_node(node, mask, page_order);
+  2266	}
+  2267	
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
