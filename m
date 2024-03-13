@@ -1,54 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1D124A0D;
-	Wed, 13 Mar 2024 09:50:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B9D2261A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 09:50:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710323447; cv=none; b=lLzI/jyoq4NIdR0jfr2cqg8v3V9JjybozBmRE61GA3TDzVzmye/aZHNCdkHV8QVp6N7SJk56u4o+KR2YkqoRZaY4JUnUpz6aALDIFNg//aZ4vxVt/imjwwJqabHZaRuZGH+1h4TcHhNDlVCYiI8IPIOJIEkjLevNQT18ZFrpAO0=
+	t=1710323449; cv=none; b=HSGiVEqxMmqHamAcMwHiJo1SpvTpG5W3fPAuC0MW7rMBevbbg2j45J1jOdOqi6TL8U5UP58Gt9WQGS7IA0L7cdmVpSxk2i/RyY3J3TGSm5anXfSu93pIXCVp4VcirrpqMB3glEtpLUJIbzywQBcTPSQvx2tbdYkOugXVqUfhAK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710323447; c=relaxed/simple;
-	bh=eKO/v/xU8m6xsYEv45zMhsxJ3tJG5oqSxIv+QmW+0T4=;
+	s=arc-20240116; t=1710323449; c=relaxed/simple;
+	bh=ySZQe+G3X95dAQ8bAOFbJSxFP4hDGd2sz3Yw9sxdg1s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o8jltUSEijY7V/6ESV0Ul86VIDwchjfjJmg8t+Tukeq5y40JyRAHWLxgrSxUeAc7lDrYnKszMdgYRjIceXjysh8cW2BkwkLJDy0SR6z8SHUw4q6iLca2m5mynA6Vw1o8RcxdocyxtzGzheMheLqaC8MnqyqK32wMJdyqETfTVbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LK87Mz/5; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=OVHR7cVYWEGEqIK0JmNn9gyHieRnW7EohyOU6R7R56MBIPlpS0S836/gli1/vVN645g6lPggFELQTi3Z+vL+ld6eyz1wF//vJE6hIou0qnZ4+x5PLB2nLZrOmEAVrDIakqdItx28s3xmQYT4JtpUxFrbSHcgkp/uwZeVV4RmL44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UGZkGhhL; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LK87Mz/5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UGZkGhhL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710323446; x=1741859446;
+  t=1710323447; x=1741859447;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eKO/v/xU8m6xsYEv45zMhsxJ3tJG5oqSxIv+QmW+0T4=;
-  b=LK87Mz/5/MkA1+4sOaiHjQpEbMzBTyDL8WsPnpmxFwKZxE/C1ZRcI/3n
-   1XeJhFiRbgLjFu4/7uP7F6pB9cYVgJTGlIEGUvKbNA+erPvD836L8AeDI
-   yBo+wVzVtiM7/rK9wjRrngZaIiEYx/4rHy8z0D4FjYGE/PQF7yf9q4QYm
-   Uew1nMV34qJOhyhYrHmO/phpg4nFjwVk/xbyK/JXOHL8K0o9z2Mkfpp62
-   JkgVCnK+mUdqlm47TUZXHgNlwb5u93YIr/NLSepSpBS/ekcvexnhas39c
-   Znoroqd6h8K1+JaFa+GLeTbofmepqQD8X6pd8gy3Qh8vGTsw4wUD+EwDw
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="8884985"
+  bh=ySZQe+G3X95dAQ8bAOFbJSxFP4hDGd2sz3Yw9sxdg1s=;
+  b=UGZkGhhL0iQRf/nvMQ+cxVe3l2fzvt4EXKXFKqm6HRg2Ue/O1vqAgkCd
+   L0HzZ+iMYSkC6R8T6H4T553dDUDagwO6QG5XeyV2rv3GNXAkY6M1B2hI2
+   bEQsrZLYFMgeOI13gIFvRqqz3oO4op912mXnv8kLl7mTqvGplR5X1AL6D
+   T5/QLfkCOeHGI8UDfJH8Xg2QaKsP1JexseCAZv9R1fz06IZ+8dxoH8Yuf
+   DPBaSqGZgdA8BWbOjO7/eXkmsKVt3HH/I1UXUJrWnEJPPbc+UYbPV8znS
+   VUvFCX32G3iSMAlIIVocEgqSe0Ekc3gKtJD9ZUvPvvXkNgkPbd4Ig+uns
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="8884989"
 X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
-   d="scan'208";a="8884985"
+   d="scan'208";a="8884989"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 02:50:45 -0700
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 02:50:46 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
-   d="scan'208";a="11929075"
+   d="scan'208";a="11929081"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 13 Mar 2024 02:50:43 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkLFx-000CFZ-1o;
+	id 1rkLFx-000CFX-1j;
 	Wed, 13 Mar 2024 09:50:41 +0000
-Date: Wed, 13 Mar 2024 17:50:35 +0800
+Date: Wed, 13 Mar 2024 17:50:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:kdevops 28/32] fs/nfs/nfs4proc.c:4478:7: warning: variable
- 'op' is uninitialized when used here
-Message-ID: <202403131738.6MRAVx51-lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/next 24605/27507]
+ fs/ceph/mds_client.c:792:80: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202403131733.kh82730S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,102 +62,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
-head:   244db11a7d6835249946adae4255d53cb0edf7f6
-commit: 794e11b83f62df1c9e75c3411254f60df074a261 [28/32] nfs: try to get a dir delegation with every lookup
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240313/202403131738.6MRAVx51-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 503c55e17037436dcd45ac69dea8967e67e3f5e8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403131738.6MRAVx51-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
+head:   fdd5d0bfc620bd5147ff5b260822c7645aeddad6
+commit: 266b6cc05219d4424d5ae0d42beca427c560210c [24605/27507] ceph: add mds request pid info into debugfs
+config: x86_64-randconfig-122-20240312 (https://download.01.org/0day-ci/archive/20240313/202403131733.kh82730S-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403131733.kh82730S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403131738.6MRAVx51-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403131733.kh82730S-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/ceph/mds_client.c:792:80: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *parent @@
+   fs/ceph/mds_client.c:792:80: sparse:     expected struct task_struct *tsk
+   fs/ceph/mds_client.c:792:80: sparse:     got struct task_struct [noderef] __rcu *parent
 
-   In file included from fs/nfs/nfs4proc.c:38:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/nfs/nfs4proc.c:4478:7: warning: variable 'op' is uninitialized when used here [-Wuninitialized]
-    4478 |                 if (op == NFSPROC4_CLNT_GDD_LOOKUP && res.nf_status == GDD4_OK)
-         |                     ^~
-   fs/nfs/nfs4proc.c:4437:16: note: initialize the variable 'op' to silence this warning
-    4437 |         int status, op;
-         |                       ^
-         |                        = 0
-   fs/nfs/nfs4proc.c:9331:12: warning: variable 'ptr' set but not used [-Wunused-but-set-variable]
-    9331 |         unsigned *ptr;
-         |                   ^
-   3 warnings generated.
+vim +792 fs/ceph/mds_client.c
 
-
-vim +/op +4478 fs/nfs/nfs4proc.c
-
-  4431	
-  4432	static int _nfs4_proc_lookup(struct rpc_clnt *clnt, struct inode *dir,
-  4433			struct dentry *dentry, struct nfs_fh *fhandle,
-  4434			struct nfs_fattr *fattr)
-  4435	{
-  4436		struct nfs_server *server = NFS_SERVER(dir);
-  4437		int status, op;
-  4438	
-  4439		struct nfs4_lookup_arg args = {
-  4440			.bitmask = server->attr_bitmask,
-  4441			.dir_fh = NFS_FH(dir),
-  4442			.name = &dentry->d_name,
-  4443		};
-  4444		struct nfs4_lookup_res res = {
-  4445			.server = server,
-  4446			.fattr = fattr,
-  4447			.fh = fhandle,
-  4448		};
-  4449		struct rpc_message msg = {
-  4450			.rpc_argp = &args,
-  4451			.rpc_resp = &res,
-  4452		};
-  4453		unsigned short task_flags = 0;
-  4454	
-  4455		if (nfs_server_capable(dir, NFS_CAP_MOVEABLE))
-  4456			task_flags = RPC_TASK_MOVEABLE;
-  4457	
-  4458		/* Is this is an attribute revalidation, subject to softreval? */
-  4459		if (nfs_lookup_is_soft_revalidate(dentry))
-  4460			task_flags |= RPC_TASK_TIMEOUT;
-  4461		args.bitmask = nfs4_bitmask(server, fattr->label);
-  4462	
-  4463		nfs_fattr_init(fattr);
-  4464		dprintk("NFS call  lookup %pd2\n", dentry);
-  4465	retry:
-  4466		if (nfs_server_capable(dir, NFS_CAP_GET_DIR_DELEG) &&
-  4467		    !rcu_access_pointer(NFS_I(dir)->delegation))
-  4468			msg.rpc_proc = &nfs4_procedures[NFSPROC4_CLNT_GDD_LOOKUP];
-  4469		else
-  4470			msg.rpc_proc = &nfs4_procedures[NFSPROC4_CLNT_LOOKUP];
-  4471	
-  4472		nfs4_init_sequence(&args.seq_args, &res.seq_res, 0, 0);
-  4473		status = nfs4_do_call_sync(clnt, server, &msg,
-  4474				&args.seq_args, &res.seq_res, task_flags);
-  4475	
-  4476		switch (status) {
-  4477		case 0:
-> 4478			if (op == NFSPROC4_CLNT_GDD_LOOKUP && res.nf_status == GDD4_OK)
-  4479				status = nfs_inode_set_delegation(dir, current_cred(), FMODE_READ,
-  4480								  &res.deleg, 0);
-  4481			break;
-  4482		case -ENOTSUPP:
-  4483			/* If the server doesn't support GET_DIR_DELEGATION, retry without it */
-  4484			if (op == NFSPROC4_CLNT_GDD_LOOKUP) {
-  4485				server->caps &= ~NFS_CAP_GET_DIR_DELEG;
-  4486				goto retry;
-  4487			}
-  4488		}
-  4489		dprintk("NFS reply lookup: %d\n", status);
-  4490		return status;
-  4491	}
-  4492	
+   760	
+   761	/*
+   762	 * Register an in-flight request, and assign a tid.  Link to directory
+   763	 * are modifying (if any).
+   764	 *
+   765	 * Called under mdsc->mutex.
+   766	 */
+   767	static void __register_request(struct ceph_mds_client *mdsc,
+   768				       struct ceph_mds_request *req,
+   769				       struct inode *dir)
+   770	{
+   771		int ret = 0;
+   772	
+   773		req->r_tid = ++mdsc->last_tid;
+   774		if (req->r_num_caps) {
+   775			ret = ceph_reserve_caps(mdsc, &req->r_caps_reservation,
+   776						req->r_num_caps);
+   777			if (ret < 0) {
+   778				pr_err("__register_request %p "
+   779				       "failed to reserve caps: %d\n", req, ret);
+   780				/* set req->r_err to fail early from __do_request */
+   781				req->r_err = ret;
+   782				return;
+   783			}
+   784		}
+   785		dout("__register_request %p tid %lld\n", req, req->r_tid);
+   786		ceph_mdsc_get_request(req);
+   787		insert_request(&mdsc->request_tree, req);
+   788	
+   789		req->r_uid = current_fsuid();
+   790		req->r_gid = current_fsgid();
+   791		if (pid_alive(current)) {
+ > 792			req->r_pid = task_pid_nr_ns(current, task_active_pid_ns(current->parent));
+   793		} else {
+   794			req->r_pid = -1;
+   795		}
+   796	
+   797		if (mdsc->oldest_tid == 0 && req->r_op != CEPH_MDS_OP_SETFILELOCK)
+   798			mdsc->oldest_tid = req->r_tid;
+   799	
+   800		if (dir) {
+   801			ihold(dir);
+   802			req->r_unsafe_dir = dir;
+   803		}
+   804	}
+   805	
 
 -- 
 0-DAY CI Kernel Test Service
