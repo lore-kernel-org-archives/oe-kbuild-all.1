@@ -1,54 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5175110965
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 04:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84DC10A1F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 04:47:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710303338; cv=none; b=gtDgLbTzOd8M2aAmTFPPq/NDLxvVMB9AGoxWbIoyX2BBb/UrmspO4917IbY4hvUVKwksPwVS3fuZ1yub0ueLfJ/m+tAGRCax5tPN9kwV+5rqcG/gI6Q03EnfD+u13akhc1mSNLONsvodrOfQMP0EtY2ESTEJrOui0/pqO8wwgm8=
+	t=1710305259; cv=none; b=utJtwEqoKW5VrUmfI/5jDioOznJLotsuOuYCaPcPXRIfPpKwVfvPM7a7UjvaWvSiSfxvnXd7rEWgOAPvOmgizmcStjqH98u/hplyBlXiFBIw3Y/hkRzl8oK4fT6LX+9W1NJF+whnUB5BSS7fbqUkE0r8WLcbibePjlIjX5a4TAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710303338; c=relaxed/simple;
-	bh=hwJCVbYP6gnoTdCZsp1o5vXOOTviceX0+p+StrNCG94=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gQp2UL+DNDTq73pKaWdcV+ybxFDqdsO85u4VgfkhObhI+l8P3dqBtJfALRZPOlNUVwz+BTctP/jP40eR/Q0EBwe9lHVxOdSp6MMWU0G3CLVk4SgLBsmZl4BxNTQoZTHwu8BA+bLQgOf+duDKjthDxPrrcUjPIwMTHrvqwi4U8jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d+vfs8Nv; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1710305259; c=relaxed/simple;
+	bh=0VLNhsdEsnSGGg7k9LsQ8u0lhJzFFsDGiJ3xN6QEpD8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a+pbJcW76bkf6eJlFmgXKb1XvFtwNLLu7JUwX1HprgK4Jxp4Egqudv/gXvBhm+nusx44PXRGGoJ5dN/dlSWCX+uIC+XVinlQYQvpocwR8rffjogUXKf2imUwpWS4lqkNdjWz9BZx0E7vT6zE7hAyizpN+W9QiQrNF8BGOR9Gvzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MmAmGXuh; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d+vfs8Nv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MmAmGXuh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710303336; x=1741839336;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hwJCVbYP6gnoTdCZsp1o5vXOOTviceX0+p+StrNCG94=;
-  b=d+vfs8Nv2tvDT8mukQ0tNXRHW96hqdtVSjh4DjDTptzVFEWJEUNCBQay
-   Z2zD7AtQtemCqlSR1aBmd+wrxJOVuewO3Cb8o/EGEKKqIL/P+en8VMeKO
-   u0lMOmxzMI4c5DdrDU5KcjHv0zLl7vKkeEjFNMRxVT/+WMPnCnzaOqpWy
-   JatIWmOPmu3wmo0S7sulpFeodRg0E4Mue+as75n2gjDs1+UmYXfr1wn3U
-   QsfA5kcX3Bar6bnv8G2LD8HDX/1eXDKSdsxAmol6HpVh+ztWlVSK6kM5o
-   NzmHCqv8xZJZrEpRLg/xwvUmSa5sdvuHcNS5VlraTM5U2ofU+qZNVYgeL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="5169815"
+  t=1710305256; x=1741841256;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0VLNhsdEsnSGGg7k9LsQ8u0lhJzFFsDGiJ3xN6QEpD8=;
+  b=MmAmGXuhYoJULGsE36YO5bvEIyLF7voL4Wke5BWnprvqX7AjoxU7C7P/
+   PpdgnP5wxuoKXvu2aebWmApNArDKCKUgx74KNZNapGqvnfsTJK1P+nle/
+   8BmVu0zAMW/Qlx0CnxKRqVTyBiWtyFEfOlT6LYYEUEoV3fC3cLtqQ5iNk
+   5yujFJdxnCa09+QhvdOrjsDw2xSiZSiFCKyhPCt625Dw9sXu7ye1VMURX
+   ZnjOwGP7UWyhYKGsjhU30y7dhpMVe6UknvxlAjfr+ZXNNSHGjdyF7Us59
+   5ZeM5IooSQXzPEL1SzbaTVFK1gM2oVgy81w3Z+iLTyIgiAGGGRz86oX+b
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="8821731"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="5169815"
+   d="scan'208";a="8821731"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 21:15:35 -0700
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 21:47:35 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="11844220"
+   d="scan'208";a="11850862"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Mar 2024 21:15:33 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 12 Mar 2024 21:47:34 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkG1a-000C03-35;
-	Wed, 13 Mar 2024 04:15:30 +0000
-Date: Wed, 13 Mar 2024 12:15:29 +0800
+	id 1rkGWa-000C1f-09;
+	Wed, 13 Mar 2024 04:47:32 +0000
+Date: Wed, 13 Mar 2024 12:47:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wang Wensheng <wangwensheng4@huawei.com>
+To: Steven Rostedt <rostedt@goodmis.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 16692/30000] mm/share_pool.c:4227:64: error:
- 'HUGETLB_ALLOC_BUDDY' undeclared
-Message-ID: <202403131259.tZO2bTEt-lkp@intel.com>
+Subject: Re: [PATCH 2/2] ring-buffer: Reuse rb_watermark_hit() for the poll
+ logic
+Message-ID: <202403131254.Wt63XOJz-lkp@intel.com>
+References: <20240312115543.500445373@goodmis.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,162 +59,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240312115543.500445373@goodmis.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   4fa7099066983597bd415dde5a3e416bf2bd8f7c
-commit: bec70574669710bd0962f1f6807363915fc94f16 [16692/30000] mm/sharepool: fix hugepage_rsvd count increase error
-config: arm64-randconfig-003-20240312 (https://download.01.org/0day-ci/archive/20240313/202403131259.tZO2bTEt-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403131259.tZO2bTEt-lkp@intel.com/reproduce)
+Hi Steven,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.8 next-20240312]
+[cannot apply to akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/ring-buffer-Fix-full_waiters_pending-in-poll/20240312-195518
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240312115543.500445373%40goodmis.org
+patch subject: [PATCH 2/2] ring-buffer: Reuse rb_watermark_hit() for the poll logic
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20240313/202403131254.Wt63XOJz-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403131254.Wt63XOJz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403131259.tZO2bTEt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403131254.Wt63XOJz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/share_pool.c:865:23: warning: no previous prototype for 'find_spg_node_by_spg' [-Wmissing-prototypes]
-     865 | struct sp_group_node *find_spg_node_by_spg(struct mm_struct *mm,
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   mm/share_pool.c: In function 'sp_hugetlb_entry':
-   mm/share_pool.c:3085:21: error: implicit declaration of function 'huge_ptep_get' [-Werror=implicit-function-declaration]
-    3085 |         pte_t pte = huge_ptep_get(ptep);
-         |                     ^~~~~~~~~~~~~
-   mm/share_pool.c:3085:21: error: invalid initializer
-   mm/share_pool.c: In function 'sp_unshare_kva':
-   mm/share_pool.c:3462:14: warning: variable 'is_hugepage' set but not used [-Wunused-but-set-variable]
-    3462 |         bool is_hugepage = true;
-         |              ^~~~~~~~~~~
-   mm/share_pool.c: At top level:
-   mm/share_pool.c:3954:6: warning: no previous prototype for 'spa_overview_show' [-Wmissing-prototypes]
-    3954 | void spa_overview_show(struct seq_file *seq)
-         |      ^~~~~~~~~~~~~~~~~
-   mm/share_pool.c:4036:6: warning: no previous prototype for 'spg_overview_show' [-Wmissing-prototypes]
-    4036 | void spg_overview_show(struct seq_file *seq)
-         |      ^~~~~~~~~~~~~~~~~
-   mm/share_pool.c: In function 'sharepool_no_page':
->> mm/share_pool.c:4227:64: error: 'HUGETLB_ALLOC_BUDDY' undeclared (first use in this function)
-    4227 |                         page = hugetlb_alloc_hugepage(node_id, HUGETLB_ALLOC_BUDDY);
-         |                                                                ^~~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:4227:64: note: each undeclared identifier is reported only once for each function it appears in
-   mm/share_pool.c:4233:30: error: implicit declaration of function 'huge_pte_none'; did you mean 'huge_pte_lock'? [-Werror=implicit-function-declaration]
-    4233 |                         if (!huge_pte_none(huge_ptep_get(ptep))) {
-         |                              ^~~~~~~~~~~~~
-         |                              huge_pte_lock
-   mm/share_pool.c:4246:23: error: implicit declaration of function 'huge_add_to_page_cache'; did you mean 'add_to_page_cache'? [-Werror=implicit-function-declaration]
-    4246 |                 err = huge_add_to_page_cache(page, mapping, idx);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-         |                       add_to_page_cache
-   mm/share_pool.c:4268:9: error: implicit declaration of function 'set_huge_pte_at'; did you mean 'set_huge_swap_pte_at'? [-Werror=implicit-function-declaration]
-    4268 |         set_huge_pte_at(mm, haddr, ptep, new_pte);
-         |         ^~~~~~~~~~~~~~~
-         |         set_huge_swap_pte_at
-   mm/share_pool.c:4270:9: error: implicit declaration of function 'hugetlb_count_add'; did you mean 'hugetlb_count_sub'? [-Werror=implicit-function-declaration]
-    4270 |         hugetlb_count_add(pages_per_huge_page(h), mm);
-         |         ^~~~~~~~~~~~~~~~~
-         |         hugetlb_count_sub
-   cc1: some warnings being treated as errors
+   kernel/trace/ring_buffer.c: In function 'ring_buffer_poll_wait':
+>> kernel/trace/ring_buffer.c:962:31: warning: unused variable 'flags' [-Wunused-variable]
+     962 |                 unsigned long flags;
+         |                               ^~~~~
 
 
-vim +/HUGETLB_ALLOC_BUDDY +4227 mm/share_pool.c
+vim +/flags +962 kernel/trace/ring_buffer.c
 
-  4193	
-  4194	vm_fault_t sharepool_no_page(struct mm_struct *mm,
-  4195				struct vm_area_struct *vma,
-  4196				struct address_space *mapping, pgoff_t idx,
-  4197				unsigned long address, pte_t *ptep, unsigned int flags)
-  4198	{
-  4199		struct hstate *h = hstate_vma(vma);
-  4200		vm_fault_t ret = VM_FAULT_SIGBUS;
-  4201		unsigned long size;
-  4202		struct page *page;
-  4203		pte_t new_pte;
-  4204		spinlock_t *ptl;
-  4205		unsigned long haddr = address & huge_page_mask(h);
-  4206		bool new_page = false;
-  4207		int err;
-  4208		int node_id;
-  4209		struct sp_area *spa;
-  4210	
-  4211		spa = vma->vm_private_data;
-  4212		if (!spa) {
-  4213			pr_err("share pool: vma is invalid, not from sp mmap\n");
-  4214			return ret;
-  4215		}
-  4216		node_id = spa->node_id;
-  4217	
-  4218	retry:
-  4219		page = find_lock_page(mapping, idx);
-  4220		if (!page) {
-  4221			size = i_size_read(mapping->host) >> huge_page_shift(h);
-  4222			if (idx >= size)
-  4223				goto out;
-  4224	
-  4225			page = alloc_huge_page(vma, haddr, 0);
-  4226			if (IS_ERR(page)) {
-> 4227				page = hugetlb_alloc_hugepage(node_id, HUGETLB_ALLOC_BUDDY);
-  4228				if (!page)
-  4229					page = ERR_PTR(-ENOMEM);
-  4230			}
-  4231			if (IS_ERR(page)) {
-  4232				ptl = huge_pte_lock(h, mm, ptep);
-  4233				if (!huge_pte_none(huge_ptep_get(ptep))) {
-  4234					ret = 0;
-  4235					spin_unlock(ptl);
-  4236					goto out;
-  4237				}
-  4238				spin_unlock(ptl);
-  4239				ret = vmf_error(PTR_ERR(page));
-  4240				goto out;
-  4241			}
-  4242			__SetPageUptodate(page);
-  4243			new_page = true;
-  4244	
-  4245			/* sharepool pages are all shared */
-  4246			err = huge_add_to_page_cache(page, mapping, idx);
-  4247			if (err) {
-  4248				put_page(page);
-  4249				if (err == -EEXIST)
-  4250					goto retry;
-  4251				goto out;
-  4252			}
-  4253		}
-  4254	
-  4255	
-  4256		ptl = huge_pte_lock(h, mm, ptep);
-  4257		size = i_size_read(mapping->host) >> huge_page_shift(h);
-  4258		if (idx >= size)
-  4259			goto backout;
-  4260	
-  4261		ret = 0;
-  4262		if (!huge_pte_none(huge_ptep_get(ptep)))
-  4263			goto backout;
-  4264	
-  4265		page_dup_rmap(page, true);
-  4266		new_pte = make_huge_pte(vma, page, ((vma->vm_flags & VM_WRITE)
-  4267					&& (vma->vm_flags & VM_SHARED)));
-  4268		set_huge_pte_at(mm, haddr, ptep, new_pte);
-  4269	
-  4270		hugetlb_count_add(pages_per_huge_page(h), mm);
-  4271	
-  4272		spin_unlock(ptl);
-  4273	
-  4274		if (new_page) {
-  4275			SetPagePrivate(&page[1]);
-  4276		}
-  4277	
-  4278		unlock_page(page);
-  4279	out:
-  4280		return ret;
-  4281	
-  4282	backout:
-  4283		spin_unlock(ptl);
-  4284		unlock_page(page);
-  4285		put_page(page);
-  4286		goto out;
-  4287	}
-  4288	
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   928) 
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   929) /**
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   930)  * ring_buffer_poll_wait - poll on buffer input
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   931)  * @buffer: buffer to wait on
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   932)  * @cpu: the cpu buffer to wait on
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   933)  * @filp: the file descriptor
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   934)  * @poll_table: The poll descriptor
+42fb0a1e84ff52 Steven Rostedt (Google   2022-10-20   935)  * @full: wait until the percentage of pages are available, if @cpu != RING_BUFFER_ALL_CPUS
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   936)  *
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   937)  * If @cpu == RING_BUFFER_ALL_CPUS then the task will wake up as soon
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   938)  * as data is added to any of the @buffer's cpu buffers. Otherwise
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   939)  * it will wait for data to be added to a specific cpu buffer.
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   940)  *
+a9a08845e9acbd Linus Torvalds           2018-02-11   941   * Returns EPOLLIN | EPOLLRDNORM if data exists in the buffers,
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   942)  * zero otherwise.
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   943)  */
+13292494379f92 Steven Rostedt (VMware   2019-12-13   944) __poll_t ring_buffer_poll_wait(struct trace_buffer *buffer, int cpu,
+42fb0a1e84ff52 Steven Rostedt (Google   2022-10-20   945) 			  struct file *filp, poll_table *poll_table, int full)
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   946) {
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   947) 	struct ring_buffer_per_cpu *cpu_buffer;
+68282dd930ea38 Steven Rostedt (Google   2024-03-08   948) 	struct rb_irq_work *rbwork;
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   949) 
+42fb0a1e84ff52 Steven Rostedt (Google   2022-10-20   950) 	if (cpu == RING_BUFFER_ALL_CPUS) {
+68282dd930ea38 Steven Rostedt (Google   2024-03-08   951) 		rbwork = &buffer->irq_work;
+42fb0a1e84ff52 Steven Rostedt (Google   2022-10-20   952) 		full = 0;
+42fb0a1e84ff52 Steven Rostedt (Google   2022-10-20   953) 	} else {
+6721cb60022629 Steven Rostedt (Red Hat  2013-05-23   954) 		if (!cpumask_test_cpu(cpu, buffer->cpumask))
+66bbea9ed6446b Vincent Donnefort        2024-01-31   955  			return EPOLLERR;
+6721cb60022629 Steven Rostedt (Red Hat  2013-05-23   956) 
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   957) 		cpu_buffer = buffer->buffers[cpu];
+68282dd930ea38 Steven Rostedt (Google   2024-03-08   958) 		rbwork = &cpu_buffer->irq_work;
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   959) 	}
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28   960) 
+42fb0a1e84ff52 Steven Rostedt (Google   2022-10-20   961) 	if (full) {
+68282dd930ea38 Steven Rostedt (Google   2024-03-08  @962) 		unsigned long flags;
+68282dd930ea38 Steven Rostedt (Google   2024-03-08   963) 
+68282dd930ea38 Steven Rostedt (Google   2024-03-08   964) 		poll_wait(filp, &rbwork->full_waiters, poll_table);
+68282dd930ea38 Steven Rostedt (Google   2024-03-08   965) 
+4e3268779574c4 Steven Rostedt (Google   2024-03-12   966) 		if (rb_watermark_hit(buffer, cpu, full))
+a505bba2acc5f4 Steven Rostedt (Google   2024-03-12   967) 			return EPOLLIN | EPOLLRDNORM;
+a505bba2acc5f4 Steven Rostedt (Google   2024-03-12   968) 		/*
+a505bba2acc5f4 Steven Rostedt (Google   2024-03-12   969) 		 * Only allow full_waiters_pending update to be seen after
+4e3268779574c4 Steven Rostedt (Google   2024-03-12   970) 		 * the shortest_full is set (in rb_watermark_hit). If the
+4e3268779574c4 Steven Rostedt (Google   2024-03-12   971) 		 * writer sees the full_waiters_pending flag set, it will
+4e3268779574c4 Steven Rostedt (Google   2024-03-12   972) 		 * compare the amount in the ring buffer to shortest_full.
+4e3268779574c4 Steven Rostedt (Google   2024-03-12   973) 		 * If the amount in the ring buffer is greater than the
+4e3268779574c4 Steven Rostedt (Google   2024-03-12   974) 		 * shortest_full percent, it will call the irq_work handler
+4e3268779574c4 Steven Rostedt (Google   2024-03-12   975) 		 * to wake up this list. The irq_handler will reset shortest_full
+a505bba2acc5f4 Steven Rostedt (Google   2024-03-12   976) 		 * back to zero. That's done under the reader_lock, but
+a505bba2acc5f4 Steven Rostedt (Google   2024-03-12   977) 		 * the below smp_mb() makes sure that the update to
+a505bba2acc5f4 Steven Rostedt (Google   2024-03-12   978) 		 * full_waiters_pending doesn't leak up into the above.
+a505bba2acc5f4 Steven Rostedt (Google   2024-03-12   979) 		 */
+a505bba2acc5f4 Steven Rostedt (Google   2024-03-12   980) 		smp_mb();
+a505bba2acc5f4 Steven Rostedt (Google   2024-03-12   981) 		rbwork->full_waiters_pending = true;
+a505bba2acc5f4 Steven Rostedt (Google   2024-03-12   982) 		return 0;
+a505bba2acc5f4 Steven Rostedt (Google   2024-03-12   983) 	}
+a505bba2acc5f4 Steven Rostedt (Google   2024-03-12   984) 
+68282dd930ea38 Steven Rostedt (Google   2024-03-08   985) 	poll_wait(filp, &rbwork->waiters, poll_table);
+68282dd930ea38 Steven Rostedt (Google   2024-03-08   986) 	rbwork->waiters_pending = true;
+42fb0a1e84ff52 Steven Rostedt (Google   2022-10-20   987) 
+4ce97dbf502452 Josef Bacik              2014-08-25   988  	/*
+4ce97dbf502452 Josef Bacik              2014-08-25   989  	 * There's a tight race between setting the waiters_pending and
+4ce97dbf502452 Josef Bacik              2014-08-25   990  	 * checking if the ring buffer is empty.  Once the waiters_pending bit
+4ce97dbf502452 Josef Bacik              2014-08-25   991  	 * is set, the next event will wake the task up, but we can get stuck
+4ce97dbf502452 Josef Bacik              2014-08-25   992  	 * if there's only a single event in.
+4ce97dbf502452 Josef Bacik              2014-08-25   993  	 *
+4ce97dbf502452 Josef Bacik              2014-08-25   994  	 * FIXME: Ideally, we need a memory barrier on the writer side as well,
+4ce97dbf502452 Josef Bacik              2014-08-25   995  	 * but adding a memory barrier to all events will cause too much of a
+4ce97dbf502452 Josef Bacik              2014-08-25   996  	 * performance hit in the fast path.  We only need a memory barrier when
+4ce97dbf502452 Josef Bacik              2014-08-25   997  	 * the buffer goes from empty to having content.  But as this race is
+4ce97dbf502452 Josef Bacik              2014-08-25   998  	 * extremely small, and it's not a problem if another event comes in, we
+4ce97dbf502452 Josef Bacik              2014-08-25   999  	 * will fix it later.
+4ce97dbf502452 Josef Bacik              2014-08-25  1000  	 */
+4ce97dbf502452 Josef Bacik              2014-08-25  1001  	smp_mb();
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28  1002) 
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28  1003) 	if ((cpu == RING_BUFFER_ALL_CPUS && !ring_buffer_empty(buffer)) ||
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28  1004) 	    (cpu != RING_BUFFER_ALL_CPUS && !ring_buffer_empty_cpu(buffer, cpu)))
+a9a08845e9acbd Linus Torvalds           2018-02-11  1005  		return EPOLLIN | EPOLLRDNORM;
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28  1006) 	return 0;
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28  1007) }
+15693458c4bc06 Steven Rostedt (Red Hat  2013-02-28  1008) 
 
 -- 
 0-DAY CI Kernel Test Service
