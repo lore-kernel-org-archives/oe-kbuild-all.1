@@ -1,346 +1,225 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5505714A97
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 07:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2FD12B6F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 07:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710313935; cv=none; b=TFGHe/WFsj4SXyB2csEnrweW7EPGZJXkC6el6hMl5/Np6UJGUlMdUpb6S8wjVhCrXaCoZrsbe3SyWlpMxHTUG5DdQpX1hCqJxL3xnNzLqhyqjg46hHnAxs2cB03FwWanFV0og62deaL/oVQY+MVu7Sol7EOrwihCviXInjURtnc=
+	t=1710314746; cv=none; b=I792JiLAg9brKwCr4w76EIQnjiS+6XQNShTZllYiz2+3xVS47e/5WKiteduoNVzVj091w/FwsG0HNGpMvikIHiBZ3pJWcCVFw/tfbmuDW88j7K2bV/PQZI/zzsRAB9jGPSF5xanutuiPBBjUpsH4fCAyMslrvNgASFGvfbbu3Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710313935; c=relaxed/simple;
-	bh=ISnVFZ/Q1UsEFptZeULr7aFUw+NEIEUAkyZmi5bMaaw=;
+	s=arc-20240116; t=1710314746; c=relaxed/simple;
+	bh=n/1c0o6zXEBuAzFFrCho1aei3lJwoPuXd86Fc/lCaGY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=QLwQBnkagmWA4SGccGTsAGbdCzUPZ02+AmYn+5lb6ImHb4K7LhARWH2HmsuShGkad+fKg9RdT8x3o9bx05R0iyDCAWKSOkFmIEDmwJdOFDC14Nmxvr8KTNsc8uNKOH1idwBHJXiDa+vnCT58L1BR8cLwFd8hItI6wNrNH0mW2ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dD+CzlNv; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=NoyFydSo6ed46agY34F3kz9JW1oEsGILAOBSVnDoVXn2h1amhI25CPMdusubKQaL/leRwaF5evlhZh1fCNi5DbrbyDWpP/84TefFFUGDS+WM33FCLU/FPpUZSZ5QAHjYsizhaIa1Tv15P/qjJmqYCEdLAUN7I+GKn8YzFYbk+XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fZs6ljlO; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dD+CzlNv"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5687e7662a5so1125513a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 00:12:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710313932; x=1710918732; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=GUeEEmvrXVjz8nX0zE+loC+ERznBjekZC7DXMyKlw94=;
-        b=dD+CzlNvwinurYs/UbCuwjsSppkpHSc9FeB0QOwPWi4ssG6wgD1Tau7bIrDIMVZDtd
-         gpu/wPOFsVWz6GSqfVbkjHdkw5tkCp5NKa4dnUj5yPcLhGfUM/mu8YAXVg26yR8AWwmm
-         8JwpZzy+G268Q5M+E1oydtbkLy8vl7e+K02riq28df6Z2t/Zhe4BR9KfjbTdPDWcFiv4
-         6/ql7HCqozmh4NHBnjKLiXO2wpbWfHTknNyTRWztMpNpNVAfnkusEMBQyK65lZObKsr9
-         RP/dRi6lP/IiQOg3fu6LSTRDkak+zKYA7S1boZL3SCefAm9H7lP7lxe34D++G4CcweWE
-         Tysg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710313932; x=1710918732;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GUeEEmvrXVjz8nX0zE+loC+ERznBjekZC7DXMyKlw94=;
-        b=hu/eCbGDZrLJun+un7wzJFwqnqtAw8WQF9yqwAsbvN0A1LxdL0Fu25McboO0aOoDNy
-         47zPVfubUqBe3Kz35AjP29rPKUxp9hYr9j0afs9ho3EKyvEQTimNMgMisZTKlsyMMUxN
-         d3RlGU8MekM+TW2E1ZNMdWbIRbHKMvXEPel3K3fX6oLkzg+5BOw0BzYoEL8dpOxPexhR
-         yrw22uAhwJLsGVh0CI1IJ9weydzVN0vrE2yeTUp8zOdidhHx9VCSBtMpAkFZ4X49Y7oi
-         lpohbflW1e1PM0FDt5A6lVT+u/+Z5iCFCk/85U4ruKzxF5hlOv1mg62w+mBpXF4GVK41
-         +9Nw==
-X-Forwarded-Encrypted: i=1; AJvYcCW6uUH0NORHQ3vBn6u0h3sQ+L1xHyvxBRlDG0Qh6CTMRApz4eKy4TQfNTRf/xNZ0G0UpPmBJTUGqoxHaCAfDgqIc1uHiaVEOcF47TYqAw==
-X-Gm-Message-State: AOJu0YwWCv4gUn/ENFJhqWLCzg+xvvv3QKJzfbhT7UkU5N0Nw8wkB9vs
-	RF8Gtsz3om95ncXoBi0c0+LvxFjmTQDwicNHImfCH1F214/v0hF9oK2DJ0AY27Y=
-X-Google-Smtp-Source: AGHT+IGAhXlOyTIasCZ1oXofKqW7fLjUn5QUwNAqvfrreaVvI2dD2vwqllW1t90TkcK+5NO/1oTsnA==
-X-Received: by 2002:a17:907:7846:b0:a46:3f47:ea4b with SMTP id lb6-20020a170907784600b00a463f47ea4bmr2617362ejc.65.1710313931359;
-        Wed, 13 Mar 2024 00:12:11 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id l8-20020a170906230800b00a4131367204sm4567232eja.80.2024.03.13.00.12.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 00:12:11 -0700 (PDT)
-Date: Wed, 13 Mar 2024 10:12:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Howard Yen <howardyen@google.com>,
-	gregkh@linuxfoundation.org, rafael@kernel.org,
-	mathias.nyman@intel.com, hch@lst.de, m.szyprowski@samsung.com,
-	robin.murphy@arm.com, andriy.shevchenko@linux.intel.com,
-	petr.tesarik.ext@huawei.com, broonie@kernel.org, james@equiv.tech,
-	james.clark@arm.com, masahiroy@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	iommu@lists.linux.dev, Howard Yen <howardyen@google.com>
-Subject: Re: [PATCH v5 2/2] usb: host: xhci-plat: add support for multi
- memory regions
-Message-ID: <18aa0f43-df7b-4a21-9359-02defa1b04a2@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fZs6ljlO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710314745; x=1741850745;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=n/1c0o6zXEBuAzFFrCho1aei3lJwoPuXd86Fc/lCaGY=;
+  b=fZs6ljlOXViuk+9DFr2CZc8kr59JR5eTpow49D8gzkDxva+/YuK6GwOD
+   WKPkR7qD14S/78BeEQwL6y0bfSSo2snqa6er+/Kb8WkAmq/Xz/L0l1VI0
+   4XrEwBU403lzDHZlMkm86etruoah5rwv7t5UVEKWmjwp8v/CLrqxz3BSL
+   23UILwf+nCTzgYj8FuGf+49vSjTtL925TnL+m4bqmLbTr0CuQOzFf1Qf/
+   xBjnDbxIknPEQB1ETkBw+LQ+QB/OoUsvjuBBSx9I8jqoDOCIJOt2cfDGZ
+   GaMUa7eUh5xS6t/ErqgAqvduir1xr3ZVk/ZJ70Mf0lXGjvR1zqZL4jeJv
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="15785644"
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
+   d="scan'208";a="15785644"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 00:25:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
+   d="scan'208";a="16390280"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 13 Mar 2024 00:25:38 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rkIzX-000C8t-2I;
+	Wed, 13 Mar 2024 07:25:35 +0000
+Date: Wed, 13 Mar 2024 15:24:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Wupeng Ma <mawupeng1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 25744/30000]
+ arch/arm64/kernel/cpufeature.c:1627:6: warning: no previous prototype for
+ 'update_pbha_perf_only_bit'
+Message-ID: <202403131533.AIOfBKrb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240311094947.3738200-3-howardyen@google.com>
 
-Hi Howard,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Howard-Yen/dma-coherent-add-support-for-multi-coherent-rmems-per-dev/20240311-175308
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240311094947.3738200-3-howardyen%40google.com
-patch subject: [PATCH v5 2/2] usb: host: xhci-plat: add support for multi memory regions
-config: riscv-randconfig-r081-20240311 (https://download.01.org/0day-ci/archive/20240313/202403131441.SrhLAZvp-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   4fa7099066983597bd415dde5a3e416bf2bd8f7c
+commit: f43933b3f947a7f9314ec8d704c6ae01041dbbba [25744/30000] arm64: cpufeature: Enable PBHA for stage1 early via FDT
+config: arm64-randconfig-002-20240312 (https://download.01.org/0day-ci/archive/20240313/202403131533.AIOfBKrb-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403131533.AIOfBKrb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403131441.SrhLAZvp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403131533.AIOfBKrb-lkp@intel.com/
 
-New smatch warnings:
-drivers/usb/host/xhci-plat.c:207 xhci_plat_probe() warn: missing unwind goto?
+All warnings (new ones prefixed by >>):
 
-vim +207 drivers/usb/host/xhci-plat.c
+>> arch/arm64/kernel/cpufeature.c:1627:6: warning: no previous prototype for 'update_pbha_perf_only_bit' [-Wmissing-prototypes]
+    1627 | void update_pbha_perf_only_bit(const u8 *bits, int cnt)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kernel/cpufeature.c:1729:13: warning: no previous prototype for 'early_pbha_init' [-Wmissing-prototypes]
+    1729 | void __init early_pbha_init(void)
+         |             ^~~~~~~~~~~~~~~
 
-ec5499d338ece9 Arnd Bergmann             2023-01-31  146  int xhci_plat_probe(struct platform_device *pdev, struct device *sysdev, const struct xhci_plat_priv *priv_match)
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  147  {
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  148  	const struct hc_driver	*driver;
-ec5499d338ece9 Arnd Bergmann             2023-01-31  149  	struct device		*tmpdev;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  150  	struct xhci_hcd		*xhci;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  151  	struct resource         *res;
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  152  	struct usb_hcd		*hcd, *usb3_hcd;
-fe4daa605d0cae Howard Yen                2024-03-11  153  	int			i, count, ret;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  154  	int			irq;
-f768e718911e03 Peter Chen                2020-09-18  155  	struct xhci_plat_priv	*priv = NULL;
-16b7e0cccb2430 Johan Hovold              2023-11-03  156  	bool			of_match;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  157  
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  158  	if (usb_disabled())
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  159  		return -ENODEV;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  160  
-1885d9a33753b7 Andrew Bresticker         2014-10-03  161  	driver = &xhci_plat_hc_driver;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  162  
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  163  	irq = platform_get_irq(pdev, 0);
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  164  	if (irq < 0)
-4b148d5144d64e Thomas Petazzoni          2017-05-17  165  		return irq;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  166  
-c6b8e79306f515 Adam Wallis               2017-09-18  167  	if (!sysdev)
-c6b8e79306f515 Adam Wallis               2017-09-18  168  		sysdev = &pdev->dev;
-4c39d4b949d36f Arnd Bergmann             2017-03-13  169  
-4c39d4b949d36f Arnd Bergmann             2017-03-13  170  	ret = dma_set_mask_and_coherent(sysdev, DMA_BIT_MASK(64));
-c10cf1189d7659 Xenia Ragiadakou          2013-08-14  171  	if (ret)
-c10cf1189d7659 Xenia Ragiadakou          2013-08-14  172  		return ret;
-c10cf1189d7659 Xenia Ragiadakou          2013-08-14  173  
-b0c69b4bace370 Baolin Wang               2017-04-19  174  	pm_runtime_set_active(&pdev->dev);
-b0c69b4bace370 Baolin Wang               2017-04-19  175  	pm_runtime_enable(&pdev->dev);
-b0c69b4bace370 Baolin Wang               2017-04-19  176  	pm_runtime_get_noresume(&pdev->dev);
-b0c69b4bace370 Baolin Wang               2017-04-19  177  
-4c39d4b949d36f Arnd Bergmann             2017-03-13  178  	hcd = __usb_create_hcd(driver, sysdev, &pdev->dev,
-4c39d4b949d36f Arnd Bergmann             2017-03-13  179  			       dev_name(&pdev->dev), NULL);
-b0c69b4bace370 Baolin Wang               2017-04-19  180  	if (!hcd) {
-b0c69b4bace370 Baolin Wang               2017-04-19  181  		ret = -ENOMEM;
-b0c69b4bace370 Baolin Wang               2017-04-19  182  		goto disable_runtime;
-b0c69b4bace370 Baolin Wang               2017-04-19  183  	}
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  184  
-fb222273a2159a Dejin Zheng               2020-03-24  185  	hcd->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-fd666348c51f6a Himangi Saraogi           2014-06-20  186  	if (IS_ERR(hcd->regs)) {
-fd666348c51f6a Himangi Saraogi           2014-06-20  187  		ret = PTR_ERR(hcd->regs);
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  188  		goto put_hcd;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  189  	}
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  190  
-e7020f193a3d13 Varka Bhadram             2014-11-04  191  	hcd->rsrc_start = res->start;
-e7020f193a3d13 Varka Bhadram             2014-11-04  192  	hcd->rsrc_len = resource_size(res);
-e7020f193a3d13 Varka Bhadram             2014-11-04  193  
-08048c04cc6f75 Chunfeng Yun              2019-04-17  194  	xhci = hcd_to_xhci(hcd);
-08048c04cc6f75 Chunfeng Yun              2019-04-17  195  
-4736ebd7fcaff1 Heiner Kallweit           2022-05-12  196  	xhci->allow_single_roothub = 1;
-4736ebd7fcaff1 Heiner Kallweit           2022-05-12  197  
-fe4daa605d0cae Howard Yen                2024-03-11  198  	count = of_property_count_u32_elems(sysdev->of_node, "memory-region");
-fe4daa605d0cae Howard Yen                2024-03-11  199  
-fe4daa605d0cae Howard Yen                2024-03-11  200  	for (i = 0; i < count; i++) {
-fe4daa605d0cae Howard Yen                2024-03-11  201  		ret = of_reserved_mem_device_init_by_idx(sysdev, sysdev->of_node, i);
-fe4daa605d0cae Howard Yen                2024-03-11  202  		if (ret) {
-fe4daa605d0cae Howard Yen                2024-03-11  203  			dev_err(sysdev, "Could not get reserved memory\n");
-fe4daa605d0cae Howard Yen                2024-03-11  204  			if (i > 0)
-fe4daa605d0cae Howard Yen                2024-03-11  205  				of_reserved_mem_device_release(sysdev);
-fe4daa605d0cae Howard Yen                2024-03-11  206  
-fe4daa605d0cae Howard Yen                2024-03-11 @207  			return ret;
 
-Needs to clean up before returning.
+vim +/update_pbha_perf_only_bit +1627 arch/arm64/kernel/cpufeature.c
 
-fe4daa605d0cae Howard Yen                2024-03-11  208  		}
-fe4daa605d0cae Howard Yen                2024-03-11  209  	}
-fe4daa605d0cae Howard Yen                2024-03-11  210  
-4718c177405112 Gregory CLEMENT           2014-05-15  211  	/*
-3ae2da7b28b393 Gregory CLEMENT           2018-04-20  212  	 * Not all platforms have clks so it is not an error if the
-3ae2da7b28b393 Gregory CLEMENT           2018-04-20  213  	 * clock do not exist.
-4718c177405112 Gregory CLEMENT           2014-05-15  214  	 */
-08048c04cc6f75 Chunfeng Yun              2019-04-17  215  	xhci->reg_clk = devm_clk_get_optional(&pdev->dev, "reg");
-08048c04cc6f75 Chunfeng Yun              2019-04-17  216  	if (IS_ERR(xhci->reg_clk)) {
-08048c04cc6f75 Chunfeng Yun              2019-04-17  217  		ret = PTR_ERR(xhci->reg_clk);
-3ae2da7b28b393 Gregory CLEMENT           2018-04-20  218  		goto put_hcd;
-3ae2da7b28b393 Gregory CLEMENT           2018-04-20  219  	}
-3ae2da7b28b393 Gregory CLEMENT           2018-04-20  220  
-08048c04cc6f75 Chunfeng Yun              2019-04-17  221  	xhci->clk = devm_clk_get_optional(&pdev->dev, NULL);
-08048c04cc6f75 Chunfeng Yun              2019-04-17  222  	if (IS_ERR(xhci->clk)) {
-08048c04cc6f75 Chunfeng Yun              2019-04-17  223  		ret = PTR_ERR(xhci->clk);
-8c6e8b09617915 Biju Das                  2023-01-21  224  		goto put_hcd;
-4718c177405112 Gregory CLEMENT           2014-05-15  225  	}
-4718c177405112 Gregory CLEMENT           2014-05-15  226  
-224eb5311d6a8c Biju Das                  2023-01-21  227  	xhci->reset = devm_reset_control_array_get_optional_shared(&pdev->dev);
-224eb5311d6a8c Biju Das                  2023-01-21  228  	if (IS_ERR(xhci->reset)) {
-224eb5311d6a8c Biju Das                  2023-01-21  229  		ret = PTR_ERR(xhci->reset);
-224eb5311d6a8c Biju Das                  2023-01-21  230  		goto put_hcd;
-224eb5311d6a8c Biju Das                  2023-01-21  231  	}
-224eb5311d6a8c Biju Das                  2023-01-21  232  
-224eb5311d6a8c Biju Das                  2023-01-21  233  	ret = reset_control_deassert(xhci->reset);
-8c6e8b09617915 Biju Das                  2023-01-21  234  	if (ret)
-8c6e8b09617915 Biju Das                  2023-01-21  235  		goto put_hcd;
-8c6e8b09617915 Biju Das                  2023-01-21  236  
-224eb5311d6a8c Biju Das                  2023-01-21  237  	ret = clk_prepare_enable(xhci->reg_clk);
-224eb5311d6a8c Biju Das                  2023-01-21  238  	if (ret)
-224eb5311d6a8c Biju Das                  2023-01-21  239  		goto err_reset;
-224eb5311d6a8c Biju Das                  2023-01-21  240  
-08048c04cc6f75 Chunfeng Yun              2019-04-17  241  	ret = clk_prepare_enable(xhci->clk);
-08048c04cc6f75 Chunfeng Yun              2019-04-17  242  	if (ret)
-08048c04cc6f75 Chunfeng Yun              2019-04-17  243  		goto disable_reg_clk;
-08048c04cc6f75 Chunfeng Yun              2019-04-17  244  
-2847d242a1e48c Geert Uytterhoeven        2017-10-05  245  	if (priv_match) {
-f768e718911e03 Peter Chen                2020-09-18  246  		priv = hcd_to_xhci_priv(hcd);
-4efb2f69411456 Yoshihiro Shimoda         2015-11-24  247  		/* Just copy data for now */
-4efb2f69411456 Yoshihiro Shimoda         2015-11-24  248  		*priv = *priv_match;
-4efb2f69411456 Yoshihiro Shimoda         2015-11-24  249  	}
-4efb2f69411456 Yoshihiro Shimoda         2015-11-24  250  
-4bb4fc0dbfa23a Peter Chen                2020-09-18  251  	device_set_wakeup_capable(&pdev->dev, true);
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  252  
-9fa733f24bb54d Roger Quadros             2015-05-29  253  	xhci->main_hcd = hcd;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  254  
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  255  	/* imod_interval is the interrupt moderation value in nanoseconds. */
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  256  	xhci->imod_interval = 40000;
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  257  
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  258  	/* Iterate over all parent nodes for finding quirks */
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  259  	for (tmpdev = &pdev->dev; tmpdev; tmpdev = tmpdev->parent) {
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  260  
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  261  		if (device_property_read_bool(tmpdev, "usb2-lpm-disable"))
-4750bc78efdb12 Thang Q. Nguyen           2017-10-05  262  			xhci->quirks |= XHCI_HW_LPM_DISABLE;
-4750bc78efdb12 Thang Q. Nguyen           2017-10-05  263  
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  264  		if (device_property_read_bool(tmpdev, "usb3-lpm-capable"))
-20f6fdd01c2c0d Pratyush Anand            2014-07-04  265  			xhci->quirks |= XHCI_LPM_SUPPORT;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  266  
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  267  		if (device_property_read_bool(tmpdev, "quirk-broken-port-ped"))
-21939f003ad093 Felipe Balbi              2017-01-23  268  			xhci->quirks |= XHCI_BROKEN_PORT_PED;
-21939f003ad093 Felipe Balbi              2017-01-23  269  
-520b391e3e813c Prashanth K               2024-01-16  270  		if (device_property_read_bool(tmpdev, "xhci-sg-trb-cache-size-quirk"))
-520b391e3e813c Prashanth K               2024-01-16  271  			xhci->quirks |= XHCI_SG_TRB_CACHE_SIZE_QUIRK;
-520b391e3e813c Prashanth K               2024-01-16  272  
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  273  		device_property_read_u32(tmpdev, "imod-interval-ns",
-ab725cbec3e83d Adam Wallis               2017-12-08  274  					 &xhci->imod_interval);
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  275  	}
-ab725cbec3e83d Adam Wallis               2017-12-08  276  
-16b7e0cccb2430 Johan Hovold              2023-11-03  277  	/*
-16b7e0cccb2430 Johan Hovold              2023-11-03  278  	 * Drivers such as dwc3 manages PHYs themself (and rely on driver name
-16b7e0cccb2430 Johan Hovold              2023-11-03  279  	 * matching for the xhci platform device).
-16b7e0cccb2430 Johan Hovold              2023-11-03  280  	 */
-16b7e0cccb2430 Johan Hovold              2023-11-03  281  	of_match = of_match_device(pdev->dev.driver->of_match_table, &pdev->dev);
-16b7e0cccb2430 Johan Hovold              2023-11-03  282  	if (of_match) {
-4c39d4b949d36f Arnd Bergmann             2017-03-13  283  		hcd->usb_phy = devm_usb_get_phy_by_phandle(sysdev, "usb-phy", 0);
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  284  		if (IS_ERR(hcd->usb_phy)) {
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  285  			ret = PTR_ERR(hcd->usb_phy);
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  286  			if (ret == -EPROBE_DEFER)
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  287  				goto disable_clk;
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  288  			hcd->usb_phy = NULL;
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  289  		} else {
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  290  			ret = usb_phy_init(hcd->usb_phy);
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  291  			if (ret)
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  292  				goto disable_clk;
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  293  		}
-16b7e0cccb2430 Johan Hovold              2023-11-03  294  	}
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  295  
-c94d41e9dd1ba3 Peter Chen                2018-09-20  296  	hcd->tpl_support = of_usb_host_tpl_support(sysdev->of_node);
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  297  
-8e10548f7f4814 Pali Rohár                2022-02-03  298  	if (priv && (priv->quirks & XHCI_SKIP_PHY_INIT))
-f768e718911e03 Peter Chen                2020-09-18  299  		hcd->skip_phy_initialization = 1;
-f768e718911e03 Peter Chen                2020-09-18  300  
-bac1ec55143469 Tejas Joglekar            2020-12-08  301  	if (priv && (priv->quirks & XHCI_SG_TRB_CACHE_SIZE_QUIRK))
-bac1ec55143469 Tejas Joglekar            2020-12-08  302  		xhci->quirks |= XHCI_SG_TRB_CACHE_SIZE_QUIRK;
-bac1ec55143469 Tejas Joglekar            2020-12-08  303  
-4ac53087d6d48e Roger Quadros             2015-05-29  304  	ret = usb_add_hcd(hcd, irq, IRQF_SHARED);
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  305  	if (ret)
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  306  		goto disable_usb_phy;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  307  
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  308  	if (!xhci_has_one_roothub(xhci)) {
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  309  		xhci->shared_hcd = __usb_create_hcd(driver, sysdev, &pdev->dev,
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  310  						    dev_name(&pdev->dev), hcd);
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  311  		if (!xhci->shared_hcd) {
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  312  			ret = -ENOMEM;
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  313  			goto dealloc_usb2_hcd;
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  314  		}
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  315  
-16b7e0cccb2430 Johan Hovold              2023-11-03  316  		if (of_match) {
-9134c1fd05034d Stanley Chang             2023-04-07  317  			xhci->shared_hcd->usb_phy = devm_usb_get_phy_by_phandle(sysdev,
-9134c1fd05034d Stanley Chang             2023-04-07  318  										"usb-phy", 1);
-9134c1fd05034d Stanley Chang             2023-04-07  319  			if (IS_ERR(xhci->shared_hcd->usb_phy)) {
-9134c1fd05034d Stanley Chang             2023-04-07  320  				xhci->shared_hcd->usb_phy = NULL;
-9134c1fd05034d Stanley Chang             2023-04-07  321  			} else {
-9134c1fd05034d Stanley Chang             2023-04-07  322  				ret = usb_phy_init(xhci->shared_hcd->usb_phy);
-9134c1fd05034d Stanley Chang             2023-04-07  323  				if (ret)
-9134c1fd05034d Stanley Chang             2023-04-07  324  					dev_err(sysdev, "%s init usb3phy fail (ret=%d)\n",
-9134c1fd05034d Stanley Chang             2023-04-07  325  						__func__, ret);
-9134c1fd05034d Stanley Chang             2023-04-07  326  			}
-16b7e0cccb2430 Johan Hovold              2023-11-03  327  		}
-9134c1fd05034d Stanley Chang             2023-04-07  328  
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  329  		xhci->shared_hcd->tpl_support = hcd->tpl_support;
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  330  	}
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  331  
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  332  	usb3_hcd = xhci_get_usb3_hcd(xhci);
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  333  	if (usb3_hcd && HCC_MAX_PSA(xhci->hcc_params) >= 4)
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  334  		usb3_hcd->can_do_streams = 1;
-5de4e1ea9a731c William wu                2017-01-17  335  
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  336  	if (xhci->shared_hcd) {
-4ac53087d6d48e Roger Quadros             2015-05-29  337  		ret = usb_add_hcd(xhci->shared_hcd, irq, IRQF_SHARED);
-4ac53087d6d48e Roger Quadros             2015-05-29  338  		if (ret)
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  339  			goto put_usb3_hcd;
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  340  	}
-4ac53087d6d48e Roger Quadros             2015-05-29  341  
-c70a1529b29cb1 Andrew Bresticker         2017-04-07  342  	device_enable_async_suspend(&pdev->dev);
-b0c69b4bace370 Baolin Wang               2017-04-19  343  	pm_runtime_put_noidle(&pdev->dev);
-b0c69b4bace370 Baolin Wang               2017-04-19  344  
-b0c69b4bace370 Baolin Wang               2017-04-19  345  	/*
-b0c69b4bace370 Baolin Wang               2017-04-19  346  	 * Prevent runtime pm from being on as default, users should enable
-b0c69b4bace370 Baolin Wang               2017-04-19  347  	 * runtime pm using power/control in sysfs.
-b0c69b4bace370 Baolin Wang               2017-04-19  348  	 */
-b0c69b4bace370 Baolin Wang               2017-04-19  349  	pm_runtime_forbid(&pdev->dev);
-c70a1529b29cb1 Andrew Bresticker         2017-04-07  350  
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  351  	return 0;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  352  
-4ac53087d6d48e Roger Quadros             2015-05-29  353  
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  354  put_usb3_hcd:
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  355  	usb_put_hcd(xhci->shared_hcd);
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  356  
-4ac53087d6d48e Roger Quadros             2015-05-29  357  dealloc_usb2_hcd:
-4ac53087d6d48e Roger Quadros             2015-05-29  358  	usb_remove_hcd(hcd);
-4ac53087d6d48e Roger Quadros             2015-05-29  359  
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  360  disable_usb_phy:
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  361  	usb_phy_shutdown(hcd->usb_phy);
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  362  
-4718c177405112 Gregory CLEMENT           2014-05-15  363  disable_clk:
-08048c04cc6f75 Chunfeng Yun              2019-04-17  364  	clk_disable_unprepare(xhci->clk);
-4718c177405112 Gregory CLEMENT           2014-05-15  365  
-3ae2da7b28b393 Gregory CLEMENT           2018-04-20  366  disable_reg_clk:
-08048c04cc6f75 Chunfeng Yun              2019-04-17  367  	clk_disable_unprepare(xhci->reg_clk);
-3ae2da7b28b393 Gregory CLEMENT           2018-04-20  368  
-224eb5311d6a8c Biju Das                  2023-01-21  369  err_reset:
-224eb5311d6a8c Biju Das                  2023-01-21  370  	reset_control_assert(xhci->reset);
-224eb5311d6a8c Biju Das                  2023-01-21  371  
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  372  put_hcd:
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  373  	usb_put_hcd(hcd);
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  374  
-b0c69b4bace370 Baolin Wang               2017-04-19  375  disable_runtime:
-b0c69b4bace370 Baolin Wang               2017-04-19  376  	pm_runtime_put_noidle(&pdev->dev);
-b0c69b4bace370 Baolin Wang               2017-04-19  377  	pm_runtime_disable(&pdev->dev);
-b0c69b4bace370 Baolin Wang               2017-04-19  378  
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  379  	return ret;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  380  }
+  1626	
+> 1627	void update_pbha_perf_only_bit(const u8 *bits, int cnt)
+  1628	{
+  1629		u8 val;
+  1630		int i;
+  1631	
+  1632		/* any listed value is usable at stage 1 */
+  1633		for (i = 0 ; i < cnt; i++) {
+  1634			val = bits[i];
+  1635			if (val > 0xf)
+  1636				continue;
+  1637	
+  1638			pbha_stage1_enable_bits |= val;
+  1639			set_bit(val, &arm64_pbha_perf_only_values);
+  1640		}
+  1641	}
+  1642	
+  1643	static bool plat_can_use_pbha_stage1(const struct arm64_cpu_capabilities *cap,
+  1644					     int scope)
+  1645	{
+  1646		u8 val;
+  1647		struct device_node *cpus;
+  1648		const u8 *perf_only_vals;
+  1649		int num_perf_only_vals, i;
+  1650	
+  1651		if (!has_cpuid_feature(cap, scope))
+  1652			return false;
+  1653	
+  1654		/*
+  1655		 * Calls with scope == SCOPE_LOCAL_CPU need only testing whether this
+  1656		 * cpu has the feature. A later 'system' scope call will check for a
+  1657		 * firmware description.
+  1658		 */
+  1659		if (scope == SCOPE_LOCAL_CPU)
+  1660			return true;
+  1661	
+  1662		spin_lock(&pbha_dt_lock);
+  1663		if (pbha_enabled)
+  1664			goto out_unlock;
+  1665	
+  1666		cpus = of_find_node_by_path("/cpus");
+  1667		if (!cpus)
+  1668			goto done;
+  1669	
+  1670		perf_only_vals = of_get_property(cpus, "arm,pbha-performance-only",
+  1671						 &num_perf_only_vals);
+  1672		if (!perf_only_vals)
+  1673			goto done;
+  1674	
+  1675		update_pbha_perf_only_bit(perf_only_vals, num_perf_only_vals);
+  1676	
+  1677		/*
+  1678		 * for stage2 the values are collapsed back to 4 bits that can only
+  1679		 * enable values in the arm64_pbha_perf_only_values mask.
+  1680		 */
+  1681		for (i = 0 ; i < num_perf_only_vals; i++) {
+  1682			val = perf_only_vals[i];
+  1683			if (val > 0xf)
+  1684				continue;
+  1685	
+  1686			stage2_test_pbha_value(val);
+  1687		}
+  1688	
+  1689	done:
+  1690		of_node_put(cpus);
+  1691		pbha_enabled = true;
+  1692	
+  1693	out_unlock:
+  1694		spin_unlock(&pbha_dt_lock);
+  1695		return !!pbha_stage1_enable_bits;
+  1696	}
+  1697	
+  1698	static void enable_pbha_inner(void)
+  1699	{
+  1700		u64 tcr;
+  1701	
+  1702		if (!pbha_stage1_enable_bits)
+  1703			return;
+  1704	
+  1705		tcr = read_sysreg(tcr_el1);
+  1706		tcr |= FIELD_PREP(TCR_HWU0nn_MASK, pbha_stage1_enable_bits);
+  1707		tcr |= FIELD_PREP(TCR_HWU1nn_MASK, pbha_stage1_enable_bits);
+  1708		tcr |= FIELD_PREP(TCR_HPD0, 1) | FIELD_PREP(TCR_HPD1, 1);
+  1709	
+  1710		write_sysreg(tcr, tcr_el1);
+  1711		isb();
+  1712		local_flush_tlb_all();
+  1713	}
+  1714	
+  1715	static void cpu_enable_pbha(struct arm64_cpu_capabilities const *cap)
+  1716	{
+  1717		enable_pbha_inner();
+  1718	}
+  1719	
+  1720	static inline bool cpu_has_pbha(void)
+  1721	{
+  1722		u64 mmfr1 = read_cpuid(ID_AA64MMFR1_EL1);
+  1723		int val = cpuid_feature_extract_unsigned_field(mmfr1,
+  1724							       ID_AA64MMFR1_HPD_SHIFT);
+  1725	
+  1726		return val == 2;
+  1727	}
+  1728	
+> 1729	void __init early_pbha_init(void)
+  1730	{
+  1731		void *fdt;
+  1732		int node;
+  1733		const u8 *prop;
+  1734		int size;
+  1735	
+  1736		spin_lock(&pbha_dt_lock);
+  1737	
+  1738		fdt = get_early_fdt_ptr();
+  1739		if (!fdt)
+  1740			goto unlock;
+  1741	
+  1742		node = fdt_path_offset(fdt, "/cpus");
+  1743		if (node < 0)
+  1744			goto unlock;
+  1745	
+  1746		prop = fdt_getprop(fdt, node, "arm,pbha-performance-only", &size);
+  1747		if (!prop)
+  1748			goto unlock;
+  1749	
+  1750		if (!cpu_has_pbha())
+  1751			goto unlock;
+  1752	
+  1753		update_pbha_perf_only_bit(prop, size);
+  1754		enable_pbha_inner();
+  1755	
+  1756		pbha_enabled = true;
+  1757	
+  1758	unlock:
+  1759		spin_unlock(&pbha_dt_lock);
+  1760	}
+  1761	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
