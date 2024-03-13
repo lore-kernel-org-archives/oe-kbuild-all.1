@@ -1,117 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABDC2F35
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 00:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4849A8BE0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 02:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710289170; cv=none; b=CGd6P1AjL3LBc37k18+jsP27bv11/I0b0oP/seSAffHTZA4F6woJ8MFBfXjYuA5HFv/cHFE20SRrwMwJcDNXA5QPxuK1NgYmjJTJxFRQoaZ0GD7w1HUjPAbJw8wv6UVo+Ie8Gjbgf72MuFL0BR3sVaIj+CeQMeedpFTxCKM3gKM=
+	t=1710295895; cv=none; b=PXRovYLqARM+vbC1TafQRaM6eNT21nHfTpqjCsoLWQQeQS2IsAN6P0PfZ7fd1uTmrItusMsgjZVIb9K6lFBbXTLkhSyBYduB/xw2Rq9ViH21VjQweAgTUpeSEvO3DiYprTsx5VcGXy6im1XzM1knLbZeb/tM7ZE79iPxwKP8im4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710289170; c=relaxed/simple;
-	bh=DJpWZ1vlGdy0NJA2FqiyUz2X2xIpFjkMC95MRL1g8wY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YbN8mQegM/xf9vGZ5NzHfBiiKAbx0fVs/kxzO/O0iVrBHTx80N753NhiSD+VpDHO83oU7w2+jEera/wISz0V1daW2I6dJLNpoAM28H1lpk8wY6llkjWS7uLs8PtMJs4EXKt69PltK2nWTpYoIJVbkkaJFlLJiaZjNMnS9yAefBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XlcKseUT; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1710295895; c=relaxed/simple;
+	bh=yeMxH9/+1pYhnfGtNPwYOAqIqg475ryfI5/WikcAPiE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mYbpYPI/A9kRDpkCObpB93p7zGWKoI1PzreRIORsf219KBvMIFXR12HJz6dnbpEGw/lj3Od9irIjOc1+orami31veg9AEtTWs/HQuV7K65yFwWiTq6JkK+8qjle2sH+uo2h7q0JcdCZg9C5OHsJLkF95baQXhdYcSVrRYt6S7M0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXB+RAWr; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlcKseUT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXB+RAWr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710289169; x=1741825169;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=DJpWZ1vlGdy0NJA2FqiyUz2X2xIpFjkMC95MRL1g8wY=;
-  b=XlcKseUTQo6AHa3cLIn9axvmH2JHhI00SP4uW+SF095UITG2C1MQg/al
-   SWtAN9NxHXXR2rrvSBaWWy5qdwZMcZpD+ZP8CXuwadQbmWvRC6jqRiRwT
-   BWsY8Gbu8f8lBln1DVqlLBzE2moEO3iRZj8o9KrWAwu/q7r3SfyxNtYVx
-   V/57xj6yBrqG3CWROWGFqT2QGfsjU/UvKb9pkl9ibUKntiZGq7cj5sIq/
-   YjkENfu/rUavCBso+LtD6Dk1yPcnxwZc0hQsnYzFz0lnK/6KOkPGMggP6
-   HECM/p0s2REkFYV6d62OlpfRC4K5qLkhpL0C/33IrZG6tP9WkSJuS5lkH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4899296"
+  t=1710295893; x=1741831893;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yeMxH9/+1pYhnfGtNPwYOAqIqg475ryfI5/WikcAPiE=;
+  b=QXB+RAWrzqK3MLaKfmQPsx49NlTxo7YzA39KHwkHYbJ0Q0G9KYcZXID1
+   tG+ZvjjE6f+38XqcWg8hm0omVeiMnwkmepy5VERO8a9iD0qA0quhc9p7p
+   C+cDIh8kOGSWsXSV2VCg41lhCOeZCrty53GdruTWjGjm0wRLIWSTi8R4O
+   +2msiZDIy8NzNE+Aj//7Sizd/nRjBfXX0dQfXEUCoh8j2OoIyykKThD1h
+   aHoa8EJvpw9JYj45I2Tp9pawCz3NSA6JucZx1Ov5/MTjzRY8nF437Ffbc
+   7hFpbadeJWQfzdx5DNi5hYgq8LxAra3TahoqsSyy0rfDNQd8ExiyApLaM
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="16439458"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="4899296"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 17:19:28 -0700
+   d="scan'208";a="16439458"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 19:11:32 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="11652238"
+   d="scan'208";a="49182173"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Mar 2024 17:19:26 -0700
+  by orviesa001.jf.intel.com with ESMTP; 12 Mar 2024 19:11:30 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkCL6-000Bpb-1n;
-	Wed, 13 Mar 2024 00:19:24 +0000
-Date: Wed, 13 Mar 2024 08:18:30 +0800
+	id 1rkE5X-000BuV-1U;
+	Wed, 13 Mar 2024 02:11:27 +0000
+Date: Wed, 13 Mar 2024 10:11:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Kalle Valo <kvalo@kernel.org>, linux-wireless@vger.kernel.org
-Subject: [wireless-next:main 6/6] drivers/ssb/main.c:1148:2: error: label at
- end of compound statement
-Message-ID: <202403130813.Dz0M53DR-lkp@intel.com>
+To: Niklas Cassel <cassel@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Shradha Todi <shradha.t@samsung.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v2 5/9] PCI: endpoint: pci-epf-test: Simplify
+ pci_epf_test_set_bar() loop
+Message-ID: <202403131004.Z9epuI06-lkp@intel.com>
+References: <20240312105152.3457899-6-cassel@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240312105152.3457899-6-cassel@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-head:   e27b02e23a701e5761f1d6028643e1203a1c56de
-commit: e27b02e23a701e5761f1d6028643e1203a1c56de [6/6] ssb: drop use of non-existing CONFIG_SSB_DEBUG symbol
-config: i386-buildonly-randconfig-006-20240313 (https://download.01.org/0day-ci/archive/20240313/202403130813.Dz0M53DR-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403130813.Dz0M53DR-lkp@intel.com/reproduce)
+Hi Niklas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on next-20240312]
+[cannot apply to pci/for-linus mani-mhi/mhi-next linus/master v6.8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Cassel/PCI-endpoint-pci-epf-test-Fix-incorrect-loop-increment/20240312-185512
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20240312105152.3457899-6-cassel%40kernel.org
+patch subject: [PATCH v2 5/9] PCI: endpoint: pci-epf-test: Simplify pci_epf_test_set_bar() loop
+config: arc-randconfig-001-20240313 (https://download.01.org/0day-ci/archive/20240313/202403131004.Z9epuI06-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403131004.Z9epuI06-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403130813.Dz0M53DR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403131004.Z9epuI06-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/ssb/main.c: In function 'ssb_dma_translation':
->> drivers/ssb/main.c:1148:2: error: label at end of compound statement
-    1148 |  default:
-         |  ^~~~~~~
+   drivers/pci/endpoint/functions/pci-epf-test.c: In function 'pci_epf_test_set_bar':
+>> drivers/pci/endpoint/functions/pci-epf-test.c:717:40: warning: variable 'epc_features' set but not used [-Wunused-but-set-variable]
+     717 |         const struct pci_epc_features *epc_features;
+         |                                        ^~~~~~~~~~~~
 
 
-vim +1148 drivers/ssb/main.c
+vim +/epc_features +717 drivers/pci/endpoint/functions/pci-epf-test.c
 
-04023afcce2eaf Rafał Miłecki  2011-08-14  1132  
-61e115a56d1aaf Michael Buesch 2007-09-18  1133  u32 ssb_dma_translation(struct ssb_device *dev)
-61e115a56d1aaf Michael Buesch 2007-09-18  1134  {
-61e115a56d1aaf Michael Buesch 2007-09-18  1135  	switch (dev->bus->bustype) {
-61e115a56d1aaf Michael Buesch 2007-09-18  1136  	case SSB_BUSTYPE_SSB:
-61e115a56d1aaf Michael Buesch 2007-09-18  1137  		return 0;
-61e115a56d1aaf Michael Buesch 2007-09-18  1138  	case SSB_BUSTYPE_PCI:
-04023afcce2eaf Rafał Miłecki  2011-08-14  1139  		if (pci_is_pcie(dev->bus->host_pci) &&
-04023afcce2eaf Rafał Miłecki  2011-08-14  1140  		    ssb_read32(dev, SSB_TMSHIGH) & SSB_TMSHIGH_DMA64) {
-04023afcce2eaf Rafał Miłecki  2011-08-14  1141  			return SSB_PCIE_DMA_H32;
-04023afcce2eaf Rafał Miłecki  2011-08-14  1142  		} else {
-04023afcce2eaf Rafał Miłecki  2011-08-14  1143  			if (ssb_dma_translation_special_bit(dev))
-a9770a815d280d Rafał Miłecki  2011-07-20  1144  				return SSB_PCIE_DMA_H32;
-a9770a815d280d Rafał Miłecki  2011-07-20  1145  			else
-61e115a56d1aaf Michael Buesch 2007-09-18  1146  				return SSB_PCI_DMA;
-04023afcce2eaf Rafał Miłecki  2011-08-14  1147  		}
-f225763a7d6c92 Michael Buesch 2008-06-20 @1148  	default:
-61e115a56d1aaf Michael Buesch 2007-09-18  1149  	}
-61e115a56d1aaf Michael Buesch 2007-09-18  1150  	return 0;
-61e115a56d1aaf Michael Buesch 2007-09-18  1151  }
-61e115a56d1aaf Michael Buesch 2007-09-18  1152  EXPORT_SYMBOL(ssb_dma_translation);
-61e115a56d1aaf Michael Buesch 2007-09-18  1153  
-
-:::::: The code at line 1148 was first introduced by commit
-:::::: f225763a7d6c92c4932dbd528437997078496fcc ssb, b43, b43legacy, b44: Rewrite SSB DMA API
-
-:::::: TO: Michael Buesch <mb@bu3sch.de>
-:::::: CC: John W. Linville <linville@tuxdriver.com>
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  709  
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  710  static int pci_epf_test_set_bar(struct pci_epf *epf)
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  711  {
+2287a91bfd63cb Niklas Cassel          2024-03-12  712  	int bar, ret;
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  713  	struct pci_epc *epc = epf->epc;
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  714  	struct device *dev = &epf->dev;
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  715  	struct pci_epf_test *epf_test = epf_get_drvdata(epf);
+3235b994950d84 Kishon Vijay Abraham I 2017-08-18  716  	enum pci_barno test_reg_bar = epf_test->test_reg_bar;
+2c04c5b8eef797 Kishon Vijay Abraham I 2019-01-14 @717  	const struct pci_epc_features *epc_features;
+2c04c5b8eef797 Kishon Vijay Abraham I 2019-01-14  718  
+2c04c5b8eef797 Kishon Vijay Abraham I 2019-01-14  719  	epc_features = epf_test->epc_features;
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  720  
+2287a91bfd63cb Niklas Cassel          2024-03-12  721  	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
+2287a91bfd63cb Niklas Cassel          2024-03-12  722  		if (!epf_test->reg[bar])
+2c04c5b8eef797 Kishon Vijay Abraham I 2019-01-14  723  			continue;
+2c04c5b8eef797 Kishon Vijay Abraham I 2019-01-14  724  
+53fd3cbe5e9d79 Kishon Vijay Abraham I 2021-08-19  725  		ret = pci_epc_set_bar(epc, epf->func_no, epf->vfunc_no,
+2287a91bfd63cb Niklas Cassel          2024-03-12  726  				      &epf->bar[bar]);
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  727  		if (ret) {
+63840ff5322373 Kishon Vijay Abraham I 2021-02-02  728  			pci_epf_free_space(epf, epf_test->reg[bar], bar,
+63840ff5322373 Kishon Vijay Abraham I 2021-02-02  729  					   PRIMARY_INTERFACE);
+798c0441bec8c4 Gustavo Pimentel       2018-05-14  730  			dev_err(dev, "Failed to set BAR%d\n", bar);
+3235b994950d84 Kishon Vijay Abraham I 2017-08-18  731  			if (bar == test_reg_bar)
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  732  				return ret;
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  733  		}
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  734  	}
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  735  
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  736  	return 0;
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  737  }
+349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  738  
 
 -- 
 0-DAY CI Kernel Test Service
