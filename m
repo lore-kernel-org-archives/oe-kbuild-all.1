@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD53182;
-	Wed, 13 Mar 2024 00:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABDC2F35
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 00:19:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710288510; cv=none; b=GB7heJy0DGDlID52wdhdd8+Ni1ljwd1pfBsaf5tHk3nT2VMwFCb37rmNZNAjsvoVfyyYClrtZyUmb5sHO+YuhkVNuEczh8buRd445+vLk/tyJ9ueQLLW1lXa1pBIusBwKunzNSVXwu2x2meck8hHnNjYUXiSRvFYv6Vbo/4dEoU=
+	t=1710289170; cv=none; b=CGd6P1AjL3LBc37k18+jsP27bv11/I0b0oP/seSAffHTZA4F6woJ8MFBfXjYuA5HFv/cHFE20SRrwMwJcDNXA5QPxuK1NgYmjJTJxFRQoaZ0GD7w1HUjPAbJw8wv6UVo+Ie8Gjbgf72MuFL0BR3sVaIj+CeQMeedpFTxCKM3gKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710288510; c=relaxed/simple;
-	bh=I0JK+EDHi2xDG0YYuYPBZvn/RnpkHpBlYYtfBSfbK9U=;
+	s=arc-20240116; t=1710289170; c=relaxed/simple;
+	bh=DJpWZ1vlGdy0NJA2FqiyUz2X2xIpFjkMC95MRL1g8wY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rHOqZASGVbzi50cNhdtTXlVg1fZmp/GKXDxyPVtSA7JWPO2Cl/5aXoC9eWl+M0r+od8JfvNkjUDe9vWX7LbRN6zJ5zCwW+nmUXyiXDgRXcd2kA6dBDTfElcnJ3nqcNc+QPUMwFZFy7TYpQ1pvjz5uxqreEOImr/EOdWoIFqoMKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jHjN/IAA; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=YbN8mQegM/xf9vGZ5NzHfBiiKAbx0fVs/kxzO/O0iVrBHTx80N753NhiSD+VpDHO83oU7w2+jEera/wISz0V1daW2I6dJLNpoAM28H1lpk8wY6llkjWS7uLs8PtMJs4EXKt69PltK2nWTpYoIJVbkkaJFlLJiaZjNMnS9yAefBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XlcKseUT; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jHjN/IAA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlcKseUT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710288509; x=1741824509;
+  t=1710289169; x=1741825169;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=I0JK+EDHi2xDG0YYuYPBZvn/RnpkHpBlYYtfBSfbK9U=;
-  b=jHjN/IAAx/91L50DWUPX8c6t7shZ0EIylzWBW9VnbDaHt7UGEh8QqksL
-   hwJlFT7McSZb9+dD4LUXD/NB5YBfjYmkXbryxo12eWMUn96nVCL197zmS
-   Dj+DPhGKgjvAegFsUmYsC4VcG4YAQ6+P6m13TgHhiAMSkb/+qIB1O831J
-   FYp5Tr0dVmJERkqGtG+GRbc82OZ3QtYOYdOgRZfRuhJK434jFDR4ZeRgd
-   tnEllzjh+57CDZBBIDwseHOZkRyfc7iDEnxsrGVYX2WENO+G62yMTQvzH
-   yKUmfnmzznMmxL2pdcyVom5w7sK2xAS1c/U+XrL+MHxOpjG00/IB4+xej
+  bh=DJpWZ1vlGdy0NJA2FqiyUz2X2xIpFjkMC95MRL1g8wY=;
+  b=XlcKseUTQo6AHa3cLIn9axvmH2JHhI00SP4uW+SF095UITG2C1MQg/al
+   SWtAN9NxHXXR2rrvSBaWWy5qdwZMcZpD+ZP8CXuwadQbmWvRC6jqRiRwT
+   BWsY8Gbu8f8lBln1DVqlLBzE2moEO3iRZj8o9KrWAwu/q7r3SfyxNtYVx
+   V/57xj6yBrqG3CWROWGFqT2QGfsjU/UvKb9pkl9ibUKntiZGq7cj5sIq/
+   YjkENfu/rUavCBso+LtD6Dk1yPcnxwZc0hQsnYzFz0lnK/6KOkPGMggP6
+   HECM/p0s2REkFYV6d62OlpfRC4K5qLkhpL0C/33IrZG6tP9WkSJuS5lkH
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="16429410"
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4899296"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="16429410"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 17:08:28 -0700
+   d="scan'208";a="4899296"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 17:19:28 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="16444679"
+   d="scan'208";a="11652238"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 12 Mar 2024 17:08:26 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 12 Mar 2024 17:19:26 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkCAR-000BoT-24;
-	Wed, 13 Mar 2024 00:08:23 +0000
-Date: Wed, 13 Mar 2024 08:08:06 +0800
+	id 1rkCL6-000Bpb-1n;
+	Wed, 13 Mar 2024 00:19:24 +0000
+Date: Wed, 13 Mar 2024 08:18:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: Randy Dunlap <rdunlap@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Cc: oe-kbuild-all@lists.linux.dev,
 	Johannes Berg <johannes@sipsolutions.net>,
 	Kalle Valo <kvalo@kernel.org>, linux-wireless@vger.kernel.org
-Subject: [wireless-next:main 6/6] drivers/ssb/main.c:1148:10: error: label at
- end of compound statement: expected statement
-Message-ID: <202403130705.xI2y4Nym-lkp@intel.com>
+Subject: [wireless-next:main 6/6] drivers/ssb/main.c:1148:2: error: label at
+ end of compound statement
+Message-ID: <202403130813.Dz0M53DR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,22 +65,21 @@ Content-Transfer-Encoding: 8bit
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
 head:   e27b02e23a701e5761f1d6028643e1203a1c56de
 commit: e27b02e23a701e5761f1d6028643e1203a1c56de [6/6] ssb: drop use of non-existing CONFIG_SSB_DEBUG symbol
-config: arm-randconfig-004-20240313 (https://download.01.org/0day-ci/archive/20240313/202403130705.xI2y4Nym-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403130705.xI2y4Nym-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-006-20240313 (https://download.01.org/0day-ci/archive/20240313/202403130813.Dz0M53DR-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403130813.Dz0M53DR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403130705.xI2y4Nym-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403130813.Dz0M53DR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/ssb/main.c:1148:10: error: label at end of compound statement: expected statement
-           default:
-                   ^
-                    ;
-   1 error generated.
+   drivers/ssb/main.c: In function 'ssb_dma_translation':
+>> drivers/ssb/main.c:1148:2: error: label at end of compound statement
+    1148 |  default:
+         |  ^~~~~~~
 
 
 vim +1148 drivers/ssb/main.c
