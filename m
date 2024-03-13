@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB38E481DB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 16:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2D018F36D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 16:50:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710347339; cv=none; b=RDHsh8YI1uDg58/VP8A7aBOX/KfqHzcI6teVhKZFUsCsnqBY33WkI4iyKUBKBEvXSDNgtr1xOiAJTBMQvdcVidROpQGVZ1OdO2vFgfb6Ezp3M73CRoLa2SCQkwSr8g1u2qUlfHHdOcVidBpVcBDyEvzPLqUZOdeva5WHbADX8o8=
+	t=1710348660; cv=none; b=OvxlMq6uHcAJSSCgElaOtsjKqY5oVHKlNkxvyAmHpCYjxTwh+511yCPyqyvFfJNcIJeGfW6qRSLAZlkiO6ASsX0+dUMnGgfkO6Slaj415ehBUPpvHPYEvoE6QRFgxeoYdhLkKdWpHpbq1yP+s6w8Vb5DzszzIkgKkKLZPGjgd18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710347339; c=relaxed/simple;
-	bh=yEDRPg82EzeLrfTavprVBbXHv2EZPPaQU60LUy/z7xU=;
+	s=arc-20240116; t=1710348660; c=relaxed/simple;
+	bh=e9O79voelSr6oj/Cf19ECfUfgx1vqGNK252holjMdWE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eQmIk5z2mzHufo1tsHawyvQILqg1/yQaD0AJV+o75LWRlWfBvNWPL/8K1j6ROZtbBaQBOExF396Tg7lPljGBCydhW0IQWKQQ56q0KElfeZrH0hBTsR3hDqJEfON8TjlayNeKh4I+cfSikJ8oz80aZt8KJx/+FMFw8Ae2XdY7b48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m6DkJ9PV; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=jNsOdnJgfk24dn+mCE7NyLkyxCmjz61QTNlh1UYBpXpaieqFqqTQDPhc9VXnIFupIzrJzfWn85UDjxRfeZXztvj/Ju2ifXge7v3k2nMOUdsoQicxZQXKFQ/DZX9qasJaGKhS4NUq+PXAehgJZopVwV0kDgwgYZmpPUmKdqsYKpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V9tepJOo; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m6DkJ9PV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V9tepJOo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710347337; x=1741883337;
+  t=1710348659; x=1741884659;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yEDRPg82EzeLrfTavprVBbXHv2EZPPaQU60LUy/z7xU=;
-  b=m6DkJ9PVD2kDjofPRKudRhHWTdUMghH2eWwyHZfax6I8bvZ2Hapez5x7
-   +oyF9CEcubG8aUd7kc/O/Lkt8lnFMKUx/uoOxBF2UlCzPLuI1ZY+ns73X
-   3fv4NrmiN8etSyIO7Ytzwv98nSIXr4qLB3WYk+2jlAerG0BDV41YWj2BU
-   tKanrroVOGAzj2HX0Xxapb0uuWjnhWsM98oJlVKt2bIpWwjiEmBtzkhm+
-   jrwDc6Paq2UZEGxdjeDW63HfM9+5jDMH+YR81vi0jvkqDB555L52W4ZBL
-   Mrz8zh3KLLkqS5MrO7BpLSGOI0clr+jT4X9InTQ/FN+uqbInAihMjncy2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="27602918"
+  bh=e9O79voelSr6oj/Cf19ECfUfgx1vqGNK252holjMdWE=;
+  b=V9tepJOo9GZ7J6rCtdNEuLPNDHaRClhtzo8hPyArupEwKB+afN3rRh/n
+   Qcd7PyoB3nSuVtnj5V0OakCYJavvMylgj+Qlcb+DoJ9JQPaq1eIkUBEue
+   wxiYkBhL3QjXTocHBSACLnfmZrfXmn+Qu/Cg1kenyXzjcrnm/U+X7b66U
+   HK38GnfcN9uY5ENjK5dyjr8MNZCu0X51RkrBJe1gv0ra+dXHPF8bfQ7KO
+   ixccbZLHf6si0gPpnlGOPn64DNULfCKm4adosP5pctLb7YFptFTPTRCsT
+   guT2KP5LfGTnFAgY515ru+RWorqL3E1uzUMOgOSJJBF8GKtw/WyPHubCz
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="8903937"
 X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="27602918"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 09:28:56 -0700
+   d="scan'208";a="8903937"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 09:49:57 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="16439739"
+   d="scan'208";a="35117384"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Mar 2024 09:28:54 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 13 Mar 2024 09:49:55 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkRTI-000CXf-1p;
-	Wed, 13 Mar 2024 16:28:52 +0000
-Date: Thu, 14 Mar 2024 00:28:31 +0800
+	id 1rkRnd-000CZV-1m;
+	Wed, 13 Mar 2024 16:49:53 +0000
+Date: Thu, 14 Mar 2024 00:48:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
+To: Linus Walleij <linus.walleij@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.8/prjc 294/437] kernel/sched/alt_core.c:4421:3: error: call
- to undeclared function 'hrtick_start'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202403140016.QSIVFfyX-lkp@intel.com>
+Subject: [arm-integrator:test 1/1] drivers/mtd/maps/physmap-core.c:527:39:
+ warning: format '%x' expects argument of type 'unsigned int', but argument 3
+ has type 'void *'
+Message-ID: <202403140017.bcnzO7ba-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,255 +59,355 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.8/prjc
-head:   8b12bef41c21a484fe111f5b19be0db54a6c03a5
-commit: 42f1330699031a5c9cda99c2fa0f5154a511f2aa [294/437] sched/alt: [Sync] 95c74abe404d io_uring: move to separate directory
-config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20240314/202403140016.QSIVFfyX-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403140016.QSIVFfyX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git test
+head:   0d7231b62906aa3562554714aa708ac0b452c0a5
+commit: 0d7231b62906aa3562554714aa708ac0b452c0a5 [1/1] CFI debug code
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240314/202403140017.bcnzO7ba-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403140017.bcnzO7ba-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403140016.QSIVFfyX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403140017.bcnzO7ba-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/alt_core.c:16:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from kernel/sched/alt_core.c:16:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from kernel/sched/alt_core.c:16:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   In file included from kernel/sched/alt_core.c:42:
-   In file included from kernel/sched/sched.h:9:
-   kernel/sched/alt_sched.h:481:14: warning: declaration of 'struct cpuidle_state' will not be visible outside of this function [-Wvisibility]
-                                     struct cpuidle_state *idle_state)
-                                            ^
-   kernel/sched/alt_core.c:578:14: error: call to undeclared function 'sched_clock_cpu'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           s64 delta = sched_clock_cpu(cpu_of(rq)) - rq->clock;
-                       ^
-   kernel/sched/alt_core.c:966:6: warning: no previous prototype for function 'resched_curr' [-Wmissing-prototypes]
-   void resched_curr(struct rq *rq)
-        ^
-   kernel/sched/alt_core.c:966:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void resched_curr(struct rq *rq)
-   ^
-   static 
-   kernel/sched/alt_core.c:989:6: warning: no previous prototype for function 'resched_cpu' [-Wmissing-prototypes]
-   void resched_cpu(int cpu)
-        ^
-   kernel/sched/alt_core.c:989:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void resched_cpu(int cpu)
-   ^
-   static 
-   kernel/sched/alt_core.c:3021:2: error: call to undeclared function 'rseq_migrate'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           rseq_migrate(p);
-           ^
-   kernel/sched/alt_core.c:3449:2: error: call to undeclared function 'rseq_preempt'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           rseq_preempt(prev);
-           ^
-   kernel/sched/alt_core.c:3894:2: error: call to undeclared function 'sched_clock_tick'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           sched_clock_tick();
-           ^
-   kernel/sched/alt_core.c:3894:2: note: did you mean 'scheduler_tick'?
-   kernel/sched/alt_core.c:3887:6: note: 'scheduler_tick' declared here
-   void scheduler_tick(void)
-        ^
->> kernel/sched/alt_core.c:4421:3: error: call to undeclared function 'hrtick_start'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   hrtick_start(rq, next->time_slice);
-                   ^
-   kernel/sched/alt_core.c:4421:3: note: did you mean 'hrtimer_start'?
-   include/linux/hrtimer.h:377:20: note: 'hrtimer_start' declared here
-   static inline void hrtimer_start(struct hrtimer *timer, ktime_t tim,
-                      ^
-   kernel/sched/alt_core.c:4440:2: error: call to undeclared function 'hrtick_start'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           hrtick_start(rq, next->time_slice);
-           ^
-   kernel/sched/alt_core.c:4558:21: error: use of undeclared identifier 'PF_FROZEN'
-                                   !(prev->flags & PF_FROZEN);
-                                                   ^
-   kernel/sched/alt_core.c:4674:6: error: call to undeclared function 'tsk_is_pi_blocked'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           if (tsk_is_pi_blocked(tsk))
-               ^
-   kernel/sched/alt_core.c:5357:3: error: call to undeclared function 'cpuset_read_lock'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   cpuset_read_lock();
-                   ^
-   kernel/sched/alt_core.c:5357:3: note: did you mean 'cpus_read_lock'?
-   include/linux/cpu.h:153:20: note: 'cpus_read_lock' declared here
-   static inline void cpus_read_lock(void) { }
-                      ^
-   kernel/sched/alt_core.c:5405:4: error: call to undeclared function 'cpuset_read_unlock'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           cpuset_read_unlock();
-                           ^
-   kernel/sched/alt_core.c:5437:3: error: call to undeclared function 'cpuset_read_unlock'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   cpuset_read_unlock();
-                   ^
-   kernel/sched/alt_core.c:5451:3: error: call to undeclared function 'cpuset_read_unlock'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   cpuset_read_unlock();
-                   ^
-   kernel/sched/alt_core.c:7238:13: warning: no previous prototype for function 'sched_init_smp' [-Wmissing-prototypes]
-   void __init sched_init_smp(void)
-               ^
-   kernel/sched/alt_core.c:7238:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init sched_init_smp(void)
-   ^
-   static 
-   kernel/sched/alt_core.c:7278:13: warning: no previous prototype for function 'sched_init' [-Wmissing-prototypes]
-   void __init sched_init(void)
-               ^
-   kernel/sched/alt_core.c:7278:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init sched_init(void)
-   ^
-   static 
-   kernel/sched/alt_core.c:7633:20: warning: no previous prototype for function 'sched_create_group' [-Wmissing-prototypes]
-   struct task_group *sched_create_group(struct task_group *parent)
-                      ^
-   kernel/sched/alt_core.c:7633:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct task_group *sched_create_group(struct task_group *parent)
-   ^
-   static 
-   kernel/sched/alt_core.c:7644:6: warning: no previous prototype for function 'sched_online_group' [-Wmissing-prototypes]
-   void sched_online_group(struct task_group *tg, struct task_group *parent)
-        ^
-   kernel/sched/alt_core.c:7644:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void sched_online_group(struct task_group *tg, struct task_group *parent)
-   ^
-   static 
-   kernel/sched/alt_core.c:7655:6: warning: no previous prototype for function 'sched_destroy_group' [-Wmissing-prototypes]
-   void sched_destroy_group(struct task_group *tg)
-        ^
-   kernel/sched/alt_core.c:7655:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void sched_destroy_group(struct task_group *tg)
-   ^
-   static 
-   kernel/sched/alt_core.c:7661:6: warning: no previous prototype for function 'sched_release_group' [-Wmissing-prototypes]
-   void sched_release_group(struct task_group *tg)
-        ^
-   kernel/sched/alt_core.c:7661:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void sched_release_group(struct task_group *tg)
-   ^
-   static 
-   kernel/sched/alt_core.c:7731:5: warning: no previous prototype for function 'sched_group_set_shares' [-Wmissing-prototypes]
-   int sched_group_set_shares(struct task_group *tg, unsigned long shares)
-       ^
-   kernel/sched/alt_core.c:7731:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int sched_group_set_shares(struct task_group *tg, unsigned long shares)
-   ^
-   static 
-   22 warnings and 12 errors generated.
+   In file included from include/linux/kernel.h:31,
+                    from drivers/mtd/chips/chipreg.c:7:
+   include/linux/mtd/map.h: In function 'inline_map_write':
+>> include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'void *' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   include/linux/mtd/map.h:413:9: note: in expansion of macro 'pr_info'
+     413 |         pr_info("%s map->virt=%08x\n", __func__, map->virt);
+         |         ^~~~~~~
+--
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from drivers/mtd/chips/cfi_probe.c:7:
+   include/linux/mtd/map.h: In function 'inline_map_write':
+>> include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'void *' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   include/linux/mtd/map.h:413:9: note: in expansion of macro 'pr_info'
+     413 |         pr_info("%s map->virt=%08x\n", __func__, map->virt);
+         |         ^~~~~~~
+   drivers/mtd/chips/cfi_probe.c: In function 'cfi_probe_chip':
+   include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'long unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   drivers/mtd/chips/cfi_probe.c:101:9: note: in expansion of macro 'pr_info'
+     101 |         pr_info("%s: base=%08x, size=%08x\n", __func__, base, map->size);
+         |         ^~~~~~~
+--
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from drivers/mtd/chips/cfi_util.c:10:
+   include/linux/mtd/map.h: In function 'inline_map_write':
+>> include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'void *' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   include/linux/mtd/map.h:413:9: note: in expansion of macro 'pr_info'
+     413 |         pr_info("%s map->virt=%08x\n", __func__, map->virt);
+         |         ^~~~~~~
+   drivers/mtd/chips/cfi_util.c: In function 'cfi_build_cmd_addr':
+>> include/linux/kern_levels.h:5:25: warning: format '%s' expects argument of type 'char *', but argument 2 has type 'uint32_t' {aka 'unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   drivers/mtd/chips/cfi_util.c:58:17: note: in expansion of macro 'pr_info'
+      58 |                 pr_info("%s: addr %08x | (type %08x >> 1) * interleave %08x\n",
+         |                 ^~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%x' expects a matching 'unsigned int' argument [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   drivers/mtd/chips/cfi_util.c:58:17: note: in expansion of macro 'pr_info'
+      58 |                 pr_info("%s: addr %08x | (type %08x >> 1) * interleave %08x\n",
+         |                 ^~~~~~~
+   drivers/mtd/chips/cfi_util.c: In function 'cfi_send_gen_cmd':
+>> include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'map_word' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   drivers/mtd/chips/cfi_util.c:222:9: note: in expansion of macro 'pr_info'
+     222 |         pr_info("%s: write %08x into %08x\n", __func__, val, addr);
+         |         ^~~~~~~
+--
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from drivers/mtd/maps/physmap-core.c:26:
+   include/linux/mtd/map.h: In function 'inline_map_write':
+>> include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'void *' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   include/linux/mtd/map.h:413:9: note: in expansion of macro 'pr_info'
+     413 |         pr_info("%s map->virt=%08x\n", __func__, map->virt);
+         |         ^~~~~~~
+   In file included from include/linux/device.h:15,
+                    from drivers/mtd/maps/physmap-core.c:31:
+   drivers/mtd/maps/physmap-core.c: In function 'physmap_flash_probe':
+>> drivers/mtd/maps/physmap-core.c:527:39: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'void *' [-Wformat=]
+     527 |                 dev_notice(&dev->dev, "remapped to %08x-%08x\n", info->maps[i].virt,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:148:62: note: in expansion of macro 'dev_fmt'
+     148 |         dev_printk_index_wrap(_dev_notice, KERN_NOTICE, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                              ^~~~~~~
+   drivers/mtd/maps/physmap-core.c:527:17: note: in expansion of macro 'dev_notice'
+     527 |                 dev_notice(&dev->dev, "remapped to %08x-%08x\n", info->maps[i].virt,
+         |                 ^~~~~~~~~~
+   drivers/mtd/maps/physmap-core.c:527:55: note: format string is defined here
+     527 |                 dev_notice(&dev->dev, "remapped to %08x-%08x\n", info->maps[i].virt,
+         |                                                    ~~~^
+         |                                                       |
+         |                                                       unsigned int
+         |                                                    %08p
+   drivers/mtd/maps/physmap-core.c:527:39: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     527 |                 dev_notice(&dev->dev, "remapped to %08x-%08x\n", info->maps[i].virt,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:148:62: note: in expansion of macro 'dev_fmt'
+     148 |         dev_printk_index_wrap(_dev_notice, KERN_NOTICE, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                              ^~~~~~~
+   drivers/mtd/maps/physmap-core.c:527:17: note: in expansion of macro 'dev_notice'
+     527 |                 dev_notice(&dev->dev, "remapped to %08x-%08x\n", info->maps[i].virt,
+         |                 ^~~~~~~~~~
+   drivers/mtd/maps/physmap-core.c:527:60: note: format string is defined here
+     527 |                 dev_notice(&dev->dev, "remapped to %08x-%08x\n", info->maps[i].virt,
+         |                                                         ~~~^
+         |                                                            |
+         |                                                            unsigned int
+         |                                                         %08p
 
 
-vim +/hrtick_start +4421 kernel/sched/alt_core.c
+vim +527 drivers/mtd/maps/physmap-core.c
 
-ed2223e92daaf9 Alfred Chen 2019-08-19  4399  
-ed2223e92daaf9 Alfred Chen 2019-08-19  4400  static inline struct task_struct *
-ed2223e92daaf9 Alfred Chen 2019-08-19  4401  choose_next_task(struct rq *rq, int cpu, struct task_struct *prev)
-ed2223e92daaf9 Alfred Chen 2019-08-19  4402  {
-ed2223e92daaf9 Alfred Chen 2019-08-19  4403  	struct task_struct *next;
-ed2223e92daaf9 Alfred Chen 2019-08-19  4404  
-ed2223e92daaf9 Alfred Chen 2019-08-19  4405  	if (unlikely(rq->skip)) {
-ed2223e92daaf9 Alfred Chen 2019-08-19  4406  		next = rq_runnable_task(rq);
-ed2223e92daaf9 Alfred Chen 2019-08-19  4407  		if (next == rq->idle) {
-ed2223e92daaf9 Alfred Chen 2019-08-19  4408  #ifdef	CONFIG_SMP
-ed2223e92daaf9 Alfred Chen 2019-08-19  4409  			if (!take_other_rq_tasks(rq, cpu)) {
-ed2223e92daaf9 Alfred Chen 2019-08-19  4410  #endif
-ed2223e92daaf9 Alfred Chen 2019-08-19  4411  				rq->skip = NULL;
-ed2223e92daaf9 Alfred Chen 2019-08-19  4412  				schedstat_inc(rq->sched_goidle);
-ed2223e92daaf9 Alfred Chen 2019-08-19  4413  				return next;
-ed2223e92daaf9 Alfred Chen 2019-08-19  4414  #ifdef	CONFIG_SMP
-ed2223e92daaf9 Alfred Chen 2019-08-19  4415  			}
-ed2223e92daaf9 Alfred Chen 2019-08-19  4416  			next = rq_runnable_task(rq);
-ed2223e92daaf9 Alfred Chen 2019-08-19  4417  #endif
-ed2223e92daaf9 Alfred Chen 2019-08-19  4418  		}
-ed2223e92daaf9 Alfred Chen 2019-08-19  4419  		rq->skip = NULL;
-ed2223e92daaf9 Alfred Chen 2019-08-19  4420  #ifdef CONFIG_HIGH_RES_TIMERS
-ed2223e92daaf9 Alfred Chen 2019-08-19 @4421  		hrtick_start(rq, next->time_slice);
-ed2223e92daaf9 Alfred Chen 2019-08-19  4422  #endif
-ed2223e92daaf9 Alfred Chen 2019-08-19  4423  		return next;
-ed2223e92daaf9 Alfred Chen 2019-08-19  4424  	}
-ed2223e92daaf9 Alfred Chen 2019-08-19  4425  
-ed2223e92daaf9 Alfred Chen 2019-08-19  4426  	next = sched_rq_first_task(rq);
-ed2223e92daaf9 Alfred Chen 2019-08-19  4427  	if (next == rq->idle) {
-ed2223e92daaf9 Alfred Chen 2019-08-19  4428  #ifdef	CONFIG_SMP
-ed2223e92daaf9 Alfred Chen 2019-08-19  4429  		if (!take_other_rq_tasks(rq, cpu)) {
-ed2223e92daaf9 Alfred Chen 2019-08-19  4430  #endif
-ed2223e92daaf9 Alfred Chen 2019-08-19  4431  			schedstat_inc(rq->sched_goidle);
-8a08641298e7a0 Alfred Chen 2020-08-09  4432  			/*printk(KERN_INFO "sched: choose_next_task(%d) idle %px\n", cpu, next);*/
-ed2223e92daaf9 Alfred Chen 2019-08-19  4433  			return next;
-ed2223e92daaf9 Alfred Chen 2019-08-19  4434  #ifdef	CONFIG_SMP
-ed2223e92daaf9 Alfred Chen 2019-08-19  4435  		}
-ed2223e92daaf9 Alfred Chen 2019-08-19  4436  		next = sched_rq_first_task(rq);
-ed2223e92daaf9 Alfred Chen 2019-08-19  4437  #endif
-ed2223e92daaf9 Alfred Chen 2019-08-19  4438  	}
-ed2223e92daaf9 Alfred Chen 2019-08-19  4439  #ifdef CONFIG_HIGH_RES_TIMERS
-ed2223e92daaf9 Alfred Chen 2019-08-19  4440  	hrtick_start(rq, next->time_slice);
-ed2223e92daaf9 Alfred Chen 2019-08-19  4441  #endif
-8a08641298e7a0 Alfred Chen 2020-08-09  4442  	/*printk(KERN_INFO "sched: choose_next_task(%d) next %px\n", cpu,
-8a08641298e7a0 Alfred Chen 2020-08-09  4443  	 * next);*/
-ed2223e92daaf9 Alfred Chen 2019-08-19  4444  	return next;
-ed2223e92daaf9 Alfred Chen 2019-08-19  4445  }
-ed2223e92daaf9 Alfred Chen 2019-08-19  4446  
-
-:::::: The code at line 4421 was first introduced by commit
-:::::: ed2223e92daaf9860b48206a01c6dde92f542ca6 Project C v5.7.5-r2
-
-:::::: TO: Alfred Chen <cchalpha@gmail.com>
-:::::: CC: Alfred Chen <cchalpha@gmail.com>
+   445	
+   446	static int physmap_flash_probe(struct platform_device *dev)
+   447	{
+   448		struct physmap_flash_info *info;
+   449		int err = 0;
+   450		int i;
+   451	
+   452		if (!dev->dev.of_node && !dev_get_platdata(&dev->dev))
+   453			return -EINVAL;
+   454	
+   455		info = devm_kzalloc(&dev->dev, sizeof(*info), GFP_KERNEL);
+   456		if (!info)
+   457			return -ENOMEM;
+   458	
+   459		while (platform_get_resource(dev, IORESOURCE_MEM, info->nmaps))
+   460			info->nmaps++;
+   461	
+   462		if (!info->nmaps)
+   463			return -ENODEV;
+   464	
+   465		info->maps = devm_kzalloc(&dev->dev,
+   466					  sizeof(*info->maps) * info->nmaps,
+   467					  GFP_KERNEL);
+   468		if (!info->maps)
+   469			return -ENOMEM;
+   470	
+   471		info->mtds = devm_kzalloc(&dev->dev,
+   472					  sizeof(*info->mtds) * info->nmaps,
+   473					  GFP_KERNEL);
+   474		if (!info->mtds)
+   475			return -ENOMEM;
+   476	
+   477		platform_set_drvdata(dev, info);
+   478	
+   479		info->gpios = devm_gpiod_get_array_optional(&dev->dev, "addr",
+   480							    GPIOD_OUT_LOW);
+   481		if (IS_ERR(info->gpios))
+   482			return PTR_ERR(info->gpios);
+   483	
+   484		if (info->gpios && info->nmaps > 1) {
+   485			dev_err(&dev->dev, "addr-gpios only supported for nmaps == 1\n");
+   486			return -EINVAL;
+   487		}
+   488	
+   489		pm_runtime_enable(&dev->dev);
+   490		pm_runtime_get_sync(&dev->dev);
+   491	
+   492		if (dev->dev.of_node) {
+   493			pr_info("%s: call physmap_flash_of_init()\n", __func__);
+   494			err = physmap_flash_of_init(dev);
+   495		} else
+   496			err = physmap_flash_pdata_init(dev);
+   497	
+   498		if (err) {
+   499			pm_runtime_put(&dev->dev);
+   500			pm_runtime_disable(&dev->dev);
+   501			return err;
+   502		}
+   503	
+   504		for (i = 0; i < info->nmaps; i++) {
+   505			struct resource *res;
+   506	
+   507			info->maps[i].virt = devm_platform_get_and_ioremap_resource(dev, i, &res);
+   508			if (IS_ERR(info->maps[i].virt)) {
+   509				err = PTR_ERR(info->maps[i].virt);
+   510				goto err_out;
+   511			}
+   512	
+   513			dev_notice(&dev->dev, "physmap platform flash device: %pR\n",
+   514				   res);
+   515	
+   516			if (!info->maps[i].name)
+   517				info->maps[i].name = dev_name(&dev->dev);
+   518	
+   519			if (!info->maps[i].phys)
+   520				info->maps[i].phys = res->start;
+   521	
+   522			info->win_order = get_bitmask_order(resource_size(res)) - 1;
+   523			info->maps[i].size = BIT(info->win_order +
+   524						 (info->gpios ?
+   525						  info->gpios->ndescs : 0));
+   526	
+ > 527			dev_notice(&dev->dev, "remapped to %08x-%08x\n", info->maps[i].virt,
+   528				   info->maps[i].virt + info->maps[i].size - 1);
+   529	
+   530			info->maps[i].map_priv_1 = (unsigned long)dev;
+   531	
+   532			if (info->gpios) {
+   533				pr_info("%s: gpios map init\n", __func__);
+   534				err = physmap_addr_gpios_map_init(&info->maps[i]);
+   535				if (err)
+   536					goto err_out;
+   537			}
+   538	
 
 -- 
 0-DAY CI Kernel Test Service
