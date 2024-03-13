@@ -1,138 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4849A8BE0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 02:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769A7BA5E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 02:22:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710295895; cv=none; b=PXRovYLqARM+vbC1TafQRaM6eNT21nHfTpqjCsoLWQQeQS2IsAN6P0PfZ7fd1uTmrItusMsgjZVIb9K6lFBbXTLkhSyBYduB/xw2Rq9ViH21VjQweAgTUpeSEvO3DiYprTsx5VcGXy6im1XzM1knLbZeb/tM7ZE79iPxwKP8im4=
+	t=1710296555; cv=none; b=WWuaZW21KaI094D4+6G2BX3KlT3MzXsucV07UyOHwsb0txEoXv+722/FY1eYeeARfOPp0GtoCHSEos/Js3HYsDAQxVVFh1X39iQ7/dHkyp5DEWtXxuRIPrr+OItM7P7aU50wRnU4VPaK5SVN+64sWU4eZ3rZ+q8sc/prU2kEe+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710295895; c=relaxed/simple;
-	bh=yeMxH9/+1pYhnfGtNPwYOAqIqg475ryfI5/WikcAPiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mYbpYPI/A9kRDpkCObpB93p7zGWKoI1PzreRIORsf219KBvMIFXR12HJz6dnbpEGw/lj3Od9irIjOc1+orami31veg9AEtTWs/HQuV7K65yFwWiTq6JkK+8qjle2sH+uo2h7q0JcdCZg9C5OHsJLkF95baQXhdYcSVrRYt6S7M0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXB+RAWr; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXB+RAWr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710295893; x=1741831893;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yeMxH9/+1pYhnfGtNPwYOAqIqg475ryfI5/WikcAPiE=;
-  b=QXB+RAWrzqK3MLaKfmQPsx49NlTxo7YzA39KHwkHYbJ0Q0G9KYcZXID1
-   tG+ZvjjE6f+38XqcWg8hm0omVeiMnwkmepy5VERO8a9iD0qA0quhc9p7p
-   C+cDIh8kOGSWsXSV2VCg41lhCOeZCrty53GdruTWjGjm0wRLIWSTi8R4O
-   +2msiZDIy8NzNE+Aj//7Sizd/nRjBfXX0dQfXEUCoh8j2OoIyykKThD1h
-   aHoa8EJvpw9JYj45I2Tp9pawCz3NSA6JucZx1Ov5/MTjzRY8nF437Ffbc
-   7hFpbadeJWQfzdx5DNi5hYgq8LxAra3TahoqsSyy0rfDNQd8ExiyApLaM
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="16439458"
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="16439458"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 19:11:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="49182173"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 12 Mar 2024 19:11:30 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rkE5X-000BuV-1U;
-	Wed, 13 Mar 2024 02:11:27 +0000
-Date: Wed, 13 Mar 2024 10:11:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Niklas Cassel <cassel@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Shradha Todi <shradha.t@samsung.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v2 5/9] PCI: endpoint: pci-epf-test: Simplify
- pci_epf_test_set_bar() loop
-Message-ID: <202403131004.Z9epuI06-lkp@intel.com>
-References: <20240312105152.3457899-6-cassel@kernel.org>
+	s=arc-20240116; t=1710296555; c=relaxed/simple;
+	bh=HxWnPd4EDKxqzl/N4z6qGCEoGNGUxJts3AUa+k3zarc=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=um5ghG3ehdtY1gduYRixYzGgftDa1H29gPeHkuMp4AYmidJmaaWuH8drdSxKYYf8ZusSFRUaVtpFOdKOQYfCxmhv1zmi8DN17kIttctrGCReoBFT3pzpU6yQNgQo4RTHME48BBxfgHmLWcVZKwkdgKuvmyXwoZ7onMyPBxYtjBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4TvZ684FShz4f3kny
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 10:22:24 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 47A5C1A01A7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 10:22:28 +0800 (CST)
+Received: from [10.174.178.55] (unknown [10.174.178.55])
+	by APP1 (Coremail) with SMTP id cCh0CgAn9g7gDfFlw48hGw--.4220S3;
+	Wed, 13 Mar 2024 10:22:25 +0800 (CST)
+Subject: Re: ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function
+ kallsyms_lookup_name: .text+0x90): relocation R_RISCV_PCREL_HI20 out of
+ range: -524416 is not in [-524288, 524287]; references kallsyms_seqs_of_names
+To: Yujie Liu <yujie.liu@intel.com>
+Cc: kernel test robot <lkp@intel.com>, Zhen Lei <thunder.leizhen@huawei.com>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Luis Chamberlain <mcgrof@kernel.org>
+References: <202402061302.HkByW9x0-lkp@intel.com>
+ <bd30f81c-9e6a-578e-d496-6b7f355a3b79@huaweicloud.com>
+ <efdec661-628f-2f6e-cd3e-c66a915d3aa2@huaweicloud.com>
+ <Ze/t4Ks0VfCBCXP0@yujie-X299>
+From: "Leizhen (ThunderTown)" <thunder.leizhen@huaweicloud.com>
+Message-ID: <c3cab829-7568-c1b7-bf59-6aa7646cb809@huaweicloud.com>
+Date: Wed, 13 Mar 2024 10:22:23 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240312105152.3457899-6-cassel@kernel.org>
-
-Hi Niklas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on next-20240312]
-[cannot apply to pci/for-linus mani-mhi/mhi-next linus/master v6.8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Cassel/PCI-endpoint-pci-epf-test-Fix-incorrect-loop-increment/20240312-185512
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240312105152.3457899-6-cassel%40kernel.org
-patch subject: [PATCH v2 5/9] PCI: endpoint: pci-epf-test: Simplify pci_epf_test_set_bar() loop
-config: arc-randconfig-001-20240313 (https://download.01.org/0day-ci/archive/20240313/202403131004.Z9epuI06-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403131004.Z9epuI06-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403131004.Z9epuI06-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/pci/endpoint/functions/pci-epf-test.c: In function 'pci_epf_test_set_bar':
->> drivers/pci/endpoint/functions/pci-epf-test.c:717:40: warning: variable 'epc_features' set but not used [-Wunused-but-set-variable]
-     717 |         const struct pci_epc_features *epc_features;
-         |                                        ^~~~~~~~~~~~
+In-Reply-To: <Ze/t4Ks0VfCBCXP0@yujie-X299>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:cCh0CgAn9g7gDfFlw48hGw--.4220S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxtF1ruw4Uuw4ftFyktw15twb_yoW7GFWDpr
+	4kJayqyF4kJr1avwnrtw4Y9FW3tw4kJr4fWa4DKr1UArZ0vr1vvwn2q3y5Cr9xCrn7tw10
+	vwsaqFy2kFyUAaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUyKb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0E
+	wIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0
+	I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
+	k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY
+	1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUrR6zUUUUU
+X-CM-SenderInfo: hwkx0vthuozvpl2kv046kxt4xhlfz01xgou0bp/
 
 
-vim +/epc_features +717 drivers/pci/endpoint/functions/pci-epf-test.c
 
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  709  
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  710  static int pci_epf_test_set_bar(struct pci_epf *epf)
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  711  {
-2287a91bfd63cb Niklas Cassel          2024-03-12  712  	int bar, ret;
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  713  	struct pci_epc *epc = epf->epc;
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  714  	struct device *dev = &epf->dev;
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  715  	struct pci_epf_test *epf_test = epf_get_drvdata(epf);
-3235b994950d84 Kishon Vijay Abraham I 2017-08-18  716  	enum pci_barno test_reg_bar = epf_test->test_reg_bar;
-2c04c5b8eef797 Kishon Vijay Abraham I 2019-01-14 @717  	const struct pci_epc_features *epc_features;
-2c04c5b8eef797 Kishon Vijay Abraham I 2019-01-14  718  
-2c04c5b8eef797 Kishon Vijay Abraham I 2019-01-14  719  	epc_features = epf_test->epc_features;
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  720  
-2287a91bfd63cb Niklas Cassel          2024-03-12  721  	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
-2287a91bfd63cb Niklas Cassel          2024-03-12  722  		if (!epf_test->reg[bar])
-2c04c5b8eef797 Kishon Vijay Abraham I 2019-01-14  723  			continue;
-2c04c5b8eef797 Kishon Vijay Abraham I 2019-01-14  724  
-53fd3cbe5e9d79 Kishon Vijay Abraham I 2021-08-19  725  		ret = pci_epc_set_bar(epc, epf->func_no, epf->vfunc_no,
-2287a91bfd63cb Niklas Cassel          2024-03-12  726  				      &epf->bar[bar]);
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  727  		if (ret) {
-63840ff5322373 Kishon Vijay Abraham I 2021-02-02  728  			pci_epf_free_space(epf, epf_test->reg[bar], bar,
-63840ff5322373 Kishon Vijay Abraham I 2021-02-02  729  					   PRIMARY_INTERFACE);
-798c0441bec8c4 Gustavo Pimentel       2018-05-14  730  			dev_err(dev, "Failed to set BAR%d\n", bar);
-3235b994950d84 Kishon Vijay Abraham I 2017-08-18  731  			if (bar == test_reg_bar)
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  732  				return ret;
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  733  		}
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  734  	}
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  735  
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  736  	return 0;
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  737  }
-349e7a85b25fa6 Kishon Vijay Abraham I 2017-03-27  738  
+On 2024/3/12 13:53, Yujie Liu wrote:
+> Hi Zhen,
+> 
+> On Tue, Feb 20, 2024 at 08:27:15PM +0800, Leizhen (ThunderTown) wrote:
+>>> On 2024/2/6 13:19, kernel test robot wrote:
+>>>> Hi Zhen,
+>>>>
+>>>> FYI, the error/warning still remains.
+>>>
+>>> I'm trying to reproduce it. But I'm having a little trouble getting
+>>> the environment ready.
+>>
+>> Sorry, I tried but it was not reproduced. I made the following two changes
+>> to the steps in the 'reproduce' link:
+>> 1. Put linux and lkp-tests in two directories of the same level. Because:
+>>    $ git fetch --no-tags linus master
+>>    error: RPC failed; HTTP 403 curl 22 The requested URL returned error: 403
+>>    fatal: error reading section header 'acknowledgments'
+>> 2. Compiler was specified by following the prompts.
+>>    COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-17 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+>>    COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-17 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+>>    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 
+> Sorry for our late reply. We rechecked this case and noticed that this
+> issue can be reproduced by clang-15, but can't be reproduced by newer
+> version of clang. Not sure if this is a flaw in old version of LLVM
+> toolchain, just for your information.
+
+Well, I was able to reproduce it, too, after changing to clang-15.
+It should be a problem with the LLVM toolchain. After all, the Linux
+source code has not changed. The problem occurs in the linking phase
+of Linux, not in the execution phase of Linux. In addition to the few
+symbols I added that failed to relocate, the original ones also failed
+to relocate. I am not familiar with the source code of the compiler,
+so I cannot further analyze the root cause.
+
+Here is a brief description of how kallsyms works. This may help you
+understand the problem.
+1. Build Linux source code, generate a symbol table.
+2. Run tool kallsyms to read above symbol table, rearranges symbol
+   information as needed for lookup by name and lookup by address. Record
+   these new information into kallsyms_seqs_of_names[], etc. Insert the new
+   variables into a new C file.
+3. Rebuild Linux with the new C file. The problem is at this stage, for
+   those symbols added by tool kallsyms, the relocation fails.
+
+> 
+> $ COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-15 ~/lkp-tests/kbuild/make.cross W=1 ARCH=riscv
+> ..
+>   LD      .tmp_vmlinux.kallsyms1
+> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_name: .text+0x70): relocation R_RISCV_PCREL_HI20 out of range: -524416 is not in [-524288, 524287]; references kallsyms_num_syms
+>>>> referenced by kallsyms.c
+>>>> defined in vmlinux.a(kernel/kallsyms.o)
+> 
+> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_name: .text+0x90): relocation R_RISCV_PCREL_HI20 out of range: -524416 is not in [-524288, 524287]; references kallsyms_seqs_of_names
+>>>> referenced by kallsyms.c
+>>>> defined in vmlinux.a(kernel/kallsyms.o)
+> ..
+> 
+> Thanks,
+> Yujie
+> 
+>>
+>> Image is finally generated, so there should be no problem with the above steps being adjusted:
+>> $ ls build_dir/arch/riscv/boot/
+>> dts  Image  loader  loader.bin  loader.lds  loader.o
+>>
+>> By the way, all the symbols to be reported "relocation R_RISCV_PCREL_HI20 out of range" is
+>> generated by the tool kallsyms (scripts/kallsyms.c). So, it seems that the tool kallsyms
+>> have not been executed. And this error is not caused by my patches.
+>>
+>>>
+>>>>
+>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>>>> head:   54be6c6c5ae8e0d93a6c4641cb7528eb0b6ba478
+>>>> commit: 60443c88f3a89fd303a9e8c0e84895910675c316 kallsyms: Improve the performance of kallsyms_lookup_name()
+>>>> date:   1 year, 3 months ago
+>>>> config: riscv-randconfig-r064-20240120 (https://download.01.org/0day-ci/archive/20240206/202402061302.HkByW9x0-lkp@intel.com/config)
+>>>> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+>>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240206/202402061302.HkByW9x0-lkp@intel.com/reproduce)
+>>>>
+>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>>> the same patch/commit), kindly add following tags
+>>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202402061302.HkByW9x0-lkp@intel.com/
+>>>>
+>>>> All errors (new ones prefixed by >>):
+>>>>
+>>>>>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_name: .text+0x90): relocation R_RISCV_PCREL_HI20 out of range: -524416 is not in [-524288, 524287]; references kallsyms_seqs_of_names
+>>>>    >>> referenced by kallsyms.c
+>>>>    >>> defined in vmlinux.a(kernel/kallsyms.o)
+>>>>
+>>>
+> 
+> .
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+  Zhen Lei
+
