@@ -1,136 +1,102 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A36B51C49
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 19:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80702225AF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 20:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710360001; cv=none; b=Z12x0roErqzXpnqa2B5A8IpMTmHYvd9maM9glbfVSqpNSAgkZJGxhid8aRdKOJwSl5zHNLszgWtEg93uA2zXaKuRblnpfy7zffG+t9uAf8Ki9Q7HpeqqtK24Z41PGmbMhQdp4MUFrmQNk+1XBAmRsH1U1YsR/mxFaNdJFdIJDyk=
+	t=1710360006; cv=none; b=SFT1TOxwI4Dps++CV37Rc/9bRN0/Kb2EvkOJXGqLcLoLWDK7DVn+5Czs9p9BHs7n9IgLdlaf906wzzeKe5MtNCT1ioYn7z+abIlAlbWDfWXe5YRK9lezN4E6/laBqxXYFKWDSKL7vXOepX0ja1W2pOnnPCoJrZD/iAffEHnIrEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710360001; c=relaxed/simple;
-	bh=CGsygGu0YBuMPUFVylIGN3ngzXQKapZbUDBmXCxKlVc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=esS+hQtYUHkMBrClrfsP4lPqbg8z4quYQHcL+m4JMHbt4sKHum834hoEvkikTV1GLi6cONV9Ljm9+cx2/R3OQhn8VgMkmoR/sRuCaVzjms9EKgHD0zT8NxP1LpSYCO6kT7IztxpsC0qkNdAwbvqoKvq3K+ON76YMyGC9+xw+UM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UFSQfMUT; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1710360006; c=relaxed/simple;
+	bh=qfRDjv2foBdfkKJwllVqS7FMT5G5mB4FxrFHqgmQLKU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FbRfC5xeI9UZolU88zO9pmThFnFOsk3LL8ymmJV/9gvf0AyPZaTE/JugVt18U6zOP9NmAbnAoD5Ueumbm/u/yRmTddAawcmoABD5t4HtWlPydj7nTx+7uuB0WrOQuUAmC1gScgaMg/ofHKCKUN4vS6XPEyp7yoB2HAJy6NdH9wY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bh14NqGG; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UFSQfMUT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1710359998;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OT/Y9QQ6Z08J3liv/tH6iPL5XyEglqP4zZ0zDaWC/as=;
-	b=UFSQfMUTtczOHWZGctFw0RhfDG6c0L70cWvi+zwRn8jvFyLjIse7S5EftFVRK7DBrf9oUG
-	tQjUocXmpAZZNEBMon7mZsYRLDkRFv5++GiXf3+XadCIToqb7OMrDqbhqO+E73kjIxERip
-	yBx5RgCMxBMQOLXCde5IFofEkE7YTdw=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-32-L0M6c9F8OvS9cJdeSNJoXA-1; Wed, 13 Mar 2024 15:59:56 -0400
-X-MC-Unique: L0M6c9F8OvS9cJdeSNJoXA-1
-Received: by mail-ua1-f69.google.com with SMTP id a1e0cc1a2514c-7de0e459ecaso60745241.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 12:59:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710359996; x=1710964796;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OT/Y9QQ6Z08J3liv/tH6iPL5XyEglqP4zZ0zDaWC/as=;
-        b=AQXnViz6iCC1qK2TqAbJ3L6bpwQwXzJU+C7XGE0Iw5qWBDrWtL5kH5VIHkO9N/uPRl
-         2Lt//n2P7wqRDHGSETrmQOS1O6pf3PDnbzdqH0dYamsxx8v0VjK/68N5aiQqGzr3TT9Y
-         yyqrjqTmwj+q6eLYl1rGZ+cHy1QSulqnzOkFSHwsIKDATtT3of9U8axq25YEmfSEUUJr
-         V1QDQFCZxHcKTyWAQAJ1zsV+QKKSTXvI/ao1a1QhLm5K54Uvh5g4iGczU5Dl2agttlDz
-         8PhX3Wk+ZFsBt+ZPoLEnh78ifJPY3cg5bZclqk/oOWjAyOR47cRQtIvjUtUhvDeReDar
-         J2qw==
-X-Forwarded-Encrypted: i=1; AJvYcCUV3iYhKEO9jPNUrn8L+EcuAcrGmrxFOMEZQ8yNblzpCfEWLO2/6Lew05GlbS5I60NQe2dqAZJ4l6LzK0Ge1LK88erdUNlKiVjspdSGmw==
-X-Gm-Message-State: AOJu0YydkvOA+uDdr3NETCqOl4hVAi4N90jMSFN+b7opCCU8fN0HQcpI
-	NZ8Waj0ZvnrwO6qpxr+fsNq9Qj9LAX1rnmk2A6XUCUK2IDwiqHObzup+xhisxZOoyefjtE0r7aP
-	iZrEYEM5UUhzcE6HNObiSAJ+3DIQc6+q65ejWlCLu95aSSp78EhwX9BY+q3IZCd8=
-X-Received: by 2002:a05:6102:75a:b0:474:c9ba:15c with SMTP id v26-20020a056102075a00b00474c9ba015cmr2603157vsg.1.1710359996089;
-        Wed, 13 Mar 2024 12:59:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH9zN0pmpVDmc5Gc6GXRnzX40ks1zjp2z6++GRPtEOQ4AjG21HR0RoEzC/HjYNFaQ9G99Tn4A==
-X-Received: by 2002:a05:6102:75a:b0:474:c9ba:15c with SMTP id v26-20020a056102075a00b00474c9ba015cmr2603145vsg.1.1710359995684;
-        Wed, 13 Mar 2024 12:59:55 -0700 (PDT)
-Received: from x1n ([99.254.121.117])
-        by smtp.gmail.com with ESMTPSA id p9-20020a0ccb89000000b00690f23c8605sm1828921qvk.23.2024.03.13.12.59.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 12:59:55 -0700 (PDT)
-Date: Wed, 13 Mar 2024 15:59:53 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>
-Subject: Re: [linux-next:master 12265/12944]
- arch/arm64/include/asm/pgtable.h:904:16: error: implicit declaration of
- function 'pud_leaf'; did you mean 'pmd_leaf'?
-Message-ID: <ZfIFubXPrb7pLFSB@x1n>
-References: <202403101607.a42gaLOS-lkp@intel.com>
- <Ze8vFNV9YSdgC2S7@x1n>
- <20240313120622.62c76d759cc06f80f0aeb48e@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bh14NqGG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710360005; x=1741896005;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qfRDjv2foBdfkKJwllVqS7FMT5G5mB4FxrFHqgmQLKU=;
+  b=Bh14NqGGMN0s1ZU7eSAA00CsbDV09vc08KkUMo1mP987oqJ9c0SfCxQV
+   VQ/Opf8DqFDgDJFdwu/nbNFoVFr+7ERzXG/d/KwdvVKQSOBenC3o3dQNa
+   jMMmFafuvafsl8P/gbwHpq3oIFkmIIXiCc7BGldq7j6XWK8rHnRmpx14X
+   EYnTVb0NehJM0KXAYn+KVIVohfs7ddxu1imw1UALsDuNgJAsiyFS35VN4
+   Yf95H/kk1zZJfp2v2fqNxznUR25yEeMQIFKYtP0WdJ9YGAeskBHeyarxI
+   FUrIAs1C5OTxe5Bv9h01WtyQz828b6EOY8alhYpmfR53uW2ytAvl38cD1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="4998696"
+X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
+   d="scan'208";a="4998696"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 13:00:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
+   d="scan'208";a="12624344"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 13 Mar 2024 13:00:03 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rkUlc-000Cit-0O;
+	Wed, 13 Mar 2024 20:00:00 +0000
+Date: Thu, 14 Mar 2024 03:59:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 11013/30000] drivers/ide/ide-io.c:456:58:
+ sparse: sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202403140313.Qwz6h2Lt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20240313120622.62c76d759cc06f80f0aeb48e@linux-foundation.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Mar 13, 2024 at 12:06:22PM -0700, Andrew Morton wrote:
-> > 
-> > There's another possibly relevant report for riscv:
-> > 
-> > https://lore.kernel.org/r/202403090900.OwPqmRuI-lkp@intel.com
-> > 
-> > I think I messed up the nopmd use case.  Since this commit already landed
-> > mm-stable, I assume there's no way I provide a fixup.
-> > 
-> > I attached a formal patch below, but I don't know how to test it myself,
-> 
-> What I do:
-> 
-> Grab https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/13.2.0/x86_64-gcc-13.2.0-nolibc-aarch64-linux.tar.gz
-> 
-> untar that into /opt/crosstool
-> 
-> And my crufty old script does, partly,
-> 
-> 	WHAT="$*"
-> 
-> 	...
-> 	[ $ARCH = arm64 ] &&    CT=gcc-13.2.0-nolibc && XARCH=aarch64-linux
-> 	...
-> 
-> 	PATH=$PATH:/opt/crosstool/$CT/$XARCH/bin export PATH
-> 	export CROSS_COMPILE=/opt/crosstool/$CT/$XARCH/bin/$XARCH-
-> 	export CC="/opt/crosstool/$CT/$XARCH/bin/$XARCH-gcc"
-> 	J=$(grep "^processor" /proc/cpuinfo | wc -l)
-> 	J=$(expr $J \* 2)
-> 	nice -20 make -j$J CC="$CC" $WHAT 2>/tmp/log-$ARCH
-> 
-> setenv ARCH arm64
-> crufty-old-script vmlinux modules
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   caa1ae20bcc64a80625a9449240580f5190ed3a0
+commit: 8a6bee347626968d467aef07453c4547bc23cb64 [11013/30000] blk-mq: fix potential uaf for 'queue_hw_ctx'
+config: x86_64-randconfig-122-20240313 (https://download.01.org/0day-ci/archive/20240314/202403140313.Qwz6h2Lt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403140313.Qwz6h2Lt-lkp@intel.com/reproduce)
 
-I'll keep these notes.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403140313.Qwz6h2Lt-lkp@intel.com/
 
-> 
-> > and I'm not 100% confident.  Before I post a formal patch, can anyone let
-> > me know how I can kickoff the test bot to test the patch (or help me do the
-> > kickoff)?
-> 
-> Worked for me, thanks.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/ide/ide-io.c:456:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct blk_mq_hw_ctx *hctx @@     got struct blk_mq_hw_ctx [noderef] __rcu * @@
+   drivers/ide/ide-io.c:456:58: sparse:     expected struct blk_mq_hw_ctx *hctx
+   drivers/ide/ide-io.c:456:58: sparse:     got struct blk_mq_hw_ctx [noderef] __rcu *
 
-I will try to do better next time..
+vim +456 drivers/ide/ide-io.c
 
-Thanks a lot for the help, Andrew!
+5b31f855f10d00 Bartlomiej Zolnierkiewicz 2009-01-06  446  
+782b86e2656762 Jens Axboe                2011-04-05  447  void ide_requeue_and_plug(ide_drive_t *drive, struct request *rq)
+782b86e2656762 Jens Axboe                2011-04-05  448  {
+782b86e2656762 Jens Axboe                2011-04-05  449  	struct request_queue *q = drive->queue;
+782b86e2656762 Jens Axboe                2011-04-05  450  
+600335205b8d16 Jens Axboe                2018-10-26  451  	/* Use 3ms as that was the old plug delay */
+600335205b8d16 Jens Axboe                2018-10-26  452  	if (rq) {
+600335205b8d16 Jens Axboe                2018-10-26  453  		blk_mq_requeue_request(rq, false);
+600335205b8d16 Jens Axboe                2018-10-26  454  		blk_mq_delay_kick_requeue_list(q, 3);
+600335205b8d16 Jens Axboe                2018-10-26  455  	} else
+600335205b8d16 Jens Axboe                2018-10-26 @456  		blk_mq_delay_run_hw_queue(q->queue_hw_ctx[0], 3);
+782b86e2656762 Jens Axboe                2011-04-05  457  }
+782b86e2656762 Jens Axboe                2011-04-05  458  
+
+:::::: The code at line 456 was first introduced by commit
+:::::: 600335205b8d162891b5ef2e32343f5b8020efd8 ide: convert to blk-mq
+
+:::::: TO: Jens Axboe <axboe@kernel.dk>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
-Peter Xu
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
