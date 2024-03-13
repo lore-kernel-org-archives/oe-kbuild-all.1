@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FE84C600
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 19:22:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E801A38E7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 19:23:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710357739; cv=none; b=YbuCSYGSA+hJLz3jTAe6q9bK0D3WUBpsla8g1Kq38Vp6hg8Ffb2sK02aE1et4kN/Oaszdy2zqgj7inD+fohgKpiKux8VLDO2nho6WwhHQ/JRD5DCbyHirVHMILM8JHfwYgSgxkK7G+/PGPFoYnn2Ig8XPP2wAF2uqao4A1eZRRk=
+	t=1710357803; cv=none; b=a/dJOC/9ccnZ4M+CJBmyf5v+8CWAMIWIVDT7dx+Z+JKkoc6MZn5I7TRnXyBHjl5IufL45xiQTmCDsdzG+diP8Yeps4xywCR6sCaE6MTzW5W7r1qWDWA3WYxTXgZionDI8byjBFfWGXTyCmd8FpZazLFAda7oAP3IWNid6re9OU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710357739; c=relaxed/simple;
-	bh=GMeaC8jNUNxm2ktaqQ9ficVlGCIxcpuk1L2dtdcseZs=;
+	s=arc-20240116; t=1710357803; c=relaxed/simple;
+	bh=rh5oG6orM3fTGSHdWpi42vJeHhKgSthJIn2wdziMOis=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hw82BYPeYgKK8pJmbVkwd04Z5BDsnjW35IbMf/eCQFv6pcqE1uXTra5bDbmLObzmRUyYuzraNpOdLRIeOS2LtawJYvyjhbmcHIaYyKQi/19IP/8TnvK9Kie4gWxSO39g64tlCYKrXHRfeOX/a4N8vk/NaPWCBvAsvuXdiX0OE84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fdnQSew4; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=qECmJSZC4Ai9e1IMeGckHRjMnyCHAaL8Keb3h6WsHWbT78NC22wpGXG77I1hrhutApv9DVci+L7Y/PNsd8cYNjjfJEj2/MrTIrDlhvn5+IIoeDcZMlo1aeRWyLrpEkoo9ZVlzKc5TTlWJf15ZQpLnnLTZQNu2euMOUCPnrTAA6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fpi7eKRK; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fdnQSew4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fpi7eKRK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710357738; x=1741893738;
+  t=1710357802; x=1741893802;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GMeaC8jNUNxm2ktaqQ9ficVlGCIxcpuk1L2dtdcseZs=;
-  b=fdnQSew46gKmUUtXqrOx8gHIziaanpIy/dJnt345xU8nWQ+aPMDfWMP4
-   idGH1KI1OGcdyjU4JulZwTvLiwE9GshzbuHSXzjZN1yEcYba76XOTWoHf
-   UQHE2ceqCoDei1k1sLfi0YIDf35Jd6CbKjNPeiqFsjovtU+ucAUUnRbn3
-   pGdmkHKYCc9/m3TYeX78idQNJA/nhQSC/9cOgUVsm+EFyIfdwxr+vKcZW
-   fnBkgqfx/DMZ6udAFNz09EwunDG+wgw6Od86g8hU0DQ7+dzzBxVzUUblM
-   6SPwpzS2kKYROtrgDw8m1eo4+Sa4hBRS9xo1msZ5Hi+Xrd3jmowk+M4o5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="15875802"
+  bh=rh5oG6orM3fTGSHdWpi42vJeHhKgSthJIn2wdziMOis=;
+  b=fpi7eKRKgdqiY/MSjuDKiXRmXi+RvN4/SR6taXJMtxd6wwjSI3gqpC+R
+   daLiJfTnNqaGj5Lx6NSYB13rs/dA3wS29oluhK10b3UN8amxRpf76eeAV
+   Ddi7nn5S+U1O1tEfOhTqtkawAkdrj5tZ1/bPNmhZ3wSLJoKFuiuNtyNQ9
+   UP1s13Wtnj6NpFhl5ufP/TBXWkULdgvFa1VsJr3MjLxr+0BAKQW/W2dgV
+   rXMWlcyNAUtrzN/H4LBKq/NNJ4iHp/FqfUFYlizDWed0X01HubOEFC03h
+   50Q5Gydb5InavV4mMcYiBSPSfcbOPnvgrQT1a26ZyXJN5KB16M3fgXdNi
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="15875885"
 X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="15875802"
+   d="scan'208";a="15875885"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 12:22:17 -0700
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 12:23:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="914439669"
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="914439688"
 X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="914439669"
+   d="scan'208";a="914439688"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 12:22:15 -0700
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 12:23:20 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.97)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rkUB3-0000000CJ6M-1rKn;
-	Wed, 13 Mar 2024 21:22:13 +0200
-Date: Wed, 13 Mar 2024 21:22:13 +0200
+	id 1rkUC6-0000000CJ7R-0aOr;
+	Wed, 13 Mar 2024 21:23:18 +0200
+Date: Wed, 13 Mar 2024 21:23:17 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: kernel test robot <lkp@intel.com>, jcmvbkbc@gcc.gnu.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Herve Codina <herve.codina@bootlin.com>
-Subject: Re: [net-next:main 4/19] WARNING: modpost: vmlinux: section mismatch
- in reference: bitmap_copy_clear_tail+0x58 (section: .text.unlikely) ->
+Subject: Re: WARNING: modpost: vmlinux: section mismatch in reference:
+ find_next_bit+0x14 (section: .text.unlikely) ->
  __setup_str_initcall_blacklist (section: .init.rodata)
-Message-ID: <ZfH85ScHmojydKlw@smile.fi.intel.com>
-References: <202403121032.WDY8ftKq-lkp@intel.com>
+Message-ID: <ZfH9JVK1wak2nJmN@smile.fi.intel.com>
+References: <202403140236.HDGbPm2J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,29 +62,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202403121032.WDY8ftKq-lkp@intel.com>
+In-Reply-To: <202403140236.HDGbPm2J-lkp@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Mar 12, 2024 at 10:29:16AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
-> head:   f095fefacdd35b4ea97dc6d88d054f2749a73d07
-> commit: de5f84338970815b9fdd3497a975fb572d11e0b5 [4/19] lib/bitmap: Introduce bitmap_scatter() and bitmap_gather() helpers
-> config: xtensa-randconfig-001-20240311 (https://download.01.org/0day-ci/archive/20240312/202403121032.WDY8ftKq-lkp@intel.com/config)
+On Thu, Mar 14, 2024 at 02:45:30AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   b0546776ad3f332e215cebc0b063ba4351971cca
+> commit: de5f84338970815b9fdd3497a975fb572d11e0b5 lib/bitmap: Introduce bitmap_scatter() and bitmap_gather() helpers
+> date:   2 days ago
+> config: xtensa-randconfig-s031-20211010 (https://download.01.org/0day-ci/archive/20240314/202403140236.HDGbPm2J-lkp@intel.com/config)
 > compiler: xtensa-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403121032.WDY8ftKq-lkp@intel.com/reproduce)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403140236.HDGbPm2J-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403121032.WDY8ftKq-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403140236.HDGbPm2J-lkp@intel.com/
 > 
 > All warnings (new ones prefixed by >>, old ones prefixed by <<):
 > 
 > WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-> WARNING: modpost: vmlinux: section mismatch in reference: put_page+0x58 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
-> >> WARNING: modpost: vmlinux: section mismatch in reference: bitmap_copy_clear_tail+0x58 (section: .text.unlikely) -> __setup_str_initcall_blacklist (section: .init.rodata)
+> WARNING: modpost: vmlinux: section mismatch in reference: put_page+0x3c (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+> >> WARNING: modpost: vmlinux: section mismatch in reference: find_next_bit+0x14 (section: .text.unlikely) -> __setup_str_initcall_blacklist (section: .init.rodata)
 
-Reminds me of https://gcc.gnu.org/bugzilla/show_bug.cgi?id=92938
+Dup of https://lore.kernel.org/oe-kbuild-all/202403121032.WDY8ftKq-lkp@intel.com/ ?
 
 -- 
 With Best Regards,
