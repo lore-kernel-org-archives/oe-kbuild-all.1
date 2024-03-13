@@ -1,64 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE9B4779E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 15:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA44147A7A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 16:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710344699; cv=none; b=Ay7kEF5ixqtoSKlUQnNcWVaPZiIx7Q374giChq/A4Tr8NQ5dCRvpugDpOVxsy9lpMq6ZeTEMyCDdKXU6CovaWM4y0dKOneLppoWhysH4nx1Vvquax+9N576liCAK7kAMHixeUTGHxPQoGH4ybRxx4F0m7jaa/0bHkjWCY9cgSaw=
+	t=1710346019; cv=none; b=J8WZgDUbfp5HMbFLK+z7BXx/aUYS+V0g8yZ5D0rPB6zOmylEKdxcU3yGoYWIyjMhBWNzcLJ9FVh3veSh2TcqQAsYP6YjZ+qZab89E5/MxzBmZwgvjumJ4Rgg0bZpNyOSQjHPHHY0NIyA061mp7gp/TLfidxaxsI5mkfh4+PcZk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710344699; c=relaxed/simple;
-	bh=4LS8aRKIv6OoIEijA+nidlByxj4qjolaeOnhyJK/vSk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MZEXyymVsVlNy6317QXZsYoA5yLN5bfi57qLyEpuAZExosAjiuJ3HtvcublNWNTjjIZL3DiritNPZuBDF4ThPL3d4Gpy9Dr4WCiwzNREQw1z7ZXWQgAAg7KWYzBCyVexZYPmPcrulQXLxJYB46QU/UlVV2Xm7iPFeq+ckGp0OBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JzonOFgY; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1710346019; c=relaxed/simple;
+	bh=FX5Tk4dqtJFOjO6GWdFOhI473N3gYdGqihsPZeAayO8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cK2rzP44wdh99zaQsjAjvwz6m250jwNwcLu0xgsfjRe53NNLufYy0KwNEgPAl+0fpbA80bnvfDwPKZ0BB/J/G2DeqB0DD1gi9Q/M+FdM5vjZ+41Cnvh362nqH2Gk3e31uvb9ruA64rSBd+fzeKke/9Jij3riceKgxxJDYOJZ1yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ISujKmek; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JzonOFgY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ISujKmek"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710344698; x=1741880698;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4LS8aRKIv6OoIEijA+nidlByxj4qjolaeOnhyJK/vSk=;
-  b=JzonOFgYqZ2N+R+u8WO1Mvr0wwITkJUlUZDq5dwqry4n/wISQfO5qHKo
-   iciWLhQ/9wtutKQmHAshti4yXhz5iHe8I99oTkuT/KvtiHPvsAhsy2Yf9
-   LHhkZvv/JwmYe/5sgVYQxgzz9n0kjDoSHAsIDxrEPCbUXuTKgnPq3Sqxc
-   j+FM35Kx8Cg1SJdlSd/LYMCf1hwegFIpj4FoslMQVGdwfHUUYfPOau3K0
-   +lj4o8Ctq7apLD9DMEnz8+t0M/u2KGdMkBXS3dZIlATFQDsNi4bWcsAjM
-   dOyOAVjTnH6du1U6xj6EGr3OmS3As8v0BvF6RuMgvw9AS5sUIxUdjIeJK
+  t=1710346018; x=1741882018;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FX5Tk4dqtJFOjO6GWdFOhI473N3gYdGqihsPZeAayO8=;
+  b=ISujKmekl61NFvrKjmYveFt86Q93cjoLL3twBziw0CKeKo8SdzIjcvhf
+   94tQQNhux8GM2aJejxn9vsPkrRu4dxh0P7BWmz5/gG1w5+kRMYzjKYyDP
+   KHXmKadd6t/Zr76/l9x9NZ7nKFZfAmD+hJG5yx1CKeyzSueBcreirL6fg
+   ImpmdtsY6S2s/ov/dcoAiVe4Y8dftP9UEPE+NaUH9+Bq9nvNLtDXnAKvR
+   /UmYdjrTdk2oyaC3Oi2VzLcRgPvwXmlSIgRTsH/OC8ghOW5lXxUn/vKtT
+   FMqJPqJQqHFeOoOuhgxz5eGCpJ+lsjpAi5vOrGc64FuhRbF6o6lE77Tus
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="16515874"
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4980779"
 X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
-   d="scan'208";a="16515874"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 08:44:57 -0700
+   d="scan'208";a="4980779"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 09:06:57 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
-   d="scan'208";a="42969991"
+   d="scan'208";a="16644818"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Mar 2024 08:44:53 -0700
+  by orviesa004.jf.intel.com with ESMTP; 13 Mar 2024 09:06:53 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkQmg-000CU7-1f;
-	Wed, 13 Mar 2024 15:44:50 +0000
-Date: Wed, 13 Mar 2024 23:44:06 +0800
+	id 1rkR7z-000CVd-1U;
+	Wed, 13 Mar 2024 16:06:51 +0000
+Date: Thu, 14 Mar 2024 00:06:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robin Murphy <robin.murphy@arm.com>, Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>, Will Deacon <will@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	x86@kernel.org, linux-perf-users@vger.kernel.org,
-	jialong.yang@shingroup.cn
-Subject: Re: [PATCH 04/10] perf: Rename PERF_PMU_CAP_NO_INTERRUPT
-Message-ID: <202403132349.Ph0CYSV2-lkp@intel.com>
-References: <0999a39f0a068979dbcc6119380f63d706101b4f.1710257512.git.robin.murphy@arm.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: drivers/iommu/intel/dmar.c:1418:11: error: no member named
+ 'num_prrs' in 'struct intel_iommu'
+Message-ID: <202403140032.gCRNBAdE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,293 +60,170 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0999a39f0a068979dbcc6119380f63d706101b4f.1710257512.git.robin.murphy@arm.com>
 
-Hi Robin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on perf-tools-next/perf-tools-next]
-[also build test WARNING on perf-tools/perf-tools linus/master v6.8 next-20240313]
-[cannot apply to acme/perf/core tip/perf/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Robin-Murphy/perf-alibaba_uncore_drw-Use-correct-CPU-affinity/20240313-013915
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/0999a39f0a068979dbcc6119380f63d706101b4f.1710257512.git.robin.murphy%40arm.com
-patch subject: [PATCH 04/10] perf: Rename PERF_PMU_CAP_NO_INTERRUPT
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240313/202403132349.Ph0CYSV2-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403132349.Ph0CYSV2-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   c13208f42a275b32080b8b1f05865c408364ef9f
+commit: 3ea366ee4c592580a2ceba619db10d3bbdfdf3db iommu/vt-d: Add PRQ counter for debug
+date:   9 months ago
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240314/202403140032.gCRNBAdE-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403140032.gCRNBAdE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403132349.Ph0CYSV2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403140032.gCRNBAdE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/powerpc/perf/hv-24x7.c: In function 'hv_24x7_init':
-   arch/powerpc/perf/hv-24x7.c:1742:9: error: expected ';' before 'r'
-    1742 |         r = create_events_from_catalog(&event_group.attrs,
-         |         ^
-   arch/powerpc/perf/hv-24x7.c: At top level:
->> arch/powerpc/perf/hv-24x7.c:764:12: warning: 'create_events_from_catalog' defined but not used [-Wunused-function]
-     764 | static int create_events_from_catalog(struct attribute ***events_,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iommu/intel/dmar.c:1418:11: error: no member named 'num_prrs' in 'struct intel_iommu'
+    1418 |                         iommu->num_prrs++;
+         |                         ~~~~~  ^
+>> drivers/iommu/intel/dmar.c:1420:11: error: no member named 'num_prri' in 'struct intel_iommu'
+    1420 |                         iommu->num_prri++;
+         |                         ~~~~~  ^
+   2 errors generated.
 
 
-vim +/create_events_from_catalog +764 arch/powerpc/perf/hv-24x7.c
+vim +1418 drivers/iommu/intel/dmar.c
 
-5c5cd7b502595f Cody P Schafer        2015-01-30   763  
-7debc970ae7a55 Li Zhong              2015-04-13  @764  static int create_events_from_catalog(struct attribute ***events_,
-5c5cd7b502595f Cody P Schafer        2015-01-30   765  				      struct attribute ***event_descs_,
-5c5cd7b502595f Cody P Schafer        2015-01-30   766  				      struct attribute ***event_long_descs_)
-5c5cd7b502595f Cody P Schafer        2015-01-30   767  {
-38d81846106bb1 Thiago Jung Bauermann 2017-06-29   768  	long hret;
-5c5cd7b502595f Cody P Schafer        2015-01-30   769  	size_t catalog_len, catalog_page_len, event_entry_count,
-5c5cd7b502595f Cody P Schafer        2015-01-30   770  	       event_data_len, event_data_offs,
-5c5cd7b502595f Cody P Schafer        2015-01-30   771  	       event_data_bytes, junk_events, event_idx, event_attr_ct, i,
-5c5cd7b502595f Cody P Schafer        2015-01-30   772  	       attr_max, event_idx_last, desc_ct, long_desc_ct;
-5c5cd7b502595f Cody P Schafer        2015-01-30   773  	ssize_t ct, ev_len;
-12bf85a71000af Thiago Jung Bauermann 2017-06-29   774  	uint64_t catalog_version_num;
-5c5cd7b502595f Cody P Schafer        2015-01-30   775  	struct attribute **events, **event_descs, **event_long_descs;
-5c5cd7b502595f Cody P Schafer        2015-01-30   776  	struct hv_24x7_catalog_page_0 *page_0 =
-5c5cd7b502595f Cody P Schafer        2015-01-30   777  		kmem_cache_alloc(hv_page_cache, GFP_KERNEL);
-5c5cd7b502595f Cody P Schafer        2015-01-30   778  	void *page = page_0;
-5c5cd7b502595f Cody P Schafer        2015-01-30   779  	void *event_data, *end;
-5c5cd7b502595f Cody P Schafer        2015-01-30   780  	struct hv_24x7_event_data *event;
-5c5cd7b502595f Cody P Schafer        2015-01-30   781  	struct rb_root ev_uniq = RB_ROOT;
-7debc970ae7a55 Li Zhong              2015-04-13   782  	int ret = 0;
-5c5cd7b502595f Cody P Schafer        2015-01-30   783  
-7debc970ae7a55 Li Zhong              2015-04-13   784  	if (!page) {
-7debc970ae7a55 Li Zhong              2015-04-13   785  		ret = -ENOMEM;
-5c5cd7b502595f Cody P Schafer        2015-01-30   786  		goto e_out;
-7debc970ae7a55 Li Zhong              2015-04-13   787  	}
-5c5cd7b502595f Cody P Schafer        2015-01-30   788  
-5c5cd7b502595f Cody P Schafer        2015-01-30   789  	hret = h_get_24x7_catalog_page(page, 0, 0);
-7debc970ae7a55 Li Zhong              2015-04-13   790  	if (hret) {
-7debc970ae7a55 Li Zhong              2015-04-13   791  		ret = -EIO;
-5c5cd7b502595f Cody P Schafer        2015-01-30   792  		goto e_free;
-7debc970ae7a55 Li Zhong              2015-04-13   793  	}
-5c5cd7b502595f Cody P Schafer        2015-01-30   794  
-5c5cd7b502595f Cody P Schafer        2015-01-30   795  	catalog_version_num = be64_to_cpu(page_0->version);
-5c5cd7b502595f Cody P Schafer        2015-01-30   796  	catalog_page_len = be32_to_cpu(page_0->length);
-5c5cd7b502595f Cody P Schafer        2015-01-30   797  
-5c5cd7b502595f Cody P Schafer        2015-01-30   798  	if (MAX_4K < catalog_page_len) {
-5c5cd7b502595f Cody P Schafer        2015-01-30   799  		pr_err("invalid page count: %zu\n", catalog_page_len);
-7debc970ae7a55 Li Zhong              2015-04-13   800  		ret = -EIO;
-5c5cd7b502595f Cody P Schafer        2015-01-30   801  		goto e_free;
-5c5cd7b502595f Cody P Schafer        2015-01-30   802  	}
-5c5cd7b502595f Cody P Schafer        2015-01-30   803  
-5c5cd7b502595f Cody P Schafer        2015-01-30   804  	catalog_len = catalog_page_len * 4096;
-5c5cd7b502595f Cody P Schafer        2015-01-30   805  
-5c5cd7b502595f Cody P Schafer        2015-01-30   806  	event_entry_count = be16_to_cpu(page_0->event_entry_count);
-5c5cd7b502595f Cody P Schafer        2015-01-30   807  	event_data_offs   = be16_to_cpu(page_0->event_data_offs);
-5c5cd7b502595f Cody P Schafer        2015-01-30   808  	event_data_len    = be16_to_cpu(page_0->event_data_len);
-5c5cd7b502595f Cody P Schafer        2015-01-30   809  
-12bf85a71000af Thiago Jung Bauermann 2017-06-29   810  	pr_devel("cv %llu cl %zu eec %zu edo %zu edl %zu\n",
-12bf85a71000af Thiago Jung Bauermann 2017-06-29   811  			catalog_version_num, catalog_len,
-5c5cd7b502595f Cody P Schafer        2015-01-30   812  			event_entry_count, event_data_offs, event_data_len);
-5c5cd7b502595f Cody P Schafer        2015-01-30   813  
-5c5cd7b502595f Cody P Schafer        2015-01-30   814  	if ((MAX_4K < event_data_len)
-5c5cd7b502595f Cody P Schafer        2015-01-30   815  			|| (MAX_4K < event_data_offs)
-5c5cd7b502595f Cody P Schafer        2015-01-30   816  			|| (MAX_4K - event_data_offs < event_data_len)) {
-5c5cd7b502595f Cody P Schafer        2015-01-30   817  		pr_err("invalid event data offs %zu and/or len %zu\n",
-5c5cd7b502595f Cody P Schafer        2015-01-30   818  				event_data_offs, event_data_len);
-7debc970ae7a55 Li Zhong              2015-04-13   819  		ret = -EIO;
-5c5cd7b502595f Cody P Schafer        2015-01-30   820  		goto e_free;
-5c5cd7b502595f Cody P Schafer        2015-01-30   821  	}
-5c5cd7b502595f Cody P Schafer        2015-01-30   822  
-5c5cd7b502595f Cody P Schafer        2015-01-30   823  	if ((event_data_offs + event_data_len) > catalog_page_len) {
-5c5cd7b502595f Cody P Schafer        2015-01-30   824  		pr_err("event data %zu-%zu does not fit inside catalog 0-%zu\n",
-5c5cd7b502595f Cody P Schafer        2015-01-30   825  				event_data_offs,
-5c5cd7b502595f Cody P Schafer        2015-01-30   826  				event_data_offs + event_data_len,
-5c5cd7b502595f Cody P Schafer        2015-01-30   827  				catalog_page_len);
-7debc970ae7a55 Li Zhong              2015-04-13   828  		ret = -EIO;
-5c5cd7b502595f Cody P Schafer        2015-01-30   829  		goto e_free;
-5c5cd7b502595f Cody P Schafer        2015-01-30   830  	}
-5c5cd7b502595f Cody P Schafer        2015-01-30   831  
-8f69dc701aac17 Sukadev Bhattiprolu   2016-02-16   832  	if (SIZE_MAX - 1 < event_entry_count) {
-8f69dc701aac17 Sukadev Bhattiprolu   2016-02-16   833  		pr_err("event_entry_count %zu is invalid\n", event_entry_count);
-7debc970ae7a55 Li Zhong              2015-04-13   834  		ret = -EIO;
-5c5cd7b502595f Cody P Schafer        2015-01-30   835  		goto e_free;
-5c5cd7b502595f Cody P Schafer        2015-01-30   836  	}
-5c5cd7b502595f Cody P Schafer        2015-01-30   837  
-5c5cd7b502595f Cody P Schafer        2015-01-30   838  	event_data_bytes = event_data_len * 4096;
-5c5cd7b502595f Cody P Schafer        2015-01-30   839  
-5c5cd7b502595f Cody P Schafer        2015-01-30   840  	/*
-5c5cd7b502595f Cody P Schafer        2015-01-30   841  	 * event data can span several pages, events can cross between these
-5c5cd7b502595f Cody P Schafer        2015-01-30   842  	 * pages. Use vmalloc to make this easier.
-5c5cd7b502595f Cody P Schafer        2015-01-30   843  	 */
-5c5cd7b502595f Cody P Schafer        2015-01-30   844  	event_data = vmalloc(event_data_bytes);
-5c5cd7b502595f Cody P Schafer        2015-01-30   845  	if (!event_data) {
-5c5cd7b502595f Cody P Schafer        2015-01-30   846  		pr_err("could not allocate event data\n");
-7debc970ae7a55 Li Zhong              2015-04-13   847  		ret = -ENOMEM;
-5c5cd7b502595f Cody P Schafer        2015-01-30   848  		goto e_free;
-5c5cd7b502595f Cody P Schafer        2015-01-30   849  	}
-5c5cd7b502595f Cody P Schafer        2015-01-30   850  
-5c5cd7b502595f Cody P Schafer        2015-01-30   851  	end = event_data + event_data_bytes;
-5c5cd7b502595f Cody P Schafer        2015-01-30   852  
-5c5cd7b502595f Cody P Schafer        2015-01-30   853  	/*
-5c5cd7b502595f Cody P Schafer        2015-01-30   854  	 * using vmalloc_to_phys() like this only works if PAGE_SIZE is
-5c5cd7b502595f Cody P Schafer        2015-01-30   855  	 * divisible by 4096
-5c5cd7b502595f Cody P Schafer        2015-01-30   856  	 */
-5c5cd7b502595f Cody P Schafer        2015-01-30   857  	BUILD_BUG_ON(PAGE_SIZE % 4096);
-5c5cd7b502595f Cody P Schafer        2015-01-30   858  
-5c5cd7b502595f Cody P Schafer        2015-01-30   859  	for (i = 0; i < event_data_len; i++) {
-5c5cd7b502595f Cody P Schafer        2015-01-30   860  		hret = h_get_24x7_catalog_page_(
-5c5cd7b502595f Cody P Schafer        2015-01-30   861  				vmalloc_to_phys(event_data + i * 4096),
-5c5cd7b502595f Cody P Schafer        2015-01-30   862  				catalog_version_num,
-5c5cd7b502595f Cody P Schafer        2015-01-30   863  				i + event_data_offs);
-5c5cd7b502595f Cody P Schafer        2015-01-30   864  		if (hret) {
-12bf85a71000af Thiago Jung Bauermann 2017-06-29   865  			pr_err("Failed to get event data in page %zu: rc=%ld\n",
-12bf85a71000af Thiago Jung Bauermann 2017-06-29   866  			       i + event_data_offs, hret);
-7debc970ae7a55 Li Zhong              2015-04-13   867  			ret = -EIO;
-5c5cd7b502595f Cody P Schafer        2015-01-30   868  			goto e_event_data;
-5c5cd7b502595f Cody P Schafer        2015-01-30   869  		}
-5c5cd7b502595f Cody P Schafer        2015-01-30   870  	}
-5c5cd7b502595f Cody P Schafer        2015-01-30   871  
-5c5cd7b502595f Cody P Schafer        2015-01-30   872  	/*
-5c5cd7b502595f Cody P Schafer        2015-01-30   873  	 * scan the catalog to determine the number of attributes we need, and
-5c5cd7b502595f Cody P Schafer        2015-01-30   874  	 * verify it at the same time.
-5c5cd7b502595f Cody P Schafer        2015-01-30   875  	 */
-5c5cd7b502595f Cody P Schafer        2015-01-30   876  	for (junk_events = 0, event = event_data, event_idx = 0, attr_max = 0;
-5c5cd7b502595f Cody P Schafer        2015-01-30   877  	     ;
-5c5cd7b502595f Cody P Schafer        2015-01-30   878  	     event_idx++, event = (void *)event + ev_len) {
-5c5cd7b502595f Cody P Schafer        2015-01-30   879  		size_t offset = (void *)event - (void *)event_data;
-5c5cd7b502595f Cody P Schafer        2015-01-30   880  		char *name;
-5c5cd7b502595f Cody P Schafer        2015-01-30   881  		int nl;
-5c5cd7b502595f Cody P Schafer        2015-01-30   882  
-5c5cd7b502595f Cody P Schafer        2015-01-30   883  		ev_len = catalog_event_len_validate(event, event_idx,
-5c5cd7b502595f Cody P Schafer        2015-01-30   884  						    event_data_bytes,
-5c5cd7b502595f Cody P Schafer        2015-01-30   885  						    event_entry_count,
-5c5cd7b502595f Cody P Schafer        2015-01-30   886  						    offset, end);
-5c5cd7b502595f Cody P Schafer        2015-01-30   887  		if (ev_len < 0)
-5c5cd7b502595f Cody P Schafer        2015-01-30   888  			break;
-5c5cd7b502595f Cody P Schafer        2015-01-30   889  
-5c5cd7b502595f Cody P Schafer        2015-01-30   890  		name = event_name(event, &nl);
-5c5cd7b502595f Cody P Schafer        2015-01-30   891  
-e5f9d8858612c1 Kajol Jain            2020-12-28   892  		if (ignore_event(name)) {
-e5f9d8858612c1 Kajol Jain            2020-12-28   893  			junk_events++;
-e5f9d8858612c1 Kajol Jain            2020-12-28   894  			continue;
-e5f9d8858612c1 Kajol Jain            2020-12-28   895  		}
-5c5cd7b502595f Cody P Schafer        2015-01-30   896  		if (event->event_group_record_len == 0) {
-5c5cd7b502595f Cody P Schafer        2015-01-30   897  			pr_devel("invalid event %zu (%.*s): group_record_len == 0, skipping\n",
-5c5cd7b502595f Cody P Schafer        2015-01-30   898  					event_idx, nl, name);
-5c5cd7b502595f Cody P Schafer        2015-01-30   899  			junk_events++;
-5c5cd7b502595f Cody P Schafer        2015-01-30   900  			continue;
-5c5cd7b502595f Cody P Schafer        2015-01-30   901  		}
-5c5cd7b502595f Cody P Schafer        2015-01-30   902  
-5c5cd7b502595f Cody P Schafer        2015-01-30   903  		if (!catalog_entry_domain_is_valid(event->domain)) {
-5c5cd7b502595f Cody P Schafer        2015-01-30   904  			pr_info("event %zu (%.*s) has invalid domain %d\n",
-5c5cd7b502595f Cody P Schafer        2015-01-30   905  					event_idx, nl, name, event->domain);
-5c5cd7b502595f Cody P Schafer        2015-01-30   906  			junk_events++;
-5c5cd7b502595f Cody P Schafer        2015-01-30   907  			continue;
-5c5cd7b502595f Cody P Schafer        2015-01-30   908  		}
-5c5cd7b502595f Cody P Schafer        2015-01-30   909  
-8f69dc701aac17 Sukadev Bhattiprolu   2016-02-16   910  		attr_max++;
-5c5cd7b502595f Cody P Schafer        2015-01-30   911  	}
-5c5cd7b502595f Cody P Schafer        2015-01-30   912  
-5c5cd7b502595f Cody P Schafer        2015-01-30   913  	event_idx_last = event_idx;
-5c5cd7b502595f Cody P Schafer        2015-01-30   914  	if (event_idx_last != event_entry_count)
-5c5cd7b502595f Cody P Schafer        2015-01-30   915  		pr_warn("event buffer ended before listed # of events were parsed (got %zu, wanted %zu, junk %zu)\n",
-5c5cd7b502595f Cody P Schafer        2015-01-30   916  				event_idx_last, event_entry_count, junk_events);
-5c5cd7b502595f Cody P Schafer        2015-01-30   917  
-5c5cd7b502595f Cody P Schafer        2015-01-30   918  	events = kmalloc_array(attr_max + 1, sizeof(*events), GFP_KERNEL);
-7debc970ae7a55 Li Zhong              2015-04-13   919  	if (!events) {
-7debc970ae7a55 Li Zhong              2015-04-13   920  		ret = -ENOMEM;
-5c5cd7b502595f Cody P Schafer        2015-01-30   921  		goto e_event_data;
-7debc970ae7a55 Li Zhong              2015-04-13   922  	}
-5c5cd7b502595f Cody P Schafer        2015-01-30   923  
-5c5cd7b502595f Cody P Schafer        2015-01-30   924  	event_descs = kmalloc_array(event_idx + 1, sizeof(*event_descs),
-5c5cd7b502595f Cody P Schafer        2015-01-30   925  				GFP_KERNEL);
-7debc970ae7a55 Li Zhong              2015-04-13   926  	if (!event_descs) {
-7debc970ae7a55 Li Zhong              2015-04-13   927  		ret = -ENOMEM;
-5c5cd7b502595f Cody P Schafer        2015-01-30   928  		goto e_event_attrs;
-7debc970ae7a55 Li Zhong              2015-04-13   929  	}
-5c5cd7b502595f Cody P Schafer        2015-01-30   930  
-5c5cd7b502595f Cody P Schafer        2015-01-30   931  	event_long_descs = kmalloc_array(event_idx + 1,
-5c5cd7b502595f Cody P Schafer        2015-01-30   932  			sizeof(*event_long_descs), GFP_KERNEL);
-7debc970ae7a55 Li Zhong              2015-04-13   933  	if (!event_long_descs) {
-7debc970ae7a55 Li Zhong              2015-04-13   934  		ret = -ENOMEM;
-5c5cd7b502595f Cody P Schafer        2015-01-30   935  		goto e_event_descs;
-7debc970ae7a55 Li Zhong              2015-04-13   936  	}
-5c5cd7b502595f Cody P Schafer        2015-01-30   937  
-5c5cd7b502595f Cody P Schafer        2015-01-30   938  	/* Iterate over the catalog filling in the attribute vector */
-5c5cd7b502595f Cody P Schafer        2015-01-30   939  	for (junk_events = 0, event_attr_ct = 0, desc_ct = 0, long_desc_ct = 0,
-5c5cd7b502595f Cody P Schafer        2015-01-30   940  				event = event_data, event_idx = 0;
-5c5cd7b502595f Cody P Schafer        2015-01-30   941  			event_idx < event_idx_last;
-5c5cd7b502595f Cody P Schafer        2015-01-30   942  			event_idx++, ev_len = be16_to_cpu(event->length),
-5c5cd7b502595f Cody P Schafer        2015-01-30   943  				event = (void *)event + ev_len) {
-5c5cd7b502595f Cody P Schafer        2015-01-30   944  		char *name;
-5c5cd7b502595f Cody P Schafer        2015-01-30   945  		int nl;
-5c5cd7b502595f Cody P Schafer        2015-01-30   946  		int nonce;
-5c5cd7b502595f Cody P Schafer        2015-01-30   947  		/*
-5c5cd7b502595f Cody P Schafer        2015-01-30   948  		 * these are the only "bad" events that are intermixed and that
-5c5cd7b502595f Cody P Schafer        2015-01-30   949  		 * we can ignore without issue. make sure to skip them here
-5c5cd7b502595f Cody P Schafer        2015-01-30   950  		 */
-5c5cd7b502595f Cody P Schafer        2015-01-30   951  		if (event->event_group_record_len == 0)
-5c5cd7b502595f Cody P Schafer        2015-01-30   952  			continue;
-5c5cd7b502595f Cody P Schafer        2015-01-30   953  		if (!catalog_entry_domain_is_valid(event->domain))
-5c5cd7b502595f Cody P Schafer        2015-01-30   954  			continue;
-5c5cd7b502595f Cody P Schafer        2015-01-30   955  
-5c5cd7b502595f Cody P Schafer        2015-01-30   956  		name  = event_name(event, &nl);
-e5f9d8858612c1 Kajol Jain            2020-12-28   957  		if (ignore_event(name))
-e5f9d8858612c1 Kajol Jain            2020-12-28   958  			continue;
-e5f9d8858612c1 Kajol Jain            2020-12-28   959  
-5c5cd7b502595f Cody P Schafer        2015-01-30   960  		nonce = event_uniq_add(&ev_uniq, name, nl, event->domain);
-5c5cd7b502595f Cody P Schafer        2015-01-30   961  		ct    = event_data_to_attrs(event_idx, events + event_attr_ct,
-5c5cd7b502595f Cody P Schafer        2015-01-30   962  					    event, nonce);
-8f69dc701aac17 Sukadev Bhattiprolu   2016-02-16   963  		if (ct < 0) {
-5c5cd7b502595f Cody P Schafer        2015-01-30   964  			pr_warn("event %zu (%.*s) creation failure, skipping\n",
-5c5cd7b502595f Cody P Schafer        2015-01-30   965  				event_idx, nl, name);
-5c5cd7b502595f Cody P Schafer        2015-01-30   966  			junk_events++;
-5c5cd7b502595f Cody P Schafer        2015-01-30   967  		} else {
-8f69dc701aac17 Sukadev Bhattiprolu   2016-02-16   968  			event_attr_ct++;
-5c5cd7b502595f Cody P Schafer        2015-01-30   969  			event_descs[desc_ct] = event_to_desc_attr(event, nonce);
-5c5cd7b502595f Cody P Schafer        2015-01-30   970  			if (event_descs[desc_ct])
-5c5cd7b502595f Cody P Schafer        2015-01-30   971  				desc_ct++;
-5c5cd7b502595f Cody P Schafer        2015-01-30   972  			event_long_descs[long_desc_ct] =
-5c5cd7b502595f Cody P Schafer        2015-01-30   973  					event_to_long_desc_attr(event, nonce);
-5c5cd7b502595f Cody P Schafer        2015-01-30   974  			if (event_long_descs[long_desc_ct])
-5c5cd7b502595f Cody P Schafer        2015-01-30   975  				long_desc_ct++;
-5c5cd7b502595f Cody P Schafer        2015-01-30   976  		}
-5c5cd7b502595f Cody P Schafer        2015-01-30   977  	}
-5c5cd7b502595f Cody P Schafer        2015-01-30   978  
-5c5cd7b502595f Cody P Schafer        2015-01-30   979  	pr_info("read %zu catalog entries, created %zu event attrs (%zu failures), %zu descs\n",
-5c5cd7b502595f Cody P Schafer        2015-01-30   980  			event_idx, event_attr_ct, junk_events, desc_ct);
-5c5cd7b502595f Cody P Schafer        2015-01-30   981  
-5c5cd7b502595f Cody P Schafer        2015-01-30   982  	events[event_attr_ct] = NULL;
-5c5cd7b502595f Cody P Schafer        2015-01-30   983  	event_descs[desc_ct] = NULL;
-5c5cd7b502595f Cody P Schafer        2015-01-30   984  	event_long_descs[long_desc_ct] = NULL;
-5c5cd7b502595f Cody P Schafer        2015-01-30   985  
-5c5cd7b502595f Cody P Schafer        2015-01-30   986  	event_uniq_destroy(&ev_uniq);
-5c5cd7b502595f Cody P Schafer        2015-01-30   987  	vfree(event_data);
-5c5cd7b502595f Cody P Schafer        2015-01-30   988  	kmem_cache_free(hv_page_cache, page);
-5c5cd7b502595f Cody P Schafer        2015-01-30   989  
-5c5cd7b502595f Cody P Schafer        2015-01-30   990  	*events_ = events;
-5c5cd7b502595f Cody P Schafer        2015-01-30   991  	*event_descs_ = event_descs;
-5c5cd7b502595f Cody P Schafer        2015-01-30   992  	*event_long_descs_ = event_long_descs;
-7debc970ae7a55 Li Zhong              2015-04-13   993  	return 0;
-5c5cd7b502595f Cody P Schafer        2015-01-30   994  
-5c5cd7b502595f Cody P Schafer        2015-01-30   995  e_event_descs:
-5c5cd7b502595f Cody P Schafer        2015-01-30   996  	kfree(event_descs);
-5c5cd7b502595f Cody P Schafer        2015-01-30   997  e_event_attrs:
-5c5cd7b502595f Cody P Schafer        2015-01-30   998  	kfree(events);
-5c5cd7b502595f Cody P Schafer        2015-01-30   999  e_event_data:
-5c5cd7b502595f Cody P Schafer        2015-01-30  1000  	vfree(event_data);
-5c5cd7b502595f Cody P Schafer        2015-01-30  1001  e_free:
-5c5cd7b502595f Cody P Schafer        2015-01-30  1002  	kmem_cache_free(hv_page_cache, page);
-5c5cd7b502595f Cody P Schafer        2015-01-30  1003  e_out:
-5c5cd7b502595f Cody P Schafer        2015-01-30  1004  	*events_ = NULL;
-5c5cd7b502595f Cody P Schafer        2015-01-30  1005  	*event_descs_ = NULL;
-5c5cd7b502595f Cody P Schafer        2015-01-30  1006  	*event_long_descs_ = NULL;
-7debc970ae7a55 Li Zhong              2015-04-13  1007  	return ret;
-5c5cd7b502595f Cody P Schafer        2015-01-30  1008  }
-5c5cd7b502595f Cody P Schafer        2015-01-30  1009  
+  1341	
+  1342	/*
+  1343	 * Function to submit invalidation descriptors of all types to the queued
+  1344	 * invalidation interface(QI). Multiple descriptors can be submitted at a
+  1345	 * time, a wait descriptor will be appended to each submission to ensure
+  1346	 * hardware has completed the invalidation before return. Wait descriptors
+  1347	 * can be part of the submission but it will not be polled for completion.
+  1348	 */
+  1349	int qi_submit_sync(struct intel_iommu *iommu, struct qi_desc *desc,
+  1350			   unsigned int count, unsigned long options)
+  1351	{
+  1352		struct q_inval *qi = iommu->qi;
+  1353		s64 devtlb_start_ktime = 0;
+  1354		s64 iotlb_start_ktime = 0;
+  1355		s64 iec_start_ktime = 0;
+  1356		struct qi_desc wait_desc;
+  1357		int wait_index, index;
+  1358		unsigned long flags;
+  1359		int offset, shift;
+  1360		int rc, i;
+  1361		u64 type;
+  1362	
+  1363		if (!qi)
+  1364			return 0;
+  1365	
+  1366		type = desc->qw0 & GENMASK_ULL(3, 0);
+  1367	
+  1368		if ((type == QI_IOTLB_TYPE || type == QI_EIOTLB_TYPE) &&
+  1369		    dmar_latency_enabled(iommu, DMAR_LATENCY_INV_IOTLB))
+  1370			iotlb_start_ktime = ktime_to_ns(ktime_get());
+  1371	
+  1372		if ((type == QI_DIOTLB_TYPE || type == QI_DEIOTLB_TYPE) &&
+  1373		    dmar_latency_enabled(iommu, DMAR_LATENCY_INV_DEVTLB))
+  1374			devtlb_start_ktime = ktime_to_ns(ktime_get());
+  1375	
+  1376		if (type == QI_IEC_TYPE &&
+  1377		    dmar_latency_enabled(iommu, DMAR_LATENCY_INV_IEC))
+  1378			iec_start_ktime = ktime_to_ns(ktime_get());
+  1379	
+  1380	restart:
+  1381		rc = 0;
+  1382	
+  1383		raw_spin_lock_irqsave(&qi->q_lock, flags);
+  1384		/*
+  1385		 * Check if we have enough empty slots in the queue to submit,
+  1386		 * the calculation is based on:
+  1387		 * # of desc + 1 wait desc + 1 space between head and tail
+  1388		 */
+  1389		while (qi->free_cnt < count + 2) {
+  1390			raw_spin_unlock_irqrestore(&qi->q_lock, flags);
+  1391			cpu_relax();
+  1392			raw_spin_lock_irqsave(&qi->q_lock, flags);
+  1393		}
+  1394	
+  1395		index = qi->free_head;
+  1396		wait_index = (index + count) % QI_LENGTH;
+  1397		shift = qi_shift(iommu);
+  1398	
+  1399		for (i = 0; i < count; i++) {
+  1400			offset = ((index + i) % QI_LENGTH) << shift;
+  1401			memcpy(qi->desc + offset, &desc[i], 1 << shift);
+  1402			qi->desc_status[(index + i) % QI_LENGTH] = QI_IN_USE;
+  1403			trace_qi_submit(iommu, desc[i].qw0, desc[i].qw1,
+  1404					desc[i].qw2, desc[i].qw3);
+  1405		}
+  1406		qi->desc_status[wait_index] = QI_IN_USE;
+  1407	
+  1408		wait_desc.qw0 = QI_IWD_STATUS_DATA(QI_DONE) |
+  1409				QI_IWD_STATUS_WRITE | QI_IWD_TYPE;
+  1410		if (options & QI_OPT_WAIT_DRAIN)
+  1411			wait_desc.qw0 |= QI_IWD_PRQ_DRAIN;
+  1412		wait_desc.qw1 = virt_to_phys(&qi->desc_status[wait_index]);
+  1413		wait_desc.qw2 = 0;
+  1414		wait_desc.qw3 = 0;
+  1415	
+  1416		if ((desc[count - 1].qw0 & 0xF) == 9) {
+  1417			if ((desc[count - 1].qw0 & 0xF000) == 0)
+> 1418				iommu->num_prrs++;
+  1419			else if ((desc[count - 1].qw0 & 0xF000) == 0x1000)
+> 1420				iommu->num_prri++;
+  1421		}
+  1422	
+  1423		offset = wait_index << shift;
+  1424		memcpy(qi->desc + offset, &wait_desc, 1 << shift);
+  1425	
+  1426		qi->free_head = (qi->free_head + count + 1) % QI_LENGTH;
+  1427		qi->free_cnt -= count + 1;
+  1428	
+  1429		/*
+  1430		 * update the HW tail register indicating the presence of
+  1431		 * new descriptors.
+  1432		 */
+  1433		writel(qi->free_head << shift, iommu->reg + DMAR_IQT_REG);
+  1434	
+  1435		while (qi->desc_status[wait_index] != QI_DONE) {
+  1436			/*
+  1437			 * We will leave the interrupts disabled, to prevent interrupt
+  1438			 * context to queue another cmd while a cmd is already submitted
+  1439			 * and waiting for completion on this cpu. This is to avoid
+  1440			 * a deadlock where the interrupt context can wait indefinitely
+  1441			 * for free slots in the queue.
+  1442			 */
+  1443			rc = qi_check_fault(iommu, index, wait_index);
+  1444			if (rc)
+  1445				break;
+  1446	
+  1447			if (!qi_done_no_cpu_relax) {
+  1448				raw_spin_unlock(&qi->q_lock);
+  1449				cpu_relax();
+  1450				raw_spin_lock(&qi->q_lock);
+  1451			}
+  1452		}
+  1453	
+  1454		for (i = 0; i < count; i++)
+  1455			qi->desc_status[(index + i) % QI_LENGTH] = QI_DONE;
+  1456	
+  1457		reclaim_free_desc(qi);
+  1458		raw_spin_unlock_irqrestore(&qi->q_lock, flags);
+  1459	
+  1460		if (rc == -EAGAIN)
+  1461			goto restart;
+  1462	
+  1463		if (iotlb_start_ktime)
+  1464			dmar_latency_update(iommu, DMAR_LATENCY_INV_IOTLB,
+  1465					ktime_to_ns(ktime_get()) - iotlb_start_ktime);
+  1466	
+  1467		if (devtlb_start_ktime)
+  1468			dmar_latency_update(iommu, DMAR_LATENCY_INV_DEVTLB,
+  1469					ktime_to_ns(ktime_get()) - devtlb_start_ktime);
+  1470	
+  1471		if (iec_start_ktime)
+  1472			dmar_latency_update(iommu, DMAR_LATENCY_INV_IEC,
+  1473					ktime_to_ns(ktime_get()) - iec_start_ktime);
+  1474	
+  1475		return rc;
+  1476	}
+  1477	
 
 -- 
 0-DAY CI Kernel Test Service
