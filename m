@@ -1,84 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB77F524DD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 18:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA54225AF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 19:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710355564; cv=none; b=aM5EyCJef2dQPEbFOmnG2JCEueVGbfJR8A948+IiHC3n9SpDlL9WtnXp+Brs9DAp85qf17Id13I7WzhGBN9XZ2gTmamsVRNpfgyTy76rCfCqWbwzAHRp0EsuwuozqOYXZX9qkBvvTd1vqhhXj5jEUL+aN6/vkF7rSBt+cK/gBX4=
+	t=1710356785; cv=none; b=ECKQB/M2tKngnXHiNxsZW8Dk/jAFIrBQBYOxlnlSNV3XR7fDIJTy1AnZm1mI7bV5sjhHt2IdHLC+XYNHPh3STSkYhmg4Os+Uh9dtAV2H0Z5hygQPwRZp2M4ttX4BuqD/g8wQa70BHt6rVaFRUjULDLaeD0z+eHRakXNK9O63QrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710355564; c=relaxed/simple;
-	bh=PjSs+lTdGDKvwVF7H5qvZEpDpoXFchfAOD+tMuxixI4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H64rT0ef1H6n/5VnONDF32AG8Pa1rbWEat/zFHwM0yZG/61Q66wICEzNId3jfjf3P5KDl7KRpwBxLCWDG28DsxOPfo9CL+f+HicwTNelWee0GiVkvfhFLFjXZMfK9gGHCgxgtdsyFmsP4iTiON/kDvaAA8wCdm7C17JFx6/BP7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VXMlDU45; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710356785; c=relaxed/simple;
+	bh=ZBSkGL0BqtvcUk5oD7GHm+GtBK+TbsJwzDWxCf6xB0M=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=Yik42Ftx+pxaLMnWE3UPcdFUGxC4qQX6G/Xla/ZRQ6orOSLWgFBrT1deZIhbio3EVGL/AmNhsh73bbWmkrCbeWVkedGV1SRHyditF+byENpK9dvqBgIL+EG4J1xgaalLIYAlmhHYUwEfSIwgasFPQgLwLgRsYj1okCZ8sK9aY3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=tNsIho+r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VXMlDU45"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710355563; x=1741891563;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PjSs+lTdGDKvwVF7H5qvZEpDpoXFchfAOD+tMuxixI4=;
-  b=VXMlDU45EV05jTNxlzI593JGecQlsVSm6LjEvxve+QVIeMSwFgDWHrZW
-   xOk4y4UalNcMhKCaBAFF09T1mBTWiNtkZ5lSHleLZqX3ZlsJsHycOd4R7
-   JXoZKOn22KPVYQH0tPCSl5ViAGj3gSuSWk/Axi+e8gKmFfkRZr+O8z+V/
-   LI5rBlhhtwRMIqSbPdV3F5M1XRx1rc8gmEGj7MpCojI8W/KMWcXRn2Z32
-   KgaFOw4IskLPCan/g45V/FtthosTbuE7Vl6hmnvv0yLUSYTXZ2VwFgEp/
-   0QGPutJcxsFWpnXcY8vTJ3vLApU2mP153AgRtj9ojvACJDh/Htmt6TFAu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="4998026"
-X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="4998026"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 11:46:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="12478787"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 Mar 2024 11:46:01 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rkTby-000CgT-23;
-	Wed, 13 Mar 2024 18:45:58 +0000
-Date: Thu, 14 Mar 2024 02:45:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Herve Codina <herve.codina@bootlin.com>
-Subject: WARNING: modpost: vmlinux: section mismatch in reference:
- find_next_bit+0x14 (section: .text.unlikely) ->
- __setup_str_initcall_blacklist (section: .init.rodata)
-Message-ID: <202403140236.HDGbPm2J-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="tNsIho+r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 315AEC433C7;
+	Wed, 13 Mar 2024 19:06:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1710356783;
+	bh=ZBSkGL0BqtvcUk5oD7GHm+GtBK+TbsJwzDWxCf6xB0M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=tNsIho+rxQf79Wv2+sCazXadQvpKrNpPB7Z0gJ7W0jP9vqv84qeEdYoPg7KNEVkHa
+	 jgfBSDA5dOEM3e4sLHFYfNEv/3WJFcEjNO1ptJmXOFQjTum5d1pqfBvDboT4B6AGVZ
+	 /Zqd28y5Tdb08OPuoPapuzs4krh7ew/qGh/AVfvo=
+Date: Wed, 13 Mar 2024 12:06:22 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Peter Xu <peterx@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, Linux
+ Memory Management List <linux-mm@kvack.org>, Jason Gunthorpe
+ <jgg@nvidia.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>
+Subject: Re: [linux-next:master 12265/12944]
+ arch/arm64/include/asm/pgtable.h:904:16: error: implicit declaration of
+ function 'pud_leaf'; did you mean 'pmd_leaf'?
+Message-Id: <20240313120622.62c76d759cc06f80f0aeb48e@linux-foundation.org>
+In-Reply-To: <Ze8vFNV9YSdgC2S7@x1n>
+References: <202403101607.a42gaLOS-lkp@intel.com>
+	<Ze8vFNV9YSdgC2S7@x1n>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b0546776ad3f332e215cebc0b063ba4351971cca
-commit: de5f84338970815b9fdd3497a975fb572d11e0b5 lib/bitmap: Introduce bitmap_scatter() and bitmap_gather() helpers
-date:   2 days ago
-config: xtensa-randconfig-s031-20211010 (https://download.01.org/0day-ci/archive/20240314/202403140236.HDGbPm2J-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403140236.HDGbPm2J-lkp@intel.com/reproduce)
+> 
+> There's another possibly relevant report for riscv:
+> 
+> https://lore.kernel.org/r/202403090900.OwPqmRuI-lkp@intel.com
+> 
+> I think I messed up the nopmd use case.  Since this commit already landed
+> mm-stable, I assume there's no way I provide a fixup.
+> 
+> I attached a formal patch below, but I don't know how to test it myself,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403140236.HDGbPm2J-lkp@intel.com/
+What I do:
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+Grab https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/13.2.0/x86_64-gcc-13.2.0-nolibc-aarch64-linux.tar.gz
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: vmlinux: section mismatch in reference: put_page+0x3c (section: .text.unlikely) -> initcall_level_names (section: .init.data)
->> WARNING: modpost: vmlinux: section mismatch in reference: find_next_bit+0x14 (section: .text.unlikely) -> __setup_str_initcall_blacklist (section: .init.rodata)
+untar that into /opt/crosstool
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+And my crufty old script does, partly,
+
+	WHAT="$*"
+
+	...
+	[ $ARCH = arm64 ] &&    CT=gcc-13.2.0-nolibc && XARCH=aarch64-linux
+	...
+
+	PATH=$PATH:/opt/crosstool/$CT/$XARCH/bin export PATH
+	export CROSS_COMPILE=/opt/crosstool/$CT/$XARCH/bin/$XARCH-
+	export CC="/opt/crosstool/$CT/$XARCH/bin/$XARCH-gcc"
+	J=$(grep "^processor" /proc/cpuinfo | wc -l)
+	J=$(expr $J \* 2)
+	nice -20 make -j$J CC="$CC" $WHAT 2>/tmp/log-$ARCH
+
+setenv ARCH arm64
+crufty-old-script vmlinux modules
+
+> and I'm not 100% confident.  Before I post a formal patch, can anyone let
+> me know how I can kickoff the test bot to test the patch (or help me do the
+> kickoff)?
+
+Worked for me, thanks.
+
+
