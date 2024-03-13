@@ -1,57 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851A5482D3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 21:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8E159176
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 22:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710366853; cv=none; b=AC5OcaRlMgQ5CVgbtom4sbsCWcnL79ZeeJ6cR1s4tEje71AO3PKCrX6UpJIO+hVKhaet3sivKLwnUo7eHYjujM5XLB/JKyj9Vnxb4d79EEsobla5DGfmbD8xk+QUPpaFX9jKk2n3GWZk7PgrT2erCDbvLB993OcVv7+EB7cCiqA=
+	t=1710367568; cv=none; b=OvMeSCDUO97fyNFCnYl9d8R6BFCxpTM2zqeYlXY/sa0l7/QwIV3P13LOAmeDcdX4N9oRQgfO2jJQo3cHL1MGuveCPWnSpe4U1As0XOFsAURsyduRXb8rphjilHlZsm9fvalwCyXmmNHDJT26sd0b0ca6nuJQ5Q4/9AHBlsyX8eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710366853; c=relaxed/simple;
-	bh=KkFonBiuahVi3gYp7v2XkxwvIYAhcXQQR7dcWSKcmgE=;
+	s=arc-20240116; t=1710367568; c=relaxed/simple;
+	bh=ow+tr0DoMyOO63PKa6DkEZQcIu53Di3Z1jKBMlRfFJw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aHlYXVfbNc7NWUWI0U3sKTe3rTSC/krio1eLdVTmtN3fs2oa/TR/5M93Cohi41QU2+X/mRtrnNHuYDrZyglarP0F0diqTgVCY3UHTbC53lzMQ46Lwc+KR/VE6YHhSeFIyld+dA9squFT6BCUSdLZmGOLR31NfmcdG1XKC7iD97s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f1Aj8oDE; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=OyWcKG9itHYF2eyPvvLmeRxMrwDCIxwOMjdDN96ADhLCyVlgzKKoirzufMzsxiIDJfTpZGe8YJAyL18tQ4ZI4l8n6cGyv/Y0eQgvAbAgYwoOC6FVFof/yQkL/iGrq7xaCBpUprUjgd0p7qd74QroGUYF8Ks2qeEKYWPhROLPNaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L9uROwqB; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f1Aj8oDE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L9uROwqB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710366850; x=1741902850;
+  t=1710367567; x=1741903567;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KkFonBiuahVi3gYp7v2XkxwvIYAhcXQQR7dcWSKcmgE=;
-  b=f1Aj8oDEyoa93gQh652a0bThOIbeGppToy5T8qB0RVLAMHYsIalJXv3j
-   8Bfi6gbptvm7yvzU5GDva9trjwEMWUTMqEYVdWFCPqLv8jwL/tc8ugSAh
-   w7O0JuJB9ezEJGd9+v4kMOI/9O82l+l+uadiH3eYbOwuz9OLpiu9bme4k
-   tZP8BTW/ULrldVRSM2CIsb9IBl1VFeMCq00sQmuMjy535VRzCRRWfXpcR
-   RguqVPPaQMEj+bD+ophSaa2Q61FuGXJ5HxHtGoppuVszTRw82ELfjJMkc
-   Gj0sgNn8jJa9OqdsV51hiNvRkPiUB4gjdKtwYQ4K8KM5HqqZFaD7lAji+
+  bh=ow+tr0DoMyOO63PKa6DkEZQcIu53Di3Z1jKBMlRfFJw=;
+  b=L9uROwqB6mwA0WHZBYAB9MCp01truTl8apmb+HliHLUtfsuxcmUUcxtc
+   oUvE/vdeR+DoBpJrCtWYBb1P9WC39EAJ1W4UtTDwcq4EqGgoevtpd+cHJ
+   wD+Y4KiToHwCmu5xcK++0GzlAZUUpOvyMUCrJ7LN5ckACbgzVdW6FWuoM
+   YwE5cCJpkeRR+RdFjt+3n8uOGtDEgMLLptEJamj0V/cDYhjtAjUlypVEy
+   c6Y/dkzGO+NW8ycYduiaXcFpYXq4zp1RPDPTkpHN7F1iuYTUso8o3Ovv2
+   5QuyDrgtkLPfz5s2EXAgpHzzjf7tFOijx9qFBJfZnGvi/xeZgzquC2aAc
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5029034"
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5018119"
 X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="5029034"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 14:54:08 -0700
+   d="scan'208";a="5018119"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 15:06:06 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="16534982"
+   d="scan'208";a="16667177"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Mar 2024 14:54:05 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 13 Mar 2024 15:06:05 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkWXy-000CnB-23;
-	Wed, 13 Mar 2024 21:54:02 +0000
-Date: Thu, 14 Mar 2024 05:53:45 +0800
+	id 1rkWja-000CnX-2f;
+	Wed, 13 Mar 2024 22:06:02 +0000
+Date: Thu, 14 Mar 2024 06:05:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
+To: kernel@openeuler.org, Yongqiang Liu <duanzi@zju.edu.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/iommu/arm-smmu.c:1590:10: error: 'struct iommu_ops' has no
- member named 'enable_nesting'
-Message-ID: <202403140552.EFwgLDjL-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 19926/21854] block/blk-core.c:158:18:
+ sparse: sparse: incorrect type in initializer (different address spaces)
+Message-ID: <202403140612.D8NswI2V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,250 +58,188 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   c13208f42a275b32080b8b1f05865c408364ef9f
-commit: 0de61a7e3cd5561f365657e90c222f1c88e9976c Revert "iommu: remove DOMAIN_ATTR_NESTING"
-date:   9 months ago
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240314/202403140552.EFwgLDjL-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403140552.EFwgLDjL-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   b318937609077b966b3bd130583ee3aaaa4d015a
+commit: f39ebff66fab7eee91421258aa7254ee0bbac778 [19926/21854] block: support to dispatch bio asynchronously
+config: x86_64-randconfig-r121-20240313 (https://download.01.org/0day-ci/archive/20240314/202403140612.D8NswI2V-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403140612.D8NswI2V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403140552.EFwgLDjL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403140612.D8NswI2V-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> block/blk-core.c:158:18: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct bio_dispatch_async_ctl [noderef] __percpu ** @@
+   block/blk-core.c:158:18: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   block/blk-core.c:158:18: sparse:     got struct bio_dispatch_async_ctl [noderef] __percpu **
+>> block/blk-core.c:158:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct bio_dispatch_async_ctl *ctl @@     got struct bio_dispatch_async_ctl [noderef] __percpu * @@
+   block/blk-core.c:158:17: sparse:     expected struct bio_dispatch_async_ctl *ctl
+   block/blk-core.c:158:17: sparse:     got struct bio_dispatch_async_ctl [noderef] __percpu *
+   block/blk-core.c:222:18: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct bio_dispatch_async_ctl [noderef] __percpu ** @@
+   block/blk-core.c:222:18: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   block/blk-core.c:222:18: sparse:     got struct bio_dispatch_async_ctl [noderef] __percpu **
+   block/blk-core.c:222:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct bio_dispatch_async_ctl *ctl @@     got struct bio_dispatch_async_ctl [noderef] __percpu * @@
+   block/blk-core.c:222:17: sparse:     expected struct bio_dispatch_async_ctl *ctl
+   block/blk-core.c:222:17: sparse:     got struct bio_dispatch_async_ctl [noderef] __percpu *
+>> block/blk-core.c:259:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct bio_dispatch_async_ctl [noderef] __percpu **static [toplevel] bio_dispatch_async_ctl @@     got struct bio_dispatch_async_ctl *[noderef] __percpu * @@
+   block/blk-core.c:259:32: sparse:     expected struct bio_dispatch_async_ctl [noderef] __percpu **static [toplevel] bio_dispatch_async_ctl
+   block/blk-core.c:259:32: sparse:     got struct bio_dispatch_async_ctl *[noderef] __percpu *
+   block/blk-core.c:269:18: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct bio_dispatch_async_ctl [noderef] __percpu ** @@
+   block/blk-core.c:269:18: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   block/blk-core.c:269:18: sparse:     got struct bio_dispatch_async_ctl [noderef] __percpu **
+>> block/blk-core.c:269:59: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct bio_dispatch_async_ctl [noderef] __percpu * @@     got struct bio_dispatch_async_ctl *ctl @@
+   block/blk-core.c:269:59: sparse:     expected struct bio_dispatch_async_ctl [noderef] __percpu *
+   block/blk-core.c:269:59: sparse:     got struct bio_dispatch_async_ctl *ctl
+   block/blk-core.c: note: in included file:
+   include/linux/backing-dev.h:511:19: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/backing-dev.h:511:19: sparse:    struct rcu_device [noderef] __rcu *
+   include/linux/backing-dev.h:511:19: sparse:    struct rcu_device *
 
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_domain_add_master':
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
-     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
-         |                                              ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                           ^~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1096:9: note: in expansion of macro 'for_each_cfg_sme'
-    1096 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                                               ^
-   drivers/iommu/arm-smmu.c:1096:9: note: in expansion of macro 'for_each_cfg_sme'
-    1096 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_attach_dev':
-   drivers/iommu/arm-smmu.c:1127:20: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1127 |         if (!fwspec->iommu_priv)
-         |                    ^~
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:112:27: note: in expansion of macro '__fwspec_cfg'
-     112 | #define fwspec_smmu(fw)  (__fwspec_cfg(fw)->smmu)
-         |                           ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1130:16: note: in expansion of macro 'fwspec_smmu'
-    1130 |         smmu = fwspec_smmu(fwspec);
-         |                ^~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_add_device':
-   drivers/iommu/arm-smmu.c:1372:15: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1372 |         fwspec->iommu_priv = cfg;
-         |               ^~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_remove_device':
-   drivers/iommu/arm-smmu.c:1410:22: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1410 |         cfg  = fwspec->iommu_priv;
-         |                      ^~
-   drivers/iommu/arm-smmu.c:1423:21: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1423 |         kfree(fwspec->iommu_priv);
-         |                     ^~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_device_group':
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:112:27: note: in expansion of macro '__fwspec_cfg'
-     112 | #define fwspec_smmu(fw)  (__fwspec_cfg(fw)->smmu)
-         |                           ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1430:40: note: in expansion of macro 'fwspec_smmu'
-    1430 |         struct arm_smmu_device *smmu = fwspec_smmu(fwspec);
-         |                                        ^~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
-     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
-         |                                              ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                           ^~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1434:9: note: in expansion of macro 'for_each_cfg_sme'
-    1434 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                                               ^
-   drivers/iommu/arm-smmu.c:1434:9: note: in expansion of macro 'for_each_cfg_sme'
-    1434 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_domain_get_attr':
-   drivers/iommu/arm-smmu.c:1476:22: error: 'DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE' undeclared (first use in this function)
-    1476 |                 case DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE:
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1476:22: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_domain_set_attr':
-   drivers/iommu/arm-smmu.c:1520:22: error: 'DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE' undeclared (first use in this function)
-    1520 |                 case DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE:
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1530:1: warning: label 'out_unlock' defined but not used [-Wunused-label]
-    1530 | out_unlock:
-         | ^~~~~~~~~~
-   drivers/iommu/arm-smmu.c: At top level:
-   drivers/iommu/arm-smmu.c:1580:35: error: initialization of 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int,  gfp_t)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int,  unsigned int)'} from incompatible pointer type 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int)'} [-Werror=incompatible-pointer-types]
-    1580 |         .map                    = arm_smmu_map,
-         |                                   ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1580:35: note: (near initialization for 'arm_smmu_ops.map')
-   drivers/iommu/arm-smmu.c:1585:10: error: 'struct iommu_ops' has no member named 'add_device'
-    1585 |         .add_device             = arm_smmu_add_device,
-         |          ^~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1585:35: error: initialization of 'struct iommu_device * (*)(struct device *)' from incompatible pointer type 'int (*)(struct device *)' [-Werror=incompatible-pointer-types]
-    1585 |         .add_device             = arm_smmu_add_device,
-         |                                   ^~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1585:35: note: (near initialization for 'arm_smmu_ops.probe_device')
-   drivers/iommu/arm-smmu.c:1586:10: error: 'struct iommu_ops' has no member named 'remove_device'; did you mean 'probe_device'?
-    1586 |         .remove_device          = arm_smmu_remove_device,
-         |          ^~~~~~~~~~~~~
-         |          probe_device
->> drivers/iommu/arm-smmu.c:1590:10: error: 'struct iommu_ops' has no member named 'enable_nesting'
-    1590 |         .enable_nesting         = arm_smmu_enable_nesting,
-         |          ^~~~~~~~~~~~~~
->> drivers/iommu/arm-smmu.c:1590:35: error: initialization of 'void (*)(struct device *, struct list_head *)' from incompatible pointer type 'int (*)(struct iommu_domain *)' [-Werror=incompatible-pointer-types]
-    1590 |         .enable_nesting         = arm_smmu_enable_nesting,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1590:35: note: (near initialization for 'arm_smmu_ops.get_resv_regions')
-   drivers/iommu/arm-smmu.c:1592:35: warning: initialized field overwritten [-Woverride-init]
-    1592 |         .get_resv_regions       = arm_smmu_get_resv_regions,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1592:35: note: (near initialization for 'arm_smmu_ops.get_resv_regions')
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/iommu.h:16,
-                    from include/linux/dma-iommu.h:13,
-                    from drivers/iommu/arm-smmu-v3.c:18:
-   include/linux/ioasid.h:209:51: error: unknown type name 'ioasid_set_type'
-     209 |                                                   ioasid_set_type type)
-         |                                                   ^~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu-v3.c: In function 'arm_smmu_attach_dev':
-   drivers/iommu/arm-smmu-v3.c:2452:24: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    2452 |         master = fwspec->iommu_priv;
-         |                        ^~
-   In file included from arch/arm64/include/asm/bug.h:26,
-                    from include/linux/bug.h:5,
-                    from arch/arm64/include/asm/cpufeature.h:19,
-                    from arch/arm64/include/asm/processor.h:31,
-                    from include/linux/mutex.h:19,
-                    from include/linux/kernfs.h:12,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/of.h:17,
-                    from include/linux/irqdomain.h:35,
-                    from include/linux/acpi.h:13,
-                    from drivers/iommu/arm-smmu-v3.c:12:
-   drivers/iommu/arm-smmu-v3.c: In function 'arm_smmu_add_device':
-   drivers/iommu/arm-smmu-v3.c:2588:32: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    2588 |         if (WARN_ON_ONCE(fwspec->iommu_priv)) {
-         |                                ^~
-   include/asm-generic/bug.h:97:32: note: in definition of macro 'WARN_ON_ONCE'
-      97 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   drivers/iommu/arm-smmu-v3.c:2589:32: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    2589 |                 master = fwspec->iommu_priv;
-         |                                ^~
-   drivers/iommu/arm-smmu-v3.c:2603:23: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    2603 |                 fwspec->iommu_priv = master;
-         |                       ^~
-   drivers/iommu/arm-smmu-v3.c:2621:17: error: implicit declaration of function 'iommu_group_get_for_dev'; did you mean 'iommu_group_get_by_id'? [-Werror=implicit-function-declaration]
-    2621 |         group = iommu_group_get_for_dev(dev);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-         |                 iommu_group_get_by_id
-   drivers/iommu/arm-smmu-v3.c:2621:15: warning: assignment to 'struct iommu_group *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2621 |         group = iommu_group_get_for_dev(dev);
-         |               ^
-   drivers/iommu/arm-smmu-v3.c: In function 'arm_smmu_remove_device':
-   drivers/iommu/arm-smmu-v3.c:2639:24: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    2639 |         master = fwspec->iommu_priv;
-         |                        ^~
-   drivers/iommu/arm-smmu-v3.c: In function 'arm_smmu_domain_get_attr':
-   drivers/iommu/arm-smmu-v3.c:2673:22: error: 'DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE' undeclared (first use in this function)
-    2673 |                 case DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE:
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu-v3.c:2673:22: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/iommu/arm-smmu-v3.c: In function 'arm_smmu_domain_set_attr':
-   drivers/iommu/arm-smmu-v3.c:2696:22: error: 'DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE' undeclared (first use in this function)
-    2696 |                 case DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE:
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu-v3.c: At top level:
-   drivers/iommu/arm-smmu-v3.c:2794:35: error: initialization of 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int,  gfp_t)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int,  unsigned int)'} from incompatible pointer type 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int)'} [-Werror=incompatible-pointer-types]
-    2794 |         .map                    = arm_smmu_map,
-         |                                   ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu-v3.c:2794:35: note: (near initialization for 'arm_smmu_ops.map')
-   drivers/iommu/arm-smmu-v3.c:2799:10: error: 'struct iommu_ops' has no member named 'add_device'
-    2799 |         .add_device             = arm_smmu_add_device,
-         |          ^~~~~~~~~~
-   drivers/iommu/arm-smmu-v3.c:2799:35: error: initialization of 'struct iommu_device * (*)(struct device *)' from incompatible pointer type 'int (*)(struct device *)' [-Werror=incompatible-pointer-types]
-    2799 |         .add_device             = arm_smmu_add_device,
-         |                                   ^~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu-v3.c:2799:35: note: (near initialization for 'arm_smmu_ops.probe_device')
-   drivers/iommu/arm-smmu-v3.c:2800:10: error: 'struct iommu_ops' has no member named 'remove_device'; did you mean 'probe_device'?
-    2800 |         .remove_device          = arm_smmu_remove_device,
-         |          ^~~~~~~~~~~~~
-         |          probe_device
->> drivers/iommu/arm-smmu-v3.c:2804:10: error: 'struct iommu_ops' has no member named 'enable_nesting'
-    2804 |         .enable_nesting         = arm_smmu_enable_nesting,
-         |          ^~~~~~~~~~~~~~
->> drivers/iommu/arm-smmu-v3.c:2804:35: error: initialization of 'void (*)(struct device *, struct list_head *)' from incompatible pointer type 'int (*)(struct iommu_domain *)' [-Werror=incompatible-pointer-types]
-    2804 |         .enable_nesting         = arm_smmu_enable_nesting,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu-v3.c:2804:35: note: (near initialization for 'arm_smmu_ops.get_resv_regions')
-   drivers/iommu/arm-smmu-v3.c:2806:35: warning: initialized field overwritten [-Woverride-init]
-    2806 |         .get_resv_regions       = arm_smmu_get_resv_regions,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu-v3.c:2806:35: note: (near initialization for 'arm_smmu_ops.get_resv_regions')
-   cc1: some warnings being treated as errors
+vim +158 block/blk-core.c
 
-
-vim +1590 drivers/iommu/arm-smmu.c
-
-^590eaf1fec755 Kaixu Xia         2021-03-16  1574  
-^590eaf1fec755 Kaixu Xia         2021-03-16  1575  static struct iommu_ops arm_smmu_ops = {
-^590eaf1fec755 Kaixu Xia         2021-03-16  1576  	.capable		= arm_smmu_capable,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1577  	.domain_alloc		= arm_smmu_domain_alloc,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1578  	.domain_free		= arm_smmu_domain_free,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1579  	.attach_dev		= arm_smmu_attach_dev,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1580  	.map			= arm_smmu_map,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1581  	.unmap			= arm_smmu_unmap,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1582  	.flush_iotlb_all	= arm_smmu_flush_iotlb_all,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1583  	.iotlb_sync		= arm_smmu_iotlb_sync,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1584  	.iova_to_phys		= arm_smmu_iova_to_phys,
-^590eaf1fec755 Kaixu Xia         2021-03-16 @1585  	.add_device		= arm_smmu_add_device,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1586  	.remove_device		= arm_smmu_remove_device,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1587  	.device_group		= arm_smmu_device_group,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1588  	.domain_get_attr	= arm_smmu_domain_get_attr,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1589  	.domain_set_attr	= arm_smmu_domain_set_attr,
-0095646afc7d37 Christoph Hellwig 2021-04-01 @1590  	.enable_nesting		= arm_smmu_enable_nesting,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1591  	.of_xlate		= arm_smmu_of_xlate,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1592  	.get_resv_regions	= arm_smmu_get_resv_regions,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1593  	.put_resv_regions	= arm_smmu_put_resv_regions,
-^590eaf1fec755 Kaixu Xia         2021-03-16  1594  	.pgsize_bitmap		= -1UL, /* Restricted during device attach */
-^590eaf1fec755 Kaixu Xia         2021-03-16  1595  };
-^590eaf1fec755 Kaixu Xia         2021-03-16  1596  
-
-:::::: The code at line 1590 was first introduced by commit
-:::::: 0095646afc7d37f78774f3db569f07c47984f10c iommu: remove DOMAIN_ATTR_NESTING
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Song, Youquan <youquan.song@intel.com>
+   152	
+   153	static int bio_dispatch_work(void *data)
+   154	{
+   155		int loop_count = 0;
+   156		int cpu = smp_processor_id();
+   157		struct bio_dispatch_async_ctl *ctl =
+ > 158			*per_cpu_ptr(bio_dispatch_async_ctl, cpu);
+   159	
+   160		for (;; loop_count++) {
+   161			struct bio_list bio_list_on_stack;
+   162			struct blk_plug plug;
+   163			struct bio *bio;
+   164			int count;
+   165	
+   166			bio_list_init(&bio_list_on_stack);
+   167			count = collect_bio(ctl, &bio_list_on_stack);
+   168	
+   169			if (!count) {
+   170				DEFINE_WAIT(wait);
+   171	
+   172				for (;;) {
+   173					prepare_to_wait(&ctl->wait, &wait,
+   174							TASK_INTERRUPTIBLE);
+   175					count = collect_bio(ctl, &bio_list_on_stack);
+   176					if (count)
+   177						break;
+   178					schedule();
+   179					loop_count = 0;
+   180				}
+   181				finish_wait(&ctl->wait, &wait);
+   182	
+   183			}
+   184	
+   185			blk_start_plug(&plug);
+   186			while ((bio = bio_list_pop(&bio_list_on_stack))) {
+   187				struct request_queue *q = bio->bi_disk->queue;
+   188	
+   189				q->make_request_fn(q, bio);
+   190			}
+   191			blk_finish_plug(&plug);
+   192	
+   193			/* prevent soft lockup */
+   194			if (loop_count >= BIO_DISPATCH_MAX_LOOP) {
+   195				loop_count = 0;
+   196				cond_resched();
+   197			}
+   198		}
+   199	
+   200		return 0;
+   201	}
+   202	
+   203	static int get_dispatch_cpu(struct request_queue *q, int cpu)
+   204	{
+   205		int *last_dispatch_cpu = per_cpu_ptr(q->last_dispatch_cpu, cpu);
+   206	
+   207		cpu = cpumask_next(*last_dispatch_cpu, &q->dispatch_async_cpus);
+   208		if (cpu >= nr_cpu_ids)
+   209			cpu = cpumask_first(&q->dispatch_async_cpus);
+   210	
+   211		*last_dispatch_cpu = cpu;
+   212	
+   213		return cpu;
+   214	}
+   215	
+   216	static void blk_queue_make_request_async(struct bio *bio)
+   217	{
+   218		struct request_queue *q = bio->bi_disk->queue;
+   219		int cpu = smp_processor_id();
+   220		int dispatch_cpu = get_dispatch_cpu(q, cpu);
+   221		struct bio_dispatch_async_ctl *ctl =
+ > 222			*per_cpu_ptr(bio_dispatch_async_ctl, dispatch_cpu);
+   223	
+   224		spin_lock_irq(bio_async_lock(ctl, cpu));
+   225		bio_list_add(bio_async_list(ctl, cpu), bio);
+   226		spin_unlock_irq(bio_async_lock(ctl, cpu));
+   227	
+   228		if (wq_has_sleeper(&ctl->wait))
+   229			wake_up(&ctl->wait);
+   230	}
+   231	
+   232	static blk_qc_t blk_queue_do_make_request(struct bio *bio)
+   233	{
+   234		struct request_queue *q = bio->bi_disk->queue;
+   235		int cpu = smp_processor_id();
+   236	
+   237		/*
+   238		 * Don't dispatch bio asynchronously in following cases:
+   239		 *
+   240		 * 1) QUEUE_FLAG_DISPATCH_ASYNC is not set;
+   241		 * 2) current cpu is the target cpu;
+   242		 * 3) bio is flagged no wait;
+   243		 * 4) TODO: return value of submit_bio() will be used in io polling.
+   244		 */
+   245		if (!test_bit(QUEUE_FLAG_DISPATCH_ASYNC, &q->queue_flags) ||
+   246		    cpumask_test_cpu(cpu, &q->dispatch_async_cpus) ||
+   247		    bio->bi_opf & REQ_NOWAIT)
+   248			return q->make_request_fn(q, bio);
+   249	
+   250		/* return value is not concerned */
+   251		blk_queue_make_request_async(bio);
+   252		return BLK_QC_T_NONE;
+   253	}
+   254	
+   255	static void init_blk_queue_async_dispatch(void)
+   256	{
+   257		int cpu;
+   258	
+ > 259		bio_dispatch_async_ctl = alloc_percpu(struct bio_dispatch_async_ctl *);
+   260		if (!bio_dispatch_async_ctl)
+   261			panic("Failed to alloc bio_dispatch_async_ctl\n");
+   262	
+   263		for_each_possible_cpu(cpu) {
+   264			int i;
+   265			struct bio_dispatch_async_ctl *ctl =
+   266				kmalloc(sizeof(struct bio_dispatch_async_ctl),
+   267					GFP_KERNEL | __GFP_NOFAIL);
+   268	
+ > 269			*per_cpu_ptr(bio_dispatch_async_ctl, cpu) = ctl;
+   270	
+   271			ctl->thread =
+   272				kthread_create_on_cpu(bio_dispatch_work, NULL, cpu,
+   273						      "bio_dispatch_work_%u");
+   274			if (IS_ERR_OR_NULL(ctl->thread))
+   275				panic("Failed to create bio dispatch thread\n");
+   276	
+   277			ctl->list = kmalloc_array(nr_cpu_ids,
+   278					sizeof(struct bio_list) << BIO_ASYNC_LIST_SHIFT,
+   279					GFP_KERNEL | __GFP_NOFAIL);
+   280			ctl->lock = kmalloc_array(nr_cpu_ids,
+   281					sizeof(spinlock_t) << BIO_ASYNC_LOCK_SHIFT,
+   282					GFP_KERNEL | __GFP_NOFAIL);
+   283			for (i = 0; i < nr_cpu_ids; ++i) {
+   284				bio_list_init(bio_async_list(ctl, i));
+   285				spin_lock_init(bio_async_lock(ctl, i));
+   286			}
+   287	
+   288			wake_up_process(ctl->thread);
+   289			init_waitqueue_head(&ctl->wait);
+   290		}
+   291	}
+   292	
 
 -- 
 0-DAY CI Kernel Test Service
