@@ -1,54 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8E159176
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 22:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2085F273DC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 22:26:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710367568; cv=none; b=OvMeSCDUO97fyNFCnYl9d8R6BFCxpTM2zqeYlXY/sa0l7/QwIV3P13LOAmeDcdX4N9oRQgfO2jJQo3cHL1MGuveCPWnSpe4U1As0XOFsAURsyduRXb8rphjilHlZsm9fvalwCyXmmNHDJT26sd0b0ca6nuJQ5Q4/9AHBlsyX8eU=
+	t=1710368770; cv=none; b=o69U+ESPC4QRBNoWm52U1/jk64hq1v0XRE71yZpGxLpA52zYwsSvbnkk245bHsKZb2fK8jA0lsfWKH988MB7WGi/22u5ORte9S5ayb71+USESnpgsBWQapAJAwBP4SPehWUq4qHx4ERo82LiFZ57nDiK70LZexpu14X2YJs1tdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710367568; c=relaxed/simple;
-	bh=ow+tr0DoMyOO63PKa6DkEZQcIu53Di3Z1jKBMlRfFJw=;
+	s=arc-20240116; t=1710368770; c=relaxed/simple;
+	bh=E211JqsQlRdSCqtB8uphR7cqWcbHRH6Me5KXHyfbqeQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OyWcKG9itHYF2eyPvvLmeRxMrwDCIxwOMjdDN96ADhLCyVlgzKKoirzufMzsxiIDJfTpZGe8YJAyL18tQ4ZI4l8n6cGyv/Y0eQgvAbAgYwoOC6FVFof/yQkL/iGrq7xaCBpUprUjgd0p7qd74QroGUYF8Ks2qeEKYWPhROLPNaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L9uROwqB; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=ZKO+5wn6MPVps7/QOKCKm4Nw1BSFhOxzRk/sDQua28gpLRAxtntEhXhXUDxDVMiLimozmHirHEeUHhf3lQlu68zBJg/QZyZDsHmaef5eNCM2O2GvTlQqH/b36l8V9Hlf1GzDY9diSSh0zRPo1sdd/OKRJRHNNyTl9wDItfJ8CCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jqxru7H9; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L9uROwqB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jqxru7H9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710367567; x=1741903567;
+  t=1710368769; x=1741904769;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ow+tr0DoMyOO63PKa6DkEZQcIu53Di3Z1jKBMlRfFJw=;
-  b=L9uROwqB6mwA0WHZBYAB9MCp01truTl8apmb+HliHLUtfsuxcmUUcxtc
-   oUvE/vdeR+DoBpJrCtWYBb1P9WC39EAJ1W4UtTDwcq4EqGgoevtpd+cHJ
-   wD+Y4KiToHwCmu5xcK++0GzlAZUUpOvyMUCrJ7LN5ckACbgzVdW6FWuoM
-   YwE5cCJpkeRR+RdFjt+3n8uOGtDEgMLLptEJamj0V/cDYhjtAjUlypVEy
-   c6Y/dkzGO+NW8ycYduiaXcFpYXq4zp1RPDPTkpHN7F1iuYTUso8o3Ovv2
-   5QuyDrgtkLPfz5s2EXAgpHzzjf7tFOijx9qFBJfZnGvi/xeZgzquC2aAc
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5018119"
+  bh=E211JqsQlRdSCqtB8uphR7cqWcbHRH6Me5KXHyfbqeQ=;
+  b=jqxru7H9wJiI89ZxH+PoDTNTDarI8rghloOErm8x7uPzJDOYXsWEK/mi
+   hKk76eK7AStZFUcuhw3Cx3uFQMxLT6sPb1pWlPG4Qjrjiideh7LXQUEpn
+   c75ehszfH9ZLMDGAFnFYVe/dUezFWBHFhI3XuC+U7IOQQJH8O33Z9KsH3
+   tFjXFSWcaFEcxKJGM6jkuxjXELLDPWhmnQ94EIHC/oZzkUxG9KC/8DUHz
+   pqj5Zwq2WF9LyixgW2XZmxnjYFgp1WTP/IyoRS6P7CAZahdrCmNxcEqpa
+   kmrCCalQo/dmKHqB5g/364Co0Vs8KXWYf0oExwk/BpFzbBFdUW3PN6oUD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="30608131"
 X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="5018119"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 15:06:06 -0700
+   d="scan'208";a="30608131"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 15:26:08 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="16667177"
+   d="scan'208";a="12162527"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 Mar 2024 15:06:05 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 13 Mar 2024 15:26:05 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkWja-000CnX-2f;
-	Wed, 13 Mar 2024 22:06:02 +0000
-Date: Thu, 14 Mar 2024 06:05:21 +0800
+	id 1rkX2x-000CoH-0j;
+	Wed, 13 Mar 2024 22:26:03 +0000
+Date: Thu, 14 Mar 2024 06:25:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yongqiang Liu <duanzi@zju.edu.cn>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 19926/21854] block/blk-core.c:158:18:
- sparse: sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202403140612.D8NswI2V-lkp@intel.com>
+Subject: arch/x86/power/cpu.c:406:21: error: implicit declaration of function
+ 'kmalloc_array'; did you mean 'kvmalloc_array'?
+Message-ID: <202403140601.HLRKsCob-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,188 +61,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   b318937609077b966b3bd130583ee3aaaa4d015a
-commit: f39ebff66fab7eee91421258aa7254ee0bbac778 [19926/21854] block: support to dispatch bio asynchronously
-config: x86_64-randconfig-r121-20240313 (https://download.01.org/0day-ci/archive/20240314/202403140612.D8NswI2V-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403140612.D8NswI2V-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   c13208f42a275b32080b8b1f05865c408364ef9f
+commit: c53815e5cc83e56454044d6341dddf019d945bb2 x86/fpu: Replace the includes of fpu/internal.h
+date:   9 months ago
+config: x86_64-buildonly-randconfig-003-20240313 (https://download.01.org/0day-ci/archive/20240314/202403140601.HLRKsCob-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403140601.HLRKsCob-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403140612.D8NswI2V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403140601.HLRKsCob-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> block/blk-core.c:158:18: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct bio_dispatch_async_ctl [noderef] __percpu ** @@
-   block/blk-core.c:158:18: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   block/blk-core.c:158:18: sparse:     got struct bio_dispatch_async_ctl [noderef] __percpu **
->> block/blk-core.c:158:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct bio_dispatch_async_ctl *ctl @@     got struct bio_dispatch_async_ctl [noderef] __percpu * @@
-   block/blk-core.c:158:17: sparse:     expected struct bio_dispatch_async_ctl *ctl
-   block/blk-core.c:158:17: sparse:     got struct bio_dispatch_async_ctl [noderef] __percpu *
-   block/blk-core.c:222:18: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct bio_dispatch_async_ctl [noderef] __percpu ** @@
-   block/blk-core.c:222:18: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   block/blk-core.c:222:18: sparse:     got struct bio_dispatch_async_ctl [noderef] __percpu **
-   block/blk-core.c:222:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct bio_dispatch_async_ctl *ctl @@     got struct bio_dispatch_async_ctl [noderef] __percpu * @@
-   block/blk-core.c:222:17: sparse:     expected struct bio_dispatch_async_ctl *ctl
-   block/blk-core.c:222:17: sparse:     got struct bio_dispatch_async_ctl [noderef] __percpu *
->> block/blk-core.c:259:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct bio_dispatch_async_ctl [noderef] __percpu **static [toplevel] bio_dispatch_async_ctl @@     got struct bio_dispatch_async_ctl *[noderef] __percpu * @@
-   block/blk-core.c:259:32: sparse:     expected struct bio_dispatch_async_ctl [noderef] __percpu **static [toplevel] bio_dispatch_async_ctl
-   block/blk-core.c:259:32: sparse:     got struct bio_dispatch_async_ctl *[noderef] __percpu *
-   block/blk-core.c:269:18: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct bio_dispatch_async_ctl [noderef] __percpu ** @@
-   block/blk-core.c:269:18: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   block/blk-core.c:269:18: sparse:     got struct bio_dispatch_async_ctl [noderef] __percpu **
->> block/blk-core.c:269:59: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct bio_dispatch_async_ctl [noderef] __percpu * @@     got struct bio_dispatch_async_ctl *ctl @@
-   block/blk-core.c:269:59: sparse:     expected struct bio_dispatch_async_ctl [noderef] __percpu *
-   block/blk-core.c:269:59: sparse:     got struct bio_dispatch_async_ctl *ctl
-   block/blk-core.c: note: in included file:
-   include/linux/backing-dev.h:511:19: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/backing-dev.h:511:19: sparse:    struct rcu_device [noderef] __rcu *
-   include/linux/backing-dev.h:511:19: sparse:    struct rcu_device *
+All error/warnings (new ones prefixed by >>):
 
-vim +158 block/blk-core.c
+   arch/x86/power/cpu.c: In function 'msr_build_context':
+>> arch/x86/power/cpu.c:406:21: error: implicit declaration of function 'kmalloc_array'; did you mean 'kvmalloc_array'? [-Werror=implicit-function-declaration]
+     406 |         msr_array = kmalloc_array(total_num, sizeof(struct saved_msr), GFP_KERNEL);
+         |                     ^~~~~~~~~~~~~
+         |                     kvmalloc_array
+>> arch/x86/power/cpu.c:406:19: warning: assignment to 'struct saved_msr *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     406 |         msr_array = kmalloc_array(total_num, sizeof(struct saved_msr), GFP_KERNEL);
+         |                   ^
+>> arch/x86/power/cpu.c:420:17: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
+     420 |                 kfree(saved_msrs->array);
+         |                 ^~~~~
+         |                 kvfree
+   cc1: some warnings being treated as errors
 
-   152	
-   153	static int bio_dispatch_work(void *data)
-   154	{
-   155		int loop_count = 0;
-   156		int cpu = smp_processor_id();
-   157		struct bio_dispatch_async_ctl *ctl =
- > 158			*per_cpu_ptr(bio_dispatch_async_ctl, cpu);
-   159	
-   160		for (;; loop_count++) {
-   161			struct bio_list bio_list_on_stack;
-   162			struct blk_plug plug;
-   163			struct bio *bio;
-   164			int count;
-   165	
-   166			bio_list_init(&bio_list_on_stack);
-   167			count = collect_bio(ctl, &bio_list_on_stack);
-   168	
-   169			if (!count) {
-   170				DEFINE_WAIT(wait);
-   171	
-   172				for (;;) {
-   173					prepare_to_wait(&ctl->wait, &wait,
-   174							TASK_INTERRUPTIBLE);
-   175					count = collect_bio(ctl, &bio_list_on_stack);
-   176					if (count)
-   177						break;
-   178					schedule();
-   179					loop_count = 0;
-   180				}
-   181				finish_wait(&ctl->wait, &wait);
-   182	
-   183			}
-   184	
-   185			blk_start_plug(&plug);
-   186			while ((bio = bio_list_pop(&bio_list_on_stack))) {
-   187				struct request_queue *q = bio->bi_disk->queue;
-   188	
-   189				q->make_request_fn(q, bio);
-   190			}
-   191			blk_finish_plug(&plug);
-   192	
-   193			/* prevent soft lockup */
-   194			if (loop_count >= BIO_DISPATCH_MAX_LOOP) {
-   195				loop_count = 0;
-   196				cond_resched();
-   197			}
-   198		}
-   199	
-   200		return 0;
-   201	}
-   202	
-   203	static int get_dispatch_cpu(struct request_queue *q, int cpu)
-   204	{
-   205		int *last_dispatch_cpu = per_cpu_ptr(q->last_dispatch_cpu, cpu);
-   206	
-   207		cpu = cpumask_next(*last_dispatch_cpu, &q->dispatch_async_cpus);
-   208		if (cpu >= nr_cpu_ids)
-   209			cpu = cpumask_first(&q->dispatch_async_cpus);
-   210	
-   211		*last_dispatch_cpu = cpu;
-   212	
-   213		return cpu;
-   214	}
-   215	
-   216	static void blk_queue_make_request_async(struct bio *bio)
-   217	{
-   218		struct request_queue *q = bio->bi_disk->queue;
-   219		int cpu = smp_processor_id();
-   220		int dispatch_cpu = get_dispatch_cpu(q, cpu);
-   221		struct bio_dispatch_async_ctl *ctl =
- > 222			*per_cpu_ptr(bio_dispatch_async_ctl, dispatch_cpu);
-   223	
-   224		spin_lock_irq(bio_async_lock(ctl, cpu));
-   225		bio_list_add(bio_async_list(ctl, cpu), bio);
-   226		spin_unlock_irq(bio_async_lock(ctl, cpu));
-   227	
-   228		if (wq_has_sleeper(&ctl->wait))
-   229			wake_up(&ctl->wait);
-   230	}
-   231	
-   232	static blk_qc_t blk_queue_do_make_request(struct bio *bio)
-   233	{
-   234		struct request_queue *q = bio->bi_disk->queue;
-   235		int cpu = smp_processor_id();
-   236	
-   237		/*
-   238		 * Don't dispatch bio asynchronously in following cases:
-   239		 *
-   240		 * 1) QUEUE_FLAG_DISPATCH_ASYNC is not set;
-   241		 * 2) current cpu is the target cpu;
-   242		 * 3) bio is flagged no wait;
-   243		 * 4) TODO: return value of submit_bio() will be used in io polling.
-   244		 */
-   245		if (!test_bit(QUEUE_FLAG_DISPATCH_ASYNC, &q->queue_flags) ||
-   246		    cpumask_test_cpu(cpu, &q->dispatch_async_cpus) ||
-   247		    bio->bi_opf & REQ_NOWAIT)
-   248			return q->make_request_fn(q, bio);
-   249	
-   250		/* return value is not concerned */
-   251		blk_queue_make_request_async(bio);
-   252		return BLK_QC_T_NONE;
-   253	}
-   254	
-   255	static void init_blk_queue_async_dispatch(void)
-   256	{
-   257		int cpu;
-   258	
- > 259		bio_dispatch_async_ctl = alloc_percpu(struct bio_dispatch_async_ctl *);
-   260		if (!bio_dispatch_async_ctl)
-   261			panic("Failed to alloc bio_dispatch_async_ctl\n");
-   262	
-   263		for_each_possible_cpu(cpu) {
-   264			int i;
-   265			struct bio_dispatch_async_ctl *ctl =
-   266				kmalloc(sizeof(struct bio_dispatch_async_ctl),
-   267					GFP_KERNEL | __GFP_NOFAIL);
-   268	
- > 269			*per_cpu_ptr(bio_dispatch_async_ctl, cpu) = ctl;
-   270	
-   271			ctl->thread =
-   272				kthread_create_on_cpu(bio_dispatch_work, NULL, cpu,
-   273						      "bio_dispatch_work_%u");
-   274			if (IS_ERR_OR_NULL(ctl->thread))
-   275				panic("Failed to create bio dispatch thread\n");
-   276	
-   277			ctl->list = kmalloc_array(nr_cpu_ids,
-   278					sizeof(struct bio_list) << BIO_ASYNC_LIST_SHIFT,
-   279					GFP_KERNEL | __GFP_NOFAIL);
-   280			ctl->lock = kmalloc_array(nr_cpu_ids,
-   281					sizeof(spinlock_t) << BIO_ASYNC_LOCK_SHIFT,
-   282					GFP_KERNEL | __GFP_NOFAIL);
-   283			for (i = 0; i < nr_cpu_ids; ++i) {
-   284				bio_list_init(bio_async_list(ctl, i));
-   285				spin_lock_init(bio_async_lock(ctl, i));
-   286			}
-   287	
-   288			wake_up_process(ctl->thread);
-   289			init_waitqueue_head(&ctl->wait);
-   290		}
-   291	}
-   292	
+
+vim +406 arch/x86/power/cpu.c
+
+^590eaf1fec755 Kaixu Xia 2021-03-16  396  
+^590eaf1fec755 Kaixu Xia 2021-03-16  397  static int msr_build_context(const u32 *msr_id, const int num)
+^590eaf1fec755 Kaixu Xia 2021-03-16  398  {
+^590eaf1fec755 Kaixu Xia 2021-03-16  399  	struct saved_msrs *saved_msrs = &saved_context.saved_msrs;
+^590eaf1fec755 Kaixu Xia 2021-03-16  400  	struct saved_msr *msr_array;
+^590eaf1fec755 Kaixu Xia 2021-03-16  401  	int total_num;
+^590eaf1fec755 Kaixu Xia 2021-03-16  402  	int i, j;
+^590eaf1fec755 Kaixu Xia 2021-03-16  403  
+^590eaf1fec755 Kaixu Xia 2021-03-16  404  	total_num = saved_msrs->num + num;
+^590eaf1fec755 Kaixu Xia 2021-03-16  405  
+^590eaf1fec755 Kaixu Xia 2021-03-16 @406  	msr_array = kmalloc_array(total_num, sizeof(struct saved_msr), GFP_KERNEL);
+^590eaf1fec755 Kaixu Xia 2021-03-16  407  	if (!msr_array) {
+^590eaf1fec755 Kaixu Xia 2021-03-16  408  		pr_err("x86/pm: Can not allocate memory to save/restore MSRs during suspend.\n");
+^590eaf1fec755 Kaixu Xia 2021-03-16  409  		return -ENOMEM;
+^590eaf1fec755 Kaixu Xia 2021-03-16  410  	}
+^590eaf1fec755 Kaixu Xia 2021-03-16  411  
+^590eaf1fec755 Kaixu Xia 2021-03-16  412  	if (saved_msrs->array) {
+^590eaf1fec755 Kaixu Xia 2021-03-16  413  		/*
+^590eaf1fec755 Kaixu Xia 2021-03-16  414  		 * Multiple callbacks can invoke this function, so copy any
+^590eaf1fec755 Kaixu Xia 2021-03-16  415  		 * MSR save requests from previous invocations.
+^590eaf1fec755 Kaixu Xia 2021-03-16  416  		 */
+^590eaf1fec755 Kaixu Xia 2021-03-16  417  		memcpy(msr_array, saved_msrs->array,
+^590eaf1fec755 Kaixu Xia 2021-03-16  418  		       sizeof(struct saved_msr) * saved_msrs->num);
+^590eaf1fec755 Kaixu Xia 2021-03-16  419  
+^590eaf1fec755 Kaixu Xia 2021-03-16 @420  		kfree(saved_msrs->array);
+^590eaf1fec755 Kaixu Xia 2021-03-16  421  	}
+^590eaf1fec755 Kaixu Xia 2021-03-16  422  
+^590eaf1fec755 Kaixu Xia 2021-03-16  423  	for (i = saved_msrs->num, j = 0; i < total_num; i++, j++) {
+^590eaf1fec755 Kaixu Xia 2021-03-16  424  		msr_array[i].info.msr_no	= msr_id[j];
+^590eaf1fec755 Kaixu Xia 2021-03-16  425  		msr_array[i].valid		= false;
+^590eaf1fec755 Kaixu Xia 2021-03-16  426  		msr_array[i].info.reg.q		= 0;
+^590eaf1fec755 Kaixu Xia 2021-03-16  427  	}
+^590eaf1fec755 Kaixu Xia 2021-03-16  428  	saved_msrs->num   = total_num;
+^590eaf1fec755 Kaixu Xia 2021-03-16  429  	saved_msrs->array = msr_array;
+^590eaf1fec755 Kaixu Xia 2021-03-16  430  
+^590eaf1fec755 Kaixu Xia 2021-03-16  431  	return 0;
+^590eaf1fec755 Kaixu Xia 2021-03-16  432  }
+^590eaf1fec755 Kaixu Xia 2021-03-16  433  
+
+:::::: The code at line 406 was first introduced by commit
+:::::: 590eaf1fec755215547690e787cc7d83f58ea948 Init Repo base on linux 5.4.32 long term, and add base tlinux kernel interfaces.
+
+:::::: TO: Kaixu Xia <kaixuxia@tencent.com>
+:::::: CC: Kaixu Xia <kaixuxia@tencent.com>
 
 -- 
 0-DAY CI Kernel Test Service
