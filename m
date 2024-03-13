@@ -1,57 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0BE47A7A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 13:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21324446A2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 14:41:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710336595; cv=none; b=MpvrCRXPA2+Pe/astTG7H2eF/Wo2gad2bWUjtcHlh4JKnAUwbSehkwU0ApHaVYqkotzXdRUoD8WEBY6d0j0WJH8UCSrKu1tfzKLxMY6ztUS4sXC9wE+4Kl/npKJcXSAQDOJ5tSVXeuerkffaq4OvfViF5cc/uPnfqdYcChUROPc=
+	t=1710340915; cv=none; b=Gh2yu3UoAWgsngefvUEk8CId0P1oCMlg5acBHUbTl3bkAyDI4o0JaJqi7aCBvn05bogsGn3iICatmLX+kmZcZoHSU0uNnHefcnWwJgnRowGsihx+oQKO+YgsIWY8fX5QGoEVdUgk2FpIdDwfKObLDdeS8CKE8ywsYOTA5D+fyYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710336595; c=relaxed/simple;
-	bh=tqirwa3fKgy/J1P9cZOw9qPd7zlcng21I+KTx9DQuyc=;
+	s=arc-20240116; t=1710340915; c=relaxed/simple;
+	bh=qJdqnUPCOqJ6Nku5BCqwtgYGi1Hni1rNMWdl2EZFKZI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XBBOhX4wSofxc15tfa4KpsBrs+4gnSKP8gXdQ3dP76OR20T2E1cPdkIUUlji3DwPKN+Oisj6ZDETsSXAFykUgxSNVaG1Z5NQhUpWoUKEvr39n9mGTqdaIawU67TDtJlGJS7v1G2iOdbAaisndq2Ll2pIb1nVLLmX++bkJgahRb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LUHWLZHe; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=sTycXrmfh2BmuHqpFlwUAs/MJtQ+KKULGDTVYNAxeoAADxID2+vCzZLkycJ4rzLvFaYTxJlXVY5aJnEDiA1sREVksaNmlqs9U4U+dfXDs8MqeDeuy6u6Sxm5WiOnzz4hxCR41JcXQ/xhuj7Kmuinmj8RFb/BmlsfR0qtu6f+hlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XnQNB6rN; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LUHWLZHe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XnQNB6rN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710336593; x=1741872593;
+  t=1710340913; x=1741876913;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tqirwa3fKgy/J1P9cZOw9qPd7zlcng21I+KTx9DQuyc=;
-  b=LUHWLZHeWgtoRtLLWY0j3Mt+ClugEKrnG1Blg4MUzcsYufXumcK5USKJ
-   KbiGT6eQYQ4YK+Mcu+QgVlandVh46wmraWRyJ8JiYOvj1ccXrqnaK+8gd
-   hqnbSJcSgK10NbbJd+0DdE0svr7oyecXbLxp4A0qM0SJ/YtZEp71JPwWw
-   /xHx8OnukP8zhqIZVhDg8+rBaUwRO1YxMVUaJdQLL8AA71cxlQeE7yvRB
-   B5GGWJJbXhXq6JoPTxE4JzOMZqNJuIDK5ac3fVScuwL5368eDJ93TAPGK
-   +Fhh5+sIK02qOq3j6aQi4zGQvXbjAnQ2qMT7C5ptjV5cxOTvG26r74BKn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="5280070"
+  bh=qJdqnUPCOqJ6Nku5BCqwtgYGi1Hni1rNMWdl2EZFKZI=;
+  b=XnQNB6rNOP4Oj00yFzbZDXOmALg20Q/a+iZgKCQkAVnuzgqQAHmOco0Y
+   NJnX8D3wUivrmAfeMPDU73FJnelIdZ1w5fGQ92qQNrCG2LY9FRtnlNuut
+   FZiWB0nxHDKQUQko3qg+ZgDPi2zH70acNSGPBYksCFD4Z8PlfZ8JPYuNb
+   N9AtWnjsS4rTITF0IPVBJnUWt0mqe2frv59jDvEkecWx17h6G4K6e3DHC
+   3MleVw37cZlm/3eNtdZZYG8+RtyYdiUZ1H5Z66m9H6j8YriP1dQL94EfJ
+   0yJ8lJp8yM2HdutYiJ4PXb2Td9lNmyFon0Z5qddvTGAcsOPAaBU/+Z2TU
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="30547537"
 X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
-   d="scan'208";a="5280070"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 06:29:53 -0700
+   d="scan'208";a="30547537"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 07:41:52 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
-   d="scan'208";a="16649693"
+   d="scan'208";a="35068606"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 13 Mar 2024 06:29:49 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 13 Mar 2024 07:41:51 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkOfy-000CPL-2s;
-	Wed, 13 Mar 2024 13:29:46 +0000
-Date: Wed, 13 Mar 2024 21:29:31 +0800
+	id 1rkPnh-000CRn-0r;
+	Wed, 13 Mar 2024 14:41:49 +0000
+Date: Wed, 13 Mar 2024 22:41:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/xen/swiotlb-xen.c:450:3: error: implicit declaration of
- function 'swiotlb_tbl_sync_single'
-Message-ID: <202403132128.fvqwx6Qo-lkp@intel.com>
+Subject: [zen:6.8/prjc 430/437] kernel/sched/alt_core.c:3677: warning:
+ Function parameter or struct member 'prev' not described in
+ 'prepare_task_switch'
+Message-ID: <202403132231.dHxHkq3o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,105 +59,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   c13208f42a275b32080b8b1f05865c408364ef9f
-commit: ee07aa625dbf249381b702591b4722e8308daf59 swiotlb: split swiotlb_tbl_sync_single
-date:   9 months ago
-config: x86_64-randconfig-001-20240305 (https://download.01.org/0day-ci/archive/20240313/202403132128.fvqwx6Qo-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403132128.fvqwx6Qo-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.8/prjc
+head:   8b12bef41c21a484fe111f5b19be0db54a6c03a5
+commit: 006d2f6e8901cb12e15031f4c85cd512890ac058 [430/437] sched/alt: [Sync] 932562a6045e rseq: Split out rseq.h from sched.h
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240313/202403132231.dHxHkq3o-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403132231.dHxHkq3o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403132128.fvqwx6Qo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403132231.dHxHkq3o-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/xen/swiotlb-xen.c:407:5: error: too many arguments to function call, expected 5, have 6
-     406 |                 swiotlb_tbl_unmap_single(dev, map, size, size, dir,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~
-     407 |                                 attrs | DMA_ATTR_SKIP_CPU_SYNC);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/swiotlb.h:48:13: note: 'swiotlb_tbl_unmap_single' declared here
-      48 | extern void swiotlb_tbl_unmap_single(struct device *hwdev,
-         |             ^                        ~~~~~~~~~~~~~~~~~~~~~
-      49 |                                      phys_addr_t tlb_addr,
-         |                                      ~~~~~~~~~~~~~~~~~~~~~
-      50 |                                      size_t mapping_size,
-         |                                      ~~~~~~~~~~~~~~~~~~~~
-      51 |                                      enum dma_data_direction dir,
-         |                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      52 |                                      unsigned long attrs);
-         |                                      ~~~~~~~~~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c:437:59: error: too many arguments to function call, expected 5, have 6
-     437 |                 swiotlb_tbl_unmap_single(hwdev, paddr, size, size, dir, attrs);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~                                ^~~~~
-   include/linux/swiotlb.h:48:13: note: 'swiotlb_tbl_unmap_single' declared here
-      48 | extern void swiotlb_tbl_unmap_single(struct device *hwdev,
-         |             ^                        ~~~~~~~~~~~~~~~~~~~~~
-      49 |                                      phys_addr_t tlb_addr,
-         |                                      ~~~~~~~~~~~~~~~~~~~~~
-      50 |                                      size_t mapping_size,
-         |                                      ~~~~~~~~~~~~~~~~~~~~
-      51 |                                      enum dma_data_direction dir,
-         |                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      52 |                                      unsigned long attrs);
-         |                                      ~~~~~~~~~~~~~~~~~~~
->> drivers/xen/swiotlb-xen.c:450:3: error: implicit declaration of function 'swiotlb_tbl_sync_single' [-Werror,-Wimplicit-function-declaration]
-     450 |                 swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_CPU);
-         |                 ^
-   drivers/xen/swiotlb-xen.c:450:3: note: did you mean 'swiotlb_tbl_map_single'?
-   include/linux/swiotlb.h:44:13: note: 'swiotlb_tbl_map_single' declared here
-      44 | phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t phys,
-         |             ^
->> drivers/xen/swiotlb-xen.c:450:50: error: use of undeclared identifier 'SYNC_FOR_CPU'
-     450 |                 swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_CPU);
-         |                                                                ^
-   drivers/xen/swiotlb-xen.c:460:3: error: implicit declaration of function 'swiotlb_tbl_sync_single' [-Werror,-Wimplicit-function-declaration]
-     460 |                 swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_DEVICE);
-         |                 ^
->> drivers/xen/swiotlb-xen.c:460:50: error: use of undeclared identifier 'SYNC_FOR_DEVICE'
-     460 |                 swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_DEVICE);
-         |                                                                ^
-   6 errors generated.
+   kernel/sched/alt_core.c:120: warning: cannot understand function prototype: 'int sched_yield_type __read_mostly = 1; '
+>> kernel/sched/alt_core.c:3677: warning: Function parameter or struct member 'prev' not described in 'prepare_task_switch'
+   kernel/sched/alt_core.c:3710: warning: Excess function parameter 'rq' description in 'finish_task_switch'
+>> kernel/sched/alt_core.c:6005: warning: Function parameter or struct member 'flags' not described in 'sys_sched_setattr'
+   kernel/sched/alt_core.c:6065: warning: expecting prototype for sys_sched_getscheduler(). Prototype was for sys_sched_getparam() instead
 
 
-vim +/swiotlb_tbl_sync_single +450 drivers/xen/swiotlb-xen.c
+vim +3677 kernel/sched/alt_core.c
 
-^590eaf1fec755 Kaixu Xia         2021-03-16  439  
-^590eaf1fec755 Kaixu Xia         2021-03-16  440  static void
-^590eaf1fec755 Kaixu Xia         2021-03-16  441  xen_swiotlb_sync_single_for_cpu(struct device *dev, dma_addr_t dma_addr,
-^590eaf1fec755 Kaixu Xia         2021-03-16  442  		size_t size, enum dma_data_direction dir)
-^590eaf1fec755 Kaixu Xia         2021-03-16  443  {
-^590eaf1fec755 Kaixu Xia         2021-03-16  444  	phys_addr_t paddr = xen_bus_to_phys(dma_addr);
-^590eaf1fec755 Kaixu Xia         2021-03-16  445  
-^590eaf1fec755 Kaixu Xia         2021-03-16  446  	if (!dev_is_dma_coherent(dev))
-c3fd7ea8b7a5d9 Christoph Hellwig 2019-11-07  447  		xen_dma_sync_for_cpu(dma_addr, paddr, size, dir);
-^590eaf1fec755 Kaixu Xia         2021-03-16  448  
-^590eaf1fec755 Kaixu Xia         2021-03-16  449  	if (is_xen_swiotlb_buffer(dma_addr))
-^590eaf1fec755 Kaixu Xia         2021-03-16 @450  		swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_CPU);
-^590eaf1fec755 Kaixu Xia         2021-03-16  451  }
-^590eaf1fec755 Kaixu Xia         2021-03-16  452  
-^590eaf1fec755 Kaixu Xia         2021-03-16  453  static void
-^590eaf1fec755 Kaixu Xia         2021-03-16  454  xen_swiotlb_sync_single_for_device(struct device *dev, dma_addr_t dma_addr,
-^590eaf1fec755 Kaixu Xia         2021-03-16  455  		size_t size, enum dma_data_direction dir)
-^590eaf1fec755 Kaixu Xia         2021-03-16  456  {
-^590eaf1fec755 Kaixu Xia         2021-03-16  457  	phys_addr_t paddr = xen_bus_to_phys(dma_addr);
-^590eaf1fec755 Kaixu Xia         2021-03-16  458  
-^590eaf1fec755 Kaixu Xia         2021-03-16  459  	if (is_xen_swiotlb_buffer(dma_addr))
-^590eaf1fec755 Kaixu Xia         2021-03-16 @460  		swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_DEVICE);
-^590eaf1fec755 Kaixu Xia         2021-03-16  461  
-^590eaf1fec755 Kaixu Xia         2021-03-16  462  	if (!dev_is_dma_coherent(dev))
-c3fd7ea8b7a5d9 Christoph Hellwig 2019-11-07  463  		xen_dma_sync_for_device(dma_addr, paddr, size, dir);
-^590eaf1fec755 Kaixu Xia         2021-03-16  464  }
-^590eaf1fec755 Kaixu Xia         2021-03-16  465  
+939dd28d6ee04a Alfred Chen 2021-02-04  3661  
+ed2223e92daaf9 Alfred Chen 2019-08-19  3662  /**
+ed2223e92daaf9 Alfred Chen 2019-08-19  3663   * prepare_task_switch - prepare to switch tasks
+ed2223e92daaf9 Alfred Chen 2019-08-19  3664   * @rq: the runqueue preparing to switch
+ed2223e92daaf9 Alfred Chen 2019-08-19  3665   * @next: the task we are going to switch to.
+ed2223e92daaf9 Alfred Chen 2019-08-19  3666   *
+ed2223e92daaf9 Alfred Chen 2019-08-19  3667   * This is called with the rq lock held and interrupts off. It must
+ed2223e92daaf9 Alfred Chen 2019-08-19  3668   * be paired with a subsequent finish_task_switch after the context
+ed2223e92daaf9 Alfred Chen 2019-08-19  3669   * switch.
+ed2223e92daaf9 Alfred Chen 2019-08-19  3670   *
+ed2223e92daaf9 Alfred Chen 2019-08-19  3671   * prepare_task_switch sets up locking and calls architecture specific
+ed2223e92daaf9 Alfred Chen 2019-08-19  3672   * hooks.
+ed2223e92daaf9 Alfred Chen 2019-08-19  3673   */
+ed2223e92daaf9 Alfred Chen 2019-08-19  3674  static inline void
+ed2223e92daaf9 Alfred Chen 2019-08-19  3675  prepare_task_switch(struct rq *rq, struct task_struct *prev,
+ed2223e92daaf9 Alfred Chen 2019-08-19  3676  		    struct task_struct *next)
+ed2223e92daaf9 Alfred Chen 2019-08-19 @3677  {
+ed2223e92daaf9 Alfred Chen 2019-08-19  3678  	kcov_prepare_switch(prev);
+ed2223e92daaf9 Alfred Chen 2019-08-19  3679  	sched_info_switch(rq, prev, next);
+ed2223e92daaf9 Alfred Chen 2019-08-19  3680  	perf_event_task_sched_out(prev, next);
+ed2223e92daaf9 Alfred Chen 2019-08-19  3681  	rseq_preempt(prev);
+ed2223e92daaf9 Alfred Chen 2019-08-19  3682  	fire_sched_out_preempt_notifiers(prev, next);
+939dd28d6ee04a Alfred Chen 2021-02-04  3683  	kmap_local_sched_out();
+ed2223e92daaf9 Alfred Chen 2019-08-19  3684  	prepare_task(next);
+ed2223e92daaf9 Alfred Chen 2019-08-19  3685  	prepare_arch_switch(next);
+ed2223e92daaf9 Alfred Chen 2019-08-19  3686  }
+ed2223e92daaf9 Alfred Chen 2019-08-19  3687  
 
-:::::: The code at line 450 was first introduced by commit
-:::::: 590eaf1fec755215547690e787cc7d83f58ea948 Init Repo base on linux 5.4.32 long term, and add base tlinux kernel interfaces.
+:::::: The code at line 3677 was first introduced by commit
+:::::: ed2223e92daaf9860b48206a01c6dde92f542ca6 Project C v5.7.5-r2
 
-:::::: TO: Kaixu Xia <kaixuxia@tencent.com>
-:::::: CC: Kaixu Xia <kaixuxia@tencent.com>
+:::::: TO: Alfred Chen <cchalpha@gmail.com>
+:::::: CC: Alfred Chen <cchalpha@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
