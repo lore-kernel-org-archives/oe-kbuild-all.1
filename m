@@ -1,55 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B323DBBA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 12:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776B03DBBA;
+	Wed, 13 Mar 2024 12:06:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710331611; cv=none; b=kOk97uTKbFdgY3R1H6VjTJt3Jc9YDNhVSkXQa8Oo49t+HHzFuQwO5c+yKMsjBkEwXyxLCSVvaSv7Nmg7/HNXmtBNPMdcPQzWqwjNrKOG/Y+Krm/qhpg19BLsnNuRQDcNeS02NJP+jB0HGlJAZdTelByQ7VMfo5m3D0AUplHnFfw=
+	t=1710331614; cv=none; b=XXXDpU5Wh5/zg/AXQfO6ttEm0EEoMX0hM3AHSd6RIv9Ta+ieJlF54jumEapcENKNmp3xescIkYHniDOabq8I8dcXKv8QBnDhewERP7yKJBd6jiogQyPwxvFKAoy9xNqrTf2ArLWHSAF7iA3A2o+TwJkEG4fVm6Mc6EszP6/IEZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710331611; c=relaxed/simple;
-	bh=bF+Q4mgEtganQvF0whh39wo/t/uymQgU4nubU0mf9Cs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HACzZxkAPTyzfgWLvvyrNjkCZVK7DHLiE3Oc14pwRFW6s2LHUPBu0F5lDBfopSLWBCC46SwKIgZopZTEOrLUvVbrRHokDnF3ozuaKvWLmHycxB6Bgd4vP3sxj/840Ow/ZhxDAwMhJfRcV11q4MJZRCO+2LGrPWXCkLSD0Inz7Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=koRi/fp7; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1710331614; c=relaxed/simple;
+	bh=M425A9spsJt2sc60u2h4SBdYauiKFkLuf2a5/almDhY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BGCZxos2dWviDmH4uC7vEyI9DG9ROCXYrlfC6SpigEGFpS0QnY1JZbRYuH/PHuxuCuRRULLBtN+lMrjksHTSCTxe+JDexGRWB1Bs4poPf7jhP7CE0poZGwDCh38QN+6YzdCfBrDNhTmklDgz+4q+Dis/hfSPR/a1UaWSnrtsl50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=StyduBs2; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="koRi/fp7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="StyduBs2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710331609; x=1741867609;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bF+Q4mgEtganQvF0whh39wo/t/uymQgU4nubU0mf9Cs=;
-  b=koRi/fp7scIqTsGKcvR051w+LmlOzzPu9O0IuTjmjyM1KnAFM5bA11b+
-   7agVYSPMfAWDI5q9qdEl5bjoAdkSyQ7G7Y7krMzyy7/dVf84nvFZIh+pG
-   1adXfBg1e4ChgPczwpreG6WaxyuEOvUPo3M03ZgsDhfzWAxkyMHZZpDSr
-   az2i4noaDUsyPwMOMKscR8PSnAD6eiKtj6NpmyX6n9hbC6MzAAgOQtFmG
-   oj01U8BnU9WRBebPstYXF9OfpnWESuiFiJqjTimOps3j10HvLMWffdIKa
-   DZ2ofMLsIQbgY6Y6Ifk3lid7rg038AE1uNNs9ZMt77PqPwKL+zcgxTtPD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4946700"
+  t=1710331613; x=1741867613;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=M425A9spsJt2sc60u2h4SBdYauiKFkLuf2a5/almDhY=;
+  b=StyduBs2bkVV/PgwKxmEW/FYiutthkBye8avcfcOkR0Ny8Ok8xgEg1p9
+   VokH0NtsML/3hvyeE/UiaTxK8iUP0Ux9LEL99ZzeQ5CqJVZU4LBmd19Ba
+   2ROfKMudXBqe9fEUxlAG6SMcn7EmyHkvN5RkNrz99s6FUabOLynuGAkVg
+   WH23apmd6l29Hi4wlk8Kqb5iQbecEsYDoNeH3H4cOV59kusQnqN3jocPv
+   kvtHr/RJRahhfYsz8T/+fdUwo3dfDwbx3YfgEA5n1zIRp2ha/dmC852M1
+   ZHM5f9elAl1o7iI+EYuWX1q1/Pe3Kx8YMAwCtIrsu0QGpT6t6vWLthEr8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="15724248"
 X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
-   d="scan'208";a="4946700"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 05:06:48 -0700
+   d="scan'208";a="15724248"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 05:06:52 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
-   d="scan'208";a="42837017"
+   d="scan'208";a="16498296"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Mar 2024 05:06:46 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 13 Mar 2024 05:06:47 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkNNc-000CLd-2l;
+	id 1rkNNc-000CLb-2d;
 	Wed, 13 Mar 2024 12:06:44 +0000
-Date: Wed, 13 Mar 2024 20:05:53 +0800
+Date: Wed, 13 Mar 2024 20:05:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:kdevops 32/32] fs/nfs/dir.c:3016:53: warning: format '%x'
- expects argument of type 'unsigned int', but argument 3 has type 'long
- unsigned int'
-Message-ID: <202403131939.8GWZJoQW-lkp@intel.com>
+To: Robin Murphy <robin.murphy@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Will Deacon <will@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	x86@kernel.org, linux-perf-users@vger.kernel.org,
+	jialong.yang@shingroup.cn
+Subject: Re: [PATCH 04/10] perf: Rename PERF_PMU_CAP_NO_INTERRUPT
+Message-ID: <202403131930.sz1VjXDw-lkp@intel.com>
+References: <0999a39f0a068979dbcc6119380f63d706101b4f.1710257512.git.robin.murphy@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,80 +69,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <0999a39f0a068979dbcc6119380f63d706101b4f.1710257512.git.robin.murphy@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
-head:   244db11a7d6835249946adae4255d53cb0edf7f6
-commit: 244db11a7d6835249946adae4255d53cb0edf7f6 [32/32] DEBUG: more printks
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240313/202403131939.8GWZJoQW-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403131939.8GWZJoQW-lkp@intel.com/reproduce)
+Hi Robin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on perf-tools-next/perf-tools-next]
+[also build test ERROR on perf-tools/perf-tools linus/master v6.8 next-20240313]
+[cannot apply to acme/perf/core tip/perf/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Robin-Murphy/perf-alibaba_uncore_drw-Use-correct-CPU-affinity/20240313-013915
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/0999a39f0a068979dbcc6119380f63d706101b4f.1710257512.git.robin.murphy%40arm.com
+patch subject: [PATCH 04/10] perf: Rename PERF_PMU_CAP_NO_INTERRUPT
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240313/202403131930.sz1VjXDw-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403131930.sz1VjXDw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403131939.8GWZJoQW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403131930.sz1VjXDw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/nfs/dir.c: In function 'nfs_access_get_cached_locked':
->> fs/nfs/dir.c:3016:53: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'long unsigned int' [-Wformat=]
-    3016 |                 trace_printk("%s: cache_validity=0x%x\n", __func__, nfsi->cache_validity);
-         |                                                    ~^               ~~~~~~~~~~~~~~~~~~~~
-         |                                                     |                   |
-         |                                                     unsigned int        long unsigned int
-         |                                                    %lx
+>> arch/x86/events/core.c:1815:46: error: expected ';' after expression
+    1815 |         pmu.capabilities |= PERF_PMU_CAP_NO_SAMPLING
+         |                                                     ^
+         |                                                     ;
+   1 error generated.
 
 
-vim +3016 fs/nfs/dir.c
+vim +1815 arch/x86/events/core.c
 
-  2996	
-  2997	static int nfs_access_get_cached_locked(struct inode *inode, const struct cred *cred, u32 *mask, bool may_block)
-  2998	{
-  2999		struct nfs_inode *nfsi = NFS_I(inode);
-  3000		u64 login_time = nfs_access_login_time(current, cred);
-  3001		struct nfs_access_entry *cache;
-  3002		bool retry = true;
-  3003		int err;
-  3004	
-  3005		spin_lock(&inode->i_lock);
-  3006		for(;;) {
-  3007			if (nfsi->cache_validity & NFS_INO_INVALID_ACCESS)
-  3008				goto out_zap;
-  3009			cache = nfs_access_search_rbtree(inode, cred);
-  3010			err = -ENOENT;
-  3011			if (cache == NULL)
-  3012				goto out;
-  3013			/* Found an entry, is our attribute cache valid? */
-  3014			if (!nfs_check_cache_invalid(inode, NFS_INO_INVALID_ACCESS))
-  3015				break;
-> 3016			trace_printk("%s: cache_validity=0x%x\n", __func__, nfsi->cache_validity);
-  3017			if (!retry)
-  3018				break;
-  3019			err = -ECHILD;
-  3020			if (!may_block)
-  3021				goto out;
-  3022			spin_unlock(&inode->i_lock);
-  3023			err = __nfs_revalidate_inode(NFS_SERVER(inode), inode);
-  3024			if (err)
-  3025				return err;
-  3026			spin_lock(&inode->i_lock);
-  3027			retry = false;
-  3028		}
-  3029		err = -ENOENT;
-  3030		if ((s64)(login_time - cache->timestamp) > 0)
-  3031			goto out;
-  3032		*mask = cache->mask;
-  3033		list_move_tail(&cache->lru, &nfsi->access_cache_entry_lru);
-  3034		err = 0;
-  3035	out:
-  3036		spin_unlock(&inode->i_lock);
-  3037		return err;
-  3038	out_zap:
-  3039		spin_unlock(&inode->i_lock);
-  3040		nfs_access_zap_cache(inode);
-  3041		return -ENOENT;
-  3042	}
-  3043	
+  1799	
+  1800	static void __init pmu_check_apic(void)
+  1801	{
+  1802		if (boot_cpu_has(X86_FEATURE_APIC))
+  1803			return;
+  1804	
+  1805		x86_pmu.apic = 0;
+  1806		pr_info("no APIC, boot with the \"lapic\" boot parameter to force-enable it.\n");
+  1807		pr_info("no hardware sampling interrupt available.\n");
+  1808	
+  1809		/*
+  1810		 * If we have a PMU initialized but no APIC
+  1811		 * interrupts, we cannot sample hardware
+  1812		 * events (user-space has to fall back and
+  1813		 * sample via a hrtimer based software event):
+  1814		 */
+> 1815		pmu.capabilities |= PERF_PMU_CAP_NO_SAMPLING
+  1816	
 
 -- 
 0-DAY CI Kernel Test Service
