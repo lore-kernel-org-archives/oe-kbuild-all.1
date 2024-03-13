@@ -1,164 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE875DF3B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 19:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A36B51C49
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 19:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710358087; cv=none; b=f6XGDrvGNDRLqfVhy0ReJd+gsLLKX9V/o3vMANgtlZt5o3rNP9/I2miNNyXUeZt3G1dHAfp8VkiK2hbnwSk3M5KEwBkaqR48QbCUdNexi28wqsFN+QiX0z40Vu0eYjHUWQV88DPnyvYTxVdopMl115umwQ9xZGnmz2hWX2pDyTo=
+	t=1710360001; cv=none; b=Z12x0roErqzXpnqa2B5A8IpMTmHYvd9maM9glbfVSqpNSAgkZJGxhid8aRdKOJwSl5zHNLszgWtEg93uA2zXaKuRblnpfy7zffG+t9uAf8Ki9Q7HpeqqtK24Z41PGmbMhQdp4MUFrmQNk+1XBAmRsH1U1YsR/mxFaNdJFdIJDyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710358087; c=relaxed/simple;
-	bh=clfHuQVd6hCWkBC4FV2MM3ZX6sRtfdceahTbH64ssOo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HJFjoDuSki+Ecq0pEXscdBXfTYRHMwYv0QMx1g9KmSj7X1qnupB3HQipnsR4rvcK5QXRewFT7c7VBzCujHNBUgQvKCAJC/TRdRDhpR8pDAPX8fzP598B3py6d71EEHnmNoxRoQxmx2z0Dk8yG9AoLDbaqZHOZc7HXTs/GJNqCi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LrvLMBpd; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710360001; c=relaxed/simple;
+	bh=CGsygGu0YBuMPUFVylIGN3ngzXQKapZbUDBmXCxKlVc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=esS+hQtYUHkMBrClrfsP4lPqbg8z4quYQHcL+m4JMHbt4sKHum834hoEvkikTV1GLi6cONV9Ljm9+cx2/R3OQhn8VgMkmoR/sRuCaVzjms9EKgHD0zT8NxP1LpSYCO6kT7IztxpsC0qkNdAwbvqoKvq3K+ON76YMyGC9+xw+UM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UFSQfMUT; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LrvLMBpd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710358086; x=1741894086;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=clfHuQVd6hCWkBC4FV2MM3ZX6sRtfdceahTbH64ssOo=;
-  b=LrvLMBpdykJ2rOLwHVf0WbrEZVSRdrXRHRIltlzZsXD3ns4RZBEhvIGN
-   eIC0tsXMqsXIr4kdOfekZxHyJF/IiD5WGZyg9OwFuIAt1/NGEw4nHmBQq
-   w/2G5EFK8W047HRf5VBmZF/iBSXWsdpbHiElvXasNqE78byuTsR3iG0a/
-   /Fzqz8005EZs+GxwMpluqVzXhOCEmzX2zVjob9XUY2eDSlo9MzoALcLJA
-   OA728IcBVgE3VIUvVQ+PqtouCxkons7I+lHg0R339d7SqUojH4Wp7CtSX
-   0h+ma/tOr2awcCj5YVPdFgPQH3QSe/wh0zQYzJZP0300l1qU2fcK07eDI
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="16599448"
-X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="16599448"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 12:28:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="16714155"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Mar 2024 12:28:02 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rkUGd-000Chb-1Q;
-	Wed, 13 Mar 2024 19:27:59 +0000
-Date: Thu, 14 Mar 2024 03:27:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: arch/x86/include/asm/pci.h:133:9: error: implicit declaration of
- function 'to_pci_sysdata'
-Message-ID: <202403140353.fJsWWpSD-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UFSQfMUT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1710359998;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OT/Y9QQ6Z08J3liv/tH6iPL5XyEglqP4zZ0zDaWC/as=;
+	b=UFSQfMUTtczOHWZGctFw0RhfDG6c0L70cWvi+zwRn8jvFyLjIse7S5EftFVRK7DBrf9oUG
+	tQjUocXmpAZZNEBMon7mZsYRLDkRFv5++GiXf3+XadCIToqb7OMrDqbhqO+E73kjIxERip
+	yBx5RgCMxBMQOLXCde5IFofEkE7YTdw=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-32-L0M6c9F8OvS9cJdeSNJoXA-1; Wed, 13 Mar 2024 15:59:56 -0400
+X-MC-Unique: L0M6c9F8OvS9cJdeSNJoXA-1
+Received: by mail-ua1-f69.google.com with SMTP id a1e0cc1a2514c-7de0e459ecaso60745241.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 12:59:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710359996; x=1710964796;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OT/Y9QQ6Z08J3liv/tH6iPL5XyEglqP4zZ0zDaWC/as=;
+        b=AQXnViz6iCC1qK2TqAbJ3L6bpwQwXzJU+C7XGE0Iw5qWBDrWtL5kH5VIHkO9N/uPRl
+         2Lt//n2P7wqRDHGSETrmQOS1O6pf3PDnbzdqH0dYamsxx8v0VjK/68N5aiQqGzr3TT9Y
+         yyqrjqTmwj+q6eLYl1rGZ+cHy1QSulqnzOkFSHwsIKDATtT3of9U8axq25YEmfSEUUJr
+         V1QDQFCZxHcKTyWAQAJ1zsV+QKKSTXvI/ao1a1QhLm5K54Uvh5g4iGczU5Dl2agttlDz
+         8PhX3Wk+ZFsBt+ZPoLEnh78ifJPY3cg5bZclqk/oOWjAyOR47cRQtIvjUtUhvDeReDar
+         J2qw==
+X-Forwarded-Encrypted: i=1; AJvYcCUV3iYhKEO9jPNUrn8L+EcuAcrGmrxFOMEZQ8yNblzpCfEWLO2/6Lew05GlbS5I60NQe2dqAZJ4l6LzK0Ge1LK88erdUNlKiVjspdSGmw==
+X-Gm-Message-State: AOJu0YydkvOA+uDdr3NETCqOl4hVAi4N90jMSFN+b7opCCU8fN0HQcpI
+	NZ8Waj0ZvnrwO6qpxr+fsNq9Qj9LAX1rnmk2A6XUCUK2IDwiqHObzup+xhisxZOoyefjtE0r7aP
+	iZrEYEM5UUhzcE6HNObiSAJ+3DIQc6+q65ejWlCLu95aSSp78EhwX9BY+q3IZCd8=
+X-Received: by 2002:a05:6102:75a:b0:474:c9ba:15c with SMTP id v26-20020a056102075a00b00474c9ba015cmr2603157vsg.1.1710359996089;
+        Wed, 13 Mar 2024 12:59:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH9zN0pmpVDmc5Gc6GXRnzX40ks1zjp2z6++GRPtEOQ4AjG21HR0RoEzC/HjYNFaQ9G99Tn4A==
+X-Received: by 2002:a05:6102:75a:b0:474:c9ba:15c with SMTP id v26-20020a056102075a00b00474c9ba015cmr2603145vsg.1.1710359995684;
+        Wed, 13 Mar 2024 12:59:55 -0700 (PDT)
+Received: from x1n ([99.254.121.117])
+        by smtp.gmail.com with ESMTPSA id p9-20020a0ccb89000000b00690f23c8605sm1828921qvk.23.2024.03.13.12.59.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Mar 2024 12:59:55 -0700 (PDT)
+Date: Wed, 13 Mar 2024 15:59:53 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>
+Subject: Re: [linux-next:master 12265/12944]
+ arch/arm64/include/asm/pgtable.h:904:16: error: implicit declaration of
+ function 'pud_leaf'; did you mean 'pmd_leaf'?
+Message-ID: <ZfIFubXPrb7pLFSB@x1n>
+References: <202403101607.a42gaLOS-lkp@intel.com>
+ <Ze8vFNV9YSdgC2S7@x1n>
+ <20240313120622.62c76d759cc06f80f0aeb48e@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20240313120622.62c76d759cc06f80f0aeb48e@linux-foundation.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   c13208f42a275b32080b8b1f05865c408364ef9f
-commit: e56eccbb1eace16231eae0b697e943437edb9e46 x86/PCI: Add to_pci_sysdata() helper
-date:   9 months ago
-config: x86_64-buildonly-randconfig-004-20240313 (https://download.01.org/0day-ci/archive/20240314/202403140353.fJsWWpSD-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403140353.fJsWWpSD-lkp@intel.com/reproduce)
+On Wed, Mar 13, 2024 at 12:06:22PM -0700, Andrew Morton wrote:
+> > 
+> > There's another possibly relevant report for riscv:
+> > 
+> > https://lore.kernel.org/r/202403090900.OwPqmRuI-lkp@intel.com
+> > 
+> > I think I messed up the nopmd use case.  Since this commit already landed
+> > mm-stable, I assume there's no way I provide a fixup.
+> > 
+> > I attached a formal patch below, but I don't know how to test it myself,
+> 
+> What I do:
+> 
+> Grab https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/13.2.0/x86_64-gcc-13.2.0-nolibc-aarch64-linux.tar.gz
+> 
+> untar that into /opt/crosstool
+> 
+> And my crufty old script does, partly,
+> 
+> 	WHAT="$*"
+> 
+> 	...
+> 	[ $ARCH = arm64 ] &&    CT=gcc-13.2.0-nolibc && XARCH=aarch64-linux
+> 	...
+> 
+> 	PATH=$PATH:/opt/crosstool/$CT/$XARCH/bin export PATH
+> 	export CROSS_COMPILE=/opt/crosstool/$CT/$XARCH/bin/$XARCH-
+> 	export CC="/opt/crosstool/$CT/$XARCH/bin/$XARCH-gcc"
+> 	J=$(grep "^processor" /proc/cpuinfo | wc -l)
+> 	J=$(expr $J \* 2)
+> 	nice -20 make -j$J CC="$CC" $WHAT 2>/tmp/log-$ARCH
+> 
+> setenv ARCH arm64
+> crufty-old-script vmlinux modules
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403140353.fJsWWpSD-lkp@intel.com/
+I'll keep these notes.
 
-All errors (new ones prefixed by >>):
+> 
+> > and I'm not 100% confident.  Before I post a formal patch, can anyone let
+> > me know how I can kickoff the test bot to test the patch (or help me do the
+> > kickoff)?
+> 
+> Worked for me, thanks.
 
-   In file included from arch/x86/include/asm/bug.h:6,
-                    from include/linux/bug.h:5,
-                    from include/linux/debug_locks.h:7,
-                    from include/linux/lockdep.h:28,
-                    from include/linux/spinlock_types.h:18,
-                    from include/linux/mutex.h:16,
-                    from include/linux/kernfs.h:12,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/of.h:17,
-                    from include/linux/irqdomain.h:35,
-                    from include/linux/acpi.h:13,
-                    from drivers/acpi/acpi_platform.c:11:
-   include/linux/instrumentation.h:8: warning: "instrumentation_begin" redefined
-       8 | #define instrumentation_begin() ({     \
-         | 
-   In file included from include/linux/ioport.h:13,
-                    from include/linux/acpi.h:12,
-                    from drivers/acpi/acpi_platform.c:11:
-   include/linux/compiler.h:139: note: this is the location of the previous definition
-     139 | #define instrumentation_begin() ({     \
-         | 
-   In file included from include/linux/pci.h:1810,
-                    from drivers/acpi/acpi_platform.c:17:
-   arch/x86/include/asm/pci.h: In function '__pcibus_to_node':
->> arch/x86/include/asm/pci.h:133:9: error: implicit declaration of function 'to_pci_sysdata' [-Werror=implicit-function-declaration]
-     133 |  return to_pci_sysdata(bus)->node;
-         |         ^~~~~~~~~~~~~~
->> arch/x86/include/asm/pci.h:133:28: error: invalid type argument of '->' (have 'int')
-     133 |  return to_pci_sysdata(bus)->node;
-         |                            ^~
-   cc1: some warnings being treated as errors
---
-   In file included from arch/x86/include/asm/bug.h:6,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from arch/x86/include/asm/preempt.h:7,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/seqlock.h:36,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:10,
-                    from drivers/acpi/osl.c:12:
-   include/linux/instrumentation.h:8: warning: "instrumentation_begin" redefined
-       8 | #define instrumentation_begin() ({     \
-         | 
-   In file included from include/linux/export.h:42,
-                    from include/linux/linkage.h:7,
-                    from include/linux/kernel.h:8,
-                    from include/linux/list.h:9,
-                    from include/linux/module.h:9,
-                    from drivers/acpi/osl.c:12:
-   include/linux/compiler.h:139: note: this is the location of the previous definition
-     139 | #define instrumentation_begin() ({     \
-         | 
-   In file included from include/linux/pci.h:1810,
-                    from drivers/acpi/osl.c:18:
-   arch/x86/include/asm/pci.h: In function '__pcibus_to_node':
->> arch/x86/include/asm/pci.h:133:9: error: implicit declaration of function 'to_pci_sysdata' [-Werror=implicit-function-declaration]
-     133 |  return to_pci_sysdata(bus)->node;
-         |         ^~~~~~~~~~~~~~
->> arch/x86/include/asm/pci.h:133:28: error: invalid type argument of '->' (have 'int')
-     133 |  return to_pci_sysdata(bus)->node;
-         |                            ^~
-   drivers/acpi/osl.c: In function 'acpi_os_vprintf':
-   drivers/acpi/osl.c:151:2: warning: function 'acpi_os_vprintf' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     151 |  vsprintf(buffer, fmt, args);
-         |  ^~~~~~~~
-   cc1: some warnings being treated as errors
+I will try to do better next time..
 
-
-vim +/to_pci_sysdata +133 arch/x86/include/asm/pci.h
-
-   128	
-   129	#ifdef CONFIG_NUMA
-   130	/* Returns the node based on pci bus */
-   131	static inline int __pcibus_to_node(const struct pci_bus *bus)
-   132	{
- > 133		return to_pci_sysdata(bus)->node;
-   134	}
-   135	
+Thanks a lot for the help, Andrew!
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Peter Xu
+
