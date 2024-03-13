@@ -1,56 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87E9523A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 14:52:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6001E524;
+	Wed, 13 Mar 2024 14:52:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710341577; cv=none; b=icFAm//026Ibzm5ZEeHPnjtqd+swF9URngJLOX9ntpNS9/rpDnMAZIsJL5gZpDwvNzRuoutSWlre4cIFxCZJMKo3oW9sBzic+HSZz/74tROukks0RtD44Q4SXZrX1IL+uxLkXFcZyfEGYoR94sCCdixf+d9XhjfAQ7dzEgWiBEQ=
+	t=1710341579; cv=none; b=rJ/zCBU+pCN07aIaDVgZtyUCe0kPbISqmhYOAHDa+qThfSm7Aat/uIl1g0hFJlmgbYnatlIJWsjbgLpZ/m6+7BM0aUIXeqvyGWyLkKN8XDz/HD9fK2cjrytJTsN5g9ZHCED5RdYFbWj6i4nYCk9iNHpGB4jAiH9EgXicC/CP4D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710341577; c=relaxed/simple;
-	bh=VAbsEIw9P7uaafXLbUWjb1lbghGCAug0NPZc8Unb0qc=;
+	s=arc-20240116; t=1710341579; c=relaxed/simple;
+	bh=z1w2CnCKMTbRroLbi4e6LXi/lMI2nKIKqjyZP1VGxCk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M06zsHsYM7uTcPg21LNpYc/VAEA/sRZhX/rOA6jj28NV8iiQF6MNQC+RkK0BbPdd6YmQVwgUNPAzgJvGa5aa9kHh1LMG6BKLaxm2E7RglFvCs8uiLhJvZ36FOb29HwG83zH6MWUj5yUIZBB066aEZpgj+gLlPqWmZhvh/UBP9iE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBmMc5T2; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=i+lu9TBA5GAeuIjn/1wqCt8ZGpVFTtDGDoWDfF2QVAtEhI1mtM2b8Xn4i0rNh+dlx9HLiHOMWvoKi4gB+5ghPi09yCcQl5yaR1vnr+BJnBQXPzlWJceyR7YcUHR5zp+U74vY+3xpWgrgOhLGbWRk7tNJPxluSpv+Exim6ZdK4y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=msi9OuI9; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBmMc5T2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="msi9OuI9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710341575; x=1741877575;
+  t=1710341577; x=1741877577;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VAbsEIw9P7uaafXLbUWjb1lbghGCAug0NPZc8Unb0qc=;
-  b=PBmMc5T28XoInyXXawPimli0lJex0ytZA/5j1Wiy7K9xzQm7XpvZXvZf
-   6b0wFWfPRuv3MVu7WGbVYP7ZMhYrkfAJLR0cG7LACO8hDnD+jn7x7tRF4
-   dM6iX+KMlx3n41xjB14Fp+bBUA+dtDfqDA42kl9Td2y+YJ6DiMbB5Smpg
-   qHbQxKj6W5BRzM8fQMtdgMMQhTEv4a9Kk7gbs82s6Axphx8kQLB5qbFpL
-   t8vjxYjDHT0RlT7Zq1WRc7NcpyxCkW29jF65r1daU+G0aZvfU6OyYh44h
-   yCN7tOIrYunIg3uxA4yPT4BdXHAhn/u2Hb+ZRR9iNfwIH/EIbJhyQ87ue
+  bh=z1w2CnCKMTbRroLbi4e6LXi/lMI2nKIKqjyZP1VGxCk=;
+  b=msi9OuI9UAtcFE4IigIMPKsGsqhMYCBy1hvy0dFr+JQUQyhIzm0n4BPV
+   zM48cIetWoec/VwgxfDlsXyQbV68R5BhJnFxepVr0sIvkZ5Yxxs7kiwdm
+   iCK4opZma5VukDXJe5VSdNXn6Nw0wFc2m687GkbJKLEef251Y7D4jZYqV
+   OLPwmWXl4M8EHWoaXvUX18l9cNuJhJySAcyl/UfYueZFtu2jOiZb4t7fd
+   HW7k48aFGmj4WALqCRgxFnfItJB6tcoOGvUfFR5Dzb1TdEhNEUbP0WNks
+   KAj3v6qfU+GKHbGfjZUtfi1jccp/Uo3Scfr8pzluTiMXTuWehCZc+1mcF
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="8052363"
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="8052368"
 X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
-   d="scan'208";a="8052363"
+   d="scan'208";a="8052368"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 07:52:54 -0700
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 07:52:55 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
-   d="scan'208";a="16523659"
+   d="scan'208";a="16523658"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 13 Mar 2024 07:52:52 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkPyL-000CT5-2g;
+	id 1rkPyL-000CT7-2n;
 	Wed, 13 Mar 2024 14:52:49 +0000
-Date: Wed, 13 Mar 2024 22:51:54 +0800
+Date: Wed, 13 Mar 2024 22:51:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: Johan Carlsson <johan.carlsson@teenage.engineering>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Takashi Iwai <tiwai@suse.de>
-Subject: [linux-next:master 13138/13397] sound/usb/stream.c:306:34: error:
- 'chmaps' undeclared; did you mean 'chmap'?
-Message-ID: <202403132230.Ituid5qw-lkp@intel.com>
+Subject: [linux-next:master 13138/13397] sound/usb/stream.c:306:13: error:
+ use of undeclared identifier 'chmaps'; did you mean 'chmap'?
+Message-ID: <202403132200.X4RzDIwM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,26 +63,28 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   dad309222e4c3fc7f88b20ce725ce1e0eea07cc7
 commit: a94566ace3ca789747cd4cb26dd59474d135c7ac [13138/13397] ALSA: usb-audio: Stop parsing channels bits when all channels are found.
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240313/202403132230.Ituid5qw-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403132230.Ituid5qw-lkp@intel.com/reproduce)
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240313/202403132200.X4RzDIwM-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240313/202403132200.X4RzDIwM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403132230.Ituid5qw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403132200.X4RzDIwM-lkp@intel.com/
 
 Note: the linux-next/master HEAD dad309222e4c3fc7f88b20ce725ce1e0eea07cc7 builds fine.
       It may have been fixed somewhere.
 
 All errors (new ones prefixed by >>):
 
-   sound/usb/stream.c: In function 'convert_chmap':
->> sound/usb/stream.c:306:34: error: 'chmaps' undeclared (first use in this function); did you mean 'chmap'?
-     306 |                         if (c == chmaps->channels)
-         |                                  ^~~~~~
-         |                                  chmap
-   sound/usb/stream.c:306:34: note: each undeclared identifier is reported only once for each function it appears in
+>> sound/usb/stream.c:306:13: error: use of undeclared identifier 'chmaps'; did you mean 'chmap'?
+                           if (c == chmaps->channels)
+                                    ^~~~~~
+                                    chmap
+   sound/usb/stream.c:287:29: note: 'chmap' declared here
+           struct snd_pcm_chmap_elem *chmap;
+                                      ^
+   1 error generated.
 
 
 vim +306 sound/usb/stream.c
