@@ -1,59 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E801A38E7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 19:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6890462151
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Mar 2024 19:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710357803; cv=none; b=a/dJOC/9ccnZ4M+CJBmyf5v+8CWAMIWIVDT7dx+Z+JKkoc6MZn5I7TRnXyBHjl5IufL45xiQTmCDsdzG+diP8Yeps4xywCR6sCaE6MTzW5W7r1qWDWA3WYxTXgZionDI8byjBFfWGXTyCmd8FpZazLFAda7oAP3IWNid6re9OU0=
+	t=1710358085; cv=none; b=WMFnC/tA6TVdk2bL8i2+Ep+CpPE1ZdFyMft55CbmEiO4UXKxB7aldN5up9i01hPlBjFmAFtYrq3wG09i+EZQfqr13ilvV3ImK6/YtU1x4qKLH7xP3QBn6ihrwYwe9YKQjZxHuj5AUJjwcgI8squE92h6WGgX888LtXJ9P+3KOmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710357803; c=relaxed/simple;
-	bh=rh5oG6orM3fTGSHdWpi42vJeHhKgSthJIn2wdziMOis=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qECmJSZC4Ai9e1IMeGckHRjMnyCHAaL8Keb3h6WsHWbT78NC22wpGXG77I1hrhutApv9DVci+L7Y/PNsd8cYNjjfJEj2/MrTIrDlhvn5+IIoeDcZMlo1aeRWyLrpEkoo9ZVlzKc5TTlWJf15ZQpLnnLTZQNu2euMOUCPnrTAA6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fpi7eKRK; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1710358085; c=relaxed/simple;
+	bh=g02hmacMdvDkIzkK92/Pove4/7cR48iP+e1sNeXT/0U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mmDw6Ucqc3sMbRn10QuXoKOavlqibx8bdFHG1OpFMAelpbSPiqF0mqCA7HaOO0EMLkrHq/OM1mYhwhmQccLm7kfoBofUK0+ND72BeC+diR30FzfLfpjAXhXudfpJ43VLemJ7L3tjfkQ6bVxs8izOh0shttXxGvcwQBw/xeUXExM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nPedJGvq; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fpi7eKRK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nPedJGvq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710357802; x=1741893802;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rh5oG6orM3fTGSHdWpi42vJeHhKgSthJIn2wdziMOis=;
-  b=fpi7eKRKgdqiY/MSjuDKiXRmXi+RvN4/SR6taXJMtxd6wwjSI3gqpC+R
-   daLiJfTnNqaGj5Lx6NSYB13rs/dA3wS29oluhK10b3UN8amxRpf76eeAV
-   Ddi7nn5S+U1O1tEfOhTqtkawAkdrj5tZ1/bPNmhZ3wSLJoKFuiuNtyNQ9
-   UP1s13Wtnj6NpFhl5ufP/TBXWkULdgvFa1VsJr3MjLxr+0BAKQW/W2dgV
-   rXMWlcyNAUtrzN/H4LBKq/NNJ4iHp/FqfUFYlizDWed0X01HubOEFC03h
-   50Q5Gydb5InavV4mMcYiBSPSfcbOPnvgrQT1a26ZyXJN5KB16M3fgXdNi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="15875885"
+  t=1710358084; x=1741894084;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=g02hmacMdvDkIzkK92/Pove4/7cR48iP+e1sNeXT/0U=;
+  b=nPedJGvqEwAOAQK90YjYmLgxL99NTPqzL6egB2inEkRrTbH6uYfHgW28
+   3X8M9OWXzdAFR+uUkzxaMeLLvirSupKdjCySY1UqY31pFSFNh8jhgSvD1
+   U8/l6TZoOGDsZg11zz+QI7vq3n8QiR7GYJOq+hjMbqYta1DBpc0lPGxPX
+   lfaQvfUIb4M9U+abYfFbvY2msrOhKCL2MOHYrclXTyNet1zS17zBA0JXl
+   r4h+XSowrHeTXMQwJWcHMYmn4hKiynl7UBL5ImTW6mWtfvGF58BHdu0GC
+   5DYhsV/ZOv1x34cFAYCikLzCqwJpA3xpNal3kzb95hMabnxFgvM4sc/Qh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="16599444"
 X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="15875885"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 12:23:22 -0700
+   d="scan'208";a="16599444"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 12:28:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="914439688"
 X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="914439688"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 12:23:20 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rkUC6-0000000CJ7R-0aOr;
-	Wed, 13 Mar 2024 21:23:18 +0200
-Date: Wed, 13 Mar 2024 21:23:17 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Herve Codina <herve.codina@bootlin.com>
-Subject: Re: WARNING: modpost: vmlinux: section mismatch in reference:
- find_next_bit+0x14 (section: .text.unlikely) ->
- __setup_str_initcall_blacklist (section: .init.rodata)
-Message-ID: <ZfH9JVK1wak2nJmN@smile.fi.intel.com>
-References: <202403140236.HDGbPm2J-lkp@intel.com>
+   d="scan'208";a="16714145"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 13 Mar 2024 12:28:02 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rkUGd-000Chd-1Y;
+	Wed, 13 Mar 2024 19:27:59 +0000
+Date: Thu, 14 Mar 2024 03:27:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 33/135] WARNING: modpost: "__ashrdi3"
+ [lib/math/mean_and_variance_test.ko] has no CRC!
+Message-ID: <202403140307.Ix5sR1SA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,33 +58,227 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202403140236.HDGbPm2J-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Mar 14, 2024 at 02:45:30AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   b0546776ad3f332e215cebc0b063ba4351971cca
-> commit: de5f84338970815b9fdd3497a975fb572d11e0b5 lib/bitmap: Introduce bitmap_scatter() and bitmap_gather() helpers
-> date:   2 days ago
-> config: xtensa-randconfig-s031-20211010 (https://download.01.org/0day-ci/archive/20240314/202403140236.HDGbPm2J-lkp@intel.com/config)
-> compiler: xtensa-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403140236.HDGbPm2J-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403140236.HDGbPm2J-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-> WARNING: modpost: vmlinux: section mismatch in reference: put_page+0x3c (section: .text.unlikely) -> initcall_level_names (section: .init.data)
-> >> WARNING: modpost: vmlinux: section mismatch in reference: find_next_bit+0x14 (section: .text.unlikely) -> __setup_str_initcall_blacklist (section: .init.rodata)
+Hi Kent,
 
-Dup of https://lore.kernel.org/oe-kbuild-all/202403121032.WDY8ftKq-lkp@intel.com/ ?
+First bad commit (maybe != root cause):
+
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   30bc44e03e7e04249f9bd77cadd3a8b92d19d358
+commit: ad0a4851772bb11f73f798286e6f1ce23117c57a [33/135] mean and variance: Promote to lib/math
+config: sparc-buildonly-randconfig-r004-20220113 (https://download.01.org/0day-ci/archive/20240314/202403140307.Ix5sR1SA-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403140307.Ix5sR1SA-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403140307.Ix5sR1SA-lkp@intel.com/
+
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_acm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ss_lb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_serial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_serial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_obex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_ether.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ncm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_phonet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_eem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm_subset.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_rndis.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uvc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_printer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/legacy/g_zero.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/legacy/g_dbgp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
+WARNING: modpost: drivers/media/i2c/et8ek8/et8ek8: section mismatch in reference: et8ek8_i2c_driver+0x8 (section: .data) -> et8ek8_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/uvc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/hfcsusb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/avmfritz.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/netjet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
+WARNING: modpost: EXPORT symbol "empty_zero_page" [vmlinux] version generation failed, symbol will not be versioned.
+Is "empty_zero_page" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__udelay" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__udelay" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__ndelay" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__ndelay" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__ashldi3" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__ashldi3" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__ashrdi3" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__ashrdi3" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "bzero_1page" [vmlinux] version generation failed, symbol will not be versioned.
+Is "bzero_1page" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__copy_1page" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__copy_1page" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__divdi3" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__divdi3" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "___rw_read_enter" [vmlinux] version generation failed, symbol will not be versioned.
+Is "___rw_read_enter" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "___rw_read_exit" [vmlinux] version generation failed, symbol will not be versioned.
+Is "___rw_read_exit" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "___rw_read_try" [vmlinux] version generation failed, symbol will not be versioned.
+Is "___rw_read_try" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "___rw_write_enter" [vmlinux] version generation failed, symbol will not be versioned.
+Is "___rw_write_enter" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__lshrdi3" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__lshrdi3" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "__muldi3" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__muldi3" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: "__ashldi3" [fs/quota/quota_tree.ko] has no CRC!
+WARNING: modpost: "__ashrdi3" [fs/quota/quota_tree.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [fs/ext4/ext4.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [fs/ext4/ext4.ko] has no CRC!
+WARNING: modpost: "__ashrdi3" [fs/ext4/ext4.ko] has no CRC!
+WARNING: modpost: "__ashrdi3" [fs/jbd2/jbd2.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [fs/overlayfs/overlay.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [fs/overlayfs/overlay.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [fs/udf/udf.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [fs/udf/udf.ko] has no CRC!
+WARNING: modpost: "__ashrdi3" [fs/udf/udf.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [fs/btrfs/btrfs.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [fs/btrfs/btrfs.ko] has no CRC!
+WARNING: modpost: "__ashrdi3" [fs/btrfs/btrfs.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [fs/f2fs/f2fs.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [fs/f2fs/f2fs.ko] has no CRC!
+WARNING: modpost: "__ashrdi3" [fs/f2fs/f2fs.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [lib/math/mean_and_variance.ko] has no CRC!
+WARNING: modpost: "__ashrdi3" [lib/math/mean_and_variance.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [lib/math/mean_and_variance.ko] has no CRC!
+>> WARNING: modpost: "__ashrdi3" [lib/math/mean_and_variance_test.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [lib/test_bpf.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [lib/test_bpf.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [lib/test_scanf.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [lib/test_bitmap.ko] has no CRC!
+WARNING: modpost: "__ndelay" [lib/test_lockup.ko] has no CRC!
+WARNING: modpost: "__udelay" [lib/test_lockup.ko] has no CRC!
+WARNING: modpost: "__ashrdi3" [lib/asn1_encoder.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/bus/mhi/host/mhi_pci_generic.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/phy/cadence/phy-cadence-torrent.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/phy/cadence/phy-cadence-salvo.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/phy/freescale/phy-fsl-imx8mq-usb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/phy/samsung/phy-exynos5-usbdrd.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/pwm/pwm-atmel-hlcdc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/pci/controller/dwc/pci-meson.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/backlight/ili9320.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/backlight/l4f00242t03.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/backlight/lms283gf05.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/video/backlight/ktd253-backlight.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/core/fb_ddc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/cyber2000fb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/i740fb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/nvidia/nvidiafb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/aty/aty128fb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/savage/savagefb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/vt8623fb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/sstfb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/cirrusfb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/gxt4500.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/sm501fb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/carminefb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/ssd1307fb.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/clk/clk-cs2000-cp.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/clk/clk-cs2000-cp.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/clk/clk-cs2000-cp.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/regulator/mt6359-regulator.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/tty/serial/rp2.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/tty/serial/sc16is7xx.ko] has no CRC!
+WARNING: modpost: "__ashrdi3" [drivers/char/xillybus/xillybus_core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/block/floppy.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/block/drbd/drbd.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/block/drbd/drbd.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/misc/eeprom/eeprom_93cx6.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/misc/altera-stapl/altera-stapl.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mfd/axp20x.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mfd/si476x-core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mfd/rn5t618.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/scsi/scsi_common.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/scsi/sd_mod.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/scsi/sd_mod.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/nvme/host/nvme.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/spi/spi-loopback-test.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/spi/spi-fsi.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/spi/spi-fsi.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/spi/spi-zynqmp-gqspi.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/net/phy/nxp-tja11xx.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/net/mdio/mdio-mscc-miim.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/net/hippi/rrunner.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/net/usb/lan78xx.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/net/arcnet/arcnet.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/net/arcnet/com90xx.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/net/arcnet/com90io.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/net/arcnet/com20020.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/net/plip/plip.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/firewire/firewire-core.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/firewire/firewire-core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/host/ehci-hcd.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/host/ehci-platform.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/host/uhci-hcd.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/host/ehci-fsl.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/serial/keyspan.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/dwc3/dwc3.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/usb/dwc3/dwc3.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/dwc3/dwc3-meson-g12a.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/cdns3/cdns-usb-common.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/cdns3/cdns3.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/cdns3/cdns3-imx.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/chipidea/ci_hdrc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/chipidea/ci_hdrc_msm.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/chipidea/ci_hdrc_tegra.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/net2272.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/pxa27x_udc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/goku_udc.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/usb/gadget/udc/r8a66597-udc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/r8a66597-udc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/pch_udc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/mv_u3d_core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/bdc/bdc.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/usb/gadget/function/usb_f_mass_storage.ko] has no CRC!
+WARNING: modpost: "__ashrdi3" [drivers/usb/gadget/function/usb_f_mass_storage.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/joystick/adi.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/joystick/as5011.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/joystick/analog.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/input/joystick/cobra.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/joystick/db9.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/joystick/grip_mp.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/misc/adxl34x.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/misc/cma3000_d0x.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/misc/drv260x.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/rmi4/rmi_core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/rtc/rtc-msm6242.ko] has no CRC!
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
