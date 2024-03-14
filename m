@@ -1,52 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C1CDDCA;
-	Thu, 14 Mar 2024 06:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273DE523A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 06:57:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710397587; cv=none; b=rNNhYo8Yd3EZVaiifoNw3zoJXS0/XaVU/+H+AHdyc0nWcddGxr/LYIsklfzBlkT4bICgaYrNLS2T02HXnE5pGbzCdPYGTMr2/I3eoTnZoWTgPDlAmiSA9fRZsMQ/tsqdEs8wwedDBT9xQWtK3AB4H8Ow+cHhPklsnA5ICdXf/g0=
+	t=1710399447; cv=none; b=jBkVIQAcWvCVPEkJVZpeURoP0BY4fiKuZLvHosOqtEVzD/sBDWG74MXhi6ykukzvLT3IQTnFFLjM8cSGCDcpGuASnXJsgG3GpI2ntxH452tDQzZ9omt/JpNjY3NPaPjdVOPff7Meles9iuybMI9fGQ6nh6wuax66RU7faDxu6rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710397587; c=relaxed/simple;
-	bh=mZwZ50bVBOhjmPhgBk8fElRcUd5UbUZwTh3xhQBAgL8=;
+	s=arc-20240116; t=1710399447; c=relaxed/simple;
+	bh=tiBtaMmoMsw7Uh+LzBp2iNShBcSw/aBjTzqAHjXsZQs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HpQfoFVCSsVOnqyvFDyV5p9oAL7zZEu2Z86EAULCsliMaocVo55mH4+V0UPZnT1Vcey2J26+8RnSOQNoYs3zV4rTAZ8YkpVtek+s7cHQhtGNBhRpBDw+bgf/UHmwGM4TGlwj4qoNPsVF7nVf/YsvYUVUa8W6eOO8OwB/zGOIO7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CHR30cEu; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=ljpv8bzHpmcvVWVgSAXk26yHNWrZhzzJDXfWe0tr8hJFEQlnPiVS0UCPiAGwxi1RCn8/4akO1b41shWv873PvuRDbgmXVuG5IxzB3xnhs3Uzp5Z/MP/B4jctKGbVWWBOZHpz5vRIAg+ntCo49EKoBH/AfSTmfBjv+GnropENLSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mPyrTpy0; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CHR30cEu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mPyrTpy0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710397586; x=1741933586;
+  t=1710399445; x=1741935445;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=mZwZ50bVBOhjmPhgBk8fElRcUd5UbUZwTh3xhQBAgL8=;
-  b=CHR30cEuzlmuVN8hFzM4v9ChTY5VHvSDNindhJ40sTXK3pFUg14BtlUw
-   hDOgmg8glUtVMxdorKlrWi1PcX81krCVZClLW3xaL2Gi6KOdbv80HNTew
-   W56Jlj7BVB86Z0sw6Y9EC1N2DTQRs9N+T6dM0PM7inseWkhZCmVjyf6KH
-   Ib+YZ0S7a5mq3Ma0izZ9dYS0qX6wlJtSkhP65/Whq75b7zN2pKFcRULcW
-   Gil2+3DyAt9iIIptkSX+YPM9eJ+4s5jYKbrmzK73tu3z22WAP5gbaCpEm
-   JpGVISjsrN80BtPqTcDuowz7ku9pr/EOJDvi4crmAL/WQGquGlSvEAuHz
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="15840534"
+  bh=tiBtaMmoMsw7Uh+LzBp2iNShBcSw/aBjTzqAHjXsZQs=;
+  b=mPyrTpy0a+aDLinTQn+2TTgINy8nCK+t1D6FlAzI4/Njl2Swsz3018xN
+   Ard+YFHO8pN24Ui3R1ImLaqayS45P24MQz02KIBc5hXY+1jstIhPDB7a1
+   KKIPH+Fu46t14k/P4bzzc13pgTuVk0SUK6GqYpQAMGCtEkkAvjL8JMt3m
+   hdFciyjiCOEvFVP6Ic4Y4p6UyzHWzG9BkD+9Hfvw4i8hFcsNhIhBgVaZQ
+   VqVNIb37LNiE6d4s+CQKzfsxTEqOibOHnDYJEmZeoCv46ubO97kWuEBO9
+   RgInxV39Pbrc27u0hb3lOGSmUihxktgvzU7LEe9uBDVqhcsH3VLVAZQTv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="27675656"
 X-IronPort-AV: E=Sophos;i="6.07,124,1708416000"; 
-   d="scan'208";a="15840534"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 23:26:24 -0700
+   d="scan'208";a="27675656"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 23:57:25 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,124,1708416000"; 
-   d="scan'208";a="16659291"
+   d="scan'208";a="12588920"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Mar 2024 23:26:19 -0700
+  by orviesa006.jf.intel.com with ESMTP; 13 Mar 2024 23:57:21 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkeXh-000DAZ-0J;
-	Thu, 14 Mar 2024 06:26:17 +0000
-Date: Thu, 14 Mar 2024 14:25:33 +0800
+	id 1rkf1h-000DBT-1i;
+	Thu, 14 Mar 2024 06:57:17 +0000
+Date: Thu, 14 Mar 2024 14:57:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Cc: oe-kbuild-all@lists.linux.dev,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	willl will <will@willwhang.com>,
@@ -63,7 +63,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Andy Shevchenko <andy.shevchenko@gmail.com>,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 2/2] media: i2c: Add imx283 camera sensor driver
-Message-ID: <202403141412.K2tNvCOL-lkp@intel.com>
+Message-ID: <202403141436.KEQj1YzE-lkp@intel.com>
 References: <20240313070705.91140-3-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -89,22 +89,17 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/media-dt-bindi
 base:   git://linuxtv.org/media_tree.git master
 patch link:    https://lore.kernel.org/r/20240313070705.91140-3-umang.jain%40ideasonboard.com
 patch subject: [PATCH v3 2/2] media: i2c: Add imx283 camera sensor driver
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240314/202403141412.K2tNvCOL-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 503c55e17037436dcd45ac69dea8967e67e3f5e8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403141412.K2tNvCOL-lkp@intel.com/reproduce)
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240314/202403141436.KEQj1YzE-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403141436.KEQj1YzE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403141412.K2tNvCOL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403141436.KEQj1YzE-lkp@intel.com/
 
 All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hte/hte-tegra194-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
@@ -114,6 +109,7 @@ WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82365.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
@@ -131,6 +127,10 @@ WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.
 WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_atari.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_paula.o
+WARNING: modpost: sound/oss/dmasound/dmasound_paula: section mismatch in reference: amiga_audio_driver+0x8 (section: .data) -> amiga_audio_remove (section: .exit.text)
 WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
@@ -200,7 +200,7 @@ WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
 WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
->> ERROR: modpost: "__hexagon_udivdi3" [drivers/media/i2c/imx283.ko] undefined!
+>> ERROR: modpost: "__udivdi3" [drivers/media/i2c/imx283.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
