@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD225C614
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 07:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCE55C600
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 07:18:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710400704; cv=none; b=Y6UwpxQ4+W84L5zCiAV5LperKMJKMlbPzkOOE8SQ4yBl6XhJ9cKKlkl7FHzjpFKmh4AU5ArHo+vwc0zMxCg0iF8Lq2UyZ7SdfMjT8kEzjPZtmRRxy/gSm/7Mq76ChzZfkYave4pvQw2BAH8yvvJQWhC7z6b2Ux42xQdVrA4KTfo=
+	t=1710400715; cv=none; b=MuofsztIMagfEfUPfbGE5cwLDOeYVlUSD10KN+N8sUkvPNxhIjCLZRY2PZARd8gvgxZFKnpNgQnehEoUAO8z5tuvJXcZ1trEGdKXbK6DxX373LaIXwYseydmBMQRn6yf3S8QFbT/f2h+6a//zdWHPHkf+7qBzZt/6Q1ZLacVcEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710400704; c=relaxed/simple;
-	bh=m0YoRjKUpZS9+UnOGj5zMNnxHZg46LAA1z/bDbN7qxI=;
+	s=arc-20240116; t=1710400715; c=relaxed/simple;
+	bh=6Kli6OQIw6MswoMY8Emq7srAFQHdH5yC33All3SJQ0Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lRuUWFbK4SnOUbEnq+SArgiFzkAGdnDDgpHb1YjxQDvU6z9fCRwItKk+BgGLHnAwkJ2i137Xn1iBafwgGeAHurIrKWcPpdAUik0LLEw3oR+ptekcxJcGQlTtMbQlA0hKGNrzkMkErSHR336HOXEajIdS96G/DLYkEmPeA/ORPYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T58TBj1I; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=KkHm90UsI4y/CxGsKsJ39c+IFmB/GsLAVNw/c/OpuCcYehl+CrlBfR2MwJERODxNO8ll8avVakvKmAcCeq8FNnqb80YgIBZn1Cw3UwB9pP4MRRQq0xU0PkQApgHZVQEQnzKXwg6sKCSvIP5aDlkgNIs1qt7M7g2oJaO2NaJyUCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QQ5vIkFN; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T58TBj1I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QQ5vIkFN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710400702; x=1741936702;
+  t=1710400712; x=1741936712;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m0YoRjKUpZS9+UnOGj5zMNnxHZg46LAA1z/bDbN7qxI=;
-  b=T58TBj1IayJVsW+57AmyOCN52x52ZkYvRzKlNdCm9TJqBQ4ZQlZOuRiZ
-   oDDEqKR/3vRiTA3gd9NSADp0SZSVjKfBAcqdOZW/H0JgmCYXD7fYwnhHN
-   kgg4iReUoyYla0IhyEnaV8InY+yC+D6IWTduwM0svw+h8fJd7DoFCWJIN
-   Pljo/kYuvTRqFVicIqd0UrT8hXpD8U3fRmLWQunoHEW5hmewnV5UAwRzr
-   UK3LxQ5Dw5R7Y5tk/jeZe3lVh6OWQPNK8yCjqeTYHR9iWRzc/pluEmTgk
-   Y/udmUFrhEEpB4guPzH3fRycXL5gdOK6TjZYDbrvu1NLZd7Aok55Bqw79
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5330852"
+  bh=6Kli6OQIw6MswoMY8Emq7srAFQHdH5yC33All3SJQ0Y=;
+  b=QQ5vIkFNBNDips+XaE3GSmyIEeQfsajedzoPs7ZmAjImHSLUN9sgeRKo
+   jk3v9wunuz3r3OTUCVKmUZbjX3FLqdobMzQIJT97C2dlsYBdcLSMBO77w
+   iUh+//MrCm+sSX3xkF4QbsIijp4Ybztm6Tz5/YDqq1xsYGc8eP/+VS3ya
+   +M02JOZFANENCk3MmObzWZL7DL/gIs/4LxC5qsdu59ZeqAFjT7S0J+/QT
+   Qr1VynWLC6xoW2NGHn/gKv8M+n1gZ3mpU4LvJrzugDtRfWHJagvWHF98g
+   m/7jsHDnx/VqLRFd8CFkO7k4LAIgeKA7uZPPf6/Aqi4VqzP72QIVQAJCv
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5387344"
 X-IronPort-AV: E=Sophos;i="6.07,124,1708416000"; 
-   d="scan'208";a="5330852"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 00:18:22 -0700
+   d="scan'208";a="5387344"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 00:18:22 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,124,1708416000"; 
-   d="scan'208";a="12263438"
+   d="scan'208";a="49630684"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 14 Mar 2024 00:18:20 -0700
+  by orviesa001.jf.intel.com with ESMTP; 14 Mar 2024 00:18:21 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkfM2-000DCm-1G;
+	id 1rkfM2-000DCh-17;
 	Thu, 14 Mar 2024 07:18:18 +0000
-Date: Thu, 14 Mar 2024 15:17:46 +0800
+Date: Thu, 14 Mar 2024 15:17:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Ben Hutchings <bwh@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.1 29/30]
- drivers/usb/gadget/function/android_f_accessory.c:1392:6: warning: no
- previous prototype for function '__acc_req_match'
-Message-ID: <202403141531.dXxeOHdP-lkp@intel.com>
+Subject: [cip:linux-4.19.y-cip-rt-rebase 130/29558]
+ kernel/locking/rtmutex.c:1577: warning: Excess function parameter
+ 'detect_deadlock' description in 'rt_mutex_lock_killable'
+Message-ID: <202403141532.DLt02tVV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,69 +60,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.1
-head:   31de4c08caf04886df7ee001c8b8af82824daab6
-commit: 9b03ed2feb9c4cc3f15d44eda080caabb3a6b843 [29/30] ANDROID: usb: gadget: Add Android Accessory Function
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240314/202403141531.dXxeOHdP-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403141531.dXxeOHdP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip-rt-rebase
+head:   dce1701e767e33da39db64fe691cd4783ec7dbbf
+commit: dfdcd02984581457ceb0d24a24deea67eba7e65f [130/29558] rtmutex: Add rtmutex_lock_killable()
+config: arc-randconfig-001-20240303 (https://download.01.org/0day-ci/archive/20240314/202403141532.DLt02tVV-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403141532.DLt02tVV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403141531.dXxeOHdP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403141532.DLt02tVV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/usb/gadget/function/android_f_accessory.c:1392:6: warning: no previous prototype for function '__acc_req_match' [-Wmissing-prototypes]
-    1392 | bool __acc_req_match(const struct usb_ctrlrequest *ctrl)
-         |      ^
-   drivers/usb/gadget/function/android_f_accessory.c:1392:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1392 | bool __acc_req_match(const struct usb_ctrlrequest *ctrl)
-         | ^
-         | static 
-   1 warning generated.
+>> kernel/locking/rtmutex.c:1577: warning: Excess function parameter 'detect_deadlock' description in 'rt_mutex_lock_killable'
+   kernel/locking/rtmutex.c:1663: warning: Function parameter or member 'lock' not described in '__rt_mutex_futex_unlock'
+   kernel/locking/rtmutex.c:1663: warning: Function parameter or member 'wake_q' not described in '__rt_mutex_futex_unlock'
+   kernel/locking/rtmutex.c:1726: warning: Function parameter or member 'name' not described in '__rt_mutex_init'
+   kernel/locking/rtmutex.c:1726: warning: Function parameter or member 'key' not described in '__rt_mutex_init'
+   kernel/locking/rtmutex.c:1772: warning: Function parameter or member 'proxy_owner' not described in 'rt_mutex_proxy_unlock'
 
 
-vim +/__acc_req_match +1392 drivers/usb/gadget/function/android_f_accessory.c
+vim +1577 kernel/locking/rtmutex.c
 
-  1391	
-> 1392	bool __acc_req_match(const struct usb_ctrlrequest *ctrl)
-  1393	{
-  1394		struct acc_dev *dev = get_acc_dev();
-  1395		u8 bRequestType = ctrl->bRequestType;
-  1396		u8 bRequest = ctrl->bRequest;
-  1397		bool ret = false;
-  1398	
-  1399		/*
-  1400		 * If instance is not created which is the case in power off charging
-  1401		 * mode, dev will be NULL. Hence return error if it is the case.
-  1402		 */
-  1403		if (!dev)
-  1404			return false;
-  1405	
-  1406		if (bRequestType == (USB_DIR_OUT | USB_TYPE_VENDOR)) {
-  1407			switch (bRequest) {
-  1408			case ACCESSORY_START:
-  1409			case ACCESSORY_SEND_STRING:
-  1410			case ACCESSORY_SET_AUDIO_MODE:
-  1411			case ACCESSORY_REGISTER_HID:
-  1412			case ACCESSORY_UNREGISTER_HID:
-  1413			case ACCESSORY_SET_HID_REPORT_DESC:
-  1414			case ACCESSORY_SEND_HID_EVENT:
-  1415				ret = true;
-  1416				break;
-  1417			default:
-  1418				ret = false;
-  1419			}
-  1420		} else if ((bRequestType == (USB_DIR_IN | USB_TYPE_VENDOR)) &&
-  1421				(bRequest == ACCESSORY_GET_PROTOCOL))
-  1422			ret = true;
-  1423	
-  1424		put_acc_dev(dev);
-  1425		return ret;
-  1426	}
-  1427	
+  1564	
+  1565	/**
+  1566	 * rt_mutex_lock_killable - lock a rt_mutex killable
+  1567	 *
+  1568	 * @lock:              the rt_mutex to be locked
+  1569	 * @detect_deadlock:   deadlock detection on/off
+  1570	 *
+  1571	 * Returns:
+  1572	 *  0          on success
+  1573	 * -EINTR      when interrupted by a signal
+  1574	 * -EDEADLK    when the lock would deadlock (when deadlock detection is on)
+  1575	 */
+  1576	int __sched rt_mutex_lock_killable(struct rt_mutex *lock)
+> 1577	{
+  1578		might_sleep();
+  1579	
+  1580		return rt_mutex_fastlock(lock, TASK_KILLABLE, rt_mutex_slowlock);
+  1581	}
+  1582	EXPORT_SYMBOL_GPL(rt_mutex_lock_killable);
+  1583	
 
 -- 
 0-DAY CI Kernel Test Service
