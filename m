@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B556E615;
-	Thu, 14 Mar 2024 10:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B8E6CDB5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 11:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710411637; cv=none; b=L9s4lph0WxiWS78pvi/4cUmDY7b0KalMY8IYGWmHuXIwMFH9NAcvJccob6NR40/jSiK2DAo9vbkYk2LzbBBN3JmPl5x7oKK9R2PlfCrEUTQaydrYnVw8RKFDfWBfmdbof4B9URy78BfH4F4gzAux/qDTYsxlrs/z8Ts8BLemn+k=
+	t=1710416433; cv=none; b=cIBv5ghhXnpl6gzSjxhWYhpmkb1e0LhBlPoFc990nBIMjpuFSqxpBPkEmr2UQR75GM9bUGyNI5oQq+LgOKgvZmMRqAiFbzwkIbT82Ap4P8TXjjuZLPncV4bxN7/Q3IR/qOFBwigGy0B7MYFFoNsdzd8emIGMHb6RXoUD5ilootU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710411637; c=relaxed/simple;
-	bh=Q40t2apZMO7d2J09faoTKTeEJycl4UQXXRiMphUtsZA=;
+	s=arc-20240116; t=1710416433; c=relaxed/simple;
+	bh=gKTcjdFrr1i6/462Q9B2PQQrObiqbNl2aiA7L8ANI+o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EKOpSCoscn1U/ciyf9wbVpw5ijJucm/xHMHeT3vzWLSVrIUcpLaKdTudKx32b5Wxyz1LxX+m24PXrljHHEZT9k0qNo0iTN+WJzkE5KFVnBdI8NpGqyQomwbd50uNTGqCF9cM8t5VUt0DnBl5yHrQgMtBdz+HNWxi0eGW4fwLaNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GuxQuY5p; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=uG2itmfSaabdcpsiyA1BTc/dRKBwCHQA1xcmitv+nNa5JR3OPPvw/52ZuVRaXp6MvPH4Gkg2q1LOSY2RUw3xVMnfjo0D4yS8+kKiTz5zpWrqtGGRlsvYEPxc2UdfHbSq5iS/REI7gO+OyRpiLa28G3bL/kr7zVi6/YrqM/Y59ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=im0sBbs5; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GuxQuY5p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="im0sBbs5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710411636; x=1741947636;
+  t=1710416430; x=1741952430;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Q40t2apZMO7d2J09faoTKTeEJycl4UQXXRiMphUtsZA=;
-  b=GuxQuY5pRO2XXAWBDwen9LbcJbZrZ5eEc1MwLUvKg7i31Qx8JuuNI0LR
-   v5yBExKbKv2lhsmBYMNPCt3fAaPNWn/UD6HAW+cWEO39N/06UsuXbqj0I
-   yIXCcdJ7NcOulCpP94obcuWFjIjhKZJly+0CNs4uSy+wIcUeW0BoNZSiE
-   R3x10e6Tup568mAnGRZTvarMGty0epCLvENPJ3+SjFxXcHJEF+Blrv+oy
-   ZlPFPr2CyG7CDo2t42SXFcUwjUtSstRZl6katdXkpNnN2NCKaDfxq8zQw
-   aZarov49UPnPxbKarmb653cvGhj+hN3QFkOdyQdxm4u4/RBeuOUloR0+G
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5343417"
+  bh=gKTcjdFrr1i6/462Q9B2PQQrObiqbNl2aiA7L8ANI+o=;
+  b=im0sBbs5qfmxawwbed+0O8MRDZXIfnct0GG5g+62oj5hzBMt1FGsVp9Z
+   VYT0FaeNIcZ2uQuXB+Z//bWfwoZ6S5fqEX3G6eEfgAYC4CNhgTT0qoWgl
+   Naz8gysNiE+WNEY2hjRxAIPJk/R5tQL0RZqGnpU8J5NfLnQx31d7/1LmE
+   /HAuO2vbKM8WPurOSGz/knkvOWODEFbVkpPvha95LUG0KIS2/ON6CHyG4
+   kv1qMUQBAlPw0P0zIks7+0tjC0zpj8/9RCvHuWXKBQdJTzc6q+GXrByeW
+   mvxvcBcfooZ2jQUreA868ntUY9jd24I+f9PnoyxGnQoyK4RiKdfZgQp0h
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="9006084"
 X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="5343417"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 03:20:33 -0700
+   d="scan'208";a="9006084"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 04:40:29 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="12312950"
+   d="scan'208";a="43298849"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Mar 2024 03:18:24 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 14 Mar 2024 04:40:27 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkiAH-000DKZ-2l;
-	Thu, 14 Mar 2024 10:18:21 +0000
-Date: Thu, 14 Mar 2024 18:17:35 +0800
+	id 1rkjRg-000DNn-0P;
+	Thu, 14 Mar 2024 11:40:24 +0000
+Date: Thu, 14 Mar 2024 19:40:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rameshkumar Sundaram <quic_ramess@quicinc.com>,
-	ath12k@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-wireless@vger.kernel.org,
-	Sriram R <quic_srirrama@quicinc.com>,
-	Rameshkumar Sundaram <quic_ramess@quicinc.com>
-Subject: Re: [PATCH v4 04/12] wifi: ath12k: vdev statemachine changes for
- single wiphy
-Message-ID: <202403141850.4ccwnsut-lkp@intel.com>
-References: <20240312135557.1778379-5-quic_ramess@quicinc.com>
+To: Luis Chamberlain <mcgrof@kernel.org>, akpm@linux-foundation.org,
+	jhubbard@nvidia.com, vbabka@suse.cz, mgorman@suse.de,
+	linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dave@stgolabs.net, p.raghav@samsung.com, da.gomez@samsung.com,
+	mcgrof@kernel.org
+Subject: Re: [PATCH 2/3] mm/compaction: add and use
+ for_each_populated_zone_pgdat() helper
+Message-ID: <202403141931.2XJWI4fa-lkp@intel.com>
+References: <20240314005436.2962962-3-mcgrof@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,207 +63,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240312135557.1778379-5-quic_ramess@quicinc.com>
+In-Reply-To: <20240314005436.2962962-3-mcgrof@kernel.org>
 
-Hi Rameshkumar,
+Hi Luis,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on kvalo-ath/ath-next]
-[also build test WARNING on wireless/main wireless-next/main linus/master next-20240314]
-[cannot apply to v6.8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rameshkumar-Sundaram/wifi-ath12k-add-multiple-radio-support-in-a-single-MAC-HW-un-register/20240312-215924
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git ath-next
-patch link:    https://lore.kernel.org/r/20240312135557.1778379-5-quic_ramess%40quicinc.com
-patch subject: [PATCH v4 04/12] wifi: ath12k: vdev statemachine changes for single wiphy
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240314/202403141850.4ccwnsut-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 503c55e17037436dcd45ac69dea8967e67e3f5e8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403141850.4ccwnsut-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Chamberlain/mm-show_mem-simplify-ifdef-on-si_meminfo_node/20240314-085917
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240314005436.2962962-3-mcgrof%40kernel.org
+patch subject: [PATCH 2/3] mm/compaction: add and use for_each_populated_zone_pgdat() helper
+config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240314/202403141931.2XJWI4fa-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403141931.2XJWI4fa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403141850.4ccwnsut-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403141931.2XJWI4fa-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/net/mac80211.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/powerpc/include/asm/cacheflush.h:7:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/wireless/ath/ath12k/mac.c:7:
-   In file included from include/net/mac80211.h:20:
-   In file included from include/linux/ieee80211.h:20:
-   In file included from include/linux/etherdevice.h:21:
-   In file included from include/linux/netdevice.h:45:
-   In file included from include/uapi/linux/neighbour.h:6:
-   In file included from include/linux/netlink.h:9:
-   In file included from include/net/scm.h:9:
-   In file included from include/linux/security.h:35:
-   include/linux/bpf.h:742:48: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     742 |         ARG_PTR_TO_MAP_VALUE_OR_NULL    = PTR_MAYBE_NULL | ARG_PTR_TO_MAP_VALUE,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:743:43: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     743 |         ARG_PTR_TO_MEM_OR_NULL          = PTR_MAYBE_NULL | ARG_PTR_TO_MEM,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:744:43: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     744 |         ARG_PTR_TO_CTX_OR_NULL          = PTR_MAYBE_NULL | ARG_PTR_TO_CTX,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:745:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     745 |         ARG_PTR_TO_SOCKET_OR_NULL       = PTR_MAYBE_NULL | ARG_PTR_TO_SOCKET,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:746:44: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     746 |         ARG_PTR_TO_STACK_OR_NULL        = PTR_MAYBE_NULL | ARG_PTR_TO_STACK,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:747:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     747 |         ARG_PTR_TO_BTF_ID_OR_NULL       = PTR_MAYBE_NULL | ARG_PTR_TO_BTF_ID,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:751:38: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     751 |         ARG_PTR_TO_UNINIT_MEM           = MEM_UNINIT | ARG_PTR_TO_MEM,
-         |                                           ~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:753:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_arg_type') [-Wenum-enum-conversion]
-     753 |         ARG_PTR_TO_FIXED_SIZE_MEM       = MEM_FIXED_SIZE | ARG_PTR_TO_MEM,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:776:48: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     776 |         RET_PTR_TO_MAP_VALUE_OR_NULL    = PTR_MAYBE_NULL | RET_PTR_TO_MAP_VALUE,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:777:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     777 |         RET_PTR_TO_SOCKET_OR_NULL       = PTR_MAYBE_NULL | RET_PTR_TO_SOCKET,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:778:47: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     778 |         RET_PTR_TO_TCP_SOCK_OR_NULL     = PTR_MAYBE_NULL | RET_PTR_TO_TCP_SOCK,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:779:50: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     779 |         RET_PTR_TO_SOCK_COMMON_OR_NULL  = PTR_MAYBE_NULL | RET_PTR_TO_SOCK_COMMON,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:781:49: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     781 |         RET_PTR_TO_DYNPTR_MEM_OR_NULL   = PTR_MAYBE_NULL | RET_PTR_TO_MEM,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   include/linux/bpf.h:782:45: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     782 |         RET_PTR_TO_BTF_ID_OR_NULL       = PTR_MAYBE_NULL | RET_PTR_TO_BTF_ID,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:783:43: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_return_type') [-Wenum-enum-conversion]
-     783 |         RET_PTR_TO_BTF_ID_TRUSTED       = PTR_TRUSTED    | RET_PTR_TO_BTF_ID,
-         |                                           ~~~~~~~~~~~    ^ ~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:894:44: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     894 |         PTR_TO_MAP_VALUE_OR_NULL        = PTR_MAYBE_NULL | PTR_TO_MAP_VALUE,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:895:42: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     895 |         PTR_TO_SOCKET_OR_NULL           = PTR_MAYBE_NULL | PTR_TO_SOCKET,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
-   include/linux/bpf.h:896:46: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     896 |         PTR_TO_SOCK_COMMON_OR_NULL      = PTR_MAYBE_NULL | PTR_TO_SOCK_COMMON,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:897:44: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     897 |         PTR_TO_TCP_SOCK_OR_NULL         = PTR_MAYBE_NULL | PTR_TO_TCP_SOCK,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~
-   include/linux/bpf.h:898:42: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-     898 |         PTR_TO_BTF_ID_OR_NULL           = PTR_MAYBE_NULL | PTR_TO_BTF_ID,
-         |                                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
->> drivers/net/wireless/ath/ath12k/mac.c:6038:54: warning: variable 'bit' is uninitialized when used here [-Wuninitialized]
-    6038 |                 ath12k_warn(ab, "failed to create vdev %d ret %d", bit, ret);
-         |                                                                    ^~~
-   drivers/net/wireless/ath/ath12k/mac.c:6001:8: note: initialize the variable 'bit' to silence this warning
-    6001 |         u8 bit;
-         |               ^
-         |                = '\0'
-   26 warnings generated.
+   mm/compaction.c: In function 'fragmentation_score_node':
+>> mm/compaction.c:2252:13: warning: unused variable 'zoneid' [-Wunused-variable]
+    2252 |         int zoneid;
+         |             ^~~~~~
 
 
-vim +/bit +6038 drivers/net/wireless/ath/ath12k/mac.c
+vim +/zoneid +2252 mm/compaction.c
 
-  5991	
-  5992	static struct ath12k *ath12k_mac_assign_vif_to_vdev(struct ieee80211_hw *hw,
-  5993							    struct ieee80211_vif *vif,
-  5994							    struct ieee80211_chanctx_conf *ctx)
-  5995	{
-  5996		struct ath12k_vif *arvif = ath12k_vif_to_arvif(vif);
-  5997		struct ath12k_hw *ah = hw->priv;
-  5998		struct ath12k_base *ab;
-  5999		struct ath12k *ar;
-  6000		int ret;
-  6001		u8 bit;
-  6002	
-  6003		if (arvif->ar) {
-  6004			WARN_ON(!arvif->is_created);
-  6005			goto out;
-  6006		}
-  6007	
-  6008		if (ah->num_radio == 1)
-  6009			ar = ah->radio;
-  6010		else if (ctx)
-  6011			ar = ath12k_get_ar_by_ctx(hw, ctx);
-  6012		else
-  6013			return NULL;
-  6014	
-  6015		if (!ar)
-  6016			goto out;
-  6017	
-  6018		ab = ar->ab;
-  6019	
-  6020		mutex_lock(&ar->conf_mutex);
-  6021	
-  6022		if (vif->type == NL80211_IFTYPE_AP &&
-  6023		    ar->num_peers > (ar->max_num_peers - 1)) {
-  6024			ath12k_warn(ab, "failed to create vdev due to insufficient peer entry resource in firmware\n");
-  6025			ret = -ENOBUFS;
-  6026			goto unlock;
-  6027		}
-  6028	
-  6029		if (ar->num_created_vdevs > (TARGET_NUM_VDEVS - 1)) {
-  6030			ath12k_warn(ab, "failed to create vdev, reached max vdev limit %d\n",
-  6031				    TARGET_NUM_VDEVS);
-  6032			ret = -EBUSY;
-  6033			goto unlock;
-  6034		}
-  6035	
-  6036		ret = ath12k_mac_vdev_create(ar, vif);
-  6037		if (ret) {
-> 6038			ath12k_warn(ab, "failed to create vdev %d ret %d", bit, ret);
-  6039			goto unlock;
-  6040		}
-  6041	
-  6042		/* TODO If the vdev is created during channel assign and not during
-  6043		 * add_interface(), Apply any parameters for the vdev which were received
-  6044		 * after add_interface, corresponding to this vif.
-  6045		 */
-  6046	unlock:
-  6047		mutex_unlock(&ar->conf_mutex);
-  6048	out:
-  6049		return arvif->ar;
-  6050	}
-  6051	
+  2240	
+  2241	/*
+  2242	 * The per-node proactive (background) compaction process is started by its
+  2243	 * corresponding kcompactd thread when the node's fragmentation score
+  2244	 * exceeds the high threshold. The compaction process remains active till
+  2245	 * the node's score falls below the low threshold, or one of the back-off
+  2246	 * conditions is met.
+  2247	 */
+  2248	static unsigned int fragmentation_score_node(pg_data_t *pgdat)
+  2249	{
+  2250		unsigned int score = 0;
+  2251		struct zone *zone;
+> 2252		int zoneid;
+  2253	
+  2254		for_each_populated_zone_pgdat(zone, pgdat)
+  2255			score += fragmentation_score_zone_weighted(zone);
+  2256	
+  2257		return score;
+  2258	}
+  2259	
 
 -- 
 0-DAY CI Kernel Test Service
