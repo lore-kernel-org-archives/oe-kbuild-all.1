@@ -1,121 +1,184 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF276CDD9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 09:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9C86BFCA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 10:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710410261; cv=none; b=PZJYRp809zCFtdNXKam8UM0IkZg9AyjFCnpLxNTeWc6699EowBxqtINBkCN+2XB2rpGLeYua+sEDTymGj+SdDzeDe4zTQuserwzUR/rIk7Y1CwMREno0p18Q6AZO0zw6EKyvdv+mKuxdkj/4B4XJfeVFZ3y5FUtSUiFqeCQYA/Q=
+	t=1710411508; cv=none; b=EZ7dFvtZJmS+MXq6V9Q2bxN16GB4LSD2sv9GJeb5cVLDlqe/Lrpvaq3Z9ytRSfgFOD+v3qxbA2GDPZ9mhCiX01ICnjBwE5KlLqXK2IlsbcPbYymvqQsKyjvwOca0Wj0UaqQH5eaBhlVAEHYbnQrq+vxZ5j9C6pG528++93v162A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710410261; c=relaxed/simple;
-	bh=VqCz2igfg2nWsES9iIOGmzpT62E7/xaNIwB8TKcfzcA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iFK/jhOR8540tZd5UPQSyPZYPwCbZ4PYRsgwF/Gem8H/Gc4cGWi0ggIcNZNw5gOOdXpOotoyBMOPVXOMaksmYbJDacBFpXm+Lm0z6L4HOQB4FTlhjWAhQozHa+zvebBZ/PZx/UCYSgPQi/a2ei4g7f04UEZRIl/vMHFH5u72Xlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OkebZ+L9; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710411508; c=relaxed/simple;
+	bh=1JOb05f8UoX4Qvv7hifd7oLQe7CSRASsfrfB4MxG7Ko=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EmflMwnCr9ma0clX6See7DzuwnNhxMdKBSqaVZm5UeUPnxDksVWWlmXDFVKoiVxe+pfi52WHBs8sxnSRODhL9gt4eBUne+gQ4GKPnrgLB/LTJXkHB51sGjSeUurSYTbQokxH++U2yWBIjP6BX8L7FDvmETyAlOXbKO/ojQlHfuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kD426/WN; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OkebZ+L9"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a28a6cef709so97415466b.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 02:57:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710410258; x=1711015058; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9EQJP9snJ+QMn1kOIEI1bHrE4YWtBgcqYZRBKU0i0oU=;
-        b=OkebZ+L9yOahEjnUwttaNmY7wtMBbgqtPnpSzAREqnHvuVhg4fksQi5sLPtKZaqMeA
-         tm6X4oOimql4IMyXt4XhEwZ2zsnwOPBM1d9yxLwgbv/B6p2pFoU9F33i2g0Ra5pQx2PY
-         hzTHY7VNK2FexPDUY8cLa7ttAV7GDFNhJt5CRzuwQO/TWFL/KGjV8qDRI0gTJEPOc3Pi
-         yHcgz2E+PvxUHkgBFQZ728jydrhAstNvXKSkSXxCGDVrsY94wVYwy8fz4wJqLxZ6d8SH
-         ANaRaTw+Fx3SMg8SUiyO2mz19eLz0p4R9fIMSASVhPUEYZ8+gIYihCn4nmHwD4UMlXK/
-         5Iyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710410258; x=1711015058;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9EQJP9snJ+QMn1kOIEI1bHrE4YWtBgcqYZRBKU0i0oU=;
-        b=v9z7pasPBOHZfId7IULF6Exj9y353PymORAKMV5LnTZpE/7nLO3lJVGrySq4d39Nvc
-         XjwP35wBNUFFjK3aqwW7ptnoPRmskqpdia5AWZCpgnuuMCZdVMhnNtZb1HOVSrNQTz2x
-         NOesRuOe1d8geL2fbtAK+sV/ZakP7X4T7JUrI0bZKmQuWcW+DEWcKQCwGJ3zH5LVbGYc
-         jUwXVaT61ALxM6DVVsOXDoaSbPdXrNiswSWVVi2IoAu9oX5WH9qYyIoWiEO35XOdM+kb
-         SCUCwr4Ea+qQ+3GnlaKQ0H52/Yy0HhVCBFMkwbB9wEj25XAm2jea5CGqYgUQieJ7A+jW
-         AlLA==
-X-Forwarded-Encrypted: i=1; AJvYcCWxZcCmzxgIKiX3Slzb3K4/7j1btRGZ8W0WNHMloR8Znkml8cVETQGYn7JBfSyoC+PjnoOZjp3cdoDU/W9m9nQzTOIbiUwE7UskDB8wig==
-X-Gm-Message-State: AOJu0YzxWWz/qOsGZcLSiFHaqmcacJ/sAAq/etwtW2nuhqrr4pVp8FhS
-	h+Av7BbQCa8ZTuLcivP8xcL7nwWCaOQnbgb7kVePKRiPNfdO2CmA6BO0k9LyWrZB4pwtjP1SASV
-	ee7xcX8RIr7Zg5+ii1rvf6tiiTKw=
-X-Google-Smtp-Source: AGHT+IGyab5KBsAesnH1jxLgGY6boYF6TUj24EvyN1esyvAau51ilcVLio7p/CiieVnoKJ3jmExMyWomKfwPWIYn3oI=
-X-Received: by 2002:a17:906:ecfc:b0:a46:6557:716f with SMTP id
- qt28-20020a170906ecfc00b00a466557716fmr143159ejb.20.1710410257421; Thu, 14
- Mar 2024 02:57:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kD426/WN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710411507; x=1741947507;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1JOb05f8UoX4Qvv7hifd7oLQe7CSRASsfrfB4MxG7Ko=;
+  b=kD426/WNWti1iEwICPWB4Kqv6ICUXQr9YUAsGamDjdaLfc5yugxsuf5D
+   RBkcsSiUXH1cxrvgJyPNiCxpUu77jLor3hkpnErPbW8ipRGpyeWbAi9zf
+   4II+N9z7f+6SJnlVu6S+DH2tcwS92B9JpfJ0VIBoYu+vQeelhiSez51cm
+   DIoKJlhEfI8SAfOKL2OMA0Er5EYxRGo8QWRNxxDTAwr6FcQBMsjyDoPBr
+   VHSExxKMWMxcEBK1r6oIZexFdt8EUzQiQum9wtx24jc0YYRPDgDr3Uf7c
+   UxBdLX/Eko1iLM6R8qTn/dEYATeCgAC2FhlHe6IyHCOaFgO6jJlk8QCkG
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5347908"
+X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
+   d="scan'208";a="5347908"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 03:18:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
+   d="scan'208";a="12131203"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 14 Mar 2024 03:18:24 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rkiAH-000DKe-36;
+	Thu, 14 Mar 2024 10:18:21 +0000
+Date: Thu, 14 Mar 2024 18:17:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.6-dango 7043/7097] ERROR: modpost:
+ "mtk_bmt_detach" [drivers/mtd/nand/spi/spinand.ko] undefined!
+Message-ID: <202403141832.mhfUVkqp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240313070705.91140-3-umang.jain@ideasonboard.com> <202403141436.KEQj1YzE-lkp@intel.com>
-In-Reply-To: <202403141436.KEQj1YzE-lkp@intel.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 14 Mar 2024 11:57:00 +0200
-Message-ID: <CAHp75Vdo4Q-1j7XYB92i5=LNwuB7fpV3jPgE98K1Z_QHP5Zxng@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] media: i2c: Add imx283 camera sensor driver
-To: kernel test robot <lkp@intel.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, willl will <will@willwhang.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, tomi.valkeinen@ideasonboard.com, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Hans de Goede <hdegoede@redhat.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Paul Elder <paul.elder@ideasonboard.com>, Mehdi Djait <mehdi.djait@bootlin.com>, 
-	Bingbu Cao <bingbu.cao@intel.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Mar 14, 2024 at 8:57=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Umang,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on media-tree/master]
-> [also build test ERROR on linuxtv-media-stage/master]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/media-d=
-t-bindings-media-Add-bindings-for-IMX283/20240313-151107
-> base:   git://linuxtv.org/media_tree.git master
-> patch link:    https://lore.kernel.org/r/20240313070705.91140-3-umang.jai=
-n%40ideasonboard.com
-> patch subject: [PATCH v3 2/2] media: i2c: Add imx283 camera sensor driver
-> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/202403=
-14/202403141436.KEQj1YzE-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240314/202403141436.KEQj1YzE-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403141436.KEQj1YzE-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
+Hi Daniel,
 
-...
+FYI, the error/warning still remains.
 
-> >> ERROR: modpost: "__udivdi3" [drivers/media/i2c/imx283.ko] undefined!
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.6-dango
+head:   23ffed66602e691233d3c6ac7ff80fcde17bec2c
+commit: 20c9f12e02616996427e95bc3331d78c7101651c [7043/7097] hack: add support for MediaTek NMBM
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240314/202403141832.mhfUVkqp-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403141832.mhfUVkqp-lkp@intel.com/reproduce)
 
-I believe I have commented on a suspicious line (during v1 or v2
-review round). Seems nobody reacted :-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403141832.mhfUVkqp-lkp@intel.com/
 
---=20
-With Best Regards,
-Andy Shevchenko
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
+ERROR: modpost: "__xchg_called_with_bad_pointer" [fs/bcachefs/bcachefs.ko] undefined!
+>> ERROR: modpost: "mtk_bmt_detach" [drivers/mtd/nand/spi/spinand.ko] undefined!
+>> ERROR: modpost: "mtk_bmt_attach" [drivers/mtd/nand/spi/spinand.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
