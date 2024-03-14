@@ -1,54 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708A77F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 05:11:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F186127;
+	Thu, 14 Mar 2024 05:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710393081; cv=none; b=Eu2o5KI+OFHcihEUdds3MVqMAoR2us6vrkaoUKRHngg5R82GcDPL0ux9/NTIWX4KXhZSI+8RDsM03bI38HaHmW4CxwXE4axsyzJ4zYHtVp44TGbX6A8n3q1UlbtsGkMI13Ltz+n0oYnen/UehRGrFFafNMBS3+gPHLsTqbO4AHk=
+	t=1710393082; cv=none; b=naB92ErQ6UcBzDeiKW0nGhaSMWghyc79lPKd0XqjnzmiaAGVzS0TpE6/Tq5Pm1Km/cbORLL+giKlBDMi9tMUBmzLWHpeiA9uI/P3qPR55Bu6jiBP2pAFk/yp2KtrnD52c4VFmRdMDmSrTf13M1MPNwXhSb+XapgymYiPtyNkEvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710393081; c=relaxed/simple;
-	bh=I6kHyGsrtyOFl14zVHworSapinaP71YCE6q6E5d6oNs=;
+	s=arc-20240116; t=1710393082; c=relaxed/simple;
+	bh=eFIIaDvGeSy97RMlXiCtc1y+OnxCy/G5Uv7zgYTQOSk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kjuXBXRyApl2rNaM+3xJBSLP1ZQf0+CeOA1CAg8NQcchqyVcMH6JLVzfVOQUe7sV4O8QrR2QN/yb26vXHKpESqVORJUcyW2HYYo8mJAq02lyJGGIBSFkbc+83a9R3+Jnoph/IFA+ak0bam+qHJCWcwDxbZXsWwnUXOVtpVH2XHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LEuwDzgF; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=S7Mvqtel8uS6XXp7b2K2p06rrjKh6Qavac41s1YJKJqnyusnZocpSw27o6hsi+5eftdMt/4Pfcvz0L4pouEP+4gig0q3uP3XGBA86OF5AF6qwFIz2E4jtE7amjobW74oiWrhTX+BBg0hB7Sdx0uW4Q46HMAJVEmXExA7TQTv80g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i96Hi6uu; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LEuwDzgF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i96Hi6uu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710393079; x=1741929079;
+  t=1710393081; x=1741929081;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I6kHyGsrtyOFl14zVHworSapinaP71YCE6q6E5d6oNs=;
-  b=LEuwDzgFYvF2dQumH2exhqjWPwoILV1vUf23GOys6C4vj6HcKuWdmrvh
-   I0ch0jhRJJD7L2ScnquCIWy9hCRwjO6PNn9oqR97+X5Sqyn/GWaT/+KT/
-   aJ6wJwUHc43B+LTTOFQo+S+905vRg9rmbZMNi1bmVX/MaS6jY0bgiQqgT
-   03q25FA0zxXNCZ4l3WwfdIaCmMTBM2f3oEassYjIqIGoNiggNBFyCySYO
-   P93yrKZRkvpmCiQg3ThU1sB5V6fStzXBRkGM7uhZJCAS63Oxa5yPdpmSv
-   pMNlUSHH9eiKGncqeYl6ruMBtv2Ae3akZsyE2KPXWhDC84iwAAe0Vi2SH
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5318128"
+  bh=eFIIaDvGeSy97RMlXiCtc1y+OnxCy/G5Uv7zgYTQOSk=;
+  b=i96Hi6uuN7xJmLvyfGhPmDj//QUCh0lw6qXS1JSOn7gwasY8ywfwvcZY
+   Ukws3fJ+zT5gv9zZDMgO/xL9iHwoisumYZDYhij2r8+IP6oY/C2HkTSdl
+   /jj8nbdc/h8p2Mm8x7MNUaJpTzp3w6t2neH871Hgcay2n9jF9qhyNfKRE
+   FfH8NpENpGyEwe/+fxDg17kgkATR57bj426FqCiAjrV6l2IKOgFGuiTqb
+   MOO0w6aBZXXsfKAlIrNKHwxgjzitLB/inQOpBhsLQB099xeUYnLAYIR7U
+   V38cAb6ThnM9SxXZ2IR+Emd1kyroVeFjrnxo7mstFzq5f8UeDAT3xuArQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5064516"
 X-IronPort-AV: E=Sophos;i="6.07,124,1708416000"; 
-   d="scan'208";a="5318128"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 22:11:19 -0700
+   d="scan'208";a="5064516"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 22:11:19 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,124,1708416000"; 
-   d="scan'208";a="12748087"
+   d="scan'208";a="16764487"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 13 Mar 2024 22:11:18 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 13 Mar 2024 22:11:18 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkdN5-000D7p-2E;
+	id 1rkdN5-000D7n-2B;
 	Thu, 14 Mar 2024 05:11:15 +0000
-Date: Thu, 14 Mar 2024 13:10:50 +0800
+Date: Thu, 14 Mar 2024 13:10:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:io_uring-recvsend-bundle 12/15] kbuf.c:undefined
- reference to `io_uring_mmap_pages'
-Message-ID: <202403141346.YSOyKPFF-lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:kdevops 16/31] fs/nfsd/nfs4proc.c:3688:14: error: invalid
+ application of 'sizeof' to an incomplete type 'const struct
+ nfsd4_operation[]'
+Message-ID: <202403141324.JtdnkHMT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,22 +59,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-recvsend-bundle
-head:   57fd6bfcfb482b2e57219118e3a9a2c0c95b0f45
-commit: 45b3fdf7a56108a2aa0aa4787dbe4825ec3359f9 [12/15] io_uring: get rid of remap_pfn_range() for mapping rings/sqes
-config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20240314/202403141346.YSOyKPFF-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403141346.YSOyKPFF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
+head:   1e8c308042a0c8ec86148101dbde9c6383fad5b7
+commit: 9f66eba1a281d2ab4c921c06fe8a57b881851c3c [16/31] nfsd: wire up GET_DIR_DELEGATION handling
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240314/202403141324.JtdnkHMT-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403141324.JtdnkHMT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403141346.YSOyKPFF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403141324.JtdnkHMT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sh4-linux-ld: io_uring/kbuf.o: in function `io_pbuf_mmap':
->> kbuf.c:(.text+0x13fc): undefined reference to `io_uring_mmap_pages'
+   fs/nfsd/nfs4proc.c:3517:14: error: use of undeclared identifier 'nfsd4_get_dir_delegation'
+    3517 |                 .op_func = nfsd4_get_dir_delegation,
+         |                            ^
+>> fs/nfsd/nfs4proc.c:3688:14: error: invalid application of 'sizeof' to an incomplete type 'const struct nfsd4_operation[]'
+    3688 |         if (opnum < ARRAY_SIZE(nfsd4_ops))
+         |                     ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+   fs/nfsd/nfs4proc.c:3209:37: warning: tentative array definition assumed to have one element
+    3209 | static const struct nfsd4_operation nfsd4_ops[] = {
+         |                                     ^
+   1 warning and 2 errors generated.
+
+
+vim +3688 fs/nfsd/nfs4proc.c
+
+07d1f8020738ba J. Bruce Fields 2014-03-06  3685  
+f1c7f79b6ab4f7 Adrian Bunk     2008-08-08  3686  static const char *nfsd4_op_name(unsigned opnum)
+b001a1b6aa9609 Benny Halevy    2008-07-02  3687  {
+b001a1b6aa9609 Benny Halevy    2008-07-02 @3688  	if (opnum < ARRAY_SIZE(nfsd4_ops))
+b001a1b6aa9609 Benny Halevy    2008-07-02  3689  		return nfsd4_ops[opnum].op_name;
+b001a1b6aa9609 Benny Halevy    2008-07-02  3690  	return "unknown_operation";
+b001a1b6aa9609 Benny Halevy    2008-07-02  3691  }
+b001a1b6aa9609 Benny Halevy    2008-07-02  3692  
+
+:::::: The code at line 3688 was first introduced by commit
+:::::: b001a1b6aa960949a24c2cdc28257dfcc9428d74 nfsd: dprint operation names
+
+:::::: TO: Benny Halevy <bhalevy@panasas.com>
+:::::: CC: J. Bruce Fields <bfields@citi.umich.edu>
 
 -- 
 0-DAY CI Kernel Test Service
