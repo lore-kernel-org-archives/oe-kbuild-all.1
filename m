@@ -1,57 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD4EDDD9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 15:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB0C51C3B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 15:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710429063; cv=none; b=I8nbKTQA+Y1gcOjhdelgyK5SI9TTkn2XkvNe9GwRitDVonxWAoPCRqUAi+ehr3PB7j6WGiSfZQBxi1ks/mZnhL+Eq8E+dnmXHHBoEnk8ObF3gGqWXbNTowZ6a1dklTQCtLdbQFyM9l1v3Vb+RWqBq//g1XdOunTV8Doz3OEzh78=
+	t=1710430298; cv=none; b=W5ce8z9tbsvdY6pxjQmZSJLPLUosT4JHrdEHjJ0D2jI5VBSlPh9M0fWtJ2ex5glfFUovGlREOgKfcw6hHjc1KlXSsh2bf0ECTbl22wEQyAZhvHNQQLdu/xpbd3pydzKWgRZ4Afn4jn19oEXbB89QxUzH0U2ZycjgHAdgmOvYwvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710429063; c=relaxed/simple;
-	bh=XFd2dc0tWjDZgxdUzHO/DQJ9iut5qRit6E7LKJaSpEw=;
+	s=arc-20240116; t=1710430298; c=relaxed/simple;
+	bh=4keAEObqxaMvol29SUk16ePUSx9kK52SSmlujmFYmY4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Enq5E775X0cQp4r2VpBdOZyL7ID7cFfCVKtdxqdQoIEuDJWI4fz0u/xpHlFYhQo60jC4P2/cLJOHMITo7+A3TxyBPc3BVvSqnsBsQitB6dMRSAqvGp6aE3S8Fm3Cf/8H9NVM2w3PeuQKr6ckxOMzrqd/I6AX1vsmdIs21xzzQ/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=brRqHB9q; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=WOfW72nYenmVrlMFYHVs3enN9sDMXJRugPnQyb2CM60sgVW/10UbOM2pWWCVo67LHfsVh3Ln4pQjjWV3QDArhUb4nvxfx9X2MF/dT33Ba1e2xtdUOBZ7N0zitYT/wMzYeYUUJS9D8GIiDc0bYfpN4uUywulkxiJs/52Ou5gVujo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VM7DzZxr; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="brRqHB9q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VM7DzZxr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710429061; x=1741965061;
+  t=1710430295; x=1741966295;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XFd2dc0tWjDZgxdUzHO/DQJ9iut5qRit6E7LKJaSpEw=;
-  b=brRqHB9qV2PPvQVcNTRmJjgBAh0CjWf6gSvxm9AFi8SEw6Y8STQartM4
-   Ucwq3Vmra3H6hkp1DQCExj126hnjZYop+3W1v46L/C0gzZoVy+nXip7k2
-   DXaFe+nI/koJUJjM9fq6oDjSGOZLSP+FkGKBrjnzlR4CvEQhTWttonD5g
-   CBb0FW8LyPYjQUPQIUhh8oN7SSw0nat07ZxDqoqiSAZVwVF+knNfKgDVY
-   x4ifMH9oDNjHOpnkjhjOFCMRdUBJGAma20j9GjseUKiwwU9xMDtTwRCHc
-   TUng5BxVWXvT9tMBIPIsErvjgOgDqGMmJ395dg9RoZfa2tlEApw1cu9hb
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="5118467"
+  bh=4keAEObqxaMvol29SUk16ePUSx9kK52SSmlujmFYmY4=;
+  b=VM7DzZxrvxPruK2oZEcZVCz7bmYEkvvK8hwE8af7ueE5ItUjaXM/cqyx
+   sQIVOzeYmh2iVhkoFfjocWOULURVwuVXd4NUgC3wsYWVoLZKkLvIz/BjF
+   VLfB6uo907LiHSFlFWuRPjp+ZR9yB/j/l+jNwnr/+F2TNbJbKcXIcQeKU
+   +PTalTm9dWsTgww5ISPSzr+Ql7DD8UdSVw1h2Cy0YG8ewMz6OyiYWm5W5
+   BCA0IdUcN+AoShDgA739feVor9IT4WLcP5rmfCow/VozLa0HHj4cmbQAp
+   0JfNQHMKpaSR7bRfrIQXz27b+L9gpMxILqBxiBudCv9EkjoEytjksWFMa
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="5106038"
 X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="5118467"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 08:10:36 -0700
+   d="scan'208";a="5106038"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 08:31:35 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="12334437"
+   d="scan'208";a="16986036"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 14 Mar 2024 08:10:32 -0700
+  by orviesa004.jf.intel.com with ESMTP; 14 Mar 2024 08:31:33 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkmj0-000DWl-0f;
-	Thu, 14 Mar 2024 15:10:30 +0000
-Date: Thu, 14 Mar 2024 23:10:28 +0800
+	id 1rkn3L-000DYF-00;
+	Thu, 14 Mar 2024 15:31:31 +0000
+Date: Thu, 14 Mar 2024 23:31:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
+To: Ben Hutchings <bwh@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/iommu/intel/debugfs.c:650:13: error: redefinition of
- 'latency_show_one'
-Message-ID: <202403142330.VblH1QEJ-lkp@intel.com>
+Subject: [cip:linux-4.19.y-cip-rt-rebase 154/29558]
+ kernel/rcu/srcutree.c:762:30: warning: 'sp_llock' defined but not used
+Message-ID: <202403142318.W02KpUsr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,225 +59,178 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   c13208f42a275b32080b8b1f05865c408364ef9f
-commit: 08ce2eb804a181333618d34f9e8ad915b3d4da97 iommu/vt-d: Expose latency monitor data through debugfs
-date:   9 months ago
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240314/202403142330.VblH1QEJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403142330.VblH1QEJ-lkp@intel.com/reproduce)
+Hi Sebastian,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip-rt-rebase
+head:   dce1701e767e33da39db64fe691cd4783ec7dbbf
+commit: d1303754c9d835d8b5a221e1caa479f20e522380 [154/29558] srcu: replace local_irqsave() with a locallock
+config: arc-randconfig-001-20240303 (https://download.01.org/0day-ci/archive/20240314/202403142318.W02KpUsr-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403142318.W02KpUsr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403142330.VblH1QEJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403142318.W02KpUsr-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/bug.h:6,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from arch/x86/include/asm/preempt.h:7,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/debugfs.h:15,
-                    from drivers/iommu/intel/debugfs.c:11:
-   include/linux/instrumentation.h:8: warning: "instrumentation_begin" redefined
-       8 | #define instrumentation_begin() ({                                      \
-         | 
-   In file included from include/linux/export.h:42,
-                    from include/linux/linkage.h:7,
-                    from include/linux/fs.h:5:
-   include/linux/compiler.h:139: note: this is the location of the previous definition
-     139 | #define instrumentation_begin() ({                                      \
-         | 
-   drivers/iommu/intel/debugfs.c: In function 'dmar_perf_latency_write':
-   drivers/iommu/intel/debugfs.c:591:13: error: implicit declaration of function 'copy_from_user'; did you mean 'copy_from_user_page'? [-Werror=implicit-function-declaration]
-     591 |         if (copy_from_user(&buf, ubuf, cnt))
-         |             ^~~~~~~~~~~~~~
-         |             copy_from_user_page
-   drivers/iommu/intel/debugfs.c: At top level:
->> drivers/iommu/intel/debugfs.c:650:13: error: redefinition of 'latency_show_one'
-     650 | static void latency_show_one(struct seq_file *m, struct intel_iommu *iommu,
-         |             ^~~~~~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:545:13: note: previous definition of 'latency_show_one' with type 'void(struct seq_file *, struct intel_iommu *, struct dmar_drhd_unit *)'
-     545 | static void latency_show_one(struct seq_file *m, struct intel_iommu *iommu,
-         |             ^~~~~~~~~~~~~~~~
->> drivers/iommu/intel/debugfs.c:666:12: error: redefinition of 'latency_show'
-     666 | static int latency_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:561:12: note: previous definition of 'latency_show' with type 'int(struct seq_file *, void *)'
-     561 | static int latency_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~
->> drivers/iommu/intel/debugfs.c:679:12: error: redefinition of 'dmar_perf_latency_open'
-     679 | static int dmar_perf_latency_open(struct inode *inode, struct file *filp)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:574:12: note: previous definition of 'dmar_perf_latency_open' with type 'int(struct inode *, struct file *)'
-     574 | static int dmar_perf_latency_open(struct inode *inode, struct file *filp)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/intel/debugfs.c:684:16: error: redefinition of 'dmar_perf_latency_write'
-     684 | static ssize_t dmar_perf_latency_write(struct file *filp,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:579:16: note: previous definition of 'dmar_perf_latency_write' with type 'ssize_t(struct file *, const char *, size_t,  loff_t *)' {aka 'long int(struct file *, const char *, long unsigned int,  long long int *)'}
-     579 | static ssize_t dmar_perf_latency_write(struct file *filp,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/intel/debugfs.c:747:37: error: redefinition of 'dmar_perf_latency_fops'
-     747 | static const struct file_operations dmar_perf_latency_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:642:37: note: previous definition of 'dmar_perf_latency_fops' with type 'const struct file_operations'
-     642 | static const struct file_operations dmar_perf_latency_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c: In function 'intel_iommu_debugfs_init':
->> drivers/iommu/intel/debugfs.c:774:36: error: 'qi_done_fops' undeclared (first use in this function)
-     774 |                             NULL, &qi_done_fops);
-         |                                    ^~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:774:36: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/iommu/intel/debugfs.c: At top level:
->> drivers/iommu/intel/debugfs.c:642:37: warning: 'dmar_perf_latency_fops' defined but not used [-Wunused-const-variable=]
-     642 | static const struct file_operations dmar_perf_latency_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   kernel/rcu/srcutree.c:839:6: warning: no previous prototype for '__call_srcu' [-Wmissing-prototypes]
+     839 | void __call_srcu(struct srcu_struct *sp, struct rcu_head *rhp,
+         |      ^~~~~~~~~~~
+   In file included from kernel/rcu/srcutree.c:42:
+>> kernel/rcu/srcutree.c:762:30: warning: 'sp_llock' defined but not used [-Wunused-const-variable=]
+     762 | static DEFINE_LOCAL_IRQ_LOCK(sp_llock);
+         |                              ^~~~~~~~
+   include/linux/locallock.h:243:71: note: in definition of macro 'DEFINE_LOCAL_IRQ_LOCK'
+     243 | #define DEFINE_LOCAL_IRQ_LOCK(lvar)             __typeof__(const int) lvar
+         |                                                                       ^~~~
 
 
-vim +/latency_show_one +650 drivers/iommu/intel/debugfs.c
+vim +/sp_llock +762 kernel/rcu/srcutree.c
 
-   641	
- > 642	static const struct file_operations dmar_perf_latency_fops = {
-   643		.open		= dmar_perf_latency_open,
-   644		.write		= dmar_perf_latency_write,
-   645		.read		= seq_read,
-   646		.llseek		= seq_lseek,
-   647		.release	= single_release,
-   648	};
-   649	
- > 650	static void latency_show_one(struct seq_file *m, struct intel_iommu *iommu,
-   651				     struct dmar_drhd_unit *drhd)
-   652	{
-   653		int ret;
-   654	
-   655		seq_printf(m, "IOMMU: %s Register Base Address: %llx\n",
-   656			   iommu->name, drhd->reg_base_addr);
-   657	
-   658		ret = dmar_latency_snapshot(iommu, debug_buf, DEBUG_BUFFER_SIZE);
-   659		if (ret < 0)
-   660			seq_printf(m, "Failed to get latency snapshot");
-   661		else
-   662			seq_puts(m, debug_buf);
-   663		seq_puts(m, "\n");
-   664	}
-   665	
- > 666	static int latency_show(struct seq_file *m, void *v)
-   667	{
-   668		struct dmar_drhd_unit *drhd;
-   669		struct intel_iommu *iommu;
-   670	
-   671		rcu_read_lock();
-   672		for_each_active_iommu(iommu, drhd)
-   673			latency_show_one(m, iommu, drhd);
-   674		rcu_read_unlock();
-   675	
-   676		return 0;
-   677	}
-   678	
- > 679	static int dmar_perf_latency_open(struct inode *inode, struct file *filp)
-   680	{
-   681		return single_open(filp, latency_show, NULL);
-   682	}
-   683	
- > 684	static ssize_t dmar_perf_latency_write(struct file *filp,
-   685					       const char __user *ubuf,
-   686					       size_t cnt, loff_t *ppos)
-   687	{
-   688		struct dmar_drhd_unit *drhd;
-   689		struct intel_iommu *iommu;
-   690		int counting;
-   691		char buf[64];
-   692	
-   693		if (cnt > 63)
-   694			cnt = 63;
-   695	
-   696		if (copy_from_user(&buf, ubuf, cnt))
-   697			return -EFAULT;
-   698	
-   699		buf[cnt] = 0;
-   700	
-   701		if (kstrtoint(buf, 0, &counting))
-   702			return -EINVAL;
-   703	
-   704		switch (counting) {
-   705		case 0:
-   706			rcu_read_lock();
-   707			for_each_active_iommu(iommu, drhd) {
-   708				dmar_latency_disable(iommu, DMAR_LATENCY_INV_IOTLB);
-   709				dmar_latency_disable(iommu, DMAR_LATENCY_INV_DEVTLB);
-   710				dmar_latency_disable(iommu, DMAR_LATENCY_INV_IEC);
-   711				dmar_latency_disable(iommu, DMAR_LATENCY_PRQ);
-   712			}
-   713			rcu_read_unlock();
-   714			break;
-   715		case 1:
-   716			rcu_read_lock();
-   717			for_each_active_iommu(iommu, drhd)
-   718				dmar_latency_enable(iommu, DMAR_LATENCY_INV_IOTLB);
-   719			rcu_read_unlock();
-   720			break;
-   721		case 2:
-   722			rcu_read_lock();
-   723			for_each_active_iommu(iommu, drhd)
-   724				dmar_latency_enable(iommu, DMAR_LATENCY_INV_DEVTLB);
-   725			rcu_read_unlock();
-   726			break;
-   727		case 3:
-   728			rcu_read_lock();
-   729			for_each_active_iommu(iommu, drhd)
-   730				dmar_latency_enable(iommu, DMAR_LATENCY_INV_IEC);
-   731			rcu_read_unlock();
-   732			break;
-   733		case 4:
-   734			rcu_read_lock();
-   735			for_each_active_iommu(iommu, drhd)
-   736				dmar_latency_enable(iommu, DMAR_LATENCY_PRQ);
-   737			rcu_read_unlock();
-   738			break;
-   739		default:
-   740			return -EINVAL;
-   741		}
-   742	
-   743		*ppos += cnt;
-   744		return cnt;
-   745	}
-   746	
- > 747	static const struct file_operations dmar_perf_latency_fops = {
-   748		.open		= dmar_perf_latency_open,
-   749		.write		= dmar_perf_latency_write,
-   750		.read		= seq_read,
-   751		.llseek		= seq_lseek,
-   752		.release	= single_release,
-   753	};
-   754	
-   755	void __init intel_iommu_debugfs_init(void)
-   756	{
-   757		struct dentry *intel_iommu_debug = debugfs_create_dir("intel",
-   758							iommu_debugfs_dir);
-   759	
-   760		debugfs_create_file("iommu_regset", 0444, intel_iommu_debug, NULL,
-   761				    &iommu_regset_fops);
-   762		debugfs_create_file("dmar_translation_struct", 0444, intel_iommu_debug,
-   763				    NULL, &dmar_translation_struct_fops);
-   764		debugfs_create_file("domain_translation_struct", 0444,
-   765				    intel_iommu_debug, NULL,
-   766				    &domain_translation_struct_fops);
-   767		debugfs_create_file("invalidation_queue", 0444, intel_iommu_debug,
-   768				    NULL, &invalidation_queue_fops);
-   769	#ifdef CONFIG_IRQ_REMAP
-   770		debugfs_create_file("ir_translation_struct", 0444, intel_iommu_debug,
-   771				    NULL, &ir_translation_struct_fops);
-   772	#endif
-   773		debugfs_create_file("qi_done", 0644, intel_iommu_debug,
- > 774				    NULL, &qi_done_fops);
+   740	
+   741	/*
+   742	 * If SRCU is likely idle, return true, otherwise return false.
+   743	 *
+   744	 * Note that it is OK for several current from-idle requests for a new
+   745	 * grace period from idle to specify expediting because they will all end
+   746	 * up requesting the same grace period anyhow.  So no loss.
+   747	 *
+   748	 * Note also that if any CPU (including the current one) is still invoking
+   749	 * callbacks, this function will nevertheless say "idle".  This is not
+   750	 * ideal, but the overhead of checking all CPUs' callback lists is even
+   751	 * less ideal, especially on large systems.  Furthermore, the wakeup
+   752	 * can happen before the callback is fully removed, so we have no choice
+   753	 * but to accept this type of error.
+   754	 *
+   755	 * This function is also subject to counter-wrap errors, but let's face
+   756	 * it, if this function was preempted for enough time for the counters
+   757	 * to wrap, it really doesn't matter whether or not we expedite the grace
+   758	 * period.  The extra overhead of a needlessly expedited grace period is
+   759	 * negligible when amoritized over that time period, and the extra latency
+   760	 * of a needlessly non-expedited grace period is similarly negligible.
+   761	 */
+ > 762	static DEFINE_LOCAL_IRQ_LOCK(sp_llock);
+   763	
+   764	static bool srcu_might_be_idle(struct srcu_struct *sp)
+   765	{
+   766		unsigned long curseq;
+   767		unsigned long flags;
+   768		struct srcu_data *sdp;
+   769		unsigned long t;
+   770	
+   771		/* If the local srcu_data structure has callbacks, not idle.  */
+   772		local_lock_irqsave(sp_llock, flags);
+   773		sdp = this_cpu_ptr(sp->sda);
+   774		if (rcu_segcblist_pend_cbs(&sdp->srcu_cblist)) {
+   775			local_unlock_irqrestore(sp_llock, flags);
+   776			return false; /* Callbacks already present, so not idle. */
+   777		}
+   778		local_unlock_irqrestore(sp_llock, flags);
+   779	
+   780		/*
+   781		 * No local callbacks, so probabalistically probe global state.
+   782		 * Exact information would require acquiring locks, which would
+   783		 * kill scalability, hence the probabalistic nature of the probe.
+   784		 */
+   785	
+   786		/* First, see if enough time has passed since the last GP. */
+   787		t = ktime_get_mono_fast_ns();
+   788		if (exp_holdoff == 0 ||
+   789		    time_in_range_open(t, sp->srcu_last_gp_end,
+   790				       sp->srcu_last_gp_end + exp_holdoff))
+   791			return false; /* Too soon after last GP. */
+   792	
+   793		/* Next, check for probable idleness. */
+   794		curseq = rcu_seq_current(&sp->srcu_gp_seq);
+   795		smp_mb(); /* Order ->srcu_gp_seq with ->srcu_gp_seq_needed. */
+   796		if (ULONG_CMP_LT(curseq, READ_ONCE(sp->srcu_gp_seq_needed)))
+   797			return false; /* Grace period in progress, so not idle. */
+   798		smp_mb(); /* Order ->srcu_gp_seq with prior access. */
+   799		if (curseq != rcu_seq_current(&sp->srcu_gp_seq))
+   800			return false; /* GP # changed, so not idle. */
+   801		return true; /* With reasonable probability, idle! */
+   802	}
+   803	
+   804	/*
+   805	 * SRCU callback function to leak a callback.
+   806	 */
+   807	static void srcu_leak_callback(struct rcu_head *rhp)
+   808	{
+   809	}
+   810	
+   811	/*
+   812	 * Enqueue an SRCU callback on the srcu_data structure associated with
+   813	 * the current CPU and the specified srcu_struct structure, initiating
+   814	 * grace-period processing if it is not already running.
+   815	 *
+   816	 * Note that all CPUs must agree that the grace period extended beyond
+   817	 * all pre-existing SRCU read-side critical section.  On systems with
+   818	 * more than one CPU, this means that when "func()" is invoked, each CPU
+   819	 * is guaranteed to have executed a full memory barrier since the end of
+   820	 * its last corresponding SRCU read-side critical section whose beginning
+   821	 * preceded the call to call_srcu().  It also means that each CPU executing
+   822	 * an SRCU read-side critical section that continues beyond the start of
+   823	 * "func()" must have executed a memory barrier after the call_srcu()
+   824	 * but before the beginning of that SRCU read-side critical section.
+   825	 * Note that these guarantees include CPUs that are offline, idle, or
+   826	 * executing in user mode, as well as CPUs that are executing in the kernel.
+   827	 *
+   828	 * Furthermore, if CPU A invoked call_srcu() and CPU B invoked the
+   829	 * resulting SRCU callback function "func()", then both CPU A and CPU
+   830	 * B are guaranteed to execute a full memory barrier during the time
+   831	 * interval between the call to call_srcu() and the invocation of "func()".
+   832	 * This guarantee applies even if CPU A and CPU B are the same CPU (but
+   833	 * again only if the system has more than one CPU).
+   834	 *
+   835	 * Of course, these guarantees apply only for invocations of call_srcu(),
+   836	 * srcu_read_lock(), and srcu_read_unlock() that are all passed the same
+   837	 * srcu_struct structure.
+   838	 */
+ > 839	void __call_srcu(struct srcu_struct *sp, struct rcu_head *rhp,
+   840			 rcu_callback_t func, bool do_norm)
+   841	{
+   842		unsigned long flags;
+   843		bool needexp = false;
+   844		bool needgp = false;
+   845		unsigned long s;
+   846		struct srcu_data *sdp;
+   847	
+   848		check_init_srcu_struct(sp);
+   849		if (debug_rcu_head_queue(rhp)) {
+   850			/* Probable double call_srcu(), so leak the callback. */
+   851			WRITE_ONCE(rhp->func, srcu_leak_callback);
+   852			WARN_ONCE(1, "call_srcu(): Leaked duplicate callback\n");
+   853			return;
+   854		}
+   855		rhp->func = func;
+   856		local_lock_irqsave(sp_llock, flags);
+   857		sdp = this_cpu_ptr(sp->sda);
+   858		spin_lock_rcu_node(sdp);
+   859		rcu_segcblist_enqueue(&sdp->srcu_cblist, rhp, false);
+   860		rcu_segcblist_advance(&sdp->srcu_cblist,
+   861				      rcu_seq_current(&sp->srcu_gp_seq));
+   862		s = rcu_seq_snap(&sp->srcu_gp_seq);
+   863		(void)rcu_segcblist_accelerate(&sdp->srcu_cblist, s);
+   864		if (ULONG_CMP_LT(sdp->srcu_gp_seq_needed, s)) {
+   865			sdp->srcu_gp_seq_needed = s;
+   866			needgp = true;
+   867		}
+   868		if (!do_norm && ULONG_CMP_LT(sdp->srcu_gp_seq_needed_exp, s)) {
+   869			sdp->srcu_gp_seq_needed_exp = s;
+   870			needexp = true;
+   871		}
+   872		spin_unlock_rcu_node(sdp);
+   873		local_unlock_irqrestore(sp_llock, flags);
+   874		if (needgp)
+   875			srcu_funnel_gp_start(sp, sdp, s, do_norm);
+   876		else if (needexp)
+   877			srcu_funnel_exp_start(sp, sdp->mynode, s);
+   878	}
+   879	
 
 -- 
 0-DAY CI Kernel Test Service
