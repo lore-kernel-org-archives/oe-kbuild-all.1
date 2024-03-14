@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287FB6EB6E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 14:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD87DDD9;
+	Thu, 14 Mar 2024 15:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710428377; cv=none; b=X+kbM5EfYM5gdUstbtRCryTAQPcPXmbuCbKVjunLGO4WQwywIhjI7MndN3wk12Cesn4SCjKL7jdmbM5eMUgbpsDDgAz6vR9oPUJyZdKm5QTVl7TSteLRSwpHBqSNyPj9WGL8m7POCo91e7IMOlRxB4U7eWxjuiI1VEQJMq1dTdc=
+	t=1710429046; cv=none; b=ImPy70bOtxhzU8G3IiORpLYdtOszNFLG6cI4aGoHJ8GgZXugMgRpbjmehqm3kFrW1LzKPuOjpqLBogVNvWgmXm5fwEQFxWq+HeokbFa9Po1wtP20wu3/i+47yz5RduG0RPkqgiVD5vGMNMhgSacsaUWz6qdRXa+f4oVyctFsu0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710428377; c=relaxed/simple;
-	bh=TeSUuwF6aHpuNb9+mVfSbWuH2ZhtVyVmdfb1fQp7QNg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JCD+DTj+FIyIuc2m0+XI8ybj/K0/dLjlDumg1N8t752FPBXc9L+wxyVHQBJUkf3RIMkvcEV4GOHUrcmW8T/pKFE5eFOQ9P97e8zfQc//RhHu6l0TcvfabZQERNKXgqeTq/YcjMtdN0f173j3BfjyiciU6hWCNdFrckb3J7B8OuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQYjezKv; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1710429046; c=relaxed/simple;
+	bh=FCe+y7lWSmXeIQgAPTpNsUa5v/iA53Gn2A1M8zxt1tI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DXnoyzqxv1iKPkcsBdpOGrOBO7RaN/QD/w5h52Rj1tLTMRGDVpPc0unbp7fQMVPcaFTr+5I0Al1/5hvPMbsuII6nrHzwTM4UBaEaFuO1XAlj2ZVKkmpkOq84Kq9KWIGYgYS7rNsHAxJjBqQpObC4ev/Ns4jEayVHhkoB3kEIKQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lRHoiuWK; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQYjezKv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lRHoiuWK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710428374; x=1741964374;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TeSUuwF6aHpuNb9+mVfSbWuH2ZhtVyVmdfb1fQp7QNg=;
-  b=VQYjezKvLkG1LABMjwCRa1BLG4MFbjKd5+2zyyaTQosj5/VkPemD4ebX
-   q+609NZKj/2wbTWqoL6gR7V7iwenRbjICrickfrUhMNst+2N6RiYiDcei
-   4dDL/s/+NfGAGA0wdasebe8876YRV4HtTlnjv1n55lZ7pmB9L9fEt88Ww
-   VxXa7+91luGaKmoL6KLqTzqMpacmg7ow8UPOyTDgwm/l7h4yej1r1oZGu
-   tp5QPlN6fE+4rxM6ndoOFlhP1zqmJNtYmf7HEf+IElKw9b6o0yQ9Q+6MD
-   h3jq/gthaobfyp6Z4eoCdGFY/rdeTC7q/+oVpzKp0xQAksYVyXyVkzjL9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="9073603"
+  t=1710429044; x=1741965044;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FCe+y7lWSmXeIQgAPTpNsUa5v/iA53Gn2A1M8zxt1tI=;
+  b=lRHoiuWKKqOuODbWIS8e16/hs+7Z2sNQT1RcGvbN9BX4UGYtIQ02gTpR
+   9EvudFqV7KGfKcD50dcbXmbo6Tes6gpBJws5b+1ciy1IHW/D3Z8iLp189
+   yGGs9iMFrksHMDEhwbez1MivKONd4fh/X5A728jjJXq8mnArEwcjJZPOL
+   tJOi8HNyy2I0G43G1Q9kalQ+gVqknitHOowHuHn/JWURKWDusw+HJWKo6
+   5+bDe/e4JqbcelhOlCIS/SwYBO3Q88BlRdtqmddaodMKXGcZZoqKWOXhD
+   g4fxzD7RrxO/ZiYUtIgMe47Y80X4q+u2ehh9hoLF5MfgwlOJ0uqwgqdp6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5121187"
 X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="9073603"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 07:59:34 -0700
+   d="scan'208";a="5121187"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 08:10:34 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="43343154"
+   d="scan'208";a="35444465"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Mar 2024 07:59:31 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 14 Mar 2024 08:10:32 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkmYL-000DVz-2O;
-	Thu, 14 Mar 2024 14:59:29 +0000
-Date: Thu, 14 Mar 2024 22:58:36 +0800
+	id 1rkmj0-000DWr-0o;
+	Thu, 14 Mar 2024 15:10:30 +0000
+Date: Thu, 14 Mar 2024 23:10:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.1 9/30]
- drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:595:5: warning: no previous
- prototype for function 'smmu_domain_finalise'
-Message-ID: <202403142214.6d8uZhIs-lkp@intel.com>
+To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 3/3] pseries/iommu: Enable DDW for VFIO TCE create
+Message-ID: <202403142228.8FfmsLis-lkp@intel.com>
+References: <171026728072.8367.13581504605624115205.stgit@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,29 +58,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <171026728072.8367.13581504605624115205.stgit@linux.ibm.com>
 
-Hi Mostafa,
+Hi Shivaprasad,
 
-First bad commit (maybe != root cause):
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android15-6.1
-head:   31de4c08caf04886df7ee001c8b8af82824daab6
-commit: d88b856410269e29b62444c90dc10bca914880ba [9/30] ANDROID: drivers/arm-smmu-v3-kvm: Modularize driver
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240314/202403142214.6d8uZhIs-lkp@intel.com/config)
+[auto build test WARNING on v6.8]
+[also build test WARNING on linus/master next-20240314]
+[cannot apply to powerpc/next powerpc/fixes awilliam-vfio/next awilliam-vfio/for-linus]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shivaprasad-G-Bhat/powerpc-pseries-iommu-Bring-back-userspace-view-for-single-level-TCE-tables/20240313-022030
+base:   v6.8
+patch link:    https://lore.kernel.org/r/171026728072.8367.13581504605624115205.stgit%40linux.ibm.com
+patch subject: [RFC PATCH 3/3] pseries/iommu: Enable DDW for VFIO TCE create
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240314/202403142228.8FfmsLis-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 503c55e17037436dcd45ac69dea8967e67e3f5e8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403142214.6d8uZhIs-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403142228.8FfmsLis-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403142214.6d8uZhIs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403142228.8FfmsLis-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:7:
-   In file included from drivers/iommu/arm/arm-smmu-v3/pkvm/arm_smmu_v3.h:5:
-   In file included from arch/arm64/include/asm/kvm_asm.h:52:
-   In file included from include/linux/mm.h:2025:
+   In file included from arch/powerpc/platforms/pseries/iommu.c:16:
+   In file included from include/linux/mm.h:2188:
    include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
      508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
@@ -104,394 +112,175 @@ All warnings (new ones prefixed by >>):
          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
      537 |                            NR_VM_NUMA_EVENT_ITEMS +
          |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:595:5: warning: no previous prototype for function 'smmu_domain_finalise' [-Wmissing-prototypes]
-     595 | int smmu_domain_finalise(struct kvm_hyp_iommu_domain *domain)
-         |     ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:595:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     595 | int smmu_domain_finalise(struct kvm_hyp_iommu_domain *domain)
-         | ^
-         | static 
->> drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:711:5: warning: no previous prototype for function 'smmu_alloc_domain' [-Wmissing-prototypes]
-     711 | int smmu_alloc_domain(struct kvm_hyp_iommu_domain *domain)
-         |     ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:711:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     711 | int smmu_alloc_domain(struct kvm_hyp_iommu_domain *domain)
-         | ^
-         | static 
->> drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:726:6: warning: no previous prototype for function 'smmu_free_domain' [-Wmissing-prototypes]
-     726 | void smmu_free_domain(struct kvm_hyp_iommu_domain *domain)
-         |      ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:726:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     726 | void smmu_free_domain(struct kvm_hyp_iommu_domain *domain)
-         | ^
-         | static 
->> drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:738:6: warning: no previous prototype for function 'smmu_dabt_device' [-Wmissing-prototypes]
-     738 | bool smmu_dabt_device(struct hyp_arm_smmu_v3_device *smmu,
-         |      ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:738:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     738 | bool smmu_dabt_device(struct hyp_arm_smmu_v3_device *smmu,
-         | ^
-         | static 
->> drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:781:6: warning: no previous prototype for function 'smmu_dabt_handler' [-Wmissing-prototypes]
-     781 | bool smmu_dabt_handler(struct kvm_cpu_context *host_ctxt, u64 esr, u64 addr)
-         |      ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:781:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     781 | bool smmu_dabt_handler(struct kvm_cpu_context *host_ctxt, u64 esr, u64 addr)
-         | ^
-         | static 
->> drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:793:5: warning: no previous prototype for function 'smmu_suspend' [-Wmissing-prototypes]
-     793 | int smmu_suspend(struct kvm_hyp_iommu *iommu)
-         |     ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:793:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     793 | int smmu_suspend(struct kvm_hyp_iommu *iommu)
-         | ^
-         | static 
->> drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:806:5: warning: no previous prototype for function 'smmu_resume' [-Wmissing-prototypes]
-     806 | int smmu_resume(struct kvm_hyp_iommu *iommu)
-         |     ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:806:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     806 | int smmu_resume(struct kvm_hyp_iommu *iommu)
-         | ^
-         | static 
->> drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:819:5: warning: no previous prototype for function 'smmu_init_hyp_module' [-Wmissing-prototypes]
-     819 | int smmu_init_hyp_module(const struct pkvm_module_ops *ops)
-         |     ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:819:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     819 | int smmu_init_hyp_module(const struct pkvm_module_ops *ops)
-         | ^
-         | static 
-   13 warnings generated.
---
-   In file included from drivers/iommu/arm/arm-smmu-v3/pkvm/io-pgtable-arm.c:5:
-   In file included from drivers/iommu/arm/arm-smmu-v3/pkvm/arm_smmu_v3.h:5:
-   In file included from arch/arm64/include/asm/kvm_asm.h:52:
-   In file included from include/linux/mm.h:2025:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/arm/arm-smmu-v3/pkvm/io-pgtable-arm.c:54:5: warning: no previous prototype for function 'kvm_arm_io_pgtable_init' [-Wmissing-prototypes]
-      54 | int kvm_arm_io_pgtable_init(struct io_pgtable_cfg *cfg,
-         |     ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/io-pgtable-arm.c:54:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      54 | int kvm_arm_io_pgtable_init(struct io_pgtable_cfg *cfg,
-         | ^
-         | static 
+>> arch/powerpc/platforms/pseries/iommu.c:1971:20: warning: variable 'pdn' is uninitialized when used here [-Wuninitialized]
+    1971 |                 if (fpdn->pdn == pdn) {
+         |                                  ^~~
+   arch/powerpc/platforms/pseries/iommu.c:1937:60: note: initialize the variable 'pdn' to silence this warning
+    1937 |         struct device_node *dn = pci_device_to_OF_node(pdev), *pdn;
+         |                                                                   ^
+         |                                                                    = NULL
    6 warnings generated.
---
-   In file included from drivers/iommu/arm/arm-smmu-v3/pkvm/../../../io-pgtable-arm-common.c:11:
-   In file included from include/linux/io-pgtable-arm.h:5:
-   In file included from include/linux/io-pgtable.h:6:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2025:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/arm/arm-smmu-v3/pkvm/../../../io-pgtable-arm-common.c:145:5: warning: no previous prototype for function '__arm_lpae_map' [-Wmissing-prototypes]
-     145 | int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
-         |     ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/../../../io-pgtable-arm-common.c:145:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     145 | int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
-         | ^
-         | static 
->> drivers/iommu/arm/arm-smmu-v3/pkvm/../../../io-pgtable-arm-common.c:266:5: warning: no previous prototype for function 'arm_lpae_map_pages' [-Wmissing-prototypes]
-     266 | int arm_lpae_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |     ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/../../../io-pgtable-arm-common.c:266:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     266 | int arm_lpae_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         | ^
-         | static 
->> drivers/iommu/arm/arm-smmu-v3/pkvm/../../../io-pgtable-arm-common.c:470:8: warning: no previous prototype for function '__arm_lpae_unmap_pages' [-Wmissing-prototypes]
-     470 | size_t __arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/../../../io-pgtable-arm-common.c:470:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     470 | size_t __arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         | ^
-         | static 
->> drivers/iommu/arm/arm-smmu-v3/pkvm/../../../io-pgtable-arm-common.c:492:13: warning: no previous prototype for function 'arm_lpae_iova_to_phys' [-Wmissing-prototypes]
-     492 | phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
-         |             ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/../../../io-pgtable-arm-common.c:492:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     492 | phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
-         | ^
-         | static 
->> drivers/iommu/arm/arm-smmu-v3/pkvm/../../../io-pgtable-arm-common.c:528:8: warning: no previous prototype for function 'arm_lpae_unmap_pages' [-Wmissing-prototypes]
-     528 | size_t arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/../../../io-pgtable-arm-common.c:528:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     528 | size_t arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         | ^
-         | static 
->> drivers/iommu/arm/arm-smmu-v3/pkvm/../../../io-pgtable-arm-common.c:535:8: warning: no previous prototype for function 'arm_lpae_unmap_pages_walk' [-Wmissing-prototypes]
-     535 | size_t arm_lpae_unmap_pages_walk(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^
-   drivers/iommu/arm/arm-smmu-v3/pkvm/../../../io-pgtable-arm-common.c:535:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     535 | size_t arm_lpae_unmap_pages_walk(struct io_pgtable_ops *ops, unsigned long iova,
-         | ^
-         | static 
-   11 warnings generated.
 
 
-vim +/smmu_domain_finalise +595 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c
+vim +/pdn +1971 arch/powerpc/platforms/pseries/iommu.c
 
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  594  
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10 @595  int smmu_domain_finalise(struct kvm_hyp_iommu_domain *domain)
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  596  {
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  597  	int ret;
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  598  	struct hyp_arm_smmu_v3_domain *smmu_domain = domain->priv;
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  599  	struct hyp_arm_smmu_v3_device *smmu = to_smmu(smmu_domain->iommu);
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  600  
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  601  	domain->pgtable = kvm_arm_io_pgtable_alloc(&smmu->pgtable_cfg,
-65c39348604eb49 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-04  602  						   domain, &ret);
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  603  
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  604  	return ret;
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  605  }
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  606  
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  607  static int smmu_attach_dev(struct kvm_hyp_iommu *iommu, struct kvm_hyp_iommu_domain *domain,
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  608  			   u32 sid)
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  609  {
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  610  	int i;
-36725847a2bff9a arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  611  	int ret = -EINVAL;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  612  	u64 *dst;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  613  	struct io_pgtable_cfg *cfg;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  614  	u64 ts, sl, ic, oc, sh, tg, ps;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  615  	u64 ent[STRTAB_STE_DWORDS] = {};
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  616  	struct hyp_arm_smmu_v3_device *smmu = to_smmu(iommu);
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  617  	struct hyp_arm_smmu_v3_domain *smmu_domain = domain->priv;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  618  
-36725847a2bff9a arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  619  	hyp_spin_lock(&iommu->lock);
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  620  	dst = smmu_get_ste_ptr(smmu, sid);
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  621  	if (!dst || dst[0])
-36725847a2bff9a arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  622  		goto out_unlock;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  623  
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  624  	/*
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  625  	 * First attach to the domain, this is over protected by the all domain locks,
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  626  	 * as there is no per-domain lock now, this can be improved later.
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  627  	 * However, as this operation is not on the hot path, it should be fine.
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  628  	 */
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  629  	if (!domain->pgtable) {
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  630  		smmu_domain->iommu = iommu;
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  631  		ret = smmu_domain_finalise(domain);
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  632  		if (ret)
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  633  			goto out_unlock;
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  634  	}
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  635  
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  636  	if (smmu_domain->iommu != iommu) {
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  637  		ret = -EBUSY;
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  638  		goto out_unlock;
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  639  	}
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  640  
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  641  	cfg = &domain->pgtable->cfg;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  642  	ps = cfg->arm_lpae_s2_cfg.vtcr.ps;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  643  	tg = cfg->arm_lpae_s2_cfg.vtcr.tg;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  644  	sh = cfg->arm_lpae_s2_cfg.vtcr.sh;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  645  	oc = cfg->arm_lpae_s2_cfg.vtcr.orgn;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  646  	ic = cfg->arm_lpae_s2_cfg.vtcr.irgn;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  647  	sl = cfg->arm_lpae_s2_cfg.vtcr.sl;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  648  	ts = cfg->arm_lpae_s2_cfg.vtcr.tsz;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  649  
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  650  	ent[0] = STRTAB_STE_0_V |
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  651  		 FIELD_PREP(STRTAB_STE_0_CFG, STRTAB_STE_0_CFG_S2_TRANS);
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  652  	ent[1] = FIELD_PREP(STRTAB_STE_1_SHCFG, STRTAB_STE_1_SHCFG_INCOMING);
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  653  	ent[2] = FIELD_PREP(STRTAB_STE_2_VTCR,
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  654  			FIELD_PREP(STRTAB_STE_2_VTCR_S2PS, ps) |
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  655  			FIELD_PREP(STRTAB_STE_2_VTCR_S2TG, tg) |
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  656  			FIELD_PREP(STRTAB_STE_2_VTCR_S2SH0, sh) |
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  657  			FIELD_PREP(STRTAB_STE_2_VTCR_S2OR0, oc) |
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  658  			FIELD_PREP(STRTAB_STE_2_VTCR_S2IR0, ic) |
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  659  			FIELD_PREP(STRTAB_STE_2_VTCR_S2SL0, sl) |
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  660  			FIELD_PREP(STRTAB_STE_2_VTCR_S2T0SZ, ts)) |
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  661  		 FIELD_PREP(STRTAB_STE_2_S2VMID, domain->domain_id) |
-e38eaba127198fb arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  662  		 STRTAB_STE_2_S2AA64 | STRTAB_STE_2_S2R;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  663  	ent[3] = cfg->arm_lpae_s2_cfg.vttbr & STRTAB_STE_3_S2TTB_MASK;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  664  
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  665  	/*
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  666  	 * The SMMU may cache a disabled STE.
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  667  	 * Initialize all fields, sync, then enable it.
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  668  	 */
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  669  	for (i = 1; i < STRTAB_STE_DWORDS; i++)
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  670  		dst[i] = cpu_to_le64(ent[i]);
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  671  
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  672  	ret = smmu_sync_ste(smmu, sid);
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  673  	if (ret)
-36725847a2bff9a arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  674  		goto out_unlock;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  675  
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  676  	WRITE_ONCE(dst[0], cpu_to_le64(ent[0]));
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  677  	ret = smmu_sync_ste(smmu, sid);
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  678  	WARN_ON(ret);
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  679  
-36725847a2bff9a arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  680  out_unlock:
-36725847a2bff9a arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  681  	hyp_spin_unlock(&iommu->lock);
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  682  	return ret;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  683  }
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  684  
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  685  static int smmu_detach_dev(struct kvm_hyp_iommu *iommu, struct kvm_hyp_iommu_domain *domain,
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  686  			   u32 sid)
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  687  {
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  688  	u64 *dst;
-36725847a2bff9a arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  689  	int i, ret = -ENODEV;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  690  	struct hyp_arm_smmu_v3_device *smmu = to_smmu(iommu);
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  691  
-36725847a2bff9a arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  692  	hyp_spin_lock(&iommu->lock);
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  693  	dst = smmu_get_ste_ptr(smmu, sid);
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  694  	if (!dst)
-36725847a2bff9a arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  695  		goto out_unlock;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  696  
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  697  	dst[0] = 0;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  698  	ret = smmu_sync_ste(smmu, sid);
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  699  	if (ret)
-36725847a2bff9a arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  700  		goto out_unlock;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  701  
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  702  	for (i = 1; i < STRTAB_STE_DWORDS; i++)
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  703  		dst[i] = 0;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  704  
-36725847a2bff9a arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  705  	ret = smmu_sync_ste(smmu, sid);
-36725847a2bff9a arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  706  out_unlock:
-36725847a2bff9a arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  707  	hyp_spin_unlock(&iommu->lock);
-36725847a2bff9a arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  708  	return ret;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  709  }
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  710  
-65c39348604eb49 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-04 @711  int smmu_alloc_domain(struct kvm_hyp_iommu_domain *domain)
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  712  {
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  713  	struct hyp_arm_smmu_v3_domain *smmu_domain;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  714  
-121d5cd12222fcf arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-11-02  715  	smmu_domain = smmu_alloc(sizeof(struct hyp_arm_smmu_v3_domain));
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  716  	if (!smmu_domain)
-121d5cd12222fcf arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-11-02  717  		return -ENOMEM;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  718  
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  719  	/* Can't do much without the IOMMU. */
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  720  	smmu_domain->domain = domain;
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  721  	domain->priv = (void *)smmu_domain;
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  722  
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  723  	return 0;
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  724  }
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  725  
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26 @726  void smmu_free_domain(struct kvm_hyp_iommu_domain *domain)
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  727  {
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  728  	/*
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  729  	 * As page table allocation is decoupled from alloc_domain, free_domain can
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  730  	 * be called with a domain that have never been attached.
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  731  	 */
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  732  	if (domain->pgtable)
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  733  		kvm_arm_io_pgtable_free(domain->pgtable);
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  734  
-a7952d83baa4e66 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-08-10  735  	hyp_free(domain->priv);
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  736  }
-10b340ac53ba3b5 arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Jean-Philippe Brucker 2023-01-26  737  
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08 @738  bool smmu_dabt_device(struct hyp_arm_smmu_v3_device *smmu,
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  739  		      struct kvm_cpu_context *host_ctxt, u64 esr, u32 off)
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  740  {
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  741  	bool is_write = esr & ESR_ELx_WNR;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  742  	unsigned int len = BIT((esr & ESR_ELx_SAS) >> ESR_ELx_SAS_SHIFT);
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  743  	int rd = (esr & ESR_ELx_SRT_MASK) >> ESR_ELx_SRT_SHIFT;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  744  	const u32 no_access  = 0;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  745  	const u32 read_write = (u32)(-1);
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  746  	const u32 read_only = is_write ? no_access : read_write;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  747  	u32 mask = no_access;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  748  
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  749  	/*
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  750  	 * Only handle MMIO access with u32 size and alignment.
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  751  	 * We don't need to change 64-bit registers for now.
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  752  	 */
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  753  	if ((len != sizeof(u32)) || (off & (sizeof(u32) - 1)))
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  754  		return false;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  755  
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  756  	switch (off) {
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  757  	case ARM_SMMU_EVTQ_PROD + SZ_64K:
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  758  		mask = read_write;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  759  		break;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  760  	case ARM_SMMU_EVTQ_CONS + SZ_64K:
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  761  		mask = read_write;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  762  		break;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  763  	case ARM_SMMU_GERROR:
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  764  		mask = read_only;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  765  		break;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  766  	case ARM_SMMU_GERRORN:
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  767  		mask = read_write;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  768  		break;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  769  	};
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  770  
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  771  	if (!mask)
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  772  		return false;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  773  	if (is_write)
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  774  		writel_relaxed(cpu_reg(host_ctxt, rd) & mask, smmu->base + off);
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  775  	else
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  776  		cpu_reg(host_ctxt, rd) = readl_relaxed(smmu->base + off);
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  777  
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  778  	return true;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  779  }
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  780  
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08 @781  bool smmu_dabt_handler(struct kvm_cpu_context *host_ctxt, u64 esr, u64 addr)
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  782  {
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  783  	struct hyp_arm_smmu_v3_device *smmu;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  784  
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  785  	for_each_smmu(smmu) {
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  786  		if (addr < smmu->mmio_addr || addr >= smmu->mmio_addr + smmu->mmio_size)
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  787  			continue;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  788  		return smmu_dabt_device(smmu, host_ctxt, esr, addr - smmu->mmio_addr);
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  789  	}
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  790  	return false;
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  791  }
-76a1c655cb41c2f arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-09-08  792  
-6fc13d361a93aac arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-17 @793  int smmu_suspend(struct kvm_hyp_iommu *iommu)
-6fc13d361a93aac arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-17  794  {
-6fc13d361a93aac arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-17  795  	struct hyp_arm_smmu_v3_device *smmu = to_smmu(iommu);
-6fc13d361a93aac arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-17  796  
-6fc13d361a93aac arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-17  797  	/*
-6fc13d361a93aac arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-17  798  	 * Disable translation, GBPA is validated at probe to be set, so all transaltion
-6fc13d361a93aac arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-17  799  	 * would be aborted when SMMU is disabled.
-6fc13d361a93aac arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-17  800  	 */
-6fc13d361a93aac arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-17  801  	if (iommu->power_domain.type == KVM_POWER_DOMAIN_HOST_HVC)
-6fc13d361a93aac arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-17  802  		return smmu_write_cr0(smmu, 0);
-6fc13d361a93aac arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-17  803  	return 0;
-6fc13d361a93aac arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-17  804  }
-6fc13d361a93aac arch/arm64/kvm/hyp/nvhe/iommu/arm-smmu-v3.c Mostafa Saleh         2023-10-17  805  
-
-:::::: The code at line 595 was first introduced by commit
-:::::: a7952d83baa4e664e9afd4c263571f9bcb95997d ANDROID: KVM: arm64: iommu: Remove iommu from alloc_domain
-
-:::::: TO: Mostafa Saleh <smostafa@google.com>
-:::::: CC: Mostafa Saleh <smostafa@google.com>
+  1931	
+  1932	static long spapr_tce_create_table(struct iommu_table_group *table_group, int num,
+  1933					   __u32 page_shift, __u64 window_size, __u32 levels,
+  1934					   struct iommu_table **ptbl)
+  1935	{
+  1936		struct pci_dev *pdev = iommu_group_get_first_pci_dev(table_group->group);
+  1937		struct device_node *dn = pci_device_to_OF_node(pdev), *pdn;
+  1938		struct iommu_table *tbl = table_group->tables[num];
+  1939		u32 window_shift = order_base_2(window_size);
+  1940		u32 ddw_avail[DDW_APPLICABLE_SIZE];
+  1941		struct ddw_create_response create;
+  1942		struct ddw_query_response query;
+  1943		unsigned long start = 0, end = 0;
+  1944		struct failed_ddw_pdn *fpdn;
+  1945		struct dma_win *window;
+  1946		struct property *win64;
+  1947		struct pci_dn *pci;
+  1948		int len, ret = 0;
+  1949		u64 win_addr;
+  1950	
+  1951		if (num > 1)
+  1952			return -EPERM;
+  1953	
+  1954		if (tbl && (tbl->it_page_shift == page_shift) &&
+  1955			(tbl->it_size == (window_size >> page_shift)) &&
+  1956			(tbl->it_indirect_levels == levels - 1))
+  1957			goto exit;
+  1958	
+  1959		if (num == 0)
+  1960			return -EINVAL; /* Can't modify the default window. */
+  1961	
+  1962		/* TODO: The SRIO-VFs have only 1 window. */
+  1963		if (table_group->max_dynamic_windows_supported == 1)
+  1964			return -EPERM;
+  1965	
+  1966		mutex_lock(&dma_win_init_mutex);
+  1967	
+  1968		ret = -ENODEV;
+  1969		/* If the enable DDW failed for the pdn, dont retry! */
+  1970		list_for_each_entry(fpdn, &failed_ddw_pdn_list, list) {
+> 1971			if (fpdn->pdn == pdn) {
+  1972				pr_err("%s: %pOF in failed DDW device list\n", __func__, pdn);
+  1973				goto out_unlock;
+  1974			}
+  1975		}
+  1976	
+  1977		pdn = pci_dma_find(dn, NULL);
+  1978		if (!pdn || !PCI_DN(pdn)) { /* Niether of 32s|64-bit exist! */
+  1979			pr_err("%s: No dma-windows exist for the node %pOF\n", __func__, pdn);
+  1980			goto out_failed;
+  1981		}
+  1982	
+  1983		/* The existing ddw didn't match the size/shift */
+  1984		if (remove_dynamic_dma_windows_locked(table_group, pdev)) {
+  1985			pr_err("%s: The existing DDW remova failed for node %pOF\n", __func__, pdn);
+  1986			goto out_failed; /* Could not remove it either! */
+  1987		}
+  1988	
+  1989		pci = PCI_DN(pdn);
+  1990		ret = of_property_read_u32_array(pdn, "ibm,ddw-applicable",
+  1991					&ddw_avail[0], DDW_APPLICABLE_SIZE);
+  1992		if (ret) {
+  1993			pr_err("%s: ibm,ddw-applicable not found\n", __func__);
+  1994			goto out_failed;
+  1995		}
+  1996	
+  1997		ret = query_ddw(pdev, ddw_avail, &query, pdn);
+  1998		if (ret)
+  1999			goto out_failed;
+  2000		ret = -ENODEV;
+  2001	
+  2002		len = window_shift;
+  2003		if (query.largest_available_block < (1ULL << (len - page_shift))) {
+  2004			dev_dbg(&pdev->dev, "can't map window 0x%llx with %llu %llu-sized pages\n",
+  2005					1ULL << len, query.largest_available_block,
+  2006					1ULL << page_shift);
+  2007			ret = -EINVAL; /* Retry with smaller window size */
+  2008			goto out_unlock;
+  2009		}
+  2010	
+  2011		if (create_ddw(pdev, ddw_avail, &create, page_shift, len))
+  2012			goto out_failed;
+  2013	
+  2014		win_addr = ((u64)create.addr_hi << 32) | create.addr_lo;
+  2015		win64 = ddw_property_create(DMA64_PROPNAME, create.liobn, win_addr, page_shift, len);
+  2016		if (!win64)
+  2017			goto remove_window;
+  2018	
+  2019		ret = of_add_property(pdn, win64);
+  2020		if (ret) {
+  2021			dev_err(&pdev->dev, "unable to add DMA window property for %pOF: %d",
+  2022				pdn, ret);
+  2023			goto free_property;
+  2024		}
+  2025		ret = -ENODEV;
+  2026	
+  2027		window = ddw_list_new_entry(pdn, win64->value);
+  2028		if (!window)
+  2029			goto remove_property;
+  2030	
+  2031		window->direct = false;
+  2032	
+  2033		if (tbl) {
+  2034			iommu_table_reset(tbl, pci->phb->bus->number, create.liobn, win_addr,
+  2035					  1UL << len, page_shift, NULL, &iommu_table_lpar_multi_ops);
+  2036		} else {
+  2037			tbl = iommu_pseries_alloc_table(pci->phb->node);
+  2038			if (!tbl) {
+  2039				dev_err(&pdev->dev, "couldn't create new IOMMU table\n");
+  2040				goto free_window;
+  2041			}
+  2042			iommu_table_setparms_common(tbl, pci->phb->bus->number, create.liobn, win_addr,
+  2043						    1UL << len, page_shift, NULL,
+  2044						    &iommu_table_lpar_multi_ops);
+  2045			iommu_init_table(tbl, pci->phb->node, start, end);
+  2046		}
+  2047	
+  2048		tbl->reset_ddw = true;
+  2049		pci->table_group->tables[1] = tbl;
+  2050		set_iommu_table_base(&pdev->dev, tbl);
+  2051		pdev->dev.archdata.dma_offset = win_addr;
+  2052	
+  2053		spin_lock(&dma_win_list_lock);
+  2054		list_add(&window->list, &dma_win_list);
+  2055		spin_unlock(&dma_win_list_lock);
+  2056	
+  2057		mutex_unlock(&dma_win_init_mutex);
+  2058	
+  2059		goto exit;
+  2060	
+  2061	free_window:
+  2062		kfree(window);
+  2063	remove_property:
+  2064		of_remove_property(pdn, win64);
+  2065	free_property:
+  2066		kfree(win64->name);
+  2067		kfree(win64->value);
+  2068		kfree(win64);
+  2069	remove_window:
+  2070		__remove_dma_window(pdn, ddw_avail, create.liobn);
+  2071	
+  2072	out_failed:
+  2073		fpdn = kzalloc(sizeof(*fpdn), GFP_KERNEL);
+  2074		if (!fpdn)
+  2075			goto out_unlock;
+  2076		fpdn->pdn = pdn;
+  2077		list_add(&fpdn->list, &failed_ddw_pdn_list);
+  2078	
+  2079	out_unlock:
+  2080		mutex_unlock(&dma_win_init_mutex);
+  2081	
+  2082		return ret;
+  2083	exit:
+  2084		*ptbl = iommu_tce_table_get(tbl);
+  2085		return 0;
+  2086	}
+  2087	
 
 -- 
 0-DAY CI Kernel Test Service
