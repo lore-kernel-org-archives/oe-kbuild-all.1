@@ -1,62 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3725D5A11F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 13:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FD66FE06
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 13:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710422130; cv=none; b=ReTuduCvp+ab8tHNunFC22F7hhv1lbnL1kpy+vJIR/zKB5Ow27wJDiAmV7UHO8OiXQhECw0ZxjXbnLdnEv8C9Xe65FoTTpbM0F/rxc30EVP/5+HzUBq2yC29pAuPccEq1OuSP5MTo6yRcGaHFP966LGlDtauMbKIw4dc5l74Vr0=
+	t=1710424597; cv=none; b=Ioz9HnBn604bIyWcUTQ6y+emHaPst+DeV/V1xcW+3MKfOvVvAjCWFXvGa3CsIWL523aJDPDLG9sTUwhTxOgZ1YlynqLO3jL31FMOv/SdYCZVtHzfm837v/5/qc/Iez+m9L5vJi3vQqnAeniQfJCKnMkyybObbDts6V+ce1VL9xY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710422130; c=relaxed/simple;
-	bh=t15J5v+a0NBM3J5pyicTzFmZpQkk74Q6WHA6oHvys0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZWs5nWG0VQvQv1nTRplWxowINllLtO9DeA+VvhumgtJ/gTCP+w0f/TIptw0KQHUKjC1hV0CLYFgqMx4Z+dat1eERUcWoDWM5N1tkU/YeJi/ftYooYoo9LgVgXkl5gMx/LIzqUPRkADich724AFMx4vaWLIVMoAy/v+OOfENKXPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mC9eCHFs; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1710424597; c=relaxed/simple;
+	bh=JMUvR14bCEiy+yD7hrQAZRvb/CJZBFmCOTyPzsQzrw4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ki5AFy3N1c/vIA0ry2yJy1dLQGdR03ywMUe3jnRPlufcd2lZCYg2rF0cAihuZ2bnj0thL39x/AjzWAiC89z0Mp5WPJTfBFbX3wfKRiRCM6mjI2F7SJ1v0KGpA3yYsn/CzHcLVVb2XFB1ln15pmN7oJXpkvoCBi8ElgSUTsyargU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dvRzSDZ5; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mC9eCHFs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dvRzSDZ5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710422128; x=1741958128;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=t15J5v+a0NBM3J5pyicTzFmZpQkk74Q6WHA6oHvys0M=;
-  b=mC9eCHFsVyqgv2Y+1HRzAW2lCb3ZJu/hQ39gkV1b3YjTYJB3mvcNr6uN
-   Lsh2yCe09aopNtwKUb3txvVSkG8uaUNyEBYMcE4fLrAOCvoOnwPmhsYTF
-   /VhqmloPka5Jm4u/KAr7/N4QXruVHTnjPVZC4u0R4RX9N5SwGppKb1YcO
-   kWgqF2O7fFucUHcWD1hdy+gummMyyV5xYqINsJc6cEqGTbngfX2ir608R
-   hFZ8pUs/X7S+/1dHgMIlxkOwOeV0+aAQDdC8+PGs2gigtj83jFwtRpXPl
-   GtINQwzhRwAONY9tuu8rfEskA85D6tEbWG8OHZCyemXnKMmJ4Zz7XfTuF
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5091497"
+  t=1710424595; x=1741960595;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JMUvR14bCEiy+yD7hrQAZRvb/CJZBFmCOTyPzsQzrw4=;
+  b=dvRzSDZ5P3JH64eQIV4JI1YwlbZuJGtGn+u53N8iX8tSaIBx8IHZ0CIk
+   7f6m6dq7sy/8UwBaBjS5e1NrjJ6/9GLDPPPYjcJgz5FetZWdeb5PfHxUu
+   QLMYClc+EHnod9WjNnZhNpyY1iL4+ne7tJFTFtIdvE21+kL1tSHgIVANA
+   OyD0i0c7bANHn2F05u/sx01T9BpEE74pyF3dS+IlAMTB65D5cZHB8japc
+   eEWK7ZvwqfWMTp9BqaDrQC5WGxgZa3n6/gAoG8p2EDcmnjSw3rexzZtp/
+   24PT/iWekVczhJeTImV3oMbbemB6NHePSfdB6jVs/bBrUgyAeQ5uHbRxJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5106827"
 X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="5091497"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 06:15:28 -0700
+   d="scan'208";a="5106827"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 06:56:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="914460089"
 X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="914460089"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 06:15:25 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rkkvb-0000000CWKf-0DfA;
-	Thu, 14 Mar 2024 15:15:23 +0200
-Date: Thu, 14 Mar 2024 15:15:22 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Yujie Liu <yujie.liu@intel.com>
-Cc: kernel test robot <lkp@intel.com>, jcmvbkbc@gcc.gnu.org,
-	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Herve Codina <herve.codina@bootlin.com>
-Subject: Re: [net-next:main 4/19] WARNING: modpost: vmlinux: section mismatch
- in reference: bitmap_copy_clear_tail+0x58 (section: .text.unlikely) ->
- __setup_str_initcall_blacklist (section: .init.rodata)
-Message-ID: <ZfL4amLH5W9Zc_MS@smile.fi.intel.com>
-References: <202403121032.WDY8ftKq-lkp@intel.com>
- <ZfH85ScHmojydKlw@smile.fi.intel.com>
- <ZfLGLmb3QAsIGlbB@yujie-X299>
+   d="scan'208";a="43326877"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 14 Mar 2024 06:56:30 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rklZL-000DTH-2s;
+	Thu, 14 Mar 2024 13:56:27 +0000
+Date: Thu, 14 Mar 2024 21:56:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/next 26652/27507] rue.c:undefined reference
+ to `sysctl_io_qos_enabled'
+Message-ID: <202403142117.TITEwyEw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,42 +60,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZfLGLmb3QAsIGlbB@yujie-X299>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Mar 14, 2024 at 05:41:02PM +0800, Yujie Liu wrote:
-> Hi Andy,
-> 
-> On Wed, Mar 13, 2024 at 09:22:13PM +0200, Andy Shevchenko wrote:
-> > On Tue, Mar 12, 2024 at 10:29:16AM +0800, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
-> > > head:   f095fefacdd35b4ea97dc6d88d054f2749a73d07
-> > > commit: de5f84338970815b9fdd3497a975fb572d11e0b5 [4/19] lib/bitmap: Introduce bitmap_scatter() and bitmap_gather() helpers
-> > > config: xtensa-randconfig-001-20240311 (https://download.01.org/0day-ci/archive/20240312/202403121032.WDY8ftKq-lkp@intel.com/config)
-> > > compiler: xtensa-linux-gcc (GCC) 13.2.0
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403121032.WDY8ftKq-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202403121032.WDY8ftKq-lkp@intel.com/
-> > > 
-> > > All warnings (new ones prefixed by >>, old ones prefixed by <<):
-> > > 
-> > > WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-> > > WARNING: modpost: vmlinux: section mismatch in reference: put_page+0x58 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
-> > > >> WARNING: modpost: vmlinux: section mismatch in reference: bitmap_copy_clear_tail+0x58 (section: .text.unlikely) -> __setup_str_initcall_blacklist (section: .init.rodata)
-> > 
-> > Reminds me of https://gcc.gnu.org/bugzilla/show_bug.cgi?id=92938
-> 
-> Thanks for the information. We will configure the bot to ignore this
-> pattern thus to avoid false reports.
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
+head:   fdd5d0bfc620bd5147ff5b260822c7645aeddad6
+commit: 935b312d04ad798a485e245b4fc6e49f6c440623 [26652/27507] rue/io: add buffer IO writeback throtl for cgroup v1
+config: x86_64-buildonly-randconfig-003-20240310 (https://download.01.org/0day-ci/archive/20240314/202403142117.TITEwyEw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240314/202403142117.TITEwyEw-lkp@intel.com/reproduce)
 
-I haven't told they are false.
-I Cc'ed Max who can shed a light on this.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403142117.TITEwyEw-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: kernel/rue.o: in function `rue_io_enabled':
+>> rue.c:(.text+0x7): undefined reference to `sysctl_io_qos_enabled'
+   ld: mm/page_alloc.o: in function `proc_pagecacache_system_usage':
+   page_alloc.c:(.text+0x6e47): undefined reference to `vm_pagecacache_system_usage'
+   ld: drivers/acpi/acpi_processor.o: in function `acpi_processor_evaluate_cst':
+   acpi_processor.c:(.text+0x348): undefined reference to `acpi_processor_ffh_cstate_probe'
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
