@@ -1,55 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3862581
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 12:32:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3725D5A11F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 13:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710419551; cv=none; b=eBc8sOug1FYrdNRGM+MfhUAHTx2yTZ/DbgDaaAWSDPSkC8f+6LdaG7y0KtpcYr6oeK5d2f7a97KHaI3aVe6YPtJ6qQrpO7nY0Mgz/95DIBwxC8fJwAhAeK7mEAEkMO1IEztY4IaXqvGBBnS6F9s4k0/tlAOdyJUnQBgAbeEd3/w=
+	t=1710422130; cv=none; b=ReTuduCvp+ab8tHNunFC22F7hhv1lbnL1kpy+vJIR/zKB5Ow27wJDiAmV7UHO8OiXQhECw0ZxjXbnLdnEv8C9Xe65FoTTpbM0F/rxc30EVP/5+HzUBq2yC29pAuPccEq1OuSP5MTo6yRcGaHFP966LGlDtauMbKIw4dc5l74Vr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710419551; c=relaxed/simple;
-	bh=8zTR0ntiMrJsnrrQ+2c6dxqFRg+P8y4EbjcWD6BLf0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MlY2d/6rZoICUGbD1wPJDj46Y5qu3h85Wr+VnuGn3Ox8UtTVsF/JgUcfSldTnxQgbj2xsDSvJgUaQhpaG13MW62Nwr50nlviSFsO9M1GTYhIs20dsREN0+EKzNdFQGMoH0s0ZfPvQPjs3wBcu4kxzgn+yYGMzzU85z0hy0cIznI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GWP2A6s9; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710422130; c=relaxed/simple;
+	bh=t15J5v+a0NBM3J5pyicTzFmZpQkk74Q6WHA6oHvys0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZWs5nWG0VQvQv1nTRplWxowINllLtO9DeA+VvhumgtJ/gTCP+w0f/TIptw0KQHUKjC1hV0CLYFgqMx4Z+dat1eERUcWoDWM5N1tkU/YeJi/ftYooYoo9LgVgXkl5gMx/LIzqUPRkADich724AFMx4vaWLIVMoAy/v+OOfENKXPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mC9eCHFs; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GWP2A6s9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mC9eCHFs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710419549; x=1741955549;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8zTR0ntiMrJsnrrQ+2c6dxqFRg+P8y4EbjcWD6BLf0M=;
-  b=GWP2A6s9auuTffQzRwjIQP7R3qJq02yIgJmwCzzqOYX/2OkDLWRosd7i
-   pmQAERunCAzfrowj15qZHH0wQf5y9M7o2dXGFM+wVSyBnL/d4dtT8+bx8
-   jVSTgukTss9XH5jm7mPwU5FphVK4ncxh4XXPM0ApLlI0nfaoEjcNheSjr
-   FcvT2V6MswzcYrYcguvjttts2gQ0AVcPm/j7U65v7jTlErybDxg3guoge
-   66BIB4PFziO2dSHMXzuEQO1LjDFfrhnKiu3r4ESlvxA4QeiozcdJskl0A
-   jA3OZKPGku53OC+z/MsG/wGlBFSKjPiVUbnvhKAhfcCZHn5X1WSanJWfO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="8170440"
+  t=1710422128; x=1741958128;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t15J5v+a0NBM3J5pyicTzFmZpQkk74Q6WHA6oHvys0M=;
+  b=mC9eCHFsVyqgv2Y+1HRzAW2lCb3ZJu/hQ39gkV1b3YjTYJB3mvcNr6uN
+   Lsh2yCe09aopNtwKUb3txvVSkG8uaUNyEBYMcE4fLrAOCvoOnwPmhsYTF
+   /VhqmloPka5Jm4u/KAr7/N4QXruVHTnjPVZC4u0R4RX9N5SwGppKb1YcO
+   kWgqF2O7fFucUHcWD1hdy+gummMyyV5xYqINsJc6cEqGTbngfX2ir608R
+   hFZ8pUs/X7S+/1dHgMIlxkOwOeV0+aAQDdC8+PGs2gigtj83jFwtRpXPl
+   GtINQwzhRwAONY9tuu8rfEskA85D6tEbWG8OHZCyemXnKMmJ4Zz7XfTuF
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5091497"
 X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="8170440"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 05:32:28 -0700
+   d="scan'208";a="5091497"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 06:15:28 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="914460089"
 X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="12345915"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 14 Mar 2024 05:32:27 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rkkG0-000DP3-2L;
-	Thu, 14 Mar 2024 12:32:24 +0000
-Date: Thu, 14 Mar 2024 20:32:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 8475/13571] sound/core/pcm_native.c:4106:5-11:
- inconsistent IS_ERR and PTR_ERR on line 4107.
-Message-ID: <202403142014.H8ciGzs8-lkp@intel.com>
+   d="scan'208";a="914460089"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 06:15:25 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rkkvb-0000000CWKf-0DfA;
+	Thu, 14 Mar 2024 15:15:23 +0200
+Date: Thu, 14 Mar 2024 15:15:22 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Yujie Liu <yujie.liu@intel.com>
+Cc: kernel test robot <lkp@intel.com>, jcmvbkbc@gcc.gnu.org,
+	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Herve Codina <herve.codina@bootlin.com>
+Subject: Re: [net-next:main 4/19] WARNING: modpost: vmlinux: section mismatch
+ in reference: bitmap_copy_clear_tail+0x58 (section: .text.unlikely) ->
+ __setup_str_initcall_blacklist (section: .init.rodata)
+Message-ID: <ZfL4amLH5W9Zc_MS@smile.fi.intel.com>
+References: <202403121032.WDY8ftKq-lkp@intel.com>
+ <ZfH85ScHmojydKlw@smile.fi.intel.com>
+ <ZfLGLmb3QAsIGlbB@yujie-X299>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,60 +65,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZfLGLmb3QAsIGlbB@yujie-X299>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Takashi,
+On Thu, Mar 14, 2024 at 05:41:02PM +0800, Yujie Liu wrote:
+> Hi Andy,
+> 
+> On Wed, Mar 13, 2024 at 09:22:13PM +0200, Andy Shevchenko wrote:
+> > On Tue, Mar 12, 2024 at 10:29:16AM +0800, kernel test robot wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
+> > > head:   f095fefacdd35b4ea97dc6d88d054f2749a73d07
+> > > commit: de5f84338970815b9fdd3497a975fb572d11e0b5 [4/19] lib/bitmap: Introduce bitmap_scatter() and bitmap_gather() helpers
+> > > config: xtensa-randconfig-001-20240311 (https://download.01.org/0day-ci/archive/20240312/202403121032.WDY8ftKq-lkp@intel.com/config)
+> > > compiler: xtensa-linux-gcc (GCC) 13.2.0
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403121032.WDY8ftKq-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202403121032.WDY8ftKq-lkp@intel.com/
+> > > 
+> > > All warnings (new ones prefixed by >>, old ones prefixed by <<):
+> > > 
+> > > WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+> > > WARNING: modpost: vmlinux: section mismatch in reference: put_page+0x58 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+> > > >> WARNING: modpost: vmlinux: section mismatch in reference: bitmap_copy_clear_tail+0x58 (section: .text.unlikely) -> __setup_str_initcall_blacklist (section: .init.rodata)
+> > 
+> > Reminds me of https://gcc.gnu.org/bugzilla/show_bug.cgi?id=92938
+> 
+> Thanks for the information. We will configure the bot to ignore this
+> pattern thus to avoid false reports.
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9bb9b28d0568991b1d63e66fe75afa5f97ad1156
-commit: ae921398486419c6284d70bd8332eb7edbdb4f70 [8475/13571] ALSA: pcm: Use automatic cleanup of kfree()
-config: x86_64-randconfig-103-20240314 (https://download.01.org/0day-ci/archive/20240314/202403142014.H8ciGzs8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403142014.H8ciGzs8-lkp@intel.com/
-
-cocci warnings: (new ones prefixed by >>)
->> sound/core/pcm_native.c:4106:5-11: inconsistent IS_ERR and PTR_ERR on line 4107.
-   sound/core/pcm_native.c:864:5-11: inconsistent IS_ERR and PTR_ERR on line 865.
-   sound/core/pcm_native.c:4077:5-11: inconsistent IS_ERR and PTR_ERR on line 4078.
-   sound/core/pcm_native.c:573:5-11: inconsistent IS_ERR and PTR_ERR on line 574.
-   sound/core/pcm_native.c:3287:5-11: inconsistent IS_ERR and PTR_ERR on line 3288.
-
-vim +4106 sound/core/pcm_native.c
-
-  4093	
-  4094	static int snd_pcm_hw_params_old_user(struct snd_pcm_substream *substream,
-  4095					      struct snd_pcm_hw_params_old __user * _oparams)
-  4096	{
-  4097		struct snd_pcm_hw_params *params __free(kfree) = NULL;
-  4098		struct snd_pcm_hw_params_old *oparams __free(kfree) = NULL;
-  4099		int err;
-  4100	
-  4101		params = kmalloc(sizeof(*params), GFP_KERNEL);
-  4102		if (!params)
-  4103			return -ENOMEM;
-  4104	
-  4105		oparams = memdup_user(_oparams, sizeof(*oparams));
-> 4106		if (IS_ERR(oparams))
-> 4107			return PTR_ERR(no_free_ptr(oparams));
-  4108	
-  4109		snd_pcm_hw_convert_from_old_params(params, oparams);
-  4110		err = snd_pcm_hw_params(substream, params);
-  4111		if (err < 0)
-  4112			return err;
-  4113	
-  4114		snd_pcm_hw_convert_to_old_params(oparams, params);
-  4115		if (copy_to_user(_oparams, oparams, sizeof(*oparams)))
-  4116			return -EFAULT;
-  4117		return 0;
-  4118	}
-  4119	#endif /* CONFIG_SND_SUPPORT_OLD_API */
-  4120	
+I haven't told they are false.
+I Cc'ed Max who can shed a light on this.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
