@@ -1,121 +1,97 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A2571B27
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 15:46:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA23271B58
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 15:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710431220; cv=none; b=EgFn9sMSctltNGZqGeMoK1EZdHjb+X9o8qh0ouB4nd0VyZsY6peWfnsuXPop2UfQ29NzsHNtyNxjWBRZL79q/YEkxYqyCzfvE95OxC7xE5XS3qcWiLRR2PE3EATtFhkSuTjb9htPGtF8GT8TS09S08pEAw0EG6dGeh9SKAflWUw=
+	t=1710431331; cv=none; b=QJDIEcZgD3+kumVSz5rVxQiIXeAZaWM9gKqKmMkD5UnOxPLri5h14UZgkoenqDwmuf1OzEMneZXh+bZ32w5dsjHnkbrQQCYee2aYLINAk/WPh2cFRUn22Qy2JA8thybu6s948dklyLZ0OKyKQbNrhBU1AKdc3/Z/GpBeHshENLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710431220; c=relaxed/simple;
-	bh=sSv1Qf860Ffd9kbhrZtIa9pgrs73h4MVO7THJHIW3uU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TzqiarA3OQ8XQIVuAIPy7hWADmfmHWvM4/HS0okIsrhm+n/PjeLxwTdxKBdr4jJXo35rGKzz0QQ20itNRvDm/fRxi4R55TgEPLxFZqKWY3nxpR3OlT/PmGwoDrlqo/ozbkgA1mkRrOhKBJ8LuVU2tNH03LW6d9Abo6VHiSykVAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YdEQtjNA; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1710431331; c=relaxed/simple;
+	bh=Dk/9HlllThqIzDIeiK/1eoemfr6ZXqHuG7o93nOIV08=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AOQiWLLydyEQ00lqiXtV+AyTEjRz0CmILX5mi94ftoWUJTFuTGypsCbJocggJraM+dBkrlWnSTY0oi4dsMY5cRMv4emOPBxlYgm9VgChMBeISnEE8D0TgaFmm2PKmBe3cL8DehoDrGCsFBA4fsOtqEps0wL75Xdj7J57Lz41GiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=p5sBZM2W; arc=none smtp.client-ip=209.85.166.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YdEQtjNA"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-33e99b62e01so952671f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 08:46:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="p5sBZM2W"
+Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-366427fa029so1691055ab.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Mar 2024 08:48:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710431216; x=1711036016; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1710431329; x=1711036129; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=3yW75s8KI/i3d1vlPmclWzYsLJEU6olPxtwFaMdL3eU=;
-        b=YdEQtjNA8xfOiNS8qZyrAvxAAoSf2CDf/0Z3NW0s8yg3LYBcFh5kZIBfOMlZUfpCXY
-         G3HU54z/jc5EEmGOJBu2Uyhw7+jD+Cp5H3AFrxXC9UbXarCuMhgCvW4BU04CMhLW5jcV
-         fKGEKfq0EV0VvlIqmqAJwbRSlb+Yu81gUU7qkMvoaQVc9axq2yC60K+eF4KO6YY+Mlrl
-         lInZvAyDpgDkm2yEHI/9d99mba/EwdeeVNOaFqxjwQtG+SZldtK9bdL9F+eDGHt898PD
-         2Lik9uUOwc54vzbHrH1fTYIuzBr5W3ITP2bCgkXK1DRP8MnZvegAucykOZKlsInkEyeB
-         GzvQ==
+        bh=rOjSZjzJYxeE4LWdxcDuKO6Le2r7zWZAB4RLLIoIWqU=;
+        b=p5sBZM2WBqBLJxlPc6cbfAAfM6/hykBaoCwBDSIO3gNaYPnP0q8SVLOLMSOIl5Kkgy
+         07IDP/y6Q1lm5BWmeBSA1ALuXkydtLwhJIn0KDSivLVdcBnGkzOPgSGbC4lBJX2KSnXk
+         CoQtb11wN4PwWrmJyFwgrR2OLdF8V8RqyDRqreJfaYQ1emOsl62v1Fdt3uvM2frWKrF1
+         EU0KDoRWo4UdTkUDZYnrMx4e4R+JSpnQOiOBQzKORNjrKotGr+4uBcJci4Q57IzPYPog
+         R57sdpcRmB1qBKeTAsGco9mg3cvVBD5WrkbPyIyMpN3IsfS1lR0SFbc7eFUo5IxkMdYI
+         qwvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710431216; x=1711036016;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1710431329; x=1711036129;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3yW75s8KI/i3d1vlPmclWzYsLJEU6olPxtwFaMdL3eU=;
-        b=M+U7b42M0rFm4xRNZRyTdyV0/rdw+PknQBr5cl37PXUf07TCo9HDzM5ZkL8EwjG6i4
-         PmgwYTLEYNA1DLBj9fRhZAHeDFtd5MEHZfWFavwm+YHCJERY/w8gZKeVFyctlzKdtuQe
-         qhtR+lfgudJ7LkbNLOxG0Umuq5Iuk00tr2vVB1A6Z2b3bH9aZH7bm2Py7LPfHgQP4VpJ
-         BdUqSLeSXtg7WDMIM49s4hOC4unnLod3Zz6TW+eC6URoN4jyRx3H1LtblVzJ5b/sY2tz
-         MXxz28zGr1pa9rl9nv4q11IT+N6Wq+2ZW1RfLfpO2rbZgjryplOY33D/do+Qyz5fyDfm
-         tXHw==
-X-Forwarded-Encrypted: i=1; AJvYcCXxU2IzMACQVs8dxMKEz1dOvMXHGgMQr45us5nuYg9jnOddQnIYei+kJYHbRq0U10NAMYKpcy6zJgIY0dKjeRS8rZbGTle4LlyJqUeobQ==
-X-Gm-Message-State: AOJu0YxXuUrLTAot8Zk5eDamOkiHrVkOX9S45kinwjRYTuDBHZF6CNAE
-	zUiqnxOKwd7RE1hsS7BP9PjQnb8RZ9n2/BqO44i2rSgcPDgN2YFFP/pBkvM6TjA=
-X-Google-Smtp-Source: AGHT+IHuGkfhP6LswjK6X24v3iy2Hfu75dhMWCk1YzdRlxR4/+qzy8dcbrlq5R7Th+gUMwHqecl15Q==
-X-Received: by 2002:a5d:45c8:0:b0:33d:7e9e:4eb with SMTP id b8-20020a5d45c8000000b0033d7e9e04ebmr1687198wrs.12.1710431216271;
-        Thu, 14 Mar 2024 08:46:56 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id w16-20020adff9d0000000b0033ec7e71178sm1019149wrr.77.2024.03.14.08.46.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Mar 2024 08:46:56 -0700 (PDT)
-Date: Thu, 14 Mar 2024 18:46:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:io_uring-recvsend-bundle 16/16]
- io_uring/io_uring.c:2878 io_mem_alloc() warn: 'ret' is an error pointer or
- valid
-Message-ID: <ce235fec-0ad9-4d13-a92d-3bba53847793@moroto.mountain>
+        bh=rOjSZjzJYxeE4LWdxcDuKO6Le2r7zWZAB4RLLIoIWqU=;
+        b=q8XWYKqOlZwt6EyQqbywwp2ng3Y6W6tiyImuq+zxBnKCGdvpB8prmLPHY9FAK1Sbbk
+         iLFXz2Vdoo8EphnSmmeL8Bl41Fn+MzgIOhFJUPkjakmiyxptt8jiox6MCNDx+cB4la3N
+         9ZmilNs8QzPym3/TbWmUznUgzkAGVniEUfIxCTB1LvEst/c8jrM3QgYDHLnIIlMuB3Qp
+         k17TtfjZbOvdqfN5ZOTznrvaHmrDYcaFe+2TS8lFeGdRJ1qAzzZ9uTecLoDnOif3EePv
+         uh8Gzm4P+ST2Cmv+GCoRTuUoiI9Qulgaprwuxvg19QQbOJJ/qhdSvXRaa7oFaZPObfL1
+         JypQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW4D626kmKjS05dzIDjB7TJ4X2bfrEjnn5vfW7hFVIaOQbH4gpqQ7LTqzWJ+XKRfUuslhjzhVJNtqMOXYcADIJhi75DSNA8sDnCYdJYFQ==
+X-Gm-Message-State: AOJu0YzIoaWd8HoJMCTkjpjqaLn+vDKzgNSZ41185Tipqw9SDauTpFiQ
+	f0Jl2UAeX2fmlv8mK4JjjxKWHgKKQfEl9wki5CdK1q57Owkmq0TLJhyULiIqb6I=
+X-Google-Smtp-Source: AGHT+IFTp9jv4vqR8aLIkKpbRnmB0wJ5sCR6UpoSsag9C6xkmK4gOPYTJXJ3h8G/2Ezu6CaZ6BjTdQ==
+X-Received: by 2002:a92:de0f:0:b0:366:8c5d:95e6 with SMTP id x15-20020a92de0f000000b003668c5d95e6mr218849ilm.0.1710431328912;
+        Thu, 14 Mar 2024 08:48:48 -0700 (PDT)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id g14-20020a056e02130e00b003639d3e5afdsm207892ilr.10.2024.03.14.08.48.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Mar 2024 08:48:48 -0700 (PDT)
+Message-ID: <423c51f8-e571-445e-8c02-4b9d9a29dbd3@kernel.dk>
+Date: Thu, 14 Mar 2024 09:48:47 -0600
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [axboe-block:io_uring-recvsend-bundle 16/16]
+ io_uring/io_uring.c:2878 io_mem_alloc() warn: 'ret' is an error pointer or
+ valid
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+References: <ce235fec-0ad9-4d13-a92d-3bba53847793@moroto.mountain>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <ce235fec-0ad9-4d13-a92d-3bba53847793@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-recvsend-bundle
-head:   57fd6bfcfb482b2e57219118e3a9a2c0c95b0f45
-commit: 57fd6bfcfb482b2e57219118e3a9a2c0c95b0f45 [16/16] io_uring: alloc ring memory as a compound page, if possible
-config: i386-randconfig-141-20240314 (https://download.01.org/0day-ci/archive/20240314/202403142336.zEgQS4hl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+On 3/14/24 9:46 AM, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-recvsend-bundle
+> head:   57fd6bfcfb482b2e57219118e3a9a2c0c95b0f45
+> commit: 57fd6bfcfb482b2e57219118e3a9a2c0c95b0f45 [16/16] io_uring: alloc ring memory as a compound page, if possible
+> config: i386-randconfig-141-20240314 (https://download.01.org/0day-ci/archive/20240314/202403142336.zEgQS4hl-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202403142336.zEgQS4hl-lkp@intel.com/
+> 
+> New smatch warnings:
+> io_uring/io_uring.c:2878 io_mem_alloc() warn: 'ret' is an error pointer or valid
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403142336.zEgQS4hl-lkp@intel.com/
-
-New smatch warnings:
-io_uring/io_uring.c:2878 io_mem_alloc() warn: 'ret' is an error pointer or valid
-
-vim +/ret +2878 io_uring/io_uring.c
-
-469421fb116f26 io_uring/io_uring.c Jens Axboe     2024-03-13  2860  void *io_mem_alloc(struct page ***out_pages, unsigned short *npages,
-469421fb116f26 io_uring/io_uring.c Jens Axboe     2024-03-13  2861  		   size_t size)
-b9bd2bea0f22f5 fs/io_uring.c       Pavel Begunkov 2021-08-09  2862  {
-73572984481907 io_uring/io_uring.c Jens Axboe     2022-06-13  2863  	gfp_t gfp = GFP_KERNEL_ACCOUNT | __GFP_ZERO | __GFP_NOWARN | __GFP_COMP;
-469421fb116f26 io_uring/io_uring.c Jens Axboe     2024-03-13  2864  	struct page **pages;
-57fd6bfcfb482b io_uring/io_uring.c Jens Axboe     2024-03-13  2865  	int nr_pages;
-e27cef86a0edd4 io_uring/io_uring.c Jens Axboe     2021-11-05  2866  	void *ret;
-b9bd2bea0f22f5 fs/io_uring.c       Pavel Begunkov 2021-08-09  2867  
-469421fb116f26 io_uring/io_uring.c Jens Axboe     2024-03-13  2868  	nr_pages = (size + PAGE_SIZE - 1) >> PAGE_SHIFT;
-469421fb116f26 io_uring/io_uring.c Jens Axboe     2024-03-13  2869  	pages = kvmalloc_array(nr_pages, sizeof(struct page *), gfp);
-469421fb116f26 io_uring/io_uring.c Jens Axboe     2024-03-13  2870  	if (!pages)
-469421fb116f26 io_uring/io_uring.c Jens Axboe     2024-03-13  2871  		return NULL;
-469421fb116f26 io_uring/io_uring.c Jens Axboe     2024-03-13  2872  
-57fd6bfcfb482b io_uring/io_uring.c Jens Axboe     2024-03-13  2873  	ret = io_mem_alloc_compound(pages, nr_pages, size, gfp);
-57fd6bfcfb482b io_uring/io_uring.c Jens Axboe     2024-03-13  2874  	if (ret)
-57fd6bfcfb482b io_uring/io_uring.c Jens Axboe     2024-03-13  2875  		goto done;
-469421fb116f26 io_uring/io_uring.c Jens Axboe     2024-03-13  2876  
-57fd6bfcfb482b io_uring/io_uring.c Jens Axboe     2024-03-13  2877  	ret = io_mem_alloc_single(pages, nr_pages, size, gfp);
-469421fb116f26 io_uring/io_uring.c Jens Axboe     2024-03-13 @2878  	if (ret) {
-                                                                            ^^^
-if (!IS_ERR(ret)) {
-
-57fd6bfcfb482b io_uring/io_uring.c Jens Axboe     2024-03-13  2879  done:
-469421fb116f26 io_uring/io_uring.c Jens Axboe     2024-03-13  2880  		*out_pages = pages;
-469421fb116f26 io_uring/io_uring.c Jens Axboe     2024-03-13  2881  		*npages = nr_pages;
-e27cef86a0edd4 io_uring/io_uring.c Jens Axboe     2021-11-05  2882  		return ret;
-469421fb116f26 io_uring/io_uring.c Jens Axboe     2024-03-13  2883  	}
-57fd6bfcfb482b io_uring/io_uring.c Jens Axboe     2024-03-13  2884  
-57fd6bfcfb482b io_uring/io_uring.c Jens Axboe     2024-03-13  2885  	return NULL;
-73572984481907 io_uring/io_uring.c Jens Axboe     2022-06-13  2886  }
+Thanks, but this is just a hacky series - and I did spot this one and
+fixed it already!
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jens Axboe
 
