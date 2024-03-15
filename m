@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992E93D575;
-	Fri, 15 Mar 2024 15:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598AB405FF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 15:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710517470; cv=none; b=miCxV4X7kF6vGhAhgi1hlg8fZJBetUVM6B3oAbV9EEcHDtACHm70moPl610Lo2akf8+oNZoQA01It+BtR4YxDDERUO+3Ll3fgdrf6Vfb9xQ60S6LfFuApYqWXP+7XMJhubAZ0MOCjnJYDQ+iHKx0yfLRL84tS4FvXVyoLjfCsgo=
+	t=1710518061; cv=none; b=uJO2GeB/ACV6INb2wur7L8ramhDQ/M7TuSuQaFrNSUBc0Qf91MDi3IMZX38HXL5VoYf5OimIVQDXd6irecMS9tvv3lox2YH5UON+lExnmgzYfHfAhJTm3CJkTbyayp4A4bxvb0taR5XqVAobq3TmrtjLdK+uMDIvSMrnuRM43tU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710517470; c=relaxed/simple;
-	bh=zLFKLaDgu7A9t4PnNE41buDweQyJlPexb7inSJDieTs=;
+	s=arc-20240116; t=1710518061; c=relaxed/simple;
+	bh=s0OIHKNEwGIa5s7KPpYL0a1H8D5CL9bczCXQZrpz4DY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uHFjLWWqBBr5DNnSVvi+mxL9hsjZdFT+tyKDJpzoxRoX9rGbcBjPwW26+d1E4ag7MGdRRxVWkd4ni6LtnAMQokvEmiXPC8YL3gggVYPEcfs0X7bawB7TFtcicg3/q8nd+bqWLPe3QCqCxXfj676hAtlKAS9XhzcjoetmOxaygkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mK+IQ6gc; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=glSFqvE9zwZ8inU3bVddqxGrKDSNVmw5NfeFd3awmtSIUWIM6bhaWzfBW+EEO9caEYW0tF/W1qohdghaAa1hb0U+Znzx6h4d6mQetWTqmQMEeWI2ttdwE81gKp2OkfEo5NkngcioFsdPDV3jm/Sb7Cw7M04GSs305JcA75H27J0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZRJi+fCt; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mK+IQ6gc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZRJi+fCt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710517469; x=1742053469;
+  t=1710518059; x=1742054059;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zLFKLaDgu7A9t4PnNE41buDweQyJlPexb7inSJDieTs=;
-  b=mK+IQ6gc2Dmu2o2pTKk1yEvGJaHenQRjjTtPgY1VHMVwTTlQV9/fPKhY
-   lIYpJhqg7jBzBwI4pQrPVKfLjaZR8dh0cjg2G7Z1OL2yyEP8rJqzEaXhD
-   2u/0HSRuF75xrj0L/4d8wVf1vy25M2MDR4CHL+xWxJE0d+gkZRR/z/8UA
-   dngQ8zoqbjgeWrPr+jq5yh6vvLnj51jBZv0LHlrnjb61r9D2pgh7tPh3K
-   bgvlrzJaPcamX4aVu1DHX99OHlGUBsm2cAKvzSswOxhOuq4vYsys+PXi2
-   c0bvPo0XYMVWUI8h8eXgnXT7njRV3YUMx+Mr/iD7z4UjmvVO40aRh+bjY
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5261106"
+  bh=s0OIHKNEwGIa5s7KPpYL0a1H8D5CL9bczCXQZrpz4DY=;
+  b=ZRJi+fCtAmSb22rJktzFBgA44wzYeI0ldssmlX+v+oxdJMd48jxRnbre
+   pbFKFch6wFfABugiPKsjIO+bYOJkPsCXJj81xDy+ocCK4J+hRrKlejShk
+   KLsf9LqLwtyeuqKrHegfr282s+VUfWNq6XZcUyQGoI1gJoRyyMwgvigTP
+   j45pzbYeM/KDvoCNT1Qhl1so3sTG4bEmNUEQEOAjPWstOk6WtucRUo8zJ
+   w3hadSbEb4nxlU29m/71e3RfnBUIqrbs1XJfR/+Zk07Uwfm7gvzi0t8CE
+   G6hUPHBl2Kqgu9pWp16x3hsg93pEV3Os3E5Lmpb/MGJUyHFVh6mkZl45T
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5529420"
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="5261106"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 08:44:18 -0700
+   d="scan'208";a="5529420"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 08:54:18 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="17324368"
+   d="scan'208";a="43750025"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Mar 2024 08:44:14 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 15 Mar 2024 08:54:14 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rl9jA-000EYb-0Z;
-	Fri, 15 Mar 2024 15:44:12 +0000
-Date: Fri, 15 Mar 2024 23:43:42 +0800
+	id 1rl9sq-000EZF-1E;
+	Fri, 15 Mar 2024 15:54:12 +0000
+Date: Fri, 15 Mar 2024 23:54:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Julien Massot <julien.massot@collabora.com>, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, benjamin.mugnier@foss.st.com,
-	sylvain.petinot@foss.st.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, kernel@collabora.com,
-	Julien Massot <julien.massot@collabora.com>
-Subject: Re: [PATCH 2/4] media: i2c: st-vgxy61: Add support for embedded data
-Message-ID: <202403152358.DM9q4q25-lkp@intel.com>
-References: <20240315085158.1213159-3-julien.massot@collabora.com>
+To: Lukasz Luba <lukasz.luba@arm.com>, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, lukasz.luba@arm.com,
+	dietmar.eggemann@arm.com, linux-arm-kernel@lists.infradead.org,
+	sboyd@kernel.org, nm@ti.com, linux-samsung-soc@vger.kernel.org,
+	daniel.lezcano@linaro.org, rafael@kernel.org,
+	viresh.kumar@linaro.org, krzysztof.kozlowski@linaro.org,
+	alim.akhtar@samsung.com, m.szyprowski@samsung.com,
+	mhiramat@kernel.org
+Subject: Re: [PATCH 3/4] PM: EM: Add em_dev_update_chip_binning()
+Message-ID: <202403152322.1OIlZSAj-lkp@intel.com>
+References: <20240314140421.3563571-4-lukasz.luba@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,165 +65,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240315085158.1213159-3-julien.massot@collabora.com>
+In-Reply-To: <20240314140421.3563571-4-lukasz.luba@arm.com>
 
-Hi Julien,
+Hi Lukasz,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linuxtv-media-stage/master next-20240315]
-[cannot apply to sailus-media-tree/streams linus/master v6.8]
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on linus/master next-20240315]
+[cannot apply to krzk/for-next clk/clk-next soc/for-next rafael-pm/acpi-bus rafael-pm/devprop v6.8]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Julien-Massot/media-i2c-st-vgxy61-Use-sub-device-active-state/20240315-165346
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240315085158.1213159-3-julien.massot%40collabora.com
-patch subject: [PATCH 2/4] media: i2c: st-vgxy61: Add support for embedded data
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240315/202403152358.DM9q4q25-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403152358.DM9q4q25-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lukasz-Luba/OPP-OF-Export-dev_opp_pm_calc_power-for-usage-from-EM/20240314-220719
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20240314140421.3563571-4-lukasz.luba%40arm.com
+patch subject: [PATCH 3/4] PM: EM: Add em_dev_update_chip_binning()
+config: x86_64-randconfig-123-20240315 (https://download.01.org/0day-ci/archive/20240315/202403152322.1OIlZSAj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403152322.1OIlZSAj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403152358.DM9q4q25-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403152322.1OIlZSAj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/power/energy_model.c:168:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got struct em_perf_table * @@
+   kernel/power/energy_model.c:168:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
+   kernel/power/energy_model.c:168:15: sparse:     got struct em_perf_table *
+   kernel/power/energy_model.c:169:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct em_perf_table [noderef] __rcu *table @@
+   kernel/power/energy_model.c:169:15: sparse:     expected void const *objp
+   kernel/power/energy_model.c:169:15: sparse:     got struct em_perf_table [noderef] __rcu *table
+   kernel/power/energy_model.c:177:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got struct em_perf_table * @@
+   kernel/power/energy_model.c:177:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
+   kernel/power/energy_model.c:177:15: sparse:     got struct em_perf_table *
+   kernel/power/energy_model.c:179:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct callback_head *head @@     got struct callback_head [noderef] __rcu * @@
+   kernel/power/energy_model.c:179:19: sparse:     expected struct callback_head *head
+   kernel/power/energy_model.c:179:19: sparse:     got struct callback_head [noderef] __rcu *
+   kernel/power/energy_model.c:190:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct kref *kref @@     got struct kref [noderef] __rcu * @@
+   kernel/power/energy_model.c:190:19: sparse:     expected struct kref *kref
+   kernel/power/energy_model.c:190:19: sparse:     got struct kref [noderef] __rcu *
+   kernel/power/energy_model.c:208:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got void * @@
+   kernel/power/energy_model.c:208:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
+   kernel/power/energy_model.c:208:15: sparse:     got void *
+   kernel/power/energy_model.c:212:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct kref *kref @@     got struct kref [noderef] __rcu * @@
+   kernel/power/energy_model.c:212:20: sparse:     expected struct kref *kref
+   kernel/power/energy_model.c:212:20: sparse:     got struct kref [noderef] __rcu *
+   kernel/power/energy_model.c:328:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct kref *kref @@     got struct kref [noderef] __rcu * @@
+   kernel/power/energy_model.c:328:19: sparse:     expected struct kref *kref
+   kernel/power/energy_model.c:328:19: sparse:     got struct kref [noderef] __rcu *
+   kernel/power/energy_model.c:333:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct em_perf_state *table @@     got struct em_perf_state [noderef] __rcu * @@
+   kernel/power/energy_model.c:333:45: sparse:     expected struct em_perf_state *table
+   kernel/power/energy_model.c:333:45: sparse:     got struct em_perf_state [noderef] __rcu *
+   kernel/power/energy_model.c:433:45: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct em_perf_state *table @@     got struct em_perf_state [noderef] __rcu * @@
+   kernel/power/energy_model.c:433:45: sparse:     expected struct em_perf_state *table
+   kernel/power/energy_model.c:433:45: sparse:     got struct em_perf_state [noderef] __rcu *
+   kernel/power/energy_model.c:450:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct em_perf_table [noderef] __rcu *[assigned] em_table @@
+   kernel/power/energy_model.c:450:15: sparse:     expected void const *objp
+   kernel/power/energy_model.c:450:15: sparse:     got struct em_perf_table [noderef] __rcu *[assigned] em_table
+   kernel/power/energy_model.c:621:55: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct em_perf_state *table @@     got struct em_perf_state [noderef] __rcu * @@
+   kernel/power/energy_model.c:621:55: sparse:     expected struct em_perf_state *table
+   kernel/power/energy_model.c:621:55: sparse:     got struct em_perf_state [noderef] __rcu *
+   kernel/power/energy_model.c:676:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_state *new_ps @@     got struct em_perf_state [noderef] __rcu * @@
+   kernel/power/energy_model.c:676:16: sparse:     expected struct em_perf_state *new_ps
+   kernel/power/energy_model.c:676:16: sparse:     got struct em_perf_state [noderef] __rcu *
+   kernel/power/energy_model.c:694:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct em_perf_state *table @@     got struct em_perf_state [noderef] __rcu * @@
+   kernel/power/energy_model.c:694:37: sparse:     expected struct em_perf_state *table
+   kernel/power/energy_model.c:694:37: sparse:     got struct em_perf_state [noderef] __rcu *
+   kernel/power/energy_model.c:729:38: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct em_perf_state *table @@     got struct em_perf_state [noderef] __rcu * @@
+   kernel/power/energy_model.c:729:38: sparse:     expected struct em_perf_state *table
+   kernel/power/energy_model.c:729:38: sparse:     got struct em_perf_state [noderef] __rcu *
+>> kernel/power/energy_model.c:836:53: sparse: sparse: dereference of noderef expression
+   kernel/power/energy_model.c:845:32: sparse: sparse: dereference of noderef expression
 
-   In file included from drivers/media/i2c/st-vgxy61.c:11:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/media/i2c/st-vgxy61.c:11:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/media/i2c/st-vgxy61.c:11:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/media/i2c/st-vgxy61.c:11:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:20:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/media/i2c/st-vgxy61.c:709:16: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_8'
-     709 |                 code->code = MEDIA_BUS_FMT_META_8;
-         |                              ^
-   drivers/media/i2c/st-vgxy61.c:1251:19: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_8'
-    1251 |         meta_fmt->code = MEDIA_BUS_FMT_META_8;
-         |                          ^
-   drivers/media/i2c/st-vgxy61.c:1309:29: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_8'
-    1309 |         desc->entry[1].pixelcode = MEDIA_BUS_FMT_META_8;
-         |                                    ^
->> drivers/media/i2c/st-vgxy61.c:1326:6: error: use of undeclared identifier 'V4L2_SUBDEV_ROUTE_FL_IMMUTABLE'
-    1326 |                                  V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
-         |                                  ^
->> drivers/media/i2c/st-vgxy61.c:1336:17: error: invalid application of 'sizeof' to an incomplete type 'struct v4l2_subdev_route[]'
-    1336 |                 .num_routes = ARRAY_SIZE(routes),
-         |                               ^~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
->> drivers/media/i2c/st-vgxy61.c:1891:23: error: use of undeclared identifier 'MEDIA_PAD_FL_INTERNAL'
-    1891 |                 MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
-         |                                     ^
-   drivers/media/i2c/st-vgxy61.c:1893:23: error: use of undeclared identifier 'MEDIA_PAD_FL_INTERNAL'
-    1893 |                 MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
-         |                                     ^
-   7 warnings and 7 errors generated.
+vim +836 kernel/power/energy_model.c
 
-
-vim +/MEDIA_BUS_FMT_META_8 +709 drivers/media/i2c/st-vgxy61.c
-
-   698	
-   699	static int vgxy61_enum_mbus_code(struct v4l2_subdev *sd,
-   700					 struct v4l2_subdev_state *sd_state,
-   701					 struct v4l2_subdev_mbus_code_enum *code)
-   702	{
-   703		if (code->pad == VGXY61_PAD_META ||
-   704		    (code->pad == VGXY61_PAD_SOURCE &&
-   705		     code->stream == VGXY61_STREAM_META)) {
-   706			if (code->index > 0)
-   707				return -EINVAL;
-   708	
- > 709			code->code = MEDIA_BUS_FMT_META_8;
-   710			return 0;
-   711		}
-   712	
-   713		if (code->index >= ARRAY_SIZE(vgxy61_supported_codes))
-   714			return -EINVAL;
-   715	
-   716		code->code = vgxy61_supported_codes[code->index].code;
-   717	
-   718		return 0;
-   719	}
-   720	
+   800	
+   801	/**
+   802	 * em_dev_update_chip_binning() - Update Energy Model with new values after
+   803	 *			the new voltage information is present in the OPPs.
+   804	 * @dev		: Device for which the Energy Model has to be updated.
+   805	 *
+   806	 * This function allows to update easily the EM with new values available in
+   807	 * the OPP framework and DT. It can be used after the chip has been properly
+   808	 * verified by device drivers and the voltages adjusted for the 'chip binning'.
+   809	 * It uses the "dynamic-power-coefficient" DT property to calculate the power
+   810	 * values for EM. For power calculation it uses the new adjusted voltage
+   811	 * values known for OPPs, which might be changed after boot.
+   812	 */
+   813	int em_dev_update_chip_binning(struct device *dev)
+   814	{
+   815		struct em_perf_table __rcu *em_table;
+   816		struct em_perf_domain *pd;
+   817		int i, ret;
+   818	
+   819		if (IS_ERR_OR_NULL(dev))
+   820			return -EINVAL;
+   821	
+   822		pd = em_pd_get(dev);
+   823		if (!pd) {
+   824			dev_warn(dev, "Couldn't find Energy Model %d\n", ret);
+   825			return -EINVAL;
+   826		}
+   827	
+   828		em_table = em_table_dup(pd);
+   829		if (!em_table) {
+   830			dev_warn(dev, "EM: allocation failed\n");
+   831			return -ENOMEM;
+   832		}
+   833	
+   834		/* Update power values which might change due to new voltage in OPPs */
+   835		for (i = 0; i < pd->nr_perf_states; i++) {
+ > 836			unsigned long freq = em_table->state[i].frequency;
 
 -- 
 0-DAY CI Kernel Test Service
