@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB021AAB1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 10:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B22B1B974;
+	Fri, 15 Mar 2024 11:13:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710499271; cv=none; b=iM1iFHVJrMnNEtsWz0bzHUVM6suvKEcxjAWHxqG+oW2TpZaHm1oKXHWxiniZStrdHk6lszOXdXc7Epw+F2y13DbAWUNGZTEJDI5r7L/stgzIlY2ERBgDAN+6XuXzMUkUULgrZjbZ1Xi7hMU7ima0IfRRxh61Py4CiVzABgGqq1g=
+	t=1710501192; cv=none; b=c0IT1JzMh5ZG2leXZOzDRU0nV+m8oR1vcuiX7gqFZxtTdg4ivIllqgATTUMyJTPhdMAIn+hU4W83l8jojkeYaniwXF6fuA3QluwYHstw921Fm3dbEBYw53KqxadJVYAPkph2RRT8HgEO3RKyiVA1U0YbRWZF+hiTrLm+a5Tc3ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710499271; c=relaxed/simple;
-	bh=5S0lql9cRqkpQWlBetge2Fehmpj2WFxQqaHL/VpO4RI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V+yb64dhZhqwEAMpHiojWV6X3LKPa52/9yT8khVKqPK9SK3zrZ/ws4NonwDnGoQdDmxb1PQ8mrhU8oRCkoIYLv6+L2ig5fTfHopUyCRJ7I9CqoAH2FLSUqQhmdEimjXmt0bCUFLsJEWU5JXiMO5rc+Q9sAsIIH3GjdfSSE95nIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=coYy/Ytx; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1710501192; c=relaxed/simple;
+	bh=g2fugJ9guH0dH0Kc//VxGG2YU3frt9CNJm8W5NG/wzA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DTv47abv8pVx+OEi/Z6SIfWck46Eib2iCRA99OnFWlfcs3X20wWiCkBEr8FX7mU7wpYJejm3GP4KnlMtDrgiEK9cAcn4qpZpk1fLiG46ljat39ABSSZRGeX0pRiVVcl3fmUwIwYDVvc6IQkXsy9yX2ocquj+mvOqnFEL6ij9y4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ebxw12Tx; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="coYy/Ytx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ebxw12Tx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710499269; x=1742035269;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5S0lql9cRqkpQWlBetge2Fehmpj2WFxQqaHL/VpO4RI=;
-  b=coYy/Ytx13sGgqA4LY6kXJB1CGBEzZZjp47Cd8cnDq9dQjoWqqu6BEui
-   Iu7dra9+yWjfrATMEIFIqyLlsv7YZhQjaNJuvP6VU8VoNSHOKY90xQq2A
-   IGh1t95h9faMS05TW8yhyehKtrXgLQ9SQnMq5oYIJ4yuF1otvqEhgS1VD
-   6JLlb92H5GG5v/xcRMdsYxyEGCiq/kYuS/B+3Hjh838tnJydGVBQFjucY
-   p+p1zfVUK8GPmwAZKyF33sjX8y7jLyHBVD9XHw4ZnzJ8FkTmg4Aqbk0h4
-   IhNvfCIxIGTr3wEcxDqPnOAFt2Mv8y3oExz1H4PuEJCcuBqFRmriLQOD5
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="16084810"
+  t=1710501190; x=1742037190;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=g2fugJ9guH0dH0Kc//VxGG2YU3frt9CNJm8W5NG/wzA=;
+  b=Ebxw12TxUUsRjgCjKh8lu8j3P8Fu0wS4HEFHr+i3DFZAs3rJpWha1VrH
+   WWyav8q5eansrvYjhK9qtZhVahsAC+k1S6MF4GcffVm+hT7NXs53ghzpW
+   gz7e/ztbXu6eMOVoExkOaJvmRK+QazfVfRoAmVL9iFlYQZRpLnm/vrAyl
+   ivyCKFrUmQefCK1CErDSdZ6Coth1JmHoMMEH8xENDF0mhmm3xgwl/SkWn
+   wW7sp2RyvsU0awWZfO1JMM0JcWB51MrGuAkQfEJcuPmztghtk9PQCCuUE
+   X9TMJhx2yPsrfrgs2TMQBHgKo5wWmjYniduB3o+ZQh6fn0lKlLRORxvFV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="22826052"
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="16084810"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 03:41:08 -0700
+   d="scan'208";a="22826052"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 04:13:09 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="12548845"
+   d="scan'208";a="12677102"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Mar 2024 03:41:05 -0700
+  by orviesa009.jf.intel.com with ESMTP; 15 Mar 2024 04:13:06 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rl4zm-000ELV-39;
-	Fri, 15 Mar 2024 10:41:02 +0000
-Date: Fri, 15 Mar 2024 18:40:44 +0800
+	id 1rl5Ul-000EN9-2e;
+	Fri, 15 Mar 2024 11:13:03 +0000
+Date: Fri, 15 Mar 2024 19:12:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/next 26603/27507] kernel/sched/fair.c:4807:5:
- warning: no previous prototype for function 'runtime_refresh_within'
-Message-ID: <202403151848.sdHv7HPa-lkp@intel.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 04/11] pinctrl: aw9523: Make use of struct pinfunction
+ and PINCTRL_PINFUNCTION()
+Message-ID: <202403151827.SQgOL8WH-lkp@intel.com>
+References: <20240313235422.180075-5-andy.shevchenko@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,87 +62,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240313235422.180075-5-andy.shevchenko@gmail.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
-head:   fdd5d0bfc620bd5147ff5b260822c7645aeddad6
-commit: ce39c5b91ae9f91569ddd4f8812fdf687631d389 [26603/27507] rue/cpu: Implement bandwidth control of BT based on cfs_bandwidth
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240315/202403151848.sdHv7HPa-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403151848.sdHv7HPa-lkp@intel.com/reproduce)
+Hi Andy,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linusw-pinctrl/devel]
+[also build test ERROR on linusw-pinctrl/for-next linus/master next-20240314]
+[cannot apply to v6.8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/pinctrl-aw9523-Destroy-mutex-on-remove/20240314-075853
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20240313235422.180075-5-andy.shevchenko%40gmail.com
+patch subject: [PATCH v1 04/11] pinctrl: aw9523: Make use of struct pinfunction and PINCTRL_PINFUNCTION()
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240315/202403151827.SQgOL8WH-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 503c55e17037436dcd45ac69dea8967e67e3f5e8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403151827.SQgOL8WH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403151848.sdHv7HPa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403151827.SQgOL8WH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/fair.c:23:
-   kernel/sched/sched.h:1551:15: warning: cast from 'void (*)(struct rq *)' to 'void (*)(struct callback_head *)' converts to incompatible function type [-Wcast-function-type-strict]
-    1551 |         head->func = (void (*)(struct callback_head *))func;
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/fair.c:4807:5: warning: no previous prototype for function 'runtime_refresh_within' [-Wmissing-prototypes]
-    4807 | int runtime_refresh_within(struct cfs_bandwidth *cfs_b, u64 min_expire)
-         |     ^
-   kernel/sched/fair.c:4807:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4807 | int runtime_refresh_within(struct cfs_bandwidth *cfs_b, u64 min_expire)
-         | ^
-         | static 
->> kernel/sched/fair.c:4824:6: warning: no previous prototype for function 'start_cfs_slack_bandwidth' [-Wmissing-prototypes]
-    4824 | void start_cfs_slack_bandwidth(struct cfs_bandwidth *cfs_b)
-         |      ^
-   kernel/sched/fair.c:4824:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4824 | void start_cfs_slack_bandwidth(struct cfs_bandwidth *cfs_b)
-         | ^
-         | static 
-   3 warnings generated.
+   In file included from drivers/pinctrl/pinctrl-aw9523.c:11:
+   In file included from include/linux/gpio/driver.h:8:
+   In file included from include/linux/irqchip/chained_irq.h:10:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/pinctrl/pinctrl-aw9523.c:11:
+   In file included from include/linux/gpio/driver.h:8:
+   In file included from include/linux/irqchip/chained_irq.h:10:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/pinctrl/pinctrl-aw9523.c:11:
+   In file included from include/linux/gpio/driver.h:8:
+   In file included from include/linux/irqchip/chained_irq.h:10:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/pinctrl/pinctrl-aw9523.c:12:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:20:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/pinctrl/pinctrl-aw9523.c:170:29: error: no member named 'ngrpoups' in 'struct pinfunction'; did you mean 'ngroups'?
+     170 |         *ngroups = aw9523_pmx[sel].ngrpoups;
+         |                                    ^~~~~~~~
+         |                                    ngroups
+   include/linux/pinctrl/pinctrl.h:218:9: note: 'ngroups' declared here
+     218 |         size_t ngroups;
+         |                ^
+   7 warnings and 1 error generated.
 
 
-vim +/runtime_refresh_within +4807 kernel/sched/fair.c
+vim +170 drivers/pinctrl/pinctrl-aw9523.c
 
-  4799	
-  4800	/*
-  4801	 * Are we near the end of the current quota period?
-  4802	 *
-  4803	 * Requires cfs_b->lock for hrtimer_expires_remaining to be safe against the
-  4804	 * hrtimer base being cleared by hrtimer_start. In the case of
-  4805	 * migrate_hrtimers, base is never cleared, so we are fine.
-  4806	 */
-> 4807	int runtime_refresh_within(struct cfs_bandwidth *cfs_b, u64 min_expire)
-  4808	{
-  4809		struct hrtimer *refresh_timer = &cfs_b->period_timer;
-  4810		s64 remaining;
-  4811	
-  4812		/* if the call-back is running a quota refresh is already occurring */
-  4813		if (hrtimer_callback_running(refresh_timer))
-  4814			return 1;
-  4815	
-  4816		/* is a quota refresh about to occur? */
-  4817		remaining = ktime_to_ns(hrtimer_expires_remaining(refresh_timer));
-  4818		if (remaining < (s64)min_expire)
-  4819			return 1;
-  4820	
-  4821		return 0;
-  4822	}
-  4823	
-> 4824	void start_cfs_slack_bandwidth(struct cfs_bandwidth *cfs_b)
-  4825	{
-  4826		u64 min_left = cfs_bandwidth_slack_period + min_bandwidth_expiration;
-  4827	
-  4828		/* if there's a quota refresh soon don't bother with slack */
-  4829		if (runtime_refresh_within(cfs_b, min_left))
-  4830			return;
-  4831	
-  4832		/* don't push forwards an existing deferred unthrottle */
-  4833		if (cfs_b->slack_started)
-  4834			return;
-  4835		cfs_b->slack_started = true;
-  4836	
-  4837		hrtimer_start(&cfs_b->slack_timer,
-  4838				ns_to_ktime(cfs_bandwidth_slack_period),
-  4839				HRTIMER_MODE_REL);
-  4840	}
-  4841	
+   164	
+   165	static int aw9523_pmx_get_groups(struct pinctrl_dev *pctl, unsigned int sel,
+   166					 const char * const **groups,
+   167					 unsigned int * const ngroups)
+   168	{
+   169		*groups = aw9523_pmx[sel].groups;
+ > 170		*ngroups = aw9523_pmx[sel].ngrpoups;
+   171		return 0;
+   172	}
+   173	
 
 -- 
 0-DAY CI Kernel Test Service
