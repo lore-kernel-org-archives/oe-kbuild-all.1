@@ -1,64 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB27524B26
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 13:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80051381A0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 14:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710507809; cv=none; b=twteFAkZ5EleqCzdiI02XCjm5Uyyz6lc/F+Lf0LTV+AufjNdyAdWzIvsTGJrqHzg/Mu0MpePCcWzTiGsZrqhJswTPd1KBczyE04w4UphEroWAqmIY7FTA9RitZFVum+BvnXaZF/tKBujID5NxXKHQ8CXGHYl8ffcwvY1kWyXqKk=
+	t=1710511337; cv=none; b=Xr5XhGTQbB7yDpav82iKYYYqciCEtj5fWAe3Ozo06bBWhSSl4DNzTU1H6+wpfVagJGzzXA9gOaB1B6rnNee92MdKwN6f/sAGC6DQYoiyMJ4Omx0aYj3PO5rMbYY5PbTwCurcKkLdozc5Xb5RH1dtQQoe0PxJOTT5nP/fBsN/CU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710507809; c=relaxed/simple;
-	bh=ara5mPb1l4pRKoFUqGzmnoTbO47MBQwiFpYzhwnLMXo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OnBTkZenaidNGPYVwpkqHPchg+SM8WmghKJIg2FBcQlMYE2iba+cvOamuohlTWHPoUMCLKIyB4OSgHahJC2LfinOK3jB4zfaLGDM933wn3PPBA8YujngI4gpVBNkfXepR+5O4aQkmiO/g97GwC4g7RWS7NFAyGHGVNuzyjtqbcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ln6Jalgt; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1710511337; c=relaxed/simple;
+	bh=RC6OE++0YlUFw7X3o+6H44I5PozJc3TGpe59CRn0NgQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SbnpMJPptIrXUciNN+cl1x3ENugqzmh9J9P3fnjq248ztBdg5FfCf69cDjUT/9XSsWY/asjs5Puoe27pWD1f2ZiMjY+Hs4rys8Yt6zXOemUBC26KKzndBxt7qLOFsXLm5hQ4ruRT2rjjfZXqu3vhyvenxUr3rupj23Sju4jFoMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OZzg31oT; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ln6Jalgt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OZzg31oT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710507808; x=1742043808;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ara5mPb1l4pRKoFUqGzmnoTbO47MBQwiFpYzhwnLMXo=;
-  b=ln6JalgtfER2ylkwmBL5ToYlCuAjwOYpNPnDkJB5trdVCeTeKxCvFOWV
-   7QP6Jr7OZTlYnz2lCi1cCgefSs8fUJF/skHqhTMzYOC0PQKLZwy7q4K4p
-   3nStmLTTAjm8l8XpL9uVcAkr9eqVGsVVxdiDe1Q9bjzug9tKvJQe7sSd4
-   MWTiiilvZy52pqngwAN7gyNFsdHWEJC5oeNniBqcEjQ1Nu4FJha3lAQTu
-   YqvFWSvXncTuAXNiWFhCKlI5YKxuNz/vhjWwINozWf1LHqNvvKCjKxPw6
-   q5PvOyCucN+lb4bPcxYK2XNcD6cs4Th1HX+Qorne/SH8UEi0B4Rplxvyb
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="5240216"
+  t=1710511335; x=1742047335;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RC6OE++0YlUFw7X3o+6H44I5PozJc3TGpe59CRn0NgQ=;
+  b=OZzg31oTm7/3aXj4vCYfhknqm8Dkc33t9yaOcgVEEpPBRIw3WfwxTdx4
+   MOwWphnMNCkSjZd3sY5ogYoh7/YCwYk6xcGjTksp45lme9UOlmNxxdKwh
+   aCcc7oR0+VKKe3df3KUkainpRT2st9825Ih89Cai4xDcRI/l/ZUuAibpl
+   /bN99OSBRUSQ9UlUTqghQUj2x2knQ66MbbLAHOAzvo/bz2EUeMv8eKfHj
+   INiziwv5YXvSrsFdUFn26ZKGe7qwL3XgBtSOYzLw2Z8qGyTJYhevmRBOZ
+   zwrVzA8iS4fFjeL/lBW64zWh4oazA59lcRKrEhFILxmIIC9ZI2GWm6az5
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="5513887"
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="5240216"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 06:00:14 -0700
+   d="scan'208";a="5513887"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 07:02:14 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="35791084"
+   d="scan'208";a="12719407"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Mar 2024 06:00:08 -0700
+  by orviesa009.jf.intel.com with ESMTP; 15 Mar 2024 07:02:12 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rl7AM-000ERh-0w;
-	Fri, 15 Mar 2024 13:00:06 +0000
-Date: Fri, 15 Mar 2024 20:59:16 +0800
+	id 1rl88P-000EU5-1B;
+	Fri, 15 Mar 2024 14:02:09 +0000
+Date: Fri, 15 Mar 2024 22:01:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vignesh Balasubramanian <vigbalas@amd.com>,
-	linux-kernel@vger.kernel.org, linux-toolchains@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mpe@ellerman.id.au, npiggin@gmail.com,
-	christophe.leroy@csgroup.eu, aneesh.kumar@kernel.org,
-	naveen.n.rao@linux.ibm.com, ebiederm@xmission.com,
-	keescook@chromium.org, x86@kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-mm@kvack.org, bpetkov@amd.com,
-	jinisusan.george@amd.com, matz@suse.de, binutils@sourceware.org,
-	jhb@freebsd.org, felix.willgerodt@intel.com,
-	Vignesh Balasubramanian <vigbalas@amd.com>
-Subject: Re: [PATCH 1/1] x86/elf: Add a new .note section containing
- Xfeatures information to x86 core files
-Message-ID: <202403152037.J6Fn7uiP-lkp@intel.com>
-References: <20240314112359.50713-2-vigbalas@amd.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/next 26594/27507]
+ kernel/sched/batch.c:727:12: warning: 'balance_bt' defined but not used
+Message-ID: <202403152150.6rB4wpi2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,127 +60,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240314112359.50713-2-vigbalas@amd.com>
 
-Hi Vignesh,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.8 next-20240315]
-[cannot apply to kees/for-next/execve tip/x86/core powerpc/next powerpc/fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vignesh-Balasubramanian/x86-elf-Add-a-new-note-section-containing-Xfeatures-information-to-x86-core-files/20240314-192650
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240314112359.50713-2-vigbalas%40amd.com
-patch subject: [PATCH 1/1] x86/elf: Add a new .note section containing Xfeatures information to x86 core files
-config: x86_64-randconfig-122-20240315 (https://download.01.org/0day-ci/archive/20240315/202403152037.J6Fn7uiP-lkp@intel.com/config)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
+head:   fdd5d0bfc620bd5147ff5b260822c7645aeddad6
+commit: 973e86cbd623239474c590d6884d3b0b5c300d82 [26594/27507] rue/cpu: Add basic framework of offline scheduler class
+config: x86_64-randconfig-r053-20240315 (https://download.01.org/0day-ci/archive/20240315/202403152150.6rB4wpi2-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403152037.J6Fn7uiP-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403152150.6rB4wpi2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403152037.J6Fn7uiP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403152150.6rB4wpi2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/kernel/fpu/xstate.c: In function 'dump_xsave_layout_desc':
->> arch/x86/kernel/fpu/xstate.c:1858:22: error: implicit declaration of function 'dump_emit'; did you mean 'dir_emit'? [-Werror=implicit-function-declaration]
-    1858 |                 if (!dump_emit(cprm, &xc, sizeof(struct xfeat_component)))
-         |                      ^~~~~~~~~
-         |                      dir_emit
-   arch/x86/kernel/fpu/xstate.c: In function 'elf_coredump_extra_notes_write':
->> arch/x86/kernel/fpu/xstate.c:1903:14: error: implicit declaration of function 'dump_align'; did you mean 'dump_mapping'? [-Werror=implicit-function-declaration]
-    1903 |         if (!dump_align(cprm, 4))
-         |              ^~~~~~~~~~
-         |              dump_mapping
-   cc1: some warnings being treated as errors
+   kernel/sched/batch.c:139:25: warning: no previous prototype for '__pick_first_bt_entity' [-Wmissing-prototypes]
+     139 | struct sched_bt_entity *__pick_first_bt_entity(struct bt_rq *bt_rq)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/batch.c:727:12: warning: 'balance_bt' defined but not used [-Wunused-function]
+     727 | static int balance_bt(struct rq *rq, struct task_struct *prev,
+         |            ^~~~~~~~~~
 
 
-vim +1858 arch/x86/kernel/fpu/xstate.c
+vim +/balance_bt +727 kernel/sched/batch.c
 
-  1846	
-  1847		struct xfeat_component xc;
-  1848		int num_records = 0;
-  1849		int i;
-  1850	
-  1851		/* XFEATURE_FPU and XFEATURE_SSE, both are fixed legacy states. */
-  1852		for (i = 0; i < FIRST_EXTENDED_XFEATURE; i++) {
-  1853			xc.xfeat_type = i;
-  1854			xc.xfeat_sz = xstate_sizes[i];
-  1855			xc.xfeat_off = xstate_offsets[i];
-  1856			xc.xfeat_flags = xstate_flags[i];
-  1857	
-> 1858			if (!dump_emit(cprm, &xc, sizeof(struct xfeat_component)))
-  1859				return 0;
-  1860			num_records++;
-  1861		}
-  1862	
-  1863		for_each_extended_xfeature(i, fpu_user_cfg.max_features) {
-  1864			xc.xfeat_type = i;
-  1865			xc.xfeat_sz = xstate_sizes[i];
-  1866			xc.xfeat_off = xstate_offsets[i];
-  1867			xc.xfeat_flags = xstate_flags[i];
-  1868	
-  1869			if (!dump_emit(cprm, &xc, sizeof(struct xfeat_component)))
-  1870				return 0;
-  1871			num_records++;
-  1872		}
-  1873	
-  1874		return num_records;
-  1875	}
-  1876	
-  1877	static int get_xsave_desc_size(void)
-  1878	{
-  1879		/* XFEATURE_FP and XFEATURE_SSE, both are fixed legacy states */
-  1880		int xfeatures_count = 2;
-  1881		int i;
-  1882	
-  1883		for_each_extended_xfeature(i, fpu_user_cfg.max_features)
-  1884			xfeatures_count++;
-  1885	
-  1886		return xfeatures_count * (sizeof(struct xfeat_component));
-  1887	}
-  1888	
-  1889	int elf_coredump_extra_notes_write(struct coredump_params *cprm)
-  1890	{
-  1891		const char *owner_name = "LINUX";
-  1892		int num_records = 0;
-  1893		struct elf_note en;
-  1894	
-  1895		en.n_namesz = strlen(owner_name) + 1;
-  1896		en.n_descsz = get_xsave_desc_size();
-  1897		en.n_type = NT_X86_XSAVE_LAYOUT;
-  1898	
-  1899		if (!dump_emit(cprm, &en, sizeof(en)))
-  1900			return 1;
-  1901		if (!dump_emit(cprm, owner_name, en.n_namesz))
-  1902			return 1;
-> 1903		if (!dump_align(cprm, 4))
-  1904			return 1;
-  1905	
-  1906		num_records = dump_xsave_layout_desc(cprm);
-  1907		if (!num_records) {
-  1908			pr_warn("Error adding XSTATE layout ELF note. XSTATE buffer in the core file will be unparseable.");
-  1909			return 1;
-  1910		}
-  1911	
-  1912		/* Total size should be equal to the number of records */
-  1913		if ((sizeof(struct xfeat_component) * num_records) != en.n_descsz) {
-  1914			pr_warn("Error adding XSTATE layout ELF note. The size of the .note section does not match with the total size of the records.");
-  1915			return 1;
-  1916		}
-  1917	
-  1918		if (!dump_align(cprm, 4))
-  1919			return 1;
-  1920	
-  1921		return 0;
-  1922	}
-  1923	
+   726	
+ > 727	static int balance_bt(struct rq *rq, struct task_struct *prev,
+   728			      struct rq_flags *rf)
+   729	{
+   730		return 1;
+   731	}
+   732	
 
 -- 
 0-DAY CI Kernel Test Service
