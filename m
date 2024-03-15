@@ -1,55 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4021B80C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 11:45:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836EA1B948
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 11:45:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710503110; cv=none; b=fL2ioEv+r4K2hL6eojl+XoOMBBO8fQce+O0c+AtCJaNOaVNnhx80tFIduLjwePL1d7dol3PG5tvXkO8Y5VPU8/5IVqqqyD4q7FGE9Qz0uX5K9Pmh484l4W8TYpYDPVyT6o3LlZ4MTccVIq12PgTJHbrnBt5weNSqvUOXh4vrxHI=
+	t=1710503112; cv=none; b=RtatzEpO2IjovvMtNin/8LtjlzCFchM45XZ5NIZzme83Bqg/fS/7TSE5elOATkrXp9ZtfC6XWnyc37SJn/Ol4X8Z9IMAx+GO+5Bz9I0R27uMtv41vIhU5Z+1zmHfhw2w7HWc6gn1LbfIhPxDJU0pTlV7hZxlciqS2CRznmF5e9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710503110; c=relaxed/simple;
-	bh=9xb7TF+ST6DkZsUGguQTpaqLK30buDGObGRiojxTRSE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L79UUSaCL0BZUUEKPZR7IArWIGAVx7Ikiym579cseLqGAbqAnPC1s0/Vc4wiayrwIbLquCBSf9glAMlXJpWg6mREMpkXBOQULKs+VToFJRjAkS5du/c612JjCVRFfsxgQl5qxfEBDpO24HmyoF5W4I2JWVywPHtsyiubzSusXZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YMteY3/t; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1710503112; c=relaxed/simple;
+	bh=W1h7C8nWgl0Bm3F343Qhm5mCdOm85E4ZK+85Zfb/11w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tuweXI5Kw4MfpFaAHDlzC4Ft+eRLRhArQBXgxq7hv5J3nb8U4tNq9emTA/nrkbS02uW7niPuAneDZ1hd6MR0+xbAHAx1dYQFbRLWEoQLxxhcyxFZJule8QT0P2ZMzdOLY1NySspng1jbZQPYGmStfOl5Ggjp+x+CJPIqSw41Gl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5bEiyQ0; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YMteY3/t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5bEiyQ0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710503108; x=1742039108;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9xb7TF+ST6DkZsUGguQTpaqLK30buDGObGRiojxTRSE=;
-  b=YMteY3/tJOBxgw7+pCR9Sfqr13gkThvOlFWJZHOaWkDXiLpdYrg9HiKY
-   MAOBzghBiaFJ1ho0t5t0xMoplCagjdOWcdUIEDo0O6/F5quibGtrvy75W
-   09AjTdJ1WGjzQrSxwJqv8ttnaSot/4VID1/ziWJ2PiVgLtuvsK1tJKlAE
-   6xC7+Z3WalqwJtKf9aLcue+QqT3a5JaX1KQjloMp3+wRJphPA7WNFOUrL
-   jJKdtYSUTlXSC0nMaznfS6rVwVWq0hJNXWJD3zFS0t+lTH1uGtgKUVXJ0
-   gHebg8Os5V41O1XdQ1njgbjOmqZLVcWcFivjw5g5WlXbWcKs2OnpXbEVJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="22886808"
+  t=1710503110; x=1742039110;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=W1h7C8nWgl0Bm3F343Qhm5mCdOm85E4ZK+85Zfb/11w=;
+  b=C5bEiyQ0KDk/OYnkM/A9Ug0CFB2oS5kIgqgVuFJp7e/BADnKzAzPyLT7
+   CL2jKZmpnkdfKdC4+0p3V+OmAkMiqGtWFYJydZDW4el+KJpeapx7hbzex
+   RAF90mv0GreHbe7x2tvmvcnRb2kk1BpwK7Jlg0PPWMwEuctZ5V3BaOXHb
+   xiSb8vAGOZTLR++SyYwnhubzVGPMDoc+g0lrX/dVwAHBk+cajPpGapRcI
+   34kszF3ZUpTnaIGcUlkBBHAiBCu1vxIWL2NxEg3trOMAOmkrzFtLs7eKA
+   xxGqGOk9PRGsOn4nAqtqD/0K1baWOLUHbPZCc+CNeP4AcGX+tjCZbQVVj
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="22886811"
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="22886808"
+   d="scan'208";a="22886811"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 04:45:08 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="17260324"
+   d="scan'208";a="17260325"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 15 Mar 2024 04:45:07 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rl5zk-000EOb-1z;
+	id 1rl5zk-000EOd-23;
 	Fri, 15 Mar 2024 11:45:04 +0000
-Date: Fri, 15 Mar 2024 19:44:53 +0800
+Date: Fri, 15 Mar 2024 19:44:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.1 52/57]
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:606:5: warning: no previous
- prototype for function 'kvm_arm_smmu_suspend'
-Message-ID: <202403151944.B4TKaW4g-lkp@intel.com>
+Subject: Re: [PATCH 6/7] btrfs: scrub: unify and shorten the error message
+Message-ID: <202403151954.2aDLBPQm-lkp@intel.com>
+References: <6ba44b940e4e3eea573cad667ab8c0b2dd8f2c06.1710409033.git.wqu@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,98 +58,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <6ba44b940e4e3eea573cad667ab8c0b2dd8f2c06.1710409033.git.wqu@suse.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.1
-head:   31de4c08caf04886df7ee001c8b8af82824daab6
-commit: f6b7f1d8d57db14d0bdca42b6065ca957b6bba48 [52/57] ANDROID: iommu/arm-smmu-v3-kvm: Use HOST_HVC PD if possible
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240315/202403151944.B4TKaW4g-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403151944.B4TKaW4g-lkp@intel.com/reproduce)
+Hi Qu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on linus/master v6.8 next-20240315]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-scrub-fix-incorrectly-reported-logical-physical-address/20240314-215457
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/6ba44b940e4e3eea573cad667ab8c0b2dd8f2c06.1710409033.git.wqu%40suse.com
+patch subject: [PATCH 6/7] btrfs: scrub: unify and shorten the error message
+config: hexagon-randconfig-r111-20240315 (https://download.01.org/0day-ci/archive/20240315/202403151954.2aDLBPQm-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
+reproduce: (https://download.01.org/0day-ci/archive/20240315/202403151954.2aDLBPQm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403151944.B4TKaW4g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403151954.2aDLBPQm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/btrfs/scrub.c:430:17: sparse: sparse: non size-preserving integer to pointer cast
 
-   In file included from drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:7:
-   In file included from arch/arm64/include/asm/kvm_pkvm.h:11:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:1959:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:197:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     197 |         int ret;
-         |             ^
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:606:5: warning: no previous prototype for function 'kvm_arm_smmu_suspend' [-Wmissing-prototypes]
-     606 | int kvm_arm_smmu_suspend(struct device *dev)
-         |     ^
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:606:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     606 | int kvm_arm_smmu_suspend(struct device *dev)
-         | ^
-         | static 
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:616:5: warning: no previous prototype for function 'kvm_arm_smmu_resume' [-Wmissing-prototypes]
-     616 | int kvm_arm_smmu_resume(struct device *dev)
-         |     ^
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:616:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     616 | int kvm_arm_smmu_resume(struct device *dev)
-         | ^
-         | static 
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:722:15: warning: no previous prototype for function 'kvm_arm_smmu_v3_id' [-Wmissing-prototypes]
-     722 | pkvm_handle_t kvm_arm_smmu_v3_id(struct device *dev)
-         |               ^
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:722:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     722 | pkvm_handle_t kvm_arm_smmu_v3_id(struct device *dev)
-         | ^
-         | static 
-   9 warnings generated.
+vim +430 fs/btrfs/scrub.c
 
-
-vim +/kvm_arm_smmu_suspend +606 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c
-
-   605	
- > 606	int kvm_arm_smmu_suspend(struct device *dev)
-   607	{
-   608		struct arm_smmu_device *smmu = dev_get_drvdata(dev);
-   609		struct host_arm_smmu_device *host_smmu = smmu_to_host(smmu);
-   610	
-   611		if (host_smmu->hvc_pd)
-   612			return pkvm_iommu_suspend(dev);
-   613		return 0;
-   614	}
-   615	
- > 616	int kvm_arm_smmu_resume(struct device *dev)
-   617	{
-   618		struct arm_smmu_device *smmu = dev_get_drvdata(dev);
-   619		struct host_arm_smmu_device *host_smmu = smmu_to_host(smmu);
-   620	
-   621		if (host_smmu->hvc_pd)
-   622			return pkvm_iommu_resume(dev);
-   623		return 0;
-   624	}
-   625	
+a2de733c78fa7a Arne Jansen    2011-03-08  388  
+c7499a64dcf62b Filipe Manana  2022-11-01  389  static int scrub_print_warning_inode(u64 inum, u64 offset, u64 num_bytes,
+c7499a64dcf62b Filipe Manana  2022-11-01  390  				     u64 root, void *warn_ctx)
+558540c17771ea Jan Schmidt    2011-06-13  391  {
+558540c17771ea Jan Schmidt    2011-06-13  392  	int ret;
+558540c17771ea Jan Schmidt    2011-06-13  393  	int i;
+de2491fdefe7e5 David Sterba   2017-05-31  394  	unsigned nofs_flag;
+ff023aac31198e Stefan Behrens 2012-11-06  395  	struct scrub_warning *swarn = warn_ctx;
+fb456252d3d9c0 Jeff Mahoney   2016-06-22  396  	struct btrfs_fs_info *fs_info = swarn->dev->fs_info;
+558540c17771ea Jan Schmidt    2011-06-13  397  	struct inode_fs_paths *ipath = NULL;
+558540c17771ea Jan Schmidt    2011-06-13  398  	struct btrfs_root *local_root;
+558540c17771ea Jan Schmidt    2011-06-13  399  
+56e9357a1e8167 David Sterba   2020-05-15  400  	local_root = btrfs_get_fs_root(fs_info, root, true);
+558540c17771ea Jan Schmidt    2011-06-13  401  	if (IS_ERR(local_root)) {
+558540c17771ea Jan Schmidt    2011-06-13  402  		ret = PTR_ERR(local_root);
+558540c17771ea Jan Schmidt    2011-06-13  403  		goto err;
+558540c17771ea Jan Schmidt    2011-06-13  404  	}
+558540c17771ea Jan Schmidt    2011-06-13  405  
+de2491fdefe7e5 David Sterba   2017-05-31  406  	/*
+de2491fdefe7e5 David Sterba   2017-05-31  407  	 * init_path might indirectly call vmalloc, or use GFP_KERNEL. Scrub
+de2491fdefe7e5 David Sterba   2017-05-31  408  	 * uses GFP_NOFS in this context, so we keep it consistent but it does
+de2491fdefe7e5 David Sterba   2017-05-31  409  	 * not seem to be strictly necessary.
+de2491fdefe7e5 David Sterba   2017-05-31  410  	 */
+de2491fdefe7e5 David Sterba   2017-05-31  411  	nofs_flag = memalloc_nofs_save();
+558540c17771ea Jan Schmidt    2011-06-13  412  	ipath = init_ipath(4096, local_root, swarn->path);
+de2491fdefe7e5 David Sterba   2017-05-31  413  	memalloc_nofs_restore(nofs_flag);
+26bdef541d26fd Dan Carpenter  2011-11-16  414  	if (IS_ERR(ipath)) {
+0024652895e347 Josef Bacik    2020-01-24  415  		btrfs_put_root(local_root);
+26bdef541d26fd Dan Carpenter  2011-11-16  416  		ret = PTR_ERR(ipath);
+26bdef541d26fd Dan Carpenter  2011-11-16  417  		ipath = NULL;
+26bdef541d26fd Dan Carpenter  2011-11-16  418  		goto err;
+26bdef541d26fd Dan Carpenter  2011-11-16  419  	}
+558540c17771ea Jan Schmidt    2011-06-13  420  	ret = paths_from_inode(inum, ipath);
+558540c17771ea Jan Schmidt    2011-06-13  421  
+558540c17771ea Jan Schmidt    2011-06-13  422  	if (ret < 0)
+558540c17771ea Jan Schmidt    2011-06-13  423  		goto err;
+558540c17771ea Jan Schmidt    2011-06-13  424  
+558540c17771ea Jan Schmidt    2011-06-13  425  	/*
+558540c17771ea Jan Schmidt    2011-06-13  426  	 * we deliberately ignore the bit ipath might have been too small to
+558540c17771ea Jan Schmidt    2011-06-13  427  	 * hold all of the paths here
+558540c17771ea Jan Schmidt    2011-06-13  428  	 */
+558540c17771ea Jan Schmidt    2011-06-13  429  	for (i = 0; i < ipath->fspath->elem_cnt; ++i)
+5d163e0e68ce74 Jeff Mahoney   2016-09-20 @430  		btrfs_warn_in_rcu(fs_info,
+023af88ce10a69 Qu Wenruo      2024-03-14  431  "%s at inode %lld/%llu(%s) fileoff %llu, logical %llu(%u) physical %llu(%s)%llu",
+023af88ce10a69 Qu Wenruo      2024-03-14  432  				  swarn->errstr, root, inum,
+023af88ce10a69 Qu Wenruo      2024-03-14  433  				  (char *)ipath->fspath->val[i], offset,
+023af88ce10a69 Qu Wenruo      2024-03-14  434  				  swarn->logical, swarn->mirror_num,
+023af88ce10a69 Qu Wenruo      2024-03-14  435  				  swarn->dev->devid, btrfs_dev_name(swarn->dev),
+023af88ce10a69 Qu Wenruo      2024-03-14  436  				  swarn->physical);
+558540c17771ea Jan Schmidt    2011-06-13  437  
+0024652895e347 Josef Bacik    2020-01-24  438  	btrfs_put_root(local_root);
+558540c17771ea Jan Schmidt    2011-06-13  439  	free_ipath(ipath);
+558540c17771ea Jan Schmidt    2011-06-13  440  	return 0;
+558540c17771ea Jan Schmidt    2011-06-13  441  
+558540c17771ea Jan Schmidt    2011-06-13  442  err:
+5d163e0e68ce74 Jeff Mahoney   2016-09-20  443  	btrfs_warn_in_rcu(fs_info,
+023af88ce10a69 Qu Wenruo      2024-03-14  444  	"%s at inode %lld/%llu fileoff %llu, logical %llu(%u) physical %llu(%s)%llu",
+023af88ce10a69 Qu Wenruo      2024-03-14  445  			  swarn->errstr, root, inum, offset,
+023af88ce10a69 Qu Wenruo      2024-03-14  446  			  swarn->logical, swarn->mirror_num,
+023af88ce10a69 Qu Wenruo      2024-03-14  447  			  swarn->dev->devid, btrfs_dev_name(swarn->dev),
+023af88ce10a69 Qu Wenruo      2024-03-14  448  			  swarn->physical);
+558540c17771ea Jan Schmidt    2011-06-13  449  	free_ipath(ipath);
+558540c17771ea Jan Schmidt    2011-06-13  450  	return 0;
+558540c17771ea Jan Schmidt    2011-06-13  451  }
+558540c17771ea Jan Schmidt    2011-06-13  452  
 
 -- 
 0-DAY CI Kernel Test Service
