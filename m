@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836EA1B948
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 11:45:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B44635
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 11:57:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710503112; cv=none; b=RtatzEpO2IjovvMtNin/8LtjlzCFchM45XZ5NIZzme83Bqg/fS/7TSE5elOATkrXp9ZtfC6XWnyc37SJn/Ol4X8Z9IMAx+GO+5Bz9I0R27uMtv41vIhU5Z+1zmHfhw2w7HWc6gn1LbfIhPxDJU0pTlV7hZxlciqS2CRznmF5e9c=
+	t=1710503832; cv=none; b=G/sC4xBVgSNxKpjha/mQEOlboeOg0/63kXqyfzZ5JBCq3286443DhS9Ie+v+oy9iY62I3EpsY4oGcM8pr9LYCaGcP1Q9ZMd//btOASEMcO1Jx/7OHmf6JQXy+0/hWD3rKX1yP7GKAh9uu0MzIfK1/l7Qond3IPvjxB8ORmgyopg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710503112; c=relaxed/simple;
-	bh=W1h7C8nWgl0Bm3F343Qhm5mCdOm85E4ZK+85Zfb/11w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tuweXI5Kw4MfpFaAHDlzC4Ft+eRLRhArQBXgxq7hv5J3nb8U4tNq9emTA/nrkbS02uW7niPuAneDZ1hd6MR0+xbAHAx1dYQFbRLWEoQLxxhcyxFZJule8QT0P2ZMzdOLY1NySspng1jbZQPYGmStfOl5Ggjp+x+CJPIqSw41Gl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5bEiyQ0; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1710503832; c=relaxed/simple;
+	bh=fZ0P8PEbVHM789VeGb+vb1mqdPDRh1VdxyyNg+mrFQs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C/puB/QJ4yoFDPfXwYfO+DYrWeZmNo1f8uE45828ERnkY8ctAgR1MjvHr0fzbLSV8wAEtX3wl7XcR7sEeBqF1ETK79SESDZzlE9t/9KSjermLY+CT1ZAxmrXh6DPqZ10gaz3gAylQ4xKf1iRcBm9K1RIsDrswLBml4zUZzcTG7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nr5oRQFB; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5bEiyQ0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nr5oRQFB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710503110; x=1742039110;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W1h7C8nWgl0Bm3F343Qhm5mCdOm85E4ZK+85Zfb/11w=;
-  b=C5bEiyQ0KDk/OYnkM/A9Ug0CFB2oS5kIgqgVuFJp7e/BADnKzAzPyLT7
-   CL2jKZmpnkdfKdC4+0p3V+OmAkMiqGtWFYJydZDW4el+KJpeapx7hbzex
-   RAF90mv0GreHbe7x2tvmvcnRb2kk1BpwK7Jlg0PPWMwEuctZ5V3BaOXHb
-   xiSb8vAGOZTLR++SyYwnhubzVGPMDoc+g0lrX/dVwAHBk+cajPpGapRcI
-   34kszF3ZUpTnaIGcUlkBBHAiBCu1vxIWL2NxEg3trOMAOmkrzFtLs7eKA
-   xxGqGOk9PRGsOn4nAqtqD/0K1baWOLUHbPZCc+CNeP4AcGX+tjCZbQVVj
+  t=1710503830; x=1742039830;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fZ0P8PEbVHM789VeGb+vb1mqdPDRh1VdxyyNg+mrFQs=;
+  b=Nr5oRQFBWatO+zQ+8U1POCTpDZCeYnWYsyVzn7HCsP5RPfqJ5gPuXCQJ
+   jBJMhUb8a9h7IORxx4pvQQvIvwX01bEctOEV5R1IQjShhmbQ5w21J2Mq7
+   nC7UHJ95bqDi43FkQHtHGVIMyKZsueCy8Ebxo/ygav9wnwKTzz7/UdeWS
+   zhmkUfYgIp2pKIBKZtbHiWKcwq8khSwZcHk1QBEpJViq0REjx0pYshT3c
+   lHjCe7EZx7p9FiDJRjBx/22lBy8/5CiCCF89anwgfAUMTq52L00pMv75/
+   hcwk539cUoL+lz18K///+a/w26SmCFvxlsadpv5Z+R9Ea2ep4tVkvbxBk
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="22886811"
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="16014647"
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="22886811"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 04:45:08 -0700
+   d="scan'208";a="16014647"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 04:57:09 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="17260325"
+   d="scan'208";a="13275093"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Mar 2024 04:45:07 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 Mar 2024 04:57:08 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rl5zk-000EOd-23;
-	Fri, 15 Mar 2024 11:45:04 +0000
-Date: Fri, 15 Mar 2024 19:44:54 +0800
+	id 1rl6BM-000EOz-2s;
+	Fri, 15 Mar 2024 11:57:04 +0000
+Date: Fri, 15 Mar 2024 19:56:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org
+To: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 6/7] btrfs: scrub: unify and shorten the error message
-Message-ID: <202403151954.2aDLBPQm-lkp@intel.com>
-References: <6ba44b940e4e3eea573cad667ab8c0b2dd8f2c06.1710409033.git.wqu@suse.com>
+Subject: [trace:trace/for-next 37/37] include/trace/events/qdisc.h:91:35:
+ error: passing argument 1 of 'strcmp' from incompatible pointer type
+Message-ID: <202403151902.lhce1yVS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,101 +57,178 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6ba44b940e4e3eea573cad667ab8c0b2dd8f2c06.1710409033.git.wqu@suse.com>
 
-Hi Qu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on linus/master v6.8 next-20240315]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-scrub-fix-incorrectly-reported-logical-physical-address/20240314-215457
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/6ba44b940e4e3eea573cad667ab8c0b2dd8f2c06.1710409033.git.wqu%40suse.com
-patch subject: [PATCH 6/7] btrfs: scrub: unify and shorten the error message
-config: hexagon-randconfig-r111-20240315 (https://download.01.org/0day-ci/archive/20240315/202403151954.2aDLBPQm-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
-reproduce: (https://download.01.org/0day-ci/archive/20240315/202403151954.2aDLBPQm-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace trace/for-next
+head:   eb871b9424cba3ba1466bb4db2a064d606430541
+commit: eb871b9424cba3ba1466bb4db2a064d606430541 [37/37] tracing: Use strcmp() in __assign_str() WARN_ON() check
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20240315/202403151902.lhce1yVS-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403151902.lhce1yVS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403151954.2aDLBPQm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403151902.lhce1yVS-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/btrfs/scrub.c:430:17: sparse: sparse: non size-preserving integer to pointer cast
+All errors (new ones prefixed by >>):
 
-vim +430 fs/btrfs/scrub.c
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/events/qdisc.h:153,
+                    from net/core/net-traces.c:37:
+   include/trace/events/qdisc.h: In function 'trace_event_raw_event_qdisc_reset':
+>> include/trace/events/qdisc.h:91:35: error: passing argument 1 of 'strcmp' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      91 |                 __assign_str(dev, qdisc_dev(q));
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   include/trace/events/qdisc.h:77:1: note: in expansion of macro 'TRACE_EVENT'
+      77 | TRACE_EVENT(qdisc_reset,
+         | ^~~~~~~~~~~
+   include/trace/events/qdisc.h:90:9: note: in expansion of macro 'TP_fast_assign'
+      90 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
+   include/asm-generic/bug.h:148:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
+     148 |         DO_ONCE_LITE_IF(condition, WARN_ON, 1)
+         |         ^~~~~~~~~~~~~~~
+   include/trace/stages/stage6_event_callback.h:38:17: note: in expansion of macro 'WARN_ON_ONCE'
+      38 |                 WARN_ON_ONCE(__builtin_constant_p(src) ?                \
+         |                 ^~~~~~~~~~~~
+   include/trace/events/qdisc.h:91:17: note: in expansion of macro '__assign_str'
+      91 |                 __assign_str(dev, qdisc_dev(q));
+         |                 ^~~~~~~~~~~~
+   In file included from include/linux/string.h:61,
+                    from include/linux/bitmap.h:12,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/debugobjects.h:6,
+                    from include/linux/timer.h:8,
+                    from include/linux/netdevice.h:24,
+                    from net/core/net-traces.c:8:
+   arch/arc/include/asm/string.h:31:31: note: expected 'const char *' but argument is of type 'struct net_device *'
+      31 | extern int strcmp(const char *cs, const char *ct);
+         |                   ~~~~~~~~~~~~^~
+   include/trace/events/qdisc.h: In function 'trace_event_raw_event_qdisc_destroy':
+   include/trace/events/qdisc.h:116:35: error: passing argument 1 of 'strcmp' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     116 |                 __assign_str(dev, qdisc_dev(q));
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   include/trace/events/qdisc.h:102:1: note: in expansion of macro 'TRACE_EVENT'
+     102 | TRACE_EVENT(qdisc_destroy,
+         | ^~~~~~~~~~~
+   include/trace/events/qdisc.h:115:9: note: in expansion of macro 'TP_fast_assign'
+     115 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
+   include/asm-generic/bug.h:148:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
+     148 |         DO_ONCE_LITE_IF(condition, WARN_ON, 1)
+         |         ^~~~~~~~~~~~~~~
+   include/trace/stages/stage6_event_callback.h:38:17: note: in expansion of macro 'WARN_ON_ONCE'
+      38 |                 WARN_ON_ONCE(__builtin_constant_p(src) ?                \
+         |                 ^~~~~~~~~~~~
+   include/trace/events/qdisc.h:116:17: note: in expansion of macro '__assign_str'
+     116 |                 __assign_str(dev, qdisc_dev(q));
+         |                 ^~~~~~~~~~~~
+   arch/arc/include/asm/string.h:31:31: note: expected 'const char *' but argument is of type 'struct net_device *'
+      31 | extern int strcmp(const char *cs, const char *ct);
+         |                   ~~~~~~~~~~~~^~
+   In file included from include/trace/define_trace.h:103:
+   include/trace/events/qdisc.h: In function 'perf_trace_qdisc_reset':
+>> include/trace/events/qdisc.h:91:35: error: passing argument 1 of 'strcmp' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      91 |                 __assign_str(dev, qdisc_dev(q));
+   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+      51 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   include/trace/events/qdisc.h:77:1: note: in expansion of macro 'TRACE_EVENT'
+      77 | TRACE_EVENT(qdisc_reset,
+         | ^~~~~~~~~~~
+   include/trace/events/qdisc.h:90:9: note: in expansion of macro 'TP_fast_assign'
+      90 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
+   include/asm-generic/bug.h:148:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
+     148 |         DO_ONCE_LITE_IF(condition, WARN_ON, 1)
+         |         ^~~~~~~~~~~~~~~
+   include/trace/stages/stage6_event_callback.h:38:17: note: in expansion of macro 'WARN_ON_ONCE'
+      38 |                 WARN_ON_ONCE(__builtin_constant_p(src) ?                \
+         |                 ^~~~~~~~~~~~
+   include/trace/events/qdisc.h:91:17: note: in expansion of macro '__assign_str'
+      91 |                 __assign_str(dev, qdisc_dev(q));
+         |                 ^~~~~~~~~~~~
+   arch/arc/include/asm/string.h:31:31: note: expected 'const char *' but argument is of type 'struct net_device *'
+      31 | extern int strcmp(const char *cs, const char *ct);
+         |                   ~~~~~~~~~~~~^~
+   include/trace/events/qdisc.h: In function 'perf_trace_qdisc_destroy':
+   include/trace/events/qdisc.h:116:35: error: passing argument 1 of 'strcmp' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     116 |                 __assign_str(dev, qdisc_dev(q));
+   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+      51 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   include/trace/events/qdisc.h:102:1: note: in expansion of macro 'TRACE_EVENT'
+     102 | TRACE_EVENT(qdisc_destroy,
+         | ^~~~~~~~~~~
+   include/trace/events/qdisc.h:115:9: note: in expansion of macro 'TP_fast_assign'
+     115 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
+   include/asm-generic/bug.h:148:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
+     148 |         DO_ONCE_LITE_IF(condition, WARN_ON, 1)
+         |         ^~~~~~~~~~~~~~~
+   include/trace/stages/stage6_event_callback.h:38:17: note: in expansion of macro 'WARN_ON_ONCE'
+      38 |                 WARN_ON_ONCE(__builtin_constant_p(src) ?                \
+         |                 ^~~~~~~~~~~~
+   include/trace/events/qdisc.h:116:17: note: in expansion of macro '__assign_str'
+     116 |                 __assign_str(dev, qdisc_dev(q));
+         |                 ^~~~~~~~~~~~
+   arch/arc/include/asm/string.h:31:31: note: expected 'const char *' but argument is of type 'struct net_device *'
+      31 | extern int strcmp(const char *cs, const char *ct);
+         |                   ~~~~~~~~~~~~^~
+   cc1: some warnings being treated as errors
 
-a2de733c78fa7a Arne Jansen    2011-03-08  388  
-c7499a64dcf62b Filipe Manana  2022-11-01  389  static int scrub_print_warning_inode(u64 inum, u64 offset, u64 num_bytes,
-c7499a64dcf62b Filipe Manana  2022-11-01  390  				     u64 root, void *warn_ctx)
-558540c17771ea Jan Schmidt    2011-06-13  391  {
-558540c17771ea Jan Schmidt    2011-06-13  392  	int ret;
-558540c17771ea Jan Schmidt    2011-06-13  393  	int i;
-de2491fdefe7e5 David Sterba   2017-05-31  394  	unsigned nofs_flag;
-ff023aac31198e Stefan Behrens 2012-11-06  395  	struct scrub_warning *swarn = warn_ctx;
-fb456252d3d9c0 Jeff Mahoney   2016-06-22  396  	struct btrfs_fs_info *fs_info = swarn->dev->fs_info;
-558540c17771ea Jan Schmidt    2011-06-13  397  	struct inode_fs_paths *ipath = NULL;
-558540c17771ea Jan Schmidt    2011-06-13  398  	struct btrfs_root *local_root;
-558540c17771ea Jan Schmidt    2011-06-13  399  
-56e9357a1e8167 David Sterba   2020-05-15  400  	local_root = btrfs_get_fs_root(fs_info, root, true);
-558540c17771ea Jan Schmidt    2011-06-13  401  	if (IS_ERR(local_root)) {
-558540c17771ea Jan Schmidt    2011-06-13  402  		ret = PTR_ERR(local_root);
-558540c17771ea Jan Schmidt    2011-06-13  403  		goto err;
-558540c17771ea Jan Schmidt    2011-06-13  404  	}
-558540c17771ea Jan Schmidt    2011-06-13  405  
-de2491fdefe7e5 David Sterba   2017-05-31  406  	/*
-de2491fdefe7e5 David Sterba   2017-05-31  407  	 * init_path might indirectly call vmalloc, or use GFP_KERNEL. Scrub
-de2491fdefe7e5 David Sterba   2017-05-31  408  	 * uses GFP_NOFS in this context, so we keep it consistent but it does
-de2491fdefe7e5 David Sterba   2017-05-31  409  	 * not seem to be strictly necessary.
-de2491fdefe7e5 David Sterba   2017-05-31  410  	 */
-de2491fdefe7e5 David Sterba   2017-05-31  411  	nofs_flag = memalloc_nofs_save();
-558540c17771ea Jan Schmidt    2011-06-13  412  	ipath = init_ipath(4096, local_root, swarn->path);
-de2491fdefe7e5 David Sterba   2017-05-31  413  	memalloc_nofs_restore(nofs_flag);
-26bdef541d26fd Dan Carpenter  2011-11-16  414  	if (IS_ERR(ipath)) {
-0024652895e347 Josef Bacik    2020-01-24  415  		btrfs_put_root(local_root);
-26bdef541d26fd Dan Carpenter  2011-11-16  416  		ret = PTR_ERR(ipath);
-26bdef541d26fd Dan Carpenter  2011-11-16  417  		ipath = NULL;
-26bdef541d26fd Dan Carpenter  2011-11-16  418  		goto err;
-26bdef541d26fd Dan Carpenter  2011-11-16  419  	}
-558540c17771ea Jan Schmidt    2011-06-13  420  	ret = paths_from_inode(inum, ipath);
-558540c17771ea Jan Schmidt    2011-06-13  421  
-558540c17771ea Jan Schmidt    2011-06-13  422  	if (ret < 0)
-558540c17771ea Jan Schmidt    2011-06-13  423  		goto err;
-558540c17771ea Jan Schmidt    2011-06-13  424  
-558540c17771ea Jan Schmidt    2011-06-13  425  	/*
-558540c17771ea Jan Schmidt    2011-06-13  426  	 * we deliberately ignore the bit ipath might have been too small to
-558540c17771ea Jan Schmidt    2011-06-13  427  	 * hold all of the paths here
-558540c17771ea Jan Schmidt    2011-06-13  428  	 */
-558540c17771ea Jan Schmidt    2011-06-13  429  	for (i = 0; i < ipath->fspath->elem_cnt; ++i)
-5d163e0e68ce74 Jeff Mahoney   2016-09-20 @430  		btrfs_warn_in_rcu(fs_info,
-023af88ce10a69 Qu Wenruo      2024-03-14  431  "%s at inode %lld/%llu(%s) fileoff %llu, logical %llu(%u) physical %llu(%s)%llu",
-023af88ce10a69 Qu Wenruo      2024-03-14  432  				  swarn->errstr, root, inum,
-023af88ce10a69 Qu Wenruo      2024-03-14  433  				  (char *)ipath->fspath->val[i], offset,
-023af88ce10a69 Qu Wenruo      2024-03-14  434  				  swarn->logical, swarn->mirror_num,
-023af88ce10a69 Qu Wenruo      2024-03-14  435  				  swarn->dev->devid, btrfs_dev_name(swarn->dev),
-023af88ce10a69 Qu Wenruo      2024-03-14  436  				  swarn->physical);
-558540c17771ea Jan Schmidt    2011-06-13  437  
-0024652895e347 Josef Bacik    2020-01-24  438  	btrfs_put_root(local_root);
-558540c17771ea Jan Schmidt    2011-06-13  439  	free_ipath(ipath);
-558540c17771ea Jan Schmidt    2011-06-13  440  	return 0;
-558540c17771ea Jan Schmidt    2011-06-13  441  
-558540c17771ea Jan Schmidt    2011-06-13  442  err:
-5d163e0e68ce74 Jeff Mahoney   2016-09-20  443  	btrfs_warn_in_rcu(fs_info,
-023af88ce10a69 Qu Wenruo      2024-03-14  444  	"%s at inode %lld/%llu fileoff %llu, logical %llu(%u) physical %llu(%s)%llu",
-023af88ce10a69 Qu Wenruo      2024-03-14  445  			  swarn->errstr, root, inum, offset,
-023af88ce10a69 Qu Wenruo      2024-03-14  446  			  swarn->logical, swarn->mirror_num,
-023af88ce10a69 Qu Wenruo      2024-03-14  447  			  swarn->dev->devid, btrfs_dev_name(swarn->dev),
-023af88ce10a69 Qu Wenruo      2024-03-14  448  			  swarn->physical);
-558540c17771ea Jan Schmidt    2011-06-13  449  	free_ipath(ipath);
-558540c17771ea Jan Schmidt    2011-06-13  450  	return 0;
-558540c17771ea Jan Schmidt    2011-06-13  451  }
-558540c17771ea Jan Schmidt    2011-06-13  452  
+
+vim +/strcmp +91 include/trace/events/qdisc.h
+
+a34dac0b9055202 Cong Wang 2020-05-26   78  
+a34dac0b9055202 Cong Wang 2020-05-26   79  	TP_PROTO(struct Qdisc *q),
+a34dac0b9055202 Cong Wang 2020-05-26   80  
+a34dac0b9055202 Cong Wang 2020-05-26   81  	TP_ARGS(q),
+a34dac0b9055202 Cong Wang 2020-05-26   82  
+a34dac0b9055202 Cong Wang 2020-05-26   83  	TP_STRUCT__entry(
+a34dac0b9055202 Cong Wang 2020-05-26   84  		__string(	dev,		qdisc_dev(q)	)
+a34dac0b9055202 Cong Wang 2020-05-26   85  		__string(	kind,		q->ops->id	)
+a34dac0b9055202 Cong Wang 2020-05-26   86  		__field(	u32,		parent		)
+a34dac0b9055202 Cong Wang 2020-05-26   87  		__field(	u32,		handle		)
+a34dac0b9055202 Cong Wang 2020-05-26   88  	),
+a34dac0b9055202 Cong Wang 2020-05-26   89  
+a34dac0b9055202 Cong Wang 2020-05-26   90  	TP_fast_assign(
+a34dac0b9055202 Cong Wang 2020-05-26  @91  		__assign_str(dev, qdisc_dev(q));
+a34dac0b9055202 Cong Wang 2020-05-26   92  		__assign_str(kind, q->ops->id);
+a34dac0b9055202 Cong Wang 2020-05-26   93  		__entry->parent = q->parent;
+a34dac0b9055202 Cong Wang 2020-05-26   94  		__entry->handle = q->handle;
+a34dac0b9055202 Cong Wang 2020-05-26   95  	),
+a34dac0b9055202 Cong Wang 2020-05-26   96  
+a34dac0b9055202 Cong Wang 2020-05-26   97  	TP_printk("dev=%s kind=%s parent=%x:%x handle=%x:%x", __get_str(dev),
+a34dac0b9055202 Cong Wang 2020-05-26   98  		  __get_str(kind), TC_H_MAJ(__entry->parent) >> 16, TC_H_MIN(__entry->parent),
+a34dac0b9055202 Cong Wang 2020-05-26   99  		  TC_H_MAJ(__entry->handle) >> 16, TC_H_MIN(__entry->handle))
+a34dac0b9055202 Cong Wang 2020-05-26  100  );
+a34dac0b9055202 Cong Wang 2020-05-26  101  
+
+:::::: The code at line 91 was first introduced by commit
+:::::: a34dac0b9055202cf9c64e08d8d8dc5e23029d3a net_sched: add tracepoints for qdisc_reset() and qdisc_destroy()
+
+:::::: TO: Cong Wang <xiyou.wangcong@gmail.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
