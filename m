@@ -1,54 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6E417C76
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 10:00:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A918A17C76;
+	Fri, 15 Mar 2024 10:00:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710496808; cv=none; b=JktVij39WeiD4oKnGsIL4usr4eTq6rgC6vDyR2gkSDitEfM8RW7lhqNQtmtkd8Ha9bTUpFT53gKEHNHCR00qdHI5FNLPLr7+t5pzi3MYF//xwlsaA/R+FcuxXVLqzXP/k5D9zXQ4p2Url6ALXDAdbxs4uwaKk3E2di04RnV+sHo=
+	t=1710496812; cv=none; b=H10/X8ydz1FLfYXiLiJnBAoXzOCWBN+x2GCfwYTWxf5Ys53NGuz10fsoJTJK2zwr/nJkqO6b1Wkcbir25gA7Z5Ui56ROIn/O11rfsCI5oTIgZWuAxXM8J9qkUKr0Tf6ylQ48fZLQD8kJfwlcgN5ZDhCj4NRQMTOTi6Sy+We8I7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710496808; c=relaxed/simple;
-	bh=RrKjOBLB7sUaT0YK01ENuaSzSnbPsyesZyoXYhw0E9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Xg/SUqQIjy+xXlngRH73aCTv301me1t+BDpUoAfjgQrH7E6tZajq/8M/ti/Hzl/3rVHVOmIZkx5JcTinPHtkGb1wZIRV324WwjkjYWgSAz0MSC0lciTK6r0f2zaX9EZB4yDVT8IaB2t/i5GhdmcfNmoTPkZTPEkG6IhlqYVJL0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OfDVrunl; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1710496812; c=relaxed/simple;
+	bh=TgsPBTRp6nSShb4vL2Mx+LcNmJuRLjnumD5YkOFdYI4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RotQDMrDeg4pVvB8f5BU1NAzHuTHpDVrJYlRh55+eV9hFnPqOblkoCQ5X+xRo+HpMwtBqLc4meSVWoaJndO5MAJemGwnKo7fCxijGStSvJJFQY4Q8qyolIl79QgNyHejVf4vSt+dTBlgYofwXGnOoZ3lmklc8Bdt7S8GtNwBTaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aHE/gDLL; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OfDVrunl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aHE/gDLL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710496806; x=1742032806;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RrKjOBLB7sUaT0YK01ENuaSzSnbPsyesZyoXYhw0E9k=;
-  b=OfDVrunlKgVF0l6GElCiBdMfuKOT8LDeyyghSoe0F6O2/8KZlvygmtbA
-   6PkDIffJPColI/TFuojvprLqZVCoHvvte7bB+QYsgC0yv3nRlh0h0FWhK
-   wiB/b3eU1j50CXd/yJqysEWj+Div6BDApjDNpeb2wT6QdB+zlDDzkz64K
-   fVsMTuB22GA2vZ2mB/6g+MibeFDOyOoaPSx0Cmm5HvrGnGHX2CII5AVXy
-   cyRCybMisSapM1EVSFT5q+tEFETLXq2Yie+KIOBACWypuM0+zYBYrZzKu
-   9F62GR6XVrFNgOwgQdwuL5tYjJfmBVNiFB0xoIwzkhVTZMIGML8u7qBKY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="16081045"
+  t=1710496810; x=1742032810;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TgsPBTRp6nSShb4vL2Mx+LcNmJuRLjnumD5YkOFdYI4=;
+  b=aHE/gDLLvk6BwdJO4fxRh5EkU8dnCvZ+ijuPFikmmA0muHdhnaxeo7CV
+   LL1UhxSfAoH3wzzZ6G+H0LoHzQjipPw48Ju50z1xE2vTMq97NcxAnrRsQ
+   PB2ad/bo56jBFuXetAFDNKwN9fpT+oFLPUHSTW3ingSV4SvAvPpuYp0/9
+   0nJxhq71g1Rlb98edfVgxu2qGawXuhDXenlSdetQTkhgj0U8F0TaiulXE
+   dDafyfQiABOjbLIZmZIuCt7S3FTbdOYm6YWD6+UYyvLeXfOlZZfHJi6LT
+   f0hgxlIg2HJy9BwsWkFYHqAfoWFV7L4JhD2eqz50FNn4FKVKy1+O8vpZ+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="16081056"
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="16081045"
+   d="scan'208";a="16081056"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 03:00:05 -0700
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 03:00:09 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="35749330"
+   d="scan'208";a="35749372"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 15 Mar 2024 03:00:04 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rl4M6-000EJz-0V;
+	id 1rl4M6-000EJx-0R;
 	Fri, 15 Mar 2024 10:00:02 +0000
-Date: Fri, 15 Mar 2024 17:59:52 +0800
+Date: Fri, 15 Mar 2024 17:59:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/msr_uaccess_cleanup 15/15] arch/x86/kvm/x86.c:326:67:
- error: parameter 5 ('rw') has incomplete type
-Message-ID: <202403151732.jRnP1kV5-lkp@intel.com>
+To: Vignesh Balasubramanian <vigbalas@amd.com>,
+	linux-kernel@vger.kernel.org, linux-toolchains@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, mpe@ellerman.id.au,
+	npiggin@gmail.com, christophe.leroy@csgroup.eu,
+	aneesh.kumar@kernel.org, naveen.n.rao@linux.ibm.com,
+	ebiederm@xmission.com, keescook@chromium.org, x86@kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-mm@kvack.org, bpetkov@amd.com,
+	jinisusan.george@amd.com, matz@suse.de, binutils@sourceware.org,
+	jhb@freebsd.org, felix.willgerodt@intel.com,
+	Vignesh Balasubramanian <vigbalas@amd.com>
+Subject: Re: [PATCH 1/1] x86/elf: Add a new .note section containing
+ Xfeatures information to x86 core files
+Message-ID: <202403151742.VEz04MqR-lkp@intel.com>
+References: <20240314112359.50713-2-vigbalas@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,152 +67,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240314112359.50713-2-vigbalas@amd.com>
 
-tree:   https://github.com/sean-jc/linux x86/msr_uaccess_cleanup
-head:   08d9dcfffc5235154aa5ac85956aa72f18acea0b
-commit: 08d9dcfffc5235154aa5ac85956aa72f18acea0b [15/15] writeme
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240315/202403151732.jRnP1kV5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403151732.jRnP1kV5-lkp@intel.com/reproduce)
+Hi Vignesh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.8 next-20240315]
+[cannot apply to kees/for-next/execve tip/x86/core powerpc/next powerpc/fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vignesh-Balasubramanian/x86-elf-Add-a-new-note-section-containing-Xfeatures-information-to-x86-core-files/20240314-192650
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240314112359.50713-2-vigbalas%40amd.com
+patch subject: [PATCH 1/1] x86/elf: Add a new .note section containing Xfeatures information to x86 core files
+config: i386-buildonly-randconfig-001-20240315 (https://download.01.org/0day-ci/archive/20240315/202403151742.VEz04MqR-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403151742.VEz04MqR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403151732.jRnP1kV5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403151742.VEz04MqR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/kvm/x86.c:326:52: warning: 'enum kvm_msr_access' declared inside parameter list will not be visible outside of this definition or declaration
-     326 |                                               enum kvm_msr_access rw,
-         |                                                    ^~~~~~~~~~~~~~
->> arch/x86/kvm/x86.c:326:67: error: parameter 5 ('rw') has incomplete type
-     326 |                                               enum kvm_msr_access rw,
-         |                                               ~~~~~~~~~~~~~~~~~~~~^~
->> arch/x86/kvm/x86.c:324:28: error: function declaration isn't a prototype [-Werror=strict-prototypes]
-     324 | static __always_inline int kvm_do_msr_uaccess(struct kvm_vcpu *vcpu, u32 msr,
-         |                            ^~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/x86.c: In function 'kvm_do_msr_uaccess':
->> arch/x86/kvm/x86.c:329:32: error: 'MSR_TYPE_W' undeclared (first use in this function); did you mean 'MR_TYPES'?
-     329 |         const char *op = rw == MSR_TYPE_W ? "wrmsr" : "rdmsr";
-         |                                ^~~~~~~~~~
-         |                                MR_TYPES
-   arch/x86/kvm/x86.c:329:32: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from <command-line>:
->> arch/x86/kvm/x86.c:332:28: error: 'MSR_TYPE_R' undeclared (first use in this function); did you mean 'MR_TYPES'?
-     332 |         BUILD_BUG_ON(rw != MSR_TYPE_R && rw != MSR_TYPE_W);
-         |                            ^~~~~~~~~~
-   include/linux/compiler_types.h:415:23: note: in definition of macro '__compiletime_assert'
-     415 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:435:9: note: in expansion of macro '_compiletime_assert'
-     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/x86/kvm/x86.c:332:9: note: in expansion of macro 'BUILD_BUG_ON'
-     332 |         BUILD_BUG_ON(rw != MSR_TYPE_R && rw != MSR_TYPE_W);
-         |         ^~~~~~~~~~~~
-   arch/x86/kvm/x86.c: In function 'kvm_get_msr_feature':
-   arch/x86/kvm/x86.c:1712:61: warning: passing argument 1 of '(({...}))' makes pointer from integer without a cast [-Wint-conversion]
-    1712 |                 return static_call(kvm_x86_get_msr_feature)(index, data);
-         |                                                             ^~~~~
-         |                                                             |
-         |                                                             u32 {aka unsigned int}
-   arch/x86/kvm/x86.c:1712:61: note: expected 'struct kvm_msr_entry *' but argument is of type 'u32' {aka 'unsigned int'}
-   In file included from arch/x86/include/asm/preempt.h:9,
-                    from include/linux/preempt.h:79,
-                    from include/linux/percpu.h:6,
-                    from include/linux/context_tracking_state.h:5,
-                    from include/linux/hardirq.h:5,
-                    from include/linux/kvm_host.h:7,
-                    from arch/x86/kvm/x86.c:20:
->> include/linux/static_call_types.h:56:2: error: too many arguments to function '(({...}))'
-      56 | ({                                                                      \
-         | ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      57 |         __STATIC_CALL_ADDRESSABLE(name);                                \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      58 |         __raw_static_call(name);                                        \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      59 | })
-         | ~~
-   include/linux/static_call_types.h:90:33: note: in expansion of macro '__static_call'
-      90 | #define static_call(name)       __static_call(name)
-         |                                 ^~~~~~~~~~~~~
-   arch/x86/kvm/x86.c:1712:24: note: in expansion of macro 'static_call'
-    1712 |                 return static_call(kvm_x86_get_msr_feature)(index, data);
-         |                        ^~~~~~~~~~~
-   arch/x86/kvm/x86.c: In function 'do_get_msr_feature':
-   arch/x86/kvm/x86.c:1735:60: error: 'MSR_TYPE_R' undeclared (first use in this function); did you mean 'MR_TYPES'?
-    1735 |         return kvm_do_msr_uaccess(vcpu, index, data, true, MSR_TYPE_R,
-         |                                                            ^~~~~~~~~~
-         |                                                            MR_TYPES
-   arch/x86/kvm/x86.c: In function 'kvm_set_msr_ignored_check':
-   arch/x86/kvm/x86.c:1926:70: error: 'MSR_TYPE_W' undeclared (first use in this function); did you mean 'MR_TYPES'?
-    1926 |         return kvm_do_msr_uaccess(vcpu, index, data, host_initiated, MSR_TYPE_W,
-         |                                                                      ^~~~~~~~~~
-         |                                                                      MR_TYPES
-   arch/x86/kvm/x86.c: In function 'kvm_get_msr_ignored_check':
-   arch/x86/kvm/x86.c:1966:70: error: 'MSR_TYPE_R' undeclared (first use in this function); did you mean 'MR_TYPES'?
-    1966 |         return kvm_do_msr_uaccess(vcpu, index, data, host_initiated, MSR_TYPE_R,
-         |                                                                      ^~~~~~~~~~
-         |                                                                      MR_TYPES
-   arch/x86/kvm/x86.c:1968:1: warning: control reaches end of non-void function [-Wreturn-type]
-    1968 | }
-         | ^
-   arch/x86/kvm/x86.c: In function 'kvm_set_msr_ignored_check':
-   arch/x86/kvm/x86.c:1928:1: warning: control reaches end of non-void function [-Wreturn-type]
-    1928 | }
-         | ^
-   arch/x86/kvm/x86.c: In function 'do_get_msr_feature':
-   arch/x86/kvm/x86.c:1737:1: warning: control reaches end of non-void function [-Wreturn-type]
-    1737 | }
-         | ^
-   cc1: some warnings being treated as errors
+>> arch/x86/kernel/fpu/xstate.c:1858:8: error: call to undeclared function 'dump_emit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1858 |                 if (!dump_emit(cprm, &xc, sizeof(struct xfeat_component)))
+         |                      ^
+   arch/x86/kernel/fpu/xstate.c:1869:8: error: call to undeclared function 'dump_emit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1869 |                 if (!dump_emit(cprm, &xc, sizeof(struct xfeat_component)))
+         |                      ^
+   arch/x86/kernel/fpu/xstate.c:1899:7: error: call to undeclared function 'dump_emit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1899 |         if (!dump_emit(cprm, &en, sizeof(en)))
+         |              ^
+>> arch/x86/kernel/fpu/xstate.c:1903:7: error: call to undeclared function 'dump_align'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1903 |         if (!dump_align(cprm, 4))
+         |              ^
+   4 errors generated.
 
 
-vim +326 arch/x86/kvm/x86.c
+vim +/dump_emit +1858 arch/x86/kernel/fpu/xstate.c
 
-   320	
-   321	typedef int (*msr_uaccess_t)(struct kvm_vcpu *vcpu, u32 index, u64 *data,
-   322				     bool host_initiated);
-   323	
- > 324	static __always_inline int kvm_do_msr_uaccess(struct kvm_vcpu *vcpu, u32 msr,
-   325						      u64 *data, bool host_initiated,
- > 326						      enum kvm_msr_access rw,
-   327						      msr_uaccess_t msr_uaccess_fn)
-   328	{
- > 329		const char *op = rw == MSR_TYPE_W ? "wrmsr" : "rdmsr";
-   330		int ret;
-   331	
- > 332		BUILD_BUG_ON(rw != MSR_TYPE_R && rw != MSR_TYPE_W);
-   333	
-   334		/*
-   335		 * Zero the data on read failures to avoid leaking stack data to the
-   336		 * guest and/or userspace, e.g. if the failure is ignored below.
-   337		 */
-   338		ret = msr_uaccess_fn(vcpu, msr, data, host_initiated);
-   339		if (ret && rw == MSR_TYPE_R)
-   340			*data = 0;
-   341	
-   342		if (ret != KVM_MSR_RET_INVALID)
-   343			return ret;
-   344	
-   345		if (!ignore_msrs) {
-   346			kvm_debug_ratelimited("unhandled %s: 0x%x data 0x%llx\n",
-   347					      op, msr, *data);
-   348			return ret;
-   349		}
-   350	
-   351		if (report_ignored_msrs)
-   352			kvm_pr_unimpl("ignored %s: 0x%x data 0x%llx\n", op, msr, *data);
-   353		
-   354		return 0;
-   355	}
-   356	
+  1846	
+  1847		struct xfeat_component xc;
+  1848		int num_records = 0;
+  1849		int i;
+  1850	
+  1851		/* XFEATURE_FPU and XFEATURE_SSE, both are fixed legacy states. */
+  1852		for (i = 0; i < FIRST_EXTENDED_XFEATURE; i++) {
+  1853			xc.xfeat_type = i;
+  1854			xc.xfeat_sz = xstate_sizes[i];
+  1855			xc.xfeat_off = xstate_offsets[i];
+  1856			xc.xfeat_flags = xstate_flags[i];
+  1857	
+> 1858			if (!dump_emit(cprm, &xc, sizeof(struct xfeat_component)))
+  1859				return 0;
+  1860			num_records++;
+  1861		}
+  1862	
+  1863		for_each_extended_xfeature(i, fpu_user_cfg.max_features) {
+  1864			xc.xfeat_type = i;
+  1865			xc.xfeat_sz = xstate_sizes[i];
+  1866			xc.xfeat_off = xstate_offsets[i];
+  1867			xc.xfeat_flags = xstate_flags[i];
+  1868	
+  1869			if (!dump_emit(cprm, &xc, sizeof(struct xfeat_component)))
+  1870				return 0;
+  1871			num_records++;
+  1872		}
+  1873	
+  1874		return num_records;
+  1875	}
+  1876	
+  1877	static int get_xsave_desc_size(void)
+  1878	{
+  1879		/* XFEATURE_FP and XFEATURE_SSE, both are fixed legacy states */
+  1880		int xfeatures_count = 2;
+  1881		int i;
+  1882	
+  1883		for_each_extended_xfeature(i, fpu_user_cfg.max_features)
+  1884			xfeatures_count++;
+  1885	
+  1886		return xfeatures_count * (sizeof(struct xfeat_component));
+  1887	}
+  1888	
+  1889	int elf_coredump_extra_notes_write(struct coredump_params *cprm)
+  1890	{
+  1891		const char *owner_name = "LINUX";
+  1892		int num_records = 0;
+  1893		struct elf_note en;
+  1894	
+  1895		en.n_namesz = strlen(owner_name) + 1;
+  1896		en.n_descsz = get_xsave_desc_size();
+  1897		en.n_type = NT_X86_XSAVE_LAYOUT;
+  1898	
+  1899		if (!dump_emit(cprm, &en, sizeof(en)))
+  1900			return 1;
+  1901		if (!dump_emit(cprm, owner_name, en.n_namesz))
+  1902			return 1;
+> 1903		if (!dump_align(cprm, 4))
+  1904			return 1;
+  1905	
+  1906		num_records = dump_xsave_layout_desc(cprm);
+  1907		if (!num_records) {
+  1908			pr_warn("Error adding XSTATE layout ELF note. XSTATE buffer in the core file will be unparseable.");
+  1909			return 1;
+  1910		}
+  1911	
+  1912		/* Total size should be equal to the number of records */
+  1913		if ((sizeof(struct xfeat_component) * num_records) != en.n_descsz) {
+  1914			pr_warn("Error adding XSTATE layout ELF note. The size of the .note section does not match with the total size of the records.");
+  1915			return 1;
+  1916		}
+  1917	
+  1918		if (!dump_align(cprm, 4))
+  1919			return 1;
+  1920	
+  1921		return 0;
+  1922	}
+  1923	
 
 -- 
 0-DAY CI Kernel Test Service
