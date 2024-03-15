@@ -1,148 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F31E101E6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 22:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D42554BEC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 22:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710542192; cv=none; b=kQ1/d9of5sDlhhDeMnaIJA1d9T3VGMt8HBKK29W4b+zkPWh5mWXl6m49Rt7lk/v0wa38U/LOEB20O4sZcCXMEd5pWMH6YB4wsmF2PEw0mRGhnYoGLLMZ3X+AtzPthP9kqq5VAbvvC9VXgxIhnmXyxCrVpadW7BQiemOaVL4gBMY=
+	t=1710543343; cv=none; b=XkX12apWufcACO6lmQDFRB0bAyBiJo67tqMdUpqoh+YoazR0DLbtyp4RxZTLxCH77Mu1/c0dLwq43XG1FMyeh+fGtM9ebaA3D9F/Lw0MTtiuTtkVlx3spaCH9PEj6E56aWY2/XMMCkDT5sNILDcvBEJEblJ0aopItVokrfEylNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710542192; c=relaxed/simple;
-	bh=fIeglJFOFFzBUWQD1ferbO/RhnNMG+Ak9BJ34PUlydE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FZU3cxL7MRzq2uRko7IlaQUUmsqSHfHASTqeVDsU6rvCDc87NH84f7z6VxKGbYCd4L/1YD0EeugaAm1YJQ8t0uLukyW2NGL5jOFYF53zQFhT0pK113Wg3wR3nLTpwloorPVdsOb6HvgVfM29yZpEbaIpzHwov4vEVg/WhoYQvrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=czmJwfRr; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710543343; c=relaxed/simple;
+	bh=0/VOjcMaYIEC1VaXonbBm81DGBQ87M/ir9auh4I+oPU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=DpqpVBsFeUcnoS6lqKsbvAZutY05UdBQBxwU1YkTLNtWKj3TsqZ55ynlPpTUj1+K+u0yK9BSUh7Ipth3Tg8wZGvsbqkwwICFF6Uzj8ErgjNS2Iuq6VM1T21OR62OlnKC2vsNb7JFujXv/8wS+Co9WJjbw3tFsDRrfP94RyScLHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NmQShR6/; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PcbOpbRi; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="czmJwfRr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710542187; x=1742078187;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fIeglJFOFFzBUWQD1ferbO/RhnNMG+Ak9BJ34PUlydE=;
-  b=czmJwfRr2p5ze7dfCybcNLoY6Qq4Z/KHF7MpVgmOda6zcS3JobostU14
-   3J8bb/fwEj6c9joAwWibuomUURdH9zaTKeXXiwSvmisWgV2GcLxYdb4AA
-   W7DJ4c//1+88t4EZ8cR/DufkKbusLTlCJSlh9FVENrGKevzXVab3pc6Nj
-   5G68uBToMMMifJ58khpx8NB/BbmQsQYYLlt2UAzF5qHYK6OrMelT4CCLz
-   7PlThJahkXDIiAakz9EZA/wwBcauAB1AScty6ZOpiJ5qBq7BMD7p/dr7e
-   bzuEuWPiLG4hgPsnWL5CocpUtBku5+K8lN5alGATF1HgmhggR/5Lhl4Cn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="8375534"
-X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="8375534"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 15:36:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="13281627"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 15 Mar 2024 15:36:24 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rlGA2-000Eqj-0f;
-	Fri, 15 Mar 2024 22:36:22 +0000
-Date: Sat, 16 Mar 2024 06:35:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Julien Massot <julien.massot@collabora.com>, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, benjamin.mugnier@foss.st.com,
-	sylvain.petinot@foss.st.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	kernel@collabora.com, Julien Massot <julien.massot@collabora.com>
-Subject: Re: [PATCH 2/4] media: i2c: st-vgxy61: Add support for embedded data
-Message-ID: <202403160651.QB9YWHsu-lkp@intel.com>
-References: <20240315085158.1213159-3-julien.massot@collabora.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NmQShR6/";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PcbOpbRi"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1710543338;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tc/I/k/ZfzmyvgN+5eD3gfox+0pZdAK/4qXTdx0YhS4=;
+	b=NmQShR6/W1Tuq2M0iBem82+tc+bPYx++QmA5N28Ht4EbfMpY19HkTCfwRqHkAH0OQE9W6r
+	BEsRu/dnWEcLEFS93Qv0toFPzYuS2cOdyvYy8Uos139eYv6RDXyUovOuaBBcFHr+RZCU5g
+	sm1IhvOkWF0YETTJ0t9khcvBGhzVdIBF1h8HXot311q6bi5Yb1onKlv3RsEMZuFQN6u6mK
+	2uYF5Jq1aOwcza+LoOrhWDLon7Z15Dfxi3Frtni62wVJ+pJWv7tQaYtsur02GpvE9HVpkj
+	hSoSq4Q+pY+FJJDb74dhhrJJ8YXIgCLMDFQ+gKqE3hjW3nCCdXGPsycBeVDTvg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1710543338;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tc/I/k/ZfzmyvgN+5eD3gfox+0pZdAK/4qXTdx0YhS4=;
+	b=PcbOpbRiXsbU5KC+U7WjkwiHm9oOKmFNBC5aWpcC934jLu8yLBRIpDgl+j70Z+2EAiJJ7U
+	tOd6HY6UGXkmEtCA==
+To: Linus Torvalds <torvalds@linuxfoundation.org>, Guenter Roeck
+ <linux@roeck-us.net>
+Cc: LKML <linux-kernel@vger.kernel.org>, x86@kernel.org, Uros Bizjak
+ <ubizjak@gmail.com>, linux-sparse@vger.kernel.org, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev
+Subject: Re: [patch 5/9] x86: Cure per CPU madness on UP
+In-Reply-To: <87y1ajjsv9.ffs@tglx>
+References: <20240303235029.555787150@linutronix.de>
+ <20240304005104.622511517@linutronix.de>
+ <e20d88d0-5fb9-4307-be67-88b04ae9a188@roeck-us.net>
+ <CAHk-=whK=G1o6RtS9DS3wEGF1KU7WLgLL1+6Se86bj8m7wwqrQ@mail.gmail.com>
+ <87y1ajjsv9.ffs@tglx>
+Date: Fri, 15 Mar 2024 23:55:37 +0100
+Message-ID: <87o7bfjeae.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240315085158.1213159-3-julien.massot@collabora.com>
+Content-Type: text/plain
 
-Hi Julien,
+On Fri, Mar 15 2024 at 18:40, Thomas Gleixner wrote:
+> On Fri, Mar 15 2024 at 09:42, Linus Torvalds wrote:
+>> On Fri, 15 Mar 2024 at 09:17, Guenter Roeck <linux@roeck-us.net> wrote:
+>> Thomas, over to you. I wonder if maybe all those topology macros
+>> should just return 0 on an UP build, but that
+>> topology_get_logical_id() thing looks a bit wrong regardless.
+>>
+>> It really shouldn't depend on local apic data for configs that may not
+>> *have* a local apic.
+>
+> Right. Let me look.
 
-kernel test robot noticed the following build errors:
+Not really. The problem is that a SMP build can run on a UP machine w/o
+APIC or command line disables the APIC and will run into the exactly
+same problem. The only case where we know that it is impossible is when
+APIC support is disabled, which is silly but topic for a different
+discussion.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linuxtv-media-stage/master next-20240315]
-[cannot apply to sailus-media-tree/streams linus/master v6.8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+So the proper thing to do is to check for num_possible_cpus() == 1 in
+that function.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Julien-Massot/media-i2c-st-vgxy61-Use-sub-device-active-state/20240315-165346
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240315085158.1213159-3-julien.massot%40collabora.com
-patch subject: [PATCH 2/4] media: i2c: st-vgxy61: Add support for embedded data
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240316/202403160651.QB9YWHsu-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403160651.QB9YWHsu-lkp@intel.com/reproduce)
+Sure you can argue that we could avoid it for SMP=n builds completely,
+but I think the right thing to do is to aim for removing CONFIG_SMP and
+make the UP build a subset of a generic SMP capable build which has
+CONFIG_NR_CPUS=1, i.e. num_possible_cpus() = 1. Why?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403160651.QB9YWHsu-lkp@intel.com/
+Because it consolidates the code and makes UP use exactly the same
+mechanisms as SMP which pretty much avoids the problem we see today that
+UP lacks test coverage and becomes more esoteric and untested over time.
 
-All errors (new ones prefixed by >>):
+The downside is a slightly larger kernel image for such a build.
 
-   drivers/media/i2c/st-vgxy61.c: In function 'vgxy61_enum_mbus_code':
->> drivers/media/i2c/st-vgxy61.c:709:30: error: 'MEDIA_BUS_FMT_META_8' undeclared (first use in this function); did you mean 'MEDIA_BUS_FMT_Y8_1X8'?
-     709 |                 code->code = MEDIA_BUS_FMT_META_8;
-         |                              ^~~~~~~~~~~~~~~~~~~~
-         |                              MEDIA_BUS_FMT_Y8_1X8
-   drivers/media/i2c/st-vgxy61.c:709:30: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/media/i2c/st-vgxy61.c: In function '__vgxy61_set_fmt':
-   drivers/media/i2c/st-vgxy61.c:1251:26: error: 'MEDIA_BUS_FMT_META_8' undeclared (first use in this function); did you mean 'MEDIA_BUS_FMT_Y8_1X8'?
-    1251 |         meta_fmt->code = MEDIA_BUS_FMT_META_8;
-         |                          ^~~~~~~~~~~~~~~~~~~~
-         |                          MEDIA_BUS_FMT_Y8_1X8
-   drivers/media/i2c/st-vgxy61.c: In function 'vgxy61_get_frame_desc':
-   drivers/media/i2c/st-vgxy61.c:1309:36: error: 'MEDIA_BUS_FMT_META_8' undeclared (first use in this function); did you mean 'MEDIA_BUS_FMT_Y8_1X8'?
-    1309 |         desc->entry[1].pixelcode = MEDIA_BUS_FMT_META_8;
-         |                                    ^~~~~~~~~~~~~~~~~~~~
-         |                                    MEDIA_BUS_FMT_Y8_1X8
-   drivers/media/i2c/st-vgxy61.c: In function 'vgxy61_init_state':
->> drivers/media/i2c/st-vgxy61.c:1326:34: error: 'V4L2_SUBDEV_ROUTE_FL_IMMUTABLE' undeclared (first use in this function); did you mean 'V4L2_SUBDEV_ROUTE_FL_ACTIVE'?
-    1326 |                                  V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                  V4L2_SUBDEV_ROUTE_FL_ACTIVE
-   drivers/media/i2c/st-vgxy61.c: In function 'vgxy61_probe':
->> drivers/media/i2c/st-vgxy61.c:1891:37: error: 'MEDIA_PAD_FL_INTERNAL' undeclared (first use in this function); did you mean 'MEDIA_PAD_FL_SOURCE'?
-    1891 |                 MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
-         |                                     ^~~~~~~~~~~~~~~~~~~~~
-         |                                     MEDIA_PAD_FL_SOURCE
+Though if we pretend that we seriously care about that 10% larger memory
+footprint or about the marginal performance benefit of SMP=n on dead
+hardware, then we are just taking the wrong pills.
 
+The point is that this very commit in question was heading deliberately
+into the direction of removing the by now silly differences of UP/SMP
+for correctness sake. It just happened to unearth the missing check in
+topology_get_logical_id(), but that check is required independent of
+SMP=y/n as I pointed out above.
 
-vim +709 drivers/media/i2c/st-vgxy61.c
+Thanks,
 
-   698	
-   699	static int vgxy61_enum_mbus_code(struct v4l2_subdev *sd,
-   700					 struct v4l2_subdev_state *sd_state,
-   701					 struct v4l2_subdev_mbus_code_enum *code)
-   702	{
-   703		if (code->pad == VGXY61_PAD_META ||
-   704		    (code->pad == VGXY61_PAD_SOURCE &&
-   705		     code->stream == VGXY61_STREAM_META)) {
-   706			if (code->index > 0)
-   707				return -EINVAL;
-   708	
- > 709			code->code = MEDIA_BUS_FMT_META_8;
-   710			return 0;
-   711		}
-   712	
-   713		if (code->index >= ARRAY_SIZE(vgxy61_supported_codes))
-   714			return -EINVAL;
-   715	
-   716		code->code = vgxy61_supported_codes[code->index].code;
-   717	
-   718		return 0;
-   719	}
-   720	
+        tglx
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---
+diff --git a/arch/x86/kernel/cpu/topology.c b/arch/x86/kernel/cpu/topology.c
+index 3259b1d4fefe..118d9f7792ee 100644
+--- a/arch/x86/kernel/cpu/topology.c
++++ b/arch/x86/kernel/cpu/topology.c
+@@ -279,6 +279,15 @@ int topology_get_logical_id(u32 apicid, enum x86_topology_domains at_level)
+ 
+ 	if (lvlid >= MAX_LOCAL_APIC)
+ 		return -ERANGE;
++	/*
++	 * Spare the exercise on UP as there is only one instance at any
++	 * level and the map check below might fail because the CPU does
++	 * not have a local APIC or local APIC has been disabled on the
++	 * kernel command line.
++	 */
++	if (num_possible_cpus() == 1)
++		return 0;
++
+ 	if (!test_bit(lvlid, apic_maps[at_level].map))
+ 		return -ENODEV;
+ 	/* Get the number of set bits before @lvlid. */
