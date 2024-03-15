@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C0318E1A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 10:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0911AAAE;
+	Fri, 15 Mar 2024 10:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710498669; cv=none; b=BPKoCGkjfsM7Ll+VjAf7QhHEipQth9nQRSOifkB4naiqhqGnfH43Pult2hD8MfBg82oYHMuPsEaWzf/6lbMEuR/8H86i5Q/p+pPGfYGIEtnT0M4j5kw50C/gZ49Do4NSNO9Ouf3jc/LoO+3kb2bdaIVfSzpQFN0FcvbpUsPrsgg=
+	t=1710499269; cv=none; b=Jg8eqK75L/Su14MBCJs17mymCZdEj21/+macGrDp3F5WvsHd/RlcjB8+V38W8QxqulUjPAol+qTUK1rvQvL8FdGVDmF5MGgs1tfX4T/Wrgc9LEgeHv4B6X1CgSIb933kvFHPxxfy0X8Pm/SGW3oMmZq0rQn4PXjSR495S3ua19c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710498669; c=relaxed/simple;
-	bh=hY5n8yiSLnK6A5k9B8yt5M2btemk+zy4UubFFwBG4NU=;
+	s=arc-20240116; t=1710499269; c=relaxed/simple;
+	bh=UZIh4RWlmuJj7zw//NWn6gkP3mK2M7AyXurlP+QFgG0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FU8p4R6hTFInG5VFKRmKBJlTNL/JCMtVI00JdfTls5ISlPgrmJdmMxRDMMorNRSxE31AwKrI0WijZerHIU6VpdLUenEabg0+vVDcvc+yxe4Q69syoVrH4Rrwj2WBff9MI1wzduUMyXeefM+dTrUCC/oYT5bIsE0CD/mwvaoOR5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=msBPhbGZ; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=hkdrUd03QIJasLgyhnWozWxe9lmHdE2jf0UtFqS/R/vGlU2HQAWuCBAz5g1VDsl19dDp87Z/KmV+C5q9sSkBlnBrqm0iFfmeKcTy+G+LfpM0PXB4GnBwL3oSrL7vArdGHB+ITUbqQ0R/zZkVFQ7hNESWwr2Y9sZ3kAf/X4vwuvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aCns+xfQ; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="msBPhbGZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCns+xfQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710498667; x=1742034667;
+  t=1710499268; x=1742035268;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hY5n8yiSLnK6A5k9B8yt5M2btemk+zy4UubFFwBG4NU=;
-  b=msBPhbGZPRfbgy1RNDbGMcZI3WmbjKeci4NnnnSv+SZ1FCX0HGt0DXhe
-   56AbEpu0B/lOi3+J6UvjCxv3so9Z+FL10yhe4Ea/swPo8j+Jtpy1k/B/y
-   ZsIrrMBGqEI/mv9uTYpKYaOMUuBqGUTGKXRywijIe/bMEna4G2UrbodUe
-   kXY8XIpKTuQm2eMmAeLYw/14ZHJKIY2jdYKczWpwffbDoGfW1NEJ3vzzh
-   odA3sLY1nFUia882g7dAxw3B3HLukKMsLihU7k2lfsQDqZHi0Dyb1Ldo+
-   3If/5EeXt49xFKGc1nQsypSlpnr/RZRwFMCOq1uiANM4xCNgeUXUGw5oi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="5493377"
+  bh=UZIh4RWlmuJj7zw//NWn6gkP3mK2M7AyXurlP+QFgG0=;
+  b=aCns+xfQnfb2SPk7705+uPB0QgRSrNhkRW6aplu1HWsevf76sNJUG6Ij
+   kHrYOMdxtbmeK27iHPuPdhwB1rQkS6Eb49HBHbspHinRgZxVkeTDRBi35
+   i3y7YNIvCYRWjqsLcnCJRzjT/LjFiPDoe6tOjnXt7rq2vEDjPqCHJQLnq
+   BTa2cZreqBsFHDf0kw7+29rNCp9l6H4bL3cmVH24DKrfnWrP6KJN76OwK
+   FjK4QaLae0KP27SkbN5wll0U8NkI3ZNavDXpRqv7nKcX4j8vTFb2e1EEj
+   dGRBtied5qHz3cquj8QWHxe8oY5u1rnnfgI5ppbZtxshR/Jhdk3jIjbvk
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="5300262"
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="5493377"
+   d="scan'208";a="5300262"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 03:31:07 -0700
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 03:41:07 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="17299223"
+   d="scan'208";a="17300576"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 15 Mar 2024 03:31:05 -0700
+  by orviesa004.jf.intel.com with ESMTP; 15 Mar 2024 03:41:06 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rl4q6-000EKv-1y;
-	Fri, 15 Mar 2024 10:31:02 +0000
-Date: Fri, 15 Mar 2024 18:30:26 +0800
+	id 1rl4zm-000ELR-2p;
+	Fri, 15 Mar 2024 10:41:02 +0000
+Date: Fri, 15 Mar 2024 18:40:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: sound/core/compress_offload.c:595:6-12: inconsistent IS_ERR and
- PTR_ERR on line 596.
-Message-ID: <202403151855.V0OS6L14-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/msr_uaccess_cleanup 15/15] arch/x86/kvm/x86.c:326:32:
+ error: variable has incomplete type 'enum kvm_msr_access'
+Message-ID: <202403151821.yXAJWbwr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,74 +58,165 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Takashi,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e5eb28f6d1afebed4bb7d740a797d0390bd3a357
-commit: 9b02221422a55e834469fdc91dc4d5147f5a1fb9 ALSA: compress_offload: Use automatic cleanup of kfree()
-date:   3 weeks ago
-config: x86_64-randconfig-103-20240314 (https://download.01.org/0day-ci/archive/20240315/202403151855.V0OS6L14-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://github.com/sean-jc/linux x86/msr_uaccess_cleanup
+head:   08d9dcfffc5235154aa5ac85956aa72f18acea0b
+commit: 08d9dcfffc5235154aa5ac85956aa72f18acea0b [15/15] writeme
+config: i386-buildonly-randconfig-002-20240315 (https://download.01.org/0day-ci/archive/20240315/202403151821.yXAJWbwr-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403151821.yXAJWbwr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403151855.V0OS6L14-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403151821.yXAJWbwr-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> sound/core/compress_offload.c:595:6-12: inconsistent IS_ERR and PTR_ERR on line 596.
+All error/warnings (new ones prefixed by >>):
 
-vim +595 sound/core/compress_offload.c
+>> arch/x86/kvm/x86.c:326:17: warning: declaration of 'enum kvm_msr_access' will not be visible outside of this function [-Wvisibility]
+     326 |                                               enum kvm_msr_access rw,
+         |                                                    ^
+>> arch/x86/kvm/x86.c:326:32: error: variable has incomplete type 'enum kvm_msr_access'
+     326 |                                               enum kvm_msr_access rw,
+         |                                                                   ^
+   arch/x86/kvm/x86.c:326:17: note: forward declaration of 'enum kvm_msr_access'
+     326 |                                               enum kvm_msr_access rw,
+         |                                                    ^
+>> arch/x86/kvm/x86.c:329:25: error: use of undeclared identifier 'MSR_TYPE_W'; did you mean 'MR_TYPES'?
+     329 |         const char *op = rw == MSR_TYPE_W ? "wrmsr" : "rdmsr";
+         |                                ^~~~~~~~~~
+         |                                MR_TYPES
+   include/linux/migrate_mode.h:32:2: note: 'MR_TYPES' declared here
+      32 |         MR_TYPES
+         |         ^
+>> arch/x86/kvm/x86.c:332:21: error: use of undeclared identifier 'MSR_TYPE_R'; did you mean 'MR_TYPES'?
+     332 |         BUILD_BUG_ON(rw != MSR_TYPE_R && rw != MSR_TYPE_W);
+         |                            ^~~~~~~~~~
+         |                            MR_TYPES
+   include/linux/build_bug.h:50:19: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |                          ^
+   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                                          ^
+   include/linux/compiler_types.h:435:22: note: expanded from macro 'compiletime_assert'
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:423:23: note: expanded from macro '_compiletime_assert'
+     423 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^
+   include/linux/compiler_types.h:415:9: note: expanded from macro '__compiletime_assert'
+     415 |                 if (!(condition))                                       \
+         |                       ^
+   include/linux/migrate_mode.h:32:2: note: 'MR_TYPES' declared here
+      32 |         MR_TYPES
+         |         ^
+   arch/x86/kvm/x86.c:332:41: error: use of undeclared identifier 'MSR_TYPE_W'; did you mean 'MR_TYPES'?
+     332 |         BUILD_BUG_ON(rw != MSR_TYPE_R && rw != MSR_TYPE_W);
+         |                                                ^~~~~~~~~~
+         |                                                MR_TYPES
+   include/linux/build_bug.h:50:19: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |                          ^
+   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                                          ^
+   include/linux/compiler_types.h:435:22: note: expanded from macro 'compiletime_assert'
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:423:23: note: expanded from macro '_compiletime_assert'
+     423 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^
+   include/linux/compiler_types.h:415:9: note: expanded from macro '__compiletime_assert'
+     415 |                 if (!(condition))                                       \
+         |                       ^
+   include/linux/migrate_mode.h:32:2: note: 'MR_TYPES' declared here
+      32 |         MR_TYPES
+         |         ^
+   arch/x86/kvm/x86.c:339:19: error: use of undeclared identifier 'MSR_TYPE_R'; did you mean 'MR_TYPES'?
+     339 |         if (ret && rw == MSR_TYPE_R)
+         |                          ^~~~~~~~~~
+         |                          MR_TYPES
+   include/linux/migrate_mode.h:32:2: note: 'MR_TYPES' declared here
+      32 |         MR_TYPES
+         |         ^
+>> arch/x86/kvm/x86.c:1712:54: error: too many arguments to function call, expected 1, have 2
+    1712 |                 return static_call(kvm_x86_get_msr_feature)(index, data);
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~        ^~~~
+   arch/x86/include/asm/kvm-x86-ops.h:130:1: note: '__SCT__kvm_x86_get_msr_feature' declared here
+     130 | KVM_X86_OP(get_msr_feature)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/x86.c:139:2: note: expanded from macro 'KVM_X86_OP'
+     139 |         DEFINE_STATIC_CALL_NULL(kvm_x86_##func,                      \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     140 |                                 *(((struct kvm_x86_ops *)0)->func));
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:238:2: note: expanded from macro 'DEFINE_STATIC_CALL_NULL'
+     238 |         DECLARE_STATIC_CALL(name, _func);                               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:39:22: note: expanded from macro 'DECLARE_STATIC_CALL'
+      39 |         extern typeof(func) STATIC_CALL_TRAMP(name);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~~~~~~
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^~~~
+   <scratch space>:5:1: note: expanded from here
+       5 | __SCT__kvm_x86_get_msr_feature
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/x86.c:1735:53: error: use of undeclared identifier 'MSR_TYPE_R'
+    1735 |         return kvm_do_msr_uaccess(vcpu, index, data, true, MSR_TYPE_R,
+         |                                                            ^
+   arch/x86/kvm/x86.c:1926:63: error: use of undeclared identifier 'MSR_TYPE_W'
+    1926 |         return kvm_do_msr_uaccess(vcpu, index, data, host_initiated, MSR_TYPE_W,
+         |                                                                      ^
+   arch/x86/kvm/x86.c:1966:63: error: use of undeclared identifier 'MSR_TYPE_R'
+    1966 |         return kvm_do_msr_uaccess(vcpu, index, data, host_initiated, MSR_TYPE_R,
+         |                                                                      ^
+   1 warning and 9 errors generated.
 
-4dc040a0b34890 Vinod Koul          2012-09-17  582  
-b21c60a4edd22e Vinod Koul          2011-12-23  583  static int
-b21c60a4edd22e Vinod Koul          2011-12-23  584  snd_compr_set_params(struct snd_compr_stream *stream, unsigned long arg)
-b21c60a4edd22e Vinod Koul          2011-12-23  585  {
-9b02221422a55e Takashi Iwai        2024-02-22  586  	struct snd_compr_params *params __free(kfree) = NULL;
-b21c60a4edd22e Vinod Koul          2011-12-23  587  	int retval;
-b21c60a4edd22e Vinod Koul          2011-12-23  588  
-7ea9ee0064281e Srinivas Kandagatla 2023-06-19  589  	if (stream->runtime->state == SNDRV_PCM_STATE_OPEN || stream->next_track) {
-b21c60a4edd22e Vinod Koul          2011-12-23  590  		/*
-b21c60a4edd22e Vinod Koul          2011-12-23  591  		 * we should allow parameter change only when stream has been
-b21c60a4edd22e Vinod Koul          2011-12-23  592  		 * opened not in other cases
-b21c60a4edd22e Vinod Koul          2011-12-23  593  		 */
-c2f14ba749c1ce Markus Elfring      2016-08-21  594  		params = memdup_user((void __user *)arg, sizeof(*params));
-c2f14ba749c1ce Markus Elfring      2016-08-21 @595  		if (IS_ERR(params))
-9b02221422a55e Takashi Iwai        2024-02-22 @596  			return PTR_ERR(no_free_ptr(params));
-4dc040a0b34890 Vinod Koul          2012-09-17  597  
-4dc040a0b34890 Vinod Koul          2012-09-17  598  		retval = snd_compress_check_input(params);
-4dc040a0b34890 Vinod Koul          2012-09-17  599  		if (retval)
-9b02221422a55e Takashi Iwai        2024-02-22  600  			return retval;
-4dc040a0b34890 Vinod Koul          2012-09-17  601  
-b21c60a4edd22e Vinod Koul          2011-12-23  602  		retval = snd_compr_allocate_buffer(stream, params);
-9b02221422a55e Takashi Iwai        2024-02-22  603  		if (retval)
-9b02221422a55e Takashi Iwai        2024-02-22  604  			return -ENOMEM;
-4dc040a0b34890 Vinod Koul          2012-09-17  605  
-b21c60a4edd22e Vinod Koul          2011-12-23  606  		retval = stream->ops->set_params(stream, params);
-b21c60a4edd22e Vinod Koul          2011-12-23  607  		if (retval)
-9b02221422a55e Takashi Iwai        2024-02-22  608  			return retval;
-49bb6402f1aa1e Charles Keepax      2013-04-18  609  
-7ea9ee0064281e Srinivas Kandagatla 2023-06-19  610  		if (stream->next_track)
-9b02221422a55e Takashi Iwai        2024-02-22  611  			return retval;
-7ea9ee0064281e Srinivas Kandagatla 2023-06-19  612  
-9727b490e543de Jeeja KP            2013-02-14  613  		stream->metadata_set = false;
-9727b490e543de Jeeja KP            2013-02-14  614  		stream->next_track = false;
-49bb6402f1aa1e Charles Keepax      2013-04-18  615  
-49bb6402f1aa1e Charles Keepax      2013-04-18  616  		stream->runtime->state = SNDRV_PCM_STATE_SETUP;
-769fab2a41da4b Jesper Juhl         2012-01-23  617  	} else {
-b21c60a4edd22e Vinod Koul          2011-12-23  618  		return -EPERM;
-769fab2a41da4b Jesper Juhl         2012-01-23  619  	}
-b21c60a4edd22e Vinod Koul          2011-12-23  620  	return retval;
-b21c60a4edd22e Vinod Koul          2011-12-23  621  }
-b21c60a4edd22e Vinod Koul          2011-12-23  622  
 
-:::::: The code at line 595 was first introduced by commit
-:::::: c2f14ba749c1ce94aa97c5a84733a89aaaadada4 ALSA: compress: Use memdup_user() rather than duplicating its implementation
+vim +326 arch/x86/kvm/x86.c
 
-:::::: TO: Markus Elfring <elfring@users.sourceforge.net>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
+   320	
+   321	typedef int (*msr_uaccess_t)(struct kvm_vcpu *vcpu, u32 index, u64 *data,
+   322				     bool host_initiated);
+   323	
+   324	static __always_inline int kvm_do_msr_uaccess(struct kvm_vcpu *vcpu, u32 msr,
+   325						      u64 *data, bool host_initiated,
+ > 326						      enum kvm_msr_access rw,
+   327						      msr_uaccess_t msr_uaccess_fn)
+   328	{
+ > 329		const char *op = rw == MSR_TYPE_W ? "wrmsr" : "rdmsr";
+   330		int ret;
+   331	
+ > 332		BUILD_BUG_ON(rw != MSR_TYPE_R && rw != MSR_TYPE_W);
+   333	
+   334		/*
+   335		 * Zero the data on read failures to avoid leaking stack data to the
+   336		 * guest and/or userspace, e.g. if the failure is ignored below.
+   337		 */
+   338		ret = msr_uaccess_fn(vcpu, msr, data, host_initiated);
+   339		if (ret && rw == MSR_TYPE_R)
+   340			*data = 0;
+   341	
+   342		if (ret != KVM_MSR_RET_INVALID)
+   343			return ret;
+   344	
+   345		if (!ignore_msrs) {
+   346			kvm_debug_ratelimited("unhandled %s: 0x%x data 0x%llx\n",
+   347					      op, msr, *data);
+   348			return ret;
+   349		}
+   350	
+   351		if (report_ignored_msrs)
+   352			kvm_pr_unimpl("ignored %s: 0x%x data 0x%llx\n", op, msr, *data);
+   353		
+   354		return 0;
+   355	}
+   356	
 
 -- 
 0-DAY CI Kernel Test Service
