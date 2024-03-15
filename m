@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A670518622
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 10:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C0318E1A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 10:31:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710497468; cv=none; b=AmKCdv+zogjUTbTEMKK9JDo/M0B/WbXlIz+04BwX+Tqf9b1q/WBeNfL+O0RAaysfTHvgxFYJTvymv6ELbaa/y4kP3eJW3JpFtRtU42ryIXlGssgSv3IugohNFeB2AqLiXF83y9NLMNCT4Fv4u81umOQfW65e7/LgCQIcG2rK/p4=
+	t=1710498669; cv=none; b=BPKoCGkjfsM7Ll+VjAf7QhHEipQth9nQRSOifkB4naiqhqGnfH43Pult2hD8MfBg82oYHMuPsEaWzf/6lbMEuR/8H86i5Q/p+pPGfYGIEtnT0M4j5kw50C/gZ49Do4NSNO9Ouf3jc/LoO+3kb2bdaIVfSzpQFN0FcvbpUsPrsgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710497468; c=relaxed/simple;
-	bh=HQEnTbJvDq/Q0+ZITefaVgNTVapt0byjB7S9oFq3aXk=;
+	s=arc-20240116; t=1710498669; c=relaxed/simple;
+	bh=hY5n8yiSLnK6A5k9B8yt5M2btemk+zy4UubFFwBG4NU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e3N51GAxERvZBrpXoxamhktfg/fMr9CwkPYAxbhMiwODV/U17v9q9XbMBvxJzk62U9Uz+xTi8e3GbXa5v0clSUpPdkwCo4vWp59fkHkUIPQHBwCylxyttN4EvpCJ/VMF2V07tESdNqRYthdwbuxMGGNmhpjuzYMPIiZvg6Lq/dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gMc9m7Im; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=FU8p4R6hTFInG5VFKRmKBJlTNL/JCMtVI00JdfTls5ISlPgrmJdmMxRDMMorNRSxE31AwKrI0WijZerHIU6VpdLUenEabg0+vVDcvc+yxe4Q69syoVrH4Rrwj2WBff9MI1wzduUMyXeefM+dTrUCC/oYT5bIsE0CD/mwvaoOR5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=msBPhbGZ; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gMc9m7Im"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="msBPhbGZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710497467; x=1742033467;
+  t=1710498667; x=1742034667;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HQEnTbJvDq/Q0+ZITefaVgNTVapt0byjB7S9oFq3aXk=;
-  b=gMc9m7ImBdreY/I5orgadJTNceAXtCbr+MnAYc1RbwgPmVc535oaY6pq
-   J5+dq7wHQ9Avkt7DqyiEt3M5GjEsiztsjU6GQhQZdYd5nA5aAiMC5hr9D
-   8rFxlDV13Vc7Kh8S9bMHNOs+1qE1tmKTjnSNigOT5nHF4mVaRR1HxrZvL
-   jLzquJPX6zO+905RwO0PN4mWJcb4zK4UMJw/qfvNStBb6hU6OxdEpaOHP
-   nD3GdlrqtG3P99bk/7RNXueCdPSFOI/XPyGNr6Pjpgybl2eCBIunnBPvV
-   wnxBV7AF9JMTMQ7lSe/mWw07Dxpv/jWyanG+YEZB0PhN5yFDY1P3sCH1N
+  bh=hY5n8yiSLnK6A5k9B8yt5M2btemk+zy4UubFFwBG4NU=;
+  b=msBPhbGZPRfbgy1RNDbGMcZI3WmbjKeci4NnnnSv+SZ1FCX0HGt0DXhe
+   56AbEpu0B/lOi3+J6UvjCxv3so9Z+FL10yhe4Ea/swPo8j+Jtpy1k/B/y
+   ZsIrrMBGqEI/mv9uTYpKYaOMUuBqGUTGKXRywijIe/bMEna4G2UrbodUe
+   kXY8XIpKTuQm2eMmAeLYw/14ZHJKIY2jdYKczWpwffbDoGfW1NEJ3vzzh
+   odA3sLY1nFUia882g7dAxw3B3HLukKMsLihU7k2lfsQDqZHi0Dyb1Ldo+
+   3If/5EeXt49xFKGc1nQsypSlpnr/RZRwFMCOq1uiANM4xCNgeUXUGw5oi
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="5545447"
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="5493377"
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="5545447"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 03:11:06 -0700
+   d="scan'208";a="5493377"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 03:31:07 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="35753174"
+   d="scan'208";a="17299223"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Mar 2024 03:11:04 -0700
+  by orviesa004.jf.intel.com with ESMTP; 15 Mar 2024 03:31:05 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rl4Wk-000EKD-0n;
-	Fri, 15 Mar 2024 10:11:02 +0000
-Date: Fri, 15 Mar 2024 18:10:07 +0800
+	id 1rl4q6-000EKv-1y;
+	Fri, 15 Mar 2024 10:31:02 +0000
+Date: Fri, 15 Mar 2024 18:30:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>
-Subject: WARNING: modpost: "__udelay" [sound/soc/apple/snd-soc-apple-mca.ko]
- has no CRC!
-Message-ID: <202403151819.OiJ905Ty-lkp@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: sound/core/compress_offload.c:595:6-12: inconsistent IS_ERR and
+ PTR_ERR on line 596.
+Message-ID: <202403151855.V0OS6L14-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,142 +58,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Takashi,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   e5eb28f6d1afebed4bb7d740a797d0390bd3a357
-commit: d8b3e396088d787771f19fd3b7949e080dc31d6f ASoC: apple: mca: Fix SERDES reset sequence
-date:   1 year, 1 month ago
-config: sparc-randconfig-r016-20230603 (https://download.01.org/0day-ci/archive/20240315/202403151819.OiJ905Ty-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403151819.OiJ905Ty-lkp@intel.com/reproduce)
+commit: 9b02221422a55e834469fdc91dc4d5147f5a1fb9 ALSA: compress_offload: Use automatic cleanup of kfree()
+date:   3 weeks ago
+config: x86_64-randconfig-103-20240314 (https://download.01.org/0day-ci/archive/20240315/202403151855.V0OS6L14-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403151819.OiJ905Ty-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403151855.V0OS6L14-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+cocci warnings: (new ones prefixed by >>)
+>> sound/core/compress_offload.c:595:6-12: inconsistent IS_ERR and PTR_ERR on line 596.
 
-WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/ams-delta.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/fsmc_nand.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/mtd/nand/raw/nandsim.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/mtd/nand/raw/nandsim.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/nandsim.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/atmel/atmel-nand-controller.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/lpc32xx_slc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/lpc32xx_mlc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/sh_flctl.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/mxc_nand.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/txx9ndfmc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/mtk_nand.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/ecc-mtk.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/gameport/gameport.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/keyboard/imx_keypad.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/keyboard/matrix_keypad.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/keyboard/samsung-keypad.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/keyboard/sh_keysc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/keyboard/tegra-kbc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/rmi4/rmi_core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ssb/ssb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/accel/mma9551_core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/ad7280a.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/ad7476.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/iio/adc/ad7606.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/ad7949.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/aspeed_adc.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/iio/adc/aspeed_adc.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/iio/adc/cc10001_adc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/cc10001_adc.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/iio/adc/hx711.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/imx8qxp-adc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/max11410.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/max1241.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/mt6577_auxadc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/meson_saradc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/nau7802.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/palmas_gpadc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/sun4i-gpadc-iio.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/ti-ads8344.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/dac/ad5592r-base.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/iio/dac/ad5766.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/dac/stm32-dac-core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/dac/stm32-dac.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/pressure/dlhl60d.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/proximity/as3935.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/proximity/srf04.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/resolver/ad2s1200.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/core/snd-timer.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/hda/snd-hda-codec.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/sparc/snd-sun-dbri.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-adau1373.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-adau17x1.ko] has no CRC!
-WARNING: modpost: "__ndelay" [sound/soc/codecs/snd-soc-adau1977.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-ak4458.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-ak4613.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-ak4641.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-arizona.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs35l41-lib.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs42l51.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs42l73.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs4265.ko] has no CRC!
-WARNING: modpost: "__ndelay" [sound/soc/codecs/snd-soc-cs4270.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs4271.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-da732x.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-l3.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-madera.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-max98357a.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-nau8540.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-nau8822.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-nau8825.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-peb2466.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rk3328.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rt286.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rt298.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rt5616.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rt5645.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rt5670.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rt5677.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-sgtl5000.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-sta32x.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-sta350.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-tas5086.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-tlv320aic23.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-tlv320aic31xx.ko] has no CRC!
-WARNING: modpost: "__ndelay" [sound/soc/codecs/snd-soc-tlv320aic31xx.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-tlv320aic3x.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-twl4030.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-uda1380.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8510.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8711.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8903.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8904.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8961.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8962.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8974.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8978.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8995.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm9081.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm-hubs.ko] has no CRC!
->> WARNING: modpost: "__udelay" [sound/soc/apple/snd-soc-apple-mca.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/amd/acp_audio_dma.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/fsl/snd-soc-fsl-asrc.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/fsl/snd-soc-fsl-sai.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/fsl/snd-soc-fsl-easrc.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/fsl/snd-soc-fsl-xcvr.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/mediatek/mt8186/snd-soc-mt8186-afe.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/mediatek/mt8188/snd-soc-mt8188-afe.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/meson/snd-soc-meson-t9015.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/mxs/snd-soc-mxs.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/sh/snd-soc-fsi.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/sh/rcar/snd-soc-rcar.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/sh/snd-soc-rz-ssi.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/sti/snd-soc-sti.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/stm/snd-soc-stm32-sai.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/stm/snd-soc-stm32-i2s.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/ti/snd-soc-davinci-asp.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/ti/snd-soc-omap-mcbsp.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/hda/snd-hda-core.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/hda/ext/snd-hda-ext-core.ko] has no CRC!
+vim +595 sound/core/compress_offload.c
+
+4dc040a0b34890 Vinod Koul          2012-09-17  582  
+b21c60a4edd22e Vinod Koul          2011-12-23  583  static int
+b21c60a4edd22e Vinod Koul          2011-12-23  584  snd_compr_set_params(struct snd_compr_stream *stream, unsigned long arg)
+b21c60a4edd22e Vinod Koul          2011-12-23  585  {
+9b02221422a55e Takashi Iwai        2024-02-22  586  	struct snd_compr_params *params __free(kfree) = NULL;
+b21c60a4edd22e Vinod Koul          2011-12-23  587  	int retval;
+b21c60a4edd22e Vinod Koul          2011-12-23  588  
+7ea9ee0064281e Srinivas Kandagatla 2023-06-19  589  	if (stream->runtime->state == SNDRV_PCM_STATE_OPEN || stream->next_track) {
+b21c60a4edd22e Vinod Koul          2011-12-23  590  		/*
+b21c60a4edd22e Vinod Koul          2011-12-23  591  		 * we should allow parameter change only when stream has been
+b21c60a4edd22e Vinod Koul          2011-12-23  592  		 * opened not in other cases
+b21c60a4edd22e Vinod Koul          2011-12-23  593  		 */
+c2f14ba749c1ce Markus Elfring      2016-08-21  594  		params = memdup_user((void __user *)arg, sizeof(*params));
+c2f14ba749c1ce Markus Elfring      2016-08-21 @595  		if (IS_ERR(params))
+9b02221422a55e Takashi Iwai        2024-02-22 @596  			return PTR_ERR(no_free_ptr(params));
+4dc040a0b34890 Vinod Koul          2012-09-17  597  
+4dc040a0b34890 Vinod Koul          2012-09-17  598  		retval = snd_compress_check_input(params);
+4dc040a0b34890 Vinod Koul          2012-09-17  599  		if (retval)
+9b02221422a55e Takashi Iwai        2024-02-22  600  			return retval;
+4dc040a0b34890 Vinod Koul          2012-09-17  601  
+b21c60a4edd22e Vinod Koul          2011-12-23  602  		retval = snd_compr_allocate_buffer(stream, params);
+9b02221422a55e Takashi Iwai        2024-02-22  603  		if (retval)
+9b02221422a55e Takashi Iwai        2024-02-22  604  			return -ENOMEM;
+4dc040a0b34890 Vinod Koul          2012-09-17  605  
+b21c60a4edd22e Vinod Koul          2011-12-23  606  		retval = stream->ops->set_params(stream, params);
+b21c60a4edd22e Vinod Koul          2011-12-23  607  		if (retval)
+9b02221422a55e Takashi Iwai        2024-02-22  608  			return retval;
+49bb6402f1aa1e Charles Keepax      2013-04-18  609  
+7ea9ee0064281e Srinivas Kandagatla 2023-06-19  610  		if (stream->next_track)
+9b02221422a55e Takashi Iwai        2024-02-22  611  			return retval;
+7ea9ee0064281e Srinivas Kandagatla 2023-06-19  612  
+9727b490e543de Jeeja KP            2013-02-14  613  		stream->metadata_set = false;
+9727b490e543de Jeeja KP            2013-02-14  614  		stream->next_track = false;
+49bb6402f1aa1e Charles Keepax      2013-04-18  615  
+49bb6402f1aa1e Charles Keepax      2013-04-18  616  		stream->runtime->state = SNDRV_PCM_STATE_SETUP;
+769fab2a41da4b Jesper Juhl         2012-01-23  617  	} else {
+b21c60a4edd22e Vinod Koul          2011-12-23  618  		return -EPERM;
+769fab2a41da4b Jesper Juhl         2012-01-23  619  	}
+b21c60a4edd22e Vinod Koul          2011-12-23  620  	return retval;
+b21c60a4edd22e Vinod Koul          2011-12-23  621  }
+b21c60a4edd22e Vinod Koul          2011-12-23  622  
+
+:::::: The code at line 595 was first introduced by commit
+:::::: c2f14ba749c1ce94aa97c5a84733a89aaaadada4 ALSA: compress: Use memdup_user() rather than duplicating its implementation
+
+:::::: TO: Markus Elfring <elfring@users.sourceforge.net>
+:::::: CC: Takashi Iwai <tiwai@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
