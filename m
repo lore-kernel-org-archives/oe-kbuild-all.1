@@ -1,62 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598AB405FF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 15:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715943FE47
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 16:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710518061; cv=none; b=uJO2GeB/ACV6INb2wur7L8ramhDQ/M7TuSuQaFrNSUBc0Qf91MDi3IMZX38HXL5VoYf5OimIVQDXd6irecMS9tvv3lox2YH5UON+lExnmgzYfHfAhJTm3CJkTbyayp4A4bxvb0taR5XqVAobq3TmrtjLdK+uMDIvSMrnuRM43tU=
+	t=1710519440; cv=none; b=N8JvSNM8CLSx8WeOhxfKozG+yZdZx2Zk06TDSfuAfNZ7vciLIbrDoRw0WndRT0ZlGvHRDafc52YkkMRnO3lgU3OL0JHdKZ9Q3bFHJEQ/0f3gxDqACqR6Xeh6kfAzIlXAAMcyOUBzAH7A4dn6MfRJch+QlLUHPoz551EBpotQvr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710518061; c=relaxed/simple;
-	bh=s0OIHKNEwGIa5s7KPpYL0a1H8D5CL9bczCXQZrpz4DY=;
+	s=arc-20240116; t=1710519440; c=relaxed/simple;
+	bh=+siEWXHFz2psbXNoaXiWPftLm9zhkkWUSF8L5Mc+7D4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=glSFqvE9zwZ8inU3bVddqxGrKDSNVmw5NfeFd3awmtSIUWIM6bhaWzfBW+EEO9caEYW0tF/W1qohdghaAa1hb0U+Znzx6h4d6mQetWTqmQMEeWI2ttdwE81gKp2OkfEo5NkngcioFsdPDV3jm/Sb7Cw7M04GSs305JcA75H27J0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZRJi+fCt; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=sPhnQe+XE56lHzmHty8p6QkH63GIGyRKYvVUuCQLDvb+9/aWUxMf7+d0Ka8k9ER39A2GUje80KVXvQVvyLvK10eFkUx6wJA2UPMyrNuj9x40u4jJu/wWGP2jsHSmCY1aTdHt8KfMTYhDl5NQAgKVCVhmbbSJiIugrVH/mh7gNG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g7O/bP2K; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZRJi+fCt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710518059; x=1742054059;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=s0OIHKNEwGIa5s7KPpYL0a1H8D5CL9bczCXQZrpz4DY=;
-  b=ZRJi+fCtAmSb22rJktzFBgA44wzYeI0ldssmlX+v+oxdJMd48jxRnbre
-   pbFKFch6wFfABugiPKsjIO+bYOJkPsCXJj81xDy+ocCK4J+hRrKlejShk
-   KLsf9LqLwtyeuqKrHegfr282s+VUfWNq6XZcUyQGoI1gJoRyyMwgvigTP
-   j45pzbYeM/KDvoCNT1Qhl1so3sTG4bEmNUEQEOAjPWstOk6WtucRUo8zJ
-   w3hadSbEb4nxlU29m/71e3RfnBUIqrbs1XJfR/+Zk07Uwfm7gvzi0t8CE
-   G6hUPHBl2Kqgu9pWp16x3hsg93pEV3Os3E5Lmpb/MGJUyHFVh6mkZl45T
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5529420"
-X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="5529420"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 08:54:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="43750025"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Mar 2024 08:54:14 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rl9sq-000EZF-1E;
-	Fri, 15 Mar 2024 15:54:12 +0000
-Date: Fri, 15 Mar 2024 23:54:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lukasz Luba <lukasz.luba@arm.com>, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, lukasz.luba@arm.com,
-	dietmar.eggemann@arm.com, linux-arm-kernel@lists.infradead.org,
-	sboyd@kernel.org, nm@ti.com, linux-samsung-soc@vger.kernel.org,
-	daniel.lezcano@linaro.org, rafael@kernel.org,
-	viresh.kumar@linaro.org, krzysztof.kozlowski@linaro.org,
-	alim.akhtar@samsung.com, m.szyprowski@samsung.com,
-	mhiramat@kernel.org
-Subject: Re: [PATCH 3/4] PM: EM: Add em_dev_update_chip_binning()
-Message-ID: <202403152322.1OIlZSAj-lkp@intel.com>
-References: <20240314140421.3563571-4-lukasz.luba@arm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g7O/bP2K"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1dde26f7e1dso17207655ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 09:17:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710519437; x=1711124237; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JvTc5Nmq7ya0vJkhA/LyUC5oHHVwCe9apA49fvP71+A=;
+        b=g7O/bP2K6x4TvLF+hNQCKWFfUYd9jUW2zV5zH7/nvphGlABywkjeBhnCgh5cFHJZyl
+         vDSLTajJE7LoPPOR1N/JIhj0lIaDon7NBASw9OzH+urW8eUfxwVALCFVuIpAgpVBdfoq
+         hEZD+qQaMvmQSmGzvdnvpxSHV0zIUEfl8JUDoxxgiK4OI2E9oQLZ3Y3/9vJWNi2k0UKS
+         4SahNNMsaQ+JGIQ5QoYf+YmtkVfK+Iwr59RBKTuHItUxmy17TUoTI68Pql34Pt+5PU6T
+         e6dbp9yxTELNam5AHTwBwXbWN++2kj/yAdBs4hujy7Rg/iJfqWNNHW4QdPvif9xGFdO1
+         Ipjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710519437; x=1711124237;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JvTc5Nmq7ya0vJkhA/LyUC5oHHVwCe9apA49fvP71+A=;
+        b=wV2U3iD7rg/rAbsact3ChoabeqgSxEZgEr2hjqsyDk4Xoy7alk8ssKJCYSshZw15VF
+         MXshazmCE0uUZR+JyEEGUSXPAzulXHoyA8nZwvjCrh47ypzrqF4AaiE/EOKQDmVCjmak
+         ntFSL+TSrhJcJfivfGQW11Lh0aV8qUPm+jwDAJ76BQ82LWNzEtSYzOuUSJGVsA9W6nlV
+         oJGQsTqbuMfkOqYIsDdQyvdAE3k32vZx0S6sFVBMqY/LbH0Y7VLoKd0798VtFJih37Y1
+         dw6n5n+Io4BB5ohJd89/TNTVA4kjcgWWJFtY86Uvy0oXLuS/hP5tBHMvlUAKNpEoq9tG
+         yPVA==
+X-Forwarded-Encrypted: i=1; AJvYcCWxIxanv9p0Bz49ocRISa5oFsLsD53MFN7YDyDj6sCVZV/J067abDxSLmDTdh5w6z6TFkBJezMD0eC4abFmCRuPwwKntXuSmP7TYHxG+Q==
+X-Gm-Message-State: AOJu0Yx+mr9p/hsQ3UCf700vKTHB0eWI6Gmhm0h9x8AfyvD9b7oomP+c
+	gFEdzVUXLG3R/OcgOCLoX/EEzWkSnTd4HpVfg5g15LboeYkN1fef
+X-Google-Smtp-Source: AGHT+IEjegsX44p9cqszfgX3j2cAN6QCSyKnJxqZGg+ZKFi24Svb8e4VoBu+OKuBt7WdGRrUpeaMug==
+X-Received: by 2002:a17:902:d510:b0:1de:f230:4bd1 with SMTP id b16-20020a170902d51000b001def2304bd1mr2078165plg.10.1710519436599;
+        Fri, 15 Mar 2024 09:17:16 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id k10-20020a170902c40a00b001defa97c6basm806766plk.235.2024.03.15.09.17.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Mar 2024 09:17:15 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 15 Mar 2024 09:17:14 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, x86@kernel.org,
+	Linus Torvalds <torvalds@linuxfoundation.org>,
+	Uros Bizjak <ubizjak@gmail.com>, linux-sparse@vger.kernel.org,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [patch 5/9] x86: Cure per CPU madness on UP
+Message-ID: <e20d88d0-5fb9-4307-be67-88b04ae9a188@roeck-us.net>
+References: <20240303235029.555787150@linutronix.de>
+ <20240304005104.622511517@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,121 +72,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240314140421.3563571-4-lukasz.luba@arm.com>
+In-Reply-To: <20240304005104.622511517@linutronix.de>
 
-Hi Lukasz,
+Hi,
 
-kernel test robot noticed the following build warnings:
+On Mon, Mar 04, 2024 at 11:12:23AM +0100, Thomas Gleixner wrote:
+> On UP builds sparse complains rightfully about accesses to cpu_info with
+> per CPU accessors:
+> 
+> cacheinfo.c:282:30: sparse: warning: incorrect type in initializer (different address spaces)
+> cacheinfo.c:282:30: sparse:    expected void const [noderef] __percpu *__vpp_verify
+> cacheinfo.c:282:30: sparse:    got unsigned int *
+> 
+> The reason is that on UP builds cpu_info which is a per CPU variable on SMP
+> is mapped to boot_cpu_info which is a regular variable. There is a hideous
+> accessor cpu_data() which tries to hide this, but it's not sufficient as
+> some places require raw accessors and generates worse code than the regular
+> per CPU accessors.
+> 
+> Waste sizeof(struct x86_cpuinfo) memory on UP and provide the per CPU
+> cpu_info unconditionally. This requires to update the CPU info on the boot
+> CPU as SMP does. (Ab)use the weakly defined smp_prepare_boot_cpu() function
+> and implement exactly that.
+> 
+> This allows to use regular per CPU accessors uncoditionally and paves the
+> way to remove the cpu_data() hackery.
+> 
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on linus/master next-20240315]
-[cannot apply to krzk/for-next clk/clk-next soc/for-next rafael-pm/acpi-bus rafael-pm/devprop v6.8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This patch results in crashes when running the mainline kernel in qemu
+with nosmp builds and Intel CPUs. The problem is _not_ seen on tag
+x86-cleanups-2024-03-11; it is only seen in the mainline kernel. I didn't
+check all of them, but it looks like AMD CPUs are not affected. The
+initial bisect points to the merge of x86-cleanups-2024-03-11 into the
+mainline kernel. I rebased x86-cleanups-2024-03-11 on top of the mainline
+kernel; the second bisect uses that rebase as base. Reverting this patch
+from the mainline kernel fixes the problem.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukasz-Luba/OPP-OF-Export-dev_opp_pm_calc_power-for-usage-from-EM/20240314-220719
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20240314140421.3563571-4-lukasz.luba%40arm.com
-patch subject: [PATCH 3/4] PM: EM: Add em_dev_update_chip_binning()
-config: x86_64-randconfig-123-20240315 (https://download.01.org/0day-ci/archive/20240315/202403152322.1OIlZSAj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403152322.1OIlZSAj-lkp@intel.com/reproduce)
+I don't know the code well enough to determine what is wrong.
+Please let me know what I can do to help debugging the problem.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403152322.1OIlZSAj-lkp@intel.com/
+Thanks,
+Guenter
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/power/energy_model.c:168:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got struct em_perf_table * @@
-   kernel/power/energy_model.c:168:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:168:15: sparse:     got struct em_perf_table *
-   kernel/power/energy_model.c:169:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct em_perf_table [noderef] __rcu *table @@
-   kernel/power/energy_model.c:169:15: sparse:     expected void const *objp
-   kernel/power/energy_model.c:169:15: sparse:     got struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:177:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got struct em_perf_table * @@
-   kernel/power/energy_model.c:177:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:177:15: sparse:     got struct em_perf_table *
-   kernel/power/energy_model.c:179:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct callback_head *head @@     got struct callback_head [noderef] __rcu * @@
-   kernel/power/energy_model.c:179:19: sparse:     expected struct callback_head *head
-   kernel/power/energy_model.c:179:19: sparse:     got struct callback_head [noderef] __rcu *
-   kernel/power/energy_model.c:190:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct kref *kref @@     got struct kref [noderef] __rcu * @@
-   kernel/power/energy_model.c:190:19: sparse:     expected struct kref *kref
-   kernel/power/energy_model.c:190:19: sparse:     got struct kref [noderef] __rcu *
-   kernel/power/energy_model.c:208:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got void * @@
-   kernel/power/energy_model.c:208:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:208:15: sparse:     got void *
-   kernel/power/energy_model.c:212:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct kref *kref @@     got struct kref [noderef] __rcu * @@
-   kernel/power/energy_model.c:212:20: sparse:     expected struct kref *kref
-   kernel/power/energy_model.c:212:20: sparse:     got struct kref [noderef] __rcu *
-   kernel/power/energy_model.c:328:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct kref *kref @@     got struct kref [noderef] __rcu * @@
-   kernel/power/energy_model.c:328:19: sparse:     expected struct kref *kref
-   kernel/power/energy_model.c:328:19: sparse:     got struct kref [noderef] __rcu *
-   kernel/power/energy_model.c:333:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct em_perf_state *table @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:333:45: sparse:     expected struct em_perf_state *table
-   kernel/power/energy_model.c:333:45: sparse:     got struct em_perf_state [noderef] __rcu *
-   kernel/power/energy_model.c:433:45: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct em_perf_state *table @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:433:45: sparse:     expected struct em_perf_state *table
-   kernel/power/energy_model.c:433:45: sparse:     got struct em_perf_state [noderef] __rcu *
-   kernel/power/energy_model.c:450:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct em_perf_table [noderef] __rcu *[assigned] em_table @@
-   kernel/power/energy_model.c:450:15: sparse:     expected void const *objp
-   kernel/power/energy_model.c:450:15: sparse:     got struct em_perf_table [noderef] __rcu *[assigned] em_table
-   kernel/power/energy_model.c:621:55: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct em_perf_state *table @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:621:55: sparse:     expected struct em_perf_state *table
-   kernel/power/energy_model.c:621:55: sparse:     got struct em_perf_state [noderef] __rcu *
-   kernel/power/energy_model.c:676:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_state *new_ps @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:676:16: sparse:     expected struct em_perf_state *new_ps
-   kernel/power/energy_model.c:676:16: sparse:     got struct em_perf_state [noderef] __rcu *
-   kernel/power/energy_model.c:694:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct em_perf_state *table @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:694:37: sparse:     expected struct em_perf_state *table
-   kernel/power/energy_model.c:694:37: sparse:     got struct em_perf_state [noderef] __rcu *
-   kernel/power/energy_model.c:729:38: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct em_perf_state *table @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:729:38: sparse:     expected struct em_perf_state *table
-   kernel/power/energy_model.c:729:38: sparse:     got struct em_perf_state [noderef] __rcu *
->> kernel/power/energy_model.c:836:53: sparse: sparse: dereference of noderef expression
-   kernel/power/energy_model.c:845:32: sparse: sparse: dereference of noderef expression
+----
+crash log:
 
-vim +836 kernel/power/energy_model.c
+[    3.291087] BUG: unable to handle page fault for address: ffff9cd801f3f2a0
+[    3.291087] #PF: supervisor write access in kernel mode
+[    3.291087] #PF: error_code(0x0002) - not-present page
+[    3.291087] PGD 60201067 P4D 60201067 PUD 0
+[    3.291087] Oops: 0002 [#1] PREEMPT PTI
+[    3.291087] CPU: 0 PID: 1 Comm: swapper Not tainted 6.8.0-06619-ge5e038b7ae9d #1
+[    3.291087] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
+[    3.291087] RIP: 0010:rapl_cpu_online+0xf2/0x110
+[    3.291087] Code: 05 ff 8e 07 03 40 42 0f 00 48 89 43 60 e8 56 5f 12 00 8b 15 b4 84 61 02 48 8b 05 01 8f 07 03 48 c7 83 90 00 00 00 e0 84 80 b6 <48> 89 9c d0 38 01 00 00 e9 2b ff ff ff b8 f4 ff ff ff e9 47 ff ff
+[    3.291087] RSP: 0018:ffffa3d54001fdd0 EFLAGS: 00000246
+[    3.291087] RAX: ffff9cd001f3f200 RBX: ffff9cd001fb34a8 RCX: 0000000000000000
+[    3.291087] RDX: 00000000ffffffed RSI: 0000000000000001 RDI: ffff9cd001fb3550
+[    3.291087] RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000001
+[    3.291087] R10: 0000000000000001 R11: 0000000000018001 R12: 0000000000000000
+[    3.291087] R13: 000000000000009e R14: ffffffffb6808180 R15: ffffffffb86710e5
+[    3.291087] FS:  0000000000000000(0000) GS:ffffffffb8ab0000(0000) knlGS:0000000000000000
+[    3.291087] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    3.291087] CR2: ffff9cd801f3f2a0 CR3: 000000005e6a2000 CR4: 00000000001506f0
+[    3.291087] Call Trace:
+[    3.291087]  <TASK>
+[    3.291087]  ? __die+0x1f/0x60
+[    3.291087]  ? page_fault_oops+0x148/0x460
+[    3.291087]  ? search_exception_tables+0x37/0x50
+[    3.291087]  ? fixup_exception+0x21/0x320
+[    3.291087]  ? exc_page_fault+0xca/0x150
+[    3.291087]  ? asm_exc_page_fault+0x26/0x30
+[    3.291087]  ? __pfx_rapl_cpu_online+0x10/0x10
+[    3.291087]  ? rapl_cpu_online+0xf2/0x110
+[    3.291087]  cpuhp_invoke_callback.constprop.0+0x117/0x3e0
+[    3.291087]  __cpuhp_setup_state_cpuslocked+0x1b7/0x280
+[    3.291087]  ? __pfx_rapl_cpu_online+0x10/0x10
+[    3.291087]  rapl_pmu_init+0x189/0x2e0
+[    3.291087]  ? __pfx_rapl_pmu_init+0x10/0x10
+[    3.291087]  do_one_initcall+0x4f/0x210
+[    3.291087]  kernel_init_freeable+0x166/0x290
+[    3.291087]  ? __pfx_kernel_init+0x10/0x10
+[    3.291087]  kernel_init+0x15/0x1b0
+[    3.291087]  ret_from_fork+0x2f/0x50
+[    3.291087]  ? __pfx_kernel_init+0x10/0x10
+[    3.291087]  ret_from_fork_asm+0x19/0x30
+[    3.291087]  </TASK>
+[    3.291087] Modules linked in:
+[    3.291087] CR2: ffff9cd801f3f2a0
+[    3.291087] ---[ end trace 0000000000000000 ]---
+[    3.291087] RIP: 0010:rapl_cpu_online+0xf2/0x110
+[    3.291087] Code: 05 ff 8e 07 03 40 42 0f 00 48 89 43 60 e8 56 5f 12 00 8b 15 b4 84 61 02 48 8b 05 01 8f 07 03 48 c7 83 90 00 00 00 e0 84 80 b6 <48> 89 9c d0 38 01 00 00 e9 2b ff ff ff b8 f4 ff ff ff e9 47 ff ff
+[    3.291087] RSP: 0018:ffffa3d54001fdd0 EFLAGS: 00000246
+[    3.291087] RAX: ffff9cd001f3f200 RBX: ffff9cd001fb34a8 RCX: 0000000000000000
+[    3.291087] RDX: 00000000ffffffed RSI: 0000000000000001 RDI: ffff9cd001fb3550
+[    3.291087] RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000001
+[    3.291087] R10: 0000000000000001 R11: 0000000000018001 R12: 0000000000000000
+[    3.291087] R13: 000000000000009e R14: ffffffffb6808180 R15: ffffffffb86710e5
+[    3.291087] FS:  0000000000000000(0000) GS:ffffffffb8ab0000(0000) knlGS:0000000000000000
+[    3.291087] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    3.291087] CR2: ffff9cd801f3f2a0 CR3: 000000005e6a2000 CR4: 00000000001506f0
+[    3.291087] note: swapper[1] exited with irqs disabled
+[    3.306047] Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000009
 
-   800	
-   801	/**
-   802	 * em_dev_update_chip_binning() - Update Energy Model with new values after
-   803	 *			the new voltage information is present in the OPPs.
-   804	 * @dev		: Device for which the Energy Model has to be updated.
-   805	 *
-   806	 * This function allows to update easily the EM with new values available in
-   807	 * the OPP framework and DT. It can be used after the chip has been properly
-   808	 * verified by device drivers and the voltages adjusted for the 'chip binning'.
-   809	 * It uses the "dynamic-power-coefficient" DT property to calculate the power
-   810	 * values for EM. For power calculation it uses the new adjusted voltage
-   811	 * values known for OPPs, which might be changed after boot.
-   812	 */
-   813	int em_dev_update_chip_binning(struct device *dev)
-   814	{
-   815		struct em_perf_table __rcu *em_table;
-   816		struct em_perf_domain *pd;
-   817		int i, ret;
-   818	
-   819		if (IS_ERR_OR_NULL(dev))
-   820			return -EINVAL;
-   821	
-   822		pd = em_pd_get(dev);
-   823		if (!pd) {
-   824			dev_warn(dev, "Couldn't find Energy Model %d\n", ret);
-   825			return -EINVAL;
-   826		}
-   827	
-   828		em_table = em_table_dup(pd);
-   829		if (!em_table) {
-   830			dev_warn(dev, "EM: allocation failed\n");
-   831			return -ENOMEM;
-   832		}
-   833	
-   834		/* Update power values which might change due to new voltage in OPPs */
-   835		for (i = 0; i < pd->nr_perf_states; i++) {
- > 836			unsigned long freq = em_table->state[i].frequency;
+---
+1st bisect:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+# bad: [1bbeaf83dd7b5e3628b98bec66ff8fe2646e14aa] Merge tag 'perf-tools-for-v6.9-2024-03-13' of git://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools
+# good: [e8f897f4afef0031fe618a8e94127a0934896aba] Linux 6.8
+git bisect start 'HEAD' 'v6.8'
+# bad: [9187210eee7d87eea37b45ea93454a88681894a4] Merge tag 'net-next-6.9' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next
+git bisect bad 9187210eee7d87eea37b45ea93454a88681894a4
+# bad: [a01c9fe32378636ae65bec8047b5de3fdb2ba5c8] Merge tag 'nfsd-6.9' of git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux
+git bisect bad a01c9fe32378636ae65bec8047b5de3fdb2ba5c8
+# bad: [691632f0e86973604678d193ccfa47b9614581aa] Merge tag 's390-6.9-1' of git://git.kernel.org/pub/scm/linux/kernel/git/s390/linux
+git bisect bad 691632f0e86973604678d193ccfa47b9614581aa
+# good: [8ede842f669b6f78812349bbef4d1efd0fbdafce] Merge tag 'rust-6.9' of https://github.com/Rust-for-Linux/linux
+git bisect good 8ede842f669b6f78812349bbef4d1efd0fbdafce
+# good: [bfdb395a7cde12d83a623949ed029b0ab38d765b] Merge tag 'x86_mtrr_for_v6.9_rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+git bisect good bfdb395a7cde12d83a623949ed029b0ab38d765b
+# bad: [685d98211273f60e38a6d361b62d7016c545297e] Merge tag 'x86-core-2024-03-11' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+git bisect bad 685d98211273f60e38a6d361b62d7016c545297e
+# good: [b0402403e54ae9eb94ce1cbb53c7def776e97426] Merge tag 'edac_updates_for_v6.9' of git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras
+git bisect good b0402403e54ae9eb94ce1cbb53c7def776e97426
+# good: [cb81deefb59de01325ab822f900c13941bfaf67f] x86/idle: Sanitize X86_BUG_AMD_E400 handling
+git bisect good cb81deefb59de01325ab822f900c13941bfaf67f
+# good: [73f0d1d7b4abb4a46bae1a0d8caf66e23d1138d0] Merge tag 'x86-asm-2024-03-11' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+git bisect good 73f0d1d7b4abb4a46bae1a0d8caf66e23d1138d0
+# good: [65efc4dc12c5cc296374278673b89390eba79fe6] x86/cpu: Provide a declaration for itlb_multihit_kvm_mitigation
+git bisect good 65efc4dc12c5cc296374278673b89390eba79fe6
+# good: [d69ad12c786f0a4593c48c0658043aa4a5116b09] Merge tag 'x86-build-2024-03-11' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+git bisect good d69ad12c786f0a4593c48c0658043aa4a5116b09
+# good: [35ce64922c8263448e58a2b9e8d15a64e11e9b2d] x86/idle: Select idle routine only once
+git bisect good 35ce64922c8263448e58a2b9e8d15a64e11e9b2d
+# good: [774a86f1c885460ade4334b901919fa1d8ae6ec6] x86/nmi: Drop unused declaration of proc_nmi_enabled()
+git bisect good 774a86f1c885460ade4334b901919fa1d8ae6ec6
+# bad: [fcc196579aa1fc167d6778948bff69fae6116737] Merge tag 'x86-cleanups-2024-03-11' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+git bisect bad fcc196579aa1fc167d6778948bff69fae6116737
+# first bad commit: [fcc196579aa1fc167d6778948bff69fae6116737] Merge tag 'x86-cleanups-2024-03-11' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+
+---
+2nd bisect:
+
+# bad: [6d70929c7019e265425f7a89cf72163a639d462e] x86/nmi: Drop unused declaration of proc_nmi_enabled()
+# good: [d69ad12c786f0a4593c48c0658043aa4a5116b09] Merge tag 'x86-build-2024-03-11' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+git bisect start 'HEAD' 'fcc196579aa1fc167d6778948bff69fae6116737~1'
+# good: [5c157d25918ef15454c2a9a9262f7b763d9c9add] x86/msr: Add missing __percpu annotations
+git bisect good 5c157d25918ef15454c2a9a9262f7b763d9c9add
+# bad: [f5a6b1e2d92d825a0f73ca11e960795da336d99e] x86/uaccess: Add missing __force to casts in __access_ok() and valid_user_address()
+git bisect bad f5a6b1e2d92d825a0f73ca11e960795da336d99e
+# bad: [68907233f6d26a214bb79f892db8d999b15dda97] x86/percpu: Cure per CPU madness on UP
+git bisect bad 68907233f6d26a214bb79f892db8d999b15dda97
+# good: [053df18ceb928c8631042317a884b2842a457f1b] smp: Consolidate smp_prepare_boot_cpu()
+git bisect good 053df18ceb928c8631042317a884b2842a457f1b
+# first bad commit: [68907233f6d26a214bb79f892db8d999b15dda97] x86/percpu: Cure per CPU madness on UP
