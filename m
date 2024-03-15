@@ -1,55 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C93045970
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 15:44:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992E93D575;
+	Fri, 15 Mar 2024 15:44:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710517468; cv=none; b=ldQZnPhHhCHlvyNsycGPinK24hfvOFo9Lgt1BLTp4MYDoa2RML5PiIHje1a+pZjsUHR5rpqIiMCVDvnMmbTJUZpIuSsYNStPc3BhlRBWWt6jdtlbT3NOK4Rbhk82rdV5GeatBaq54FHK6u7S2w3BoDBnYUjroLWI6NGGAYEEJsg=
+	t=1710517470; cv=none; b=miCxV4X7kF6vGhAhgi1hlg8fZJBetUVM6B3oAbV9EEcHDtACHm70moPl610Lo2akf8+oNZoQA01It+BtR4YxDDERUO+3Ll3fgdrf6Vfb9xQ60S6LfFuApYqWXP+7XMJhubAZ0MOCjnJYDQ+iHKx0yfLRL84tS4FvXVyoLjfCsgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710517468; c=relaxed/simple;
-	bh=0Jk7SaTZsslGmLS1G/tiFhmDTflku5t/2oI9lFxGM8s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h8I3hB7CFMcBr5sL333UIi4VCiUEz/M/fb09DMHpA0ycGJltGXwbgYLD24FvsfU4drNbWhrz8tgIfFfTZWcOnbPwHB4qYoA4EK39WYkp3dqj+FQUMFSjUCykBfLOUBJIUgnA+6DUM7Nfval7CA12Wmkd5wUeED41QInrSaM/PF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6Wy8AUn; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1710517470; c=relaxed/simple;
+	bh=zLFKLaDgu7A9t4PnNE41buDweQyJlPexb7inSJDieTs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uHFjLWWqBBr5DNnSVvi+mxL9hsjZdFT+tyKDJpzoxRoX9rGbcBjPwW26+d1E4ag7MGdRRxVWkd4ni6LtnAMQokvEmiXPC8YL3gggVYPEcfs0X7bawB7TFtcicg3/q8nd+bqWLPe3QCqCxXfj676hAtlKAS9XhzcjoetmOxaygkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mK+IQ6gc; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6Wy8AUn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mK+IQ6gc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710517467; x=1742053467;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0Jk7SaTZsslGmLS1G/tiFhmDTflku5t/2oI9lFxGM8s=;
-  b=U6Wy8AUnMDBF10izzrQWmtf0wAg7+QUhMVWW8/r9hmTM7AP1xb8cFj5b
-   uUSnDzNBqJV6I0ro4sityqMDyV4W7NfK8Tdq3T7eK/+SS3ofS45ehkKec
-   FbGCTzY6QXjtHPhqu4RMKR6FDtY+9uvaWYaU50DfOW4llIVxRZGWQ/4Qe
-   JenR/1EPJjOfCBhc7d9GWhFxVGNjV/bj+088bMEnFKfT1AaHCmsr7jg0b
-   FH7QYhhDevVrqzd+v6ZHrYnUV0C+qKxnmHEvYtBzD/+ubkhC1OC/8HJWP
-   pJwFt9IF3DjnZs9wBFwCg8KYX9dFxuloDVgX8vdqNcxDFnWGzazjsO6et
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5261099"
+  t=1710517469; x=1742053469;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zLFKLaDgu7A9t4PnNE41buDweQyJlPexb7inSJDieTs=;
+  b=mK+IQ6gc2Dmu2o2pTKk1yEvGJaHenQRjjTtPgY1VHMVwTTlQV9/fPKhY
+   lIYpJhqg7jBzBwI4pQrPVKfLjaZR8dh0cjg2G7Z1OL2yyEP8rJqzEaXhD
+   2u/0HSRuF75xrj0L/4d8wVf1vy25M2MDR4CHL+xWxJE0d+gkZRR/z/8UA
+   dngQ8zoqbjgeWrPr+jq5yh6vvLnj51jBZv0LHlrnjb61r9D2pgh7tPh3K
+   bgvlrzJaPcamX4aVu1DHX99OHlGUBsm2cAKvzSswOxhOuq4vYsys+PXi2
+   c0bvPo0XYMVWUI8h8eXgnXT7njRV3YUMx+Mr/iD7z4UjmvVO40aRh+bjY
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5261106"
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="5261099"
+   d="scan'208";a="5261106"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 08:44:17 -0700
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 08:44:18 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="17324372"
+   d="scan'208";a="17324368"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Mar 2024 08:44:15 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 15 Mar 2024 08:44:14 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rl9jA-000EYj-0m;
+	id 1rl9jA-000EYb-0Z;
 	Fri, 15 Mar 2024 15:44:12 +0000
-Date: Fri, 15 Mar 2024 23:43:51 +0800
+Date: Fri, 15 Mar 2024 23:43:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yusur <opensource-dev@yusur.tech>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 29991/30000]
- drivers/net/ethernet/yusur/k2/ys_k2_tx.c:137:18: warning: variable
- 'clean_tail_ptr' set but not used
-Message-ID: <202403152311.T6JFVh2t-lkp@intel.com>
+To: Julien Massot <julien.massot@collabora.com>, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, benjamin.mugnier@foss.st.com,
+	sylvain.petinot@foss.st.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, kernel@collabora.com,
+	Julien Massot <julien.massot@collabora.com>
+Subject: Re: [PATCH 2/4] media: i2c: st-vgxy61: Add support for embedded data
+Message-ID: <202403152358.DM9q4q25-lkp@intel.com>
+References: <20240315085158.1213159-3-julien.massot@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,112 +62,165 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240315085158.1213159-3-julien.massot@collabora.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   32bb7b0a7c87769858fbb9d60574b830383c28f7
-commit: c92533ad657c0a5d1a7a6355ef2c357cbb91d5c0 [29991/30000] drivers: initial support for KPU FLEXFLOW-2100P driver from Yusur Technology
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240315/202403152311.T6JFVh2t-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403152311.T6JFVh2t-lkp@intel.com/reproduce)
+Hi Julien,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linuxtv-media-stage/master next-20240315]
+[cannot apply to sailus-media-tree/streams linus/master v6.8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Julien-Massot/media-i2c-st-vgxy61-Use-sub-device-active-state/20240315-165346
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240315085158.1213159-3-julien.massot%40collabora.com
+patch subject: [PATCH 2/4] media: i2c: st-vgxy61: Add support for embedded data
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240315/202403152358.DM9q4q25-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403152358.DM9q4q25-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403152311.T6JFVh2t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403152358.DM9q4q25-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/yusur/k2/ys_k2_tx.c:137:18: warning: variable 'clean_tail_ptr' set but not used [-Wunused-but-set-variable]
-     137 |         u32 desc_index, clean_tail_ptr;
-         |                         ^
-   1 warning generated.
---
->> drivers/net/ethernet/yusur/k2/../platform/ys_intr.c:113:40: warning: overlapping comparisons always evaluate to false [-Wtautological-overlap-compare]
-     113 |         if (sub->irq_type < YS_IRQ_TYPE_QUEUE &&
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
-     114 |             sub->irq_type > YS_IRQ_TYPE_HW_PRIVATE) {
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+   In file included from drivers/media/i2c/st-vgxy61.c:11:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/media/i2c/st-vgxy61.c:11:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/media/i2c/st-vgxy61.c:11:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/media/i2c/st-vgxy61.c:11:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:20:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/media/i2c/st-vgxy61.c:709:16: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_8'
+     709 |                 code->code = MEDIA_BUS_FMT_META_8;
+         |                              ^
+   drivers/media/i2c/st-vgxy61.c:1251:19: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_8'
+    1251 |         meta_fmt->code = MEDIA_BUS_FMT_META_8;
+         |                          ^
+   drivers/media/i2c/st-vgxy61.c:1309:29: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_8'
+    1309 |         desc->entry[1].pixelcode = MEDIA_BUS_FMT_META_8;
+         |                                    ^
+>> drivers/media/i2c/st-vgxy61.c:1326:6: error: use of undeclared identifier 'V4L2_SUBDEV_ROUTE_FL_IMMUTABLE'
+    1326 |                                  V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
+         |                                  ^
+>> drivers/media/i2c/st-vgxy61.c:1336:17: error: invalid application of 'sizeof' to an incomplete type 'struct v4l2_subdev_route[]'
+    1336 |                 .num_routes = ARRAY_SIZE(routes),
+         |                               ^~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+>> drivers/media/i2c/st-vgxy61.c:1891:23: error: use of undeclared identifier 'MEDIA_PAD_FL_INTERNAL'
+    1891 |                 MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
+         |                                     ^
+   drivers/media/i2c/st-vgxy61.c:1893:23: error: use of undeclared identifier 'MEDIA_PAD_FL_INTERNAL'
+    1893 |                 MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
+         |                                     ^
+   7 warnings and 7 errors generated.
 
 
-vim +/clean_tail_ptr +137 drivers/net/ethernet/yusur/k2/ys_k2_tx.c
+vim +/MEDIA_BUS_FMT_META_8 +709 drivers/media/i2c/st-vgxy61.c
 
-   130	
-   131	netdev_tx_t ysk2_start_xmit(struct sk_buff *skb, struct net_device *ndev)
-   132	{
-   133		struct ys_ndev_priv *ndev_priv = netdev_priv(ndev);
-   134		struct skb_shared_info *shinfo = skb_shinfo(skb);
-   135		struct ysk2_port *k2port = ndev_priv->adp_priv;
-   136		struct ysk2_desc_ring *tx_ring;
- > 137		u32 desc_index, clean_tail_ptr;
-   138		struct ysk2_tx_info *tx_info;
-   139		struct ysk2_desc *tx_desc;
-   140		bool stop_queue;
-   141		u16 txq_index;
-   142	
-   143		if (unlikely(!(ndev->flags & IFF_UP)))
-   144			goto tx_drop;
-   145	
-   146		txq_index = skb_get_queue_mapping(skb);
-   147		tx_ring = k2port->qps[txq_index].tx_ring;
-   148	
-   149		clean_tail_ptr = READ_ONCE(tx_ring->ring.clean_tail_ptr);
-   150	
-   151		desc_index = tx_ring->ring.head_ptr & tx_ring->ring.size_mask;
-   152	
-   153		tx_desc = (struct ysk2_desc *)(tx_ring->ring.buf +
-   154					       desc_index * tx_ring->ring.stride);
-   155	
-   156		tx_info = &tx_ring->tx_info[desc_index];
-   157	
-   158		/* too many frags or very short data portion; linearize */
-   159		if (shinfo->nr_frags > tx_ring->tx_max_sg_frags ||
-   160		    (skb->data_len && skb->data_len < 32)) {
-   161			if (skb_linearize(skb))
-   162				goto tx_drop_count;
-   163		}
-   164	
-   165		/* Refresh the cache through streaming mapping */
-   166		if (ysk2_map_skb(&tx_ring->ring, tx_info, tx_desc, skb))
-   167			goto tx_drop_count;
-   168	
-   169		/* count packet */
-   170		tx_ring->packets++;
-   171		tx_ring->bytes += skb->len;
-   172	
-   173		/* enqueue */
-   174		tx_ring->ring.head_ptr++;
-   175	
-   176		skb_tx_timestamp(skb);
-   177	
-   178		/* if the tx_ring is full now, stop the tx queue */
-   179		stop_queue = ysk2_is_ring_full(&tx_ring->ring);
-   180		if (unlikely(stop_queue)) {
-   181			ys_net_debug("TX ring %d full\n", txq_index);
-   182			netif_tx_stop_queue(tx_ring->tx_queue);
-   183		}
-   184	
-   185		/* enqueue on NIC */
-   186		if (unlikely(!netdev_xmit_more() || stop_queue))
-   187			ysk2_write_head_ptr(&tx_ring->ring);
-   188	
-   189		/* check if queue restarted */
-   190		if (unlikely(stop_queue)) {
-   191			clean_tail_ptr = READ_ONCE(tx_ring->ring.clean_tail_ptr);
-   192	
-   193			if (unlikely(!ysk2_is_ring_full(&tx_ring->ring)))
-   194				netif_tx_wake_queue(tx_ring->tx_queue);
-   195		}
-   196	
-   197		return NETDEV_TX_OK;
-   198	
-   199	tx_drop_count:
-   200		tx_ring->dropped_packets++;
-   201	tx_drop:
-   202		dev_kfree_skb_any(skb);
-   203		return NETDEV_TX_OK;
-   204	}
-   205	
+   698	
+   699	static int vgxy61_enum_mbus_code(struct v4l2_subdev *sd,
+   700					 struct v4l2_subdev_state *sd_state,
+   701					 struct v4l2_subdev_mbus_code_enum *code)
+   702	{
+   703		if (code->pad == VGXY61_PAD_META ||
+   704		    (code->pad == VGXY61_PAD_SOURCE &&
+   705		     code->stream == VGXY61_STREAM_META)) {
+   706			if (code->index > 0)
+   707				return -EINVAL;
+   708	
+ > 709			code->code = MEDIA_BUS_FMT_META_8;
+   710			return 0;
+   711		}
+   712	
+   713		if (code->index >= ARRAY_SIZE(vgxy61_supported_codes))
+   714			return -EINVAL;
+   715	
+   716		code->code = vgxy61_supported_codes[code->index].code;
+   717	
+   718		return 0;
+   719	}
+   720	
 
 -- 
 0-DAY CI Kernel Test Service
