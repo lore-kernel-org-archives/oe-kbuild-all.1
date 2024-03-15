@@ -1,55 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B285A0E7;
-	Fri, 15 Mar 2024 23:08:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657F959B6C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 23:18:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710544113; cv=none; b=aT1ciUP2860hKu5S5zj/jSiPmNBch6VhStSlyS+Xjx11a0VRPPKgOQum3tPcFfKJhd6ARHC4BBkAgan6ahF4FkDefnHutyq7sULzwWYaLHQOjc26ji+zwuAWZ2yJtb2eP57/3WhLDDGoRZ0rRmixKxEUgSj/rfuo8ob++qBcoyI=
+	t=1710544711; cv=none; b=WssVVTe4aZIWhoxQzonifEDeqszq7d8Exsv2urx/IYuPI9SkXyOknoctpHhz8tiexMHlcfunUo6dHc+8psfrRdff6rs/RH9iXbzsChYlZ2DsXrsUoV97pa4ieIyQmsvkZTmB3MpUtPOLL+fbgzNh0XedgiIjeHPJIdypLAf8PPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710544113; c=relaxed/simple;
-	bh=sfWl3P1vGOkAgyEe79fsdBw9g9vnG5GgJZ6RNrrsDJk=;
+	s=arc-20240116; t=1710544711; c=relaxed/simple;
+	bh=1BIwJDMgB0ZiUW0rfJVmvQqq6dw1q/9m0HXKqqhMCUk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=COuF704x5WOcoABheBWv7UkGI8OIZaGFLILuzw2RuOJP8Unp6/WRHr35SiqvAIN5xzHYdNSxHV3lpWK6fSneYSp2vW5/V5veb+vIWX7GbBBigfwU2oAebrLyEKob1mju4b/rrz9gBvV6jxoASaZJF7K7EBExrGG56obMvJfxZnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iJMRSJoC; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=K6d3IqYkfp/xzNJUmvbsZuqA1j7wFDDk8kQr6tgpdmEI3AUKwBeffV8AGvqaQngSM9VE+/gg5fkEayCOggnENV4uQWvQ6P3ujcRzEjZQ5R4Z5n8pz0zgSLmCgJJ1Br7hRo0c7/+elrcjXVcWbpQMA7aQP035w2ZqU0TI6fkbF0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NPB5IEXp; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iJMRSJoC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPB5IEXp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710544110; x=1742080110;
+  t=1710544708; x=1742080708;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sfWl3P1vGOkAgyEe79fsdBw9g9vnG5GgJZ6RNrrsDJk=;
-  b=iJMRSJoChqKrfqWbtMJY2IaWIizoZOYzSZGjjVY+7pXyDBadWC5eqmEF
-   NIvmBYVSyHr02xYiraYs3Flr91PfmqyWjWW+Qe8BCapXworIwFvNa6j+s
-   uNJhRlDHREfch9ayPM/wVoRpUHReTouf69SjbLdy9VnJNa/Xq6eoNcljA
-   Xymszd6iu9sfIkN/rYY6CUU30vZpMouDvdDKPJ68312SID/M+Boouns0w
-   tlO1sB0yVn4bKR87QNkj4gL5eMQ6mbIx5DtshR42aSZecTka6gzQjP0HC
-   nhJ8rC8Bj2AfJmb6mm7aOnWoi1vVZ8pZn1PMqkvFaey9CU11zpJ3WsIim
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5298292"
+  bh=1BIwJDMgB0ZiUW0rfJVmvQqq6dw1q/9m0HXKqqhMCUk=;
+  b=NPB5IEXpmRisUrVLrkMf5Y76XY6FxqjKjoJnXaf1G2WjlIek+r50U20a
+   v0qEkBaSV6kUuF/URf6UIP0RlUVQLz+UOc587T4dT0KpAN8+OQVvQ7GOg
+   u7GYXL1PomFysqaSFOduxlscP2L1KjcKrEHKLJl8nJdPQ3fnIcRI+OfUM
+   yrJ5ff6VvR98jLDoRiN/FMRi3vwSmI1JiQ6eSZzhiyNrDH5EY+QiXjTNK
+   QTVNRELQMPR0sXt5PjqsKiQcojK5Ic3gtUVO48GeZNWeR/FBIVFQwDZm0
+   JTNIVFOafJMdvcJquHy/3C7GKjKwhA9y3wsyNL5/oYzpMVCyzgYhRMaCv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5299004"
 X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="5298292"
+   d="scan'208";a="5299004"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 16:08:26 -0700
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 16:18:28 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="43879791"
+   d="scan'208";a="43882735"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Mar 2024 16:08:24 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 15 Mar 2024 16:18:25 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rlGf0-000ErL-1q;
-	Fri, 15 Mar 2024 23:08:22 +0000
-Date: Sat, 16 Mar 2024 07:07:39 +0800
+	id 1rlGog-000Es1-2i;
+	Fri, 15 Mar 2024 23:18:22 +0000
+Date: Sat, 16 Mar 2024 07:17:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-writeback 10/12] fs/netfs/main.c:113:6: error:
- call to undeclared function 'mempool_init_slab_pool'; ISO C99 and later do
- not support implicit function declarations
-Message-ID: <202403160648.2OM4lIMG-lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/next 27030/27507]
+ arch/x86/mm/fault.c:1376:12: warning: no previous prototype for
+ 'handle_simulate_fault'
+Message-ID: <202403160757.bkO85lgm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,204 +62,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
-head:   be938ad004e7a8f28cc6fc8500c120c7687339f7
-commit: ada115ace095d0356bbe99f34838822434d0f2df [10/12] netfs: Use mempools for allocating requests and subrequests
-config: i386-buildonly-randconfig-001-20240316 (https://download.01.org/0day-ci/archive/20240316/202403160648.2OM4lIMG-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403160648.2OM4lIMG-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
+head:   fdd5d0bfc620bd5147ff5b260822c7645aeddad6
+commit: 0a79fdbd088607c19950a1b43d18ffd47be07681 [27030/27507] mm: introduce the write simulate mechanism for special VMA
+config: x86_64-buildonly-randconfig-003-20240305 (https://download.01.org/0day-ci/archive/20240316/202403160757.bkO85lgm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403160757.bkO85lgm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403160648.2OM4lIMG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403160757.bkO85lgm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/netfs/main.c:113:6: error: call to undeclared function 'mempool_init_slab_pool'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     113 |         if (mempool_init_slab_pool(&netfs_request_pool, 100, netfs_request_slab) < 0)
-         |             ^
->> fs/netfs/main.c:146:2: error: call to undeclared function 'mempool_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     146 |         mempool_exit(&netfs_subrequest_pool);
-         |         ^
-   fs/netfs/main.c:162:2: error: call to undeclared function 'mempool_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     162 |         mempool_exit(&netfs_subrequest_pool);
-         |         ^
->> fs/netfs/main.c:28:11: error: tentative definition has type 'mempool_t' (aka 'struct mempool_s') that is never completed
-      28 | mempool_t netfs_request_pool;
-         |           ^
-   include/linux/netfs.h:23:16: note: forward declaration of 'struct mempool_s'
-      23 | typedef struct mempool_s mempool_t;
-         |                ^
-   fs/netfs/main.c:29:11: error: tentative definition has type 'mempool_t' (aka 'struct mempool_s') that is never completed
-      29 | mempool_t netfs_subrequest_pool;
-         |           ^
-   include/linux/netfs.h:23:16: note: forward declaration of 'struct mempool_s'
-      23 | typedef struct mempool_s mempool_t;
-         |                ^
-   5 errors generated.
---
->> fs/netfs/objects.c:31:10: error: call to undeclared function 'mempool_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      31 |                 rreq = mempool_alloc(ctx->ops->request_pool ?: &netfs_request_pool, GFP_KERNEL);
-         |                        ^
->> fs/netfs/objects.c:31:8: error: incompatible integer to pointer conversion assigning to 'struct netfs_io_request *' from 'int' [-Wint-conversion]
-      31 |                 rreq = mempool_alloc(ctx->ops->request_pool ?: &netfs_request_pool, GFP_KERNEL);
-         |                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> fs/netfs/objects.c:59:4: error: call to undeclared function 'mempool_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      59 |                         mempool_free(rreq, rreq->netfs_ops->request_pool ?: &netfs_request_pool);
-         |                         ^
-   fs/netfs/objects.c:95:2: error: call to undeclared function 'mempool_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      95 |         mempool_free(rreq, rreq->netfs_ops->request_pool ?: &netfs_request_pool);
-         |         ^
-   fs/netfs/objects.c:155:12: error: call to undeclared function 'mempool_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     155 |                 subreq = mempool_alloc(rreq->netfs_ops->subrequest_pool ?: &netfs_subrequest_pool,
-         |                          ^
->> fs/netfs/objects.c:155:10: error: incompatible integer to pointer conversion assigning to 'struct netfs_io_subrequest *' from 'int' [-Wint-conversion]
-     155 |                 subreq = mempool_alloc(rreq->netfs_ops->subrequest_pool ?: &netfs_subrequest_pool,
-         |                        ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     156 |                                        GFP_KERNEL);
-         |                                        ~~~~~~~~~~~
-   fs/netfs/objects.c:190:2: error: call to undeclared function 'mempool_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     190 |         mempool_free(subreq, rreq->netfs_ops->subrequest_pool ?: &netfs_subrequest_pool);
-         |         ^
-   7 errors generated.
+>> arch/x86/mm/fault.c:1376:12: warning: no previous prototype for 'handle_simulate_fault' [-Wmissing-prototypes]
+    1376 | vm_fault_t handle_simulate_fault(struct vm_area_struct *vma, unsigned long address,
+         |            ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/mempool_init_slab_pool +113 fs/netfs/main.c
+vim +/handle_simulate_fault +1376 arch/x86/mm/fault.c
 
-    25	
-    26	static struct kmem_cache *netfs_request_slab;
-    27	static struct kmem_cache *netfs_subrequest_slab;
-  > 28	mempool_t netfs_request_pool;
-    29	mempool_t netfs_subrequest_pool;
-    30	
-    31	#ifdef CONFIG_PROC_FS
-    32	LIST_HEAD(netfs_io_requests);
-    33	DEFINE_SPINLOCK(netfs_proc_lock);
-    34	
-    35	static const char *netfs_origins[nr__netfs_io_origin] = {
-    36		[NETFS_READAHEAD]		= "RA",
-    37		[NETFS_READPAGE]		= "RP",
-    38		[NETFS_READ_FOR_WRITE]		= "RW",
-    39		[NETFS_COPY_TO_CACHE]		= "CC",
-    40		[NETFS_WRITEBACK]		= "WB",
-    41		[NETFS_WRITETHROUGH]		= "WT",
-    42		[NETFS_UNBUFFERED_WRITE]	= "UW",
-    43		[NETFS_DIO_READ]		= "DR",
-    44		[NETFS_DIO_WRITE]		= "DW",
-    45	};
-    46	
-    47	/*
-    48	 * Generate a list of I/O requests in /proc/fs/netfs/requests
-    49	 */
-    50	static int netfs_requests_seq_show(struct seq_file *m, void *v)
-    51	{
-    52		struct netfs_io_request *rreq;
-    53	
-    54		if (v == &netfs_io_requests) {
-    55			seq_puts(m,
-    56				 "REQUEST  OR REF FL ERR  OPS COVERAGE\n"
-    57				 "======== == === == ==== === =========\n"
-    58				 );
-    59			return 0;
-    60		}
-    61	
-    62		rreq = list_entry(v, struct netfs_io_request, proc_link);
-    63		seq_printf(m,
-    64			   "%08x %s %3d %2lx %4d %3d @%04llx %zx/%zx",
-    65			   rreq->debug_id,
-    66			   netfs_origins[rreq->origin],
-    67			   refcount_read(&rreq->ref),
-    68			   rreq->flags,
-    69			   rreq->error,
-    70			   atomic_read(&rreq->nr_outstanding),
-    71			   rreq->start, rreq->submitted, rreq->len);
-    72		seq_putc(m, '\n');
-    73		return 0;
-    74	}
-    75	
-    76	static void *netfs_requests_seq_start(struct seq_file *m, loff_t *_pos)
-    77		__acquires(rcu)
-    78	{
-    79		rcu_read_lock();
-    80		return seq_list_start_head(&netfs_io_requests, *_pos);
-    81	}
-    82	
-    83	static void *netfs_requests_seq_next(struct seq_file *m, void *v, loff_t *_pos)
-    84	{
-    85		return seq_list_next(v, &netfs_io_requests, _pos);
-    86	}
-    87	
-    88	static void netfs_requests_seq_stop(struct seq_file *m, void *v)
-    89		__releases(rcu)
-    90	{
-    91		rcu_read_unlock();
-    92	}
-    93	
-    94	static const struct seq_operations netfs_requests_seq_ops = {
-    95		.start  = netfs_requests_seq_start,
-    96		.next   = netfs_requests_seq_next,
-    97		.stop   = netfs_requests_seq_stop,
-    98		.show   = netfs_requests_seq_show,
-    99	};
-   100	#endif /* CONFIG_PROC_FS */
-   101	
-   102	static int __init netfs_init(void)
-   103	{
-   104		int ret = -ENOMEM;
-   105	
-   106		netfs_request_slab = kmem_cache_create("netfs_request",
-   107						       sizeof(struct netfs_io_request), 0,
-   108						       SLAB_HWCACHE_ALIGN | SLAB_ACCOUNT,
-   109						       NULL);
-   110		if (!netfs_request_slab)
-   111			goto error_req;
-   112	
- > 113		if (mempool_init_slab_pool(&netfs_request_pool, 100, netfs_request_slab) < 0)
-   114			goto error_reqpool;
-   115	
-   116		netfs_subrequest_slab = kmem_cache_create("netfs_subrequest",
-   117							  sizeof(struct netfs_io_subrequest), 0,
-   118							  SLAB_HWCACHE_ALIGN | SLAB_ACCOUNT,
-   119							  NULL);
-   120		if (!netfs_subrequest_slab)
-   121			goto error_subreq;
-   122	
-   123		if (mempool_init_slab_pool(&netfs_subrequest_pool, 100, netfs_subrequest_slab) < 0)
-   124			goto error_subreqpool;
-   125	
-   126		if (!proc_mkdir("fs/netfs", NULL))
-   127			goto error_proc;
-   128		if (!proc_create_seq("fs/netfs/requests", S_IFREG | 0444, NULL,
-   129				     &netfs_requests_seq_ops))
-   130			goto error_procfile;
-   131	#ifdef CONFIG_FSCACHE_STATS
-   132		if (!proc_create_single("fs/netfs/stats", S_IFREG | 0444, NULL,
-   133					netfs_stats_show))
-   134			goto error_procfile;
-   135	#endif
-   136	
-   137		ret = fscache_init();
-   138		if (ret < 0)
-   139			goto error_fscache;
-   140		return 0;
-   141	
-   142	error_fscache:
-   143	error_procfile:
-   144		remove_proc_entry("fs/netfs", NULL);
-   145	error_proc:
- > 146		mempool_exit(&netfs_subrequest_pool);
-   147	error_subreqpool:
-   148		kmem_cache_destroy(netfs_subrequest_slab);
-   149	error_subreq:
-   150		mempool_exit(&netfs_request_pool);
-   151	error_reqpool:
-   152		kmem_cache_destroy(netfs_request_slab);
-   153	error_req:
-   154		return ret;
-   155	}
-   156	fs_initcall(netfs_init);
-   157	
+  1374	
+  1375	/* Simulate the write operation for the special vma. */
+> 1376	vm_fault_t handle_simulate_fault(struct vm_area_struct *vma, unsigned long address,
+  1377					 struct pt_regs *regs)
+  1378	{
+  1379		int ret;
+  1380		const void __user *from = (void __user *)regs->ip;
+  1381		unsigned char buf[MAX_INSN_SIZE];
+  1382		struct insn insn;
+  1383	
+  1384		/*
+  1385		 * Copy the data from userspace may cause the pagefault nesting, so we use
+  1386		 * copy_from_user_nmi to disable pagefault to avoid pagefault nesting problem.
+  1387		 */
+  1388		ret = copy_from_user_nmi(buf, from, MAX_INSN_SIZE);
+  1389		if (ret)
+  1390			return VM_FAULT_SIGBUS;
+  1391	
+  1392		/* Always be x86_64 */
+  1393		insn_init(&insn, buf, MAX_INSN_SIZE, 1);
+  1394		insn_get_length(&insn);
+  1395	
+  1396		/* Make sure there was not a problem decoding the instruction and getting the length. */
+  1397		if (!insn.length)
+  1398			return VM_FAULT_SIGBUS;
+  1399	
+  1400		ret = insn_decode(&insn, vma, regs, address);
+  1401	
+  1402		/* Retry to execute this instruction */
+  1403		if (unlikely(ret == SIMULATE_RETRY))
+  1404			return 0;
+  1405	
+  1406		if (unlikely(ret))
+  1407			return VM_FAULT_SIGBUS;
+  1408	
+  1409		/* Skip the instruction that caused the pagefault */
+  1410		regs->ip += insn.length;
+  1411		return 0;
+  1412	}
+  1413	
 
 -- 
 0-DAY CI Kernel Test Service
