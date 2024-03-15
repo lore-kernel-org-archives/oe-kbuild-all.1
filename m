@@ -1,57 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4112CCD3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 14:02:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8768B1946C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 15:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710511340; cv=none; b=heIByM0VNB4clYhivL68yWMegG8Dh8YfdWfGAahyCD7Pd5HQI0JHSCQ26msEVvTnsY8bYjSkTPXNOjFxQW/xl7iJ71PNStlZRGbI3fSPaM/AsmUZ1r3Wdxx69UeHns/n5ZggUsFc4orE+wa34+KQ6LGk7Vl8roAFflyQPYnSIzs=
+	t=1710516648; cv=none; b=KlQcVvIR2mS9EpdjCJ6aBl+M/MasIQ8SISS5oJUkfZQDydFosig+POn6UD9BfKvNye/tKPjck8jCNz2f7yUgkSCT1s5tGtOe+AV/U4wO0ksm+zg2HZGMqjxN/fdv+MYewhu2UN5MFqk5IyxN8ekkYp3I21yGnMnzZ3dSjw7WYOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710511340; c=relaxed/simple;
-	bh=Sy8MiB80xsfr3h7kIHoYfly2rp8V8I8kUb6+GbRCXaQ=;
+	s=arc-20240116; t=1710516648; c=relaxed/simple;
+	bh=/aJ4/mSQH4eyQXv/ADbXDKWWNtCt/kUVQRKMSihPbvY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AgCaNAFNrGY0u8bqF5vDt5gx4AgoRC2/DzT0ExAkwVYZnmDfoUXhYKAdkp0FhJb4+Q/2Nhjq7VIvViont8lqGMOxRlX+UErNolIRkdIwU7PE6JpeCzHz2OQrnjlYyseqd/wwSRRbzgCoYC3KYUmiLH8eH7oJh8C2lApycwr//ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MltrWhNZ; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=FSeOiGSxPoH9zVMuhNZZsJZ0/tvf8RAt0xZF4Nvuxflp37rL4eNTUh6yANznHgd60sS269+t3QG/rEHCIm6pI32iP6+3HFvRzXXexbsEDnGrfZcYP8ISz20fAHEbzh/pL/GGOJ+mewVVi0pwWIqtVFFcw2ijA+Aemz4o29la4+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AdTj3cdK; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MltrWhNZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710511337; x=1742047337;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Sy8MiB80xsfr3h7kIHoYfly2rp8V8I8kUb6+GbRCXaQ=;
-  b=MltrWhNZk8JqfzZriiwjU//PHw9OW5789/wlnrjL2KmFvsBHAvCki/oY
-   lgc43oQP81+20zUvITxAG8D8YTKtrEic0fcMRmktt+TJeg0zN6KuJ09HC
-   wh6dJdZhFfi9kTg1v1VHBKTR/ni1qUvfTjLix4trY4w2KJPAxZX5Ouh66
-   0DJJqXLzHC7xbEJmnxMCgH68HKoDVBw546RLE8a4yud3Rnd4+Z2fnGE0V
-   xODq8p7xXxAkLRI0v0EhloLcrdKyZxI5PTCYcddKOiqx/dfO6MAANlCdV
-   YoMQbXKZhxpt/K3ea00rZbKQL3w1qkyozwtH5zMkr2fQmmvAk+TIv78Xp
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="5513891"
-X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="5513891"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 07:02:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="12719409"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 15 Mar 2024 07:02:12 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rl88P-000EU7-1G;
-	Fri, 15 Mar 2024 14:02:09 +0000
-Date: Fri, 15 Mar 2024 22:01:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/next 26801/27507] mm/unevictable.c:595:37:
- warning: 'del_fops' defined but not used
-Message-ID: <202403152126.oB9SKhJh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AdTj3cdK"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-413feaf0625so7428725e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 08:30:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1710516644; x=1711121444; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iYFnc1hM0XJu3PhzImR/Qsw6QOHf5BtWM4FtMChzf7c=;
+        b=AdTj3cdKDuEuGkJXK+m1FjIcqD2/gNEICwZp783fKjt8FFkYn1gI0ac4bhyQM75ozS
+         VCpnmAMCsiJ+m7idptkoaVPl8rMnUt6svR8/nOoWVgbQfpGYh3l+l3zOdBUbbyYXJN55
+         a1lhzfkMSnJyLf5WRy3AmSTvunEgrcXn/o+qgS26gYFXOgygvVePHTc6mGZKWma/uDi9
+         x+9P+EMIH0bTfjbmCBEOXvb6ijSLwYs65qAgqlcu6SmFi+ZSqPDj+q3bBx/+GQ4q35V4
+         iF3JK4/hVvdSEJyB32EOXKXRwj90ky8F4zK8qWpl8kBbf15l6gJDTXFN4xxbFt+zXckp
+         i5Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710516644; x=1711121444;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iYFnc1hM0XJu3PhzImR/Qsw6QOHf5BtWM4FtMChzf7c=;
+        b=WNLv7unevLezVs8HYB1unFdtvg/fpXAEFi/rxU9I/UHMiG+O4Vo2sI2+/kQTw/NXMU
+         4GjN2HXCYh/NqaxR6tVySUYeVTe9eVeejoA8m3Op01IBZ5YQJ73tdS3BcXwB6FVQXk/K
+         WjpXS/0kgJbWxOgEhppkbUcxeo3A2SMXmGmlrxAl+1wTK7P5/cJ5Dvxu7xlZy0ikOXtn
+         q+S72YcoQ1p6xC+jMVyr985lDvyRNHRPfQzs2JBowN2odHMdHs94c0nvi8IO2kEF2f9A
+         aimfuiDjneR3wW4O1fkKS+eyiJQJ5Bq3cxAbaHGzBaVcpJBKwuEmTbrthFJLB3OK5TQM
+         +1ug==
+X-Forwarded-Encrypted: i=1; AJvYcCVL3hzj3elcydiLlwRz+vGUkHy51IrryeZ8T9vxFDqt7Yb7LelR5GxLZep11HpJhnZ9nfsD/SnthjT2NGBB337VOOMGrYv4wmvgNzSJSg==
+X-Gm-Message-State: AOJu0YzlbJDbMkQjDbNLE05sEl4q5q44IrHhRULeY87/xukh9sU5Xh9Z
+	xHJD2T9mMS+o0qkkUZ73lBiETVo6BUBBSeM3nAV+LPZdk4IjiyOe9B/AkOjVHgk=
+X-Google-Smtp-Source: AGHT+IERUqoqmlegoZ+ggeJ6cHV4jm+2H2WG+MWSEQEIzUQHgT4ILHzlUHyfxp5FkLD2pmJTfbQvnQ==
+X-Received: by 2002:a05:600c:502b:b0:413:f8d5:27e with SMTP id n43-20020a05600c502b00b00413f8d5027emr2539576wmr.5.1710516643946;
+        Fri, 15 Mar 2024 08:30:43 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id a3-20020a05600c348300b00413e6c56faasm6127611wmq.41.2024.03.15.08.30.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Mar 2024 08:30:43 -0700 (PDT)
+Date: Fri, 15 Mar 2024 18:30:40 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Yuezhang Mo <Yuezhang.Mo@sony.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Namjae Jeon <linkinjeon@kernel.org>, Andy Wu <Andy.Wu@sony.com>,
+	Aoyama Wataru <wataru.aoyama@sony.com>,
+	Sungjong Seo <sj1557.seo@samsung.com>
+Subject: [linux-next:master 12881/13613] fs/exfat/dir.c:896
+ __exfat_get_dentry_set() warn: missing unwind goto?
+Message-ID: <6669eebb-e27b-4a50-840e-101112765e3d@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,71 +69,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Xin,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
-head:   fdd5d0bfc620bd5147ff5b260822c7645aeddad6
-commit: ba400ae6a9f6d527f49b375ca1762b1cc197b6a1 [26801/27507] Revert "proc: convert everything to "struct proc_ops""
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240315/202403152126.oB9SKhJh-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403152126.oB9SKhJh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9bb9b28d0568991b1d63e66fe75afa5f97ad1156
+commit: bd31db2fd3bdaca4be598ddc39770eb6ebd9e3f3 [12881/13613] exfat: add __exfat_get_dentry_set() helper
+config: i386-randconfig-141-20240313 (https://download.01.org/0day-ci/archive/20240315/202403151204.LNYJdVfp-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403152126.oB9SKhJh-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202403151204.LNYJdVfp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+fs/exfat/dir.c:896 __exfat_get_dentry_set() warn: missing unwind goto?
 
-   mm/unevictable.c:182:6: warning: no previous prototype for 'del_unevict_task' [-Wmissing-prototypes]
-     182 | void del_unevict_task(struct task_struct *tsk)
-         |      ^~~~~~~~~~~~~~~~
-   mm/unevictable.c: In function 'add_pid_start':
-   mm/unevictable.c:353:15: error: implicit declaration of function 'vzalloc'; did you mean 'kzalloc'? [-Werror=implicit-function-declaration]
-     353 |         ctx = vzalloc(sizeof(*ctx) + proc_pids_count * sizeof(int));
-         |               ^~~~~~~
-         |               kzalloc
-   mm/unevictable.c:353:13: warning: assignment to 'struct add_pid_seq_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     353 |         ctx = vzalloc(sizeof(*ctx) + proc_pids_count * sizeof(int));
-         |             ^
-   mm/unevictable.c:389:9: error: implicit declaration of function 'vfree'; did you mean 'kfree'? [-Werror=implicit-function-declaration]
-     389 |         vfree(ctx);
-         |         ^~~~~
-         |         kfree
-   mm/unevictable.c: At top level:
-   mm/unevictable.c:587:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
-     587 | const static struct file_operations add_fops = {
-         | ^~~~~
-   mm/unevictable.c:595:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
-     595 | const static struct file_operations del_fops = {
-         | ^~~~~
->> mm/unevictable.c:595:37: warning: 'del_fops' defined but not used [-Wunused-const-variable=]
-     595 | const static struct file_operations del_fops = {
-         |                                     ^~~~~~~~
->> mm/unevictable.c:587:37: warning: 'add_fops' defined but not used [-Wunused-const-variable=]
-     587 | const static struct file_operations add_fops = {
-         |                                     ^~~~~~~~
-   cc1: some warnings being treated as errors
+vim +896 fs/exfat/dir.c
 
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  849  static int __exfat_get_dentry_set(struct exfat_entry_set_cache *es,
+20914ff6dd56dd Yuezhang Mo      2022-11-17  850  		struct super_block *sb, struct exfat_chain *p_dir, int entry,
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  851  		unsigned int num_entries)
+ca06197382bde0 Namjae Jeon      2020-03-02  852  {
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  853  	int ret, i, num_bh;
+36955d368dc101 Yuezhang Mo      2022-11-17  854  	unsigned int off;
+ca06197382bde0 Namjae Jeon      2020-03-02  855  	sector_t sec;
+ca06197382bde0 Namjae Jeon      2020-03-02  856  	struct exfat_sb_info *sbi = EXFAT_SB(sb);
+ca06197382bde0 Namjae Jeon      2020-03-02  857  	struct buffer_head *bh;
+ca06197382bde0 Namjae Jeon      2020-03-02  858  
+ca06197382bde0 Namjae Jeon      2020-03-02  859  	if (p_dir->dir == DIR_DELETED) {
+d1727d55c0327e Joe Perches      2020-04-24  860  		exfat_err(sb, "access to deleted dentry");
+20914ff6dd56dd Yuezhang Mo      2022-11-17  861  		return -EIO;
+ca06197382bde0 Namjae Jeon      2020-03-02  862  	}
+ca06197382bde0 Namjae Jeon      2020-03-02  863  
+36955d368dc101 Yuezhang Mo      2022-11-17  864  	ret = exfat_find_location(sb, p_dir, entry, &sec, &off);
+ca06197382bde0 Namjae Jeon      2020-03-02  865  	if (ret)
+20914ff6dd56dd Yuezhang Mo      2022-11-17  866  		return ret;
+ca06197382bde0 Namjae Jeon      2020-03-02  867  
+20914ff6dd56dd Yuezhang Mo      2022-11-17  868  	memset(es, 0, sizeof(*es));
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  869  	es->sb = sb;
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  870  	es->modified = false;
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  871  	es->start_off = off;
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  872  	es->bh = es->__bh;
+ca06197382bde0 Namjae Jeon      2020-03-02  873  
+ca06197382bde0 Namjae Jeon      2020-03-02  874  	bh = sb_bread(sb, sec);
+ca06197382bde0 Namjae Jeon      2020-03-02  875  	if (!bh)
+20914ff6dd56dd Yuezhang Mo      2022-11-17  876  		return -EIO;
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  877  	es->bh[es->num_bh++] = bh;
+ca06197382bde0 Namjae Jeon      2020-03-02  878  
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  879  	if (num_entries == ES_ALL_ENTRIES) {
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  880  		struct exfat_dentry *ep;
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  881  
+f3fe3954c09f97 Yuezhang Mo      2022-03-17  882  		ep = exfat_get_dentry_cached(es, ES_IDX_FILE);
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  883  		if (ep->type != EXFAT_FILE)
+3b9681acb0ef73 Yuezhang Mo      2022-03-17  884  			goto put_es;
+                                                                        ^^^^^^^^^^^^
 
-vim +/del_fops +595 mm/unevictable.c
+ca06197382bde0 Namjae Jeon      2020-03-02  885  
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  886  		num_entries = ep->dentry.file.num_ext + 1;
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  887  	}
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  888  
+ca06197382bde0 Namjae Jeon      2020-03-02  889  	es->num_entries = num_entries;
+ca06197382bde0 Namjae Jeon      2020-03-02  890  
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  891  	num_bh = EXFAT_B_TO_BLK_ROUND_UP(off + num_entries * DENTRY_SIZE, sb);
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  892  	if (num_bh > ARRAY_SIZE(es->__bh)) {
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  893  		es->bh = kmalloc_array(num_bh, sizeof(*es->bh), GFP_KERNEL);
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  894  		if (!es->bh) {
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  895  			brelse(bh);
+20914ff6dd56dd Yuezhang Mo      2022-11-17 @896  			return -ENOMEM;
 
-   586	
- > 587	const static struct file_operations add_fops = {
-   588		.open		= proc_open_add_pid,
-   589		.read		= seq_read,
-   590		.write		= write_add_pid,
-   591		.llseek		= seq_lseek,
-   592		.release	= seq_release,
-   593	};
-   594	
- > 595	const static struct file_operations del_fops = {
-   596		.write		= write_del_pid,
-   597	};
-   598	
+I normally wouldn't send this because it's not a bug, but actually other
+people are going to see this static checker warning and the code is
+slightly confusing.
+
+At this point calling brelse(bh) and calling exfat_put_dentry_set(es, false);
+are equivalent.  So the code works.  But it would be better to do things
+consistently on both lines 884 and 896.
+
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  897  		}
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  898  		es->bh[0] = bh;
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  899  	}
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  900  
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  901  	for (i = 1; i < num_bh; i++) {
+ca06197382bde0 Namjae Jeon      2020-03-02  902  		/* get the next sector */
+ca06197382bde0 Namjae Jeon      2020-03-02  903  		if (exfat_is_last_sector_in_cluster(sbi, sec)) {
+36955d368dc101 Yuezhang Mo      2022-11-17  904  			unsigned int clu = exfat_sector_to_cluster(sbi, sec);
+36955d368dc101 Yuezhang Mo      2022-11-17  905  
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  906  			if (p_dir->flags == ALLOC_NO_FAT_CHAIN)
+ca06197382bde0 Namjae Jeon      2020-03-02  907  				clu++;
+ca06197382bde0 Namjae Jeon      2020-03-02  908  			else if (exfat_get_next_cluster(sb, &clu))
+3b9681acb0ef73 Yuezhang Mo      2022-03-17  909  				goto put_es;
+ca06197382bde0 Namjae Jeon      2020-03-02  910  			sec = exfat_cluster_to_sector(sbi, clu);
+ca06197382bde0 Namjae Jeon      2020-03-02  911  		} else {
+ca06197382bde0 Namjae Jeon      2020-03-02  912  			sec++;
+ca06197382bde0 Namjae Jeon      2020-03-02  913  		}
+ca06197382bde0 Namjae Jeon      2020-03-02  914  
+ca06197382bde0 Namjae Jeon      2020-03-02  915  		bh = sb_bread(sb, sec);
+ca06197382bde0 Namjae Jeon      2020-03-02  916  		if (!bh)
+3b9681acb0ef73 Yuezhang Mo      2022-03-17  917  			goto put_es;
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  918  		es->bh[es->num_bh++] = bh;
+ca06197382bde0 Namjae Jeon      2020-03-02  919  	}
+ca06197382bde0 Namjae Jeon      2020-03-02  920  
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  921  	return 0;
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  922  
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  923  put_es:
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  924  	exfat_put_dentry_set(es, false);
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  925  	return -EIO;
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  926  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
