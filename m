@@ -1,64 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A918A17C76;
-	Fri, 15 Mar 2024 10:00:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A670518622
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 10:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710496812; cv=none; b=H10/X8ydz1FLfYXiLiJnBAoXzOCWBN+x2GCfwYTWxf5Ys53NGuz10fsoJTJK2zwr/nJkqO6b1Wkcbir25gA7Z5Ui56ROIn/O11rfsCI5oTIgZWuAxXM8J9qkUKr0Tf6ylQ48fZLQD8kJfwlcgN5ZDhCj4NRQMTOTi6Sy+We8I7E=
+	t=1710497468; cv=none; b=AmKCdv+zogjUTbTEMKK9JDo/M0B/WbXlIz+04BwX+Tqf9b1q/WBeNfL+O0RAaysfTHvgxFYJTvymv6ELbaa/y4kP3eJW3JpFtRtU42ryIXlGssgSv3IugohNFeB2AqLiXF83y9NLMNCT4Fv4u81umOQfW65e7/LgCQIcG2rK/p4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710496812; c=relaxed/simple;
-	bh=TgsPBTRp6nSShb4vL2Mx+LcNmJuRLjnumD5YkOFdYI4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RotQDMrDeg4pVvB8f5BU1NAzHuTHpDVrJYlRh55+eV9hFnPqOblkoCQ5X+xRo+HpMwtBqLc4meSVWoaJndO5MAJemGwnKo7fCxijGStSvJJFQY4Q8qyolIl79QgNyHejVf4vSt+dTBlgYofwXGnOoZ3lmklc8Bdt7S8GtNwBTaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aHE/gDLL; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1710497468; c=relaxed/simple;
+	bh=HQEnTbJvDq/Q0+ZITefaVgNTVapt0byjB7S9oFq3aXk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=e3N51GAxERvZBrpXoxamhktfg/fMr9CwkPYAxbhMiwODV/U17v9q9XbMBvxJzk62U9Uz+xTi8e3GbXa5v0clSUpPdkwCo4vWp59fkHkUIPQHBwCylxyttN4EvpCJ/VMF2V07tESdNqRYthdwbuxMGGNmhpjuzYMPIiZvg6Lq/dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gMc9m7Im; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aHE/gDLL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gMc9m7Im"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710496810; x=1742032810;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TgsPBTRp6nSShb4vL2Mx+LcNmJuRLjnumD5YkOFdYI4=;
-  b=aHE/gDLLvk6BwdJO4fxRh5EkU8dnCvZ+ijuPFikmmA0muHdhnaxeo7CV
-   LL1UhxSfAoH3wzzZ6G+H0LoHzQjipPw48Ju50z1xE2vTMq97NcxAnrRsQ
-   PB2ad/bo56jBFuXetAFDNKwN9fpT+oFLPUHSTW3ingSV4SvAvPpuYp0/9
-   0nJxhq71g1Rlb98edfVgxu2qGawXuhDXenlSdetQTkhgj0U8F0TaiulXE
-   dDafyfQiABOjbLIZmZIuCt7S3FTbdOYm6YWD6+UYyvLeXfOlZZfHJi6LT
-   f0hgxlIg2HJy9BwsWkFYHqAfoWFV7L4JhD2eqz50FNn4FKVKy1+O8vpZ+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="16081056"
+  t=1710497467; x=1742033467;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HQEnTbJvDq/Q0+ZITefaVgNTVapt0byjB7S9oFq3aXk=;
+  b=gMc9m7ImBdreY/I5orgadJTNceAXtCbr+MnAYc1RbwgPmVc535oaY6pq
+   J5+dq7wHQ9Avkt7DqyiEt3M5GjEsiztsjU6GQhQZdYd5nA5aAiMC5hr9D
+   8rFxlDV13Vc7Kh8S9bMHNOs+1qE1tmKTjnSNigOT5nHF4mVaRR1HxrZvL
+   jLzquJPX6zO+905RwO0PN4mWJcb4zK4UMJw/qfvNStBb6hU6OxdEpaOHP
+   nD3GdlrqtG3P99bk/7RNXueCdPSFOI/XPyGNr6Pjpgybl2eCBIunnBPvV
+   wnxBV7AF9JMTMQ7lSe/mWw07Dxpv/jWyanG+YEZB0PhN5yFDY1P3sCH1N
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="5545447"
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="16081056"
+   d="scan'208";a="5545447"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 03:00:09 -0700
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 03:11:06 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="35749372"
+   d="scan'208";a="35753174"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Mar 2024 03:00:04 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 15 Mar 2024 03:11:04 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rl4M6-000EJx-0R;
-	Fri, 15 Mar 2024 10:00:02 +0000
-Date: Fri, 15 Mar 2024 17:59:53 +0800
+	id 1rl4Wk-000EKD-0n;
+	Fri, 15 Mar 2024 10:11:02 +0000
+Date: Fri, 15 Mar 2024 18:10:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vignesh Balasubramanian <vigbalas@amd.com>,
-	linux-kernel@vger.kernel.org, linux-toolchains@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, mpe@ellerman.id.au,
-	npiggin@gmail.com, christophe.leroy@csgroup.eu,
-	aneesh.kumar@kernel.org, naveen.n.rao@linux.ibm.com,
-	ebiederm@xmission.com, keescook@chromium.org, x86@kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-mm@kvack.org, bpetkov@amd.com,
-	jinisusan.george@amd.com, matz@suse.de, binutils@sourceware.org,
-	jhb@freebsd.org, felix.willgerodt@intel.com,
-	Vignesh Balasubramanian <vigbalas@amd.com>
-Subject: Re: [PATCH 1/1] x86/elf: Add a new .note section containing
- Xfeatures information to x86 core files
-Message-ID: <202403151742.VEz04MqR-lkp@intel.com>
-References: <20240314112359.50713-2-vigbalas@amd.com>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: WARNING: modpost: "__udelay" [sound/soc/apple/snd-soc-apple-mca.ko]
+ has no CRC!
+Message-ID: <202403151819.OiJ905Ty-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,129 +58,143 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240314112359.50713-2-vigbalas@amd.com>
 
-Hi Vignesh,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.8 next-20240315]
-[cannot apply to kees/for-next/execve tip/x86/core powerpc/next powerpc/fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vignesh-Balasubramanian/x86-elf-Add-a-new-note-section-containing-Xfeatures-information-to-x86-core-files/20240314-192650
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240314112359.50713-2-vigbalas%40amd.com
-patch subject: [PATCH 1/1] x86/elf: Add a new .note section containing Xfeatures information to x86 core files
-config: i386-buildonly-randconfig-001-20240315 (https://download.01.org/0day-ci/archive/20240315/202403151742.VEz04MqR-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403151742.VEz04MqR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e5eb28f6d1afebed4bb7d740a797d0390bd3a357
+commit: d8b3e396088d787771f19fd3b7949e080dc31d6f ASoC: apple: mca: Fix SERDES reset sequence
+date:   1 year, 1 month ago
+config: sparc-randconfig-r016-20230603 (https://download.01.org/0day-ci/archive/20240315/202403151819.OiJ905Ty-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403151819.OiJ905Ty-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403151742.VEz04MqR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403151819.OiJ905Ty-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> arch/x86/kernel/fpu/xstate.c:1858:8: error: call to undeclared function 'dump_emit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1858 |                 if (!dump_emit(cprm, &xc, sizeof(struct xfeat_component)))
-         |                      ^
-   arch/x86/kernel/fpu/xstate.c:1869:8: error: call to undeclared function 'dump_emit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1869 |                 if (!dump_emit(cprm, &xc, sizeof(struct xfeat_component)))
-         |                      ^
-   arch/x86/kernel/fpu/xstate.c:1899:7: error: call to undeclared function 'dump_emit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1899 |         if (!dump_emit(cprm, &en, sizeof(en)))
-         |              ^
->> arch/x86/kernel/fpu/xstate.c:1903:7: error: call to undeclared function 'dump_align'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1903 |         if (!dump_align(cprm, 4))
-         |              ^
-   4 errors generated.
-
-
-vim +/dump_emit +1858 arch/x86/kernel/fpu/xstate.c
-
-  1846	
-  1847		struct xfeat_component xc;
-  1848		int num_records = 0;
-  1849		int i;
-  1850	
-  1851		/* XFEATURE_FPU and XFEATURE_SSE, both are fixed legacy states. */
-  1852		for (i = 0; i < FIRST_EXTENDED_XFEATURE; i++) {
-  1853			xc.xfeat_type = i;
-  1854			xc.xfeat_sz = xstate_sizes[i];
-  1855			xc.xfeat_off = xstate_offsets[i];
-  1856			xc.xfeat_flags = xstate_flags[i];
-  1857	
-> 1858			if (!dump_emit(cprm, &xc, sizeof(struct xfeat_component)))
-  1859				return 0;
-  1860			num_records++;
-  1861		}
-  1862	
-  1863		for_each_extended_xfeature(i, fpu_user_cfg.max_features) {
-  1864			xc.xfeat_type = i;
-  1865			xc.xfeat_sz = xstate_sizes[i];
-  1866			xc.xfeat_off = xstate_offsets[i];
-  1867			xc.xfeat_flags = xstate_flags[i];
-  1868	
-  1869			if (!dump_emit(cprm, &xc, sizeof(struct xfeat_component)))
-  1870				return 0;
-  1871			num_records++;
-  1872		}
-  1873	
-  1874		return num_records;
-  1875	}
-  1876	
-  1877	static int get_xsave_desc_size(void)
-  1878	{
-  1879		/* XFEATURE_FP and XFEATURE_SSE, both are fixed legacy states */
-  1880		int xfeatures_count = 2;
-  1881		int i;
-  1882	
-  1883		for_each_extended_xfeature(i, fpu_user_cfg.max_features)
-  1884			xfeatures_count++;
-  1885	
-  1886		return xfeatures_count * (sizeof(struct xfeat_component));
-  1887	}
-  1888	
-  1889	int elf_coredump_extra_notes_write(struct coredump_params *cprm)
-  1890	{
-  1891		const char *owner_name = "LINUX";
-  1892		int num_records = 0;
-  1893		struct elf_note en;
-  1894	
-  1895		en.n_namesz = strlen(owner_name) + 1;
-  1896		en.n_descsz = get_xsave_desc_size();
-  1897		en.n_type = NT_X86_XSAVE_LAYOUT;
-  1898	
-  1899		if (!dump_emit(cprm, &en, sizeof(en)))
-  1900			return 1;
-  1901		if (!dump_emit(cprm, owner_name, en.n_namesz))
-  1902			return 1;
-> 1903		if (!dump_align(cprm, 4))
-  1904			return 1;
-  1905	
-  1906		num_records = dump_xsave_layout_desc(cprm);
-  1907		if (!num_records) {
-  1908			pr_warn("Error adding XSTATE layout ELF note. XSTATE buffer in the core file will be unparseable.");
-  1909			return 1;
-  1910		}
-  1911	
-  1912		/* Total size should be equal to the number of records */
-  1913		if ((sizeof(struct xfeat_component) * num_records) != en.n_descsz) {
-  1914			pr_warn("Error adding XSTATE layout ELF note. The size of the .note section does not match with the total size of the records.");
-  1915			return 1;
-  1916		}
-  1917	
-  1918		if (!dump_align(cprm, 4))
-  1919			return 1;
-  1920	
-  1921		return 0;
-  1922	}
-  1923	
+WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/ams-delta.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/fsmc_nand.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/mtd/nand/raw/nandsim.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/mtd/nand/raw/nandsim.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/nandsim.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/atmel/atmel-nand-controller.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/lpc32xx_slc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/lpc32xx_mlc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/sh_flctl.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/mxc_nand.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/txx9ndfmc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/mtk_nand.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mtd/nand/ecc-mtk.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/gameport/gameport.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/keyboard/imx_keypad.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/keyboard/matrix_keypad.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/keyboard/samsung-keypad.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/keyboard/sh_keysc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/keyboard/tegra-kbc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/rmi4/rmi_core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/ssb/ssb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/accel/mma9551_core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/ad7280a.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/ad7476.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/iio/adc/ad7606.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/ad7949.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/aspeed_adc.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/iio/adc/aspeed_adc.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/iio/adc/cc10001_adc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/cc10001_adc.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/iio/adc/hx711.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/imx8qxp-adc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/max11410.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/max1241.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/mt6577_auxadc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/meson_saradc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/nau7802.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/palmas_gpadc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/sun4i-gpadc-iio.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/ti-ads8344.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/dac/ad5592r-base.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/iio/dac/ad5766.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/dac/stm32-dac-core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/dac/stm32-dac.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/pressure/dlhl60d.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/proximity/as3935.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/proximity/srf04.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/resolver/ad2s1200.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/core/snd-timer.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/hda/snd-hda-codec.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/sparc/snd-sun-dbri.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-adau1373.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-adau17x1.ko] has no CRC!
+WARNING: modpost: "__ndelay" [sound/soc/codecs/snd-soc-adau1977.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-ak4458.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-ak4613.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-ak4641.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-arizona.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs35l41-lib.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs42l51.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs42l73.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs4265.ko] has no CRC!
+WARNING: modpost: "__ndelay" [sound/soc/codecs/snd-soc-cs4270.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs4271.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-da732x.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-l3.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-madera.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-max98357a.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-nau8540.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-nau8822.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-nau8825.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-peb2466.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rk3328.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rt286.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rt298.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rt5616.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rt5645.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rt5670.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rt5677.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-sgtl5000.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-sta32x.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-sta350.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-tas5086.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-tlv320aic23.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-tlv320aic31xx.ko] has no CRC!
+WARNING: modpost: "__ndelay" [sound/soc/codecs/snd-soc-tlv320aic31xx.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-tlv320aic3x.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-twl4030.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-uda1380.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8510.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8711.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8903.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8904.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8961.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8962.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8974.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8978.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8995.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm9081.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm-hubs.ko] has no CRC!
+>> WARNING: modpost: "__udelay" [sound/soc/apple/snd-soc-apple-mca.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/amd/acp_audio_dma.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/fsl/snd-soc-fsl-asrc.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/fsl/snd-soc-fsl-sai.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/fsl/snd-soc-fsl-easrc.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/fsl/snd-soc-fsl-xcvr.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/mediatek/mt8186/snd-soc-mt8186-afe.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/mediatek/mt8188/snd-soc-mt8188-afe.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/meson/snd-soc-meson-t9015.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/mxs/snd-soc-mxs.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/sh/snd-soc-fsi.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/sh/rcar/snd-soc-rcar.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/sh/snd-soc-rz-ssi.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/sti/snd-soc-sti.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/stm/snd-soc-stm32-sai.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/stm/snd-soc-stm32-i2s.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/ti/snd-soc-davinci-asp.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/ti/snd-soc-omap-mcbsp.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/hda/snd-hda-core.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/hda/ext/snd-hda-ext-core.ko] has no CRC!
 
 -- 
 0-DAY CI Kernel Test Service
