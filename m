@@ -1,73 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2305A12B82;
-	Sat, 16 Mar 2024 09:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B804418026
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Mar 2024 09:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710579654; cv=none; b=NHIf0yFayM5W7YMobtRQ5GTIdBGMqoKI9iUPMvP4jn1nRI3TnkubV8pTCcSgETMd+kw5LtdE5WrO5eXQ4NErxxNwOwa9Ots5NCXtgv3zWhVToGFMC5vYOZ26pEOJge7SrpV8i67ltS0GDtyGjHe1T/RSez9avqYUsgNpYwN49KY=
+	t=1710581446; cv=none; b=BWooZjNsB/6H2/fUcAMzV9XR8VBYE6MuEGif5xc2ijZf7uuTzB9DjAnzios73NgR2KBQA1TzObEG1q4b5O2YQjdUqllSLyng/WJjV9OfrrRGwt7Ni5vIS9XqqBw39oQ7yP9v+oEgIKZz4J0hc4QojppLAsr0pRMA4Tvh1wqmy3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710579654; c=relaxed/simple;
-	bh=9tpnCC2OSnn/XSLWszg6PWWM++RoYjOZSlHEqh0s26Q=;
+	s=arc-20240116; t=1710581446; c=relaxed/simple;
+	bh=al5/yYl8BxHjo3xeZL9hHxNpvaoNV5J+iO1Mu7DtZJE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jjbo2ems97lS5PEuB5x8ukoWxw23vREV6Bk4PAgRMZTYLF7OMywHEH6oYw0o/xBX73o/mTxyfo5DgB5+kRFLxze+u9SG3QxvPY6E3j/o36ynLGfh9TONDUqtmZCBzCRjeaEt1exhUaEmObWiOX6QERG0U7QHb8SOlaR+xvO1XkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TfrU71st; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=qB04CS19b3tDOKmEc5hujIWBHx9E2GJ9za6ZRnqGmsnWyv7v+9oymNYLfKDyiwY9Ri/pUGln1jtHEoYwV8QIRmFZOFjRvpQracL2Fq4NffGjMJspDMV10hKmlRuniC6Yy1gM75G3iEqV1PhJMV1WsSYd0yulbUJUfBPl22utfMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WSMc1a11; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TfrU71st"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WSMc1a11"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710579652; x=1742115652;
+  t=1710581444; x=1742117444;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9tpnCC2OSnn/XSLWszg6PWWM++RoYjOZSlHEqh0s26Q=;
-  b=TfrU71st517W6SDJ3q0xd64lgRzlKLqk9GBy7giWOoPZlrHovue+gL2o
-   ZzgSoww/uLtl6a9JedaPE5BDKUt75l94OFMtlS1uGxL66IpeHesXNM7Nh
-   p3onqIqloqWmQmyIJ60MF24LaLQtjnfOaPwKTxHjFXQzoK2ovmgvRVd23
-   jrTDIthgp/P3doITQzrDBN+Z9AYb5uec6NQn0MseDTOyJkLueezpRIADi
-   gx2OX+r+rVl0TXJXDf3A/4gqzwR3aMogh/WvLAsNMsMSZgYK0L9eWUJC/
-   YrF+dr5J6imjOTd+vfPb9DMNGK3YepExGmRHAr6dFEUmVPi1MrSWIanYN
+  bh=al5/yYl8BxHjo3xeZL9hHxNpvaoNV5J+iO1Mu7DtZJE=;
+  b=WSMc1a11RrVjApcGuWdlopf0jKsQTvtvfudK5YduWEKucvJ+/N9IEEUF
+   7C5loj4yYB6jRJYl7zn1wcsZsckN8U8thXTxzhBbk5nlXKl5xBavmQKZI
+   Kn0C+ZrLYEDUq0b0t2jOE1AmdaAa5pWkdzxdF2neR4vSzq49W9CmyIP7i
+   zMVvOQtRVvMSpIBo2wM+sAzKdglti4fk1cSMtkH1Bbyp2uhBUZbDoS5Gl
+   3pErWCEznGbR9PYSIZpFS+FeogUyZlK0DWqb+T/rMI59ndFF5DPladgh0
+   a4jtu68mMrUR/pTo3aL0vmSf3r5Us/KSADjiH1yF09h74SOmnhGGMFqVm
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5588431"
+X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="22974920"
 X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="5588431"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2024 02:00:46 -0700
+   d="scan'208";a="22974920"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2024 02:30:43 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="17527675"
+   d="scan'208";a="50369221"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Mar 2024 02:00:40 -0700
+  by orviesa001.jf.intel.com with ESMTP; 16 Mar 2024 02:30:42 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rlPuA-000FFx-26;
-	Sat, 16 Mar 2024 09:00:38 +0000
-Date: Sat, 16 Mar 2024 17:00:14 +0800
+	id 1rlQND-000FHl-20;
+	Sat, 16 Mar 2024 09:30:39 +0000
+Date: Sat, 16 Mar 2024 17:30:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ayush Singh <ayushdevel1325@gmail.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ayush Singh <ayushdevel1325@gmail.com>, jkridner@beagleboard.org,
-	robertcnelson@beagleboard.org,
-	Vaishnav M A <vaishnav@beagleboard.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Tero Kristo <kristo@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>,
-	Dragan Cvetic <dragan.cvetic@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
-	greybus-dev@lists.linaro.org
-Subject: Re: [PATCH v3 7/8] mikrobus: Add mikrobus driver
-Message-ID: <202403161645.CxE8k6qy-lkp@intel.com>
-References: <20240315184908.500352-8-ayushdevel1325@gmail.com>
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v15 12/21] security: add security_bdev_setintegrity()
+ hook
+Message-ID: <202403161753.7DhSSl57-lkp@intel.com>
+References: <1710560151-28904-13-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,193 +59,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240315184908.500352-8-ayushdevel1325@gmail.com>
+In-Reply-To: <1710560151-28904-13-git-send-email-wufan@linux.microsoft.com>
 
-Hi Ayush,
+Hi Fan,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 61996c073c9b070922ad3a36c981ca6ddbea19a5]
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on linus/master next-20240315]
+[cannot apply to device-mapper-dm/for-next lwn/docs-next v6.8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ayush-Singh/dt-bindings-misc-Add-mikrobus-connector/20240316-025407
-base:   61996c073c9b070922ad3a36c981ca6ddbea19a5
-patch link:    https://lore.kernel.org/r/20240315184908.500352-8-ayushdevel1325%40gmail.com
-patch subject: [PATCH v3 7/8] mikrobus: Add mikrobus driver
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240316/202403161645.CxE8k6qy-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161645.CxE8k6qy-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Fan-Wu/security-add-ipe-lsm/20240316-114235
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/1710560151-28904-13-git-send-email-wufan%40linux.microsoft.com
+patch subject: [RFC PATCH v15 12/21] security: add security_bdev_setintegrity() hook
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240316/202403161753.7DhSSl57-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161753.7DhSSl57-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403161645.CxE8k6qy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403161753.7DhSSl57-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/misc/mikrobus/mikrobus_id.c:17:
-   In file included from drivers/misc/mikrobus/mikrobus_core.h:14:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/misc/mikrobus/mikrobus_id.c:17:
-   In file included from drivers/misc/mikrobus/mikrobus_core.h:14:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/misc/mikrobus/mikrobus_id.c:17:
-   In file included from drivers/misc/mikrobus/mikrobus_core.h:14:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/misc/mikrobus/mikrobus_id.c:17:
-   In file included from drivers/misc/mikrobus/mikrobus_core.h:14:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/misc/mikrobus/mikrobus_id.c:45:60: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-      45 |         pr_info("mikrobus_id: writing manifest size = %lu bytes", count);
-         |                                                       ~~~         ^~~~~
-         |                                                       %zu
-   include/linux/printk.h:530:34: note: expanded from macro 'pr_info'
-     530 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                                 ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:457:60: note: expanded from macro 'printk'
-     457 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:429:19: note: expanded from macro 'printk_index_wrap'
-     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   8 warnings generated.
+   In file included from include/linux/perf_event.h:62,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:93,
+                    from arch/alpha/kernel/osf_sys.c:23:
+>> include/linux/security.h:1506:67: error: unknown type name 'type'; did you mean 'typeof'?
+    1506 |                                              enum lsm_intgr_type, type,
+         |                                                                   ^~~~
+         |                                                                   typeof
+--
+   In file included from include/linux/perf_event.h:62,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:93,
+                    from arch/alpha/kernel/signal.c:24:
+>> include/linux/security.h:1506:67: error: unknown type name 'type'; did you mean 'typeof'?
+    1506 |                                              enum lsm_intgr_type, type,
+         |                                                                   ^~~~
+         |                                                                   typeof
+   arch/alpha/kernel/signal.c:205:1: warning: no previous prototype for 'do_sigreturn' [-Wmissing-prototypes]
+     205 | do_sigreturn(struct sigcontext __user *sc)
+         | ^~~~~~~~~~~~
+   arch/alpha/kernel/signal.c:233:1: warning: no previous prototype for 'do_rt_sigreturn' [-Wmissing-prototypes]
+     233 | do_rt_sigreturn(struct rt_sigframe __user *frame)
+         | ^~~~~~~~~~~~~~~
+   arch/alpha/kernel/signal.c:523:1: warning: no previous prototype for 'do_work_pending' [-Wmissing-prototypes]
+     523 | do_work_pending(struct pt_regs *regs, unsigned long thread_flags,
+         | ^~~~~~~~~~~~~~~
+--
+   In file included from arch/alpha/kernel/ptrace.c:16:
+>> include/linux/security.h:1506:67: error: unknown type name 'type'; did you mean 'typeof'?
+    1506 |                                              enum lsm_intgr_type, type,
+         |                                                                   ^~~~
+         |                                                                   typeof
+   arch/alpha/kernel/ptrace.c:322:26: warning: no previous prototype for 'syscall_trace_enter' [-Wmissing-prototypes]
+     322 | asmlinkage unsigned long syscall_trace_enter(void)
+         |                          ^~~~~~~~~~~~~~~~~~~
+   arch/alpha/kernel/ptrace.c:334:1: warning: no previous prototype for 'syscall_trace_leave' [-Wmissing-prototypes]
+     334 | syscall_trace_leave(void)
+         | ^~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/perf_event.h:62,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:93,
+                    from arch/alpha/kernel/pci.c:25:
+>> include/linux/security.h:1506:67: error: unknown type name 'type'; did you mean 'typeof'?
+    1506 |                                              enum lsm_intgr_type, type,
+         |                                                                   ^~~~
+         |                                                                   typeof
+   arch/alpha/kernel/pci.c:285:1: warning: no previous prototype for 'pcibios_claim_one_bus' [-Wmissing-prototypes]
+     285 | pcibios_claim_one_bus(struct pci_bus *b)
+         | ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +45 drivers/misc/mikrobus/mikrobus_id.c
+vim +1506 include/linux/security.h
 
-    28	
-    29	static ssize_t mikrobus_manifest_store(struct device *device, struct device_attribute *attr,
-    30					       const char *buf, size_t count)
-    31	{
-    32		u8 write_request[] = { W1_MIKROBUS_ID_WRITE_EEPROM,
-    33				       W1_MIKROBUS_EEPROM_MANIFEST_START_PAGE };
-    34		u8 release_command = W1_MIKROBUS_ID_RELEASE_EEPROM;
-    35		struct w1_slave *sl = dev_to_w1_slave(device);
-    36		u16 crc, crc_read, pos = 0;
-    37		u8 status = 0;
-    38		int cnt;
-    39	
-    40		if (count > W1_MIKROBUS_ID_EEPROM_SIZE)
-    41			return -ENOMEM;
-    42	
-    43		mutex_lock(&sl->master->bus_mutex);
-    44	
-  > 45		pr_info("mikrobus_id: writing manifest size = %lu bytes", count);
-    46		while (pos < count) {
-    47			if (w1_reset_select_slave(sl))
-    48				break;
-    49	
-    50			w1_write_block(sl->master, write_request, sizeof(write_request));
-    51			crc = crc16(0, write_request, sizeof(write_request)) ^ 0xFFFF;
-    52			w1_read_block(sl->master, (u8 *)&crc_read, sizeof(crc_read));
-    53	
-    54			if (crc != crc_read)
-    55				break;
-    56	
-    57			for (cnt = 0; cnt < W1_MIKROBUS_ID_EEPROM_PAGE_SIZE; cnt++)
-    58				w1_write_8(sl->master, (u8)buf[cnt]);
-    59	
-    60			crc = crc16(0, buf, W1_MIKROBUS_ID_EEPROM_PAGE_SIZE) ^ 0xFFFF;
-    61			usleep_range(1 * USEC_PER_MSEC, 2 * USEC_PER_MSEC);
-    62			w1_read_block(sl->master, (u8 *)&crc_read, sizeof(crc_read));
-    63	
-    64			if (crc != crc_read)
-    65				break;
-    66	
-    67			w1_write_8(sl->master, release_command);
-    68			usleep_range(10 * USEC_PER_MSEC, 15 * USEC_PER_MSEC);
-    69			status = w1_read_8(sl->master);
-    70			w1_read_block(sl->master, (u8 *)&crc_read, sizeof(crc_read));
-    71			crc = crc16(0, (u8 *)&release_command, sizeof(release_command)) ^ 0xFFFF;
-    72	
-    73			if (status != W1_MIKROBUS_ID_RELEASE_EEPROM)
-    74				break;
-    75	
-    76			if (crc != crc_read)
-    77				break;
-    78	
-    79			buf += W1_MIKROBUS_ID_EEPROM_PAGE_SIZE;
-    80			pos += W1_MIKROBUS_ID_EEPROM_PAGE_SIZE;
-    81			write_request[1]++;
-    82		}
-    83	
-    84		pr_info("mikrobus_id: manifest written bytes: %d", pos);
-    85		mutex_unlock(&sl->master->bus_mutex);
-    86	
-    87		return count > pos ? count : pos;
-    88	}
-    89	static DEVICE_ATTR_WO(mikrobus_manifest);
-    90	
+  1504	
+  1505	static inline int security_bdev_setintegrity(struct block_device *bdev,
+> 1506						     enum lsm_intgr_type, type,
+  1507						     const void *value, size_t size)
+  1508	{
+  1509		return 0;
+  1510	}
+  1511	
 
 -- 
 0-DAY CI Kernel Test Service
