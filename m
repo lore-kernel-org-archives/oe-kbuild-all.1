@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A41728E6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Mar 2024 04:51:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBC04C6D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Mar 2024 05:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710564698; cv=none; b=ihVedcZaVFkORbOTgvUoDTbv3H9+JF323SRAJw9JwJNFZ0HoOoxipCZLnjQilkzpJrryKBUrEXdneAZ03xTIBZTymBv4wQb/Ji8OsKzFhPoMVMiiK2fukecRWMVbuPVKDywWfYccC5HqN4+axprKMC23pyoTLjxDMqKh6g1zY7s=
+	t=1710567219; cv=none; b=JiqmZMvNLMSTbVbW8jR4A/O//zBhB0Gcc0DdCAwCQk9x+n/hz3bYAJ9n1SVTXPL6u2iWGXJe15aCZ/5N4pYL1/cUecD97shh8v9bvnAE1Hmx8D8NqkMxp32JwmnbcrC1bFc0Vw/lDKho8txA5sk/BYmbtViK7EbqDZatimuuiQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710564698; c=relaxed/simple;
-	bh=icfWchkPLMW+SVTCJC+bAy0+cCuCKLYZYEwvedDeYYU=;
+	s=arc-20240116; t=1710567219; c=relaxed/simple;
+	bh=xOb4rbxPT/SP0GIyN/AxNv0rIJYCjGOa+UifWzwsra8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mKC0to26myuqD78gBcIQnSuO3THDMaMMXRMhEL/5G4fgAvjlzRgc5SeUQj/dVuuN8MY46jtTPPi5vjwqTYvyelS0AUiiTq+L/MDbWNzyE7QUE/UP8BnuOzJ3QfEcx2RBELWEChfKXCFP/1m080CFrYuwNhScjuDGaLOn3Nu00bA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ox5+kw+b; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=N7MCMeoRQwKuWPAc9ZDh0WoE1tZWH3lpdvRgeIofwonimbSZ21FUWgb1pW8slImAzhbu9hbZG4Zh+DPg4+1or/bNfMaADem7o0GiidZGQKnncSmwd+h8DomeRpy2cFYZUIUn4ohqH2druyRSFSXamj1MpcwNuVle8FzeWhT6vMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E7t5z4Pb; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ox5+kw+b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E7t5z4Pb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710564696; x=1742100696;
+  t=1710567217; x=1742103217;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=icfWchkPLMW+SVTCJC+bAy0+cCuCKLYZYEwvedDeYYU=;
-  b=Ox5+kw+bb2GsGS/8ivbHd4u2UtaxI2w2GZdNbYpFf0b070F9duuPViaR
-   aOBKJXrBnSpiCcQps9FAjxPxrxkV8rdm1IFBgwA4ZpIcMVrcJADXGaRHN
-   FvhWDhUArdnOl3XJHJoiqYBEUEf1yGXDgv8UUuvqQ9y9WP1xCYOF9XA9I
-   vkizbxcL0zVnyylC1T7OzktzOJ6loX0bRV4Szbd+d3cKKZiOva4NmfVbO
-   f1EcioUkUPs9MgzoGL4ZsunKoPTFLejjHBj9Pkb9vokAPOru87CIV9xZl
-   Ik4JY2qegvm4BakLsTPxSXCnLQpWUAWjR7qm8Sujs56Uk+CiXWRI9YWsT
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="16851314"
+  bh=xOb4rbxPT/SP0GIyN/AxNv0rIJYCjGOa+UifWzwsra8=;
+  b=E7t5z4PbMIZ+5lRtib9xQiCQYJJJtd0DDRg+N0Gw8ISC7wThUnkpKdy8
+   durfiS3jDyENKnD/BorDAFp1eoTvmmTSIZkSBC6IQq5Kx92zarbbJdUur
+   EzLg53MdW3Xe7mUwkbU9DRT/7ES6zKAiqgQF9J2w02C1qWSlojBkBnRhq
+   sLwJxWetafO4gOMwYAmnLet3//q6UHoX+o61G7NlRyQSpX6ClO/en4NyM
+   ExEMeWLxA6cKWPWeM1O7U0yRFW0Q/XGT/sBxpzf9upJ3nagiBwj+wmK2K
+   s6SfD4vrkowDOm0qqgcmr79PC0+NFxrTIx6ECEuNHiSqXunIXf09PsLsA
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5311237"
 X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="16851314"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 21:51:35 -0700
+   d="scan'208";a="5311237"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 22:33:36 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="12959114"
+   d="scan'208";a="12825585"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 15 Mar 2024 21:51:34 -0700
+  by orviesa010.jf.intel.com with ESMTP; 15 Mar 2024 22:33:35 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rlM15-000F4T-30;
-	Sat, 16 Mar 2024 04:51:31 +0000
-Date: Sat, 16 Mar 2024 12:50:53 +0800
+	id 1rlMfk-000F5d-1j;
+	Sat, 16 Mar 2024 05:33:32 +0000
+Date: Sat, 16 Mar 2024 13:32:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, fanyizhen1995 <en_0015767@163.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 24784/30000]
- drivers/ub/urma/uburma/uburma_dev_ops.c:32:5: warning: no previous prototype
- for 'uburma_mmap'
-Message-ID: <202403161211.0W0M5B5E-lkp@intel.com>
+Subject: [vireshk:rust/cpufreq-dt 34/43] error[E0425]: cannot find function
+ `of_match_device` in crate `bindings`
+Message-ID: <202403161359.oPuY7X0r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,78 +58,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   32bb7b0a7c87769858fbb9d60574b830383c28f7
-commit: 7d130c6018dbfd09c6e1c5d91b347fdbf3924321 [24784/30000] ub: add mmap ops support in ubcore and uburma
-config: arm64-randconfig-003-20240312 (https://download.01.org/0day-ci/archive/20240316/202403161211.0W0M5B5E-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161211.0W0M5B5E-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git rust/cpufreq-dt
+head:   55e41b4e7955d261d26d167a0e9a847553a8ef55
+commit: b057b978ce26ef56acf3c5a73c36619cc8645dfa [34/43] rust: Import platform device's implementation from rust branch
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240316/202403161359.oPuY7X0r-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161359.oPuY7X0r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403161211.0W0M5B5E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403161359.oPuY7X0r-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/ub/urma/uburma/uburma_dev_ops.c:32:5: warning: no previous prototype for 'uburma_mmap' [-Wmissing-prototypes]
-      32 | int uburma_mmap(struct file *filp, struct vm_area_struct *vma)
-         |     ^~~~~~~~~~~
-   drivers/ub/urma/uburma/uburma_dev_ops.c:64:6: warning: no previous prototype for 'uburma_release_file' [-Wmissing-prototypes]
-      64 | void uburma_release_file(struct kref *ref)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/uburma/uburma_dev_ops.c:81:5: warning: no previous prototype for 'uburma_open' [-Wmissing-prototypes]
-      81 | int uburma_open(struct inode *inode, struct file *filp)
-         |     ^~~~~~~~~~~
-   drivers/ub/urma/uburma/uburma_dev_ops.c: In function 'uburma_open':
-   drivers/ub/urma/uburma/uburma_dev_ops.c:98:50: warning: the comparison will always evaluate as 'false' for the address of 'dev_name' will never be NULL [-Waddress]
-      98 |         if (ubc_dev == NULL || ubc_dev->dev_name == NULL) {
-         |                                                  ^~
-   In file included from drivers/ub/urma/uburma/uburma_dev_ops.c:25:
-   include/urma/ubcore_types.h:1589:14: note: 'dev_name' declared here
-    1589 |         char dev_name[UBCORE_MAX_DEV_NAME];
-         |              ^~~~~~~~
-   drivers/ub/urma/uburma/uburma_dev_ops.c: At top level:
-   drivers/ub/urma/uburma/uburma_dev_ops.c:134:5: warning: no previous prototype for 'uburma_close' [-Wmissing-prototypes]
-     134 | int uburma_close(struct inode *inode, struct file *filp)
-         |     ^~~~~~~~~~~~
-
-
-vim +/uburma_mmap +32 drivers/ub/urma/uburma/uburma_dev_ops.c
-
-    31	
-  > 32	int uburma_mmap(struct file *filp, struct vm_area_struct *vma)
-    33	{
-    34		struct uburma_file *file = filp->private_data;
-    35		struct uburma_device *ubu_dev;
-    36		struct ubcore_device *ubc_dev;
-    37		int srcu_idx;
-    38		int ret;
-    39	
-    40		if (file == NULL || file->ucontext == NULL) {
-    41			uburma_log_err("can not find ucontext.\n");
-    42			return -EINVAL;
-    43		}
-    44	
-    45		ubu_dev = file->ubu_dev;
-    46		uburma_cmd_inc(ubu_dev);
-    47	
-    48		srcu_idx = srcu_read_lock(&ubu_dev->ubc_dev_srcu);
-    49		ubc_dev = srcu_dereference(ubu_dev->ubc_dev, &ubu_dev->ubc_dev_srcu);
-    50		if (ubc_dev == NULL || ubc_dev->ops == NULL || ubc_dev->ops->mmap == NULL) {
-    51			uburma_log_err("can not find ubcore device.\n");
-    52			ret = -ENODEV;
-    53			goto out;
-    54		}
-    55	
-    56		ret = ubc_dev->ops->mmap(file->ucontext, vma);
-    57	
-    58	out:
-    59		srcu_read_unlock(&ubu_dev->ubc_dev_srcu, srcu_idx);
-    60		uburma_cmd_dec(ubu_dev);
-    61		return ret;
-    62	}
-    63	
+>> error[E0425]: cannot find function `of_match_device` in crate `bindings`
+   --> rust/kernel/platform.rs:69:37
+   |
+   69 |         let id = unsafe { bindings::of_match_device(table.as_ref(), dev.raw_device()) };
+   |                                     ^^^^^^^^^^^^^^^ not found in `bindings`
 
 -- 
 0-DAY CI Kernel Test Service
