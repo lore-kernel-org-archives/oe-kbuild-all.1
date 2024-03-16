@@ -1,54 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7978E8836
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Mar 2024 08:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7772B17C9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Mar 2024 08:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710577123; cv=none; b=txWhwqZAea8OPfCqjjMsBUmW+dJTgKhoJe7N0blWpqTQgkV2SRSnoCE7AmPGcyOicCl8VTd8/254qSYUJt1Rt0lKkKI9GcTcEEWCBcJSlbZfQWyxwogycelBgWFtdU2FVnSqp2WI5dtQFAOtlIj49bNhHf18RUPLuSQSfNEr62A=
+	t=1710577128; cv=none; b=G+s3+UudRyI4R487440yahd3oas2ImMn1w0J7m9GsaP7vnbIM1IrxbN8REBxn5jb2P29ob24RzrJCd3iWpqitau2E1VFWPyOrfKgCBCdiSJ4Dpsh8hvkg82+8gXd+KFz6HU9poxaKilP0M0zCJx5UpJB3hhUmToY1oJxU+VhlFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710577123; c=relaxed/simple;
-	bh=e09I7AelfpXxNgb86oLj7Km8inhSmdxzmrY0INnpCoU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=trdaP9Pm/BEtQG8FjGaMwxAsxRJf4gPr9QF+5frC43SJWZhhNOr/o93hO7Bsh2S/IhzFUqAHdLpapAVmohDVTHvNWcUXGxYfl+T9D7dorODtwLqQzNTT5NHSw9PptGL4NHHLk7G5WqvgO5ulMPtfxhdG3/XvDOMOIpzrd684XzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SsYMqIR5; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1710577128; c=relaxed/simple;
+	bh=/hUGS7eGBHwHUjRTTCc9HBhUNnTz3azKk/JJkJ0hSto=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J20sCL3z97EfJyM1OoI7vkAz/PD3CECKUwBEbP7BG0P/Q3mD07d8B/4pytGf0IcUBGe/E9KCZ1J1NlU8j641dpbz7h3P13PkhT9ZH1d1grkZpYvJVQIIYnxAWHUZdBGrrg8PN6a0OwO4yGn4R/yasYvvrGkOUMNcx4xMZUX0RGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YHExjDpr; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SsYMqIR5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YHExjDpr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710577122; x=1742113122;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e09I7AelfpXxNgb86oLj7Km8inhSmdxzmrY0INnpCoU=;
-  b=SsYMqIR5YUceTd9dlvvfNMtOiAgMCXNDXM3z0tLLgA8vR9Iz5YpN/boU
-   29jnxJ+ZYIVPg1YKsEFNensadyuJey4tvU/69K6jYNtoGvEQ0BO3J7vKm
-   SPkZQCS8jy/4EqzZTe+n5aQWALsQNG1cTSsEeewi7ugbipv7ncm9GiRMg
-   sdkAWb5dl2RQlenXG2KBjlNUay43s0hSFVsHzqCh6lz2Joc2jk0bkCQR5
-   fL+ogXhixGbBx4zVZxVBxOxarpmKUrJ5dnCj1b/swZxZiU04qjzTpdz7o
-   lzINx1Hs4ICceE/WczMqmf3ZA2Vcr1H3s4DzIH0fLfEuXGIRqXYYrtN9U
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="9264903"
+  t=1710577127; x=1742113127;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/hUGS7eGBHwHUjRTTCc9HBhUNnTz3azKk/JJkJ0hSto=;
+  b=YHExjDprQekLfeR/+rpHpPU9UbSXlhVLx8aYJHL4TneVXuY1uHz5m9j+
+   SavNmEw8FKGZqUHkNklAe8wleZLo2OSaUiIwpoUz5uioPVL5jYtjWQyA4
+   /HQTrpEo+xcyLOJNaiozOYB/16X0kZK3mU5ICGbeMnJ8QFNoP6Q3fyD8M
+   zBRSHIc5YyC4H60KICuqTlxVRqd/uWbXMaoxW9j233qTr4yvzY8CpBx12
+   wHPD1FmiGsB4ZseuOfnmrR7m7wVIzbEkA5qJNFd7ASwc8LbuZ/0nQD0Fw
+   76a8SYwNqexA6oX6ddLOwnSFJ/8WnRfYtZCcwE9eMpZStcGRtLR6jgtSJ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="16001050"
 X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="9264903"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2024 01:18:41 -0700
+   d="scan'208";a="16001050"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2024 01:18:46 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="12853589"
+   d="scan'208";a="43835211"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Mar 2024 01:18:40 -0700
+  by orviesa002.jf.intel.com with ESMTP; 16 Mar 2024 01:18:40 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rlPFV-000FDl-1j;
+	id 1rlPFV-000FDn-1m;
 	Sat, 16 Mar 2024 08:18:37 +0000
-Date: Sat, 16 Mar 2024 16:18:16 +0800
+Date: Sat, 16 Mar 2024 16:18:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-writeback 11/12] csky-linux-ld:
- client.c:undefined reference to `netfs_write_subrequest_terminated'
-Message-ID: <202403161642.ifqOZIlR-lkp@intel.com>
+To: Ayush Singh <ayushdevel1325@gmail.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Ayush Singh <ayushdevel1325@gmail.com>,
+	jkridner@beagleboard.org, robertcnelson@beagleboard.org,
+	Vaishnav M A <vaishnav@beagleboard.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Tero Kristo <kristo@kernel.org>,
+	Derek Kiernan <derek.kiernan@amd.com>,
+	Dragan Cvetic <dragan.cvetic@amd.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
+	greybus-dev@lists.linaro.org
+Subject: Re: [PATCH v3 7/8] mikrobus: Add mikrobus driver
+Message-ID: <202403161617.AYNy6qpP-lkp@intel.com>
+References: <20240315184908.500352-8-ayushdevel1325@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,26 +75,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240315184908.500352-8-ayushdevel1325@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
-head:   be938ad004e7a8f28cc6fc8500c120c7687339f7
-commit: 489782b46f83f343c2449bbc797ef390816163bd [11/12] netfs: Use writeback_iter() and improve the writeback algorithm
-config: csky-randconfig-001-20240316 (https://download.01.org/0day-ci/archive/20240316/202403161642.ifqOZIlR-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161642.ifqOZIlR-lkp@intel.com/reproduce)
+Hi Ayush,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 61996c073c9b070922ad3a36c981ca6ddbea19a5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ayush-Singh/dt-bindings-misc-Add-mikrobus-connector/20240316-025407
+base:   61996c073c9b070922ad3a36c981ca6ddbea19a5
+patch link:    https://lore.kernel.org/r/20240315184908.500352-8-ayushdevel1325%40gmail.com
+patch subject: [PATCH v3 7/8] mikrobus: Add mikrobus driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240316/202403161617.AYNy6qpP-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161617.AYNy6qpP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403161642.ifqOZIlR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403161617.AYNy6qpP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   csky-linux-ld: net/9p/client.o: in function `p9_client_write_subreq':
-   client.c:(.text+0x34be): undefined reference to `netfs_write_subrequest_terminated'
->> csky-linux-ld: client.c:(.text+0x34e6): undefined reference to `netfs_write_subrequest_terminated'
-   csky-linux-ld: client.c:(.text+0x353a): undefined reference to `netfs_write_subrequest_terminated'
-   csky-linux-ld: client.c:(.text+0x35ac): undefined reference to `netfs_write_subrequest_terminated'
+   drivers/misc/mikrobus/mikrobus_manifest.c: In function 'mikrobus_manifest_parse_devices':
+>> drivers/misc/mikrobus/mikrobus_manifest.c:422:13: warning: variable 'retval' set but not used [-Wunused-but-set-variable]
+     422 |         int retval, devcount = 0;
+         |             ^~~~~~
+
+
+vim +/retval +422 drivers/misc/mikrobus/mikrobus_manifest.c
+
+   417	
+   418	static int mikrobus_manifest_parse_devices(struct addon_board_info *board)
+   419	{
+   420		struct greybus_descriptor_device *desc_device;
+   421		struct manifest_desc *desc, *next;
+ > 422		int retval, devcount = 0;
+   423	
+   424		list_for_each_entry_safe(desc, next, &board->manifest_descs, links) {
+   425			if (desc->type != GREYBUS_TYPE_DEVICE)
+   426				continue;
+   427	
+   428			desc_device = desc->data;
+   429			retval = mikrobus_manifest_attach_device(board, desc_device);
+   430			devcount++;
+   431		}
+   432	
+   433		return devcount;
+   434	}
+   435	
 
 -- 
 0-DAY CI Kernel Test Service
