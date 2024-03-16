@@ -1,66 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91D51C2D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Mar 2024 08:38:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA2C3D6B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Mar 2024 08:43:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710578327; cv=none; b=al+wT4RmeEAEmP/sphZoVDijkf7rO6SWcVsPYNfcxTQNObKIY4y50ZRIlcfj/O9XEBnNxommLYHDBcp76RkNhv3Yd1J1i897L7lEaN19r1/H6ggzL3+X5StWIODyRYwNZ97nYpJOu67pC9Bw3phRfsOrMRS9To6n4PYnvrEUrko=
+	t=1710578610; cv=none; b=BcfhOO0UX3cQA2tkIFlrEshJKZQFbLfND4kf2touH62yjG/0khfINNfD28nUTNoXqzBz8whhJhuz0guE28gpDnlXC0wM+frWWgdeADsdFCy3//9dgPD92/Fku4Zw/R/xZ2CWLGnuIfF92U6HRdns7Po04Ai+S0WrS1r1BypkAks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710578327; c=relaxed/simple;
-	bh=sJRKQDEF/mYELqYtfcMtuHA2PeZPlAzaD9jEf0e7JP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UUmmWu4MIXR5RoSDPcNstMN3JyZP143dq41B/NLNCJnO2V+LKDJ+LmCz1fRBC8OjsBcufYcNhHxEo0t5BdPJACzjUP94Pl8U0f0xWgpAHpu6FPA2jhfVefDJYqQRt2XgGQztU/RG7+BpYv9U4Tp1j85LcD4vt84Xxweygl//iR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vf30+wbH; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710578610; c=relaxed/simple;
+	bh=Swo95BdSmM+ueprV0W2o1AnC+3oFhUK3Wx65kfn3lsM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oUa2lbhog3lUpm8iE3IiIlMMMMRIEJAHl5m0P4dTmrusHXU00w7WK2JZCj6CmQ6yaEhvCvxmMUq0qqNHSIxdCNYh5R7Gt0DvwS34FyJxEBn5i4xetf0bcN68ESzw6BjmlEe02rZEVf3uFyaZmxNNfqnqqbBrxP4zroekUudyUJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Vde+h1uA; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vf30+wbH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710578325; x=1742114325;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sJRKQDEF/mYELqYtfcMtuHA2PeZPlAzaD9jEf0e7JP0=;
-  b=Vf30+wbH1k5m19sxzDCeIzqlTwYRnedAL3qJkgSHxVB4Z1U1jcECw+jT
-   75i5Uq34pvAKJlyR9uBQpOreK4pCwtdh1LWoL9rnOdGj60BEYbWTxIE2o
-   leRKTz9KGvnyQzSCuaO8ZGMl2BhEYV+BQKXZf3d+0nPq4sPaYcaqYR4Tj
-   7GxjlolL1O/pAYaLiTATkgHkD6IIYMwz/xYCAVsij6pBgwvT/kRvg0lUi
-   h1Yc1Kl2Hi0ILI8bCf5SDgOeNZmZYZw3XnyyFq4cpZvM65fKxr+cUjxeU
-   aCVVzhFlfTUCCzzVmT84tj60AGhJsRj3HKtdZ3rCZs+KcPPmjMke51gIt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5310434"
-X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="5310434"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2024 01:38:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="17525738"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Mar 2024 01:38:40 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rlPYr-000FEP-2e;
-	Sat, 16 Mar 2024 08:38:37 +0000
-Date: Sat, 16 Mar 2024 16:38:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: sunpeng.li@amd.com, dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Joshua Ashton <joshua@froggi.es>,
-	Michel =?iso-8859-1?Q?D=E4nzer?= <mdaenzer@redhat.com>,
-	Chao Guo <chao.guo@nxp.com>, Xaver Hugl <xaver.hugl@gmail.com>,
-	Vikas Korjani <Vikas.Korjani@amd.com>,
-	Robert Mader <robert.mader@posteo.de>,
-	Pekka Paalanen <pekka.paalanen@collabora.com>,
-	Sean Paul <sean@poorly.run>, Simon Ser <contact@emersion.fr>,
-	Shashank Sharma <shashank.sharma@amd.com>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	Leo Li <sunpeng.li@amd.com>
-Subject: Re: [PATCH 1/2] drm/amd/display: Introduce overlay cursor mode
-Message-ID: <202403161600.6KspdesJ-lkp@intel.com>
-References: <20240315170959.165505-2-sunpeng.li@amd.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Vde+h1uA"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33e1d327595so1831931f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Mar 2024 01:43:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1710578606; x=1711183406; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lRuPcslgs3SLLXdKLEnMOeBT5kId8aa6+JggeysjSBU=;
+        b=Vde+h1uAJJNApTebOQt46Htj55L9c+zdbvaCCAVoEhE2XH080qPFsA9vy8DPy2pMx2
+         fczyWhHxXm6Zd5QIyWnKV9QGQD6uE/CMIZM8Pnv/B6oofGSq6Vc2VqgdIsB4FrNxB5jf
+         2ZVVCY8RhfrmXQ5Em509u7d0uvlYCyIi6hK1afWUZTVde39Z/rXIcLhVDRMrxxTAU0my
+         KtK1BzHP3soyYPPG+VKuDg7jfV2HXwWr4j9THmiMb/EI1dwz+U8VHoEj3YYA8NRlyojV
+         Xcehnm59ytrnXYoh7kj9oPpPhtw2QdQnVXZbrBk+mMA2z/FAFQB/scjrL+Ro5K4HllqE
+         yPrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710578606; x=1711183406;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lRuPcslgs3SLLXdKLEnMOeBT5kId8aa6+JggeysjSBU=;
+        b=MHXw7qTHu4onjcbzN3gBYnHO5mB7AOUlafZGKKCaFCFOp38GUi+yDbn6hML5pfvMXw
+         oMBZOgCOwRdgMSIknVIp8J0Be20AEF2p4gGljuDS2bnZR6VFg/8xuMPWRetxKr1Nt5m8
+         vYMrcIG/tnwZb4hCP7sBrBa+ewKhdg4ekKDoSt20gBKtB+pdiVa+n99L3jZ+6fnLoQav
+         DqNev/23frRWmS8n7sWw60B8qQYFczWYcbmhDiu8qKtJp8pr8SYleWKD6XAFQ8Kz7quY
+         sUPUHSffu3J8vPq6W2nvZKsKHyn4+i7a/CbayPod3cdczQgSRbep9l/DxD9AkosQQx+z
+         FU2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUSztifAbtB+BgqV53ngMrL3NC4pIApO5y4NNFFu9OW2syNgIs39BChxdibsFLv/AS8XhmcCknsrOZGaGAWhr+XvKT68hiBJeMVMACYqA==
+X-Gm-Message-State: AOJu0YwyRXAxn3mrABVR9X0NQxoCN9t0E2xtZQh532dyC43+OKT5/0Xr
+	+dkI2m1lYjxTZqcrn4V0kSMD9nQXM3Yn7S8PKGQWd6xan1IZQSr6QLyceF/ZWBj7jt+yjso98H8
+	R
+X-Google-Smtp-Source: AGHT+IG4f7QneWj884C3atjCCfFbEx9ZdhYppQGH8pSVrsWCYNgCaJpmbUsZPt6uGennUMax14tTFg==
+X-Received: by 2002:a5d:468e:0:b0:33e:8b95:b350 with SMTP id u14-20020a5d468e000000b0033e8b95b350mr1193946wrq.7.1710578606134;
+        Sat, 16 Mar 2024 01:43:26 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id o9-20020adfe809000000b0033ec6ebf878sm4897747wrm.93.2024.03.16.01.43.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Mar 2024 01:43:25 -0700 (PDT)
+Date: Sat, 16 Mar 2024 11:43:21 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	Xie XiuQi <xiexiuqi@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 4556/21871]
+ drivers/gpio/gpio-exar.c:152 gpio_exar_probe() warn: missing error code
+ 'ret'
+Message-ID: <45321a17-8501-4e8f-94dc-adc2e3d4a0cb@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,145 +68,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240315170959.165505-2-sunpeng.li@amd.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8 next-20240315]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/sunpeng-li-amd-com/drm-amd-display-Introduce-overlay-cursor-mode/20240316-011404
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240315170959.165505-2-sunpeng.li%40amd.com
-patch subject: [PATCH 1/2] drm/amd/display: Introduce overlay cursor mode
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240316/202403161600.6KspdesJ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161600.6KspdesJ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   c0f28264ce70e762ccdf396767a85688e6ed4810
+commit: 96386d11646351bda8a42bc3e2115e03b489f992 [4556/21871] gpio: exar: add a check for the return value of ida_simple_get fails
+config: x86_64-randconfig-161-20240303 (https://download.01.org/0day-ci/archive/20240316/202403160655.9n8qKqP3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403161600.6KspdesJ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202403160655.9n8qKqP3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/gpio/gpio-exar.c:152 gpio_exar_probe() warn: missing error code 'ret'
 
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:10639: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Set whether the cursor should be enabled in native mode, or overlay mode, on
+vim +/ret +152 drivers/gpio/gpio-exar.c
 
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  119  static int gpio_exar_probe(struct platform_device *pdev)
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  120  {
+d3936d7437e388 Jan Kiszka      2017-06-09  121  	struct pci_dev *pcidev = to_pci_dev(pdev->dev.parent);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  122  	struct exar_gpio_chip *exar_gpio;
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  123  	u32 first_pin, ngpios;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  124  	void __iomem *p;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  125  	int index, ret;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  126  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  127  	/*
+8847f5f9ef5542 Jan Kiszka      2017-05-02  128  	 * The UART driver must have mapped region 0 prior to registering this
+8847f5f9ef5542 Jan Kiszka      2017-05-02  129  	 * device - use it.
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  130  	 */
+8847f5f9ef5542 Jan Kiszka      2017-05-02  131  	p = pcim_iomap_table(pcidev)[0];
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  132  	if (!p)
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  133  		return -ENOMEM;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  134  
+a589e211bd7471 Jan Kiszka      2017-07-19  135  	ret = device_property_read_u32(&pdev->dev, "exar,first-pin",
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  136  				       &first_pin);
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  137  	if (ret)
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  138  		return ret;
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  139  
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  140  	ret = device_property_read_u32(&pdev->dev, "ngpios", &ngpios);
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  141  	if (ret)
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  142  		return ret;
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  143  
+5dab5872e59390 Jan Kiszka      2017-06-09  144  	exar_gpio = devm_kzalloc(&pdev->dev, sizeof(*exar_gpio), GFP_KERNEL);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  145  	if (!exar_gpio)
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  146  		return -ENOMEM;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  147  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  148  	mutex_init(&exar_gpio->lock);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  149  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  150  	index = ida_simple_get(&ida_index, 0, 0, GFP_KERNEL);
+96386d11646351 Kangjie Lu      2019-03-08  151  	if (index < 0)
+96386d11646351 Kangjie Lu      2019-03-08 @152  		goto err_destroy;
 
-vim +10639 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
+Missing error code on this path.
 
- 10637	
- 10638	/**
- 10639	 * Set whether the cursor should be enabled in native mode, or overlay mode, on
- 10640	 * the dm_crtc_state.
- 10641	 *
- 10642	 * The cursor should be enabled in overlay mode if the immediate underlying
- 10643	 * plane contains a video format.
- 10644	 *
- 10645	 * Since zpos info is required, drm_atomic_normalize_zpos must be called before
- 10646	 * calling this function.
- 10647	*/
- 10648	static int dm_crtc_set_cursor_mode(struct drm_atomic_state *state,
- 10649					    struct dm_crtc_state *dm_crtc_state)
- 10650	{
- 10651		struct drm_plane_state *plane_state, *old_plane_state, *target_plane_state;
- 10652		struct drm_crtc_state *crtc_state = &dm_crtc_state->base;
- 10653		struct drm_plane *plane;
- 10654		bool consider_mode_change = false;
- 10655		bool cursor_changed = false;
- 10656		unsigned int target_zpos;
- 10657		unsigned int cursor_zpos;
- 10658		int i;
- 10659	
- 10660		/*
- 10661		 * Cursor mode can change if a plane's format changes, is
- 10662		 * enabled/disabled, or z-order changes.
- 10663		 */
- 10664		for_each_oldnew_plane_in_state(state, plane, old_plane_state, plane_state, i) {
- 10665	
- 10666			/* Only care about planes on this CRTC */
- 10667			if ((drm_plane_mask(plane) & crtc_state->plane_mask) == 0)
- 10668				continue;
- 10669	
- 10670			if (plane->type == DRM_PLANE_TYPE_CURSOR)
- 10671				cursor_changed = true;
- 10672	
- 10673			if (drm_atomic_plane_enabling(old_plane_state, plane_state) ||
- 10674			    drm_atomic_plane_disabling(old_plane_state, plane_state) ||
- 10675			    old_plane_state->fb->format != plane_state->fb->format) {
- 10676				consider_mode_change = true;
- 10677				break;
- 10678			}
- 10679		}
- 10680	
- 10681		if (!consider_mode_change && !crtc_state->zpos_changed) {
- 10682			return 0;
- 10683		}
- 10684	
- 10685		/*
- 10686		 * If no cursor change on this CRTC, and not enabled on this CRTC, then
- 10687		 * no need to set cursor mode. This avoids needlessly locking the cursor
- 10688		 * state.
- 10689		 */
- 10690		if (!cursor_changed &&
- 10691		    !(drm_plane_mask(crtc_state->crtc->cursor) & crtc_state->plane_mask)) {
- 10692			return 0;
- 10693		}
- 10694	
- 10695		plane_state = drm_atomic_get_plane_state(state,
- 10696							 crtc_state->crtc->cursor);
- 10697		if (IS_ERR(plane_state))
- 10698			return PTR_ERR(plane_state);
- 10699	
- 10700		/* Cursor is disabled */
- 10701		if (!plane_state->fb)
- 10702			return 0;
- 10703	
- 10704		cursor_zpos = plane_state->normalized_zpos;
- 10705	
- 10706		/* Get enabled plane immediately below cursor. */
- 10707		target_plane_state = NULL;
- 10708		target_zpos = 0;
- 10709		drm_for_each_plane_mask(plane, state->dev, crtc_state->plane_mask) {
- 10710			if (plane->type == DRM_PLANE_TYPE_CURSOR)
- 10711				continue;
- 10712	
- 10713			plane_state = drm_atomic_get_plane_state(state, plane);
- 10714			if (IS_ERR(plane_state))
- 10715				return PTR_ERR(plane_state);
- 10716	
- 10717			if (!plane_state->fb ||
- 10718			    plane_state->normalized_zpos >= cursor_zpos)
- 10719				continue;
- 10720	
- 10721			if (plane_state->normalized_zpos >= target_zpos) {
- 10722				target_zpos = plane_state->normalized_zpos;
- 10723				target_plane_state = plane_state;
- 10724			}
- 10725		}
- 10726	
- 10727		/* Nothing below cursor - use overlay mode */
- 10728		if (target_plane_state == NULL) {
- 10729			dm_crtc_state->cursor_mode = DM_CURSOR_OVERLAY_MODE;
- 10730			return 0;
- 10731		}
- 10732	
- 10733		if (amdgpu_dm_plane_is_video_format(target_plane_state->fb->format->format)) {
- 10734			dm_crtc_state->cursor_mode = DM_CURSOR_OVERLAY_MODE;
- 10735		} else {
- 10736			dm_crtc_state->cursor_mode = DM_CURSOR_NATIVE_MODE;
- 10737		}
- 10738	
- 10739		return 0;
- 10740	}
- 10741	
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  153  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  154  	sprintf(exar_gpio->name, "exar_gpio%d", index);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  155  	exar_gpio->gpio_chip.label = exar_gpio->name;
+4076cf08ac7673 Jan Kiszka      2017-05-21  156  	exar_gpio->gpio_chip.parent = &pdev->dev;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  157  	exar_gpio->gpio_chip.direction_output = exar_direction_output;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  158  	exar_gpio->gpio_chip.direction_input = exar_direction_input;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  159  	exar_gpio->gpio_chip.get_direction = exar_get_direction;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  160  	exar_gpio->gpio_chip.get = exar_get_value;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  161  	exar_gpio->gpio_chip.set = exar_set_value;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  162  	exar_gpio->gpio_chip.base = -1;
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  163  	exar_gpio->gpio_chip.ngpio = ngpios;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  164  	exar_gpio->regs = p;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  165  	exar_gpio->index = index;
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  166  	exar_gpio->first_pin = first_pin;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  167  
+5dab5872e59390 Jan Kiszka      2017-06-09  168  	ret = devm_gpiochip_add_data(&pdev->dev,
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  169  				     &exar_gpio->gpio_chip, exar_gpio);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  170  	if (ret)
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  171  		goto err_destroy;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  172  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  173  	platform_set_drvdata(pdev, exar_gpio);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  174  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  175  	return 0;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  176  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  177  err_destroy:
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  178  	ida_simple_remove(&ida_index, index);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  179  	mutex_destroy(&exar_gpio->lock);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  180  	return ret;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  181  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
