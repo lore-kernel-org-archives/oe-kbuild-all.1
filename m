@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109A0171AD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Mar 2024 09:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5412EEAE5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Mar 2024 10:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710582829; cv=none; b=adjX+Y3zTNTcEcdI8T6iro9W77N+iWCKjVFbz+mhuEkUkUmtcKvCTuz/cOIxAfiNQE7euf1Qk687mn8mbzvYk79ARvVtjHAxB8N2Pqb+Y+Vf41F4AoY873stlWDTZmE0q8BHHz4vPasGrWG+M/ShjmMSYHQ4bH+NuCkg4Z/5JoA=
+	t=1710584088; cv=none; b=inS3y0wO2lVIL1ieQVb6vSGD7u74SjA+NIoVSXXD5hCBkgzvwt3sfRe47tYhuAGZU0UHk/+WhtpwDYG8ZzfKCds9xk+x7Tm6iovowp2jLamNOreZ5HRVFNt3ES4YF88rTWsoPM3AzKs5169N7zIkmAkmE0X6q5UJlPJW4M+D6Z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710582829; c=relaxed/simple;
-	bh=IW65+QI0+a1WUEatSc+JAnWzSCQrAFiTc1KFALWvzxg=;
+	s=arc-20240116; t=1710584088; c=relaxed/simple;
+	bh=Kr9XyN1BcJNx8ud6k8+lAqKYYVwHrFUQFkqpwFyswy8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DdE43BLcFe1i024u5+3+zXwHAp1wqU0uTLaQuhpyhYjHLCX8lTvVHDQLL/hf7v8QOvk12RNR+vyX5bywEd5/8Y14xDIZo7k9xTj30TQ6ubDg6D32D21iCLj+Bh0IYqVw6P9C2B3x/MykDSj9ipvislCabLbboUH4Mqiteh7kGrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TXmWPe4g; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=nE6h06mampdHoYlzTNUXzRKRgsJgMVrYpZ/FsfgXUdqDFVdtoKW4xMePxsWiuyuFTuLScRA67N6xbqoYSfJMlXkSevm4M3zN4xQ9HTzQ1t+KCsVaWSYOuHKoRqPTlpGPQfZdjYTpOuv2z64rdantCPB2clGorml+oxO1cu1Ezqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qb7zZnMk; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TXmWPe4g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qb7zZnMk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710582826; x=1742118826;
+  t=1710584087; x=1742120087;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=IW65+QI0+a1WUEatSc+JAnWzSCQrAFiTc1KFALWvzxg=;
-  b=TXmWPe4gcrrXEjZHJTAJyViOueFfsnsVk55rn5pBjU8pnZxrvM3D1QiT
-   o5OvFJxF2CN49Ynl2Wj84dU3eS5uPyDDapBIwr7Z7E9TQogkbxQhRF69E
-   v44P8uDlcg2z7qH1T8ma4deRM0rFZ4BamfmcPxTTy6KtpK6ObgKSYfg+x
-   MB23erI0e90tYXYMFLMm5SoCIjb91K13gqIyeBsQVui+Kes75hctdFNwG
-   AKdIIi2S6fmGK3kRPnpAj0gwOwrQpywRnjguKGfVP6uia2OZMx7qTN/vo
-   rTF4K50em5/5U5PxRwM61pNlmf6L2ECk1R038ogUyWjgWIVeihKUDUUTt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5331051"
-X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="5331051"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2024 02:53:45 -0700
+  bh=Kr9XyN1BcJNx8ud6k8+lAqKYYVwHrFUQFkqpwFyswy8=;
+  b=Qb7zZnMkttoaoH8n13ztU1573avUl8Ns0+YRQ4S7IGtcL0Ws/KycLcns
+   jHFjOU8iqpZM8nw62uUYhi8IeRqyap8pg58A60BZyb4DHnVfBvKjK5vA+
+   WTcTNs/kzZbd7MkF/V4TvwHYX5xQ1KFxeLyEyagV0geXM1+sLD8rUpphi
+   rf07coZbZsJ2+4kY3msDU09nt5npDYydRonkPvCG5hp2EEzpk1IEPVq5L
+   Cing0G/cSbR21L6blJTJc/qeafXeBE0OFoHqrnMorT1WWqbmwpvO6JuQI
+   MP1Lgo3DJBBhSAS9T1zpMKUYuKbr58v7JSAan2uFRp/y9m5D0jyjA5DH4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="16600459"
+X-IronPort-AV: E=Sophos;i="6.07,130,1708416000"; 
+   d="scan'208";a="16600459"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2024 03:14:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="50372441"
+X-IronPort-AV: E=Sophos;i="6.07,130,1708416000"; 
+   d="scan'208";a="13014277"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 16 Mar 2024 02:53:43 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 16 Mar 2024 03:14:42 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rlQjT-000FIN-31;
-	Sat, 16 Mar 2024 09:53:39 +0000
-Date: Sat, 16 Mar 2024 17:52:51 +0800
+	id 1rlR3o-000FJl-1o;
+	Sat, 16 Mar 2024 10:14:40 +0000
+Date: Sat, 16 Mar 2024 18:14:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sean Anderson <sean.anderson@linux.dev>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -56,9 +56,10 @@ Cc: oe-kbuild-all@lists.linux.dev, David Airlie <airlied@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	Daniel Vetter <daniel@ffwll.ch>,
 	Sean Anderson <sean.anderson@linux.dev>
-Subject: Re: [PATCH 3/6] drm: zynqmp_dp: Add locking
-Message-ID: <202403161747.TRmfawhM-lkp@intel.com>
-References: <20240315230916.1759060-4-sean.anderson@linux.dev>
+Subject: Re: [PATCH 6/6] drm: zynqmp_dp: Add debugfs interface for compliance
+ testing
+Message-ID: <202403161704.ACHJdSJG-lkp@intel.com>
+References: <20240315230916.1759060-7-sean.anderson@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,87 +68,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240315230916.1759060-4-sean.anderson@linux.dev>
+In-Reply-To: <20240315230916.1759060-7-sean.anderson@linux.dev>
 
 Hi Sean,
 
 kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on v6.8]
-[also build test WARNING on linus/master next-20240315]
-[cannot apply to drm-misc/drm-misc-next]
+[cannot apply to drm-misc/drm-misc-next linus/master next-20240315]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/drm-zynqmp_dp-Downgrade-log-level-for-aux-retries-message/20240316-071208
 base:   v6.8
-patch link:    https://lore.kernel.org/r/20240315230916.1759060-4-sean.anderson%40linux.dev
-patch subject: [PATCH 3/6] drm: zynqmp_dp: Add locking
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240316/202403161747.TRmfawhM-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161747.TRmfawhM-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20240315230916.1759060-7-sean.anderson%40linux.dev
+patch subject: [PATCH 6/6] drm: zynqmp_dp: Add debugfs interface for compliance testing
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240316/202403161704.ACHJdSJG-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161704.ACHJdSJG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403161747.TRmfawhM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403161704.ACHJdSJG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/xlnx/zynqmp_dp.c:321: warning: Function parameter or struct member 'hpd_irq_work' not described in 'zynqmp_dp'
+   drivers/gpu/drm/xlnx/zynqmp_dp.c: In function 'zynqmp_dp_bridge_debugfs_init':
+>> drivers/gpu/drm/xlnx/zynqmp_dp.c:2168:31: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+    2168 |                 sprintf(name, fmt, i);
+         |                               ^~~
+   drivers/gpu/drm/xlnx/zynqmp_dp.c:2168:17: note: 'sprintf' output between 18 and 20 bytes into a destination of size 19
+    2168 |                 sprintf(name, fmt, i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +321 drivers/gpu/drm/xlnx/zynqmp_dp.c
+vim +/sprintf +2168 drivers/gpu/drm/xlnx/zynqmp_dp.c
 
-d76271d22694e8 Hyun Kwon        2018-07-07  275  
-d76271d22694e8 Hyun Kwon        2018-07-07  276  /**
-d76271d22694e8 Hyun Kwon        2018-07-07  277   * struct zynqmp_dp - Xilinx DisplayPort core
-d76271d22694e8 Hyun Kwon        2018-07-07  278   * @dev: device structure
-d76271d22694e8 Hyun Kwon        2018-07-07  279   * @dpsub: Display subsystem
-d76271d22694e8 Hyun Kwon        2018-07-07  280   * @iomem: device I/O memory for register access
-d76271d22694e8 Hyun Kwon        2018-07-07  281   * @reset: reset controller
-8ce380e6568015 Sean Anderson    2024-03-15  282   * @lock: Mutex protecting this struct and register access (but not AUX)
-d76271d22694e8 Hyun Kwon        2018-07-07  283   * @irq: irq
-47e801bd0749f0 Laurent Pinchart 2021-08-04  284   * @bridge: DRM bridge for the DP encoder
-bd68b9b3cb2e0d Laurent Pinchart 2021-08-04  285   * @next_bridge: The downstream bridge
-d76271d22694e8 Hyun Kwon        2018-07-07  286   * @config: IP core configuration from DTS
-d76271d22694e8 Hyun Kwon        2018-07-07  287   * @aux: aux channel
-d76271d22694e8 Hyun Kwon        2018-07-07  288   * @phy: PHY handles for DP lanes
-d76271d22694e8 Hyun Kwon        2018-07-07  289   * @num_lanes: number of enabled phy lanes
-d76271d22694e8 Hyun Kwon        2018-07-07  290   * @hpd_work: hot plug detection worker
-d76271d22694e8 Hyun Kwon        2018-07-07  291   * @status: connection status
-d76271d22694e8 Hyun Kwon        2018-07-07  292   * @enabled: flag to indicate if the device is enabled
-d76271d22694e8 Hyun Kwon        2018-07-07  293   * @dpcd: DP configuration data from currently connected sink device
-d76271d22694e8 Hyun Kwon        2018-07-07  294   * @link_config: common link configuration between IP core and sink device
-d76271d22694e8 Hyun Kwon        2018-07-07  295   * @mode: current mode between IP core and sink device
-d76271d22694e8 Hyun Kwon        2018-07-07  296   * @train_set: set of training data
-d76271d22694e8 Hyun Kwon        2018-07-07  297   */
-d76271d22694e8 Hyun Kwon        2018-07-07  298  struct zynqmp_dp {
-d76271d22694e8 Hyun Kwon        2018-07-07  299  	struct device *dev;
-d76271d22694e8 Hyun Kwon        2018-07-07  300  	struct zynqmp_dpsub *dpsub;
-d76271d22694e8 Hyun Kwon        2018-07-07  301  	void __iomem *iomem;
-d76271d22694e8 Hyun Kwon        2018-07-07  302  	struct reset_control *reset;
-8ce380e6568015 Sean Anderson    2024-03-15  303  	struct mutex lock;
-d76271d22694e8 Hyun Kwon        2018-07-07  304  	int irq;
-d76271d22694e8 Hyun Kwon        2018-07-07  305  
-47e801bd0749f0 Laurent Pinchart 2021-08-04  306  	struct drm_bridge bridge;
-bd68b9b3cb2e0d Laurent Pinchart 2021-08-04  307  	struct drm_bridge *next_bridge;
-47e801bd0749f0 Laurent Pinchart 2021-08-04  308  
-d76271d22694e8 Hyun Kwon        2018-07-07  309  	struct zynqmp_dp_config config;
-d76271d22694e8 Hyun Kwon        2018-07-07  310  	struct drm_dp_aux aux;
-d76271d22694e8 Hyun Kwon        2018-07-07  311  	struct phy *phy[ZYNQMP_DP_MAX_LANES];
-d76271d22694e8 Hyun Kwon        2018-07-07  312  	u8 num_lanes;
-8ce380e6568015 Sean Anderson    2024-03-15  313  	struct delayed_work hpd_work, hpd_irq_work;
-d76271d22694e8 Hyun Kwon        2018-07-07  314  	enum drm_connector_status status;
-d76271d22694e8 Hyun Kwon        2018-07-07  315  	bool enabled;
-d76271d22694e8 Hyun Kwon        2018-07-07  316  
-d76271d22694e8 Hyun Kwon        2018-07-07  317  	u8 dpcd[DP_RECEIVER_CAP_SIZE];
-d76271d22694e8 Hyun Kwon        2018-07-07  318  	struct zynqmp_dp_link_config link_config;
-d76271d22694e8 Hyun Kwon        2018-07-07  319  	struct zynqmp_dp_mode mode;
-d76271d22694e8 Hyun Kwon        2018-07-07  320  	u8 train_set[ZYNQMP_DP_MAX_LANES];
-d76271d22694e8 Hyun Kwon        2018-07-07 @321  };
-d76271d22694e8 Hyun Kwon        2018-07-07  322  
+  2136	
+  2137	DEFINE_DEBUGFS_ATTRIBUTE(fops_zynqmp_dp_rate, zynqmp_dp_rate_get,
+  2138				 zynqmp_dp_rate_set, "%llu\n");
+  2139	
+  2140	static void zynqmp_dp_bridge_debugfs_init(struct drm_bridge *bridge,
+  2141						  struct dentry *root)
+  2142	{
+  2143		struct zynqmp_dp *dp = bridge_to_dp(bridge);
+  2144		struct dentry *test;
+  2145		int i;
+  2146	
+  2147		dp->test.bw_code = DP_LINK_BW_5_4;
+  2148		dp->test.link_cnt = dp->num_lanes;
+  2149	
+  2150		test = debugfs_create_dir("test", root);
+  2151	#define CREATE_FILE(name) \
+  2152		debugfs_create_file(#name, 0600, test, dp, &fops_zynqmp_dp_##name)
+  2153		CREATE_FILE(pattern);
+  2154		CREATE_FILE(enhanced);
+  2155		CREATE_FILE(downspread);
+  2156		CREATE_FILE(active);
+  2157		CREATE_FILE(custom);
+  2158		CREATE_FILE(rate);
+  2159		CREATE_FILE(lanes);
+  2160	
+  2161		for (i = 0; i < dp->num_lanes; i++) {
+  2162			static const char fmt[] = "lane%d_preemphasis";
+  2163			char name[sizeof(fmt)];
+  2164	
+  2165			dp->debugfs_train_set[i].dp = dp;
+  2166			dp->debugfs_train_set[i].lane = i;
+  2167	
+> 2168			sprintf(name, fmt, i);
+  2169			debugfs_create_file(name, 0600, test,
+  2170					    &dp->debugfs_train_set[i],
+  2171					    &fops_zynqmp_dp_preemphasis);
+  2172	
+  2173			sprintf(name, "lane%d_swing", i);
+  2174			debugfs_create_file(name, 0600, test,
+  2175					    &dp->debugfs_train_set[i],
+  2176					    &fops_zynqmp_dp_swing);
+  2177		}
+  2178	}
+  2179	
 
 -- 
 0-DAY CI Kernel Test Service
