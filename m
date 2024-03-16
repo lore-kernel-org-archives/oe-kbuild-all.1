@@ -1,54 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F3B11CAB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Mar 2024 11:07:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA5511718;
+	Sat, 16 Mar 2024 11:07:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710587267; cv=none; b=QKO/BivhXnF4YbbRo8epTFZVAQOu2Ml2IeqHbej3GjcFTAbXmq1vlOoqvYWl+ZiL/DfWpVLtHEE8BdJ3xNyv5qcusMh+YnkVRysUJez5tISRHgm4EzkRIfHhzN+p5icGWgcLdKdKBSpD2XTmMdGgNczG6ZIVdNp85cqIJiGhNGM=
+	t=1710587268; cv=none; b=A4rlGniTuamUPiQgI3yO3prMvbLCbVc0V76MyBIOjyEcEFVdp7FuxkmS5Oig2i1ozWrfvMyQZ7rLu0X69mdc53UyqJe3TVPg9s1B8AMtUv0iwEvymiyweWLI5TjKCl2eLoM8bfwSy/CEO3Bp5PZc1HQdSv/GBtNQw5HZXR4QZbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710587267; c=relaxed/simple;
-	bh=ym6lI3AHuWeZEeQfFosF718gDI/QWLDGEPOmQTAPRSo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fz3PQcKPIV7IIhWWv6cMzLMsHTi8gwNjMyeXxz7v9EqRrfrfeVAlVz4aPXQ2bIvSBeP9Tu6K9FIy5stqY0eyOZvlyqU2hDTPJVMpcLzddQio5EtU5Cfd49z95EbuaHBtoo3r7hKYrP+f48vfg6yIOGwDzTMW9wyZ7Aa6I9t/BBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xhso5RM0; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1710587268; c=relaxed/simple;
+	bh=SIbJUOaCuO1muF7CulsKn0AgyH29CGVJfjRrkcHrxvU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=grLoaf3A4hccGAam2jDeOJI6Y1d3I+H2wyJRVLXMIMQFbstTIONrVZtoaKEHwdf5ZubPeIXmugOU1Kvj2uUD24lcRSQWh+hoJ1hBrYE4r0aiwpjW9CfgXAOhnEuvQ+3zb4hYUX/qv/dA1c9QNEXicqof0SsGs2vKgyb1i4cmII8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AGiOu1/L; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xhso5RM0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AGiOu1/L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710587265; x=1742123265;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ym6lI3AHuWeZEeQfFosF718gDI/QWLDGEPOmQTAPRSo=;
-  b=Xhso5RM0D2wLTtiZOiiiaFsg+h2N4Urj5o0PTrUYeBttntYWykMDMl1u
-   JK2xQ/xw+4bgP84bseQUK47GmwFl+8TiHsYcDgwur5VYvLMH428za4msP
-   c73UNpUHye3EJVHHbtWRVBATnN1e1BYBVdKYDsyKAjcKUcYlI2PtWusvU
-   3ndajLb+irv5kUNTnaVqhNtRrJ3fHzuhfc6B38dm06xwnj1IpDMO2GiCE
-   NZOOscNB7XGvAR2MuFqfXgJSQVpERBxIm/FtsSYja7xdO8KWaDmKDHwDZ
-   7GsDUrmQP4yfnPRvrRhYLcNQS9xOAG6FBynwC9c8S0ECIBhMXO8XtxLNx
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="16859703"
+  t=1710587267; x=1742123267;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SIbJUOaCuO1muF7CulsKn0AgyH29CGVJfjRrkcHrxvU=;
+  b=AGiOu1/LsWHUichLt7K19Cq6cK2TBCvKTfHwqhyXbXFXULhn2L3L3vLb
+   STPSeaoS4F1VT6hI2QlGjXwZim8tt7cPYHQVYE5TvMauqmkVbSs3r4pDw
+   kvisrDrKwMPz087Quwt9kWZhWK/D/5JQkJzXt0n654XC1Bt0jhWxAcGMf
+   DYTKDREDyWy9lJFr1kvOaiTK+WTLohTHFa3wbm1rfE+D1mOBddP3PqjRu
+   KeHuX5u/XkRio+QkgvsHr9D7L6m0STCwwC9MDvfYxYVHMveLVbv8st98x
+   ftpqMfllTgUGMZsARxIJtEmSz16fe2dUkekGHdC3Hl9K4xzz7BjspxY7x
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="16859704"
 X-IronPort-AV: E=Sophos;i="6.07,130,1708416000"; 
-   d="scan'208";a="16859703"
+   d="scan'208";a="16859704"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2024 04:07:44 -0700
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2024 04:07:45 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,130,1708416000"; 
-   d="scan'208";a="17417978"
+   d="scan'208";a="17417979"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 16 Mar 2024 04:07:43 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rlRt7-000FLB-0Y;
+	id 1rlRt7-000FLD-0e;
 	Sat, 16 Mar 2024 11:07:41 +0000
-Date: Sat, 16 Mar 2024 19:07:32 +0800
+Date: Sat, 16 Mar 2024 19:07:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:kdevops 24/27] fs/nfs/nfs4xdr.c:6569:12: warning:
- 'nfs4_xdr_dec_gdd_getattr' defined but not used
-Message-ID: <202403161848.iBJdExuj-lkp@intel.com>
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v15 12/21] security: add security_bdev_setintegrity()
+ hook
+Message-ID: <202403161802.hmWTZ21U-lkp@intel.com>
+References: <1710560151-28904-13-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,70 +59,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1710560151-28904-13-git-send-email-wufan@linux.microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
-head:   97dd4397677db6898e2534608c52b9c0e774aa89
-commit: 2e5a6b3250f71288bf15c4c943a93d28a7b0f628 [24/27] nfs: add a GDD_GETATTR rpc operation
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20240316/202403161848.iBJdExuj-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161848.iBJdExuj-lkp@intel.com/reproduce)
+Hi Fan,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on linus/master next-20240315]
+[cannot apply to device-mapper-dm/for-next lwn/docs-next v6.8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fan-Wu/security-add-ipe-lsm/20240316-114235
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/1710560151-28904-13-git-send-email-wufan%40linux.microsoft.com
+patch subject: [RFC PATCH v15 12/21] security: add security_bdev_setintegrity() hook
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240316/202403161802.hmWTZ21U-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161802.hmWTZ21U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403161848.iBJdExuj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403161802.hmWTZ21U-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/nfs/nfs4xdr.c: In function 'nfs4_xdr_enc_gdd_getattr':
-   fs/nfs/nfs4xdr.c:2403:9: error: implicit declaration of function 'encode_get_dir_delegation' [-Werror=implicit-function-declaration]
-    2403 |         encode_get_dir_delegation(xdr, &hdr);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/nfs4xdr.c: In function 'nfs4_xdr_dec_gdd_getattr':
-   fs/nfs/nfs4xdr.c:6585:18: error: implicit declaration of function 'decode_get_dir_delegation'; did you mean 'decode_no_delegation'? [-Werror=implicit-function-declaration]
-    6585 |         status = decode_get_dir_delegation(xdr, res);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                  decode_no_delegation
-   fs/nfs/nfs4xdr.c: At top level:
->> fs/nfs/nfs4xdr.c:6569:12: warning: 'nfs4_xdr_dec_gdd_getattr' defined but not used [-Wunused-function]
-    6569 | static int nfs4_xdr_dec_gdd_getattr(struct rpc_rqst *rqstp, struct xdr_stream *xdr,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~
->> fs/nfs/nfs4xdr.c:2392:13: warning: 'nfs4_xdr_enc_gdd_getattr' defined but not used [-Wunused-function]
-    2392 | static void nfs4_xdr_enc_gdd_getattr(struct rpc_rqst *req, struct xdr_stream *xdr,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from fs/nfs/flexfilelayout/flexfilelayout.c:10:
+   In file included from include/linux/nfs_fs.h:32:
+   In file included from include/linux/sunrpc/clnt.h:29:
+   In file included from include/net/ipv6.h:12:
+   In file included from include/linux/ipv6.h:101:
+   In file included from include/linux/tcp.h:19:
+   In file included from include/net/sock.h:46:
+   In file included from include/linux/netdevice.h:45:
+   In file included from include/uapi/linux/neighbour.h:6:
+   In file included from include/linux/netlink.h:9:
+   In file included from include/net/scm.h:9:
+   include/linux/security.h:1506:32: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
+                                                enum lsm_intgr_type, type,
+                                                                     ^
+>> include/linux/security.h:1506:30: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+                                                enum lsm_intgr_type, type,
+                                                                   ^
+   fs/nfs/flexfilelayout/flexfilelayout.c:1230:6: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+           int err;
+               ^
+   2 warnings and 1 error generated.
+--
+   In file included from fs/nfs/flexfilelayout/flexfilelayoutdev.c:10:
+   In file included from include/linux/nfs_fs.h:32:
+   In file included from include/linux/sunrpc/clnt.h:29:
+   In file included from include/net/ipv6.h:12:
+   In file included from include/linux/ipv6.h:101:
+   In file included from include/linux/tcp.h:19:
+   In file included from include/net/sock.h:46:
+   In file included from include/linux/netdevice.h:45:
+   In file included from include/uapi/linux/neighbour.h:6:
+   In file included from include/linux/netlink.h:9:
+   In file included from include/net/scm.h:9:
+   include/linux/security.h:1506:32: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
+                                                enum lsm_intgr_type, type,
+                                                                     ^
+>> include/linux/security.h:1506:30: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+                                                enum lsm_intgr_type, type,
+                                                                   ^
+   fs/nfs/flexfilelayout/flexfilelayoutdev.c:55:9: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+           int i, ret = -ENOMEM;
+                  ^
+   2 warnings and 1 error generated.
 
 
-vim +/nfs4_xdr_dec_gdd_getattr +6569 fs/nfs/nfs4xdr.c
+vim +1506 include/linux/security.h
 
-  6565	
-  6566	/*
-  6567	 * Decode GDD_GETATTR response
-  6568	 */
-> 6569	static int nfs4_xdr_dec_gdd_getattr(struct rpc_rqst *rqstp, struct xdr_stream *xdr,
-  6570					    void *data)
-  6571	{
-  6572		struct nfs4_getattr_res *res = data;
-  6573		struct compound_hdr hdr;
-  6574		int status;
-  6575	
-  6576		status = decode_compound_hdr(xdr, &hdr);
-  6577		if (status)
-  6578			goto out;
-  6579		status = decode_sequence(xdr, &res->seq_res, rqstp);
-  6580		if (status)
-  6581			goto out;
-  6582		status = decode_putfh(xdr);
-  6583		if (status)
-  6584			goto out;
-  6585		status = decode_get_dir_delegation(xdr, res);
-  6586		if (status)
-  6587			goto out;
-  6588		status = decode_getfattr(xdr, res->fattr, res->server);
-  6589	out:
-  6590		return status;
-  6591	}
-  6592	
+  1504	
+  1505	static inline int security_bdev_setintegrity(struct block_device *bdev,
+> 1506						     enum lsm_intgr_type, type,
+  1507						     const void *value, size_t size)
+  1508	{
+  1509		return 0;
+  1510	}
+  1511	
 
 -- 
 0-DAY CI Kernel Test Service
