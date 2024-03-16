@@ -1,54 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB261361;
-	Sat, 16 Mar 2024 06:35:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB03ED512
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Mar 2024 07:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710570942; cv=none; b=fISvW6JnjiDF7fC4AZtI5AdmPMFKJ/k82MIi3A7rizWvtIIiQFmVfV2k/qzMot08QvMLsxMx715ORGmk/VvdpNU6nVG1Kv6sBbyEAXhkwaKaPssfbShzBU2NbtMwx4R6/Fx0cWKx6fekRnyhrH+joJTaB7PHS0+ryj7JT+NWipA=
+	t=1710572803; cv=none; b=kDsKOIYF8awwJ1leQ2g+RBhsEi/hHKjqTfNb6fo0vbETqDYAXdgDB/GPfeVYL5WeD4eX3z8GYlyJugt2PegduDUwv/dXwBMvptgCjaby39MIg6J7d6GZZEvt4cbtwo4rwg0OinHsEJyQEd1dPW0zc1h5aCmS3hhaRfG5UxKn1HI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710570942; c=relaxed/simple;
-	bh=ZznboOtU7ZvgwyIZFBj78Y4vrlgG39GqFlQ9V+orzMI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mnX2P32Ek5UflM4BicbrfvQ6wKN1qnlj/vfuRbks9qVdxbA+6ap4FRGP9GoKTwR54S5m/pgVqvbZmmTj2zW9MQRrfQ66w3Bnh3ncidQOrlJoC9SZc1OOhOFn0HXD0BMhqK1Yp2DUqj1Iz5d19tZ0BsiZ4Actj1FfWqNfGBGZyQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fN1At5jE; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1710572803; c=relaxed/simple;
+	bh=fmtXuNj0Bj/2ZX5YKZDcefNt6obONJhTtFpE9R9CYgA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eHTFpg97LIr5tZMDjZZkIQKPnhHhLs3niYcjokFJSL3JkYLBB2PTsJ+l6uTUxS9+RsSGvl1f/HgzhaePd2vHOhFswdb5difCGcjNcuAaYdFEyXE+U3KSsk6ZC61ZIyEeYzKuj6glyHz3DIN9Pf+XIccqGQ2C0WgoUK36Tp5uprQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dUxe5msK; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fN1At5jE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dUxe5msK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710570940; x=1742106940;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZznboOtU7ZvgwyIZFBj78Y4vrlgG39GqFlQ9V+orzMI=;
-  b=fN1At5jE6gtz/G0HkGwCFv5URuVSvEUEaAMncmYQljlswF3XWEmtfce1
-   14ggb2teSBT1GECMlnkGh8nMyb+guwdM7Rmsj2bqJy4g8XthfeSmVDPD6
-   YsYN2gN9VVcdoYu69GrjEAsId17slkP0pL22IFsj4+9Mxl4g7HBjBnfn3
-   4fFKsrxAH0D7M7rVLmKKzhN5Etw7br/fFJ7Y3XuHEB9TQr/Vy4zMH07nX
-   TWy9ugs0NOP/Ngyc4y2jfGWpfu/f3YT6iNCNo/24lnw7sEXiOxzhPzMCW
-   FxYhzxHxmY8LDaefvwfwCVydb00lcSe61my48v36wpTAG/umFxO6o08ti
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5312782"
+  t=1710572801; x=1742108801;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fmtXuNj0Bj/2ZX5YKZDcefNt6obONJhTtFpE9R9CYgA=;
+  b=dUxe5msKDTm/i8Vz56v+TdOsZkba0E22EnIWbR9rfRMYfTzY0FKqiJk4
+   9tMI7Q9gXJgRPPFX3WVl5pU4YaTrNZY+0SPgXcBHa/lUcTS2CiD+VBSmi
+   xhwOxjB6AMhITJ9NuD5AMxD4ne2rdo+8fFlGqYU6hLIH/hFJXpaw1YXJj
+   l58O7Y9aXDHt/izzu6TZ1HXEjBwvxCWKcPs6iwu6nH2Z4s+Emps8JnYpg
+   ipondNZ1Ri9ncK720SXJol9m4EoBxrI5RRHeIbZBSxD0t2eJfGP+lV8QR
+   Ny+TOhcTgVSAB2ZtsQgm08t2/PRd66mWsn6p/cLDhVehx7qbt+rJiwIiL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="9281710"
 X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="5312782"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 23:35:39 -0700
+   d="scan'208";a="9281710"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2024 00:06:40 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
-   d="scan'208";a="17587281"
+   d="scan'208";a="17507555"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 15 Mar 2024 23:35:38 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 16 Mar 2024 00:06:38 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rlNdn-000F8J-0Z;
-	Sat, 16 Mar 2024 06:35:35 +0000
-Date: Sat, 16 Mar 2024 14:35:19 +0800
+	id 1rlO7n-000F9l-2H;
+	Sat, 16 Mar 2024 07:06:35 +0000
+Date: Sat, 16 Mar 2024 15:05:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-writeback 10/12] fs/netfs/objects.c:25:36: error:
- incomplete definition of type 'struct mempool_s'
-Message-ID: <202403161454.UrFEsP1k-lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
+	ast@kernel.org, daniel@iogearbox.net, martin.lau@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH bpf-next 2/5] bpf: pass whole link instead of prog when
+ triggering raw tracepoint
+Message-ID: <202403161441.xOAmLvHS-lkp@intel.com>
+References: <20240315204524.967664-3-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,131 +60,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240315204524.967664-3-andrii@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
-head:   be938ad004e7a8f28cc6fc8500c120c7687339f7
-commit: 0361c7613ba8192cccf99a39007a8ce54ed1f562 [10/12] netfs: Use mempools for allocating requests and subrequests
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240316/202403161454.UrFEsP1k-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161454.UrFEsP1k-lkp@intel.com/reproduce)
+Hi Andrii,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-flatten-bpf_probe_register-call-chain/20240316-044808
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20240315204524.967664-3-andrii%40kernel.org
+patch subject: [PATCH bpf-next 2/5] bpf: pass whole link instead of prog when triggering raw tracepoint
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240316/202403161441.xOAmLvHS-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161441.xOAmLvHS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403161454.UrFEsP1k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403161441.xOAmLvHS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/netfs/objects.c:10:
-   In file included from fs/netfs/internal.h:10:
-   In file included from include/linux/netfs.h:19:
-   In file included from include/linux/pagemap.h:8:
-   In file included from include/linux/mm.h:2194:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/netfs/objects.c:25:36: error: incomplete definition of type 'struct mempool_s'
-      25 |         struct kmem_cache *cache = mempool->pool_data;
-         |                                    ~~~~~~~^
-   include/linux/netfs.h:23:16: note: forward declaration of 'struct mempool_s'
-      23 | typedef struct mempool_s mempool_t;
-         |                ^
-   fs/netfs/objects.c:33:10: error: call to undeclared function 'mempool_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      33 |                 rreq = mempool_alloc(mempool, GFP_KERNEL);
-         |                        ^
-   fs/netfs/objects.c:33:8: error: incompatible integer to pointer conversion assigning to 'struct netfs_io_request *' from 'int' [-Wint-conversion]
-      33 |                 rreq = mempool_alloc(mempool, GFP_KERNEL);
-         |                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/netfs/objects.c:61:4: error: call to undeclared function 'mempool_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      61 |                         mempool_free(rreq, rreq->netfs_ops->request_pool ?: &netfs_request_pool);
-         |                         ^
-   fs/netfs/objects.c:97:2: error: call to undeclared function 'mempool_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      97 |         mempool_free(rreq, rreq->netfs_ops->request_pool ?: &netfs_request_pool);
-         |         ^
-   fs/netfs/objects.c:156:36: error: incomplete definition of type 'struct mempool_s'
-     156 |         struct kmem_cache *cache = mempool->pool_data;
-         |                                    ~~~~~~~^
-   include/linux/netfs.h:23:16: note: forward declaration of 'struct mempool_s'
-      23 | typedef struct mempool_s mempool_t;
-         |                ^
-   fs/netfs/objects.c:159:12: error: call to undeclared function 'mempool_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     159 |                 subreq = mempool_alloc(rreq->netfs_ops->subrequest_pool ?: &netfs_subrequest_pool,
-         |                          ^
-   fs/netfs/objects.c:159:10: error: incompatible integer to pointer conversion assigning to 'struct netfs_io_subrequest *' from 'int' [-Wint-conversion]
-     159 |                 subreq = mempool_alloc(rreq->netfs_ops->subrequest_pool ?: &netfs_subrequest_pool,
-         |                        ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     160 |                                        GFP_KERNEL);
-         |                                        ~~~~~~~~~~~
-   fs/netfs/objects.c:194:2: error: call to undeclared function 'mempool_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     194 |         mempool_free(subreq, rreq->netfs_ops->subrequest_pool ?: &netfs_subrequest_pool);
-         |         ^
-   1 warning and 9 errors generated.
+   kernel/bpf/syscall.c: In function 'bpf_raw_tp_link_release':
+>> kernel/bpf/syscall.c:3477:43: error: passing argument 2 of 'bpf_probe_unregister' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    3477 |         bpf_probe_unregister(raw_tp->btp, raw_tp);
+         |                                           ^~~~~~
+         |                                           |
+         |                                           struct bpf_raw_tp_link *
+   In file included from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:93,
+                    from kernel/bpf/syscall.c:11:
+   include/linux/trace_events.h:798:88: note: expected 'struct bpf_prog *' but argument is of type 'struct bpf_raw_tp_link *'
+     798 | static inline int bpf_probe_unregister(struct bpf_raw_event_map *btp, struct bpf_prog *p)
+         |                                                                       ~~~~~~~~~~~~~~~~~^
+   kernel/bpf/syscall.c: In function 'bpf_raw_tp_link_attach':
+>> kernel/bpf/syscall.c:3831:45: error: passing argument 2 of 'bpf_probe_register' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    3831 |         err = bpf_probe_register(link->btp, link);
+         |                                             ^~~~
+         |                                             |
+         |                                             struct bpf_raw_tp_link *
+   include/linux/trace_events.h:794:86: note: expected 'struct bpf_prog *' but argument is of type 'struct bpf_raw_tp_link *'
+     794 | static inline int bpf_probe_register(struct bpf_raw_event_map *btp, struct bpf_prog *p)
+         |                                                                     ~~~~~~~~~~~~~~~~~^
+   cc1: some warnings being treated as errors
 
 
-vim +25 fs/netfs/objects.c
+vim +/bpf_probe_unregister +3477 kernel/bpf/syscall.c
 
-  > 10	#include "internal.h"
-    11	
-    12	/*
-    13	 * Allocate an I/O request and initialise it.
-    14	 */
-    15	struct netfs_io_request *netfs_alloc_request(struct address_space *mapping,
-    16						     struct file *file,
-    17						     loff_t start, size_t len,
-    18						     enum netfs_io_origin origin)
-    19	{
-    20		static atomic_t debug_ids;
-    21		struct inode *inode = file ? file_inode(file) : mapping->host;
-    22		struct netfs_inode *ctx = netfs_inode(inode);
-    23		struct netfs_io_request *rreq;
-    24		mempool_t *mempool = ctx->ops->request_pool ?: &netfs_request_pool;
-  > 25		struct kmem_cache *cache = mempool->pool_data;
-    26		bool is_unbuffered = (origin == NETFS_UNBUFFERED_WRITE ||
-    27				      origin == NETFS_DIO_READ ||
-    28				      origin == NETFS_DIO_WRITE);
-    29		bool cached = !is_unbuffered && netfs_is_cache_enabled(ctx);
-    30		int ret;
-    31	
-    32		for (;;) {
-    33			rreq = mempool_alloc(mempool, GFP_KERNEL);
-    34			if (rreq)
-    35				break;
-    36			msleep(10);
-    37		}
-    38	
-    39		memset(rreq, 0, kmem_cache_size(cache));
-    40		rreq->start	= start;
-    41		rreq->len	= len;
-    42		rreq->upper_len	= len;
-    43		rreq->origin	= origin;
-    44		rreq->netfs_ops	= ctx->ops;
-    45		rreq->mapping	= mapping;
-    46		rreq->inode	= inode;
-    47		rreq->i_size	= i_size_read(inode);
-    48		rreq->debug_id	= atomic_inc_return(&debug_ids);
-    49		INIT_LIST_HEAD(&rreq->subrequests);
-    50		INIT_WORK(&rreq->work, NULL);
-    51		refcount_set(&rreq->ref, 1);
-    52	
-    53		__set_bit(NETFS_RREQ_IN_PROGRESS, &rreq->flags);
-    54		if (cached)
-    55			__set_bit(NETFS_RREQ_WRITE_TO_CACHE, &rreq->flags);
-    56		if (file && file->f_flags & O_NONBLOCK)
-    57			__set_bit(NETFS_RREQ_NONBLOCK, &rreq->flags);
-    58		if (rreq->netfs_ops->init_request) {
-    59			ret = rreq->netfs_ops->init_request(rreq, file);
-    60			if (ret < 0) {
-    61				mempool_free(rreq, rreq->netfs_ops->request_pool ?: &netfs_request_pool);
-    62				return ERR_PTR(ret);
-    63			}
-    64		}
-    65	
-    66		trace_netfs_rreq_ref(rreq->debug_id, 1, netfs_rreq_trace_new);
-    67		netfs_proc_add_rreq(rreq);
-    68		netfs_stat(&netfs_n_rh_rreq);
-    69		return rreq;
-    70	}
-    71	
+  3471	
+  3472	static void bpf_raw_tp_link_release(struct bpf_link *link)
+  3473	{
+  3474		struct bpf_raw_tp_link *raw_tp =
+  3475			container_of(link, struct bpf_raw_tp_link, link);
+  3476	
+> 3477		bpf_probe_unregister(raw_tp->btp, raw_tp);
+  3478		bpf_put_raw_tracepoint(raw_tp->btp);
+  3479	}
+  3480	
 
 -- 
 0-DAY CI Kernel Test Service
