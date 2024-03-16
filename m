@@ -1,93 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD9C1BC37
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Mar 2024 21:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26FE1C29C;
+	Sat, 16 Mar 2024 21:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710622985; cv=none; b=Y4lJ7ool1PvK4vHij0Uac+9bUUv8EHcmIzoH8H8cc7dEVnvCGqOkJ9T2a29xNMMUJwejvb85p8qmsMfYthZ/ga371XbTVr+G+WU0S1alP3EXhufLNK1CIvDNwFW8KbAOafX3A4GRhDauTBBBDqRR8saBXjjmA3aiFPzrMU8Px2M=
+	t=1710625032; cv=none; b=e/4n0Z8OIyWqGOxFV8iH/xnAPGX3Bmuc3IaZ5YJaCZm/CtnL5pCXbPRZjDH9X6oxF2XaIBwo7+/N6eY4v5jyvpLRoJgWLoZrej/S8/I8ZY/ceWUUlCK/EFMo+Uh1Ks6Pfs8ucE63O1rLqOyfFp0aE4ZOyQ7yLz5OUKPXw4zTB44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710622985; c=relaxed/simple;
-	bh=ep8ng0EMepdKqhDXbuRbakvfW/MJX+ehU8XZhvIjkis=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AisyoDHSyzq5+sNSFQ/66a69GKERP412rr97VE5FXQ7luFz/uwRESMqHnAHLKHCX/SnqqJGrADTccHr+bKWKBrWB42H4BPsyPc9rj3t0Ep/nIRKptkRA55ZA1emlV61Gdm0UDJ/wWlzkrceV1YFom3zkJkjy7raNZcA3mAKYSC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CxuX205x; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710625032; c=relaxed/simple;
+	bh=GKKge2ecLnpGrZsiljqV2+mUEsMSfr3X5lirRlPQE+k=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=ogSmR9o9kTCPT5eAm8QXWT9jGiIUgeyhocTZgJ9GOmLINJih15V3OeJmqFz/HDkSaPpHv0CpYndrign3f2hWyNhu33yO7dMxhB7jMqnlo7mMpesKRVM5Cx30YBPnVqEAtSuIlcPH75T2Oda4f93WA3aKzLeJq0k1T95+st7Fk/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kl4fgSWF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CxuX205x"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710622983; x=1742158983;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ep8ng0EMepdKqhDXbuRbakvfW/MJX+ehU8XZhvIjkis=;
-  b=CxuX205xjn+knFB2bc5MfJEE6StGNbJXw1J8M/U8HUTkJQJJXfI/bkjF
-   /Bv/AAhz5jZJkC88T4ZfwVRQpGtb8o1untTWCpstQgUE6IKVZJ0DetnQi
-   eKwOCCNn6b9YUfKAZMjIXMzfaDyr3tU5yHa4tj19YaYbSDhNaeBUHbc8I
-   DxnJHpB4tpsCJfikjJ2RHbH/32afkkLRq6b3BArYxZQtnMjlZfP5DG1LF
-   tuSBoBdQtL+u76e5kzdKLys/SOU0dpZYD2wF44xPmdgLS/DwBQ066cNDV
-   8owieVLmiBkp4n2cmS0j3W4EEdg+zVtfsm2u9k9I1EmQWeZBCG8+ia3Ux
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11015"; a="30914125"
-X-IronPort-AV: E=Sophos;i="6.07,131,1708416000"; 
-   d="scan'208";a="30914125"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2024 14:03:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,131,1708416000"; 
-   d="scan'208";a="12967723"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 16 Mar 2024 14:03:01 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rlbBC-000FmX-2E;
-	Sat, 16 Mar 2024 21:02:58 +0000
-Date: Sun, 17 Mar 2024 05:02:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: ERROR: modpost: "devm_drm_of_get_bridge"
- [drivers/gpu/drm/bridge/aux-bridge.ko] undefined!
-Message-ID: <202403170446.90iKtaVS-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kl4fgSWF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE6C5C433C7;
+	Sat, 16 Mar 2024 21:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710625032;
+	bh=GKKge2ecLnpGrZsiljqV2+mUEsMSfr3X5lirRlPQE+k=;
+	h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+	b=Kl4fgSWFgWtaVAOeHm1HAn//iH9iEyrNUF5aUPW6UOF1jIDY5CtIEqD1IYHKfgTdP
+	 pR6hN95eyokzTS0ojBfdov1NBid0Ni3N8w00NZvrxFCb3XvOVMbtHHFNyKrvfYUy2N
+	 05lJRMVxypa1q7gfNzrLr8EyU6oBxVJCZRXSuxEHwuMAKeICQOqBESuOo+qzUiWgJ1
+	 Eg6TkM2ZyikbJrvG6TkbB2ZmTWmUQs4Rtni8JXoHo9CE3wE8H0tZl0/et6sGgfctzO
+	 fwzipZoNv3676sIwo8GmNiApnTAa22L5Rj/EnFhqj1H+E0lXTEj3yknPWETVdo2KJF
+	 PGGXoRMpxqaUw==
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfauth.nyi.internal (Postfix) with ESMTP id C94B11200068;
+	Sat, 16 Mar 2024 17:37:10 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Sat, 16 Mar 2024 17:37:10 -0400
+X-ME-Sender: <xms:BhH2ZemPk5LCSrTUfoBHrvsrAzb9r8iYilzL1wGunHX_ew0rrF0gdg>
+    <xme:BhH2ZV244fw9phq3i96tQU00JJgUp9XLj_WqgCD0W7sIDtRVDw703o0MIThKqZQrR
+    dT5vC9JjMuuCGG9Q6A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrkedvgdduvdejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusehkvghrnhgvlhdrohhrgheqnecuggftrf
+    grthhtvghrnhepleevgfduieehfeeltdettdfhfffgkedugeeklefftdeivdfgveeiteet
+    keehffevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugdomhgvshhmthhprghuthhh
+    phgvrhhsohhnrghlihhthidquddvkeehudejtddvgedqvdekjedttddvieegqdgrrhhnug
+    eppehkvghrnhgvlhdrohhrghesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:BhH2Zcpl2woLcQtdi-mH7wrnnwll9EwDMxcqCyAeb1uJ_gX5xV8aHg>
+    <xmx:BhH2ZSk_-QPWPf6NYNuSo0ko8xRrZDNd-Hn4AoF2FqEH0THhYBVaUg>
+    <xmx:BhH2Zc1-7qN4NjTdcFD16628Zh0gqRTV-XxP1pjAkzoh_mK2ooN1NQ>
+    <xmx:BhH2ZZvHWj5L5ISJTH3gxKwZlmEENcjogaxWoB4foyjZ6mgwpNvMJQ>
+    <xmx:BhH2ZdJUt4_xLTp5NgMQPpuXm1xcJO4j_zwHsI0A6xO9JXxPHjRv2IW8Yr8>
+Feedback-ID: i36794607:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 365F2B6008D; Sat, 16 Mar 2024 17:37:10 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-300-gdee1775a43-fm-20240315.001-gdee1775a
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Message-Id: <dd494544-6dbf-4e83-8060-1f8b7b07a8c4@app.fastmail.com>
+In-Reply-To: 
+ <CAHk-=wg50AGnzhmOK0TNqDN99T3dWd747h3y-ZFuv4bNZ4Q0tw@mail.gmail.com>
+References: <20240303235029.555787150@linutronix.de>
+ <20240304005104.622511517@linutronix.de>
+ <e20d88d0-5fb9-4307-be67-88b04ae9a188@roeck-us.net>
+ <CAHk-=whK=G1o6RtS9DS3wEGF1KU7WLgLL1+6Se86bj8m7wwqrQ@mail.gmail.com>
+ <87y1ajjsv9.ffs@tglx> <87o7bfjeae.ffs@tglx>
+ <CAHk-=wiP+XMGHr8NU13sSOG_oasNZN02O9_c1PzCJNG7+O-GPw@mail.gmail.com>
+ <877ci3j80k.ffs@tglx>
+ <CAHk-=wg50AGnzhmOK0TNqDN99T3dWd747h3y-ZFuv4bNZ4Q0tw@mail.gmail.com>
+Date: Sat, 16 Mar 2024 22:34:55 +0100
+From: "Arnd Bergmann" <arnd@kernel.org>
+To: "Linus Torvalds" <torvalds@linuxfoundation.org>,
+ "Thomas Gleixner" <tglx@linutronix.de>
+Cc: "Guenter Roeck" <linux@roeck-us.net>, LKML <linux-kernel@vger.kernel.org>,
+ x86@kernel.org, "Uros Bizjak" <ubizjak@gmail.com>,
+ linux-sparse@vger.kernel.org, "kernel test robot" <lkp@intel.com>,
+ oe-kbuild-all@lists.linux.dev
+Subject: Re: [patch 5/9] x86: Cure per CPU madness on UP
+Content-Type: text/plain
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c1f10ac840caced7a9f717d4170dcc14b3fac076
-commit: c5d296bad640b190c52ef7508114d70e971a4bba usb: typec: nb7vpq904m: switch to DRM_AUX_BRIDGE
-date:   3 months ago
-config: riscv-randconfig-r064-20240311 (https://download.01.org/0day-ci/archive/20240317/202403170446.90iKtaVS-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240317/202403170446.90iKtaVS-lkp@intel.com/reproduce)
+On Sat, Mar 16, 2024, at 02:23, Linus Torvalds wrote:
+> On Fri, 15 Mar 2024 at 18:11, Thomas Gleixner <tglx@linutronix.de> wrote:
+>>
+>> You wish. We still support 486 and some of the still produced 486 clones
+>> do not have a local APIC.
+>
+> Ouch. I was _sure_ we had dropped i486 support too due to cmpxchg8b.
+>
+> But apparently that was just a discussion, and my wishful thinking,
+> and we never actually followed through.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403170446.90iKtaVS-lkp@intel.com/
+Maciej Rozycki still cares about i486 type hardware, and he was
+asking for it to be kept around in the thread following [1]
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+I think the best suggestion at the time was to make cmpxchg8b
+a compile-time feature and I had expected Maciej to follow up with
+a patch for that, but this never happend, and nobody sent a patch
+to remove support 486 and the early 586 clones either.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
->> ERROR: modpost: "devm_drm_of_get_bridge" [drivers/gpu/drm/bridge/aux-bridge.ko] undefined!
-ERROR: modpost: "devm_drm_of_get_bridge" [drivers/usb/typec/mux/ptn36502.ko] undefined!
+I saw recently that there are still distros that advertise 486
+support on modern kernels: Tiny Core Linux and Damn Small
+Linux. Both ship with a 486 SMP kernel but fail to boot
+on qemu unless an APIC is enabled (DSL also requires i686 or
+higher to run userspace).
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+       Arnd
+
+[1] https://lore.kernel.org/all/20220815071332.627393-9-yuzhao@google.com/
