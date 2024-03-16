@@ -1,91 +1,156 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1C517F0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Mar 2024 01:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E803B4C9A;
+	Sat, 16 Mar 2024 01:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710552213; cv=none; b=ZQqqy2foxkX9t0yW/cHa8t+lNI5Z2gSoCtoirqDqaguf5HvgdiHnVhwuIZQ8sIi1x8rlRre57o3h1DU0dhE/WsY9xDr7n2mQbzO+apoeX0Ea7PW1Swb6aIKEnrsXBtuqKcTFSMt1DG80COr+GnlyIncIgTwM6mi8hL6rHowqA3A=
+	t=1710552873; cv=none; b=abkoJyBHMoY8LFTbWDq2qVGYB57zyyU6rCejPX2pAlKM6M8juqsAgHcTE94uMMjEFZGaqO7BLBoKdI89T8f32AApCdbAlkE7Ycp1uDkBy47YvBpEtP4a0jeNyqstgTU0X/RGSAw+RfHFuf5zwXv800bkJj2EuOwPT++29Ifta08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710552213; c=relaxed/simple;
-	bh=zrk0mlljUXq6JrTr3qaP5fW3ShetdUZodGHSY6f3a6o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uIfqGUy+z52tF9TkR8djK11Qxidc2f8EIRk4ZPx8yBgQSn1XF5QXacwhcy10wOI2ToLQuHbgaIAfs568n3UgYqEjDbBsOyzGsc2emNg5U+qcc9OHSUvr2NoyM0bxWTaS1JdcT+WXGom5MJtrl4B/9QlowlFWojGQVEkk8njKukQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FdY9fRaU; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1710552873; c=relaxed/simple;
+	bh=SvLDBwOUqZV+K+QOlz7a+pCZMB7+vQLqmYBJsWljF7M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i5wP56RsWC8WNvWx1I/yTrnNNutxpWi4nOMj3hq3Mxc9yCiFzn79lrYGEvT0B+GGnFoZCWkRPDgYV0HjLEt5gmgjKTw1L6Wwx8o7hytjaAPe2gfoa7VWvYiVzR+hFyl3pdpUinI/OspqnTPppVWfYMHriZ80pSpwLAhS547t4Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZBh24sYr; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FdY9fRaU"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a4644bde1d4so343840466b.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 18:23:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1710552210; x=1711157010; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=69cI/hdQb0CMrhhOHzUcjMzxCnMmxWubP/uXkL4m1gc=;
-        b=FdY9fRaUPJ/D9d1R7lAf9/+ujWsEvyEUDjJ53saOvi3qvbmmunahlBx/vB/h9S6fla
-         qtz8C/V3/48swwSJ7JOpj6D5748c8HACMIrdDUhZBD+EQG69Pv0VYPYNzXz2xyH7LZ1D
-         41dkHlSd20v+phqCHzJBUJy0aQ8hnJYI0Jecs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710552210; x=1711157010;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=69cI/hdQb0CMrhhOHzUcjMzxCnMmxWubP/uXkL4m1gc=;
-        b=QR2E/5oNVJ+PrYQ+mY+k28MI79cWXmXpTCRGsi9knqKAUDF25KPwa8zbDuDD+MvJ5O
-         1lfG3JB8Ncc0/eliISQkO1PrqkejNmz/cEvoLgInXlJPoHv41S+nVIJ4fWeKH9Fimt+v
-         AYYqRj/th5VZXTGYaRncBquXEinCSaneHg5Qg/hlTQzaWgeP2ACSbIuJH6ovAtsQwCp7
-         kJKvEZlY+3Vl5R4GhGq3K95ctykLlFwVEsbGsMmYAYeNMmZA4yOjE9FU/Dy7UI1B6sbV
-         pme8nW3dyTYPAIH1hqv8Gif1vep33J47jNTO8tWHviEDBX6ecjEAikcHWZ1fdQtnIWsS
-         iuFA==
-X-Forwarded-Encrypted: i=1; AJvYcCWvfpWnTmvaMUFVhjv7Ob4l83/Rg0/CRlHz7SGo87rlWZO7c6RB4V5FZdCA4mcaiYHoiaCpxalqNkbB74l9/1TLkRvQlfqEhGEgX1bAWA==
-X-Gm-Message-State: AOJu0YxDhnxsdCG7QMbJKR48uaKQ4OREOsgQezeNX/aqPDeTRIEHT5Bg
-	WQGiYmo1+Kw9hdzyGuZn/G26lXA86VtsrfLni4E1J3OCVyPaogGN07KQDMN0bwv3KwU8a9rx71s
-	8+TmUow==
-X-Google-Smtp-Source: AGHT+IFICOg0z44NWvcmIAEl9eboVNS658hks+fthJMeKMMYmRKnY3FqN8Xd/DjNxQs/CYFjrQdZLA==
-X-Received: by 2002:a17:906:b4d:b0:a46:9e25:9f4f with SMTP id v13-20020a1709060b4d00b00a469e259f4fmr697308ejg.22.1710552210129;
-        Fri, 15 Mar 2024 18:23:30 -0700 (PDT)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
-        by smtp.gmail.com with ESMTPSA id jl27-20020a17090775db00b00a45c9ea48e3sm2201228ejc.193.2024.03.15.18.23.29
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Mar 2024 18:23:29 -0700 (PDT)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a44e3176120so352578966b.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Mar 2024 18:23:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXrJi057nyLEveGk+8NAm4X0w8h0S2RSapYMRcQUiilfJSVIQezWDulnRff1e40zx8YQKOoy5Bx1fmehB57UEGHM+pB6YpN4YygEZ66kg==
-X-Received: by 2002:a17:906:3654:b0:a46:9711:4f04 with SMTP id
- r20-20020a170906365400b00a4697114f04mr1417533ejb.13.1710552209212; Fri, 15
- Mar 2024 18:23:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZBh24sYr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710552870; x=1742088870;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SvLDBwOUqZV+K+QOlz7a+pCZMB7+vQLqmYBJsWljF7M=;
+  b=ZBh24sYrev59uPoisFfrW+UbjKHQctZ6/BDLIyek68sHqGGVvkFaD3fK
+   x7NegEOuifjOZnlzCPf8UrCsE3NzriWpWlVcD6gmDQbqGaHz6BSOwV2wC
+   kzigv2lX2Z3DjNIldcS01F90GvJ2jwwuhAOP7gtdAEaY6NWBFBZjBD6hb
+   zv9vVUw53EzJTAutH7zwcPX61P+tbyFiUAy/H+El1V4RTx28rH7+6q5Wo
+   EASYrsFaOe/m0GBst3DkbEoVYHGc4UIJCzrFkaBso32+5FyLSzxhg6UW4
+   7BFuXitZ1h3Gp7dHvrJBPSwsmyCRhFwmcRSQtRfWIr/HQS9iMVw65NcEU
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5298749"
+X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
+   d="scan'208";a="5298749"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 18:34:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
+   d="scan'208";a="12928860"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 15 Mar 2024 18:34:27 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rlIwL-000Ewf-0T;
+	Sat, 16 Mar 2024 01:34:25 +0000
+Date: Sat, 16 Mar 2024 09:34:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Saurav Kashyap <skashyap@marvell.com>, martin.petersen@oracle.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	GR-QLogic-Storage-Upstream@marvell.com, linux-scsi@vger.kernel.org,
+	Saurav Kashyap <skashyap@marvell.com>,
+	Nilesh Javali <njavali@marvell.com>
+Subject: Re: [PATCH 2/3] qedf: Wait for stag work during unload.
+Message-ID: <202403160959.uNobO4UE-lkp@intel.com>
+References: <20240315100600.19568-3-skashyap@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240303235029.555787150@linutronix.de> <20240304005104.622511517@linutronix.de>
- <e20d88d0-5fb9-4307-be67-88b04ae9a188@roeck-us.net> <CAHk-=whK=G1o6RtS9DS3wEGF1KU7WLgLL1+6Se86bj8m7wwqrQ@mail.gmail.com>
- <87y1ajjsv9.ffs@tglx> <87o7bfjeae.ffs@tglx> <CAHk-=wiP+XMGHr8NU13sSOG_oasNZN02O9_c1PzCJNG7+O-GPw@mail.gmail.com>
- <877ci3j80k.ffs@tglx>
-In-Reply-To: <877ci3j80k.ffs@tglx>
-From: Linus Torvalds <torvalds@linuxfoundation.org>
-Date: Fri, 15 Mar 2024 18:23:12 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wg50AGnzhmOK0TNqDN99T3dWd747h3y-ZFuv4bNZ4Q0tw@mail.gmail.com>
-Message-ID: <CAHk-=wg50AGnzhmOK0TNqDN99T3dWd747h3y-ZFuv4bNZ4Q0tw@mail.gmail.com>
-Subject: Re: [patch 5/9] x86: Cure per CPU madness on UP
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Guenter Roeck <linux@roeck-us.net>, LKML <linux-kernel@vger.kernel.org>, x86@kernel.org, 
-	Uros Bizjak <ubizjak@gmail.com>, linux-sparse@vger.kernel.org, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240315100600.19568-3-skashyap@marvell.com>
 
-On Fri, 15 Mar 2024 at 18:11, Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> You wish. We still support 486 and some of the still produced 486 clones
-> do not have a local APIC.
+Hi Saurav,
 
-Ouch. I was _sure_ we had dropped i486 support too due to cmpxchg8b.
+kernel test robot noticed the following build warnings:
 
-But apparently that was just a discussion, and my wishful thinking,
-and we never actually followed through.
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on jejb-scsi/for-next linus/master v6.8 next-20240315]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-         Linus
+url:    https://github.com/intel-lab-lkp/linux/commits/Saurav-Kashyap/qedf-Don-t-process-stag-work-during-unload-and-recovery/20240315-180830
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20240315100600.19568-3-skashyap%40marvell.com
+patch subject: [PATCH 2/3] qedf: Wait for stag work during unload.
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20240316/202403160959.uNobO4UE-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403160959.uNobO4UE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403160959.uNobO4UE-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/scsi/qedf/qedf_main.c:923:37: warning: variable 'qedf' is uninitialized when used here [-Wuninitialized]
+     923 |                 clear_bit(QEDF_STAG_IN_PROGRESS, &qedf->flags);
+         |                                                   ^~~~
+   drivers/scsi/qedf/qedf_main.c:919:23: note: initialize the variable 'qedf' to silence this warning
+     919 |         struct qedf_ctx *qedf;
+         |                              ^
+         |                               = NULL
+   1 warning generated.
+
+
+vim +/qedf +923 drivers/scsi/qedf/qedf_main.c
+
+   915	
+   916	/* Performs soft reset of qedf_ctx by simulating a link down/up */
+   917	void qedf_ctx_soft_reset(struct fc_lport *lport)
+   918	{
+   919		struct qedf_ctx *qedf;
+   920		struct qed_link_output if_link;
+   921	
+   922		if (lport->vport) {
+ > 923			clear_bit(QEDF_STAG_IN_PROGRESS, &qedf->flags);
+   924			printk_ratelimited("Cannot issue host reset on NPIV port.\n");
+   925			return;
+   926		}
+   927	
+   928		qedf = lport_priv(lport);
+   929	
+   930		qedf->flogi_pending = 0;
+   931		/* For host reset, essentially do a soft link up/down */
+   932		atomic_set(&qedf->link_state, QEDF_LINK_DOWN);
+   933		QEDF_INFO(&qedf->dbg_ctx, QEDF_LOG_DISC,
+   934			  "Queuing link down work.\n");
+   935		queue_delayed_work(qedf->link_update_wq, &qedf->link_update,
+   936		    0);
+   937	
+   938		if (qedf_wait_for_upload(qedf) == false) {
+   939			QEDF_ERR(&qedf->dbg_ctx, "Could not upload all sessions.\n");
+   940			WARN_ON(atomic_read(&qedf->num_offloads));
+   941		}
+   942	
+   943		/* Before setting link up query physical link state */
+   944		qed_ops->common->get_link(qedf->cdev, &if_link);
+   945		/* Bail if the physical link is not up */
+   946		if (!if_link.link_up) {
+   947			QEDF_INFO(&qedf->dbg_ctx, QEDF_LOG_DISC,
+   948				  "Physical link is not up.\n");
+   949			clear_bit(QEDF_STAG_IN_PROGRESS, &qedf->flags);
+   950			return;
+   951		}
+   952		/* Flush and wait to make sure link down is processed */
+   953		flush_delayed_work(&qedf->link_update);
+   954		msleep(500);
+   955	
+   956		atomic_set(&qedf->link_state, QEDF_LINK_UP);
+   957		qedf->vlan_id  = 0;
+   958		QEDF_INFO(&qedf->dbg_ctx, QEDF_LOG_DISC,
+   959			  "Queue link up work.\n");
+   960		queue_delayed_work(qedf->link_update_wq, &qedf->link_update,
+   961		    0);
+   962		clear_bit(QEDF_STAG_IN_PROGRESS, &qedf->flags);
+   963	}
+   964	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
