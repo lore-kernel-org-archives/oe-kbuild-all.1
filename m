@@ -1,54 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A931D530
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Mar 2024 21:56:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B642D21342
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Mar 2024 22:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710712601; cv=none; b=jkG4eNCmbJTo3sOWvhbQkvklYIFHYnoeWZUyf0Coo+d4SWGG39ExWbsvB1F2UjHJ8DbLi8dK60GnEqrVFUKG+BTXUOxrEz2CWixQM+9US6E5MhvuJKtUNo/y1KgDULrLV51/lpm5dnjgvQH8J/cMlXkws51Oo5fY2mUJqOfX5Qw=
+	t=1710714466; cv=none; b=bL9NyJ4bXjc9GzoItR5kUhBqBxskZcwV3tumOpi6zYoPi2okEBSulHuEe46jwnerdsGG1lA7e1XImz4buCfCX3oFhTc4mQUd0LAKrtrfTHmPxIvTvi1R1fqG8ocGuPqtHgzqGKCyhvGOo+KoVul/2uWs02DJis3vel82Xk9ljks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710712601; c=relaxed/simple;
-	bh=TvtZx0zgMnD8Z4M2wLouTWVv8g+ZQphzM6xvpKye2uw=;
+	s=arc-20240116; t=1710714466; c=relaxed/simple;
+	bh=8FoMhOPaqm77lRnkbOg+VukWrmbzSwH4eaWEWizZjBQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=emjVWNXWllsKc1hVGEBqBvF1gLb91Y99QLB3aFxjbP5jLX/pIB/l3XeJ/1t+qNwSY9FVPPFX2PIk0EUOxyZCaZ2Pmmiiazh01czlojpPplqghvRwz+ptnmkNTlz1n+l1vBocw7BAY9V4Ua3z1ILuhoOJBur+hWGBr8ugiHtAtrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZkQzRL8O; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=DsvP4qKiY6Dwe3MuCfgKXxqhHCbom/XBR6d5BIL24QDFNhlp0rydMcJjDFyabqutIdrc3mfWL8G3xX/jrFjE52TCfFPbwd99bGPPGD1O9x8D5QRlQJadveucD6M6N8uvI79ujLOsVjjr8rtlaRUVKx9kGJOC/CFwDQjmXXeBd9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I0mLOT/j; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZkQzRL8O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I0mLOT/j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710712599; x=1742248599;
+  t=1710714464; x=1742250464;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TvtZx0zgMnD8Z4M2wLouTWVv8g+ZQphzM6xvpKye2uw=;
-  b=ZkQzRL8O5+8uQmlVen7wcFJZeyna5O5ewxJVUfxG/zcEsg1t3KZHBwm1
-   S8UhGl8VLranQladjCfI75dqZK/U9eK8TmvLqT/PjABOwInwkq8BMXWnN
-   xqn8mHdV9cahw/Co32zzLTc7tKFTFHiPxRiOPiQfRPZOBGhq1fatVWu4Z
-   94Jp1KDfQRoQZzE1S1oY4gvj+EUc6TUQpOuACtxTo3X412OGRSEyRuEFs
-   4bv2zS0BaPC/OzG273ue1kO3bo0dMxeDxiFJP9mCheKXbCCZ/etM3KSZg
-   ISPmtsVo5DHLozrPmmx2ZZkpdBEcPq9zF1aUJCQSgtv0AzDNxnR1SPxD0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="16657677"
+  bh=8FoMhOPaqm77lRnkbOg+VukWrmbzSwH4eaWEWizZjBQ=;
+  b=I0mLOT/jpYTKZSbySUP2QmZuP+mcfjdP4bgBZekd0frtEjy6Yoip3MK4
+   +uksht9pOtt5VZoP0H8lpokuI6VT50fIPKISR57gDWSaZF3Dv+iTW+rVO
+   1txFNrz30aPZhySSkqvyf+1yGcW7ijrLMWdLk6G513x29urmqFJVaYe/G
+   Uugh10WXyEJKhAME+zIQDW0+xQaJ5KTm/N2PszCDHeyvPscJiAgxuiC45
+   QcpSGcVOemcaTSQ8uyDGOwMDDiJfohAw7oAWS96aOpgB9AhGWOCeuVzHq
+   6HXTwgoYa5uAnr6S09GfzuEwMybd5Us9XHB4Ojttw65sJOvLmx0gqELjG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="5642813"
 X-IronPort-AV: E=Sophos;i="6.07,133,1708416000"; 
-   d="scan'208";a="16657677"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2024 14:56:38 -0700
+   d="scan'208";a="5642813"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2024 15:27:43 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,133,1708416000"; 
-   d="scan'208";a="17872473"
+   d="scan'208";a="36410130"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 17 Mar 2024 14:56:36 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 17 Mar 2024 15:27:38 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rlyUc-000GTv-1b;
-	Sun, 17 Mar 2024 21:56:34 +0000
-Date: Mon, 18 Mar 2024 05:55:54 +0800
+	id 1rlyyd-000GVH-0k;
+	Sun, 17 Mar 2024 22:27:35 +0000
+Date: Mon, 18 Mar 2024 06:26:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Janne Grunau <j@jannau.net>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:pr/279 827/930] warning: unresolved link to
- `alloc::string::ToString::to_string`
-Message-ID: <202403180521.880CKTKT-lkp@intel.com>
+Subject: [opencloudos:linux-5.4/next 26696/27507]
+ kernel/cgroup/cpuset.c:2714:5: sparse: sparse: symbol
+ 'cpuset_cgroupfs_stat_cpuacct' was not declared. Should it be static?
+Message-ID: <202403180640.HDi0yzhv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,97 +62,137 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux pr/279
-head:   15d2163ed4a2934b567a1cb2c59678ba1190b35c
-commit: 2737b7a00c464473c1e894ef9a46eb897578ab6b [827/930] fixup! rust: sync: Replace static LockClassKey refs with a pointer wrapper
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240318/202403180521.880CKTKT-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240318/202403180521.880CKTKT-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
+head:   fdd5d0bfc620bd5147ff5b260822c7645aeddad6
+commit: d3d7646bc98dbdde8ad7c6ea36ca645fd495fe38 [26696/27507] rue/cgroupfs: support stat based on cpuacct
+config: x86_64-randconfig-121-20240312 (https://download.01.org/0day-ci/archive/20240318/202403180640.HDi0yzhv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240318/202403180640.HDi0yzhv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403180521.880CKTKT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403180640.HDi0yzhv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/cgroup/cpuset.c:2714:5: sparse: sparse: symbol 'cpuset_cgroupfs_stat_cpuacct' was not declared. Should it be static?
+   kernel/cgroup/cpuset.c:4251:6: sparse: sparse: symbol 'cgroup_cpuset_calc_load' was not declared. Should it be static?
 
->> warning: unresolved link to `alloc::string::ToString::to_string`
-   --> rust/kernel/module_param.rs:14:7
-   |
-   14 | /// [`alloc::string::ToString::to_string`] (as implemented through the
-   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no item named `string` in module `alloc`
---
->> warning: unresolved link to `alloc::format`
-   --> rust/kernel/device.rs:437:25
-   |
-   437 | /// [`core::fmt`] and [`alloc::format!`].
-   |                         ^^^^^^^^^^^^^^ no item named `format` in module `alloc`
---
->> warning: unclosed HTML tag `t`
-   --> rust/kernel/time.rs:51:58
-   |
-   51 |     /// Returns the time elapsed since an earlier Instant<t>, or
-   |                                                          ^^^
-   |
-   = note: `#[warn(rustdoc::invalid_html_tags)]` on by default
-   help: try marking as source code
-   |
-   51 |     /// Returns the time elapsed since an earlier `Instant<t>`, or
-   |                                                   +          +
---
->> warning: unclosed HTML tag `T`
-   --> rust/kernel/time.rs:68:52
-   |
-   68 |     /// Returns the time elapsed since this Instant<T>.
-   |                                                    ^^^
-   |
-   help: try marking as source code
-   |
-   68 |     /// Returns the time elapsed since this `Instant<T>`.
-   |                                             +          +
---
->> warning: unresolved link to `module::module`
-   --> rust/kernel/module_param.rs:388:57
-   |
-   388 |     /// This function is only meant to be used in the [`module::module`] macro.
-   |                                                         ^^^^^^^^^^^^^^ no item named `module` in scope
---
->> warning: unresolved link to `alloc::format`
-   --> rust/kernel/device.rs:362:25
-   |
-   362 | /// [`core::fmt`] and [`alloc::format!`].
-   |                         ^^^^^^^^^^^^^^ no item named `format` in module `alloc`
---
->> warning: unresolved link to `alloc::format`
-   --> rust/kernel/device.rs:387:25
-   |
-   387 | /// [`core::fmt`] and [`alloc::format!`].
-   |                         ^^^^^^^^^^^^^^ no item named `format` in module `alloc`
---
->> warning: unresolved link to `alloc::format`
-   --> rust/kernel/device.rs:512:25
-   |
-   512 | /// [`core::fmt`] and [`alloc::format!`].
-   |                         ^^^^^^^^^^^^^^ no item named `format` in module `alloc`
---
->> warning: unresolved link to `alloc::format`
-   --> rust/kernel/device.rs:337:25
-   |
-   337 | /// [`core::fmt`] and [`alloc::format!`].
-   |                         ^^^^^^^^^^^^^^ no item named `format` in module `alloc`
---
->> warning: unresolved link to `alloc::format`
-   --> rust/kernel/device.rs:412:25
-   |
-   412 | /// [`core::fmt`] and [`alloc::format!`].
-   |                         ^^^^^^^^^^^^^^ no item named `format` in module `alloc`
---
->> warning: unresolved link to `alloc::format`
-   --> rust/kernel/device.rs:487:25
-   |
-   487 | /// [`core::fmt`] and [`alloc::format!`].
-   |                         ^^^^^^^^^^^^^^ no item named `format` in module `alloc`
-..
+vim +/cpuset_cgroupfs_stat_cpuacct +2714 kernel/cgroup/cpuset.c
+
+  2712	
+  2713	extern int cpuacct_cgroupfs_cpu_usage(struct cgroup_subsys_state *css, int cpu, u64 *sys, u64 *user);
+> 2714	int cpuset_cgroupfs_stat_cpuacct(struct cpuset *cs, struct seq_file *m, void *v, int max_cpu)
+  2715	{
+  2716		typedef struct usage_info {
+  2717			u64 sys, usr, idle;
+  2718		} u_info;
+  2719	
+  2720		u_info *res;
+  2721		struct timespec boottime;
+  2722		struct cgroup_subsys_state *css;
+  2723		u64 sys, usr, cpu_total, cpu_idle, acct_total, total_sys, total_usr, total_idle;
+  2724		u64 n_ctx_switch, n_process, n_running, n_blocked;
+  2725		int i, k = 0, num_cpu = nr_cpu_ids + 1;;
+  2726		total_sys = 0, total_usr = 0, total_idle = 0;
+  2727	
+  2728		res = kmalloc(sizeof(u_info) * num_cpu, GFP_KERNEL);
+  2729		if (!res)
+  2730			return -ENOMEM;
+  2731		getboottime(&boottime);
+  2732		/*
+  2733		 * Tasks can run on any cpu of cpuset, consider with quota,
+  2734		 * cpu number listed in stat may be less than cpuset, leading sum of usages
+  2735		 * of each cpus less than total. To make sum of usage of each cpu equal to total,
+  2736		 * set quota_aware=0 or configure quota equal to cpuset num.
+  2737		 */
+  2738		css = task_get_css(current, cpuacct_cgrp_id);
+  2739		for_each_cpu(i, cs->cpus_allowed) {
+  2740			++k;
+  2741			cpu_total = 0;
+  2742			cpu_idle = get_idle_time(i);
+  2743			cpu_total += kcpustat_cpu(i).cpustat[CPUTIME_USER];
+  2744			cpu_total += kcpustat_cpu(i).cpustat[CPUTIME_NICE];
+  2745			cpu_total += kcpustat_cpu(i).cpustat[CPUTIME_SYSTEM];
+  2746			cpu_total += get_iowait_time(i);
+  2747			cpu_total += kcpustat_cpu(i).cpustat[CPUTIME_IRQ];
+  2748			cpu_total += kcpustat_cpu(i).cpustat[CPUTIME_SOFTIRQ];
+  2749			cpu_total += kcpustat_cpu(i).cpustat[CPUTIME_STEAL];
+  2750			cpu_total += kcpustat_cpu(i).cpustat[CPUTIME_GUEST];
+  2751			cpu_total += kcpustat_cpu(i).cpustat[CPUTIME_GUEST_NICE];
+  2752			cpuacct_cgroupfs_cpu_usage(css, i, &sys, &usr);
+  2753			acct_total = sys + usr;
+  2754			if (cpu_total > acct_total)
+  2755				cpu_idle = cpu_idle + (cpu_total - acct_total);
+  2756			total_sys += sys;
+  2757			total_usr += usr;
+  2758			total_idle += cpu_idle;
+  2759			if (k < num_cpu) {
+  2760				res[k].sys = sys;
+  2761				res[k].usr = usr;
+  2762				res[k].idle = cpu_idle;
+  2763			}
+  2764		}
+  2765		css_put(css);
+  2766		res[0].sys = total_sys;
+  2767		res[0].usr = total_usr;
+  2768		res[0].idle = total_idle;
+  2769		for (i = 0; i <= k && i <= max_cpu; i++) {
+  2770			if (!i)
+  2771				seq_printf(m, "cpu ");
+  2772			else
+  2773				seq_printf(m, "cpu%d", i - 1);
+  2774			seq_put_decimal_ull(m, " ", nsec_to_clock_t(res[i].usr));
+  2775			seq_put_decimal_ull(m, " ", 0);
+  2776			seq_put_decimal_ull(m, " ", nsec_to_clock_t(res[i].sys));
+  2777			seq_put_decimal_ull(m, " ", nsec_to_clock_t(res[i].idle));
+  2778			seq_put_decimal_ull(m, " ", 0);
+  2779			seq_put_decimal_ull(m, " ", 0);
+  2780			seq_put_decimal_ull(m, " ", 0);
+  2781			seq_put_decimal_ull(m, " ", 0);
+  2782			seq_put_decimal_ull(m, " ", 0);
+  2783			seq_put_decimal_ull(m, " ", 0);
+  2784			seq_putc(m, '\n');
+  2785		}
+  2786		kfree(res);
+  2787		seq_put_decimal_ull(m, "intr ", 0);
+  2788		for_each_irq_nr(i)
+  2789			seq_put_decimal_ull(m, " ", 0);
+  2790	
+  2791		n_ctx_switch = 0;
+  2792		n_process = 0;
+  2793		n_running = 0;
+  2794		n_blocked = 0;
+  2795		k = 0;
+  2796		for_each_cpu(i, cs->cpus_allowed) {
+  2797			if (++k > max_cpu)
+  2798				break;
+  2799			n_ctx_switch += nr_context_switches_cpu(i);
+  2800			n_process += per_cpu(total_forks, i);
+  2801			n_running += nr_running_cpu(i);
+  2802			n_blocked += nr_iowait_cpu(i);
+  2803		}
+  2804		seq_printf(m,
+  2805			"\nctxt %llu\n"
+  2806			"btime %llu\n"
+  2807			"processes %llu\n"
+  2808			"procs_running %llu\n"
+  2809			"procs_blocked %llu\n",
+  2810			n_ctx_switch,
+  2811			(unsigned long long)boottime.tv_sec,
+  2812			n_process,
+  2813			n_running,
+  2814			n_blocked);
+  2815	
+  2816		seq_put_decimal_ull(m, "softirq ", 0);
+  2817	
+  2818		for (i = 0; i < NR_SOFTIRQS; i++)
+  2819			seq_put_decimal_ull(m, " ", 0);
+  2820		seq_putc(m, '\n');
+  2821	
+  2822		return 0;
+  2823	}
+  2824	
 
 -- 
 0-DAY CI Kernel Test Service
