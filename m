@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2C41CD26
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Mar 2024 17:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FA81CF8B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Mar 2024 18:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710695434; cv=none; b=oA4uUEBaLGDvfOzXCRiJLrhjxmzRkSvPSCFAGI5S8aK447Fzt8AyG9Iby7j1FMVOMqhYr9HQCWoJcXlBErLMly4oTo3n6oirS4dzqqLe4V7V2dO8bHY2TvhBFjoLFXWKKq4z2TUTHlXv1+7xk+Dj/6V61n7zEX2CFfYucV9n7l8=
+	t=1710698436; cv=none; b=eQ5x56BUMnXEZuBqu+glgr2OfofRj0fz9AjYyTsSvdt4laN+1uJHHMU/4+IuABTiIM3MdouKulfHt/NVGgqi1HpGHYstAsik2/UVMVyZ6DetC9MJ1SaubqGTEsyy0+3SZi/i+x/UlYMbcGLuhd53HwKNg+nsE85juKHEK4FZr6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710695434; c=relaxed/simple;
-	bh=y2+kZ6w/Oq3Vfgfp2aOcCqfNixGZn1A3N0u3bJAstzc=;
+	s=arc-20240116; t=1710698436; c=relaxed/simple;
+	bh=d1gJtJhLoCoMhAJmy9kBy+XsEohKOLp1ZvRQwzj7H/Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=flJYgsO0eg3kF5cTaixNbbpYD4qBWGICemVdDGNFlPw3t1IEjkj0NuLynv8EX0UWltP+xm6VOMPsDdyysHqrLC5YIRscwuHzD/tiT7eCa/ShWjcaNyht3PZYHDhMn+VyHsgJTd2DzVXfRpHK8uthzEHQ6phmpz4IIudhdLoxG4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6tnrHau; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=XSbzohIc/YCgbV8ucbRxhdawK14gN99Px2Q0HLaKRyqSV9LqzBD/h7ZEyVP/bSK5yBolAMYjwic1hp+2BKrPPqTYCxgmZ3y2J+Q4zSgfS2E0td6+kIeBFzxX2jGaIAQsnYVkKbAExU57rfjTnXHpxpyrJHYBSy42qrwIKTApdeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UAYWKXX3; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6tnrHau"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UAYWKXX3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710695432; x=1742231432;
+  t=1710698434; x=1742234434;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y2+kZ6w/Oq3Vfgfp2aOcCqfNixGZn1A3N0u3bJAstzc=;
-  b=U6tnrHauaN/4yHCvLORZZ4GcSwGqR0cKwjTT07eoRb78RtNLNQ4y4nzG
-   xwvez1CK/gRs2zpRBn3zxDK+deKxyZNYndHUB4ziFfR1j4YtXaCrIJlWk
-   vb+ENtBBWyWusVE7Ogn1Nud4RJo2WXP8WPgV2xmNxJftab5kLpOH+Omwx
-   fbLH4kez0b+yMCCeDiBN+MMo0ZN3OwuMOOmX8ZbzRHjYwpyaYAitkvjiZ
-   p1N70J/ZpDZmT3t5p/GY2hsJCXzaTE94E3Y09mdvA2Vgel5uo3R1Ee1cZ
-   7r/PEq+YKQoCq0fkJXL40M3eCcmW0c3iCIsZuker1OOF+mWHgB9LU8bMe
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="16908054"
+  bh=d1gJtJhLoCoMhAJmy9kBy+XsEohKOLp1ZvRQwzj7H/Y=;
+  b=UAYWKXX3SapG2zYjFFhqFMvwj2m7L+SUQrXC2i7E2XlyXDuej4SwQpa4
+   dDJkOlTdivYN9eB9YbR2lyaIKyKlPK1NFSFrX4ttu+NS7BEElBCJtIDbj
+   JJZerL/LQgkD250tn6qoaFcOqPYHz98I2bG+F4Md6qTWuKuJSyprqk9Js
+   2q9CUjCL3jKBJaPr23cM6javr+2BMXlXQuX9WmK6g3I3pN04VC2IJODf9
+   uR99ZfyIeDwQgoj44oAm0RUq+Qv/kailE+gBJawSvSV2WntUIu3tLxbVn
+   5v4gnfxaHuSHxVJSENbZx14uryrrKCCFcsbF+g0irOA3R9077Wlmt6S18
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="5445649"
 X-IronPort-AV: E=Sophos;i="6.07,133,1708416000"; 
-   d="scan'208";a="16908054"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2024 10:10:31 -0700
+   d="scan'208";a="5445649"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2024 11:00:33 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,133,1708416000"; 
-   d="scan'208";a="13161624"
+   d="scan'208";a="13130314"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 17 Mar 2024 10:10:31 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 17 Mar 2024 11:00:30 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rlu1j-000GNB-30;
-	Sun, 17 Mar 2024 17:10:27 +0000
-Date: Mon, 18 Mar 2024 01:09:32 +0800
+	id 1rluo8-000GOb-2Q;
+	Sun, 17 Mar 2024 18:00:28 +0000
+Date: Mon, 18 Mar 2024 02:00:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, fanyizhen1995 <en_0015767@163.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 24826/30000]
- drivers/ub/urma/uburma/uburma_cmd.c:144:6: warning: no previous prototype
- for 'uburma_jfc_event_cb'
-Message-ID: <202403180149.ZWPewByz-lkp@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alan Previn <alan.previn.teres.alexis@intel.com>
+Subject: drivers/gpu/drm/xe/xe_irq.c:279:3-4: Unneeded semicolon
+Message-ID: <202403180145.fkaEWVrN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,46 +58,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   32bb7b0a7c87769858fbb9d60574b830383c28f7
-commit: c4cd0655c0c898569c0a70162f36258fd5c50eeb [24826/30000] ub: uburma add cmd create jfc implementation.
-config: arm64-randconfig-003-20240312 (https://download.01.org/0day-ci/archive/20240318/202403180149.ZWPewByz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240318/202403180149.ZWPewByz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   741e9d668aa50c91e4f681511ce0e408d55dd7ce
+commit: eb08104f90fc474054211244d668d3fe1d84bccb drm/xe/gsc: add support for GSC proxy interrupt
+date:   8 weeks ago
+config: alpha-randconfig-r054-20240317 (https://download.01.org/0day-ci/archive/20240318/202403180145.fkaEWVrN-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403180149.ZWPewByz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403180145.fkaEWVrN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xe/xe_irq.c:279:3-4: Unneeded semicolon
 
->> drivers/ub/urma/uburma/uburma_cmd.c:144:6: warning: no previous prototype for 'uburma_jfc_event_cb' [-Wmissing-prototypes]
-     144 | void uburma_jfc_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/uburma/uburma_cmd.c:156:6: warning: no previous prototype for 'uburma_jfs_event_cb' [-Wmissing-prototypes]
-     156 | void uburma_jfs_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/uburma/uburma_cmd.c:168:6: warning: no previous prototype for 'uburma_jfr_event_cb' [-Wmissing-prototypes]
-     168 | void uburma_jfr_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
-         |      ^~~~~~~~~~~~~~~~~~~
+vim +279 drivers/gpu/drm/xe/xe_irq.c
 
-
-vim +/uburma_jfc_event_cb +144 drivers/ub/urma/uburma/uburma_cmd.c
-
-   143	
- > 144	void uburma_jfc_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
-   145	{
-   146		struct uburma_jfc_uobj *jfc_uobj;
-   147	
-   148		if (event->element.jfc == NULL)
-   149			return;
-   150	
-   151		jfc_uobj = (struct uburma_jfc_uobj *)event->element.jfc->jfc_cfg.jfc_context;
-   152		uburma_write_async_event(ctx, event->element.jfc->urma_jfc, event->event_type,
-   153					 &jfc_uobj->async_event_list, &jfc_uobj->async_events_reported);
-   154	}
-   155	
+   257	
+   258	static struct xe_gt *pick_engine_gt(struct xe_tile *tile,
+   259					    enum xe_engine_class class,
+   260					    unsigned int instance)
+   261	{
+   262		struct xe_device *xe = tile_to_xe(tile);
+   263	
+   264		if (MEDIA_VER(xe) < 13)
+   265			return tile->primary_gt;
+   266	
+   267		switch (class) {
+   268		case XE_ENGINE_CLASS_VIDEO_DECODE:
+   269		case XE_ENGINE_CLASS_VIDEO_ENHANCE:
+   270			return tile->media_gt;
+   271		case XE_ENGINE_CLASS_OTHER:
+   272			switch (instance) {
+   273			case OTHER_MEDIA_GUC_INSTANCE:
+   274			case OTHER_GSC_INSTANCE:
+   275			case OTHER_GSC_HECI2_INSTANCE:
+   276				return tile->media_gt;
+   277			default:
+   278				break;
+ > 279			};
+   280			fallthrough;
+   281		default:
+   282			return tile->primary_gt;
+   283		}
+   284	}
+   285	
 
 -- 
 0-DAY CI Kernel Test Service
