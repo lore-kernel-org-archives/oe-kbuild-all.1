@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB1163CF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Mar 2024 08:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB40C18026
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Mar 2024 08:55:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710665119; cv=none; b=DyOT6zfYlmhiOPhEEZSlVMI4hzQNv3nEfvhwR+Qxme2dlg0f9wGx6+DrC793C2dY/oyBMEYhemkg89n7tqon5aAJM6QMpuD0vdJOGcb7Ii+1HbNTnsi1ZS7vcyXZcm+kK0PVgIBAJRF/MzAQ52z1jfNu2FZPzH319q/LHGXLRlI=
+	t=1710665718; cv=none; b=l7BBqxKyRpR4QjBLhg52apzjwh1bnPxw4+DsoE2zm4VGYCCModl/8wxJBY7+sluSYhA0yWcycc1EFuqdozFiWLnVHquffffre56XOkq9z03lYlkyrj6raWnE1aCwWQvZSvnr9vRZlkQJrb/CeBq/b+wPl1VJeCWbXTki/MAyXGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710665119; c=relaxed/simple;
-	bh=cMkosrJq6KfnMaL+PXKv4PjvhS5Ii+4XTCqH3uPiMGs=;
+	s=arc-20240116; t=1710665718; c=relaxed/simple;
+	bh=rOMAXCxZlZpRsqBHskBgIKu7Hl0tHtKqdwgX3GMeqA4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kZyMzsXBw2cURrii8SyuxbdyDutsbZcOJdSg7pW11/a2txwEcqyr4eoC/9SdztY13JkVaXtV6e7ok7rGPH6jYxPM/NDXXkshSjuAq53kly7In+M0r0a+VXz8u+HlU6xCG1oilcxaZN0+GrPX4YAC5DcyyVKUIGE/bl4Ily9m5c0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HrudNaLY; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=bL0DBFeZ3iH0NtOBBMkU8DZXXgUdwd7ScwMnBP0B8nHs1QvoRq797LDUIAjDMQzVSsOYKUkppNv3DORSOQTLsfetAranp1YNTbSQZx6hO6EXnHyqJPRhcnACv6xwp6msd04jowPxh9DSJFfyhc7UAd8X6vBAtVTkmMyu6UPzna4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=npCyXuGH; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HrudNaLY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="npCyXuGH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710665117; x=1742201117;
+  t=1710665717; x=1742201717;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cMkosrJq6KfnMaL+PXKv4PjvhS5Ii+4XTCqH3uPiMGs=;
-  b=HrudNaLY9gJDleFvHywTz0iLsJRRpAgp55fd5dmGLRFWlOA/MRMSTUoX
-   kreOMUbjdbGMluyFUqQqQW2KkmGp75YpWg4J2uqcxIclbvi6DFqdmqFnO
-   JZjBseeIUkNws7qbwP83+iBtjjcxzoj77xdIH2EC/zMVdfbr5dIb8rfLh
-   PUgfL1sm+Aq8QRNQ8oLJpxdErQYJ0Ddzhvw6gvJNrG7CkqXVAL4xK01YD
-   6HEsnseEJXSnfIKikvF6qPgRYb8aiz/Xbl4jJT3vBHYsH/WSNv/Movk9B
-   SQY80PGrtCuS+5h2sKjZW2xJEbMONNqZAOQ062MmfUf8+ehBHA2pb5Q+N
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11015"; a="27965896"
+  bh=rOMAXCxZlZpRsqBHskBgIKu7Hl0tHtKqdwgX3GMeqA4=;
+  b=npCyXuGHjHWDyZFVFnp4aUSVgqMrtFo9fZlR4arcSaYxRzb22rali5l0
+   0FBLSzd56Kpt0GGeSK6vUdFMo+B7VMoJHwaZe4nD+A6HtST041sQAOanD
+   oqKUuR3fTS2/H6UUjCtuCY6GS8K2xw8RhwPsOIVmp/q3fc3vE+vgq//c/
+   c44wtuUNUQJW9wlsd/xGo+EDXgo6bRJB5ipveO4nVGZG7nzz3s09pSaaE
+   ncc7TZAxbGmTxPFi/U1a7IDTKdITzKeMOgHFH8efmSbN0pBjtOXC1CMK4
+   7uRTXUf47MTeEbcc1JruEMOF2ZSXklgvDinqNUV6/cPEzx3e6XfeNnBw0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11015"; a="5698822"
 X-IronPort-AV: E=Sophos;i="6.07,132,1708416000"; 
-   d="scan'208";a="27965896"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2024 01:45:16 -0700
+   d="scan'208";a="5698822"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2024 01:55:16 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,132,1708416000"; 
-   d="scan'208";a="17845980"
+   d="scan'208";a="13047684"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 17 Mar 2024 01:45:15 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 17 Mar 2024 01:55:15 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rlm8m-000G8H-2Q;
-	Sun, 17 Mar 2024 08:45:12 +0000
-Date: Sun, 17 Mar 2024 16:44:55 +0800
+	id 1rlmIS-000G8L-2V;
+	Sun, 17 Mar 2024 08:55:12 +0000
+Date: Sun, 17 Mar 2024 16:55:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, fanyizhen1995 <en_0015767@163.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 24824/30000]
- drivers/ub/urma/uburma/uburma_cmd.c:156:6: warning: no previous prototype
- for 'uburma_jfr_event_cb'
-Message-ID: <202403171618.niakwAg5-lkp@intel.com>
+To: Wenjing Liu <wenjing.liu@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>
+Subject: [agd5f:drm-next 56/58]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:4376: warning: Function
+ parameter or struct member 'new_context' not described in
+ 'commit_minimal_transition_state_in_dc_update'
+Message-ID: <202403171638.EzV0f7T7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,55 +60,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   32bb7b0a7c87769858fbb9d60574b830383c28f7
-commit: 79b60243a9ff771b76add8e16cfe55cc4f5edef2 [24824/30000] ub: uburma add cmd create jfr implementation.
-config: arm64-randconfig-003-20240312 (https://download.01.org/0day-ci/archive/20240317/202403171618.niakwAg5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240317/202403171618.niakwAg5-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
+head:   a0ce9e50f51ed759d7bd8886dae8696bd24c81e3
+commit: 7bce9d1e39e573a5d90913357d955e257cdc3fc4 [56/58] drm/amd/display: Implement update_planes_and_stream_v3 sequence
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240317/202403171638.EzV0f7T7-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240317/202403171638.EzV0f7T7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403171618.niakwAg5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403171638.EzV0f7T7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/ub/urma/uburma/uburma_cmd.c:144:6: warning: no previous prototype for 'uburma_jfs_event_cb' [-Wmissing-prototypes]
-     144 | void uburma_jfs_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/ub/urma/uburma/uburma_cmd.c:156:6: warning: no previous prototype for 'uburma_jfr_event_cb' [-Wmissing-prototypes]
-     156 | void uburma_jfr_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
-         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:4376: warning: Function parameter or struct member 'new_context' not described in 'commit_minimal_transition_state_in_dc_update'
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:4376: warning: Function parameter or struct member 'srf_updates' not described in 'commit_minimal_transition_state_in_dc_update'
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:4376: warning: Function parameter or struct member 'surface_count' not described in 'commit_minimal_transition_state_in_dc_update'
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:4376: warning: Excess function parameter 'context' description in 'commit_minimal_transition_state_in_dc_update'
 
 
-vim +/uburma_jfr_event_cb +156 drivers/ub/urma/uburma/uburma_cmd.c
+vim +4376 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c
 
-   143	
- > 144	void uburma_jfs_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
-   145	{
-   146		struct uburma_jfs_uobj *jfs_uobj;
-   147	
-   148		if (event->element.jfs == NULL)
-   149			return;
-   150	
-   151		jfs_uobj = (struct uburma_jfs_uobj *)event->element.jfs->jfs_cfg.jfs_context;
-   152		uburma_write_async_event(ctx, event->element.jfs->urma_jfs, event->event_type,
-   153					 &jfs_uobj->async_event_list, &jfs_uobj->async_events_reported);
-   154	}
-   155	
- > 156	void uburma_jfr_event_cb(struct ubcore_event *event, struct ubcore_ucontext *ctx)
-   157	{
-   158		struct uburma_jfr_uobj *jfr_uobj;
-   159	
-   160		if (event->element.jfr == NULL)
-   161			return;
-   162	
-   163		jfr_uobj = (struct uburma_jfr_uobj *)event->element.jfr->jfr_cfg.jfr_context;
-   164		uburma_write_async_event(ctx, event->element.jfr->urma_jfr, event->event_type,
-   165					 &jfr_uobj->async_event_list, &jfr_uobj->async_events_reported);
-   166	}
-   167	
+  4353	
+  4354	/**
+  4355	 * commit_minimal_transition_state_in_dc_update - Commit a minimal state based
+  4356	 * on current or new context
+  4357	 *
+  4358	 * @dc: DC structure, used to get the current state
+  4359	 * @context: New context
+  4360	 * @stream: Stream getting the update for the flip
+  4361	 *
+  4362	 * The function takes in current state and new state and determine a minimal
+  4363	 * transition state as the intermediate step which could make the transition
+  4364	 * between current and new states seamless. If found, it will commit the minimal
+  4365	 * transition state and update current state to this minimal transition state
+  4366	 * and return true, if not, it will return false.
+  4367	 *
+  4368	 * Return:
+  4369	 * Return True if the minimal transition succeeded, false otherwise
+  4370	 */
+  4371	static bool commit_minimal_transition_state_in_dc_update(struct dc *dc,
+  4372			struct dc_state *new_context,
+  4373			struct dc_stream_state *stream,
+  4374			struct dc_surface_update *srf_updates,
+  4375			int surface_count)
+> 4376	{
+  4377		bool success = commit_minimal_transition_based_on_new_context(
+  4378					dc, new_context, stream, srf_updates,
+  4379					surface_count);
+  4380		if (!success)
+  4381			success = commit_minimal_transition_based_on_current_context(dc,
+  4382					new_context, stream);
+  4383		if (!success)
+  4384			DC_LOG_ERROR("Fail to commit a seamless minimal transition state between current and new states.\nThis pipe topology update is non-seamless!\n");
+  4385		return success;
+  4386	}
+  4387	
 
 -- 
 0-DAY CI Kernel Test Service
