@@ -1,110 +1,132 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46972374C4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 11:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0EF46448
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 13:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710760305; cv=none; b=HzKgJbV3uK6dd2YGKJUx94kP2Jm+vmMHKQiW3WrZ1oSm5URIwE+0/INCFiBtaKwkRcn6z6pQf/s/YFFtTwBfuIOcD95y0YvUkKi191zUEcVJK/M94TKKoI3WnqtYmDuBRou726JK9vyfKjTHTFpk5XvbpQfz+RyIeg7O6T13vKI=
+	t=1710768486; cv=none; b=H313+Go9ltWyYc4WOK+jm5Ae3owLqwGjYQcIBRcWZrXPkf6DY4oE2Ih07iaqeH35e+2uv6NDCEiP+bg0Zs+N4jevJ43DUwz3fP8bAz+H97QWLyjcHFUgmHfz1QI3GnzNVryVEHqg2HC/AdwW7zBacX69v6se3JrCKg+Uv8IkBOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710760305; c=relaxed/simple;
-	bh=z5VR/SCFO4fju311eNKwJ63qRf/aHwz2D5n4iQqSiBc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qpGvhHVBc1qATxPX4whZPGF8T7jP57IHJvIkPBH3rHNdckL7n6efKWDpdWa7oz9f5mbcWOcKWF+Xa0/oxvmR721uTMM4imEM95XJnVH2KgNNojeno7dfRkAooOjD6LzBDKEQ5z+jRCj+BmsGn4J8RAoXwvoiQfeazuUmkGDEkqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=DsRh2wPZ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2rXzzq0j; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1710768486; c=relaxed/simple;
+	bh=L5OD0kWu4pFFFcfgTHQNLfy2CxMpF7e5Hzoe8uaGznY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hudfQwCdzhFMSotV7DO5g/HLT53rFwGl++v4HSCNmrndXSy6J9sgf+iI5OnGDzn/J/tpJNJfb/o3F+erYIMS9WHSECY9sAoQtkCCgIfl0PJzKPQzY2+Wct0o0ZKd+EvYlFNK02LmVvxw4zPCVeH6DOVBdLhFgpeDhaFlWGEtpIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EFi9nL/a; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DsRh2wPZ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2rXzzq0j"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1710760300;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Kz9iUiUQcoOz3awzuNQ4c0iM+L+HbF9KJgq1+b8ISwY=;
-	b=DsRh2wPZKF+ZU54Ol3+3tkG/vZylyJKaZweh1MbTMk/lURjsHdIIxR9igCB9VHwjgkxD8a
-	gQYsU5LPNq2+1Al2TIP9sSnKu2NbYbkdsewheKEY/AnZUJmCVi3AKiUn6h+IhdxT/snRIb
-	ej5HcPt2e8UzOp7tPCSdLosji5ZhlQP8dyxLwV3TlUerZc6wKsq4dkfHuXMwWq7Iyep5js
-	/YgKUt/0Lnm9kv/9dw9hRxSzq9sMEw7b38IAz5P7sfwz+gNxeuFeVrbAEUueNJ97JkK3v3
-	iScWXdApPrwJwhOZlgmxSmolkbFc2qbTJK1oMkT2xsaPjSPLM9tk0m2FMRoa+Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1710760300;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Kz9iUiUQcoOz3awzuNQ4c0iM+L+HbF9KJgq1+b8ISwY=;
-	b=2rXzzq0jJ81Gok9ryRYJKmRQDOliceDGov4GITW3TRUy+rv/y+7Ff0yLJIQxjp1Rt4Gemp
-	yIEWeVdtMHkqiWCQ==
-To: Linus Torvalds <torvalds@linuxfoundation.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, LKML <linux-kernel@vger.kernel.org>,
- x86@kernel.org, Uros Bizjak <ubizjak@gmail.com>,
- linux-sparse@vger.kernel.org, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [patch 5/9] x86: Cure per CPU madness on UP
-In-Reply-To: <877ci3j80k.ffs@tglx>
-References: <20240303235029.555787150@linutronix.de>
- <20240304005104.622511517@linutronix.de>
- <e20d88d0-5fb9-4307-be67-88b04ae9a188@roeck-us.net>
- <CAHk-=whK=G1o6RtS9DS3wEGF1KU7WLgLL1+6Se86bj8m7wwqrQ@mail.gmail.com>
- <87y1ajjsv9.ffs@tglx> <87o7bfjeae.ffs@tglx>
- <CAHk-=wiP+XMGHr8NU13sSOG_oasNZN02O9_c1PzCJNG7+O-GPw@mail.gmail.com>
- <877ci3j80k.ffs@tglx>
-Date: Mon, 18 Mar 2024 12:11:39 +0100
-Message-ID: <87zfuviyl0.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EFi9nL/a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710768485; x=1742304485;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=L5OD0kWu4pFFFcfgTHQNLfy2CxMpF7e5Hzoe8uaGznY=;
+  b=EFi9nL/aYYM6/6/+Y8s8s1HTHl9xh8a/YtFcg6ghxqf55l3PMyIi3dkJ
+   ntkrq9pMoJKY8rYhatkWN/9aUgS/7ckeaU3QCfKmZUgBx2aF/XBXi9rNi
+   aQcDYFT4fy3a6aei8TW5dkmk1znoxR3kHVnmeZJhznVs5LebqgiTWnAn8
+   3vVUxc/mRMChjNeTZfJiwystMFFovBFtxAXPxMZ42LvhAace642CgPP9I
+   hmJmwWnux8aOxBKsacGRdqPWwxs6GI3xbF8916R27qJ9pfgNCxquyMSpI
+   5C3gebmUh/GWRrMvOg1Od/5mHbCQXwHRmpuBtFqUTPSCNEVeQG/wXA0rA
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="31017814"
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
+   d="scan'208";a="31017814"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 06:28:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
+   d="scan'208";a="13422128"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 18 Mar 2024 06:28:03 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rmD21-000Gz5-05;
+	Mon, 18 Mar 2024 13:28:01 +0000
+Date: Mon, 18 Mar 2024 21:27:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Borislav Petkov (AMD)" <bp@alien8.de>
+Subject: WARNING: modpost: "cmpxchg8b_emu" [lib/test_lockup.ko] has no CRC!
+Message-ID: <202403182122.G6VFSE9v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, Mar 16 2024 at 02:11, Thomas Gleixner wrote:
-> On Fri, Mar 15 2024 at 16:23, Linus Torvalds wrote:
->> Either we should just make all machines look like they have the proper
->> local apic mappings, or we shouldn't look at any local apic rules AT
->> ALL.
->
-> Sure. I can simply check if there was an APIC registered instead.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f6cef5f8c37f58a3bc95b3754c3ae98e086631ca
+commit: 88a2b4edda3d0709727be53f4423b0b832d91de3 x86/Kconfig: Rework CONFIG_X86_PAE dependency
+date:   3 months ago
+config: um-randconfig-r035-20230726 (https://download.01.org/0day-ci/archive/20240318/202403182122.G6VFSE9v-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240318/202403182122.G6VFSE9v-lkp@intel.com/reproduce)
 
-Like the below. I'm not entirely sure though whether the sanity checks
-should return an error code, which is what caused the crash Guenter
-observed, but I couldn't come up with something sensible either.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403182122.G6VFSE9v-lkp@intel.com/
 
-Returning 0 might keep the machine alive, but does it make sense?
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-Thanks,
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/backtracetest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp852.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp857.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp861.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp862.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp865.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1251.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-9.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-14.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-cyrillic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hostfs/hostfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libsha1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_ring.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: EXPORT symbol "cmpxchg8b_emu" [vmlinux] version generation failed, symbol will not be versioned.
+Is "cmpxchg8b_emu" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "csum_partial" [vmlinux] version generation failed, symbol will not be versioned.
+Is "csum_partial" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "csum_partial_copy_generic" [vmlinux] version generation failed, symbol will not be versioned.
+Is "csum_partial_copy_generic" prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: "cmpxchg8b_emu" [lib/test_lockup.ko] has no CRC!
+>> WARNING: modpost: "cmpxchg8b_emu" [lib/atomic64_test.ko] has no CRC!
 
-        tglx
----
- arch/x86/kernel/cpu/topology.c |   15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
-
---- a/arch/x86/kernel/cpu/topology.c
-+++ b/arch/x86/kernel/cpu/topology.c
-@@ -277,10 +277,21 @@ int topology_get_logical_id(u32 apicid,
- 	/* Remove the bits below @at_level to get the proper level ID of @apicid */
- 	unsigned int lvlid = topo_apicid(apicid, at_level);
- 
--	if (lvlid >= MAX_LOCAL_APIC)
-+	if (WARN_ON_ONCE(lvlid >= MAX_LOCAL_APIC))
- 		return -ERANGE;
--	if (!test_bit(lvlid, apic_maps[at_level].map))
-+
-+	/*
-+	 * If there was no APIC registered, then the map check below would
-+	 * fail. With no APIC this is guaranteed to be an UP system and
-+	 * therefore all topology levels have only one entry and their
-+	 * logical ID is obviously 0.
-+	 */
-+	if (topo_info.boot_cpu_apic_id == BAD_APICID)
-+		return 0;
-+
-+	if (WARN_ON_ONCE(!test_bit(lvlid, apic_maps[at_level].map)))
- 		return -ENODEV;
-+
- 	/* Get the number of set bits before @lvlid. */
- 	return bitmap_weight(apic_maps[at_level].map, lvlid);
- }
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
