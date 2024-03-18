@@ -1,54 +1,54 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14F71EF0D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 04:09:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAB1200D5
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 04:09:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710734991; cv=none; b=kkJprdgxxtFTOEkRquMsatsQIv3YGfMznlQFcVC6RWcEd9qMk29RvWnOwL21tWtKSs5IeWxaLNjG6K14GFtblz+ifpmULfQwsi9/nqlrwRuog3vMkb2ZWj2DFpymIf6IxvLQx4t9zPkqt+D8yeHCc9iOOqcSEn0caXf3u989Zp8=
+	t=1710734993; cv=none; b=o9Lh5oV/eZnRBpeWHGMeoamUcRYy0pjX9O9HnINQZoTyEv5ZeSIJVvIQEoKhJrdLTKPd0D+BKfb9ysWbh/pLdoSOiJ3p86ctmShMU1ZYkqKQ7Qsv26B+wqNhgJO4Qg14NJSeNsB9VoFEVS8ZDofP+2MMOTu6TVrVz70lPPIkUTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710734991; c=relaxed/simple;
-	bh=y+g2O89siaBhy/z85D2CrmlgBrHmASxJgSnbfieQZWM=;
+	s=arc-20240116; t=1710734993; c=relaxed/simple;
+	bh=pJVOD09IFpbi3LLH6wQVwqhcuiDckKhPQhpcPmdvIYg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BS9WWFuuTHTWMbSF2OQl0bqIAS9NcKp1aH+0eWgluiUKlfMHvGDp0CwEi35jCmCzFCZH5KR54Ta5ZmPVqZyKURRZAgRWnamLVH/PkljrCFBR/LOwtJOEUuxGmsZw+q5CjTgcBwqPL3ybcSSgZzxy6+BN6Z8xUN1ci2E/ieqG9rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LkGainIE; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=ca6r4xOX+oSBke88GFSqGbRZzR6V5P1IbRefJjuPtwXmeKUNwlFMHMmt1GzLJLm+YZ/W2qdUfclptJPVir+IdbMaiqrKDcfnBIIj9L9yGnm8+gLq3Ep12UagOWEsUm56i2VPA0xGcmboqAFMu3H4HpE1lqLlNjl/ThhKpPuiULw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ixahqaxN; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LkGainIE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ixahqaxN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710734989; x=1742270989;
+  t=1710734991; x=1742270991;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y+g2O89siaBhy/z85D2CrmlgBrHmASxJgSnbfieQZWM=;
-  b=LkGainIE69wZkRFre9ph50NrTwvHUHsO4AXg7rhnv4AZQ/T0Rau5gq1t
-   zFH8SYlC18W3fEBowct5P9tzUOsVdmZiRdYITyuLFrcVB9NfSeW8gWr/s
-   qrbPYxBO7mIqAIq4kNdMqeV9eUdj+95AIpi/ftA/PckpNgCJxMoi3nHhW
-   liA4o1YHqzMIXdIHd1tY2284OIvKwnkzrrjDqZW6gbVM/ygzn0x83zFfp
-   cbAdTQmEJvur49Ro59de9JBHD2Ytgjhxt1xdhKWahGjn0rWtMbRK6Y9su
-   SiSXBkMh+XaQm+xVPT08hw+yRPn5m8nQQE7eNcqf7rYk/M5v7joSsu5Hx
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="5405644"
+  bh=pJVOD09IFpbi3LLH6wQVwqhcuiDckKhPQhpcPmdvIYg=;
+  b=ixahqaxN7xULV0lgXaNl8XgUxn0GO0+n74UWYehl7n3NuatyGEtPr2XO
+   S4knvWnX2o5kiqCKO98TieGxQccSc1ifOieXLjurPlKpv8BcMa8xfl2tg
+   NdU4fn8VrsRHq0UMKOQM56AQwmmYcqjaYs/KT6LgqwNKlpccccApOh8ab
+   K0bglzi8Ze+GsdpWhuklHfqkIYRYKnN1jjDuNCsiYVDM9xpNrFc6MYdOW
+   Li42EcM2yJd199Rh15EcLI5Y01f4HMoB2SiKNgZKrkUubVW9LlmxHT+H2
+   b3HzA8u6mStNRr7Hwas/p70kcvoAqAXRHknrdeNMxLOE53Mrp+NfygOnD
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="5405646"
 X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="5405644"
+   d="scan'208";a="5405646"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2024 21:09:48 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="13262554"
+   d="scan'208";a="13262555"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 17 Mar 2024 21:09:48 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rm4Jk-000GdH-1b;
+	id 1rm4Jk-000GdJ-1h;
 	Mon, 18 Mar 2024 04:09:44 +0000
-Date: Mon, 18 Mar 2024 12:08:51 +0800
+Date: Mon, 18 Mar 2024 12:09:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Darrick J. Wong" <darrick.wong@oracle.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:twf-hoist 580/618] fs/xfs/scrub/attr.c:309:17: error:
- too many arguments to function 'xchk_xattr_verity'
-Message-ID: <202403181214.kGghaTj0-lkp@intel.com>
+Subject: [djwong-xfs:twf-hoist 580/618] fs/xfs/scrub/attr.c:309:52: error:
+ too many arguments to function call, expected 4, have 5
+Message-ID: <202403181236.OM1hV5DN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,27 +61,35 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git twf-hoist
 head:   4ff673321ea82e29e235e43dd6db0941b90a061f
 commit: f9b03bfc5858810a62bc79cae46a9208a5ccc28a [580/618] xfs: teach online repair to evaluate fsverity xattrs
-config: x86_64-buildonly-randconfig-003-20240318 (https://download.01.org/0day-ci/archive/20240318/202403181214.kGghaTj0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240318/202403181214.kGghaTj0-lkp@intel.com/reproduce)
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240318/202403181236.OM1hV5DN-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240318/202403181236.OM1hV5DN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403181214.kGghaTj0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403181236.OM1hV5DN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/xfs/scrub/attr.c: In function 'xchk_xattr_actor':
->> fs/xfs/scrub/attr.c:309:17: error: too many arguments to function 'xchk_xattr_verity'
+>> fs/xfs/scrub/attr.c:309:52: error: too many arguments to function call, expected 4, have 5
      309 |                 xchk_xattr_verity(sc, args.blkno, name, namelen, valuelen);
-         |                 ^~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/attr.c:232:1: note: declared here
+         |                 ~~~~~~~~~~~~~~~~~                                ^~~~~~~~
+   fs/xfs/scrub/attr.c:232:1: note: 'xchk_xattr_verity' declared here
      232 | xchk_xattr_verity(
-         | ^~~~~~~~~~~~~~~~~
+         | ^
+     233 |         struct xfs_scrub        *sc,
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     234 |         xfs_dablk_t             blkno,
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     235 |         const unsigned char     *name,
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     236 |         unsigned int            namelen)
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +/xchk_xattr_verity +309 fs/xfs/scrub/attr.c
+vim +309 fs/xfs/scrub/attr.c
 
    244	
    245	/*
