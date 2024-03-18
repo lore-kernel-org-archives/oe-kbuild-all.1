@@ -1,141 +1,86 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F8F4EB49
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 15:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED3A55776
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 17:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710774579; cv=none; b=TIJmc9nHGMMWRiXvOnLdww6f+Or5WIS+G8d2qz9WMLDqqr4YRCY0vKXtrI94bH6BWuDxwPD3Vhjy6P2UdglW+9C/d8MffPaiHqpiW8bMI74a/Z4ti88FN/rLJNkx199KqDxwBuzk0vc3isAXLcMYunVTA0RWiBtom01YppeYmfE=
+	t=1710782878; cv=none; b=TWYBn4Wo8TnMe73qB7FDIdyZq6ZhCSbMqFLArVMksZJSj5pC6yeWexMggrRRshPNCck8g1BJPZbAn4kt6nFdCLNVAGiTNFRfbcqcnArBAwTcYCu7Ay2C+FusmxFhJqXyB/USsqd/GbqhMEzPB05K58IbguXGp4ri29F9trx8+e0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710774579; c=relaxed/simple;
-	bh=H7IGWMeRnaWxip9sjSRYjAeZUfDmhc3HZDLokWYk0Zc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GBXUWqJX/acFqU7MM2Coq1lN38kxI7cj5CyFDWIDM57ICv59xLts+ibfGN4hmV7I61asBPkN7AYF0OsUWy3cjoDX3jbI3OUtYHqH8mte95hCi3rAaty9FmhgnATPesmrzMmw9jqOPmuweZRa0wdLpEvVyGX6ELoHI9n+KUGtv+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QBaKobQO; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1710782878; c=relaxed/simple;
+	bh=UN23v0BZ2VfVus/rrnJ8TYGw2JtEYehk578g66wEgzw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Fbd2VM8ERY8iuB/A0uTXylKTKAM9Ii0QTlF7K1BVTv4O+JdzB64u4pjGs6/LtqD9B34/qFR1t6gBF5eYv0DKUBjTQ9OLxzMiVy2zCW2yelSMatH0d0ulzrBhuImIj39emM6gqFst5L6/e3JyWb1OV+LjRs7cGaqeJDF5CYmXc+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vmoJpG9m; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=d6Ln3qGn; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QBaKobQO"
-Message-ID: <0774c0a7-8ef7-47cb-8c1c-695c67e10182@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1710774575;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vmoJpG9m";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="d6Ln3qGn"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1710782875;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UgBmXSoNNR4Olx/VcT0P5tBKTjoGvpwZV2EEX4qJmuU=;
-	b=QBaKobQOGhE/aRia0yChrm9MJwbvcW4bh3X6p+7CXYuktwFUSFpgGcmzSuffJXN0Sg94b9
-	0S7pplov2RTetNOzZ9UPiw2N5mjTTYpVuXhSxHmavXC4RCJwoA+ycyqvpRdXcz1Yrk4yf0
-	zGf88ltQKdotcxNHvKNBlVjq1UJUfwk=
-Date: Mon, 18 Mar 2024 11:09:33 -0400
+	bh=+tMsuxvlJH22JA6DrPUeQjaSBT/j9Gn1+cJU6UVla34=;
+	b=vmoJpG9mCLFrTTR+qEyUewJQFa5E3yXC0uWs70LIjdCfxvJpC+rqGFHCBWyCoOMwJ6qHbL
+	/b5wi+gSMHA3/wbr0ki8hAeDK0NsKNPOF1vIyupudW/iGSLeuK+S+uDkySTkEnwQotLOvT
+	BFBK06ARHvSBS2IPpnCrSay8m4wT0FpGBvDt7ucT2TRiEMu+gK9rgQCY3zWfl3OuU5r4/w
+	0E7k5BVtmigXrjZqTT5uLmOSbCiGD9U0j3FHwYBuiz+Ulc6H72LN2PHRMJ37um5mvruqAx
+	43disVF5eAD5ITyD4QO93qQtgGQGZ+X5FDjd3KQCvNLM28lhOfhcAlhYLkUhCg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1710782875;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+tMsuxvlJH22JA6DrPUeQjaSBT/j9Gn1+cJU6UVla34=;
+	b=d6Ln3qGn6X1/GCxMeZB/182iIN5DU9cXjm+4+paBZgykXjYS3T1ClKTts0QVqJGrkLNgkL
+	rfTi+FP+zCfgGFBw==
+To: Linus Torvalds <torvalds@linuxfoundation.org>
+Cc: Guenter Roeck <linux@roeck-us.net>, LKML <linux-kernel@vger.kernel.org>,
+ x86@kernel.org, Uros Bizjak <ubizjak@gmail.com>,
+ linux-sparse@vger.kernel.org, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [patch 5/9] x86: Cure per CPU madness on UP
+In-Reply-To: <877ci3j80k.ffs@tglx>
+References: <20240303235029.555787150@linutronix.de>
+ <20240304005104.622511517@linutronix.de>
+ <e20d88d0-5fb9-4307-be67-88b04ae9a188@roeck-us.net>
+ <CAHk-=whK=G1o6RtS9DS3wEGF1KU7WLgLL1+6Se86bj8m7wwqrQ@mail.gmail.com>
+ <87y1ajjsv9.ffs@tglx> <87o7bfjeae.ffs@tglx>
+ <CAHk-=wiP+XMGHr8NU13sSOG_oasNZN02O9_c1PzCJNG7+O-GPw@mail.gmail.com>
+ <877ci3j80k.ffs@tglx>
+Date: Mon, 18 Mar 2024 18:27:55 +0100
+Message-ID: <87le6fih5w.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/6] drm: zynqmp_dp: Add locking
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, David Airlie <airlied@gmail.com>,
- linux-kernel@vger.kernel.org, Michal Simek <monstr@monstr.eu>,
- linux-arm-kernel@lists.infradead.org, Daniel Vetter <daniel@ffwll.ch>
-References: <20240315230916.1759060-4-sean.anderson@linux.dev>
- <202403161747.TRmfawhM-lkp@intel.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <202403161747.TRmfawhM-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
 
-On 3/16/24 05:52, kernel test robot wrote:
-> Hi Sean,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on v6.8]
-> [also build test WARNING on linus/master next-20240315]
-> [cannot apply to drm-misc/drm-misc-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/drm-zynqmp_dp-Downgrade-log-level-for-aux-retries-message/20240316-071208
-> base:   v6.8
-> patch link:    https://lore.kernel.org/r/20240315230916.1759060-4-sean.anderson%40linux.dev
-> patch subject: [PATCH 3/6] drm: zynqmp_dp: Add locking
-> config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240316/202403161747.TRmfawhM-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161747.TRmfawhM-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403161747.TRmfawhM-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> drivers/gpu/drm/xlnx/zynqmp_dp.c:321: warning: Function parameter or struct member 'hpd_irq_work' not described in 'zynqmp_dp'
+On Sat, Mar 16 2024 at 02:11, Thomas Gleixner wrote:
+> On Fri, Mar 15 2024 at 16:23, Linus Torvalds wrote:
+> The amount of subtle SMP=n fallout has been kinda exponentially
+> increasing over the years and it's just putting burden on the wrong
+> people. TBH, I'm tired of this nonsense.
 
-Will document.
+And for the fun of it I hacked Kconfig to allow a SMP=y NR_CPUS=1 build
+and checked the size of vmlinux:
 
---Sean
+                64-bit          32-bit
+SMP, NCPUS=1    38438400        22110177
+UP              38393703        21682041
+Delta              44697          428076
+                     0.1%              2%              
 
-> 
-> vim +321 drivers/gpu/drm/xlnx/zynqmp_dp.c
-> 
-> d76271d22694e8 Hyun Kwon        2018-07-07  275  
-> d76271d22694e8 Hyun Kwon        2018-07-07  276  /**
-> d76271d22694e8 Hyun Kwon        2018-07-07  277   * struct zynqmp_dp - Xilinx DisplayPort core
-> d76271d22694e8 Hyun Kwon        2018-07-07  278   * @dev: device structure
-> d76271d22694e8 Hyun Kwon        2018-07-07  279   * @dpsub: Display subsystem
-> d76271d22694e8 Hyun Kwon        2018-07-07  280   * @iomem: device I/O memory for register access
-> d76271d22694e8 Hyun Kwon        2018-07-07  281   * @reset: reset controller
-> 8ce380e6568015 Sean Anderson    2024-03-15  282   * @lock: Mutex protecting this struct and register access (but not AUX)
-> d76271d22694e8 Hyun Kwon        2018-07-07  283   * @irq: irq
-> 47e801bd0749f0 Laurent Pinchart 2021-08-04  284   * @bridge: DRM bridge for the DP encoder
-> bd68b9b3cb2e0d Laurent Pinchart 2021-08-04  285   * @next_bridge: The downstream bridge
-> d76271d22694e8 Hyun Kwon        2018-07-07  286   * @config: IP core configuration from DTS
-> d76271d22694e8 Hyun Kwon        2018-07-07  287   * @aux: aux channel
-> d76271d22694e8 Hyun Kwon        2018-07-07  288   * @phy: PHY handles for DP lanes
-> d76271d22694e8 Hyun Kwon        2018-07-07  289   * @num_lanes: number of enabled phy lanes
-> d76271d22694e8 Hyun Kwon        2018-07-07  290   * @hpd_work: hot plug detection worker
-> d76271d22694e8 Hyun Kwon        2018-07-07  291   * @status: connection status
-> d76271d22694e8 Hyun Kwon        2018-07-07  292   * @enabled: flag to indicate if the device is enabled
-> d76271d22694e8 Hyun Kwon        2018-07-07  293   * @dpcd: DP configuration data from currently connected sink device
-> d76271d22694e8 Hyun Kwon        2018-07-07  294   * @link_config: common link configuration between IP core and sink device
-> d76271d22694e8 Hyun Kwon        2018-07-07  295   * @mode: current mode between IP core and sink device
-> d76271d22694e8 Hyun Kwon        2018-07-07  296   * @train_set: set of training data
-> d76271d22694e8 Hyun Kwon        2018-07-07  297   */
-> d76271d22694e8 Hyun Kwon        2018-07-07  298  struct zynqmp_dp {
-> d76271d22694e8 Hyun Kwon        2018-07-07  299  	struct device *dev;
-> d76271d22694e8 Hyun Kwon        2018-07-07  300  	struct zynqmp_dpsub *dpsub;
-> d76271d22694e8 Hyun Kwon        2018-07-07  301  	void __iomem *iomem;
-> d76271d22694e8 Hyun Kwon        2018-07-07  302  	struct reset_control *reset;
-> 8ce380e6568015 Sean Anderson    2024-03-15  303  	struct mutex lock;
-> d76271d22694e8 Hyun Kwon        2018-07-07  304  	int irq;
-> d76271d22694e8 Hyun Kwon        2018-07-07  305  
-> 47e801bd0749f0 Laurent Pinchart 2021-08-04  306  	struct drm_bridge bridge;
-> bd68b9b3cb2e0d Laurent Pinchart 2021-08-04  307  	struct drm_bridge *next_bridge;
-> 47e801bd0749f0 Laurent Pinchart 2021-08-04  308  
-> d76271d22694e8 Hyun Kwon        2018-07-07  309  	struct zynqmp_dp_config config;
-> d76271d22694e8 Hyun Kwon        2018-07-07  310  	struct drm_dp_aux aux;
-> d76271d22694e8 Hyun Kwon        2018-07-07  311  	struct phy *phy[ZYNQMP_DP_MAX_LANES];
-> d76271d22694e8 Hyun Kwon        2018-07-07  312  	u8 num_lanes;
-> 8ce380e6568015 Sean Anderson    2024-03-15  313  	struct delayed_work hpd_work, hpd_irq_work;
-> d76271d22694e8 Hyun Kwon        2018-07-07  314  	enum drm_connector_status status;
-> d76271d22694e8 Hyun Kwon        2018-07-07  315  	bool enabled;
-> d76271d22694e8 Hyun Kwon        2018-07-07  316  
-> d76271d22694e8 Hyun Kwon        2018-07-07  317  	u8 dpcd[DP_RECEIVER_CAP_SIZE];
-> d76271d22694e8 Hyun Kwon        2018-07-07  318  	struct zynqmp_dp_link_config link_config;
-> d76271d22694e8 Hyun Kwon        2018-07-07  319  	struct zynqmp_dp_mode mode;
-> d76271d22694e8 Hyun Kwon        2018-07-07  320  	u8 train_set[ZYNQMP_DP_MAX_LANES];
-> d76271d22694e8 Hyun Kwon        2018-07-07 @321  };
-> d76271d22694e8 Hyun Kwon        2018-07-07  322  
-> 
+The UP savings are not really impressive...
+
+Let me look what it actually takes to do that.
+
+Thanks,
+
+        tglx
 
