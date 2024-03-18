@@ -1,139 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B64355E5F;
-	Mon, 18 Mar 2024 18:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3220E56453
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 19:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710786257; cv=none; b=HVBZUg79iLHCAgcUSQuZVRh/ImAhF/ZFL/7SBPotzQNdDQGSFiQIF0QvUUa/spYz//Q4+szfpHyn4bqDZlxD8W20cvEH5uoZmfYSFBJRE1RYilBo8qAz12AqBVfygJraLQTSmtzCKna8Pn/E3t3g5cS5FS8lSBVynTVYL8N3zEY=
+	t=1710788766; cv=none; b=REQbJ/czJ5Xo2BjbagxP/ZyfBBzTDrV0mTebctVF6kAc4kyW7mixw9AKeXY/rxRNrqekHQ18xZeoTqyLl7Kz6573coKIQeYbGYQeFSZMxFualhRNzmYI9529SuzajOqmxtVunInHeJSIxpE4d1IxQPrbh9+38Yul324mHYCBIJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710786257; c=relaxed/simple;
-	bh=qb54vpIYrxfWHlrOPLWIDVeU7BorvV33vlsD+5MlO7Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nyXI3WJaI6PIAsyozSbtic2NFxetd/y1nKxbFSqoIkDrRrpSroDvYEySk9klloOR56KuxgiW0tDmQVY8TOLNpKVTaP1Nw7rhMhd7+wvKxrkmhjvy1wdgm/IC4MPSTRGhEloIjuf49GLTtTn1/RcU4B1+1ITyVyfcZC5uaAHpiZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HGUB9zAK; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710788766; c=relaxed/simple;
+	bh=74ZSPlVYVJNFzX2CjhuI7nZPYa4reYpe31xx8MLhPLY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PB2Z/sjqNksz+KKqszTknGIRzy1iR1nvWgcECDQGCJ3Ss1eEkKPPxx/qaGoJVILy6TAypAg4u3PgiAtpehreHZ8x0wdJsSuI+0gi1ujPL+X0snxGVqcTcFaAHPsCB6O3x9tXcRygBC21jwqv5L9IMOkQ521XIJWs0vT/XHl+LUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IV5qgkfK; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HGUB9zAK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710786255; x=1742322255;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qb54vpIYrxfWHlrOPLWIDVeU7BorvV33vlsD+5MlO7Q=;
-  b=HGUB9zAKpqXVZ0l22RvTme2FAxgNgG9c0vgfhUys1u3Rb+IxtCEDCDue
-   c2ty2kD1o4ZTxNWFQWxW+jlgtuKZSKzk0/bZ6Wwj1G+7ZXPaalrYe4CCc
-   19aiq0FxY6V9hm0xj94d770c6/LNe6fOWvE3bV11EcIu5QJwfi93RqWum
-   DRyhyTO892jl/BcXQX8+3x3Lq763u0lHlvFlj57t6ZIRQOLfJLMjWY75X
-   Z/Yw0RZN5ti+DkKM4g+OQio3f3CqWaDkpoPi0HVfD0RVTaJwd+T2gHLEu
-   Jd0ES+0vvJZxQFdJekIue1M4u7fJuX5MXnIrUhgBDn6NJJ7goPT4zyChi
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5800116"
-X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="5800116"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 11:24:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="13635849"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 Mar 2024 11:24:11 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rmHea-000HAh-19;
-	Mon, 18 Mar 2024 18:24:08 +0000
-Date: Tue, 19 Mar 2024 02:23:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Aravinda Prasad <aravinda.prasad@intel.com>, damon@lists.linux.dev,
-	linux-mm@kvack.org, sj@kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, aravinda.prasad@intel.com,
-	s2322819@ed.ac.uk, sandeep4.kumar@intel.com, ying.huang@intel.com,
-	dave.hansen@intel.com, dan.j.williams@intel.com,
-	sreenivas.subramoney@intel.com, antti.kervinen@intel.com,
-	alexander.kanevskiy@intel.com
-Subject: Re: [PATCH v2 2/3] mm/damon: profiling enhancement
-Message-ID: <202403190218.1tBSAJpX-lkp@intel.com>
-References: <20240318132848.82686-3-aravinda.prasad@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IV5qgkfK"
+Message-ID: <6b44c9b7-e1e2-4b69-a443-4616ceab6f17@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1710788761;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aI53OR+8o+dtnjSJRsKHjwQWA3OPclhRJ779bxvtMIA=;
+	b=IV5qgkfKSkQIYLWNQUflil6tfdnHRjp+RSS4A8Y6mtVmRh/JmXNI0eXK0Ru+4uPD61kQKz
+	/RBKDMPWbuC8WIUZC82MvShrtpw5g2omWnjWt5FLLts5o5SdVBrpxFfCnibUlOZuWzXZiT
+	d31TfX4l0nWmOpSjEtutiSfcvjs5fdw=
+Date: Mon, 18 Mar 2024 15:05:57 -0400
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240318132848.82686-3-aravinda.prasad@intel.com>
+Subject: Re: [PATCH 6/6] drm: zynqmp_dp: Add debugfs interface for compliance
+ testing
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: kernel test robot <lkp@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev,
+ David Airlie <airlied@gmail.com>, linux-kernel@vger.kernel.org,
+ Michal Simek <monstr@monstr.eu>, linux-arm-kernel@lists.infradead.org,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20240315230916.1759060-7-sean.anderson@linux.dev>
+ <202403161704.ACHJdSJG-lkp@intel.com>
+ <ce1190ad-27c2-4a16-b36f-442c0c419dcc@linux.dev>
+ <20240318175032.GM13682@pendragon.ideasonboard.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <20240318175032.GM13682@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Aravinda,
+On 3/18/24 13:50, Laurent Pinchart wrote:
+> On Mon, Mar 18, 2024 at 11:06:40AM -0400, Sean Anderson wrote:
+>> On 3/16/24 06:14, kernel test robot wrote:
+>> > Hi Sean,
+>> > 
+>> > kernel test robot noticed the following build warnings:
+>> > 
+>> > [auto build test WARNING on v6.8]
+>> > [cannot apply to drm-misc/drm-misc-next linus/master next-20240315]
+>> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> > And when submitting patch, we suggest to use '--base' as documented in
+>> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>> > 
+>> > url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/drm-zynqmp_dp-Downgrade-log-level-for-aux-retries-message/20240316-071208
+>> > base:   v6.8
+>> > patch link:    https://lore.kernel.org/r/20240315230916.1759060-7-sean.anderson%40linux.dev
+>> > patch subject: [PATCH 6/6] drm: zynqmp_dp: Add debugfs interface for compliance testing
+>> > config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240316/202403161704.ACHJdSJG-lkp@intel.com/config)
+>> > compiler: microblaze-linux-gcc (GCC) 13.2.0
+>> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161704.ACHJdSJG-lkp@intel.com/reproduce)
+>> > 
+>> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> > the same patch/commit), kindly add following tags
+>> > | Reported-by: kernel test robot <lkp@intel.com>
+>> > | Closes: https://lore.kernel.org/oe-kbuild-all/202403161704.ACHJdSJG-lkp@intel.com/
+>> > 
+>> > All warnings (new ones prefixed by >>):
+>> > 
+>> >    drivers/gpu/drm/xlnx/zynqmp_dp.c: In function 'zynqmp_dp_bridge_debugfs_init':
+>> >>> drivers/gpu/drm/xlnx/zynqmp_dp.c:2168:31: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+>> >     2168 |                 sprintf(name, fmt, i);
+>> >          |                               ^~~
+>> >    drivers/gpu/drm/xlnx/zynqmp_dp.c:2168:17: note: 'sprintf' output between 18 and 20 bytes into a destination of size 19
+>> >     2168 |                 sprintf(name, fmt, i);
+>> >          |                 ^~~~~~~~~~~~~~~~~~~~~
+>> 
+>> Not a bug, as i will be at most 4, which uses 1 digit.
+> 
+> The compiler can't know that. Please fix this, there's a zero warning
+> policy.
 
-kernel test robot noticed the following build errors:
+I cannot reproduce this with GCC 13.2.0. So given that this is not a bug and I can't reproduce
+it, I don't see how I can verify any fix.
 
-[auto build test ERROR on akpm-mm/mm-everything]
+--Sean
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aravinda-Prasad/mm-damon-mm-infrastructure-support/20240318-212723
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240318132848.82686-3-aravinda.prasad%40intel.com
-patch subject: [PATCH v2 2/3] mm/damon: profiling enhancement
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240319/202403190218.1tBSAJpX-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403190218.1tBSAJpX-lkp@intel.com/reproduce)
+>> > vim +/sprintf +2168 drivers/gpu/drm/xlnx/zynqmp_dp.c
+>> > 
+>> >   2136	
+>> >   2137	DEFINE_DEBUGFS_ATTRIBUTE(fops_zynqmp_dp_rate, zynqmp_dp_rate_get,
+>> >   2138				 zynqmp_dp_rate_set, "%llu\n");
+>> >   2139	
+>> >   2140	static void zynqmp_dp_bridge_debugfs_init(struct drm_bridge *bridge,
+>> >   2141						  struct dentry *root)
+>> >   2142	{
+>> >   2143		struct zynqmp_dp *dp = bridge_to_dp(bridge);
+>> >   2144		struct dentry *test;
+>> >   2145		int i;
+>> >   2146	
+>> >   2147		dp->test.bw_code = DP_LINK_BW_5_4;
+>> >   2148		dp->test.link_cnt = dp->num_lanes;
+>> >   2149	
+>> >   2150		test = debugfs_create_dir("test", root);
+>> >   2151	#define CREATE_FILE(name) \
+>> >   2152		debugfs_create_file(#name, 0600, test, dp, &fops_zynqmp_dp_##name)
+>> >   2153		CREATE_FILE(pattern);
+>> >   2154		CREATE_FILE(enhanced);
+>> >   2155		CREATE_FILE(downspread);
+>> >   2156		CREATE_FILE(active);
+>> >   2157		CREATE_FILE(custom);
+>> >   2158		CREATE_FILE(rate);
+>> >   2159		CREATE_FILE(lanes);
+>> >   2160	
+>> >   2161		for (i = 0; i < dp->num_lanes; i++) {
+>> >   2162			static const char fmt[] = "lane%d_preemphasis";
+>> >   2163			char name[sizeof(fmt)];
+>> >   2164	
+>> >   2165			dp->debugfs_train_set[i].dp = dp;
+>> >   2166			dp->debugfs_train_set[i].lane = i;
+>> >   2167	
+>> >> 2168			sprintf(name, fmt, i);
+>> >   2169			debugfs_create_file(name, 0600, test,
+>> >   2170					    &dp->debugfs_train_set[i],
+>> >   2171					    &fops_zynqmp_dp_preemphasis);
+>> >   2172	
+>> >   2173			sprintf(name, "lane%d_swing", i);
+>> >   2174			debugfs_create_file(name, 0600, test,
+>> >   2175					    &dp->debugfs_train_set[i],
+>> >   2176					    &fops_zynqmp_dp_swing);
+>> >   2177		}
+>> >   2178	}
+>> >   2179	
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403190218.1tBSAJpX-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   mm/damon/vaddr.c: In function 'pick_profile_level':
->> mm/damon/vaddr.c:78:13: error: implicit declaration of function 'pgtable_l5_enabled' [-Werror=implicit-function-declaration]
-      78 |         if (pgtable_l5_enabled()) {
-         |             ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/pgtable_l5_enabled +78 mm/damon/vaddr.c
-
-    54	
-    55	/* Pick the highest possible page table profiling level for addr
-    56	 * in the region defined by start and end
-    57	 */
-    58	static int pick_profile_level(unsigned long start, unsigned long end,
-    59			unsigned long addr)
-    60	{
-    61		/* Start with PTE and check if higher levels can be picked */
-    62		int level = 0;
-    63	
-    64		if (!arch_has_hw_nonleaf_pmd_young())
-    65			return level;
-    66	
-    67		/* Check if PMD or higher can be picked, else use PTE */
-    68		if (pmd_addr_start(addr, (start) - 1) < start
-    69				|| pmd_addr_end(addr, (end) + 1) > end)
-    70			return level;
-    71	
-    72		level++;
-    73		/* Check if PUD or higher can be picked, else use PMD */
-    74		if (pud_addr_start(addr, (start) - 1) < start
-    75				|| pud_addr_end(addr, (end) + 1) > end)
-    76			return level;
-    77	
-  > 78		if (pgtable_l5_enabled()) {
-    79			level++;
-    80			/* Check if P4D or higher can be picked, else use PUD */
-    81			if (p4d_addr_start(addr, (start) - 1) < start
-    82					|| p4d_addr_end(addr, (end) + 1) > end)
-    83				return level;
-    84		}
-    85	
-    86		level++;
-    87		/* Check if PGD can be picked, else return PUD level */
-    88		if (pgd_addr_start(addr, (start) - 1) < start
-    89				|| pgd_addr_end(addr, (end) + 1) > end)
-    90			return level;
-    91	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
