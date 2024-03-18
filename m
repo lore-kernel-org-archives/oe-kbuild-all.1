@@ -1,56 +1,54 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5287C1F959
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 22:31:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437885733F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 22:31:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710801079; cv=none; b=kcEuR1Cq4X+wH9v8TxdLDgHwPq9qpaRAWknJvN6WK9TmBE5yWuG1Fc068DeVXq9lHaMO90b7kTKKGyNeyqWBflRq21Ls6RUakuilfUwuOJb3zxeUM/z+e+4o5nk8TpDKpygP1tQW6R+xDRsn9HJgdXYKR7al4m8AL91C2W8KORA=
+	t=1710801080; cv=none; b=qD94bAME4JIggO/oLgVisYdq7s1dzZWQFxErk1jQFhkeTWzuoeCFGqb1HR5nYYe0UryDR97IT3ffg9X3ES5RrZmFga1GTU3rQJ1e79motu4ofg9BbVTtR1OGP1wZOWogb/WdsUfS5UloCQ7KuS1yHUVgL8RrGnfna+AyNNQTem8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710801079; c=relaxed/simple;
-	bh=2SVi5hRpg39sSw4U0/uJ796WPFlL+eVsjOaZTO4WUWc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N2X/PGgiSJMoCNy2WvXzutLOY0VlqEktnKjQIlOUz/0MJGfjoFl6FTeVgugVfWNuTqTNiFX2QumaHdl8JnbOfeIuhJpCXEEk+GZtG0DnhO/UtNX92BhkD1I/WYez/8wCfPP7SLoXmd42MIje+PnegxSdPw5WtGbDbxJDvM3QbXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RLIhpUhD; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1710801080; c=relaxed/simple;
+	bh=/7txIkoN4LVrjAFPGxOWm5hpgmFQVe+nGNIQ/0CkJBk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GFLDSrVTlnk6hQ9gsfjZ4n4XpmIOLh2dCpdDi8FdnIMdlH0bNdvvtNVbElzZzMI3RkGNyirb1OM23UFhCHSRGDOduCSaL7TBBUhdpljZtf3W4fDN2dHYuGgU7pG7Kyam3cvtGgls+MJKAYLVbL6kKoHW9R5PpnJZv+p/yaw1dxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QC3CgOYw; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RLIhpUhD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QC3CgOYw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710801077; x=1742337077;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2SVi5hRpg39sSw4U0/uJ796WPFlL+eVsjOaZTO4WUWc=;
-  b=RLIhpUhDsLR1bsnZwvpiPBIcsECtovx4SR7hwuHFF0wNWJI9Vt71GUll
-   mqUnXB1j1WWZ8JK9uHRXr+TxwV8x1/JUll3lRZ9BM8KjorgzLD9prcs/F
-   brAu84zf9SaMfi3Ng5UV3bnXLFtLl2PahzjhlceCtV6ky3E680CMQfxCk
-   OhfUi9xz0BbRiwEE97LqQ1mDQnUMHH6ETAk/s82U/zxHH8Xwbn1z0LjRd
-   74cLbcwe1EcBaryi5tuLhjzk4NwdTyr7SjeNDUfpwzTO3ytxc3V/LwNKR
-   SNX4QMYPklJTrJSjUOKLOU30iIpJG9jVOe0xF5+n75MEbwaDZkSsVqMFf
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="8586842"
+  t=1710801079; x=1742337079;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/7txIkoN4LVrjAFPGxOWm5hpgmFQVe+nGNIQ/0CkJBk=;
+  b=QC3CgOYwp9B+/rJzb3eNoBmMQ8N3Ql9yAjBOdcffdn2ZMxbQ8QVLhpgY
+   2H/UaDZggTUKRDhvl+yDq56uWFo3ktdguBoCd8cMr+vRD+8kdc82R+C2x
+   osiviCsVz2xwawh2Ii5KIg0xJL5sfAqolUPieWnPdJGK2L8IuAlew2nwQ
+   utZ44+1L3Mm4ZGka+wekzPYSK+wJspSb0em+sogzMD6dNaGNw6egjaCzJ
+   pql7RehcVKluWpmExZXi7uwV6B8iZJMGkKj2z32PQ38KYK3FRe1/KyBAo
+   JKtxLe0NXsRygsTzUXfboBtNA97hvFxK4vQSFzn1x6WsX2Z1BToLS9DQJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="8586845"
 X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="8586842"
+   d="scan'208";a="8586845"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 15:31:16 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="13987550"
+   d="scan'208";a="13987553"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 18 Mar 2024 15:31:16 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rmLVh-000HHP-0H;
+	id 1rmLVh-000HHR-0L;
 	Mon, 18 Mar 2024 22:31:13 +0000
-Date: Tue, 19 Mar 2024 06:30:57 +0800
+Date: Tue, 19 Mar 2024 06:30:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lucas Tanure <tanure@linux.com>
+To: Andrew Lunn <andrew@lunn.ch>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC][PATCH 1/2] clk: meson: T7: add support for Amlogic T7 SoC
- PLL clock driver
-Message-ID: <202403190649.jVhVktRI-lkp@intel.com>
-References: <20240318114346.112935-2-tanure@linux.com>
+Subject: [lunn:v6.8.0-net-next-mv88e6xxx-leds-v4 3/8] undefined reference to
+ `devm_led_classdev_register_ext'
+Message-ID: <202403190635.OvpaFh1Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,44 +57,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240318114346.112935-2-tanure@linux.com>
 
-Hi Lucas,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on robh/for-next krzk/for-next krzk-dt/for-next linus/master v6.8 next-20240318]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Tanure/clk-meson-T7-add-support-for-Amlogic-T7-SoC-PLL-clock-driver/20240318-194707
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20240318114346.112935-2-tanure%40linux.com
-patch subject: [RFC][PATCH 1/2] clk: meson: T7: add support for Amlogic T7 SoC PLL clock driver
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240319/202403190649.jVhVktRI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403190649.jVhVktRI-lkp@intel.com/reproduce)
+tree:   https://github.com/lunn/linux.git v6.8.0-net-next-mv88e6xxx-leds-v4
+head:   c85ce1c8e3761fc366533410f0318b01314ba819
+commit: c4ae49b10529d66ed1aa9bf7c6e10ef95dfe7f75 [3/8] net: Add helpers for netdev LEDs
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20240319/202403190635.OvpaFh1Y-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403190635.OvpaFh1Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403190649.jVhVktRI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403190635.OvpaFh1Y-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/clk/meson/t7-pll.c:87:29: warning: 'meson_pll_clk_no_ops' defined but not used [-Wunused-const-variable=]
-      87 | static const struct clk_ops meson_pll_clk_no_ops = {};
-         |                             ^~~~~~~~~~~~~~~~~~~~
-
-
-vim +/meson_pll_clk_no_ops +87 drivers/clk/meson/t7-pll.c
-
-    86	
-  > 87	static const struct clk_ops meson_pll_clk_no_ops = {};
-    88	
+   csky-linux-ld: net/core/netdev-leds.o: in function `netdev_leds_setup':
+>> (.text+0x1d6): undefined reference to `devm_led_classdev_register_ext'
+>> csky-linux-ld: (.text+0x264): undefined reference to `devm_led_classdev_register_ext'
+   csky-linux-ld: net/core/netdev-leds.o: in function `netdev_leds_teardown':
+>> (.text+0x2be): undefined reference to `devm_led_classdev_unregister'
+>> csky-linux-ld: (.text+0x2e0): undefined reference to `devm_led_classdev_unregister'
 
 -- 
 0-DAY CI Kernel Test Service
