@@ -1,54 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0EF46448
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 13:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA952D605
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 13:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710768486; cv=none; b=H313+Go9ltWyYc4WOK+jm5Ae3owLqwGjYQcIBRcWZrXPkf6DY4oE2Ih07iaqeH35e+2uv6NDCEiP+bg0Zs+N4jevJ43DUwz3fP8bAz+H97QWLyjcHFUgmHfz1QI3GnzNVryVEHqg2HC/AdwW7zBacX69v6se3JrCKg+Uv8IkBOk=
+	t=1710769086; cv=none; b=mUDBOBSF6RW8YTcqmd/uaP0RUg1/HQ1BIwjyDtF55+beU/keR+ozJx8a+IaB9ENTzwbVJRADmX8GRyJFcTXaJu9gW0mG7SEzPzw3EUfWwQ1e7Q7gvzTz7pLiDaXz2TTjvCnyWuG0rANJ5MXCx0BxQdPFOJyruSvLk6t5aUh6LIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710768486; c=relaxed/simple;
-	bh=L5OD0kWu4pFFFcfgTHQNLfy2CxMpF7e5Hzoe8uaGznY=;
+	s=arc-20240116; t=1710769086; c=relaxed/simple;
+	bh=k+HYTaBRHT4c/enSs8LprZVtKI3hoX8y8ImBpqZ9yPQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hudfQwCdzhFMSotV7DO5g/HLT53rFwGl++v4HSCNmrndXSy6J9sgf+iI5OnGDzn/J/tpJNJfb/o3F+erYIMS9WHSECY9sAoQtkCCgIfl0PJzKPQzY2+Wct0o0ZKd+EvYlFNK02LmVvxw4zPCVeH6DOVBdLhFgpeDhaFlWGEtpIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EFi9nL/a; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=DbsGbXoyqkwwNd8AhXf+pLtKDi+RCuFvTpdnSqLFWhnfb1DpfgT6eK1CcV7+FMgxmCaOh6A1C7EFNK431Wz7bOvUspDn031Vif0aN1CDEUrIvrT3DIDPODZvupd70wWtfRnlCrQWJ89xxAtIPsO/zG5zOWX2gKIMmiJYGuOHKUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bhTlzEq+; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EFi9nL/a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bhTlzEq+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710768485; x=1742304485;
+  t=1710769086; x=1742305086;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L5OD0kWu4pFFFcfgTHQNLfy2CxMpF7e5Hzoe8uaGznY=;
-  b=EFi9nL/aYYM6/6/+Y8s8s1HTHl9xh8a/YtFcg6ghxqf55l3PMyIi3dkJ
-   ntkrq9pMoJKY8rYhatkWN/9aUgS/7ckeaU3QCfKmZUgBx2aF/XBXi9rNi
-   aQcDYFT4fy3a6aei8TW5dkmk1znoxR3kHVnmeZJhznVs5LebqgiTWnAn8
-   3vVUxc/mRMChjNeTZfJiwystMFFovBFtxAXPxMZ42LvhAace642CgPP9I
-   hmJmwWnux8aOxBKsacGRdqPWwxs6GI3xbF8916R27qJ9pfgNCxquyMSpI
-   5C3gebmUh/GWRrMvOg1Od/5mHbCQXwHRmpuBtFqUTPSCNEVeQG/wXA0rA
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="31017814"
+  bh=k+HYTaBRHT4c/enSs8LprZVtKI3hoX8y8ImBpqZ9yPQ=;
+  b=bhTlzEq+h03mYQSAb9lcrRdYoFstqgR/mW9YNRvgUeckwAQpdjVwGReA
+   DnG/s8aKeAcsZyzIjL3gsnkhXW0eOpSJ5FZaRInIxpvPP1tInBX9i+CGQ
+   lEbKa4oCO8K7sahE/UllmFoRgHgbxeHEqZQdNLJt/yXQTCY2gv31zulTx
+   daP/mviVAEBEYTzhA6PygKImRg5e/Zz3MiXy+vss9xobi/7i3/ovVVPSH
+   TKwfCXqOrU0KKUC+O+8egmzFiKuNe5o9ykr13E0iycqMm/MUcR7gbaf9Z
+   uUqWgB9Qt7gUxc6NgPffa8xJuFFdHfXfTY7Aq08QGhxxGUUA6MFLvbYdL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="5517650"
 X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="31017814"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 06:28:04 -0700
+   d="scan'208";a="5517650"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 06:38:05 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="13422128"
+   d="scan'208";a="13862290"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 18 Mar 2024 06:28:03 -0700
+  by orviesa006.jf.intel.com with ESMTP; 18 Mar 2024 06:38:04 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rmD21-000Gz5-05;
-	Mon, 18 Mar 2024 13:28:01 +0000
-Date: Mon, 18 Mar 2024 21:27:05 +0800
+	id 1rmDBh-000GzX-0m;
+	Mon, 18 Mar 2024 13:38:01 +0000
+Date: Mon, 18 Mar 2024 21:37:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Borislav Petkov (AMD)" <bp@alien8.de>
-Subject: WARNING: modpost: "cmpxchg8b_emu" [lib/test_lockup.ko] has no CRC!
-Message-ID: <202403182122.G6VFSE9v-lkp@intel.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.8.0-net-next-mv88e6xxx-leds-v4 3/8] kismet: WARNING: unmet
+ direct dependencies detected for LEDS_TRIGGER_NETDEV when selected by
+ NETDEV_LEDS
+Message-ID: <202403182135.VG0OBeJL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,74 +61,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f6cef5f8c37f58a3bc95b3754c3ae98e086631ca
-commit: 88a2b4edda3d0709727be53f4423b0b832d91de3 x86/Kconfig: Rework CONFIG_X86_PAE dependency
-date:   3 months ago
-config: um-randconfig-r035-20230726 (https://download.01.org/0day-ci/archive/20240318/202403182122.G6VFSE9v-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240318/202403182122.G6VFSE9v-lkp@intel.com/reproduce)
+tree:   https://github.com/lunn/linux.git v6.8.0-net-next-mv88e6xxx-leds-v4
+head:   c85ce1c8e3761fc366533410f0318b01314ba819
+commit: c4ae49b10529d66ed1aa9bf7c6e10ef95dfe7f75 [3/8] net: Add helpers for netdev LEDs
+config: alpha-kismet-CONFIG_LEDS_TRIGGER_NETDEV-CONFIG_NETDEV_LEDS-0-0 (https://download.01.org/0day-ci/archive/20240318/202403182135.VG0OBeJL-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240318/202403182135.VG0OBeJL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403182122.G6VFSE9v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403182135.VG0OBeJL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/backtracetest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp852.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp857.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp861.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp862.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp865.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1251.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-9.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-14.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-cyrillic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hostfs/hostfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libsha1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_ring.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: EXPORT symbol "cmpxchg8b_emu" [vmlinux] version generation failed, symbol will not be versioned.
-Is "cmpxchg8b_emu" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "csum_partial" [vmlinux] version generation failed, symbol will not be versioned.
-Is "csum_partial" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "csum_partial_copy_generic" [vmlinux] version generation failed, symbol will not be versioned.
-Is "csum_partial_copy_generic" prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: "cmpxchg8b_emu" [lib/test_lockup.ko] has no CRC!
->> WARNING: modpost: "cmpxchg8b_emu" [lib/atomic64_test.ko] has no CRC!
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for LEDS_TRIGGER_NETDEV when selected by NETDEV_LEDS
+   
+   WARNING: unmet direct dependencies detected for LEDS_TRIGGER_NETDEV
+     Depends on [n]: NEW_LEDS [=y] && LEDS_TRIGGERS [=n] && NET [=y]
+     Selected by [y]:
+     - NETDEV_LEDS [=y] && NET [=y] && LEDS_CLASS [=y]
 
 -- 
 0-DAY CI Kernel Test Service
