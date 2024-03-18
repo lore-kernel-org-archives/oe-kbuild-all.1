@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E543C57339;
-	Mon, 18 Mar 2024 20:28:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1BC58233
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 21:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710793700; cv=none; b=cOEZhCcHCi8ajWFhTPtNudxt/0OQ+OT/gg6UNq8pjemT0zpQrA4yQVoZ4uK7PMgQYGyOoYAc8bDLjaJF8yJZoOVuEZm5Xmyo43kX6N3gjn0KL3l7Ts+9CGN6Nbn/RqGe9doMLh+YlJ8xN6zYVU901HY2RRHpgpUBlVgSCpqauVI=
+	t=1710797361; cv=none; b=HY9fZtYK0eNqRwfhPuPINDqsAzaRm8e203m/Z+428Y2flTS1prJFJ7VX80V4jGf0oCO4AUAfyCG3/y8wsCVdAYicydObQlipDvRVO5H2QrLXlLT0UAJJCWTWadqiCFzRYsBj8dACSslxaQe6l1Da8MaYRIxEhvjKMgyNu47n0lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710793700; c=relaxed/simple;
-	bh=jrxJE9RgRvLO3n7cWCIWdQ9Ydu8jF/meN9NbonVPOBg=;
+	s=arc-20240116; t=1710797361; c=relaxed/simple;
+	bh=gcIdQLeaNhnFtWxkw1Wh/QfYZrOV3Xkp/tjnkxtLVnQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BTpcDLLOhuoWlxtE0DrDcU5AGox86XBC/1jZ6LS8+jELHNP1hELRGTPAZO1W4XNhdNFPeFjRiyKxX9K+qNLevsZ1+PbM6k8OQPMtMgPYSA6jT4mMkCt+ntXP/n5FZvapwo40OhS0n74QB28vamrKnoEcr3cJBCBkK4xILa4AfGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N0CcR4Sh; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=rL5UsTYvBSIZsyljx22BHxzigiaOTGg87zYdtG8E81Oj75ugyL1k+sq2dX5XC5YLSKO8tF4CU42Sj5IigB7HzcxgJOcIeyDKYcQjwoY0delCFISdvSGdyl399rew8ALoXQP7b73PdlKfwj+UUng0Mqh0sAfb5wolBy6wy7WKDhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=apKMhkWh; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N0CcR4Sh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="apKMhkWh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710793698; x=1742329698;
+  t=1710797358; x=1742333358;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=jrxJE9RgRvLO3n7cWCIWdQ9Ydu8jF/meN9NbonVPOBg=;
-  b=N0CcR4ShYu9W1mJ1IiEdQpo1rKvCDajd+0Q6weRZ/bPMnw0TpNL0fLTB
-   IAZvNSK/HnlDDlzBzMyfRF/Cmr0abPBJd64XybWIgk7gfDky3iOgKAW8v
-   +3cfCSO+W5j4f3X+3sGfoy/lGiKcUcHwclf5M22DphfpzY2vRI/wTNTST
-   oLzbINDhooIdZBM+QB0WUrk5bBgvrtnwJyS/EmEviIyjkfZAvv21KHgdf
-   hSBm+8W1MXhlWowIpTaZaeTbf/c6yNynfG9sAVhBY1xrhxeG1bzVSiEbR
-   l69L00gO4HK5Jm1gfnInA0tJkSRMGr93OnD/JJpHmAlifubYiYvp/Fa5s
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5813058"
+  bh=gcIdQLeaNhnFtWxkw1Wh/QfYZrOV3Xkp/tjnkxtLVnQ=;
+  b=apKMhkWhm5KPfgL0aEBaT1IJ0pzksQ2B85QimnwIeyfDpvyIvYQPAk3T
+   ROHS/d6mDGdKtewaKiq4uDs/HVaoSTHgT67ITcnvaQZrTm+/vyLZtKgia
+   tangrg6RxXKhw5zEr4w4HnLhnWxq/1Em4EJ+FNXm0ni6FbjEP0RkIo5m3
+   dZlLPYzE7weMhwlBe2deVSh8a2qHB0WWcZUa6JAU72boj0Hj2Y59FzuTz
+   RToU+y8x39czkJOF7U9POMYtqnDx6u/U9yZvQD+XgWiux5k7QJjejNZp+
+   aG28bODWz+KzLTWdA9fmrk3568jQQta9RmE5FM1fPzNhbp0fUx/WmRF5Q
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="9463209"
 X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="5813058"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 13:28:17 -0700
+   d="scan'208";a="9463209"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 14:29:18 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="13469429"
+   d="scan'208";a="13623636"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Mar 2024 13:28:14 -0700
+  by orviesa009.jf.intel.com with ESMTP; 18 Mar 2024 14:29:15 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rmJad-000HET-1Y;
-	Mon, 18 Mar 2024 20:28:11 +0000
-Date: Tue, 19 Mar 2024 04:27:55 +0800
+	id 1rmKXg-000HFj-0V;
+	Mon, 18 Mar 2024 21:29:12 +0000
+Date: Tue, 19 Mar 2024 05:28:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aravinda Prasad <aravinda.prasad@intel.com>, damon@lists.linux.dev,
-	linux-mm@kvack.org, sj@kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, aravinda.prasad@intel.com,
-	s2322819@ed.ac.uk, sandeep4.kumar@intel.com, ying.huang@intel.com,
-	dave.hansen@intel.com, dan.j.williams@intel.com,
-	sreenivas.subramoney@intel.com, antti.kervinen@intel.com,
-	alexander.kanevskiy@intel.com
-Subject: Re: [PATCH v2 1/3] mm/damon: mm infrastructure support
-Message-ID: <202403190418.tsSXHwGu-lkp@intel.com>
-References: <20240318132848.82686-2-aravinda.prasad@intel.com>
+To: Radu Sabau <radu.sabau@analog.com>, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] hwmon: pmbus: adp1050 : Add driver support
+Message-ID: <202403190552.U4RHYvqc-lkp@intel.com>
+References: <20240318112140.385244-3-radu.sabau@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,78 +67,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240318132848.82686-2-aravinda.prasad@intel.com>
+In-Reply-To: <20240318112140.385244-3-radu.sabau@analog.com>
 
-Hi Aravinda,
+Hi Radu,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on robh/for-next linus/master v6.8 next-20240318]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aravinda-Prasad/mm-damon-mm-infrastructure-support/20240318-212723
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240318132848.82686-2-aravinda.prasad%40intel.com
-patch subject: [PATCH v2 1/3] mm/damon: mm infrastructure support
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240319/202403190418.tsSXHwGu-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403190418.tsSXHwGu-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Radu-Sabau/dt-bindings-hwmon-pmbus-adp1050-add-bindings/20240318-202619
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240318112140.385244-3-radu.sabau%40analog.com
+patch subject: [PATCH 2/2] hwmon: pmbus: adp1050 : Add driver support
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240319/202403190552.U4RHYvqc-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403190552.U4RHYvqc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403190418.tsSXHwGu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403190552.U4RHYvqc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from arch/powerpc/include/asm/kup.h:43,
-                    from arch/powerpc/include/asm/uaccess.h:8,
-                    from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/linux/compat.h:17,
-                    from arch/powerpc/kernel/asm-offsets.c:12:
->> include/linux/pgtable.h:411:19: error: static declaration of 'pudp_test_and_clear_young' follows non-static declaration
-     411 | static inline int pudp_test_and_clear_young(struct vm_area_struct *vma,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/powerpc/include/asm/book3s/64/mmu-hash.h:20,
-                    from arch/powerpc/include/asm/book3s/64/mmu.h:32,
-                    from arch/powerpc/include/asm/mmu.h:391,
-                    from arch/powerpc/include/asm/paca.h:18,
-                    from arch/powerpc/include/asm/current.h:13,
-                    from include/linux/mutex.h:14,
-                    from include/linux/rhashtable-types.h:14,
-                    from include/linux/ipc.h:7,
-                    from include/uapi/linux/sem.h:5,
-                    from include/linux/sem.h:5,
-                    from include/linux/compat.h:14:
-   arch/powerpc/include/asm/book3s/64/pgtable.h:1306:12: note: previous declaration of 'pudp_test_and_clear_young' with type 'int(struct vm_area_struct *, long unsigned int,  pud_t *)'
-    1306 | extern int pudp_test_and_clear_young(struct vm_area_struct *vma,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/powerpc/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1191: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   drivers/hwmon/pmbus/adp1050.c: In function 'adp1050_probe':
+>> drivers/hwmon/pmbus/adp1050.c:47:45: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+      47 |                 dev_err_probe(&client->dev, "Device can't be unlocked.\n");
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                             |
+         |                                             char *
+   In file included from include/linux/device.h:15,
+                    from include/linux/acpi.h:14,
+                    from include/linux/i2c.h:13,
+                    from drivers/hwmon/pmbus/adp1050.c:9:
+   include/linux/dev_printk.h:277:64: note: expected 'int' but argument is of type 'char *'
+     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+>> drivers/hwmon/pmbus/adp1050.c:47:17: error: too few arguments to function 'dev_err_probe'
+      47 |                 dev_err_probe(&client->dev, "Device can't be unlocked.\n");
+         |                 ^~~~~~~~~~~~~
+   include/linux/dev_printk.h:277:20: note: declared here
+     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                    ^~~~~~~~~~~~~
+   drivers/hwmon/pmbus/adp1050.c:53:45: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+      53 |                 dev_err_probe(&client->dev, "Device couldn't be unlocked.\n");
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                             |
+         |                                             char *
+   include/linux/dev_printk.h:277:64: note: expected 'int' but argument is of type 'char *'
+     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+   drivers/hwmon/pmbus/adp1050.c:53:17: error: too few arguments to function 'dev_err_probe'
+      53 |                 dev_err_probe(&client->dev, "Device couldn't be unlocked.\n");
+         |                 ^~~~~~~~~~~~~
+   include/linux/dev_printk.h:277:20: note: declared here
+     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                    ^~~~~~~~~~~~~
 
 
-vim +/pudp_test_and_clear_young +411 include/linux/pgtable.h
+vim +/dev_err_probe +47 drivers/hwmon/pmbus/adp1050.c
 
-   409	
-   410	#ifndef pudp_test_and_clear_young
- > 411	static inline int pudp_test_and_clear_young(struct vm_area_struct *vma,
-   412						    unsigned long address,
-   413						    pud_t *pudp)
-   414	{
-   415		return 0;
-   416	}
-   417	#endif
-   418	
+   > 9	#include <linux/i2c.h>
+    10	#include <linux/init.h>
+    11	#include <linux/kernel.h>
+    12	#include <linux/module.h>
+    13	#include <linux/of.h>
+    14	#include "pmbus.h"
+    15	
+    16	#define ADP1050_CHIP_PASSWORD		0xD7
+    17	
+    18	#define ADP1050_VIN_SCALE_MONITOR	0xD8
+    19	#define ADP1050_IIN_SCALE_MONITOR	0xD9
+    20	
+    21	static struct pmbus_driver_info adp1050_info = {
+    22		.pages = 1,
+    23		.format[PSC_VOLTAGE_IN] = linear,
+    24		.format[PSC_VOLTAGE_OUT] = linear,
+    25		.format[PSC_CURRENT_IN] = linear,
+    26		.format[PSC_TEMPERATURE] = linear,
+    27		.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
+    28			| PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
+    29			| PMBUS_HAVE_IIN | PMBUS_HAVE_TEMP
+    30			| PMBUS_HAVE_STATUS_TEMP,
+    31	};
+    32	
+    33	static int adp1050_probe(struct i2c_client *client)
+    34	{
+    35		u32 vin_scale_monitor, iin_scale_monitor;
+    36		int ret;
+    37	
+    38		if (!i2c_check_functionality(client->adapter,
+    39					     I2C_FUNC_SMBUS_WRITE_WORD_DATA))
+    40			return -ENODEV;
+    41	
+    42		/* Unlock CHIP's password in order to be able to read/write to it's
+    43		 * VIN_SCALE and IIN_SCALE registers.
+    44		*/
+    45		ret = i2c_smbus_write_word_data(client, ADP1050_CHIP_PASSWORD, 0xFFFF);
+    46		if (ret < 0) {
+  > 47			dev_err_probe(&client->dev, "Device can't be unlocked.\n");
+    48			return ret;
+    49		}
+    50	
+    51		ret = i2c_smbus_write_word_data(client, ADP1050_CHIP_PASSWORD, 0xFFFF);
+    52		if (ret < 0) {
+    53			dev_err_probe(&client->dev, "Device couldn't be unlocked.\n");
+    54			return ret;
+    55		}
+    56	
+    57		/* If adi,vin-scale-monitor isn't set or is set to 0 means that the
+    58		 * VIN monitor isn't used, therefore 0 is used as scale in order
+    59		 * for the readings to return 0.
+    60		*/
+    61		if (device_property_read_u32(&client->dev, "adi,vin-scale-monitor",
+    62					     &vin_scale_monitor))
+    63			vin_scale_monitor = 0;
+    64	
+    65		/* If adi,iin-scale-monitor isn't set or is set to 0 means that the
+    66		 * IIN monitor isn't used, therefore 0 is used as scale in order
+    67		 * for the readings to return 0.
+    68		*/
+    69		if (device_property_read_u32(&client->dev, "adi,iin-scale-monitor",
+    70					     &iin_scale_monitor))
+    71			iin_scale_monitor = 0;
+    72	
+    73		ret = i2c_smbus_write_word_data(client, ADP1050_VIN_SCALE_MONITOR,
+    74						vin_scale_monitor);
+    75		if (ret < 0)
+    76			return ret;
+    77	
+    78		ret = i2c_smbus_write_word_data(client, ADP1050_IIN_SCALE_MONITOR,
+    79						iin_scale_monitor);
+    80		if (ret < 0)
+    81			return ret;
+    82	
+    83		return pmbus_do_probe(client, &adp1050_info);
+    84	}
+    85	
 
 -- 
 0-DAY CI Kernel Test Service
