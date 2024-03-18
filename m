@@ -1,112 +1,256 @@
-Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA4047F5C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 14:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DFC433D2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 15:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710771948; cv=none; b=nfykqi4pKiMkojC3QVaDn3CzhsSoRgvvKDzFHc7Zs0I3ISOCesAACm31te0vjNwWfB6xfDcknbAHsVslTball/4jnj7vriOwO9yqMGAtoSOBah6Sl7/sKf5gIT+aPn321nhyToD6AiOow/2PDlYYvXle1ofTN2h+3Pibn2ZOW4E=
+	t=1710774013; cv=none; b=jEbJmu7y38LMeWwhM6HCSBm1I5RIgzHQ0c0iOKq19YGNKByFS1Iit+WCk4X9eHbE0vO08vB2+NwczoqGrHip29mirpy88wUJEjcSzTisLZPaaUpLRrk/NFK1jKoOeR7mku88sZQSDcmpPF20oEG7OzrpUIs2M/O/VD5aWs6lRNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710771948; c=relaxed/simple;
-	bh=7q14TjAZiKWDJSVA5Px7Ujy/GZGWu4oPnBPl6E/1B5c=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=t2pqTfNWuqs9qjXIuYJGGTbm33FmSOeeawAzuja7dRk2EHKCEpbOYY8kX7EQb3zAeTqMH09tWRwKUG4BBXhOfHNs8+GiJ3OZ7fgnO4afn27CQ+llRanWgRKS1SWe82j531vsuXDmapn21F4M0G6RKZTZkBwNTJrV66nlzG+OrQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=ncdeKa7P; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=wQ7xDgGJ; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1710774013; c=relaxed/simple;
+	bh=g4vB6plgit5oFzuUgOyVSylcOYtRJgoNMUJ3K3Loe5Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=esNl7wkT39h1XlpEjEfTiU63AwKhezplhT/io926RPGPt71+EB1aTfglg4aHvuJVfsw5oXd5dDTJVvz7UpniYwsph+qQZyEySXTI9LQlvBacRM4dF4s7f0d3hHMru+PmpButHPARnnoihoMJUKRFuADj3ieQcimk/sDVpRT727E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pb6ncfWu; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="ncdeKa7P";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="wQ7xDgGJ"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 97E99138010B;
-	Mon, 18 Mar 2024 10:25:44 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Mon, 18 Mar 2024 10:25:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1710771944; x=1710858344; bh=/DSFG+RCXY
-	GGTrl2W6TfjuAsH4EycxuKPNllqSzMLpA=; b=ncdeKa7P75nQJXKzpgM6HFK/sb
-	oZzUEg5zsJEn4R2B+BcNfmHk6GrfGTX+8EsmJeCKTY/KKJ7M6rhCbfzmWZ1lDZXc
-	kKHSq6oV9jDgx1Xc2T2JcACj7ZDvEPB/IWwcqBqEzg10Ipn9tyZcwgAY75tQMN4c
-	MPyOs8ic4dIOZlc/gHT6KqXSxNPyX5ZGQTBj/0SxnCbCKvqZgr3tNkgg6IFJZm19
-	zLrz2mMEjlWjIa3z8LYI2qdzYZNz0cKucQjdVjwqtFdR0AO8XdgRGeuoQWj1dIvp
-	13UdI+y10yBtxUGUW6LnWLKzz9xLGf/osefKsZLseTsyVBmfFiNJgnGiCRYw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1710771944; x=1710858344; bh=/DSFG+RCXYGGTrl2W6TfjuAsH4Ey
-	cxuKPNllqSzMLpA=; b=wQ7xDgGJ5+eApBDwPZI+YN0zryul21C3361WAEV4D94Q
-	iOrIueT29fRLaAjao8mMB/fza1kUHr4voogbNxbfAO4Dz0fluVQxVwpRUIXB2nxd
-	uNrk9ViGstUCnQ+NbQyMdwlTqksgoZDfY1XGOAQlkWdgEWuS+AKPkPVWU05TvvjX
-	dQffrfh12UVW+qPRZ8WOl0C+BwNVCbYJUnKBXeDWUkbeYL89cppGOcd8B3Qz/hY0
-	Q9zQe+julMPaB28xvGAVjALOEB+mlSEZYAx4vdrluSernI+ua3+2RkuPww/WiZNt
-	dJf9rfRRL5y2dU3jKIT60HydnwxTjPNCVBXuv5nkdQ==
-X-ME-Sender: <xms:6E74Zesw6rjF3Y0sOlVZ3Ld5aMVHJvPSGClS0Q5z7xG04YfsKnho_A>
-    <xme:6E74ZTcSRE4STBIxsK_T5nfsaAe5woJfb9zcQk1c0ni2-ML01y-_9heZS5_3bBY3x
-    NpCzp9sA1Uogu7tdfI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrkeejgdeigecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeufeeh
-    udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:6E74ZZyDbe_cKzVJg3TjmpiHcncHSGEE2bSn2YifIH3a74QppLmdRw>
-    <xmx:6E74ZZOdkjaTgdhG1nGW41uyaEWhoyQAyQW4mUgVhGRLQdxJ6KYyNg>
-    <xmx:6E74Ze_txu_SXZYP9Thq5HdI_wTAjdOKEgR7AWC0O7faD_Y6VgMp0Q>
-    <xmx:6E74ZRWlsuyljPi-pJs3ge-QqtXglbUX8xM6a6DglX7g7HQCzn1r1A>
-    <xmx:6E74ZSZgB5Ers8Kx3iPWPzsrM0yBrsX_u0Zx4Jg5YfLIT_uUlMcxnw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 1A54AB6008D; Mon, 18 Mar 2024 10:25:43 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-300-gdee1775a43-fm-20240315.001-gdee1775a
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pb6ncfWu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710774011; x=1742310011;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=g4vB6plgit5oFzuUgOyVSylcOYtRJgoNMUJ3K3Loe5Y=;
+  b=Pb6ncfWuzJ2OD0JcpVrUqqQhAP+bypR6gBOiE+zReXOT8BY2ka4i2eGe
+   vTMg94w4SHIfzszG+z7kEeGTp1kh/whOwqxur+DVNRRM7wDiU06u57O1u
+   H2hmjaxXD14srcit6ripZ5x5EMwKCWTDU/2aTcI43uKW7EQQK1+e9gKE4
+   FgSTaRcu2En+fxIqa1J56XKcM0iKfcCPyEvN5Soa8ZJt8plKrIpaRoBRR
+   H92VEplXSGuWyO7NyxFZO0NAmvYkM+PASU1fuTdXb7Hycsqs7t1V3GW+Q
+   a57ZbWQltT9/KnbbLSo5+FA09yJwJvTJbZ4NhSqu6OoDDhGldlfQBR6Tu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5527363"
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
+   d="scan'208";a="5527363"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 08:00:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
+   d="scan'208";a="36619805"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 18 Mar 2024 08:00:04 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rmET4-000H23-28;
+	Mon, 18 Mar 2024 15:00:02 +0000
+Date: Mon, 18 Mar 2024 22:59:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luca Weiss <luca.weiss@fairphone.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [drm-misc:for-linux-next-fixes 1/1] undefined reference to
+ `__drm_dev_dbg'
+Message-ID: <202403182243.DO4x1bo0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <c9eecda1-a8e2-4ded-89fb-a2cc98d4c19a@app.fastmail.com>
-In-Reply-To: <202403182122.G6VFSE9v-lkp@intel.com>
-References: <202403182122.G6VFSE9v-lkp@intel.com>
-Date: Mon, 18 Mar 2024 15:25:22 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Borislav Petkov" <bp@alien8.de>
-Subject: Re: WARNING: modpost: "cmpxchg8b_emu" [lib/test_lockup.ko] has no CRC!
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Mar 18, 2024, at 14:27, kernel test robot wrote:
-> tree:   
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
-> master
-> head:   f6cef5f8c37f58a3bc95b3754c3ae98e086631ca
-> commit: 88a2b4edda3d0709727be53f4423b0b832d91de3 x86/Kconfig: Rework 
-> CONFIG_X86_PAE dependency
-> date:   3 months ago
-> config: um-randconfig-r035-20230726 
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next-fixes
+head:   e3f18b0dd1db242791afbc3bd173026163ce0ccc
+commit: e3f18b0dd1db242791afbc3bd173026163ce0ccc [1/1] drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240318/202403182243.DO4x1bo0-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240318/202403182243.DO4x1bo0-lkp@intel.com/reproduce)
 
-> WARNING: modpost: EXPORT symbol "cmpxchg8b_emu" [vmlinux] version 
-> generation failed, symbol will not be versioned.
-> Is "cmpxchg8b_emu" prototyped in <asm/asm-prototypes.h>?
-> WARNING: modpost: EXPORT symbol "csum_partial" [vmlinux] version 
-> generation failed, symbol will not be versioned.
-> Is "csum_partial" prototyped in <asm/asm-prototypes.h>?
-> WARNING: modpost: EXPORT symbol "csum_partial_copy_generic" [vmlinux] 
-> version generation failed, symbol will not be versioned.
-> Is "csum_partial_copy_generic" prototyped in <asm/asm-prototypes.h>?
->>> WARNING: modpost: "cmpxchg8b_emu" [lib/test_lockup.ko] has no CRC!
->>> WARNING: modpost: "cmpxchg8b_emu" [lib/atomic64_test.ko] has no CRC!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403182243.DO4x1bo0-lkp@intel.com/
 
-I have not tested arch/um randconfig builds, but my guess is that
-this was not actually introduced by my patch but rather lkp bisected
-this into my commit because that changed the config in a way that
-hides the preexisting bug on older kernels.
+All errors (new ones prefixed by >>):
 
-      Arnd
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_check_wb_connector_state':
+>> (.text+0x9a4): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_check_crtc_primary_plane':
+   (.text+0xa48): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `update_connector_routing':
+   (.text+0xadc): undefined reference to `__drm_dev_dbg'
+>> hppa-linux-ld: (.text+0xc4c): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0xcc4): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o:(.text+0xd48): more undefined references to `__drm_dev_dbg' follow
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `handle_conflicting_encoders':
+>> (.text+0xf40): undefined reference to `drm_connector_list_iter_begin'
+>> hppa-linux-ld: (.text+0xf58): undefined reference to `drm_connector_list_iter_next'
+>> hppa-linux-ld: (.text+0xfbc): undefined reference to `drm_atomic_get_connector_state'
+   hppa-linux-ld: (.text+0x1014): undefined reference to `__drm_dev_dbg'
+>> hppa-linux-ld: (.text+0x1038): undefined reference to `drm_atomic_set_crtc_for_connector'
+>> hppa-linux-ld: (.text+0x1050): undefined reference to `drm_atomic_set_mode_prop_for_crtc'
+   hppa-linux-ld: (.text+0x1060): undefined reference to `drm_connector_list_iter_next'
+>> hppa-linux-ld: (.text+0x1070): undefined reference to `drm_connector_list_iter_end'
+   hppa-linux-ld: (.text+0x112c): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x118c): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `mode_valid':
+>> (.text+0x1250): undefined reference to `drm_bridge_chain_mode_valid'
+   hppa-linux-ld: (.text+0x1274): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x12fc): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x1334): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `mode_fixup':
+>> (.text+0x13c4): undefined reference to `drm_mode_copy'
+>> hppa-linux-ld: (.text+0x1460): undefined reference to `drm_atomic_bridge_chain_check'
+   hppa-linux-ld: (.text+0x15b0): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x15c8): undefined reference to `drm_atomic_bridge_chain_check'
+   hppa-linux-ld: (.text+0x15f4): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x1630): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x1668): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_check_modeset':
+>> (.text+0x17a8): undefined reference to `drm_mode_equal'
+   hppa-linux-ld: (.text+0x17d8): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x181c): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x1864): undefined reference to `__drm_dev_dbg'
+>> hppa-linux-ld: (.text+0x1884): undefined reference to `drm_dev_has_vblank'
+   hppa-linux-ld: (.text+0x1a08): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x1ae0): undefined reference to `__drm_dev_dbg'
+>> hppa-linux-ld: (.text+0x1aec): undefined reference to `drm_atomic_add_affected_connectors'
+>> hppa-linux-ld: (.text+0x1b00): undefined reference to `drm_atomic_add_affected_planes'
+>> hppa-linux-ld: (.text+0x1bdc): undefined reference to `drm_atomic_add_encoder_bridges'
+   hppa-linux-ld: (.text+0x1bec): undefined reference to `drm_atomic_add_encoder_bridges'
+   hppa-linux-ld: (.text+0x1c58): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x1c94): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_check_plane_state':
+   (.text+0x1eb0): undefined reference to `__drm_dev_dbg'
+>> hppa-linux-ld: (.text+0x1ef0): undefined reference to `drm_mode_get_hv_timing'
+   hppa-linux-ld: (.text+0x1f70): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x1fc4): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_calc_timestamping_constants':
+>> (.text+0x203c): undefined reference to `drm_calc_timestamping_constants'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `crtc_set_mode':
+   (.text+0x2130): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x21a4): undefined reference to `__drm_dev_dbg'
+>> hppa-linux-ld: (.text+0x21e0): undefined reference to `drm_bridge_chain_mode_set'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_async_check':
+   (.text+0x24cc): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x251c): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x2554): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x2594): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_wait_for_dependencies':
+>> (.text+0x2734): undefined reference to `drm_crtc_commit_wait'
+   hppa-linux-ld: (.text+0x2778): undefined reference to `drm_crtc_commit_wait'
+   hppa-linux-ld: (.text+0x27bc): undefined reference to `drm_crtc_commit_wait'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_fake_vblank':
+   (.text+0x28e8): undefined reference to `drm_crtc_send_vblank_event'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_commit_duplicated_state':
+   (.text+0x2d60): undefined reference to `drm_atomic_commit'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `page_flip_common':
+   (.text+0x2dc0): undefined reference to `drm_atomic_get_crtc_state'
+   hppa-linux-ld: (.text+0x2de4): undefined reference to `drm_atomic_get_plane_state'
+   hppa-linux-ld: (.text+0x2df8): undefined reference to `drm_atomic_set_crtc_for_plane'
+   hppa-linux-ld: (.text+0x2e38): undefined reference to `drm_atomic_set_fb_for_plane'
+   hppa-linux-ld: (.text+0x2e84): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `disable_outputs':
+   (.text+0x3020): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x303c): undefined reference to `drm_atomic_bridge_chain_disable'
+   hppa-linux-ld: (.text+0x3064): undefined reference to `drm_atomic_bridge_chain_post_disable'
+   hppa-linux-ld: (.text+0x30b4): undefined reference to `drm_dev_has_vblank'
+   hppa-linux-ld: (.text+0x30c4): undefined reference to `drm_crtc_vblank_get'
+   hppa-linux-ld: (.text+0x30e0): undefined reference to `drm_crtc_vblank_put'
+   hppa-linux-ld: (.text+0x315c): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x3188): undefined reference to `drm_dev_has_vblank'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_wait_for_vblanks.part.0':
+   (.text+0x33d8): undefined reference to `drm_crtc_vblank_get'
+   hppa-linux-ld: (.text+0x3400): undefined reference to `drm_crtc_vblank_count'
+   hppa-linux-ld: (.text+0x3464): undefined reference to `drm_crtc_vblank_count'
+   hppa-linux-ld: (.text+0x3474): undefined reference to `drm_crtc_vblank_put'
+   hppa-linux-ld: (.text+0x352c): undefined reference to `drm_crtc_vblank_count'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_prepare_planes':
+   (.text+0x3838): undefined reference to `drm_writeback_prepare_job'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_commit_modeset_enables':
+   (.text+0x3a38): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x3af0): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x3b0c): undefined reference to `drm_atomic_bridge_chain_pre_enable'
+   hppa-linux-ld: (.text+0x3b34): undefined reference to `drm_atomic_bridge_chain_enable'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_check_planes':
+   (.text+0x3e0c): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x3e60): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_check':
+   (.text+0x3eb4): undefined reference to `drm_atomic_normalize_zpos'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_duplicate_state':
+   (.text+0x3f5c): undefined reference to `drm_atomic_state_alloc'
+   hppa-linux-ld: (.text+0x3fa0): undefined reference to `drm_atomic_get_crtc_state'
+   hppa-linux-ld: (.text+0x4070): undefined reference to `drm_atomic_get_plane_state'
+   hppa-linux-ld: (.text+0x4090): undefined reference to `drm_connector_list_iter_begin'
+   hppa-linux-ld: (.text+0x409c): undefined reference to `drm_connector_list_iter_next'
+   hppa-linux-ld: (.text+0x40ac): undefined reference to `drm_atomic_get_connector_state'
+   hppa-linux-ld: (.text+0x40bc): undefined reference to `drm_connector_list_iter_end'
+   hppa-linux-ld: (.text+0x40d4): undefined reference to `__drm_atomic_state_free'
+   hppa-linux-ld: (.text+0x40fc): undefined reference to `drm_connector_list_iter_end'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `release_crtc_commit':
+   (.text+0x4588): undefined reference to `__drm_crtc_commit_free'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_wait_for_fences':
+   (.text+0x4654): undefined reference to `drm_crtc_next_vblank_start'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_commit_hw_done':
+   (.text+0x4a1c): undefined reference to `__drm_crtc_commit_free'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_setup_commit':
+   (.text+0x518c): undefined reference to `__drm_crtc_commit_free'
+   hppa-linux-ld: (.text+0x5324): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x5360): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: (.text+0x53ac): undefined reference to `__drm_dev_dbg'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_page_flip':
+   (.text+0x5418): undefined reference to `drm_atomic_state_alloc'
+   hppa-linux-ld: (.text+0x544c): undefined reference to `drm_atomic_nonblocking_commit'
+   hppa-linux-ld: (.text+0x54f4): undefined reference to `__drm_atomic_state_free'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_set_config':
+   (.text+0x5548): undefined reference to `drm_atomic_state_alloc'
+   hppa-linux-ld: (.text+0x555c): undefined reference to `__drm_atomic_helper_set_config'
+   hppa-linux-ld: (.text+0x5608): undefined reference to `drm_atomic_commit'
+   hppa-linux-ld: (.text+0x561c): undefined reference to `__drm_atomic_state_free'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_disable_plane':
+   (.text+0x56a0): undefined reference to `drm_atomic_state_alloc'
+   hppa-linux-ld: (.text+0x56b4): undefined reference to `drm_atomic_get_plane_state'
+   hppa-linux-ld: (.text+0x56dc): undefined reference to `__drm_atomic_helper_disable_plane'
+   hppa-linux-ld: (.text+0x5778): undefined reference to `drm_atomic_commit'
+   hppa-linux-ld: (.text+0x578c): undefined reference to `__drm_atomic_state_free'
+   hppa-linux-ld: (.text+0x57c0): undefined reference to `__drm_atomic_helper_disable_plane'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_update_plane':
+   (.text+0x584c): undefined reference to `drm_atomic_state_alloc'
+   hppa-linux-ld: (.text+0x5864): undefined reference to `drm_atomic_get_plane_state'
+   hppa-linux-ld: (.text+0x587c): undefined reference to `drm_atomic_set_crtc_for_plane'
+   hppa-linux-ld: (.text+0x5928): undefined reference to `drm_atomic_set_fb_for_plane'
+   hppa-linux-ld: (.text+0x5978): undefined reference to `drm_atomic_commit'
+   hppa-linux-ld: (.text+0x598c): undefined reference to `__drm_atomic_state_free'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_page_flip_target':
+   (.text+0x5a08): undefined reference to `drm_atomic_state_alloc'
+   hppa-linux-ld: (.text+0x5a58): undefined reference to `drm_atomic_nonblocking_commit'
+   hppa-linux-ld: (.text+0x5b00): undefined reference to `__drm_atomic_state_free'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_resume':
+   (.text+0x5b78): undefined reference to `drm_mode_config_reset'
+   hppa-linux-ld: (.text+0x5bac): undefined reference to `drm_modeset_acquire_init'
+   hppa-linux-ld: (.text+0x5bbc): undefined reference to `drm_modeset_backoff'
+   hppa-linux-ld: (.text+0x5bd0): undefined reference to `drm_modeset_lock_all_ctx'
+   hppa-linux-ld: (.text+0x5bf8): undefined reference to `drm_modeset_drop_locks'
+   hppa-linux-ld: (.text+0x5c00): undefined reference to `drm_modeset_acquire_fini'
+   hppa-linux-ld: (.text+0x5ce8): undefined reference to `__drm_atomic_state_free'
+   hppa-linux-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_disable_all':
+   (.text+0x5d30): undefined reference to `drm_atomic_state_alloc'
+   hppa-linux-ld: (.text+0x5d5c): undefined reference to `drm_atomic_set_mode_prop_for_crtc'
+   hppa-linux-ld: (.text+0x5d70): undefined reference to `drm_atomic_add_affected_planes'
+   hppa-linux-ld: (.text+0x5d84): undefined reference to `drm_atomic_add_affected_connectors'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_KMS_HELPER
+   Depends on [m]: HAS_IOMEM [=y] && DRM [=m]
+   Selected by [y]:
+   - DRM_PANEL_BRIDGE [=y] && HAS_IOMEM [=y] && DRM_BRIDGE [=y]
+   Selected by [m]:
+   - DRM [=m] && HAS_IOMEM [=y] && (AGP [=n] || AGP [=n]=n) && !EMULATED_CMPXCHG && HAS_DMA [=y] && DRM_FBDEV_EMULATION [=y]
+   - DRM_RADEON [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y] && (AGP [=n] || !AGP [=n])
+   - DRM_NOUVEAU [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y]
+   - DRM_UDL [=m] && HAS_IOMEM [=y] && DRM [=m] && USB [=y] && USB_ARCH_HAS_HCD [=y] && MMU [=y]
+   - DRM_MGAG200 [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
