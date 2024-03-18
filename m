@@ -1,123 +1,120 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B3B2374C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 07:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C436C2D043;
+	Mon, 18 Mar 2024 10:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710748526; cv=none; b=UR8XRRia57ZEo5PPSYqTcBtytHIBOP9O+TA7WpfTrJ1ZWxUl6sz2zaNM05cwDsSrqVSOIT9KKnGXZ4bmZ1l2TsuwZnGAHA5YRKt3An/rDX1VK8CSicBDzWVCzuBcjbhc52vpVRE0s8nLKj4dWBJHU8D3cU/kHLEalvhfahVOlb8=
+	t=1710756224; cv=none; b=f2zq2vh28oWZk8YpqdZDho2CxHkCJ4ly6WNszcBdrhVZ8OIwyq//gVQaqcbwBdh4C8xkDrYQdphgtIr2QAPFsVP1XwYDSzsdpBjHp1bwO8MQ+OiIzncUZhGc07G5c13T+3KAcytB8EKQmAI4+bWc+6T89x+0JeKlYjQhirqc0do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710748526; c=relaxed/simple;
-	bh=oWFse9ekt4BN9hGStBO3ysp4OZBQ/mn4vNBp7g52xSg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=aeFDNe30KkvR0w0u01xHWUZUOh9FOnSsavIb4PPtMUYvbhTMMJY5CtnV0S98Kwq0Huoxnbd43Lwbkp7oJU7B6qFxmJWqUu0mPWwAW7sIPY3IitppvzUL4zkI7GjS2V4axinnCDCFxJTOnqFvMZRWl6eMUQ7PQokegRYAro6rHS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=kNtoqHs6; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1710756224; c=relaxed/simple;
+	bh=axnkQRaT2XDnF0eUK2wOc/SGNanPfba34MDBauyaiRo=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=XYO0UfDRFDH9LctZHPJMBNvWdZWbMxF5fpsh9fSJ3Uj2VlWp/hLbHni5vFGhqMXzva0+jg+tzZ95fbATLFhtibSaXrZUotlE8F0nVmRBPVCs1oczHYNDm70gCjDcYmfmSRF4M0lZvxTBWr7XYnOXCysVSGi5tYDo6vg0botXHTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kdc99sRq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="kNtoqHs6"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a4675aaa2e8so452236466b.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 00:55:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1710748522; x=1711353322; darn=lists.linux.dev;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I0wM7gb+uYqIRwVS3G2mY0QK2Uz/D6Ti8QCtsKMjfqM=;
-        b=kNtoqHs6+MwpGbygQAEvuDE5xJx4/b/pPZyny2sqMUr+63nEX71eR7j/TVB48/jmDn
-         yww6Qj19WWxqdHJQfe0jSuHd16+mbRw9Dn8S15ySpZ8WAsvQ0g3ZnYKV7+PCRdxRNfTr
-         UY6SECor72iFwagYMY8pAOd5wWvXLnqXNCqVSAk9A8VA5w8DKxhR5UouiADK4kwCoEc9
-         9clN0lM3pSsN9iwLhPeWkZnt+Ta8GQQnyiBplwchiB8MdFqAmMqx8hVRL/0EZNwtOPmf
-         uI5Ng//+dMsXdKjBrgKdxIehIf/yLWnz3bITnJ4sCA8EcSf8LYLgpMj5WFFiJNgUVfTv
-         DDMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710748522; x=1711353322;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=I0wM7gb+uYqIRwVS3G2mY0QK2Uz/D6Ti8QCtsKMjfqM=;
-        b=EARd1iaXqG83quDYDpPOcWhW6m4XunHnKXVkwNVFfUOKZ0ChYjehua/iXW5Lgo96uW
-         foHtdsjErzoZ8RGlx1SYDHMeaJLSM1giUOjNWPShDw8h6qOeqPWMe/ao6QMw2U4yQlNI
-         GFxJic0QWRlv3bKtiZZYgeo6yG2r+qXjthIbLg3UBwavYR+oda4sNlsoUyquH/XOWIZy
-         bJrpALfW3jm3KsV6ijpXU9v348u7K86jNlaIgX+f5ENWaEXwLv4ZFpo8ilCscHYV4ypJ
-         eK8dwY2jAXArACwoLWfuOIxBO3c0JuU8ZB2VUkS4raAXygRWSlsWbxJ4eKLIiGgt+hWd
-         WTog==
-X-Gm-Message-State: AOJu0Ywv5tHf2iKFM6rP8fPCZVK95Ts6wsDsinN91i9k3RHHRmlnOCuj
-	c1VKm8hlJGsUHiJu/bpLLs/FELDPEDcgv2uPHR5YSztC5aqSnIGnQTwx2kOnm6A=
-X-Google-Smtp-Source: AGHT+IGGtm5WZgLzsC1Q2ueS2Uq2APfDGSbekxZp76Rh22abzFr7/qjGZFERQdIYNyt7IAcyPcDqMw==
-X-Received: by 2002:a17:906:acf:b0:a46:7780:bdb3 with SMTP id z15-20020a1709060acf00b00a467780bdb3mr6010896ejf.53.1710748521961;
-        Mon, 18 Mar 2024 00:55:21 -0700 (PDT)
-Received: from localhost (046125249120.public.t-mobile.at. [46.125.249.120])
-        by smtp.gmail.com with ESMTPSA id l3-20020a1709061c4300b00a46a3ad035esm2545440ejg.179.2024.03.18.00.55.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Mar 2024 00:55:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kdc99sRq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2AF2C433F1;
+	Mon, 18 Mar 2024 10:03:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710756224;
+	bh=axnkQRaT2XDnF0eUK2wOc/SGNanPfba34MDBauyaiRo=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=kdc99sRq/l6ZiHxMcc+itNsArOMWOreqOj0nxpRmpgJPzaMqowG4Vr6jTu0PYYM+V
+	 T38F/h469UT8M+k3ren8XK0IU6dGtZatOpQsjMBItmBiUFMN+h1DDCz5EnfLC/vBPF
+	 tbRWzbvbDHSMKPdIGyZL01yzcgqy/3z4vaqHPJY5Aan8V50Z659X1um+84DCbGU8du
+	 QoqoLxQnfHBnrxJZk5fWpzFHw9Rqm7GfE/Oeqvkx/gd7DwBtOEFZ06pnjRTQ8BSWXB
+	 eyvjuqiQwj3zlwy/foZTMmq0OqSe31xwbjEN8tgQcvnBRyAz7QHIFjLIIIDgSfw0oP
+	 SFHDmkZ2j3OkA==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 18 Mar 2024 08:55:20 +0100
-Message-Id: <CZWPQKXWWDJF.31PYCW52I63O6@fairphone.com>
-Subject: Re: ERROR: modpost: "devm_drm_of_get_bridge"
- [drivers/usb/typec/mux/ptn36502.ko] undefined!
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "kernel test robot" <lkp@intel.com>
-Cc: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Heikki
- Krogerus" <heikki.krogerus@linux.intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@linaro.org>
-X-Mailer: aerc 0.15.2
-References: <202403161449.bV9MUszO-lkp@intel.com>
-In-Reply-To: <202403161449.bV9MUszO-lkp@intel.com>
+In-Reply-To: <202403160519.XghWVi81-lkp@intel.com>
+References: <20240315151722.119628-2-atenart@kernel.org> <202403160519.XghWVi81-lkp@intel.com>
+Subject: Re: [PATCH net 1/4] udp: do not accept non-tunnel GSO skbs landing in a tunnel
+From: Antoine Tenart <atenart@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, steffen.klassert@secunet.com, netdev@vger.kernel.org
+To: davem@davemloft.net, edumazet@google.com, kernel test robot <lkp@intel.com>, kuba@kernel.org, pabeni@redhat.com
+Date: Mon, 18 Mar 2024 11:03:40 +0100
+Message-ID: <171075622074.25781.8502242285616689318@kwain>
 
-On Sat Mar 16, 2024 at 7:23 AM CET, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   66a27abac311a30edbbb65fe8c41ff1b13876faa
-> commit: 8e99dc783648e5e663494434544bdc5160522de3 usb: typec: add support =
-for PTN36502 redriver
-> date:   5 months ago
-> config: riscv-randconfig-r064-20240311 (https://download.01.org/0day-ci/a=
-rchive/20240316/202403161449.bV9MUszO-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 13.2.0
+Quoting kernel test robot (2024-03-15 22:21:50)
+> Hi Antoine,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on net/main]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Antoine-Tenart/udp=
+-do-not-accept-non-tunnel-GSO-skbs-landing-in-a-tunnel/20240315-232048
+> base:   net/main
+> patch link:    https://lore.kernel.org/r/20240315151722.119628-2-atenart%=
+40kernel.org
+> patch subject: [PATCH net 1/4] udp: do not accept non-tunnel GSO skbs lan=
+ding in a tunnel
+> config: arc-defconfig (https://download.01.org/0day-ci/archive/20240316/2=
+02403160519.XghWVi81-lkp@intel.com/config)
+> compiler: arc-elf-gcc (GCC) 13.2.0
 > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240316/202403161449.bV9MUszO-lkp@intel.com/reproduce)
->
+ve/20240316/202403160519.XghWVi81-lkp@intel.com/reproduce)
+>=20
 > If you fix the issue in a separate patch/commit (i.e. not just a new vers=
 ion of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403161449.bV9MUszO-lkp=
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403160519.XghWVi81-lkp=
 @intel.com/
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->
-> WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktort=
-ure.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4=
-.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.=
-o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_pan=
-el_orientation_quirks.o
-> ERROR: modpost: "devm_drm_of_get_bridge" [drivers/usb/typec/mux/nb7vpq904=
-m.ko] undefined!
-> >> ERROR: modpost: "devm_drm_of_get_bridge" [drivers/usb/typec/mux/ptn365=
-02.ko] undefined!
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    arc-elf-ld: net/ipv4/udp.o: in function `udp_queue_rcv_skb':
+> >> udp.c:(.text+0x3aca): undefined reference to `udpv6_encap_needed_key'
+> >> arc-elf-ld: udp.c:(.text+0x3aca): undefined reference to `udpv6_encap_=
+needed_key'
 
-This should be fixed by the patch I sent a while ago:
-https://lore.kernel.org/lkml/20240111-drm-panel-bridge-fixup-v1-1-e06292f6f=
-500@fairphone.com/
+Issue is with CONFIG_IPV6=3Dn. The following should fix it,
 
-Regards
-Luca
+diff --git a/include/linux/udp.h b/include/linux/udp.h
+index 51558d6527f0..05231fff8703 100644
+--- a/include/linux/udp.h
++++ b/include/linux/udp.h
+@@ -151,7 +151,22 @@ static inline void udp_cmsg_recv(struct msghdr *msg, s=
+truct sock *sk,
+ }
+=20
+ DECLARE_STATIC_KEY_FALSE(udp_encap_needed_key);
++#if IS_ENABLED(CONFIG_IPV6)
+ DECLARE_STATIC_KEY_FALSE(udpv6_encap_needed_key);
++#endif
++
++static inline bool udp_encap_needed(void)
++{
++       if (static_branch_unlikely(&udp_encap_needed_key))
++               return true;
++
++#if IS_ENABLED(CONFIG_IPV6)
++       if (static_branch_unlikely(&udpv6_encap_needed_key))
++               return true;
++#endif
++
++       return false;
++}
+=20
+ static inline bool udp_unexpected_gso(struct sock *sk, struct sk_buff *skb)
+ {
+@@ -170,8 +185,7 @@ static inline bool udp_unexpected_gso(struct sock *sk, =
+struct sk_buff *skb)
+         * land in a tunnel as the socket check in udp_gro_receive cannot be
+         * foolproof.
+         */
+-       if ((static_branch_unlikely(&udp_encap_needed_key) ||
+-            static_branch_unlikely(&udpv6_encap_needed_key)) &&
++       if (udp_encap_needed() &&
+            READ_ONCE(udp_sk(sk)->encap_rcv) &&
+            !(skb_shinfo(skb)->gso_type &
+              (SKB_GSO_UDP_TUNNEL | SKB_GSO_UDP_TUNNEL_CSUM)))
