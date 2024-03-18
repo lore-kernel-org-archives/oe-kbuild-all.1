@@ -1,56 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D99918029
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 20:28:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E543C57339;
+	Mon, 18 Mar 2024 20:28:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710793698; cv=none; b=Fs3rJj4SrXN2lq6HHtHIOuj75PgPymuQ5u1g/SAoVXPoTDOm99FmzeyCEIi5L7cuzMYdHRAtbiUHSBmNafU285SIOx5bfspWAkvcgrf1GB2fnVjkMObosAOXVFl4rOgWcSHaQ63VVyE64XJXu6XK2i7LDxcXzPzWnJ3tmitCB5g=
+	t=1710793700; cv=none; b=cOEZhCcHCi8ajWFhTPtNudxt/0OQ+OT/gg6UNq8pjemT0zpQrA4yQVoZ4uK7PMgQYGyOoYAc8bDLjaJF8yJZoOVuEZm5Xmyo43kX6N3gjn0KL3l7Ts+9CGN6Nbn/RqGe9doMLh+YlJ8xN6zYVU901HY2RRHpgpUBlVgSCpqauVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710793698; c=relaxed/simple;
-	bh=/1TZqILMC5z6Ns43/ZtGVPQd5aavQdtFfUTRdhLnOnw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nF0sD8IS5dkPMMhWofOvEEEgJ7uhHK7YDHLDJasZMYcdMqfyPco+8+gJ3RB7Xh/sc99af61wTy6IWQdwcMj5++wBCAHX7So9Foo02m9IZVgBV8JoM9Bu9UV3PU2ifjDD7L+zapbpiE2NkaNQBlQagKO/mipTk7P7p4gsn3KytlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gim3FVkG; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1710793700; c=relaxed/simple;
+	bh=jrxJE9RgRvLO3n7cWCIWdQ9Ydu8jF/meN9NbonVPOBg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BTpcDLLOhuoWlxtE0DrDcU5AGox86XBC/1jZ6LS8+jELHNP1hELRGTPAZO1W4XNhdNFPeFjRiyKxX9K+qNLevsZ1+PbM6k8OQPMtMgPYSA6jT4mMkCt+ntXP/n5FZvapwo40OhS0n74QB28vamrKnoEcr3cJBCBkK4xILa4AfGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N0CcR4Sh; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gim3FVkG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N0CcR4Sh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710793696; x=1742329696;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/1TZqILMC5z6Ns43/ZtGVPQd5aavQdtFfUTRdhLnOnw=;
-  b=Gim3FVkG6hFvJMxGn4cd6cFExnA9iik/WYBYEgMVB5u3q8Ihks1b3lDF
-   3iy0z0m8y0TTqQMOnGAi0FBzjHJ7Axd7Yk60n1mZPkszrQUbCNXWwSoHb
-   f/uZcsu3OgxVl4RQI8yMBy4vow55ovEjb4xrhAoDcDS75OlF2zrGs0jE8
-   OWQbYcpE3rsGnHsoOhx28T3Vng3N7za6iKWzW6HgwYVAi3b4+vTGfEbg5
-   9DsqUSxJiPS1l/ckkag7IcS2+HBUyUMOZDH+UAXTE6PLuOkNfiUyZs/97
-   qr4Ya+PmNf++ueo5cFjvAr4N8Pt29q7gd/57WY+nRgIJD9Gokro40MNWF
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5813050"
+  t=1710793698; x=1742329698;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jrxJE9RgRvLO3n7cWCIWdQ9Ydu8jF/meN9NbonVPOBg=;
+  b=N0CcR4ShYu9W1mJ1IiEdQpo1rKvCDajd+0Q6weRZ/bPMnw0TpNL0fLTB
+   IAZvNSK/HnlDDlzBzMyfRF/Cmr0abPBJd64XybWIgk7gfDky3iOgKAW8v
+   +3cfCSO+W5j4f3X+3sGfoy/lGiKcUcHwclf5M22DphfpzY2vRI/wTNTST
+   oLzbINDhooIdZBM+QB0WUrk5bBgvrtnwJyS/EmEviIyjkfZAvv21KHgdf
+   hSBm+8W1MXhlWowIpTaZaeTbf/c6yNynfG9sAVhBY1xrhxeG1bzVSiEbR
+   l69L00gO4HK5Jm1gfnInA0tJkSRMGr93OnD/JJpHmAlifubYiYvp/Fa5s
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5813058"
 X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="5813050"
+   d="scan'208";a="5813058"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 13:28:16 -0700
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 13:28:17 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="13469419"
+   d="scan'208";a="13469429"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 18 Mar 2024 13:28:14 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rmJad-000HER-1U;
+	id 1rmJad-000HET-1Y;
 	Mon, 18 Mar 2024 20:28:11 +0000
-Date: Tue, 19 Mar 2024 04:27:54 +0800
+Date: Tue, 19 Mar 2024 04:27:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jai Luthra <j-luthra@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Praneeth Bajjuri <praneeth@ti.com>
-Subject: [ti:ti-rt-linux-6.1.y-cicd 1/6]
- sound/soc/soc-generic-dmaengine-pcm.c:321:5: sparse: sparse: symbol
- 'dmaengine_pcm_prepare' was not declared. Should it be static?
-Message-ID: <202403190446.8Z4AdPtO-lkp@intel.com>
+To: Aravinda Prasad <aravinda.prasad@intel.com>, damon@lists.linux.dev,
+	linux-mm@kvack.org, sj@kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, aravinda.prasad@intel.com,
+	s2322819@ed.ac.uk, sandeep4.kumar@intel.com, ying.huang@intel.com,
+	dave.hansen@intel.com, dan.j.williams@intel.com,
+	sreenivas.subramoney@intel.com, antti.kervinen@intel.com,
+	alexander.kanevskiy@intel.com
+Subject: Re: [PATCH v2 1/3] mm/damon: mm infrastructure support
+Message-ID: <202403190418.tsSXHwGu-lkp@intel.com>
+References: <20240318132848.82686-2-aravinda.prasad@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,31 +63,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240318132848.82686-2-aravinda.prasad@intel.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
-head:   871d5629a0ee4ae82d0caf8d57d4f711d54e1465
-commit: 7ff6902b6e5082643c2d5dd34d34fc5a8e53d7d8 [1/6] HACK: ALSA: dmaengine: Synchronize dma channel in prepare()
-config: microblaze-randconfig-r111-20240318 (https://download.01.org/0day-ci/archive/20240319/202403190446.8Z4AdPtO-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240319/202403190446.8Z4AdPtO-lkp@intel.com/reproduce)
+Hi Aravinda,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aravinda-Prasad/mm-damon-mm-infrastructure-support/20240318-212723
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240318132848.82686-2-aravinda.prasad%40intel.com
+patch subject: [PATCH v2 1/3] mm/damon: mm infrastructure support
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240319/202403190418.tsSXHwGu-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403190418.tsSXHwGu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403190446.8Z4AdPtO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403190418.tsSXHwGu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/soc-generic-dmaengine-pcm.c:321:5: sparse: sparse: symbol 'dmaengine_pcm_prepare' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/dmaengine_pcm_prepare +321 sound/soc/soc-generic-dmaengine-pcm.c
+   In file included from arch/powerpc/include/asm/kup.h:43,
+                    from arch/powerpc/include/asm/uaccess.h:8,
+                    from include/linux/uaccess.h:11,
+                    from include/linux/sched/task.h:13,
+                    from include/linux/sched/signal.h:9,
+                    from include/linux/rcuwait.h:6,
+                    from include/linux/percpu-rwsem.h:7,
+                    from include/linux/fs.h:33,
+                    from include/linux/compat.h:17,
+                    from arch/powerpc/kernel/asm-offsets.c:12:
+>> include/linux/pgtable.h:411:19: error: static declaration of 'pudp_test_and_clear_young' follows non-static declaration
+     411 | static inline int pudp_test_and_clear_young(struct vm_area_struct *vma,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/powerpc/include/asm/book3s/64/mmu-hash.h:20,
+                    from arch/powerpc/include/asm/book3s/64/mmu.h:32,
+                    from arch/powerpc/include/asm/mmu.h:391,
+                    from arch/powerpc/include/asm/paca.h:18,
+                    from arch/powerpc/include/asm/current.h:13,
+                    from include/linux/mutex.h:14,
+                    from include/linux/rhashtable-types.h:14,
+                    from include/linux/ipc.h:7,
+                    from include/uapi/linux/sem.h:5,
+                    from include/linux/sem.h:5,
+                    from include/linux/compat.h:14:
+   arch/powerpc/include/asm/book3s/64/pgtable.h:1306:12: note: previous declaration of 'pudp_test_and_clear_young' with type 'int(struct vm_area_struct *, long unsigned int,  pud_t *)'
+    1306 | extern int pudp_test_and_clear_young(struct vm_area_struct *vma,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:116: arch/powerpc/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1191: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-   320	
- > 321	int dmaengine_pcm_prepare(struct snd_soc_component *component,
-   322				  struct snd_pcm_substream *substream)
-   323	{
-   324		return snd_dmaengine_pcm_prepare(substream);
-   325	}
-   326	
+
+vim +/pudp_test_and_clear_young +411 include/linux/pgtable.h
+
+   409	
+   410	#ifndef pudp_test_and_clear_young
+ > 411	static inline int pudp_test_and_clear_young(struct vm_area_struct *vma,
+   412						    unsigned long address,
+   413						    pud_t *pudp)
+   414	{
+   415		return 0;
+   416	}
+   417	#endif
+   418	
 
 -- 
 0-DAY CI Kernel Test Service
