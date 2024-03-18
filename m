@@ -1,271 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F74E224CE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 04:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B3B2374C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 07:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710737521; cv=none; b=HEtxwa9e022DqTjPalesgRp33HTKmaWgDnOYimHBRdiC5PPHMXUpzqWkirEzKyclZwYuUAdY/iVUvmawreCKKFbCEJCO+2kjANfvzP14lByvQqLZPL6iSnHHBkeYDr69Rb0GEnfrv4Oi7S6CYAzT/8HkEdmWUkfvXhslx3dUJG8=
+	t=1710748526; cv=none; b=UR8XRRia57ZEo5PPSYqTcBtytHIBOP9O+TA7WpfTrJ1ZWxUl6sz2zaNM05cwDsSrqVSOIT9KKnGXZ4bmZ1l2TsuwZnGAHA5YRKt3An/rDX1VK8CSicBDzWVCzuBcjbhc52vpVRE0s8nLKj4dWBJHU8D3cU/kHLEalvhfahVOlb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710737521; c=relaxed/simple;
-	bh=LO25xymfEMINAwG9mCNGLkF2joOqhvZDZNY/Bi3Gzxg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GRR6auhvhEpk7ZtuobFsL3Fx0RirpRoLaCdCiYq+eNvUda9We3vcQN6mpLSOIPEkuLipEupXMuP1H0mwQxquJwLG7pgo65uNV/t+2GDXCTxk+tXQRjj/2vewxs2yvIL31q7OhOx1kIEcrtOIKNta7sXlwYSxbE+jfABscTAcsK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N2YZHFRs; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710748526; c=relaxed/simple;
+	bh=oWFse9ekt4BN9hGStBO3ysp4OZBQ/mn4vNBp7g52xSg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=aeFDNe30KkvR0w0u01xHWUZUOh9FOnSsavIb4PPtMUYvbhTMMJY5CtnV0S98Kwq0Huoxnbd43Lwbkp7oJU7B6qFxmJWqUu0mPWwAW7sIPY3IitppvzUL4zkI7GjS2V4axinnCDCFxJTOnqFvMZRWl6eMUQ7PQokegRYAro6rHS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=kNtoqHs6; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N2YZHFRs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710737519; x=1742273519;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LO25xymfEMINAwG9mCNGLkF2joOqhvZDZNY/Bi3Gzxg=;
-  b=N2YZHFRs4ms2dWxsdscmgXwD9tuFLSIUO5ehjUAPeV0xusaUSnThlgNf
-   FhuJ3tgGPF5zV4vgBvemD8EW8PnFaEIYO3MRARYfe/eTXJWEITToMEQv7
-   qwoHfO9BQSVvNCYXaD9Rg40TgrUgoMNjQ8xvj3VAy/Hrb46/rM7hO0Qav
-   fkQfY4xIqy7PSQHfuqMNVa3bWiXthBHhLUMFR55sMYCKYH/TUvGIjR85v
-   gd5g8NNWTEfOQ5pwqKYs1FmsEtgdhwqdmtyvNj4DuB7zn+2GK7wm3rKGQ
-   sIv/8PU3WNplKTIrNzY3DTo2EB3RPIqTMAkPjm6R5+lPkJliP6VL7uQWz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="5665577"
-X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="5665577"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2024 21:51:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="18055780"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Mar 2024 21:51:56 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rm4yX-000Gfj-08;
-	Mon, 18 Mar 2024 04:51:53 +0000
-Date: Mon, 18 Mar 2024 12:51:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/next 26605/27507]
- kernel/sched/batch.c:2915:16: error: invalid use of undefined type 'struct
- sched_domain'
-Message-ID: <202403181205.TrWTfCA7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="kNtoqHs6"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a4675aaa2e8so452236466b.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 00:55:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1710748522; x=1711353322; darn=lists.linux.dev;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I0wM7gb+uYqIRwVS3G2mY0QK2Uz/D6Ti8QCtsKMjfqM=;
+        b=kNtoqHs6+MwpGbygQAEvuDE5xJx4/b/pPZyny2sqMUr+63nEX71eR7j/TVB48/jmDn
+         yww6Qj19WWxqdHJQfe0jSuHd16+mbRw9Dn8S15ySpZ8WAsvQ0g3ZnYKV7+PCRdxRNfTr
+         UY6SECor72iFwagYMY8pAOd5wWvXLnqXNCqVSAk9A8VA5w8DKxhR5UouiADK4kwCoEc9
+         9clN0lM3pSsN9iwLhPeWkZnt+Ta8GQQnyiBplwchiB8MdFqAmMqx8hVRL/0EZNwtOPmf
+         uI5Ng//+dMsXdKjBrgKdxIehIf/yLWnz3bITnJ4sCA8EcSf8LYLgpMj5WFFiJNgUVfTv
+         DDMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710748522; x=1711353322;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=I0wM7gb+uYqIRwVS3G2mY0QK2Uz/D6Ti8QCtsKMjfqM=;
+        b=EARd1iaXqG83quDYDpPOcWhW6m4XunHnKXVkwNVFfUOKZ0ChYjehua/iXW5Lgo96uW
+         foHtdsjErzoZ8RGlx1SYDHMeaJLSM1giUOjNWPShDw8h6qOeqPWMe/ao6QMw2U4yQlNI
+         GFxJic0QWRlv3bKtiZZYgeo6yG2r+qXjthIbLg3UBwavYR+oda4sNlsoUyquH/XOWIZy
+         bJrpALfW3jm3KsV6ijpXU9v348u7K86jNlaIgX+f5ENWaEXwLv4ZFpo8ilCscHYV4ypJ
+         eK8dwY2jAXArACwoLWfuOIxBO3c0JuU8ZB2VUkS4raAXygRWSlsWbxJ4eKLIiGgt+hWd
+         WTog==
+X-Gm-Message-State: AOJu0Ywv5tHf2iKFM6rP8fPCZVK95Ts6wsDsinN91i9k3RHHRmlnOCuj
+	c1VKm8hlJGsUHiJu/bpLLs/FELDPEDcgv2uPHR5YSztC5aqSnIGnQTwx2kOnm6A=
+X-Google-Smtp-Source: AGHT+IGGtm5WZgLzsC1Q2ueS2Uq2APfDGSbekxZp76Rh22abzFr7/qjGZFERQdIYNyt7IAcyPcDqMw==
+X-Received: by 2002:a17:906:acf:b0:a46:7780:bdb3 with SMTP id z15-20020a1709060acf00b00a467780bdb3mr6010896ejf.53.1710748521961;
+        Mon, 18 Mar 2024 00:55:21 -0700 (PDT)
+Received: from localhost (046125249120.public.t-mobile.at. [46.125.249.120])
+        by smtp.gmail.com with ESMTPSA id l3-20020a1709061c4300b00a46a3ad035esm2545440ejg.179.2024.03.18.00.55.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Mar 2024 00:55:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 18 Mar 2024 08:55:20 +0100
+Message-Id: <CZWPQKXWWDJF.31PYCW52I63O6@fairphone.com>
+Subject: Re: ERROR: modpost: "devm_drm_of_get_bridge"
+ [drivers/usb/typec/mux/ptn36502.ko] undefined!
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "kernel test robot" <lkp@intel.com>
+Cc: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Heikki
+ Krogerus" <heikki.krogerus@linux.intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@linaro.org>
+X-Mailer: aerc 0.15.2
+References: <202403161449.bV9MUszO-lkp@intel.com>
+In-Reply-To: <202403161449.bV9MUszO-lkp@intel.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/next
-head:   fdd5d0bfc620bd5147ff5b260822c7645aeddad6
-commit: f2b1cebbfb364bfee4bf65cc11a429c360a64b89 [26605/27507] rue/cpu: Add control method to limit the rating of entering idle_balance_bt
-config: x86_64-randconfig-r053-20240315 (https://download.01.org/0day-ci/archive/20240318/202403181205.TrWTfCA7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240318/202403181205.TrWTfCA7-lkp@intel.com/reproduce)
+On Sat Mar 16, 2024 at 7:23 AM CET, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   66a27abac311a30edbbb65fe8c41ff1b13876faa
+> commit: 8e99dc783648e5e663494434544bdc5160522de3 usb: typec: add support =
+for PTN36502 redriver
+> date:   5 months ago
+> config: riscv-randconfig-r064-20240311 (https://download.01.org/0day-ci/a=
+rchive/20240316/202403161449.bV9MUszO-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240316/202403161449.bV9MUszO-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403161449.bV9MUszO-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>
+> WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktort=
+ure.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4=
+.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.=
+o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_pan=
+el_orientation_quirks.o
+> ERROR: modpost: "devm_drm_of_get_bridge" [drivers/usb/typec/mux/nb7vpq904=
+m.ko] undefined!
+> >> ERROR: modpost: "devm_drm_of_get_bridge" [drivers/usb/typec/mux/ptn365=
+02.ko] undefined!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403181205.TrWTfCA7-lkp@intel.com/
+This should be fixed by the patch I sent a while ago:
+https://lore.kernel.org/lkml/20240111-drm-panel-bridge-fixup-v1-1-e06292f6f=
+500@fairphone.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from kernel/sched/batch.c:17:
-   kernel/sched/ht_isolate.h:20:6: warning: no previous prototype for 'sensitive_running_on_sibling' [-Wmissing-prototypes]
-      20 | bool sensitive_running_on_sibling(int cpu) { return false; }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/batch.c:869:6: warning: no previous prototype for 'unthrottle_bt_rq' [-Wmissing-prototypes]
-     869 | void unthrottle_bt_rq(struct bt_rq *bt_rq)
-         |      ^~~~~~~~~~~~~~~~
-   kernel/sched/batch.c: In function 'do_sched_bt_period_timer':
-   kernel/sched/batch.c:940:29: warning: variable 'runtime' set but not used [-Wunused-but-set-variable]
-     940 |                         u64 runtime;
-         |                             ^~~~~~~
-   kernel/sched/batch.c: At top level:
-   kernel/sched/batch.c:1148:25: warning: no previous prototype for '__pick_first_bt_entity' [-Wmissing-prototypes]
-    1148 | struct sched_bt_entity *__pick_first_bt_entity(struct bt_rq *bt_rq)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/batch.c:1882:6: warning: no previous prototype for 'place_bt_entity' [-Wmissing-prototypes]
-    1882 | void place_bt_entity(struct bt_rq *bt_rq, struct sched_bt_entity *se,
-         |      ^~~~~~~~~~~~~~~
-   kernel/sched/batch.c:2894:12: warning: no previous prototype for 'find_busiest_rq' [-Wmissing-prototypes]
-    2894 | struct rq *find_busiest_rq(struct rq *this_rq, struct sched_domain *sd,
-         |            ^~~~~~~~~~~~~~~
-   kernel/sched/batch.c: In function 'find_busiest_rq':
->> kernel/sched/batch.c:2915:16: error: invalid use of undefined type 'struct sched_domain'
-    2915 |         if (!sd->parent) {
-         |                ^~
->> kernel/sched/batch.c:2916:51: error: 'struct rq' has no member named 'rd'; did you mean 'rt'?
-    2916 |                 struct root_domain *rd = this_rq->rd;
-         |                                                   ^~
-         |                                                   rt
-   In file included from arch/x86/include/asm/current.h:5,
-                    from include/linux/sched.h:12,
-                    from kernel/sched/batch.c:5:
->> kernel/sched/batch.c:2918:30: error: invalid use of undefined type 'struct root_domain'
-    2918 |                 WRITE_ONCE(rd->overload_bt, overload);
-         |                              ^~
-   include/linux/compiler.h:355:24: note: in definition of macro 'WRITE_ONCE'
-     355 |         union { typeof(x) __val; char __c[1]; } __u =   \
-         |                        ^
->> kernel/sched/batch.c:2918:30: error: invalid use of undefined type 'struct root_domain'
-    2918 |                 WRITE_ONCE(rd->overload_bt, overload);
-         |                              ^~
-   include/linux/compiler.h:356:44: note: in definition of macro 'WRITE_ONCE'
-     356 |                 { .__val = (__force typeof(x)) (val) }; \
-         |                                            ^
->> kernel/sched/batch.c:2918:30: error: invalid use of undefined type 'struct root_domain'
-    2918 |                 WRITE_ONCE(rd->overload_bt, overload);
-         |                              ^~
-   include/linux/compiler.h:357:29: note: in definition of macro 'WRITE_ONCE'
-     357 |         __write_once_size(&(x), __u.__c, sizeof(x));    \
-         |                             ^
->> kernel/sched/batch.c:2918:30: error: invalid use of undefined type 'struct root_domain'
-    2918 |                 WRITE_ONCE(rd->overload_bt, overload);
-         |                              ^~
-   include/linux/compiler.h:357:49: note: in definition of macro 'WRITE_ONCE'
-     357 |         __write_once_size(&(x), __u.__c, sizeof(x));    \
-         |                                                 ^
-   kernel/sched/batch.c: In function 'can_migrate_bt':
-   kernel/sched/batch.c:2930:37: error: 'struct rq' has no member named 'cpu'
-    2930 |         if (!cpumask_test_cpu(dst_rq->cpu, p->cpus_ptr) ||
-         |                                     ^~
-   kernel/sched/batch.c: At top level:
-   kernel/sched/batch.c:2936:5: warning: no previous prototype for 'load_balance_bt' [-Wmissing-prototypes]
-    2936 | int load_balance_bt(struct rq *this_rq, struct sched_domain *sd,
-         |     ^~~~~~~~~~~~~~~
-   kernel/sched/batch.c: In function 'load_balance_bt':
-   kernel/sched/batch.c:2961:24: error: 'struct rq' has no member named 'bt_tasks'
-    2961 |         tasks = &src_rq->bt_tasks;
-         |                        ^~
-   kernel/sched/batch.c: In function 'rebalance_domains_bt':
-   kernel/sched/batch.c:3018:9: error: implicit declaration of function 'for_each_domain'; did you mean 'for_each_class'? [-Werror=implicit-function-declaration]
-    3018 |         for_each_domain(cpu, sd) {
-         |         ^~~~~~~~~~~~~~~
-         |         for_each_class
-   kernel/sched/batch.c:3018:33: error: expected ';' before '{' token
-    3018 |         for_each_domain(cpu, sd) {
-         |                                 ^~
-         |                                 ;
-   kernel/sched/batch.c:3009:23: warning: unused variable 'interval' [-Wunused-variable]
-    3009 |         unsigned long interval;
-         |                       ^~~~~~~~
-   kernel/sched/batch.c:3008:25: warning: unused variable 'mask' [-Wunused-variable]
-    3008 |         struct cpumask *mask;
-         |                         ^~~~
-   kernel/sched/batch.c: At top level:
-   kernel/sched/batch.c:3037:6: warning: no previous prototype for 'trigger_load_balance_bt' [-Wmissing-prototypes]
-    3037 | void trigger_load_balance_bt(struct rq *rq)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/batch.c: In function 'idle_balance_bt':
-   kernel/sched/batch.c:3061:13: error: 'struct rq' has no member named 'idle_stamp'; did you mean 'idle_state'?
-    3061 |         rq->idle_stamp = rq_clock(rq);
-         |             ^~~~~~~~~~
-         |             idle_state
-   kernel/sched/batch.c:3063:15: error: 'struct rq' has no member named 'avg_idle'
-    3063 |         if (rq->avg_idle < sysctl_idle_balance_bt_cost ||
-         |               ^~
-   kernel/sched/batch.c:3064:28: error: 'struct rq' has no member named 'rd'; did you mean 'rt'?
-    3064 |             !READ_ONCE(rq->rd->overload_bt))
-         |                            ^~
-   include/linux/compiler.h:330:24: note: in definition of macro '__READ_ONCE'
-     330 |         union { typeof(x) __val; char __c[1]; } __u;                    \
-         |                        ^
-   kernel/sched/batch.c:3064:14: note: in expansion of macro 'READ_ONCE'
-    3064 |             !READ_ONCE(rq->rd->overload_bt))
-         |              ^~~~~~~~~
-   kernel/sched/batch.c:3064:28: error: 'struct rq' has no member named 'rd'; did you mean 'rt'?
-    3064 |             !READ_ONCE(rq->rd->overload_bt))
-         |                            ^~
-   include/linux/compiler.h:332:36: note: in definition of macro '__READ_ONCE'
-     332 |                 __read_once_size(&(x), __u.__c, sizeof(x));             \
-         |                                    ^
-   kernel/sched/batch.c:3064:14: note: in expansion of macro 'READ_ONCE'
-    3064 |             !READ_ONCE(rq->rd->overload_bt))
-         |              ^~~~~~~~~
-   kernel/sched/batch.c:3064:28: error: 'struct rq' has no member named 'rd'; did you mean 'rt'?
-    3064 |             !READ_ONCE(rq->rd->overload_bt))
-         |                            ^~
-   include/linux/compiler.h:332:56: note: in definition of macro '__READ_ONCE'
-     332 |                 __read_once_size(&(x), __u.__c, sizeof(x));             \
-         |                                                        ^
-   kernel/sched/batch.c:3064:14: note: in expansion of macro 'READ_ONCE'
-    3064 |             !READ_ONCE(rq->rd->overload_bt))
-         |              ^~~~~~~~~
-   kernel/sched/batch.c:3064:28: error: 'struct rq' has no member named 'rd'; did you mean 'rt'?
-    3064 |             !READ_ONCE(rq->rd->overload_bt))
-         |                            ^~
-   include/linux/compiler.h:334:44: note: in definition of macro '__READ_ONCE'
-     334 |                 __read_once_size_nocheck(&(x), __u.__c, sizeof(x));     \
-         |                                            ^
-   kernel/sched/batch.c:3064:14: note: in expansion of macro 'READ_ONCE'
-    3064 |             !READ_ONCE(rq->rd->overload_bt))
-         |              ^~~~~~~~~
-   kernel/sched/batch.c:3064:28: error: 'struct rq' has no member named 'rd'; did you mean 'rt'?
-    3064 |             !READ_ONCE(rq->rd->overload_bt))
-         |                            ^~
-   include/linux/compiler.h:334:64: note: in definition of macro '__READ_ONCE'
-     334 |                 __read_once_size_nocheck(&(x), __u.__c, sizeof(x));     \
-         |                                                                ^
-   kernel/sched/batch.c:3064:14: note: in expansion of macro 'READ_ONCE'
-    3064 |             !READ_ONCE(rq->rd->overload_bt))
-         |              ^~~~~~~~~
-   kernel/sched/batch.c:3076:38: error: expected ';' before '{' token
-    3076 |         for_each_domain(this_cpu, sd) {
-         |                                      ^~
-         |                                      ;
-   kernel/sched/batch.c:3059:18: warning: unused variable 'pulled_task' [-Wunused-variable]
-    3059 |         int ret, pulled_task = 0;
-         |                  ^~~~~~~~~~~
-   kernel/sched/batch.c: At top level:
-   kernel/sched/batch.c:3209:6: warning: no previous prototype for 'init_offline_cpu_control' [-Wmissing-prototypes]
-    3209 | void init_offline_cpu_control(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +2915 kernel/sched/batch.c
-
-  2893	
-> 2894	struct rq *find_busiest_rq(struct rq *this_rq, struct sched_domain *sd,
-  2895				   struct cpumask *mask)
-  2896	{
-  2897		int cpu, this_cpu = cpu_of(this_rq), busiest_cpu = -1, overload = 0;
-  2898		u64 load, busiest_load = 0;
-  2899		struct rq *rq;
-  2900	
-  2901		for_each_cpu(cpu, mask) {
-  2902			rq = cpu_rq(cpu);
-  2903			if (cpu != this_cpu && rq->bt.h_nr_running > 0) {
-  2904				load = get_balance_load(rq);
-  2905				if (load > busiest_load) {
-  2906					busiest_load = load;
-  2907					busiest_cpu = cpu;
-  2908				}
-  2909			}
-  2910	
-  2911			if (rq->bt_nr_running > 1)
-  2912				overload = 1;
-  2913		}
-  2914	
-> 2915		if (!sd->parent) {
-> 2916			struct root_domain *rd = this_rq->rd;
-  2917	
-> 2918			WRITE_ONCE(rd->overload_bt, overload);
-  2919		}
-  2920	
-  2921		if (busiest_cpu != -1)
-  2922			return cpu_rq(busiest_cpu);
-  2923		else
-  2924			return NULL;
-  2925	}
-  2926	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards
+Luca
