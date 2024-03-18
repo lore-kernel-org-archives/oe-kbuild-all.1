@@ -1,152 +1,126 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3220E56453
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 19:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A97058206
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 19:13:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710788766; cv=none; b=REQbJ/czJ5Xo2BjbagxP/ZyfBBzTDrV0mTebctVF6kAc4kyW7mixw9AKeXY/rxRNrqekHQ18xZeoTqyLl7Kz6573coKIQeYbGYQeFSZMxFualhRNzmYI9529SuzajOqmxtVunInHeJSIxpE4d1IxQPrbh9+38Yul324mHYCBIJs=
+	t=1710789208; cv=none; b=L5LrjsPCi9w+C1u9yQW/75Def3lrQd6fv5ln3sJjye+tvVD2CsP+s490Uhnx+rMifAxewKHS725KMGOKnMoackOo4NKKEiDp3rEPIUIHg9KhrDB5F/pgdzpaOLhDYQN7+WOA5YJpuvvi6CwhYLCHgWuF2QFBFHeDsmCXo7iRb60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710788766; c=relaxed/simple;
-	bh=74ZSPlVYVJNFzX2CjhuI7nZPYa4reYpe31xx8MLhPLY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PB2Z/sjqNksz+KKqszTknGIRzy1iR1nvWgcECDQGCJ3Ss1eEkKPPxx/qaGoJVILy6TAypAg4u3PgiAtpehreHZ8x0wdJsSuI+0gi1ujPL+X0snxGVqcTcFaAHPsCB6O3x9tXcRygBC21jwqv5L9IMOkQ521XIJWs0vT/XHl+LUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IV5qgkfK; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1710789208; c=relaxed/simple;
+	bh=g3OpJ2WmV+FZJE+8M2WBoafZTplReYZUKjMO+eX5RQI=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=jSFpEzDUVlhIS/AwpNlMILQPlF/lAXf+swvHLKlMzmzuVe0EhKzSaic6zGQvrOZJbwOdAGY1E7XWYAYfT96jM/4FmlMft+OQuRyji0VBFFy14xdMMXZNj44zp6kGqomHjRiAbETeDUGOHrgewfWwUaY2mNfV87sinM0U04hio2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=orIhn1/d; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IV5qgkfK"
-Message-ID: <6b44c9b7-e1e2-4b69-a443-4616ceab6f17@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1710788761;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aI53OR+8o+dtnjSJRsKHjwQWA3OPclhRJ779bxvtMIA=;
-	b=IV5qgkfKSkQIYLWNQUflil6tfdnHRjp+RSS4A8Y6mtVmRh/JmXNI0eXK0Ru+4uPD61kQKz
-	/RBKDMPWbuC8WIUZC82MvShrtpw5g2omWnjWt5FLLts5o5SdVBrpxFfCnibUlOZuWzXZiT
-	d31TfX4l0nWmOpSjEtutiSfcvjs5fdw=
-Date: Mon, 18 Mar 2024 15:05:57 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="orIhn1/d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3D6DC43390;
+	Mon, 18 Mar 2024 19:13:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710789208;
+	bh=g3OpJ2WmV+FZJE+8M2WBoafZTplReYZUKjMO+eX5RQI=;
+	h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+	b=orIhn1/dm1QGLuuhDj7vCaZPAhboHKV2GIrsPlJ4yErZMbGHt/MV+xtdIcBsXeqgW
+	 xtGbFgWviOV6m6L7On19eE0d2TH2t4xS8bp13wfPxn+FbCO6A0QrbiG9jPTRXcgVwm
+	 YF1MmFcCTINK8o/P935lRfAwWZudiU6wE6XYzgwEpJy96+i4bBOLTedH6aBro6sih2
+	 QBCALxs6KkUnvg0orvLXnGHfy0XotTvvd0vF86+ym8TvjgIKpYo0P2PPkql4qPU9p8
+	 iuWrKSL9tv+Iyzapl2HfNNU2m0+aazVQ5s4KXEepSO/hEQRu2lZ1IC4eoO8Ro027Et
+	 o4ndfozFFFx1g==
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfauth.nyi.internal (Postfix) with ESMTP id E1E871200068;
+	Mon, 18 Mar 2024 15:13:26 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Mon, 18 Mar 2024 15:13:26 -0400
+X-ME-Sender: <xms:VpL4Zc7DTVO6ahUR0C9nfK2uduZB3NQfsrgeXbkzlnqPDk5YfPvmbg>
+    <xme:VpL4Zd6O5cOkq6HLsB9lOkX-P7PzZQCys-sUS0d-EbQ-D_wmqaHGGzLThbRuNX5fP
+    GY4za1G9xV2nYlLwdE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrkeejgdduvddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusehkvghrnhgvlhdrohhrgheqnecuggftrf
+    grthhtvghrnhepvdeviefgtedugeevieelvdfgveeuvdfgteegfeeiieejjeffgeeghedu
+    gedtveehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprghrnhguodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduvdekhedujedt
+    vdegqddvkeejtddtvdeigedqrghrnhgupeepkhgvrhhnvghlrdhorhhgsegrrhhnuggsrd
+    guvg
+X-ME-Proxy: <xmx:VpL4ZbegIdepxIWufOinCPkBfB4L8_nx0q3zvyYmW2EGHaeRunzsww>
+    <xmx:VpL4ZRJETe_p4fLlkhXwG8h2dUtsojHdPJopkPfB7yCxjn0B7ersRg>
+    <xmx:VpL4ZQLs6ee0IHf962xtLGamYz7DDVtHUAudLz8v_oeTzhkqXZY7aw>
+    <xmx:VpL4ZSzlYbekp-yod14FwOsZ9AYMr2rUoKbBJLbj8RYcsI-P6rHkzQ>
+    <xmx:VpL4Zf8kZo1mD7qofWIED-qSjq5LzD2bc5er9Nn8rGX1IHBT9WT0HXvAG_Y>
+Feedback-ID: i36794607:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 48FC7B6008D; Mon, 18 Mar 2024 15:13:26 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-300-gdee1775a43-fm-20240315.001-gdee1775a
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH 6/6] drm: zynqmp_dp: Add debugfs interface for compliance
- testing
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: kernel test robot <lkp@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev,
- David Airlie <airlied@gmail.com>, linux-kernel@vger.kernel.org,
- Michal Simek <monstr@monstr.eu>, linux-arm-kernel@lists.infradead.org,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20240315230916.1759060-7-sean.anderson@linux.dev>
- <202403161704.ACHJdSJG-lkp@intel.com>
- <ce1190ad-27c2-4a16-b36f-442c0c419dcc@linux.dev>
- <20240318175032.GM13682@pendragon.ideasonboard.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <20240318175032.GM13682@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Message-Id: <28ceb124-b634-44e0-bcd4-848fc3b0be7a@app.fastmail.com>
+In-Reply-To: <87le6fih5w.ffs@tglx>
+References: <20240303235029.555787150@linutronix.de>
+ <20240304005104.622511517@linutronix.de>
+ <e20d88d0-5fb9-4307-be67-88b04ae9a188@roeck-us.net>
+ <CAHk-=whK=G1o6RtS9DS3wEGF1KU7WLgLL1+6Se86bj8m7wwqrQ@mail.gmail.com>
+ <87y1ajjsv9.ffs@tglx> <87o7bfjeae.ffs@tglx>
+ <CAHk-=wiP+XMGHr8NU13sSOG_oasNZN02O9_c1PzCJNG7+O-GPw@mail.gmail.com>
+ <877ci3j80k.ffs@tglx> <87le6fih5w.ffs@tglx>
+Date: Mon, 18 Mar 2024 20:13:05 +0100
+From: "Arnd Bergmann" <arnd@kernel.org>
+To: "Thomas Gleixner" <tglx@linutronix.de>,
+ "Linus Torvalds" <torvalds@linuxfoundation.org>
+Cc: "Guenter Roeck" <linux@roeck-us.net>, LKML <linux-kernel@vger.kernel.org>,
+ x86@kernel.org, "Uros Bizjak" <ubizjak@gmail.com>,
+ linux-sparse@vger.kernel.org, "kernel test robot" <lkp@intel.com>,
+ oe-kbuild-all@lists.linux.dev
+Subject: Re: [patch 5/9] x86: Cure per CPU madness on UP
+Content-Type: text/plain
 
-On 3/18/24 13:50, Laurent Pinchart wrote:
-> On Mon, Mar 18, 2024 at 11:06:40AM -0400, Sean Anderson wrote:
->> On 3/16/24 06:14, kernel test robot wrote:
->> > Hi Sean,
->> > 
->> > kernel test robot noticed the following build warnings:
->> > 
->> > [auto build test WARNING on v6.8]
->> > [cannot apply to drm-misc/drm-misc-next linus/master next-20240315]
->> > [If your patch is applied to the wrong git tree, kindly drop us a note.
->> > And when submitting patch, we suggest to use '--base' as documented in
->> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
->> > 
->> > url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/drm-zynqmp_dp-Downgrade-log-level-for-aux-retries-message/20240316-071208
->> > base:   v6.8
->> > patch link:    https://lore.kernel.org/r/20240315230916.1759060-7-sean.anderson%40linux.dev
->> > patch subject: [PATCH 6/6] drm: zynqmp_dp: Add debugfs interface for compliance testing
->> > config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240316/202403161704.ACHJdSJG-lkp@intel.com/config)
->> > compiler: microblaze-linux-gcc (GCC) 13.2.0
->> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161704.ACHJdSJG-lkp@intel.com/reproduce)
->> > 
->> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> > the same patch/commit), kindly add following tags
->> > | Reported-by: kernel test robot <lkp@intel.com>
->> > | Closes: https://lore.kernel.org/oe-kbuild-all/202403161704.ACHJdSJG-lkp@intel.com/
->> > 
->> > All warnings (new ones prefixed by >>):
->> > 
->> >    drivers/gpu/drm/xlnx/zynqmp_dp.c: In function 'zynqmp_dp_bridge_debugfs_init':
->> >>> drivers/gpu/drm/xlnx/zynqmp_dp.c:2168:31: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
->> >     2168 |                 sprintf(name, fmt, i);
->> >          |                               ^~~
->> >    drivers/gpu/drm/xlnx/zynqmp_dp.c:2168:17: note: 'sprintf' output between 18 and 20 bytes into a destination of size 19
->> >     2168 |                 sprintf(name, fmt, i);
->> >          |                 ^~~~~~~~~~~~~~~~~~~~~
->> 
->> Not a bug, as i will be at most 4, which uses 1 digit.
-> 
-> The compiler can't know that. Please fix this, there's a zero warning
-> policy.
+On Mon, Mar 18, 2024, at 18:27, Thomas Gleixner wrote:
+> On Sat, Mar 16 2024 at 02:11, Thomas Gleixner wrote:
+>> On Fri, Mar 15 2024 at 16:23, Linus Torvalds wrote:
+>> The amount of subtle SMP=n fallout has been kinda exponentially
+>> increasing over the years and it's just putting burden on the wrong
+>> people. TBH, I'm tired of this nonsense.
+>
+> And for the fun of it I hacked Kconfig to allow a SMP=y NR_CPUS=1 build
+> and checked the size of vmlinux:
+>
+>                 64-bit          32-bit
+> SMP, NCPUS=1    38438400        22110177
+> UP              38393703        21682041
+> Delta              44697          428076
+>                      0.1%              2%              
+>
+> The UP savings are not really impressive...
+>
+> Let me look what it actually takes to do that.
 
-I cannot reproduce this with GCC 13.2.0. So given that this is not a bug and I can't reproduce
-it, I don't see how I can verify any fix.
+FWIW, I did some experiments a few weeks ago on 32-bit ARM,
+using a fairly minimal kernel in a virtual machine, and
+checking the runtime memory consumption rather than compile-time.
+In a kvm guest with 32MiB RAM, I saw a difference of multiple
+megabytes in memory usage:
 
---Sean
+Linux testvm 6.8.0-rc4-00410-gc02197fc9076-dirty #1 SMP PREEMPT armv7l
+root@testvm:~# free
+           	total   used    free  	shared  buff/cache   available
+Mem:       	26932   14956   1732   	    52       12800   	11976
+Swap:      	16360    3632   12728
 
->> > vim +/sprintf +2168 drivers/gpu/drm/xlnx/zynqmp_dp.c
->> > 
->> >   2136	
->> >   2137	DEFINE_DEBUGFS_ATTRIBUTE(fops_zynqmp_dp_rate, zynqmp_dp_rate_get,
->> >   2138				 zynqmp_dp_rate_set, "%llu\n");
->> >   2139	
->> >   2140	static void zynqmp_dp_bridge_debugfs_init(struct drm_bridge *bridge,
->> >   2141						  struct dentry *root)
->> >   2142	{
->> >   2143		struct zynqmp_dp *dp = bridge_to_dp(bridge);
->> >   2144		struct dentry *test;
->> >   2145		int i;
->> >   2146	
->> >   2147		dp->test.bw_code = DP_LINK_BW_5_4;
->> >   2148		dp->test.link_cnt = dp->num_lanes;
->> >   2149	
->> >   2150		test = debugfs_create_dir("test", root);
->> >   2151	#define CREATE_FILE(name) \
->> >   2152		debugfs_create_file(#name, 0600, test, dp, &fops_zynqmp_dp_##name)
->> >   2153		CREATE_FILE(pattern);
->> >   2154		CREATE_FILE(enhanced);
->> >   2155		CREATE_FILE(downspread);
->> >   2156		CREATE_FILE(active);
->> >   2157		CREATE_FILE(custom);
->> >   2158		CREATE_FILE(rate);
->> >   2159		CREATE_FILE(lanes);
->> >   2160	
->> >   2161		for (i = 0; i < dp->num_lanes; i++) {
->> >   2162			static const char fmt[] = "lane%d_preemphasis";
->> >   2163			char name[sizeof(fmt)];
->> >   2164	
->> >   2165			dp->debugfs_train_set[i].dp = dp;
->> >   2166			dp->debugfs_train_set[i].lane = i;
->> >   2167	
->> >> 2168			sprintf(name, fmt, i);
->> >   2169			debugfs_create_file(name, 0600, test,
->> >   2170					    &dp->debugfs_train_set[i],
->> >   2171					    &fops_zynqmp_dp_preemphasis);
->> >   2172	
->> >   2173			sprintf(name, "lane%d_swing", i);
->> >   2174			debugfs_create_file(name, 0600, test,
->> >   2175					    &dp->debugfs_train_set[i],
->> >   2176					    &fops_zynqmp_dp_swing);
->> >   2177		}
->> >   2178	}
->> >   2179	
-> 
+Linux testvm 6.8.0-rc4-00410-gc02197fc9076-dirty #2 PREEMPT armv7l
+root@testvm:~# free
+           	total    used  	free  	shared  buff/cache   available
+Mem:       	26932   13744  	5648        32       10092   	13188
+Swap:      	16360    3880  	12480
 
+There is a little difference between runs, but this does seem
+significant enough to keep it. The SMP build was with
+CONFIG_NR_CPUS=2 (the smallest supported compile-time number),
+but running on a single-CPU qemu instance.
+
+      Arnd
