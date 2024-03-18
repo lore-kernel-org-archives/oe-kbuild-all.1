@@ -1,54 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAB1200D5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 04:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0775420DC3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 04:19:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710734993; cv=none; b=o9Lh5oV/eZnRBpeWHGMeoamUcRYy0pjX9O9HnINQZoTyEv5ZeSIJVvIQEoKhJrdLTKPd0D+BKfb9ysWbh/pLdoSOiJ3p86ctmShMU1ZYkqKQ7Qsv26B+wqNhgJO4Qg14NJSeNsB9VoFEVS8ZDofP+2MMOTu6TVrVz70lPPIkUTs=
+	t=1710735591; cv=none; b=ILI49OjFF5xLRYU22ldzM6PEGxJmRUt3ALuHG/7iqSxNks7RgNZc0G47V/JD7W8akmOABAQIFjIEdU7jt+bduBiqhHWk7bveOPRK27u0xTkPyM/qlvhi2VReZs0xqNXIUFcOjdwxYKeeP9EMXM4MK5sZIIlKY4QutBm27SqmU5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710734993; c=relaxed/simple;
-	bh=pJVOD09IFpbi3LLH6wQVwqhcuiDckKhPQhpcPmdvIYg=;
+	s=arc-20240116; t=1710735591; c=relaxed/simple;
+	bh=grokpjUxaWnrq7uttwyq/3NIqAD2JlSkFnZsk275Fm4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ca6r4xOX+oSBke88GFSqGbRZzR6V5P1IbRefJjuPtwXmeKUNwlFMHMmt1GzLJLm+YZ/W2qdUfclptJPVir+IdbMaiqrKDcfnBIIj9L9yGnm8+gLq3Ep12UagOWEsUm56i2VPA0xGcmboqAFMu3H4HpE1lqLlNjl/ThhKpPuiULw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ixahqaxN; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=X/Y6MadDNPS5ZMXvg0QUDqwW9I2/7orx7IP3sDv8VC6r6uiSC3Ij6JHtmQ9FJKdNUHgesazphRQ+SsqzL2jziaNkaxl2RHUyfhyK1a2x+M/3Lctdps82T05KNZ48szfypB/rnEyOSUaTdyoRSPhK5HlYQkK60ERhK02vLJgaWHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mZKwSqUh; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ixahqaxN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mZKwSqUh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710734991; x=1742270991;
+  t=1710735589; x=1742271589;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pJVOD09IFpbi3LLH6wQVwqhcuiDckKhPQhpcPmdvIYg=;
-  b=ixahqaxN7xULV0lgXaNl8XgUxn0GO0+n74UWYehl7n3NuatyGEtPr2XO
-   S4knvWnX2o5kiqCKO98TieGxQccSc1ifOieXLjurPlKpv8BcMa8xfl2tg
-   NdU4fn8VrsRHq0UMKOQM56AQwmmYcqjaYs/KT6LgqwNKlpccccApOh8ab
-   K0bglzi8Ze+GsdpWhuklHfqkIYRYKnN1jjDuNCsiYVDM9xpNrFc6MYdOW
-   Li42EcM2yJd199Rh15EcLI5Y01f4HMoB2SiKNgZKrkUubVW9LlmxHT+H2
-   b3HzA8u6mStNRr7Hwas/p70kcvoAqAXRHknrdeNMxLOE53Mrp+NfygOnD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="5405646"
+  bh=grokpjUxaWnrq7uttwyq/3NIqAD2JlSkFnZsk275Fm4=;
+  b=mZKwSqUhPrlc0GN1zMO57HjWHr2Vg5n9Wa6C/7nrNO7x+8DnE1lhfn8u
+   GKItEGiIjOJRxOn0Cshl4qV8yiAKrirqWC5WZQsXMukLw6U2wn5gRjGDg
+   MA+trik3FzawIsiwMFrwhpvyOLer4OOSO1PvSAtO+57ddHJzW/v9jaHc3
+   M4k/Ar9F0S2qqKf1p3NJdnL/cvF3T4GrrODYZIf9rDpKWEd1XjbuoVBOq
+   pVuD0Gf4ppdTcCvtZxbyy40T9JlZ26KSbeh77JbewHXOECW3wuP6907xX
+   ZT0Ja0FOKdohv1OrJn81GJhh1S7AzqdYCzD8lE4A3vNE/ix7khriPEjn3
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="9340974"
 X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="5405646"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2024 21:09:48 -0700
+   d="scan'208";a="9340974"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2024 21:19:49 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="13262555"
+   d="scan'208";a="13819460"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 17 Mar 2024 21:09:48 -0700
+  by orviesa007.jf.intel.com with ESMTP; 17 Mar 2024 21:19:47 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rm4Jk-000GdJ-1h;
-	Mon, 18 Mar 2024 04:09:44 +0000
-Date: Mon, 18 Mar 2024 12:09:00 +0800
+	id 1rm4TQ-000GdX-25;
+	Mon, 18 Mar 2024 04:19:44 +0000
+Date: Mon, 18 Mar 2024 12:19:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
+To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:twf-hoist 580/618] fs/xfs/scrub/attr.c:309:52: error:
- too many arguments to function call, expected 4, have 5
-Message-ID: <202403181236.OM1hV5DN-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1626/4034]
+ drivers/char/ipmi/ipmi_si_ls2k500.c:92:5: sparse: sparse: symbol
+ 'ipmi_si_sim_setup' was not declared. Should it be static?
+Message-ID: <202403181245.X9tjCWvK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,149 +59,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git twf-hoist
-head:   4ff673321ea82e29e235e43dd6db0941b90a061f
-commit: f9b03bfc5858810a62bc79cae46a9208a5ccc28a [580/618] xfs: teach online repair to evaluate fsverity xattrs
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240318/202403181236.OM1hV5DN-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240318/202403181236.OM1hV5DN-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   23534451f50070452c470859343af52684963e9d
+commit: 4fbeaa84ef36adce930088074f8c088e5dd780c0 [1626/4034] ipmi: add ls2k500 bmc ipmi support.
+config: loongarch-randconfig-r123-20240317 (https://download.01.org/0day-ci/archive/20240318/202403181245.X9tjCWvK-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240318/202403181245.X9tjCWvK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403181236.OM1hV5DN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403181245.X9tjCWvK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/char/ipmi/ipmi_si_ls2k500.c:92:5: sparse: sparse: symbol 'ipmi_si_sim_setup' was not declared. Should it be static?
+>> drivers/char/ipmi/ipmi_si_ls2k500.c:116:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[addressable] [assigned] addr_source_data @@     got void [noderef] __iomem * @@
+   drivers/char/ipmi/ipmi_si_ls2k500.c:116:29: sparse:     expected void *[addressable] [assigned] addr_source_data
+   drivers/char/ipmi/ipmi_si_ls2k500.c:116:29: sparse:     got void [noderef] __iomem *
+>> drivers/char/ipmi/ipmi_si_ls2k500.c:148:24: sparse: sparse: symbol 'ipmi_ls2k500_platform_driver' was not declared. Should it be static?
+   drivers/char/ipmi/ipmi_si_ls2k500.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
->> fs/xfs/scrub/attr.c:309:52: error: too many arguments to function call, expected 4, have 5
-     309 |                 xchk_xattr_verity(sc, args.blkno, name, namelen, valuelen);
-         |                 ~~~~~~~~~~~~~~~~~                                ^~~~~~~~
-   fs/xfs/scrub/attr.c:232:1: note: 'xchk_xattr_verity' declared here
-     232 | xchk_xattr_verity(
-         | ^
-     233 |         struct xfs_scrub        *sc,
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     234 |         xfs_dablk_t             blkno,
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     235 |         const unsigned char     *name,
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     236 |         unsigned int            namelen)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+vim +/ipmi_si_sim_setup +92 drivers/char/ipmi/ipmi_si_ls2k500.c
 
-
-vim +309 fs/xfs/scrub/attr.c
-
-   244	
-   245	/*
-   246	 * Check that an extended attribute key can be looked up by hash.
-   247	 *
-   248	 * We use the extended attribute walk helper to call this function for every
-   249	 * attribute key in an inode.  Once we're here, we load the attribute value to
-   250	 * see if any errors happen, or if we get more or less data than we expected.
-   251	 */
-   252	static int
-   253	xchk_xattr_actor(
-   254		struct xfs_scrub	*sc,
-   255		struct xfs_inode	*ip,
-   256		unsigned int		attr_flags,
-   257		const unsigned char	*name,
-   258		unsigned int		namelen,
-   259		const void		*value,
-   260		unsigned int		valuelen,
-   261		void			*priv)
-   262	{
-   263		struct xfs_da_args		args = {
-   264			.op_flags		= XFS_DA_OP_NOTIME,
-   265			.attr_filter		= attr_flags & XFS_ATTR_NSP_ONDISK_MASK,
-   266			.geo			= sc->mp->m_attr_geo,
-   267			.whichfork		= XFS_ATTR_FORK,
-   268			.dp			= ip,
-   269			.name			= name,
-   270			.namelen		= namelen,
-   271			.hashval		= xfs_da_hashname(name, namelen),
-   272			.trans			= sc->tp,
-   273			.valuelen		= valuelen,
-   274			.owner			= ip->i_ino,
-   275		};
-   276		struct xchk_xattr_buf		*ab;
-   277		int				error = 0;
-   278	
-   279		ab = sc->buf;
-   280	
-   281		if (xchk_should_terminate(sc, &error))
-   282			return error;
-   283	
-   284		if (attr_flags & XFS_ATTR_INCOMPLETE) {
-   285			/* Incomplete attr key, just mark the inode for preening. */
-   286			xchk_ino_set_preen(sc, ip->i_ino);
-   287			return 0;
-   288		}
-   289	
-   290		/* Only one namespace bit allowed. */
-   291		if (hweight32(attr_flags & XFS_ATTR_NSP_ONDISK_MASK) > 1) {
-   292			xchk_fblock_set_corrupt(sc, XFS_ATTR_FORK, args.blkno);
-   293			return -ECANCELED;
-   294		}
-   295	
-   296		/* Check parent pointer geometry. */
-   297		if (attr_flags & XFS_ATTR_PARENT) {
-   298			if (!xfs_has_parent(sc->mp)) {
-   299				xchk_fblock_set_corrupt(sc, XFS_ATTR_FORK, args.blkno);
-   300				return -ECANCELED;
-   301			}
-   302	
-   303			if (!xfs_parent_valuecheck(sc->mp, value, valuelen)) {
-   304				xchk_fblock_set_corrupt(sc, XFS_ATTR_FORK, args.blkno);
-   305				return -ECANCELED;
-   306			}
-   307		} else if (attr_flags & XFS_ATTR_VERITY) {
-   308			/* Check verity xattr geometry */
- > 309			xchk_xattr_verity(sc, args.blkno, name, namelen, valuelen);
-   310			if (sc->sm->sm_flags & XFS_SCRUB_OFLAG_CORRUPT)
-   311				return -ECANCELED;
-   312		}
-   313	
-   314		/* Does this name make sense? */
-   315		if (!xfs_attr_namecheck(sc->mp, name, namelen, attr_flags)) {
-   316			xchk_fblock_set_corrupt(sc, XFS_ATTR_FORK, args.blkno);
-   317			return -ECANCELED;
-   318		}
-   319	
-   320		/*
-   321		 * Local and shortform xattr values are stored in the attr leaf block,
-   322		 * so we don't need to retrieve the value from a remote block to detect
-   323		 * corruption problems.
-   324		 */
-   325		if (value)
-   326			return 0;
-   327	
-   328		/*
-   329		 * Try to allocate enough memory to extract the attr value.  If that
-   330		 * doesn't work, return -EDEADLOCK as a signal to try again with a
-   331		 * maximally sized buffer.
-   332		 */
-   333		error = xchk_setup_xattr_buf(sc, valuelen);
-   334		if (error == -ENOMEM)
-   335			error = -EDEADLOCK;
-   336		if (error)
-   337			return error;
-   338	
-   339		args.value = ab->value;
-   340	
-   341		error = xfs_attr_get_ilocked(&args);
-   342		/* ENODATA means the hash lookup failed and the attr is bad */
-   343		if (error == -ENODATA)
-   344			error = -EFSCORRUPTED;
-   345		if (!xchk_fblock_process_error(sc, XFS_ATTR_FORK, args.blkno,
-   346				&error))
-   347			return error;
-   348		if (args.valuelen != valuelen)
-   349			xchk_fblock_set_corrupt(sc, XFS_ATTR_FORK, args.blkno);
-   350	
-   351		return 0;
-   352	}
-   353	
+    91	
+  > 92	int ipmi_si_sim_setup(struct si_sm_io *io)
+    93	{
+    94		io->inputb = intf_sim_inb;
+    95		io->outputb = intf_sim_outb;
+    96		io->io_cleanup = ipmi_ls2k500_cleanup;
+    97		return 0;
+    98	}
+    99	
+   100	#define platform_resource_start(dev, bar)   ((dev)->resource[(bar)].start)
+   101	#define platform_resource_end(dev, bar)     ((dev)->resource[(bar)].end)
+   102	static int of_ipmi_ls2k500_probe(struct platform_device *pdev)
+   103	{
+   104		int rv;
+   105		struct si_sm_io io;
+   106		void **kcs_data;
+   107	
+   108		memset(&io, 0, sizeof(io));
+   109		io.addr_source = SI_PLATFORM;
+   110		dev_info(&pdev->dev, "probing via ls2k500 platform");
+   111		io.si_type = SI_KCS;
+   112	
+   113		io.addr_space = IPMI_MEM_ADDR_SPACE;
+   114		io.io_setup = ipmi_si_sim_setup;
+   115		io.addr_data = pdev->resource[0].start;
+ > 116		io.addr_source_data = ioremap(pdev->resource[0].start,
+   117						pdev->resource[0].end -
+   118						pdev->resource[0].start + 1);
+   119		kcs_data = dev_get_platdata(&pdev->dev);
+   120		event_jiffies = kcs_data[0];
+   121		mscycles = kcs_data[1];
+   122		io.dev = &pdev->dev;
+   123		io.regspacing = 4;
+   124		io.regsize = DEFAULT_REGSIZE;
+   125		io.regshift = 0;
+   126		io.irq = 0;
+   127		if (io.irq)
+   128			io.irq_setup = ipmi_std_irq_setup;
+   129	
+   130		dev_info(&pdev->dev, "%pR regsize %d spacing %d irq %d\n",
+   131			&pdev->resource[0], io.regsize, io.regspacing, io.irq);
+   132	
+   133		rv = ipmi_si_add_smi(&io);
+   134		if (rv)
+   135			ipmi_si_remove_by_dev(&pdev->dev);
+   136	
+   137		return rv;
+   138	}
+   139	
+   140	static int ipmi_ls2k500_remove(struct platform_device *pdev)
+   141	{
+   142		ipmi_si_remove_by_dev(&pdev->dev);
+   143	
+   144		return 0;
+   145	}
+   146	
+   147	#define LS2K500_SI_DEVICE_NAME "ipmi_ls2k500_si"
+ > 148	struct platform_driver ipmi_ls2k500_platform_driver = {
+   149		.driver = {
+   150			.name = LS2K500_SI_DEVICE_NAME,
+   151		},
+   152		.probe		= of_ipmi_ls2k500_probe,
+   153		.remove		= ipmi_ls2k500_remove,
+   154	};
+   155	
 
 -- 
 0-DAY CI Kernel Test Service
