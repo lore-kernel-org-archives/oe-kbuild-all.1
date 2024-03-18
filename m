@@ -1,165 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com [95.215.58.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C364EB39;
-	Mon, 18 Mar 2024 15:00:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDFB4EB42
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 15:06:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710774015; cv=none; b=mRPHawHGEINvv6g8M8Er3Ctt61Ai07RykTNsRXYZy+E9AuoKh6Has7z7RG734FpgOs7TflJ6Vr/8j+N14HrAI2p6wq7CHjeC8hkbZCdK1v+2CzzQc/+gqOz5aZfLvJ9HaA8jYlKi17mGLKSuJWZ4f52zZLF57RPmb6Jv8STCDbI=
+	t=1710774410; cv=none; b=WS4lrWDQVCsPAGDqvwa3HJMUistatQsAPbU6wVOkHmrjU75k3Ju49aBhiE8oKB1uPLK/DNUbXKhCHu8AguLYS4/q8KIlqUcpo59tREAaXuswjVTkU8ZPKQllPydk3WmFoKpWl6BLm5Lg7OwZYrUzgY2p9KsvgrUjQoZtcPw0kgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710774015; c=relaxed/simple;
-	bh=PC104PBOwXuviVlws1W/LwILT5gKE6sViJcHCXyEwlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fzIPHvzJe7creIN70jKuE3dxrEmAhkJeubqSwFevTdt/YdgHD/HK3KfokHlm4RGdCFdoGNXnjCKgUZDF46ijGRZ7JPIhkT5ut9+42/4e0Ri36NxudVS5ZvYn7CeTUmJrd+nTCCyIwswjF+NWPUo8a34BusDFbDD6ZXpEjqaCL2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UYacY3uT; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710774410; c=relaxed/simple;
+	bh=M5sEvDQyfmg+P2iDJySXqyw0gSuuzNz3bDLZJ/j8Q+s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cR7GTzEgTPHc+5+kPeYyzAuaqA/9Nmz9mTnzaTewuL8+CWkYu9/BrdRWQj5L2X1VSTwBtC4qFa4gNwVHiZQMay4Xd4RZcIJ9YOq2xk1esbCgSJgFmTVvr3GY6ooyawqZDUha+7XD8E78+vyFis1QYjiHGAOR0sAi4Mb89HnOrl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=aqcmgOtc; arc=none smtp.client-ip=95.215.58.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UYacY3uT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710774013; x=1742310013;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PC104PBOwXuviVlws1W/LwILT5gKE6sViJcHCXyEwlw=;
-  b=UYacY3uT/UrgdBcigYB2oJn+un/1bgywAVQgrdXBDewqte9Vgg4ZWrwf
-   Vbt57aJgYNQxcjuHKFjFhR5PDmHW8O2fS4b4DODJ5FK9pMdqY/sDPT0Qa
-   KBpkYdSIIdETtXN7Uwl69jGAvcgPJluqN4BpZplDA4PAgJXCnpIwLnDFw
-   NvLew9S3C2zOr60QdxxGfc7AM+lDLSRJ6mBb+2+6p3dKFZ5NJ9wvaknbq
-   1GGOMPTR7jBk33u+EUbMV9bxwgYY2rZYEXabFAMPysSthIaQB33NHVr5K
-   GCJWEEP+yrZ88gC08Sb0jQv/lEnrn7poQ1xXAltK/JJ4+aeuz/qflhN1y
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5527367"
-X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="5527367"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 08:00:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="36619807"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Mar 2024 08:00:04 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rmET4-000H25-2E;
-	Mon, 18 Mar 2024 15:00:02 +0000
-Date: Mon, 18 Mar 2024 22:59:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Luca Weiss <luca.weiss@fairphone.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [drm-misc:for-linux-next-fixes 1/1] ld.lld: error: undefined symbol:
- __drm_dev_dbg
-Message-ID: <202403182236.BEDkBjub-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="aqcmgOtc"
+Message-ID: <ce1190ad-27c2-4a16-b36f-442c0c419dcc@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1710774406;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rFYG+MKz6ANyiG8TJd96eDulfolyGk7SAyNV6wkBMI8=;
+	b=aqcmgOtcga3dPZNJ+pFQjL/wYPJrKLvFM1eNMecpTYbr3CnJ7aK8teeg5grYRAERQAok4r
+	YETCfbnGg0E2TrUq+fzAte+uGdX2kl00/hvjzSVktg0r3WCmahqPV75FC0LZITIELNoy1X
+	QtGHib4VztypWJxSOtDxcGGc2c9Hmfo=
+Date: Mon, 18 Mar 2024 11:06:40 -0400
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Subject: Re: [PATCH 6/6] drm: zynqmp_dp: Add debugfs interface for compliance
+ testing
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, David Airlie <airlied@gmail.com>,
+ linux-kernel@vger.kernel.org, Michal Simek <monstr@monstr.eu>,
+ linux-arm-kernel@lists.infradead.org, Daniel Vetter <daniel@ffwll.ch>
+References: <20240315230916.1759060-7-sean.anderson@linux.dev>
+ <202403161704.ACHJdSJG-lkp@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <202403161704.ACHJdSJG-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next-fixes
-head:   e3f18b0dd1db242791afbc3bd173026163ce0ccc
-commit: e3f18b0dd1db242791afbc3bd173026163ce0ccc [1/1] drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240318/202403182236.BEDkBjub-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240318/202403182236.BEDkBjub-lkp@intel.com/reproduce)
+On 3/16/24 06:14, kernel test robot wrote:
+> Hi Sean,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on v6.8]
+> [cannot apply to drm-misc/drm-misc-next linus/master next-20240315]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/drm-zynqmp_dp-Downgrade-log-level-for-aux-retries-message/20240316-071208
+> base:   v6.8
+> patch link:    https://lore.kernel.org/r/20240315230916.1759060-7-sean.anderson%40linux.dev
+> patch subject: [PATCH 6/6] drm: zynqmp_dp: Add debugfs interface for compliance testing
+> config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240316/202403161704.ACHJdSJG-lkp@intel.com/config)
+> compiler: microblaze-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161704.ACHJdSJG-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403161704.ACHJdSJG-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers/gpu/drm/xlnx/zynqmp_dp.c: In function 'zynqmp_dp_bridge_debugfs_init':
+>>> drivers/gpu/drm/xlnx/zynqmp_dp.c:2168:31: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+>     2168 |                 sprintf(name, fmt, i);
+>          |                               ^~~
+>    drivers/gpu/drm/xlnx/zynqmp_dp.c:2168:17: note: 'sprintf' output between 18 and 20 bytes into a destination of size 19
+>     2168 |                 sprintf(name, fmt, i);
+>          |                 ^~~~~~~~~~~~~~~~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403182236.BEDkBjub-lkp@intel.com/
+Not a bug, as i will be at most 4, which uses 1 digit.
 
-All errors (new ones prefixed by >>):
+--Sean
 
->> ld.lld: error: undefined symbol: __drm_dev_dbg
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(drm_atomic_helper_check_modeset) in archive vmlinux.a
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(drm_atomic_helper_check_modeset) in archive vmlinux.a
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(drm_atomic_helper_check_modeset) in archive vmlinux.a
-   >>> referenced 52 more times
---
->> ld.lld: error: undefined symbol: drm_dev_has_vblank
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(drm_atomic_helper_check_modeset) in archive vmlinux.a
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(drm_atomic_helper_commit_modeset_disables) in archive vmlinux.a
-   >>> referenced by drm_atomic_state_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_state_helper.o:(__drm_atomic_helper_crtc_reset) in archive vmlinux.a
-   >>> referenced 1 more times
---
->> ld.lld: error: undefined symbol: drm_atomic_set_crtc_for_connector
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(handle_conflicting_encoders) in archive vmlinux.a
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(drm_atomic_helper_disable_all) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: drm_atomic_set_mode_prop_for_crtc
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(handle_conflicting_encoders) in archive vmlinux.a
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(drm_atomic_helper_disable_all) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: drm_connector_list_iter_end
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(handle_conflicting_encoders) in archive vmlinux.a
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(drm_atomic_helper_duplicate_state) in archive vmlinux.a
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(drm_atomic_helper_duplicate_state) in archive vmlinux.a
-   >>> referenced 25 more times
---
->> ld.lld: error: undefined symbol: drm_mode_copy
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(mode_fixup) in archive vmlinux.a
-   >>> referenced by drm_crtc_helper.c
-   >>>               drivers/gpu/drm/drm_crtc_helper.o:(drm_crtc_helper_set_mode) in archive vmlinux.a
-   >>> referenced by drm_crtc_helper.c
-   >>>               drivers/gpu/drm/drm_crtc_helper.o:(drm_crtc_helper_set_mode) in archive vmlinux.a
-   >>> referenced 2 more times
---
->> ld.lld: error: undefined symbol: drm_atomic_bridge_chain_check
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(mode_fixup) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: drm_mode_get_hv_timing
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(drm_atomic_helper_check_plane_state) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: drm_atomic_normalize_zpos
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(drm_atomic_helper_check) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: drm_calc_timestamping_constants
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(drm_atomic_helper_calc_timestamping_constants) in archive vmlinux.a
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(drm_atomic_helper_commit_modeset_disables) in archive vmlinux.a
-   >>> referenced by drm_crtc_helper.c
-   >>>               drivers/gpu/drm/drm_crtc_helper.o:(drm_crtc_helper_set_mode) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: drm_atomic_bridge_chain_post_disable
-   >>> referenced by drm_atomic_helper.c
-   >>>               drivers/gpu/drm/drm_atomic_helper.o:(drm_atomic_helper_commit_modeset_disables) in archive vmlinux.a
-..
+> vim +/sprintf +2168 drivers/gpu/drm/xlnx/zynqmp_dp.c
+> 
+>   2136	
+>   2137	DEFINE_DEBUGFS_ATTRIBUTE(fops_zynqmp_dp_rate, zynqmp_dp_rate_get,
+>   2138				 zynqmp_dp_rate_set, "%llu\n");
+>   2139	
+>   2140	static void zynqmp_dp_bridge_debugfs_init(struct drm_bridge *bridge,
+>   2141						  struct dentry *root)
+>   2142	{
+>   2143		struct zynqmp_dp *dp = bridge_to_dp(bridge);
+>   2144		struct dentry *test;
+>   2145		int i;
+>   2146	
+>   2147		dp->test.bw_code = DP_LINK_BW_5_4;
+>   2148		dp->test.link_cnt = dp->num_lanes;
+>   2149	
+>   2150		test = debugfs_create_dir("test", root);
+>   2151	#define CREATE_FILE(name) \
+>   2152		debugfs_create_file(#name, 0600, test, dp, &fops_zynqmp_dp_##name)
+>   2153		CREATE_FILE(pattern);
+>   2154		CREATE_FILE(enhanced);
+>   2155		CREATE_FILE(downspread);
+>   2156		CREATE_FILE(active);
+>   2157		CREATE_FILE(custom);
+>   2158		CREATE_FILE(rate);
+>   2159		CREATE_FILE(lanes);
+>   2160	
+>   2161		for (i = 0; i < dp->num_lanes; i++) {
+>   2162			static const char fmt[] = "lane%d_preemphasis";
+>   2163			char name[sizeof(fmt)];
+>   2164	
+>   2165			dp->debugfs_train_set[i].dp = dp;
+>   2166			dp->debugfs_train_set[i].lane = i;
+>   2167	
+>> 2168			sprintf(name, fmt, i);
+>   2169			debugfs_create_file(name, 0600, test,
+>   2170					    &dp->debugfs_train_set[i],
+>   2171					    &fops_zynqmp_dp_preemphasis);
+>   2172	
+>   2173			sprintf(name, "lane%d_swing", i);
+>   2174			debugfs_create_file(name, 0600, test,
+>   2175					    &dp->debugfs_train_set[i],
+>   2176					    &fops_zynqmp_dp_swing);
+>   2177		}
+>   2178	}
+>   2179	
+> 
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_KMS_HELPER
-   Depends on [m]: HAS_IOMEM [=y] && DRM [=m]
-   Selected by [y]:
-   - DRM_PANEL_BRIDGE [=y] && HAS_IOMEM [=y] && DRM_BRIDGE [=y]
-   Selected by [m]:
-   - DRM [=m] && HAS_IOMEM [=y] && (AGP [=n] || AGP [=n]=n) && !EMULATED_CMPXCHG && HAS_DMA [=y] && DRM_FBDEV_EMULATION [=y]
-   - DRM_RADEON [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y] && (AGP [=n] || !AGP [=n])
-   - DRM_NOUVEAU [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y]
-   - DRM_SUN4I [=m] && HAS_IOMEM [=y] && DRM [=m] && COMMON_CLK [=y] && (ARCH_SUNXI [=y] || COMPILE_TEST [=n])
-   - DRM_VIRTIO_GPU [=m] && HAS_IOMEM [=y] && DRM [=m] && VIRTIO_MENU [=y] && MMU [=y]
-   - DRM_DW_HDMI [=m] && HAS_IOMEM [=y] && DRM [=m] && DRM_BRIDGE [=y]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
