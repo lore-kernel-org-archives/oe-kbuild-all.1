@@ -1,65 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABB3282D6;
-	Tue, 19 Mar 2024 04:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C6E45BFE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Mar 2024 05:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710823588; cv=none; b=OzXd/fg+mTCXX4lQLsx/jSqujFLuAZAhi7S5pNnvrjPiSHiLsZznGb9g9pdF2dRybowASJsdGSEqvh1O5DGASBFn37/QhvTpPb9VBXEfpdY2KB3ekMlO+ivfB8BR1GL3ZF9jppUAm1MlVR3ONf6KVVIEWC53DM35gc8xKTjyabk=
+	t=1710826707; cv=none; b=K02VUtpIUJWJhziN22vfed1q0rD5TjHtf0rtvASWgL7twl8TgmlAnwqIGSMOrlIeGdYXHGuYiJxQwLXsM+IbwM2ChGJYlbQwbFkyAtJ80SY3j2WOuMwonYtfeyIHn/J5tYAVHfaYZprmLrJodzlkSd7NVvd481V2uem20XBYd7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710823588; c=relaxed/simple;
-	bh=fEy6P0I3jPTmevPJIPplBM0zTehyrCjLrW0b4HVZw6Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qn7YRiZtIEfMTVcdBCHrlENUd5Pj3wjANxEcvY/06CtYH37g2zVKvI1nngRZyN4ptfcjbozD3zvgADokUsZLXwx4rx2Ei1Exic9jN+wOP4jpFjDoao+2tKIptjpC6WO84uVcb9rCfZajon3Ix/Pw/jxFRlCROlnslXFWwZNMobA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MTyWMRzl; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1710826707; c=relaxed/simple;
+	bh=as4ll6hj1YYYI4BurIFkTr5tcwd859jwaqce+Uy8APY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Nsf3oZXQ/L9T1lj6jEmHNJ9sFlSGnCJXtgCNIa//fDZJ1MH4Jo/aHOCRGvDw6j6lxQ9RNRzq0Fecp+ei0RIleOZAtBS7I0ONzNzId1YqGbyEgjZvelokDMXd2inea+RSAINXxI9n5LIyvnuQXPGWTBhuV6Z1pyxkNqm82pIYxAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XMpZg9no; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MTyWMRzl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XMpZg9no"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710823586; x=1742359586;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fEy6P0I3jPTmevPJIPplBM0zTehyrCjLrW0b4HVZw6Y=;
-  b=MTyWMRzlNPnAiDxTVMtkLUilghNfscy+bmTEFeM2PrfPVtvosMBgaG3M
-   zao2uUhWS8HX0hxPQ5hlZRMgqYUSspJMRmuT8c1MPyAgB7ow14gTY3QZm
-   ydRTdwx9k8yeRNe5eCaJabqrM+vWPnPWNFKenFIAu9n8+uJtPOt+XmlRe
-   trH9x7Canu2sXbkKuHOgSiyNEdliYrxay0ut0VjVmtSvdRFoNZ4Rrxw9j
-   Zgj0wsJKljhlO2/BCqS6sFqX0W5da9l8cHdyDHpjXDZUDs+kgOX2fCRhL
-   DOS1nMd35pOjArSrSj/zYds7lXT1OWbcExpy/+i35p1x1fiEWMjIR4JBV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="28148020"
+  t=1710826705; x=1742362705;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=as4ll6hj1YYYI4BurIFkTr5tcwd859jwaqce+Uy8APY=;
+  b=XMpZg9nozA6ufUbiQHO13d7hOvzWcBHtEBVFFHx/pDtbrQDuu0C/VsZF
+   vL117LfgJdbuj7VgIJyQaJr8T3pe41c4GR9q//YLBxftrky628vAUaLQe
+   V2r3nykZiyKSS370rgUsRBKxIqYe4Qr874q4gbMMFEbh/u0ZxAz7zSmNc
+   frTNLb0LyuNRIbrs+kT818W4U0hMxT/y5Y5qV5gPzhyEmPuEldz99resN
+   6PE7wezCuSFJu3LiF7IwXbKA0l/7LPTa+UBknfnX3meQ9ciLx1rRTsowA
+   ME7ccDsY1F3/EPT04Fdl9GhfLOklvBNlCDO3+L9wPxG1V1lSS7onIZLrp
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5507892"
 X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="28148020"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 21:46:25 -0700
+   d="scan'208";a="5507892"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 22:38:24 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="36811876"
+   d="scan'208";a="14159515"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Mar 2024 21:46:22 -0700
+  by orviesa007.jf.intel.com with ESMTP; 18 Mar 2024 22:38:23 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rmRMi-000HTb-0J;
-	Tue, 19 Mar 2024 04:46:20 +0000
-Date: Tue, 19 Mar 2024 12:45:36 +0800
+	id 1rmSB3-000HVX-0D;
+	Tue, 19 Mar 2024 05:38:21 +0000
+Date: Tue, 19 Mar 2024 13:37:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Petr Tesarik <petrtesarik@huaweicloud.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Petr Tesarik <petr.tesarik1@huawei-partners.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Will Deacon <will@kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Roberto Sassu <roberto.sassu@huaweicloud.com>
-Subject: Re: [PATCH v2 1/2] swiotlb: extend buffer pre-padding to
- alloc_align_mask if necessary
-Message-ID: <202403191203.AtV7fvue-lkp@intel.com>
-References: <20240318130447.594-2-petrtesarik@huaweicloud.com>
+To: Ben Hutchings <bwh@kernel.org>, Pavel Machek <pavel@ucw.cz>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:b-4.4-st50-rt48 313/395] fs/binfmt_em86.c:73:35: error: passing
+ argument 2 of 'copy_strings_kernel' from incompatible pointer type
+Message-ID: <202403191326.ZkT04FtT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,198 +57,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240318130447.594-2-petrtesarik@huaweicloud.com>
 
-Hi Petr,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.8]
-[also build test WARNING on linus/master next-20240318]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Petr-Tesarik/swiotlb-extend-buffer-pre-padding-to-alloc_align_mask-if-necessary/20240318-212500
-base:   v6.8
-patch link:    https://lore.kernel.org/r/20240318130447.594-2-petrtesarik%40huaweicloud.com
-patch subject: [PATCH v2 1/2] swiotlb: extend buffer pre-padding to alloc_align_mask if necessary
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240319/202403191203.AtV7fvue-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403191203.AtV7fvue-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git b-4.4-st50-rt48
+head:   9721fc7815f56adca91f657c671845e73f895763
+commit: f4be2628637d93d86a29fa5b6f55612c6a6def88 [313/395] Add upstream swait
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240319/202403191326.ZkT04FtT-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403191326.ZkT04FtT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403191203.AtV7fvue-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403191326.ZkT04FtT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/dma/swiotlb.c:27:
-   In file included from include/linux/dma-direct.h:9:
-   In file included from include/linux/dma-mapping.h:8:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:173:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from kernel/dma/swiotlb.c:27:
-   In file included from include/linux/dma-direct.h:9:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from kernel/dma/swiotlb.c:27:
-   In file included from include/linux/dma-direct.h:9:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from kernel/dma/swiotlb.c:27:
-   In file included from include/linux/dma-direct.h:9:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> kernel/dma/swiotlb.c:1348:33: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
-    1348 |         pool->slots[index].pad_slots = i;
-         |                                        ^
-   kernel/dma/swiotlb.c:1301:16: note: initialize the variable 'i' to silence this warning
-    1301 |         unsigned int i;
-         |                       ^
-         |                        = 0
-   kernel/dma/swiotlb.c:1643:20: warning: unused function 'swiotlb_create_debugfs_files' [-Wunused-function]
-    1643 | static inline void swiotlb_create_debugfs_files(struct io_tlb_mem *mem,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   15 warnings generated.
+   In file included from arch/alpha/include/asm/bug.h:22:0,
+                    from include/linux/bug.h:4,
+                    from include/linux/thread_info.h:11,
+                    from include/asm-generic/preempt.h:4,
+                    from arch/alpha/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:63,
+                    from include/linux/spinlock.h:50,
+                    from include/linux/seqlock.h:35,
+                    from include/linux/time.h:5,
+                    from include/linux/stat.h:18,
+                    from include/linux/module.h:10,
+                    from fs/binfmt_em86.c:11:
+   include/linux/cpumask.h: In function 'cpumask_check':
+   include/linux/cpumask.h:117:19: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     WARN_ON_ONCE(cpu >= nr_cpumask_bits);
+                      ^
+   include/asm-generic/bug.h:112:27: note: in definition of macro 'WARN_ON_ONCE'
+     int __ret_warn_once = !!(condition);   \
+                              ^~~~~~~~~
+   fs/binfmt_em86.c: In function 'load_em86':
+>> fs/binfmt_em86.c:73:35: error: passing argument 2 of 'copy_strings_kernel' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      retval = copy_strings_kernel(1, &i_arg, bprm);
+                                      ^
+   In file included from fs/binfmt_em86.c:14:0:
+   include/linux/binfmts.h:116:12: note: expected 'const char * const*' but argument is of type 'char **'
+    extern int copy_strings_kernel(int argc, const char *const *argv,
+               ^~~~~~~~~~~~~~~~~~~
+   fs/binfmt_em86.c:77:34: error: passing argument 2 of 'copy_strings_kernel' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     retval = copy_strings_kernel(1, &i_name, bprm);
+                                     ^
+   In file included from fs/binfmt_em86.c:14:0:
+   include/linux/binfmts.h:116:12: note: expected 'const char * const*' but argument is of type 'char **'
+    extern int copy_strings_kernel(int argc, const char *const *argv,
+               ^~~~~~~~~~~~~~~~~~~
+   fs/binfmt_em86.c:68:2: warning: ignoring return value of 'remove_arg_zero', declared with attribute warn_unused_result [-Wunused-result]
+     remove_arg_zero(bprm);
+     ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/i +1348 kernel/dma/swiotlb.c
+vim +/copy_strings_kernel +73 fs/binfmt_em86.c
 
-  1292	
-  1293	phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
-  1294			size_t mapping_size, size_t alloc_size,
-  1295			unsigned int alloc_align_mask, enum dma_data_direction dir,
-  1296			unsigned long attrs)
-  1297	{
-  1298		struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
-  1299		unsigned int offset;
-  1300		struct io_tlb_pool *pool;
-  1301		unsigned int i;
-  1302		int index;
-  1303		phys_addr_t tlb_addr;
-  1304		unsigned short pad_slots;
-  1305	
-  1306		if (!mem || !mem->nslabs) {
-  1307			dev_warn_ratelimited(dev,
-  1308				"Can not allocate SWIOTLB buffer earlier and can't now provide you with the DMA bounce buffer");
-  1309			return (phys_addr_t)DMA_MAPPING_ERROR;
-  1310		}
-  1311	
-  1312		if (cc_platform_has(CC_ATTR_MEM_ENCRYPT))
-  1313			pr_warn_once("Memory encryption is active and system is using DMA bounce buffers\n");
-  1314	
-  1315		if (mapping_size > alloc_size) {
-  1316			dev_warn_once(dev, "Invalid sizes (mapping: %zd bytes, alloc: %zd bytes)",
-  1317				      mapping_size, alloc_size);
-  1318			return (phys_addr_t)DMA_MAPPING_ERROR;
-  1319		}
-  1320	
-  1321		/*
-  1322		 * Calculate buffer pre-padding within the allocated space. Use it to
-  1323		 * preserve the low bits of the original address according to device's
-  1324		 * min_align_mask. Limit the padding to alloc_align_mask or slot size
-  1325		 * (whichever is bigger); higher bits of the original address are
-  1326		 * preserved by selecting a suitable IO TLB slot.
-  1327		 */
-  1328		offset = orig_addr & dma_get_min_align_mask(dev) &
-  1329			(alloc_align_mask | (IO_TLB_SIZE - 1));
-  1330		index = swiotlb_find_slots(dev, orig_addr,
-  1331					   alloc_size + offset, alloc_align_mask, &pool);
-  1332		if (index == -1) {
-  1333			if (!(attrs & DMA_ATTR_NO_WARN))
-  1334				dev_warn_ratelimited(dev,
-  1335		"swiotlb buffer is full (sz: %zd bytes), total %lu (slots), used %lu (slots)\n",
-  1336					 alloc_size, mem->nslabs, mem_used(mem));
-  1337			return (phys_addr_t)DMA_MAPPING_ERROR;
-  1338		}
-  1339	
-  1340		/*
-  1341		 * Save away the mapping from the original address to the DMA address.
-  1342		 * This is needed when we sync the memory.  Then we sync the buffer if
-  1343		 * needed.
-  1344		 */
-  1345		pad_slots = offset / IO_TLB_SIZE;
-  1346		offset %= IO_TLB_SIZE;
-  1347		index += pad_slots;
-> 1348		pool->slots[index].pad_slots = i;
-  1349		for (i = 0; i < nr_slots(alloc_size + offset); i++)
-  1350			pool->slots[index + i].orig_addr = slot_addr(orig_addr, i);
-  1351		tlb_addr = slot_addr(pool->start, index) + offset;
-  1352		/*
-  1353		 * When the device is writing memory, i.e. dir == DMA_FROM_DEVICE, copy
-  1354		 * the original buffer to the TLB buffer before initiating DMA in order
-  1355		 * to preserve the original's data if the device does a partial write,
-  1356		 * i.e. if the device doesn't overwrite the entire buffer.  Preserving
-  1357		 * the original data, even if it's garbage, is necessary to match
-  1358		 * hardware behavior.  Use of swiotlb is supposed to be transparent,
-  1359		 * i.e. swiotlb must not corrupt memory by clobbering unwritten bytes.
-  1360		 */
-  1361		swiotlb_bounce(dev, tlb_addr, mapping_size, DMA_TO_DEVICE);
-  1362		return tlb_addr;
-  1363	}
-  1364	
+^1da177e4c3f41 Linus Torvalds 2005-04-16  24  
+71613c3b871c5a Al Viro        2012-10-20  25  static int load_em86(struct linux_binprm *bprm)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  26  {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  27  	char *interp, *i_name, *i_arg;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  28  	struct file * file;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  29  	int retval;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  30  	struct elfhdr	elf_ex;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  31  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  32  	/* Make sure this is a Linux/Intel ELF executable... */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  33  	elf_ex = *((struct elfhdr *)bprm->buf);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  34  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  35  	if (memcmp(elf_ex.e_ident, ELFMAG, SELFMAG) != 0)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  36  		return  -ENOEXEC;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  37  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  38  	/* First of all, some simple consistency checks */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  39  	if ((elf_ex.e_type != ET_EXEC && elf_ex.e_type != ET_DYN) ||
+^1da177e4c3f41 Linus Torvalds 2005-04-16  40  		(!((elf_ex.e_machine == EM_386) || (elf_ex.e_machine == EM_486))) ||
+72c2d531920048 Al Viro        2013-09-22  41  		!bprm->file->f_op->mmap) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  42  			return -ENOEXEC;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  43  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  44  
+51f39a1f0cea1c David Drysdale 2014-12-12  45  	/* Need to be able to load the file after exec */
+51f39a1f0cea1c David Drysdale 2014-12-12  46  	if (bprm->interp_flags & BINPRM_FLAGS_PATH_INACCESSIBLE)
+51f39a1f0cea1c David Drysdale 2014-12-12  47  		return -ENOENT;
+51f39a1f0cea1c David Drysdale 2014-12-12  48  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  49  	allow_write_access(bprm->file);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  50  	fput(bprm->file);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  51  	bprm->file = NULL;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  52  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  53  	/* Unlike in the script case, we don't have to do any hairy
+^1da177e4c3f41 Linus Torvalds 2005-04-16  54  	 * parsing to find our interpreter... it's hardcoded!
+^1da177e4c3f41 Linus Torvalds 2005-04-16  55  	 */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  56  	interp = EM86_INTERP;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  57  	i_name = EM86_I_NAME;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  58  	i_arg = NULL;		/* We reserve the right to add an arg later */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  59  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  60  	/*
+^1da177e4c3f41 Linus Torvalds 2005-04-16  61  	 * Splice in (1) the interpreter's name for argv[0]
+^1da177e4c3f41 Linus Torvalds 2005-04-16  62  	 *           (2) (optional) argument to interpreter
+^1da177e4c3f41 Linus Torvalds 2005-04-16  63  	 *           (3) filename of emulated file (replace argv[0])
+^1da177e4c3f41 Linus Torvalds 2005-04-16  64  	 *
+^1da177e4c3f41 Linus Torvalds 2005-04-16  65  	 * This is done in reverse order, because of how the
+^1da177e4c3f41 Linus Torvalds 2005-04-16  66  	 * user environment and arguments are stored.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  67  	 */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  68  	remove_arg_zero(bprm);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  69  	retval = copy_strings_kernel(1, &bprm->filename, bprm);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  70  	if (retval < 0) return retval; 
+^1da177e4c3f41 Linus Torvalds 2005-04-16  71  	bprm->argc++;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  72  	if (i_arg) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @73  		retval = copy_strings_kernel(1, &i_arg, bprm);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  74  		if (retval < 0) return retval; 
+^1da177e4c3f41 Linus Torvalds 2005-04-16  75  		bprm->argc++;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  76  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  77  	retval = copy_strings_kernel(1, &i_name, bprm);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  78  	if (retval < 0)	return retval;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  79  	bprm->argc++;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  80  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  81  	/*
+^1da177e4c3f41 Linus Torvalds 2005-04-16  82  	 * OK, now restart the process with the interpreter's inode.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  83  	 * Note that we use open_exec() as the name is now in kernel
+^1da177e4c3f41 Linus Torvalds 2005-04-16  84  	 * space, and we don't need to copy it.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  85  	 */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  86  	file = open_exec(interp);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  87  	if (IS_ERR(file))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  88  		return PTR_ERR(file);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  89  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  90  	bprm->file = file;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  91  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  92  	retval = prepare_binprm(bprm);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  93  	if (retval < 0)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  94  		return retval;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  95  
+3c456bfc4ba66e Al Viro        2012-10-20  96  	return search_binary_handler(bprm);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  97  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  98  
+
+:::::: The code at line 73 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
