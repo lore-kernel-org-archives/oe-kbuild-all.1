@@ -1,535 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED80E651AC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Mar 2024 15:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4ED8564F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Mar 2024 16:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710860804; cv=none; b=tcfBaVPLGfIOBIXNl7ZyWEaqeFgWuPd0YbZ5KiFzjtLBqhFn5NxIp+cvxh5+csUh36ndiK3iEr6TUyfJx1aD8zsrDlkvgiXQJmxMQdtMOjYMfse8tzYlByO/n7pu0+7MMrHzHIdVopgjcV1221R7uxibzU80+jL32JXdT++5Jsg=
+	t=1710865267; cv=none; b=YVWn8AnA60R/p7a/rw3jgtZS7jLKNXBr2EjxMgu2bcPWC+X3W4D8pMtJaDk1urC/XNGLpxkmgpOTOY1Wv7cEf1rnOp4du1/CCccb6USO60fEs0TU0r8PE9XaMUVGvnbWRJd7bUu8v1pEvQeV7UEEX/RCAVbD/FVdecweuSv73ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710860804; c=relaxed/simple;
-	bh=PNH/guvgw+5rTPcKRzPAvyJKStr7pvFFGV00qziN0nE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IKlApGpKxp27fvaBAzk7o1uk7JWppKK8Bb3Pa7xFRQONEM1X020C7Skbe3syPQIOVR17Oerk6HTVX/0XB9RRPJXH78ePrJ7w+PmDIKohlxKO//NNGlfyFM5SD0Uj56CsV+xCxicTJN4Q7yk6rNcqUZopRsz2YW1ILRkMGaUUzOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hsEJW5p3; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710865267; c=relaxed/simple;
+	bh=wTm5U6x3uYqWqcyzthPHTTnwV2LKEGlDvsrBEYqages=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kig+ibbbSQNOTtydLnFHSkT8MAzAYleEYC5H1/gnvmr4u4JnikEthOfGCL3+XtgZmR9fU8y2ghLak4dUHGHNuDCFBIihAhemH/jf06cHsOeDGVlMIQwqcP/seqpG6SYhEf+GKXOiE9nfD/77dew7/JhxYjUjeb2GyLfdM68ybqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SBtZH+62; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=nXRvnYew; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hsEJW5p3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710860801; x=1742396801;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PNH/guvgw+5rTPcKRzPAvyJKStr7pvFFGV00qziN0nE=;
-  b=hsEJW5p3QGQReW1NrqfdjxwDgtR9FufXXbzjrmf/vPqZTKG4gb2us0gm
-   4MVE73DsoxYUYENhgAeDc4O5TkrnhHxMCOOSBCV4FcEeA1gWYFHmPpxj6
-   YkrZ9O/zcQqZsOXBuc69dfRaIEygkyFYGNFQLd7p+kA72lyDAjJiJzvzC
-   R8VAwsHvX/VNjQ0HG0qc1lw5UgK771tJeTS2nIcjvZBXK2BsNQ/xoTSE2
-   idPldD5j3Cjy6R4rwVBxGIxYQNT1tqtD5isDzYp9RjjfWQjanPpccEkal
-   W5+MtQzy6x6+k5edEu0D1sr0NDg64z3Iq4XzfqOB+Gbv9pHfFIcZVd4h2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="23238036"
-X-IronPort-AV: E=Sophos;i="6.07,137,1708416000"; 
-   d="scan'208";a="23238036"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 08:06:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,137,1708416000"; 
-   d="scan'208";a="13819818"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 19 Mar 2024 08:06:38 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rmb2y-000Hqj-1m;
-	Tue, 19 Mar 2024 15:06:36 +0000
-Date: Tue, 19 Mar 2024 23:05:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:io_uring-recvsend-bundle 25/25]
- io_uring/opdef.c:207:50: error: invalid application of 'sizeof' to
- incomplete type 'struct io_async_connect'
-Message-ID: <202403192240.ZnfE56oV-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SBtZH+62";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nXRvnYew"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1710865264;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yenY2Vkhy6GkKeu7wEXm3Qzp0FvE3p3ABGWsdwNLMhU=;
+	b=SBtZH+62dvz0BRJd62JcEx/NHZHqz76EMk89ppMY8V1Y+FEuRBsqgmzHRqHBYF9cbXFsG0
+	DgCuAcQlR/WrglhEyHcX/HTFTLVbKvW4Sm9A6UYoDvdDAeBvfmb6L38DT0vuKbtjz++vEP
+	j3VsaioP0JUf04rnr0Kb9X36QxLHGxmwcNtR30GV/qWYaBrty5laRSFNYV2SSRjYz3N7X/
+	y+cLMa0QlvbFEA7gsG3gUJTr1jxP1WlShl7z4+Y5J8jjDMWfrlDYLqstbSuDQLXuWbJy5R
+	lCnF03S1OuWiYneiDXhJSdZ0dxN3xqQiRpJEJP1nlS+UfQE+Rks4swXUMHUUbw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1710865264;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yenY2Vkhy6GkKeu7wEXm3Qzp0FvE3p3ABGWsdwNLMhU=;
+	b=nXRvnYewtxYWC9pfbI/wLrWa0rp06IAovv/dYm902Mj+8pyU49rdkkzKiJ0NGpu0mucJkU
+	orxlepmlL0ouo2AA==
+To: Arnd Bergmann <arnd@kernel.org>, Linus Torvalds
+ <torvalds@linuxfoundation.org>
+Cc: Guenter Roeck <linux@roeck-us.net>, LKML <linux-kernel@vger.kernel.org>,
+ x86@kernel.org, Uros Bizjak <ubizjak@gmail.com>,
+ linux-sparse@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ oe-kbuild-all@lists.linux.dev
+Subject: Re: [patch 5/9] x86: Cure per CPU madness on UP
+In-Reply-To: <28ceb124-b634-44e0-bcd4-848fc3b0be7a@app.fastmail.com>
+References: <20240303235029.555787150@linutronix.de>
+ <20240304005104.622511517@linutronix.de>
+ <e20d88d0-5fb9-4307-be67-88b04ae9a188@roeck-us.net>
+ <CAHk-=whK=G1o6RtS9DS3wEGF1KU7WLgLL1+6Se86bj8m7wwqrQ@mail.gmail.com>
+ <87y1ajjsv9.ffs@tglx> <87o7bfjeae.ffs@tglx>
+ <CAHk-=wiP+XMGHr8NU13sSOG_oasNZN02O9_c1PzCJNG7+O-GPw@mail.gmail.com>
+ <877ci3j80k.ffs@tglx> <87le6fih5w.ffs@tglx>
+ <28ceb124-b634-44e0-bcd4-848fc3b0be7a@app.fastmail.com>
+Date: Tue, 19 Mar 2024 17:21:03 +0100
+Message-ID: <87edc6i45s.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-recvsend-bundle
-head:   eee946ee4f7c1b05793a249f6897442ec81b7f24
-commit: eee946ee4f7c1b05793a249f6897442ec81b7f24 [25/25] io_uring: drop ->prep_async()
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240319/202403192240.ZnfE56oV-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403192240.ZnfE56oV-lkp@intel.com/reproduce)
+On Mon, Mar 18 2024 at 20:13, Arnd Bergmann wrote:
+> FWIW, I did some experiments a few weeks ago on 32-bit ARM,
+> using a fairly minimal kernel in a virtual machine, and
+> checking the runtime memory consumption rather than compile-time.
+> In a kvm guest with 32MiB RAM, I saw a difference of multiple
+> megabytes in memory usage:
+>
+> Linux testvm 6.8.0-rc4-00410-gc02197fc9076-dirty #1 SMP PREEMPT armv7l
+> root@testvm:~# free
+>            	total   used    free  	shared  buff/cache   available
+> Mem:       	26932   14956   1732   	    52       12800   	11976
+> Swap:      	16360    3632   12728
+>
+> Linux testvm 6.8.0-rc4-00410-gc02197fc9076-dirty #2 PREEMPT armv7l
+> root@testvm:~# free
+>            	total    used  	free  	shared  buff/cache   available
+> Mem:       	26932   13744  	5648        32       10092   	13188
+> Swap:      	16360    3880  	12480
+>
+> There is a little difference between runs, but this does seem
+> significant enough to keep it. The SMP build was with
+> CONFIG_NR_CPUS=2 (the smallest supported compile-time number),
+> but running on a single-CPU qemu instance.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403192240.ZnfE56oV-lkp@intel.com/
+With a SMP=y, NR_CPUS=1 build on x86 64bit I get:
 
-All errors (new ones prefixed by >>):
+               total        used        free      shared  buff/cache   available
+Mem:        32882056      498068    32590580        4884      128884    32383988
+Swap:         998396           0      998396
 
->> io_uring/opdef.c:207:50: error: invalid application of 'sizeof' to incomplete type 'struct io_async_connect'
-     207 |                 .async_size             = sizeof(struct io_async_connect),
-         |                                                  ^~~~~~
+Same config just SMP=n:
 
+               total        used        free      shared  buff/cache   available
+Mem:        32885804      461704    32635284        4876      119480    32424100
+Swap:         998396           0      998396
 
-vim +207 io_uring/opdef.c
+So the delta for available is ~40 MiB.
 
-    51	
-    52	const struct io_issue_def io_issue_defs[] = {
-    53		[IORING_OP_NOP] = {
-    54			.audit_skip		= 1,
-    55			.iopoll			= 1,
-    56			.prep			= io_nop_prep,
-    57			.issue			= io_nop,
-    58		},
-    59		[IORING_OP_READV] = {
-    60			.needs_file		= 1,
-    61			.unbound_nonreg_file	= 1,
-    62			.pollin			= 1,
-    63			.buffer_select		= 1,
-    64			.plug			= 1,
-    65			.audit_skip		= 1,
-    66			.ioprio			= 1,
-    67			.iopoll			= 1,
-    68			.iopoll_queue		= 1,
-    69			.vectored		= 1,
-    70			.async_size		= sizeof(struct io_async_rw),
-    71			.prep			= io_prep_readv,
-    72			.issue			= io_read,
-    73		},
-    74		[IORING_OP_WRITEV] = {
-    75			.needs_file		= 1,
-    76			.hash_reg_file		= 1,
-    77			.unbound_nonreg_file	= 1,
-    78			.pollout		= 1,
-    79			.plug			= 1,
-    80			.audit_skip		= 1,
-    81			.ioprio			= 1,
-    82			.iopoll			= 1,
-    83			.iopoll_queue		= 1,
-    84			.vectored		= 1,
-    85			.async_size		= sizeof(struct io_async_rw),
-    86			.prep			= io_prep_writev,
-    87			.issue			= io_write,
-    88		},
-    89		[IORING_OP_FSYNC] = {
-    90			.needs_file		= 1,
-    91			.audit_skip		= 1,
-    92			.prep			= io_fsync_prep,
-    93			.issue			= io_fsync,
-    94		},
-    95		[IORING_OP_READ_FIXED] = {
-    96			.needs_file		= 1,
-    97			.unbound_nonreg_file	= 1,
-    98			.pollin			= 1,
-    99			.plug			= 1,
-   100			.audit_skip		= 1,
-   101			.ioprio			= 1,
-   102			.iopoll			= 1,
-   103			.iopoll_queue		= 1,
-   104			.async_size		= sizeof(struct io_async_rw),
-   105			.prep			= io_prep_read_fixed,
-   106			.issue			= io_read,
-   107		},
-   108		[IORING_OP_WRITE_FIXED] = {
-   109			.needs_file		= 1,
-   110			.hash_reg_file		= 1,
-   111			.unbound_nonreg_file	= 1,
-   112			.pollout		= 1,
-   113			.plug			= 1,
-   114			.audit_skip		= 1,
-   115			.ioprio			= 1,
-   116			.iopoll			= 1,
-   117			.iopoll_queue		= 1,
-   118			.async_size		= sizeof(struct io_async_rw),
-   119			.prep			= io_prep_write_fixed,
-   120			.issue			= io_write,
-   121		},
-   122		[IORING_OP_POLL_ADD] = {
-   123			.needs_file		= 1,
-   124			.unbound_nonreg_file	= 1,
-   125			.audit_skip		= 1,
-   126			.prep			= io_poll_add_prep,
-   127			.issue			= io_poll_add,
-   128		},
-   129		[IORING_OP_POLL_REMOVE] = {
-   130			.audit_skip		= 1,
-   131			.prep			= io_poll_remove_prep,
-   132			.issue			= io_poll_remove,
-   133		},
-   134		[IORING_OP_SYNC_FILE_RANGE] = {
-   135			.needs_file		= 1,
-   136			.audit_skip		= 1,
-   137			.prep			= io_sfr_prep,
-   138			.issue			= io_sync_file_range,
-   139		},
-   140		[IORING_OP_SENDMSG] = {
-   141			.needs_file		= 1,
-   142			.unbound_nonreg_file	= 1,
-   143			.pollout		= 1,
-   144			.ioprio			= 1,
-   145			.async_size		= sizeof(struct io_async_msghdr),
-   146	#if defined(CONFIG_NET)
-   147			.prep			= io_sendmsg_prep,
-   148			.issue			= io_sendmsg,
-   149	#else
-   150			.prep			= io_eopnotsupp_prep,
-   151	#endif
-   152		},
-   153		[IORING_OP_RECVMSG] = {
-   154			.needs_file		= 1,
-   155			.unbound_nonreg_file	= 1,
-   156			.pollin			= 1,
-   157			.buffer_select		= 1,
-   158			.ioprio			= 1,
-   159			.async_size		= sizeof(struct io_async_msghdr),
-   160	#if defined(CONFIG_NET)
-   161			.prep			= io_recvmsg_prep,
-   162			.issue			= io_recvmsg,
-   163	#else
-   164			.prep			= io_eopnotsupp_prep,
-   165	#endif
-   166		},
-   167		[IORING_OP_TIMEOUT] = {
-   168			.audit_skip		= 1,
-   169			.async_size		= sizeof(struct io_timeout_data),
-   170			.prep			= io_timeout_prep,
-   171			.issue			= io_timeout,
-   172		},
-   173		[IORING_OP_TIMEOUT_REMOVE] = {
-   174			/* used by timeout updates' prep() */
-   175			.audit_skip		= 1,
-   176			.prep			= io_timeout_remove_prep,
-   177			.issue			= io_timeout_remove,
-   178		},
-   179		[IORING_OP_ACCEPT] = {
-   180			.needs_file		= 1,
-   181			.unbound_nonreg_file	= 1,
-   182			.pollin			= 1,
-   183			.poll_exclusive		= 1,
-   184			.ioprio			= 1,	/* used for flags */
-   185	#if defined(CONFIG_NET)
-   186			.prep			= io_accept_prep,
-   187			.issue			= io_accept,
-   188	#else
-   189			.prep			= io_eopnotsupp_prep,
-   190	#endif
-   191		},
-   192		[IORING_OP_ASYNC_CANCEL] = {
-   193			.audit_skip		= 1,
-   194			.prep			= io_async_cancel_prep,
-   195			.issue			= io_async_cancel,
-   196		},
-   197		[IORING_OP_LINK_TIMEOUT] = {
-   198			.audit_skip		= 1,
-   199			.async_size		= sizeof(struct io_timeout_data),
-   200			.prep			= io_link_timeout_prep,
-   201			.issue			= io_no_issue,
-   202		},
-   203		[IORING_OP_CONNECT] = {
-   204			.needs_file		= 1,
-   205			.unbound_nonreg_file	= 1,
-   206			.pollout		= 1,
- > 207			.async_size		= sizeof(struct io_async_connect),
-   208	#if defined(CONFIG_NET)
-   209			.prep			= io_connect_prep,
-   210			.issue			= io_connect,
-   211	#else
-   212			.prep			= io_eopnotsupp_prep,
-   213	#endif
-   214		},
-   215		[IORING_OP_FALLOCATE] = {
-   216			.needs_file		= 1,
-   217			.prep			= io_fallocate_prep,
-   218			.issue			= io_fallocate,
-   219		},
-   220		[IORING_OP_OPENAT] = {
-   221			.prep			= io_openat_prep,
-   222			.issue			= io_openat,
-   223		},
-   224		[IORING_OP_CLOSE] = {
-   225			.prep			= io_close_prep,
-   226			.issue			= io_close,
-   227		},
-   228		[IORING_OP_FILES_UPDATE] = {
-   229			.audit_skip		= 1,
-   230			.iopoll			= 1,
-   231			.prep			= io_files_update_prep,
-   232			.issue			= io_files_update,
-   233		},
-   234		[IORING_OP_STATX] = {
-   235			.audit_skip		= 1,
-   236			.prep			= io_statx_prep,
-   237			.issue			= io_statx,
-   238		},
-   239		[IORING_OP_READ] = {
-   240			.needs_file		= 1,
-   241			.unbound_nonreg_file	= 1,
-   242			.pollin			= 1,
-   243			.buffer_select		= 1,
-   244			.plug			= 1,
-   245			.audit_skip		= 1,
-   246			.ioprio			= 1,
-   247			.iopoll			= 1,
-   248			.iopoll_queue		= 1,
-   249			.async_size		= sizeof(struct io_async_rw),
-   250			.prep			= io_prep_read,
-   251			.issue			= io_read,
-   252		},
-   253		[IORING_OP_WRITE] = {
-   254			.needs_file		= 1,
-   255			.hash_reg_file		= 1,
-   256			.unbound_nonreg_file	= 1,
-   257			.pollout		= 1,
-   258			.plug			= 1,
-   259			.audit_skip		= 1,
-   260			.ioprio			= 1,
-   261			.iopoll			= 1,
-   262			.iopoll_queue		= 1,
-   263			.async_size		= sizeof(struct io_async_rw),
-   264			.prep			= io_prep_write,
-   265			.issue			= io_write,
-   266		},
-   267		[IORING_OP_FADVISE] = {
-   268			.needs_file		= 1,
-   269			.audit_skip		= 1,
-   270			.prep			= io_fadvise_prep,
-   271			.issue			= io_fadvise,
-   272		},
-   273		[IORING_OP_MADVISE] = {
-   274			.audit_skip		= 1,
-   275			.prep			= io_madvise_prep,
-   276			.issue			= io_madvise,
-   277		},
-   278		[IORING_OP_SEND] = {
-   279			.needs_file		= 1,
-   280			.unbound_nonreg_file	= 1,
-   281			.pollout		= 1,
-   282			.audit_skip		= 1,
-   283			.ioprio			= 1,
-   284			.buffer_select		= 1,
-   285			.async_size		= sizeof(struct io_async_msghdr),
-   286	#if defined(CONFIG_NET)
-   287			.prep			= io_sendmsg_prep,
-   288			.issue			= io_send,
-   289	#else
-   290			.prep			= io_eopnotsupp_prep,
-   291	#endif
-   292		},
-   293		[IORING_OP_RECV] = {
-   294			.needs_file		= 1,
-   295			.unbound_nonreg_file	= 1,
-   296			.pollin			= 1,
-   297			.buffer_select		= 1,
-   298			.audit_skip		= 1,
-   299			.ioprio			= 1,
-   300			.async_size		= sizeof(struct io_async_msghdr),
-   301	#if defined(CONFIG_NET)
-   302			.prep			= io_recvmsg_prep,
-   303			.issue			= io_recv,
-   304	#else
-   305			.prep			= io_eopnotsupp_prep,
-   306	#endif
-   307		},
-   308		[IORING_OP_OPENAT2] = {
-   309			.prep			= io_openat2_prep,
-   310			.issue			= io_openat2,
-   311		},
-   312		[IORING_OP_EPOLL_CTL] = {
-   313			.unbound_nonreg_file	= 1,
-   314			.audit_skip		= 1,
-   315	#if defined(CONFIG_EPOLL)
-   316			.prep			= io_epoll_ctl_prep,
-   317			.issue			= io_epoll_ctl,
-   318	#else
-   319			.prep			= io_eopnotsupp_prep,
-   320	#endif
-   321		},
-   322		[IORING_OP_SPLICE] = {
-   323			.needs_file		= 1,
-   324			.hash_reg_file		= 1,
-   325			.unbound_nonreg_file	= 1,
-   326			.audit_skip		= 1,
-   327			.prep			= io_splice_prep,
-   328			.issue			= io_splice,
-   329		},
-   330		[IORING_OP_PROVIDE_BUFFERS] = {
-   331			.audit_skip		= 1,
-   332			.iopoll			= 1,
-   333			.prep			= io_provide_buffers_prep,
-   334			.issue			= io_provide_buffers,
-   335		},
-   336		[IORING_OP_REMOVE_BUFFERS] = {
-   337			.audit_skip		= 1,
-   338			.iopoll			= 1,
-   339			.prep			= io_remove_buffers_prep,
-   340			.issue			= io_remove_buffers,
-   341		},
-   342		[IORING_OP_TEE] = {
-   343			.needs_file		= 1,
-   344			.hash_reg_file		= 1,
-   345			.unbound_nonreg_file	= 1,
-   346			.audit_skip		= 1,
-   347			.prep			= io_tee_prep,
-   348			.issue			= io_tee,
-   349		},
-   350		[IORING_OP_SHUTDOWN] = {
-   351			.needs_file		= 1,
-   352	#if defined(CONFIG_NET)
-   353			.prep			= io_shutdown_prep,
-   354			.issue			= io_shutdown,
-   355	#else
-   356			.prep			= io_eopnotsupp_prep,
-   357	#endif
-   358		},
-   359		[IORING_OP_RENAMEAT] = {
-   360			.prep			= io_renameat_prep,
-   361			.issue			= io_renameat,
-   362		},
-   363		[IORING_OP_UNLINKAT] = {
-   364			.prep			= io_unlinkat_prep,
-   365			.issue			= io_unlinkat,
-   366		},
-   367		[IORING_OP_MKDIRAT] = {
-   368			.prep			= io_mkdirat_prep,
-   369			.issue			= io_mkdirat,
-   370		},
-   371		[IORING_OP_SYMLINKAT] = {
-   372			.prep			= io_symlinkat_prep,
-   373			.issue			= io_symlinkat,
-   374		},
-   375		[IORING_OP_LINKAT] = {
-   376			.prep			= io_linkat_prep,
-   377			.issue			= io_linkat,
-   378		},
-   379		[IORING_OP_MSG_RING] = {
-   380			.needs_file		= 1,
-   381			.iopoll			= 1,
-   382			.prep			= io_msg_ring_prep,
-   383			.issue			= io_msg_ring,
-   384		},
-   385		[IORING_OP_FSETXATTR] = {
-   386			.needs_file = 1,
-   387			.prep			= io_fsetxattr_prep,
-   388			.issue			= io_fsetxattr,
-   389		},
-   390		[IORING_OP_SETXATTR] = {
-   391			.prep			= io_setxattr_prep,
-   392			.issue			= io_setxattr,
-   393		},
-   394		[IORING_OP_FGETXATTR] = {
-   395			.needs_file = 1,
-   396			.prep			= io_fgetxattr_prep,
-   397			.issue			= io_fgetxattr,
-   398		},
-   399		[IORING_OP_GETXATTR] = {
-   400			.prep			= io_getxattr_prep,
-   401			.issue			= io_getxattr,
-   402		},
-   403		[IORING_OP_SOCKET] = {
-   404			.audit_skip		= 1,
-   405	#if defined(CONFIG_NET)
-   406			.prep			= io_socket_prep,
-   407			.issue			= io_socket,
-   408	#else
-   409			.prep			= io_eopnotsupp_prep,
-   410	#endif
-   411		},
-   412		[IORING_OP_URING_CMD] = {
-   413			.needs_file		= 1,
-   414			.plug			= 1,
-   415			.iopoll			= 1,
-   416			.iopoll_queue		= 1,
-   417			.async_size		= 2 * sizeof(struct io_uring_sqe),
-   418			.prep			= io_uring_cmd_prep,
-   419			.issue			= io_uring_cmd,
-   420		},
-   421		[IORING_OP_SEND_ZC] = {
-   422			.needs_file		= 1,
-   423			.unbound_nonreg_file	= 1,
-   424			.pollout		= 1,
-   425			.audit_skip		= 1,
-   426			.ioprio			= 1,
-   427			.async_size		= sizeof(struct io_async_msghdr),
-   428	#if defined(CONFIG_NET)
-   429			.prep			= io_send_zc_prep,
-   430			.issue			= io_send_zc,
-   431	#else
-   432			.prep			= io_eopnotsupp_prep,
-   433	#endif
-   434		},
-   435		[IORING_OP_SENDMSG_ZC] = {
-   436			.needs_file		= 1,
-   437			.unbound_nonreg_file	= 1,
-   438			.pollout		= 1,
-   439			.ioprio			= 1,
-   440			.async_size		= sizeof(struct io_async_msghdr),
-   441	#if defined(CONFIG_NET)
-   442			.prep			= io_send_zc_prep,
-   443			.issue			= io_sendmsg_zc,
-   444	#else
-   445			.prep			= io_eopnotsupp_prep,
-   446	#endif
-   447		},
-   448		[IORING_OP_READ_MULTISHOT] = {
-   449			.needs_file		= 1,
-   450			.unbound_nonreg_file	= 1,
-   451			.pollin			= 1,
-   452			.buffer_select		= 1,
-   453			.audit_skip		= 1,
-   454			.async_size		= sizeof(struct io_async_rw),
-   455			.prep			= io_read_mshot_prep,
-   456			.issue			= io_read_mshot,
-   457		},
-   458		[IORING_OP_WAITID] = {
-   459			.async_size		= sizeof(struct io_waitid_async),
-   460			.prep			= io_waitid_prep,
-   461			.issue			= io_waitid,
-   462		},
-   463		[IORING_OP_FUTEX_WAIT] = {
-   464	#if defined(CONFIG_FUTEX)
-   465			.prep			= io_futex_prep,
-   466			.issue			= io_futex_wait,
-   467	#else
-   468			.prep			= io_eopnotsupp_prep,
-   469	#endif
-   470		},
-   471		[IORING_OP_FUTEX_WAKE] = {
-   472	#if defined(CONFIG_FUTEX)
-   473			.prep			= io_futex_prep,
-   474			.issue			= io_futex_wake,
-   475	#else
-   476			.prep			= io_eopnotsupp_prep,
-   477	#endif
-   478		},
-   479		[IORING_OP_FUTEX_WAITV] = {
-   480	#if defined(CONFIG_FUTEX)
-   481			.prep			= io_futexv_prep,
-   482			.issue			= io_futexv_wait,
-   483	#else
-   484			.prep			= io_eopnotsupp_prep,
-   485	#endif
-   486		},
-   487		[IORING_OP_FIXED_FD_INSTALL] = {
-   488			.needs_file		= 1,
-   489			.prep			= io_install_fixed_fd_prep,
-   490			.issue			= io_install_fixed_fd,
-   491		},
-   492		[IORING_OP_FTRUNCATE] = {
-   493			.needs_file		= 1,
-   494			.hash_reg_file		= 1,
-   495			.prep			= io_ftruncate_prep,
-   496			.issue			= io_ftruncate,
-   497		},
-   498	};
-   499	
+But if I look at it with init=/bin/sh on the command line then the delta
+is significantly different:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With a SMP=y, NR_CPUS=1 build on x86 64bit I get:
+
+               total        used        free      shared  buff/cache   available
+Mem:        32883680      324120    32822728         216       10864    32559560
+Swap:              0           0           0
+
+Same config just SMP=n:
+
+               total        used        free      shared  buff/cache   available
+Mem:        32885804      326876    32821972         216       11100    32558928
+Swap:              0           0           0
+
+Delta available = 632 KiB
+
+I haven't had the time to stare at that in detail, but comparing
+/proc/meminfo for the full boot case above does not immediately give me
+a hint. It's confusing at best...
+
+Thanks,
+
+        tglx
+
