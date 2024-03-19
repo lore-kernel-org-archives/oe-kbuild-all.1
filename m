@@ -1,55 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CC95FBAA;
-	Tue, 19 Mar 2024 22:55:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18F85FBB1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Mar 2024 22:55:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710888955; cv=none; b=l+qc4lEkk3SFyfz3raUgP4V2Casmk1jw4fehP7D2uKRuEhhOruAwz/b5UictgfKRRHa8KZFRNYBg3xT9vFemCvDZ/262kn9qKrNfYV+EMA0OO03SLd6cE8c8erRoB/vWOf0zB4elR+y6UgpzjVsyfiuHkjvf1o1l++8uGqsYAsE=
+	t=1710888957; cv=none; b=sryeyCNfEdd+BtW39GLRHtBKnugH3O0cn0s+pe3bmHfWUI/VaMTa9sA5DIMQGaabudya6XqIzqlnloHCZutc//TSYQe6VX3AxGOAIhSU0lyweIWlVHZrZ35DOCztkX01/VEcYJa6bPz32PQKCuUHA0En4tIP8BoafCSsHA5cUds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710888955; c=relaxed/simple;
-	bh=LuebInQdwk5g8fC0FsQuDoIixz7qsK+Hyyiar7PaBtA=;
+	s=arc-20240116; t=1710888957; c=relaxed/simple;
+	bh=HH2CuGWzDlyP7FOSkn9EHKE6GPRmrdL3lLAxQFli+7E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q5r+/cEjb44AQhIC/Nv1HpHBCYvR7wcPv8jAyPJZyaN6A3pEJ2v65wsqP5/VbYHYD0MndJJ1PYiDiYWWcg5dsyJ2ZOXn9ZP3iVdU8VJd4ROp9KTneIgBVe3+GGHgI2Ud7Ad7RR/k8eMQB4p8A3Z9ywbFTNVBYsgJMNEYmXj2PAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PqkcFeHa; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=IwYICOUQShTjs0S7Uz7iPZVl95Cudtw9+AKiBVgrK/t2ozYTeYj4nv0TDw6y4F3iLYLANm0/6A63hRoxLymTq+Bj512MefwdgfLpj6SqSI1bkYnUvH6EkDQeaSMqnwoH42EJkzlrG1ASEZ1qzk7S93jNVTehXMASXb8fdYW5LWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RvkOeIdY; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PqkcFeHa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RvkOeIdY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710888954; x=1742424954;
+  t=1710888956; x=1742424956;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LuebInQdwk5g8fC0FsQuDoIixz7qsK+Hyyiar7PaBtA=;
-  b=PqkcFeHaHjx0IkEO9/BHZrV2xCfzZWRQuZ0vW4VnIUIXebwJ8FI5MIc0
-   i/s0LuPJ6gDhsc4gwgf+dCi2nUSnt6djU8G32ErAwFUaITDRjtp3g/Dpy
-   gBbUh/PdHUmkQiDFiROaVATTBt8zEimzGVXNKr8CjYDCeAjFu7hZ39HtT
-   sHcyCugoMMAQ9bcTRhNKIBKEJxlIKgdRDGeTnRmSw7pCdjYbb9VycrUGm
-   IgkGl1wbJbWmu6LYjlAHOeJ5FWVX8YLyhOrFNRzluKHhq4NmfTpignSfh
-   T7x1K++lE5yeXRwdDjvkGR2vA8XeOkqvHKVNKujnLzC5vu6XbGgwa7MfF
+  bh=HH2CuGWzDlyP7FOSkn9EHKE6GPRmrdL3lLAxQFli+7E=;
+  b=RvkOeIdY+TEj27Js0rRwdj8KMvV7VucQOjwba10p1jAYDkxz5xnbZ3VT
+   y/5a8stkU5clWh74nbEmHkAD5stwPwXQ4ncJ9Nt0T8GOWLeZL5AjrQkFq
+   zqaENrx/jRB3bk2Bks1GdcHshhSY0uqt85VoB0zCTx/StUyjHeHfe67fW
+   ZCrS57l3pVPAdXgsth+zy9sI/ueSScQorRiUsRt2+aRasvdu/TP5QyEQV
+   eDWp7UM5SdsG7qRsMXkap/rmzuCrVzmL6lo7K7b8zb4t0amSqMfgcB1kY
+   spCakS7EgJIElEx7+6v4FqNb6gq7UD2h1BfTv9+A6313nr0uGRL9Orcbv
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="5630078"
+X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="5630083"
 X-IronPort-AV: E=Sophos;i="6.07,138,1708416000"; 
-   d="scan'208";a="5630078"
+   d="scan'208";a="5630083"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 15:55:53 -0700
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 15:55:54 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,138,1708416000"; 
-   d="scan'208";a="45049488"
+   d="scan'208";a="45049495"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 19 Mar 2024 15:55:51 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rmiN3-000I91-0O;
+	id 1rmiN3-000I93-0S;
 	Tue, 19 Mar 2024 22:55:49 +0000
-Date: Wed, 20 Mar 2024 06:55:17 +0800
+Date: Wed, 20 Mar 2024 06:55:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gregory.price@memverge.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Gregory Price <gourry.memverge@gmail.com>
-Subject: [gmprice:sys_move_phys_pages_2024_3_14 2/3] <stdin>:1600:2: warning:
- syscall move_phys_pages not implemented
-Message-ID: <202403200633.JizLbI2C-lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 72/98] kernel/cgroup/cpuset.c:3268
+ cpuset_cgroup_cpuinfo_show_comm() warn: always true condition
+ '(c->x86_cache_size >= 0) => (0-u32max >= 0)'
+Message-ID: <202403200655.2asxgxix-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,102 +62,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/gmprice/linux sys_move_phys_pages_2024_3_14
-head:   18bc4aaa72396bf7409348958ba2bb3fad2d88c1
-commit: 2727276faa0c537ef9df039aea1d6e7cb264e0db [2/3] mm/migrate: Create move_phys_pages syscall
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240320/202403200633.JizLbI2C-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240320/202403200633.JizLbI2C-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   493adae63cfb3b164a91cb3742a1fb147bcfa5eb
+commit: 660e8c3de3cf153cd61c86479a730a56b67da7fc [72/98] cgroupfs: refactor cgroup resource statistics for reuse
+config: x86_64-randconfig-161-20240319 (https://download.01.org/0day-ci/archive/20240320/202403200655.2asxgxix-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403200633.JizLbI2C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403200655.2asxgxix-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/cgroup/cpuset.c:3268 cpuset_cgroup_cpuinfo_show_comm() warn: always true condition '(c->x86_cache_size >= 0) => (0-u32max >= 0)'
 
->> <stdin>:1600:2: warning: syscall move_phys_pages not implemented [-W#warnings]
-    1600 | #warning syscall move_phys_pages not implemented
-         |  ^
-   1 warning generated.
---
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   13 warnings generated.
->> <stdin>:1600:2: warning: syscall move_phys_pages not implemented [-W#warnings]
-    1600 | #warning syscall move_phys_pages not implemented
-         |  ^
-   1 warning generated.
+vim +3268 kernel/cgroup/cpuset.c
+
+f02c35d2e66fb4 Kairui Song 2023-11-20  3220  
+660e8c3de3cf15 caelli      2023-11-20  3221  static int cpuset_cgroup_cpuinfo_show_comm(struct seq_file *sf, void *v, struct cpuset *cs)
+f02c35d2e66fb4 Kairui Song 2023-11-20  3222  {
+8e794bd206f067 Kairui Song 2023-11-20  3223  	int i, j, k = 0;
+f02c35d2e66fb4 Kairui Song 2023-11-20  3224  	struct cpuinfo_x86 *c;
+f02c35d2e66fb4 Kairui Song 2023-11-20  3225  	unsigned int cpu;
+8e794bd206f067 Kairui Song 2023-11-20  3226  	bool is_top_cgrp;
+8e794bd206f067 Kairui Song 2023-11-20  3227  
+660e8c3de3cf15 caelli      2023-11-20  3228  	if (!cs->css.parent)
+8e794bd206f067 Kairui Song 2023-11-20  3229  		is_top_cgrp = true;
+8e794bd206f067 Kairui Song 2023-11-20  3230  	else
+8e794bd206f067 Kairui Song 2023-11-20  3231  		is_top_cgrp = false;
+f02c35d2e66fb4 Kairui Song 2023-11-20  3232  
+f02c35d2e66fb4 Kairui Song 2023-11-20  3233  	for_each_cpu(j, cs->cpus_allowed) {
+f02c35d2e66fb4 Kairui Song 2023-11-20  3234  		c = &cpu_data(j);
+8e794bd206f067 Kairui Song 2023-11-20  3235  		if (is_top_cgrp || cpuset_cpuinfo_show_realinfo)
+f02c35d2e66fb4 Kairui Song 2023-11-20  3236  			cpu = c->cpu_index;
+8e794bd206f067 Kairui Song 2023-11-20  3237  		else
+8e794bd206f067 Kairui Song 2023-11-20  3238  			cpu = k;
+8e794bd206f067 Kairui Song 2023-11-20  3239  		k++;
+f02c35d2e66fb4 Kairui Song 2023-11-20  3240  		seq_printf(sf, "processor\t: %u\n"
+f02c35d2e66fb4 Kairui Song 2023-11-20  3241  				"vendor_id\t: %s\n"
+f02c35d2e66fb4 Kairui Song 2023-11-20  3242  				"cpu family\t: %d\n"
+f02c35d2e66fb4 Kairui Song 2023-11-20  3243  				"model\t\t: %u\n"
+f02c35d2e66fb4 Kairui Song 2023-11-20  3244  				"model name\t: %s\n",
+f02c35d2e66fb4 Kairui Song 2023-11-20  3245  				cpu,
+f02c35d2e66fb4 Kairui Song 2023-11-20  3246  				c->x86_vendor_id[0] ? c->x86_vendor_id : "unknown",
+f02c35d2e66fb4 Kairui Song 2023-11-20  3247  				c->x86,
+f02c35d2e66fb4 Kairui Song 2023-11-20  3248  				c->x86_model,
+f02c35d2e66fb4 Kairui Song 2023-11-20  3249  				c->x86_model_id[0] ? c->x86_model_id : "unknown");
+f02c35d2e66fb4 Kairui Song 2023-11-20  3250  
+f02c35d2e66fb4 Kairui Song 2023-11-20  3251  		if (c->x86_stepping || c->cpuid_level >= 0)
+f02c35d2e66fb4 Kairui Song 2023-11-20  3252  			seq_printf(sf, "stepping\t: %d\n", c->x86_stepping);
+f02c35d2e66fb4 Kairui Song 2023-11-20  3253  		else
+f02c35d2e66fb4 Kairui Song 2023-11-20  3254  			seq_printf(sf, "stepping\t: unknown\n");
+f02c35d2e66fb4 Kairui Song 2023-11-20  3255  		if (c->microcode)
+f02c35d2e66fb4 Kairui Song 2023-11-20  3256  			seq_printf(sf, "microcode\t: 0x%x\n", c->microcode);
+f02c35d2e66fb4 Kairui Song 2023-11-20  3257  
+f02c35d2e66fb4 Kairui Song 2023-11-20  3258  		if (cpu_has(c, X86_FEATURE_TSC)) {
+f02c35d2e66fb4 Kairui Song 2023-11-20  3259  			unsigned int freq = cpufreq_quick_get(cpu);
+f02c35d2e66fb4 Kairui Song 2023-11-20  3260  
+f02c35d2e66fb4 Kairui Song 2023-11-20  3261  			if (!freq)
+f02c35d2e66fb4 Kairui Song 2023-11-20  3262  				freq = cpu_khz;
+f02c35d2e66fb4 Kairui Song 2023-11-20  3263  			seq_printf(sf, "cpu MHz\t\t: %u.%03u\n",
+f02c35d2e66fb4 Kairui Song 2023-11-20  3264  					freq / 1000, (freq % 1000));
+f02c35d2e66fb4 Kairui Song 2023-11-20  3265  		}
+f02c35d2e66fb4 Kairui Song 2023-11-20  3266  
+f02c35d2e66fb4 Kairui Song 2023-11-20  3267  		/* Cache size */
+f02c35d2e66fb4 Kairui Song 2023-11-20 @3268  		if (c->x86_cache_size >= 0)
+f02c35d2e66fb4 Kairui Song 2023-11-20  3269  			seq_printf(sf, "cache size\t: %d KB\n", c->x86_cache_size);
+f02c35d2e66fb4 Kairui Song 2023-11-20  3270  
+f02c35d2e66fb4 Kairui Song 2023-11-20  3271  		show_cpuinfo_core(sf, c, cpu);
+f02c35d2e66fb4 Kairui Song 2023-11-20  3272  		show_cpuinfo_misc(sf, c);
+f02c35d2e66fb4 Kairui Song 2023-11-20  3273  
+f02c35d2e66fb4 Kairui Song 2023-11-20  3274  		seq_printf(sf, "flags\t\t:");
+f02c35d2e66fb4 Kairui Song 2023-11-20  3275  		for (i = 0; i < 32*NCAPINTS; i++)
+f02c35d2e66fb4 Kairui Song 2023-11-20  3276  			if (cpu_has(c, i) && x86_cap_flags[i] != NULL)
+f02c35d2e66fb4 Kairui Song 2023-11-20  3277  				seq_printf(sf, " %s", x86_cap_flags[i]);
+f02c35d2e66fb4 Kairui Song 2023-11-20  3278  
+f02c35d2e66fb4 Kairui Song 2023-11-20  3279  		seq_puts(sf, "\nbugs\t\t:");
+f02c35d2e66fb4 Kairui Song 2023-11-20  3280  		for (i = 0; i < 32*NBUGINTS; i++) {
+f02c35d2e66fb4 Kairui Song 2023-11-20  3281  			unsigned int bug_bit = 32*NCAPINTS + i;
+f02c35d2e66fb4 Kairui Song 2023-11-20  3282  
+f02c35d2e66fb4 Kairui Song 2023-11-20  3283  			if (cpu_has_bug(c, bug_bit) && x86_bug_flags[i])
+f02c35d2e66fb4 Kairui Song 2023-11-20  3284  				seq_printf(sf, " %s", x86_bug_flags[i]);
+f02c35d2e66fb4 Kairui Song 2023-11-20  3285  		}
+f02c35d2e66fb4 Kairui Song 2023-11-20  3286  
+f02c35d2e66fb4 Kairui Song 2023-11-20  3287  		seq_printf(sf, "\nbogomips\t: %lu.%02lu\n",
+f02c35d2e66fb4 Kairui Song 2023-11-20  3288  				c->loops_per_jiffy/(500000/HZ),
+f02c35d2e66fb4 Kairui Song 2023-11-20  3289  				(c->loops_per_jiffy/(5000/HZ)) % 100);
+f02c35d2e66fb4 Kairui Song 2023-11-20  3290  
+
+:::::: The code at line 3268 was first introduced by commit
+:::::: f02c35d2e66fb42ca03914d72b8e25ed8bf6e688 cpuset: add cpuinfo and stat show
+
+:::::: TO: Kairui Song <kasong@tencent.com>
+:::::: CC: Kairui Song <kasong@tencent.com>
 
 -- 
 0-DAY CI Kernel Test Service
