@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0765FBA9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Mar 2024 22:55:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E601E532
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Mar 2024 23:37:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710888957; cv=none; b=PHz1TncHABHOkzPXD6RINdAyMoWqyFsEX9pwG8X1OfsMOIkXOVb+E7OA8wYK5wpy1YVWqzuWR2DogOIcISDoTUqlkPFJ801w8L37CDoejXn6vkQhZ/SJkQCe+HVjRrlnJmyTMfOBDLryLMSzCaWhHX4K7wXGHTc6asdufzcJDGA=
+	t=1710891476; cv=none; b=W9O5O/1wL0rpHPKWy6wk8m+ldatC+/+Y23yggLYufRJH+6ANSgcKlehghLpg5gv98yrBlQN7yLh8R5an7LHKxAV9zhNIdeq5XA2MRfQWbL33IWeVLLTiR7SlzSJYUOFc03/K8iq8nsjE/qoCM9JMj+6t6oECoQ8utPP/X9S9amk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710888957; c=relaxed/simple;
-	bh=BO3W+VsUKJ5helDZfH6WxLiD9NSVl3PdINggu9viGio=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bLi8wv3qXrEiT0wZUIxN7Z+Rx21obY1rZkLZa/ntYEC82gDETnEcP/ZtKI1VmYtT3d2uqZAk4uIM6EQF6wKHjzAtjdsmzqZJUZd9mhhIXqRiUPm55zfA4T04ioOpYWy//QQVsceVGBOkC4jhN3FKA4MCm0Fl8MWxPzgd1FGnlEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lQXAwaR7; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1710891476; c=relaxed/simple;
+	bh=qcmheIwnM8SFGtfwpWo3gyGvZUDnTQlmIHuJt4HNOXY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mTTLNAhCdCY2EyaHBMqBdBinRWC2GugetUhut0RZu76ekYH75Nx3pMUhTRYWn2lk/ip/riTPV+Hw57fQ3uQ2okkL2rWuGKB3IJZQwgXVG+VnRZ08gWGBE1DYQY1YbSTAcYRcR2MFm10rRFviMyglhe2KDfP9OKC5N1y/ejvcggA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BtLEwl8m; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lQXAwaR7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BtLEwl8m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710888955; x=1742424955;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BO3W+VsUKJ5helDZfH6WxLiD9NSVl3PdINggu9viGio=;
-  b=lQXAwaR7eKbiCBPAYhORhAJr1gltJ3jDo+iDMX221y9yCL1L+hLOvjWE
-   S+nltAnhqEh6qAAarLISSgvT6uO5Wwk96yZEtklg9Jpkpj8Cm/DmL9I8d
-   1m+TKoULwt0J/jUdnO/NEnvtWBQKkBSYUYC9klbhEGp4HAFhew98dpm6E
-   UFXwlO2hCMPBgXP8pJr7o+WlHgMaomqKciqOfOTYQ+50KuisKbSqBBddj
-   aECUz5JM7qgA5U9P3TaWPEIsTDtfjqvWl+UDnvgacQGsR5psQAJz+spzW
-   a7deAY4oSi56t5k/Hh9d2vBgo7olc2t77LVyfqXvxifvjF46Dc2rwUf/7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="5630077"
+  t=1710891474; x=1742427474;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qcmheIwnM8SFGtfwpWo3gyGvZUDnTQlmIHuJt4HNOXY=;
+  b=BtLEwl8mP00WLTjXH+VkahgXMsBXZGLQ4KTpYsPuAwCICN8S7Pco4why
+   GJWM/U3eSvvQ3Nu5RGJnE4kyD4FKnzo4RmTGcV5Oynpg+Jllu+lU7cxq2
+   DySiIkzLSnewQKUth9KgxMtQ2ak2QuWpwt20oRw/6sx396Oj23vOIa9bK
+   SXBoB4zjrL/h/lhZihdTusOsivgx61EN+AgVtdbJ5sQUHmDRbqyFOf+ms
+   VTaaq03DLDQpIxFuIHHmDq2T7oPDx9bN+6gF/tFjuA3UszqG099DTbIFj
+   BJ0b4my6IHgNw2L/9Gw1G58Oh+lDRTfDgHe5JRK8gSdZeW23snNXLByAf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="31228930"
 X-IronPort-AV: E=Sophos;i="6.07,138,1708416000"; 
-   d="scan'208";a="5630077"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 15:55:52 -0700
+   d="scan'208";a="31228930"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 16:37:53 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,138,1708416000"; 
-   d="scan'208";a="45049487"
+   d="scan'208";a="51420109"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Mar 2024 15:55:51 -0700
+  by orviesa001.jf.intel.com with ESMTP; 19 Mar 2024 16:37:52 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rmiN3-000I96-0W;
-	Tue, 19 Mar 2024 22:55:49 +0000
-Date: Wed, 20 Mar 2024 06:55:16 +0800
+	id 1rmj1h-000IAJ-2d;
+	Tue, 19 Mar 2024 23:37:49 +0000
+Date: Wed, 20 Mar 2024 07:37:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
+To: Yunsheng Lin <linyunsheng@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 02/15] KVM: SVM: Compile sev.c if and only if
- CONFIG_KVM_AMD_SEV=y
-Message-ID: <202403200610.90F5Upvs-lkp@intel.com>
-References: <20240318233352.2728327-3-pbonzini@redhat.com>
+Subject: [linyunsheng:page_frag_cache_prototype 78/78]
+ net/kcm/kcmsock.c:806:49: error: initialization of 'struct page_frag *' from
+ incompatible pointer type 'struct page_frag_cache *'
+Message-ID: <202403200730.191kPQQT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,402 +58,265 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240318233352.2728327-3-pbonzini@redhat.com>
 
-Hi Paolo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on linus/master next-20240319]
-[cannot apply to tip/x86/core mst-vhost/linux-next kvm/linux-next v6.8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Bonzini/KVM-SVM-Invert-handling-of-SEV-and-SEV_ES-feature-flags/20240319-074252
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20240318233352.2728327-3-pbonzini%40redhat.com
-patch subject: [PATCH v4 02/15] KVM: SVM: Compile sev.c if and only if CONFIG_KVM_AMD_SEV=y
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240320/202403200610.90F5Upvs-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240320/202403200610.90F5Upvs-lkp@intel.com/reproduce)
+tree:   https://github.com/gestionlin/linux.git page_frag_cache_prototype
+head:   7315604eb1d087836123bc9670d2be420a42d37f
+commit: 7315604eb1d087836123bc9670d2be420a42d37f [78/78] net: replace page_frag with page_frag_cache
+config: arm-randconfig-004-20240320 (https://download.01.org/0day-ci/archive/20240320/202403200730.191kPQQT-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240320/202403200730.191kPQQT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403200610.90F5Upvs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403200730.191kPQQT-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
-   arch/x86/kvm/svm/svm.c: In function 'init_vmcb':
->> arch/x86/kvm/svm/svm.c:1367:17: error: implicit declaration of function 'sev_init_vmcb'; did you mean 'init_vmcb'? [-Werror=implicit-function-declaration]
-    1367 |                 sev_init_vmcb(svm);
-         |                 ^~~~~~~~~~~~~
-         |                 init_vmcb
-   arch/x86/kvm/svm/svm.c: In function '__svm_vcpu_reset':
->> arch/x86/kvm/svm/svm.c:1391:17: error: implicit declaration of function 'sev_es_vcpu_reset'; did you mean 'kvm_vcpu_reset'? [-Werror=implicit-function-declaration]
-    1391 |                 sev_es_vcpu_reset(svm);
-         |                 ^~~~~~~~~~~~~~~~~
-         |                 kvm_vcpu_reset
-   arch/x86/kvm/svm/svm.c: In function 'svm_prepare_switch_to_guest':
->> arch/x86/kvm/svm/svm.c:1512:17: error: implicit declaration of function 'sev_es_unmap_ghcb' [-Werror=implicit-function-declaration]
-    1512 |                 sev_es_unmap_ghcb(svm);
-         |                 ^~~~~~~~~~~~~~~~~
->> arch/x86/kvm/svm/svm.c:1526:17: error: implicit declaration of function 'sev_es_prepare_switch_to_guest'; did you mean 'svm_prepare_switch_to_guest'? [-Werror=implicit-function-declaration]
-    1526 |                 sev_es_prepare_switch_to_guest(hostsa);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 svm_prepare_switch_to_guest
-   arch/x86/kvm/svm/svm.c: In function 'io_interception':
->> arch/x86/kvm/svm/svm.c:2226:32: error: implicit declaration of function 'sev_es_string_io'; did you mean 'kvm_sev_es_string_io'? [-Werror=implicit-function-declaration]
-    2226 |                         return sev_es_string_io(svm, size, port, in);
-         |                                ^~~~~~~~~~~~~~~~
-         |                                kvm_sev_es_string_io
-   arch/x86/kvm/svm/svm.c: In function 'pre_svm_run':
->> arch/x86/kvm/svm/svm.c:3549:24: error: implicit declaration of function 'pre_sev_run'; did you mean 'pre_svm_run'? [-Werror=implicit-function-declaration]
-    3549 |                 return pre_sev_run(svm, vcpu->cpu);
-         |                        ^~~~~~~~~~~
-         |                        pre_svm_run
->> arch/x86/kvm/svm/svm.c:3549:24: warning: 'return' with a value, in function returning void [-Wreturn-type]
-    3549 |                 return pre_sev_run(svm, vcpu->cpu);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/svm/svm.c:3532:13: note: declared here
-    3532 | static void pre_svm_run(struct kvm_vcpu *vcpu)
-         |             ^~~~~~~~~~~
-   arch/x86/kvm/svm/svm.c: In function 'svm_vcpu_after_set_cpuid':
->> arch/x86/kvm/svm/svm.c:4356:17: error: implicit declaration of function 'sev_vcpu_after_set_cpuid'; did you mean 'svm_vcpu_after_set_cpuid'? [-Werror=implicit-function-declaration]
-    4356 |                 sev_vcpu_after_set_cpuid(svm);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                 svm_vcpu_after_set_cpuid
-   arch/x86/kvm/svm/svm.c: In function 'svm_vcpu_deliver_sipi_vector':
->> arch/x86/kvm/svm/svm.c:4883:9: error: implicit declaration of function 'sev_vcpu_deliver_sipi_vector'; did you mean 'svm_vcpu_deliver_sipi_vector'? [-Werror=implicit-function-declaration]
-    4883 |         sev_vcpu_deliver_sipi_vector(vcpu, vector);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         svm_vcpu_deliver_sipi_vector
+   net/kcm/kcmsock.c: In function 'kcm_sendmsg':
+>> net/kcm/kcmsock.c:806:49: error: initialization of 'struct page_frag *' from incompatible pointer type 'struct page_frag_cache *' [-Werror=incompatible-pointer-types]
+     806 |                 struct page_frag *pfrag_cache = sk_page_frag(sk);
+         |                                                 ^~~~~~~~~~~~
+>> net/kcm/kcmsock.c:811:53: error: 'pfrag' undeclared (first use in this function)
+     811 |                 va = sk_page_frag_alloc_prepare(sk, pfrag, &size, &offset);
+         |                                                     ^~~~~
+   net/kcm/kcmsock.c:811:53: note: each undeclared identifier is reported only once for each function it appears in
+>> net/kcm/kcmsock.c:806:35: warning: unused variable 'pfrag_cache' [-Wunused-variable]
+     806 |                 struct page_frag *pfrag_cache = sk_page_frag(sk);
+         |                                   ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   net/mptcp/protocol.c: In function 'mptcp_sendmsg':
+>> net/mptcp/protocol.c:1825:15: error: assignment to 'struct page_frag *' from incompatible pointer type 'struct page_frag_cache *' [-Werror=incompatible-pointer-types]
+    1825 |         pfrag = sk_page_frag(sk);
+         |               ^
+   cc1: some warnings being treated as errors
+--
+   net/tls/tls_device.c: In function 'tls_do_allocation':
+>> net/tls/tls_device.c:390:14: error: implicit declaration of function 'sk_page_frag_refill'; did you mean 'skb_page_frag_refill'? [-Werror=implicit-function-declaration]
+     390 |         if (!sk_page_frag_refill(sk, pfrag))
+         |              ^~~~~~~~~~~~~~~~~~~
+         |              skb_page_frag_refill
+   net/tls/tls_device.c: In function 'tls_push_data':
+>> net/tls/tls_device.c:460:15: error: assignment to 'struct page_frag *' from incompatible pointer type 'struct page_frag_cache *' [-Werror=incompatible-pointer-types]
+     460 |         pfrag = sk_page_frag(sk);
+         |               ^
    cc1: some warnings being treated as errors
 
 
-vim +1367 arch/x86/kvm/svm/svm.c
+vim +806 net/kcm/kcmsock.c
 
-36e8194dcd749c arch/x86/kvm/svm/svm.c Paolo Bonzini         2021-09-23  1226  
-63129754178c55 arch/x86/kvm/svm/svm.c Paolo Bonzini         2021-03-02  1227  static void init_vmcb(struct kvm_vcpu *vcpu)
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1228  {
-63129754178c55 arch/x86/kvm/svm/svm.c Paolo Bonzini         2021-03-02  1229  	struct vcpu_svm *svm = to_svm(vcpu);
-1ee73a332f80dd arch/x86/kvm/svm/svm.c Maxim Levitsky        2022-03-22  1230  	struct vmcb *vmcb = svm->vmcb01.ptr;
-1ee73a332f80dd arch/x86/kvm/svm/svm.c Maxim Levitsky        2022-03-22  1231  	struct vmcb_control_area *control = &vmcb->control;
-1ee73a332f80dd arch/x86/kvm/svm/svm.c Maxim Levitsky        2022-03-22  1232  	struct vmcb_save_area *save = &vmcb->save;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1233  
-830bd71f2c0684 arch/x86/kvm/svm/svm.c Babu Moger            2020-09-11  1234  	svm_set_intercept(svm, INTERCEPT_CR0_READ);
-830bd71f2c0684 arch/x86/kvm/svm/svm.c Babu Moger            2020-09-11  1235  	svm_set_intercept(svm, INTERCEPT_CR3_READ);
-830bd71f2c0684 arch/x86/kvm/svm/svm.c Babu Moger            2020-09-11  1236  	svm_set_intercept(svm, INTERCEPT_CR4_READ);
-830bd71f2c0684 arch/x86/kvm/svm/svm.c Babu Moger            2020-09-11  1237  	svm_set_intercept(svm, INTERCEPT_CR0_WRITE);
-830bd71f2c0684 arch/x86/kvm/svm/svm.c Babu Moger            2020-09-11  1238  	svm_set_intercept(svm, INTERCEPT_CR3_WRITE);
-830bd71f2c0684 arch/x86/kvm/svm/svm.c Babu Moger            2020-09-11  1239  	svm_set_intercept(svm, INTERCEPT_CR4_WRITE);
-63129754178c55 arch/x86/kvm/svm/svm.c Paolo Bonzini         2021-03-02  1240  	if (!kvm_vcpu_apicv_active(vcpu))
-830bd71f2c0684 arch/x86/kvm/svm/svm.c Babu Moger            2020-09-11  1241  		svm_set_intercept(svm, INTERCEPT_CR8_WRITE);
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1242  
-5315c716b69f47 arch/x86/kvm/svm.c     Paolo Bonzini         2014-03-03  1243  	set_dr_intercepts(svm);
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1244  
-18c918c5f59bc3 arch/x86/kvm/svm.c     Joerg Roedel          2010-11-30  1245  	set_exception_intercept(svm, PF_VECTOR);
-18c918c5f59bc3 arch/x86/kvm/svm.c     Joerg Roedel          2010-11-30  1246  	set_exception_intercept(svm, UD_VECTOR);
-18c918c5f59bc3 arch/x86/kvm/svm.c     Joerg Roedel          2010-11-30  1247  	set_exception_intercept(svm, MC_VECTOR);
-54a20552e1eae0 arch/x86/kvm/svm.c     Eric Northup          2015-11-03  1248  	set_exception_intercept(svm, AC_VECTOR);
-cbdb967af3d549 arch/x86/kvm/svm.c     Paolo Bonzini         2015-11-10  1249  	set_exception_intercept(svm, DB_VECTOR);
-9718420e9fd462 arch/x86/kvm/svm.c     Liran Alon            2018-03-12  1250  	/*
-9718420e9fd462 arch/x86/kvm/svm.c     Liran Alon            2018-03-12  1251  	 * Guest access to VMware backdoor ports could legitimately
-9718420e9fd462 arch/x86/kvm/svm.c     Liran Alon            2018-03-12  1252  	 * trigger #GP because of TSS I/O permission bitmap.
-9718420e9fd462 arch/x86/kvm/svm.c     Liran Alon            2018-03-12  1253  	 * We intercept those #GP and allow access to them anyway
-29de732cc95cb5 arch/x86/kvm/svm/svm.c Alexey Kardashevskiy  2023-06-15  1254  	 * as VMware does.
-9718420e9fd462 arch/x86/kvm/svm.c     Liran Alon            2018-03-12  1255  	 */
-29de732cc95cb5 arch/x86/kvm/svm/svm.c Alexey Kardashevskiy  2023-06-15  1256  	if (enable_vmware_backdoor)
-9718420e9fd462 arch/x86/kvm/svm.c     Liran Alon            2018-03-12  1257  		set_exception_intercept(svm, GP_VECTOR);
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1258  
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1259  	svm_set_intercept(svm, INTERCEPT_INTR);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1260  	svm_set_intercept(svm, INTERCEPT_NMI);
-4b639a9f82fcf1 arch/x86/kvm/svm/svm.c Maxim Levitsky        2021-07-07  1261  
-4b639a9f82fcf1 arch/x86/kvm/svm/svm.c Maxim Levitsky        2021-07-07  1262  	if (intercept_smi)
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1263  		svm_set_intercept(svm, INTERCEPT_SMI);
-4b639a9f82fcf1 arch/x86/kvm/svm/svm.c Maxim Levitsky        2021-07-07  1264  
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1265  	svm_set_intercept(svm, INTERCEPT_SELECTIVE_CR0);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1266  	svm_set_intercept(svm, INTERCEPT_RDPMC);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1267  	svm_set_intercept(svm, INTERCEPT_CPUID);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1268  	svm_set_intercept(svm, INTERCEPT_INVD);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1269  	svm_set_intercept(svm, INTERCEPT_INVLPG);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1270  	svm_set_intercept(svm, INTERCEPT_INVLPGA);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1271  	svm_set_intercept(svm, INTERCEPT_IOIO_PROT);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1272  	svm_set_intercept(svm, INTERCEPT_MSR_PROT);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1273  	svm_set_intercept(svm, INTERCEPT_TASK_SWITCH);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1274  	svm_set_intercept(svm, INTERCEPT_SHUTDOWN);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1275  	svm_set_intercept(svm, INTERCEPT_VMRUN);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1276  	svm_set_intercept(svm, INTERCEPT_VMMCALL);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1277  	svm_set_intercept(svm, INTERCEPT_VMLOAD);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1278  	svm_set_intercept(svm, INTERCEPT_VMSAVE);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1279  	svm_set_intercept(svm, INTERCEPT_STGI);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1280  	svm_set_intercept(svm, INTERCEPT_CLGI);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1281  	svm_set_intercept(svm, INTERCEPT_SKINIT);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1282  	svm_set_intercept(svm, INTERCEPT_WBINVD);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1283  	svm_set_intercept(svm, INTERCEPT_XSETBV);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1284  	svm_set_intercept(svm, INTERCEPT_RDPRU);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1285  	svm_set_intercept(svm, INTERCEPT_RSM);
-668fffa3f838ed arch/x86/kvm/svm.c     Michael S. Tsirkin    2017-04-21  1286  
-63129754178c55 arch/x86/kvm/svm/svm.c Paolo Bonzini         2021-03-02  1287  	if (!kvm_mwait_in_guest(vcpu->kvm)) {
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1288  		svm_set_intercept(svm, INTERCEPT_MONITOR);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1289  		svm_set_intercept(svm, INTERCEPT_MWAIT);
-668fffa3f838ed arch/x86/kvm/svm.c     Michael S. Tsirkin    2017-04-21  1290  	}
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1291  
-63129754178c55 arch/x86/kvm/svm/svm.c Paolo Bonzini         2021-03-02  1292  	if (!kvm_hlt_in_guest(vcpu->kvm))
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1293  		svm_set_intercept(svm, INTERCEPT_HLT);
-caa057a2cad647 arch/x86/kvm/svm.c     Wanpeng Li            2018-03-12  1294  
-d0ec49d4de9080 arch/x86/kvm/svm.c     Tom Lendacky          2017-07-17  1295  	control->iopm_base_pa = __sme_set(iopm_base);
-d0ec49d4de9080 arch/x86/kvm/svm.c     Tom Lendacky          2017-07-17  1296  	control->msrpm_base_pa = __sme_set(__pa(svm->msrpm));
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1297  	control->int_ctl = V_INTR_MASKING_MASK;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1298  
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1299  	init_seg(&save->es);
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1300  	init_seg(&save->ss);
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1301  	init_seg(&save->ds);
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1302  	init_seg(&save->fs);
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1303  	init_seg(&save->gs);
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1304  
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1305  	save->cs.selector = 0xf000;
-04b66839d312d3 arch/x86/kvm/svm.c     Paolo Bonzini         2013-03-19  1306  	save->cs.base = 0xffff0000;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1307  	/* Executable/Readable Code Segment */
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1308  	save->cs.attrib = SVM_SELECTOR_READ_MASK | SVM_SELECTOR_P_MASK |
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1309  		SVM_SELECTOR_S_MASK | SVM_SELECTOR_CODE_MASK;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1310  	save->cs.limit = 0xffff;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1311  
-4f117ce4aefca0 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-07-13  1312  	save->gdtr.base = 0;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1313  	save->gdtr.limit = 0xffff;
-4f117ce4aefca0 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-07-13  1314  	save->idtr.base = 0;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1315  	save->idtr.limit = 0xffff;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1316  
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1317  	init_sys_seg(&save->ldtr, SEG_TYPE_LDT);
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1318  	init_sys_seg(&save->tr, SEG_TYPE_BUSY_TSS16);
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1319  
-709ddebf81cb40 arch/x86/kvm/svm.c     Joerg Roedel          2008-02-07  1320  	if (npt_enabled) {
-709ddebf81cb40 arch/x86/kvm/svm.c     Joerg Roedel          2008-02-07  1321  		/* Setup VMCB for Nested Paging */
-cea3a19b007a69 arch/x86/kvm/svm.c     Tom Lendacky          2017-12-04  1322  		control->nested_ctl |= SVM_NESTED_CTL_NP_ENABLE;
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1323  		svm_clr_intercept(svm, INTERCEPT_INVLPG);
-18c918c5f59bc3 arch/x86/kvm/svm.c     Joerg Roedel          2010-11-30  1324  		clr_exception_intercept(svm, PF_VECTOR);
-830bd71f2c0684 arch/x86/kvm/svm/svm.c Babu Moger            2020-09-11  1325  		svm_clr_intercept(svm, INTERCEPT_CR3_READ);
-830bd71f2c0684 arch/x86/kvm/svm/svm.c Babu Moger            2020-09-11  1326  		svm_clr_intercept(svm, INTERCEPT_CR3_WRITE);
-63129754178c55 arch/x86/kvm/svm/svm.c Paolo Bonzini         2021-03-02  1327  		save->g_pat = vcpu->arch.pat;
-709ddebf81cb40 arch/x86/kvm/svm.c     Joerg Roedel          2008-02-07  1328  		save->cr3 = 0;
-709ddebf81cb40 arch/x86/kvm/svm.c     Joerg Roedel          2008-02-07  1329  	}
-193015adf40d04 arch/x86/kvm/svm/svm.c Cathy Avery           2021-01-12  1330  	svm->current_vmcb->asid_generation = 0;
-7e8e6eed75e290 arch/x86/kvm/svm/svm.c Cathy Avery           2020-10-11  1331  	svm->asid = 0;
-1371d90460189d arch/x86/kvm/svm.c     Alexander Graf        2008-11-25  1332  
-c74ad08f3333db arch/x86/kvm/svm/svm.c Maxim Levitsky        2021-05-03  1333  	svm->nested.vmcb12_gpa = INVALID_GPA;
-c74ad08f3333db arch/x86/kvm/svm/svm.c Maxim Levitsky        2021-05-03  1334  	svm->nested.last_vmcb12_gpa = INVALID_GPA;
-2af9194d1b683f arch/x86/kvm/svm.c     Joerg Roedel          2009-08-07  1335  
-63129754178c55 arch/x86/kvm/svm/svm.c Paolo Bonzini         2021-03-02  1336  	if (!kvm_pause_in_guest(vcpu->kvm)) {
-8566ac8b8e7cac arch/x86/kvm/svm.c     Babu Moger            2018-03-16  1337  		control->pause_filter_count = pause_filter_count;
-8566ac8b8e7cac arch/x86/kvm/svm.c     Babu Moger            2018-03-16  1338  		if (pause_filter_thresh)
-8566ac8b8e7cac arch/x86/kvm/svm.c     Babu Moger            2018-03-16  1339  			control->pause_filter_thresh = pause_filter_thresh;
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1340  		svm_set_intercept(svm, INTERCEPT_PAUSE);
-8566ac8b8e7cac arch/x86/kvm/svm.c     Babu Moger            2018-03-16  1341  	} else {
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1342  		svm_clr_intercept(svm, INTERCEPT_PAUSE);
-565d0998ecac83 arch/x86/kvm/svm.c     Mark Langsdorf        2009-10-06  1343  	}
-565d0998ecac83 arch/x86/kvm/svm.c     Mark Langsdorf        2009-10-06  1344  
-3b195ac9260235 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-05-04  1345  	svm_recalc_instruction_intercepts(vcpu, svm);
-4407a797e9412a arch/x86/kvm/svm/svm.c Babu Moger            2020-09-11  1346  
-89c8a4984fc98e arch/x86/kvm/svm.c     Janakarajan Natarajan 2017-07-06  1347  	/*
-d00b99c514b33a arch/x86/kvm/svm/svm.c Babu Moger            2021-02-17  1348  	 * If the host supports V_SPEC_CTRL then disable the interception
-d00b99c514b33a arch/x86/kvm/svm/svm.c Babu Moger            2021-02-17  1349  	 * of MSR_IA32_SPEC_CTRL.
-89c8a4984fc98e arch/x86/kvm/svm.c     Janakarajan Natarajan 2017-07-06  1350  	 */
-d00b99c514b33a arch/x86/kvm/svm/svm.c Babu Moger            2021-02-17  1351  	if (boot_cpu_has(X86_FEATURE_V_SPEC_CTRL))
-d00b99c514b33a arch/x86/kvm/svm/svm.c Babu Moger            2021-02-17  1352  		set_msr_interception(vcpu, svm->msrpm, MSR_IA32_SPEC_CTRL, 1, 1);
-d00b99c514b33a arch/x86/kvm/svm/svm.c Babu Moger            2021-02-17  1353  
-63129754178c55 arch/x86/kvm/svm/svm.c Paolo Bonzini         2021-03-02  1354  	if (kvm_vcpu_apicv_active(vcpu))
-1ee73a332f80dd arch/x86/kvm/svm/svm.c Maxim Levitsky        2022-03-22  1355  		avic_init_vmcb(svm, vmcb);
-89c8a4984fc98e arch/x86/kvm/svm.c     Janakarajan Natarajan 2017-07-06  1356  
-fa4c027a7956f5 arch/x86/kvm/svm/svm.c Santosh Shukla        2023-02-27  1357  	if (vnmi)
-fa4c027a7956f5 arch/x86/kvm/svm/svm.c Santosh Shukla        2023-02-27  1358  		svm->vmcb->control.int_ctl |= V_NMI_ENABLE_MASK;
-fa4c027a7956f5 arch/x86/kvm/svm/svm.c Santosh Shukla        2023-02-27  1359  
-640bd6e5752274 arch/x86/kvm/svm.c     Janakarajan Natarajan 2017-08-23  1360  	if (vgif) {
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1361  		svm_clr_intercept(svm, INTERCEPT_STGI);
-a284ba56a0a4b5 arch/x86/kvm/svm/svm.c Joerg Roedel          2020-06-25  1362  		svm_clr_intercept(svm, INTERCEPT_CLGI);
-640bd6e5752274 arch/x86/kvm/svm.c     Janakarajan Natarajan 2017-08-23  1363  		svm->vmcb->control.int_ctl |= V_GIF_ENABLE_MASK;
-640bd6e5752274 arch/x86/kvm/svm.c     Janakarajan Natarajan 2017-08-23  1364  	}
-640bd6e5752274 arch/x86/kvm/svm.c     Janakarajan Natarajan 2017-08-23  1365  
-6defa24d3b12bb arch/x86/kvm/svm/svm.c Peter Gonda           2022-06-23  1366  	if (sev_guest(vcpu->kvm))
-6defa24d3b12bb arch/x86/kvm/svm/svm.c Peter Gonda           2022-06-23 @1367  		sev_init_vmcb(svm);
-1654efcbc431a3 arch/x86/kvm/svm.c     Brijesh Singh         2017-12-04  1368  
-1ee73a332f80dd arch/x86/kvm/svm/svm.c Maxim Levitsky        2022-03-22  1369  	svm_hv_init_vmcb(vmcb);
-36e8194dcd749c arch/x86/kvm/svm/svm.c Paolo Bonzini         2021-09-23  1370  	init_vmcb_after_set_cpuid(vcpu);
-1e0c7d40758bcd arch/x86/kvm/svm/svm.c Vineeth Pillai        2021-06-03  1371  
-1ee73a332f80dd arch/x86/kvm/svm/svm.c Maxim Levitsky        2022-03-22  1372  	vmcb_mark_all_dirty(vmcb);
-8d28fec406e4d5 arch/x86/kvm/svm.c     Roedel, Joerg         2010-12-03  1373  
-2af9194d1b683f arch/x86/kvm/svm.c     Joerg Roedel          2009-08-07  1374  	enable_gif(svm);
-44a95dae1d229a arch/x86/kvm/svm.c     Suravee Suthikulpanit 2016-05-04  1375  }
-44a95dae1d229a arch/x86/kvm/svm.c     Suravee Suthikulpanit 2016-05-04  1376  
-9ebe530b9f5da8 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-09-20  1377  static void __svm_vcpu_reset(struct kvm_vcpu *vcpu)
-9ebe530b9f5da8 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-09-20  1378  {
-9ebe530b9f5da8 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-09-20  1379  	struct vcpu_svm *svm = to_svm(vcpu);
-44a95dae1d229a arch/x86/kvm/svm.c     Suravee Suthikulpanit 2016-05-04  1380  
-9ebe530b9f5da8 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-09-20  1381  	svm_vcpu_init_msrpm(vcpu, svm->msrpm);
-9ebe530b9f5da8 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-09-20  1382  
-9ebe530b9f5da8 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-09-20  1383  	svm_init_osvw(vcpu);
-9ebe530b9f5da8 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-09-20  1384  	vcpu->arch.microcode_version = 0x01000065;
-938c8745bcf2f7 arch/x86/kvm/svm/svm.c Sean Christopherson   2022-05-24  1385  	svm->tsc_ratio_msr = kvm_caps.default_tsc_scaling_ratio;
-9ebe530b9f5da8 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-09-20  1386  
-916b54a7688b0b arch/x86/kvm/svm/svm.c Maxim Levitsky        2023-01-30  1387  	svm->nmi_masked = false;
-916b54a7688b0b arch/x86/kvm/svm/svm.c Maxim Levitsky        2023-01-30  1388  	svm->awaiting_iret_completion = false;
-916b54a7688b0b arch/x86/kvm/svm/svm.c Maxim Levitsky        2023-01-30  1389  
-9ebe530b9f5da8 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-09-20  1390  	if (sev_es_guest(vcpu->kvm))
-9ebe530b9f5da8 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-09-20 @1391  		sev_es_vcpu_reset(svm);
-44a95dae1d229a arch/x86/kvm/svm.c     Suravee Suthikulpanit 2016-05-04  1392  }
-44a95dae1d229a arch/x86/kvm/svm.c     Suravee Suthikulpanit 2016-05-04  1393  
-d28bc9dd25ce02 arch/x86/kvm/svm.c     Nadav Amit            2015-04-13  1394  static void svm_vcpu_reset(struct kvm_vcpu *vcpu, bool init_event)
-04d2cc7780d48a drivers/kvm/svm.c      Avi Kivity            2007-09-10  1395  {
-04d2cc7780d48a drivers/kvm/svm.c      Avi Kivity            2007-09-10  1396  	struct vcpu_svm *svm = to_svm(vcpu);
-04d2cc7780d48a drivers/kvm/svm.c      Avi Kivity            2007-09-10  1397  
-b2ac58f90540e3 arch/x86/kvm/svm.c     KarimAllah Ahmed      2018-02-03  1398  	svm->spec_ctrl = 0;
-ccbcd2674472a9 arch/x86/kvm/svm.c     Thomas Gleixner       2018-05-09  1399  	svm->virt_spec_ctrl = 0;
-b2ac58f90540e3 arch/x86/kvm/svm.c     KarimAllah Ahmed      2018-02-03  1400  
-63129754178c55 arch/x86/kvm/svm/svm.c Paolo Bonzini         2021-03-02  1401  	init_vmcb(vcpu);
-9ebe530b9f5da8 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-09-20  1402  
-9ebe530b9f5da8 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-09-20  1403  	if (!init_event)
-9ebe530b9f5da8 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-09-20  1404  		__svm_vcpu_reset(vcpu);
-04d2cc7780d48a drivers/kvm/svm.c      Avi Kivity            2007-09-10  1405  }
-04d2cc7780d48a drivers/kvm/svm.c      Avi Kivity            2007-09-10  1406  
-4995a3685f1b76 arch/x86/kvm/svm/svm.c Cathy Avery           2021-01-13  1407  void svm_switch_vmcb(struct vcpu_svm *svm, struct kvm_vmcb_info *target_vmcb)
-4995a3685f1b76 arch/x86/kvm/svm/svm.c Cathy Avery           2021-01-13  1408  {
-4995a3685f1b76 arch/x86/kvm/svm/svm.c Cathy Avery           2021-01-13  1409  	svm->current_vmcb = target_vmcb;
-4995a3685f1b76 arch/x86/kvm/svm/svm.c Cathy Avery           2021-01-13  1410  	svm->vmcb = target_vmcb->ptr;
-4995a3685f1b76 arch/x86/kvm/svm/svm.c Cathy Avery           2021-01-13  1411  }
-4995a3685f1b76 arch/x86/kvm/svm/svm.c Cathy Avery           2021-01-13  1412  
-23e5092b6e2ad1 arch/x86/kvm/svm/svm.c Sean Christopherson   2022-01-28  1413  static int svm_vcpu_create(struct kvm_vcpu *vcpu)
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1414  {
-a2fa3e9f52d875 drivers/kvm/svm.c      Gregory Haskins       2007-07-27  1415  	struct vcpu_svm *svm;
-4995a3685f1b76 arch/x86/kvm/svm/svm.c Cathy Avery           2021-01-13  1416  	struct page *vmcb01_page;
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1417  	struct page *vmsa_page = NULL;
-fb3f0f51d92d14 drivers/kvm/svm.c      Rusty Russell         2007-07-27  1418  	int err;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1419  
-a9dd6f09d7e54d arch/x86/kvm/svm.c     Sean Christopherson   2019-12-18  1420  	BUILD_BUG_ON(offsetof(struct vcpu_svm, vcpu) != 0);
-a9dd6f09d7e54d arch/x86/kvm/svm.c     Sean Christopherson   2019-12-18  1421  	svm = to_svm(vcpu);
-fb3f0f51d92d14 drivers/kvm/svm.c      Rusty Russell         2007-07-27  1422  
-fb3f0f51d92d14 drivers/kvm/svm.c      Rusty Russell         2007-07-27  1423  	err = -ENOMEM;
-75253db41a467a arch/x86/kvm/svm/svm.c Brijesh Singh         2024-01-25  1424  	vmcb01_page = snp_safe_alloc_page(vcpu);
-4995a3685f1b76 arch/x86/kvm/svm/svm.c Cathy Avery           2021-01-13  1425  	if (!vmcb01_page)
-987b2594ed5d12 arch/x86/kvm/svm.c     Sean Christopherson   2019-12-18  1426  		goto out;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1427  
-63129754178c55 arch/x86/kvm/svm/svm.c Paolo Bonzini         2021-03-02  1428  	if (sev_es_guest(vcpu->kvm)) {
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1429  		/*
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1430  		 * SEV-ES guests require a separate VMSA page used to contain
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1431  		 * the encrypted register state of the guest.
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1432  		 */
-75253db41a467a arch/x86/kvm/svm/svm.c Brijesh Singh         2024-01-25  1433  		vmsa_page = snp_safe_alloc_page(vcpu);
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1434  		if (!vmsa_page)
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1435  			goto error_free_vmcb_page;
-ed02b213098a90 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1436  
-ed02b213098a90 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1437  		/*
-ed02b213098a90 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1438  		 * SEV-ES guests maintain an encrypted version of their FPU
-ed02b213098a90 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1439  		 * state which is restored and saved on VMRUN and VMEXIT.
-d69c1382e1b73a arch/x86/kvm/svm/svm.c Thomas Gleixner       2021-10-22  1440  		 * Mark vcpu->arch.guest_fpu->fpstate as scratch so it won't
-d69c1382e1b73a arch/x86/kvm/svm/svm.c Thomas Gleixner       2021-10-22  1441  		 * do xsave/xrstor on it.
-ed02b213098a90 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1442  		 */
-d69c1382e1b73a arch/x86/kvm/svm/svm.c Thomas Gleixner       2021-10-22  1443  		fpstate_set_confidential(&vcpu->arch.guest_fpu);
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1444  	}
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1445  
-dfa20099e26e35 arch/x86/kvm/svm.c     Suravee Suthikulpanit 2017-09-12  1446  	err = avic_init_vcpu(svm);
-44a95dae1d229a arch/x86/kvm/svm.c     Suravee Suthikulpanit 2016-05-04  1447  	if (err)
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1448  		goto error_free_vmsa_page;
-411b44ba80ab00 arch/x86/kvm/svm.c     Suravee Suthikulpanit 2016-08-23  1449  
-476c9bd8e997b4 arch/x86/kvm/svm/svm.c Aaron Lewis           2020-09-25  1450  	svm->msrpm = svm_vcpu_alloc_msrpm();
-054409ab253d9f arch/x86/kvm/svm/svm.c Chen Zhou             2020-11-17  1451  	if (!svm->msrpm) {
-054409ab253d9f arch/x86/kvm/svm/svm.c Chen Zhou             2020-11-17  1452  		err = -ENOMEM;
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1453  		goto error_free_vmsa_page;
-054409ab253d9f arch/x86/kvm/svm/svm.c Chen Zhou             2020-11-17  1454  	}
-b286d5d8b0836e arch/x86/kvm/svm.c     Alexander Graf        2008-11-25  1455  
-091abbf578f926 arch/x86/kvm/svm/svm.c Maxim Levitsky        2022-05-19  1456  	svm->x2avic_msrs_intercepted = true;
-091abbf578f926 arch/x86/kvm/svm/svm.c Maxim Levitsky        2022-05-19  1457  
-4995a3685f1b76 arch/x86/kvm/svm/svm.c Cathy Avery           2021-01-13  1458  	svm->vmcb01.ptr = page_address(vmcb01_page);
-4995a3685f1b76 arch/x86/kvm/svm/svm.c Cathy Avery           2021-01-13  1459  	svm->vmcb01.pa = __sme_set(page_to_pfn(vmcb01_page) << PAGE_SHIFT);
-9ebe530b9f5da8 arch/x86/kvm/svm/svm.c Sean Christopherson   2021-09-20  1460  	svm_switch_vmcb(svm, &svm->vmcb01);
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1461  
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1462  	if (vmsa_page)
-b67a4cc35c9f72 arch/x86/kvm/svm/svm.c Peter Gonda           2021-10-21  1463  		svm->sev_es.vmsa = page_address(vmsa_page);
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1464  
-a7fc06dd2f14f8 arch/x86/kvm/svm/svm.c Michael Roth          2021-02-02  1465  	svm->guest_state_loaded = false;
-4995a3685f1b76 arch/x86/kvm/svm/svm.c Cathy Avery           2021-01-13  1466  
-a9dd6f09d7e54d arch/x86/kvm/svm.c     Sean Christopherson   2019-12-18  1467  	return 0;
-36241b8c7cbcc8 drivers/kvm/svm.c      Avi Kivity            2006-12-22  1468  
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1469  error_free_vmsa_page:
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1470  	if (vmsa_page)
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1471  		__free_page(vmsa_page);
-8d22b90e942c26 arch/x86/kvm/svm/svm.c Maxim Levitsky        2020-08-27  1472  error_free_vmcb_page:
-4995a3685f1b76 arch/x86/kvm/svm/svm.c Cathy Avery           2021-01-13  1473  	__free_page(vmcb01_page);
-987b2594ed5d12 arch/x86/kvm/svm.c     Sean Christopherson   2019-12-18  1474  out:
-a9dd6f09d7e54d arch/x86/kvm/svm.c     Sean Christopherson   2019-12-18  1475  	return err;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1476  }
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1477  
-fd65d3142f734b arch/x86/kvm/svm.c     Jim Mattson           2018-05-22  1478  static void svm_clear_current_vmcb(struct vmcb *vmcb)
-fd65d3142f734b arch/x86/kvm/svm.c     Jim Mattson           2018-05-22  1479  {
-fd65d3142f734b arch/x86/kvm/svm.c     Jim Mattson           2018-05-22  1480  	int i;
-fd65d3142f734b arch/x86/kvm/svm.c     Jim Mattson           2018-05-22  1481  
-fd65d3142f734b arch/x86/kvm/svm.c     Jim Mattson           2018-05-22  1482  	for_each_online_cpu(i)
-73412dfeea724e arch/x86/kvm/svm/svm.c Paolo Bonzini         2022-11-09  1483  		cmpxchg(per_cpu_ptr(&svm_data.current_vmcb, i), vmcb, NULL);
-fd65d3142f734b arch/x86/kvm/svm.c     Jim Mattson           2018-05-22  1484  }
-fd65d3142f734b arch/x86/kvm/svm.c     Jim Mattson           2018-05-22  1485  
-23e5092b6e2ad1 arch/x86/kvm/svm/svm.c Sean Christopherson   2022-01-28  1486  static void svm_vcpu_free(struct kvm_vcpu *vcpu)
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1487  {
-a2fa3e9f52d875 drivers/kvm/svm.c      Gregory Haskins       2007-07-27  1488  	struct vcpu_svm *svm = to_svm(vcpu);
-a2fa3e9f52d875 drivers/kvm/svm.c      Gregory Haskins       2007-07-27  1489  
-fd65d3142f734b arch/x86/kvm/svm.c     Jim Mattson           2018-05-22  1490  	/*
-fd65d3142f734b arch/x86/kvm/svm.c     Jim Mattson           2018-05-22  1491  	 * The vmcb page can be recycled, causing a false negative in
-fd65d3142f734b arch/x86/kvm/svm.c     Jim Mattson           2018-05-22  1492  	 * svm_vcpu_load(). So, ensure that no logical CPU has this
-fd65d3142f734b arch/x86/kvm/svm.c     Jim Mattson           2018-05-22  1493  	 * vmcb page recorded as its current vmcb.
-fd65d3142f734b arch/x86/kvm/svm.c     Jim Mattson           2018-05-22  1494  	 */
-fd65d3142f734b arch/x86/kvm/svm.c     Jim Mattson           2018-05-22  1495  	svm_clear_current_vmcb(svm->vmcb);
-fd65d3142f734b arch/x86/kvm/svm.c     Jim Mattson           2018-05-22  1496  
-917401f26a6af5 arch/x86/kvm/svm/svm.c Maxim Levitsky        2022-11-03  1497  	svm_leave_nested(vcpu);
-2fcf4876ada8a2 arch/x86/kvm/svm/svm.c Maxim Levitsky        2020-10-01  1498  	svm_free_nested(svm);
-2fcf4876ada8a2 arch/x86/kvm/svm/svm.c Maxim Levitsky        2020-10-01  1499  
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1500  	sev_free_vcpu(vcpu);
-add5e2f0454145 arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1501  
-4995a3685f1b76 arch/x86/kvm/svm/svm.c Cathy Avery           2021-01-13  1502  	__free_page(pfn_to_page(__sme_clr(svm->vmcb01.pa) >> PAGE_SHIFT));
-47903dc10e7ebb arch/x86/kvm/svm/svm.c Krish Sadhukhan       2021-04-12  1503  	__free_pages(virt_to_page(svm->msrpm), get_order(MSRPM_SIZE));
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1504  }
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1505  
-23e5092b6e2ad1 arch/x86/kvm/svm/svm.c Sean Christopherson   2022-01-28  1506  static void svm_prepare_switch_to_guest(struct kvm_vcpu *vcpu)
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity            2006-12-10  1507  {
-a2fa3e9f52d875 drivers/kvm/svm.c      Gregory Haskins       2007-07-27  1508  	struct vcpu_svm *svm = to_svm(vcpu);
-73412dfeea724e arch/x86/kvm/svm/svm.c Paolo Bonzini         2022-11-09  1509  	struct svm_cpu_data *sd = per_cpu_ptr(&svm_data, vcpu->cpu);
-0cc5064d335543 drivers/kvm/svm.c      Avi Kivity            2007-03-25  1510  
-ce7ea0cfdc2e9f arch/x86/kvm/svm/svm.c Tom Lendacky          2021-05-06  1511  	if (sev_es_guest(vcpu->kvm))
-ce7ea0cfdc2e9f arch/x86/kvm/svm/svm.c Tom Lendacky          2021-05-06 @1512  		sev_es_unmap_ghcb(svm);
-ce7ea0cfdc2e9f arch/x86/kvm/svm/svm.c Tom Lendacky          2021-05-06  1513  
-a7fc06dd2f14f8 arch/x86/kvm/svm/svm.c Michael Roth          2021-02-02  1514  	if (svm->guest_state_loaded)
-a7fc06dd2f14f8 arch/x86/kvm/svm/svm.c Michael Roth          2021-02-02  1515  		return;
-94dfbdb3894eda drivers/kvm/svm.c      Anthony Liguori       2007-04-29  1516  
-a7fc06dd2f14f8 arch/x86/kvm/svm/svm.c Michael Roth          2021-02-02  1517  	/*
-a7fc06dd2f14f8 arch/x86/kvm/svm/svm.c Michael Roth          2021-02-02  1518  	 * Save additional host state that will be restored on VMEXIT (sev-es)
-a7fc06dd2f14f8 arch/x86/kvm/svm/svm.c Michael Roth          2021-02-02  1519  	 * or subsequent vmload of host save area.
-a7fc06dd2f14f8 arch/x86/kvm/svm/svm.c Michael Roth          2021-02-02  1520  	 */
-e287bd005ad9d8 arch/x86/kvm/svm/svm.c Paolo Bonzini         2022-11-07  1521  	vmsave(sd->save_area_pa);
-068f7ea61895ff arch/x86/kvm/svm/svm.c Paolo Bonzini         2022-01-25  1522  	if (sev_es_guest(vcpu->kvm)) {
-3dd2775b74c9b1 arch/x86/kvm/svm/svm.c Tom Lendacky          2022-04-05  1523  		struct sev_es_save_area *hostsa;
-3dd2775b74c9b1 arch/x86/kvm/svm/svm.c Tom Lendacky          2022-04-05  1524  		hostsa = (struct sev_es_save_area *)(page_address(sd->save_area) + 0x400);
-068f7ea61895ff arch/x86/kvm/svm/svm.c Paolo Bonzini         2022-01-25  1525  
-23e5092b6e2ad1 arch/x86/kvm/svm/svm.c Sean Christopherson   2022-01-28 @1526  		sev_es_prepare_switch_to_guest(hostsa);
-861377730aa9db arch/x86/kvm/svm/svm.c Tom Lendacky          2020-12-10  1527  	}
-fbc0db76b77125 arch/x86/kvm/svm.c     Joerg Roedel          2011-03-25  1528  
-11d39e8cc43e1c arch/x86/kvm/svm/svm.c Maxim Levitsky        2022-06-06  1529  	if (tsc_scaling)
-11d39e8cc43e1c arch/x86/kvm/svm/svm.c Maxim Levitsky        2022-06-06  1530  		__svm_write_tsc_multiplier(vcpu->arch.tsc_scaling_ratio);
-a7fc06dd2f14f8 arch/x86/kvm/svm/svm.c Michael Roth          2021-02-02  1531  
-916e3e5f26abc1 arch/x86/kvm/svm/svm.c Tom Lendacky          2023-09-15  1532  	/*
-916e3e5f26abc1 arch/x86/kvm/svm/svm.c Tom Lendacky          2023-09-15  1533  	 * TSC_AUX is always virtualized for SEV-ES guests when the feature is
-916e3e5f26abc1 arch/x86/kvm/svm/svm.c Tom Lendacky          2023-09-15  1534  	 * available. The user return MSR support is not required in this case
-916e3e5f26abc1 arch/x86/kvm/svm/svm.c Tom Lendacky          2023-09-15  1535  	 * because TSC_AUX is restored on #VMEXIT from the host save area
-916e3e5f26abc1 arch/x86/kvm/svm/svm.c Tom Lendacky          2023-09-15  1536  	 * (which has been initialized in svm_hardware_enable()).
-916e3e5f26abc1 arch/x86/kvm/svm/svm.c Tom Lendacky          2023-09-15  1537  	 */
-916e3e5f26abc1 arch/x86/kvm/svm/svm.c Tom Lendacky          2023-09-15  1538  	if (likely(tsc_aux_uret_slot >= 0) &&
-916e3e5f26abc1 arch/x86/kvm/svm/svm.c Tom Lendacky          2023-09-15  1539  	    (!boot_cpu_has(X86_FEATURE_V_TSC_AUX) || !sev_es_guest(vcpu->kvm)))
-0caa0a77c2f6fc arch/x86/kvm/svm/svm.c Sean Christopherson   2021-05-04  1540  		kvm_set_user_return_msr(tsc_aux_uret_slot, svm->tsc_aux, -1ull);
-8221c13700561b arch/x86/kvm/svm.c     Suravee Suthikulpanit 2016-05-04  1541  
-a7fc06dd2f14f8 arch/x86/kvm/svm/svm.c Michael Roth          2021-02-02  1542  	svm->guest_state_loaded = true;
-a7fc06dd2f14f8 arch/x86/kvm/svm/svm.c Michael Roth          2021-02-02  1543  }
-a7fc06dd2f14f8 arch/x86/kvm/svm/svm.c Michael Roth          2021-02-02  1544  
+   746	
+   747	static int kcm_sendmsg(struct socket *sock, struct msghdr *msg, size_t len)
+   748	{
+   749		struct sock *sk = sock->sk;
+   750		struct kcm_sock *kcm = kcm_sk(sk);
+   751		struct sk_buff *skb = NULL, *head = NULL;
+   752		size_t copy, copied = 0;
+   753		long timeo = sock_sndtimeo(sk, msg->msg_flags & MSG_DONTWAIT);
+   754		int eor = (sock->type == SOCK_DGRAM) ?
+   755			  !(msg->msg_flags & MSG_MORE) : !!(msg->msg_flags & MSG_EOR);
+   756		int err = -EPIPE;
+   757	
+   758		lock_sock(sk);
+   759	
+   760		/* Per tcp_sendmsg this should be in poll */
+   761		sk_clear_bit(SOCKWQ_ASYNC_NOSPACE, sk);
+   762	
+   763		if (sk->sk_err)
+   764			goto out_error;
+   765	
+   766		if (kcm->seq_skb) {
+   767			/* Previously opened message */
+   768			head = kcm->seq_skb;
+   769			skb = kcm_tx_msg(head)->last_skb;
+   770			goto start;
+   771		}
+   772	
+   773		/* Call the sk_stream functions to manage the sndbuf mem. */
+   774		if (!sk_stream_memory_free(sk)) {
+   775			kcm_push(kcm);
+   776			set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
+   777			err = sk_stream_wait_memory(sk, &timeo);
+   778			if (err)
+   779				goto out_error;
+   780		}
+   781	
+   782		if (msg_data_left(msg)) {
+   783			/* New message, alloc head skb */
+   784			head = alloc_skb(0, sk->sk_allocation);
+   785			while (!head) {
+   786				kcm_push(kcm);
+   787				err = sk_stream_wait_memory(sk, &timeo);
+   788				if (err)
+   789					goto out_error;
+   790	
+   791				head = alloc_skb(0, sk->sk_allocation);
+   792			}
+   793	
+   794			skb = head;
+   795	
+   796			/* Set ip_summed to CHECKSUM_UNNECESSARY to avoid calling
+   797			 * csum_and_copy_from_iter from skb_do_copy_data_nocache.
+   798			 */
+   799			skb->ip_summed = CHECKSUM_UNNECESSARY;
+   800		}
+   801	
+   802	start:
+   803		while (msg_data_left(msg)) {
+   804			bool merge = true;
+   805			int i = skb_shinfo(skb)->nr_frags;
+ > 806			struct page_frag *pfrag_cache = sk_page_frag(sk);
+   807			unsigned int offset, size;
+   808			struct page *page;
+   809			void *va;
+   810	
+ > 811			va = sk_page_frag_alloc_prepare(sk, pfrag, &size, &offset);
+   812			if (!va)
+   813				goto wait_for_memory;
+   814	
+   815			page = virt_to_page(va);
+   816			if (!skb_can_coalesce(skb, i, page, offset)) {
+   817				if (i == MAX_SKB_FRAGS) {
+   818					struct sk_buff *tskb;
+   819	
+   820					tskb = alloc_skb(0, sk->sk_allocation);
+   821					if (!tskb)
+   822						goto wait_for_memory;
+   823	
+   824					if (head == skb)
+   825						skb_shinfo(head)->frag_list = tskb;
+   826					else
+   827						skb->next = tskb;
+   828	
+   829					skb = tskb;
+   830					skb->ip_summed = CHECKSUM_UNNECESSARY;
+   831					continue;
+   832				}
+   833				merge = false;
+   834			}
+   835	
+   836			if (msg->msg_flags & MSG_SPLICE_PAGES) {
+   837				copy = msg_data_left(msg);
+   838				if (!sk_wmem_schedule(sk, copy))
+   839					goto wait_for_memory;
+   840	
+   841				err = skb_splice_from_iter(skb, &msg->msg_iter, copy,
+   842							   sk->sk_allocation);
+   843				if (err < 0) {
+   844					if (err == -EMSGSIZE)
+   845						goto wait_for_memory;
+   846					goto out_error;
+   847				}
+   848	
+   849				copy = err;
+   850				skb_shinfo(skb)->flags |= SKBFL_SHARED_FRAG;
+   851				sk_wmem_queued_add(sk, copy);
+   852				sk_mem_charge(sk, copy);
+   853	
+   854				if (head != skb)
+   855					head->truesize += copy;
+   856			} else {
+   857				copy = min_t(int, msg_data_left(msg), size);
+   858				if (!sk_wmem_schedule(sk, copy))
+   859					goto wait_for_memory;
+   860	
+   861				err = skb_copy_to_va_nocache(sk, &msg->msg_iter, skb,
+   862							     va + offset, copy);
+   863				if (err)
+   864					goto out_error;
+   865	
+   866				/* Update the skb. */
+   867				if (merge) {
+   868					skb_frag_size_add(
+   869						&skb_shinfo(skb)->frags[i - 1], copy);
+   870					page_frag_alloc_commit_noref(pfrag, offset, copy);
+   871				} else {
+   872					skb_fill_page_desc(skb, i, page, offset, copy);
+   873					page_frag_alloc_commit(pfrag, offset, copy);
+   874				}
+   875	
+   876			}
+   877	
+   878			copied += copy;
+   879			if (head != skb) {
+   880				head->len += copy;
+   881				head->data_len += copy;
+   882			}
+   883	
+   884			continue;
+   885	
+   886	wait_for_memory:
+   887			kcm_push(kcm);
+   888			err = sk_stream_wait_memory(sk, &timeo);
+   889			if (err)
+   890				goto out_error;
+   891		}
+   892	
+   893		if (eor) {
+   894			bool not_busy = skb_queue_empty(&sk->sk_write_queue);
+   895	
+   896			if (head) {
+   897				/* Message complete, queue it on send buffer */
+   898				__skb_queue_tail(&sk->sk_write_queue, head);
+   899				kcm->seq_skb = NULL;
+   900				KCM_STATS_INCR(kcm->stats.tx_msgs);
+   901			}
+   902	
+   903			if (msg->msg_flags & MSG_BATCH) {
+   904				kcm->tx_wait_more = true;
+   905			} else if (kcm->tx_wait_more || not_busy) {
+   906				err = kcm_write_msgs(kcm);
+   907				if (err < 0) {
+   908					/* We got a hard error in write_msgs but have
+   909					 * already queued this message. Report an error
+   910					 * in the socket, but don't affect return value
+   911					 * from sendmsg
+   912					 */
+   913					pr_warn("KCM: Hard failure on kcm_write_msgs\n");
+   914					report_csk_error(&kcm->sk, -err);
+   915				}
+   916			}
+   917		} else {
+   918			/* Message not complete, save state */
+   919	partial_message:
+   920			if (head) {
+   921				kcm->seq_skb = head;
+   922				kcm_tx_msg(head)->last_skb = skb;
+   923			}
+   924		}
+   925	
+   926		KCM_STATS_ADD(kcm->stats.tx_bytes, copied);
+   927	
+   928		release_sock(sk);
+   929		return copied;
+   930	
+   931	out_error:
+   932		kcm_push(kcm);
+   933	
+   934		if (sock->type == SOCK_SEQPACKET) {
+   935			/* Wrote some bytes before encountering an
+   936			 * error, return partial success.
+   937			 */
+   938			if (copied)
+   939				goto partial_message;
+   940			if (head != kcm->seq_skb)
+   941				kfree_skb(head);
+   942		} else {
+   943			kfree_skb(head);
+   944			kcm->seq_skb = NULL;
+   945		}
+   946	
+   947		err = sk_stream_error(sk, msg->msg_flags, err);
+   948	
+   949		/* make sure we wake any epoll edge trigger waiter */
+   950		if (unlikely(skb_queue_len(&sk->sk_write_queue) == 0 && err == -EAGAIN))
+   951			sk->sk_write_space(sk);
+   952	
+   953		release_sock(sk);
+   954		return err;
+   955	}
+   956	
 
 -- 
 0-DAY CI Kernel Test Service
