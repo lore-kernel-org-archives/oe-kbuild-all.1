@@ -1,55 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE827FE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Mar 2024 01:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABB3282D6;
+	Tue, 19 Mar 2024 04:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710811101; cv=none; b=cQOU9c6C7SYzn+y5+DOXmKehBNpF5n+5zqV7PRocXaL1d7xfqnE56VnU50X18jEZJWf7XtE9tSsXlfodSrC71ToxYJYn6BXJT50XSyvDmxhjdmmz99Yje1aWRwORY1iqsquIWmXNzdMWCCCh5Yf1ycU6OZXU9matRwSdGi0UCiw=
+	t=1710823588; cv=none; b=OzXd/fg+mTCXX4lQLsx/jSqujFLuAZAhi7S5pNnvrjPiSHiLsZznGb9g9pdF2dRybowASJsdGSEqvh1O5DGASBFn37/QhvTpPb9VBXEfpdY2KB3ekMlO+ivfB8BR1GL3ZF9jppUAm1MlVR3ONf6KVVIEWC53DM35gc8xKTjyabk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710811101; c=relaxed/simple;
-	bh=vBvaq+grjBizECE/wzq2vVG2ZNeOD2elKgkXd9GkQW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JbW58V/eSuGuoYpaI2cJt4iqez0DpQBIASp97wIyR3v6ifCOPLmM7IVy1bmKca8bRMHVg1nM4Rjn2Ah1vP1j3Gl8jkSiwt/iS1h+V7Ko4Gq9DdvLgpGq8AthkqYYKxIXpeFDv/hacNPKysVyPrGMz7NBBlDY8W6vuwFHiMgcXa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QSIkG1Mc; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1710823588; c=relaxed/simple;
+	bh=fEy6P0I3jPTmevPJIPplBM0zTehyrCjLrW0b4HVZw6Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qn7YRiZtIEfMTVcdBCHrlENUd5Pj3wjANxEcvY/06CtYH37g2zVKvI1nngRZyN4ptfcjbozD3zvgADokUsZLXwx4rx2Ei1Exic9jN+wOP4jpFjDoao+2tKIptjpC6WO84uVcb9rCfZajon3Ix/Pw/jxFRlCROlnslXFWwZNMobA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MTyWMRzl; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QSIkG1Mc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MTyWMRzl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710811100; x=1742347100;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vBvaq+grjBizECE/wzq2vVG2ZNeOD2elKgkXd9GkQW0=;
-  b=QSIkG1Mc5NS7WKPNt5gMfjrOtkZ0H0+SFzkrvMBCKtd1WqjgWHdPjDwk
-   yyP7WSDp8eXogxeOsMM6ExqSMS1hv3NYafdbDEIrhRUkic6QQmNXa2QKS
-   ugaFmsLlN9nsjPZNADWLYS1lMkfU5Bn1fJq/RmZZ3LjbsC2UGy7s6kbD9
-   k6GxzrlK0+HnCnfS8cutv24JfURW+SH9ehKHyOadWxOTr6yV39UNA+zlq
-   /NDbHS2gG0ysPqpJtNJhsbrvmTZAGxthFL9EEoa0dOIUcYRomfZ4Gp6Lz
-   oP3eVMOwHVZfdLoe1Vxl8bH1059K77R8CUi5YB8jD6a7n03fwYszKkBxP
+  t=1710823586; x=1742359586;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fEy6P0I3jPTmevPJIPplBM0zTehyrCjLrW0b4HVZw6Y=;
+  b=MTyWMRzlNPnAiDxTVMtkLUilghNfscy+bmTEFeM2PrfPVtvosMBgaG3M
+   zao2uUhWS8HX0hxPQ5hlZRMgqYUSspJMRmuT8c1MPyAgB7ow14gTY3QZm
+   ydRTdwx9k8yeRNe5eCaJabqrM+vWPnPWNFKenFIAu9n8+uJtPOt+XmlRe
+   trH9x7Canu2sXbkKuHOgSiyNEdliYrxay0ut0VjVmtSvdRFoNZ4Rrxw9j
+   Zgj0wsJKljhlO2/BCqS6sFqX0W5da9l8cHdyDHpjXDZUDs+kgOX2fCRhL
+   DOS1nMd35pOjArSrSj/zYds7lXT1OWbcExpy/+i35p1x1fiEWMjIR4JBV
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="16379637"
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="28148020"
 X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="16379637"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 18:18:19 -0700
+   d="scan'208";a="28148020"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 21:46:25 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="18299453"
+   d="scan'208";a="36811876"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 18 Mar 2024 18:18:18 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 18 Mar 2024 21:46:22 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rmO7L-000HM3-2t;
-	Tue, 19 Mar 2024 01:18:15 +0000
-Date: Tue, 19 Mar 2024 09:17:48 +0800
+	id 1rmRMi-000HTb-0J;
+	Tue, 19 Mar 2024 04:46:20 +0000
+Date: Tue, 19 Mar 2024 12:45:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 2/2]
- kernel/sched/rt.c:982:38: warning: format '%ld' expects argument of type
- 'long int', but argument 3 has type 'u64' {aka 'long long unsigned int'}
-Message-ID: <202403190904.f42Mq6C2-lkp@intel.com>
+To: Petr Tesarik <petrtesarik@huaweicloud.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Petr Tesarik <petr.tesarik1@huawei-partners.com>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Will Deacon <will@kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Roberto Sassu <roberto.sassu@huaweicloud.com>
+Subject: Re: [PATCH v2 1/2] swiotlb: extend buffer pre-padding to
+ alloc_align_mask if necessary
+Message-ID: <202403191203.AtV7fvue-lkp@intel.com>
+References: <20240318130447.594-2-petrtesarik@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,120 +68,198 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240318130447.594-2-petrtesarik@huaweicloud.com>
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   4f653d6975381f93075754c0d2b1ec8bc37b0df8
-commit: 4f653d6975381f93075754c0d2b1ec8bc37b0df8 [2/2] CHROMIUM: arm64: rt: Avoid throttling over host suspend.
-config: arm64-randconfig-001-20240319 (https://download.01.org/0day-ci/archive/20240319/202403190904.f42Mq6C2-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403190904.f42Mq6C2-lkp@intel.com/reproduce)
+Hi Petr,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.8]
+[also build test WARNING on linus/master next-20240318]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Petr-Tesarik/swiotlb-extend-buffer-pre-padding-to-alloc_align_mask-if-necessary/20240318-212500
+base:   v6.8
+patch link:    https://lore.kernel.org/r/20240318130447.594-2-petrtesarik%40huaweicloud.com
+patch subject: [PATCH v2 1/2] swiotlb: extend buffer pre-padding to alloc_align_mask if necessary
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240319/202403191203.AtV7fvue-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403191203.AtV7fvue-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403190904.f42Mq6C2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403191203.AtV7fvue-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/sched/rt.c:260:6: warning: no previous prototype for 'free_rt_sched_group' [-Wmissing-prototypes]
-     260 | void free_rt_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/rt.c:262:5: warning: no previous prototype for 'alloc_rt_sched_group' [-Wmissing-prototypes]
-     262 | int alloc_rt_sched_group(struct task_group *tg, struct task_group *parent)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/rt.c:675:6: warning: no previous prototype for 'sched_rt_bandwidth_account' [-Wmissing-prototypes]
-     675 | bool sched_rt_bandwidth_account(struct rt_rq *rt_rq)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/kernel.h:17,
-                    from include/linux/list.h:9,
-                    from include/linux/rculist.h:10,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from kernel/sched/sched.h:5,
-                    from kernel/sched/rt.c:6:
-   kernel/sched/rt.c: In function 'sched_rt_runtime_exceeded':
->> kernel/sched/rt.c:982:38: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'u64' {aka 'long long unsigned int'} [-Wformat=]
-     982 |                 printk_deferred_once("suspected host suspend. cpu %d rt_time "
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     983 |                     "(%ld)\n", rq_of_rt_rq(rt_rq)->cpu, rt_rq->rt_time);
-         |                                                         ~~~~~~~~~~~~~~
-         |                                                              |
-         |                                                              u64 {aka long long unsigned int}
-   include/linux/printk.h:460:33: note: in definition of macro 'printk_deferred_once'
-     460 |                 printk_deferred(fmt, ##__VA_ARGS__);            \
-         |                                 ^~~
+   In file included from kernel/dma/swiotlb.c:27:
+   In file included from include/linux/dma-direct.h:9:
+   In file included from include/linux/dma-mapping.h:8:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from kernel/dma/swiotlb.c:27:
+   In file included from include/linux/dma-direct.h:9:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from kernel/dma/swiotlb.c:27:
+   In file included from include/linux/dma-direct.h:9:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from kernel/dma/swiotlb.c:27:
+   In file included from include/linux/dma-direct.h:9:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> kernel/dma/swiotlb.c:1348:33: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
+    1348 |         pool->slots[index].pad_slots = i;
+         |                                        ^
+   kernel/dma/swiotlb.c:1301:16: note: initialize the variable 'i' to silence this warning
+    1301 |         unsigned int i;
+         |                       ^
+         |                        = 0
+   kernel/dma/swiotlb.c:1643:20: warning: unused function 'swiotlb_create_debugfs_files' [-Wunused-function]
+    1643 | static inline void swiotlb_create_debugfs_files(struct io_tlb_mem *mem,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   15 warnings generated.
 
 
-vim +982 kernel/sched/rt.c
+vim +/i +1348 kernel/dma/swiotlb.c
 
-   955	
-   956	static int sched_rt_runtime_exceeded(struct rt_rq *rt_rq)
-   957	{
-   958		u64 runtime = sched_rt_runtime(rt_rq);
-   959	
-   960		if (rt_rq->rt_throttled)
-   961			return rt_rq_throttled(rt_rq);
-   962	
-   963		if (runtime >= sched_rt_period(rt_rq))
-   964			return 0;
-   965	
-   966		balance_runtime(rt_rq);
-   967		runtime = sched_rt_runtime(rt_rq);
-   968		if (runtime == RUNTIME_INF)
-   969			return 0;
-   970	
-   971	#ifdef CONFIG_ARM64
-   972		/*
-   973		 * XXX Temporary workaround for b/307775867.
-   974		 * We think we ran for this long because the host suspended while we
-   975		 * were running, so just pretend we didn't run instead of throttling
-   976		 * for a long time.
-   977		 * The "5" was chosen so that it would be highly unlikely for this to
-   978		 * happen in normal operation, while being small enough to be able to
-   979		 * mitigate issues for shorter suspends.
-   980		 */
-   981		if (unlikely(runtime > 0 && rt_rq->rt_time >= 5 * runtime)) {
- > 982			printk_deferred_once("suspected host suspend. cpu %d rt_time "
-   983			    "(%ld)\n", rq_of_rt_rq(rt_rq)->cpu, rt_rq->rt_time);
-   984			rt_rq->rt_time = 0;
-   985		}
-   986	#endif
-   987	
-   988		if (rt_rq->rt_time > runtime) {
-   989			struct rt_bandwidth *rt_b = sched_rt_bandwidth(rt_rq);
-   990	
-   991			/*
-   992			 * Don't actually throttle groups that have no runtime assigned
-   993			 * but accrue some time due to boosting.
-   994			 */
-   995			if (likely(rt_b->rt_runtime)) {
-   996				rt_rq->rt_throttled = 1;
-   997				printk_deferred_once("sched: RT throttling activated\n");
-   998	
-   999				trace_android_vh_dump_throttled_rt_tasks(
-  1000					raw_smp_processor_id(),
-  1001					rq_clock(rq_of_rt_rq(rt_rq)),
-  1002					sched_rt_period(rt_rq),
-  1003					runtime,
-  1004					hrtimer_get_expires_ns(&rt_b->rt_period_timer));
-  1005			} else {
-  1006				/*
-  1007				 * In case we did anyway, make it go away,
-  1008				 * replenishment is a joke, since it will replenish us
-  1009				 * with exactly 0 ns.
-  1010				 */
-  1011				rt_rq->rt_time = 0;
-  1012			}
-  1013	
-  1014			if (rt_rq_throttled(rt_rq)) {
-  1015				sched_rt_rq_dequeue(rt_rq);
-  1016				return 1;
-  1017			}
-  1018		}
-  1019	
-  1020		return 0;
-  1021	}
-  1022	
+  1292	
+  1293	phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
+  1294			size_t mapping_size, size_t alloc_size,
+  1295			unsigned int alloc_align_mask, enum dma_data_direction dir,
+  1296			unsigned long attrs)
+  1297	{
+  1298		struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
+  1299		unsigned int offset;
+  1300		struct io_tlb_pool *pool;
+  1301		unsigned int i;
+  1302		int index;
+  1303		phys_addr_t tlb_addr;
+  1304		unsigned short pad_slots;
+  1305	
+  1306		if (!mem || !mem->nslabs) {
+  1307			dev_warn_ratelimited(dev,
+  1308				"Can not allocate SWIOTLB buffer earlier and can't now provide you with the DMA bounce buffer");
+  1309			return (phys_addr_t)DMA_MAPPING_ERROR;
+  1310		}
+  1311	
+  1312		if (cc_platform_has(CC_ATTR_MEM_ENCRYPT))
+  1313			pr_warn_once("Memory encryption is active and system is using DMA bounce buffers\n");
+  1314	
+  1315		if (mapping_size > alloc_size) {
+  1316			dev_warn_once(dev, "Invalid sizes (mapping: %zd bytes, alloc: %zd bytes)",
+  1317				      mapping_size, alloc_size);
+  1318			return (phys_addr_t)DMA_MAPPING_ERROR;
+  1319		}
+  1320	
+  1321		/*
+  1322		 * Calculate buffer pre-padding within the allocated space. Use it to
+  1323		 * preserve the low bits of the original address according to device's
+  1324		 * min_align_mask. Limit the padding to alloc_align_mask or slot size
+  1325		 * (whichever is bigger); higher bits of the original address are
+  1326		 * preserved by selecting a suitable IO TLB slot.
+  1327		 */
+  1328		offset = orig_addr & dma_get_min_align_mask(dev) &
+  1329			(alloc_align_mask | (IO_TLB_SIZE - 1));
+  1330		index = swiotlb_find_slots(dev, orig_addr,
+  1331					   alloc_size + offset, alloc_align_mask, &pool);
+  1332		if (index == -1) {
+  1333			if (!(attrs & DMA_ATTR_NO_WARN))
+  1334				dev_warn_ratelimited(dev,
+  1335		"swiotlb buffer is full (sz: %zd bytes), total %lu (slots), used %lu (slots)\n",
+  1336					 alloc_size, mem->nslabs, mem_used(mem));
+  1337			return (phys_addr_t)DMA_MAPPING_ERROR;
+  1338		}
+  1339	
+  1340		/*
+  1341		 * Save away the mapping from the original address to the DMA address.
+  1342		 * This is needed when we sync the memory.  Then we sync the buffer if
+  1343		 * needed.
+  1344		 */
+  1345		pad_slots = offset / IO_TLB_SIZE;
+  1346		offset %= IO_TLB_SIZE;
+  1347		index += pad_slots;
+> 1348		pool->slots[index].pad_slots = i;
+  1349		for (i = 0; i < nr_slots(alloc_size + offset); i++)
+  1350			pool->slots[index + i].orig_addr = slot_addr(orig_addr, i);
+  1351		tlb_addr = slot_addr(pool->start, index) + offset;
+  1352		/*
+  1353		 * When the device is writing memory, i.e. dir == DMA_FROM_DEVICE, copy
+  1354		 * the original buffer to the TLB buffer before initiating DMA in order
+  1355		 * to preserve the original's data if the device does a partial write,
+  1356		 * i.e. if the device doesn't overwrite the entire buffer.  Preserving
+  1357		 * the original data, even if it's garbage, is necessary to match
+  1358		 * hardware behavior.  Use of swiotlb is supposed to be transparent,
+  1359		 * i.e. swiotlb must not corrupt memory by clobbering unwritten bytes.
+  1360		 */
+  1361		swiotlb_bounce(dev, tlb_addr, mapping_size, DMA_TO_DEVICE);
+  1362		return tlb_addr;
+  1363	}
+  1364	
 
 -- 
 0-DAY CI Kernel Test Service
