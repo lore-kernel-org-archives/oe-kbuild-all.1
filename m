@@ -1,194 +1,82 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47BD32D058
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Mar 2024 18:26:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2304084B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Mar 2024 22:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710872780; cv=none; b=S47i97ftlxDF6UcHXBMbRoWMYV1vQdzENG1hTl6RVjBgdGKQCxBMpIw/XInCYOH9xPOx44ZwOGN8Bdv3Rm4YXWPK43YjzLy+lJxGHMHdnCzknl+LgwOsnqkGdTIX+94oh+em3hqqys6Clh/jOlZrTsEVY8MlY7YwF3olLe9nBKU=
+	t=1710885899; cv=none; b=QLsTqCQ9KdmtK3AZC+0/mKz5TXLDM7a6SU+aJnBtmgw/rnQouEhHvKyy1os55zVCJrocqKUidlFK9HvBTi3VVdp+0JCtfBnfgtUgQVG8mszu8zJwcZ4Ci7AsMSnFJ10YsE9i5gduxZnk85NO8FCgjaZjj8IB/QS9AI7swf4H+PQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710872780; c=relaxed/simple;
-	bh=wahjo+tEz7j6H35clrL52KHbAR1sKv6X+PRW9bAHaTA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KkPqA+pAVzP+2b4H61geHrYtjr9cyhSHpQo6IcL34CCOedSdYuNbywohHXtRtF7yl6WeNSo4LxIXw+AG/t6/fGYm8Ky2YVfL0YQC+AnzbR98khKIjiN9TdfY9cy10sj67WJ602c2pwITg0bDx2FocdtrM/gbc4iQMM9jZynfWZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nE9YPCqy; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710885899; c=relaxed/simple;
+	bh=fxXLTRF/BohWR4oY48AjQawpKzfyLLTa9ui167t9EaE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=I3g5FbapIhtBQ10tbQCDOimQTfSub1Ll5sXJ8vVFtF/ybJXbksgPQv5RHfabGjZYQvdkLgKj7yhfBYvrG+byz6IBupMcWv2X+02WE/Ehlg8AjsglNn9W2LfOfD/VlwNr73QrV2w/ajbzWifO0ajEICY1AMZwoE9ooZDroURAsTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U1yULk7k; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nE9YPCqy"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1def89f0cfdso1351785ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Mar 2024 11:26:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710872778; x=1711477578; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=LQQHHewpOhGKoazUBzUqPFuOzvhctJZdxOAAtuphGlU=;
-        b=nE9YPCqy3MCpRWIKscif6KY/GGQOj880l7TgKgz5hy/sXaTqcEiuKActiN3vK6fyK5
-         y+csxm1Wx1C/e8Lli+p/D4Zk33C3pk7r91BKl7u5aqnxME7c6oREychWzGn8Qk/6NWqV
-         DEwxRNI49Id6XO2enSwJMoRAadtfT4CxDYWwWsEDBKk4W1RMA5z2IJZVm7ZpWRyflasq
-         q9By2VMX1o2aN9ubSkb86tl//up0rCACo8KoNs/Q8YhSAxtvUXlkYfLlHOKiJair5EGE
-         AqTScstF/7Xt0jj3O9iiFHpJrQRF+0xJxNuhyauDU1oEaZWALCQuEZc6vu5G4erpi4eD
-         nwuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710872778; x=1711477578;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LQQHHewpOhGKoazUBzUqPFuOzvhctJZdxOAAtuphGlU=;
-        b=VEuB5O7UEdByueoIlbn3RMv1F6fG6feARlJ2xJ0Yb9yJYRTOvCTbqJtOxQUZcxX1sM
-         uFIXgHMnxoHhxc4nMrWcPS0/ZfIYA4A2kqYbe2F3wbnMYv1wNQFMSpACm8wsjsNONV/Q
-         A+XpVo52ViBXVPS94n8pvZ8OojdFcHVS4V9xQ0nndEOx4lD0Md2Yg+etB9yljdBELOb2
-         NhoiN3Ec1I41VCMu0uOHWJofAT9CoA1UJ0lmCgdZASB643EACePwD+03W+NPBc3wT8dc
-         VoY1TA3K0eKPrEdBbmibYjgDrMmcYQVEx13HAtIfUNepl3wnjfN0y1pQhz91KeJnDhhl
-         JdlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUFtHsIh+y7RFzvoUq9rRCtMEr9FdnCTrrY6V6cA2NYl9EKxjQKo1JegIyYlO9bDk7TOhrrUfc+d9oSex10PwjiLG8noykO7VIDh6dJLg==
-X-Gm-Message-State: AOJu0Yz4sTSCxtcf7zx7uCRFIOOHcGJuNiwztb9sNHiW3k6I6Ka84TlP
-	yeB9xwNuk9ZLrfBvECcrKIYvxXDigwpVfPYjTGDkSvz4sK6eohxI
-X-Google-Smtp-Source: AGHT+IHQWgm1lOyGZ8vfChWm5sAl892Ln5Cgbc63GlgaLlySU/6T5jNTf8qUogcELyVZDs8bUAjeaw==
-X-Received: by 2002:a17:902:ecc4:b0:1e0:3f3:1d71 with SMTP id a4-20020a170902ecc400b001e003f31d71mr396275plh.13.1710872778390;
-        Tue, 19 Mar 2024 11:26:18 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id b5-20020a170902bd4500b001e043df262dsm2030759plx.33.2024.03.19.11.26.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Mar 2024 11:26:17 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <02180516-6d4c-4446-b12b-8451cb4adebc@roeck-us.net>
-Date: Tue, 19 Mar 2024 11:26:16 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U1yULk7k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710885898; x=1742421898;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fxXLTRF/BohWR4oY48AjQawpKzfyLLTa9ui167t9EaE=;
+  b=U1yULk7kPvDMlvVnX4d4GGxrbNjYluemC15GuKkwKtZhLY2BHJq06U/9
+   Q4H8pEXB10kdeV38vimC7wmcksCmH0u15QEjWC1gremXiDeUH47OE4dQs
+   wskklEE9jhus5Y5bZ4f+x/zIn8ZD4aP49PdneLaYMlTshTv5fBeE19KU9
+   Ezw8yTItIY5bVPjejltcBUpNIRO5yw/GA5Id9VXyAxcsNtuvwLmXdu1nz
+   QWZKWnhWgCzD9S47hhB5VE6OXjuqQLi3wyiwxvwZ8pWKBNJGeqSfKp3qW
+   9ByP3m7EFSXnYbWVa5+kAORHERuTz2J0XG82zWcl1cL7nz+0hokUm4Cpr
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="16334290"
+X-IronPort-AV: E=Sophos;i="6.07,138,1708416000"; 
+   d="scan'208";a="16334290"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 15:04:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,138,1708416000"; 
+   d="scan'208";a="13845211"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 19 Mar 2024 15:04:49 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rmhZf-000I7T-1U;
+	Tue, 19 Mar 2024 22:04:47 +0000
+Date: Wed, 20 Mar 2024 06:04:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Gregory Price <gourry.memverge@gmail.com>
+Subject: [gmprice:sys_move_phys_pages_2024_3_14 2/3] <stdin>:1600:2: warning:
+ #warning syscall move_phys_pages not implemented
+Message-ID: <202403200541.iqjj742w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [patch 5/9] x86: Cure per CPU madness on UP
-Content-Language: en-US
-To: Thomas Gleixner <tglx@linutronix.de>, Arnd Bergmann <arnd@kernel.org>,
- Linus Torvalds <torvalds@linuxfoundation.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, x86@kernel.org,
- Uros Bizjak <ubizjak@gmail.com>, linux-sparse@vger.kernel.org,
- kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
-References: <20240303235029.555787150@linutronix.de>
- <20240304005104.622511517@linutronix.de>
- <e20d88d0-5fb9-4307-be67-88b04ae9a188@roeck-us.net>
- <CAHk-=whK=G1o6RtS9DS3wEGF1KU7WLgLL1+6Se86bj8m7wwqrQ@mail.gmail.com>
- <87y1ajjsv9.ffs@tglx> <87o7bfjeae.ffs@tglx>
- <CAHk-=wiP+XMGHr8NU13sSOG_oasNZN02O9_c1PzCJNG7+O-GPw@mail.gmail.com>
- <877ci3j80k.ffs@tglx> <87le6fih5w.ffs@tglx>
- <28ceb124-b634-44e0-bcd4-848fc3b0be7a@app.fastmail.com> <87edc6i45s.ffs@tglx>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <87edc6i45s.ffs@tglx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 3/19/24 09:21, Thomas Gleixner wrote:
-> On Mon, Mar 18 2024 at 20:13, Arnd Bergmann wrote:
->> FWIW, I did some experiments a few weeks ago on 32-bit ARM,
->> using a fairly minimal kernel in a virtual machine, and
->> checking the runtime memory consumption rather than compile-time.
->> In a kvm guest with 32MiB RAM, I saw a difference of multiple
->> megabytes in memory usage:
->>
->> Linux testvm 6.8.0-rc4-00410-gc02197fc9076-dirty #1 SMP PREEMPT armv7l
->> root@testvm:~# free
->>             	total   used    free  	shared  buff/cache   available
->> Mem:       	26932   14956   1732   	    52       12800   	11976
->> Swap:      	16360    3632   12728
->>
->> Linux testvm 6.8.0-rc4-00410-gc02197fc9076-dirty #2 PREEMPT armv7l
->> root@testvm:~# free
->>             	total    used  	free  	shared  buff/cache   available
->> Mem:       	26932   13744  	5648        32       10092   	13188
->> Swap:      	16360    3880  	12480
->>
->> There is a little difference between runs, but this does seem
->> significant enough to keep it. The SMP build was with
->> CONFIG_NR_CPUS=2 (the smallest supported compile-time number),
->> but running on a single-CPU qemu instance.
-> 
-> With a SMP=y, NR_CPUS=1 build on x86 64bit I get:
-> 
->                 total        used        free      shared  buff/cache   available
-> Mem:        32882056      498068    32590580        4884      128884    32383988
-> Swap:         998396           0      998396
-> 
-> Same config just SMP=n:
-> 
->                 total        used        free      shared  buff/cache   available
-> Mem:        32885804      461704    32635284        4876      119480    32424100
-> Swap:         998396           0      998396
-> 
-> So the delta for available is ~40 MiB.
-> 
-> But if I look at it with init=/bin/sh on the command line then the delta
-> is significantly different:
-> 
-> With a SMP=y, NR_CPUS=1 build on x86 64bit I get:
-> 
->                 total        used        free      shared  buff/cache   available
-> Mem:        32883680      324120    32822728         216       10864    32559560
-> Swap:              0           0           0
-> 
-> Same config just SMP=n:
-> 
->                 total        used        free      shared  buff/cache   available
-> Mem:        32885804      326876    32821972         216       11100    32558928
-> Swap:              0           0           0
-> 
-> Delta available = 632 KiB
-> 
-> I haven't had the time to stare at that in detail, but comparing
-> /proc/meminfo for the full boot case above does not immediately give me
-> a hint. It's confusing at best...
->
+tree:   https://github.com/gmprice/linux sys_move_phys_pages_2024_3_14
+head:   18bc4aaa72396bf7409348958ba2bb3fad2d88c1
+commit: 2727276faa0c537ef9df039aea1d6e7cb264e0db [2/3] mm/migrate: Create move_phys_pages syscall
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240320/202403200541.iqjj742w-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240320/202403200541.iqjj742w-lkp@intel.com/reproduce)
 
-That makes me wonder if the number is affected by the total memory size.
-How about a system with 1GB of memory or less ?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403200541.iqjj742w-lkp@intel.com/
 
-Guenter
+All warnings (new ones prefixed by >>):
 
+>> <stdin>:1600:2: warning: #warning syscall move_phys_pages not implemented [-Wcpp]
+--
+>> <stdin>:1600:2: warning: #warning syscall move_phys_pages not implemented [-Wcpp]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
