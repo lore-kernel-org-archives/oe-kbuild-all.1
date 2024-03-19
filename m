@@ -1,55 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44EA85D489
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Mar 2024 23:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0B72566;
+	Tue, 19 Mar 2024 00:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710803600; cv=none; b=XQq96WyKKrV3nIKW+Qj9b3UCJHRNbl9B9/wTQDaVBTidU4TAB7MlD0z4zFThhcip2pIfYkFmVlra0tJTFCRVV52dslhS7KWWB0H9jK3hQaJ5mJ8WYiLmDXyFBtyEXO+z6BB4lVejc+9QUcTzu4FVWpe/lhMKZ2m82eWj/dTNQ2I=
+	t=1710807985; cv=none; b=AEmWNVdVLBgTnV7Ho75HORO41yot5uhQmAko/naAxLIukyDby8PMS14NfEuYt8gNPAZJTTL9Sxh2v8UtfyZK/Gurxi7oH6uPIZ8N9zUPnN3uhJsB5BU0l4ew3crPqPevqfLR721CXAX37Hw9MdDW+3J8mHZDEGkdN8DRSi+HyeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710803600; c=relaxed/simple;
-	bh=iVDF799IsTpjp3rob5oDfljYb8we8a6St78cVsb/Ujs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bBH1DFZm9iHtsIAB9NHsaLZUfDKWYR0zbQ77ZC9DwVdwJJT0GcjcFTcLP2CJB5K1+4DTbNRIGdZQlmQ3qCdeH6esH0lSAqk0JgWtlXo9KDjTVYapdTEL1ewEXiMhCZ+qqyVpK/AW3Fmb4jrgsFyhaXyauzeDUefdu8vcEL4jpmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nAKndWwK; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1710807985; c=relaxed/simple;
+	bh=LLIv+pugsr/ev0LduqYltbP1hJ6nxTnyLZiG33er3Xk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oOrTNTHzK0Ayoj/7IDYpBRkUkr2V0Or+bw8uhSqNCD/cSj6LtVY82NlDHIK+QcFic8lPc+ZxBv1ZmV6pp/YNNHDmoaei07GxRgTmo/BsXR9vffc0WjvhcTK8h2CeqM8UO3xUU3/NZSOOk57FrrsP0jBOHHH8IyYTfowHN9w3Pc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GTE80Hf8; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nAKndWwK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GTE80Hf8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710803598; x=1742339598;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iVDF799IsTpjp3rob5oDfljYb8we8a6St78cVsb/Ujs=;
-  b=nAKndWwKOesnZIyiByie4m3dGZ8RA4aoyYHhgrLO2T7goeI5/F1fAolS
-   jP4MWSlzUk7B+pNsL6xhmQrhgETwsNdfR9jcxh/mV58I1WNZDZwn04V1C
-   7+jVNG1EwTIq7+i6EX9M8I6W2ZqQn7CaMqiCtTBzcaKzVbXnTID56Fybm
-   uVCToT7Lcy4HNoqhQUdjwIOKvnirD6A2C548XzePhA0jrvfbtvcfLzRoT
-   qumIa8/oCtAgM0txDtvuy4cOHYaUG4glOg8341S3kgV34fazyTz50AOY3
-   uzo7aYwnvZUgLij35aLcdJwBEqlXoHijbCK6JotXKce0AM+H5/I6ogGpX
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5829410"
+  t=1710807982; x=1742343982;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LLIv+pugsr/ev0LduqYltbP1hJ6nxTnyLZiG33er3Xk=;
+  b=GTE80Hf80IMKcoGUcDpOlP43rSENJgXJiyq70XWz3YSzyZfWzl3g3j3A
+   EV2bwxmBYt+2ox/aV8aExdJCXPofuuihIOjxpI0trynWBZCHkPoXsUox2
+   YF+Nz/Sc2CaBbQM4wqWBtIw8GZBDicCrTk25nRjUSTIzZHyY7i9rFPeR/
+   RyADVIJZPJR3nS45yisT+UpzWP3ZoigZjUdHS67wqK3PYjQzEhqKYx1SE
+   vCoJf8FS5zHi4ULwzLjCO5BmkzR23scKHFs45T835cSJLwmb7zxG3aoik
+   i045ODMMjWdeyTmU51uOZ/xpIzp5h2WodC5zgdASMlJqoR9a0BOpoXktt
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5530488"
 X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="5829410"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 16:13:17 -0700
+   d="scan'208";a="5530488"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 17:26:21 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="44684182"
+   d="scan'208";a="18104690"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Mar 2024 16:13:16 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 18 Mar 2024 17:26:17 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rmMAL-000HIp-2L;
-	Mon, 18 Mar 2024 23:13:13 +0000
-Date: Tue, 19 Mar 2024 07:12:52 +0800
+	id 1rmNJ1-000HKt-0X;
+	Tue, 19 Mar 2024 00:26:15 +0000
+Date: Tue, 19 Mar 2024 08:25:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Hutchings <bwh@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-4.4.y-st-rt 24/22725] kernel/trace/latency_hist.c:887:25:
- warning: comparison between signed and unsigned integer expressions
-Message-ID: <202403190730.Lgyn83Pv-lkp@intel.com>
+To: Radu Sabau <radu.sabau@analog.com>, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] hwmon: pmbus: adp1050 : Add driver support
+Message-ID: <202403190800.h8cSGROp-lkp@intel.com>
+References: <20240318112140.385244-3-radu.sabau@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,301 +67,183 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240318112140.385244-3-radu.sabau@analog.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-st-rt
-head:   0a25e06c1d858ae27efabaa88494a6dc998a0138
-commit: 438c470eb865a5d5812922e93245a3412733fd87 [24/22725] tracing: Add latency histograms
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20240319/202403190730.Lgyn83Pv-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403190730.Lgyn83Pv-lkp@intel.com/reproduce)
+Hi Radu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on robh/for-next linus/master v6.8 next-20240318]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Radu-Sabau/dt-bindings-hwmon-pmbus-adp1050-add-bindings/20240318-202619
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240318112140.385244-3-radu.sabau%40analog.com
+patch subject: [PATCH 2/2] hwmon: pmbus: adp1050 : Add driver support
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240319/202403190800.h8cSGROp-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403190800.h8cSGROp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403190730.Lgyn83Pv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403190800.h8cSGROp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   include/linux/tracepoint.h:481:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/trace/events/sched.h:95:1: note: in expansion of macro 'DEFINE_EVENT'
-    DEFINE_EVENT(sched_wakeup_template, sched_wakeup,
-    ^~~~~~~~~~~~
-   kernel/trace/latency_hist.c:620:9: warning: passing argument 1 of 'unregister_trace_sched_wakeup_new' from incompatible pointer type [-Wincompatible-pointer-types]
-            probe_wakeup_latency_hist_start, NULL);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/trace/trace.h:11:0,
-                    from kernel/trace/latency_hist.c:28:
-   include/linux/tracepoint.h:224:2: note: expected 'void (*)(void *, struct task_struct *)' but argument is of type 'void (*)(void *, struct task_struct *, int)'
-     unregister_trace_##name(void (*probe)(data_proto), void *data) \
-     ^
-   include/linux/tracepoint.h:358:3: note: in expansion of macro '__DECLARE_TRACE'
-      __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args), 1, \
-      ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:481:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/trace/events/sched.h:102:1: note: in expansion of macro 'DEFINE_EVENT'
-    DEFINE_EVENT(sched_wakeup_template, sched_wakeup_new,
-    ^~~~~~~~~~~~
-   kernel/trace/latency_hist.c:622:9: warning: passing argument 1 of 'unregister_trace_sched_switch' from incompatible pointer type [-Wincompatible-pointer-types]
-            probe_wakeup_latency_hist_stop, NULL);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/trace/trace.h:11:0,
-                    from kernel/trace/latency_hist.c:28:
-   include/linux/tracepoint.h:224:2: note: expected 'void (*)(void *, bool,  struct task_struct *, struct task_struct *) {aka void (*)(void *, _Bool,  struct task_struct *, struct task_struct *)}' but argument is of type 'void (*)(void *, struct task_struct *, struct task_struct *)'
-     unregister_trace_##name(void (*probe)(data_proto), void *data) \
-     ^
-   include/linux/tracepoint.h:358:3: note: in expansion of macro '__DECLARE_TRACE'
-      __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args), 1, \
-      ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:492:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/trace/events/sched.h:124:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(sched_switch,
-    ^~~~~~~~~~~
-   kernel/trace/latency_hist.c:682:9: warning: passing argument 1 of 'unregister_trace_sched_wakeup' from incompatible pointer type [-Wincompatible-pointer-types]
-            probe_wakeup_latency_hist_start, NULL);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/trace/trace.h:11:0,
-                    from kernel/trace/latency_hist.c:28:
-   include/linux/tracepoint.h:224:2: note: expected 'void (*)(void *, struct task_struct *)' but argument is of type 'void (*)(void *, struct task_struct *, int)'
-     unregister_trace_##name(void (*probe)(data_proto), void *data) \
-     ^
-   include/linux/tracepoint.h:358:3: note: in expansion of macro '__DECLARE_TRACE'
-      __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args), 1, \
-      ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:481:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/trace/events/sched.h:95:1: note: in expansion of macro 'DEFINE_EVENT'
-    DEFINE_EVENT(sched_wakeup_template, sched_wakeup,
-    ^~~~~~~~~~~~
-   kernel/trace/latency_hist.c:684:9: warning: passing argument 1 of 'unregister_trace_sched_wakeup_new' from incompatible pointer type [-Wincompatible-pointer-types]
-            probe_wakeup_latency_hist_start, NULL);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/trace/trace.h:11:0,
-                    from kernel/trace/latency_hist.c:28:
-   include/linux/tracepoint.h:224:2: note: expected 'void (*)(void *, struct task_struct *)' but argument is of type 'void (*)(void *, struct task_struct *, int)'
-     unregister_trace_##name(void (*probe)(data_proto), void *data) \
-     ^
-   include/linux/tracepoint.h:358:3: note: in expansion of macro '__DECLARE_TRACE'
-      __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args), 1, \
-      ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:481:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/trace/events/sched.h:102:1: note: in expansion of macro 'DEFINE_EVENT'
-    DEFINE_EVENT(sched_wakeup_template, sched_wakeup_new,
-    ^~~~~~~~~~~~
-   kernel/trace/latency_hist.c:686:9: warning: passing argument 1 of 'unregister_trace_sched_switch' from incompatible pointer type [-Wincompatible-pointer-types]
-            probe_wakeup_latency_hist_stop, NULL);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/trace/trace.h:11:0,
-                    from kernel/trace/latency_hist.c:28:
-   include/linux/tracepoint.h:224:2: note: expected 'void (*)(void *, bool,  struct task_struct *, struct task_struct *) {aka void (*)(void *, _Bool,  struct task_struct *, struct task_struct *)}' but argument is of type 'void (*)(void *, struct task_struct *, struct task_struct *)'
-     unregister_trace_##name(void (*probe)(data_proto), void *data) \
-     ^
-   include/linux/tracepoint.h:358:3: note: in expansion of macro '__DECLARE_TRACE'
-      __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args), 1, \
-      ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:492:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/trace/events/sched.h:124:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(sched_switch,
-    ^~~~~~~~~~~
-   In file included from include/uapi/linux/stddef.h:1:0,
-                    from include/linux/stddef.h:4,
-                    from include/uapi/linux/posix_types.h:4,
-                    from include/uapi/linux/types.h:13,
-                    from include/linux/types.h:5,
-                    from include/linux/list.h:4,
-                    from include/linux/module.h:9,
-                    from kernel/trace/latency_hist.c:16:
-   kernel/trace/latency_hist.c: In function 'probe_wakeup_latency_hist_start':
->> kernel/trace/latency_hist.c:887:25: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-      if (likely(wakeup_pid != task_pid_nr(p)))
-                            ^
-   include/linux/compiler.h:165:40: note: in definition of macro 'likely'
-    # define likely(x) __builtin_expect(!!(x), 1)
-                                           ^
-   kernel/trace/latency_hist.c: In function 'probe_hrtimer_interrupt':
-   kernel/trace/latency_hist.c:990:40: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-       if (likely(missed_timer_offsets_pid !=
-                                           ^
-   include/linux/compiler.h:165:40: note: in definition of macro 'likely'
-    # define likely(x) __builtin_expect(!!(x), 1)
-                                           ^
-   kernel/trace/latency_hist.c: In function 'latency_hist_init':
->> kernel/trace/latency_hist.c:1013:17: warning: variable 'entry' set but not used [-Wunused-but-set-variable]
-     struct dentry *entry;
-                    ^~~~~
+   In file included from drivers/hwmon/pmbus/adp1050.c:9:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/hwmon/pmbus/adp1050.c:9:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/hwmon/pmbus/adp1050.c:9:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/hwmon/pmbus/adp1050.c:9:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:20:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/hwmon/pmbus/adp1050.c:47:60: error: too few arguments to function call, expected at least 3, have 2
+      47 |                 dev_err_probe(&client->dev, "Device can't be unlocked.\n");
+         |                 ~~~~~~~~~~~~~                                            ^
+   include/linux/dev_printk.h:277:20: note: 'dev_err_probe' declared here
+     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                    ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/pmbus/adp1050.c:53:63: error: too few arguments to function call, expected at least 3, have 2
+      53 |                 dev_err_probe(&client->dev, "Device couldn't be unlocked.\n");
+         |                 ~~~~~~~~~~~~~                                               ^
+   include/linux/dev_printk.h:277:20: note: 'dev_err_probe' declared here
+     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                    ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   7 warnings and 2 errors generated.
 
 
-vim +887 kernel/trace/latency_hist.c
+vim +47 drivers/hwmon/pmbus/adp1050.c
 
-   870	
-   871	static notrace void probe_wakeup_latency_hist_start(void *v,
-   872		struct task_struct *p, int success)
-   873	{
-   874		unsigned long flags;
-   875		struct task_struct *curr = current;
-   876		int cpu = task_cpu(p);
-   877		struct task_struct *cpu_wakeup_task;
-   878	
-   879		raw_spin_lock_irqsave(&wakeup_lock, flags);
-   880	
-   881		cpu_wakeup_task = per_cpu(wakeup_task, cpu);
-   882	
-   883		if (wakeup_pid) {
-   884			if ((cpu_wakeup_task && p->prio == cpu_wakeup_task->prio) ||
-   885			    p->prio == curr->prio)
-   886				per_cpu(wakeup_sharedprio, cpu) = 1;
- > 887			if (likely(wakeup_pid != task_pid_nr(p)))
-   888				goto out;
-   889		} else {
-   890			if (likely(!rt_task(p)) ||
-   891			    (cpu_wakeup_task && p->prio > cpu_wakeup_task->prio) ||
-   892			    p->prio > curr->prio)
-   893				goto out;
-   894			if ((cpu_wakeup_task && p->prio == cpu_wakeup_task->prio) ||
-   895			    p->prio == curr->prio)
-   896				per_cpu(wakeup_sharedprio, cpu) = 1;
-   897		}
-   898	
-   899		if (cpu_wakeup_task)
-   900			put_task_struct(cpu_wakeup_task);
-   901		cpu_wakeup_task = per_cpu(wakeup_task, cpu) = p;
-   902		get_task_struct(cpu_wakeup_task);
-   903		cpu_wakeup_task->preempt_timestamp_hist =
-   904			ftrace_now(raw_smp_processor_id());
-   905	out:
-   906		raw_spin_unlock_irqrestore(&wakeup_lock, flags);
-   907	}
-   908	
-   909	static notrace void probe_wakeup_latency_hist_stop(void *v,
-   910		struct task_struct *prev, struct task_struct *next)
-   911	{
-   912		unsigned long flags;
-   913		int cpu = task_cpu(next);
-   914		long latency;
-   915		cycle_t stop;
-   916		struct task_struct *cpu_wakeup_task;
-   917	
-   918		raw_spin_lock_irqsave(&wakeup_lock, flags);
-   919	
-   920		cpu_wakeup_task = per_cpu(wakeup_task, cpu);
-   921	
-   922		if (cpu_wakeup_task == NULL)
-   923			goto out;
-   924	
-   925		/* Already running? */
-   926		if (unlikely(current == cpu_wakeup_task))
-   927			goto out_reset;
-   928	
-   929		if (next != cpu_wakeup_task) {
-   930			if (next->prio < cpu_wakeup_task->prio)
-   931				goto out_reset;
-   932	
-   933			if (next->prio == cpu_wakeup_task->prio)
-   934				per_cpu(wakeup_sharedprio, cpu) = 1;
-   935	
-   936			goto out;
-   937		}
-   938	
-   939		if (current->prio == cpu_wakeup_task->prio)
-   940			per_cpu(wakeup_sharedprio, cpu) = 1;
-   941	
-   942		/*
-   943		 * The task we are waiting for is about to be switched to.
-   944		 * Calculate latency and store it in histogram.
-   945		 */
-   946		stop = ftrace_now(raw_smp_processor_id());
-   947	
-   948		latency = ((long) (stop - next->preempt_timestamp_hist)) /
-   949		    NSECS_PER_USECS;
-   950	
-   951		if (per_cpu(wakeup_sharedprio, cpu)) {
-   952			latency_hist(WAKEUP_LATENCY_SHAREDPRIO, cpu, latency, 0, stop,
-   953			    next);
-   954			per_cpu(wakeup_sharedprio, cpu) = 0;
-   955		} else {
-   956			latency_hist(WAKEUP_LATENCY, cpu, latency, 0, stop, next);
-   957	#ifdef CONFIG_MISSED_TIMER_OFFSETS_HIST
-   958			if (timerandwakeup_enabled_data.enabled) {
-   959				latency_hist(TIMERANDWAKEUP_LATENCY, cpu,
-   960				    next->timer_offset + latency, next->timer_offset,
-   961				    stop, next);
-   962			}
-   963	#endif
-   964		}
-   965	
-   966	out_reset:
-   967	#ifdef CONFIG_MISSED_TIMER_OFFSETS_HIST
-   968		next->timer_offset = 0;
-   969	#endif
-   970		put_task_struct(cpu_wakeup_task);
-   971		per_cpu(wakeup_task, cpu) = NULL;
-   972	out:
-   973		raw_spin_unlock_irqrestore(&wakeup_lock, flags);
-   974	}
-   975	#endif
-   976	
-   977	#ifdef CONFIG_MISSED_TIMER_OFFSETS_HIST
-   978	static notrace void probe_hrtimer_interrupt(void *v, int cpu,
-   979		long long latency_ns, struct task_struct *curr,
-   980		struct task_struct *task)
-   981	{
-   982		if (latency_ns <= 0 && task != NULL && rt_task(task) &&
-   983		    (task->prio < curr->prio ||
-   984		    (task->prio == curr->prio &&
-   985		    !cpumask_test_cpu(cpu, &task->cpus_allowed)))) {
-   986			long latency;
-   987			cycle_t now;
-   988	
-   989			if (missed_timer_offsets_pid) {
- > 990				if (likely(missed_timer_offsets_pid !=
-   991				    task_pid_nr(task)))
-   992					return;
-   993			}
-   994	
-   995			now = ftrace_now(cpu);
-   996			latency = (long) div_s64(-latency_ns, NSECS_PER_USECS);
-   997			latency_hist(MISSED_TIMER_OFFSETS, cpu, latency, latency, now,
-   998			    task);
-   999	#ifdef CONFIG_WAKEUP_LATENCY_HIST
-  1000			task->timer_offset = latency;
-  1001	#endif
-  1002		}
-  1003	}
-  1004	#endif
-  1005	
-  1006	static __init int latency_hist_init(void)
-  1007	{
-  1008		struct dentry *latency_hist_root = NULL;
-  1009		struct dentry *dentry;
-  1010	#ifdef CONFIG_WAKEUP_LATENCY_HIST
-  1011		struct dentry *dentry_sharedprio;
-  1012	#endif
-> 1013		struct dentry *entry;
-  1014		struct dentry *enable_root;
-  1015		int i = 0;
-  1016		struct hist_data *my_hist;
-  1017		char name[64];
-  1018		char *cpufmt = "CPU%d";
-  1019	#if defined(CONFIG_WAKEUP_LATENCY_HIST) || \
-  1020		defined(CONFIG_MISSED_TIMER_OFFSETS_HIST)
-  1021		char *cpufmt_maxlatproc = "max_latency-CPU%d";
-  1022		struct maxlatproc_data *mp = NULL;
-  1023	#endif
-  1024	
-  1025		dentry = tracing_init_dentry();
-  1026		latency_hist_root = debugfs_create_dir(latency_hist_dir_root, dentry);
-  1027		enable_root = debugfs_create_dir("enable", latency_hist_root);
-  1028	
+    32	
+    33	static int adp1050_probe(struct i2c_client *client)
+    34	{
+    35		u32 vin_scale_monitor, iin_scale_monitor;
+    36		int ret;
+    37	
+    38		if (!i2c_check_functionality(client->adapter,
+    39					     I2C_FUNC_SMBUS_WRITE_WORD_DATA))
+    40			return -ENODEV;
+    41	
+    42		/* Unlock CHIP's password in order to be able to read/write to it's
+    43		 * VIN_SCALE and IIN_SCALE registers.
+    44		*/
+    45		ret = i2c_smbus_write_word_data(client, ADP1050_CHIP_PASSWORD, 0xFFFF);
+    46		if (ret < 0) {
+  > 47			dev_err_probe(&client->dev, "Device can't be unlocked.\n");
+    48			return ret;
+    49		}
+    50	
+    51		ret = i2c_smbus_write_word_data(client, ADP1050_CHIP_PASSWORD, 0xFFFF);
+    52		if (ret < 0) {
+    53			dev_err_probe(&client->dev, "Device couldn't be unlocked.\n");
+    54			return ret;
+    55		}
+    56	
+    57		/* If adi,vin-scale-monitor isn't set or is set to 0 means that the
+    58		 * VIN monitor isn't used, therefore 0 is used as scale in order
+    59		 * for the readings to return 0.
+    60		*/
+    61		if (device_property_read_u32(&client->dev, "adi,vin-scale-monitor",
+    62					     &vin_scale_monitor))
+    63			vin_scale_monitor = 0;
+    64	
+    65		/* If adi,iin-scale-monitor isn't set or is set to 0 means that the
+    66		 * IIN monitor isn't used, therefore 0 is used as scale in order
+    67		 * for the readings to return 0.
+    68		*/
+    69		if (device_property_read_u32(&client->dev, "adi,iin-scale-monitor",
+    70					     &iin_scale_monitor))
+    71			iin_scale_monitor = 0;
+    72	
+    73		ret = i2c_smbus_write_word_data(client, ADP1050_VIN_SCALE_MONITOR,
+    74						vin_scale_monitor);
+    75		if (ret < 0)
+    76			return ret;
+    77	
+    78		ret = i2c_smbus_write_word_data(client, ADP1050_IIN_SCALE_MONITOR,
+    79						iin_scale_monitor);
+    80		if (ret < 0)
+    81			return ret;
+    82	
+    83		return pmbus_do_probe(client, &adp1050_info);
+    84	}
+    85	
 
 -- 
 0-DAY CI Kernel Test Service
