@@ -1,128 +1,258 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4ED8564F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Mar 2024 16:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7253D1119F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Mar 2024 17:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710865267; cv=none; b=YVWn8AnA60R/p7a/rw3jgtZS7jLKNXBr2EjxMgu2bcPWC+X3W4D8pMtJaDk1urC/XNGLpxkmgpOTOY1Wv7cEf1rnOp4du1/CCccb6USO60fEs0TU0r8PE9XaMUVGvnbWRJd7bUu8v1pEvQeV7UEEX/RCAVbD/FVdecweuSv73ac=
+	t=1710867650; cv=none; b=QQtBWp8OvkDHfC1bQSdIYGozJzzOLVC/rUZhP7uFSzwLB0UrAGj282kNTHqVbu7VHyc+r2X557tw1DdjF5FzdaqFA8/DZFsQyYCMT7JeuMKu91vGpfskYjWgjkEzvSJB2x+m/ttD+/7r6ChHMORNTlKCacEs2ZqOyg69AoNKj2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710865267; c=relaxed/simple;
-	bh=wTm5U6x3uYqWqcyzthPHTTnwV2LKEGlDvsrBEYqages=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kig+ibbbSQNOTtydLnFHSkT8MAzAYleEYC5H1/gnvmr4u4JnikEthOfGCL3+XtgZmR9fU8y2ghLak4dUHGHNuDCFBIihAhemH/jf06cHsOeDGVlMIQwqcP/seqpG6SYhEf+GKXOiE9nfD/77dew7/JhxYjUjeb2GyLfdM68ybqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SBtZH+62; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=nXRvnYew; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1710867650; c=relaxed/simple;
+	bh=qXRFg2Kpkabli7dpl8DUeB25wKVJJ3WC70RdlWgx+JU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WD9RTDeN/r9LlTmpswsQFwP2UHxC1xd/D4/mMq+AB8QNeu3O+BNH/g+jtgXcqmoOGfOypqfnkEgTnw6p6vplS3Mo6gHpyV/Dc3f1j4pAN1VY8lMHeB6opN35JrwVPU/S6xJ5Fsbe1vweVyBV8W7+7wsTIz1fzCp54k5avt7I5Go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T6K3U17N; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SBtZH+62";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nXRvnYew"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1710865264;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yenY2Vkhy6GkKeu7wEXm3Qzp0FvE3p3ABGWsdwNLMhU=;
-	b=SBtZH+62dvz0BRJd62JcEx/NHZHqz76EMk89ppMY8V1Y+FEuRBsqgmzHRqHBYF9cbXFsG0
-	DgCuAcQlR/WrglhEyHcX/HTFTLVbKvW4Sm9A6UYoDvdDAeBvfmb6L38DT0vuKbtjz++vEP
-	j3VsaioP0JUf04rnr0Kb9X36QxLHGxmwcNtR30GV/qWYaBrty5laRSFNYV2SSRjYz3N7X/
-	y+cLMa0QlvbFEA7gsG3gUJTr1jxP1WlShl7z4+Y5J8jjDMWfrlDYLqstbSuDQLXuWbJy5R
-	lCnF03S1OuWiYneiDXhJSdZ0dxN3xqQiRpJEJP1nlS+UfQE+Rks4swXUMHUUbw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1710865264;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yenY2Vkhy6GkKeu7wEXm3Qzp0FvE3p3ABGWsdwNLMhU=;
-	b=nXRvnYewtxYWC9pfbI/wLrWa0rp06IAovv/dYm902Mj+8pyU49rdkkzKiJ0NGpu0mucJkU
-	orxlepmlL0ouo2AA==
-To: Arnd Bergmann <arnd@kernel.org>, Linus Torvalds
- <torvalds@linuxfoundation.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, LKML <linux-kernel@vger.kernel.org>,
- x86@kernel.org, Uros Bizjak <ubizjak@gmail.com>,
- linux-sparse@vger.kernel.org, kernel test robot <lkp@intel.com>,
- oe-kbuild-all@lists.linux.dev
-Subject: Re: [patch 5/9] x86: Cure per CPU madness on UP
-In-Reply-To: <28ceb124-b634-44e0-bcd4-848fc3b0be7a@app.fastmail.com>
-References: <20240303235029.555787150@linutronix.de>
- <20240304005104.622511517@linutronix.de>
- <e20d88d0-5fb9-4307-be67-88b04ae9a188@roeck-us.net>
- <CAHk-=whK=G1o6RtS9DS3wEGF1KU7WLgLL1+6Se86bj8m7wwqrQ@mail.gmail.com>
- <87y1ajjsv9.ffs@tglx> <87o7bfjeae.ffs@tglx>
- <CAHk-=wiP+XMGHr8NU13sSOG_oasNZN02O9_c1PzCJNG7+O-GPw@mail.gmail.com>
- <877ci3j80k.ffs@tglx> <87le6fih5w.ffs@tglx>
- <28ceb124-b634-44e0-bcd4-848fc3b0be7a@app.fastmail.com>
-Date: Tue, 19 Mar 2024 17:21:03 +0100
-Message-ID: <87edc6i45s.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T6K3U17N"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710867649; x=1742403649;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qXRFg2Kpkabli7dpl8DUeB25wKVJJ3WC70RdlWgx+JU=;
+  b=T6K3U17NRhv0sgVBJNVgvnzLD7zGYx+soijZEE7xYnpne1wNiRe3GBiy
+   4AuLDX1M68SuWErOWlVB3x6SLyaHACzts/fmMJTVcjDE4i2iIMfZptj19
+   iNDXjWrBHxFu05Jyq8FCAlfCtwdc6k0Z4c3gDNu88OQAH7iB35pTnNRnI
+   RiiDbwijwZtcEvs9Q8nEW7ISPBjIpYX1bsHF97gPETaYRdGzmR9P1HK2d
+   80vSHjD8ZFPkiTfsc4gmB1m3e3Kqf7WlcFDdRUI4vNB2zj+wNd3dDebjw
+   u9s2g4X9LraiFgJC/jF8WivBYnjrn6qccfyeRSfOsz1tPeRqwr4lYGDOB
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="23210654"
+X-IronPort-AV: E=Sophos;i="6.07,137,1708416000"; 
+   d="scan'208";a="23210654"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 10:00:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,137,1708416000"; 
+   d="scan'208";a="14311738"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 19 Mar 2024 10:00:45 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rmcpO-000Hxz-0g;
+	Tue, 19 Mar 2024 17:00:42 +0000
+Date: Wed, 20 Mar 2024 01:00:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ben Hutchings <bwh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-4.4.y-st-rt 1008/22725]
+ include/asm-generic/div64.h:48:22: error: passing argument 1 of '__div64_32'
+ from incompatible pointer type
+Message-ID: <202403200007.PCPYW1S6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Mar 18 2024 at 20:13, Arnd Bergmann wrote:
-> FWIW, I did some experiments a few weeks ago on 32-bit ARM,
-> using a fairly minimal kernel in a virtual machine, and
-> checking the runtime memory consumption rather than compile-time.
-> In a kvm guest with 32MiB RAM, I saw a difference of multiple
-> megabytes in memory usage:
->
-> Linux testvm 6.8.0-rc4-00410-gc02197fc9076-dirty #1 SMP PREEMPT armv7l
-> root@testvm:~# free
->            	total   used    free  	shared  buff/cache   available
-> Mem:       	26932   14956   1732   	    52       12800   	11976
-> Swap:      	16360    3632   12728
->
-> Linux testvm 6.8.0-rc4-00410-gc02197fc9076-dirty #2 PREEMPT armv7l
-> root@testvm:~# free
->            	total    used  	free  	shared  buff/cache   available
-> Mem:       	26932   13744  	5648        32       10092   	13188
-> Swap:      	16360    3880  	12480
->
-> There is a little difference between runs, but this does seem
-> significant enough to keep it. The SMP build was with
-> CONFIG_NR_CPUS=2 (the smallest supported compile-time number),
-> but running on a single-CPU qemu instance.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-st-rt
+head:   0a25e06c1d858ae27efabaa88494a6dc998a0138
+commit: ad64c64a8f7ac0cb8357c598d152076cd3a7216d [1008/22725] Add upstream swait
+config: powerpc-randconfig-003-20240319 (https://download.01.org/0day-ci/archive/20240320/202403200007.PCPYW1S6-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240320/202403200007.PCPYW1S6-lkp@intel.com/reproduce)
 
-With a SMP=y, NR_CPUS=1 build on x86 64bit I get:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403200007.PCPYW1S6-lkp@intel.com/
 
-               total        used        free      shared  buff/cache   available
-Mem:        32882056      498068    32590580        4884      128884    32383988
-Swap:         998396           0      998396
+All errors (new ones prefixed by >>):
 
-Same config just SMP=n:
+                    from drivers/gpu/drm/nouveau/nvkm/subdev/clk/priv.h:4,
+                    from drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c:26:
+   include/linux/scatterlist.h: In function 'sg_set_buf':
+   arch/powerpc/include/asm/page.h:129:32: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
+    #define pfn_valid(pfn)  ((pfn) >= ARCH_PFN_OFFSET && (pfn) < max_mapnr)
+                                   ^
+   arch/powerpc/include/asm/bug.h:75:27: note: in definition of macro 'BUG_ON'
+     if (__builtin_constant_p(x)) {    \
+                              ^
+   arch/powerpc/include/asm/page.h:135:32: note: in expansion of macro 'pfn_valid'
+    #define virt_addr_valid(kaddr) pfn_valid(virt_to_pfn(kaddr))
+                                   ^~~~~~~~~
+   include/linux/scatterlist.h:140:10: note: in expansion of macro 'virt_addr_valid'
+     BUG_ON(!virt_addr_valid(buf));
+             ^~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/page.h:129:32: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
+    #define pfn_valid(pfn)  ((pfn) >= ARCH_PFN_OFFSET && (pfn) < max_mapnr)
+                                   ^
+   arch/powerpc/include/asm/bug.h:76:7: note: in definition of macro 'BUG_ON'
+      if (x)      \
+          ^
+   arch/powerpc/include/asm/page.h:135:32: note: in expansion of macro 'pfn_valid'
+    #define virt_addr_valid(kaddr) pfn_valid(virt_to_pfn(kaddr))
+                                   ^~~~~~~~~
+   include/linux/scatterlist.h:140:10: note: in expansion of macro 'virt_addr_valid'
+     BUG_ON(!virt_addr_valid(buf));
+             ^~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/page.h:129:32: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
+    #define pfn_valid(pfn)  ((pfn) >= ARCH_PFN_OFFSET && (pfn) < max_mapnr)
+                                   ^
+   arch/powerpc/include/asm/bug.h:84:25: note: in definition of macro 'BUG_ON'
+        "r" ((__force long)(x)));   \
+                            ^
+   arch/powerpc/include/asm/page.h:135:32: note: in expansion of macro 'pfn_valid'
+    #define virt_addr_valid(kaddr) pfn_valid(virt_to_pfn(kaddr))
+                                   ^~~~~~~~~
+   include/linux/scatterlist.h:140:10: note: in expansion of macro 'virt_addr_valid'
+     BUG_ON(!virt_addr_valid(buf));
+             ^~~~~~~~~~~~~~~
+   In file included from arch/powerpc/include/generated/asm/div64.h:1:0,
+                    from include/linux/kernel.h:136,
+                    from include/asm-generic/bug.h:13,
+                    from arch/powerpc/include/asm/bug.h:127,
+                    from include/linux/bug.h:4,
+                    from include/linux/mmdebug.h:4,
+                    from include/linux/gfp.h:4,
+                    from include/linux/slab.h:14,
+                    from drivers/gpu/drm/nouveau/include/nvif/os.h:5,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/event.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/subdev/clk.h:3,
+                    from drivers/gpu/drm/nouveau/nvkm/subdev/clk/priv.h:4,
+                    from drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c:26:
+   drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c: In function 'gk20a_pllg_calc_rate':
+   include/asm-generic/div64.h:43:28: warning: comparison of distinct pointer types lacks a cast
+     (void)(((typeof((n)) *)0) == ((uint64_t *)0)); \
+                               ^
+   drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c:144:2: note: in expansion of macro 'do_div'
+     do_div(rate, divider);
+     ^~~~~~
+   In file included from include/uapi/linux/stddef.h:1:0,
+                    from include/linux/stddef.h:4,
+                    from include/uapi/linux/posix_types.h:4,
+                    from include/uapi/linux/types.h:13,
+                    from include/linux/types.h:5,
+                    from drivers/gpu/drm/nouveau/include/nvif/os.h:4,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/event.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/subdev/clk.h:3,
+                    from drivers/gpu/drm/nouveau/nvkm/subdev/clk/priv.h:4,
+                    from drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c:26:
+   include/asm-generic/div64.h:44:18: warning: right shift count >= width of type [-Wshift-count-overflow]
+     if (likely(((n) >> 32) == 0)) {   \
+                     ^
+   include/linux/compiler.h:165:40: note: in definition of macro 'likely'
+    # define likely(x) __builtin_expect(!!(x), 1)
+                                           ^
+   drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c:144:2: note: in expansion of macro 'do_div'
+     do_div(rate, divider);
+     ^~~~~~
+   In file included from arch/powerpc/include/generated/asm/div64.h:1:0,
+                    from include/linux/kernel.h:136,
+                    from include/asm-generic/bug.h:13,
+                    from arch/powerpc/include/asm/bug.h:127,
+                    from include/linux/bug.h:4,
+                    from include/linux/mmdebug.h:4,
+                    from include/linux/gfp.h:4,
+                    from include/linux/slab.h:14,
+                    from drivers/gpu/drm/nouveau/include/nvif/os.h:5,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/event.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/subdev/clk.h:3,
+                    from drivers/gpu/drm/nouveau/nvkm/subdev/clk/priv.h:4,
+                    from drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c:26:
+>> include/asm-generic/div64.h:48:22: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      __rem = __div64_32(&(n), __base); \
+                         ^
+   drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c:144:2: note: in expansion of macro 'do_div'
+     do_div(rate, divider);
+     ^~~~~~
+   include/asm-generic/div64.h:35:17: note: expected 'uint64_t * {aka long long unsigned int *}' but argument is of type 'u32 * {aka unsigned int *}'
+    extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+                    ^~~~~~~~~~
+   In file included from include/linux/bug.h:4:0,
+                    from include/linux/mmdebug.h:4,
+                    from include/linux/gfp.h:4,
+                    from include/linux/slab.h:14,
+                    from drivers/gpu/drm/nouveau/include/nvif/os.h:5,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/event.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/subdev/clk.h:3,
+                    from drivers/gpu/drm/nouveau/nvkm/subdev/clk/priv.h:4,
+                    from drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c:26:
+   drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c: In function 'gk20a_pllg_calc_mnp':
+   drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c:248:21: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     WARN_ON(best_delta == ~0);
+                        ^
+   arch/powerpc/include/asm/bug.h:98:25: note: in definition of macro 'WARN_ON'
+     int __ret_warn_on = !!(x);    \
+                            ^
+   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c:29:0:
+   drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c: In function '_gk20a_pllg_program_mnp':
+   drivers/gpu/drm/nouveau/include/nvkm/subdev/timer.h:48:59: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     } while (_taken = nvkm_timer_read(_tmr) - _time0, _taken < _nsecs);    \
+                                                              ^
+   drivers/gpu/drm/nouveau/include/nvkm/subdev/timer.h:59:32: note: in expansion of macro 'nvkm_nsec'
+    #define nvkm_usec(d,u,cond...) nvkm_nsec((d), (u) * 1000, ##cond)
+                                   ^~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c:411:6: note: in expansion of macro 'nvkm_usec'
+     if (nvkm_usec(device, 300,
+         ^~~~~~~~~
+   drivers/gpu/drm/nouveau/include/nvkm/subdev/timer.h:50:13: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (_taken >= _nsecs) {                                                \
+                ^
+   drivers/gpu/drm/nouveau/include/nvkm/subdev/timer.h:59:32: note: in expansion of macro 'nvkm_nsec'
+    #define nvkm_usec(d,u,cond...) nvkm_nsec((d), (u) * 1000, ##cond)
+                                   ^~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c:411:6: note: in expansion of macro 'nvkm_usec'
+     if (nvkm_usec(device, 300,
+         ^~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c: In function 'gk20a_clk_new':
+   drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a.c:658:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (i = 0; i < ARRAY_SIZE(gk20a_pstates); i++) {
+                   ^
+   cc1: some warnings being treated as errors
 
-               total        used        free      shared  buff/cache   available
-Mem:        32885804      461704    32635284        4876      119480    32424100
-Swap:         998396           0      998396
 
-So the delta for available is ~40 MiB.
+vim +/__div64_32 +48 include/asm-generic/div64.h
 
-But if I look at it with init=/bin/sh on the command line then the delta
-is significantly different:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  36  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  37  /* The unnecessary pointer compare is there
+^1da177e4c3f41 Linus Torvalds 2005-04-16  38   * to check for type safety (n must be 64bit)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  39   */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  40  # define do_div(n,base) ({				\
+^1da177e4c3f41 Linus Torvalds 2005-04-16  41  	uint32_t __base = (base);			\
+^1da177e4c3f41 Linus Torvalds 2005-04-16  42  	uint32_t __rem;					\
+^1da177e4c3f41 Linus Torvalds 2005-04-16  43  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
+^1da177e4c3f41 Linus Torvalds 2005-04-16  44  	if (likely(((n) >> 32) == 0)) {			\
+^1da177e4c3f41 Linus Torvalds 2005-04-16  45  		__rem = (uint32_t)(n) % __base;		\
+^1da177e4c3f41 Linus Torvalds 2005-04-16  46  		(n) = (uint32_t)(n) / __base;		\
+^1da177e4c3f41 Linus Torvalds 2005-04-16  47  	} else 						\
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @48  		__rem = __div64_32(&(n), __base);	\
+^1da177e4c3f41 Linus Torvalds 2005-04-16  49  	__rem;						\
+^1da177e4c3f41 Linus Torvalds 2005-04-16  50   })
+^1da177e4c3f41 Linus Torvalds 2005-04-16  51  
 
-With a SMP=y, NR_CPUS=1 build on x86 64bit I get:
+:::::: The code at line 48 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-               total        used        free      shared  buff/cache   available
-Mem:        32883680      324120    32822728         216       10864    32559560
-Swap:              0           0           0
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
-Same config just SMP=n:
-
-               total        used        free      shared  buff/cache   available
-Mem:        32885804      326876    32821972         216       11100    32558928
-Swap:              0           0           0
-
-Delta available = 632 KiB
-
-I haven't had the time to stare at that in detail, but comparing
-/proc/meminfo for the full boot case above does not immediately give me
-a hint. It's confusing at best...
-
-Thanks,
-
-        tglx
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
