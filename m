@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B722206E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Mar 2024 14:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED80E651AC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Mar 2024 15:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710859484; cv=none; b=oivrnX6E+KbVBdDinkTuZj+WqJgZPBsVQQxY3BF16sp6aVMhe8S8siKmVS/bVGFT1QQUtexD8huAH4il9zb7TlbGyKG332wcANW6e96/MfgmSMB6LthhtpJceAqUKUNloKFmkSpV6ykXmXsiFddp/eo7/0LJZXDVt67HjKLf/2s=
+	t=1710860804; cv=none; b=tcfBaVPLGfIOBIXNl7ZyWEaqeFgWuPd0YbZ5KiFzjtLBqhFn5NxIp+cvxh5+csUh36ndiK3iEr6TUyfJx1aD8zsrDlkvgiXQJmxMQdtMOjYMfse8tzYlByO/n7pu0+7MMrHzHIdVopgjcV1221R7uxibzU80+jL32JXdT++5Jsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710859484; c=relaxed/simple;
-	bh=kYjsIITzMQl3DxuQiHcSI937QsGTvoK0AKyF4UJZ4n0=;
+	s=arc-20240116; t=1710860804; c=relaxed/simple;
+	bh=PNH/guvgw+5rTPcKRzPAvyJKStr7pvFFGV00qziN0nE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SIDuczI8ixHR8FekGRkEn23PMDaXJV8vjJ/FWOJ8m0DCcqZYAwlz46hQjeFw2ELkCtrI5LlrO1X4rTnEeBEi4405WX+85CZFRIw/XH4j8urd66ify/Omxy2S/6zWiMO4n6Mg70Uln1K5s2LT2+TZkIPKxFMLPGH9pxnqtOLNgf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ms+F0/i8; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=IKlApGpKxp27fvaBAzk7o1uk7JWppKK8Bb3Pa7xFRQONEM1X020C7Skbe3syPQIOVR17Oerk6HTVX/0XB9RRPJXH78ePrJ7w+PmDIKohlxKO//NNGlfyFM5SD0Uj56CsV+xCxicTJN4Q7yk6rNcqUZopRsz2YW1ILRkMGaUUzOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hsEJW5p3; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ms+F0/i8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hsEJW5p3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710859480; x=1742395480;
+  t=1710860801; x=1742396801;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kYjsIITzMQl3DxuQiHcSI937QsGTvoK0AKyF4UJZ4n0=;
-  b=ms+F0/i86caJt6wBW3voqU0jqF94EURgAuVUoRCosmOnnaAfMd9NDIMw
-   4JjK5L7G0t66yZ6u6z0aB8S8rnbIuvPawFqx/oWNv7UuWDJzsZOL4tX3X
-   S+sCzXVTPTF5QjGn913Fk+aQUrdb5zwX2vRnbmVbps0DsCSxdpT8mfTQ8
-   lZNn619Yu0GnSbZnL0AS5E4+dVNe23aFSRmrHF4AjdxZoV+Kb4k04o0v6
-   t/fypTKP5Ln12nNTRGNDK6s49FKAR4uh3zkmSyv5D19dktwAPYJSWfm6B
-   CSDyjGhy+Ac62Q8ZhbVTmw2UXtX/jPliu3XxzsjIa83MUWdmSbZYjdmf2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="5590871"
+  bh=PNH/guvgw+5rTPcKRzPAvyJKStr7pvFFGV00qziN0nE=;
+  b=hsEJW5p3QGQReW1NrqfdjxwDgtR9FufXXbzjrmf/vPqZTKG4gb2us0gm
+   4MVE73DsoxYUYENhgAeDc4O5TkrnhHxMCOOSBCV4FcEeA1gWYFHmPpxj6
+   YkrZ9O/zcQqZsOXBuc69dfRaIEygkyFYGNFQLd7p+kA72lyDAjJiJzvzC
+   R8VAwsHvX/VNjQ0HG0qc1lw5UgK771tJeTS2nIcjvZBXK2BsNQ/xoTSE2
+   idPldD5j3Cjy6R4rwVBxGIxYQNT1tqtD5isDzYp9RjjfWQjanPpccEkal
+   W5+MtQzy6x6+k5edEu0D1sr0NDg64z3Iq4XzfqOB+Gbv9pHfFIcZVd4h2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="23238036"
 X-IronPort-AV: E=Sophos;i="6.07,137,1708416000"; 
-   d="scan'208";a="5590871"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 07:44:39 -0700
+   d="scan'208";a="23238036"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 08:06:40 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,137,1708416000"; 
-   d="scan'208";a="18407400"
+   d="scan'208";a="13819818"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 19 Mar 2024 07:44:38 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 19 Mar 2024 08:06:38 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rmahf-000HpX-2m;
-	Tue, 19 Mar 2024 14:44:35 +0000
-Date: Tue, 19 Mar 2024 22:43:51 +0800
+	id 1rmb2y-000Hqj-1m;
+	Tue, 19 Mar 2024 15:06:36 +0000
+Date: Tue, 19 Mar 2024 23:05:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, tianx <tianx@yunsilicon.com>
+To: Jens Axboe <axboe@kernel.dk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 28734/30000]
- drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:1752:32: warning:
- bitwise or with non-zero value always evaluates to true
-Message-ID: <202403192226.xeD34VaP-lkp@intel.com>
+Subject: [axboe-block:io_uring-recvsend-bundle 25/25]
+ io_uring/opdef.c:207:50: error: invalid application of 'sizeof' to
+ incomplete type 'struct io_async_connect'
+Message-ID: <202403192240.ZnfE56oV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,566 +59,476 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   efcbd7d2c09d823eef22dff4bce44d8712ca50c4
-commit: 23b8024ef459f8b615c223df6175ea17c6b50c48 [28734/30000] drivers: update yunsilicon drivers to version 1.1.0.375
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240319/202403192226.xeD34VaP-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403192226.xeD34VaP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-recvsend-bundle
+head:   eee946ee4f7c1b05793a249f6897442ec81b7f24
+commit: eee946ee4f7c1b05793a249f6897442ec81b7f24 [25/25] io_uring: drop ->prep_async()
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240319/202403192240.ZnfE56oV-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403192240.ZnfE56oV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403192226.xeD34VaP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403192240.ZnfE56oV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/infiniband/hw/xsc/main.c:15:
->> drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:1752:32: warning: bitwise or with non-zero value always evaluates to true [-Wtautological-bitwise-compare]
-    1752 |         if (dev->caps.hw_feature_flag | XSC_HW_RDMA_SUPPORT)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-   drivers/infiniband/hw/xsc/main.c:41:6: warning: no previous prototype for function 'xsc_get_sys_image_guid' [-Wmissing-prototypes]
-      41 | void xsc_get_sys_image_guid(u8 *dev_addr, u8 *guid)
-         |      ^
-   drivers/infiniband/hw/xsc/main.c:41:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      41 | void xsc_get_sys_image_guid(u8 *dev_addr, u8 *guid)
-         | ^
-         | static 
-   drivers/infiniband/hw/xsc/main.c:68:6: warning: variable 'max_sq_sg' set but not used [-Wunused-but-set-variable]
-      68 |         int max_sq_sg;
-         |             ^
-   drivers/infiniband/hw/xsc/main.c:307:5: warning: no previous prototype for function 'xsc_ib_add_gid' [-Wmissing-prototypes]
-     307 | int xsc_ib_add_gid(const struct ib_gid_attr *attr, void **context)
-         |     ^
-   drivers/infiniband/hw/xsc/main.c:307:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     307 | int xsc_ib_add_gid(const struct ib_gid_attr *attr, void **context)
-         | ^
-         | static 
-   drivers/infiniband/hw/xsc/main.c:573:6: warning: no previous prototype for function 'xsc_get_guid' [-Wmissing-prototypes]
-     573 | void xsc_get_guid(u8 *dev_addr, u8 *guid)
-         |      ^
-   drivers/infiniband/hw/xsc/main.c:573:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     573 | void xsc_get_guid(u8 *dev_addr, u8 *guid)
-         | ^
-         | static 
-   drivers/infiniband/hw/xsc/main.c:602:6: warning: no previous prototype for function 'xsc_core_event' [-Wmissing-prototypes]
-     602 | void xsc_core_event(struct xsc_core_device *xdev, enum xsc_dev_event event,
-         |      ^
-   drivers/infiniband/hw/xsc/main.c:602:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     602 | void xsc_core_event(struct xsc_core_device *xdev, enum xsc_dev_event event,
-         | ^
-         | static 
-   drivers/infiniband/hw/xsc/main.c:773:30: warning: implicit conversion from enumeration type 'enum xsc_rdma_driver_id' to different enumeration type 'enum rdma_driver_id' [-Wenum-conversion]
-     773 |         dev->ib_dev.ops.driver_id = RDMA_DRIVER_XSC5;
-         |                                   ~ ^~~~~~~~~~~~~~~~
-   7 warnings generated.
---
-   In file included from drivers/infiniband/hw/xsc/xsc_rdma_ctrl.c:11:
->> drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:1752:32: warning: bitwise or with non-zero value always evaluates to true [-Wtautological-bitwise-compare]
-    1752 |         if (dev->caps.hw_feature_flag | XSC_HW_RDMA_SUPPORT)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-   drivers/infiniband/hw/xsc/xsc_rdma_ctrl.c:408:5: warning: no previous prototype for function '_rdma_ctrl_exec_ioctl' [-Wmissing-prototypes]
-     408 | int _rdma_ctrl_exec_ioctl(struct xsc_core_device *xdev, void *in, int in_size, void *out,
-         |     ^
-   drivers/infiniband/hw/xsc/xsc_rdma_ctrl.c:408:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     408 | int _rdma_ctrl_exec_ioctl(struct xsc_core_device *xdev, void *in, int in_size, void *out,
-         | ^
-         | static 
-   drivers/infiniband/hw/xsc/xsc_rdma_ctrl.c:672:6: warning: no previous prototype for function 'xsc_rdma_ctrl_fini' [-Wmissing-prototypes]
-     672 | void xsc_rdma_ctrl_fini(void)
-         |      ^
-   drivers/infiniband/hw/xsc/xsc_rdma_ctrl.c:672:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     672 | void xsc_rdma_ctrl_fini(void)
-         | ^
-         | static 
-   drivers/infiniband/hw/xsc/xsc_rdma_ctrl.c:677:5: warning: no previous prototype for function 'xsc_rdma_ctrl_init' [-Wmissing-prototypes]
-     677 | int xsc_rdma_ctrl_init(void)
-         |     ^
-   drivers/infiniband/hw/xsc/xsc_rdma_ctrl.c:677:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     677 | int xsc_rdma_ctrl_init(void)
-         | ^
-         | static 
-   4 warnings generated.
---
-   In file included from drivers/infiniband/hw/xsc/cq.c:9:
-   In file included from drivers/infiniband/hw/xsc/xsc_ib.h:15:
->> drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:1752:32: warning: bitwise or with non-zero value always evaluates to true [-Wtautological-bitwise-compare]
-    1752 |         if (dev->caps.hw_feature_flag | XSC_HW_RDMA_SUPPORT)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-   drivers/infiniband/hw/xsc/cq.c:361:5: warning: no previous prototype for function 'xsc_cqe_is_empty' [-Wmissing-prototypes]
-     361 | int xsc_cqe_is_empty(struct xsc_ib_cq *cq)
-         |     ^
-   drivers/infiniband/hw/xsc/cq.c:361:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     361 | int xsc_cqe_is_empty(struct xsc_ib_cq *cq)
-         | ^
-         | static 
-   2 warnings generated.
---
-   In file included from drivers/infiniband/hw/xsc/qp.c:9:
-   In file included from drivers/infiniband/hw/xsc/xsc_ib.h:15:
->> drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:1752:32: warning: bitwise or with non-zero value always evaluates to true [-Wtautological-bitwise-compare]
-    1752 |         if (dev->caps.hw_feature_flag | XSC_HW_RDMA_SUPPORT)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-   drivers/infiniband/hw/xsc/qp.c:264:26: warning: variable 'context' set but not used [-Wunused-but-set-variable]
-     264 |         struct xsc_ib_ucontext *context;
-         |                                 ^
-   drivers/infiniband/hw/xsc/qp.c:346:26: warning: variable 'context' set but not used [-Wunused-but-set-variable]
-     346 |         struct xsc_ib_ucontext *context;
-         |                                 ^
-   drivers/infiniband/hw/xsc/qp.c:1208:5: warning: no previous prototype for function 'xsc_icrc_hdr' [-Wmissing-prototypes]
-    1208 | u32 xsc_icrc_hdr(struct xsc_ib_dev *dev, void *pkt, u32 size, u32 *icrc)
-         |     ^
-   drivers/infiniband/hw/xsc/qp.c:1208:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1208 | u32 xsc_icrc_hdr(struct xsc_ib_dev *dev, void *pkt, u32 size, u32 *icrc)
-         | ^
-         | static 
-   drivers/infiniband/hw/xsc/qp.c:1298:5: warning: no previous prototype for function 'build_qp1_send_v2' [-Wmissing-prototypes]
-    1298 | int build_qp1_send_v2(struct xsc_ib_dev *dev,
-         |     ^
-   drivers/infiniband/hw/xsc/qp.c:1298:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1298 | int build_qp1_send_v2(struct xsc_ib_dev *dev,
-         | ^
-         | static 
-   drivers/infiniband/hw/xsc/qp.c:1786:33: warning: unused function 'to_ib_mig_state' [-Wunused-function]
-    1786 | static inline enum ib_mig_state to_ib_mig_state(int xsc_mig_state)
-         |                                 ^~~~~~~~~~~~~~~
-   6 warnings generated.
---
-   In file included from drivers/infiniband/hw/xsc/mem.c:9:
-   In file included from drivers/infiniband/hw/xsc/xsc_ib.h:15:
->> drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:1752:32: warning: bitwise or with non-zero value always evaluates to true [-Wtautological-bitwise-compare]
-    1752 |         if (dev->caps.hw_feature_flag | XSC_HW_RDMA_SUPPORT)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
->> drivers/infiniband/hw/xsc/mem.c:21:5: warning: no previous prototype for function 'xsc_find_chunk_cont_0' [-Wmissing-prototypes]
-      21 | int xsc_find_chunk_cont_0(struct xsc_pa_chunk *chunk,
-         |     ^
-   drivers/infiniband/hw/xsc/mem.c:21:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      21 | int xsc_find_chunk_cont_0(struct xsc_pa_chunk *chunk,
-         | ^
-         | static 
-   drivers/infiniband/hw/xsc/mem.c:193:6: warning: no previous prototype for function '__xsc_ib_cont_pages' [-Wmissing-prototypes]
-     193 | void __xsc_ib_cont_pages(struct ib_umem *umem, u64 addr,
-         |      ^
-   drivers/infiniband/hw/xsc/mem.c:193:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     193 | void __xsc_ib_cont_pages(struct ib_umem *umem, u64 addr,
-         | ^
-         | static 
-   drivers/infiniband/hw/xsc/mem.c:259:6: warning: no previous prototype for function '__xsc_ib_populate_pas' [-Wmissing-prototypes]
-     259 | void __xsc_ib_populate_pas(struct xsc_ib_dev *dev, struct ib_umem *umem,
-         |      ^
-   drivers/infiniband/hw/xsc/mem.c:259:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     259 | void __xsc_ib_populate_pas(struct xsc_ib_dev *dev, struct ib_umem *umem,
-         | ^
-         | static 
-   4 warnings generated.
---
-   In file included from drivers/infiniband/hw/xsc/mr.c:15:
-   In file included from drivers/infiniband/hw/xsc/xsc_ib.h:15:
->> drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:1752:32: warning: bitwise or with non-zero value always evaluates to true [-Wtautological-bitwise-compare]
-    1752 |         if (dev->caps.hw_feature_flag | XSC_HW_RDMA_SUPPORT)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-   drivers/infiniband/hw/xsc/mr.c:75:6: warning: no previous prototype for function 'xsc_fill_pas' [-Wmissing-prototypes]
-      75 | void xsc_fill_pas(int npages, u64 *pas, __be64 *req_pas)
-         |      ^
-   drivers/infiniband/hw/xsc/mr.c:75:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      75 | void xsc_fill_pas(int npages, u64 *pas, __be64 *req_pas)
-         | ^
-         | static 
->> drivers/infiniband/hw/xsc/mr.c:160:6: warning: variable 'using_peer_mem' set but not used [-Wunused-but-set-variable]
-     160 |         int using_peer_mem = 0;
-         |             ^
-   3 warnings generated.
---
-   In file included from drivers/infiniband/hw/xsc/ah.c:12:
-   In file included from drivers/infiniband/hw/xsc/xsc_ib.h:15:
->> drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:1752:32: warning: bitwise or with non-zero value always evaluates to true [-Wtautological-bitwise-compare]
-    1752 |         if (dev->caps.hw_feature_flag | XSC_HW_RDMA_SUPPORT)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
---
-   In file included from drivers/infiniband/hw/xsc/devx.c:11:
-   In file included from drivers/net/ethernet/yunsilicon/xsc/common/driver.h:18:
->> drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:1752:32: warning: bitwise or with non-zero value always evaluates to true [-Wtautological-bitwise-compare]
-    1752 |         if (dev->caps.hw_feature_flag | XSC_HW_RDMA_SUPPORT)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-   drivers/infiniband/hw/xsc/devx.c:75:1: warning: unused variable 'xsc_ib_object_XSC_IB_OBJECT_DEVX' [-Wunused-const-variable]
-      75 | DECLARE_UVERBS_GLOBAL_METHODS(XSC_IB_OBJECT_DEVX,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      76 |                               &UVERBS_METHOD(XSC_IB_METHOD_DEVX_OTHER));
-         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/rdma/uverbs_named_ioctl.h:67:40: note: expanded from macro 'DECLARE_UVERBS_GLOBAL_METHODS'
-      67 |         static const struct uverbs_object_def UVERBS_OBJECT(_object_id) = {    \
-         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/rdma/uverbs_named_ioctl.h:19:27: note: expanded from macro 'UVERBS_OBJECT'
-      19 | #define UVERBS_OBJECT(id)       _UVERBS_NAME(UVERBS_MODULE_NAME, _object_##id)
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/rdma/uverbs_named_ioctl.h:16:28: note: expanded from macro '_UVERBS_NAME'
-      16 | #define _UVERBS_NAME(x, y)      _UVERBS_PASTE(x, y)
-         |                                 ^~~~~~~~~~~~~~~~~~~
-   include/rdma/uverbs_named_ioctl.h:15:29: note: expanded from macro '_UVERBS_PASTE'
-      15 | #define _UVERBS_PASTE(x, y)     x ## y
-         |                                 ^~~~~~
-   <scratch space>:118:1: note: expanded from here
-     118 | xsc_ib_object_XSC_IB_OBJECT_DEVX
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
---
-   In file included from drivers/infiniband/hw/xsc/private_dev.c:11:
->> drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:1752:32: warning: bitwise or with non-zero value always evaluates to true [-Wtautological-bitwise-compare]
-    1752 |         if (dev->caps.hw_feature_flag | XSC_HW_RDMA_SUPPORT)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-   drivers/infiniband/hw/xsc/private_dev.c:429:5: warning: no previous prototype for function 'xsc_priv_dev_exec_ioctl' [-Wmissing-prototypes]
-     429 | int xsc_priv_dev_exec_ioctl(struct xsc_core_device *xdev, void *in, int in_size, void *out,
-         |     ^
-   drivers/infiniband/hw/xsc/private_dev.c:429:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     429 | int xsc_priv_dev_exec_ioctl(struct xsc_core_device *xdev, void *in, int in_size, void *out,
-         | ^
-         | static 
-   2 warnings generated.
---
-   In file included from drivers/net/ethernet/yunsilicon/xsc/net/main.c:21:
->> drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:1752:32: warning: bitwise or with non-zero value always evaluates to true [-Wtautological-bitwise-compare]
-    1752 |         if (dev->caps.hw_feature_flag | XSC_HW_RDMA_SUPPORT)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/yunsilicon/xsc/net/main.c:29:
-   In file included from drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_txrx.h:11:
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_debug.h:68:7: warning: variable 'pos' set but not used [-Wunused-but-set-variable]
-      68 |                 int pos;
-         |                     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:166:5: warning: no previous prototype for function 'xsc_rx_alloc_page_cache' [-Wmissing-prototypes]
-     166 | int xsc_rx_alloc_page_cache(struct xsc_rq *rq, int node, u8 log_init_sz)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:166:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     166 | int xsc_rx_alloc_page_cache(struct xsc_rq *rq, int node, u8 log_init_sz)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:179:6: warning: no previous prototype for function 'xsc_rx_free_page_cache' [-Wmissing-prototypes]
-     179 | void xsc_rx_free_page_cache(struct xsc_rq *rq)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:179:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     179 | void xsc_rx_free_page_cache(struct xsc_rq *rq)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:197:6: warning: no previous prototype for function 'xsc_eth_cq_error_event' [-Wmissing-prototypes]
-     197 | void xsc_eth_cq_error_event(struct xsc_core_cq *xcq, enum xsc_event event)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:197:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     197 | void xsc_eth_cq_error_event(struct xsc_core_cq *xcq, enum xsc_event event)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:211:6: warning: no previous prototype for function 'xsc_eth_completion_event' [-Wmissing-prototypes]
-     211 | void xsc_eth_completion_event(struct xsc_core_cq *xcq)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:211:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     211 | void xsc_eth_completion_event(struct xsc_core_cq *xcq)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:260:5: warning: no previous prototype for function 'xsc_eth_create_cq' [-Wmissing-prototypes]
-     260 | int xsc_eth_create_cq(struct xsc_core_device *xdev, struct xsc_core_cq *xcq,
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:260:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     260 | int xsc_eth_create_cq(struct xsc_core_device *xdev, struct xsc_core_cq *xcq,
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:295:5: warning: no previous prototype for function 'xsc_eth_destroy_cq' [-Wmissing-prototypes]
-     295 | int xsc_eth_destroy_cq(struct xsc_core_device *xdev, struct xsc_cq *cq)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:295:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     295 | int xsc_eth_destroy_cq(struct xsc_core_device *xdev, struct xsc_cq *cq)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:333:6: warning: no previous prototype for function 'xsc_eth_free_cq' [-Wmissing-prototypes]
-     333 | void xsc_eth_free_cq(struct xsc_cq *cq)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:333:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     333 | void xsc_eth_free_cq(struct xsc_cq *cq)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:338:5: warning: no previous prototype for function 'xsc_eth_create_rss_qp_rqs' [-Wmissing-prototypes]
-     338 | int xsc_eth_create_rss_qp_rqs(struct xsc_core_device *xdev,
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:338:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     338 | int xsc_eth_create_rss_qp_rqs(struct xsc_core_device *xdev,
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:359:6: warning: no previous prototype for function 'xsc_eth_qp_event' [-Wmissing-prototypes]
-     359 | void xsc_eth_qp_event(struct xsc_core_qp *qp, int type)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:359:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     359 | void xsc_eth_qp_event(struct xsc_core_qp *qp, int type)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:389:5: warning: no previous prototype for function 'xsc_eth_create_qp_rq' [-Wmissing-prototypes]
-     389 | int xsc_eth_create_qp_rq(struct xsc_core_device *xdev, struct xsc_rq *prq,
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:389:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     389 | int xsc_eth_create_qp_rq(struct xsc_core_device *xdev, struct xsc_rq *prq,
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:416:5: warning: no previous prototype for function 'xsc_eth_destroy_qp_rq' [-Wmissing-prototypes]
-     416 | int xsc_eth_destroy_qp_rq(struct xsc_core_device *xdev, struct xsc_rq *prq)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:416:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     416 | int xsc_eth_destroy_qp_rq(struct xsc_core_device *xdev, struct xsc_rq *prq)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:469:5: warning: no previous prototype for function 'xsc_eth_create_qp_sq' [-Wmissing-prototypes]
-     469 | int xsc_eth_create_qp_sq(struct xsc_core_device *xdev, struct xsc_sq *psq,
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:469:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     469 | int xsc_eth_create_qp_sq(struct xsc_core_device *xdev, struct xsc_sq *psq,
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:488:5: warning: no previous prototype for function 'xsc_eth_modify_qp_sq' [-Wmissing-prototypes]
-     488 | int xsc_eth_modify_qp_sq(struct xsc_core_device *xdev, struct xsc_modify_raw_qp_mbox_in *in)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:488:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     488 | int xsc_eth_modify_qp_sq(struct xsc_core_device *xdev, struct xsc_modify_raw_qp_mbox_in *in)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:506:5: warning: no previous prototype for function 'xsc_eth_destroy_qp_sq' [-Wmissing-prototypes]
-     506 | int xsc_eth_destroy_qp_sq(struct xsc_core_device *xdev, struct xsc_sq *psq)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:506:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     506 | int xsc_eth_destroy_qp_sq(struct xsc_core_device *xdev, struct xsc_sq *psq)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:750:5: warning: no previous prototype for function 'xsc_eth_set_hw_mtu' [-Wmissing-prototypes]
-     750 | int xsc_eth_set_hw_mtu(struct xsc_core_device *dev, u16 mtu, u16 rx_buf_sz)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:750:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     750 | int xsc_eth_set_hw_mtu(struct xsc_core_device *dev, u16 mtu, u16 rx_buf_sz)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:775:5: warning: no previous prototype for function 'xsc_eth_get_mac' [-Wmissing-prototypes]
-     775 | int xsc_eth_get_mac(struct xsc_core_device *dev, char *mac)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:775:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     775 | int xsc_eth_get_mac(struct xsc_core_device *dev, char *mac)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:806:5: warning: no previous prototype for function 'xsc_eth_modify_qps_channel' [-Wmissing-prototypes]
-     806 | int xsc_eth_modify_qps_channel(struct xsc_adapter *adapter, struct xsc_channel *c)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:806:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     806 | int xsc_eth_modify_qps_channel(struct xsc_adapter *adapter, struct xsc_channel *c)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:828:5: warning: no previous prototype for function 'xsc_eth_modify_qps' [-Wmissing-prototypes]
-     828 | int xsc_eth_modify_qps(struct xsc_adapter *adapter,
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:828:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     828 | int xsc_eth_modify_qps(struct xsc_adapter *adapter,
-         | ^
-         | static 
->> drivers/net/ethernet/yunsilicon/xsc/net/main.c:845:5: warning: no previous prototype for function 'xsc_rx_get_linear_frag_sz' [-Wmissing-prototypes]
-     845 | u32 xsc_rx_get_linear_frag_sz(u32 mtu)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:845:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     845 | u32 xsc_rx_get_linear_frag_sz(u32 mtu)
-         | ^
-         | static 
->> drivers/net/ethernet/yunsilicon/xsc/net/main.c:852:6: warning: no previous prototype for function 'xsc_rx_is_linear_skb' [-Wmissing-prototypes]
-     852 | bool xsc_rx_is_linear_skb(u32 mtu)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:852:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     852 | bool xsc_rx_is_linear_skb(u32 mtu)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1316:5: warning: no previous prototype for function 'xsc_eth_open_channel' [-Wmissing-prototypes]
-    1316 | int xsc_eth_open_channel(struct xsc_adapter *adapter,
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1316:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1316 | int xsc_eth_open_channel(struct xsc_adapter *adapter,
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1527:5: warning: no previous prototype for function 'xsc_eth_open_channels' [-Wmissing-prototypes]
-    1527 | int xsc_eth_open_channels(struct xsc_adapter *adapter)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1527:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1527 | int xsc_eth_open_channels(struct xsc_adapter *adapter)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1639:6: warning: no previous prototype for function 'xsc_eth_activate_channel' [-Wmissing-prototypes]
-    1639 | void xsc_eth_activate_channel(struct xsc_channel *c)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1639:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1639 | void xsc_eth_activate_channel(struct xsc_channel *c)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1645:6: warning: no previous prototype for function 'xsc_eth_deactivate_channel' [-Wmissing-prototypes]
-    1645 | void xsc_eth_deactivate_channel(struct xsc_channel *c)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1645:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1645 | void xsc_eth_deactivate_channel(struct xsc_channel *c)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1691:6: warning: no previous prototype for function 'xsc_eth_activate_priv_channels' [-Wmissing-prototypes]
-    1691 | void xsc_eth_activate_priv_channels(struct xsc_adapter *adapter)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1691:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1691 | void xsc_eth_activate_priv_channels(struct xsc_adapter *adapter)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1706:6: warning: no previous prototype for function 'xsc_eth_deactivate_priv_channels' [-Wmissing-prototypes]
-    1706 | void xsc_eth_deactivate_priv_channels(struct xsc_adapter *adapter)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1706:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1706 | void xsc_eth_deactivate_priv_channels(struct xsc_adapter *adapter)
-         | ^
-         | static 
->> drivers/net/ethernet/yunsilicon/xsc/net/main.c:1849:5: warning: no previous prototype for function 'xsc_eth_change_link_status' [-Wmissing-prototypes]
-    1849 | int xsc_eth_change_link_status(struct xsc_adapter *adapter)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1849:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1849 | int xsc_eth_change_link_status(struct xsc_adapter *adapter)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1906:6: warning: no previous prototype for function 'xsc_eth_event_handler' [-Wmissing-prototypes]
-    1906 | void xsc_eth_event_handler(void *arg)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1906:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1906 | void xsc_eth_event_handler(void *arg)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1914:5: warning: no previous prototype for function 'xsc_eth_enable_nic_hca' [-Wmissing-prototypes]
-    1914 | int xsc_eth_enable_nic_hca(struct xsc_adapter *adapter)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1914:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1914 | int xsc_eth_enable_nic_hca(struct xsc_adapter *adapter)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1976:5: warning: no previous prototype for function 'xsc_eth_disable_nic_hca' [-Wmissing-prototypes]
-    1976 | int xsc_eth_disable_nic_hca(struct xsc_adapter *adapter)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1976:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1976 | int xsc_eth_disable_nic_hca(struct xsc_adapter *adapter)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2009:6: warning: no previous prototype for function 'xsc_eth_rss_params_change' [-Wmissing-prototypes]
-    2009 | void xsc_eth_rss_params_change(struct xsc_adapter *adapter, u32 change, void *modify)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2009:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2009 | void xsc_eth_rss_params_change(struct xsc_adapter *adapter, u32 change, void *modify)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2319:6: warning: no previous prototype for function 'xsc_build_default_indir_rqt' [-Wmissing-prototypes]
-    2319 | void xsc_build_default_indir_rqt(u32 *indirection_rqt, int len,
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2319:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2319 | void xsc_build_default_indir_rqt(u32 *indirection_rqt, int len,
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2417:5: warning: no previous prototype for function 'xsc_eth_nic_mtu_changed' [-Wmissing-prototypes]
-    2417 | int xsc_eth_nic_mtu_changed(struct xsc_adapter *priv)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2417:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2417 | int xsc_eth_nic_mtu_changed(struct xsc_adapter *priv)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2480:5: warning: no previous prototype for function 'xsc_set_vf_mac' [-Wmissing-prototypes]
-    2480 | int xsc_set_vf_mac(struct net_device *netdev, int vf, u8 *mac)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2480:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2480 | int xsc_set_vf_mac(struct net_device *netdev, int vf, u8 *mac)
-         | ^
-         | static 
->> drivers/net/ethernet/yunsilicon/xsc/net/main.c:2497:5: warning: no previous prototype for function 'xsc_get_vf_config' [-Wmissing-prototypes]
-    2497 | int xsc_get_vf_config(struct net_device *dev,
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2497:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2497 | int xsc_get_vf_config(struct net_device *dev,
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2513:5: warning: no previous prototype for function 'set_feature_rxcsum' [-Wmissing-prototypes]
-    2513 | int set_feature_rxcsum(struct net_device *netdev, bool enable)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2513:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2513 | int set_feature_rxcsum(struct net_device *netdev, bool enable)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2565:5: warning: no previous prototype for function 'xsc_eth_set_features' [-Wmissing-prototypes]
-    2565 | int xsc_eth_set_features(struct net_device *netdev, netdev_features_t features)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2565:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2565 | int xsc_eth_set_features(struct net_device *netdev, netdev_features_t features)
-         | ^
-         | static 
->> drivers/net/ethernet/yunsilicon/xsc/net/main.c:2582:5: warning: no previous prototype for function 'xsc_select_queue' [-Wmissing-prototypes]
-    2582 | u16 xsc_select_queue(struct net_device *dev, struct sk_buff *skb,
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2582:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2582 | u16 xsc_select_queue(struct net_device *dev, struct sk_buff *skb,
-         | ^
-         | static 
->> drivers/net/ethernet/yunsilicon/xsc/net/main.c:2591:10: warning: variable 'txq_ix' is uninitialized when used here [-Wuninitialized]
-    2591 |                 return txq_ix;
-         |                        ^~~~~~
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2585:12: note: initialize the variable 'txq_ix' to silence this warning
-    2585 |         int txq_ix, up = 0;
-         |                   ^
-         |                    = 0
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2771:24: warning: no previous prototype for function 'xsc_tirc_get_default_config' [-Wmissing-prototypes]
-    2771 | struct xsc_tirc_config xsc_tirc_get_default_config(enum xsc_traffic_types tt)
-         |                        ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2771:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2771 | struct xsc_tirc_config xsc_tirc_get_default_config(enum xsc_traffic_types tt)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2776:6: warning: no previous prototype for function 'xsc_build_rss_params' [-Wmissing-prototypes]
-    2776 | void xsc_build_rss_params(struct xsc_rss_params *rss_params, u16 num_channels)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2776:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2776 | void xsc_build_rss_params(struct xsc_rss_params *rss_params, u16 num_channels)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2794:6: warning: no previous prototype for function 'xsc_eth_build_nic_params' [-Wmissing-prototypes]
-    2794 | void xsc_eth_build_nic_params(struct xsc_adapter *adapter, u32 ch_num, u32 tc_num)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2794:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2794 | void xsc_eth_build_nic_params(struct xsc_adapter *adapter, u32 ch_num, u32 tc_num)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2816:6: warning: no previous prototype for function 'xsc_eth_build_nic_netdev' [-Wmissing-prototypes]
-    2816 | void xsc_eth_build_nic_netdev(struct xsc_adapter *adapter)
-         |      ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2816:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2816 | void xsc_eth_build_nic_netdev(struct xsc_adapter *adapter)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2887:5: warning: no previous prototype for function 'xsc_eth_create_xdev_resources' [-Wmissing-prototypes]
-    2887 | int xsc_eth_create_xdev_resources(struct xsc_core_device *xdev)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2887:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2887 | int xsc_eth_create_xdev_resources(struct xsc_core_device *xdev)
-         | ^
-         | static 
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2908:5: warning: no previous prototype for function 'xsc_eth_init_nic_rx' [-Wmissing-prototypes]
-    2908 | int xsc_eth_init_nic_rx(struct xsc_adapter *adapter)
-         |     ^
-   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2908:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2908 | int xsc_eth_init_nic_rx(struct xsc_adapter *adapter)
-         | ^
-         | static 
-   47 warnings generated.
-..
+>> io_uring/opdef.c:207:50: error: invalid application of 'sizeof' to incomplete type 'struct io_async_connect'
+     207 |                 .async_size             = sizeof(struct io_async_connect),
+         |                                                  ^~~~~~
 
 
-vim +1752 drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h
+vim +207 io_uring/opdef.c
 
-  1745	
-  1746	static inline bool
-  1747	is_support_rdma(struct xsc_core_device *dev)
-  1748	{
-  1749		if (!dev)
-  1750			return false;
-  1751	
-> 1752		if (dev->caps.hw_feature_flag | XSC_HW_RDMA_SUPPORT)
-  1753			return true;
-  1754	
-  1755		return false;
-  1756	}
-  1757	
+    51	
+    52	const struct io_issue_def io_issue_defs[] = {
+    53		[IORING_OP_NOP] = {
+    54			.audit_skip		= 1,
+    55			.iopoll			= 1,
+    56			.prep			= io_nop_prep,
+    57			.issue			= io_nop,
+    58		},
+    59		[IORING_OP_READV] = {
+    60			.needs_file		= 1,
+    61			.unbound_nonreg_file	= 1,
+    62			.pollin			= 1,
+    63			.buffer_select		= 1,
+    64			.plug			= 1,
+    65			.audit_skip		= 1,
+    66			.ioprio			= 1,
+    67			.iopoll			= 1,
+    68			.iopoll_queue		= 1,
+    69			.vectored		= 1,
+    70			.async_size		= sizeof(struct io_async_rw),
+    71			.prep			= io_prep_readv,
+    72			.issue			= io_read,
+    73		},
+    74		[IORING_OP_WRITEV] = {
+    75			.needs_file		= 1,
+    76			.hash_reg_file		= 1,
+    77			.unbound_nonreg_file	= 1,
+    78			.pollout		= 1,
+    79			.plug			= 1,
+    80			.audit_skip		= 1,
+    81			.ioprio			= 1,
+    82			.iopoll			= 1,
+    83			.iopoll_queue		= 1,
+    84			.vectored		= 1,
+    85			.async_size		= sizeof(struct io_async_rw),
+    86			.prep			= io_prep_writev,
+    87			.issue			= io_write,
+    88		},
+    89		[IORING_OP_FSYNC] = {
+    90			.needs_file		= 1,
+    91			.audit_skip		= 1,
+    92			.prep			= io_fsync_prep,
+    93			.issue			= io_fsync,
+    94		},
+    95		[IORING_OP_READ_FIXED] = {
+    96			.needs_file		= 1,
+    97			.unbound_nonreg_file	= 1,
+    98			.pollin			= 1,
+    99			.plug			= 1,
+   100			.audit_skip		= 1,
+   101			.ioprio			= 1,
+   102			.iopoll			= 1,
+   103			.iopoll_queue		= 1,
+   104			.async_size		= sizeof(struct io_async_rw),
+   105			.prep			= io_prep_read_fixed,
+   106			.issue			= io_read,
+   107		},
+   108		[IORING_OP_WRITE_FIXED] = {
+   109			.needs_file		= 1,
+   110			.hash_reg_file		= 1,
+   111			.unbound_nonreg_file	= 1,
+   112			.pollout		= 1,
+   113			.plug			= 1,
+   114			.audit_skip		= 1,
+   115			.ioprio			= 1,
+   116			.iopoll			= 1,
+   117			.iopoll_queue		= 1,
+   118			.async_size		= sizeof(struct io_async_rw),
+   119			.prep			= io_prep_write_fixed,
+   120			.issue			= io_write,
+   121		},
+   122		[IORING_OP_POLL_ADD] = {
+   123			.needs_file		= 1,
+   124			.unbound_nonreg_file	= 1,
+   125			.audit_skip		= 1,
+   126			.prep			= io_poll_add_prep,
+   127			.issue			= io_poll_add,
+   128		},
+   129		[IORING_OP_POLL_REMOVE] = {
+   130			.audit_skip		= 1,
+   131			.prep			= io_poll_remove_prep,
+   132			.issue			= io_poll_remove,
+   133		},
+   134		[IORING_OP_SYNC_FILE_RANGE] = {
+   135			.needs_file		= 1,
+   136			.audit_skip		= 1,
+   137			.prep			= io_sfr_prep,
+   138			.issue			= io_sync_file_range,
+   139		},
+   140		[IORING_OP_SENDMSG] = {
+   141			.needs_file		= 1,
+   142			.unbound_nonreg_file	= 1,
+   143			.pollout		= 1,
+   144			.ioprio			= 1,
+   145			.async_size		= sizeof(struct io_async_msghdr),
+   146	#if defined(CONFIG_NET)
+   147			.prep			= io_sendmsg_prep,
+   148			.issue			= io_sendmsg,
+   149	#else
+   150			.prep			= io_eopnotsupp_prep,
+   151	#endif
+   152		},
+   153		[IORING_OP_RECVMSG] = {
+   154			.needs_file		= 1,
+   155			.unbound_nonreg_file	= 1,
+   156			.pollin			= 1,
+   157			.buffer_select		= 1,
+   158			.ioprio			= 1,
+   159			.async_size		= sizeof(struct io_async_msghdr),
+   160	#if defined(CONFIG_NET)
+   161			.prep			= io_recvmsg_prep,
+   162			.issue			= io_recvmsg,
+   163	#else
+   164			.prep			= io_eopnotsupp_prep,
+   165	#endif
+   166		},
+   167		[IORING_OP_TIMEOUT] = {
+   168			.audit_skip		= 1,
+   169			.async_size		= sizeof(struct io_timeout_data),
+   170			.prep			= io_timeout_prep,
+   171			.issue			= io_timeout,
+   172		},
+   173		[IORING_OP_TIMEOUT_REMOVE] = {
+   174			/* used by timeout updates' prep() */
+   175			.audit_skip		= 1,
+   176			.prep			= io_timeout_remove_prep,
+   177			.issue			= io_timeout_remove,
+   178		},
+   179		[IORING_OP_ACCEPT] = {
+   180			.needs_file		= 1,
+   181			.unbound_nonreg_file	= 1,
+   182			.pollin			= 1,
+   183			.poll_exclusive		= 1,
+   184			.ioprio			= 1,	/* used for flags */
+   185	#if defined(CONFIG_NET)
+   186			.prep			= io_accept_prep,
+   187			.issue			= io_accept,
+   188	#else
+   189			.prep			= io_eopnotsupp_prep,
+   190	#endif
+   191		},
+   192		[IORING_OP_ASYNC_CANCEL] = {
+   193			.audit_skip		= 1,
+   194			.prep			= io_async_cancel_prep,
+   195			.issue			= io_async_cancel,
+   196		},
+   197		[IORING_OP_LINK_TIMEOUT] = {
+   198			.audit_skip		= 1,
+   199			.async_size		= sizeof(struct io_timeout_data),
+   200			.prep			= io_link_timeout_prep,
+   201			.issue			= io_no_issue,
+   202		},
+   203		[IORING_OP_CONNECT] = {
+   204			.needs_file		= 1,
+   205			.unbound_nonreg_file	= 1,
+   206			.pollout		= 1,
+ > 207			.async_size		= sizeof(struct io_async_connect),
+   208	#if defined(CONFIG_NET)
+   209			.prep			= io_connect_prep,
+   210			.issue			= io_connect,
+   211	#else
+   212			.prep			= io_eopnotsupp_prep,
+   213	#endif
+   214		},
+   215		[IORING_OP_FALLOCATE] = {
+   216			.needs_file		= 1,
+   217			.prep			= io_fallocate_prep,
+   218			.issue			= io_fallocate,
+   219		},
+   220		[IORING_OP_OPENAT] = {
+   221			.prep			= io_openat_prep,
+   222			.issue			= io_openat,
+   223		},
+   224		[IORING_OP_CLOSE] = {
+   225			.prep			= io_close_prep,
+   226			.issue			= io_close,
+   227		},
+   228		[IORING_OP_FILES_UPDATE] = {
+   229			.audit_skip		= 1,
+   230			.iopoll			= 1,
+   231			.prep			= io_files_update_prep,
+   232			.issue			= io_files_update,
+   233		},
+   234		[IORING_OP_STATX] = {
+   235			.audit_skip		= 1,
+   236			.prep			= io_statx_prep,
+   237			.issue			= io_statx,
+   238		},
+   239		[IORING_OP_READ] = {
+   240			.needs_file		= 1,
+   241			.unbound_nonreg_file	= 1,
+   242			.pollin			= 1,
+   243			.buffer_select		= 1,
+   244			.plug			= 1,
+   245			.audit_skip		= 1,
+   246			.ioprio			= 1,
+   247			.iopoll			= 1,
+   248			.iopoll_queue		= 1,
+   249			.async_size		= sizeof(struct io_async_rw),
+   250			.prep			= io_prep_read,
+   251			.issue			= io_read,
+   252		},
+   253		[IORING_OP_WRITE] = {
+   254			.needs_file		= 1,
+   255			.hash_reg_file		= 1,
+   256			.unbound_nonreg_file	= 1,
+   257			.pollout		= 1,
+   258			.plug			= 1,
+   259			.audit_skip		= 1,
+   260			.ioprio			= 1,
+   261			.iopoll			= 1,
+   262			.iopoll_queue		= 1,
+   263			.async_size		= sizeof(struct io_async_rw),
+   264			.prep			= io_prep_write,
+   265			.issue			= io_write,
+   266		},
+   267		[IORING_OP_FADVISE] = {
+   268			.needs_file		= 1,
+   269			.audit_skip		= 1,
+   270			.prep			= io_fadvise_prep,
+   271			.issue			= io_fadvise,
+   272		},
+   273		[IORING_OP_MADVISE] = {
+   274			.audit_skip		= 1,
+   275			.prep			= io_madvise_prep,
+   276			.issue			= io_madvise,
+   277		},
+   278		[IORING_OP_SEND] = {
+   279			.needs_file		= 1,
+   280			.unbound_nonreg_file	= 1,
+   281			.pollout		= 1,
+   282			.audit_skip		= 1,
+   283			.ioprio			= 1,
+   284			.buffer_select		= 1,
+   285			.async_size		= sizeof(struct io_async_msghdr),
+   286	#if defined(CONFIG_NET)
+   287			.prep			= io_sendmsg_prep,
+   288			.issue			= io_send,
+   289	#else
+   290			.prep			= io_eopnotsupp_prep,
+   291	#endif
+   292		},
+   293		[IORING_OP_RECV] = {
+   294			.needs_file		= 1,
+   295			.unbound_nonreg_file	= 1,
+   296			.pollin			= 1,
+   297			.buffer_select		= 1,
+   298			.audit_skip		= 1,
+   299			.ioprio			= 1,
+   300			.async_size		= sizeof(struct io_async_msghdr),
+   301	#if defined(CONFIG_NET)
+   302			.prep			= io_recvmsg_prep,
+   303			.issue			= io_recv,
+   304	#else
+   305			.prep			= io_eopnotsupp_prep,
+   306	#endif
+   307		},
+   308		[IORING_OP_OPENAT2] = {
+   309			.prep			= io_openat2_prep,
+   310			.issue			= io_openat2,
+   311		},
+   312		[IORING_OP_EPOLL_CTL] = {
+   313			.unbound_nonreg_file	= 1,
+   314			.audit_skip		= 1,
+   315	#if defined(CONFIG_EPOLL)
+   316			.prep			= io_epoll_ctl_prep,
+   317			.issue			= io_epoll_ctl,
+   318	#else
+   319			.prep			= io_eopnotsupp_prep,
+   320	#endif
+   321		},
+   322		[IORING_OP_SPLICE] = {
+   323			.needs_file		= 1,
+   324			.hash_reg_file		= 1,
+   325			.unbound_nonreg_file	= 1,
+   326			.audit_skip		= 1,
+   327			.prep			= io_splice_prep,
+   328			.issue			= io_splice,
+   329		},
+   330		[IORING_OP_PROVIDE_BUFFERS] = {
+   331			.audit_skip		= 1,
+   332			.iopoll			= 1,
+   333			.prep			= io_provide_buffers_prep,
+   334			.issue			= io_provide_buffers,
+   335		},
+   336		[IORING_OP_REMOVE_BUFFERS] = {
+   337			.audit_skip		= 1,
+   338			.iopoll			= 1,
+   339			.prep			= io_remove_buffers_prep,
+   340			.issue			= io_remove_buffers,
+   341		},
+   342		[IORING_OP_TEE] = {
+   343			.needs_file		= 1,
+   344			.hash_reg_file		= 1,
+   345			.unbound_nonreg_file	= 1,
+   346			.audit_skip		= 1,
+   347			.prep			= io_tee_prep,
+   348			.issue			= io_tee,
+   349		},
+   350		[IORING_OP_SHUTDOWN] = {
+   351			.needs_file		= 1,
+   352	#if defined(CONFIG_NET)
+   353			.prep			= io_shutdown_prep,
+   354			.issue			= io_shutdown,
+   355	#else
+   356			.prep			= io_eopnotsupp_prep,
+   357	#endif
+   358		},
+   359		[IORING_OP_RENAMEAT] = {
+   360			.prep			= io_renameat_prep,
+   361			.issue			= io_renameat,
+   362		},
+   363		[IORING_OP_UNLINKAT] = {
+   364			.prep			= io_unlinkat_prep,
+   365			.issue			= io_unlinkat,
+   366		},
+   367		[IORING_OP_MKDIRAT] = {
+   368			.prep			= io_mkdirat_prep,
+   369			.issue			= io_mkdirat,
+   370		},
+   371		[IORING_OP_SYMLINKAT] = {
+   372			.prep			= io_symlinkat_prep,
+   373			.issue			= io_symlinkat,
+   374		},
+   375		[IORING_OP_LINKAT] = {
+   376			.prep			= io_linkat_prep,
+   377			.issue			= io_linkat,
+   378		},
+   379		[IORING_OP_MSG_RING] = {
+   380			.needs_file		= 1,
+   381			.iopoll			= 1,
+   382			.prep			= io_msg_ring_prep,
+   383			.issue			= io_msg_ring,
+   384		},
+   385		[IORING_OP_FSETXATTR] = {
+   386			.needs_file = 1,
+   387			.prep			= io_fsetxattr_prep,
+   388			.issue			= io_fsetxattr,
+   389		},
+   390		[IORING_OP_SETXATTR] = {
+   391			.prep			= io_setxattr_prep,
+   392			.issue			= io_setxattr,
+   393		},
+   394		[IORING_OP_FGETXATTR] = {
+   395			.needs_file = 1,
+   396			.prep			= io_fgetxattr_prep,
+   397			.issue			= io_fgetxattr,
+   398		},
+   399		[IORING_OP_GETXATTR] = {
+   400			.prep			= io_getxattr_prep,
+   401			.issue			= io_getxattr,
+   402		},
+   403		[IORING_OP_SOCKET] = {
+   404			.audit_skip		= 1,
+   405	#if defined(CONFIG_NET)
+   406			.prep			= io_socket_prep,
+   407			.issue			= io_socket,
+   408	#else
+   409			.prep			= io_eopnotsupp_prep,
+   410	#endif
+   411		},
+   412		[IORING_OP_URING_CMD] = {
+   413			.needs_file		= 1,
+   414			.plug			= 1,
+   415			.iopoll			= 1,
+   416			.iopoll_queue		= 1,
+   417			.async_size		= 2 * sizeof(struct io_uring_sqe),
+   418			.prep			= io_uring_cmd_prep,
+   419			.issue			= io_uring_cmd,
+   420		},
+   421		[IORING_OP_SEND_ZC] = {
+   422			.needs_file		= 1,
+   423			.unbound_nonreg_file	= 1,
+   424			.pollout		= 1,
+   425			.audit_skip		= 1,
+   426			.ioprio			= 1,
+   427			.async_size		= sizeof(struct io_async_msghdr),
+   428	#if defined(CONFIG_NET)
+   429			.prep			= io_send_zc_prep,
+   430			.issue			= io_send_zc,
+   431	#else
+   432			.prep			= io_eopnotsupp_prep,
+   433	#endif
+   434		},
+   435		[IORING_OP_SENDMSG_ZC] = {
+   436			.needs_file		= 1,
+   437			.unbound_nonreg_file	= 1,
+   438			.pollout		= 1,
+   439			.ioprio			= 1,
+   440			.async_size		= sizeof(struct io_async_msghdr),
+   441	#if defined(CONFIG_NET)
+   442			.prep			= io_send_zc_prep,
+   443			.issue			= io_sendmsg_zc,
+   444	#else
+   445			.prep			= io_eopnotsupp_prep,
+   446	#endif
+   447		},
+   448		[IORING_OP_READ_MULTISHOT] = {
+   449			.needs_file		= 1,
+   450			.unbound_nonreg_file	= 1,
+   451			.pollin			= 1,
+   452			.buffer_select		= 1,
+   453			.audit_skip		= 1,
+   454			.async_size		= sizeof(struct io_async_rw),
+   455			.prep			= io_read_mshot_prep,
+   456			.issue			= io_read_mshot,
+   457		},
+   458		[IORING_OP_WAITID] = {
+   459			.async_size		= sizeof(struct io_waitid_async),
+   460			.prep			= io_waitid_prep,
+   461			.issue			= io_waitid,
+   462		},
+   463		[IORING_OP_FUTEX_WAIT] = {
+   464	#if defined(CONFIG_FUTEX)
+   465			.prep			= io_futex_prep,
+   466			.issue			= io_futex_wait,
+   467	#else
+   468			.prep			= io_eopnotsupp_prep,
+   469	#endif
+   470		},
+   471		[IORING_OP_FUTEX_WAKE] = {
+   472	#if defined(CONFIG_FUTEX)
+   473			.prep			= io_futex_prep,
+   474			.issue			= io_futex_wake,
+   475	#else
+   476			.prep			= io_eopnotsupp_prep,
+   477	#endif
+   478		},
+   479		[IORING_OP_FUTEX_WAITV] = {
+   480	#if defined(CONFIG_FUTEX)
+   481			.prep			= io_futexv_prep,
+   482			.issue			= io_futexv_wait,
+   483	#else
+   484			.prep			= io_eopnotsupp_prep,
+   485	#endif
+   486		},
+   487		[IORING_OP_FIXED_FD_INSTALL] = {
+   488			.needs_file		= 1,
+   489			.prep			= io_install_fixed_fd_prep,
+   490			.issue			= io_install_fixed_fd,
+   491		},
+   492		[IORING_OP_FTRUNCATE] = {
+   493			.needs_file		= 1,
+   494			.hash_reg_file		= 1,
+   495			.prep			= io_ftruncate_prep,
+   496			.issue			= io_ftruncate,
+   497		},
+   498	};
+   499	
 
 -- 
 0-DAY CI Kernel Test Service
