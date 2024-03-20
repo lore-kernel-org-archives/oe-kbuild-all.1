@@ -1,141 +1,108 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710834E1CA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Mar 2024 15:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD644535C2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Mar 2024 15:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710949584; cv=none; b=CL4E5Yf6RgWhoa2B8nkNs4K3BAcpJhb9nFOfRz3HZo4Of0kdGLcOcUsloIv+GIlifco7ccyxWrA5M2c3N2CaHsSGtC4fzbuQhLm7FwMGIJQjfHtOpL6Vr1PcMo2EI9kQRzQB/JcZ+kQEWCa0A82bPu2AWf2wYaY+3kecuwZa+Tk=
+	t=1710949940; cv=none; b=FUI0xGMVRzL7aqLxdBSb+ZC+0jWYs1HMLt7oNQZo9xZrP3ZF2p+DfYE221JTkP7Xfp1P9bQHiSolUJ3h7/u3IPxPyUD6qufCJ9nu5qXdP8iKTGqIsinVhfsG05zg04O4hnJj1YdpUm4ycoWh2XCz7Rtmm08uYDaSx62WzRXkx2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710949584; c=relaxed/simple;
-	bh=JyKk2aKlq2Wa6PBdkr0+beXzqlAlT5n0oaF2X44UbzQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O+UuyVdZEn/1HGtijTVvi4lvadwjE+hMItZSxqtTwBv+BeYABddrqDDxL/drpESW0bYPCFoUgeYX6LRULANLWAiwfUa0nr5hAXODawKtnt6kCqIeR67Rh58ZKuA2X1yApEqErRnnI9Vtuati30SqESTePGOy2hrV078ylYia9Zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BohUHQKq; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710949940; c=relaxed/simple;
+	bh=/9mlHb6MBu7WCLEyDVx61Tzy54VazGQmcDUfeMDBkDg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=vDHZozYp96cxI493CpTTiikVBGW5VoRjwq5zxjLjWoJtbDRqVeVH4nps0A77j98C8XABH33fUIi7l+erVVyE3Fe9bFgGOx4K8XJcdRme0rnvH7g/IRMt0tAO6JuCosp5zurYbVrvHMP3LAVp3/bBvT2E9TP0TiNrEovlGF7UElc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DZgCZ5kT; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BohUHQKq"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6e88e4c8500so25419b3a.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Mar 2024 08:46:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710949583; x=1711554383; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qdd3G+WjpR0qw+bhZnjo4tO5XvBBXppiRTTt8ZtUFME=;
-        b=BohUHQKq+EkSwBe8VUFzGVcLkQTa9MA09gZ+B2qsLV5Af29RGZdsTm57pYY5BiSW8w
-         271yu8WBa0SUvhLdw3Hw1jVJ0dpPoCBtwHszPvJlLSNQU6V9e1bDuRE2XFMjuqvpRhBl
-         Kn0qXPNtttGoguUncdoLxDqgl9CVko3KtyrrH3MLL6ZCW6xJHetKG7EQs7fSM8eDisAC
-         9bdZCt5EBV96RcP7V49/qsJPu7iDC733hm4hc0MDAvubN0fTwG/4z28eRkklCO25mU3I
-         c8u2/8YPKh6xKf+Y0PT/6T1bVX50rjU75Xf0jR+yLySa+Fo7DM9VhCzAgjBmYmkazEmw
-         Cz7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710949583; x=1711554383;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Qdd3G+WjpR0qw+bhZnjo4tO5XvBBXppiRTTt8ZtUFME=;
-        b=tKjk9/D9T1NeBxaCLy6VbycYw2bAO2gh1JCn7e2HPkz+pLdvsC2YCFtWM2rz3wSWMc
-         qY2h/JMaqg8sMc6hl0C4KqRjbwBDq7qycxsAMnTHZrk+lVxURCOLd7S5f07cN4GTUMjt
-         OfGlAMc7BIRm52vtBlExQO7gPfrPM00n3uzvDFoVeZc4Wifi8Kp7GO4EVD9ZEOZuTbjy
-         bCwJtC5rwmLpSDoyyhH85Zh0yq6oqxn2eeH7FlPQeXKAG7tyxv6Qs9nOo+QvxiiQVAhl
-         Cj6zzzUpNR/QNlelmeba4sHfCvdLFzjp9f7Ww2OADG4rW4CEp6bx0AI9qzPZuCQB37Qj
-         8yPg==
-X-Forwarded-Encrypted: i=1; AJvYcCV8Y8u2ITKu+dEoU6N1j+UQdDdTnq8Ldu+1sTdtS/eKX/1a6DSzgGfkWmfzXbfimYJekyNYGNZg2vZ+2x6jV1PbX4fhFs2bbhvC7Fd0pA==
-X-Gm-Message-State: AOJu0YwE93iesf8ttG6EDvCx3oOhzS0xFiHz/QvCN5IbXim/92HezRbI
-	rww44cRvLxvSSjXzjbBaTTzG2UUFuFlgk/4YzPmKKdwg8EzqP8Tw
-X-Google-Smtp-Source: AGHT+IFR6WfRcdbTjLr4pgxNSZmP0CaEd9VwVke+KLYxv35xj7n2wR+JQyp4b7dGg14Oko9CAHcT0Q==
-X-Received: by 2002:a05:6a20:430b:b0:1a3:63fa:d0e6 with SMTP id h11-20020a056a20430b00b001a363fad0e6mr9702545pzk.57.1710949582596;
-        Wed, 20 Mar 2024 08:46:22 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d1-20020aa78141000000b006e6c0080466sm12090946pfn.176.2024.03.20.08.46.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Mar 2024 08:46:21 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <d51ec9a1-5221-4005-9980-8258df8b5102@roeck-us.net>
-Date: Wed, 20 Mar 2024 08:46:20 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DZgCZ5kT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710949938; x=1742485938;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/9mlHb6MBu7WCLEyDVx61Tzy54VazGQmcDUfeMDBkDg=;
+  b=DZgCZ5kT9kbxsaP05AHp+K1w0aNB79wBzjBgqWzTFzwL3FLOv57wr141
+   KO5s+bCxJFCJBrfkrSbjWqy0WyP+IqNl/KMTbAa2q6XfP9JE1CfizA+jH
+   FUSybpEQ9SangpWebRqvOAcdPerwLs+yM1w8PQT4/zh2Hybhy9nxIcMFz
+   9j2UWo1FUQF2joCnI87D7bWEPfyehqmnWgZpMFlZV+yvg7mJvBm1YkQrR
+   b/dVK6zZwZ9OnY7j/RuoP3kJ3wqg7OnTZMYWquSXZvA80rNWk1Z2Vvtqh
+   ya3YUYR19K+ZNMlZ4Mfhwt/j3dMuSdfbirkEueMOp8XpKAqRshlCxEhvm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="6001818"
+X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
+   d="scan'208";a="6001818"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 08:52:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
+   d="scan'208";a="14075182"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 20 Mar 2024 08:52:17 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rmyEg-000Ik1-0d;
+	Wed, 20 Mar 2024 15:52:14 +0000
+Date: Wed, 20 Mar 2024 23:51:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dawei Li <dawei.li@shingroup.cn>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-nonmm-unstable 15/17] lib/cpumask.c:61: warning: cannot
+ understand function prototype: 'struct kmem_cache *cpumask_cache
+ __ro_after_init; '
+Message-ID: <202403202344.Aao4CzXG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [patch 5/9] x86: Cure per CPU madness on UP
-Content-Language: en-US
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, x86@kernel.org,
- Linus Torvalds <torvalds@linuxfoundation.org>,
- Uros Bizjak <ubizjak@gmail.com>, linux-sparse@vger.kernel.org,
- lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <20240303235029.555787150@linutronix.de>
- <20240304005104.622511517@linutronix.de>
- <e20d88d0-5fb9-4307-be67-88b04ae9a188@roeck-us.net> <87bk79i8km.ffs@tglx>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <87bk79i8km.ffs@tglx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 3/20/24 01:58, Thomas Gleixner wrote:
-> On Fri, Mar 15 2024 at 09:17, Guenter Roeck wrote:
->> I don't know the code well enough to determine what is wrong.
->> Please let me know what I can do to help debugging the problem.
-> 
-> Could you provide me the config and the qemu command line?
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   fa63bc7d26007e1353fa90bb06cc37966bd1513a
+commit: 61ec2810d92f31b0ef8b30b08ee1d1e1ffc45ddc [15/17] cpumask: create dedicated kmem cache for cpumask var
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240320/202403202344.Aao4CzXG-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240320/202403202344.Aao4CzXG-lkp@intel.com/reproduce)
 
-defconfig-CONFIG_SMP and
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403202344.Aao4CzXG-lkp@intel.com/
 
-qemu-system-x86_64 -kernel arch/x86/boot/bzImage -cpu Haswell \
-      --append "console=ttyS0" -nographic -monitor none
+All warnings (new ones prefixed by >>):
 
-The cpu doesn't really matter as long as it is an Intel CPU.
-A root file system isn't needed since the boot doesn't get that far.
+>> lib/cpumask.c:61: warning: cannot understand function prototype: 'struct kmem_cache *cpumask_cache __ro_after_init; '
 
-Guenter
 
+vim +61 lib/cpumask.c
+
+    41	
+    42	/* These are not inline because of header tangles. */
+    43	#ifdef CONFIG_CPUMASK_OFFSTACK
+    44	/**
+    45	 * alloc_cpumask_var_node - allocate a struct cpumask on a given node
+    46	 * @mask: pointer to cpumask_var_t where the cpumask is returned
+    47	 * @flags: GFP_ flags
+    48	 * @node: memory node from which to allocate or %NUMA_NO_NODE
+    49	 *
+    50	 * Only defined when CONFIG_CPUMASK_OFFSTACK=y, otherwise is
+    51	 * a nop returning a constant 1 (in <linux/cpumask.h>).
+    52	 *
+    53	 * Return: TRUE if memory allocation succeeded, FALSE otherwise.
+    54	 *
+    55	 * In addition, mask will be NULL if this fails.  Note that gcc is
+    56	 * usually smart enough to know that mask can never be NULL if
+    57	 * CONFIG_CPUMASK_OFFSTACK=n, so does code elimination in that case
+    58	 * too.
+    59	 */
+    60	
+  > 61	static struct kmem_cache *cpumask_cache __ro_after_init;
+    62	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
