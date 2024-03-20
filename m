@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A3A4F214
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Mar 2024 18:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C2C6AF88;
+	Wed, 20 Mar 2024 20:11:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710960040; cv=none; b=Z20ARIxiTYmiR4LqIiaDSLnabh31a2QYalFJORNeDvIUUGPNVMbqte5KfrFTXewIowGyiCrW8yvZMQ962jlTfNgkiUdYJm4gMB4xljbR4wD2JSiOsBAG3QV8Iw4D0uU4mL0BFhKxvxGuW5jl41TatviD5re5WevOpQTipeqasXs=
+	t=1710965487; cv=none; b=Oe2VUor6R1i1DYDvbQVuVfhxNKUv+0Gu3ca7FIflneaKXa+LcvYrC5JueJpeKXFBYctfS9J6iJW5yjECmUXEYXKtkuWSPzd/3sKPWji8sV4F4Fr0VAwZbsWuJzTkW27nyRvY/JN6YPheJAesGyfzI3Ih2ZuMBWoWkejcVY2J1ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710960040; c=relaxed/simple;
-	bh=Xs4PBq6qNCG3M1b/48Y2i69dxtc4czrZRuoQL2YN7VY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ef9E2ocMYpBbejvVRWf2UkAKc6WU87ma8M+LQIdDoWdQT/h3t0tAN4FPJsFnC8mGf9jkpXoG4eUTxR4S+jAc4QR7dQMn1eQJDbNRpPuIJll2hxk9zRFODS9cDly7mT3nSZZ7n98Dm13r9SKZteqG9wLK5etiGhVtQGFvu4kb/b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YVScTs7p; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1710965487; c=relaxed/simple;
+	bh=pwa7U1Eqm6iQF1ZEvKGZJ8ZykOx4moiyXvldUWzIdTY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VweGNh2beRSJNGvkzBjl/P3jqHxTiTMQCX28MuzVGy854UpIFYJh+HWZ5GcA+Aww9GDJzV++rUXm2FsNYF1BJ7b1xM55e5PuIo+TgHRlylew9ITnjxCnEWSQr20c22uhXov6hfgb0e9Js6Ie1nMUsR7oK1H0cmF3MvpCw8QTELA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VdTW6oVp; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YVScTs7p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VdTW6oVp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710960039; x=1742496039;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Xs4PBq6qNCG3M1b/48Y2i69dxtc4czrZRuoQL2YN7VY=;
-  b=YVScTs7pdYjPmw/RqnFfw7xuadummE9E2YmGr6awXyOAOhXVhUn70qgy
-   eTD8M6KgJt0wS8iTVcTb9vicssw5GRPC9YZokQQv5HziO0yXut71Ct97B
-   So0sIUiCiVItTm7Y/TZQDoFzlcPjoaJQOFIcljkBctBv/OG4GGFgHb6tl
-   pDJHaTXtI7C3cZdp1w/rIunkAur2Z1eF6YA9PpboqXP/0dco6aGBUuTNq
-   YQMR5JCH4iM2KLhMcQYWzpenubqXv/l/q3xFaWXtPQKJuQauSgStBPHZM
-   0geGbzMyUHDPPypXTdqKhVLQ+VzNymoeB7r6D3ZOU6aW17GqdCeRJVokp
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="5787713"
-X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
-   d="scan'208";a="5787713"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 11:38:24 -0700
+  t=1710965484; x=1742501484;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pwa7U1Eqm6iQF1ZEvKGZJ8ZykOx4moiyXvldUWzIdTY=;
+  b=VdTW6oVpAH0nip5r0meF5s1tVKm+/5UnPeAWp6plqJBVPYuZoWD2JAMx
+   /64JF0qzWDrZooLAJqZVfH542KBPUVV97QWLpZoL1kvmIqpwW/dJ6fUL3
+   v0EEtT4efqGYXDRHorCtKZjxPeYEwBqpE1+xIy1BkAZxZlC7W0rA0k5FA
+   CwuEcHcSggqbS1dv860hfn7bgnGlPfbxUTXZRKiSUFHWsjeWTKaNoGn4K
+   ksd/aWV+jShG8XacXXotoXVhzCTHPDWjl8nWRZVjPqmL3p/ZdALmd4hzH
+   ief3D+EkMQIvxmJ3ZQr1xHCAJcvnjUH0DxiQyrO5/OQ/npdGxtUvjUux0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="23419384"
+X-IronPort-AV: E=Sophos;i="6.07,141,1708416000"; 
+   d="scan'208";a="23419384"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 13:11:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
-   d="scan'208";a="18966972"
+X-IronPort-AV: E=Sophos;i="6.07,141,1708416000"; 
+   d="scan'208";a="14288154"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 20 Mar 2024 11:38:21 -0700
+  by orviesa009.jf.intel.com with ESMTP; 20 Mar 2024 13:11:22 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rn0pO-000Iqj-0h;
-	Wed, 20 Mar 2024 18:38:18 +0000
-Date: Thu, 21 Mar 2024 02:38:15 +0800
+	id 1rn2HQ-000IuN-0Q;
+	Wed, 20 Mar 2024 20:11:20 +0000
+Date: Thu, 21 Mar 2024 04:10:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Chinner <dchinner@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Chandan Babu R <chandanbabu@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: fs/xfs/libxfs/xfs_attr_leaf.c:1061:13-20: WARNING opportunity for
- kmemdup
-Message-ID: <202403210204.LPPBJMhf-lkp@intel.com>
+To: Sam Edwards <cfsworks@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RESEND v2 RFC 3/5] i2c: mv64xxx: Refactor FSM
+Message-ID: <202403210350.eofnJoJU-lkp@intel.com>
+References: <65fa759e.5d0a0220.fe5f7.1fa2@mx.google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,116 +58,193 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <65fa759e.5d0a0220.fe5f7.1fa2@mx.google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a4145ce1e7bc247fd6f2846e8699473448717b37
-commit: f078d4ea827607867d42fb3b2ef907caf86ce49d xfs: convert kmem_alloc() to kmalloc()
-date:   5 weeks ago
-config: x86_64-randconfig-104-20240320 (https://download.01.org/0day-ci/archive/20240321/202403210204.LPPBJMhf-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+Hi Sam,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on andi-shyti/i2c/i2c-host]
+[also build test WARNING on linus/master v6.8 next-20240320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sam-Edwards/i2c-mv64xxx-Clear-bus-errors-before-transfer/20240320-133733
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/65fa759e.5d0a0220.fe5f7.1fa2%40mx.google.com
+patch subject: [RESEND v2 RFC 3/5] i2c: mv64xxx: Refactor FSM
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240321/202403210350.eofnJoJU-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240321/202403210350.eofnJoJU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403210204.LPPBJMhf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403210350.eofnJoJU-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/xfs/libxfs/xfs_attr_leaf.c:1061:13-20: WARNING opportunity for kmemdup
+All warnings (new ones prefixed by >>):
 
-vim +1061 fs/xfs/libxfs/xfs_attr_leaf.c
+   In file included from drivers/i2c/busses/i2c-mv64xxx.c:18:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:21:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/i2c/busses/i2c-mv64xxx.c:440:2: warning: label at end of compound statement is a C23 extension [-Wc23-extensions]
+     440 |         }
+         |         ^
+   2 warnings generated.
 
-  1039	
-  1040	/*
-  1041	 * Convert a leaf attribute list to shortform attribute list
-  1042	 */
-  1043	int
-  1044	xfs_attr3_leaf_to_shortform(
-  1045		struct xfs_buf		*bp,
-  1046		struct xfs_da_args	*args,
-  1047		int			forkoff)
-  1048	{
-  1049		struct xfs_attr_leafblock *leaf;
-  1050		struct xfs_attr3_icleaf_hdr ichdr;
-  1051		struct xfs_attr_leaf_entry *entry;
-  1052		struct xfs_attr_leaf_name_local *name_loc;
-  1053		struct xfs_da_args	nargs;
-  1054		struct xfs_inode	*dp = args->dp;
-  1055		char			*tmpbuffer;
-  1056		int			error;
-  1057		int			i;
-  1058	
-  1059		trace_xfs_attr_leaf_to_sf(args);
-  1060	
-> 1061		tmpbuffer = kmalloc(args->geo->blksize, GFP_KERNEL | __GFP_NOFAIL);
-  1062		if (!tmpbuffer)
-  1063			return -ENOMEM;
-  1064	
-  1065		memcpy(tmpbuffer, bp->b_addr, args->geo->blksize);
-  1066	
-  1067		leaf = (xfs_attr_leafblock_t *)tmpbuffer;
-  1068		xfs_attr3_leaf_hdr_from_disk(args->geo, &ichdr, leaf);
-  1069		entry = xfs_attr3_leaf_entryp(leaf);
-  1070	
-  1071		/* XXX (dgc): buffer is about to be marked stale - why zero it? */
-  1072		memset(bp->b_addr, 0, args->geo->blksize);
-  1073	
-  1074		/*
-  1075		 * Clean out the prior contents of the attribute list.
-  1076		 */
-  1077		error = xfs_da_shrink_inode(args, 0, bp);
-  1078		if (error)
-  1079			goto out;
-  1080	
-  1081		if (forkoff == -1) {
-  1082			/*
-  1083			 * Don't remove the attr fork if this operation is the first
-  1084			 * part of a attr replace operations. We're going to add a new
-  1085			 * attr immediately, so we need to keep the attr fork around in
-  1086			 * this case.
-  1087			 */
-  1088			if (!(args->op_flags & XFS_DA_OP_REPLACE)) {
-  1089				ASSERT(xfs_has_attr2(dp->i_mount));
-  1090				ASSERT(dp->i_df.if_format != XFS_DINODE_FMT_BTREE);
-  1091				xfs_attr_fork_remove(dp, args->trans);
-  1092			}
-  1093			goto out;
-  1094		}
-  1095	
-  1096		xfs_attr_shortform_create(args);
-  1097	
-  1098		/*
-  1099		 * Copy the attributes
-  1100		 */
-  1101		memset((char *)&nargs, 0, sizeof(nargs));
-  1102		nargs.geo = args->geo;
-  1103		nargs.dp = dp;
-  1104		nargs.total = args->total;
-  1105		nargs.whichfork = XFS_ATTR_FORK;
-  1106		nargs.trans = args->trans;
-  1107		nargs.op_flags = XFS_DA_OP_OKNOENT;
-  1108	
-  1109		for (i = 0; i < ichdr.count; entry++, i++) {
-  1110			if (entry->flags & XFS_ATTR_INCOMPLETE)
-  1111				continue;	/* don't copy partial entries */
-  1112			if (!entry->nameidx)
-  1113				continue;
-  1114			ASSERT(entry->flags & XFS_ATTR_LOCAL);
-  1115			name_loc = xfs_attr3_leaf_name_local(leaf, i);
-  1116			nargs.name = name_loc->nameval;
-  1117			nargs.namelen = name_loc->namelen;
-  1118			nargs.value = &name_loc->nameval[nargs.namelen];
-  1119			nargs.valuelen = be16_to_cpu(name_loc->valuelen);
-  1120			nargs.hashval = be32_to_cpu(entry->hashval);
-  1121			nargs.attr_filter = entry->flags & XFS_ATTR_NSP_ONDISK_MASK;
-  1122			xfs_attr_shortform_add(&nargs, forkoff);
-  1123		}
-  1124		error = 0;
-  1125	
-  1126	out:
-  1127		kmem_free(tmpbuffer);
-  1128		return error;
-  1129	}
-  1130	
+
+vim +440 drivers/i2c/busses/i2c-mv64xxx.c
+
+1873c8bc09771f Sam Edwards    2024-03-19  306  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  307  static void
+^1da177e4c3f41 Linus Torvalds 2005-04-16  308  mv64xxx_i2c_fsm(struct mv64xxx_i2c_data *drv_data, u32 status)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  309  {
+1873c8bc09771f Sam Edwards    2024-03-19  310  	enum mv64xxx_i2c_event event;
+1873c8bc09771f Sam Edwards    2024-03-19  311  	enum mv64xxx_i2c_state prev_state = drv_data->state;
+1873c8bc09771f Sam Edwards    2024-03-19  312  
+1873c8bc09771f Sam Edwards    2024-03-19  313  	drv_data->action = MV64XXX_I2C_ACTION_INVALID;
+1873c8bc09771f Sam Edwards    2024-03-19  314  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  315  	/*
+^1da177e4c3f41 Linus Torvalds 2005-04-16  316  	 * If state is idle, then this is likely the remnants of an old
+^1da177e4c3f41 Linus Torvalds 2005-04-16  317  	 * operation that driver has given up on or the user has killed.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  318  	 * If so, issue the stop condition and go to idle.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  319  	 */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  320  	if (drv_data->state == MV64XXX_I2C_STATE_IDLE) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  321  		drv_data->action = MV64XXX_I2C_ACTION_SEND_STOP;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  322  		return;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  323  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  324  
+1873c8bc09771f Sam Edwards    2024-03-19  325  	/*
+1873c8bc09771f Sam Edwards    2024-03-19  326  	 * The FSM is broken into 3 parts:
+1873c8bc09771f Sam Edwards    2024-03-19  327  	 * 1) Decode `status` to determine the underlying hardware event
+1873c8bc09771f Sam Edwards    2024-03-19  328  	 * 2) Handle hardware event driven state transitions
+1873c8bc09771f Sam Edwards    2024-03-19  329  	 * 3) Perform internal state transitions and action emission
+1873c8bc09771f Sam Edwards    2024-03-19  330  	 */
+1873c8bc09771f Sam Edwards    2024-03-19  331  	event = mv64xxx_i2c_decode_status(drv_data, status);
+1873c8bc09771f Sam Edwards    2024-03-19  332  
+1873c8bc09771f Sam Edwards    2024-03-19  333  	/* Handle event; determine state transition */
+1873c8bc09771f Sam Edwards    2024-03-19  334  	switch (event) {
+1873c8bc09771f Sam Edwards    2024-03-19  335  	case MV64XXX_I2C_EVENT_STARTED:
+1873c8bc09771f Sam Edwards    2024-03-19  336  		drv_data->state = MV64XXX_I2C_STATE_SEND_ADDR_1;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  337  		break;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  338  
+1873c8bc09771f Sam Edwards    2024-03-19  339  	case MV64XXX_I2C_EVENT_ADDR_ACK:
+1873c8bc09771f Sam Edwards    2024-03-19  340  		if ((drv_data->state == MV64XXX_I2C_STATE_SEND_ADDR_1)
+1873c8bc09771f Sam Edwards    2024-03-19  341  		    && (drv_data->msg->flags & I2C_M_TEN))
+1873c8bc09771f Sam Edwards    2024-03-19  342  			drv_data->state = MV64XXX_I2C_STATE_SEND_ADDR_2;
+1873c8bc09771f Sam Edwards    2024-03-19  343  		else if (drv_data->msg->flags & I2C_M_RD)
+1873c8bc09771f Sam Edwards    2024-03-19  344  			drv_data->state = MV64XXX_I2C_STATE_READ;
+1873c8bc09771f Sam Edwards    2024-03-19  345  		else
+1873c8bc09771f Sam Edwards    2024-03-19  346  			drv_data->state = MV64XXX_I2C_STATE_WRITE;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  347  		break;
+1873c8bc09771f Sam Edwards    2024-03-19  348  
+1873c8bc09771f Sam Edwards    2024-03-19  349  	case MV64XXX_I2C_EVENT_ADDR_NO_ACK:
+1873c8bc09771f Sam Edwards    2024-03-19  350  	case MV64XXX_I2C_EVENT_WR_NO_ACK:
+1873c8bc09771f Sam Edwards    2024-03-19  351  		/* Doesn't seem to be a device at other end */
+e91c021c487110 Mark A. Greer  2005-12-18  352  		drv_data->state = MV64XXX_I2C_STATE_IDLE;
+1873c8bc09771f Sam Edwards    2024-03-19  353  		break;
+1873c8bc09771f Sam Edwards    2024-03-19  354  
+1873c8bc09771f Sam Edwards    2024-03-19  355  	case MV64XXX_I2C_EVENT_WR_ACK:
+1873c8bc09771f Sam Edwards    2024-03-19  356  		break;
+1873c8bc09771f Sam Edwards    2024-03-19  357  
+1873c8bc09771f Sam Edwards    2024-03-19  358  	case MV64XXX_I2C_EVENT_RD_ACKED:
+1873c8bc09771f Sam Edwards    2024-03-19  359  		BUG_ON(drv_data->bytes_left == 0);
+1873c8bc09771f Sam Edwards    2024-03-19  360  		break;
+1873c8bc09771f Sam Edwards    2024-03-19  361  
+1873c8bc09771f Sam Edwards    2024-03-19  362  	case MV64XXX_I2C_EVENT_RD_UNACKED:
+1873c8bc09771f Sam Edwards    2024-03-19  363  		BUG_ON(drv_data->bytes_left != 0);
+1873c8bc09771f Sam Edwards    2024-03-19  364  		break;
+1873c8bc09771f Sam Edwards    2024-03-19  365  
+1873c8bc09771f Sam Edwards    2024-03-19  366  	case MV64XXX_I2C_EVENT_INVALID:
+1873c8bc09771f Sam Edwards    2024-03-19  367  	default:
+1873c8bc09771f Sam Edwards    2024-03-19  368  		dev_err(&drv_data->adapter.dev,
+1873c8bc09771f Sam Edwards    2024-03-19  369  			"mv64xxx_i2c_fsm: Ctlr Error -- state: 0x%x, "
+1873c8bc09771f Sam Edwards    2024-03-19  370  			"status: 0x%x, event: 0x%x, addr: 0x%x, flags: 0x%x\n",
+1873c8bc09771f Sam Edwards    2024-03-19  371  			 drv_data->state, status, event, drv_data->msg->addr,
+1873c8bc09771f Sam Edwards    2024-03-19  372  			 drv_data->msg->flags);
+1873c8bc09771f Sam Edwards    2024-03-19  373  		drv_data->action = MV64XXX_I2C_ACTION_SEND_STOP;
+1873c8bc09771f Sam Edwards    2024-03-19  374  		mv64xxx_i2c_hw_init(drv_data);
+1873c8bc09771f Sam Edwards    2024-03-19  375  		i2c_recover_bus(&drv_data->adapter);
+1873c8bc09771f Sam Edwards    2024-03-19  376  		drv_data->rc = -EAGAIN;
+1873c8bc09771f Sam Edwards    2024-03-19  377  		return;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  378  	}
+1873c8bc09771f Sam Edwards    2024-03-19  379  
+1873c8bc09771f Sam Edwards    2024-03-19  380  	/* Internal FSM transitions and action emission */
+1873c8bc09771f Sam Edwards    2024-03-19  381  	switch (drv_data->state) {
+1873c8bc09771f Sam Edwards    2024-03-19  382  	case MV64XXX_I2C_STATE_IDLE:
+1873c8bc09771f Sam Edwards    2024-03-19  383  		drv_data->action = MV64XXX_I2C_ACTION_SEND_STOP;
+1873c8bc09771f Sam Edwards    2024-03-19  384  		drv_data->rc = -ENXIO;
+1873c8bc09771f Sam Edwards    2024-03-19  385  		break;
+1873c8bc09771f Sam Edwards    2024-03-19  386  
+1873c8bc09771f Sam Edwards    2024-03-19  387  	case MV64XXX_I2C_STATE_SEND_ADDR_1:
+1873c8bc09771f Sam Edwards    2024-03-19  388  		drv_data->action = MV64XXX_I2C_ACTION_SEND_ADDR_1;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  389  		break;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  390  
+1873c8bc09771f Sam Edwards    2024-03-19  391  	case MV64XXX_I2C_STATE_SEND_ADDR_2:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  392  		drv_data->action = MV64XXX_I2C_ACTION_SEND_ADDR_2;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  393  		break;
+1873c8bc09771f Sam Edwards    2024-03-19  394  
+1873c8bc09771f Sam Edwards    2024-03-19  395  	case MV64XXX_I2C_STATE_READ:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  396  		if (drv_data->bytes_left == 0) {
+1873c8bc09771f Sam Edwards    2024-03-19  397  			if (prev_state == MV64XXX_I2C_STATE_READ)
+1873c8bc09771f Sam Edwards    2024-03-19  398  				drv_data->action = MV64XXX_I2C_ACTION_RCV_DATA_STOP;
+1873c8bc09771f Sam Edwards    2024-03-19  399  			else
+^1da177e4c3f41 Linus Torvalds 2005-04-16  400  				drv_data->action = MV64XXX_I2C_ACTION_SEND_STOP;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  401  			drv_data->state = MV64XXX_I2C_STATE_IDLE;
+1873c8bc09771f Sam Edwards    2024-03-19  402  		} else {
+1873c8bc09771f Sam Edwards    2024-03-19  403  			if (prev_state == MV64XXX_I2C_STATE_READ)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  404  				drv_data->action = MV64XXX_I2C_ACTION_RCV_DATA;
+1873c8bc09771f Sam Edwards    2024-03-19  405  			else
+1873c8bc09771f Sam Edwards    2024-03-19  406  				drv_data->action = MV64XXX_I2C_ACTION_CONTINUE;
+1873c8bc09771f Sam Edwards    2024-03-19  407  
+1873c8bc09771f Sam Edwards    2024-03-19  408  			/*
+1873c8bc09771f Sam Edwards    2024-03-19  409  			 * bytes_left counts the remaining read actions to send
+1873c8bc09771f Sam Edwards    2024-03-19  410  			 * to the hardware, not the remaining bytes to be
+1873c8bc09771f Sam Edwards    2024-03-19  411  			 * retrieved from the data register
+1873c8bc09771f Sam Edwards    2024-03-19  412  			 */
+1873c8bc09771f Sam Edwards    2024-03-19  413  			if (drv_data->aborting)
+1873c8bc09771f Sam Edwards    2024-03-19  414  				drv_data->bytes_left = 0;
+1873c8bc09771f Sam Edwards    2024-03-19  415  			else
+^1da177e4c3f41 Linus Torvalds 2005-04-16  416  				drv_data->bytes_left--;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  417  
+1873c8bc09771f Sam Edwards    2024-03-19  418  			if (drv_data->bytes_left == 0)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  419  				drv_data->cntl_bits &= ~MV64XXX_I2C_REG_CONTROL_ACK;
+1873c8bc09771f Sam Edwards    2024-03-19  420  		}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  421  		break;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  422  
+1873c8bc09771f Sam Edwards    2024-03-19  423  	case MV64XXX_I2C_STATE_WRITE:
+1873c8bc09771f Sam Edwards    2024-03-19  424  		if ((drv_data->bytes_left == 0)
+1873c8bc09771f Sam Edwards    2024-03-19  425  		    || (drv_data->aborting && (drv_data->byte_posn != 0))) {
+1873c8bc09771f Sam Edwards    2024-03-19  426  			if (drv_data->send_stop || drv_data->aborting) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  427  				drv_data->action = MV64XXX_I2C_ACTION_SEND_STOP;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  428  				drv_data->state = MV64XXX_I2C_STATE_IDLE;
+1873c8bc09771f Sam Edwards    2024-03-19  429  			} else {
+1873c8bc09771f Sam Edwards    2024-03-19  430  				drv_data->action = MV64XXX_I2C_ACTION_SEND_RESTART;
+1873c8bc09771f Sam Edwards    2024-03-19  431  				drv_data->state = MV64XXX_I2C_STATE_RESTART;
+1873c8bc09771f Sam Edwards    2024-03-19  432  			}
+1873c8bc09771f Sam Edwards    2024-03-19  433  		} else {
+1873c8bc09771f Sam Edwards    2024-03-19  434  			drv_data->action = MV64XXX_I2C_ACTION_SEND_DATA;
+1873c8bc09771f Sam Edwards    2024-03-19  435  			drv_data->bytes_left--;
+1873c8bc09771f Sam Edwards    2024-03-19  436  		}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  437  		break;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  438  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  439  	default:
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @440  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  441  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  442  
 
 -- 
 0-DAY CI Kernel Test Service
