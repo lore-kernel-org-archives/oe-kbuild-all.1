@@ -1,174 +1,141 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2073.outbound.protection.outlook.com [40.107.220.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86EC152F61
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Mar 2024 15:12:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.73
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710947546; cv=fail; b=SpMfc/ozXeRz+YccuEtPoehFRKwOM/h5+063JXVMkEwPdJ5ce3ORNZK4VgTxnsTjnYnNLQ0XLi3+MrraDB9NA6ls4aKELHPwV0zJmha4D4fOiH5Ku4NF7Lwi73eRmXPqQ64UXpvPpHv9RLE9GhhWggO53ME0FN+zVyzcMMHCGcQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710947546; c=relaxed/simple;
-	bh=RogW3gxTKoKWrvL2dncfGUho4cablzQLGriT+H2MtMY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BUYjQytGYRQf5AtWq7w+VuhAbpYJyMJSGRA0GHN5dn8/5T9d7gp5YVRtG5z9cKgJbwNgyw2tXZPTWtAx6kEkyLj/e3ELR44HETLeMh0yItiGX6SRXPqHXpknxNhTcV0zDlXrJ2t0PLSxuxGqEHIQ9cQZDnGT9UkHVIqS5sGdID4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=LtnDIrc9; arc=fail smtp.client-ip=40.107.220.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710834E1CA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Mar 2024 15:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710949584; cv=none; b=CL4E5Yf6RgWhoa2B8nkNs4K3BAcpJhb9nFOfRz3HZo4Of0kdGLcOcUsloIv+GIlifco7ccyxWrA5M2c3N2CaHsSGtC4fzbuQhLm7FwMGIJQjfHtOpL6Vr1PcMo2EI9kQRzQB/JcZ+kQEWCa0A82bPu2AWf2wYaY+3kecuwZa+Tk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710949584; c=relaxed/simple;
+	bh=JyKk2aKlq2Wa6PBdkr0+beXzqlAlT5n0oaF2X44UbzQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O+UuyVdZEn/1HGtijTVvi4lvadwjE+hMItZSxqtTwBv+BeYABddrqDDxL/drpESW0bYPCFoUgeYX6LRULANLWAiwfUa0nr5hAXODawKtnt6kCqIeR67Rh58ZKuA2X1yApEqErRnnI9Vtuati30SqESTePGOy2hrV078ylYia9Zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BohUHQKq; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="LtnDIrc9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ODHiz5L6UZEAPvSq79HGRGr5mzqqvNEwyJ0gmt/BpE+N8hgnUrvAxZljxU9u2D1p+97SMPNMpyYEGDSk9QN67366FSMtlctbJISkXfeDdF+TrIVhXZ/A1KbaxenMOo+p1EJ7ldQrku1lqmzzxxZzvbvNgfBSWApcS4n7MN54o0vCGENeGVScmj6q+XvlOajT0vquPC2TbEgaS8ALUxJ2YWk962gyNB1PqY8FQ7HElZ5q9r+zVLtsY2FEAqRf8ww0B8upEXfn2gETxtgBZH3+iC+WFYCvGA9hm/39YTDs2eiuK0mv4ebTrBLY4FuThyILY6LUoWcUiDxCvv5VdzG1hw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U5OtDwX/C914a0APjtzR8+pAUaZSL0I/AD94hZpxEjA=;
- b=gTbQGHAMBJ2envVdIGULMTpLbfSgmbht1/fRIPT0B5xxplLBFLyIUYDb0uKzC626HP5L8D/B/apt5qFCb7H5VPw0d4pIIuUb6qs0e6lMv9QokLbu76RnX5xszNj4qhWVaxlpe80S5vKZ25QYXO8IzrNNdRW2wcB17AiuAXpOx00knfU3i6Ct//iAabL3WuWm37AlWJr1ISniq+NywEyxls/9qJLhiA5mznmzHX3VHRgwxk+E6WN/I/2MD0uXuiiB0UrOhiKnfL4Peo8B7R+TxnRAkYR46RIKX/wcRsrAZx3loV8EosokxIfipFY4MV+VX2+xLI78EPUYC1Q0r2c9UQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U5OtDwX/C914a0APjtzR8+pAUaZSL0I/AD94hZpxEjA=;
- b=LtnDIrc9cgOQWjXJNVkLptBOtqpcjywqY0i93Ilo7WT2H2zzQKKH/zF1QSZHiy3Bw7tdiKRCPUJ0er356xc97+zYpvyrG40+BiI7w1zkpU2++AwBAKsQG7+BW31NFnx9URwhhTySXEAPkqc6sSJffccohXxKzfH7eRh/QjoeZe07YhCVcl24E2O6sLIictEdy9/r74TUMMHYeDSITeRcg8sV251psMLBtfkN+h1nw++EpfiHhsxNwKMlbXN+bK06iSHjDazsD2DXymg+b+ww75RnWNPITmxlPlGctne94mODNZJ+D9etiJD6dmwTOIdMPZ/ie9NQ94g4OY8VG9wZ+g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB5744.namprd12.prod.outlook.com (2603:10b6:8:73::18) by
- LV8PR12MB9136.namprd12.prod.outlook.com (2603:10b6:408:18e::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7386.34; Wed, 20 Mar 2024 15:12:21 +0000
-Received: from DS7PR12MB5744.namprd12.prod.outlook.com
- ([fe80::dc5c:2cf1:d5f5:9753]) by DS7PR12MB5744.namprd12.prod.outlook.com
- ([fe80::dc5c:2cf1:d5f5:9753%6]) with mapi id 15.20.7386.031; Wed, 20 Mar 2024
- 15:12:21 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [akpm-mm:mm-unstable 26/52] mm/internal.h:1117:30: error:
- 'struct mem_cgroup' has no member named 'deferred_split_queue'
-Date: Wed, 20 Mar 2024 11:12:19 -0400
-X-Mailer: MailMate (1.14r6018)
-Message-ID: <9A8427A3-B921-4E27-A77A-F8321A920843@nvidia.com>
-In-Reply-To: <202403202244.AgXvkIgR-lkp@intel.com>
-References: <202403202244.AgXvkIgR-lkp@intel.com>
-Content-Type: multipart/signed;
- boundary="=_MailMate_E0B0B7E8-592E-4760-9B78-D74464912B52_=";
- micalg=pgp-sha512; protocol="application/pgp-signature"
-X-ClientProxiedBy: BLAP220CA0010.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:32c::15) To DS7PR12MB5744.namprd12.prod.outlook.com
- (2603:10b6:8:73::18)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BohUHQKq"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6e88e4c8500so25419b3a.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Mar 2024 08:46:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710949583; x=1711554383; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qdd3G+WjpR0qw+bhZnjo4tO5XvBBXppiRTTt8ZtUFME=;
+        b=BohUHQKq+EkSwBe8VUFzGVcLkQTa9MA09gZ+B2qsLV5Af29RGZdsTm57pYY5BiSW8w
+         271yu8WBa0SUvhLdw3Hw1jVJ0dpPoCBtwHszPvJlLSNQU6V9e1bDuRE2XFMjuqvpRhBl
+         Kn0qXPNtttGoguUncdoLxDqgl9CVko3KtyrrH3MLL6ZCW6xJHetKG7EQs7fSM8eDisAC
+         9bdZCt5EBV96RcP7V49/qsJPu7iDC733hm4hc0MDAvubN0fTwG/4z28eRkklCO25mU3I
+         c8u2/8YPKh6xKf+Y0PT/6T1bVX50rjU75Xf0jR+yLySa+Fo7DM9VhCzAgjBmYmkazEmw
+         Cz7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710949583; x=1711554383;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Qdd3G+WjpR0qw+bhZnjo4tO5XvBBXppiRTTt8ZtUFME=;
+        b=tKjk9/D9T1NeBxaCLy6VbycYw2bAO2gh1JCn7e2HPkz+pLdvsC2YCFtWM2rz3wSWMc
+         qY2h/JMaqg8sMc6hl0C4KqRjbwBDq7qycxsAMnTHZrk+lVxURCOLd7S5f07cN4GTUMjt
+         OfGlAMc7BIRm52vtBlExQO7gPfrPM00n3uzvDFoVeZc4Wifi8Kp7GO4EVD9ZEOZuTbjy
+         bCwJtC5rwmLpSDoyyhH85Zh0yq6oqxn2eeH7FlPQeXKAG7tyxv6Qs9nOo+QvxiiQVAhl
+         Cj6zzzUpNR/QNlelmeba4sHfCvdLFzjp9f7Ww2OADG4rW4CEp6bx0AI9qzPZuCQB37Qj
+         8yPg==
+X-Forwarded-Encrypted: i=1; AJvYcCV8Y8u2ITKu+dEoU6N1j+UQdDdTnq8Ldu+1sTdtS/eKX/1a6DSzgGfkWmfzXbfimYJekyNYGNZg2vZ+2x6jV1PbX4fhFs2bbhvC7Fd0pA==
+X-Gm-Message-State: AOJu0YwE93iesf8ttG6EDvCx3oOhzS0xFiHz/QvCN5IbXim/92HezRbI
+	rww44cRvLxvSSjXzjbBaTTzG2UUFuFlgk/4YzPmKKdwg8EzqP8Tw
+X-Google-Smtp-Source: AGHT+IFR6WfRcdbTjLr4pgxNSZmP0CaEd9VwVke+KLYxv35xj7n2wR+JQyp4b7dGg14Oko9CAHcT0Q==
+X-Received: by 2002:a05:6a20:430b:b0:1a3:63fa:d0e6 with SMTP id h11-20020a056a20430b00b001a363fad0e6mr9702545pzk.57.1710949582596;
+        Wed, 20 Mar 2024 08:46:22 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d1-20020aa78141000000b006e6c0080466sm12090946pfn.176.2024.03.20.08.46.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Mar 2024 08:46:21 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <d51ec9a1-5221-4005-9980-8258df8b5102@roeck-us.net>
+Date: Wed, 20 Mar 2024 08:46:20 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB5744:EE_|LV8PR12MB9136:EE_
-X-MS-Office365-Filtering-Correlation-Id: 96293072-7bfe-429c-038c-08dc48f02415
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	2dT8VofCCaU5i6Yih8UywoI/olKAfJ2e0FyyigxtIk+BJY7m3+nVRT6WsilyIcnBzXn23yACwEJCLYSbumEc/jBsp71pvLUwhTk7BU+o10Wxv9trGaQDlBsojKXbCUuQ5xk+6vjUo6asVFI36657Y1L/S1qDnc/7CrXBpkeBq4IlGZNH/H8i6Y/CE3jtlwIRdT5Fq7GELWmTlXjlssFQeKTyBCiNKnT03YCWTaZNhD4ZZb+TymVnmtrIICEJnvuXcX3DiDTyX67Gw1ndVJn8vrGevnbKAfKPe/ICnfzskvXorMgoz6jRH5lPeOjgvERR4cx/upNREDMnhc3aKwfk6w/QyiiIvE0wa6JsrzbdNyesQBYkvsk/rNvwT2H0F9AXzTtoK6tS7Oy3VWwUW+1HAWZKzEKx9Ac07ieJFD4O824gloPKBSFsVE2/ne6XirS89x45Aeod4r/PSF3k5eDovhI2BPd6LFBQKkk8YGES9DG+nY5Cfd2B4rcBb3PIGSByXg7DNrgWQdvOGZPDcIdbGWNx/jZTNOwTyZ9TVbkyMWVrd1rOIqFYptJH43P5zFxNyhJDshdKbjA0gD58pJMvK+t+8hV6wUZVqReWeI/qJjKr173JRGm7AwQapncP3K2ZiiCiKt+zYM13xf0pX+fGg7TkHbk203TVHExN+Jf1W/k=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB5744.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?WJPw/MRiZ+V4PmWWIbtnGop3mi4MgieR6n9crlgCiWyYd6jTHRYstsU2u5GS?=
- =?us-ascii?Q?v4hQVSq0QIv/2miO7kH3VvdxqEdZi54fnOPliEZGZNOs2pgpUHm6qc+08gnb?=
- =?us-ascii?Q?+lUGAdQ3r2dkGImAqJTsdpA2yLmoxuL2ErFWeE0CyB8tRt+26bzFrB7/TiA9?=
- =?us-ascii?Q?UAs/UeCcbl4/HtSspSs6uXCSbsKhDfbhY+bc1Vy6Pf+vcJdnjGkFQO/+gW5v?=
- =?us-ascii?Q?DrlkrlDB+zcec59WBgnbe/+Y53ferdyvg539Ah9kjvuxSn3Eb8jEdlOHmOcI?=
- =?us-ascii?Q?fPKb1Kp5aSK/dsLDCVexSltclCRKwgsTwf8RVItuszxgLSWcJH0AGgr/VXaJ?=
- =?us-ascii?Q?38U6nwAxTrdjI7pU3a2mkUmqi6+N6I+vOTVDLXlIT+M+NFWgHqq6ft7Z0xcU?=
- =?us-ascii?Q?V/Jhsup7JT/v6DUMx05cAszJQt/5YH0g/PYjHJcC2SP8b0TjjLw/Aj/hciiq?=
- =?us-ascii?Q?SInPyCQZQYeHCupZ7Zcqkjw5/2xENBz34KprkgScqO9XOfcwU6VvhIaKOnnc?=
- =?us-ascii?Q?mbEX8ZxYcGwFz01eSAHMBSInaft5d23TpapswzuHGTygRabA8tGkewKJfLUe?=
- =?us-ascii?Q?k8eXTB7mAFuezRcjzo1czb4gYtjzkHsKnNi+wMYw7kUsQ68Jx36UsZoezU++?=
- =?us-ascii?Q?g4FNFftO/JsS2hCGfJLMM/O3XT2HMbmV4tT7OICrfnHf+YN6AFFa09if0LIf?=
- =?us-ascii?Q?8g5T9KFqHnjx7un9ceCxoe62EBNk0T8uoK9Kr5T4BBri0+s6oLwmj+PHmUyj?=
- =?us-ascii?Q?LALbyUopeIMoyS71HOjA3lk2NanAV8cl2LhvPnrlXPECrZg4vz3+L+mUOtHr?=
- =?us-ascii?Q?VudOksveAMZn/8Dl3ZBAlCbvkEwUAqAeLML4rVtj7NSWEsP7ZCAFG6tvWhDl?=
- =?us-ascii?Q?I/cq1V7CkUjSw4AjNPAqI9u0Nl90tkO7GVjKeUczjekxMWmEn+XJHHo5jsa1?=
- =?us-ascii?Q?nOA5UBuY4smJo8lIRUkKobkvsp9KVKMprHFad6Afclt3czZ/kGEwOoTa4Bp5?=
- =?us-ascii?Q?us8PbZcv/fngcLF1jZdNAVI7I1IuR3T6aqrV8HPizeyWqk0/KJJWwWEV7fml?=
- =?us-ascii?Q?G79RWReIGcJQrBDnjS8oIT1AR+oVcC7E3dpgxwiFtWkRVzRreb35b+EF/meq?=
- =?us-ascii?Q?+73GaATo1VfLkCCKaBrWGr0pUzywoK7QvsOO+GycKckrryj9tC2bU6b4IcwS?=
- =?us-ascii?Q?uftHorospZYF9srWBkU3ulcrxxO5Uezuji4C4rGuw4ZrBI+0ZMbZSvXQXK69?=
- =?us-ascii?Q?m0uPz/z3CsUHB4E4aQkIFQc4W09VvZKXzwQQa97z9zvnUQemDWuvKn8V8xhD?=
- =?us-ascii?Q?CtmW3Jqn4GbP70mlqWVk4Lzm8uHlppYlN93UcgVO3J+BJFKK/zhZjPKTUUbt?=
- =?us-ascii?Q?X1Pa+GZamCFAP71LOmUIZYUzGiYiOpWMp+0MFwF2nql8RuVmz1EUsPVj2hnF?=
- =?us-ascii?Q?8hFQGafhZG6M5kljmwsm9Erv4OGLGl1CCfKJmaafwHRVF1DfCUzxnQcQDXfG?=
- =?us-ascii?Q?Lu2wLQ6bJw6byYbjFtbg8Nv4vY7mDkOtpk08zN+MCZo8VoxmV/SEe0XDdffa?=
- =?us-ascii?Q?LPg6AbYCx8RqH+WIxz0=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 96293072-7bfe-429c-038c-08dc48f02415
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB5744.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2024 15:12:21.5998
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bIO/1KRzdObltwd4vDRKFNHXBsdzPS9GsqecKaihfE9lWbCVkyqdBEDflxNKyaH1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9136
+User-Agent: Mozilla Thunderbird
+Subject: Re: [patch 5/9] x86: Cure per CPU madness on UP
+Content-Language: en-US
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, x86@kernel.org,
+ Linus Torvalds <torvalds@linuxfoundation.org>,
+ Uros Bizjak <ubizjak@gmail.com>, linux-sparse@vger.kernel.org,
+ lkp@intel.com, oe-kbuild-all@lists.linux.dev
+References: <20240303235029.555787150@linutronix.de>
+ <20240304005104.622511517@linutronix.de>
+ <e20d88d0-5fb9-4307-be67-88b04ae9a188@roeck-us.net> <87bk79i8km.ffs@tglx>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <87bk79i8km.ffs@tglx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---=_MailMate_E0B0B7E8-592E-4760-9B78-D74464912B52_=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+On 3/20/24 01:58, Thomas Gleixner wrote:
+> On Fri, Mar 15 2024 at 09:17, Guenter Roeck wrote:
+>> I don't know the code well enough to determine what is wrong.
+>> Please let me know what I can do to help debugging the problem.
+> 
+> Could you provide me the config and the qemu command line?
+> 
 
-On 20 Mar 2024, at 11:09, kernel test robot wrote:
+defconfig-CONFIG_SMP and
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-=
-unstable
-> head:   a824831a082f1d8f9b51a4c0598e633d38555fcf
-> commit: 1166721383f8962e2c6c388b2adc7c6f1e9901d5 [26/52] mm/migrate: sp=
-lit source folio if it is on deferred split list
-> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/2024=
-0320/202403202244.AgXvkIgR-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20240320/202403202244.AgXvkIgR-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403202244.AgXvkIgR-l=
-kp@intel.com/
->
-Thanks for the report. A new version[1] fixes the issue.
+qemu-system-x86_64 -kernel arch/x86/boot/bzImage -cpu Haswell \
+      --append "console=ttyS0" -nographic -monitor none
 
-[1] https://lore.kernel.org/linux-mm/20240320014511.306128-1-zi.yan@sent.=
-com/
+The cpu doesn't really matter as long as it is an Intel CPU.
+A root file system isn't needed since the boot doesn't get that far.
 
---
-Best Regards,
-Yan, Zi
+Guenter
 
---=_MailMate_E0B0B7E8-592E-4760-9B78-D74464912B52_=
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename=signature.asc
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQJDBAEBCgAtFiEE6rR4j8RuQ2XmaZol4n+egRQHKFQFAmX6/NMPHHppeUBudmlk
-aWEuY29tAAoJEOJ/noEUByhUy/sQAKBzwnPlegBwr44SwuYuNvMKpMPZ6lYDNPxw
-P9CdBpjeJckv2quV3U4tLUajH/fU+Gfs7EHn2Py9sSHFM8OSghMjp14p+CE9jWrS
-e5ktrE9nrye9zdixQhLu6zfN5sOiG9/TI82kytuyERB9cOj0LsNrI101oJQhKKFX
-cJAA4bRx94KysLctG7wyMXxhv3cR5ESErl2eH/x6ewmAzHxwDE2gSUqMBIQbDm+U
-4E8yrlIXmZyBJSNAL3nqZOkx408Yf3QenQdD6TDiTC6S2w8+xn8Hwt92/9yTAw/k
-cAzpZUMrkQP/h+Vtsj4V2+ijJI/btdM5loU91SHlhX45P5O88lrIXPcBKvYp9Q6A
-BDFVvQwSsQQOrjlkcoeZvjWPCVUrRhM1vA75FGPU2cPFIje6wsLzPSMdUIjvz65g
-a3G/z7k9wwH7t8rVwk+nXVpqmSlH5F1DRMKspjjHdTlLOcuSBDO1c6D2WKPfjFJ7
-bzjO1L0TCfzbmq5maAtsI2QlYygAiDmINItN4qmdHMuNQOK6zqMCzD9OFivt4JEw
-SDgEAq+jLXh2e5B2iZzGRCIWEJZhCDz3RrW7864g08hb8ggCLOlrPaefwOr9qTgG
-AAZODJCXdGpOa/A5xqRRkghM5cI72EROAB07dhhT+kbnx6qngmJEpt7oSjFm1TyQ
-eeY1c2f0
-=Nzz+
------END PGP SIGNATURE-----
-
---=_MailMate_E0B0B7E8-592E-4760-9B78-D74464912B52_=--
