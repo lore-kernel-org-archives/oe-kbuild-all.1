@@ -1,55 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842531642B;
-	Wed, 20 Mar 2024 08:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468332260A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Mar 2024 08:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710921908; cv=none; b=SJg8hBoK5iURzK1KU2C8MJd7YzyqFcBCByecjgsfEnvGZz9KEt9D5rsSWwwysTQi3u5pGgGi/156o1f30Ktaz99HANwknnBDLd7t7Vp++2FqGjSIPrBkO6Vaqym3JKXSyxPB4xVRIXgMLFyEWhvpHJXChNuDFvFvsIJRcS+VXZ0=
+	t=1710922509; cv=none; b=ruOkyMli7jP00mlMzHaTmiWwNmwdxuZeU0vRHO8jdfHIJYVULQzT8jLqrotSYcyWlIEzyNO/QUybIIdR5nYT3vcIpIcr1f74Z374hyvJmiUzs0QGhZmYYyiMiTTglUt+MOn2Yin8JmhD3FBYnkp5GoF8AO3qMSj9TcSWnzlZea0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710921908; c=relaxed/simple;
-	bh=eG0kDS/mrAl5KHOwo943JMDevz0ZPRw28X5sAdBVHyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U1PUgIJhOOZY29R2jNnQfKdOv7q4WX6nOxYQpp7rRpeHY2PT8ZRMI8PVUwuqy4DCkLTTNWgZ2RGy0XKqysmnw4/YsYYCf97PHKCa+Bhn9kYuKqwPSFeQQaWRf45s+D7fIBeeKS/RZv+iwtBMwDMuQr9NJysfcvgz6Ki+RUR5KV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=asjSYz4j; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1710922509; c=relaxed/simple;
+	bh=yqwN/XmqlhuyVKlnSnySwDvCVYusk7LG+Wgh1XYe0jc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mEaF3IiX921eiV5PRNsi7fiOWid69NxyWVGn7D3+3KEnxhfwo0CpXx6gc7P0+rNJq+ucD5uxb5ndzw6/1j16gDQ4WhPYOgPvqlIomzCfy1OLfs3Wmfpd42Xq+E5AEwDE4DF3rYYcQBPhId6iUBzPAnvm3RSCRZyNCWyrrztd/po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fA/gZ4CF; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="asjSYz4j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fA/gZ4CF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710921906; x=1742457906;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eG0kDS/mrAl5KHOwo943JMDevz0ZPRw28X5sAdBVHyc=;
-  b=asjSYz4jnrLIBeq2JzMfltdoTEH5Rh9WGjusF++blSRbUr7IU69o3yOX
-   CH1SjEod2HMk2dBcQWpQMefY1g0c57ZsxlEM/bcBpD7an05oDpUlNy3wg
-   9G/iJ0Nkno3zcM1bOc1H1jgv1ArT+1twoUEN9s9hTDk3W1nwhQzwr1tl0
-   hr6TAR/ToQhtJhXOhBUB1KxOaI+gQTmFwTqpEdP687mL0IW/PidhZW2B0
-   6ckO0fvGUonOulPVpL3ZmDLdVUd5OUCVeL0Kjo/IGorkGloy129ojWQbA
-   QCRtKsPrbURWM4LBLl393O32OfNWm3XGqevt7F7oLek8W3EBzyXvOrlcz
+  t=1710922507; x=1742458507;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yqwN/XmqlhuyVKlnSnySwDvCVYusk7LG+Wgh1XYe0jc=;
+  b=fA/gZ4CFmA2T2AvQ6WZ4PbATl6Y5Jw1JJGg9A+EB7I9KkU9bsa/plml3
+   3pwFJR1Ht5CVrXituM4BsX1pttFDDIyuKPUZaxgUysT9LXPVQ4KzTAx9E
+   JNCfODH1y5JpMrqj2mwH0OAnSDiqEIlF40F3nQeWB8mxSMSLRSgJcCydB
+   EaFSomJ96R1Jbb4cf3jZPn8HjRXI60vroswj1KpPniqKua3Kg3XPVHR37
+   Z824Xv81kKs/0ctkLZbbDRFGGu1UF5MNAuVGxWGkyavwmp5YvucTS7OWO
+   ZxpmtH0/GX5o8DzrqK4cY5qtrPRb11G7JEVwAzNB31Y3RTymyYRbHfDcf
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="16375776"
+X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="6009855"
 X-IronPort-AV: E=Sophos;i="6.07,139,1708416000"; 
-   d="scan'208";a="16375776"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 01:05:05 -0700
+   d="scan'208";a="6009855"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 01:15:06 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,139,1708416000"; 
-   d="scan'208";a="14083131"
+   d="scan'208";a="13972937"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 20 Mar 2024 01:05:02 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 20 Mar 2024 01:15:03 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rmqwW-000ISl-1B;
-	Wed, 20 Mar 2024 08:05:00 +0000
-Date: Wed, 20 Mar 2024 16:04:13 +0800
+	id 1rmr6C-000IT2-1o;
+	Wed, 20 Mar 2024 08:15:00 +0000
+Date: Wed, 20 Mar 2024 16:14:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [alobakin:idpf-libie-new 50/65]
- arch/mips/include/asm/r4kcache.h:245:1: error: pasting formed '"Unsupported
- unroll count: "32', an invalid preprocessing token
-Message-ID: <202403201512.c7bd4E1H-lkp@intel.com>
+To: Sudan Landge <sudanl@amazon.com>, tytso@mit.edu, Jason@zx2c4.com,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, sathyanarayanan.kuppuswamy@linux.intel.com,
+	thomas.lendacky@amd.com, dan.j.williams@intel.com,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, graf@amazon.de, dwmw@amazon.co.uk,
+	bchalios@amazon.es, xmarcalx@amazon.co.uk
+Subject: Re: [PATCH v1 4/4] virt: vmgenid: add support for devicetree bindings
+Message-ID: <202403201544.8xvAuo13-lkp@intel.com>
+References: <20240319143253.22317-5-sudanl@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,232 +63,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240319143253.22317-5-sudanl@amazon.com>
 
-tree:   https://github.com/alobakin/linux idpf-libie-new
-head:   3ec29f243914b957e581e1b00106eef6308d5680
-commit: 7292c0205ebac9ec5f4d2ef3076e39971beed8bd [50/65] unroll: add generic loop unroll helpers
-config: mips-maltaaprp_defconfig (https://download.01.org/0day-ci/archive/20240320/202403201512.c7bd4E1H-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240320/202403201512.c7bd4E1H-lkp@intel.com/reproduce)
+Hi Sudan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.8 next-20240320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sudan-Landge/virt-vmgenid-rearrange-code-to-make-review-easier/20240319-223642
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240319143253.22317-5-sudanl%40amazon.com
+patch subject: [PATCH v1 4/4] virt: vmgenid: add support for devicetree bindings
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240320/202403201544.8xvAuo13-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240320/202403201544.8xvAuo13-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403201512.c7bd4E1H-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403201544.8xvAuo13-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/mips/kernel/mips-mt.c:20:
->> arch/mips/include/asm/r4kcache.h:245:1: error: pasting formed '"Unsupported unroll count: "32', an invalid preprocessing token
-   __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 16, )
-   ^
-   arch/mips/include/asm/r4kcache.h:214:4: note: expanded from macro '__BUILD_BLAST_CACHE'
-                           cache_unroll(32, kernel_cache, indexop,         \
-                           ^
-   arch/mips/include/asm/r4kcache.h:197:2: note: expanded from macro 'cache_unroll'
-           unrolled_call(times, _cache_op, insn, op,                       \
-           ^
-   include/linux/unroll.h:82:52: note: expanded from macro 'unrolled_call'
-                   BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-                                                                    ^
-   In file included from arch/mips/kernel/mips-mt.c:20:
->> arch/mips/include/asm/r4kcache.h:245:1: error: expected ')'
-   arch/mips/include/asm/r4kcache.h:214:17: note: expanded from macro '__BUILD_BLAST_CACHE'
-                           cache_unroll(32, kernel_cache, indexop,         \
-                                        ^
->> arch/mips/include/asm/r4kcache.h:245:1: error: expected ')'
-   arch/mips/include/asm/r4kcache.h:214:17: note: expanded from macro '__BUILD_BLAST_CACHE'
-                           cache_unroll(32, kernel_cache, indexop,         \
-                                        ^
->> arch/mips/include/asm/r4kcache.h:245:1: error: extraneous ')' before ';'
-   arch/mips/include/asm/r4kcache.h:214:4: note: expanded from macro '__BUILD_BLAST_CACHE'
-                           cache_unroll(32, kernel_cache, indexop,         \
-                           ^
-   arch/mips/include/asm/r4kcache.h:197:2: note: expanded from macro 'cache_unroll'
-           unrolled_call(times, _cache_op, insn, op,                       \
-           ^
-   include/linux/unroll.h:82:3: note: expanded from macro 'unrolled_call'
-                   BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-                   ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:448:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:439:4: note: expanded from macro '__compiletime_assert'
-                           __compiletime_error(msg);                       \
-                           ^
-   include/linux/compiler_attributes.h:151:71: note: expanded from macro '__compiletime_error'
-   # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-                                                                         ^
-   In file included from arch/mips/kernel/mips-mt.c:20:
->> arch/mips/include/asm/r4kcache.h:245:1: error: pasting formed '"Unsupported unroll count: "32', an invalid preprocessing token
-   arch/mips/include/asm/r4kcache.h:224:3: note: expanded from macro '__BUILD_BLAST_CACHE'
-                   cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-                   ^
-   arch/mips/include/asm/r4kcache.h:197:2: note: expanded from macro 'cache_unroll'
-           unrolled_call(times, _cache_op, insn, op,                       \
-           ^
-   include/linux/unroll.h:82:52: note: expanded from macro 'unrolled_call'
-                   BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-                                                                    ^
-   In file included from arch/mips/kernel/mips-mt.c:20:
->> arch/mips/include/asm/r4kcache.h:245:1: error: expected ')'
-   arch/mips/include/asm/r4kcache.h:224:16: note: expanded from macro '__BUILD_BLAST_CACHE'
-                   cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-                                ^
->> arch/mips/include/asm/r4kcache.h:245:1: error: expected ')'
-   arch/mips/include/asm/r4kcache.h:224:16: note: expanded from macro '__BUILD_BLAST_CACHE'
-                   cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-                                ^
->> arch/mips/include/asm/r4kcache.h:245:1: error: extraneous ')' before ';'
-   arch/mips/include/asm/r4kcache.h:224:3: note: expanded from macro '__BUILD_BLAST_CACHE'
-                   cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-                   ^
-   arch/mips/include/asm/r4kcache.h:197:2: note: expanded from macro 'cache_unroll'
-           unrolled_call(times, _cache_op, insn, op,                       \
-           ^
-   include/linux/unroll.h:82:3: note: expanded from macro 'unrolled_call'
-                   BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-                   ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:448:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:439:4: note: expanded from macro '__compiletime_assert'
-                           __compiletime_error(msg);                       \
-                           ^
-   include/linux/compiler_attributes.h:151:71: note: expanded from macro '__compiletime_error'
-   # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-                                                                         ^
-   In file included from arch/mips/kernel/mips-mt.c:20:
->> arch/mips/include/asm/r4kcache.h:245:1: error: pasting formed '"Unsupported unroll count: "32', an invalid preprocessing token
-   arch/mips/include/asm/r4kcache.h:241:4: note: expanded from macro '__BUILD_BLAST_CACHE'
-                           cache_unroll(32, kernel_cache, indexop,         \
-                           ^
-   arch/mips/include/asm/r4kcache.h:197:2: note: expanded from macro 'cache_unroll'
-           unrolled_call(times, _cache_op, insn, op,                       \
-           ^
-   include/linux/unroll.h:82:52: note: expanded from macro 'unrolled_call'
-                   BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-                                                                    ^
-   In file included from arch/mips/kernel/mips-mt.c:20:
->> arch/mips/include/asm/r4kcache.h:245:1: error: expected ')'
-   arch/mips/include/asm/r4kcache.h:241:17: note: expanded from macro '__BUILD_BLAST_CACHE'
-                           cache_unroll(32, kernel_cache, indexop,         \
-                                        ^
->> arch/mips/include/asm/r4kcache.h:245:1: error: expected ')'
-   arch/mips/include/asm/r4kcache.h:241:17: note: expanded from macro '__BUILD_BLAST_CACHE'
-                           cache_unroll(32, kernel_cache, indexop,         \
-                                        ^
->> arch/mips/include/asm/r4kcache.h:245:1: error: extraneous ')' before ';'
-   arch/mips/include/asm/r4kcache.h:241:4: note: expanded from macro '__BUILD_BLAST_CACHE'
-                           cache_unroll(32, kernel_cache, indexop,         \
-                           ^
-   arch/mips/include/asm/r4kcache.h:197:2: note: expanded from macro 'cache_unroll'
-           unrolled_call(times, _cache_op, insn, op,                       \
-           ^
-   include/linux/unroll.h:82:3: note: expanded from macro 'unrolled_call'
-                   BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-                   ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:448:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:439:4: note: expanded from macro '__compiletime_assert'
-                           __compiletime_error(msg);                       \
-                           ^
-   include/linux/compiler_attributes.h:151:71: note: expanded from macro '__compiletime_error'
-   # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-                                                                         ^
-   In file included from arch/mips/kernel/mips-mt.c:20:
-   arch/mips/include/asm/r4kcache.h:246:1: error: pasting formed '"Unsupported unroll count: "32', an invalid preprocessing token
-   __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I, 16, )
-   ^
-   arch/mips/include/asm/r4kcache.h:214:4: note: expanded from macro '__BUILD_BLAST_CACHE'
-                           cache_unroll(32, kernel_cache, indexop,         \
-                           ^
-   arch/mips/include/asm/r4kcache.h:197:2: note: expanded from macro 'cache_unroll'
-           unrolled_call(times, _cache_op, insn, op,                       \
-           ^
-   include/linux/unroll.h:82:52: note: expanded from macro 'unrolled_call'
-                   BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-                                                                    ^
-   In file included from arch/mips/kernel/mips-mt.c:20:
-   arch/mips/include/asm/r4kcache.h:246:1: error: expected ')'
-   arch/mips/include/asm/r4kcache.h:214:17: note: expanded from macro '__BUILD_BLAST_CACHE'
-                           cache_unroll(32, kernel_cache, indexop,         \
-                                        ^
-   arch/mips/include/asm/r4kcache.h:246:1: error: expected ')'
-   arch/mips/include/asm/r4kcache.h:214:17: note: expanded from macro '__BUILD_BLAST_CACHE'
-                           cache_unroll(32, kernel_cache, indexop,         \
-                                        ^
-   arch/mips/include/asm/r4kcache.h:246:1: error: extraneous ')' before ';'
-   arch/mips/include/asm/r4kcache.h:214:4: note: expanded from macro '__BUILD_BLAST_CACHE'
-                           cache_unroll(32, kernel_cache, indexop,         \
-                           ^
-   arch/mips/include/asm/r4kcache.h:197:2: note: expanded from macro 'cache_unroll'
-           unrolled_call(times, _cache_op, insn, op,                       \
-           ^
-   include/linux/unroll.h:82:3: note: expanded from macro 'unrolled_call'
-                   BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-                   ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:448:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:439:4: note: expanded from macro '__compiletime_assert'
-                           __compiletime_error(msg);                       \
-                           ^
-   include/linux/compiler_attributes.h:151:71: note: expanded from macro '__compiletime_error'
-   # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-                                                                         ^
-   In file included from arch/mips/kernel/mips-mt.c:20:
-   arch/mips/include/asm/r4kcache.h:246:1: error: pasting formed '"Unsupported unroll count: "32', an invalid preprocessing token
-   arch/mips/include/asm/r4kcache.h:224:3: note: expanded from macro '__BUILD_BLAST_CACHE'
-                   cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-                   ^
-   arch/mips/include/asm/r4kcache.h:197:2: note: expanded from macro 'cache_unroll'
-           unrolled_call(times, _cache_op, insn, op,                       \
-           ^
-   include/linux/unroll.h:82:52: note: expanded from macro 'unrolled_call'
-                   BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-                                                                    ^
-   In file included from arch/mips/kernel/mips-mt.c:20:
-   arch/mips/include/asm/r4kcache.h:246:1: error: expected ')'
-   arch/mips/include/asm/r4kcache.h:224:16: note: expanded from macro '__BUILD_BLAST_CACHE'
-                   cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-                                ^
-   arch/mips/include/asm/r4kcache.h:246:1: error: expected ')'
-   arch/mips/include/asm/r4kcache.h:224:16: note: expanded from macro '__BUILD_BLAST_CACHE'
-                   cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-                                ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+   drivers/virt/vmgenid.c: In function 'vmgenid_add_acpi':
+   drivers/virt/vmgenid.c:79:45: error: invalid use of undefined type 'struct acpi_device'
+      79 |         status = acpi_evaluate_object(device->handle, "ADDR", NULL, &parsed);
+         |                                             ^~
+   drivers/virt/vmgenid.c:96:56: error: invalid use of undefined type 'struct acpi_device'
+      96 |                                   devm_memremap(&device->dev, phys_addr, VMGENID_SIZE, MEMREMAP_WB)
+         |                                                        ^~
+   drivers/virt/vmgenid.c:102:52: error: invalid use of undefined type 'struct acpi_device'
+     102 |         status = acpi_install_notify_handler(device->handle, ACPI_DEVICE_NOTIFY,
+         |                                                    ^~
+   drivers/virt/vmgenid.c: At top level:
+>> drivers/virt/vmgenid.c:196:36: warning: 'vmgenid_acpi_ids' defined but not used [-Wunused-const-variable=]
+     196 | static const struct acpi_device_id vmgenid_acpi_ids[] = {
+         |                                    ^~~~~~~~~~~~~~~~
 
 
-vim +245 arch/mips/include/asm/r4kcache.h
+vim +/vmgenid_acpi_ids +196 drivers/virt/vmgenid.c
 
-76f072a46f179b include/asm-mips/r4kcache.h      Atsushi Nemoto 2006-01-29  244  
-43a06847b9d277 arch/mips/include/asm/r4kcache.h Aaro Koskinen  2014-01-14 @245  __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 16, )
-43a06847b9d277 arch/mips/include/asm/r4kcache.h Aaro Koskinen  2014-01-14  246  __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I, 16, )
-43a06847b9d277 arch/mips/include/asm/r4kcache.h Aaro Koskinen  2014-01-14  247  __BUILD_BLAST_CACHE(s, scache, Index_Writeback_Inv_SD, Hit_Writeback_Inv_SD, 16, )
-43a06847b9d277 arch/mips/include/asm/r4kcache.h Aaro Koskinen  2014-01-14  248  __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 32, )
-43a06847b9d277 arch/mips/include/asm/r4kcache.h Aaro Koskinen  2014-01-14  249  __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I, 32, )
-43a06847b9d277 arch/mips/include/asm/r4kcache.h Aaro Koskinen  2014-01-14  250  __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I_Loongson2, 32, loongson2_)
-43a06847b9d277 arch/mips/include/asm/r4kcache.h Aaro Koskinen  2014-01-14  251  __BUILD_BLAST_CACHE(s, scache, Index_Writeback_Inv_SD, Hit_Writeback_Inv_SD, 32, )
-43a06847b9d277 arch/mips/include/asm/r4kcache.h Aaro Koskinen  2014-01-14  252  __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 64, )
-43a06847b9d277 arch/mips/include/asm/r4kcache.h Aaro Koskinen  2014-01-14  253  __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I, 64, )
-43a06847b9d277 arch/mips/include/asm/r4kcache.h Aaro Koskinen  2014-01-14  254  __BUILD_BLAST_CACHE(s, scache, Index_Writeback_Inv_SD, Hit_Writeback_Inv_SD, 64, )
-18a8cd63c0d800 arch/mips/include/asm/r4kcache.h David Daney    2014-05-28  255  __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 128, )
-18a8cd63c0d800 arch/mips/include/asm/r4kcache.h David Daney    2014-05-28  256  __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I, 128, )
-43a06847b9d277 arch/mips/include/asm/r4kcache.h Aaro Koskinen  2014-01-14  257  __BUILD_BLAST_CACHE(s, scache, Index_Writeback_Inv_SD, Hit_Writeback_Inv_SD, 128, )
-43a06847b9d277 arch/mips/include/asm/r4kcache.h Aaro Koskinen  2014-01-14  258  
-
-:::::: The code at line 245 was first introduced by commit
-:::::: 43a06847b9d277e9f2c3bf8052b44b74e17526c7 MIPS: fix blast_icache32 on loongson2
-
-:::::: TO: Aaro Koskinen <aaro.koskinen@iki.fi>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   195	
+ > 196	static const struct acpi_device_id vmgenid_acpi_ids[] = {
+   197		{ "VMGENCTR", 0 },
+   198		{ "VM_GEN_COUNTER", 0 },
+   199		{ }
+   200	};
+   201	
 
 -- 
 0-DAY CI Kernel Test Service
