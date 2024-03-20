@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91616BB21
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Mar 2024 18:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A3A4F214
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Mar 2024 18:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710958644; cv=none; b=GVlbq4+CHy/IftyWsoscXdl+czQuTpMd1J3+zN3W1oLgJeEc/IPk6iHasWsJCYBrNaN7P66MoOh7gHkawXXSWMsuhMu3KdUqcgzXKCY8vTnBaCzelSz9+0RdOzfTzjncwewkZn8mCvQsCRgR4y/Mrstj/7D+p5PlXB9h++5/RH8=
+	t=1710960040; cv=none; b=Z20ARIxiTYmiR4LqIiaDSLnabh31a2QYalFJORNeDvIUUGPNVMbqte5KfrFTXewIowGyiCrW8yvZMQ962jlTfNgkiUdYJm4gMB4xljbR4wD2JSiOsBAG3QV8Iw4D0uU4mL0BFhKxvxGuW5jl41TatviD5re5WevOpQTipeqasXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710958644; c=relaxed/simple;
-	bh=HzvseGf2wNoBjrLWumuhPsQdXPRyUdy+RsM9BvpKmJY=;
+	s=arc-20240116; t=1710960040; c=relaxed/simple;
+	bh=Xs4PBq6qNCG3M1b/48Y2i69dxtc4czrZRuoQL2YN7VY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JVNHH1wHlkFoYdnuPYFg9DJJGwCQzYql1rA3z8N9Pcwla+IMf16lMGsEDta5opLQAwntL6atFa3C+aivH/jzcZ268UJzPQEImy0vhpWPXuC6bOr/NhPo7cfEi7Azb336sb//eniX8sA5sskOVbBAfENO+3X+OT+beKC62Zp2X3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ikRbaiNz; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=Ef9E2ocMYpBbejvVRWf2UkAKc6WU87ma8M+LQIdDoWdQT/h3t0tAN4FPJsFnC8mGf9jkpXoG4eUTxR4S+jAc4QR7dQMn1eQJDbNRpPuIJll2hxk9zRFODS9cDly7mT3nSZZ7n98Dm13r9SKZteqG9wLK5etiGhVtQGFvu4kb/b0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YVScTs7p; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ikRbaiNz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YVScTs7p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710958642; x=1742494642;
+  t=1710960039; x=1742496039;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HzvseGf2wNoBjrLWumuhPsQdXPRyUdy+RsM9BvpKmJY=;
-  b=ikRbaiNzxAM6Vk5cpv+n3IP/pYH7z59ArDOyxdq8d7JR/sbtH/YVE8zg
-   cP3DGSBiHuxrJ07aJf1hDyui5lIdxnF85oYlFQi+lbdPJPe5o0OSq/2qz
-   FpR9tQaYq0jHBI2HS5KD9SvLHnV09nQ3JLYiSFg7F8spMBCOWKaSoq1oN
-   xqXIE8P63d9hLqr7b2zU0r7c09qJJXd68l19UR20SzTOXDbwMsvQ/cx3T
-   9mzcxGO/SCKr7rQFTEdKm5y2sRjERRbe8jgwZDy+KzaHBsee/4HY12qIt
-   SI3Q8E2movf9iVzz/+YPOjgCEkZOnuPgg8dnX3bjlWwkA2qjVQgQkioxV
+  bh=Xs4PBq6qNCG3M1b/48Y2i69dxtc4czrZRuoQL2YN7VY=;
+  b=YVScTs7pdYjPmw/RqnFfw7xuadummE9E2YmGr6awXyOAOhXVhUn70qgy
+   eTD8M6KgJt0wS8iTVcTb9vicssw5GRPC9YZokQQv5HziO0yXut71Ct97B
+   So0sIUiCiVItTm7Y/TZQDoFzlcPjoaJQOFIcljkBctBv/OG4GGFgHb6tl
+   pDJHaTXtI7C3cZdp1w/rIunkAur2Z1eF6YA9PpboqXP/0dco6aGBUuTNq
+   YQMR5JCH4iM2KLhMcQYWzpenubqXv/l/q3xFaWXtPQKJuQauSgStBPHZM
+   0geGbzMyUHDPPypXTdqKhVLQ+VzNymoeB7r6D3ZOU6aW17GqdCeRJVokp
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="9697742"
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="5787713"
 X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
-   d="scan'208";a="9697742"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 11:17:22 -0700
+   d="scan'208";a="5787713"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 11:38:24 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
-   d="scan'208";a="14143981"
+   d="scan'208";a="18966972"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 20 Mar 2024 11:17:20 -0700
+  by orviesa005.jf.intel.com with ESMTP; 20 Mar 2024 11:38:21 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rn0V3-000Ipv-2c;
-	Wed, 20 Mar 2024 18:17:17 +0000
-Date: Thu, 21 Mar 2024 02:16:23 +0800
+	id 1rn0pO-000Iqj-0h;
+	Wed, 20 Mar 2024 18:38:18 +0000
+Date: Thu, 21 Mar 2024 02:38:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 9348/9351]
- include/linux/percpu-rwsem.h:70:55: warning: cast from pointer to integer of
- different size
-Message-ID: <202403210257.BLECeVcj-lkp@intel.com>
+To: Dave Chinner <dchinner@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Chandan Babu R <chandanbabu@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: fs/xfs/libxfs/xfs_attr_leaf.c:1061:13-20: WARNING opportunity for
+ kmemdup
+Message-ID: <202403210204.LPPBJMhf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,295 +60,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   b4f484defd8261509f34368436f0af8c7af79eeb
-commit: 51c3760d93e2a3f2e64a65c5875c000180205a23 [9348/9351] ANDROID: vendor_hook: add hooks to protect locking-tsk in cpu scheduler
-config: i386-buildonly-randconfig-002-20240320 (https://download.01.org/0day-ci/archive/20240321/202403210257.BLECeVcj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240321/202403210257.BLECeVcj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a4145ce1e7bc247fd6f2846e8699473448717b37
+commit: f078d4ea827607867d42fb3b2ef907caf86ce49d xfs: convert kmem_alloc() to kmalloc()
+date:   5 weeks ago
+config: x86_64-randconfig-104-20240320 (https://download.01.org/0day-ci/archive/20240321/202403210204.LPPBJMhf-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403210257.BLECeVcj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403210204.LPPBJMhf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/libxfs/xfs_attr_leaf.c:1061:13-20: WARNING opportunity for kmemdup
 
-   In file included from include/linux/fs.h:33,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:1082,
-                    from include/linux/mman.h:5,
-                    from include/linux/page_size_compat.h:27,
-                    from arch/x86/include/asm/elf.h:8,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/crypto/aria.h:22,
-                    from arch/x86/kernel/asm-offsets.c:10:
-   include/linux/percpu-rwsem.h: In function 'percpu_down_read':
->> include/linux/percpu-rwsem.h:70:55: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      70 |         _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                       ^
-   include/linux/percpu-rwsem.h: In function 'percpu_down_read_trylock':
-   include/linux/percpu-rwsem.h:97:63: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      97 |                 _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                               ^
-   include/linux/percpu-rwsem.h: In function 'percpu_up_read':
-   include/linux/percpu-rwsem.h:128:55: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     128 |         _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, 0);
-         |                                                       ^
---
-   In file included from include/linux/fs.h:33,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:1082,
-                    from include/linux/mman.h:5,
-                    from include/linux/page_size_compat.h:27,
-                    from arch/x86/include/asm/elf.h:8,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from drivers/power/supply/rt9455_charger.c:8:
-   include/linux/percpu-rwsem.h: In function 'percpu_down_read':
->> include/linux/percpu-rwsem.h:70:55: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      70 |         _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                       ^
-   include/linux/percpu-rwsem.h: In function 'percpu_down_read_trylock':
-   include/linux/percpu-rwsem.h:97:63: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      97 |                 _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                               ^
-   include/linux/percpu-rwsem.h: In function 'percpu_up_read':
-   include/linux/percpu-rwsem.h:128:55: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     128 |         _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, 0);
-         |                                                       ^
-   drivers/power/supply/rt9455_charger.c: At top level:
-   drivers/power/supply/rt9455_charger.c:200:18: warning: 'rt9455_boost_voltage_values' defined but not used [-Wunused-const-variable=]
-     200 | static const int rt9455_boost_voltage_values[] = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/fs.h:33,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:1082,
-                    from include/linux/mman.h:5,
-                    from include/linux/page_size_compat.h:27,
-                    from arch/x86/include/asm/elf.h:8,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from include/linux/static_call.h:135,
-                    from include/linux/tracepoint.h:22,
-                    from include/trace/events/lock.h:9,
-                    from kernel/locking/rwsem.c:30:
-   include/linux/percpu-rwsem.h: In function 'percpu_down_read':
->> include/linux/percpu-rwsem.h:70:55: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      70 |         _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                       ^
-   include/linux/percpu-rwsem.h: In function 'percpu_down_read_trylock':
-   include/linux/percpu-rwsem.h:97:63: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      97 |                 _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                               ^
-   include/linux/percpu-rwsem.h: In function 'percpu_up_read':
-   include/linux/percpu-rwsem.h:128:55: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     128 |         _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, 0);
-         |                                                       ^
-   kernel/locking/rwsem.c: In function 'rwsem_read_trylock':
->> kernel/locking/rwsem.c:252:62: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     252 |                 trace_android_vh_record_rwsem_lock_starttime((u64)sem, jiffies);
-         |                                                              ^
-   kernel/locking/rwsem.c: In function 'rwsem_write_trylock':
-   kernel/locking/rwsem.c:264:62: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     264 |                 trace_android_vh_record_rwsem_lock_starttime((u64)sem, jiffies);
-         |                                                              ^
-   kernel/locking/rwsem.c: In function 'rwsem_down_read_slowpath':
-   kernel/locking/rwsem.c:1049:62: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1049 |                 trace_android_vh_record_rwsem_lock_starttime((u64)sem, jiffies);
-         |                                                              ^
-   kernel/locking/rwsem.c:1119:54: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1119 |         trace_android_vh_record_rwsem_lock_starttime((u64)sem, jiffies);
-         |                                                      ^
-   kernel/locking/rwsem.c: In function 'rwsem_down_write_slowpath':
-   kernel/locking/rwsem.c:1144:62: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1144 |                 trace_android_vh_record_rwsem_lock_starttime((u64)sem, jiffies);
-         |                                                              ^
-   kernel/locking/rwsem.c:1225:54: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1225 |         trace_android_vh_record_rwsem_lock_starttime((u64)sem, jiffies);
-         |                                                      ^
-   kernel/locking/rwsem.c: In function '__down_read_trylock':
-   kernel/locking/rwsem.c:1332:70: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1332 |                         trace_android_vh_record_rwsem_lock_starttime((u64)sem, jiffies);
-         |                                                                      ^
-   kernel/locking/rwsem.c: In function '__up_read':
-   kernel/locking/rwsem.c:1397:54: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1397 |         trace_android_vh_record_rwsem_lock_starttime((u64)sem, 0);
-         |                                                      ^
-   kernel/locking/rwsem.c: In function '__up_write':
-   kernel/locking/rwsem.c:1422:54: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1422 |         trace_android_vh_record_rwsem_lock_starttime((u64) sem, 0);
-         |                                                      ^
---
-   In file included from include/linux/fs.h:33,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:1082,
-                    from include/linux/mman.h:5,
-                    from include/linux/page_size_compat.h:27,
-                    from arch/x86/include/asm/elf.h:8,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from include/linux/static_call.h:135,
-                    from include/linux/tracepoint.h:22,
-                    from include/trace/events/lock.h:9,
-                    from kernel/locking/mutex.c:34:
-   include/linux/percpu-rwsem.h: In function 'percpu_down_read':
->> include/linux/percpu-rwsem.h:70:55: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      70 |         _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                       ^
-   include/linux/percpu-rwsem.h: In function 'percpu_down_read_trylock':
-   include/linux/percpu-rwsem.h:97:63: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      97 |                 _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                               ^
-   include/linux/percpu-rwsem.h: In function 'percpu_up_read':
-   include/linux/percpu-rwsem.h:128:55: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     128 |         _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, 0);
-         |                                                       ^
-   kernel/locking/mutex.c: In function 'mutex_unlock':
->> kernel/locking/mutex.c:564:54: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     564 |         trace_android_vh_record_mutex_lock_starttime((u64)lock, 0);
-         |                                                      ^
-   kernel/locking/mutex.c: In function '__mutex_lock_common':
-   kernel/locking/mutex.c:634:62: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     634 |                 trace_android_vh_record_mutex_lock_starttime((u64)lock, jiffies);
-         |                                                              ^
-   kernel/locking/mutex.c:753:54: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     753 |         trace_android_vh_record_mutex_lock_starttime((u64)lock, jiffies);
-         |                                                      ^
-   kernel/locking/mutex.c: In function 'mutex_trylock':
-   kernel/locking/mutex.c:1116:62: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1116 |                 trace_android_vh_record_mutex_lock_starttime((u64)lock, jiffies);
-         |                                                              ^
---
-   In file included from include/linux/fs.h:33,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:1082,
-                    from include/linux/mman.h:5,
-                    from include/linux/page_size_compat.h:27,
-                    from arch/x86/include/asm/elf.h:8,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from include/linux/static_call.h:135,
-                    from include/linux/tracepoint.h:22,
-                    from include/trace/events/lock.h:9,
-                    from kernel/locking/rtmutex.c:27,
-                    from kernel/locking/rtmutex_api.c:9:
-   include/linux/percpu-rwsem.h: In function 'percpu_down_read':
->> include/linux/percpu-rwsem.h:70:55: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      70 |         _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                       ^
-   include/linux/percpu-rwsem.h: In function 'percpu_down_read_trylock':
-   include/linux/percpu-rwsem.h:97:63: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      97 |                 _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                               ^
-   include/linux/percpu-rwsem.h: In function 'percpu_up_read':
-   include/linux/percpu-rwsem.h:128:55: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     128 |         _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, 0);
-         |                                                       ^
-   kernel/locking/rtmutex_api.c: In function '__rt_mutex_lock_common':
->> kernel/locking/rtmutex_api.c:35:64: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      35 |                 trace_android_vh_record_rtmutex_lock_starttime((u64)lock, jiffies);
-         |                                                                ^
-   kernel/locking/rtmutex_api.c: In function 'rt_mutex_trylock':
-   kernel/locking/rtmutex_api.c:129:64: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     129 |                 trace_android_vh_record_rtmutex_lock_starttime((u64)lock, jiffies);
-         |                                                                ^
-   kernel/locking/rtmutex_api.c: In function 'rt_mutex_unlock':
-   kernel/locking/rtmutex_api.c:144:56: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     144 |         trace_android_vh_record_rtmutex_lock_starttime((u64)lock, 0);
-         |                                                        ^
---
-   In file included from kernel/locking/percpu-rwsem.c:6:
-   include/linux/percpu-rwsem.h: In function 'percpu_down_read':
->> include/linux/percpu-rwsem.h:70:55: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      70 |         _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                       ^
-   include/linux/percpu-rwsem.h: In function 'percpu_down_read_trylock':
-   include/linux/percpu-rwsem.h:97:63: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      97 |                 _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                               ^
-   include/linux/percpu-rwsem.h: In function 'percpu_up_read':
-   include/linux/percpu-rwsem.h:128:55: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     128 |         _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, 0);
-         |                                                       ^
-   kernel/locking/percpu-rwsem.c: In function 'percpu_down_write':
->> kernel/locking/percpu-rwsem.c:267:54: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     267 |         trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                      ^
-   kernel/locking/percpu-rwsem.c: In function 'percpu_up_write':
-   kernel/locking/percpu-rwsem.c:298:54: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     298 |         trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, 0);
-         |                                                      ^
---
-   In file included from include/linux/fs.h:33,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:1082,
-                    from include/linux/mman.h:5,
-                    from include/linux/page_size_compat.h:27,
-                    from arch/x86/include/asm/elf.h:8,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/crypto/aria.h:22,
-                    from arch/x86/kernel/asm-offsets.c:10:
-   include/linux/percpu-rwsem.h: In function 'percpu_down_read':
->> include/linux/percpu-rwsem.h:70:55: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      70 |         _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                       ^
-   include/linux/percpu-rwsem.h: In function 'percpu_down_read_trylock':
-   include/linux/percpu-rwsem.h:97:63: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      97 |                 _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-         |                                                               ^
-   include/linux/percpu-rwsem.h: In function 'percpu_up_read':
-   include/linux/percpu-rwsem.h:128:55: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     128 |         _trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, 0);
-         |                                                       ^
+vim +1061 fs/xfs/libxfs/xfs_attr_leaf.c
 
-
-vim +70 include/linux/percpu-rwsem.h
-
-    49	
-    50	static inline void percpu_down_read(struct percpu_rw_semaphore *sem)
-    51	{
-    52		might_sleep();
-    53	
-    54		rwsem_acquire_read(&sem->dep_map, 0, 0, _RET_IP_);
-    55	
-    56		preempt_disable();
-    57		/*
-    58		 * We are in an RCU-sched read-side critical section, so the writer
-    59		 * cannot both change sem->state from readers_fast and start checking
-    60		 * counters while we are here. So if we see !sem->state, we know that
-    61		 * the writer won't be checking until we're past the preempt_enable()
-    62		 * and that once the synchronize_rcu() is done, the writer will see
-    63		 * anything we did within this RCU-sched read-size critical section.
-    64		 */
-    65		if (likely(rcu_sync_is_idle(&sem->rss)))
-    66			this_cpu_inc(*sem->read_count);
-    67		else
-    68			__percpu_down_read(sem, false); /* Unconditional memory barrier */
-    69	
-  > 70		_trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
-    71		/*
-    72		 * The preempt_enable() prevents the compiler from
-    73		 * bleeding the critical section out.
-    74		 */
-    75		preempt_enable();
-    76	}
-    77	
+  1039	
+  1040	/*
+  1041	 * Convert a leaf attribute list to shortform attribute list
+  1042	 */
+  1043	int
+  1044	xfs_attr3_leaf_to_shortform(
+  1045		struct xfs_buf		*bp,
+  1046		struct xfs_da_args	*args,
+  1047		int			forkoff)
+  1048	{
+  1049		struct xfs_attr_leafblock *leaf;
+  1050		struct xfs_attr3_icleaf_hdr ichdr;
+  1051		struct xfs_attr_leaf_entry *entry;
+  1052		struct xfs_attr_leaf_name_local *name_loc;
+  1053		struct xfs_da_args	nargs;
+  1054		struct xfs_inode	*dp = args->dp;
+  1055		char			*tmpbuffer;
+  1056		int			error;
+  1057		int			i;
+  1058	
+  1059		trace_xfs_attr_leaf_to_sf(args);
+  1060	
+> 1061		tmpbuffer = kmalloc(args->geo->blksize, GFP_KERNEL | __GFP_NOFAIL);
+  1062		if (!tmpbuffer)
+  1063			return -ENOMEM;
+  1064	
+  1065		memcpy(tmpbuffer, bp->b_addr, args->geo->blksize);
+  1066	
+  1067		leaf = (xfs_attr_leafblock_t *)tmpbuffer;
+  1068		xfs_attr3_leaf_hdr_from_disk(args->geo, &ichdr, leaf);
+  1069		entry = xfs_attr3_leaf_entryp(leaf);
+  1070	
+  1071		/* XXX (dgc): buffer is about to be marked stale - why zero it? */
+  1072		memset(bp->b_addr, 0, args->geo->blksize);
+  1073	
+  1074		/*
+  1075		 * Clean out the prior contents of the attribute list.
+  1076		 */
+  1077		error = xfs_da_shrink_inode(args, 0, bp);
+  1078		if (error)
+  1079			goto out;
+  1080	
+  1081		if (forkoff == -1) {
+  1082			/*
+  1083			 * Don't remove the attr fork if this operation is the first
+  1084			 * part of a attr replace operations. We're going to add a new
+  1085			 * attr immediately, so we need to keep the attr fork around in
+  1086			 * this case.
+  1087			 */
+  1088			if (!(args->op_flags & XFS_DA_OP_REPLACE)) {
+  1089				ASSERT(xfs_has_attr2(dp->i_mount));
+  1090				ASSERT(dp->i_df.if_format != XFS_DINODE_FMT_BTREE);
+  1091				xfs_attr_fork_remove(dp, args->trans);
+  1092			}
+  1093			goto out;
+  1094		}
+  1095	
+  1096		xfs_attr_shortform_create(args);
+  1097	
+  1098		/*
+  1099		 * Copy the attributes
+  1100		 */
+  1101		memset((char *)&nargs, 0, sizeof(nargs));
+  1102		nargs.geo = args->geo;
+  1103		nargs.dp = dp;
+  1104		nargs.total = args->total;
+  1105		nargs.whichfork = XFS_ATTR_FORK;
+  1106		nargs.trans = args->trans;
+  1107		nargs.op_flags = XFS_DA_OP_OKNOENT;
+  1108	
+  1109		for (i = 0; i < ichdr.count; entry++, i++) {
+  1110			if (entry->flags & XFS_ATTR_INCOMPLETE)
+  1111				continue;	/* don't copy partial entries */
+  1112			if (!entry->nameidx)
+  1113				continue;
+  1114			ASSERT(entry->flags & XFS_ATTR_LOCAL);
+  1115			name_loc = xfs_attr3_leaf_name_local(leaf, i);
+  1116			nargs.name = name_loc->nameval;
+  1117			nargs.namelen = name_loc->namelen;
+  1118			nargs.value = &name_loc->nameval[nargs.namelen];
+  1119			nargs.valuelen = be16_to_cpu(name_loc->valuelen);
+  1120			nargs.hashval = be32_to_cpu(entry->hashval);
+  1121			nargs.attr_filter = entry->flags & XFS_ATTR_NSP_ONDISK_MASK;
+  1122			xfs_attr_shortform_add(&nargs, forkoff);
+  1123		}
+  1124		error = 0;
+  1125	
+  1126	out:
+  1127		kmem_free(tmpbuffer);
+  1128		return error;
+  1129	}
+  1130	
 
 -- 
 0-DAY CI Kernel Test Service
