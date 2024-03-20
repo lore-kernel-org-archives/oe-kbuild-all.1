@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB42612E40
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Mar 2024 04:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCA7182A1;
+	Wed, 20 Mar 2024 05:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710909485; cv=none; b=d1wQy6LDtYBL3poRqmjNSJzl7AR7ox59acH9bdlxHtirGgCCGbPdGnl1OCE1jIB5M5DiPKf2hRRhcVpqS/YaRJqsUgNLua+M3xNwMDwCSHGNDnJbCQq3A3i0iiEdUt3CEmodTP06Ao/u58U4i4gvkB6KSIq2WGrmsauFKXBxK3c=
+	t=1710913804; cv=none; b=cE2BVy7oUs4ePT+mEReHUdsLWQ3BCdJVCYxYT7MpDv/UVCJlVbeCW+1wG7ZDtAZWP2WiwNn/bV2g1rN6ArFjl8h+kWeTyJn2CIAaq44kRWr4U7OeTOf6kfOQMpq7Gxzrevt9yVxI99CwmSBoG8AUaV7/S97Tguih+UbVDSUY4n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710909485; c=relaxed/simple;
-	bh=d/ZfEtKWY4RfqtHmrA7z0EhNkjWiMaak+QKen4XDmmY=;
+	s=arc-20240116; t=1710913804; c=relaxed/simple;
+	bh=EYFmhq8QUBZm43CCsmyp66e5PhSdVUFJzUoaBjh+xnM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t6Hh8vB6EcRG2Auyzh40yuecYfpha/8x7pMOMfY2b9x4P1tObqZ8ETv6dkZxM26+x4P+VWjEf9GqoXmAwMKrBz3H67Bz6b3pc39N0WvSPj8M0uC8QLuqk49HqM5n5hrICVQdjuztvDO+dMi++85yiB1rH87QkuI0Wi+c+O7eaVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DFoY2A3+; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=buYmgBIGLFQ/+23UsgsL+66Nklh7AiQpChcJbG6b3KsFHYc4PvE6sZB7klbpMxI5jCHXRK8B5wzDW2qneoJAJG3X/uQ0bD0+XhEvGMSMJw7IThF8SHQ/E4GLNqkTHk8m9Q59T0krQXrE3Jjf2PFo5nzXeSk8AoAp/2cbej6XKOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hp8fsBCB; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DFoY2A3+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hp8fsBCB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710909482; x=1742445482;
+  t=1710913802; x=1742449802;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d/ZfEtKWY4RfqtHmrA7z0EhNkjWiMaak+QKen4XDmmY=;
-  b=DFoY2A3+Xuiu2uHgb2KCToXECzEoRJ6hpu+tkCqX7wnhgi+yJGJd/S/l
-   RSzek9sNAR2NwKVsDRF/xd5V7oibwTQXMADkAFk7og502ktb7DA1FVEm/
-   00qkR7b0lZAn8qXGT0aejn8OiIkBLUBLhsYzgxIKN0nzeqaPch7ENMs11
-   Hn89AjkTMBqKN520TOpTMteNANBjJs5YCzYokVzrjDEtoVNAj0Rc6JShG
-   zPDLvaXe0QRUw+qJkvcog65tvvrxE4Qt8J/kO7CkAOMdTQu2E2iOD4RaM
-   hCnqC2CVqz8y92idIxmaYMl1yyoAPfjRLwUOFrS0c7R9Sh8/btHIsu4W3
+  bh=EYFmhq8QUBZm43CCsmyp66e5PhSdVUFJzUoaBjh+xnM=;
+  b=hp8fsBCB6VyUdJyfyUQPMlMIJ1r8Pncz73WMWGeSYVjFnlqc3Srx5gbl
+   cD/VcHHjpaAEdGqmxlrcMb2/kbjA2nTvgsDnO8JMomcswqrxPnqUhAf4+
+   +cbjzd3m/tNiNwa4VHCwTg3IwzlYbE9YGeDg3V+Pr4VN0zePEYHnTUPim
+   +eeuXBdn0FJoDHxonaxaDUAGVoTCEBY7D5X6k/Zag2H5qwu4fxHDLfwhU
+   UwKrG18pcPA/VEiIQh0sqaGLbLPXy5WckOrGvV+9XlxbXBH2R9sGBv/ry
+   bIMPSqEegjMPVad9dfVJf0wd2ebmC4wlyboercJrSoS4nXrmqQFrLm6pM
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="5935092"
+X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="6028065"
 X-IronPort-AV: E=Sophos;i="6.07,139,1708416000"; 
-   d="scan'208";a="5935092"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 21:38:01 -0700
+   d="scan'208";a="6028065"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 22:50:01 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,139,1708416000"; 
-   d="scan'208";a="14012527"
+   d="scan'208";a="14463361"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 19 Mar 2024 21:37:58 -0700
+  by orviesa007.jf.intel.com with ESMTP; 19 Mar 2024 22:50:00 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rmni8-000ILH-1L;
-	Wed, 20 Mar 2024 04:37:56 +0000
-Date: Wed, 20 Mar 2024 12:37:39 +0800
+	id 1rmopp-000INj-2P;
+	Wed, 20 Mar 2024 05:49:57 +0000
+Date: Wed, 20 Mar 2024 13:49:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alobakin:idpf-libie-new 50/65] include/linux/unroll.h:82:37: error:
- pasting ""Unsupported unroll count: "" and "32" does not give a valid
- preprocessing token
-Message-ID: <202403201241.0UWHOtmg-lkp@intel.com>
+To: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [linyunsheng:page_frag_cache_prototype 74/78]
+ mm/page_frag_alloc.c:92:11: error: invalid application of 'typeof' to
+ bit-field
+Message-ID: <202403201343.c6ZxdQkJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,738 +59,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alobakin/linux idpf-libie-new
-head:   3ec29f243914b957e581e1b00106eef6308d5680
-commit: 7292c0205ebac9ec5f4d2ef3076e39971beed8bd [50/65] unroll: add generic loop unroll helpers
-config: mips-allnoconfig (https://download.01.org/0day-ci/archive/20240320/202403201241.0UWHOtmg-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240320/202403201241.0UWHOtmg-lkp@intel.com/reproduce)
+tree:   https://github.com/gestionlin/linux.git page_frag_cache_prototype
+head:   7315604eb1d087836123bc9670d2be420a42d37f
+commit: 6235640ae08dd66d5f64292e2ccedfcf7c564678 [74/78] mm/page_alloc: reuse existing bit field for pfmemalloc
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240320/202403201343.c6ZxdQkJ-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240320/202403201343.c6ZxdQkJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403201241.0UWHOtmg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403201343.c6ZxdQkJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/mips/include/asm/r4kcache.h:16,
-                    from arch/mips/mm/c-r4k.c:33:
-   arch/mips/include/asm/r4kcache.h: In function 'blast_dcache16':
->> include/linux/unroll.h:82:37: error: pasting ""Unsupported unroll count: "" and "32" does not give a valid preprocessing token
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:214:25: note: in expansion of macro 'cache_unroll'
-     214 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:245:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     245 | __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/compiler_types.h:89,
-                    from <command-line>:
->> arch/mips/include/asm/r4kcache.h:214:38: error: expected ')' before numeric constant
-     214 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                                      ^~
-   include/linux/compiler_attributes.h:151:66: note: in definition of macro '__compiletime_error'
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                  ^~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:214:25: note: in expansion of macro 'cache_unroll'
-     214 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:245:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     245 | __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
->> include/linux/compiler_attributes.h:151:70: error: expected ',' or ';' before ')' token
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                      ^
-   include/linux/compiler_types.h:439:25: note: in expansion of macro '__compiletime_error'
-     439 |                         __compiletime_error(msg);                       \
-         |                         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:214:25: note: in expansion of macro 'cache_unroll'
-     214 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:245:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     245 | __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h: In function 'blast_dcache16_page':
->> include/linux/unroll.h:82:37: error: pasting ""Unsupported unroll count: "" and "32" does not give a valid preprocessing token
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:224:17: note: in expansion of macro 'cache_unroll'
-     224 |                 cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-         |                 ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:245:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     245 | __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:224:30: error: expected ')' before numeric constant
-     224 |                 cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-         |                              ^~
-   include/linux/compiler_attributes.h:151:66: note: in definition of macro '__compiletime_error'
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                  ^~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:224:17: note: in expansion of macro 'cache_unroll'
-     224 |                 cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-         |                 ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:245:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     245 | __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
->> include/linux/compiler_attributes.h:151:70: error: expected ',' or ';' before ')' token
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                      ^
-   include/linux/compiler_types.h:439:25: note: in expansion of macro '__compiletime_error'
-     439 |                         __compiletime_error(msg);                       \
-         |                         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:224:17: note: in expansion of macro 'cache_unroll'
-     224 |                 cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-         |                 ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:245:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     245 | __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h: In function 'blast_dcache16_page_indexed':
->> include/linux/unroll.h:82:37: error: pasting ""Unsupported unroll count: "" and "32" does not give a valid preprocessing token
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:241:25: note: in expansion of macro 'cache_unroll'
-     241 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:245:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     245 | __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:241:38: error: expected ')' before numeric constant
-     241 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                                      ^~
-   include/linux/compiler_attributes.h:151:66: note: in definition of macro '__compiletime_error'
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                  ^~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:241:25: note: in expansion of macro 'cache_unroll'
-     241 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:245:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     245 | __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
->> include/linux/compiler_attributes.h:151:70: error: expected ',' or ';' before ')' token
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                      ^
-   include/linux/compiler_types.h:439:25: note: in expansion of macro '__compiletime_error'
-     439 |                         __compiletime_error(msg);                       \
-         |                         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:241:25: note: in expansion of macro 'cache_unroll'
-     241 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:245:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     245 | __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h: In function 'blast_icache16':
->> include/linux/unroll.h:82:37: error: pasting ""Unsupported unroll count: "" and "32" does not give a valid preprocessing token
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:214:25: note: in expansion of macro 'cache_unroll'
-     214 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:246:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     246 | __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
->> arch/mips/include/asm/r4kcache.h:214:38: error: expected ')' before numeric constant
-     214 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                                      ^~
-   include/linux/compiler_attributes.h:151:66: note: in definition of macro '__compiletime_error'
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                  ^~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:214:25: note: in expansion of macro 'cache_unroll'
-     214 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:246:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     246 | __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
->> include/linux/compiler_attributes.h:151:70: error: expected ',' or ';' before ')' token
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                      ^
-   include/linux/compiler_types.h:439:25: note: in expansion of macro '__compiletime_error'
-     439 |                         __compiletime_error(msg);                       \
-         |                         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:214:25: note: in expansion of macro 'cache_unroll'
-     214 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:246:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     246 | __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h: In function 'blast_icache16_page':
->> include/linux/unroll.h:82:37: error: pasting ""Unsupported unroll count: "" and "32" does not give a valid preprocessing token
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:224:17: note: in expansion of macro 'cache_unroll'
-     224 |                 cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-         |                 ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:246:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     246 | __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:224:30: error: expected ')' before numeric constant
-     224 |                 cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-         |                              ^~
-   include/linux/compiler_attributes.h:151:66: note: in definition of macro '__compiletime_error'
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                  ^~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:224:17: note: in expansion of macro 'cache_unroll'
-     224 |                 cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-         |                 ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:246:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     246 | __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
->> include/linux/compiler_attributes.h:151:70: error: expected ',' or ';' before ')' token
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                      ^
-   include/linux/compiler_types.h:439:25: note: in expansion of macro '__compiletime_error'
-     439 |                         __compiletime_error(msg);                       \
-         |                         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:224:17: note: in expansion of macro 'cache_unroll'
-     224 |                 cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-         |                 ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:246:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     246 | __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h: In function 'blast_icache16_page_indexed':
->> include/linux/unroll.h:82:37: error: pasting ""Unsupported unroll count: "" and "32" does not give a valid preprocessing token
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:241:25: note: in expansion of macro 'cache_unroll'
-     241 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:246:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     246 | __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:241:38: error: expected ')' before numeric constant
-     241 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                                      ^~
-   include/linux/compiler_attributes.h:151:66: note: in definition of macro '__compiletime_error'
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                  ^~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:241:25: note: in expansion of macro 'cache_unroll'
-     241 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:246:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     246 | __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
->> include/linux/compiler_attributes.h:151:70: error: expected ',' or ';' before ')' token
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                      ^
-   include/linux/compiler_types.h:439:25: note: in expansion of macro '__compiletime_error'
-     439 |                         __compiletime_error(msg);                       \
-         |                         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:241:25: note: in expansion of macro 'cache_unroll'
-     241 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:246:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     246 | __BUILD_BLAST_CACHE(i, icache, Index_Invalidate_I, Hit_Invalidate_I, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h: In function 'blast_scache16':
->> include/linux/unroll.h:82:37: error: pasting ""Unsupported unroll count: "" and "32" does not give a valid preprocessing token
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:214:25: note: in expansion of macro 'cache_unroll'
-     214 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:247:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     247 | __BUILD_BLAST_CACHE(s, scache, Index_Writeback_Inv_SD, Hit_Writeback_Inv_SD, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
->> arch/mips/include/asm/r4kcache.h:214:38: error: expected ')' before numeric constant
-     214 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                                      ^~
-   include/linux/compiler_attributes.h:151:66: note: in definition of macro '__compiletime_error'
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                  ^~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:214:25: note: in expansion of macro 'cache_unroll'
-     214 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:247:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     247 | __BUILD_BLAST_CACHE(s, scache, Index_Writeback_Inv_SD, Hit_Writeback_Inv_SD, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
->> include/linux/compiler_attributes.h:151:70: error: expected ',' or ';' before ')' token
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                      ^
-   include/linux/compiler_types.h:439:25: note: in expansion of macro '__compiletime_error'
-     439 |                         __compiletime_error(msg);                       \
-         |                         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:214:25: note: in expansion of macro 'cache_unroll'
-     214 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:247:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     247 | __BUILD_BLAST_CACHE(s, scache, Index_Writeback_Inv_SD, Hit_Writeback_Inv_SD, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h: In function 'blast_scache16_page':
->> include/linux/unroll.h:82:37: error: pasting ""Unsupported unroll count: "" and "32" does not give a valid preprocessing token
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:224:17: note: in expansion of macro 'cache_unroll'
-     224 |                 cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-         |                 ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:247:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     247 | __BUILD_BLAST_CACHE(s, scache, Index_Writeback_Inv_SD, Hit_Writeback_Inv_SD, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:224:30: error: expected ')' before numeric constant
-     224 |                 cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-         |                              ^~
-   include/linux/compiler_attributes.h:151:66: note: in definition of macro '__compiletime_error'
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                  ^~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:224:17: note: in expansion of macro 'cache_unroll'
-     224 |                 cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-         |                 ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:247:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     247 | __BUILD_BLAST_CACHE(s, scache, Index_Writeback_Inv_SD, Hit_Writeback_Inv_SD, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
->> include/linux/compiler_attributes.h:151:70: error: expected ',' or ';' before ')' token
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                      ^
-   include/linux/compiler_types.h:439:25: note: in expansion of macro '__compiletime_error'
-     439 |                         __compiletime_error(msg);                       \
-         |                         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:224:17: note: in expansion of macro 'cache_unroll'
-     224 |                 cache_unroll(32, kernel_cache, hitop, start, lsize);    \
-         |                 ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:247:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     247 | __BUILD_BLAST_CACHE(s, scache, Index_Writeback_Inv_SD, Hit_Writeback_Inv_SD, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h: In function 'blast_scache16_page_indexed':
->> include/linux/unroll.h:82:37: error: pasting ""Unsupported unroll count: "" and "32" does not give a valid preprocessing token
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:241:25: note: in expansion of macro 'cache_unroll'
-     241 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:247:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     247 | __BUILD_BLAST_CACHE(s, scache, Index_Writeback_Inv_SD, Hit_Writeback_Inv_SD, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:241:38: error: expected ')' before numeric constant
-     241 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                                      ^~
-   include/linux/compiler_attributes.h:151:66: note: in definition of macro '__compiletime_error'
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                  ^~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:241:25: note: in expansion of macro 'cache_unroll'
-     241 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:247:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     247 | __BUILD_BLAST_CACHE(s, scache, Index_Writeback_Inv_SD, Hit_Writeback_Inv_SD, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:151:70: error: expected ',' or ';' before ')' token
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                      ^
-   include/linux/compiler_types.h:439:25: note: in expansion of macro '__compiletime_error'
-     439 |                         __compiletime_error(msg);                       \
-         |                         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:241:25: note: in expansion of macro 'cache_unroll'
-     241 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:247:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     247 | __BUILD_BLAST_CACHE(s, scache, Index_Writeback_Inv_SD, Hit_Writeback_Inv_SD, 16, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h: In function 'blast_dcache32':
-   include/linux/unroll.h:82:37: error: pasting ""Unsupported unroll count: "" and "32" does not give a valid preprocessing token
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:214:25: note: in expansion of macro 'cache_unroll'
-     214 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                         ^~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:248:1: note: in expansion of macro '__BUILD_BLAST_CACHE'
-     248 | __BUILD_BLAST_CACHE(d, dcache, Index_Writeback_Inv_D, Hit_Writeback_Inv_D, 32, )
-         | ^~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:214:38: error: expected ')' before numeric constant
-     214 |                         cache_unroll(32, kernel_cache, indexop,         \
-         |                                      ^~
-   include/linux/compiler_attributes.h:151:66: note: in definition of macro '__compiletime_error'
-     151 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                                  ^~~
-   include/linux/compiler_types.h:448:9: note: in expansion of macro '__compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/unroll.h:82:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      82 |                 BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-         |                 ^~~~~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:197:9: note: in expansion of macro 'unrolled_call'
-     197 |         unrolled_call(times, _cache_op, insn, op,                       \
-         |         ^~~~~~~~~~~~~
-   arch/mips/include/asm/r4kcache.h:214:25: note: in expansion of macro 'cache_unroll'
-..
+   In file included from mm/page_frag_alloc.c:17:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> mm/page_frag_alloc.c:92:11: error: invalid application of 'typeof' to bit-field
+      92 |         offset = ALIGN(nc->offset, -align_mask);
+         |                  ^
+   include/linux/align.h:8:22: note: expanded from macro 'ALIGN'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^
+   include/uapi/linux/const.h:31:65: note: expanded from macro '__ALIGN_KERNEL'
+      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (__typeof__(x))(a) - 1)
+         |                                                                           ^
+>> mm/page_frag_alloc.c:92:11: error: invalid application of 'typeof' to bit-field
+   include/linux/align.h:8:22: note: expanded from macro 'ALIGN'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^
+   include/uapi/linux/const.h:31:65: note: expanded from macro '__ALIGN_KERNEL'
+      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (__typeof__(x))(a) - 1)
+         |                                                                           ^
+   5 warnings and 2 errors generated.
 
 
-vim +82 include/linux/unroll.h
+vim +/typeof +92 mm/page_frag_alloc.c
 
-    16	
-    17	#define unrolled							    \
-    18		__pick_unrolled(clang loop unroll(enable), /* nothing */)
-    19	#define unrolled_count(n)						    \
-    20		__pick_unrolled(clang loop unroll_count(n), GCC unroll n)
-    21	#define unrolled_full							    \
-    22		__pick_unrolled(clang loop unroll(full), GCC unroll 65534)
-    23	#define unrolled_none							    \
-    24		__pick_unrolled(clang loop unroll(disable), GCC unroll 1)
-    25	
-    26	/**
-    27	 * unrolled_call - explicitly unroll a loop, for use in cases where doing so
-    28	 * is performance critical
-    29	 * @times: number of times to call @fn
-    30	 * @fn: function to call repeatedly
-    31	 *
-    32	 * Ideally we'd rely upon the compiler to provide this but there's no commonly
-    33	 * available means to do so. For example GCC's `#pragma GCC unroll`
-    34	 * functionality would be ideal but is only available from GCC 8 onwards.
-    35	 * Using `-funroll-loops` is an option but GCC tends to make poor choices when
-    36	 * compiling string functions. `-funroll-all-loops` leads to massive code
-    37	 * bloat, even if only applied to the string functions.
-    38	 */
-    39	#define unrolled_call(times, fn, ...) do {				    \
-    40		static_assert(__builtin_constant_p(times));			    \
-    41										    \
-    42		switch (times) {						    \
-    43		case 32: fn(__VA_ARGS__); fallthrough;				    \
-    44		case 31: fn(__VA_ARGS__); fallthrough;				    \
-    45		case 30: fn(__VA_ARGS__); fallthrough;				    \
-    46		case 29: fn(__VA_ARGS__); fallthrough;				    \
-    47		case 28: fn(__VA_ARGS__); fallthrough;				    \
-    48		case 27: fn(__VA_ARGS__); fallthrough;				    \
-    49		case 26: fn(__VA_ARGS__); fallthrough;				    \
-    50		case 25: fn(__VA_ARGS__); fallthrough;				    \
-    51		case 24: fn(__VA_ARGS__); fallthrough;				    \
-    52		case 23: fn(__VA_ARGS__); fallthrough;				    \
-    53		case 22: fn(__VA_ARGS__); fallthrough;				    \
-    54		case 21: fn(__VA_ARGS__); fallthrough;				    \
-    55		case 20: fn(__VA_ARGS__); fallthrough;				    \
-    56		case 19: fn(__VA_ARGS__); fallthrough;				    \
-    57		case 18: fn(__VA_ARGS__); fallthrough;				    \
-    58		case 17: fn(__VA_ARGS__); fallthrough;				    \
-    59		case 16: fn(__VA_ARGS__); fallthrough;				    \
-    60		case 15: fn(__VA_ARGS__); fallthrough;				    \
-    61		case 14: fn(__VA_ARGS__); fallthrough;				    \
-    62		case 13: fn(__VA_ARGS__); fallthrough;				    \
-    63		case 12: fn(__VA_ARGS__); fallthrough;				    \
-    64		case 11: fn(__VA_ARGS__); fallthrough;				    \
-    65		case 10: fn(__VA_ARGS__); fallthrough;				    \
-    66		case 9: fn(__VA_ARGS__); fallthrough;				    \
-    67		case 8: fn(__VA_ARGS__); fallthrough;				    \
-    68		case 7: fn(__VA_ARGS__); fallthrough;				    \
-    69		case 6: fn(__VA_ARGS__); fallthrough;				    \
-    70		case 5: fn(__VA_ARGS__); fallthrough;				    \
-    71		case 4: fn(__VA_ARGS__); fallthrough;				    \
-    72		case 3: fn(__VA_ARGS__); fallthrough;				    \
-    73		case 2: fn(__VA_ARGS__); fallthrough;				    \
-    74		case 1: fn(__VA_ARGS__); fallthrough;				    \
-    75		case 0:								    \
-    76			break;							    \
-    77		default:							    \
-    78			/*							    \
-    79			 * Either the iteration count is unreasonable or we need    \
-    80			 * to add more cases above.				    \
-    81			 */							    \
-  > 82			BUILD_BUG_ON_MSG(1, "Unsupported unroll count: " ##times);  \
-    83			break;							    \
-    84		}								    \
-    85	} while (0)
-    86	
+c8f66d331fd5a2 Yunsheng Lin 2023-12-01   91  
+c8f66d331fd5a2 Yunsheng Lin 2023-12-01  @92  	offset = ALIGN(nc->offset, -align_mask);
+c8f66d331fd5a2 Yunsheng Lin 2023-12-01   93  	if (unlikely(offset + fragsz > size)) {
+e66f049407d1fc Yunsheng Lin 2024-03-16   94  		page = virt_to_page(nc->va);
+e66f049407d1fc Yunsheng Lin 2024-03-16   95  
+e66f049407d1fc Yunsheng Lin 2024-03-16   96  		if (!page_ref_sub_and_test(page, nc->pagecnt_bias))
+e66f049407d1fc Yunsheng Lin 2024-03-16   97  			goto refill;
+e66f049407d1fc Yunsheng Lin 2024-03-16   98  
+e66f049407d1fc Yunsheng Lin 2024-03-16   99  		if (unlikely(nc->pfmemalloc)) {
+e66f049407d1fc Yunsheng Lin 2024-03-16  100  			free_unref_page(page, compound_order(page));
+e66f049407d1fc Yunsheng Lin 2024-03-16  101  			goto refill;
+e66f049407d1fc Yunsheng Lin 2024-03-16  102  		}
+e66f049407d1fc Yunsheng Lin 2024-03-16  103  
+e66f049407d1fc Yunsheng Lin 2024-03-16  104  		/* OK, page count is 0, we can safely set it */
+e66f049407d1fc Yunsheng Lin 2024-03-16  105  		set_page_count(page, PAGE_FRAG_CACHE_MAX_SIZE + 1);
+e66f049407d1fc Yunsheng Lin 2024-03-16  106  
+e66f049407d1fc Yunsheng Lin 2024-03-16  107  		/* reset page count bias and offset to start of new frag */
+e66f049407d1fc Yunsheng Lin 2024-03-16  108  		nc->pagecnt_bias = PAGE_FRAG_CACHE_MAX_SIZE + 1;
+c8f66d331fd5a2 Yunsheng Lin 2023-12-01  109  		offset = 0;
+c8f66d331fd5a2 Yunsheng Lin 2023-12-01  110  		if (unlikely(fragsz > size)) {
+e66f049407d1fc Yunsheng Lin 2024-03-16  111  			/*
+e66f049407d1fc Yunsheng Lin 2024-03-16  112  			 * The caller is trying to allocate a fragment
+e66f049407d1fc Yunsheng Lin 2024-03-16  113  			 * with fragsz > PAGE_SIZE but the cache isn't big
+e66f049407d1fc Yunsheng Lin 2024-03-16  114  			 * enough to satisfy the request, this may
+e66f049407d1fc Yunsheng Lin 2024-03-16  115  			 * happen in low memory conditions.
+e66f049407d1fc Yunsheng Lin 2024-03-16  116  			 * We don't release the cache page because
+e66f049407d1fc Yunsheng Lin 2024-03-16  117  			 * it could make memory pressure worse
+e66f049407d1fc Yunsheng Lin 2024-03-16  118  			 * so we simply return NULL here.
+e66f049407d1fc Yunsheng Lin 2024-03-16  119  			 */
+e66f049407d1fc Yunsheng Lin 2024-03-16  120  			return NULL;
+e66f049407d1fc Yunsheng Lin 2024-03-16  121  		}
+e66f049407d1fc Yunsheng Lin 2024-03-16  122  	}
+e66f049407d1fc Yunsheng Lin 2024-03-16  123  
+e66f049407d1fc Yunsheng Lin 2024-03-16  124  	nc->pagecnt_bias--;
+c8f66d331fd5a2 Yunsheng Lin 2023-12-01  125  	nc->offset = offset + fragsz;
+e66f049407d1fc Yunsheng Lin 2024-03-16  126  
+e66f049407d1fc Yunsheng Lin 2024-03-16  127  	return nc->va + offset;
+e66f049407d1fc Yunsheng Lin 2024-03-16  128  }
+e66f049407d1fc Yunsheng Lin 2024-03-16  129  EXPORT_SYMBOL(__page_frag_alloc_align);
+e66f049407d1fc Yunsheng Lin 2024-03-16  130  
+
+:::::: The code at line 92 was first introduced by commit
+:::::: c8f66d331fd5a2c000f5c5aebe181c9def4e1f3a mm/page_alloc: use initial zero offset for page_frag_alloc_align()
+
+:::::: TO: Yunsheng Lin <linyunsheng@huawei.com>
+:::::: CC: Yunsheng Lin <linyunsheng@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
