@@ -1,59 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34F92AF18
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 08:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47B8C2E6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 09:11:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711009425; cv=none; b=R6GCllFbndo0srYcdNAzIHQtlaMLrvVFIJ9fbZA3nkQ8ksuAMhDI3dvxO3Y15uKKawk1qUoawastZJyu+0NSodfs94vhztNqKW45JryYT5BZ0NearLlzxuB2fVHwYh61EyhK3eOVmSVe6QB8WzdVjCJ0r9mz8JAd0smTL5o0WLc=
+	t=1711012305; cv=none; b=hRtQH1ZQrc+TAPpGROX7O1yBZLQPSAr6F3CqTMVD2yQDXwsFOOTDAvUaY0mvUr6zvqPbmdnpB1C8PYYEFc+sEM2rS62IgLcP581tlSeilAR6QLPHSUTpOHyMbOjIFgR5co37ykEwdaX/BEDwUeOoyjXG8RcltG6xHUM5Lk0iELQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711009425; c=relaxed/simple;
-	bh=ICh11Y75BvftoU+591L7NnAkxkEdEjRgHnNIeW21dlM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ac8B7bKpQZOSEJyyXFSvhZYwT+zuzxPse9gozKdgYdhSi/LzUIvvlzfUQshco4SegYoPLWC+ElXuNzvz530tZQt1cdFH6zhMpUMOLBxsA/fAfxZNCIfmzo1J13uUvCsorhWLLsEM4qGV1Q8zEkAEkkP1flVkUkxxKXlMglxgMVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ddp26ior; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1711012305; c=relaxed/simple;
+	bh=0NIU+TJsUOzjrs8pO6/ItcR0avG8D3Okh7qfg8hVwnY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=umj+uJQOooYPVCo2MCkBoPgf4+dwVx3BVUlO+8jv3YLqJcAaJ893Hhmi1QyALVmTZdn6/RRtoK48BaONfWuLWBFBDpv2IJVZIjS+7eCJ6k2SOp0w7aqqZHDt4jYcevQKD1zJWP9E60xDscEYh8qoYstRyNj/KtTlkBpHFvntDAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XJuyVuK7; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ddp26ior"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XJuyVuK7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711009423; x=1742545423;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ICh11Y75BvftoU+591L7NnAkxkEdEjRgHnNIeW21dlM=;
-  b=Ddp26iorOv20iINbuJ1U6OlVDO98KfEjnuGOmD3zcjiqlAFbCtcc0k/3
-   rohXgOJurLv7z1g8OS2TFdQj0qx+R8qMXLan7Loxx1ESdxgcSpVR/LF3n
-   NMaEztJUv3a+FU7/N2H4V+TxCx3WXMxRcgqMTfrdBC29PbdnvrpegXpAI
-   bamQzOicLEpv86ToQTHStL/TbFks3FBPzA6xI0WZApgvm387Mx9tR9fXG
-   mJ3YbWUmLCn4vtJI1yKd8WgRy7qBeU/uu92RPTeuGrYAMIFd6O4AsWb4K
-   81aNQMhKHKhuOJckNm1fw8UoM+TX9FVgXx6m+bk14spUjR1+VbH3Y6tbb
+  t=1711012304; x=1742548304;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=0NIU+TJsUOzjrs8pO6/ItcR0avG8D3Okh7qfg8hVwnY=;
+  b=XJuyVuK71DZnfmOb5huYX6jcGRBeS9cvgX49HbXRMUaOwbYNvBoqa0/b
+   +SvuNHrp6Ha/GQyHjvonGSt4mRLc2u3KPE07+aL9c2Bih0IKKbYQzx7bn
+   Gz5hGvTMw4SOInhqyvN86jA3nJat7ihy5ilgGu8N0HdPA2+0z4VbFYh8P
+   hnnlw4my/EcINUqBZJPotl7Lu1cqoh7YeWXKqIkZVbbw2lZSTvXZuOjDT
+   8NLe/59CYszEmoFdMUunyo4optpCMGXnLD6QxRrMYxoVHswox2boFAoGI
+   hTdB7iAh1u0BtEFNlIh5ntwBuv03Ulr4ElXyJG+vCO4J7StHr+ttpL9AB
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="6591111"
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="31424811"
 X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="6591111"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 01:23:42 -0700
+   d="scan'208";a="31424811"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 02:11:43 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="19148518"
+   d="scan'208";a="14446650"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 21 Mar 2024 01:23:39 -0700
+  by orviesa009.jf.intel.com with ESMTP; 21 Mar 2024 02:11:41 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rnDi4-000JGt-2I;
-	Thu, 21 Mar 2024 08:23:36 +0000
-Date: Thu, 21 Mar 2024 16:22:51 +0800
+	id 1rnESZ-000JIR-1K;
+	Thu, 21 Mar 2024 09:11:39 +0000
+Date: Thu, 21 Mar 2024 17:11:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
-	jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, jani.nikula@linux.intel.com, airlied@gmail.com,
-	daniel@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v5 13/13] drm/ast: Automatically clean up poll helper
-Message-ID: <202403211604.aM8tDovD-lkp@intel.com>
-References: <20240320093738.6341-14-tzimmermann@suse.de>
+To: Guo Mengqi <guomengqi3@huawei.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] drm/vkms: call drm_atomic_helper_shutdown before
+ drm_dev_put()
+Message-ID: <Zfv5uwalPfiJQx1M@28e5c5ca316a>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +58,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240320093738.6341-14-tzimmermann@suse.de>
+In-Reply-To: <20240321070752.81405-1-guomengqi3@huawei.com>
 
-Hi Thomas,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8 next-20240320]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-ast-Include-linux-of-h-where-necessary/20240320-174013
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240320093738.6341-14-tzimmermann%40suse.de
-patch subject: [PATCH v5 13/13] drm/ast: Automatically clean up poll helper
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240321/202403211604.aM8tDovD-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240321/202403211604.aM8tDovD-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403211604.aM8tDovD-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_probe_helper.c:965: warning: expecting prototype for devm_drm_kms_helper_poll_init(). Prototype was for drmm_kms_helper_poll_init() instead
-
-
-vim +965 drivers/gpu/drm/drm_probe_helper.c
-
-   950	
-   951	/**
-   952	 * devm_drm_kms_helper_poll_init - initialize and enable output polling
-   953	 * @dev: drm_device
-   954	 *
-   955	 * This function initializes and then also enables output polling support for
-   956	 * @dev similar to drm_kms_helper_poll_init(). Polling will automatically be
-   957	 * cleaned up when the DRM device goes away.
-   958	 *
-   959	 * See drm_kms_helper_poll_init() for more information.
-   960	 *
-   961	 * Returns:
-   962	 * 0 on success, or a negative errno code otherwise.
-   963	 */
-   964	int drmm_kms_helper_poll_init(struct drm_device *dev)
- > 965	{
-   966		drm_kms_helper_poll_init(dev);
-   967	
-   968		return drmm_add_action_or_reset(dev, drm_kms_helper_poll_init_release, dev);
-   969	}
-   970	EXPORT_SYMBOL(drmm_kms_helper_poll_init);
-   971	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] drm/vkms: call drm_atomic_helper_shutdown before drm_dev_put()
+Link: https://lore.kernel.org/stable/20240321070752.81405-1-guomengqi3%40huawei.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
