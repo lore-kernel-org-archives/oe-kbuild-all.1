@@ -1,54 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C5C1E87E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Mar 2024 23:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B487EC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 01:10:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710978512; cv=none; b=qoAyvVsD3p4jpAdkJCKd9XlqFsaBNDtvefPpmNYfivjW+sjEG/8unZ9NTcZuqomg90eSx4Ert1bpDnG2FzxUJnG/m02ttRpHsnPjCrici9fEcPzvEg+v7ADtlVll2+XZmjvRBNOzBKz58SaXbYasBDdLq9x1scvxFLISUJ4My6g=
+	t=1710983435; cv=none; b=MymrnwLk6uB3AqsxZTiZE+W5XHxOnAaL2LHvphpc5baz9fiNus108r8N+rmyzIyTXVdkBMmU7xFIwC3v5h90JdUv0G2TOw2Iy0NCu3rW9jceyMS6/8/SteftsqXeF7AFgTq2Y+GXVHDOjl4CLaWoeqRLin3LGy7OEDVILDL8xOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710978512; c=relaxed/simple;
-	bh=57lrx6iSbXemQQpdOlxh96Dti83TjnAeIiw2En3DHyg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dfajDLf4YyRJ4IlzIYNH+WdECGXi9g1pUSz1kkKzs06fDK48KKhhkjUreV0/BUGP3hjOqIHADP40jipKMs8KGXh6x1Tb7wI4PXmNolekFL3UiDU8A3aXShdf4jL2b7QeIQCiJ24an/IqE+VKeUWtRyPzpsKYBv/bKNOFovCqcMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RQohIhQc; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1710983435; c=relaxed/simple;
+	bh=2w1fH3LDsNuaN6Ld0HB4fkphXyRR53FgPKy5ZeIFQA0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jZyBaTNZkzdl/gmDqsXUhhnCvf4bIgjwo2NpnCebMyNPxUIvgJpSMW9gtwCKnI3yawifpdLiUReFCpiG31ZtBFmwGIhVcr6Lg7mHMx+9B09eQVModP07VCenM0rIIXdky3LopKPaPPsJTrRSDT5HVyUbB02PtkYo4wZGemko92w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ICyHrNbx; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RQohIhQc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ICyHrNbx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710978508; x=1742514508;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=57lrx6iSbXemQQpdOlxh96Dti83TjnAeIiw2En3DHyg=;
-  b=RQohIhQc3znc6rDcUXR52+tqqaaQIUIjS+R3DF8wV5vsURFw6q6bvID5
-   Hz0mE6Kjd/aPanpDs40w5g37vAuYUjbUf7qg8z211rfWfR9CIvLIcv206
-   DkGBbgh7CY2rKzyFZHL7U5QZcFiJvEq0ug89XWsgOIndnMUh4vFbQu8mC
-   KpNoLl1j4u3tBdSdLMc2AjgLnHLfDI2Qg8xkwT5elrLzMJ5g7CqbwlPrL
-   54Vzy27HZO+Fc45R3u0f/d7kSg0/K42eCEuBeb+YOcg4D+kRgVIThtgZP
-   Kz6Ku+0BcZ7WmxIv/b+vkALFwYdTdOE9aFNLA3YVVXQfCEJvYs/1x4874
+  t=1710983434; x=1742519434;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2w1fH3LDsNuaN6Ld0HB4fkphXyRR53FgPKy5ZeIFQA0=;
+  b=ICyHrNbxbfw3QY5Wkzxk0NZysf5ZVisxDfEkoqmoDS8waLkXGQ8SdqO5
+   dx/iodemB4UuZa250MzrW8DrzayPvTLO1IGXWzFy25HzTN9UqJkXfCBFz
+   3e+kyGW137JYCd4XLqERAUeP+LHvt7AC4nUMUmSOsKkrhj9vQqKVfvI5G
+   tA49EykvJc/jUp8mvJXGNwM0me2JP3J1oNDvG8IqmFoocq9QYGw0sb9Kl
+   bJ8JVeYWS10yUZKsQxoth1kmkh0X0bZot7UAF3VXTj/oSDsBdxt/wE4FO
+   P/MLZcmw5BuQlr8lMOtmqDWE2Nk5eDa+jsk1pEFYFF7xqm3l6GMCNdSYF
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="6120443"
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="5833811"
 X-IronPort-AV: E=Sophos;i="6.07,141,1708416000"; 
-   d="scan'208";a="6120443"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 16:48:27 -0700
+   d="scan'208";a="5833811"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 18:10:33 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,141,1708416000"; 
-   d="scan'208";a="14214465"
+   d="scan'208";a="45436962"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Mar 2024 16:48:27 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 20 Mar 2024 18:10:29 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rn5fV-000J0d-0N;
-	Wed, 20 Mar 2024 23:48:25 +0000
-Date: Thu, 21 Mar 2024 07:47:25 +0800
+	id 1rn6ws-000J3X-34;
+	Thu, 21 Mar 2024 01:10:26 +0000
+Date: Thu, 21 Mar 2024 09:10:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.1 1/3]
- arch/arm64/kvm/hyp/nvhe/hyp-main.c:770:6: warning: unused variable 'zcr_el2'
-Message-ID: <202403210724.yOiHufN8-lkp@intel.com>
+To: Sudan Landge <sudanl@amazon.com>, tytso@mit.edu, Jason@zx2c4.com,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, sathyanarayanan.kuppuswamy@linux.intel.com,
+	thomas.lendacky@amd.com, dan.j.williams@intel.com,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, graf@amazon.de, dwmw@amazon.co.uk,
+	bchalios@amazon.es, xmarcalx@amazon.co.uk
+Subject: Re: [PATCH v1 4/4] virt: vmgenid: add support for devicetree bindings
+Message-ID: <202403210806.pMEGAp0x-lkp@intel.com>
+References: <20240319143253.22317-5-sudanl@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,344 +63,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240319143253.22317-5-sudanl@amazon.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.1
-head:   d1835065fcfdece30b2393babca1371041d5f5e2
-commit: c432f4f2755c515bb9b15a7253d0f249a6a946cc [1/3] ANDROID: KVM: arm64: Use active guest SVE vector length on save/restore
-config: arm64-randconfig-001-20240321 (https://download.01.org/0day-ci/archive/20240321/202403210724.yOiHufN8-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240321/202403210724.yOiHufN8-lkp@intel.com/reproduce)
+Hi Sudan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.8 next-20240320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sudan-Landge/virt-vmgenid-rearrange-code-to-make-review-easier/20240319-223642
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240319143253.22317-5-sudanl%40amazon.com
+patch subject: [PATCH v1 4/4] virt: vmgenid: add support for devicetree bindings
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240321/202403210806.pMEGAp0x-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240321/202403210806.pMEGAp0x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403210724.yOiHufN8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403210806.pMEGAp0x-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:473:28: note: previous initialization is here
-     473 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:475:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     475 |         [ESR_ELx_EC_HVC64]              = handle_pvm_entry_hvc64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:473:28: note: previous initialization is here
-     473 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     476 |         [ESR_ELx_EC_SYS64]              = handle_pvm_entry_sys64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:473:28: note: previous initialization is here
-     473 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:477:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     477 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_entry_iabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:473:28: note: previous initialization is here
-     473 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:478:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     478 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_entry_dabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:473:28: note: previous initialization is here
-     473 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:483:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     483 |         [ESR_ELx_EC_WFx]                = handle_pvm_exit_wfx,
-         |                                           ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:482:28: note: previous initialization is here
-     482 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:484:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     484 |         [ESR_ELx_EC_HVC64]              = handle_pvm_exit_hvc64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:482:28: note: previous initialization is here
-     482 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:485:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     485 |         [ESR_ELx_EC_SYS64]              = handle_pvm_exit_sys64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:482:28: note: previous initialization is here
-     482 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:486:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     486 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_exit_iabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:482:28: note: previous initialization is here
-     482 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:487:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     487 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_exit_dabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:482:28: note: previous initialization is here
-     482 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:496:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     496 |         [ESR_ELx_EC_IABT_LOW]           = handle_vm_exit_abt,
-         |                                           ^~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:495:28: note: previous initialization is here
-     495 |         [0 ... ESR_ELx_EC_MAX]          = handle_vm_exit_generic,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:497:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     497 |         [ESR_ELx_EC_DABT_LOW]           = handle_vm_exit_abt,
-         |                                           ^~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:495:28: note: previous initialization is here
-     495 |         [0 ... ESR_ELx_EC_MAX]          = handle_vm_exit_generic,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/hyp-main.c:770:6: warning: unused variable 'zcr_el2' [-Wunused-variable]
-     770 |         u64 zcr_el2 = min(zcr_el1, vcpu_sve_max_vq(vcpu) - 1ULL);
-         |             ^~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:799:8: warning: unused variable 'vq_len' [-Wunused-variable]
-     799 |                         u64 vq_len = sve_vq_from_vl(kvm_host_sve_max_vl) - 1;
-         |                             ^~~~~~
-   16 warnings and 1 error generated.
---
-   In file included from arch/arm64/kvm/hyp/nvhe/switch.c:7:
-   In file included from arch/arm64/kvm/hyp/include/hyp/switch.h:10:
-   In file included from arch/arm64/kvm/hyp/include/hyp/adjust_pc.h:13:
-   In file included from arch/arm64/include/asm/kvm_emulate.h:14:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2025:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from arch/arm64/kvm/hyp/nvhe/switch.c:7:
->> arch/arm64/kvm/hyp/include/hyp/switch.h:246:6: warning: unused variable 'zcr_el2' [-Wunused-variable]
-     246 |         u64 zcr_el2 = min(zcr_el1, vcpu_sve_max_vq(vcpu) - 1ULL);
-         |             ^~~~~~~
-   In file included from arch/arm64/kvm/hyp/nvhe/switch.c:29:
-   In file included from arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:14:
-   In file included from arch/arm64/kvm/hyp/include/nvhe/memory.h:9:
-   arch/arm64/kvm/hyp/include/nvhe/refcount.h:35:15: error: expected string literal in 'asm'
-      35 |         asm volatile(__LSE_PREAMBLE
-         |                      ^
-   arch/arm64/kvm/hyp/nvhe/switch.c:216:7: warning: unused variable 'vq_len' [-Wunused-variable]
-     216 |                 u64 vq_len = sve_vq_from_vl(kvm_host_sve_max_vl) - 1;
-         |                     ^~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:234:26: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     234 |         [ESR_ELx_EC_CP15_32]            = kvm_hyp_handle_cp15_32,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:233:28: note: previous initialization is here
-     233 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:235:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     235 |         [ESR_ELx_EC_HVC64]              = kvm_hyp_handle_hvc64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:233:28: note: previous initialization is here
-     233 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:236:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     236 |         [ESR_ELx_EC_SYS64]              = kvm_hyp_handle_sysreg,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:233:28: note: previous initialization is here
-     233 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:237:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     237 |         [ESR_ELx_EC_SVE]                = kvm_hyp_handle_fpsimd,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:233:28: note: previous initialization is here
-     233 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:238:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     238 |         [ESR_ELx_EC_FP_ASIMD]           = kvm_hyp_handle_fpsimd,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:233:28: note: previous initialization is here
-     233 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:239:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     239 |         [ESR_ELx_EC_IABT_LOW]           = kvm_hyp_handle_iabt_low,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:233:28: note: previous initialization is here
-     233 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:240:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     240 |         [ESR_ELx_EC_DABT_LOW]           = kvm_hyp_handle_dabt_low,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:233:28: note: previous initialization is here
-     233 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:241:29: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     241 |         [ESR_ELx_EC_WATCHPT_LOW]        = kvm_hyp_handle_watchpt_low,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:233:28: note: previous initialization is here
-     233 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:242:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     242 |         [ESR_ELx_EC_PAC]                = kvm_hyp_handle_ptrauth,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:233:28: note: previous initialization is here
-     233 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:247:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     247 |         [ESR_ELx_EC_HVC64]              = kvm_handle_pvm_hvc64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:246:28: note: previous initialization is here
-     246 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
---
-   In file included from arch/arm64/kvm/hyp/vhe/switch.c:7:
-   In file included from arch/arm64/kvm/hyp/include/hyp/switch.h:10:
-   In file included from arch/arm64/kvm/hyp/include/hyp/adjust_pc.h:13:
-   In file included from arch/arm64/include/asm/kvm_emulate.h:14:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2025:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from arch/arm64/kvm/hyp/vhe/switch.c:7:
->> arch/arm64/kvm/hyp/include/hyp/switch.h:246:6: warning: unused variable 'zcr_el2' [-Wunused-variable]
-     246 |         u64 zcr_el2 = min(zcr_el1, vcpu_sve_max_vq(vcpu) - 1ULL);
-         |             ^~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:166:26: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     166 |         [ESR_ELx_EC_CP15_32]            = kvm_hyp_handle_cp15_32,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:165:28: note: previous initialization is here
-     165 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:167:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     167 |         [ESR_ELx_EC_SYS64]              = kvm_hyp_handle_sysreg,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:165:28: note: previous initialization is here
-     165 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:168:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     168 |         [ESR_ELx_EC_SVE]                = kvm_hyp_handle_fpsimd,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:165:28: note: previous initialization is here
-     165 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:169:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     169 |         [ESR_ELx_EC_FP_ASIMD]           = kvm_hyp_handle_fpsimd,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:165:28: note: previous initialization is here
-     165 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:170:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     170 |         [ESR_ELx_EC_IABT_LOW]           = kvm_hyp_handle_iabt_low,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:165:28: note: previous initialization is here
-     165 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:171:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     171 |         [ESR_ELx_EC_DABT_LOW]           = kvm_hyp_handle_dabt_low,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:165:28: note: previous initialization is here
-     165 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:172:29: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     172 |         [ESR_ELx_EC_WATCHPT_LOW]        = kvm_hyp_handle_watchpt_low,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:165:28: note: previous initialization is here
-     165 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:173:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     173 |         [ESR_ELx_EC_PAC]                = kvm_hyp_handle_ptrauth,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c:165:28: note: previous initialization is here
-     165 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   10 warnings generated.
+   drivers/virt/vmgenid.c: In function 'vmgenid_add_acpi':
+>> drivers/virt/vmgenid.c:79:45: error: invalid use of undefined type 'struct acpi_device'
+      79 |         status = acpi_evaluate_object(device->handle, "ADDR", NULL, &parsed);
+         |                                             ^~
+   drivers/virt/vmgenid.c:96:56: error: invalid use of undefined type 'struct acpi_device'
+      96 |                                   devm_memremap(&device->dev, phys_addr, VMGENID_SIZE, MEMREMAP_WB)
+         |                                                        ^~
+   drivers/virt/vmgenid.c:102:52: error: invalid use of undefined type 'struct acpi_device'
+     102 |         status = acpi_install_notify_handler(device->handle, ACPI_DEVICE_NOTIFY,
+         |                                                    ^~
+   drivers/virt/vmgenid.c: At top level:
+   drivers/virt/vmgenid.c:196:36: warning: 'vmgenid_acpi_ids' defined but not used [-Wunused-const-variable=]
+     196 | static const struct acpi_device_id vmgenid_acpi_ids[] = {
+         |                                    ^~~~~~~~~~~~~~~~
 
 
-vim +/zcr_el2 +770 arch/arm64/kvm/hyp/nvhe/hyp-main.c
+vim +79 drivers/virt/vmgenid.c
 
-   765	
-   766	static void __hyp_sve_save_guest(struct pkvm_hyp_vcpu *hyp_vcpu)
-   767	{
-   768		struct kvm_vcpu *vcpu = &hyp_vcpu->vcpu;
-   769		u64 zcr_el1 = read_sysreg_el1(SYS_ZCR);
- > 770		u64 zcr_el2 = min(zcr_el1, vcpu_sve_max_vq(vcpu) - 1ULL);
-   771	
-   772		__vcpu_sys_reg(vcpu, ZCR_EL1) = zcr_el1;
-   773		sve_cond_update_zcr_vq(zcr_el2, SYS_ZCR_EL2);
-   774		__sve_save_state(vcpu_sve_pffr(vcpu), &vcpu->arch.ctxt.fp_regs.fpsr);
-   775		sve_cond_update_zcr_vq(ZCR_ELx_LEN_MASK, SYS_ZCR_EL2);
-   776	}
-   777	
+657fab4d1001e1 Sudan Landge       2024-03-19   69  
+657fab4d1001e1 Sudan Landge       2024-03-19   70  static int vmgenid_add_acpi(struct device *dev, struct vmgenid_state *state)
+657fab4d1001e1 Sudan Landge       2024-03-19   71  {
+657fab4d1001e1 Sudan Landge       2024-03-19   72  	struct acpi_device *device = ACPI_COMPANION(dev);
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   73  	struct acpi_buffer parsed = { ACPI_ALLOCATE_BUFFER };
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   74  	union acpi_object *obj;
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   75  	phys_addr_t phys_addr;
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   76  	acpi_status status;
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   77  	int ret = 0;
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   78  
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23  @79  	status = acpi_evaluate_object(device->handle, "ADDR", NULL, &parsed);
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   80  	if (ACPI_FAILURE(status)) {
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   81  		ACPI_EXCEPTION((AE_INFO, status, "Evaluating ADDR"));
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   82  		return -ENODEV;
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   83  	}
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   84  	obj = parsed.pointer;
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   85  	if (!obj || obj->type != ACPI_TYPE_PACKAGE || obj->package.count != 2 ||
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   86  	    obj->package.elements[0].type != ACPI_TYPE_INTEGER ||
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   87  	    obj->package.elements[1].type != ACPI_TYPE_INTEGER) {
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   88  		ret = -EINVAL;
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   89  		goto out;
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   90  	}
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   91  
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   92  	phys_addr = (obj->package.elements[0].integer.value << 0) |
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23   93  		    (obj->package.elements[1].integer.value << 32);
+657fab4d1001e1 Sudan Landge       2024-03-19   94  
+657fab4d1001e1 Sudan Landge       2024-03-19   95  	ret = setup_vmgenid_state(state,
+657fab4d1001e1 Sudan Landge       2024-03-19   96  				  devm_memremap(&device->dev, phys_addr, VMGENID_SIZE, MEMREMAP_WB)
+657fab4d1001e1 Sudan Landge       2024-03-19   97  				 );
+657fab4d1001e1 Sudan Landge       2024-03-19   98  	if (ret)
+657fab4d1001e1 Sudan Landge       2024-03-19   99  		goto out;
+657fab4d1001e1 Sudan Landge       2024-03-19  100  
+657fab4d1001e1 Sudan Landge       2024-03-19  101  	dev->driver_data = state;
+657fab4d1001e1 Sudan Landge       2024-03-19  102  	status = acpi_install_notify_handler(device->handle, ACPI_DEVICE_NOTIFY,
+657fab4d1001e1 Sudan Landge       2024-03-19  103  					     vmgenid_acpi_handler, dev);
+657fab4d1001e1 Sudan Landge       2024-03-19  104  	if (ACPI_FAILURE(status)) {
+657fab4d1001e1 Sudan Landge       2024-03-19  105  		dev_err(dev, "Failed to install acpi notify handler");
+657fab4d1001e1 Sudan Landge       2024-03-19  106  		ret = -ENODEV;
+657fab4d1001e1 Sudan Landge       2024-03-19  107  		dev->driver_data = NULL;
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23  108  		goto out;
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23  109  	}
+657fab4d1001e1 Sudan Landge       2024-03-19  110  out:
+657fab4d1001e1 Sudan Landge       2024-03-19  111  	ACPI_FREE(parsed.pointer);
+657fab4d1001e1 Sudan Landge       2024-03-19  112  	return ret;
+657fab4d1001e1 Sudan Landge       2024-03-19  113  }
+af6b54e2b5baa5 Jason A. Donenfeld 2022-02-23  114  
 
 -- 
 0-DAY CI Kernel Test Service
