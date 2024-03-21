@@ -1,130 +1,190 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB02137758
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 16:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EF8224D7;
+	Thu, 21 Mar 2024 17:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711039775; cv=none; b=JyNSXYQVroxwgR9rWQDcImpLfQwiKYBe1aZYvC2JD31Pfg6UtzByDJPxQv2s3+7Alg4SM9nl2LSLeTsT2iMXYJLIwMnH84vUUzIxS2WnVEqhNpflU9OqDv//uDV3zWnGG9rssiLL1Djb9YcfLqN1z8BIMhg51P8X5kaqyvwI4oM=
+	t=1711043399; cv=none; b=RQZJF236G0ZimN0FGXCMoHmUAD+tx19DqCy4vTc/fVl1dl5pgkxVBF8QAaZw5LLPWjrnggfhn6SqcgewHp5jbAN17eoOUMb7kxICy+0avauy4N92a2rjr5LF5wBpQ3JNJBA5GaB2niE2Go9Vh9mu+q3HAEDM3WxAvcXcs4NvYlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711039775; c=relaxed/simple;
-	bh=DNdeAKw7uELy4zMBalpWTXvLgNXIKhXj6p88O9pPK+A=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=G+ZQR8S1YLjILy2vDfYmV5aBjqL4e3gk78gn5ZXX8stIHPHF4eVmIdD0mj+DIF2Kfn6ccfseChId6+EzPJSqq5yESUKqqtE70sKLa/NKkyGCGcehDAIGk3YmCJj8aT3lPinNf3LR2JcmqoLGW4VRIMGeFbjpqg0zOxtKGm38fJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vIULKn7g; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yQGTe0bF; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1711043399; c=relaxed/simple;
+	bh=NR+rdo36gKBa+l8fjrARSPQjorU+osIrosA47pyGyXQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HP0DeeEpfE/9CVHS5XeFT26aJ5k/jaJwOADUx6VmBHIQHB+KU5uEvqfcLpjExFzEkM6BFb31FEkV/M0ChhKbJ9J1VMUe3/8IECkQUebTh5+7mMiM/7LTN8M2Wm8e/8c1boXR+nb9Do8TlkUD8lhrD+5tns24nAhB+kZkbHB7uU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WPSnVagf; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vIULKn7g";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yQGTe0bF"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1711039770;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pRTKoYKpDL9uP3VmcYe9zAlkKfXwqveFCpdlfcoPKqY=;
-	b=vIULKn7gGYUlHYUr5NGRuXsOBuv2sYqRHn1ixq/RV7f1SFRJlb8IBLu4m5KosJ3fG+k8xM
-	B9ZXsnqQnFOj859bZUXT8IrxRxNlIrvl/Nj/RJAkkb0FA/3L3l/JiZ+XeWQi43t5wkz8/Y
-	VrzJSvH5LahtIpx2ygq5wnY3Uo+JCN+lO3seergnxOdlS2fQLdNEylFSJW+WJaxqyiIudQ
-	3pX1esf5oJuLmUpSdVqiezb0Y0ep3islMEBlGY2CTCgVer8QNXO/FqaZd+9da8EBsGvZFp
-	4VGbkU/3f+9gwvrbFyuCa++KTn+yKxa5Vdth24ZIs1AtdXU07vN/isGsuyH2kQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1711039770;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pRTKoYKpDL9uP3VmcYe9zAlkKfXwqveFCpdlfcoPKqY=;
-	b=yQGTe0bFW9Vrf8XcmSDjcK4H4swmy/xSLqKu7PgW82bS5G5ATik3xigt0icjawEUzYWKwk
-	jwVAAQZdJ/N6IUCg==
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: LKML <linux-kernel@vger.kernel.org>, x86@kernel.org, Linus Torvalds
- <torvalds@linuxfoundation.org>, Uros Bizjak <ubizjak@gmail.com>,
- linux-sparse@vger.kernel.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [patch 5/9] x86: Cure per CPU madness on UP
-In-Reply-To: <86796005-f1d9-4c8c-80d8-f1f88ca220ba@roeck-us.net>
-References: <20240303235029.555787150@linutronix.de>
- <20240304005104.622511517@linutronix.de>
- <e20d88d0-5fb9-4307-be67-88b04ae9a188@roeck-us.net> <87bk79i8km.ffs@tglx>
- <d51ec9a1-5221-4005-9980-8258df8b5102@roeck-us.net> <87r0g3hm5o.ffs@tglx>
- <86796005-f1d9-4c8c-80d8-f1f88ca220ba@roeck-us.net>
-Date: Thu, 21 Mar 2024 17:49:30 +0100
-Message-ID: <87il1fh6n9.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WPSnVagf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711043397; x=1742579397;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NR+rdo36gKBa+l8fjrARSPQjorU+osIrosA47pyGyXQ=;
+  b=WPSnVagfw/4Qwp1+jZw8NHg9zrEERI7IaWikayCVw9X91FxNznUBVOKu
+   EWAcvJfzkaUX+D4/g5zfCNF+Jbrr15xwTkzfSqVDPiRjS2nfc8dMfdz6J
+   Wqyk8TfzXyOoYIf7fVxpAREBYyqTJ08DarMe5tD8nePTk62DGvDfGZ/qE
+   aGL+a75UmJ/ZY702Z0qBxmhOzq4g/jE8NkFow4nN/ckrXxq+Nm27QgrkD
+   1lbRe1wBUQ60xT03CdLIQBJFasRGPBBMnJN5VkZ8hQV5yKQYL3TQDQxxX
+   k02HTftxdLhsQ0ChNu8RfOdRWH6McntsstGp9OKBMzS210xKK5yCMTqrZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="31491063"
+X-IronPort-AV: E=Sophos;i="6.07,143,1708416000"; 
+   d="scan'208";a="31491063"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 10:49:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,143,1708416000"; 
+   d="scan'208";a="19164577"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 21 Mar 2024 10:49:55 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rnMY4-000JfD-2h;
+	Thu, 21 Mar 2024 17:49:52 +0000
+Date: Fri, 22 Mar 2024 01:49:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:dir-deleg 2/25] fs/nfsd/nfs4xdr.c:5670:28: error: use of
+ undeclared identifier 'nfsd4_encode_get_dir_delegation'; did you mean
+ 'nfsd4_decode_get_dir_delegation'?
+Message-ID: <202403220140.684w13Ic-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Mar 21 2024 at 07:06, Guenter Roeck wrote:
-> On 3/21/24 04:14, Thomas Gleixner wrote:
->> If so can you please provide a full dmesg and then apply the patch below
->> and provide the resulting full dmesg too?
->
-> You'll find everything at http://server.roeck-us.net/qemu/x86-nosmp/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
+head:   2d69b21ee3c12afd89c876906ded927aaf1add2c
+commit: ce5c0facdf0d50ca85e4943ea68e02685a0a5001 [2/25] nfsd: trivial GET_DIR_DELEGATION support
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240322/202403220140.684w13Ic-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240322/202403220140.684w13Ic-lkp@intel.com/reproduce)
 
-Thanks for providing this.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403220140.684w13Ic-lkp@intel.com/
 
-> The crash is gone after applying your patch. The difference is:
->
-> +       /*
-> +        * If there was no APIC registered, then the map check below would
-> +        * fail. With no APIC this is guaranteed to be an UP system and
-> +        * therefore all topology levels have only one entry and their
-> +        * logical ID is obviously 0.
-> +        */
-> +       if (topo_info.boot_cpu_apic_id == BAD_APICID) {
-> +               pr_info("#### topo_info.boot_cpu_apic_id == BAD_APICID\n");
->                  ^^^^ I added this
-> +               return 0;
-> +       }
-> +
->
-> I see the "#### topo_info.boot_cpu_apic_id == BAD_APICID" message
-> twice in the log. See patched.log at the page pointed to above.
+All errors (new ones prefixed by >>):
 
-I can see why this is emitted. That happens on the initial CPUID
-evaluation of the boot CPU very early during boot.
+>> fs/nfsd/nfs4xdr.c:5670:28: error: use of undeclared identifier 'nfsd4_encode_get_dir_delegation'; did you mean 'nfsd4_decode_get_dir_delegation'?
+    5670 |         [OP_GET_DIR_DELEGATION] = nfsd4_encode_get_dir_delegation,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                   nfsd4_decode_get_dir_delegation
+   fs/nfsd/nfs4xdr.c:1736:1: note: 'nfsd4_decode_get_dir_delegation' declared here
+    1736 | nfsd4_decode_get_dir_delegation(struct nfsd4_compoundargs *argp,
+         | ^
+>> fs/nfsd/nfs4xdr.c:5670:28: error: incompatible function pointer types initializing 'const nfsd4_enc' (aka 'unsigned int (*const)(struct nfsd4_compoundres *, unsigned int, union nfsd4_op_u *)') with an expression of type '__be32 (struct nfsd4_compoundargs *, union nfsd4_op_u *)' (aka 'unsigned int (struct nfsd4_compoundargs *, union nfsd4_op_u *)') [-Wincompatible-function-pointer-types]
+    5670 |         [OP_GET_DIR_DELEGATION] = nfsd4_encode_get_dir_delegation,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
-[    0.000000] Command line: console=ttyS0
-[    0.000000] CPU topo: APIC logical ID: 0 0 6
-[    0.000000] CPU topo: #### topo_info.boot_cpu_apic_id == BAD_APICID
-[    0.000000] CPU topo: APIC logical ID: 0 0 4
-[    0.000000] CPU topo: #### topo_info.boot_cpu_apic_id == BAD_APICID
 
-The later full CPUID evaluation happens after the ACPI enumeration and
-way before the affected RAPL driver is initialized:
+vim +5670 fs/nfsd/nfs4xdr.c
 
-[    0.088029] CPU topo: APIC logical ID: 0 0 6
-[    0.088084] CPU topo: APIC logical ID: 0 0 4
+  5618	
+  5619	/*
+  5620	 * Note: nfsd4_enc_ops vector is shared for v4.0 and v4.1
+  5621	 * since we don't need to filter out obsolete ops as this is
+  5622	 * done in the decoding phase.
+  5623	 */
+  5624	static const nfsd4_enc nfsd4_enc_ops[] = {
+  5625		[OP_ACCESS]		= nfsd4_encode_access,
+  5626		[OP_CLOSE]		= nfsd4_encode_close,
+  5627		[OP_COMMIT]		= nfsd4_encode_commit,
+  5628		[OP_CREATE]		= nfsd4_encode_create,
+  5629		[OP_DELEGPURGE]		= nfsd4_encode_noop,
+  5630		[OP_DELEGRETURN]	= nfsd4_encode_noop,
+  5631		[OP_GETATTR]		= nfsd4_encode_getattr,
+  5632		[OP_GETFH]		= nfsd4_encode_getfh,
+  5633		[OP_LINK]		= nfsd4_encode_link,
+  5634		[OP_LOCK]		= nfsd4_encode_lock,
+  5635		[OP_LOCKT]		= nfsd4_encode_lockt,
+  5636		[OP_LOCKU]		= nfsd4_encode_locku,
+  5637		[OP_LOOKUP]		= nfsd4_encode_noop,
+  5638		[OP_LOOKUPP]		= nfsd4_encode_noop,
+  5639		[OP_NVERIFY]		= nfsd4_encode_noop,
+  5640		[OP_OPEN]		= nfsd4_encode_open,
+  5641		[OP_OPENATTR]		= nfsd4_encode_noop,
+  5642		[OP_OPEN_CONFIRM]	= nfsd4_encode_open_confirm,
+  5643		[OP_OPEN_DOWNGRADE]	= nfsd4_encode_open_downgrade,
+  5644		[OP_PUTFH]		= nfsd4_encode_noop,
+  5645		[OP_PUTPUBFH]		= nfsd4_encode_noop,
+  5646		[OP_PUTROOTFH]		= nfsd4_encode_noop,
+  5647		[OP_READ]		= nfsd4_encode_read,
+  5648		[OP_READDIR]		= nfsd4_encode_readdir,
+  5649		[OP_READLINK]		= nfsd4_encode_readlink,
+  5650		[OP_REMOVE]		= nfsd4_encode_remove,
+  5651		[OP_RENAME]		= nfsd4_encode_rename,
+  5652		[OP_RENEW]		= nfsd4_encode_noop,
+  5653		[OP_RESTOREFH]		= nfsd4_encode_noop,
+  5654		[OP_SAVEFH]		= nfsd4_encode_noop,
+  5655		[OP_SECINFO]		= nfsd4_encode_secinfo,
+  5656		[OP_SETATTR]		= nfsd4_encode_setattr,
+  5657		[OP_SETCLIENTID]	= nfsd4_encode_setclientid,
+  5658		[OP_SETCLIENTID_CONFIRM] = nfsd4_encode_noop,
+  5659		[OP_VERIFY]		= nfsd4_encode_noop,
+  5660		[OP_WRITE]		= nfsd4_encode_write,
+  5661		[OP_RELEASE_LOCKOWNER]	= nfsd4_encode_noop,
+  5662	
+  5663		/* NFSv4.1 operations */
+  5664		[OP_BACKCHANNEL_CTL]	= nfsd4_encode_noop,
+  5665		[OP_BIND_CONN_TO_SESSION] = nfsd4_encode_bind_conn_to_session,
+  5666		[OP_EXCHANGE_ID]	= nfsd4_encode_exchange_id,
+  5667		[OP_CREATE_SESSION]	= nfsd4_encode_create_session,
+  5668		[OP_DESTROY_SESSION]	= nfsd4_encode_noop,
+  5669		[OP_FREE_STATEID]	= nfsd4_encode_noop,
+> 5670		[OP_GET_DIR_DELEGATION]	= nfsd4_encode_get_dir_delegation,
+  5671	#ifdef CONFIG_NFSD_PNFS
+  5672		[OP_GETDEVICEINFO]	= nfsd4_encode_getdeviceinfo,
+  5673		[OP_GETDEVICELIST]	= nfsd4_encode_noop,
+  5674		[OP_LAYOUTCOMMIT]	= nfsd4_encode_layoutcommit,
+  5675		[OP_LAYOUTGET]		= nfsd4_encode_layoutget,
+  5676		[OP_LAYOUTRETURN]	= nfsd4_encode_layoutreturn,
+  5677	#else
+  5678		[OP_GETDEVICEINFO]	= nfsd4_encode_noop,
+  5679		[OP_GETDEVICELIST]	= nfsd4_encode_noop,
+  5680		[OP_LAYOUTCOMMIT]	= nfsd4_encode_noop,
+  5681		[OP_LAYOUTGET]		= nfsd4_encode_noop,
+  5682		[OP_LAYOUTRETURN]	= nfsd4_encode_noop,
+  5683	#endif
+  5684		[OP_SECINFO_NO_NAME]	= nfsd4_encode_secinfo_no_name,
+  5685		[OP_SEQUENCE]		= nfsd4_encode_sequence,
+  5686		[OP_SET_SSV]		= nfsd4_encode_noop,
+  5687		[OP_TEST_STATEID]	= nfsd4_encode_test_stateid,
+  5688		[OP_WANT_DELEGATION]	= nfsd4_encode_noop,
+  5689		[OP_DESTROY_CLIENTID]	= nfsd4_encode_noop,
+  5690		[OP_RECLAIM_COMPLETE]	= nfsd4_encode_noop,
+  5691	
+  5692		/* NFSv4.2 operations */
+  5693		[OP_ALLOCATE]		= nfsd4_encode_noop,
+  5694		[OP_COPY]		= nfsd4_encode_copy,
+  5695		[OP_COPY_NOTIFY]	= nfsd4_encode_copy_notify,
+  5696		[OP_DEALLOCATE]		= nfsd4_encode_noop,
+  5697		[OP_IO_ADVISE]		= nfsd4_encode_noop,
+  5698		[OP_LAYOUTERROR]	= nfsd4_encode_noop,
+  5699		[OP_LAYOUTSTATS]	= nfsd4_encode_noop,
+  5700		[OP_OFFLOAD_CANCEL]	= nfsd4_encode_noop,
+  5701		[OP_OFFLOAD_STATUS]	= nfsd4_encode_offload_status,
+  5702		[OP_READ_PLUS]		= nfsd4_encode_read_plus,
+  5703		[OP_SEEK]		= nfsd4_encode_seek,
+  5704		[OP_WRITE_SAME]		= nfsd4_encode_noop,
+  5705		[OP_CLONE]		= nfsd4_encode_noop,
+  5706	
+  5707		/* RFC 8276 extended atributes operations */
+  5708		[OP_GETXATTR]		= nfsd4_encode_getxattr,
+  5709		[OP_SETXATTR]		= nfsd4_encode_setxattr,
+  5710		[OP_LISTXATTRS]		= nfsd4_encode_listxattrs,
+  5711		[OP_REMOVEXATTR]	= nfsd4_encode_removexattr,
+  5712	};
+  5713	
 
-This invocation has the boot APIC registered as your extra print does
-not show up.
-
-...
-
-[    0.585850] RAPL PMU: API unit is 2^-32 Joules, 0 fixed counters, 10737418240 ms ovfl timer
-
-So even without that guard (which we need anyway for the non APIC case)
-topology_logical_die_id() == cpu_data(cpu).topo.logical_die_id must have
-the correct value in that RAPL initialization and CPU hotplug callback
-code.
-
-But our absolutely convoluted startup logic prevents that because:
-
-    identify_cpu_early()      operates on boot_cpu_data
-    smp_prepare_boot_cpu()    copies boot_cpu_data to per CPU cpu data
-    identify_boot_cpu()       operates on boot_cpu_data
-
-identify_boot_cpu() is the one which gets the correct logical die info,
-but that never gets copied over to the per CPU data instance on which
-the RAPL code and everything else works on.
-
-I'll cook up a patch later.
-
-Thanks for providing the info!
-
-       tglx
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
