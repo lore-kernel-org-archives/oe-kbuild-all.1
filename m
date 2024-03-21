@@ -1,55 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15AB67C6DF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 13:14:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE1F8405B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 13:14:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711026891; cv=none; b=KMJNmbDGm3dkOOnZZBMTM4GGfKQvxgxgKtdKK1AmIBuiQRFcZwo3tiMg04WPs5adMVmN2EQp4rdh59HEA8m0T4P+16RDrcXRvMZhXEGhUwLgNQSIwxz5rW9bwl0+q4eW/OKcRbgxfQprEWT5PeO5OouuarOsEarUI3f1xjauWeA=
+	t=1711026892; cv=none; b=CaGD+mL1mZC8YlzY35Wao32hEQkC992zZWn45mjJLYL1WLrpkKQxhDZCQuniGcBhwBOeb+Laj+GVIeLZV9VacscJLyd5iOqWUi8ddyLoOTJFs/0FN76JVnNs8f1ax5CF8pMvJdhhZjhoXvFZJ9e1GYKS2rt1RxoFOBg4J4nqLAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711026891; c=relaxed/simple;
-	bh=oew3dtEZkSQsyDp/vpygwbfO+3aPOVJ2f7ERiGfGNqo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VhRSrAvFbMdl8/84TMbDrcAeo5XQLDqLS/E9CZT+Y7AwcDTRQE6hbgjYy6WKIsH88A7sWZWQMz70meEO6tT8LnSYJSZiCZrPRvN+Nf2JrstD+EAfSwRWmPgqLt5qKDir510zjePmRQZ0YyEennBNzlKxZyGKiVaBKrMm8I9LghE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WQ0KfmcN; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1711026892; c=relaxed/simple;
+	bh=uUcG4ueqo4aDKX6sq0fsVLjN/etCWtJNlb9OkLiVhEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kO5YNxQuFgvRzMG/MsF5q1wzGHRsg82I6r8xs/jXc7gYXqV+xBViIKAKqkDpX1EhVd5fKb+wo5SewOofgYXP8ScL4aHXCgeDWJYqtIw9rmR/5nsQwusft9Sp+gD7RY2vqxtUOG/qqeuEw3kOXHRXVH+bPTZta+AvDVEd8HxpEVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFgoH0b5; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WQ0KfmcN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFgoH0b5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711026890; x=1742562890;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oew3dtEZkSQsyDp/vpygwbfO+3aPOVJ2f7ERiGfGNqo=;
-  b=WQ0KfmcNT32fr9pqdVA/EgKOLdDTD76XFcHc7dBFu3o/AJPek07m+uPy
-   gDj2AY74B43q33LGCF43641aYD1gfPrRwmp9rv4qiI53fVEoYyYYIciuM
-   IAbgfQlRAjlVbeNgQ7/RA/Ci1yT+dNiM1+AF9wgLT/ZWxxIIVZStmPt3h
-   dm+QVCam1YLDYM4xGRjkFgxRZTeebprObrM1vujmyGEMlR8D0ZzKjNaIe
-   mEyZjLG74nMQTXwloBKLAN/0NhEBcvDWtBMkTSjOtFnPmI/ZALtLdByZm
-   tIfGMW/9N4h2b217LKPrABTLZK1KZP0gNagqBQj6UL367Uo/0QLOZSSum
+  t=1711026891; x=1742562891;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uUcG4ueqo4aDKX6sq0fsVLjN/etCWtJNlb9OkLiVhEU=;
+  b=oFgoH0b5VltYdbH+xvfV6FLyPSS5+y9B9L2nIHfnrGcXsCEZ+fpHcmeS
+   otPTEucrzZ8u4z/GBJLwF+qty1QlShhluZZNNORqJxmqdKOYfdQtawqZA
+   I7+Y6wilLRcUHgCDM7Cbli4+DHbJESKEqz/aRjMKDzFYBNiqznUR1jRXf
+   KdyAkFTlPpA6wvQOZ1aCugU5ejnNhQTWEvkT+w7tFDXWi2E4HvllSmuOg
+   sKXl8KtHTAea8SpftRGuIt/phmFoVu7HlHdbCuUeF71o58P7ZX8NQWICF
+   5bsRbh1osbn7H4iuqXZJt0jSk4mBS71vBW6VDwmoHDcGs/pyWoli6ebMo
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="5904348"
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="5904352"
 X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="5904348"
+   d="scan'208";a="5904352"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 06:14:48 -0700
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 06:14:49 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="18974596"
+   d="scan'208";a="18974602"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 21 Mar 2024 06:14:47 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rnIFo-000JRf-1b;
+	id 1rnIFo-000JRb-1U;
 	Thu, 21 Mar 2024 13:14:44 +0000
-Date: Thu, 21 Mar 2024 21:13:58 +0800
+Date: Thu, 21 Mar 2024 21:13:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:twf-hoist 568/627] fs/iomap/buffered-io.c:432:10: error:
- call to undeclared function 'iomap_fsverity_read_bio_alloc'; ISO C99 and
- later do not support implicit function declarations
-Message-ID: <202403212141.pyxaqHG7-lkp@intel.com>
+To: Johannes Weiner <hannes@cmpxchg.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Vlastimil Babka <vbabka@suse.cz>, Mel Gorman <mgorman@suse.de>,
+	Zi Yan <ziy@nvidia.com>, "Huang, Ying" <ying.huang@intel.com>,
+	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/10] mm: page_isolation: prepare for hygienic freelists
+Message-ID: <202403212118.ye7lcKjD-lkp@intel.com>
+References: <20240320180429.678181-10-hannes@cmpxchg.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,126 +63,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240320180429.678181-10-hannes@cmpxchg.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git twf-hoist
-head:   709c2aed7586c3ac6a9d636355c623611d5c14d1
-commit: f0f93bf8ee6030bdb20d406b20b6632cac7aa8bc [568/627] iomap: dynamically allocate fsverity bioset
-config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20240321/202403212141.pyxaqHG7-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240321/202403212141.pyxaqHG7-lkp@intel.com/reproduce)
+Hi Johannes,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Weiner/mm-page_alloc-remove-pcppage-migratetype-caching/20240321-020814
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240320180429.678181-10-hannes%40cmpxchg.org
+patch subject: [PATCH 09/10] mm: page_isolation: prepare for hygienic freelists
+config: i386-randconfig-003-20240321 (https://download.01.org/0day-ci/archive/20240321/202403212118.ye7lcKjD-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240321/202403212118.ye7lcKjD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403212141.pyxaqHG7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403212118.ye7lcKjD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/iomap/buffered-io.c:10:
-   In file included from include/linux/iomap.h:7:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from fs/iomap/buffered-io.c:10:
-   In file included from include/linux/iomap.h:7:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from fs/iomap/buffered-io.c:10:
-   In file included from include/linux/iomap.h:7:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> fs/iomap/buffered-io.c:432:10: error: call to undeclared function 'iomap_fsverity_read_bio_alloc'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   return iomap_fsverity_read_bio_alloc(inode, bdev, nr_vecs, gfp);
-                          ^
-   fs/iomap/buffered-io.c:432:10: note: did you mean 'iomap_read_bio_alloc'?
-   fs/iomap/buffered-io.c:426:20: note: 'iomap_read_bio_alloc' declared here
-   static struct bio *iomap_read_bio_alloc(struct inode *inode,
-                      ^
-   fs/iomap/buffered-io.c:432:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct bio *' [-Wint-conversion]
-                   return iomap_fsverity_read_bio_alloc(inode, bdev, nr_vecs, gfp);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   12 warnings and 2 errors generated.
+   mm/page_alloc.c: In function 'move_freepages_block_isolate':
+>> mm/page_alloc.c:688:17: warning: array subscript 11 is above array bounds of 'struct free_area[11]' [-Warray-bounds]
+     688 |  zone->free_area[order].nr_free--;
+         |  ~~~~~~~~~~~~~~~^~~~~~~
+>> mm/page_alloc.c:688:17: warning: array subscript 11 is above array bounds of 'struct free_area[11]' [-Warray-bounds]
 
 
-vim +/iomap_fsverity_read_bio_alloc +432 fs/iomap/buffered-io.c
+vim +688 mm/page_alloc.c
 
-   425	
-   426	static struct bio *iomap_read_bio_alloc(struct inode *inode,
-   427			struct block_device *bdev, int nr_vecs, gfp_t gfp)
-   428	{
-   429		struct bio *bio;
-   430	
-   431		if (fsverity_active(inode))
- > 432			return iomap_fsverity_read_bio_alloc(inode, bdev, nr_vecs, gfp);
-   433	
-   434		bio = bio_alloc(bdev, nr_vecs, REQ_OP_READ, gfp);
-   435		if (bio)
-   436			bio->bi_end_io = iomap_read_end_io;
-   437		return bio;
-   438	}
-   439	
+6ab0136310961eb Alexander Duyck 2020-04-06  677  
+6ab0136310961eb Alexander Duyck 2020-04-06  678  static inline void del_page_from_free_list(struct page *page, struct zone *zone,
+6ab0136310961eb Alexander Duyck 2020-04-06  679  					   unsigned int order)
+6ab0136310961eb Alexander Duyck 2020-04-06  680  {
+36e66c554b5c6a9 Alexander Duyck 2020-04-06  681  	/* clear reported state and update reported page count */
+36e66c554b5c6a9 Alexander Duyck 2020-04-06  682  	if (page_reported(page))
+36e66c554b5c6a9 Alexander Duyck 2020-04-06  683  		__ClearPageReported(page);
+36e66c554b5c6a9 Alexander Duyck 2020-04-06  684  
+bf75f200569dd05 Mel Gorman      2022-06-24  685  	list_del(&page->buddy_list);
+6ab0136310961eb Alexander Duyck 2020-04-06  686  	__ClearPageBuddy(page);
+6ab0136310961eb Alexander Duyck 2020-04-06  687  	set_page_private(page, 0);
+6ab0136310961eb Alexander Duyck 2020-04-06 @688  	zone->free_area[order].nr_free--;
+6ab0136310961eb Alexander Duyck 2020-04-06  689  }
+6ab0136310961eb Alexander Duyck 2020-04-06  690  
 
 -- 
 0-DAY CI Kernel Test Service
