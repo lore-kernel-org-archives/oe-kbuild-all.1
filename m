@@ -1,55 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A74884FDE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 14:16:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0340784FC5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 14:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711030611; cv=none; b=UNZITPeQrabFpV1mTfOMdJ2w51H9JuZ7o1Gk+I26b7+jmNDZw/DsPfvp0mNN7AD8Vjs8V4R6iGEpR8QouvktIu4qbtn4MQH0j2FDh/9xIiuKauDuRZkFYrLHSYOlbRj+GjXxahfHQ6UPmkRWORoW3mPQRsVGunpeE2Uz1R+FuQY=
+	t=1711031083; cv=none; b=Ybn2+LkyP91Z6AeHMnL5p0tMh+TsJTaSENd6tFeX7Zzxj2xvuXM+pNpluPPS6yAh5Yx3QuPPdxoBIMTNP29eS4y9yaBdTJSuzWdJS+ml1Ne8WhayhvqdHpcNMwAtK6MEMSQaddWWgpSYiu9Ld24QS4ZxZo5+wJ2tIqASogVSVZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711030611; c=relaxed/simple;
-	bh=vikI76whCRsvYjmTNEuSF+7Mob08famwZbArH2gQLG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pHban+fBy9hukZ+ey/mG4qqEgztoM3FY4xDmLDI8Uz52tw4jm/rgCerLt3Ap+oWTGBEbM5FCr50UoDGs5XuF1wJ2ypHTKBy3/R/M3jjGg8Yr4hxTpzjs/U4tPdubpmApiXxwlMy7/5QkRftBQ6VNwvgDR+JML5opA7KpoHfLQ4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A0B1Ruld; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711031083; c=relaxed/simple;
+	bh=IGmZ72nnCoCD5q22ThDUsDJdidoptCJfZ2WGQFwMMoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fQrvyo2TnovOJNGgDop3jZRHGXtSfKB18uQ+Ua53+05VGSrCl0LNRspztnv3c4iO28PYt2cUhLJesgLUTSYXyqk38EOJY3eHFffpNBtO/wrgBtNmN3wJ2ARVJMY65QpHcpIkaeA/+CUXvHm4hgok4JeEHQy0YhehokS8uOfVHcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=sEi1bCNR; arc=none smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A0B1Ruld"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711030610; x=1742566610;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vikI76whCRsvYjmTNEuSF+7Mob08famwZbArH2gQLG4=;
-  b=A0B1RuldSqPqgZN/LMv+i02weeowhp9ipO/AHFgKUC2aP7wUiTsQ/b+M
-   Nrhz0kJrJDyUG8eioT1pHqFh98xnGwdMoOsJXET7MzSUTf/1TqtPdTUPi
-   RaEiJiSN2iNbMau3hr8V2za0gw4KKVxigwvCc2e9vY+SrBfdsvYEs/msS
-   mbwUIW0TdbvWWsZ3jqec7PrpEV60dc+Sj5GRiXqvEj1/Kq6+FN8oGFZHF
-   Vq/c4VDrEeJxpI5ZRQ7GFB5e1eA8HUfWUAjTqONorB7ohbuc28RhriVJf
-   LZGMMAi45MmgDAdPY+D+EptR3aL8JofLKOzZqu6kIzO8ZPvtbpeEmXD2b
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="9804527"
-X-IronPort-AV: E=Sophos;i="6.07,143,1708416000"; 
-   d="scan'208";a="9804527"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 07:16:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,143,1708416000"; 
-   d="scan'208";a="14523998"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 21 Mar 2024 07:16:48 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rnJDq-000JV5-19;
-	Thu, 21 Mar 2024 14:16:46 +0000
-Date: Thu, 21 Mar 2024 22:16:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:vectorized-scrub 261/307] fs/xfs/xfs_attr_item.h:62:6:
- warning: conflicting types for 'xfs_attr_defer_add' due to enum/integer
- mismatch; have 'void(struct xfs_da_args *, enum xfs_attr_defer_op)'
-Message-ID: <202403212222.a5J8mAq4-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="sEi1bCNR"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-229d01e81f1so213017fac.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 07:24:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1711031078; x=1711635878; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uMwHK5SLtdqChoTJnZ8oDxJRYwecYOvB8jcFY9CBgVk=;
+        b=sEi1bCNRyJT7QvcUIG4WsTEAHs/xG+LVocpxLtHi6RqGsDG0QY2bEGG+B6u48SbI8k
+         3vmfJZdpQ16emPHmbMULEheedFKwSHqXq0odP8Otp36jpXLVGI8Cs4b+rbklPMwU0wxq
+         6weumHio0E++x4MbmO3tWlTlJ2LRIYd3Y2xbE2JyoMyTojF+kLPtewuKRx7js4kq9DbY
+         uWXEdrorr8V/8ZCIF3KTa1P/rqza3kDaeR4qJD213zrlBLiqyJPaf5xB60mEEahu52Dd
+         hvbhEjBndysHDBMFIR+N+/A07qkPjuVCd1gVzGpYVNLMVZ3A1TWRt8to27YDu2yP1t4Q
+         G+jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711031078; x=1711635878;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uMwHK5SLtdqChoTJnZ8oDxJRYwecYOvB8jcFY9CBgVk=;
+        b=bQeJ3/4tGTzG5rdcksEuPYMFZ7AbvtdBRztLkxp9XyOcqdUH4FgC4dIqCnSuM2UAiY
+         v7bksUVCxTixJnGGZR4JlZrg6hl8OTYuhMma04EfaB0kLZiIxhuDw2+lfH/UnboLp2m3
+         ikZG2GIQZOVgoibbZG7YIxuFZantsnCOxUyiwYQ/tFlLPK3pydf2Wqa9pHjrtUS47nBs
+         g6BTcTduIm4n6KzjhSatUVCDdt0gv4C6tf9qazrTKMI2iHtaNjDl+XYTfSGzU+O+tfij
+         uv2evjNTdA5LQYMi2v3u9ND08Btlx7/euOsPCWUj18glWsf5MrVGNeBsxJj+Bi5KFvCU
+         SERQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUwH9MiRQVrfH8sGrOLyRgxBJEOJt0YOonvuIV/dJQM9a12wItZW2QGF1/b0BEnLOAkz91OJ+2HBhPPKL00pW4vYr57ah6Nmmg2A/amQ==
+X-Gm-Message-State: AOJu0YyNC6SfPhABmJbijj9hdMOkW3rusbEaK8qn2rN7JWlbBULHwUOK
+	34u4xdScxknf7y0KS3BnD5DDbqXb6Y0qLtFWzKkE9uRz9R3rPh8wwtCpOBcsOy0=
+X-Google-Smtp-Source: AGHT+IFov2e+/kQxGWoYd6pon9dB6ic+JHmJrCaJt3wZ16SD0JwIMpyHn3WTmkRdA23DHfA9eY8cKg==
+X-Received: by 2002:a05:6870:f10c:b0:222:6495:642a with SMTP id k12-20020a056870f10c00b002226495642amr5490576oac.46.1711031077907;
+        Thu, 21 Mar 2024 07:24:37 -0700 (PDT)
+Received: from localhost (2603-7000-0c01-2716-da5e-d3ff-fee7-26e7.res6.spectrum.com. [2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
+        by smtp.gmail.com with ESMTPSA id s14-20020a0562140cae00b0069124066c2fsm8956146qvs.140.2024.03.21.07.24.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Mar 2024 07:24:37 -0700 (PDT)
+Date: Thu, 21 Mar 2024 10:24:26 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Vlastimil Babka <vbabka@suse.cz>, Mel Gorman <mgorman@suse.de>,
+	Zi Yan <ziy@nvidia.com>, "Huang, Ying" <ying.huang@intel.com>,
+	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/10] mm: page_isolation: prepare for hygienic freelists
+Message-ID: <20240321142426.GB777580@cmpxchg.org>
+References: <20240320180429.678181-10-hannes@cmpxchg.org>
+ <202403212118.ye7lcKjD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,45 +72,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202403212118.ye7lcKjD-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git vectorized-scrub
-head:   9caa68cf2446064f22252e4f87e40dca15c5e983
-commit: 767e7f79c1faa47d8848189b73c0c439bf59edf9 [261/307] xfs: parent pointer attribute creation
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240321/202403212222.a5J8mAq4-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240321/202403212222.a5J8mAq4-lkp@intel.com/reproduce)
+On Thu, Mar 21, 2024 at 09:13:57PM +0800, kernel test robot wrote:
+> Hi Johannes,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on akpm-mm/mm-everything]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Weiner/mm-page_alloc-remove-pcppage-migratetype-caching/20240321-020814
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20240320180429.678181-10-hannes%40cmpxchg.org
+> patch subject: [PATCH 09/10] mm: page_isolation: prepare for hygienic freelists
+> config: i386-randconfig-003-20240321 (https://download.01.org/0day-ci/archive/20240321/202403212118.ye7lcKjD-lkp@intel.com/config)
+> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240321/202403212118.ye7lcKjD-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403212118.ye7lcKjD-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    mm/page_alloc.c: In function 'move_freepages_block_isolate':
+> >> mm/page_alloc.c:688:17: warning: array subscript 11 is above array bounds of 'struct free_area[11]' [-Warray-bounds]
+>      688 |  zone->free_area[order].nr_free--;
+>          |  ~~~~~~~~~~~~~~~^~~~~~~
+> >> mm/page_alloc.c:688:17: warning: array subscript 11 is above array bounds of 'struct free_area[11]' [-Warray-bounds]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403212222.a5J8mAq4-lkp@intel.com/
+I think this is a bug in the old gcc.
 
-All warnings (new ones prefixed by >>):
+We have this in move_freepages_block_isolate():
 
-   In file included from fs/xfs/libxfs/xfs_attr.c:27:
->> fs/xfs/xfs_attr_item.h:62:6: warning: conflicting types for 'xfs_attr_defer_add' due to enum/integer mismatch; have 'void(struct xfs_da_args *, enum xfs_attr_defer_op)' [-Wenum-int-mismatch]
-      62 | void xfs_attr_defer_add(struct xfs_da_args *args, enum xfs_attr_defer_op op);
-         |      ^~~~~~~~~~~~~~~~~~
-   In file included from fs/xfs/libxfs/xfs_attr.c:21:
-   fs/xfs/libxfs/xfs_attr.h:552:6: note: previous declaration of 'xfs_attr_defer_add' with type 'void(struct xfs_da_args *, unsigned int)'
-     552 | void xfs_attr_defer_add(struct xfs_da_args *args, unsigned int op_flags);
-         |      ^~~~~~~~~~~~~~~~~~
+	/* We're the starting block of a larger buddy */
+	if (PageBuddy(page) && buddy_order(page) > pageblock_order) {
+		int mt = get_pfnblock_migratetype(page, pfn);
+		int order = buddy_order(page);
 
+		if (!is_migrate_isolate(mt))
+			__mod_zone_freepage_state(zone, -(1UL << order), mt);
+		del_page_from_free_list(page, zone, order);
 
-vim +62 fs/xfs/xfs_attr_item.h
+And this config doesn't have hugetlb enabled, so:
 
-b6bc883912df67 Darrick J. Wong 2024-03-20  61  
-b6bc883912df67 Darrick J. Wong 2024-03-20 @62  void xfs_attr_defer_add(struct xfs_da_args *args, enum xfs_attr_defer_op op);
-b768c885474e31 Darrick J. Wong 2024-01-09  63  void xfs_parent_defer_update(struct xfs_da_args *args,
-b768c885474e31 Darrick J. Wong 2024-01-09  64  		enum xfs_attr_defer_op op);
-b6bc883912df67 Darrick J. Wong 2024-03-20  65  
+/* If huge pages are not used, group by MAX_ORDER_NR_PAGES */
+#define pageblock_order         MAX_PAGE_ORDER
 
-:::::: The code at line 62 was first introduced by commit
-:::::: b6bc883912df67c5a9707337e47dd407557eefc0 xfs: move xfs_attr_defer_add to xfs_attr_item.c
+If buddies were indeed >MAX_PAGE_ORDER, this would be an out-of-bounds
+access when delete updates the freelist count. Of course, buddies per
+definition cannot be larger than MAX_PAGE_ORDER. But the older gcc
+doesn't seem to realize this branch in this configuration is dead.
 
-:::::: TO: Darrick J. Wong <djwong@kernel.org>
-:::::: CC: Darrick J. Wong <djwong@kernel.org>
+Maybe we can help it out and make the impossible scenario a bit more
+explicit? Does this fixlet silence the warning?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index efb2581ac142..4cdc356e73f6 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -1698,6 +1698,10 @@ bool move_freepages_block_isolate(struct zone *zone, struct page *page,
+ 				       NULL, NULL))
+ 		return false;
+ 
++	/* No splits needed if buddies can't span multiple blocks */
++	if (pageblock_order == MAX_PAGE_ORDER)
++		goto move;
++
+ 	/* We're a tail block in a larger buddy */
+ 	pfn = find_large_buddy(start_pfn);
+ 	if (pfn != start_pfn) {
+@@ -1725,7 +1729,7 @@ bool move_freepages_block_isolate(struct zone *zone, struct page *page,
+ 		split_large_buddy(zone, page, pfn, order);
+ 		return true;
+ 	}
+-
++move:
+ 	mt = get_pfnblock_migratetype(page, start_pfn);
+ 	nr_moved = move_freepages(zone, start_pfn, end_pfn, migratetype);
+ 	if (!is_migrate_isolate(mt))
+
+Zi Yan, does this look sane to you as well?
