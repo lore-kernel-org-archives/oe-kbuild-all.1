@@ -1,80 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47B8C2E6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 09:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A36F58126
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 11:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711012305; cv=none; b=hRtQH1ZQrc+TAPpGROX7O1yBZLQPSAr6F3CqTMVD2yQDXwsFOOTDAvUaY0mvUr6zvqPbmdnpB1C8PYYEFc+sEM2rS62IgLcP581tlSeilAR6QLPHSUTpOHyMbOjIFgR5co37ykEwdaX/BEDwUeOoyjXG8RcltG6xHUM5Lk0iELQ=
+	t=1711019675; cv=none; b=Z2IPeb7r/Lxl5X46jTW+vR8ew0ylwjCUcU52zAoBqxdvyYSIC1d5a/17/AMG8T74F84Ws0CHKGCoV5ui2KI6eU90J3GU5o25ls5JGlGBhjZ6B7/EIf+6zrT95HpgXPFjLLGy3NB79GTqqM8iaey5yzi1jDCVm938m5qMRWjMyYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711012305; c=relaxed/simple;
-	bh=0NIU+TJsUOzjrs8pO6/ItcR0avG8D3Okh7qfg8hVwnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=umj+uJQOooYPVCo2MCkBoPgf4+dwVx3BVUlO+8jv3YLqJcAaJ893Hhmi1QyALVmTZdn6/RRtoK48BaONfWuLWBFBDpv2IJVZIjS+7eCJ6k2SOp0w7aqqZHDt4jYcevQKD1zJWP9E60xDscEYh8qoYstRyNj/KtTlkBpHFvntDAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XJuyVuK7; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711019675; c=relaxed/simple;
+	bh=2QjovQg5WKK+1OaQxPTlBgZTKhFNsOA5kuD5wd/TvHY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=pbDTIvJVZ3HhGGJUxvi+r+WImbXzXLBXr1fRMPvCpZmzJpMiPfZc7H/GzzUwFlTzxKyTu+/Ip7INNEa8vyjoVmL/6yDZmszJbPxd+V9SRsHFZ/mb++Nntiy6mS47tERzKLbiEaCHRlVvpnxatd3VwaF2Rbak0Yunwdv/RNrsgGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yyoPSu+z; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RFAXhyJ3; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XJuyVuK7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711012304; x=1742548304;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=0NIU+TJsUOzjrs8pO6/ItcR0avG8D3Okh7qfg8hVwnY=;
-  b=XJuyVuK71DZnfmOb5huYX6jcGRBeS9cvgX49HbXRMUaOwbYNvBoqa0/b
-   +SvuNHrp6Ha/GQyHjvonGSt4mRLc2u3KPE07+aL9c2Bih0IKKbYQzx7bn
-   Gz5hGvTMw4SOInhqyvN86jA3nJat7ihy5ilgGu8N0HdPA2+0z4VbFYh8P
-   hnnlw4my/EcINUqBZJPotl7Lu1cqoh7YeWXKqIkZVbbw2lZSTvXZuOjDT
-   8NLe/59CYszEmoFdMUunyo4optpCMGXnLD6QxRrMYxoVHswox2boFAoGI
-   hTdB7iAh1u0BtEFNlIh5ntwBuv03Ulr4ElXyJG+vCO4J7StHr+ttpL9AB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="31424811"
-X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="31424811"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 02:11:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="14446650"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 21 Mar 2024 02:11:41 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rnESZ-000JIR-1K;
-	Thu, 21 Mar 2024 09:11:39 +0000
-Date: Thu, 21 Mar 2024 17:11:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Guo Mengqi <guomengqi3@huawei.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] drm/vkms: call drm_atomic_helper_shutdown before
- drm_dev_put()
-Message-ID: <Zfv5uwalPfiJQx1M@28e5c5ca316a>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yyoPSu+z";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RFAXhyJ3"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1711019667;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c8obbwSnzuUFaxqMybHilSrOftM5wBOHep+jfUErEiQ=;
+	b=yyoPSu+zdY75RKZVMLCRhmMaavjaWyrO142Aq8qF2Cupvs+qcumSgHrouFexuQdRbHl96B
+	Ownj7W9StJ9vuhILTFl+uKs05qCBED2200VfqnoQfSFVyXyDLQW1gpGCFnKBU/joJKd4Qt
+	ZASe9rLu6V6izS6trlZoULsh5K9gB1UaEjm7DFxjItgzmBclYXmSXIv3MCrVeypc/0vfoX
+	yREvpoJJD/Sw8OtoZsNrvLjBQV4D7N9rnBMsPq48To0OW0MbcHpzpq5rcZMjNUrnlas0Vi
+	Y7JyFiAG47+YsDUg2B6VIDGjhM+ysuUueA6Qf/1fCW4G029E4KH6ZvOzVR9Z2Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1711019667;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c8obbwSnzuUFaxqMybHilSrOftM5wBOHep+jfUErEiQ=;
+	b=RFAXhyJ34HelHYfVFB/xaFUMP4ULdgFVuAq2z9BYyvKTFJchwJ4vZVdnDfGU0Xc0Wdtc3d
+	4RhP9hGYjz6dv5BQ==
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: LKML <linux-kernel@vger.kernel.org>, x86@kernel.org, Linus Torvalds
+ <torvalds@linuxfoundation.org>, Uros Bizjak <ubizjak@gmail.com>,
+ linux-sparse@vger.kernel.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [patch 5/9] x86: Cure per CPU madness on UP
+In-Reply-To: <d51ec9a1-5221-4005-9980-8258df8b5102@roeck-us.net>
+References: <20240303235029.555787150@linutronix.de>
+ <20240304005104.622511517@linutronix.de>
+ <e20d88d0-5fb9-4307-be67-88b04ae9a188@roeck-us.net> <87bk79i8km.ffs@tglx>
+ <d51ec9a1-5221-4005-9980-8258df8b5102@roeck-us.net>
+Date: Thu, 21 Mar 2024 12:14:27 +0100
+Message-ID: <87r0g3hm5o.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240321070752.81405-1-guomengqi3@huawei.com>
+Content-Type: text/plain
 
-Hi,
+On Wed, Mar 20 2024 at 08:46, Guenter Roeck wrote:
+> On 3/20/24 01:58, Thomas Gleixner wrote:
+>> On Fri, Mar 15 2024 at 09:17, Guenter Roeck wrote:
+>>> I don't know the code well enough to determine what is wrong.
+>>> Please let me know what I can do to help debugging the problem.
+>> 
+>> Could you provide me the config and the qemu command line?
+>> 
+>
+> defconfig-CONFIG_SMP and
+>
+> qemu-system-x86_64 -kernel arch/x86/boot/bzImage -cpu Haswell \
+>       --append "console=ttyS0" -nographic -monitor none
+>
+> The cpu doesn't really matter as long as it is an Intel CPU.
+> A root file system isn't needed since the boot doesn't get that far.
 
-Thanks for your patch.
+Now it get's interesting because I can't reproduce it with that setup at
+all.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+What's weird is that I saw it exactly once on 64-bit in a VM with a UP
+config two days ago, but when I started to add instrumentation it never
+came back even after backing the instrumentation changes out. I have
+seriously no idea what's going on there.
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+Is it fully reproducible on your side?
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] drm/vkms: call drm_atomic_helper_shutdown before drm_dev_put()
-Link: https://lore.kernel.org/stable/20240321070752.81405-1-guomengqi3%40huawei.com
+If so can you please provide a full dmesg and then apply the patch below
+and provide the resulting full dmesg too?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I found two other issues while trying to find a way to reproduce, but
+those are completely unrelated to the problem you are observing.
 
+Thanks,
 
+        tglx
+---
+ arch/x86/kernel/cpu/topology.c |   19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
+--- a/arch/x86/kernel/cpu/topology.c
++++ b/arch/x86/kernel/cpu/topology.c
+@@ -176,6 +176,8 @@ static __init void topo_register_apic(u3
+ {
+ 	int cpu, dom;
+ 
++	pr_info("APIC: %x %d\n", apic_id, present);
++
+ 	if (present) {
+ 		set_bit(apic_id, phys_cpu_present_map);
+ 
+@@ -277,10 +279,23 @@ int topology_get_logical_id(u32 apicid,
+ 	/* Remove the bits below @at_level to get the proper level ID of @apicid */
+ 	unsigned int lvlid = topo_apicid(apicid, at_level);
+ 
+-	if (lvlid >= MAX_LOCAL_APIC)
++	pr_info("APIC logical ID: %x %x %d\n", apicid, lvlid, at_level);
++
++	if (WARN_ON_ONCE(lvlid >= MAX_LOCAL_APIC))
+ 		return -ERANGE;
+-	if (!test_bit(lvlid, apic_maps[at_level].map))
++
++	/*
++	 * If there was no APIC registered, then the map check below would
++	 * fail. With no APIC this is guaranteed to be an UP system and
++	 * therefore all topology levels have only one entry and their
++	 * logical ID is obviously 0.
++	 */
++	if (topo_info.boot_cpu_apic_id == BAD_APICID)
++		return 0;
++
++	if (WARN_ON_ONCE(!test_bit(lvlid, apic_maps[at_level].map)))
+ 		return -ENODEV;
++
+ 	/* Get the number of set bits before @lvlid. */
+ 	return bitmap_weight(apic_maps[at_level].map, lvlid);
+ }
