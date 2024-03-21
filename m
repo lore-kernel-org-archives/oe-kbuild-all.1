@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7AE5820E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 11:46:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F74657329
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 11:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711021608; cv=none; b=KvvnX5c2ptNGbB4DC+gdnz0YjQvXspKnl/ZofY6fiaWdEB83yOKvs65KZZHguAdFsuSGW9fOh8Zp+F1WqfinMzv52kyNb9QQlNbW37BcNYuBBHby/D3I3eRkKgJsr+TPdsNHoOCJBYFl1u/T8Sgd39AZ+ZgRfMVXGTRSxoVyPow=
+	t=1711022210; cv=none; b=RFO1teGBH2cYkRnki/SQjpm0QxWQAY4CffSObqcJyUtFnPIHqPya4xhbmuTC5R8C0iGUYLdZvEhiWJqgktssqdhCbWsojc4+IVyylriWynLHfbqUNFLvvFNjLqkXBzHD8xZhriAe8KfV3ubD2hsS+34LLRTKYZiz0Q4ITAAhUn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711021608; c=relaxed/simple;
-	bh=0l5LPZC8q3ghJDq5fw1hcZxqP016+wSDXJkN4vAkN9M=;
+	s=arc-20240116; t=1711022210; c=relaxed/simple;
+	bh=F4caeA4eOy7XGs5qQcj8ZWa2xuWvY4EIf/VkJY0Jwig=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NYfDb6/Q2RYns5+UsdEWPYEjGHh4CFcJsaO56QyEiHfCTxtHobee1nXq23ZSRxb+30Z00eQEfNXe9QOqzmcGkDE5G2BUswIuSd3Q2q8NxVkW8+muP/9COTMQ9/zEobH89BGB7gmno1OG5z0gCDhpBhKFu6cQfzJYV6bPjKHSKog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kgFupRqH; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=dYyZV+3Hx++4uPsTX7UEMjxrCK/9Hru4Ts6PW/GwgzK8QcLSK++uH8VFIqLSAOb6S8yVzC2FQ5/uRkc4BxvQ0Ehx7ZoWuxvLGG7Zd2BqrDe44IE2ARyQMGKUQvnKOxEY+j5VPs3IApzIEoEPkZ9npcCJPpukCS9Lq/Gsmko3Xvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jxkt/mKn; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kgFupRqH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jxkt/mKn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711021605; x=1742557605;
+  t=1711022208; x=1742558208;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0l5LPZC8q3ghJDq5fw1hcZxqP016+wSDXJkN4vAkN9M=;
-  b=kgFupRqHsS5SW/veFsi4aaxyOuBlIVhWo1/BcUAng/nrkW9kY0NsIpCd
-   HvMtgCd5u+ms3dC0diJfdHlGG/GDpUieLIiSUGySCYO5hrvZaOI2nYo+3
-   HICWxsat/xJAzpSItRxVxZOYIZL/42+8lAVDOgSR1DBY4k372klatBBwp
-   7ZnYwWp1zWUtOmZQRjH8LGaea3Lxfma9fHjjcu6rT2fyDztIxaZr0EOJv
-   XtmZXwxRCPh3vHGoRz+w+3fkFmBSC2ku6pQ1FxdrOtNY1L1ZRC68t3KG0
-   dhFqE0utnt7YGwLSLx6xDujFtqXEDbXNEtI1odfxIEecPDG5kr5KnxCHq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="6182474"
+  bh=F4caeA4eOy7XGs5qQcj8ZWa2xuWvY4EIf/VkJY0Jwig=;
+  b=Jxkt/mKnXxcfkjZM5or16TTSe3zwqm10kqMCtvR0QTj9tePgWrYvCjlr
+   nD82iXVFfgQl1RpCxVpSl0MzUstYYCYvWsW2BR98nG4bVWaG5gXCdbTkz
+   kk96p8byBlNRjMF0cVz7oh9RGFhikmfv/46vTSVB+8glZZ5wHtIVwgXbE
+   RE1RRsyhPGCynjizwUd/ylhc3qo87oAfDcWLN7RQRpam39rDMaIPXNZz1
+   EqTBnn3SS8oVLZRlq63FvQzXl4SEbCq7pfp8k+Un6fz0pZ0SIrm9HQmHp
+   MJ/uXpwhURV27Vdrfp7NWQ4m8o+k7CD6PmKsT+sEgfoOhklDB6NvW4b/h
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="16644698"
 X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="6182474"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 04:46:44 -0700
+   d="scan'208";a="16644698"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 04:56:47 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="19207102"
+   d="scan'208";a="14483940"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 21 Mar 2024 04:46:45 -0700
+  by orviesa009.jf.intel.com with ESMTP; 21 Mar 2024 04:56:46 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rnGsc-000JNL-0k;
-	Thu, 21 Mar 2024 11:46:42 +0000
-Date: Thu, 21 Mar 2024 19:46:10 +0800
+	id 1rnH2I-000JOT-2D;
+	Thu, 21 Mar 2024 11:56:42 +0000
+Date: Thu, 21 Mar 2024 19:56:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
+To: Jeff Layton <jlayton@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:twf-hoist 566/627] fs/verity/verify.c:391: warning:
- Function parameter or struct member 'sb' not described in
- 'fsverity_enqueue_verify_work'
-Message-ID: <202403211948.nzNJPqqx-lkp@intel.com>
+Subject: [jlayton:dir-deleg 10/25] fs/namei.c:3186: warning: Function
+ parameter or struct member 'delegated_inode' not described in '__vfs_create'
+Message-ID: <202403211918.0qZK3cDs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,45 +58,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git twf-hoist
-head:   709c2aed7586c3ac6a9d636355c623611d5c14d1
-commit: d31a4aee9f1d98ba52cc871df07c35edc8e367e3 [566/627] fsverity: remove system-wide workqueue
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240321/202403211948.nzNJPqqx-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240321/202403211948.nzNJPqqx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
+head:   e0c71c86a9144cb35fc55a869a5f79dbbce1e04c
+commit: 843fc69a26e1aa01e6e669512919306fcc9ae1e7 [10/25] vfs: make vfs_create break delegations on parent directory
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20240321/202403211918.0qZK3cDs-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240321/202403211918.0qZK3cDs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403211948.nzNJPqqx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403211918.0qZK3cDs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/verity/verify.c:391: warning: Function parameter or struct member 'sb' not described in 'fsverity_enqueue_verify_work'
+>> fs/namei.c:3186: warning: Function parameter or struct member 'delegated_inode' not described in '__vfs_create'
+>> fs/namei.c:3186: warning: expecting prototype for vfs_create(). Prototype was for __vfs_create() instead
 
 
-vim +391 fs/verity/verify.c
+vim +3186 fs/namei.c
 
-2c5f5bfebb781a Darrick J. Wong 2024-03-19  382  
-8a1d0f9cacc997 Eric Biggers    2019-07-22  383  /**
-8a1d0f9cacc997 Eric Biggers    2019-07-22  384   * fsverity_enqueue_verify_work() - enqueue work on the fs-verity workqueue
-6377a38bd345b7 Eric Biggers    2020-05-11  385   * @work: the work to enqueue
-8a1d0f9cacc997 Eric Biggers    2019-07-22  386   *
-8a1d0f9cacc997 Eric Biggers    2019-07-22  387   * Enqueue verification work for asynchronous processing.
-8a1d0f9cacc997 Eric Biggers    2019-07-22  388   */
-d31a4aee9f1d98 Darrick J. Wong 2024-03-20  389  void fsverity_enqueue_verify_work(struct super_block *sb,
-d31a4aee9f1d98 Darrick J. Wong 2024-03-20  390  				  struct work_struct *work)
-8a1d0f9cacc997 Eric Biggers    2019-07-22 @391  {
-d31a4aee9f1d98 Darrick J. Wong 2024-03-20  392  	queue_work(sb->s_verify_wq, work);
-8a1d0f9cacc997 Eric Biggers    2019-07-22  393  }
-8a1d0f9cacc997 Eric Biggers    2019-07-22  394  EXPORT_SYMBOL_GPL(fsverity_enqueue_verify_work);
-8a1d0f9cacc997 Eric Biggers    2019-07-22  395  
+1639a49ccdce58 Yang Xu               2022-07-14  3166  
+6521f891708292 Christian Brauner     2021-01-21  3167  /**
+6521f891708292 Christian Brauner     2021-01-21  3168   * vfs_create - create new file
+abf08576afe315 Christian Brauner     2023-01-13  3169   * @idmap:	idmap of the mount the inode was found from
+6521f891708292 Christian Brauner     2021-01-21  3170   * @dir:	inode of @dentry
+6521f891708292 Christian Brauner     2021-01-21  3171   * @dentry:	pointer to dentry of the base directory
+6521f891708292 Christian Brauner     2021-01-21  3172   * @mode:	mode of the new file
+6521f891708292 Christian Brauner     2021-01-21  3173   * @want_excl:	whether the file must not yet exist
+6521f891708292 Christian Brauner     2021-01-21  3174   *
+6521f891708292 Christian Brauner     2021-01-21  3175   * Create a new file.
+6521f891708292 Christian Brauner     2021-01-21  3176   *
+abf08576afe315 Christian Brauner     2023-01-13  3177   * If the inode has been found through an idmapped mount the idmap of
+abf08576afe315 Christian Brauner     2023-01-13  3178   * the vfsmount must be passed through @idmap. This function will then take
+abf08576afe315 Christian Brauner     2023-01-13  3179   * care to map the inode according to @idmap before checking permissions.
+6521f891708292 Christian Brauner     2021-01-21  3180   * On non-idmapped mounts or if permission checking is to be performed on the
+376870aa234439 Alexander Mikhalitsyn 2023-12-15  3181   * raw inode simply pass @nop_mnt_idmap.
+6521f891708292 Christian Brauner     2021-01-21  3182   */
+843fc69a26e1aa Jeff Layton           2024-02-13  3183  static int __vfs_create(struct mnt_idmap *idmap, struct inode *dir,
+843fc69a26e1aa Jeff Layton           2024-02-13  3184  			struct dentry *dentry, umode_t mode, bool want_excl,
+843fc69a26e1aa Jeff Layton           2024-02-13  3185  			struct inode **delegated_inode)
+^1da177e4c3f41 Linus Torvalds        2005-04-16 @3186  {
+abf08576afe315 Christian Brauner     2023-01-13  3187  	int error;
+abf08576afe315 Christian Brauner     2023-01-13  3188  
+4609e1f18e19c3 Christian Brauner     2023-01-13  3189  	error = may_create(idmap, dir, dentry);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  3190  	if (error)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  3191  		return error;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  3192  
+acfa4380efe77e Al Viro               2008-12-04  3193  	if (!dir->i_op->create)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  3194  		return -EACCES;	/* shouldn't it be ENOSYS? */
+1639a49ccdce58 Yang Xu               2022-07-14  3195  
+9452e93e6dae86 Christian Brauner     2023-01-13  3196  	mode = vfs_prepare_mode(idmap, dir, mode, S_IALLUGO, S_IFREG);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  3197  	error = security_inode_create(dir, dentry, mode);
+843fc69a26e1aa Jeff Layton           2024-02-13  3198  	if (error)
+843fc69a26e1aa Jeff Layton           2024-02-13  3199  		return error;
+843fc69a26e1aa Jeff Layton           2024-02-13  3200  	error = try_break_deleg(dir, delegated_inode);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  3201  	if (error)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  3202  		return error;
+6c960e68aaed33 Christian Brauner     2023-01-13  3203  	error = dir->i_op->create(idmap, dir, dentry, mode, want_excl);
+a74574aafea3a6 Stephen Smalley       2005-09-09  3204  	if (!error)
+f38aa94224c551 Amy Griffis           2005-11-03  3205  		fsnotify_create(dir, dentry);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  3206  	return error;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  3207  }
+843fc69a26e1aa Jeff Layton           2024-02-13  3208  
 
-:::::: The code at line 391 was first introduced by commit
-:::::: 8a1d0f9cacc997bedc017056a94f35dc823394ed fs-verity: add data verification hooks for ->readpages()
+:::::: The code at line 3186 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Eric Biggers <ebiggers@google.com>
-:::::: CC: Eric Biggers <ebiggers@google.com>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
