@@ -1,60 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244A110A25;
-	Fri, 22 Mar 2024 08:03:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A2C20B2E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Mar 2024 09:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711094603; cv=none; b=ZmfnwOUtRDt0jTgrAbhJip5sCJsJRMnUqEbZoKYUkLCZqf9LGL6kN2BTtSdbZdymZ4ZDMQXgh26d3YBEwqViqd7U1m0pFpgNpt+Fm8bcNBJ0Z4WN68TL1uX1ICZz8GRDWRSWy4p8KKeX5pDgb3psPvH548dhFCIxXw03SUBacXM=
+	t=1711100363; cv=none; b=pslMeQ+gVpIwT1VXNFfzhtPX+zIB51B6Re2Na67ekAWu8oY3kAmG2/SdcpcHew2IKsakzo9PxPxGtV2YTuUKe+NbL6g9J+KDiabuLPSnTihmdA1oDjust1fAEJhzxQ0MyTqaeJ7VSkWEUPJDPrgVYaz396XwGQwElXax8XUyXNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711094603; c=relaxed/simple;
-	bh=KtREvos/d5+aLyOdl8HCquwfkvZVafN4A82rG+GpL2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JbX6KJ7YLgqbILiIpphZphHtvh7y7LWmgM7gExb4HXlWeC5bxuyaNf/8QCxaEhrUBVnV3zJjKNlIVj2oyYcmR0iTkXfQTs9CTBhpeSioQch/qJJ+vbyD1xaNwoAw6aIDU5sYBMtqAbVNcyIfxUSQRQTl5DA2/44CEThVBRRjcFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e8dM5SRM; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1711100363; c=relaxed/simple;
+	bh=V8aM6OCgOcvm5zmKYZ0GdgRjywxe/nP0WYMbHQYGD0Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KlHYNw1u4vpmZEiokh5tu3RuOC8j32D0q7cklCZ941njIMFJ+x+eB348TcAGH2fN6oHiprtkD3QV+/NX0URx5DUwZOiDk0diWcftGtlhXdT086gnUTmYvUo8xydfSosq8wPliMMI4Otx/vmeV38uR0JRO6nJGgaVMmkEul85V1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ve5bcYW/; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e8dM5SRM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ve5bcYW/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711094601; x=1742630601;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KtREvos/d5+aLyOdl8HCquwfkvZVafN4A82rG+GpL2A=;
-  b=e8dM5SRMs2OED8prvICJ3caPykHy7rauzZnajMLk7uTaenIOyHp6dcAk
-   zlh8zq1O7csNMXhsGDiDUZ84Nn8XOnT1uExCx4M22NHyCNq4kIuynMvWx
-   ZN+v9VVGcIs7cS861uQ3G4nuZYAIESigkimp7XWDMfx5myhQ1qTcKge5p
-   JGRdqda0MvMCHC6GG4c9Xa79SXXZwGUzVgYM4cZaDxHQ5eDtVUciMi4uR
-   abR0IlV1Ko/FqHIjiRkts85qHw2YCV3FVPhVhoeSkb+E3F1erT227496h
-   eWsysqsYXP02O5EQ38rbbc22aXvCKQdZCqkzph1fZx6iK38ZxfHbXVCto
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="5959704"
+  t=1711100361; x=1742636361;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=V8aM6OCgOcvm5zmKYZ0GdgRjywxe/nP0WYMbHQYGD0Q=;
+  b=Ve5bcYW/yb7jPdw7GFG++bBnpv0C7GncCQCbIbiOeTQPlxXTINSQ3XMn
+   CK8GfDC2wbiz0ugiy3O/+Xm94pdZEyiGSgD5on72Bb8wRnjnXixFri58j
+   tOBsdeGBTVX2RfeXwiuk10Ls3BJE5qIyEFvS3sRxTb8CfnTzSzC3xpXUl
+   6D7TOOI40tJxK9Sy0D18D9yuzmapN1G9QKt1S5ltR/pC8dcQchP3Un1DW
+   KikNdZmOYf7Cxld4S/q/5AUtAxWMg7kepi1vijiqhnae4cEWE7kO+O0rz
+   GBUNNLFceLuuDWQ2FNeiGjVO3N9I9vhL/n0UMISQ5rWyawHn/6oAYn6Ag
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="6255464"
 X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
-   d="scan'208";a="5959704"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 01:03:20 -0700
+   d="scan'208";a="6255464"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 02:39:19 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
-   d="scan'208";a="19373642"
+   d="scan'208";a="19549801"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Mar 2024 01:03:16 -0700
+  by orviesa004.jf.intel.com with ESMTP; 22 Mar 2024 02:39:19 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rnZru-000K91-14;
-	Fri, 22 Mar 2024 08:03:14 +0000
-Date: Fri, 22 Mar 2024 16:02:18 +0800
+	id 1rnbMq-000KCs-0W;
+	Fri, 22 Mar 2024 09:39:16 +0000
+Date: Fri, 22 Mar 2024 17:38:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sudan Landge <sudanl@amazon.com>, tytso@mit.edu, Jason@zx2c4.com,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, sathyanarayanan.kuppuswamy@linux.intel.com,
-	thomas.lendacky@amd.com, dan.j.williams@intel.com,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, graf@amazon.de,
-	dwmw@amazon.co.uk, bchalios@amazon.es, xmarcalx@amazon.co.uk
-Subject: Re: [PATCH v2 4/4] virt: vmgenid: add support for devicetree bindings
-Message-ID: <202403221537.Dais4vyo-lkp@intel.com>
-References: <20240321025105.53210-5-sudanl@amazon.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Oleg Nesterov <oleg@redhat.com>
+Subject: powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data325'
+ from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data325'
+Message-ID: <202403221741.UKuCKo72-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,32 +58,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240321025105.53210-5-sudanl@amazon.com>
 
-Hi Sudan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a4145ce1e7bc247fd6f2846e8699473448717b37]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sudan-Landge/virt-vmgenid-rearrange-code-to-make-review-easier/20240321-105317
-base:   a4145ce1e7bc247fd6f2846e8699473448717b37
-patch link:    https://lore.kernel.org/r/20240321025105.53210-5-sudanl%40amazon.com
-patch subject: [PATCH v2 4/4] virt: vmgenid: add support for devicetree bindings
-config: s390-randconfig-002-20240322 (https://download.01.org/0day-ci/archive/20240322/202403221537.Dais4vyo-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 23de3862dce582ce91c1aa914467d982cb1a73b4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240322/202403221537.Dais4vyo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8e938e39866920ddc266898e6ae1fffc5c8f51aa
+commit: 5431fdd2c181dd2eac218e45b44deb2925fa48f0 ptrace: Convert ptrace_attach() to use lock guards
+date:   4 months ago
+config: powerpc-randconfig-r013-20211210 (https://download.01.org/0day-ci/archive/20240322/202403221741.UKuCKo72-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240322/202403221741.UKuCKo72-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403221537.Dais4vyo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403221741.UKuCKo72-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   s390x-linux-ld: drivers/virt/vmgenid.o: in function `vmgenid_add':
->> vmgenid.c:(.text+0xe8): undefined reference to `of_address_to_resource'
->> s390x-linux-ld: vmgenid.c:(.text+0x148): undefined reference to `of_iomap'
+>> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data325' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data325'
+>> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data325' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data325'
+>> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data325' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data325'
 
 -- 
 0-DAY CI Kernel Test Service
