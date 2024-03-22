@@ -1,69 +1,55 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A2910958
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Mar 2024 06:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B272311713
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Mar 2024 07:30:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711090237; cv=none; b=MSSxa1UtlfLn1uXOs/P5aMkuWyQmiwPLYlhGe25AiKbfHpQjlptYr3pG9ZVgNCZ9lPkrTclVAucDmNcvZXddIusPGdq3KIr3//8IfLQV8tUj6qDjr3JmDYFZL4YuKM1JErSxP+77eX+AgC1kbVYCLlf879B6r11q0oOAJqAeNSg=
+	t=1711092623; cv=none; b=gTzSDkLS8b8vnJscEscs6uW63199kXDN+AHHyhan+6uBrOkGQDwr9LrqFnfiAcyTv1jNMouCg2lwimZHNg8AEJleF7SSmUBjlLrrjwRQcDfMjHdP/Oifh91OsqibbRR30A7VhNx3FO3CukPGrczrgMPS85PEFeVL2/jG88tNiDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711090237; c=relaxed/simple;
-	bh=zrzuAso8aeh5pC4mAiFrJhVpvOb5mnzmkaw95vJcMks=;
+	s=arc-20240116; t=1711092623; c=relaxed/simple;
+	bh=XCmeev7FCNN1LxxgkEvK7tfHEcJngUZI4+6Drhia3CA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ZnlfH7Lx7xYYU1tzJvdBVFumWvN5j/5a2ag/nBocZGyJzmL8EqMk1CpP9wWNfY6AXnYioLKMmUSAcNICkcNGLkor0qwQqvVXw/jYvj4xom7jjLKrkgKR2S91O/tESbK3h2YvDI8sais2s/kpeskVo1dyVFdyb1ej/+mCqtd68ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Nf0vgoyt; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=j5lb14jzKWh3XMMqyBimxO9pj9BYJ6ukpJcV8Bu6N3099/JwnCi0ueIu4OFebVDrBK1z82bkroAVPleYATSPNVnugxSs6tkQy4cxu1GXSc8y3o7ij85qig0/LmD+BOLw1rAGNfZLua0gtV117FudK/SxOGsVZpZJINLHf37UMks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PZyd/rtF; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Nf0vgoyt"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2d228a132acso24504091fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 23:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711090234; x=1711695034; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lear5JurVCpdFHONteGtRS/FeuXHg1HujgyE41Ql6qk=;
-        b=Nf0vgoytz8xeVZd7qc9PE0yOTBNACkvCE8atRlbnv4OIRNN3p9Q2YohTWwKctKm/Qb
-         aJAEWEAoPjMPgeIsyaUeLH3gGtQ4zB8FZWfe5Eb6MaOGHtCy1GPumP+fqQdKO1JHCzMo
-         1WdNNxD/z2qkuAA3svT/y18tVd9CxjtjMRrSH+Zbif+MswHUywXn0YumwdPk4DbXjFFI
-         9Ucjd0s7ym7L56Zndpc0h6/V+xUKKQhWEdCMWX70hueEPAy/ytfadc3pQbSzRYhpgPn1
-         T18tC2TaHA3g55gposEey2r7DEvT3ngHXWaZy9eyIq61fhx6FVQNcXOh7krDQlCQVgLD
-         KLoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711090234; x=1711695034;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Lear5JurVCpdFHONteGtRS/FeuXHg1HujgyE41Ql6qk=;
-        b=OOAMH+xTs3bdCsBDf5ZYbHuEY56HrQic2yRPT2ekK2kzU6QKD2RWQ2tfycszbaz7e9
-         3W39vdC7ySOJ8waxv0M6BfNoez3gWnfwM7Xmt9z7rB/UNJbC2uiC3UVakQmbPB3wgSi1
-         zC65ZJQfYL9KVA7ePH80kNrcgeZ3ZM7sDhyI67tPDu8rt+jilMzBWAjcR6/JW/8DsX/K
-         fCXI4xnFddiwF2yPq7LEQr+AASEOpIJutaeABN1drcYfKz2olfYVFOkACf97vLVGaxt5
-         4bJQyaVqTaTIocq11Ege2Ft0QB24k95eO24zwjR65H7TSF+7Pac7GjxddLqUYmzXu2qZ
-         EeMg==
-X-Forwarded-Encrypted: i=1; AJvYcCUxRUqQefmGwmBXjCdG5G8Iy8rRxQr8d3IIxxuUGnaUsVzWcy/9NZKT/3/fGPGvfVlUmdPLAb8ETq21lGeJ1HG2jzmbcubbJ+Qu/mZBsA==
-X-Gm-Message-State: AOJu0YxZefPwPBFvWzYKQWoiAnBHuQZgn05Xumc6KmxmagR0HdTWFCkz
-	5QJ7Yg5709zEiRQ7rOEIbGcAfkSPeaoSRRwvafxM9TtAf/YbBLHMHoOR3nvPK+w=
-X-Google-Smtp-Source: AGHT+IFMKzopYJg1Vt6qS3sf2pwS4XyO1nc7E0ZLMHJ/MRpND18D1RLffEWtQvCiMJW2u64hmYBWrg==
-X-Received: by 2002:a2e:3015:0:b0:2d2:dfd6:8335 with SMTP id w21-20020a2e3015000000b002d2dfd68335mr1126741ljw.22.1711090233349;
-        Thu, 21 Mar 2024 23:50:33 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id q17-20020a05600c46d100b00414659ba8c2sm2090679wmo.37.2024.03.21.23.50.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Mar 2024 23:50:33 -0700 (PDT)
-Date: Fri, 22 Mar 2024 09:50:29 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Heng Qi <hengqi@linux.alibaba.com>,
-	netdev@vger.kernel.org, virtualization@lists.linux.dev,
-	Jason Wang <jasowang@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] virtio-net: reduce the CPU consumption of dim worker
-Message-ID: <b7392d49-5619-4653-b565-29a7c5ca6ca1@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PZyd/rtF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711092621; x=1742628621;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XCmeev7FCNN1LxxgkEvK7tfHEcJngUZI4+6Drhia3CA=;
+  b=PZyd/rtFebvUvPgDnkh/fyjvzfjJAmNyuasb2izmhWEjvZrTBjuQnKF1
+   cFYWydhQIjSFznMGneHZ3MCGMbQfvqtPaYqnsJnokQVEuXTYD2gBeQzBu
+   1cvLHz+SWlAHWZdKUE0kM/aR5/MlyyHn6WZS9SOlWsbasRqUEk8WOybX5
+   vrioaoqnqcD9z0AwGxu0XsqeZ0TA9Wkq2186Y7sFRDYdHmIwuUY9Yfb8t
+   Fhxa3KTV6bm/tg7jyvoiXrE5RmJ1oGGczvx31e8VnsZ238tCbAYoVWXgq
+   u5qCupYZW/iDKW4ivfAUSc06of8ZQHvuHyajVbqENT4C3/5T0L2GaLfFj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="9077488"
+X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
+   d="scan'208";a="9077488"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 00:30:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
+   d="scan'208";a="52234896"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 22 Mar 2024 00:30:16 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rnZLx-000K7b-20;
+	Fri, 22 Mar 2024 07:30:13 +0000
+Date: Fri, 22 Mar 2024 15:30:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-remove-absolute-percpu 3/5]
+ arch/x86/kernel/cpu/common.c:762:22: error: implicit declaration of function
+ 'per_cpu_offset'; did you mean 'percpu_ref_get'?
+Message-ID: <202403221505.WUAeQdeS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,75 +58,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1711021557-58116-3-git-send-email-hengqi@linux.alibaba.com>
 
-Hi Heng,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/virtio-net-fix-possible-dim-status-unrecoverable/20240321-194759
-base:   linus/master
-patch link:    https://lore.kernel.org/r/1711021557-58116-3-git-send-email-hengqi%40linux.alibaba.com
-patch subject: [PATCH 2/2] virtio-net: reduce the CPU consumption of dim worker
-config: i386-randconfig-141-20240322 (https://download.01.org/0day-ci/archive/20240322/202403221133.J66oueZh-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-remove-absolute-percpu
+head:   811d6eeae9abffb646afa9c418d4658e6d91cdd6
+commit: 82b7a620962b18edb7cb6eaca34fd0bd06073611 [3/5] x86/percpu: Get rid of absolute per-CPU variable placement
+config: x86_64-buildonly-randconfig-001-20240321 (https://download.01.org/0day-ci/archive/20240322/202403221505.WUAeQdeS-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240322/202403221505.WUAeQdeS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403221133.J66oueZh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403221505.WUAeQdeS-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/virtio_net.c:5031 virtnet_probe() warn: missing error code 'err'
+All errors (new ones prefixed by >>):
 
-vim +/err +5031 drivers/net/virtio_net.c
+   arch/x86/kernel/cpu/common.c: In function 'switch_gdt_and_percpu_base':
+>> arch/x86/kernel/cpu/common.c:762:22: error: implicit declaration of function 'per_cpu_offset'; did you mean 'percpu_ref_get'? [-Werror=implicit-function-declaration]
+     wrmsrl(MSR_GS_BASE, per_cpu_offset(cpu));
+                         ^~~~~~~~~~~~~~
+                         percpu_ref_get
+   cc1: some warnings being treated as errors
 
-986a4f4d452dec Jason Wang            2012-12-07  5006  	/* Allocate/initialize the rx/tx queues, and invoke find_vqs */
-3f9c10b0d478a3 Amit Shah             2011-12-22  5007  	err = init_vqs(vi);
-d2a7ddda9ffb1c Michael S. Tsirkin    2009-06-12  5008  	if (err)
-d7dfc5cf56b0e3 Toshiaki Makita       2018-01-17  5009  		goto free;
-296f96fcfc160e Rusty Russell         2007-10-22  5010  
-3014a0d54820d2 Heng Qi               2023-10-08  5011  	if (virtio_has_feature(vi->vdev, VIRTIO_NET_F_NOTF_COAL)) {
-3014a0d54820d2 Heng Qi               2023-10-08  5012  		vi->intr_coal_rx.max_usecs = 0;
-3014a0d54820d2 Heng Qi               2023-10-08  5013  		vi->intr_coal_tx.max_usecs = 0;
-3014a0d54820d2 Heng Qi               2023-10-08  5014  		vi->intr_coal_rx.max_packets = 0;
-3014a0d54820d2 Heng Qi               2023-10-08  5015  
-3014a0d54820d2 Heng Qi               2023-10-08  5016  		/* Keep the default values of the coalescing parameters
-3014a0d54820d2 Heng Qi               2023-10-08  5017  		 * aligned with the default napi_tx state.
-3014a0d54820d2 Heng Qi               2023-10-08  5018  		 */
-3014a0d54820d2 Heng Qi               2023-10-08  5019  		if (vi->sq[0].napi.weight)
-3014a0d54820d2 Heng Qi               2023-10-08  5020  			vi->intr_coal_tx.max_packets = 1;
-3014a0d54820d2 Heng Qi               2023-10-08  5021  		else
-3014a0d54820d2 Heng Qi               2023-10-08  5022  			vi->intr_coal_tx.max_packets = 0;
-3014a0d54820d2 Heng Qi               2023-10-08  5023  	}
-3014a0d54820d2 Heng Qi               2023-10-08  5024  
-d8cd72f1622753 Heng Qi               2024-03-21  5025  	INIT_LIST_HEAD(&vi->coal_list);
-3014a0d54820d2 Heng Qi               2023-10-08  5026  	if (virtio_has_feature(vi->vdev, VIRTIO_NET_F_VQ_NOTF_COAL)) {
-d8cd72f1622753 Heng Qi               2024-03-21  5027  		vi->cvq_cmd_nums = 0;
-d8cd72f1622753 Heng Qi               2024-03-21  5028  		vi->dim_loop_index = 0;
-d8cd72f1622753 Heng Qi               2024-03-21  5029  
-d8cd72f1622753 Heng Qi               2024-03-21  5030  		if (virtnet_init_coal_list(vi))
-d8cd72f1622753 Heng Qi               2024-03-21 @5031  			goto free;
 
-This should probably set the error code.
+vim +762 arch/x86/kernel/cpu/common.c
 
-	err = virtnet_init_coal_list(vi);
-	if (err)
-		goto free;
-
-d8cd72f1622753 Heng Qi               2024-03-21  5032  
-3014a0d54820d2 Heng Qi               2023-10-08  5033  		/* The reason is the same as VIRTIO_NET_F_NOTF_COAL. */
-d8cd72f1622753 Heng Qi               2024-03-21  5034  		for (i = 0; i < vi->max_queue_pairs; i++) {
-d8cd72f1622753 Heng Qi               2024-03-21  5035  			vi->rq[i].packets_in_napi = 0;
-3014a0d54820d2 Heng Qi               2023-10-08  5036  			if (vi->sq[i].napi.weight)
-3014a0d54820d2 Heng Qi               2023-10-08  5037  				vi->sq[i].intr_coal.max_packets = 1;
-3014a0d54820d2 Heng Qi               2023-10-08  5038  		}
-d8cd72f1622753 Heng Qi               2024-03-21  5039  	}
+   733	
+   734	/**
+   735	 * switch_gdt_and_percpu_base - Switch to direct GDT and runtime per CPU base
+   736	 * @cpu:	The CPU number for which this is invoked
+   737	 *
+   738	 * Invoked during early boot to switch from early GDT and early per CPU to
+   739	 * the direct GDT and the runtime per CPU area. On 32-bit the percpu base
+   740	 * switch is implicit by loading the direct GDT. On 64bit this requires
+   741	 * to update GSBASE.
+   742	 */
+   743	void __init switch_gdt_and_percpu_base(int cpu)
+   744	{
+   745		load_direct_gdt(cpu);
+   746	
+   747	#ifdef CONFIG_X86_64
+   748		/*
+   749		 * No need to load %gs. It is already correct.
+   750		 *
+   751		 * Writing %gs on 64bit would zero GSBASE which would make any per
+   752		 * CPU operation up to the point of the wrmsrl() fault.
+   753		 *
+   754		 * Set GSBASE to the new offset. Until the wrmsrl() happens the
+   755		 * early mapping is still valid. That means the GSBASE update will
+   756		 * lose any prior per CPU data which was not copied over in
+   757		 * setup_per_cpu_areas().
+   758		 *
+   759		 * This works even with stackprotector enabled because the
+   760		 * per CPU stack canary is 0 in both per CPU areas.
+   761		 */
+ > 762		wrmsrl(MSR_GS_BASE, per_cpu_offset(cpu));
+   763	#else
+   764		/*
+   765		 * %fs is already set to __KERNEL_PERCPU, but after switching GDT
+   766		 * it is required to load FS again so that the 'hidden' part is
+   767		 * updated from the new GDT. Up to this point the early per CPU
+   768		 * translation is active. Any content of the early per CPU data
+   769		 * which was not copied over in setup_per_cpu_areas() is lost.
+   770		 */
+   771		loadsegment(fs, __KERNEL_PERCPU);
+   772	#endif
+   773	}
+   774	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
