@@ -1,58 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17C87FBAC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Mar 2024 21:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E187FBB6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Mar 2024 21:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711142022; cv=none; b=gdYyuZKtWQJzNo7MUUnRpbyJmv2Kk/Eg5SLEgrYzaEFH3+ypXdfEU1mnZmfybmBCg8LY+yyI4+hxgCQhDZamWBEjH0Bf07CElVHh8CLXPMwfn1GMOIPTUex2kGo3tJGVebrvyGHxe10UfGNg8PZyh+75lZGgljsk1NUDkiyxIWk=
+	t=1711142622; cv=none; b=FAxsxn3YV6orvSoDZIVT7kP9IHudo9X13K8/K29t29XwmFuDr5tSfN2vSsK6MmjF1lfXDT/9ITECR8aSngRB2cA5fjp6HqyUwuC5/PVvl9LyYf8MSNv7a9E2Ui1fo+1Hg62ivJ+AnmfJF3nDxVlOzW35zXnE2sLe6MXX1rm8EVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711142022; c=relaxed/simple;
-	bh=d4wXg0zdFGWl3dt8AEYgyDp0m3LiJatCemAfJcraw4E=;
+	s=arc-20240116; t=1711142622; c=relaxed/simple;
+	bh=HZYjlzy7jLStogdrofzamiIYeEsGa5Pqck9EnSSxnGU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EL80RIkayQNkYaVWf65i7r6xa+1hsc2fFv1pgR1wClE4geCnq4R1IVC+4Vof/yRhkqHq1xYqsyZkbSxuWRz8J8UmD4XiYAfjQCrq3dizJHVMY5VNbORoCmtvMefuCFSetmh0B7e+R0e3PDQCFK8Wqsw7EF4kSq6g73OaBijct4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kbb3zjUi; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=ifN4Od2WKwBOdEl0H0Tn7XX4DqBs/w85lHwoR8lgDQs3cwIpByjIDuSRSxpjVXG2r+fF8FzYz48OaVnUCLK/EOIo5HvWAtAV+bsbKwH+ALKo1LQe66dmWxh0Tok6QUphjUngViWHXSm7nM+MJr2kmPhyb2DfSq8Yok7mDHI+Wh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XSlQxwVy; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kbb3zjUi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XSlQxwVy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711142021; x=1742678021;
+  t=1711142620; x=1742678620;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d4wXg0zdFGWl3dt8AEYgyDp0m3LiJatCemAfJcraw4E=;
-  b=Kbb3zjUiMTfm2oWi5KJz0UY0N0CDjwOsW5lgWePhH5AZv0TLwDKlVSI6
-   CvwKLVvcep3HtHwH1/MJW3tjzai457vpQSZpmYKR58udOb1gOyAejv3rL
-   o/SnnkV+PmNxbhyi/8MZ1QA/hiac3qHUMACleWAKv/KkxyVJPCrYGQ9pB
-   ude4yj+rUoY3Pd3bJ1phu7NO6qojICeFT+RrW2ArwHL99xh+O20jI9SUa
-   UU5w3lYM41h4tYyUKP497k8L3BaGkddkZvRwdgMSK6iLoGjn9SrVkE+Ym
-   CJUueMJ6/T/wxaD7YzeyAKxeWQTIENyUZfkW0YNSBxUBMHLl0xSUSEOrE
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11021"; a="6039776"
+  bh=HZYjlzy7jLStogdrofzamiIYeEsGa5Pqck9EnSSxnGU=;
+  b=XSlQxwVyLXcnfyoo7sxIVwam+v5LJ65loSnmqqarie0G1SCnn9e0OSTq
+   shj9GWnLGqIQrgZMvEPf4osoL4BUAZiU/se2Z1RqjU3Swpd+iLvt8UtjU
+   Trrw1fkQros4+nBopiff+xUJcyfCKr2qkQUuTuuQqgufALOEDjt/AKRq6
+   ol+NRXDF0MHMwy01PV+b0tPDEHNV4x49PtRfU96LkRMzbbmnloDHJvQ3+
+   72BnteBWgf88hrUoZQKSa/DXAA7JelhaB8DQBDFokRJWjeluGIy0w6Oa3
+   X5frAT2gcftooDuOVv+UZJDZx8xuLENojaqGKPLZtukKw5JFNV8/p+VN1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11021"; a="28687643"
 X-IronPort-AV: E=Sophos;i="6.07,147,1708416000"; 
-   d="scan'208";a="6039776"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 14:13:38 -0700
+   d="scan'208";a="28687643"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 14:23:39 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,147,1708416000"; 
-   d="scan'208";a="14945512"
+   d="scan'208";a="15045243"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 22 Mar 2024 14:13:36 -0700
+  by orviesa009.jf.intel.com with ESMTP; 22 Mar 2024 14:23:37 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rnmCk-000KcX-27;
-	Fri, 22 Mar 2024 21:13:34 +0000
-Date: Sat, 23 Mar 2024 05:13:02 +0800
+	id 1rnmMQ-000Kcp-2Y;
+	Fri, 22 Mar 2024 21:23:34 +0000
+Date: Sat, 23 Mar 2024 05:23:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Kubiak <michal.kubiak@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexander Lobakin <aleksander.lobakin@intel.com>
-Subject: [alobakin:idpf-libie-new 57/67] include/linux/build_bug.h:78:41:
- error: static assertion failed: "offsetof(struct idpf_rx_queue,
- __cacheline_group_end__read_mostly) - offsetofend(struct idpf_rx_queue,
- __cacheline_group_begin__read_mostly) <= ALIGN(((((64)) +
- ((__typeof__((64)))((32)) - ...
-Message-ID: <202403230555.nUuys8Kg-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 9348/9434]
+ include/linux/percpu-rwsem.h:70:60: sparse: sparse: non size-preserving
+ pointer to integer cast
+Message-ID: <202403230521.dGnQNpKc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,101 +59,204 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alobakin/linux idpf-libie-new
-head:   b336f2db592517d25e745924c92e8604eeea0502
-commit: 98332c2ffce8b6aac8462b91b765bf4c0eab242c [57/67] idpf: prepare structures to support xdp
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240323/202403230555.nUuys8Kg-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240323/202403230555.nUuys8Kg-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   6763b81216d54c695fac83f157bbbf93ac93233d
+commit: 51c3760d93e2a3f2e64a65c5875c000180205a23 [9348/9434] ANDROID: vendor_hook: add hooks to protect locking-tsk in cpu scheduler
+config: i386-randconfig-061-20240322 (https://download.01.org/0day-ci/archive/20240323/202403230521.dGnQNpKc-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240323/202403230521.dGnQNpKc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403230555.nUuys8Kg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403230521.dGnQNpKc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/btrfs/defrag.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h, fs/btrfs/ctree.h):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   fs/btrfs/defrag.c: note: in included file (through include/linux/fs.h, include/linux/huge_mm.h, include/linux/mm.h, fs/btrfs/ctree.h):
+>> include/linux/percpu-rwsem.h:70:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+--
+   fs/btrfs/transaction.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   fs/btrfs/transaction.c: note: in included file (through include/linux/fs.h):
+>> include/linux/percpu-rwsem.h:70:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+   fs/btrfs/transaction.c: note: in included file (through arch/x86/include/generated/asm/unaligned.h, fs/btrfs/ctree.h):
+   include/asm-generic/unaligned.h:37:16: sparse: sparse: self-comparison always evaluates to true
+   fs/btrfs/transaction.c: note: in included file (through include/linux/fs.h):
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+--
+   fs/btrfs/ioctl.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   fs/btrfs/ioctl.c:424:6: sparse: sparse: context imbalance in 'btrfs_exclop_start_try_lock' - wrong count at exit
+   fs/btrfs/ioctl.c:437:6: sparse: sparse: context imbalance in 'btrfs_exclop_start_unlock' - unexpected unlock
+   fs/btrfs/ioctl.c: note: in included file (through include/linux/fs.h, include/linux/highmem.h, include/linux/bvec.h, ...):
+>> include/linux/percpu-rwsem.h:70:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+--
+   fs/btrfs/volumes.c:398:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rcu_string *str @@     got struct rcu_string [noderef] __rcu *name @@
+   fs/btrfs/volumes.c:398:31: sparse:     expected struct rcu_string *str
+   fs/btrfs/volumes.c:398:31: sparse:     got struct rcu_string [noderef] __rcu *name
+   fs/btrfs/volumes.c:626:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:626:43: sparse:     expected char const *device_path
+   fs/btrfs/volumes.c:626:43: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c:891:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *cs @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:891:50: sparse:     expected char const *cs
+   fs/btrfs/volumes.c:891:50: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c:964:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rcu_string *str @@     got struct rcu_string [noderef] __rcu *name @@
+   fs/btrfs/volumes.c:964:39: sparse:     expected struct rcu_string *str
+   fs/btrfs/volumes.c:964:39: sparse:     got struct rcu_string [noderef] __rcu *name
+   fs/btrfs/volumes.c:1014:34: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char const *dev_path @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:1014:34: sparse:     expected char const *dev_path
+   fs/btrfs/volumes.c:1014:34: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c:2221:49: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:2221:49: sparse:     expected char const *device_path
+   fs/btrfs/volumes.c:2221:49: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c:2336:41: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:2336:41: sparse:     expected char const *device_path
+   fs/btrfs/volumes.c:2336:41: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/sched/mm.h):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   fs/btrfs/volumes.c: note: in included file (through include/linux/fs.h, include/linux/namei.h):
+>> include/linux/percpu-rwsem.h:70:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+>> include/linux/percpu-rwsem.h:70:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+--
+   fs/btrfs/inode.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   fs/btrfs/inode.c: note: in included file (through include/linux/string.h, arch/x86/include/asm/page_32.h, arch/x86/include/asm/page.h, ...):
+   include/linux/err.h:41:17: sparse: sparse: self-comparison always evaluates to false
+   fs/btrfs/inode.c: note: in included file (through include/linux/fs.h, include/linux/highmem.h, include/linux/bvec.h, ...):
+>> include/linux/percpu-rwsem.h:70:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+--
+   fs/btrfs/block-group.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h, fs/btrfs/ctree.h):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   fs/btrfs/block-group.c: note: in included file (through include/linux/fs.h, include/linux/huge_mm.h, include/linux/mm.h, fs/btrfs/ctree.h):
+>> include/linux/percpu-rwsem.h:70:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+--
+   kernel/locking/percpu-rwsem.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+>> kernel/locking/percpu-rwsem.c:267:59: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/percpu-rwsem.c:298:59: sparse: sparse: non size-preserving pointer to integer cast
+--
+   kernel/locking/locktorture.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   kernel/locking/locktorture.c:447:12: sparse: sparse: context imbalance in 'torture_mutex_lock' - wrong count at exit
+   kernel/locking/locktorture.c:466:13: sparse: sparse: context imbalance in 'torture_mutex_unlock' - wrong count at exit
+   kernel/locking/locktorture.c:524:12: sparse: sparse: context imbalance in 'torture_ww_mutex_lock' - wrong count at exit
+   kernel/locking/locktorture.c: note: in included file:
+   include/linux/ww_mutex.h:191:9: sparse: sparse: context imbalance in 'torture_ww_mutex_unlock' - wrong count at exit
+   kernel/locking/locktorture.c:619:12: sparse: sparse: context imbalance in 'torture_rtmutex_lock' - wrong count at exit
+   kernel/locking/locktorture.c:645:13: sparse: sparse: context imbalance in 'torture_rtmutex_unlock' - wrong count at exit
+   kernel/locking/locktorture.c:685:12: sparse: sparse: context imbalance in 'torture_rwsem_down_write' - wrong count at exit
+   kernel/locking/locktorture.c:704:13: sparse: sparse: context imbalance in 'torture_rwsem_up_write' - wrong count at exit
+   kernel/locking/locktorture.c:710:12: sparse: sparse: context imbalance in 'torture_rwsem_down_read' - wrong count at exit
+   kernel/locking/locktorture.c:731:13: sparse: sparse: context imbalance in 'torture_rwsem_up_read' - wrong count at exit
+   kernel/locking/locktorture.c:761:12: sparse: sparse: context imbalance in 'torture_percpu_rwsem_down_write' - wrong count at exit
+   kernel/locking/locktorture.c:768:13: sparse: sparse: context imbalance in 'torture_percpu_rwsem_up_write' - wrong count at exit
+   kernel/locking/locktorture.c: note: in included file (through include/linux/fs.h, include/linux/huge_mm.h, include/linux/mm.h, include/linux/mman.h, ...):
+>> include/linux/percpu-rwsem.h:70:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:70:9: sparse: sparse: context imbalance in 'torture_percpu_rwsem_down_read' - wrong count at exit
+   include/linux/percpu-rwsem.h:128:60: sparse: sparse: non size-preserving pointer to integer cast
+   include/linux/percpu-rwsem.h:128:9: sparse: sparse: context imbalance in 'torture_percpu_rwsem_up_read' - wrong count at exit
+--
+   kernel/locking/mutex.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+>> kernel/locking/mutex.c:564:59: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/mutex.c:634:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/mutex.c:753:59: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/mutex.c:634:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/mutex.c:753:59: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/mutex.c:634:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/mutex.c:753:59: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/mutex.c:1116:67: sparse: sparse: non size-preserving pointer to integer cast
+--
+   kernel/locking/rwsem.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+>> kernel/locking/rwsem.c:1049:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:1119:59: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:1144:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:1225:59: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:1332:75: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:252:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:1332:75: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:252:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:1332:75: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:252:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:1332:75: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:264:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:264:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:264:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:264:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:264:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:1397:59: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:1422:60: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:1332:75: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:252:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:1332:75: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:252:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:264:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:264:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:252:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:264:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:264:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:264:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:264:67: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rwsem.c:1397:59: sparse: sparse: non size-preserving pointer to integer cast
+--
+   kernel/locking/rtmutex_api.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   kernel/locking/rtmutex_api.c: note: in included file:
+   kernel/locking/rtmutex.c:1615:17: sparse: sparse: context imbalance in 'rt_mutex_slowlock_block' - unexpected unlock
+>> kernel/locking/rtmutex_api.c:35:69: sparse: sparse: non size-preserving pointer to integer cast
+>> kernel/locking/rtmutex_api.c:35:69: sparse: sparse: non size-preserving pointer to integer cast
+>> kernel/locking/rtmutex_api.c:35:69: sparse: sparse: non size-preserving pointer to integer cast
+>> kernel/locking/rtmutex_api.c:35:69: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rtmutex_api.c:129:69: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/locking/rtmutex_api.c:144:61: sparse: sparse: non size-preserving pointer to integer cast
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/timer.h:5,
-                    from include/linux/netdevice.h:24,
-                    from include/trace/events/xdp.h:8,
-                    from include/linux/bpf_trace.h:5,
-                    from include/net/libeth/xdp.h:7,
-                    from drivers/net/ethernet/intel/idpf/idpf_xdp.c:4:
-   include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct idpf_q_vector, __cacheline_group_end__read_write) - offsetofend(struct idpf_q_vector, __cacheline_group_begin__read_write) <= ALIGN(672, __IDPF_LARGEST_ALIGN)"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:356:9: note: in expansion of macro 'static_assert'
-     356 |         static_assert(offsetof(type, __cacheline_group_end__##grp) -        \
-         |         ^~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:477:1: note: in expansion of macro '__idpf_cacheline_group_assert'
-     477 | __idpf_cacheline_group_assert(struct idpf_q_vector, read_write, 672);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct idpf_rx_queue, __cacheline_group_end__read_mostly) - offsetofend(struct idpf_rx_queue, __cacheline_group_begin__read_mostly) <= ALIGN(((((64)) + ((__typeof__((64)))((32)) - 1)) & ~((__typeof__((64)))((32)) - 1)) + 32, __IDPF_LARGEST_ALIGN)"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:356:9: note: in expansion of macro 'static_assert'
-     356 |         static_assert(offsetof(type, __cacheline_group_end__##grp) -        \
-         |         ^~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:363:9: note: in expansion of macro '__idpf_cacheline_group_assert'
-     363 |         __idpf_cacheline_group_assert(type, read_mostly, ro);               \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:622:1: note: in expansion of macro '__idpf_cacheline_queue_assert'
-     622 | __idpf_cacheline_queue_assert(struct idpf_rx_queue,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct idpf_tx_queue, __cacheline_group_end__read_write) - offsetofend(struct idpf_tx_queue, __cacheline_group_begin__read_write) <= ALIGN(96, __IDPF_LARGEST_ALIGN)"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:356:9: note: in expansion of macro 'static_assert'
-     356 |         static_assert(offsetof(type, __cacheline_group_end__##grp) -        \
-         |         ^~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:364:9: note: in expansion of macro '__idpf_cacheline_group_assert'
-     364 |         __idpf_cacheline_group_assert(type, read_write, rw);                \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:766:1: note: in expansion of macro '__idpf_cacheline_queue_assert'
-     766 | __idpf_cacheline_queue_assert(struct idpf_tx_queue, 64, 96, 32);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +70 include/linux/percpu-rwsem.h
 
-
-vim +78 include/linux/build_bug.h
-
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07 @77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+    49	
+    50	static inline void percpu_down_read(struct percpu_rw_semaphore *sem)
+    51	{
+    52		might_sleep();
+    53	
+    54		rwsem_acquire_read(&sem->dep_map, 0, 0, _RET_IP_);
+    55	
+    56		preempt_disable();
+    57		/*
+    58		 * We are in an RCU-sched read-side critical section, so the writer
+    59		 * cannot both change sem->state from readers_fast and start checking
+    60		 * counters while we are here. So if we see !sem->state, we know that
+    61		 * the writer won't be checking until we're past the preempt_enable()
+    62		 * and that once the synchronize_rcu() is done, the writer will see
+    63		 * anything we did within this RCU-sched read-size critical section.
+    64		 */
+    65		if (likely(rcu_sync_is_idle(&sem->rss)))
+    66			this_cpu_inc(*sem->read_count);
+    67		else
+    68			__percpu_down_read(sem, false); /* Unconditional memory barrier */
+    69	
+  > 70		_trace_android_vh_record_pcpu_rwsem_starttime((u64)sem, jiffies);
+    71		/*
+    72		 * The preempt_enable() prevents the compiler from
+    73		 * bleeding the critical section out.
+    74		 */
+    75		preempt_enable();
+    76	}
+    77	
 
 -- 
 0-DAY CI Kernel Test Service
