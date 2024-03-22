@@ -1,54 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BF710799
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Mar 2024 06:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C22210FA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Mar 2024 06:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711088777; cv=none; b=KBQWY21JSGOBhlqOVT9kmwdLpe12OLbohfctJZoLtozgryXcnF27O/nx3yxm3EAThg0h9vZd6Zkm6GKh63RxVbpQeC1tlAKvra3nSRkRF60+YE49Xfmw2wXT2EK+Df9hb9nPGz8JRsvPiCmqoqdbEaYNgnXxAlqSzTbz//8P0vo=
+	t=1711090060; cv=none; b=RB8snuyRm9VfxByGoiuCsMPbdzws/j5wyl4V4vL6sQSpPb5AscW6aBjc8aDYWo1a8mHQnlGJuu0EJfpb264w8cbps0shKeVjcK1jb6FB1vlXSBGA/Ij9w1Ysy7XxWcq9pHPQ4xyxRKd6ESNFlhEkzr58Qs8Ce0E0MO7fK40gGyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711088777; c=relaxed/simple;
-	bh=4qRK6YnOIDUQk6MDQBiPsBZv3QED9ZEwnrmxCyN69oQ=;
+	s=arc-20240116; t=1711090060; c=relaxed/simple;
+	bh=gFqZU16vxxTe/zJ27a7yIc0LkX9tywZjiOiwWzvDfhc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sAUf81aP9C6Z8r4NJnBduM6AGrda2cpZoA44aatbrtcxOqRkP36myuXfgDCb0VxJACkQIRW/3PLQ4QugBUFYhfj67Wyu31vlLVD2l1l0lb2kNdXEZLnpKywk2L/7I/5c8bygzN9aNtDSDQLE+vX6NRjAHD9DEI7B4UilSUz8Q/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LVtPtL0u; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=CeqoPMrwUUSetRUh759DmZkzLO1rZ/87KDsE2AxZAUFlN612wOhT7p0lSjWQARxOCjXK0wCb5ZjP7pOSL+3HCtf3RX8Avi40BtbiffD9tZ6UtmYNDfOcGnFdSn+1CW3a5R7VwZ/tVIk7y2X0gBmdJei+xo0EeGKN8nEFvvXTbZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TKop6giQ; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVtPtL0u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711088776; x=1742624776;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4qRK6YnOIDUQk6MDQBiPsBZv3QED9ZEwnrmxCyN69oQ=;
-  b=LVtPtL0uwDBY4qAhsESbO/kuTrR2Ptk+eKLyss40fJqXDpzIEvt7qamH
-   TvP0bgo0ilvioCFPMvQkpcIYPSjDkTGb7w6ydwV3U+uU8RrINn3SeQYtL
-   +L+AwUyQCYKThpKdzXpwiCbM2TCgcPFpxrpnHvCP4DgsuEvfJcJV0dZWA
-   NHMQvOkS8RyzIDLqBQ6JrjmxpJ0V26uvATLfFWdJP6elk60b4FYVQm4eo
-   1Cbtca7a+4D0JCguaREgHiRWzXaZlYDxfrlpCVm4n7c2jwXa619lfHhEt
-   IqgdI9GPvLXLR8kXZLgTYhuWZB4IoKTNbzxQ3UkolR6Oku2WsfY7PoyiX
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="5976084"
-X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
-   d="scan'208";a="5976084"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 23:26:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
-   d="scan'208";a="19439666"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 21 Mar 2024 23:26:14 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rnYLz-000K5P-34;
-	Fri, 22 Mar 2024 06:26:11 +0000
-Date: Fri, 22 Mar 2024 14:25:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org
-Subject: [groeck-staging:testing 5/11] arch/nios2/kernel/prom.c:24:17:
- warning: unused variable 'dtb'
-Message-ID: <202403221428.i3uDsXt4-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TKop6giQ"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-414689ba80eso14525575e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Mar 2024 23:47:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711090056; x=1711694856; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TUy1pUFZGRZWiaEeg2Zv5YdnBWiyjqTrFVitFmUSYsE=;
+        b=TKop6giQXR49ZiIwzByCqY0MOD+XuI/aqeYVlr4SlHbW5xkAEcPtQtPfDDw40QgDVH
+         ZzPYawoBuL0JgXoaHfydiamYbfS/QwVJGPZ+71uVu6XAWRXANULbTL3WA64EaNd4KLZX
+         cl4yZyyLI9/lNSsJg96sjy8JpyO362YyvoCbmcUps1vfqkaPkrltb07LiQST5yfOEE4G
+         KBlxSL0iihB97nBaikRCJUrx3veJVkQR0xj+tNNTt229qqWCIeH3r4e44CPR00fScEnZ
+         M2QFAKBXfUKAeqN6MEzQpPrDCDy9pw5chdD1bdCJtsfNHCn4/k4V/WLQz3ymDnbjL4yQ
+         QZjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711090056; x=1711694856;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TUy1pUFZGRZWiaEeg2Zv5YdnBWiyjqTrFVitFmUSYsE=;
+        b=klv1+FDVL1pa3WB7LlNVUyNOuNtIkOMO3EofOZ1gAtOr0GBRQTMzojDYYCR5Bi4Z3I
+         KTh55sRBXs3jPVSBM00ldY+RZJm1fNbyBPeykRxMPAuanaUhMKlKwX/nKZ54+qCqb8uB
+         +DyKjtyukYBTB7FXJ8uk1Le+aVAzUQS/REaNmHFwQMZQ/fNLCjJY3zIMjnO5uzoaxFGj
+         0YP3NTCNNAWIOe7Gp5MAQ7E5U5TR+RKTa4D1VIE4IbXTmWAAQtnzuggeHugiBuGJkqBX
+         /ynslzqyNLhYP/o3eKH0d2WqDmb4PM9xkb8eGkpEZCP6K6ltIGgwH4K+K6J7D61SjB1t
+         68CA==
+X-Forwarded-Encrypted: i=1; AJvYcCVk+U+F4fjLfeAZMvdbccxrm64tm1XE5ddd+6sv0gKDxn7XKLAWQTmF4NKISTdUzsPDwbjcjTq78UfG7yS/w8Xov7cs67x4Wd9dPF7CRw==
+X-Gm-Message-State: AOJu0Yz1qwd7TOAp8Nvjm9quqn6OtfxjRF8fO1VIxfWEAaTR7ziQOW3d
+	wQ1tY0oubLsevqZnTtaT1TKmSkVE6wo53gL2dISnaHR9JUdKCTCAXsc5NmAIxtE=
+X-Google-Smtp-Source: AGHT+IGbKjxqqIZAIbwwt2SMljk30paWqYEdUeXvGC+QNms9hxkoR1ACr3MscyEyBggmvLkEKrgmIw==
+X-Received: by 2002:adf:f109:0:b0:341:8ba6:2ffc with SMTP id r9-20020adff109000000b003418ba62ffcmr840701wro.39.1711090056369;
+        Thu, 21 Mar 2024 23:47:36 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id c5-20020adfc045000000b0033e34c53354sm1325504wrf.56.2024.03.21.23.47.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Mar 2024 23:47:36 -0700 (PDT)
+Date: Fri, 22 Mar 2024 09:47:32 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 6/8] block/blk.h:347
+ bio_may_exceed_limits() error: we previously assumed 'bio->bi_io_vec' could
+ be null (see line 343)
+Message-ID: <1f393614-3f76-4753-b5de-d317299da931@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,48 +67,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git testing
-head:   fb903d9dd099da7430dc653a99670d6f2676daf6
-commit: 6e2e5d9394a30805514cd15a078ad361ac68c50b [5/11] nios2: Only use built-in devicetree blob if configured to do so
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20240322/202403221428.i3uDsXt4-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240322/202403221428.i3uDsXt4-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   24850809220d9e09bb48c47d83b971a3d247e467
+commit: 8a2f432fcb4a6c2deed12afa3d2b76fcb6dc8ada [6/8] ANDROID: block: Add support for filesystem requests and small segments
+config: x86_64-randconfig-161-20240321 (https://download.01.org/0day-ci/archive/20240322/202403220441.8DiNyGzH-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403221428.i3uDsXt4-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202403220441.8DiNyGzH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+block/blk.h:347 bio_may_exceed_limits() error: we previously assumed 'bio->bi_io_vec' could be null (see line 343)
 
-   arch/nios2/kernel/prom.c: In function 'early_init_devtree':
->> arch/nios2/kernel/prom.c:24:17: warning: unused variable 'dtb' [-Wunused-variable]
-      24 |         __be32 *dtb = (u32 *)__dtb_start;
-         |                 ^~~
+vim +347 block/blk.h
 
+c55ddd9082f757 Christoph Hellwig 2022-07-27  327  static inline bool bio_may_exceed_limits(struct bio *bio,
+c55ddd9082f757 Christoph Hellwig 2022-07-27  328  		struct queue_limits *lim)
+abd45c159df5fc Jens Axboe        2021-10-13  329  {
+abd45c159df5fc Jens Axboe        2021-10-13  330  	switch (bio_op(bio)) {
+abd45c159df5fc Jens Axboe        2021-10-13  331  	case REQ_OP_DISCARD:
+abd45c159df5fc Jens Axboe        2021-10-13  332  	case REQ_OP_SECURE_ERASE:
+abd45c159df5fc Jens Axboe        2021-10-13  333  	case REQ_OP_WRITE_ZEROES:
+abd45c159df5fc Jens Axboe        2021-10-13  334  		return true; /* non-trivial splitting decisions */
+abd45c159df5fc Jens Axboe        2021-10-13  335  	default:
+abd45c159df5fc Jens Axboe        2021-10-13  336  		break;
+abd45c159df5fc Jens Axboe        2021-10-13  337  	}
+abd45c159df5fc Jens Axboe        2021-10-13  338  
+abd45c159df5fc Jens Axboe        2021-10-13  339  	/*
+8a2f432fcb4a6c Bart Van Assche   2023-06-12  340  	 * Check whether bio splitting should be performed. This check may
+8a2f432fcb4a6c Bart Van Assche   2023-06-12  341  	 * trigger the bio splitting code even if splitting is not necessary.
+abd45c159df5fc Jens Axboe        2021-10-13  342  	 */
+8a2f432fcb4a6c Bart Van Assche   2023-06-12 @343  	if (blk_queue_sub_page_limits(lim) && bio->bi_io_vec &&
+                                                                                              ^^^^^^^^^^^^^^
+This assumes bio->bi_io_vec can be NULL
 
-vim +/dtb +24 arch/nios2/kernel/prom.c
+8a2f432fcb4a6c Bart Van Assche   2023-06-12  344  	    bio->bi_io_vec->bv_len > lim->max_segment_size)
+8a2f432fcb4a6c Bart Van Assche   2023-06-12  345  		return true;
+c55ddd9082f757 Christoph Hellwig 2022-07-27  346  	return lim->chunk_sectors || bio->bi_vcnt != 1 ||
+abd45c159df5fc Jens Axboe        2021-10-13 @347  		bio->bi_io_vec->bv_len + bio->bi_io_vec->bv_offset > PAGE_SIZE;
+                                                                ^^^^^^^^^^^^^^^^^^^^^^   ^^^^^^^^^^^^^^^^^^^^^^^^^
+Unchecked dereferences.
 
-95acd4c7b69c9b Ley Foon Tan  2014-11-06  21  
-95acd4c7b69c9b Ley Foon Tan  2014-11-06  22  void __init early_init_devtree(void *params)
-95acd4c7b69c9b Ley Foon Tan  2014-11-06  23  {
-95acd4c7b69c9b Ley Foon Tan  2014-11-06 @24  	__be32 *dtb = (u32 *)__dtb_start;
-95acd4c7b69c9b Ley Foon Tan  2014-11-06  25  #if defined(CONFIG_NIOS2_DTB_AT_PHYS_ADDR)
-95acd4c7b69c9b Ley Foon Tan  2014-11-06  26  	if (be32_to_cpup((__be32 *)CONFIG_NIOS2_DTB_PHYS_ADDR) ==
-95acd4c7b69c9b Ley Foon Tan  2014-11-06  27  		 OF_DT_HEADER) {
-95acd4c7b69c9b Ley Foon Tan  2014-11-06  28  		params = (void *)CONFIG_NIOS2_DTB_PHYS_ADDR;
-95acd4c7b69c9b Ley Foon Tan  2014-11-06  29  		early_init_dt_scan(params);
-95acd4c7b69c9b Ley Foon Tan  2014-11-06  30  		return;
-95acd4c7b69c9b Ley Foon Tan  2014-11-06  31  	}
-95acd4c7b69c9b Ley Foon Tan  2014-11-06  32  #endif
-6e2e5d9394a308 Guenter Roeck 2024-03-21  33  
-
-:::::: The code at line 24 was first introduced by commit
-:::::: 95acd4c7b69c9b250d901d154390ec4c8b7b51c1 nios2: Device tree support
-
-:::::: TO: Ley Foon Tan <lftan@altera.com>
-:::::: CC: Ley Foon Tan <lftan@altera.com>
+abd45c159df5fc Jens Axboe        2021-10-13  348  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
