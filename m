@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D2A8005C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Mar 2024 23:27:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC2D1D6AE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Mar 2024 23:38:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711150065; cv=none; b=Bg8HqHX0I021tMEorV7z/Z1mE/429jFNcskucUuMtT+JHR2ZagQiLkMbUI6aEa2h70eFIY5fouxdj7WSv047hKNFQ2DlA0PqOx5kYao8vuxH3YDF13TcGRx7yK7LUHTYd75H2e955JZGXPGfxgZtc+uc4Ws32iitlMYfA1nH330=
+	t=1711150726; cv=none; b=nIsmuJoyZxLgjd0NBOE0fHzADneeie4L8nR5UkexXIPTE5/G++CCjXrwTkFYIfvND91Y8YBNsRDtwKQ28LVf5xqNtnMHWP9q88OfesFWCv1PcaxF9Pwhdgi9VMjv408/JGAZ7ZCAe+vZJhdtzly+CMmDsTECKo23ddFYVG8XzDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711150065; c=relaxed/simple;
-	bh=92sqvd4L8AdJ96GBH+WtY+w6bUxhWY3sYPEtKPU9byE=;
+	s=arc-20240116; t=1711150726; c=relaxed/simple;
+	bh=obZGDdJOEhjiNGS8ahBwHmT86Vw3DEICS9okC+PhGxU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ij9Aoah7GbGHjJ2UNmjgd5sWmlTO+lX6hJ+WkQ8D7XJXxPOTtXnQ8YZUcY/DAyGaPxUd836VG+s2R9V8SMM+fpKjI8jtvG+D0rP3ToW5Oj4yJyo00Y5JoqVw6EazZw/9t2bvQ7hFYEqHqsl1T920O67zP67Xsd3fXsHIZUkXmJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J9WxRiuQ; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=PQ+EdQpDPHsnuVpPt7o/8QMa/wCCmpCXFGS/y4An0vHY4uPH9IQgSxQmZDtSQ+0kFOHrY5pQG9SzG+yFesNd2WwpvlAhvlNC4ttBHRLwMNsvaTYdgT+Ii2mRQhHjilyoMk2NzhG3Lky81oFVM+syFkOOjsnsZgWHytx94a9LH7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KKicay7y; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J9WxRiuQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KKicay7y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711150063; x=1742686063;
+  t=1711150724; x=1742686724;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=92sqvd4L8AdJ96GBH+WtY+w6bUxhWY3sYPEtKPU9byE=;
-  b=J9WxRiuQf/fXBTX2jdFc2kq31O1EpvWmC5mkVdzJoOq8n1Mk+qXq3LJG
-   tZn6ZIYZ6hWJk590qeEix6+I5iw0rzxyqMGFtNEKdZTiOU8kjVSKW02Bq
-   T0SEYOICHz1zw9kni2NMKTvgdY+OJctq1Wl/n23XE4ZCr1bVFezFUikl2
-   gRUPK/2kE7mOzqkdrYfGeWxKDl9ZYZKXnzkwIzZl29k0mLwiUjqhuCIQt
-   2q5w6y5UKQcrrZe0P1+l43V3shjT9CQHE2+mwNJpdQihJNWjMP0nn+/UH
-   kQj7VcUwqXqskmThTM3j9glB4vIe4vSEwxcKo7xMzCRZavSaPXE3KcMxW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11021"; a="6340632"
+  bh=obZGDdJOEhjiNGS8ahBwHmT86Vw3DEICS9okC+PhGxU=;
+  b=KKicay7ywzP0sFHCw7g33+ha0d60htVw01n8UVKvOZKjlfUKDurGOrF9
+   BeP2fcf/U9HWvFvi1CCLvkS5YWZy30MIixWdL8lNORZuSKpGDw1yZKZG1
+   KdmpUfikK48GS+CAulPOLTCv41OHLIWPAS0P7Jx7rd0kHqT422xYqVsYH
+   fvsK18UyRH8OGKXbZCoxHwcUPIkyGZFuopeSygc3HigawCjz8ftLbMN3l
+   dfR+8bN9MacJZrd+srn0H19b0nM9lhlREDqWpswaruzVwj4XuTL8RR71d
+   nQlJCBGPmDQX0lX62L5eQQ8mJIxMCRnFxQsZ3UuunZ9f68k7qRQjpTIi4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11021"; a="9169521"
 X-IronPort-AV: E=Sophos;i="6.07,147,1708416000"; 
-   d="scan'208";a="6340632"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 16:27:43 -0700
+   d="scan'208";a="9169521"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 16:38:43 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,147,1708416000"; 
-   d="scan'208";a="38180452"
+   d="scan'208";a="15739073"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Mar 2024 16:27:41 -0700
+  by orviesa008.jf.intel.com with ESMTP; 22 Mar 2024 16:38:41 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rnoIV-000KhL-0X;
-	Fri, 22 Mar 2024 23:27:39 +0000
-Date: Sat, 23 Mar 2024 07:27:35 +0800
+	id 1rnoT9-000KhT-0n;
+	Fri, 22 Mar 2024 23:38:39 +0000
+Date: Sat, 23 Mar 2024 07:37:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Kubiak <michal.kubiak@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexander Lobakin <aleksander.lobakin@intel.com>
-Subject: [alobakin:idpf-libie-new 59/69] include/linux/build_bug.h:78:41:
- error: static assertion failed: "sizeof(struct idpf_tx_queue) ==
- ALIGN((((64) + ((__typeof__(64))((1 << 6)) - 1)) & ~((__typeof__(64))((1 <<
- 6)) - 1)) + (((96) + ((__typeof__(96))((1 << 6)) - 1)) &
- ~((__typeof__(96))((1 <<...
-Message-ID: <202403230707.EOC7wUrV-lkp@intel.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alobakin:idpf-libie-new 31/69] include/linux/build_bug.h:78:41:
+ error: static assertion failed: "offsetof(struct idpf_rx_queue,
+ __cacheline_group_end__read_write) - offsetofend(struct idpf_rx_queue,
+ __cacheline_group_begin__read_write) <= ALIGN(80, __LIBETH_LARGEST_ALIGN)"
+Message-ID: <202403230719.kuHT3obM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,67 +62,58 @@ Content-Disposition: inline
 
 tree:   https://github.com/alobakin/linux idpf-libie-new
 head:   b336f2db592517d25e745924c92e8604eeea0502
-commit: 728a6d13aee720362ad473ff503eed6ca0697694 [59/69] idpf: prepare structures to support xdp
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240323/202403230707.EOC7wUrV-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240323/202403230707.EOC7wUrV-lkp@intel.com/reproduce)
+commit: 1f36eeccb1b5f9e58d371a6d75eb77821fb16aa2 [31/69] idpf: strictly assert cachelines of queue and queue vector structures
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240323/202403230719.kuHT3obM-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240323/202403230719.kuHT3obM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403230707.EOC7wUrV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403230719.kuHT3obM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/timer.h:5,
-                    from include/linux/netdevice.h:24,
-                    from include/trace/events/xdp.h:8,
-                    from include/linux/bpf_trace.h:5,
-                    from include/net/libeth/xdp.h:7,
-                    from drivers/net/ethernet/intel/idpf/idpf_xdp.c:4:
-   include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct idpf_q_vector, __cacheline_group_end__read_write) - offsetofend(struct idpf_q_vector, __cacheline_group_begin__read_write) == ALIGN(672, __LIBETH_LARGEST_ALIGN)"
+   In file included from include/linux/bits.h:22,
+                    from include/linux/bitops.h:6,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from ./arch/microblaze/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/jiffies.h:7,
+                    from include/net/pkt_sched.h:5,
+                    from drivers/net/ethernet/intel/idpf/idpf.h:12,
+                    from drivers/net/ethernet/intel/idpf/idpf_dev.c:4:
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct idpf_rx_queue, __cacheline_group_end__read_write) - offsetofend(struct idpf_rx_queue, __cacheline_group_begin__read_write) <= ALIGN(80, __LIBETH_LARGEST_ALIGN)"
       78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
          |                                         ^~~~~~~~~~~~~~
    include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
       77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
          |                                  ^~~~~~~~~~~~~~~
-   include/net/libeth/cache.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(offsetof(type, __cacheline_group_end__##grp) -        \
-         |         ^~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:444:1: note: in expansion of macro '__libeth_cacheline_group_assert'
-     444 | __libeth_cacheline_group_assert(struct idpf_q_vector, read_write, 672);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct idpf_tx_queue, __cacheline_group_end__read_write) - offsetofend(struct idpf_tx_queue, __cacheline_group_begin__read_write) == ALIGN(96, __LIBETH_LARGEST_ALIGN)"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   include/net/libeth/cache.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(offsetof(type, __cacheline_group_end__##grp) -        \
+   include/net/libeth/cache.h:28:9: note: in expansion of macro 'static_assert'
+      28 |         static_assert(offsetof(type, __cacheline_group_end__##grp) -        \
          |         ^~~~~~~~~~~~~
    include/net/libeth/cache.h:36:9: note: in expansion of macro '__libeth_cacheline_group_assert'
       36 |         __libeth_cacheline_group_assert(type, read_write, rw);              \
          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:733:1: note: in expansion of macro '__libeth_cacheline_set_assert'
-     733 | __libeth_cacheline_set_assert(struct idpf_tx_queue, 64, 96, 32);
+   drivers/net/ethernet/intel/idpf/idpf_txrx.h:706:1: note: in expansion of macro '__libeth_cacheline_set_assert'
+     706 | __libeth_cacheline_set_assert(struct idpf_rx_queue, 64, 80, 32);
          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct idpf_tx_queue) == ALIGN((((64) + ((__typeof__(64))((1 << 6)) - 1)) & ~((__typeof__(64))((1 << 6)) - 1)) + (((96) + ((__typeof__(96))((1 << 6)) - 1)) & ~((__typeof__(96))((1 << 6)) - 1)) + (((32) + ((__typeof__(32))((1 << 6)) - 1)) & ~((__typeof__(32))((1 << 6)) - 1)), __LIBETH_LARGEST_ALIGN)"
+   include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct idpf_tx_queue, __cacheline_group_end__read_write) - offsetofend(struct idpf_tx_queue, __cacheline_group_begin__read_write) <= ALIGN(96, __LIBETH_LARGEST_ALIGN)"
       78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
          |                                         ^~~~~~~~~~~~~~
    include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
       77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
          |                                  ^~~~~~~~~~~~~~~
-   include/net/libeth/cache.h:25:9: note: in expansion of macro 'static_assert'
-      25 |         static_assert(sizeof(type) == ALIGN(sz, __LIBETH_LARGEST_ALIGN))
+   include/net/libeth/cache.h:28:9: note: in expansion of macro 'static_assert'
+      28 |         static_assert(offsetof(type, __cacheline_group_end__##grp) -        \
          |         ^~~~~~~~~~~~~
-   include/net/libeth/cache.h:38:9: note: in expansion of macro '__libeth_cacheline_struct_assert'
-      38 |         __libeth_cacheline_struct_assert(type,                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:733:1: note: in expansion of macro '__libeth_cacheline_set_assert'
-     733 | __libeth_cacheline_set_assert(struct idpf_tx_queue, 64, 96, 32);
+   include/net/libeth/cache.h:36:9: note: in expansion of macro '__libeth_cacheline_group_assert'
+      36 |         __libeth_cacheline_group_assert(type, read_write, rw);              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/idpf/idpf_txrx.h:823:1: note: in expansion of macro '__libeth_cacheline_set_assert'
+     823 | __libeth_cacheline_set_assert(struct idpf_tx_queue, 64, 96, 32);
          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
