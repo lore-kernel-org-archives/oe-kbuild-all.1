@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF975B664
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Mar 2024 05:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D546FD5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Mar 2024 05:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711085599; cv=none; b=XU/YymLt6WTfg+FN/aH9WGvwUQqBtyeIcL5vAIXBQyj2Ih3GXArYxUIgTG7rrgYbVj5FNQ7/X0G34iHGibIO9YAV7a4nPO6ADE9wJrry4eQP5F1L23ZLDqq9WSUGLJTytiry8FE5KELRO5XG07JwgY8+4hr3/6kcXltpcmYESRA=
+	t=1711086920; cv=none; b=GhVzVk4yDsnLEoKH2Ukjy+51ke08Xt9mkcp2I5BHOh9UExzEjTsg13SLv+ppvGs70bAFJR3CiJikZvW3259aRV4I/0+c7pQK4DGm1irDs1bAn7o3rljo+vrk8jYM2AaOwxsCmjOYHDimQEA9OzBsLyuTbnajokHT+nLmChBQY8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711085599; c=relaxed/simple;
-	bh=0d6pz3O/HT+SLEXXETCD037cHs8vxKA+h+NlGW/yhLs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A2a+kC+HKcbG4GeWFxqN2KLFqO8vY9dxoc7ioKSe1WZTrTQlTrQYdxMqrxWfCTU3eI4cfzQPR55+0Fh/W9ba0h3d3Zmy/t31tNA37me41gym9mpvdS8YdPbZKxpvcyDWarG2jEKIdg8aQm8vyXQyrZLE4Mgn0lPWpOtPXlhmOk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=azxxytPJ; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1711086920; c=relaxed/simple;
+	bh=pBHdCBlvQiXxSvqU/zvo9Ko4f2qwbUYrtBSglgVXkQc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ap3YDL2ZCG8xZL4geEGjrWIFGco9WUxGVneSUpADAQbdq0p+0TwPOIXoV4GFOitMwPWMGInFkr2Fz2glEqPyLK0475Hu+XN/kXiQz/afv6OOasS6EKKcGJSOE+G6DxwGHCqay9LbmOPbmpvhxMDGU6izdap+WSsRFdCRQPwHByY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fns5Vi3R; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="azxxytPJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fns5Vi3R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711085594; x=1742621594;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0d6pz3O/HT+SLEXXETCD037cHs8vxKA+h+NlGW/yhLs=;
-  b=azxxytPJJjQY28xB+OgP8ptoMaTSAI7uCnzFBBun6jUz3sv0AUSWr90f
-   g7zboBZLkckYfpEZ9d8fu3K/i/8P0BVm0V12JGSXimo02XZVR7K+yaa0Y
-   3thz3sQs1yIWwORzZ2VeTc35Im/16+krby8I/MBujnSamgPrT/e7rFTTC
-   nV0wueXAYDgrpljt5XRqd3VgCQhAaJMP7sZKADQ/UdtCpGG9tTeggEclU
-   gU9+DEQloRQc2ABzeMmq31wf4nwmKjb1y0XyYg+r0SzQ0sKIhIWEMPjr+
-   rPetHJ/sjh334q28e9q15Y1nqeyR+CqFw99ziGkCJvvkA0RSG/o6TjvoZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="9921099"
+  t=1711086918; x=1742622918;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pBHdCBlvQiXxSvqU/zvo9Ko4f2qwbUYrtBSglgVXkQc=;
+  b=fns5Vi3RXiGxI8NQgew7C7wHyrgHTJzR57UacuqrGbDZXihHKVaPN333
+   1hS+cvT4K++8XzsJKejBFbBALKl+kFEqq9b1Zh/+kqIpGpFK/RGwltycq
+   CQA0ekw40MObCD4wJFqQladVcNe39Bdk0geQFHjbo3gjA9IsY165Olj/H
+   tigh/MoGtJ/9XK0AelZ150aNok7KVPvEMKQhTxlH7QzQ/gs5/8icwOEOw
+   T/GdLfxCcidUdJKYOEJysQD/q+Snq1+mK7mM5lS2bc+mz3gtxFNaGxBcM
+   sigu3uAiswZJQbllOakU2Py8kBZAwMwTwcIQZ+yRYDRWhpIjZt3eNeVwt
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="6241500"
 X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
-   d="scan'208";a="9921099"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 22:33:14 -0700
+   d="scan'208";a="6241500"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 22:55:18 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
-   d="scan'208";a="15183636"
+   d="scan'208";a="19478223"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 21 Mar 2024 22:33:14 -0700
+  by orviesa003.jf.intel.com with ESMTP; 21 Mar 2024 22:55:14 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rnXWh-000K4B-0Y;
-	Fri, 22 Mar 2024 05:33:11 +0000
-Date: Fri, 22 Mar 2024 13:33:10 +0800
+	id 1rnXrz-000K4p-1s;
+	Fri, 22 Mar 2024 05:55:11 +0000
+Date: Fri, 22 Mar 2024 13:55:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Hildenbrand <david@redhat.com>
-Subject: powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data526'
- from `drivers/mtd/nand/raw/diskonchip.o' being placed in section
- `.bss..Lubsan_data526'
-Message-ID: <202403221309.j81X2735-lkp@intel.com>
+To: Varadarajan Narayanan <quic_varada@quicinc.com>, andersson@kernel.org,
+	konrad.dybcio@linaro.org, robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	mturquette@baylibre.com, sboyd@kernel.org, djakov@kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Varadarajan Narayanan <quic_varada@quicinc.com>
+Subject: Re: [PATCH 2/2] clk: qcom: add IPQ9574 interconnect clocks support
+Message-ID: <202403221357.pOXvpS3O-lkp@intel.com>
+References: <20240321043149.2739204-3-quic_varada@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,31 +65,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240321043149.2739204-3-quic_varada@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8e938e39866920ddc266898e6ae1fffc5c8f51aa
-commit: ce3467af6bded1c0018ca67ea1599f45fbb8100b mm: constify testing page/folio flags
-date:   2 weeks ago
-config: powerpc-randconfig-r024-20221201 (https://download.01.org/0day-ci/archive/20240322/202403221309.j81X2735-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240322/202403221309.j81X2735-lkp@intel.com/reproduce)
+Hi Varadarajan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on clk/clk-next linus/master v6.8 next-20240321]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Varadarajan-Narayanan/dt-bindings-interconnect-Add-Qualcomm-IPQ9574-support/20240321-123508
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240321043149.2739204-3-quic_varada%40quicinc.com
+patch subject: [PATCH 2/2] clk: qcom: add IPQ9574 interconnect clocks support
+config: csky-randconfig-001-20240321 (https://download.01.org/0day-ci/archive/20240322/202403221357.pOXvpS3O-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240322/202403221357.pOXvpS3O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403221309.j81X2735-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403221357.pOXvpS3O-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data526' from `drivers/mtd/nand/raw/diskonchip.o' being placed in section `.bss..Lubsan_data526'
->> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data526' from `drivers/mtd/nand/raw/diskonchip.o' being placed in section `.bss..Lubsan_data526'
->> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data526' from `drivers/mtd/nand/raw/diskonchip.o' being placed in section `.bss..Lubsan_data526'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ADB_CUDA
-   Depends on [n]: MACINTOSH_DRIVERS [=n] && (ADB [=n] || PPC_PMAC [=y]) && !PPC_PMAC64 [=n]
-   Selected by [y]:
-   - PPC_PMAC [=y] && PPC_BOOK3S [=y] && CPU_BIG_ENDIAN [=y] && POWER_RESET [=y] && PPC32 [=y]
+   csky-linux-ld: drivers/clk/qcom/gcc-ipq9574.o: in function `gcc_ipq9574_probe':
+   gcc-ipq9574.c:(.text+0xc2): undefined reference to `icc_clk_register'
+>> csky-linux-ld: gcc-ipq9574.c:(.text+0x10c): undefined reference to `icc_clk_register'
 
 -- 
 0-DAY CI Kernel Test Service
