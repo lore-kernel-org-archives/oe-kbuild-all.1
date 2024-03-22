@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8FE4EB24;
-	Fri, 22 Mar 2024 13:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869D31CA80
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Mar 2024 14:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711114111; cv=none; b=eM68QklIg9dBidYn2dnYD1tPHqnirq3AvyRzOao7N3Tr3OfKy1+vsctjaDl3zWjVMkBzhYCvVD+fN6JiCLRm1IUhC+OEtVlYx5QpAK18ywuUyCs8ksGTeve69FjOpZTMXM1mgxI2yKXxxQlY0MEYcw8CbDuX06e0BeMrJtwUOps=
+	t=1711116629; cv=none; b=l5bmr9ShbF+pudov1VBUmVP/jY2E4HIpka7n8HT/QY7gGpM/fW9XnEMQ0wjV1+LLzAdemjXUbFb1q47t55bi3nSpnnIXw4e/teUX4az7BjA6nPk2X4Menaio/x8kb7+t31zvNCWQoJnNMNZM9cq0opKtK7L9vdoyygfxf3KrGOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711114111; c=relaxed/simple;
-	bh=xVQ80WH9edDs+cia1aDlav5jSxdfwa2yEy82f3mRAtw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PYdANUthbYfXKscbMbFQjWM+ltrVoBnhHviqdxVw9oVxsNX9XUs3Sf8wAfRpw+lsv3+oIiJubZPPqNH5dIhkMfj9A01HANSB+VmH+ZZpFQyT3CO+XcDomIF1QuC6V+f5pnFzWUkyvDjTIuK+W0lg9n00k2YCyvGT34ZL/ExikQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NZRWcx8C; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1711116629; c=relaxed/simple;
+	bh=/5qWAk7YnDsA6PVPp1lPMFrXPBFQkClCH27VR/KpKmE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b+xzcmfUIJzyV4VchVWzMiNx5CkhGTOF1DrINN/eTFGvBBQyqrsgE5SUWY8mcf9FPxzrVJqd3e2AOv7gEEYbnYP1gnoswBEWlDfYk+zb/otWRyV4jvpqzGL+7ex7Wy/pWSDOdMCYJCTNP8vWDFs3/cjvE73+NYHQGn6IfmEvU4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WFZBSkoS; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NZRWcx8C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WFZBSkoS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711114109; x=1742650109;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xVQ80WH9edDs+cia1aDlav5jSxdfwa2yEy82f3mRAtw=;
-  b=NZRWcx8CnC1vWLunmCf45IlsFZt1Dl5qdtkiNPBHDdMNzmr3yzmlNK3D
-   6My514v9aHYvqx0eSLwfIbtcbPkd9J83qXtGaMQiQCGYlyHb+8Ta++/21
-   OcaHb01oqL4FKdsPy6zc8pn5JzecrKOvVD3tjk/oaQFlINwu6TvEIy7NH
-   /QV9YItelGVc+jGZHay/CTRpCuMuMqKY5EtKbdAISGq+9/F6gT1anu9LN
-   ON+jwO9JNmO0PvQKXIph54FK+sWu0FcQ2WYz/T/O4RzvglQzf1sKBUIhj
-   ZtKpfbT5T+G4galZGegc2IV+exjfGZwMafSEWmDVHxj8xwlURiRIyrEQ+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="17307225"
+  t=1711116628; x=1742652628;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/5qWAk7YnDsA6PVPp1lPMFrXPBFQkClCH27VR/KpKmE=;
+  b=WFZBSkoSvaJFjSCIy7SivxIqGBaPBNH4e/mDU+aYxmoaNHgFpDw+Upas
+   /dRI43lrI9ObiD+W9MuDC72DnHpLBjcxDmUeQiPtj6/RaBh1Hou1HSFqK
+   linsgg9W88/aHjApAa0J+QKXaLLN41Ij0f3tMFtwgugs1cv88Nd6dVDAP
+   LfcHs73m9WyKDseFnbDYMiB4DQevcdxPjUyzcO4v1eRsjD+cWUK0NjXRP
+   vOR8qGEOx5k3Jh3hRGns0CILoO4glFL7/x6M+fLgwEJaTHAZTFBV8Ke5R
+   OL7oMszc28JhvbdGZZwQBF+Z08lvHPWHpUTfgm5g0bQ182O/nA8a5SLw5
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="6374183"
 X-IronPort-AV: E=Sophos;i="6.07,146,1708416000"; 
-   d="scan'208";a="17307225"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 06:28:26 -0700
+   d="scan'208";a="6374183"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 07:10:27 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,146,1708416000"; 
-   d="scan'208";a="15319898"
+   d="scan'208";a="14817417"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 22 Mar 2024 06:28:25 -0700
+  by orviesa010.jf.intel.com with ESMTP; 22 Mar 2024 07:10:26 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rnewY-000KKd-0l;
-	Fri, 22 Mar 2024 13:28:22 +0000
-Date: Fri, 22 Mar 2024 21:27:38 +0800
+	id 1rnfbD-000KMZ-0f;
+	Fri, 22 Mar 2024 14:10:23 +0000
+Date: Fri, 22 Mar 2024 22:10:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dorcas Anono Litunya <anonolitunya@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [hverkuil-media-tree:outreachy-vivid 57/57]
- drivers/media/test-drivers/vivid/vivid-ctrls.c:617:3: error: expected
- expression
-Message-ID: <202403222102.pV2R0plg-lkp@intel.com>
+To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH vhost v4 3/6] virtio: find_vqs: pass struct instead of
+ multi parameters
+Message-ID: <202403222227.Sdp23Lcb-lkp@intel.com>
+References: <20240321101532.59272-4-xuanzhuo@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,300 +59,167 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240321101532.59272-4-xuanzhuo@linux.alibaba.com>
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git outreachy-vivid
-head:   be7e1305df5be4218e46775d59833b91e588dd09
-commit: be7e1305df5be4218e46775d59833b91e588dd09 [57/57] media: vivid: Add selected output ctrl value in vivid_dev
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240322/202403222102.pV2R0plg-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240322/202403222102.pV2R0plg-lkp@intel.com/reproduce)
+Hi Xuan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on remoteproc/rproc-next]
+[also build test ERROR on v6.8]
+[cannot apply to s390/features linus/master uml/next uml/fixes next-20240322]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_balloon-remove-the-dependence-where-names-is-null/20240321-182217
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
+patch link:    https://lore.kernel.org/r/20240321101532.59272-4-xuanzhuo%40linux.alibaba.com
+patch subject: [PATCH vhost v4 3/6] virtio: find_vqs: pass struct instead of multi parameters
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240322/202403222227.Sdp23Lcb-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240322/202403222227.Sdp23Lcb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403222102.pV2R0plg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403222227.Sdp23Lcb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/media/test-drivers/vivid/vivid-ctrls.c:617:3: error: expected expression
-                   int hdmi_index = ctrl->id - VIVID_CID_HDMI_IS_CONNECTED_TO_OUTPUT(0);
-                   ^
->> drivers/media/test-drivers/vivid/vivid-ctrls.c:621:48: error: use of undeclared identifier 'hdmi_index'; did you mean 'pmd_index'?
-                   input_index = dev->hdmi_index_to_input_index[hdmi_index];
-                                                                ^~~~~~~~~~
-                                                                pmd_index
-   include/linux/pgtable.h:71:29: note: 'pmd_index' declared here
-   static inline unsigned long pmd_index(unsigned long address)
-                               ^
->> drivers/media/test-drivers/vivid/vivid-ctrls.c:621:47: error: array subscript is not an integer
-                   input_index = dev->hdmi_index_to_input_index[hdmi_index];
-                                                               ^~~~~~~~~~~
-   drivers/media/test-drivers/vivid/vivid-ctrls.c:631:36: error: use of undeclared identifier 'hdmi_index'; did you mean 'pmd_index'?
-                                   dev->hdmi_index_to_input_index[hdmi_index];
-                                                                  ^~~~~~~~~~
-                                                                  pmd_index
-   include/linux/pgtable.h:71:29: note: 'pmd_index' declared here
-   static inline unsigned long pmd_index(unsigned long address)
-                               ^
-   drivers/media/test-drivers/vivid/vivid-ctrls.c:631:35: error: array subscript is not an integer
-                                   dev->hdmi_index_to_input_index[hdmi_index];
-                                                                 ^~~~~~~~~~~
-   drivers/media/test-drivers/vivid/vivid-ctrls.c:639:70: error: use of undeclared identifier 'hdmi_index'; did you mean 'pmd_index'?
-                   vivid_send_input_source_change(dev, dev->hdmi_index_to_input_index[hdmi_index]);
-                                                                                      ^~~~~~~~~~
-                                                                                      pmd_index
-   include/linux/pgtable.h:71:29: note: 'pmd_index' declared here
-   static inline unsigned long pmd_index(unsigned long address)
-                               ^
-   drivers/media/test-drivers/vivid/vivid-ctrls.c:639:69: error: array subscript is not an integer
-                   vivid_send_input_source_change(dev, dev->hdmi_index_to_input_index[hdmi_index]);
-                                                                                     ^~~~~~~~~~~
-   drivers/media/test-drivers/vivid/vivid-ctrls.c:645:3: error: expected expression
-                   int svid_index = ctrl->id - VIVID_CID_SVID_IS_CONNECTED_TO_OUTPUT(0);
-                   ^
->> drivers/media/test-drivers/vivid/vivid-ctrls.c:649:48: error: use of undeclared identifier 'svid_index'
-                   input_index = dev->svid_index_to_input_index[svid_index];
-                                                                ^
-   drivers/media/test-drivers/vivid/vivid-ctrls.c:659:36: error: use of undeclared identifier 'svid_index'
-                                   dev->svid_index_to_input_index[svid_index];
-                                                                  ^
-   drivers/media/test-drivers/vivid/vivid-ctrls.c:667:70: error: use of undeclared identifier 'svid_index'
-                   vivid_send_input_source_change(dev, dev->svid_index_to_input_index[svid_index]);
-                                                                                      ^
-   11 errors generated.
+   drivers/virtio/virtio_vdpa.c: In function 'virtio_vdpa_setup_vq':
+>> drivers/virtio/virtio_vdpa.c:216:41: error: 'struct virtio_vq_config' has no member named 'cfg_idx'
+     216 |         cb.callback = cfg->callbacks[cfg->cfg_idx] ? virtio_vdpa_virtqueue_cb : NULL;
+         |                                         ^~
 
 
-vim +617 drivers/media/test-drivers/vivid/vivid-ctrls.c
+vim +216 drivers/virtio/virtio_vdpa.c
 
-   447	
-   448	static int vivid_vid_cap_s_ctrl(struct v4l2_ctrl *ctrl)
-   449	{
-   450		static const u32 colorspaces[] = {
-   451			V4L2_COLORSPACE_SMPTE170M,
-   452			V4L2_COLORSPACE_REC709,
-   453			V4L2_COLORSPACE_SRGB,
-   454			V4L2_COLORSPACE_OPRGB,
-   455			V4L2_COLORSPACE_BT2020,
-   456			V4L2_COLORSPACE_DCI_P3,
-   457			V4L2_COLORSPACE_SMPTE240M,
-   458			V4L2_COLORSPACE_470_SYSTEM_M,
-   459			V4L2_COLORSPACE_470_SYSTEM_BG,
-   460		};
-   461		struct vivid_dev *dev = container_of(ctrl->handler, struct vivid_dev, ctrl_hdl_vid_cap);
-   462		unsigned int i, j;
-   463		struct vivid_dev *output_inst = NULL;
-   464		int index = 0;
-   465		s32 input_index = 0;
-   466	
-   467		switch (ctrl->id) {
-   468		case VIVID_CID_TEST_PATTERN:
-   469			vivid_update_quality(dev);
-   470			tpg_s_pattern(&dev->tpg, ctrl->val);
-   471			break;
-   472		case VIVID_CID_COLORSPACE:
-   473			tpg_s_colorspace(&dev->tpg, colorspaces[ctrl->val]);
-   474			vivid_send_source_change(dev, TV);
-   475			vivid_send_source_change(dev, SVID);
-   476			vivid_send_source_change(dev, HDMI);
-   477			vivid_send_source_change(dev, WEBCAM);
-   478			break;
-   479		case VIVID_CID_XFER_FUNC:
-   480			tpg_s_xfer_func(&dev->tpg, ctrl->val);
-   481			vivid_send_source_change(dev, TV);
-   482			vivid_send_source_change(dev, SVID);
-   483			vivid_send_source_change(dev, HDMI);
-   484			vivid_send_source_change(dev, WEBCAM);
-   485			break;
-   486		case VIVID_CID_YCBCR_ENC:
-   487			tpg_s_ycbcr_enc(&dev->tpg, ctrl->val);
-   488			vivid_send_source_change(dev, TV);
-   489			vivid_send_source_change(dev, SVID);
-   490			vivid_send_source_change(dev, HDMI);
-   491			vivid_send_source_change(dev, WEBCAM);
-   492			break;
-   493		case VIVID_CID_HSV_ENC:
-   494			tpg_s_hsv_enc(&dev->tpg, ctrl->val ? V4L2_HSV_ENC_256 :
-   495							     V4L2_HSV_ENC_180);
-   496			vivid_send_source_change(dev, TV);
-   497			vivid_send_source_change(dev, SVID);
-   498			vivid_send_source_change(dev, HDMI);
-   499			vivid_send_source_change(dev, WEBCAM);
-   500			break;
-   501		case VIVID_CID_QUANTIZATION:
-   502			tpg_s_quantization(&dev->tpg, ctrl->val);
-   503			vivid_send_source_change(dev, TV);
-   504			vivid_send_source_change(dev, SVID);
-   505			vivid_send_source_change(dev, HDMI);
-   506			vivid_send_source_change(dev, WEBCAM);
-   507			break;
-   508		case V4L2_CID_DV_RX_RGB_RANGE:
-   509			if (!vivid_is_hdmi_cap(dev))
-   510				break;
-   511			tpg_s_rgb_range(&dev->tpg, ctrl->val);
-   512			break;
-   513		case VIVID_CID_LIMITED_RGB_RANGE:
-   514			tpg_s_real_rgb_range(&dev->tpg, ctrl->val ?
-   515					V4L2_DV_RGB_RANGE_LIMITED : V4L2_DV_RGB_RANGE_FULL);
-   516			break;
-   517		case VIVID_CID_ALPHA_MODE:
-   518			tpg_s_alpha_mode(&dev->tpg, ctrl->val);
-   519			break;
-   520		case VIVID_CID_HOR_MOVEMENT:
-   521			tpg_s_mv_hor_mode(&dev->tpg, ctrl->val);
-   522			break;
-   523		case VIVID_CID_VERT_MOVEMENT:
-   524			tpg_s_mv_vert_mode(&dev->tpg, ctrl->val);
-   525			break;
-   526		case VIVID_CID_OSD_TEXT_MODE:
-   527			dev->osd_mode = ctrl->val;
-   528			break;
-   529		case VIVID_CID_PERCENTAGE_FILL:
-   530			tpg_s_perc_fill(&dev->tpg, ctrl->val);
-   531			for (i = 0; i < VIDEO_MAX_FRAME; i++)
-   532				dev->must_blank[i] = ctrl->val < 100;
-   533			break;
-   534		case VIVID_CID_INSERT_SAV:
-   535			tpg_s_insert_sav(&dev->tpg, ctrl->val);
-   536			break;
-   537		case VIVID_CID_INSERT_EAV:
-   538			tpg_s_insert_eav(&dev->tpg, ctrl->val);
-   539			break;
-   540		case VIVID_CID_INSERT_HDMI_VIDEO_GUARD_BAND:
-   541			tpg_s_insert_hdmi_video_guard_band(&dev->tpg, ctrl->val);
-   542			break;
-   543		case VIVID_CID_HFLIP:
-   544			dev->sensor_hflip = ctrl->val;
-   545			tpg_s_hflip(&dev->tpg, dev->sensor_hflip ^ dev->hflip);
-   546			break;
-   547		case VIVID_CID_VFLIP:
-   548			dev->sensor_vflip = ctrl->val;
-   549			tpg_s_vflip(&dev->tpg, dev->sensor_vflip ^ dev->vflip);
-   550			break;
-   551		case VIVID_CID_REDUCED_FPS:
-   552			dev->reduced_fps = ctrl->val;
-   553			vivid_update_format_cap(dev, true);
-   554			break;
-   555		case VIVID_CID_HAS_CROP_CAP:
-   556			dev->has_crop_cap = ctrl->val;
-   557			vivid_update_format_cap(dev, true);
-   558			break;
-   559		case VIVID_CID_HAS_COMPOSE_CAP:
-   560			dev->has_compose_cap = ctrl->val;
-   561			vivid_update_format_cap(dev, true);
-   562			break;
-   563		case VIVID_CID_HAS_SCALER_CAP:
-   564			dev->has_scaler_cap = ctrl->val;
-   565			vivid_update_format_cap(dev, true);
-   566			break;
-   567		case VIVID_CID_SHOW_BORDER:
-   568			tpg_s_show_border(&dev->tpg, ctrl->val);
-   569			break;
-   570		case VIVID_CID_SHOW_SQUARE:
-   571			tpg_s_show_square(&dev->tpg, ctrl->val);
-   572			break;
-   573		case VIVID_CID_STD_ASPECT_RATIO:
-   574			dev->std_aspect_ratio[dev->input] = ctrl->val;
-   575			tpg_s_video_aspect(&dev->tpg, vivid_get_video_aspect(dev));
-   576			break;
-   577		case VIVID_CID_DV_TIMINGS_SIGNAL_MODE:
-   578			dev->dv_timings_signal_mode[dev->input] =
-   579				dev->ctrl_dv_timings_signal_mode->val;
-   580			dev->query_dv_timings[dev->input] = dev->ctrl_dv_timings->val;
-   581	
-   582			dev->power_present = 0;
-   583			for (i = 0, j = 0;
-   584			     i < ARRAY_SIZE(dev->dv_timings_signal_mode);
-   585			     i++)
-   586				if (dev->input_type[i] == HDMI) {
-   587					if (dev->dv_timings_signal_mode[i] != NO_SIGNAL)
-   588						dev->power_present |= (1 << j);
-   589					j++;
-   590				}
-   591			__v4l2_ctrl_s_ctrl(dev->ctrl_rx_power_present,
-   592					   dev->power_present);
-   593	
-   594			v4l2_ctrl_activate(dev->ctrl_dv_timings,
-   595				dev->dv_timings_signal_mode[dev->input] ==
-   596					SELECTED_DV_TIMINGS);
-   597	
-   598			vivid_update_quality(dev);
-   599			vivid_send_source_change(dev, HDMI);
-   600			break;
-   601		case VIVID_CID_DV_TIMINGS_ASPECT_RATIO:
-   602			dev->dv_timings_aspect_ratio[dev->input] = ctrl->val;
-   603			tpg_s_video_aspect(&dev->tpg, vivid_get_video_aspect(dev));
-   604			break;
-   605		case VIVID_CID_TSTAMP_SRC:
-   606			dev->tstamp_src_is_soe = ctrl->val;
-   607			dev->vb_vid_cap_q.timestamp_flags &= ~V4L2_BUF_FLAG_TSTAMP_SRC_MASK;
-   608			if (dev->tstamp_src_is_soe)
-   609				dev->vb_vid_cap_q.timestamp_flags |= V4L2_BUF_FLAG_TSTAMP_SRC_SOE;
-   610			break;
-   611		case VIVID_CID_MAX_EDID_BLOCKS:
-   612			dev->edid_max_blocks = ctrl->val;
-   613			if (dev->edid_blocks > dev->edid_max_blocks)
-   614				dev->edid_blocks = dev->edid_max_blocks;
-   615			break;
-   616		case VIVID_CID_HDMI_IS_CONNECTED_TO_OUTPUT(0) ... VIVID_CID_HDMI_IS_CONNECTED_TO_OUTPUT(14):
- > 617			int hdmi_index = ctrl->id - VIVID_CID_HDMI_IS_CONNECTED_TO_OUTPUT(0);
-   618	
-   619			output_inst = vivid_ctrl_hdmi_to_output_instance[ctrl->cur.val];
-   620			index = vivid_ctrl_hdmi_to_output_index[ctrl->cur.val];
- > 621			input_index = dev->hdmi_index_to_input_index[hdmi_index];
-   622			dev->input_is_connected_to_output[input_index] = ctrl->val;
-   623	
-   624			if (output_inst)
-   625				output_inst->output_to_input_instance[index] = NULL;
-   626			if (ctrl->val >= FIXED_MENU_ITEMS) {
-   627				output_inst = vivid_ctrl_hdmi_to_output_instance[ctrl->val];
-   628				index = vivid_ctrl_hdmi_to_output_index[ctrl->val];
-   629				output_inst->output_to_input_instance[index] = dev;
-   630				output_inst->output_to_input_index[index] =
-   631					dev->hdmi_index_to_input_index[hdmi_index];
-   632			}
-   633			spin_lock(&hdmi_output_skip_mask_lock);
-   634			hdmi_to_output_menu_skip_mask &= ~(1ULL << ctrl->cur.val);
-   635			if (ctrl->val >= FIXED_MENU_ITEMS)
-   636				hdmi_to_output_menu_skip_mask |= 1ULL << ctrl->val;
-   637			spin_unlock(&hdmi_output_skip_mask_lock);
-   638			vivid_update_quality(dev);
-   639			vivid_send_input_source_change(dev, dev->hdmi_index_to_input_index[hdmi_index]);
-   640			if (ctrl->val < FIXED_MENU_ITEMS && ctrl->cur.val < FIXED_MENU_ITEMS)
-   641				break;
-   642			queue_work(update_hdmi_ctrls_workqueue, &dev->update_hdmi_ctrl_work);
-   643			break;
-   644		case VIVID_CID_SVID_IS_CONNECTED_TO_OUTPUT(0) ... VIVID_CID_SVID_IS_CONNECTED_TO_OUTPUT(15):
-   645			int svid_index = ctrl->id - VIVID_CID_SVID_IS_CONNECTED_TO_OUTPUT(0);
-   646	
-   647			output_inst = vivid_ctrl_svid_to_output_instance[ctrl->cur.val];
-   648			index = vivid_ctrl_svid_to_output_index[ctrl->cur.val];
- > 649			input_index = dev->svid_index_to_input_index[svid_index];
-   650			dev->input_is_connected_to_output[input_index] = ctrl->val;
-   651	
-   652			if (output_inst)
-   653				output_inst->output_to_input_instance[index] = NULL;
-   654			if (ctrl->val >= FIXED_MENU_ITEMS) {
-   655				output_inst = vivid_ctrl_svid_to_output_instance[ctrl->val];
-   656				index = vivid_ctrl_svid_to_output_index[ctrl->val];
-   657				output_inst->output_to_input_instance[index] = dev;
-   658				output_inst->output_to_input_index[index] =
-   659					dev->svid_index_to_input_index[svid_index];
-   660			}
-   661			spin_lock(&svid_output_skip_mask_lock);
-   662			svid_to_output_menu_skip_mask &= ~(1ULL << ctrl->cur.val);
-   663			if (ctrl->val >= FIXED_MENU_ITEMS)
-   664				svid_to_output_menu_skip_mask |= 1ULL << ctrl->val;
-   665			spin_unlock(&svid_output_skip_mask_lock);
-   666			vivid_update_quality(dev);
-   667			vivid_send_input_source_change(dev, dev->svid_index_to_input_index[svid_index]);
-   668			if (ctrl->val < FIXED_MENU_ITEMS && ctrl->cur.val < FIXED_MENU_ITEMS)
-   669				break;
-   670			queue_work(update_svid_ctrls_workqueue, &dev->update_svid_ctrl_work);
-   671			break;
-   672		}
-   673		return 0;
-   674	}
-   675	
+   142	
+   143	static struct virtqueue *
+   144	virtio_vdpa_setup_vq(struct virtio_device *vdev, unsigned int index,
+   145			     struct virtio_vq_config *cfg)
+   146	{
+   147		struct virtio_vdpa_device *vd_dev = to_virtio_vdpa_device(vdev);
+   148		struct vdpa_device *vdpa = vd_get_vdpa(vdev);
+   149		struct device *dma_dev;
+   150		const struct vdpa_config_ops *ops = vdpa->config;
+   151		struct virtio_vdpa_vq_info *info;
+   152		bool (*notify)(struct virtqueue *vq) = virtio_vdpa_notify;
+   153		struct vdpa_callback cb;
+   154		struct virtqueue *vq;
+   155		u64 desc_addr, driver_addr, device_addr;
+   156		/* Assume split virtqueue, switch to packed if necessary */
+   157		struct vdpa_vq_state state = {0};
+   158		unsigned long flags;
+   159		u32 align, max_num, min_num = 1;
+   160		bool may_reduce_num = true;
+   161		int err;
+   162	
+   163		if (index >= vdpa->nvqs)
+   164			return ERR_PTR(-ENOENT);
+   165	
+   166		/* We cannot accept VIRTIO_F_NOTIFICATION_DATA without kick_vq_with_data */
+   167		if (__virtio_test_bit(vdev, VIRTIO_F_NOTIFICATION_DATA)) {
+   168			if (ops->kick_vq_with_data)
+   169				notify = virtio_vdpa_notify_with_data;
+   170			else
+   171				__virtio_clear_bit(vdev, VIRTIO_F_NOTIFICATION_DATA);
+   172		}
+   173	
+   174		/* Queue shouldn't already be set up. */
+   175		if (ops->get_vq_ready(vdpa, index))
+   176			return ERR_PTR(-ENOENT);
+   177	
+   178		/* Allocate and fill out our active queue description */
+   179		info = kmalloc(sizeof(*info), GFP_KERNEL);
+   180		if (!info)
+   181			return ERR_PTR(-ENOMEM);
+   182	
+   183		max_num = ops->get_vq_num_max(vdpa);
+   184		if (max_num == 0) {
+   185			err = -ENOENT;
+   186			goto error_new_virtqueue;
+   187		}
+   188	
+   189		if (ops->get_vq_num_min)
+   190			min_num = ops->get_vq_num_min(vdpa);
+   191	
+   192		may_reduce_num = (max_num == min_num) ? false : true;
+   193	
+   194		/* Create the vring */
+   195		align = ops->get_vq_align(vdpa);
+   196	
+   197		if (ops->get_vq_dma_dev)
+   198			dma_dev = ops->get_vq_dma_dev(vdpa, index);
+   199		else
+   200			dma_dev = vdpa_get_dma_dev(vdpa);
+   201		vq = vring_create_virtqueue_dma(index, max_num, align, vdev,
+   202						true, may_reduce_num,
+   203						cfg->ctx ? cfg->ctx[index] : false,
+   204						notify,
+   205						cfg->callbacks[index],
+   206						cfg->names[index],
+   207						dma_dev);
+   208		if (!vq) {
+   209			err = -ENOMEM;
+   210			goto error_new_virtqueue;
+   211		}
+   212	
+   213		vq->num_max = max_num;
+   214	
+   215		/* Setup virtqueue callback */
+ > 216		cb.callback = cfg->callbacks[cfg->cfg_idx] ? virtio_vdpa_virtqueue_cb : NULL;
+   217		cb.private = info;
+   218		cb.trigger = NULL;
+   219		ops->set_vq_cb(vdpa, index, &cb);
+   220		ops->set_vq_num(vdpa, index, virtqueue_get_vring_size(vq));
+   221	
+   222		desc_addr = virtqueue_get_desc_addr(vq);
+   223		driver_addr = virtqueue_get_avail_addr(vq);
+   224		device_addr = virtqueue_get_used_addr(vq);
+   225	
+   226		if (ops->set_vq_address(vdpa, index,
+   227					desc_addr, driver_addr,
+   228					device_addr)) {
+   229			err = -EINVAL;
+   230			goto err_vq;
+   231		}
+   232	
+   233		/* reset virtqueue state index */
+   234		if (virtio_has_feature(vdev, VIRTIO_F_RING_PACKED)) {
+   235			struct vdpa_vq_state_packed *s = &state.packed;
+   236	
+   237			s->last_avail_counter = 1;
+   238			s->last_avail_idx = 0;
+   239			s->last_used_counter = 1;
+   240			s->last_used_idx = 0;
+   241		}
+   242		err = ops->set_vq_state(vdpa, index, &state);
+   243		if (err)
+   244			goto err_vq;
+   245	
+   246		ops->set_vq_ready(vdpa, index, 1);
+   247	
+   248		vq->priv = info;
+   249		info->vq = vq;
+   250	
+   251		spin_lock_irqsave(&vd_dev->lock, flags);
+   252		list_add(&info->node, &vd_dev->virtqueues);
+   253		spin_unlock_irqrestore(&vd_dev->lock, flags);
+   254	
+   255		return vq;
+   256	
+   257	err_vq:
+   258		vring_del_virtqueue(vq);
+   259	error_new_virtqueue:
+   260		ops->set_vq_ready(vdpa, index, 0);
+   261		/* VDPA driver should make sure vq is stopeed here */
+   262		WARN_ON(ops->get_vq_ready(vdpa, index));
+   263		kfree(info);
+   264		return ERR_PTR(err);
+   265	}
+   266	
 
 -- 
 0-DAY CI Kernel Test Service
