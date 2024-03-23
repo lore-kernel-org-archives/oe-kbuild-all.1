@@ -1,104 +1,108 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A4EFBE9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Mar 2024 17:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A222A42056
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Mar 2024 18:47:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711215536; cv=none; b=Iqg5lNBYBl4Ar3G+pYtEUEVa7CW2kZNWOk7iFemDmdmqFxMFuUCiMbRdzp2ee8s/lENVq8dnJvW6IE0AcQspiGd/8tAtd/WLlUPEolCnQSt2P1wCw4tP3e0mz8BwzmMJSsfG1/Nfc3rdvCBtnqxoZGa+JvQuzMB0z+eoK5sDpt4=
+	t=1711219637; cv=none; b=CX100TsqgeEd/LlJ/q/wBdrX0tCEoby7okfD96fV9wgNQcK+oOulUmg2nm67Yp311NPmRGY4hkTve/woXYa94f0jOfIjLBcWr/bwJhtomuVAJkbOu6aODSK312UO6egusgBiPNX2AVmTOtP8UQD8N4QKVEpyv1VbW7wQ2I+s5aM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711215536; c=relaxed/simple;
-	bh=UQIiK8Z4s/l94svTjPP1GphXf2R1CeD3GtdYcZYyGe8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=k1ioe1Avqe/ZLQfZjzVeimJH1K87ySZK+49wt15ydw1Zkrx1PCgvpLQedGQpBarPZa6nUcpEUEKwOoIqy4mx+aQF0D+miSLpo+SrrroF/eyXWE5g910E7dXU9K+4MvUwVlGjgtrT7831G2PcCd5UW76SuKzg58bNaJuZXCkBjTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bQKQsL5X; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1711219637; c=relaxed/simple;
+	bh=xjicee+HUqCnL4uIM8zu1AJsVaTgwuoGfctM9etTwo4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BkjfDmj+Vje6xHCJrFTyjKZpGg4lAYkwkmSY9ChBgk/SdQeyjv89ekxYARPAgD2iTmI+eoJ1TmRGDTXaTeiJHoFRDr3wqJM80Fe7v9WIK/Q2txP13rJXBUB2gs940ovUozaYFraGB3t/pHhQeC8uIaOxV125TLhhUUiRtB5juns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LwkfJg7u; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bQKQsL5X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711215532;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hIauagApnARH4T0nvgXygBukzfZfxhBo5aFzyNLrHzg=;
-	b=bQKQsL5XlEx6sFfbsYx4zo8Rt4LAgDfAesI0XoUDvNEITO4/wtU1xnSiQuMpnn3MD+K2y/
-	kisuGJlC/cVI5rHAAlGSGRunM7K1NtZ69ECCcXM3reInzhSrcDjiELmfzHX1rNgDYUnYI1
-	ijDQuhfpp4OuTv6pIsU+/hnkwXKuGhg=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-265-fqDDiXAsMt2aYHHJHvILJw-1; Sat, 23 Mar 2024 13:38:48 -0400
-X-MC-Unique: fqDDiXAsMt2aYHHJHvILJw-1
-Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-6dea8b7e74aso837201a34.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Mar 2024 10:38:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711215527; x=1711820327;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hIauagApnARH4T0nvgXygBukzfZfxhBo5aFzyNLrHzg=;
-        b=KU/2yaLtAx8d07qNWdTdaxv14/GgbjgQtJI8HGaL7F6mMnVz700AeeRy4bgkspdwDZ
-         gE7r0YB51MyJqcgAI2380skWSWD47y1S3NnHWnk2oxi3ryKX0mHJhQVoBsALIYplgb/V
-         Vctz3O/87TYqFniqGmDuqk6ottZRkiZpBEndAEPFBZdBViss8nTDjSzjoERWYalpigz/
-         ZXn48EfAPFa3iACJGcVKZK2Pm+ew9Q10u36zWnUqsurvzAK+VCinHdayz9bI3lO54TdE
-         LUWsqjATawXR6KsdauYFWOVoM+J8MwP6Lk4kb5FsB7C8V0W+LtxYgmPq0m0gfh5XWOCN
-         NhJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUIth46pUGqrbP0o2cS+o5hdYn2SVCwW345I7J+A9imCmX1qzpsFzQHheKN+CbkbfWP4/cHBMNw8pfObzK0eKBwfmCQxYV66o0M5ELTYQ==
-X-Gm-Message-State: AOJu0YxSRWO67YUjLgXjkEZW1rrAUtd6QVamtK/tkZ2PwGT84bLZqLAq
-	99OVSeVJ5kp1xc1Ouibba7/M4lndzs18BKo/9BBBJINbHJLGi5LhzldfYM0RjjKA4pBQXqLWDPV
-	f7GhaN4b3j5Es/DyvM9V8BxE4opPgm8+szrfe+EQs5U/9HHEGiwjkf1vVAdBvl2w=
-X-Received: by 2002:aca:d05:0:b0:3c3:c090:59cd with SMTP id 5-20020aca0d05000000b003c3c09059cdmr2628147oin.0.1711215526683;
-        Sat, 23 Mar 2024 10:38:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGiVWsP3fTAlbJWgwYv+bI8uN+5fNa1oDVYu5Ny06AJ0joFwcEZjlU+wbLtW5FnYWSeHjMB3g==
-X-Received: by 2002:aca:d05:0:b0:3c3:c090:59cd with SMTP id 5-20020aca0d05000000b003c3c09059cdmr2628133oin.0.1711215526216;
-        Sat, 23 Mar 2024 10:38:46 -0700 (PDT)
-Received: from x1n ([99.254.121.117])
-        by smtp.gmail.com with ESMTPSA id jx12-20020a0562142b0c00b006961cc3f91asm2264494qvb.20.2024.03.23.10.38.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Mar 2024 10:38:45 -0700 (PDT)
-Date: Sat, 23 Mar 2024 13:38:44 -0400
-From: Peter Xu <peterx@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [akpm-mm:mm-unstable 115/141] mm/gup.c:536:22: error: call to
- undeclared function 'pud_pfn'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <Zf8TpI3unIxZuPRn@x1n>
-References: <202403240112.kHKVSfCL-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LwkfJg7u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711219636; x=1742755636;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xjicee+HUqCnL4uIM8zu1AJsVaTgwuoGfctM9etTwo4=;
+  b=LwkfJg7uD/B0zEEZomXVjOxUx0jg3jypBrrbUQCIw1Hh0ngkn6T0Kx0r
+   iDITCnPCdH+SORbRzb5IPA9mfAQUWauQtWgNwLkYR+wVt/SKcAECOi+pF
+   +XzvmI3FcixjB3CfRfeUkeVy+9/wi+8Ylx9u9duav7VVEFk9jBbjpVvsQ
+   9I04yZm0XajU6OCjVxWXweg589BvcICyI6U/ystojjaebNRIaZHrDdeP9
+   5wLX2rKNqeCn++52YuJrxGvJUBGPIpLuCWp4Rx7PV1W4eNSdHEpBeqnpR
+   HVQl+UPqmiYjycO5beIhdnW+7sfjyxsaW/QtzD5GLT0YTBQ4oLWQB0wGm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11022"; a="6153966"
+X-IronPort-AV: E=Sophos;i="6.07,149,1708416000"; 
+   d="scan'208";a="6153966"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2024 11:47:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,149,1708416000"; 
+   d="scan'208";a="15250981"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 23 Mar 2024 11:47:14 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ro6Od-000LPH-2W;
+	Sat, 23 Mar 2024 18:47:11 +0000
+Date: Sun, 24 Mar 2024 02:46:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Zheng Yejian <zhengyejian1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1780/6857] kernel/module/strict_rwx.c:36:6:
+ warning: no previous prototype for function 'module_disable_ro'
+Message-ID: <202403240225.chgQpK3C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202403240112.kHKVSfCL-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Sun, Mar 24, 2024 at 01:24:25AM +0800, kernel test robot wrote:
-> >> mm/gup.c:536:22: error: call to undeclared function 'pud_pfn'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->      536 |         unsigned long pfn = pud_pfn(pud);
->          |                             ^
->    mm/gup.c:536:22: note: did you mean 'pte_pfn'?
->    arch/powerpc/include/asm/pgtable.h:60:29: note: 'pte_pfn' declared here
->       60 | static inline unsigned long pte_pfn(pte_t pte)
->          |                             ^
->    9 warnings and 1 error generated.
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   1b4212c630731d88b07d5b6e28ecaff1a76d3839
+commit: c8783f92771c891518257c9deb22cd91d4e1a212 [1780/6857] livepatch/core: Revert module_enable_ro and module_disable_ro
+config: x86_64-randconfig-015-20240323 (https://download.01.org/0day-ci/archive/20240324/202403240225.chgQpK3C-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240324/202403240225.chgQpK3C-lkp@intel.com/reproduce)
 
-Duplicated issue of:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403240225.chgQpK3C-lkp@intel.com/
 
-https://lore.kernel.org/r/202403231529.HRev1zcD-lkp@intel.com/
+All warnings (new ones prefixed by >>):
 
-Resolved by:
+>> kernel/module/strict_rwx.c:36:6: warning: no previous prototype for function 'module_disable_ro' [-Wmissing-prototypes]
+      36 | void module_disable_ro(const struct module *mod)
+         |      ^
+   kernel/module/strict_rwx.c:36:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      36 | void module_disable_ro(const struct module *mod)
+         | ^
+         | static 
+   1 warning generated.
 
-https://lore.kernel.org/r/20240323151643.1047281-1-peterx@redhat.com
+
+vim +/module_disable_ro +36 kernel/module/strict_rwx.c
+
+    34	
+    35	#ifdef CONFIG_LIVEPATCH_WO_FTRACE
+  > 36	void module_disable_ro(const struct module *mod)
+    37	{
+    38		if (!IS_ENABLED(CONFIG_STRICT_MODULE_RWX))
+    39			return;
+    40	#ifdef CONFIG_STRICT_MODULE_RWX
+    41		if (!rodata_enabled)
+    42			return;
+    43	#endif
+    44	
+    45		module_set_memory(mod, MOD_TEXT, set_memory_rw);
+    46		module_set_memory(mod, MOD_INIT_TEXT, set_memory_rw);
+    47		module_set_memory(mod, MOD_RODATA, set_memory_rw);
+    48		module_set_memory(mod, MOD_INIT_RODATA, set_memory_rw);
+    49	}
+    50	#endif /* CONFIG_LIVEPATCH_WO_FTRACE */
+    51	
 
 -- 
-Peter Xu
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
