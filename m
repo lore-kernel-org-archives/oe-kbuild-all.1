@@ -1,122 +1,158 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB2725568
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Mar 2024 15:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F9C29CE7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Mar 2024 15:20:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711206561; cv=none; b=OZ3FF2TrYgW8lR0O6sT43iEXZio0gA1VXp+4REVtsrpyrsBgcKve2DRWxiwvhaaa0VhGarfXDpvCHxkRtVhqPPS96w3AgyZxMmUC0LaTn6Ur8lySSTCeZcxK1PBKEpPTW+sqKpCmVR585ARzcSRPu8grswgaPO1tJBOJGCJojqM=
+	t=1711207214; cv=none; b=S+vy+D2nfDA5VVyNHoZ+Cj+LedZ8yI1tPQ8at7FSNQOWijrUVlxIzE5LIE4irIn3ao1OTttw80NwGPWNE7EHQ7IZiJdZNGTasuKyruBwG6pl3xIcoQHW6tK0dBVY3uHBum3eqhKCaKxBDM66PCOR0j6nhOry1l4G0DdZd03smTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711206561; c=relaxed/simple;
-	bh=f/Bi2SGNG57OmKLLu5C4KHLBZa1sIVnooKH5RKTu49I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=LW9KUJy7VvO3Lo1jdp/Okw9BDY43grYDLy+FrlqTvusin3EmHtBQ+KaNZxbgmvTjKz4KyQmZQhKZLbJbs0daiFgWHvdRvBRtZwKKJKKAgu+qDvRyI4JMwZpxx6N29McOFSU3UeXiZxhNc2e5eXNx5BBvmpoDnEzuCP0NpQNoEq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AFM3N/Dt; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1711207214; c=relaxed/simple;
+	bh=cRFYz30RuYP53w6tFpibGzxMC/lYyrgVI/1j6bhxP3o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g1sSoN1z3KyqJn1fb6MmPd6ap/u+z6B4lQcW8P3vFj37z6K/fm1V88RCDpF3vGn8slpob2TO6HowbmBRjpWBCjjkE+CJy0cxX/gsAfHcFPWyD8zcWgPYkhi8vDIvnFK6mHb08RUpMU5Jp7CINNooFOx9cZYinI7crOfDtclaRPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jBZbMZIp; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AFM3N/Dt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711206556;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3Gkwe3RugO/qU9qXn91T+5RzKi/2azT+9SdH6n0yuDQ=;
-	b=AFM3N/DtmZzuxMNyYkn33USXESrb5d7AFBIHHZVnj7wmuMBhfV4lvka0KTYYhy0Y5oFLqa
-	OLsHyN9aviTNn7iUTPSlhipBtxsJIETdW2Dn00NVts1hkSCld2vdQV0lzWNqlze7UV7S/u
-	80w/RmyjLWOB4LL/Grf7M5deAj19ReM=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-300-BibmiULeObmCyjhaELcrpg-1; Sat, 23 Mar 2024 11:09:08 -0400
-X-MC-Unique: BibmiULeObmCyjhaELcrpg-1
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4311dd10102so12183861cf.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Mar 2024 08:09:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711206548; x=1711811348;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3Gkwe3RugO/qU9qXn91T+5RzKi/2azT+9SdH6n0yuDQ=;
-        b=Es7BwoGx2wyB3o1E10whGfb+AFJbwxlTfTTMu1ABCdkWsdQse3/3P5/F3Wp2KJ6L1h
-         1F1vdK64UOVLWFd1nGycg9CrmBAPCnI6oixdGAq/TGFsaK+zt7/NE79QTmuCyFi3kGG0
-         fkTffFZ1qB7TNFr1IfQl5U9zOx0SvxtzgzmlRUKKqUmjoApITaAjbG2FySLMrNZqlhOW
-         XMfZHQ7iNhNUwucMpUFWmklgTMhjj+02ImE62Mmt+h7pxRgiCimmtMsIyXwiiMGgiQx8
-         i0pb5LA1tt5AMD0U/YbMwLe5AOiFBh5XaFwuNBk/Y+0sViWNbrk/JcrSSx+LfuEg8caS
-         pxUA==
-X-Gm-Message-State: AOJu0YyFJm2wCx8mvOr6ckwx3kutnMjFcQhXTSvG2poeZ+fRszKBp8QZ
-	qABA300tvacZb4Lifk1gTrgyDkWm7LMOt+HHkVkPg15V5P/Vb5K55d5IpfuhxSqPco8Ju8+2hm3
-	D4PJ1MkU3VL03ZpQTlv1vGDv/U6BodjrbOyp6InxS5Pe52VYtTHIkl8C1YEKEAiY=
-X-Received: by 2002:a05:6214:3105:b0:696:6f59:4d19 with SMTP id ks5-20020a056214310500b006966f594d19mr2715435qvb.1.1711206548030;
-        Sat, 23 Mar 2024 08:09:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH516xzE3UsxGqNOqz0JWWFXNZVhPgHdtkCZb20XbuKaLVOiykSXsHPkNfuTwevpb/xrb3uGA==
-X-Received: by 2002:a05:6214:3105:b0:696:6f59:4d19 with SMTP id ks5-20020a056214310500b006966f594d19mr2715383qvb.1.1711206547355;
-        Sat, 23 Mar 2024 08:09:07 -0700 (PDT)
-Received: from x1n ([99.254.121.117])
-        by smtp.gmail.com with ESMTPSA id gf15-20020a056214250f00b006912014b98dsm2149108qvb.129.2024.03.23.08.09.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Mar 2024 08:09:06 -0700 (PDT)
-Date: Sat, 23 Mar 2024 11:09:05 -0400
-From: Peter Xu <peterx@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [akpm-mm:mm-unstable 115/141] mm/gup.c:536:29: error: implicit
- declaration of function 'pud_pfn'; did you mean 'pmd_pfn'?
-Message-ID: <Zf7wkSr-S1qBT2hm@x1n>
-References: <202403231529.HRev1zcD-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jBZbMZIp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711207212; x=1742743212;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cRFYz30RuYP53w6tFpibGzxMC/lYyrgVI/1j6bhxP3o=;
+  b=jBZbMZIpS0MqQnn8+n8931Ps10Om54x2cX33Teyvo4F/T13jwSdWg3Sh
+   +w/Dztr8kog/st57hiuD5c/zN4o2Shj2uyYmsVALai15Uz1aaqwWOGv3l
+   fSYcTlYcSi5HjSku/R5kmvXZbnKloOKHH1DKZljdBcuLzkViM0KvIJjfg
+   F7wJmFyZi5BWRkH2kIAgQ4AwywklIxMjOtQ9YfA+fnBP8onW986NDbIhJ
+   TCGFypbQB3QL1HBgPsa6Dup8/wLFH1CMuU7WewsTvN1OY2fv1458VZaY8
+   x66yv6mc8uz9+qsdqv/X8pDxJnbbEw/SAHQ8GK0SgsdwOXR3eCzXUnKnC
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11022"; a="6104677"
+X-IronPort-AV: E=Sophos;i="6.07,149,1708416000"; 
+   d="scan'208";a="6104677"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2024 08:20:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,149,1708416000"; 
+   d="scan'208";a="15094215"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 23 Mar 2024 08:20:02 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ro3A7-000LFh-2i;
+	Sat, 23 Mar 2024 15:19:59 +0000
+Date: Sat, 23 Mar 2024 23:19:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 13138/21930]
+ arch/x86/kernel/livepatch.c:225:5: warning: no previous prototype for
+ function 'arch_klp_init_func'
+Message-ID: <202403232323.GK5ks0fh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202403231529.HRev1zcD-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Sat, Mar 23, 2024 at 03:12:08PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> head:   af520f81c51001f7ccdf0579fc73df282b26292d
-> commit: 529f3b89b7333564792458ca7be06f5bff258d23 [115/141] mm/gup: handle huge pud for follow_pud_mask()
-> config: sh-defconfig (https://download.01.org/0day-ci/archive/20240323/202403231529.HRev1zcD-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240323/202403231529.HRev1zcD-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403231529.HRev1zcD-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    mm/gup.c: In function 'follow_huge_pud':
-> >> mm/gup.c:536:29: error: implicit declaration of function 'pud_pfn'; did you mean 'pmd_pfn'? [-Werror=implicit-function-declaration]
->      536 |         unsigned long pfn = pud_pfn(pud);
->          |                             ^~~~~~~
->          |                             pmd_pfn
->    cc1: some warnings being treated as errors
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   25bf6ba385a44e446068067e861e1b843f6174e2
+commit: 7e2ab91ea07673f855f16b54b7c6e6853b2efc1c [13138/21930] livepatch/x86: support livepatch without ftrace
+config: x86_64-randconfig-015-20240323 (https://download.01.org/0day-ci/archive/20240323/202403232323.GK5ks0fh-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240323/202403232323.GK5ks0fh-lkp@intel.com/reproduce)
 
-This is a HUGETLB_PAGE && !THP setup, where on SH there's no huge mappings
-at all, actually it seems to only use a similar cont ptes concept.. which I
-didn't notice before.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403232323.GK5ks0fh-lkp@intel.com/
 
-We should have tackled similar issue with pmd_pfn() in 2022, where
-7106c51ee9a1 ("arch: Add pmd_pfn() where it is missing") defined pmd_pfn
-for all archs.
+All warnings (new ones prefixed by >>):
 
-Instead of doing that (archs using pud_pfn is still not much; defining it
-all across sounds like an overkill), and instead of providing a fixup
-patch, I think it'll make more sense I provide a standalone patch to
-provide pud_pfn() globally with a fallback.  Ideally such patch can be put
-before this problematic commit if we care about per-commit compilations.
+>> arch/x86/kernel/livepatch.c:225:5: warning: no previous prototype for function 'arch_klp_init_func' [-Wmissing-prototypes]
+     225 | int arch_klp_init_func(struct klp_object *obj, struct klp_func *func)
+         |     ^
+   arch/x86/kernel/livepatch.c:225:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     225 | int arch_klp_init_func(struct klp_object *obj, struct klp_func *func)
+         | ^
+         | static 
+>> arch/x86/kernel/livepatch.c:230:6: warning: no previous prototype for function 'arch_klp_free_func' [-Wmissing-prototypes]
+     230 | void arch_klp_free_func(struct klp_object *obj, struct klp_func *limit)
+         |      ^
+   arch/x86/kernel/livepatch.c:230:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     230 | void arch_klp_free_func(struct klp_object *obj, struct klp_func *limit)
+         | ^
+         | static 
+   arch/x86/kernel/livepatch.c:258:6: warning: no previous prototype for function 'arch_klp_code_modify_prepare' [-Wmissing-prototypes]
+     258 | void arch_klp_code_modify_prepare(void)
+         |      ^
+   arch/x86/kernel/livepatch.c:258:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     258 | void arch_klp_code_modify_prepare(void)
+         | ^
+         | static 
+   arch/x86/kernel/livepatch.c:264:6: warning: no previous prototype for function 'arch_klp_code_modify_post_process' [-Wmissing-prototypes]
+     264 | void arch_klp_code_modify_post_process(void)
+         |      ^
+   arch/x86/kernel/livepatch.c:264:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     264 | void arch_klp_code_modify_post_process(void)
+         | ^
+         | static 
+   4 warnings generated.
+--
+   kernel/livepatch/core.c:402:5: warning: no previous prototype for function 'klp_try_disable_patch' [-Wmissing-prototypes]
+     402 | int klp_try_disable_patch(void *data)
+         |     ^
+   kernel/livepatch/core.c:402:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     402 | int klp_try_disable_patch(void *data)
+         | ^
+         | static 
+   kernel/livepatch/core.c:441:13: warning: no previous prototype for function 'arch_klp_code_modify_prepare' [-Wmissing-prototypes]
+     441 | void __weak arch_klp_code_modify_prepare(void)
+         |             ^
+   kernel/livepatch/core.c:441:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     441 | void __weak arch_klp_code_modify_prepare(void)
+         | ^
+         | static 
+   kernel/livepatch/core.c:445:13: warning: no previous prototype for function 'arch_klp_code_modify_post_process' [-Wmissing-prototypes]
+     445 | void __weak arch_klp_code_modify_post_process(void)
+         |             ^
+   kernel/livepatch/core.c:445:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     445 | void __weak arch_klp_code_modify_post_process(void)
+         | ^
+         | static 
+   kernel/livepatch/core.c:617:5: warning: no previous prototype for function 'klp_try_enable_patch' [-Wmissing-prototypes]
+     617 | int klp_try_enable_patch(void *data)
+         |     ^
+   kernel/livepatch/core.c:617:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     617 | int klp_try_enable_patch(void *data)
+         | ^
+         | static 
+>> kernel/livepatch/core.c:1013:12: warning: no previous prototype for function 'arch_klp_func_can_patch' [-Wmissing-prototypes]
+    1013 | int __weak arch_klp_func_can_patch(struct klp_func *func)
+         |            ^
+   kernel/livepatch/core.c:1013:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1013 | int __weak arch_klp_func_can_patch(struct klp_func *func)
+         | ^
+         | static 
+   5 warnings generated.
 
-I'll post a formal patch soon.
+
+vim +/arch_klp_init_func +225 arch/x86/kernel/livepatch.c
+
+   224	
+ > 225	int arch_klp_init_func(struct klp_object *obj, struct klp_func *func)
+   226	{
+   227		return 0;
+   228	}
+   229	
+ > 230	void arch_klp_free_func(struct klp_object *obj, struct klp_func *limit)
+   231	{
+   232	
 
 -- 
-Peter Xu
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
