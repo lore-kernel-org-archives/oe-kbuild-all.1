@@ -1,54 +1,54 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508D93B193;
-	Sat, 23 Mar 2024 21:00:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511AA41C63
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Mar 2024 21:00:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711227620; cv=none; b=WN3fd+nSOWgciC00HtqvkJLYmEiAAF+FHSWjJFkbsy76/yamJPCp+bA69QBQ+1PUKoZ5jTqJGr/UPWIvq4A8NLw0cMAaTFowPHKkItMBh5YppmwFnkWsDzsqsMfVmfNTYIsE2+23FIdeTL2X4b0YI7+XC9QcntR0roMYjn4q8Qk=
+	t=1711227622; cv=none; b=ileeOteDjiaXTJmyXo3O30fdsl5KOsqKWdFc0oigPzZxKGwqtuBAqC0s7Y4NP4K3ZoKi4LK0IxElrhA9cDhJ0w9tSOB4+M5eHNc76RgIegCNIhiGjFUbGaXDm8cFq/orDO29wl4dBhRqFyTTdUu2Dg7RLbZl7dFFcSFy1AbQBPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711227620; c=relaxed/simple;
-	bh=3rodCko/SVG/4Fhy3FDjkfn5wkUL4KjdnIynqZUXtwA=;
+	s=arc-20240116; t=1711227622; c=relaxed/simple;
+	bh=A+hRFeocXB7Glz/1BZ2DbYhVHGvO6jDI8S3zV+BRkZk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eHkVDQALhlX17yTS7a1khZpsAVRGLPS97350LWBYhQ9lYKxZwbvlJ88tR+t3YvsBKxo6DL9mR9PrB5O7TPPilZY2rT3qIgQvC2ShO2Bu7b1mRQxBjJAZawQu1DmZCKJgbVeRlbmdk93J4Rf0mvSMboBMd3N8efKsLBwxg5Tvskk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OAK28J22; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=a2SGWvm4ewe83LrNlVKMcBb/w544yp4PjE71pqhlv+n6GDOdMbaAGaO0w7MxpVrwzlajOKb2XFcu0JjO8WWQ8Dza4g8Xmo0yADxilgIIqqJqaYFkiAkH9HubFY2S4T+QdjK4XYs6rYeaT4CNOhe2Xg1xKOKdaeezGEqEI4LtRAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GVGKQ2Mo; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OAK28J22"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GVGKQ2Mo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711227618; x=1742763618;
+  t=1711227620; x=1742763620;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3rodCko/SVG/4Fhy3FDjkfn5wkUL4KjdnIynqZUXtwA=;
-  b=OAK28J221+Niq9QPowz1upY775N7C9JLU3T37AGcchTgg8xqKq+Tpyl4
-   z53tzafwfN++AAva0oZhp6U4qKNjcO/OAXlCDEL88bCC8llcB96SJxtCL
-   6hu3t4y++GDf20/b+ukhfn8AgrUArJ8oBoTtUOF2x2tOUSpMQzG6k27oY
-   P80sB8GF6rTdBIf7PQQlwIFBVmwcuLHMKU/eRuxn+z03m/x66Nc4blpTd
-   B3AVnyd8YwAXaRKmXKY/u32AiSGKLUpANZendhRsgV9PHeuw5XJvqajYK
-   OHM5a6NnRTHLdzJjUXHdJUsYBLQP6TuKPmUzpKNpeL1cNYPJVnR+ejSKc
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11022"; a="10063054"
+  bh=A+hRFeocXB7Glz/1BZ2DbYhVHGvO6jDI8S3zV+BRkZk=;
+  b=GVGKQ2Mo3T68Clszy+vC5LjLTkJby7hrrdEFQl0GL07EFLD76XRGOW+S
+   ojsltNU3JFz9u7imUDsCtViy3QO4wfVPTZKOCy0ikd9N39UwesVNxttGD
+   Yhks+An/W/azEJbjfoW8+kuPA4gGc/CjlQ6d+pK3Y2lTELNS8n4/yv776
+   dCYD7yd51NLQGE96gwnAf7k8GQ6p93YBKV1O5X5yOclsQw1/XB2zoJN8Q
+   K92G2p1nc0+MRChGSeLF3g8lYS/LrvMHRG8XfbqI2icXN+I942igu9EQD
+   4vGFxRXF3XB5j3DECsVimXrlCXkVjuOm+cPZryGVCJuP79M0Z5280VC6D
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11022"; a="10063056"
 X-IronPort-AV: E=Sophos;i="6.07,150,1708416000"; 
-   d="scan'208";a="10063054"
+   d="scan'208";a="10063056"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2024 14:00:17 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,150,1708416000"; 
-   d="scan'208";a="15128335"
+   d="scan'208";a="15128336"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 23 Mar 2024 14:00:16 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ro8TN-000LSp-19;
+	id 1ro8TN-000LSr-1C;
 	Sat, 23 Mar 2024 21:00:13 +0000
-Date: Sun, 24 Mar 2024 04:59:39 +0800
+Date: Sun, 24 Mar 2024 04:59:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: Arnd Bergmann <arnd@arndb.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:to-build 17/87] drivers/base/bus.c:677:8: error:
- assigning to 'int' from incompatible type 'void'
-Message-ID: <202403240412.7ji9DY0F-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arnd-playground:to-build 17/87] drivers/base/bus.c:677:15: error:
+ void value not ignored as it ought to be
+Message-ID: <202403240452.5p6z2pLZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,21 +61,21 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git to-build
 head:   467039adc3ec86566cc6403e5b1fbb9785d66df1
 commit: 578c86f00f746b9f504a03494a0e00d2d1082479 [17/87] [SUBMITTED 20240322] [v2] module: don't ignore sysfs_create_link() failures
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240324/202403240412.7ji9DY0F-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 23de3862dce582ce91c1aa914467d982cb1a73b4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240324/202403240412.7ji9DY0F-lkp@intel.com/reproduce)
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240324/202403240452.5p6z2pLZ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240324/202403240452.5p6z2pLZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403240412.7ji9DY0F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403240452.5p6z2pLZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/base/bus.c:677:8: error: assigning to 'int' from incompatible type 'void'
+   drivers/base/bus.c: In function 'bus_add_driver':
+>> drivers/base/bus.c:677:15: error: void value not ignored as it ought to be
      677 |         error = module_add_driver(drv->owner, drv);
-         |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+         |               ^
 
 
 vim +677 drivers/base/bus.c
