@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9F233D5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Mar 2024 04:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5641413FFC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Mar 2024 05:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711256071; cv=none; b=eopu+YLCT4lwLtnyXxk6Oaa7E+I6TSeLD2PXFE5hmbyVe2/lWACY1hr8W+fy80UkAqJ4PXfdZeEWCcA7dO8mihNMQJJRvwZvQzejitoi88SlbFYR27opmITPRznIeM5W9WKDCas3g8UD8kZlyWkjaw/s0739xpci4JgstncAD3Y=
+	t=1711258530; cv=none; b=opKYcPtmYu6y7HcwnxJe82/5Uy01YpAnaCQbYFO71xnBqKk6gdxtj8/ywwV/FMflwH0z/ZCtHbDoH5eMcSJ1VjQ8OgZ+WuRRYyq41VJ14Z+TuU2CCI09x67RaYNyIH+lcVhjxmBZa9JTR0x7Y7lb7LcByBss4Rt0eznvDNyoanY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711256071; c=relaxed/simple;
-	bh=fQotmcxZBpi9QJswFVuGYvHC1d+HooV3pFpuNdeMaGw=;
+	s=arc-20240116; t=1711258530; c=relaxed/simple;
+	bh=QgPt62oJRyEkxF3kqIXljme0XjzCbCdY4RX2CztNAEQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VY6axRcU2j69EeOVorPXllX0wQCuADfF1FZn1SyKMryHN6dB7Zpq2E8nAFYdbXTFa6vctpSzY0b2NzlVeSdHfWnfnq8OLNpnyr5h+rTNH7WbvOMtacrJ3QOgO3MFQ1wNpEDSZxlbSgfXB/Vf12hcPmsPG3FOvA9lgofX0jCn2fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lCjT+QTS; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=Sy0A7juq5jj/oXqFzI5y5RVausi2Tm8ABDHM80tT0h+nzrR3Uwj2OO8+c9ouvQxvikX15+iYtW/sbVh6U5ULEin8g8pkftBoR1Jdd16iHoT8J30kSPMAJdkOzTfEN77lA9mvcwAA33VOwiPaa/kTbVe/wmJ77aJB06QNdIA9Hic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hmLI6K1d; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lCjT+QTS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hmLI6K1d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711256068; x=1742792068;
+  t=1711258529; x=1742794529;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fQotmcxZBpi9QJswFVuGYvHC1d+HooV3pFpuNdeMaGw=;
-  b=lCjT+QTSjuXk9g5Hqi4By5yUQegi/KYIDl9GTgNOz4Xc6t9I22b+MI8c
-   +EVr20txJieH13TzRIWean7DmS9+1nQ3r+WWeEM3BgxzTOVbqdJRNozno
-   SHot5HuEY9GwrN8CcDA5IGOZxF6FuPqkaXkbcq40tJ7kvxgmDDVQBxNT/
-   8eGYDsya5a0r5Hahj5UCMNZLJTYXPSO/kMsZ/yntN7BcaUqgIidPzvZ6k
-   mq5i9S/BXvvwonwmYhbHERx9avnCS0W2FpfdDXYSyxbPKUfsU9OYYVDFh
-   iRh35emKTZbu2sa7WlJ+0rjboGVni0cTgxu8RHU9lpofAOlnf3KE9/QiU
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11022"; a="6480724"
+  bh=QgPt62oJRyEkxF3kqIXljme0XjzCbCdY4RX2CztNAEQ=;
+  b=hmLI6K1dr3V6IyT+gsRJD6+ocpqa/GoJSyH1kMzv9rMsEUEkrM2gipew
+   tMK0uu5ZgNkOGEkL9fTXH0uo6B9uBoRt7P94D0tasGB8S+tLTSmtipHyH
+   I6LNcg2j+/4zsQuvp022g4hBDSjwCm3q+sSabRIzTbZKZGNGKZScfUk5O
+   DCoLy8xkw7+WGLEF53v4nC6drEV0ELqwfFk8PqrlPhFJsiuPLBKeT7IpJ
+   +LGbVANj8HU35rTV9yBaR+ol7KOohOhJtVPO4Obdr+ITTso2+j8rXPgrx
+   OL7cEGTE+eMdH60yzV9Z1fpxw8Rp0cuhrf2cF7GpwIbis3lcFsoAvhkYr
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11022"; a="6207518"
 X-IronPort-AV: E=Sophos;i="6.07,150,1708416000"; 
-   d="scan'208";a="6480724"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2024 21:54:27 -0700
+   d="scan'208";a="6207518"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2024 22:35:28 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,150,1708416000"; 
-   d="scan'208";a="19968847"
+   d="scan'208";a="15187164"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 23 Mar 2024 21:54:27 -0700
+  by orviesa010.jf.intel.com with ESMTP; 23 Mar 2024 22:35:27 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1roFsG-000LfX-06;
-	Sun, 24 Mar 2024 04:54:24 +0000
-Date: Sun, 24 Mar 2024 12:53:30 +0800
+	id 1roGVw-000LgN-1j;
+	Sun, 24 Mar 2024 05:35:24 +0000
+Date: Sun, 24 Mar 2024 13:35:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-block:scsi-limits 21/23] drivers/scsi/mpi3mr/mpi3mr_os.c:4410:
- warning: Function parameter or struct member 'lim' not described in
- 'mpi3mr_device_configure'
-Message-ID: <202403241202.Tku6ldDi-lkp@intel.com>
+Subject: [hch-block:scsi-limits 20/23]
+ drivers/scsi/hisi_sas/hisi_sas_v3_hw.c:2902:19: error: too few arguments to
+ function 'hisi_sas_device_configure'
+Message-ID: <202403241300.yNTTK6An-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,76 +61,56 @@ Content-Disposition: inline
 
 tree:   git://git.infradead.org/users/hch/block.git scsi-limits
 head:   d56272297e728376fca28b0998de7fe9642c6dee
-commit: a8bd9ccf6a1fe10cdc3c835d834b0d07568325eb [21/23] mpi3mr: switch to using ->device_configure
-config: arm-randconfig-002-20240324 (https://download.01.org/0day-ci/archive/20240324/202403241202.Tku6ldDi-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240324/202403241202.Tku6ldDi-lkp@intel.com/reproduce)
+commit: 1d2296d51677f5461596f2d1570fd3ed08a9470e [20/23] libata: switch to using ->device_configure
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240324/202403241300.yNTTK6An-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240324/202403241300.yNTTK6An-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403241202.Tku6ldDi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403241300.yNTTK6An-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/scsi/mpi3mr/mpi3mr_os.c:4410: warning: Function parameter or struct member 'lim' not described in 'mpi3mr_device_configure'
+   drivers/scsi/hisi_sas/hisi_sas_v3_hw.c: In function 'device_configure_v3_hw':
+>> drivers/scsi/hisi_sas/hisi_sas_v3_hw.c:2902:19: error: too few arguments to function 'hisi_sas_device_configure'
+    2902 |         int ret = hisi_sas_device_configure(sdev);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/scsi/hisi_sas/hisi_sas_v3_hw.c:7:
+   drivers/scsi/hisi_sas/hisi_sas.h:646:5: note: declared here
+     646 | int hisi_sas_device_configure(struct scsi_device *sdev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +4410 drivers/scsi/mpi3mr/mpi3mr_os.c
+vim +/hisi_sas_device_configure +2902 drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
 
-824a156633dfdb Kashyap Desai     2021-05-20  4398  
-824a156633dfdb Kashyap Desai     2021-05-20  4399  /**
-a8bd9ccf6a1fe1 Christoph Hellwig 2024-03-23  4400   * mpi3mr_device_configure - Slave configure callback handler
-824a156633dfdb Kashyap Desai     2021-05-20  4401   * @sdev: SCSI device reference
-824a156633dfdb Kashyap Desai     2021-05-20  4402   *
-824a156633dfdb Kashyap Desai     2021-05-20  4403   * Configure queue depth, max hardware sectors and virt boundary
-824a156633dfdb Kashyap Desai     2021-05-20  4404   * as required
-824a156633dfdb Kashyap Desai     2021-05-20  4405   *
-824a156633dfdb Kashyap Desai     2021-05-20  4406   * Return: 0 always.
-824a156633dfdb Kashyap Desai     2021-05-20  4407   */
-a8bd9ccf6a1fe1 Christoph Hellwig 2024-03-23  4408  static int mpi3mr_device_configure(struct scsi_device *sdev,
-a8bd9ccf6a1fe1 Christoph Hellwig 2024-03-23  4409  		struct queue_limits *lim)
-824a156633dfdb Kashyap Desai     2021-05-20 @4410  {
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4411  	struct scsi_target *starget;
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4412  	struct Scsi_Host *shost;
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4413  	struct mpi3mr_ioc *mrioc;
-626665e9c38d3d Sreekanth Reddy   2022-08-04  4414  	struct mpi3mr_tgt_dev *tgt_dev = NULL;
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4415  	unsigned long flags;
-824a156633dfdb Kashyap Desai     2021-05-20  4416  	int retval = 0;
-626665e9c38d3d Sreekanth Reddy   2022-08-04  4417  	struct sas_rphy *rphy = NULL;
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4418  
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4419  	starget = scsi_target(sdev);
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4420  	shost = dev_to_shost(&starget->dev);
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4421  	mrioc = shost_priv(shost);
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4422  
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4423  	spin_lock_irqsave(&mrioc->tgtdev_lock, flags);
-626665e9c38d3d Sreekanth Reddy   2022-08-04  4424  	if (starget->channel == mrioc->scsi_device_channel)
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4425  		tgt_dev = __mpi3mr_get_tgtdev_by_perst_id(mrioc, starget->id);
-626665e9c38d3d Sreekanth Reddy   2022-08-04  4426  	else if (mrioc->sas_transport_enabled && !starget->channel) {
-626665e9c38d3d Sreekanth Reddy   2022-08-04  4427  		rphy = dev_to_rphy(starget->dev.parent);
-626665e9c38d3d Sreekanth Reddy   2022-08-04  4428  		tgt_dev = __mpi3mr_get_tgtdev_by_addr_and_rphy(mrioc,
-626665e9c38d3d Sreekanth Reddy   2022-08-04  4429  		    rphy->identify.sas_address, rphy);
-626665e9c38d3d Sreekanth Reddy   2022-08-04  4430  	}
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4431  	spin_unlock_irqrestore(&mrioc->tgtdev_lock, flags);
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4432  	if (!tgt_dev)
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4433  		return -ENXIO;
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4434  
-0ea177343f1f8a Kashyap Desai     2021-05-20  4435  	mpi3mr_change_queue_depth(sdev, tgt_dev->q_depth);
-1aa529d400253e Sreekanth Reddy   2022-05-06  4436  
-1aa529d400253e Sreekanth Reddy   2022-05-06  4437  	sdev->eh_timeout = MPI3MR_EH_SCMD_TIMEOUT;
-1aa529d400253e Sreekanth Reddy   2022-05-06  4438  	blk_queue_rq_timeout(sdev->request_queue, MPI3MR_SCMD_TIMEOUT);
-1aa529d400253e Sreekanth Reddy   2022-05-06  4439  
-a8bd9ccf6a1fe1 Christoph Hellwig 2024-03-23  4440  	mpi3mr_configure_tgt_dev(tgt_dev, lim);
-13ef29ea4aa065 Kashyap Desai     2021-05-20  4441  	mpi3mr_tgtdev_put(tgt_dev);
-824a156633dfdb Kashyap Desai     2021-05-20  4442  	return retval;
-824a156633dfdb Kashyap Desai     2021-05-20  4443  }
-824a156633dfdb Kashyap Desai     2021-05-20  4444  
-
-:::::: The code at line 4410 was first introduced by commit
-:::::: 824a156633dfdb0e17979a0d0bb2c757d1bb949c scsi: mpi3mr: Base driver code
-
-:::::: TO: Kashyap Desai <kashyap.desai@broadcom.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+  2896	
+  2897	static int device_configure_v3_hw(struct scsi_device *sdev,
+  2898			struct queue_limits *lim)
+  2899	{
+  2900		struct Scsi_Host *shost = dev_to_shost(&sdev->sdev_gendev);
+  2901		struct hisi_hba *hisi_hba = shost_priv(shost);
+> 2902		int ret = hisi_sas_device_configure(sdev);
+  2903		struct device *dev = hisi_hba->dev;
+  2904	
+  2905		if (ret)
+  2906			return ret;
+  2907	
+  2908		if (sdev->type == TYPE_ENCLOSURE)
+  2909			return 0;
+  2910	
+  2911		if (!device_link_add(&sdev->sdev_gendev, dev,
+  2912				     DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE)) {
+  2913			if (pm_runtime_enabled(dev)) {
+  2914				dev_info(dev, "add device link failed, disable runtime PM for the host\n");
+  2915				pm_runtime_disable(dev);
+  2916			}
+  2917		}
+  2918	
+  2919		return 0;
+  2920	}
+  2921	
 
 -- 
 0-DAY CI Kernel Test Service
