@@ -1,59 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E233A19E;
-	Sun, 24 Mar 2024 00:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0204438C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Mar 2024 00:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711238607; cv=none; b=UNnKVhZbh9qbXQ0anjl3aTjbXZHHKE2mUIdCLlzTrn2kR4DMmJ7F5J70SB+pxXL7iu2ieh/tX4MNCrSWr/xxt/E2ztNmbAscggeePwkfVlx2y1Lnw8NXIKCZF/25Y2CZT3/W6mB5d0GsgyzeDK+FiGSD5npucE4CdV2Dx14ug+c=
+	t=1711239325; cv=none; b=rxVUKqXzQgd/teeYSTfr402bzXdZEZvZ6zaqdbCoOQkw0EMnZbndWxY6iXNxB1zpqsewu5SmBZboit0WsOKue0etNlzb+NLBpPXhXZEaS4ObiH43Fr5UB6/kXEijMd1rykXWADE6Nz/Hr3EOZaWCkX6N53lmAiYW908Hb9z3eGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711238607; c=relaxed/simple;
-	bh=7dUjayPnLm+OrF7kkuivprJ7BF+CDLMLKnEx3998yV0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pTuCMqRW6fKzMhcrQt9PdN7Lxw8ZjxjCLNoK44IDSJEJmg6XpJaUA4x4tInlI+6ta+uLtdFaKBSfIFzKC6QnuueRoiG5hrl0QRmHdgEaxPBwXS8z9l4l8/L1tK1BtcoegwxLpCYrvHQG5C9FiOlva4Bok9I3lhQZOCMBTjYBG7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hl4DfAUC; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1711239325; c=relaxed/simple;
+	bh=0/eprYfkKUvV8VSIvcgLp4En/9VeKTEiOHAAuB4l4RE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=L0a9Kr1l12Nplymn2uTW0dPUF5ubwcq0t7zZN2T+pkWi3P28raD14fMXzHlgpvWwCwIM/nfdw9oN+c0F2Bv1B/NEEme8yHK0x25nxgJ8jFpfPkzxNexVRFpI1h3KKuuaCcn2cky3k2fZZ8H3IcCvJvgWdOTbK15m/nst6/hyA/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FN5/6Pk9; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hl4DfAUC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FN5/6Pk9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711238605; x=1742774605;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7dUjayPnLm+OrF7kkuivprJ7BF+CDLMLKnEx3998yV0=;
-  b=Hl4DfAUCMr7rglgG7Q6xhZZYzpFrOgeyvD6Z3dayYk03sOstFe5yIdXp
-   Q5nJRJQc02V51tA77NpQcva6OD/7BYeT7098f3oNS4FMoXzzBXQcioFev
-   Q89LMtqs+eO/cDbIwuglaMypnrTv84ITyCUxi3wcN2oyL8irjXIKpJlAD
-   D4twpPM2s310cw89hwQWlFuT/g5urs7ZP0Y7eMIFc6KDfDG821iXHDYNm
-   cRG8DS50Xn//1ecQOqrJSkYHYzLY2CR090UjSOLGOevsCTldcaw6LJndp
-   Jgq15mUHY1lC2Y/CMZxZZ/k6CxzDUfUWudywrv8DaXZ7j/Lm/aa4WF0ik
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11022"; a="6390517"
+  t=1711239323; x=1742775323;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0/eprYfkKUvV8VSIvcgLp4En/9VeKTEiOHAAuB4l4RE=;
+  b=FN5/6Pk9swDASUxGdFFyhLi0D48idG4VTDgEa8HeGNGNnufVNHGUD1A6
+   XCbOv0yepEU2v+qtF6HZnB/CrDBPKZuuBXIG8eH4+5KV42c6lW7ps1u6x
+   rU4zeQvTmyHOzjE+IMLD9a1cZuA5ghoTFic1h9IfnPUU2hMAZ7VFLaDac
+   M4Tlct1icrDXVdKFtLlHFh/spRMTvjTkGz7+hIDKfXBoZmDzW8FuXmu3I
+   4L1cw7SGY2UaJ0HpHEtBH0HFDA1OCCbPPkS+1LMJGe3Pcnhn76GvlcTbl
+   GYFa1YfvAmLA5JQTWRhrjb+0yC3mH1tVlXXSnCRHGQt+dv6XX3C/KaRT/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11022"; a="17698151"
 X-IronPort-AV: E=Sophos;i="6.07,150,1708416000"; 
-   d="scan'208";a="6390517"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2024 17:03:24 -0700
+   d="scan'208";a="17698151"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2024 17:15:23 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,150,1708416000"; 
-   d="scan'208";a="19806576"
+   d="scan'208";a="15345855"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Mar 2024 17:03:21 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 23 Mar 2024 17:15:21 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1roBKY-000LYN-2e;
-	Sun, 24 Mar 2024 00:03:18 +0000
-Date: Sun, 24 Mar 2024 08:03:07 +0800
+	id 1roBWA-000LYh-37;
+	Sun, 24 Mar 2024 00:15:18 +0000
+Date: Sun, 24 Mar 2024 08:14:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jinjiang Tu <tujinjiang@huawei.com>, akpm@linux-foundation.org,
-	david@redhat.com, shr@devkernel.io, hannes@cmpxchg.org,
-	riel@surriel.com, wangkefeng.wang@huawei.com, sunnanyong@huawei.com,
-	linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	tujinjiang@huawei.com
-Subject: Re: [PATCH v2 1/2] mm/ksm: fix ksm exec support for prctl
-Message-ID: <202403240716.8B7CiDbr-lkp@intel.com>
-References: <20240322060947.3254967-2-tujinjiang@huawei.com>
+To: kernel@openeuler.org, Dong Yibo <dong100@mucse.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 27196/30000]
+ drivers/net/ethernet/mucse/rnp/rnp_sysfs.c:1958:9: warning: 'strncpy'
+ specified bound 100 equals destination size
+Message-ID: <202403240810.wSTu29eU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,108 +58,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240322060947.3254967-2-tujinjiang@huawei.com>
 
-Hi Jinjiang,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jinjiang-Tu/mm-ksm-fix-ksm-exec-support-for-prctl/20240322-141317
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240322060947.3254967-2-tujinjiang%40huawei.com
-patch subject: [PATCH v2 1/2] mm/ksm: fix ksm exec support for prctl
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240324/202403240716.8B7CiDbr-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 23de3862dce582ce91c1aa914467d982cb1a73b4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240324/202403240716.8B7CiDbr-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   b670dd901cbbf97745380d373b1d2607b3235590
+commit: e53494b741272933726616122ea77143d9742631 [27196/30000] drivers: initial support for rnp drivers from Mucse Technology
+config: x86_64-buildonly-randconfig-005-20240324 (https://download.01.org/0day-ci/archive/20240324/202403240810.wSTu29eU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240324/202403240810.wSTu29eU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403240716.8B7CiDbr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403240810.wSTu29eU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from fs/exec.c:30:
-   In file included from include/linux/mm.h:2211:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/exec.c:275:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     275 |         if (ksm_execve(mm))
-         |             ^~~~~~~~~~~~~~
-   fs/exec.c:305:9: note: uninitialized use occurs here
-     305 |         return err;
-         |                ^~~
-   fs/exec.c:275:2: note: remove the 'if' if its condition is always false
-     275 |         if (ksm_execve(mm))
-         |         ^~~~~~~~~~~~~~~~~~~
-     276 |                 goto err_ksm;
-         |                 ~~~~~~~~~~~~
-   fs/exec.c:257:9: note: initialize the variable 'err' to silence this warning
-     257 |         int err;
-         |                ^
-         |                 = 0
-   2 warnings generated.
+   In file included from drivers/net/ethernet/mucse/rnp/rnp.h:21,
+                    from drivers/net/ethernet/mucse/rnp/rnp_sysfs.c:13:
+   drivers/net/ethernet/mucse/rnp/rnp_common.h: In function '_rnp_skb_dump':
+   drivers/net/ethernet/mucse/rnp/rnp_common.h:336:36: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     336 |                     &dev->features);
+         |                                    ^
+   drivers/net/ethernet/mucse/rnp/rnp_common.h:299:23: warning: variable 'tailroom' set but not used [-Wunused-but-set-variable]
+     299 |         int headroom, tailroom;
+         |                       ^~~~~~~~
+   drivers/net/ethernet/mucse/rnp/rnp_common.h:299:13: warning: variable 'headroom' set but not used [-Wunused-but-set-variable]
+     299 |         int headroom, tailroom;
+         |             ^~~~~~~~
+   drivers/net/ethernet/mucse/rnp/rnp_common.h:298:23: warning: variable 'has_trans' set but not used [-Wunused-but-set-variable]
+     298 |         bool has_mac, has_trans;
+         |                       ^~~~~~~~~
+   drivers/net/ethernet/mucse/rnp/rnp_common.h:298:14: warning: variable 'has_mac' set but not used [-Wunused-but-set-variable]
+     298 |         bool has_mac, has_trans;
+         |              ^~~~~~~
+   drivers/net/ethernet/mucse/rnp/rnp_sysfs.c: At top level:
+   drivers/net/ethernet/mucse/rnp/rnp_sysfs.c:1214:5: warning: no previous prototype for 'rnp_mbx_get_pn_sn' [-Wmissing-prototypes]
+    1214 | int rnp_mbx_get_pn_sn(struct rnp_hw *hw, char pn[33], char sn[33])
+         |     ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnp/rnp_sysfs.c: In function '_switch_loopback':
+>> drivers/net/ethernet/mucse/rnp/rnp_sysfs.c:1958:9: warning: 'strncpy' specified bound 100 equals destination size [-Wstringop-truncation]
+    1958 |         strncpy(name, peer_eth, sizeof(name));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PGP_PRELOAD
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
+   Selected by [y]:
+   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
 
 
-vim +275 fs/exec.c
+vim +/strncpy +1958 drivers/net/ethernet/mucse/rnp/rnp_sysfs.c
 
-   254	
-   255	static int __bprm_mm_init(struct linux_binprm *bprm)
-   256	{
-   257		int err;
-   258		struct vm_area_struct *vma = NULL;
-   259		struct mm_struct *mm = bprm->mm;
-   260	
-   261		bprm->vma = vma = vm_area_alloc(mm);
-   262		if (!vma)
-   263			return -ENOMEM;
-   264		vma_set_anonymous(vma);
-   265	
-   266		if (mmap_write_lock_killable(mm)) {
-   267			err = -EINTR;
-   268			goto err_free;
-   269		}
-   270	
-   271		/*
-   272		 * Need to be called with mmap write lock
-   273		 * held, to avoid race with ksmd.
-   274		*/
- > 275		if (ksm_execve(mm))
-   276			goto err_ksm;
-   277	
-   278		/*
-   279		 * Place the stack at the largest stack address the architecture
-   280		 * supports. Later, we'll move this to an appropriate place. We don't
-   281		 * use STACK_TOP because that can depend on attributes which aren't
-   282		 * configured yet.
-   283		 */
-   284		BUILD_BUG_ON(VM_STACK_FLAGS & VM_STACK_INCOMPLETE_SETUP);
-   285		vma->vm_end = STACK_TOP_MAX;
-   286		vma->vm_start = vma->vm_end - PAGE_SIZE;
-   287		vm_flags_init(vma, VM_SOFTDIRTY | VM_STACK_FLAGS | VM_STACK_INCOMPLETE_SETUP);
-   288		vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
-   289	
-   290		err = insert_vm_struct(mm, vma);
-   291		if (err)
-   292			goto err;
-   293	
-   294		mm->stack_vm = mm->total_vm = 1;
-   295		mmap_write_unlock(mm);
-   296		bprm->p = vma->vm_end - sizeof(void *);
-   297		return 0;
-   298	err:
-   299		ksm_exit(mm);
-   300	err_ksm:
-   301		mmap_write_unlock(mm);
-   302	err_free:
-   303		bprm->vma = NULL;
-   304		vm_area_free(vma);
-   305		return err;
-   306	}
-   307	
+  1950	
+  1951	static ssize_t _switch_loopback(struct rnp_adapter *adapter,
+  1952					const char *peer_eth, int en)
+  1953	{
+  1954		struct net_device *peer_netdev = NULL;
+  1955		struct rnp_adapter *peer_adapter = NULL;
+  1956		char name[100];
+  1957	
+> 1958		strncpy(name, peer_eth, sizeof(name));
+  1959		strim(name);
+  1960	
+  1961		pr_info("%s: nr_lane:%d peer_lane:%s en:%d\n", __func__, 0,
+  1962		       peer_eth, en);
+  1963	
+  1964		peer_netdev = dev_get_by_name(&init_net, name);
+  1965		if (!peer_netdev) {
+  1966			e_err(drv, "canot' find %s\n", name);
+  1967			return -EINVAL;
+  1968		}
+  1969		peer_adapter = netdev_priv(peer_netdev);
+  1970	
+  1971		if (PCI_SLOT(peer_adapter->pdev->devfn) !=
+  1972		    PCI_SLOT(adapter->pdev->devfn)) {
+  1973			e_err(drv, "%s %s not in same slot\n",
+  1974			       netdev_name(adapter->netdev),
+  1975			       netdev_name(peer_adapter->netdev));
+  1976			dev_put(peer_netdev);
+  1977			return -EINVAL;
+  1978		}
+  1979	
+  1980	
+  1981		do_switch_loopback_set(adapter, en, 0,
+  1982				       rnp_is_pf1(&peer_adapter->hw) ? 4 : 0);
+  1983		do_switch_loopback_set(peer_adapter, en, 0,
+  1984				       rnp_is_pf1(&adapter->hw) ? 4 : 0);
+  1985	
+  1986		if (peer_netdev)
+  1987			dev_put(peer_netdev);
+  1988	
+  1989		return 0;
+  1990	}
+  1991	static ssize_t switch_loopback_on_store(struct device *dev,
+  1992						struct device_attribute *attr,
+  1993						const char *buf, size_t count)
+  1994	{
+  1995		struct rnp_adapter *adapter = netdev_priv(to_net_device(dev));
+  1996	
+  1997		return _switch_loopback(adapter, buf, 1) == 0 ? count : -EINVAL;
+  1998	}
+  1999	
 
 -- 
 0-DAY CI Kernel Test Service
