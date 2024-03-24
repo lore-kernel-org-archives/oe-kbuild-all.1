@@ -1,54 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A593D962
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Mar 2024 21:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4687EDDBC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Mar 2024 22:17:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711314843; cv=none; b=btZVS9vMVpK6bQc6Ntp5ka3olqg9zk2STdedIks3NWrrfINf+o9YcDuWGwXzjdHGoZdDM0tSlFYeXrm5kVdYP0GI1grljP1Ns1dUEinm9Y1U/HjvaTuOqrzeIuNnbHP876swulUjF3RHwKPTfOF/h7VJd+sfJaQPJpXJT5kd3Mg=
+	t=1711318624; cv=none; b=GBt4iEF91LLmC9EC/YqBqW70Ixpt6Ny0k+ak0NXYKAcCwmYEe6VKiTdNyytATBdMq3useYJUecJlHlB3fVHr5gRd3PlYXem/CM0rugOs1OjF2aM8RNe44obcLQMxKZP87YEdT0quXxuTfkLhTKpEt79BmjXJan+nHnCCySjWTvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711314843; c=relaxed/simple;
-	bh=A2X9FlvfGIguo+7NKvvszHfW1opR/952LYe1aNpk6ik=;
+	s=arc-20240116; t=1711318624; c=relaxed/simple;
+	bh=iQC6e7TtZLyHXSbgf3iYBHbR/NJSv7my2p48OlwGRpM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a1c/i1vcf7y96yZb8rP9XCy1mj6KhB11pnoBtLV5sq4IbZkEw1wSe/tEBxU0GYgK1tfZwMSt6URLnP1nfS8hM5NS02oYfyQ9rlPtBGpVZQbCC80CA7mzbLQu1Nwm/oPKTJOKwmogvSQfrarLw+sISbdl5A+tqLPdA0zBRk0a4sI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DpBGdpxR; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=NyZJaunjV3OUcT9E30ZDlu4RsjNCs/0gtnPwmCSdqVlZFqI8b+ceGbOMm79zmYotW1P/foV7m0T0sxEBR6gN+Wzf9wLCCw3qTEzZ6q7k45bqfBxNAhKHEIzU/gclwXj+4qTNRgpZZdUrAMjYXK2pBIcM8hHdEUDTk49G7/uwQ+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GdyYXkQ8; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpBGdpxR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GdyYXkQ8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711314840; x=1742850840;
+  t=1711318622; x=1742854622;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A2X9FlvfGIguo+7NKvvszHfW1opR/952LYe1aNpk6ik=;
-  b=DpBGdpxREt79hXDxUrr+VVS1OcyoU7vXO4692+EeWBLnBaKCQ//+6d0f
-   Vjxx9zAiwpKlQO9jsXLRibarOVA1rym+8s3FEpHHPiIoow9yq/6tXDPMD
-   JQanLBSiYSZSSvZTgGxz90eukLgDZTEMmG4qVSUqvAjpahKMT7Adz3jW9
-   2OnutCsWxCC7tzCHHcLvQ2D4u6UXZboCyTbrtiadtDhB9f8gbYrcMAyDn
-   /FGK6flyX1c00yQ5G/rx77CY1cm/TGTO8leGXR48r5fwxRw++osdqNArq
-   Pf6eejKFCaf87NHMMH5GHq+O8tY8hlE1tQhG+hCrQ5bNfo3DAbAwG+KD5
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="10096727"
+  bh=iQC6e7TtZLyHXSbgf3iYBHbR/NJSv7my2p48OlwGRpM=;
+  b=GdyYXkQ8bjQMGUVrE7kZzx139+MWF1GnNcP58Zb+ubH3kZOJ9N8MAITM
+   xXpyDGy5TmrF6Iaj17ycO9sVBGX3gF+Wzvm9+l1+2BuIxbXoLE6Fv8u2o
+   V1GsPyTB6ewNnI7svJB8eM/HnGTSmDNP3RRbzexl6wJyM/lYBdGKk8HFK
+   +EQEeRzo6jd64PlwFc5JlZX4Y5JPs3N4H0+RerZit87zBdU9gzsEjKmqH
+   WIUoqekJPNC4vkTwsvkNuJyX601vK1hHjg9RgB878u5UatXBrFVX6S9Zc
+   BBT2n1LQZqexTAGgQGTAa2QnfwXlnkJjxHK1dFOjmiWydSZviUmJXUrjf
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="6161796"
 X-IronPort-AV: E=Sophos;i="6.07,152,1708416000"; 
-   d="scan'208";a="10096727"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2024 14:14:00 -0700
+   d="scan'208";a="6161796"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2024 15:17:01 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,152,1708416000"; 
-   d="scan'208";a="20090334"
+   d="scan'208";a="15340871"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 24 Mar 2024 14:13:58 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 24 Mar 2024 15:17:00 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1roVAB-000M1j-2z;
-	Sun, 24 Mar 2024 21:13:55 +0000
-Date: Mon, 25 Mar 2024 05:13:19 +0800
+	id 1roW9B-000M2f-36;
+	Sun, 24 Mar 2024 22:16:57 +0000
+Date: Mon, 25 Mar 2024 06:16:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
+To: Yunsheng Lin <linyunsheng@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.7/zen-sauce 2/32] drivers/scsi/vhba/vhba.c:192:23: error:
- variable 'vhost' set but not used
-Message-ID: <202403250509.l7DFIv8k-lkp@intel.com>
+Subject: [linyunsheng:page_frag_cache 1/10]
+ include/linux/compiler_types.h:449:45: error: call to
+ '__compiletime_assert_255' declared with attribute error: BUILD_BUG_ON
+ failed: PAGE_FRAG_CACHE_MAX_ORDER > PAGE_ALLOC_COSTLY_ORDER
+Message-ID: <202403250611.K6xIOlNE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,153 +60,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.7/zen-sauce
-head:   7cf7be28a2b0655918b7533205012566b4e8ed80
-commit: 5442bc6cb8f83242249c741205276ef3b1545e37 [2/32] ZEN: Add VHBA driver
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240325/202403250509.l7DFIv8k-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240325/202403250509.l7DFIv8k-lkp@intel.com/reproduce)
+tree:   https://github.com/gestionlin/linux.git page_frag_cache
+head:   b18c35c75e141b9cf0d8ac75d687d434946f78be
+commit: 0ad335791851e6c5c19f19174d7ad527946bccb1 [1/10] mm: Move the page fragment allocator from page_alloc into its own file
+config: xtensa-iss_defconfig (https://download.01.org/0day-ci/archive/20240325/202403250611.K6xIOlNE-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240325/202403250611.K6xIOlNE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403250509.l7DFIv8k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403250611.K6xIOlNE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/scsi/vhba/vhba.c:145:6: error: no previous prototype for 'devnum_to_bus_and_id' [-Werror=missing-prototypes]
-     145 | void devnum_to_bus_and_id(unsigned int devnum, unsigned int *bus, unsigned int *id)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:151:14: error: no previous prototype for 'bus_and_id_to_devnum' [-Werror=missing-prototypes]
-     151 | unsigned int bus_and_id_to_devnum(unsigned int bus, unsigned int id)
-         |              ^~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:156:21: error: no previous prototype for 'vhba_device_alloc' [-Werror=missing-prototypes]
-     156 | struct vhba_device *vhba_device_alloc (void)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:176:6: error: no previous prototype for 'vhba_device_put' [-Werror=missing-prototypes]
-     176 | void vhba_device_put (struct vhba_device *vdev)
-         |      ^~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:183:21: error: no previous prototype for 'vhba_device_get' [-Werror=missing-prototypes]
-     183 | struct vhba_device *vhba_device_get (struct vhba_device *vdev)
-         |                     ^~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:190:5: error: no previous prototype for 'vhba_device_queue' [-Werror=missing-prototypes]
-     190 | int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c: In function 'vhba_device_queue':
->> drivers/scsi/vhba/vhba.c:192:23: error: variable 'vhost' set but not used [-Werror=unused-but-set-variable]
-     192 |     struct vhba_host *vhost;
-         |                       ^~~~~
-   drivers/scsi/vhba/vhba.c: At top level:
-   drivers/scsi/vhba/vhba.c:219:5: error: no previous prototype for 'vhba_device_dequeue' [-Werror=missing-prototypes]
-     219 | int vhba_device_dequeue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:274:6: error: no previous prototype for 'vhba_scan_devices_add' [-Werror=missing-prototypes]
-     274 | void vhba_scan_devices_add (struct vhba_host *vhost, int bus, int id)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:287:6: error: no previous prototype for 'vhba_scan_devices_remove' [-Werror=missing-prototypes]
-     287 | void vhba_scan_devices_remove (struct vhba_host *vhost, int bus, int id)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:300:6: error: no previous prototype for 'vhba_scan_devices' [-Werror=missing-prototypes]
-     300 | void vhba_scan_devices (struct work_struct *work)
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:348:5: error: no previous prototype for 'vhba_add_device' [-Werror=missing-prototypes]
-     348 | int vhba_add_device (struct vhba_device *vdev)
-         |     ^~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:382:5: error: no previous prototype for 'vhba_remove_device' [-Werror=missing-prototypes]
-     382 | int vhba_remove_device (struct vhba_device *vdev)
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:403:21: error: no previous prototype for 'vhba_lookup_device' [-Werror=missing-prototypes]
-     403 | struct vhba_device *vhba_lookup_device (int devnum)
-         |                     ^~~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:474:5: error: no previous prototype for 'vhba_queuecommand' [-Werror=missing-prototypes]
-     474 | int vhba_queuecommand (struct Scsi_Host *shost, struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:508:5: error: no previous prototype for 'vhba_abort' [-Werror=missing-prototypes]
-     508 | int vhba_abort (struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:551:9: error: no previous prototype for 'do_request' [-Werror=missing-prototypes]
-     551 | ssize_t do_request (struct vhba_device *vdev, unsigned long metatag, struct scsi_cmnd *cmd, char __user *buf, size_t buf_len)
-         |         ^~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:617:9: error: no previous prototype for 'do_response' [-Werror=missing-prototypes]
-     617 | ssize_t do_response (struct vhba_device *vdev, unsigned long metatag, struct scsi_cmnd *cmd, const char __user *buf, size_t buf_len, struct vhba_response *res)
-         |         ^~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:693:22: error: no previous prototype for 'next_command' [-Werror=missing-prototypes]
-     693 | struct vhba_command *next_command (struct vhba_device *vdev)
-         |                      ^~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:710:22: error: no previous prototype for 'match_command' [-Werror=missing-prototypes]
-     710 | struct vhba_command *match_command (struct vhba_device *vdev, __u32 metatag)
-         |                      ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:727:22: error: no previous prototype for 'wait_command' [-Werror=missing-prototypes]
-     727 | struct vhba_command *wait_command (struct vhba_device *vdev, unsigned long flags)
-         |                      ^~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:754:9: error: no previous prototype for 'vhba_ctl_read' [-Werror=missing-prototypes]
-     754 | ssize_t vhba_ctl_read (struct file *file, char __user *buf, size_t buf_len, loff_t *offset)
-         |         ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:799:9: error: no previous prototype for 'vhba_ctl_write' [-Werror=missing-prototypes]
-     799 | ssize_t vhba_ctl_write (struct file *file, const char __user *buf, size_t buf_len, loff_t *offset)
-         |         ^~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:852:6: error: no previous prototype for 'vhba_ctl_ioctl' [-Werror=missing-prototypes]
-     852 | long vhba_ctl_ioctl (struct file *file, unsigned int cmd, unsigned long arg)
-         |      ^~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:893:14: error: no previous prototype for 'vhba_ctl_poll' [-Werror=missing-prototypes]
-     893 | unsigned int vhba_ctl_poll (struct file *file, poll_table *wait)
-         |              ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:910:5: error: no previous prototype for 'vhba_ctl_open' [-Werror=missing-prototypes]
-     910 | int vhba_ctl_open (struct inode *inode, struct file *file)
-         |     ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:942:5: error: no previous prototype for 'vhba_ctl_release' [-Werror=missing-prototypes]
-     942 | int vhba_ctl_release (struct inode *inode, struct file *file)
-         |     ^~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:998:5: error: no previous prototype for 'vhba_probe' [-Werror=missing-prototypes]
-     998 | int vhba_probe (struct platform_device *pdev)
-         |     ^~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1052:5: error: no previous prototype for 'vhba_remove' [-Werror=missing-prototypes]
-    1052 | int vhba_remove (struct platform_device *pdev)
-         |     ^~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1068:6: error: no previous prototype for 'vhba_release' [-Werror=missing-prototypes]
-    1068 | void vhba_release (struct device * dev)
-         |      ^~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1090:12: error: no previous prototype for 'vhba_init' [-Werror=missing-prototypes]
-    1090 | int __init vhba_init (void)
-         |            ^~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1115:13: error: no previous prototype for 'vhba_exit' [-Werror=missing-prototypes]
-    1115 | void __exit vhba_exit(void)
-         |             ^~~~~~~~~
-   cc1: all warnings being treated as errors
+   In file included from <command-line>:
+   mm/page_frag_alloc.c: In function '__page_frag_cache_drain':
+>> include/linux/compiler_types.h:449:45: error: call to '__compiletime_assert_255' declared with attribute error: BUILD_BUG_ON failed: PAGE_FRAG_CACHE_MAX_ORDER > PAGE_ALLOC_COSTLY_ORDER
+     449 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:430:25: note: in definition of macro '__compiletime_assert'
+     430 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:449:9: note: in expansion of macro '_compiletime_assert'
+     449 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   mm/page_frag_alloc.c:59:9: note: in expansion of macro 'BUILD_BUG_ON'
+      59 |         BUILD_BUG_ON(PAGE_FRAG_CACHE_MAX_ORDER > PAGE_ALLOC_COSTLY_ORDER);
+         |         ^~~~~~~~~~~~
 
 
-vim +/vhost +192 drivers/scsi/vhba/vhba.c
+vim +/__compiletime_assert_255 +449 include/linux/compiler_types.h
 
-   189	
-   190	int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-   191	{
- > 192	    struct vhba_host *vhost;
-   193	    struct vhba_command *vcmd;
-   194	    unsigned long flags;
-   195	
-   196	    vhost = platform_get_drvdata(&vhba_platform_device);
-   197	
-   198	    vcmd = vhba_alloc_command();
-   199	    if (!vcmd) {
-   200	        return SCSI_MLQUEUE_HOST_BUSY;
-   201	    }
-   202	
-   203	    vcmd->cmd = cmd;
-   204	
-   205	    spin_lock_irqsave(&vdev->cmd_lock, flags);
-   206	#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0)
-   207	    vcmd->metatag = scsi_cmd_to_rq(vcmd->cmd)->tag;
-   208	#else
-   209	    vcmd->metatag = vcmd->cmd->request->tag;
-   210	#endif
-   211	    list_add_tail(&vcmd->entry, &vdev->cmd_list);
-   212	    spin_unlock_irqrestore(&vdev->cmd_lock, flags);
-   213	
-   214	    wake_up_interruptible(&vdev->cmd_wq);
-   215	
-   216	    return 0;
-   217	}
-   218	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  435  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  436  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  437  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  438  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  439  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  440   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  441   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  442   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  443   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  444   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  445   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  446   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  447   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  448  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @449  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  450  
+
+:::::: The code at line 449 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
