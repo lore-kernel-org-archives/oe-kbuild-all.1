@@ -1,56 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2348BFB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Mar 2024 20:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A593D962
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Mar 2024 21:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711311176; cv=none; b=qbsPupOGiHAYiGZlIF1cDfTixgmrkLK6G1E5csBe4nawlvYZ99Oz80IrIj2jvvt5nkTjyCKXi5h6g9IcHooK12Z3H7RgwAvy34PQDm9WniOCm8M564GeZ4DjuXrstDDh2JN5unvvfSsoLUfrk1purbup7RN7Oqc5oTLvkV54AZw=
+	t=1711314843; cv=none; b=btZVS9vMVpK6bQc6Ntp5ka3olqg9zk2STdedIks3NWrrfINf+o9YcDuWGwXzjdHGoZdDM0tSlFYeXrm5kVdYP0GI1grljP1Ns1dUEinm9Y1U/HjvaTuOqrzeIuNnbHP876swulUjF3RHwKPTfOF/h7VJd+sfJaQPJpXJT5kd3Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711311176; c=relaxed/simple;
-	bh=acG1iF2mcfdC7nLPF942FHK5qzmmXMafp0dAEol0kng=;
+	s=arc-20240116; t=1711314843; c=relaxed/simple;
+	bh=A2X9FlvfGIguo+7NKvvszHfW1opR/952LYe1aNpk6ik=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ukAtyYlK/7lYZv9AtOoRB94u2CgUa8fTxqViYjhtU/zENvpTz5vW/cV4QW/jNx1EgOaYEeHEgYJQTd2lxdwj3U1Kd+38sI2PdWAu1xq6OHrHPuzXsKR9+3TlJ0mro9gV2NlMsv4kEwXtDAnbIbw1TjRv89UmolOWl7Bv6smUd7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eoQDGaLf; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=a1c/i1vcf7y96yZb8rP9XCy1mj6KhB11pnoBtLV5sq4IbZkEw1wSe/tEBxU0GYgK1tfZwMSt6URLnP1nfS8hM5NS02oYfyQ9rlPtBGpVZQbCC80CA7mzbLQu1Nwm/oPKTJOKwmogvSQfrarLw+sISbdl5A+tqLPdA0zBRk0a4sI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DpBGdpxR; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eoQDGaLf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpBGdpxR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711311174; x=1742847174;
+  t=1711314840; x=1742850840;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=acG1iF2mcfdC7nLPF942FHK5qzmmXMafp0dAEol0kng=;
-  b=eoQDGaLfMrD/rMuWVv0k6x6f52YEwxFBwx8ZVi++YkmT2rGVvtC0Qnwq
-   lrrKjxzysG11/XCbdQRNhvuxD6Kh0X1ZRjvO4p3tlGYr/K2kTnXKm9uap
-   vfoFQGy6oQvrUtp0hK+u+cnpgf6Y1WjkxJaxDN3PnoB8cYPCTEEOHc9zr
-   cPj+e5TjPZndT05+0Ke4QQoeG7DmD/RK0FqPV/13xiQRLywS/qC+hgVx7
-   xkAJKT6qcxB6gckzXQc+BZ3WVxnDdBItcLkA8oHTnrbM9KsktVb3tf1W3
-   52H9ICZmiVploqsIOnEDw2WPFqQL9+OLOqvJ5Ijocb4R8XwuYKk1JoKRz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="9254452"
-X-IronPort-AV: E=Sophos;i="6.07,151,1708416000"; 
-   d="scan'208";a="9254452"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2024 13:12:54 -0700
+  bh=A2X9FlvfGIguo+7NKvvszHfW1opR/952LYe1aNpk6ik=;
+  b=DpBGdpxREt79hXDxUrr+VVS1OcyoU7vXO4692+EeWBLnBaKCQ//+6d0f
+   Vjxx9zAiwpKlQO9jsXLRibarOVA1rym+8s3FEpHHPiIoow9yq/6tXDPMD
+   JQanLBSiYSZSSvZTgGxz90eukLgDZTEMmG4qVSUqvAjpahKMT7Adz3jW9
+   2OnutCsWxCC7tzCHHcLvQ2D4u6UXZboCyTbrtiadtDhB9f8gbYrcMAyDn
+   /FGK6flyX1c00yQ5G/rx77CY1cm/TGTO8leGXR48r5fwxRw++osdqNArq
+   Pf6eejKFCaf87NHMMH5GHq+O8tY8hlE1tQhG+hCrQ5bNfo3DAbAwG+KD5
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="10096727"
+X-IronPort-AV: E=Sophos;i="6.07,152,1708416000"; 
+   d="scan'208";a="10096727"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2024 14:14:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,151,1708416000"; 
-   d="scan'208";a="20160513"
+X-IronPort-AV: E=Sophos;i="6.07,152,1708416000"; 
+   d="scan'208";a="20090334"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 24 Mar 2024 13:12:52 -0700
+  by orviesa003.jf.intel.com with ESMTP; 24 Mar 2024 14:13:58 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1roUD3-000M09-1V;
-	Sun, 24 Mar 2024 20:12:49 +0000
-Date: Mon, 25 Mar 2024 04:12:12 +0800
+	id 1roVAB-000M1j-2z;
+	Sun, 24 Mar 2024 21:13:55 +0000
+Date: Mon, 25 Mar 2024 05:13:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alobakin:idpf-libie-new 30/68] include/linux/build_bug.h:78:41:
- error: static assertion failed: "offsetof(struct idpf_q_vector,
- __cacheline_group_end__read_write) - offsetofend(struct idpf_q_vector,
- __cacheline_group_begin__read_write) <= ALIGN(672, __IDPF_LARGEST_ALIGN)"
-Message-ID: <202403250418.jZvrFtha-lkp@intel.com>
+Subject: [zen:6.7/zen-sauce 2/32] drivers/scsi/vhba/vhba.c:192:23: error:
+ variable 'vhost' set but not used
+Message-ID: <202403250509.l7DFIv8k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,68 +58,153 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alobakin/linux idpf-libie-new
-head:   b336f2db592517d25e745924c92e8604eeea0502
-commit: a4aa3543ab8bd78277f53d4994ad3f8258608470 [30/68] idpf: strictly assert cachelines of queue and queue vector structures
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240325/202403250418.jZvrFtha-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240325/202403250418.jZvrFtha-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.7/zen-sauce
+head:   7cf7be28a2b0655918b7533205012566b4e8ed80
+commit: 5442bc6cb8f83242249c741205276ef3b1545e37 [2/32] ZEN: Add VHBA driver
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240325/202403250509.l7DFIv8k-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240325/202403250509.l7DFIv8k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403250418.jZvrFtha-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403250509.l7DFIv8k-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/minmax.h:5,
-                    from include/linux/jiffies.h:8,
-                    from include/net/pkt_sched.h:5,
-                    from drivers/net/ethernet/intel/idpf/idpf.h:12,
-                    from drivers/net/ethernet/intel/idpf/idpf_dev.c:4:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct idpf_q_vector, __cacheline_group_end__read_write) - offsetofend(struct idpf_q_vector, __cacheline_group_begin__read_write) <= ALIGN(672, __IDPF_LARGEST_ALIGN)"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:487:9: note: in expansion of macro 'static_assert'
-     487 |         static_assert(offsetof(type, __cacheline_group_end__##grp) -        \
+   drivers/scsi/vhba/vhba.c:145:6: error: no previous prototype for 'devnum_to_bus_and_id' [-Werror=missing-prototypes]
+     145 | void devnum_to_bus_and_id(unsigned int devnum, unsigned int *bus, unsigned int *id)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:151:14: error: no previous prototype for 'bus_and_id_to_devnum' [-Werror=missing-prototypes]
+     151 | unsigned int bus_and_id_to_devnum(unsigned int bus, unsigned int id)
+         |              ^~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:156:21: error: no previous prototype for 'vhba_device_alloc' [-Werror=missing-prototypes]
+     156 | struct vhba_device *vhba_device_alloc (void)
+         |                     ^~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:176:6: error: no previous prototype for 'vhba_device_put' [-Werror=missing-prototypes]
+     176 | void vhba_device_put (struct vhba_device *vdev)
+         |      ^~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:183:21: error: no previous prototype for 'vhba_device_get' [-Werror=missing-prototypes]
+     183 | struct vhba_device *vhba_device_get (struct vhba_device *vdev)
+         |                     ^~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:190:5: error: no previous prototype for 'vhba_device_queue' [-Werror=missing-prototypes]
+     190 | int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
+         |     ^~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c: In function 'vhba_device_queue':
+>> drivers/scsi/vhba/vhba.c:192:23: error: variable 'vhost' set but not used [-Werror=unused-but-set-variable]
+     192 |     struct vhba_host *vhost;
+         |                       ^~~~~
+   drivers/scsi/vhba/vhba.c: At top level:
+   drivers/scsi/vhba/vhba.c:219:5: error: no previous prototype for 'vhba_device_dequeue' [-Werror=missing-prototypes]
+     219 | int vhba_device_dequeue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
+         |     ^~~~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:274:6: error: no previous prototype for 'vhba_scan_devices_add' [-Werror=missing-prototypes]
+     274 | void vhba_scan_devices_add (struct vhba_host *vhost, int bus, int id)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:287:6: error: no previous prototype for 'vhba_scan_devices_remove' [-Werror=missing-prototypes]
+     287 | void vhba_scan_devices_remove (struct vhba_host *vhost, int bus, int id)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:300:6: error: no previous prototype for 'vhba_scan_devices' [-Werror=missing-prototypes]
+     300 | void vhba_scan_devices (struct work_struct *work)
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:348:5: error: no previous prototype for 'vhba_add_device' [-Werror=missing-prototypes]
+     348 | int vhba_add_device (struct vhba_device *vdev)
+         |     ^~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:382:5: error: no previous prototype for 'vhba_remove_device' [-Werror=missing-prototypes]
+     382 | int vhba_remove_device (struct vhba_device *vdev)
+         |     ^~~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:403:21: error: no previous prototype for 'vhba_lookup_device' [-Werror=missing-prototypes]
+     403 | struct vhba_device *vhba_lookup_device (int devnum)
+         |                     ^~~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:474:5: error: no previous prototype for 'vhba_queuecommand' [-Werror=missing-prototypes]
+     474 | int vhba_queuecommand (struct Scsi_Host *shost, struct scsi_cmnd *cmd)
+         |     ^~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:508:5: error: no previous prototype for 'vhba_abort' [-Werror=missing-prototypes]
+     508 | int vhba_abort (struct scsi_cmnd *cmd)
+         |     ^~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:551:9: error: no previous prototype for 'do_request' [-Werror=missing-prototypes]
+     551 | ssize_t do_request (struct vhba_device *vdev, unsigned long metatag, struct scsi_cmnd *cmd, char __user *buf, size_t buf_len)
+         |         ^~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:617:9: error: no previous prototype for 'do_response' [-Werror=missing-prototypes]
+     617 | ssize_t do_response (struct vhba_device *vdev, unsigned long metatag, struct scsi_cmnd *cmd, const char __user *buf, size_t buf_len, struct vhba_response *res)
+         |         ^~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:693:22: error: no previous prototype for 'next_command' [-Werror=missing-prototypes]
+     693 | struct vhba_command *next_command (struct vhba_device *vdev)
+         |                      ^~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:710:22: error: no previous prototype for 'match_command' [-Werror=missing-prototypes]
+     710 | struct vhba_command *match_command (struct vhba_device *vdev, __u32 metatag)
+         |                      ^~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:727:22: error: no previous prototype for 'wait_command' [-Werror=missing-prototypes]
+     727 | struct vhba_command *wait_command (struct vhba_device *vdev, unsigned long flags)
+         |                      ^~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:754:9: error: no previous prototype for 'vhba_ctl_read' [-Werror=missing-prototypes]
+     754 | ssize_t vhba_ctl_read (struct file *file, char __user *buf, size_t buf_len, loff_t *offset)
          |         ^~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:602:1: note: in expansion of macro '__idpf_cacheline_group_assert'
-     602 | __idpf_cacheline_group_assert(struct idpf_q_vector, read_write, 672);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:799:9: error: no previous prototype for 'vhba_ctl_write' [-Werror=missing-prototypes]
+     799 | ssize_t vhba_ctl_write (struct file *file, const char __user *buf, size_t buf_len, loff_t *offset)
+         |         ^~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:852:6: error: no previous prototype for 'vhba_ctl_ioctl' [-Werror=missing-prototypes]
+     852 | long vhba_ctl_ioctl (struct file *file, unsigned int cmd, unsigned long arg)
+         |      ^~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:893:14: error: no previous prototype for 'vhba_ctl_poll' [-Werror=missing-prototypes]
+     893 | unsigned int vhba_ctl_poll (struct file *file, poll_table *wait)
+         |              ^~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:910:5: error: no previous prototype for 'vhba_ctl_open' [-Werror=missing-prototypes]
+     910 | int vhba_ctl_open (struct inode *inode, struct file *file)
+         |     ^~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:942:5: error: no previous prototype for 'vhba_ctl_release' [-Werror=missing-prototypes]
+     942 | int vhba_ctl_release (struct inode *inode, struct file *file)
+         |     ^~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:998:5: error: no previous prototype for 'vhba_probe' [-Werror=missing-prototypes]
+     998 | int vhba_probe (struct platform_device *pdev)
+         |     ^~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:1052:5: error: no previous prototype for 'vhba_remove' [-Werror=missing-prototypes]
+    1052 | int vhba_remove (struct platform_device *pdev)
+         |     ^~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:1068:6: error: no previous prototype for 'vhba_release' [-Werror=missing-prototypes]
+    1068 | void vhba_release (struct device * dev)
+         |      ^~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:1090:12: error: no previous prototype for 'vhba_init' [-Werror=missing-prototypes]
+    1090 | int __init vhba_init (void)
+         |            ^~~~~~~~~
+   drivers/scsi/vhba/vhba.c:1115:13: error: no previous prototype for 'vhba_exit' [-Werror=missing-prototypes]
+    1115 | void __exit vhba_exit(void)
+         |             ^~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +78 include/linux/build_bug.h
+vim +/vhost +192 drivers/scsi/vhba/vhba.c
 
-bc6245e5efd70c4 Ian Abbott       2017-07-10  60  
-6bab69c65013bed Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013bed Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013bed Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013bed Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013bed Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013bed Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013bed Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013bed Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013bed Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013bed Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013bed Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013bed Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013bed Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013bed Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013bed Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013bed Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013bed Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013bed Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013bed Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79d Maxim Levitsky   2022-10-25  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   189	
+   190	int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
+   191	{
+ > 192	    struct vhba_host *vhost;
+   193	    struct vhba_command *vcmd;
+   194	    unsigned long flags;
+   195	
+   196	    vhost = platform_get_drvdata(&vhba_platform_device);
+   197	
+   198	    vcmd = vhba_alloc_command();
+   199	    if (!vcmd) {
+   200	        return SCSI_MLQUEUE_HOST_BUSY;
+   201	    }
+   202	
+   203	    vcmd->cmd = cmd;
+   204	
+   205	    spin_lock_irqsave(&vdev->cmd_lock, flags);
+   206	#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0)
+   207	    vcmd->metatag = scsi_cmd_to_rq(vcmd->cmd)->tag;
+   208	#else
+   209	    vcmd->metatag = vcmd->cmd->request->tag;
+   210	#endif
+   211	    list_add_tail(&vcmd->entry, &vdev->cmd_list);
+   212	    spin_unlock_irqrestore(&vdev->cmd_lock, flags);
+   213	
+   214	    wake_up_interruptible(&vdev->cmd_wq);
+   215	
+   216	    return 0;
+   217	}
+   218	
 
 -- 
 0-DAY CI Kernel Test Service
