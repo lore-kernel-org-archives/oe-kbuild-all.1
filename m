@@ -1,55 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1773152519
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Mar 2024 02:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E1227210C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Mar 2024 03:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711332739; cv=none; b=P3isWQhC7ksNtBTyDFzsfViE7SyuEisPOjwJAazmAOITzN8F1grRSpThWCFDQ6dxhkapiSj5AhI9RuUntd61nQOON9L1ZzZpQFhGj50KbC4yFY2qCRJszCReRZBFmF0+ZHGt6PYLf7Dqf+REMvfGsHw7Cxpv7n4FPiR+sDULAXY=
+	t=1711337303; cv=none; b=IezoHgEqiQlfoxXxknJrX9Fa4vHtGLuMb533CzinlFNqeM1jqeBsti2hiGcpmnD8+jDPUOXKZELsbR0musKoS2KKrKvVdYLCEZgaL/chOsBtVeYGnR5VaNDoCaFuJH2CL5tPuIHNFl9jB17st1xQ/I2bmsj8vMAdHXSGaOCeww4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711332739; c=relaxed/simple;
-	bh=OhCqZBCUZCuosKT/DHjX4aZHrIJSRVOGd/1bschbCWQ=;
+	s=arc-20240116; t=1711337303; c=relaxed/simple;
+	bh=2FGTLeh6tbeOhY6345WilvPOd/v2zbsDOVYjy++YaFU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nB8ezRLG6P9ty7grqygGgMUhoQKTHNrvGhSbJwCN+Hs2wInB3AzSb4JPcqrOif/cnPvQi26N7gTZvjU2LKtCsQxIgkRBDABsv/K9/iVCp2C1vIJ/CeUXmMoSBpIw4JANLcpXEj2HeqmwI+kVEfSc6Y7MZS0vk9bmMZk0wEpnRf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IZHR3jzJ; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=Pn12ZQYhuizuoHeIcstkXjzBzTtkM4V+chMR3z3MN/576Kb3j7U316b9a01CTtcxeLw6ASyHj2Ssdk7pgANAxXBidtpzafc3bCIqc+FyJg52JTeb3aVuLo8zkTM8/+1FOuNcaTtudh/8/KFYvGkcbuCdXyjZZ1cx0sOEMGolAdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jBFTkXmE; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IZHR3jzJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jBFTkXmE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711332737; x=1742868737;
+  t=1711337302; x=1742873302;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OhCqZBCUZCuosKT/DHjX4aZHrIJSRVOGd/1bschbCWQ=;
-  b=IZHR3jzJN3Hm07TXJlxNZbVtGzsjlIQAR3wDcj06WIcTKXozYdA57LjW
-   e+HxhQY5u/ap3JYhdbs6V9tXVHbq0sWQqWCU0j3U8/a9TXCKudpfOv33E
-   yDg/nMecVw7J6UCRHFCMFaUV3DNCOWKM8/p8v6Za9hWDwFdJ78Ajjj/Q2
-   w7JWcE2a3N+HccmbyG/zjRjGys7P6wvA3Um9pc7mBXOz8TIyjjRD0WkLt
-   3M8+n2UWTFhponLZvvU0GqzQOM8W+ZB9sNTgZL9h4VAvKiJyLr2yA3azY
-   o4frsRL85yYS+qALuh1fuOfEagkCEUBfKknBC4LqxTDDZne1mSzrl+rnU
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="17710063"
+  bh=2FGTLeh6tbeOhY6345WilvPOd/v2zbsDOVYjy++YaFU=;
+  b=jBFTkXmEnt2rk02qTGcS26ZzsWjZnKTdNqQfyn6E8CD4GFxN8m5pD2Dt
+   fEEDHV/w+sOYQukpNDevUJw6+M7c16R3YIgXY0IDjkCnEFKg6Us1Gy//P
+   wGQN047Ia1JiKfyF+ucW6hScQumbjLFcyEjULH8MKibaR6g54mb0ICUw5
+   zmsdrrHyuS43pnaJER2YjuNjXk28z+IQ7EfC/O2BOxP0exOdhrOIL2Zof
+   t7kAIJg+IILKeI0yyKn5v1jlCs4/nIflA60Xc54r80TnlWfN6YI/bjl7q
+   wYCL+q8ve1a1dF3lbaTgfAdJ5+eJucA8N8bnCxtv6hY5tt14Dj9aHf5bu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="9277140"
 X-IronPort-AV: E=Sophos;i="6.07,152,1708416000"; 
-   d="scan'208";a="17710063"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2024 19:12:15 -0700
+   d="scan'208";a="9277140"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2024 20:28:20 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,152,1708416000"; 
-   d="scan'208";a="16127536"
+   d="scan'208";a="46474522"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 24 Mar 2024 19:12:13 -0700
+  by orviesa002.jf.intel.com with ESMTP; 24 Mar 2024 20:28:17 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1roZop-000M93-1e;
-	Mon, 25 Mar 2024 02:12:11 +0000
-Date: Mon, 25 Mar 2024 10:11:26 +0800
+	id 1rob0Q-000MCb-0W;
+	Mon, 25 Mar 2024 03:28:14 +0000
+Date: Mon, 25 Mar 2024 11:27:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, fanyizhen1995 <en_0015767@163.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 24519/30000]
- drivers/ub/urma/uburma/uburma_dev_ops.c:32:5: warning: no previous prototype
- for 'uburma_mmap'
-Message-ID: <202403251037.XlouD9ac-lkp@intel.com>
+Subject: [opencloudos:next 4603/4615]
+ arch/x86/events/zhaoxin/uncore.c:2762:6: sparse: sparse: symbol
+ 'kx5000_uncore_cpu_init' was not declared. Should it be static?
+Message-ID: <202403251125.h3xPJVYN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,82 +62,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yizhen,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   b670dd901cbbf97745380d373b1d2607b3235590
-commit: 7d130c6018dbfd09c6e1c5d91b347fdbf3924321 [24519/30000] ub: add mmap ops support in ubcore and uburma
-config: arm64-randconfig-003-20240312 (https://download.01.org/0day-ci/archive/20240325/202403251037.XlouD9ac-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240325/202403251037.XlouD9ac-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   e0ee18f8b8228a1b9598534057943383c2ed23a5
+commit: 706da336689b0e28091e742d5dbc3640f33d51c4 [4603/4615] x86/perf: Add PMU uncore support for Zhaoxin CPU
+config: x86_64-randconfig-121-20240325 (https://download.01.org/0day-ci/archive/20240325/202403251125.h3xPJVYN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240325/202403251125.h3xPJVYN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403251037.XlouD9ac-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403251125.h3xPJVYN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/events/zhaoxin/uncore.c:323:1: sparse: sparse: symbol '__pcpu_scope_zx_package_id' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:324:1: sparse: sparse: symbol '__pcpu_scope_zx_subnode_id' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:325:1: sparse: sparse: symbol '__pcpu_scope_zx_cluster_id' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:380:1: sparse: sparse: symbol '__pcpu_scope_zx_cluster_core_bits' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:381:1: sparse: sparse: symbol '__pcpu_scope_zx_subnode_core_bits' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2388:28: sparse: sparse: symbol 'uncore_msr_cluster_uncores' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2393:28: sparse: sparse: symbol 'uncore_msr_subnode_uncores' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2399:28: sparse: sparse: symbol 'uncore_pci_subnode_uncores' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2762:6: sparse: sparse: symbol 'kx5000_uncore_cpu_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2771:6: sparse: sparse: symbol 'kh40000_uncore_cpu_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2776:5: sparse: sparse: symbol 'kh40000_uncore_pci_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2792:6: sparse: sparse: symbol 'kx8000_uncore_cpu_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2797:5: sparse: sparse: symbol 'kx8000_uncore_pci_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2805:6: sparse: sparse: symbol 'kx8000_uncore_mmio_init' was not declared. Should it be static?
 
->> drivers/ub/urma/uburma/uburma_dev_ops.c:32:5: warning: no previous prototype for 'uburma_mmap' [-Wmissing-prototypes]
-      32 | int uburma_mmap(struct file *filp, struct vm_area_struct *vma)
-         |     ^~~~~~~~~~~
-   drivers/ub/urma/uburma/uburma_dev_ops.c:64:6: warning: no previous prototype for 'uburma_release_file' [-Wmissing-prototypes]
-      64 | void uburma_release_file(struct kref *ref)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/uburma/uburma_dev_ops.c:81:5: warning: no previous prototype for 'uburma_open' [-Wmissing-prototypes]
-      81 | int uburma_open(struct inode *inode, struct file *filp)
-         |     ^~~~~~~~~~~
-   drivers/ub/urma/uburma/uburma_dev_ops.c: In function 'uburma_open':
-   drivers/ub/urma/uburma/uburma_dev_ops.c:98:50: warning: the comparison will always evaluate as 'false' for the address of 'dev_name' will never be NULL [-Waddress]
-      98 |         if (ubc_dev == NULL || ubc_dev->dev_name == NULL) {
-         |                                                  ^~
-   In file included from drivers/ub/urma/uburma/uburma_dev_ops.c:25:
-   include/urma/ubcore_types.h:1589:14: note: 'dev_name' declared here
-    1589 |         char dev_name[UBCORE_MAX_DEV_NAME];
-         |              ^~~~~~~~
-   drivers/ub/urma/uburma/uburma_dev_ops.c: At top level:
-   drivers/ub/urma/uburma/uburma_dev_ops.c:134:5: warning: no previous prototype for 'uburma_close' [-Wmissing-prototypes]
-     134 | int uburma_close(struct inode *inode, struct file *filp)
-         |     ^~~~~~~~~~~~
+vim +/kx5000_uncore_cpu_init +2762 arch/x86/events/zhaoxin/uncore.c
 
-
-vim +/uburma_mmap +32 drivers/ub/urma/uburma/uburma_dev_ops.c
-
-    31	
-  > 32	int uburma_mmap(struct file *filp, struct vm_area_struct *vma)
-    33	{
-    34		struct uburma_file *file = filp->private_data;
-    35		struct uburma_device *ubu_dev;
-    36		struct ubcore_device *ubc_dev;
-    37		int srcu_idx;
-    38		int ret;
-    39	
-    40		if (file == NULL || file->ucontext == NULL) {
-    41			uburma_log_err("can not find ucontext.\n");
-    42			return -EINVAL;
-    43		}
-    44	
-    45		ubu_dev = file->ubu_dev;
-    46		uburma_cmd_inc(ubu_dev);
-    47	
-    48		srcu_idx = srcu_read_lock(&ubu_dev->ubc_dev_srcu);
-    49		ubc_dev = srcu_dereference(ubu_dev->ubc_dev, &ubu_dev->ubc_dev_srcu);
-    50		if (ubc_dev == NULL || ubc_dev->ops == NULL || ubc_dev->ops->mmap == NULL) {
-    51			uburma_log_err("can not find ubcore device.\n");
-    52			ret = -ENODEV;
-    53			goto out;
-    54		}
-    55	
-    56		ret = ubc_dev->ops->mmap(file->ucontext, vma);
-    57	
-    58	out:
-    59		srcu_read_unlock(&ubu_dev->ubc_dev_srcu, srcu_idx);
-    60		uburma_cmd_dec(ubu_dev);
-    61		return ret;
-    62	}
-    63	
+  2761	
+> 2762	void kx5000_uncore_cpu_init(void)
+  2763	{
+  2764		uncore_msr_uncores = kx5000_msr_uncores;
+  2765	}
+  2766	
+  2767	static const struct zhaoxin_uncore_init_fun kx5000_uncore_init __initconst = {
+  2768		.cpu_init = kx5000_uncore_cpu_init,
+  2769	};
+  2770	
+> 2771	void kh40000_uncore_cpu_init(void)
+  2772	{
+  2773		uncore_msr_uncores = kh40000_msr_uncores;
+  2774	}
+  2775	
+> 2776	int kh40000_uncore_pci_init(void)
+  2777	{
+  2778		int ret = kh40000_pci2node_map_init();/*pci_bus to package mapping, do nothing*/
+  2779	
+  2780		if (ret)
+  2781			return ret;
+  2782		uncore_pci_uncores = kh40000_pci_uncores;
+  2783		uncore_pci_driver = &kh40000_uncore_pci_driver;
+  2784		return 0;
+  2785	}
+  2786	
+  2787	static const struct zhaoxin_uncore_init_fun kh40000_uncore_init __initconst = {
+  2788		.cpu_init = kh40000_uncore_cpu_init,
+  2789		.pci_init = kh40000_uncore_pci_init,
+  2790	};
+  2791	
+> 2792	void kx8000_uncore_cpu_init(void)
+  2793	{
+  2794		uncore_msr_uncores = kx8000_msr_uncores;
+  2795	}
+  2796	
+> 2797	int kx8000_uncore_pci_init(void)
+  2798	{
+  2799		uncore_pci_uncores = kx8000_pci_uncores;
+  2800		uncore_pci_driver = &kx8000_uncore_pci_driver;
+  2801	
+  2802		return 0;
+  2803	}
+  2804	
+> 2805	void kx8000_uncore_mmio_init(void)
+  2806	{
+  2807		uncore_mmio_uncores = kx8000_mmio_uncores;
+  2808	}
+  2809	
 
 -- 
 0-DAY CI Kernel Test Service
