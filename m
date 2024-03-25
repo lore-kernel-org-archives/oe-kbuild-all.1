@@ -1,64 +1,59 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D257B15E21D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Mar 2024 06:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FB6158DAA;
+	Mon, 25 Mar 2024 09:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711348776; cv=none; b=QqZ22Qh5eWdmESFlWeo78t1T9jMY2txDcP9+rLVefrOVrI/Fla0csyi01LPD4GOmoxd3DaJwDw5bnVYPe2mtJm+sqljesIcPsDDZhRTHqnz5O1cHfCydFWPulvImRgIRa92ZLW/8HHPTyZ3+di7W1f4Wv71k6Mca3cnS8y/KXfg=
+	t=1711358422; cv=none; b=kZ6N7SRPQKM3DiwgXpRTKv4NzE+8XjejHeO50IU+AfvR0onHDKhSznFBzerYw9g6WcjqYdUlUYlImJNefmfl5SxFNxOZkwIvNbPIx4li/sq9zuvI1NnTbEUE6CR8J3bIeRab7lfxp6NgHN2YNvSwu2CbBNInf2KaCWJyt4JL1+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711348776; c=relaxed/simple;
-	bh=SIV82zi3r5N4BJncoDribDKYTgwGOr42okiGFQsTEkw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cdItBYjymPqaa5ehrZ1vXIPK50s+P9MhW8uiOAycBQ+ywvZ7gppTMHMuart1amEnNTeR/gyrFZeJBs/DPKDlQ/ri76KNmBxL4KgomvA8tczBkSyAD3lDYZW6XCLZHAfP3CN0K+Wwjcuxy+VwYMM+AZ8kZmV38voktXjhDeIX0nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dpzDM8DV; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711358422; c=relaxed/simple;
+	bh=KRFUKWB3oSqUgHNFa1Hjw7+UHdiQcMzSoFOclAEk0Kc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nf+WBeJx9mPOH5FhzjzXQ3fbmyE837eND+ZUlRS32PnsJqG36jLTXSwIV8/N6LpLlikO6/KipCfFFPY3msWMKKmg2HP9eqmWd6yR4VUFFvhL48R/b5CecIe1pKiSd9b7oKVT74nk4KkT787+/6S/iA/pd5HCr8GEAki571FnZlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lW80a0Nu; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dpzDM8DV"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-56bf6591865so2311415a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Mar 2024 23:39:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711348773; x=1711953573; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=m22bJYCIhfJpGKXzQTNfSbtfeX8K48/PW126gNHuRe0=;
-        b=dpzDM8DVKQ09fZSymsk74ZTInJ2whQ+VD8TnG4uTGFsoGuw4MDQZRicSWoe2U/bYtv
-         ytk3LnYQ2rftM7tysyvM74Wzn2vUv5qMovXWTuLQ/XFDh5LbjEtSY2zHPAwDRvYCaGc3
-         s1T5BoBSI76SWI6eXsrxW8xu+UhF+hnxYymRTOCOGUISfusTxbivWnaW/pW9wievBomU
-         1a43c79JyQiBpSz3VAmMR3F882o303bJamqBjsMJQQv1RAX4t0SgDe51jkBN7U5p+g3p
-         Zlfn2CbbRXx/6VZ6/Q1QCXgSfpHQcwN5aFhXaA62HwAFBouuLPXJoZczd7t/h+IKfDIn
-         x9Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711348773; x=1711953573;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=m22bJYCIhfJpGKXzQTNfSbtfeX8K48/PW126gNHuRe0=;
-        b=AG/hGcuRdOladbVsvjE51Bn58vB1Lrij9DYtvRTWw2QzHAc8Z4ZHLOoh1XrspgqJ33
-         Y0QofrkAm5+KZb4my1DXsDIJH+EHfZixJeRAeLPoTtHlbQYjSIEgPtnVcs8/BbOuiVKj
-         cf0wsDEWcjdrVcfmTWKvaRrA1v0l5garLdXvzK8DNZHzEDzBnSr4nur8fggPJh0I+NfA
-         ZZ6H4ITJ7FNz2G3ocL1B40wUKlSQU21xLpGEHei2Arht6EbsNZK7Rujum+u9F7egNvaf
-         wbhpwvYwB8lnFG7Ssc9jErSzmMsAj2ot3TsjD3T2s6FJQIJvmKe/Gd1QmZBkHPSW9IyT
-         NaQg==
-X-Forwarded-Encrypted: i=1; AJvYcCU3qObf+gTQf2njY1ab5h/HStK5JVvLmOJ2+i2tQBv80NrwhZfDudxyj1IYNb2ItyrhJQjdbFD2mZoGOHzFjtOh7Y2BU5No0k4wDOSWGQ==
-X-Gm-Message-State: AOJu0YwDgxK2UyR1kwCYUManXrycYUqv0iuXPsN09i22Prj1VaS9YOty
-	KQ7SS0RxEuif/KXuF9IlEpoHNN/p8WvRIMQIwQ+Pbg04I3MnAN/KZyoS4g0x7bI=
-X-Google-Smtp-Source: AGHT+IE1VQ7GzJbHXLw2VcEb97uklV8RVWzKvaYoS2n3HMPYdajIqcf7bU37lOn6993gzpguEo3xcw==
-X-Received: by 2002:aa7:c249:0:b0:56c:19d2:85b2 with SMTP id y9-20020aa7c249000000b0056c19d285b2mr199406edo.35.1711348773084;
-        Sun, 24 Mar 2024 23:39:33 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id b23-20020a056402139700b0056c0d96e099sm845782edv.89.2024.03.24.23.39.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Mar 2024 23:39:32 -0700 (PDT)
-Date: Mon, 25 Mar 2024 09:39:29 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [hverkuil-media-tree:vivid-cec 59/62]
- drivers/media/test-drivers/vivid/vivid-vid-cap.c:1570
- vivid_update_connected_outputs() warn: variable dereferenced before check
- 'dev_tx' (see line 1569)
-Message-ID: <acdb463e-9a36-4822-a9f8-af1098ca7491@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lW80a0Nu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711358421; x=1742894421;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KRFUKWB3oSqUgHNFa1Hjw7+UHdiQcMzSoFOclAEk0Kc=;
+  b=lW80a0NupQ2OKInIFCBF3W70izOG3Dbp26DuuhOLEFRnV4+eF040eiRd
+   XXwZ1Ztisi5WgD2PQ6ZknH7bhxcHb0YmKe2KoZlZ26B9m0icuSCY9gucn
+   km0bEmsRCrp9joulCt2iEBk9fKa+MyX3Szbo4zFhwvYRgebs0PEQXEaDR
+   TO2UCcC8wDZQ7AEwBMC4/TUbUa9Up8HXXKWOgrLNpmNscxjqtZ6KpGicW
+   qTQDDnehxJsT/9euLqinM25actdZbIs5maeJ/c8D9NvKrrz0frYP/TREq
+   VrqlVIXn/0i0aze0u9uzxmwTuxa9lyOqzAsrqMajSbo8hx4s/ZE++ULC9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="6532834"
+X-IronPort-AV: E=Sophos;i="6.07,152,1708416000"; 
+   d="scan'208";a="6532834"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 02:20:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="914837406"
+X-IronPort-AV: E=Sophos;i="6.07,152,1708416000"; 
+   d="scan'208";a="914837406"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 02:20:19 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rogV6-0000000Fvdm-2sRS;
+	Mon, 25 Mar 2024 11:20:16 +0200
+Date: Mon, 25 Mar 2024 11:20:16 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Herve Codina <herve.codina@bootlin.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: Re: include/linux/framer/framer.h:184:16: warning: no previous
+ prototype for function 'framer_get'
+Message-ID: <ZgFB0C5KilzltDKz@smile.fi.intel.com>
+References: <202403241110.hfJqeJRu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,60 +62,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202403241110.hfJqeJRu-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git vivid-cec
-head:   bfe9974b584040f6df7aebada2a3b6a61d0dbb67
-commit: 514333e776cd80413971a91ce668634fe7e030c3 [59/62] vivid: drop display_present control, route EDIDs correctly
-config: arc-randconfig-r071-20240325 (https://download.01.org/0day-ci/archive/20240325/202403251134.rCvdEVfY-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
+On Sun, Mar 24, 2024 at 11:19:28AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   70293240c5ce675a67bfc48f419b093023b862b3
+> commit: 54762918ca856028d33d1d56d017a4d7706c6196 net: wan: fsl_qmc_hdlc: Add framer support
+> date:   13 days ago
+> config: powerpc-randconfig-003-20240324 (https://download.01.org/0day-ci/archive/20240324/202403241110.hfJqeJRu-lkp@intel.com/config)
+> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 23de3862dce582ce91c1aa914467d982cb1a73b4)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240324/202403241110.hfJqeJRu-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403241110.hfJqeJRu-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403251134.rCvdEVfY-lkp@intel.com/
+> 82c944d05b1a24 Herve Codina 2023-11-28  183  
+> 82c944d05b1a24 Herve Codina 2023-11-28 @184  struct framer *framer_get(struct device *dev, const char *con_id)
+> 82c944d05b1a24 Herve Codina 2023-11-28  185  {
+> 82c944d05b1a24 Herve Codina 2023-11-28  186  	return ERR_PTR(-ENOSYS);
+> 82c944d05b1a24 Herve Codina 2023-11-28  187  }
+> 82c944d05b1a24 Herve Codina 2023-11-28  188  
+> 82c944d05b1a24 Herve Codina 2023-11-28 @189  void framer_put(struct device *dev, struct framer *framer)
+> 82c944d05b1a24 Herve Codina 2023-11-28  190  {
+> 82c944d05b1a24 Herve Codina 2023-11-28  191  }
+> 82c944d05b1a24 Herve Codina 2023-11-28  192  
 
-smatch warnings:
-drivers/media/test-drivers/vivid/vivid-vid-cap.c:1570 vivid_update_connected_outputs() warn: variable dereferenced before check 'dev_tx' (see line 1569)
-
-vim +/dev_tx +1570 drivers/media/test-drivers/vivid/vivid-vid-cap.c
-
-514333e776cd80 Hans Verkuil 2024-03-22  1554  void vivid_update_connected_outputs(struct vivid_dev *dev)
-514333e776cd80 Hans Verkuil 2024-03-22  1555  {
-514333e776cd80 Hans Verkuil 2024-03-22  1556  	u16 phys_addr = cec_get_edid_phys_addr(dev->edid, dev->edid_blocks * 128, NULL);
-514333e776cd80 Hans Verkuil 2024-03-22  1557  
-514333e776cd80 Hans Verkuil 2024-03-22  1558  	for (unsigned int i = 0, j = 0; i < dev->num_inputs; i++) {
-514333e776cd80 Hans Verkuil 2024-03-22  1559  		unsigned int menu_idx =
-514333e776cd80 Hans Verkuil 2024-03-22  1560  			dev->input_is_connected_to_output[i];
-514333e776cd80 Hans Verkuil 2024-03-22  1561  
-514333e776cd80 Hans Verkuil 2024-03-22  1562  		if (dev->input_type[i] != HDMI)
-514333e776cd80 Hans Verkuil 2024-03-22  1563  			continue;
-514333e776cd80 Hans Verkuil 2024-03-22  1564  		j++;
-514333e776cd80 Hans Verkuil 2024-03-22  1565  		if (menu_idx < FIXED_MENU_ITEMS)
-514333e776cd80 Hans Verkuil 2024-03-22  1566  			continue;
-514333e776cd80 Hans Verkuil 2024-03-22  1567  		struct vivid_dev *dev_tx = vivid_ctrl_hdmi_to_output_instance[menu_idx];
-514333e776cd80 Hans Verkuil 2024-03-22  1568  		unsigned int output = vivid_ctrl_hdmi_to_output_index[menu_idx];
-514333e776cd80 Hans Verkuil 2024-03-22 @1569  		unsigned int hdmi_output = dev_tx->output_to_iface_index[output];
-                                                                                   ^^^^^^^^
-Dereference
-
-514333e776cd80 Hans Verkuil 2024-03-22 @1570  		if (!dev_tx)
-                                                            ^^^^^^^
-Too late.
-
-514333e776cd80 Hans Verkuil 2024-03-22  1571  			continue;
-514333e776cd80 Hans Verkuil 2024-03-22  1572  		vivid_update_outputs(dev_tx);
-514333e776cd80 Hans Verkuil 2024-03-22  1573  		if (dev->edid_blocks) {
-514333e776cd80 Hans Verkuil 2024-03-22  1574  			cec_s_phys_addr(dev_tx->cec_tx_adap[hdmi_output],
-514333e776cd80 Hans Verkuil 2024-03-22  1575  					v4l2_phys_addr_for_input(phys_addr, j),
-514333e776cd80 Hans Verkuil 2024-03-22  1576  					false);
-514333e776cd80 Hans Verkuil 2024-03-22  1577  		} else {
-514333e776cd80 Hans Verkuil 2024-03-22  1578  			cec_phys_addr_invalidate(dev_tx->cec_tx_adap[hdmi_output]);
-514333e776cd80 Hans Verkuil 2024-03-22  1579  		}
-514333e776cd80 Hans Verkuil 2024-03-22  1580  	}
-514333e776cd80 Hans Verkuil 2024-03-22  1581  }
+Yeah, stubs in the headers should be static inline.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
 
