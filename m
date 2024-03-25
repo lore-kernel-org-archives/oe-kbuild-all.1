@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80C02EC8BE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Mar 2024 00:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CCD19F50F;
+	Mon, 25 Mar 2024 00:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711328385; cv=none; b=RIiw5x3gC5LVNaJY0seIHpgPMY80ZVBinnx/yx6EG2YtP4S8GDKkdSiEvn5HtGC1gjA2TA/63ZVS8JfW5FXrU7l832J7bRYS6WjEOOi6a0kgG3JYirg86w092G8ftAPWmTiO87E13xMaf9THuNUtRNk28wmPBf52wQGUFJApFjY=
+	t=1711327664; cv=none; b=fZlqf08iHxK5xd3vLF7+wNB20tXe0cJ4acgTHr+YdIhzzekdCC065hye2M/0fja4hrew8i5szrcYMN2zFBqhxh/SUOT+PDIBjjI/zJlVsk0CTIlyS+fGyWNYYfGcEij4mScs9D5MA6zeX3i9m9OweF/VuahpRWv3p+SN6JHU6wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711328385; c=relaxed/simple;
-	bh=zzLlDlj7ZedSWq7pSafzZ17N66MQSymMlKOGTVGaKUM=;
+	s=arc-20240116; t=1711327664; c=relaxed/simple;
+	bh=o6p3yrMtviZtfUJ3VVhVVm6R/oHw+uO31hrKIhWbyjo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U7DYpHGaLjV1OOh6EMcQMXjH7NdqzRi5VCEFVv4NnUGXYBj2JN6V94lxMa0T4bb9NzCIPti7unkTxEFk1ydWkzX6ei0UD8mAoHuXVme+hzcbSJ+jzB5uvtZ3GJZWCYjalrgAEIEIdCxfYU2KngzxSShkx9SC6sjQ+oMKkJSA7+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P6oRrMaG; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=LglB3TVlaskM9dGtJRV+CivgP6sQm2udj9n0NXehwfU9LZUSecFVpXWg/9Vg290cXKTYDdEy/4nM91SeZUVs6dgRHWjdjNDCXwiQeXUxvCK+CpiVE1LXCIJVCNl2UkxPTuQ1sz8hqMlo2ZwAmYkIgPMYghByAIz0vFm6md9wTCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OMan77If; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P6oRrMaG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMan77If"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711328383; x=1742864383;
+  t=1711327663; x=1742863663;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zzLlDlj7ZedSWq7pSafzZ17N66MQSymMlKOGTVGaKUM=;
-  b=P6oRrMaGC32Iv6sFwQdTy2BuvmSI3WHrVT4C3859IjSnMUTPyiYxlK+9
-   jB6mh+tmMeqR6QtpKTSIIU7NSLWpascTscqhzalexe98K2mtXNHGoUDG7
-   9Nlt6KjRxa32LlbKs01UwGgclBp3MjGJ98FvHwYrQInLwsFdvbsrxfz3x
-   wzvKJ0MFxzV4XtgV3vmg1bMazKenJZQZspVsStMCzHXnOLhl8LhnOzrBo
-   wDHM0+mKkLtn2YeObS+2p/S29NzUyQKpNIjmQAU/ZyHVw3fUW0SwieCnT
-   S06TL6lbBM9gKK2HBV5hSD+HZTqTCAASg+/MzUY6aH+5yBbKGgXTdiO3G
+  bh=o6p3yrMtviZtfUJ3VVhVVm6R/oHw+uO31hrKIhWbyjo=;
+  b=OMan77IfDc6lSx/H3K6E2X1cZnNChj9hduoT3FgtU8LPVY1kMoaFJiJt
+   e3/163+BPzWr1w5J6XeoQYoEL4IE9rUpGZIkA8S+Y0t6bg/pezzRqfPpv
+   xuoXfRWJXmogAf7YYaHyHvNJpsRiDIs7puBusvjsp+ovvCoijG2Oqc30J
+   A2Ehre2Ea+93gf1GxKpsmCpnqfVjPrWDoxr7Med01CZLRhL4iBOzBXEIQ
+   LjkIDA3TvPzPqFCxP6htsBNAu3Ve9J0crFlLLgafBxg/dHaUh/Reb8x8G
+   KAeMjEJGpqp3oC8NsI6UEIQOVtg+wF+otiQ1eYeCPOvXrO5U2olFlyD7O
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="9265806"
+X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="10082510"
 X-IronPort-AV: E=Sophos;i="6.07,152,1708416000"; 
-   d="scan'208";a="9265806"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2024 17:59:41 -0700
+   d="scan'208";a="10082510"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2024 17:47:40 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,152,1708416000"; 
-   d="scan'208";a="15433323"
+   d="scan'208";a="15505460"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 24 Mar 2024 17:59:40 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 24 Mar 2024 17:47:38 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1roYga-000M67-2U;
-	Mon, 25 Mar 2024 00:59:36 +0000
-Date: Mon, 25 Mar 2024 08:59:16 +0800
+	id 1roYUy-000M5p-1u;
+	Mon, 25 Mar 2024 00:47:36 +0000
+Date: Mon, 25 Mar 2024 08:47:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: Amir Goldstein <amir73il@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>,
-	Jan Kara <jack@suse.cz>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>,
 	Gabriel Krisman Bertazi <krisman@collabora.com>
-Subject: [cel:nfsd-5.15.y 1/391] include/linux/fsnotify.h:235:41: error:
- passing argument 4 of 'fsnotify_name' from incompatible pointer type
-Message-ID: <202403250807.vqRS7yyj-lkp@intel.com>
+Subject: [cel:nfsd-5.15.y 1/391] include/linux/fsnotify.h:235:52: error: too
+ few arguments to function call, expected 6, have 5
+Message-ID: <202403250847.mkfBiQLx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,68 +63,44 @@ Content-Disposition: inline
 tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-5.15.y
 head:   00f016a743ef8a7ac9a13c48499a67614a0077ed
 commit: af7130545d85312d5caf9c37e308db100ac172ac [1/391] fsnotify: pass data_type to fsnotify_name()
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240325/202403250807.vqRS7yyj-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240325/202403250807.vqRS7yyj-lkp@intel.com/reproduce)
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240325/202403250847.mkfBiQLx-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 23de3862dce582ce91c1aa914467d982cb1a73b4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240325/202403250847.mkfBiQLx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403250807.vqRS7yyj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403250847.mkfBiQLx-lkp@intel.com/
 
 Note: the cel/nfsd-5.15.y HEAD 00f016a743ef8a7ac9a13c48499a67614a0077ed builds fine.
       It only hurts bisectability.
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from io_uring/io_uring.c:74:
-   include/linux/fsnotify.h: In function 'fsnotify_delete':
->> include/linux/fsnotify.h:235:23: warning: passing argument 1 of 'fsnotify_name' makes integer from pointer without a cast [-Wint-conversion]
+   In file included from fs/kernfs/file.c:14:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:1608:
+   include/linux/vmstat.h:450:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     450 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from fs/kernfs/file.c:16:
+>> include/linux/fsnotify.h:235:52: error: too few arguments to function call, expected 6, have 5
      235 |         fsnotify_name(dir, mask, inode, &dentry->d_name, 0);
-         |                       ^~~
-         |                       |
-         |                       struct inode *
-   include/linux/fsnotify.h:29:39: note: expected '__u32' {aka 'unsigned int'} but argument is of type 'struct inode *'
+         |         ~~~~~~~~~~~~~                                     ^
+   include/linux/fsnotify.h:29:19: note: 'fsnotify_name' declared here
       29 | static inline int fsnotify_name(__u32 mask, const void *data, int data_type,
-         |                                 ~~~~~~^~~~
->> include/linux/fsnotify.h:235:28: warning: passing argument 2 of 'fsnotify_name' makes pointer from integer without a cast [-Wint-conversion]
-     235 |         fsnotify_name(dir, mask, inode, &dentry->d_name, 0);
-         |                            ^~~~
-         |                            |
-         |                            __u32 {aka unsigned int}
-   include/linux/fsnotify.h:29:57: note: expected 'const void *' but argument is of type '__u32' {aka 'unsigned int'}
-      29 | static inline int fsnotify_name(__u32 mask, const void *data, int data_type,
-         |                                             ~~~~~~~~~~~~^~~~
-   include/linux/fsnotify.h:235:34: warning: passing argument 3 of 'fsnotify_name' makes integer from pointer without a cast [-Wint-conversion]
-     235 |         fsnotify_name(dir, mask, inode, &dentry->d_name, 0);
-         |                                  ^~~~~
-         |                                  |
-         |                                  struct inode *
-   include/linux/fsnotify.h:29:67: note: expected 'int' but argument is of type 'struct inode *'
-      29 | static inline int fsnotify_name(__u32 mask, const void *data, int data_type,
-         |                                                               ~~~~^~~~~~~~~
->> include/linux/fsnotify.h:235:41: error: passing argument 4 of 'fsnotify_name' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     235 |         fsnotify_name(dir, mask, inode, &dentry->d_name, 0);
-         |                                         ^~~~~~~~~~~~~~~
-         |                                         |
-         |                                         struct qstr *
-   include/linux/fsnotify.h:30:47: note: expected 'struct inode *' but argument is of type 'struct qstr *'
+         |                   ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       30 |                                 struct inode *dir, const struct qstr *name,
-         |                                 ~~~~~~~~~~~~~~^~~
->> include/linux/fsnotify.h:235:9: error: too few arguments to function 'fsnotify_name'
-     235 |         fsnotify_name(dir, mask, inode, &dentry->d_name, 0);
-         |         ^~~~~~~~~~~~~
-   include/linux/fsnotify.h:29:19: note: declared here
-      29 | static inline int fsnotify_name(__u32 mask, const void *data, int data_type,
-         |                   ^~~~~~~~~~~~~
-   io_uring/io_uring.c: In function 'io_queue_async_work':
-   io_uring/io_uring.c:1476:61: warning: parameter 'locked' set but not used [-Wunused-but-set-parameter]
-    1476 | static void io_queue_async_work(struct io_kiocb *req, bool *locked)
-         |                                                       ~~~~~~^~~~~~
-   cc1: some warnings being treated as errors
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      31 |                                 u32 cookie)
+         |                                 ~~~~~~~~~~
+   fs/kernfs/file.c:128:15: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     128 |                 return NULL + !*ppos;
+         |                        ~~~~ ^
+   2 warnings and 1 error generated.
 
 
-vim +/fsnotify_name +235 include/linux/fsnotify.h
+vim +235 include/linux/fsnotify.h
 
 ece95912db94d9 Jan Kara       2008-02-06  218  
 3d7b7272ce9deb Amir Goldstein 2022-01-20  219  /*
