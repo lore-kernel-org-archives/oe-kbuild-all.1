@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25BB6F533;
-	Mon, 25 Mar 2024 21:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F25A823DB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Mar 2024 23:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711403730; cv=none; b=ji5cxPUeZ5Wm2LuQDMgrSVtbAqO2NzgVhzYycuUKH3PcdPsZHXl6io9qdUax5kXd0AF5mB8WmgioHdsX+J3qpv5BsTPGgknt+IStBiElMoE4bXVgm3QzfQNzsieo0lo0n7uyFfr41DNTFKZsJ9Lj+CWAeSCOO/gVDL4+4W5QYGo=
+	t=1711408116; cv=none; b=ilb8kvh8LA980qB3PxdOrUbW3N31+ltavRYLbvpFxXNlkE8CzEY/KxS/XuQySsqut21/7DVtWsZuuPxktch88rCfURiaai6pkWX2Q7+IRSoSToNRY0QnU51OegO6jpNxacBl1qM29/TShQn3xN1Lk60/k7+O8o+g1YDj9/cLcRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711403730; c=relaxed/simple;
-	bh=qf0xlb0YitmtJyDHzU+vOqNZ6ABbCCbv4SXwGFEZvxQ=;
+	s=arc-20240116; t=1711408116; c=relaxed/simple;
+	bh=fOQW4aSVhHwd/4HxyMphQwlO8bJWit6ER/gIPnMpz6E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Kw3tHgqQUDhHNzpAUZGyxf9I1aJ4U6riX7T4JsS+yEGAQFK6rgQFFMlZHzJaezrqok0k0Mm3YFxu+aGxxVq4l3OLNijkakwBOU/gyjskFSTInzlQ8bjN7bx3sYZ/t0Y/zhuLeeFBG7QRfli343Ijd/ZSZZLUsets6W118AltbzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=btnpHIPn; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=P74FLzwgZqZ5RqEohS/3vRPbITJxspNTwe8ltQZfjV6ZPzERMnjtB1Ae5XXaFd01cbqcExsWHiCRcJ/A5xuQU5N1bCCxdmYmKdcfHrisEjWOsrkaPy2AaTUFlb3xus3b8x9i+oUfnKj3iJRwelOmO2ZKY6lE37+XGw1fFBFk6TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKJYozee; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="btnpHIPn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKJYozee"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711403729; x=1742939729;
+  t=1711408113; x=1742944113;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qf0xlb0YitmtJyDHzU+vOqNZ6ABbCCbv4SXwGFEZvxQ=;
-  b=btnpHIPnWpPBXV8eBUvUTKylP41RPNn/FjcmUjOAuNHd8JHtgDx7sNIq
-   +rSr3XZor9z2PRPSH18EGKjaN/dmdLo/DKi8BnW8xlCcSdT5hhaLSYZEe
-   Q/jzlthbWNFVRwXSIYe9VYDNcf09jVVCy+7XpUa+JFNV9mQQ1SRoYge4F
-   KYPclxluHmvcxVdVkJiTf86lZTuILuPFK57wzyevqyihULfXKGrx823mv
-   hh/1zlsbVJXkgDg2VQ7D6jPDQB4dHTIVxcn9vbIpkM7QgF2bdFxtwnEUW
-   8iiNgX8oOWQZitnYslaC8LIm3UW2cfcQaVon8fbXogK5p3D5TWiE0oeXq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="17573711"
+  bh=fOQW4aSVhHwd/4HxyMphQwlO8bJWit6ER/gIPnMpz6E=;
+  b=OKJYozeeHnddqkx2TiJ5xYGyumGJm/EXDSjlcQlkyvqZFgj1uC04nbAa
+   df9BRSIghLW5HG3h9thUSLMAGvHP9+OJ62xhSAjH9U0mdRNhRtgsGj+i7
+   Ugmx6bXFiV0aVOND1bRC0GjDjgDcG4zJ3RaLD8OzJFGWgryf9Pe+7w/rc
+   3nLjnInDSli5NuFdb04SAW58Hy73Mq+Arzrtyp+sDoEDIuxMvoTO2LeU5
+   83mI2NmdWdQya9NCsQ5BfABl5lS+Ot+SfyVyn6oi+hsE/dXSUZKpkufDB
+   rLBIJS9ke9E0pCu7dZ7b4c5qMGXYVpkGlX73Ss2PutOzlVnBELR3EOh/d
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6551428"
 X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
-   d="scan'208";a="17573711"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 14:55:28 -0700
+   d="scan'208";a="6551428"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 16:08:30 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
-   d="scan'208";a="15838429"
+   d="scan'208";a="53231131"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 25 Mar 2024 14:55:27 -0700
+  by orviesa001.jf.intel.com with ESMTP; 25 Mar 2024 16:08:29 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rosHs-000Mqs-1U;
-	Mon, 25 Mar 2024 21:55:24 +0000
-Date: Tue, 26 Mar 2024 05:55:00 +0800
+	id 1rotQZ-000Mtq-0B;
+	Mon, 25 Mar 2024 23:08:27 +0000
+Date: Tue, 26 Mar 2024 07:07:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [broonie-ci:v2_20240223_louis_chauvet_add_multi_mode_support_for_omap_mcspi
- 2/3] drivers/spi/spi-omap2-mcspi.c:1265:7: warning: unused variable
- 'word_delay_is_zero'
-Message-ID: <202403260539.RrNU3f4c-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-vfs:vfs.bdev.end_holder 1/1] ERROR: modpost: "bdev_fput"
+ [fs/xfs/xfs.ko] undefined!
+Message-ID: <202403260718.fwMj3jBL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,105 +59,122 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v2_20240223_louis_chauvet_add_multi_mode_support_for_omap_mcspi
-head:   126a2dc2e634a8508e44feed1ef43cb4ebfb7ad7
-commit: f2da90939a500160e17327423c937cad99299bd7 [2/3] spi: omap2-mcspi: Add support for MULTI-mode
-config: x86_64-buildonly-randconfig-005-20240325 (https://download.01.org/0day-ci/archive/20240326/202403260539.RrNU3f4c-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403260539.RrNU3f4c-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.bdev.end_holder
+head:   9a55db4a6456d386345cdd3f046d6dc2834a64d2
+commit: 9a55db4a6456d386345cdd3f046d6dc2834a64d2 [1/1] fs,block: simplify block device closing
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20240326/202403260718.fwMj3jBL-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403260718.fwMj3jBL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403260539.RrNU3f4c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403260718.fwMj3jBL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/spi/spi-omap2-mcspi.c:1280:3: warning: '/*' within block comment [-Wcomment]
-    1280 |                 /*
-         |                 ^
->> drivers/spi/spi-omap2-mcspi.c:1265:7: warning: unused variable 'word_delay_is_zero' [-Wunused-variable]
-    1265 |         bool word_delay_is_zero;
-         |              ^~~~~~~~~~~~~~~~~~
-   2 warnings generated.
-
-
-vim +/word_delay_is_zero +1265 drivers/spi/spi-omap2-mcspi.c
-
-  1257	
-  1258	static int omap2_mcspi_prepare_message(struct spi_controller *ctlr,
-  1259					       struct spi_message *msg)
-  1260	{
-  1261		struct omap2_mcspi	*mcspi = spi_controller_get_devdata(ctlr);
-  1262		struct omap2_mcspi_regs	*ctx = &mcspi->ctx;
-  1263		struct omap2_mcspi_cs	*cs;
-  1264		struct spi_transfer	*tr;
-> 1265		bool word_delay_is_zero;
-  1266		u8 bits_per_word;
-  1267	
-  1268		/*
-  1269		 * The conditions are strict, it is mandatory to check each transfer of the list to see if
-  1270		 * multi-mode is applicable.
-  1271		 */
-  1272		mcspi->use_multi_mode = true;
-  1273		list_for_each_entry(tr, &msg->transfers, transfer_list) {
-  1274			if (!tr->bits_per_word)
-  1275				bits_per_word = msg->spi->bits_per_word;
-  1276			else
-  1277				bits_per_word = tr->bits_per_word;
-  1278	
-  1279		/* Only a single channel can have the FORCE bit enabled
-> 1280			/*
-  1281			 * Check if this transfer contains only one word;
-  1282			 */
-  1283			if (bits_per_word < 8 && tr->len == 1) {
-  1284				/* multi-mode is applicable, only one word (1..7 bits) */
-  1285			} else if (bits_per_word >= 8 && tr->len == bits_per_word / 8) {
-  1286				/* multi-mode is applicable, only one word (8..32 bits) */
-  1287			} else {
-  1288				/* multi-mode is not applicable: more than one word in the transfer */
-  1289				mcspi->use_multi_mode = false;
-  1290			}
-  1291	
-  1292			/* Check if transfer asks to change the CS status after the transfer */
-  1293			if (!tr->cs_change)
-  1294				mcspi->use_multi_mode = false;
-  1295	
-  1296			/*
-  1297			 * If at least one message is not compatible, switch back to single mode
-  1298			 *
-  1299			 * The bits_per_word of certain transfer can be different, but it will have no
-  1300			 * impact on the signal itself.
-  1301			 */
-  1302			if (!mcspi->use_multi_mode)
-  1303				break;
-  1304		}
-  1305	
-  1306		omap2_mcspi_set_mode(ctlr);
-  1307	
-  1308		/* In single mode only a single channel can have the FORCE bit enabled
-  1309		 * in its chconf0 register.
-  1310		 * Scan all channels and disable them except the current one.
-  1311		 * A FORCE can remain from a last transfer having cs_change enabled
-  1312		 *
-  1313		 * In multi mode all FORCE bits must be disabled.
-  1314		 */
-  1315		list_for_each_entry(cs, &ctx->cs, node) {
-  1316			if (msg->spi->controller_state == cs && !mcspi->use_multi_mode) {
-  1317				continue;
-  1318			}
-  1319	
-  1320			if ((cs->chconf0 & OMAP2_MCSPI_CHCONF_FORCE)) {
-  1321				cs->chconf0 &= ~OMAP2_MCSPI_CHCONF_FORCE;
-  1322				writel_relaxed(cs->chconf0,
-  1323						cs->base + OMAP2_MCSPI_CHCONF0);
-  1324				readl_relaxed(cs->base + OMAP2_MCSPI_CHCONF0);
-  1325			}
-  1326		}
-  1327	
-  1328		return 0;
-  1329	}
-  1330	
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hpfs/hpfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ufs/ufs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx4/qnx4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx6/qnx6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/bcachefs/mean_and_variance_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/af_alg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_hash.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_skcipher.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libpoly1305.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libsha256.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/string_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/string_helpers_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hexdump.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_dhry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cpumask_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sysctl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hash.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ida.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-kstrtox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_list_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_min_heap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_rhashtable.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_uuid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_xarray.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kmod.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_kmp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_bm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_fsm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/bitfield_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/list-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/hashtable_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cmdline_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/memcpy_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/overflow_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/fortify_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strcat_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strscpy_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/dsp56k.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
+WARNING: modpost: drivers/input/mouse/amimouse: section mismatch in reference: amimouse_driver+0x8 (section: .data) -> amimouse_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: drivers/parport/parport_amiga: section mismatch in reference: amiga_parallel_driver+0x8 (section: .data) -> amiga_parallel_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_atari.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_paula.o
+WARNING: modpost: sound/oss/dmasound/dmasound_paula: section mismatch in reference: amiga_audio_driver+0x8 (section: .data) -> amiga_audio_remove (section: .exit.text)
+ERROR: modpost: "bdev_fput" [fs/cramfs/cramfs.ko] undefined!
+>> ERROR: modpost: "bdev_fput" [fs/xfs/xfs.ko] undefined!
+>> ERROR: modpost: "bdev_fput" [fs/bcachefs/bcachefs.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
