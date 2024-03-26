@@ -1,126 +1,148 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A8F4CB2E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 07:47:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4408A13667F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 08:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711439276; cv=none; b=bm1gb1aQ/PFACXiH6ZEKVbE7czBnfub3UBltVPN7ooKHspt6KtAoIBeOl5FYktOHl9so87CCP2itMpx5vVfa0C1j30AHFs3+hT6GsbTCvNR+Rse0Yg0QdZhv4IKFJWXRAiJbx0wYwiLh+Eda35O+8FNiwP3iWtkzCKe4Vqi607Y=
+	t=1711440420; cv=none; b=Y51zsfH38vKZnnLkQIUT7fgNtQOosXAL+lT1SIM6Qh8/Y+FW8mNl4vtqlGwy8Ypr6UGNFh3vUclcMovFUoe1YYppWBkfL6PTAmyz/8C1WOl+PruG4Toyv/+84frqiEfKLLUKWGSEl9DPZwIzGe2Hy+7cnblIZ01UICXyV8CoPNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711439276; c=relaxed/simple;
-	bh=0q3mBCnf+EdkSwnN6o2oQBP2kwt52cqmwZ3LduFyQH4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=shpzRUZXDQbwOwHVmDlLJ1ZmSUjXeA+nVVb7aF6QHUuan0QNH1z4dLxBYtYbxjpdYyyaHO3G8ooVww0eNvF5KwakzYvBpCOm/nItDLKkupkI/ASKP6J+KB3/vFAtraT5EhzeJ/yxyY49sMjmKFpLeqhjPyuCgsq+DlmCMTrHib4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PRjZ0W1r; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1711440420; c=relaxed/simple;
+	bh=OauDzudJoTRweTb/Sc4PFkTacXGPjRj191RvQaU7XSM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=flj91kedjKJyrmftENuf7ajtWFHrqpJoULg41z4d6nPxekoGP0Cz06VXUMPu8WWkEwFTKY5cKLaHZ77FmlPs1ZenS/UF5bS3gqqHRPn63Es9Mi8GaNl7Ov9aD87LT1hnCPGe1BdaLSsDSzDMkY3F+sVs2LrvRbmLd3iUdzpzOBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KnnT3Y/W; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PRjZ0W1r"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-609ff069a40so58142437b3.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 00:47:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KnnT3Y/W"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-566e869f631so5519437a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 01:06:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1711439274; x=1712044074; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3YBJ2xQ8MK7yXEQRyH4d1UZ7bB4MJxNeLe7OD+5nY3g=;
-        b=PRjZ0W1ruEo5amNyyfqvXc/eEe3r9Q3clQdqzUPOOAZBX2jZTjU8yQ2VzdgTWPYJ2T
-         XTjDxEDf35nNae+ohEbSC9syUtUN894alO3PBL2bOOc4XAfB2D5+BGGb4RwKYt4k6h3X
-         bzAKozWC4Xh5Y/XQZCyuDjf9CiraXGf4dV1RKmnQKYpKfMWslVKVHKnLvySa+nmUeoPJ
-         +rhNJxTqx+y3q2zBmNMw/D9sFQisuZHd4gPGVj/sKUhwckPqnkfCanCkr0g3h2opykJD
-         zgq5sPcfVYleqSOtiBrYMZHAv9Y2CiGVHTncYxR1rK+9qCRy/KZuBgpVtIgZ4geOJ5UY
-         ej9w==
+        d=linaro.org; s=google; t=1711440416; x=1712045216; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Wv7Cgtq2y08WcN50NFCCBaGIgPs6PtJL2P5kxvAuzUg=;
+        b=KnnT3Y/WEnJM8XhBMOmwDOjn/VVwRUIHzk1yyLeklhFGzJxe/6os8Dt1fCimKqqC5h
+         fT07fyLHbzCh9rzlRDTwBO3yz2BiZPHhLzXWSxWtCKanWbsWhw5K8+SFdAoF4lKQJTD2
+         sfoWCMffQ9Gh6ztH1X+cBIXzalZWXbCfR5k1pI2xzOmGJw4qAVQUxx42SzHQeXyQGufa
+         euXzZMc3VufOYHV5WDFEq1Vi3wwItPQhT1ilqXMckiK2lgZcx/wAOktcqL+TkRP9pUSw
+         cZKTHYcLef5d7EwPzGBWnaPFd2Tv5O001C08NITAncHL8w4S1plBH8vl+iMOuy+jtIZb
+         DFDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711439274; x=1712044074;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3YBJ2xQ8MK7yXEQRyH4d1UZ7bB4MJxNeLe7OD+5nY3g=;
-        b=QSw2DF/bEtIxHiOjS8KAdQcvNwbnD3pw++XfmqMzVfpHvgeeVjq2ISTHESnseXThup
-         njM1Q83sOWnHfnwJGjU48pW5CGi//C/rB+rrBCC3eW4a2g97Nj4zt9byCcFuCIs1kFCb
-         7iRwY236RppJ2ytPiPc4XQ9al9+/8b/Wm+ULNeJSu4EV6dngNqXMz1dO19TlykiNdyMy
-         7PuVnjVv0AYB/t5LiVIOpd755dA//rrwJEcxc+UWdoXYuEBfeUrUoSC+XPi2LLAc+W1S
-         jxrJJ3hE28Ds6QlU+XUI/1XzZoCl3+R/vM/ZxszOdf2V6Ai5zGBB4y7hUBgDLk/2LXnj
-         zI4A==
-X-Forwarded-Encrypted: i=1; AJvYcCXlNrBKgXRvi4U1pbO9rA8Ct5RH/MoYTSq/J4z6cSDBHeicHLds+EXiPw9+nhQuu3C+EhtIfcHzN2SdUMixxmUOlwjcBLy5Q7lP860P3Q==
-X-Gm-Message-State: AOJu0YxxolGlhHPtlJUYfCX/2zxeBIWcFXWH/IbjpVbCXf3Ak+NqorJ0
-	ErQlaZkIRNypwkcv3XC1rxgwYhXX5SRmr0llLY5rLqMTnaKJrNfTZiY5bs74Gx+DIO4Ps45IkRd
-	FR9z7FIGhANn+wa/f8UfrUYhahh2HgaagksCq
-X-Google-Smtp-Source: AGHT+IHzIZVywGJTbgb7bPyiQTrVbJ0l3fVLX650PCysA0jxq80trs14N9M6WelzZ1P/3CgDIKTV23h3xlg9CpOaMa0=
-X-Received: by 2002:a25:ba90:0:b0:dc7:46b7:b7f6 with SMTP id
- s16-20020a25ba90000000b00dc746b7b7f6mr6339246ybg.28.1711439273902; Tue, 26
- Mar 2024 00:47:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711440416; x=1712045216;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wv7Cgtq2y08WcN50NFCCBaGIgPs6PtJL2P5kxvAuzUg=;
+        b=P46tJ597dkINUkuNrUzbDE06LL5oTkH0iq5ZRK3qGsi3BJo5BJwJysZQZai5z9EgL+
+         jFWYItVwajW5rWhio20utNRJ/VBcJ2F8Iy5MBdDVI3RYSyxn3vPXxwV6r8uQ/MADvfeX
+         mExy3wBuOBJpuOY1gNr7FWb3d2XjtpIOWvlMqbFttBRfooh/P2/jUVH3AnxzBvk2gPHL
+         77sraqp9F+0zQIbG9FRqLIl7G6tjbwYoS2vY78NLe0pDwxc+TWW3FsLB37ojPqE+rSZ8
+         yj6ffSjvUf5LZ5DTX/AeKQLNn0dKjCv5PKIcSEzldBIMDpt69vdtnG26siX1IwUjIeX1
+         T3cg==
+X-Forwarded-Encrypted: i=1; AJvYcCXPdKpbSXWCFvh0GOPCdGycCmClui6i3XGK7v+iYP60KfR/SLe92HnSbOE26tivCRWG6zu3wAuUJysrjpTWN9mv8NYKW0ACEWUKwnsCUg==
+X-Gm-Message-State: AOJu0YwCeLmYbesDQKMB3d5s313Af8EKZdw0zLkB5XIfx5zm9qUPdNGD
+	oSTjIDu2k4KXhLF5vOCBjJ4qjOFqgRmkWdtXsj7T/TT2cZdglH8KV9NU43ZjNQg=
+X-Google-Smtp-Source: AGHT+IEH3RjpGzp1NQMAlYAFpPpoGetXOyQI/NaUp8Uj0p16ni+pZo2x7jIBSS9R/jee1UWz7EtFdQ==
+X-Received: by 2002:a50:a6dc:0:b0:56b:a017:e9 with SMTP id f28-20020a50a6dc000000b0056ba01700e9mr5395742edc.41.1711440416124;
+        Tue, 26 Mar 2024 01:06:56 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id k18-20020a056402049200b0056c1cba8480sm1110471edv.25.2024.03.26.01.06.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Mar 2024 01:06:55 -0700 (PDT)
+Date: Tue, 26 Mar 2024 11:06:51 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Chao Yu <yuchao0@huawei.com>,
+	Chao Yu <chao@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+Subject: [chao:wip 7/9] fs/f2fs/data.c:2590 f2fs_should_update_outplace()
+ error: we previously assumed 'fio' could be null (see line 2581)
+Message-ID: <1239448e-5471-4c5d-8e80-7380af16660d@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202403230731.fved39RH-lkp@intel.com>
-In-Reply-To: <202403230731.fved39RH-lkp@intel.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 26 Mar 2024 00:47:43 -0700
-Message-ID: <CAJuCfpFckAn7HycWma7KTn-MzzMxwcT5s-_SoOz7wFKLs9HLCA@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-unstable 55/141] ERROR: modpost: "memcpy"
- [fs/nfs/nfs.ko] undefined!
-To: kernel test robot <lkp@intel.com>
-Cc: Kent Overstreet <kent.overstreet@linux.dev>, oe-kbuild-all@lists.linux.dev, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Pasha Tatashin <pasha.tatashin@soleen.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Mar 22, 2024 at 4:48=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-un=
-stable
-> head:   af520f81c51001f7ccdf0579fc73df282b26292d
-> commit: fa5bfe65d50ae7006d711f490bba3cb4d437bcad [55/141] fix missing vma=
-lloc.h includes
-> config: alpha-defconfig (https://download.01.org/0day-ci/archive/20240323=
-/202403230731.fved39RH-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240323/202403230731.fved39RH-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403230731.fved39RH-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->
-> WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-> WARNING: modpost: "saved_config" [vmlinux] is COMMON symbol
-> WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs_common/grace.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfs.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv2.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv3.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
-> ERROR: modpost: "memcpy" [fs/reiserfs/reiserfs.ko] undefined!
-> >> ERROR: modpost: "memcpy" [fs/nfs/nfs.ko] undefined!
-> >> ERROR: modpost: "memcpy" [fs/nfs/nfsv3.ko] undefined!
-> >> ERROR: modpost: "memcpy" [fs/nfsd/nfsd.ko] undefined!
-> >> ERROR: modpost: "memcpy" [fs/lockd/lockd.ko] undefined!
-> >> ERROR: modpost: "memcpy" [crypto/seqiv.ko] undefined!
-> >> ERROR: modpost: "memcpy" [crypto/crypto_null.ko] undefined!
-> >> ERROR: modpost: "memcpy" [crypto/sha512_generic.ko] undefined!
-> >> ERROR: modpost: "memcpy" [crypto/sha3_generic.ko] undefined!
-> >> ERROR: modpost: "memcpy" [crypto/cbc.ko] undefined!
-> WARNING: modpost: suppressed 16 unresolved symbol warnings because there =
-were too many)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git wip
+head:   ffa2225cad631419f3944c962518291a7df50367
+commit: aac0576c96c228281b5db26528047da6a585fe84 [7/9] f2fs: zone: allow IPU in regular block device
+config: xtensa-randconfig-r081-20240325 (https://download.01.org/0day-ci/archive/20240326/202403260735.dL4awPJc-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
 
-This and the error reported at
-https://lore.kernel.org/all/202403252127.967BczRr-lkp@intel.com/ are
-the same. I have a fix but I'm still trying to figure out why this
-issue is happening (see
-https://lore.kernel.org/all/CAJuCfpH6N_p-w2DxJ530txgTha6dTxQb3ANtkU-6h9pCps=
-tTOA@mail.gmail.com/).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202403260735.dL4awPJc-lkp@intel.com/
 
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+New smatch warnings:
+fs/f2fs/data.c:2590 f2fs_should_update_outplace() error: we previously assumed 'fio' could be null (see line 2581)
+
+vim +/fio +2590 fs/f2fs/data.c
+
+4d57b86dd86404 Chao Yu          2018-05-30  2574  bool f2fs_should_update_outplace(struct inode *inode, struct f2fs_io_info *fio)
+bb9e3bb8dbf597 Chao Yu          2018-01-17  2575  {
+bb9e3bb8dbf597 Chao Yu          2018-01-17  2576  	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
+bb9e3bb8dbf597 Chao Yu          2018-01-17  2577  
+19bdba5265624b Jaegeuk Kim      2021-12-09  2578  	/* The below cases were checked when setting it. */
+19bdba5265624b Jaegeuk Kim      2021-12-09  2579  	if (f2fs_is_pinned_file(inode))
+19bdba5265624b Jaegeuk Kim      2021-12-09  2580  		return false;
+19bdba5265624b Jaegeuk Kim      2021-12-09 @2581  	if (fio && is_sbi_flag_set(sbi, SBI_NEED_FSCK))
+                                                            ^^^
+Can fio be NULL?
+
+19bdba5265624b Jaegeuk Kim      2021-12-09  2582  		return true;
+aac0576c96c228 Chao Yu          2024-03-23  2583  	if (f2fs_lfs_mode(sbi)) {
+aac0576c96c228 Chao Yu          2024-03-23  2584  		if (!f2fs_sb_has_blkzoned(sbi))
+bb9e3bb8dbf597 Chao Yu          2018-01-17  2585  			return true;
+aac0576c96c228 Chao Yu          2024-03-23  2586  		/* no regular block device in mainarea */
+aac0576c96c228 Chao Yu          2024-03-23  2587  		if (!sbi->first_zoned_segno)
+aac0576c96c228 Chao Yu          2024-03-23  2588  			return true;
+aac0576c96c228 Chao Yu          2024-03-23  2589  		/* blkaddr locates in sequential zone */
+aac0576c96c228 Chao Yu          2024-03-23 @2590  		if (GET_SEGNO(sbi, fio->old_blkaddr) >= sbi->first_zoned_segno)
+                                                                                   ^^^^^
+Unchecked dereference
+
+aac0576c96c228 Chao Yu          2024-03-23  2591  			return true;
+aac0576c96c228 Chao Yu          2024-03-23  2592  	}
+bb9e3bb8dbf597 Chao Yu          2018-01-17  2593  	if (S_ISDIR(inode->i_mode))
+bb9e3bb8dbf597 Chao Yu          2018-01-17  2594  		return true;
+af033b2aa8a874 Chao Yu          2018-09-20  2595  	if (IS_NOQUOTA(inode))
+af033b2aa8a874 Chao Yu          2018-09-20  2596  		return true;
+bb9e3bb8dbf597 Chao Yu          2018-01-17  2597  	if (f2fs_is_atomic_file(inode))
+bb9e3bb8dbf597 Chao Yu          2018-01-17  2598  		return true;
+943f7c6f987f4a Chao Yu          2023-09-04  2599  	/* rewrite low ratio compress data w/ OPU mode to avoid fragmentation */
+943f7c6f987f4a Chao Yu          2023-09-04  2600  	if (f2fs_compressed_file(inode) &&
+943f7c6f987f4a Chao Yu          2023-09-04  2601  		F2FS_OPTION(sbi).compress_mode == COMPR_MODE_USER &&
+943f7c6f987f4a Chao Yu          2023-09-04  2602  		is_inode_flag_set(inode, FI_ENABLE_COMPRESS))
+943f7c6f987f4a Chao Yu          2023-09-04  2603  		return true;
+859fca6b706e00 Chao Yu          2021-05-26  2604  
+859fca6b706e00 Chao Yu          2021-05-26  2605  	/* swap file is migrating in aligned write mode */
+859fca6b706e00 Chao Yu          2021-05-26  2606  	if (is_inode_flag_set(inode, FI_ALIGNED_WRITE))
+859fca6b706e00 Chao Yu          2021-05-26  2607  		return true;
+859fca6b706e00 Chao Yu          2021-05-26  2608  
+1018a5463a0637 Chao Yu          2022-02-04  2609  	if (is_inode_flag_set(inode, FI_OPU_WRITE))
+1018a5463a0637 Chao Yu          2022-02-04  2610  		return true;
+1018a5463a0637 Chao Yu          2022-02-04  2611  
+bb9e3bb8dbf597 Chao Yu          2018-01-17  2612  	if (fio) {
+                                                        ^^^^^^^^^^
+Checked here as well.
+
+b763f3bedc2da2 Chao Yu          2021-04-28  2613  		if (page_private_gcing(fio->page))
+bb9e3bb8dbf597 Chao Yu          2018-01-17  2614  			return true;
+4354994f097d06 Daniel Rosenberg 2018-08-20  2615  		if (unlikely(is_sbi_flag_set(sbi, SBI_CP_DISABLED) &&
+4354994f097d06 Daniel Rosenberg 2018-08-20  2616  			f2fs_is_checkpointed_data(sbi, fio->old_blkaddr)))
+4354994f097d06 Daniel Rosenberg 2018-08-20  2617  			return true;
+bb9e3bb8dbf597 Chao Yu          2018-01-17  2618  	}
+bb9e3bb8dbf597 Chao Yu          2018-01-17  2619  	return false;
+bb9e3bb8dbf597 Chao Yu          2018-01-17  2620  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
