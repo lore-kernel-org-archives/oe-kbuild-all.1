@@ -1,54 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE21C129E99
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 05:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B1C7EF09
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 06:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711432252; cv=none; b=W+GkdNmANKfIgGv3Y58d54nBxnGi2Idw/Ml4fmfsksImNLUat0o+c2y9AEEq5WrUeHnvqVXAsZe1NpZ+wydkBDx5TOz/OVUmo0xVSP5on0CFaoADRC7iNEnyLELQFwrbec43m29fmQI9bNDvqd0hz85N/pHALwiUR3sPqqjl4Rw=
+	t=1711436036; cv=none; b=BYGi42SnGvHWPJ35ED12KIjJhVy1n25Z6mGLVou3QplKV1x/tH30DECjBmzEHBW2Ibj/eLet5qnipvXAFy+DIZCwC408B77Mydh3mTLRCEtTk99H+lzfJATqzadYMaN27W0YYrjVfg+rTUe4o+XQ9OHvDK+jBuh0SBhrrHZyo74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711432252; c=relaxed/simple;
-	bh=EBE9RKICPZlOvC3SIVaiWVpCaStNsExQ0eZ3p26xvy8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mCPqNAIAEQBGyUwkCR9rAuxsGv5yr938DY8Ubk2BEMA+skvtwzKYGX/dVOTDWHN8jqMWPaEJzan/aRocYT2y4bPxzrBkjDh+cviHDpFUPu9b6te7AVKMh5fSll7t31I7hD7n1Ewxb7FcJMh68IqEyznBDLamJKa8xmISwjF79p0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ErG/bavM; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1711436036; c=relaxed/simple;
+	bh=T93oDLJVqmXjMft3p/o0gcTvmzd4o0CYgIVWkB1+goo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YFy+qu/vjo9p2POQyimFtGkNIHhx6MV7N/djotpyvy0e8iJ4afNqKnriH2LxvoiT6uM83PJgP9A6IuLuZf6BkreItJCg8igxDsxG8/oWrkfP+1czPcN2lEYzBK9JpMah+LmMZtFYAI7fRQeayV+HVqNFRSk6etRho0GZ8lvj9rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BBNo5Xrc; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ErG/bavM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BBNo5Xrc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711432251; x=1742968251;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EBE9RKICPZlOvC3SIVaiWVpCaStNsExQ0eZ3p26xvy8=;
-  b=ErG/bavM8nDOl4uBnyynNPeg7uO2Zd7CgeJyiZRLZtSiLph7skcCtbNb
-   ddHhgW/8UC9bPAZB0FI2+1iApCIWTKe3avzovGf/knAY49Tmrre0bAU4K
-   qe+bvFx2ZwrfeRvvD2L62/wZ3+lV/NASqgoeewV4vdwi068XzJUFogKzb
-   IqCOOFu/n2GWYfGixnyDka3Qj40k8+5vXGFAaG3kxcUtGANDdk3mbei7N
-   Z4ZUjCBtDPCjLNoeYLnAwu505MxfOgayhkuvPa8buqZ1Iax2x01q3Cp5O
-   VsSOY7GkF3NHF7cd/Aro9S38zVRhaXKfofQNI8HubN8rBojTTCC3+GriK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6329068"
+  t=1711436034; x=1742972034;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=T93oDLJVqmXjMft3p/o0gcTvmzd4o0CYgIVWkB1+goo=;
+  b=BBNo5Xrc8S1GuoUym+incVARZtH+VKRCrWCLi5JekqJohCWSjWbhX0u6
+   96V1bYgs9xz/EP38WG58H8Qax2P/kfiF+P/Fucv2itAWkc2qJh6hqYpaw
+   DRtkqa7orER+97JY3V19E4fYHcARv7JUgQf7vw3hSx7FwRA5neF3g495P
+   NU8SQReuu/1p2wXuJBFHSP8iR098UNJ+g5JBQULEeUcsBe7wjnHgeFA4b
+   vFjy9kUZayBUULwp9D2CZ8QUAupQ/YDNpncHl2HuWKX9qtRfeMlutmuGX
+   XrMuAPcqs0jPgiV7JWFORdI+x8q6H9RH6Jcxw3WwYOIj3XmVa1w+oj4iX
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="10264708"
 X-IronPort-AV: E=Sophos;i="6.07,155,1708416000"; 
-   d="scan'208";a="6329068"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 22:50:50 -0700
+   d="scan'208";a="10264708"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 23:53:54 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,155,1708416000"; 
-   d="scan'208";a="53314336"
+   d="scan'208";a="46870214"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 25 Mar 2024 22:50:49 -0700
+  by orviesa002.jf.intel.com with ESMTP; 25 Mar 2024 23:53:51 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rozhu-000N9W-2l;
-	Tue, 26 Mar 2024 05:50:46 +0000
-Date: Tue, 26 Mar 2024 13:50:02 +0800
+	id 1rp0gu-000NBW-0N;
+	Tue, 26 Mar 2024 06:53:48 +0000
+Date: Tue, 26 Mar 2024 14:53:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Borislav Petkov (AMD)" <bp@alien8.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bp:rc1-snp 4/5] arch/x86/coco/core.c:22:3: sparse: sparse: symbol
- 'cc_flags' was not declared. Should it be static?
-Message-ID: <202403261310.vQmXYKzL-lkp@intel.com>
+To: Sugar Zhang <sugar.zhang@rock-chips.com>, heiko@sntech.de
+Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org,
+	Sugar Zhang <sugar.zhang@rock-chips.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] dt-bindings: clock: rockchip: Add support for clk
+ input / output switch
+Message-ID: <202403261442.9P6rk3Wk-lkp@intel.com>
+References: <1711340191-69588-2-git-send-email-sugar.zhang@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,30 +66,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1711340191-69588-2-git-send-email-sugar.zhang@rock-chips.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bp/bp.git rc1-snp
-head:   e4ebc402b2c134524c0f8564a385e6f6613ad34e
-commit: 8ea03a1dd663ccedd7e684e01061452f29826514 [4/5] x86/cc: Add cc_platform_set/_clear() helpers
-config: x86_64-randconfig-123-20240326 (https://download.01.org/0day-ci/archive/20240326/202403261310.vQmXYKzL-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403261310.vQmXYKzL-lkp@intel.com/reproduce)
+Hi Sugar,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rockchip/for-next]
+[also build test WARNING on linus/master v6.9-rc1 next-20240325]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sugar-Zhang/clk-rockchip-Add-support-for-clk-input-output-switch/20240325-212211
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/1711340191-69588-2-git-send-email-sugar.zhang%40rock-chips.com
+patch subject: [PATCH v1 2/2] dt-bindings: clock: rockchip: Add support for clk input / output switch
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240326/202403261442.9P6rk3Wk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403261310.vQmXYKzL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403261442.9P6rk3Wk-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/coco/core.c:22:3: sparse: sparse: symbol 'cc_flags' was not declared. Should it be static?
-
-vim +/cc_flags +22 arch/x86/coco/core.c
-
-    18	
-    19	struct cc_attr_flags {
-    20		__u64 host_sev_snp	: 1,
-    21		      __resv		: 63;
-  > 22	} cc_flags;
-    23	
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/clock/rockchip,clk-out.yaml: title: 'Rockchip Clock Out Control Module Binding' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   	hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
