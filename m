@@ -1,101 +1,91 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB84A482EB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 10:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610AE23B1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 11:01:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711450395; cv=none; b=Eh2gEi3jeKeodTIf4zAvHEfob0a3Z6Ig8IroJhEmkEt0XgAmsyrADSEOPnjoQ+daqng/OaTDdv2V9Om0DD7of9sc+dsgPK7gwRHlByEFXzgJzlSHPqWHVtKkbSGQznglXxuUZF54yWYx35RjUcfuyVPxAlqv7kSF6bS9WM0pusg=
+	t=1711450883; cv=none; b=RW1i8Wrfi4uDukSq6doRT60HkpGQHvMxBxaIlvMD+h1OhCkGNyiGDz16eDPzblzv0E3wIKqUH+IFP8/Z7wkv6UqWCHcJyD8Gkshd+Yg9m5icnkmZXpvw9af+boky7QxKOxcRQpbc9mpRD6aYGjQ6UuK7/6SL411+fWyxKUDthJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711450395; c=relaxed/simple;
-	bh=G1koI1iBQTJ4grlw0wBtVnNB6H4BQ7AVJ+l8CiGmxi0=;
+	s=arc-20240116; t=1711450883; c=relaxed/simple;
+	bh=7e+iSGGoTTRDwjQti+60Rs3AtsM74fgnUrtOGNawl9I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rTIqq/YvVwkpjK+N9u9m/G31aMi/QF03nMbOidc/BKDT2HSaoGE17gAUHV6EAhYfUVoBgMstkWzQL5TvH6RgVIUCphfHepphWRvWjKrtBEmFCa9kwqN58cOFXLcoS/qOht2grYRUSHEQbYc7OINwP5667nt9b9fN+HtxahUK6l4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=L9D34bI5; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 In-Reply-To:Content-Type:Content-Disposition; b=rvWvv7U8Sj9YWvdIt3AA535DYCayyEPdgPHuguOBl4OAaHNA58iWN5WKNR7vN0tHphuYvp5Nhf3mVheVdV5e9Z1yAr5cTFZCoWVw+NMADwL0y0BzxVVE0G77ol+AfIsI44UCA1PrKMzQmDsHVwQ/ebZ9Atomh6jywHv7U3KCARA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hEeSIE3k; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="L9D34bI5"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D331A40E02A2;
-	Tue, 26 Mar 2024 10:53:11 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id T4pXNArnRqY3; Tue, 26 Mar 2024 10:53:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1711450387; bh=VCidKdh5/CkIzWvzvJJ7kKF4dJ3wX7736ijWd3jjOBE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L9D34bI5jjrYqbQJGNDKeI8rtA7bFMdXWa4BZqr2bK/ieW+8QpWHA27vcLuGgmKad
-	 v1D2jMD2HOy8QH7YvGoqGQP/J7Y+hB6S2d5zumWW9S+BzHx/PdLtHqvQ/8kQWyHzTj
-	 rG90A4Hgo7YM/nYU9TqNgmbgI1kg8w4jikNHnxFaMkKZJjzisn6w1g/jy8hqTOVegP
-	 Cm4Koe2wWKl/LwtHmk8Z+4JJ5MrXcJAiPXFyzvNLV/Kuo303IQl5mh2mQeL9njb/PC
-	 m1tBI8oJtGUntKM6kyzhpud60mJr5nFMNLIKcjQZFpgE0dvH1bvYjMlcYqHJH7nPyj
-	 gDBOjVbxrmJVsnAdYVczHBjKd464w7cIKnJh3oxOHdOBJmWB0x5VNY6OYkYtQjps8P
-	 zjabgMN6gOQ/oqMIuYtfsuEVyy8op/6Iwt+S/7FpnbYJspTqLddvNo2bgqz1xBu1Qr
-	 tS6YuWdFwMeALjRIAPLkv8yMoI6ymRSI3yfSag0ek5KHzswsf8Hrp30qzSKw/ChFc9
-	 0yBNhccUIK7F77pAaFvU41E/DK52DP8+Ijwce+Bluo/opgAxJtLJhcAk6qwnh3dvL6
-	 s1cGF5kmP2KvtaI5zn8HPbtWTTs/fvFJBSh3wFjqE+QYUzydxPraMwpiPMGCOtIBJm
-	 Yh9dixhq2EPNRTI3rs8LwKCc=
-Received: from zn.tnic (p5de8ecf7.dip0.t-ipconnect.de [93.232.236.247])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hEeSIE3k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1711450880;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OS9+8KCgImTKZpmWkQmpOX1bGSaDAjfaxoRd1SKIvkQ=;
+	b=hEeSIE3kgM+blxdL5/z+44XUM2UeTwQGOVF/DB8r04UZMrJsBBPeSnoa462o2WLHOJH0nV
+	jW7Ntk9w4Pqat+F3UDr/CU1TJYqEqiqChu2C/ocOe2HX+zkB5OqJ1uwslWgQjfaIbo0YNN
+	Xc3j+2orpbakubyDF76yzBdD9XXqPmc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-427-9LLy6N0pNOK334SU1Lx_mQ-1; Tue, 26 Mar 2024 07:01:16 -0400
+X-MC-Unique: 9LLy6N0pNOK334SU1Lx_mQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C3E1740E00B2;
-	Tue, 26 Mar 2024 10:53:05 +0000 (UTC)
-Date: Tue, 26 Mar 2024 11:53:04 +0100
-From: Borislav Petkov <bp@alien8.de>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 42B14800264;
+	Tue, 26 Mar 2024 11:01:16 +0000 (UTC)
+Received: from localhost (unknown [10.72.116.12])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B2A21121312;
+	Tue, 26 Mar 2024 11:01:15 +0000 (UTC)
+Date: Tue, 26 Mar 2024 19:01:02 +0800
+From: Baoquan He <bhe@redhat.com>
 To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [bp:rc1-snp 4/5] arch/x86/coco/core.c:22:3: sparse: sparse:
- symbol 'cc_flags' was not declared. Should it be static?
-Message-ID: <20240326105304.GCZgKpEJQ3dFouKRHh@fat_crate.local>
-References: <202403261310.vQmXYKzL-lkp@intel.com>
+Subject: Re: [PATCH 1/7] mm/mm_init.c: remove the useless dma_reserve
+Message-ID: <ZgKq7lwLJiH3vGUA@MiWiFi-R3L-srv>
+References: <20240325150459.1045407-2-bhe@redhat.com>
+ <202403261645.M4PkWdmb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <202403261645.M4PkWdmb-lkp@intel.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202403261310.vQmXYKzL-lkp@intel.com>
 
-On Tue, Mar 26, 2024 at 01:50:02PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bp/bp.git rc1-snp
-> head:   e4ebc402b2c134524c0f8564a385e6f6613ad34e
-> commit: 8ea03a1dd663ccedd7e684e01061452f29826514 [4/5] x86/cc: Add cc_platform_set/_clear() helpers
-> config: x86_64-randconfig-123-20240326 (https://download.01.org/0day-ci/archive/20240326/202403261310.vQmXYKzL-lkp@intel.com/config)
-> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403261310.vQmXYKzL-lkp@intel.com/reproduce)
+Hi,
+
+On 03/26/24 at 05:01pm, kernel test robot wrote:
+> Hi Baoquan,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on powerpc/next]
+> [also build test ERROR on powerpc/fixes linus/master v6.9-rc1]
+> [cannot apply to akpm-mm/mm-everything next-20240326]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/mm-mm_init-c-remove-the-useless-dma_reserve/20240325-230756
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+> patch link:    https://lore.kernel.org/r/20240325150459.1045407-2-bhe%40redhat.com
+> patch subject: [PATCH 1/7] mm/mm_init.c: remove the useless dma_reserve
+> config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240326/202403261645.M4PkWdmb-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403261645.M4PkWdmb-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403261310.vQmXYKzL-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> arch/x86/coco/core.c:22:3: sparse: sparse: symbol 'cc_flags' was not declared. Should it be static?
-> 
-> vim +/cc_flags +22 arch/x86/coco/core.c
-> 
->     18	
->     19	struct cc_attr_flags {
->     20		__u64 host_sev_snp	: 1,
->     21		      __resv		: 63;
->   > 22	} cc_flags;
->     23	
-> 
-> -- 
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403261645.M4PkWdmb-lkp@intel.com/
 
-Fixed.
+This patch series is discarded, please skip the testing for it.
 
-Thanks!
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
