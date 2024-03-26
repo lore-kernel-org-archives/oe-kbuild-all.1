@@ -1,57 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3775C911
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 10:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42D423B1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 10:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711448399; cv=none; b=aHyQofzzTb+7I90eoZdlXlBiU1bh1dkVgaagqIlmgU6IiGtBg/sFhokmPONkKIJi867FnYDLh8ytVxBcz7wy+Ttc8icTpAVw0lhJHGQamwYItfwvQjR/HTNv3xnqHjQuiPlONjE73nYsHKEzbQHykHD1XCwOAfcpqNhIcxwkF94=
+	t=1711449720; cv=none; b=nAOciy01xOXV/M72wuRw6Th6eNwX0BLK/b3cZ18nVnzCzEwErk0s5sqjzBgDLO11LcUqv2k9RcivHZHFD4jN0D5rEx+XwEFI+xWqQ9DF4gdQsxa/nAtSj7h5pZSWKB1YgJDChciHTZj7ufSoru9kwTC9pk73HX/2uSthQWwNbu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711448399; c=relaxed/simple;
-	bh=g3ASmgDCqbf8tjBm9AZOWj7TmW7sHPV4+DBr1CoVb0A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gRd0jnMzE76J/1j3wwPEGMThT4IKE8saKXsqCeu9tKYymjBH70dufIw3brjlqyVuxXEjvsah3yy1MFH44bYOOOHeUTJBdu+yd8a6MoZuualTraa6reLzkWNy7wQ67ecOnLltl49NLUUIN03fOtlZSdUO3R/hK+QjZSJnyZqBR8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VA8nVgTX; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1711449720; c=relaxed/simple;
+	bh=V0xlVSPY1eZM/K/aJRiwX1434ypYi8e5VdyelvGCwYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q5OgM7qL2o7OwtJAFvh52XVPZZ2vanDrtnUEysWn7I53uZ4Hun2LzxFJgYQEvXMSZ+ftTpKC8rUp84a7WK8maqFM7z3dUptFdLm10lKdjKn0p0Sg+SnrDOJRUTVhdDEmF0o3Jx5HHAtaE4zXAX3g0jzSZsEwgtU+LAHLH05Tj7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HI9T0R6u; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VA8nVgTX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HI9T0R6u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711448398; x=1742984398;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g3ASmgDCqbf8tjBm9AZOWj7TmW7sHPV4+DBr1CoVb0A=;
-  b=VA8nVgTXL2Z2J2gnajeKLCSg8z94b+vMcxhsvkIW2UoHNuoiD6WuFZCp
-   IIj1JCcrxgS2oIUpree15c7y0QnUsvOU2NBa/ZFSPuLAzL2vd0nj3687H
-   6uItrRcbx4keMIg08X5kzhW5xZ9xeVJnFHKWm2qc0dR566aEfMcIFf+hE
-   oaCDFFRnca8lk0nPcNXL1HZC92WYHwS2wgFLGgkQv44cUgodyHZGZpmls
-   JeWgDR86hr6FiV8tdOe5X4HcjARoSFGw27Tv8kukxWVsPeOdOAh+Ii3hF
-   vnb7oiMCOkmXRIdopU9NymPRScyLroWwrq070qlz9qLzQ1s7kWSsIa9+U
-   w==;
-X-CSE-ConnectionGUID: 21xiQ1RlS+KKeK26rU5KdQ==
-X-CSE-MsgGUID: bC//8ICbR4SpaJwQ1DKi9Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6355728"
+  t=1711449719; x=1742985719;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=V0xlVSPY1eZM/K/aJRiwX1434ypYi8e5VdyelvGCwYw=;
+  b=HI9T0R6upCuFwXgf8NNaVIz7eW1bODXV/VWt3DzOvvyNyr4V3vO+oUSu
+   /TH/tjmANmVgLSysgqssUHur1xaUkuF79plba6qlaIE4gFRpK1p7yYvgZ
+   1StdD94hO+ctckdXC44sdcPP/y3D83D4lxhul+WhZmxvBZzXvX0KF6Zyg
+   8ND6XUyp03alvPZ4D594Ru1UKFzf0UfOyWS7Onsgqt2J+bCwrl94IvW9a
+   Sp2wgLUlCEIqHFCxJCo6RbRI5v4IsTkXg5Jza4XxXSL0NQm0yhsybovxm
+   iFCxQ/IwBPLf6lrAp5acKabqCq4dKi+Z7FN4pCelFjdKk7jsxdnBF89V4
+   Q==;
+X-CSE-ConnectionGUID: EGAiRuJARxqpVOYHks2ZzA==
+X-CSE-MsgGUID: ijP6VDaSTMqEa14JfFmKFQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="31929311"
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="6355728"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 03:19:57 -0700
+   d="scan'208";a="31929311"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 03:41:58 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="15978491"
+   d="scan'208";a="20476262"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Mar 2024 03:19:55 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Mar 2024 03:41:55 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rp3uK-000NIp-2x;
-	Tue, 26 Mar 2024 10:19:52 +0000
-Date: Tue, 26 Mar 2024 18:19:43 +0800
+	id 1rp4Fd-000NJC-0b;
+	Tue, 26 Mar 2024 10:41:53 +0000
+Date: Tue, 26 Mar 2024 18:41:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>
-Subject: [pci:enumeration 28/28] drivers/mfd/intel-lpss-pci.c:57:49: error:
- 'PCI_IRQ_LEGACY' undeclared; did you mean 'NR_IRQS_LEGACY'?
-Message-ID: <202403261840.1RP419n5-lkp@intel.com>
+To: Kuniyuki Iwashima <kuniyu@amazon.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	David Ahern <dsahern@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Jianguo Wu <wujianguo106@163.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>
+Subject: Re: [PATCH v1 net 1/8] tcp: Fix bind() regression for v6-only
+ wildcard and v4-mapped-v6 non-wildcard addresses.
+Message-ID: <202403261847.wj7EwLat-lkp@intel.com>
+References: <20240325181923.48769-2-kuniyu@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,82 +68,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240325181923.48769-2-kuniyu@amazon.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git enumeration
-head:   8694697a54096ae97eb38bf4144f2d96c64c68f2
-commit: 8694697a54096ae97eb38bf4144f2d96c64c68f2 [28/28] PCI: Remove PCI_IRQ_LEGACY
-config: i386-buildonly-randconfig-001-20240326 (https://download.01.org/0day-ci/archive/20240326/202403261840.1RP419n5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403261840.1RP419n5-lkp@intel.com/reproduce)
+Hi Kuniyuki,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/tcp-Fix-bind-regression-for-v6-only-wildcard-and-v4-mapped-v6-non-wildcard-addresses/20240326-024257
+base:   net/main
+patch link:    https://lore.kernel.org/r/20240325181923.48769-2-kuniyu%40amazon.com
+patch subject: [PATCH v1 net 1/8] tcp: Fix bind() regression for v6-only wildcard and v4-mapped-v6 non-wildcard addresses.
+config: alpha-defconfig (https://download.01.org/0day-ci/archive/20240326/202403261847.wj7EwLat-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403261847.wj7EwLat-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403261840.1RP419n5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403261847.wj7EwLat-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/mfd/intel-lpss-pci.c: In function 'intel_lpss_pci_probe':
->> drivers/mfd/intel-lpss-pci.c:57:49: error: 'PCI_IRQ_LEGACY' undeclared (first use in this function); did you mean 'NR_IRQS_LEGACY'?
-      57 |         ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_LEGACY);
-         |                                                 ^~~~~~~~~~~~~~
-         |                                                 NR_IRQS_LEGACY
-   drivers/mfd/intel-lpss-pci.c:57:49: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/net/inet_sock.h:22,
+                    from include/net/inet_connection_sock.h:21,
+                    from net/ipv4/inet_connection_sock.c:15:
+   net/ipv4/inet_connection_sock.c: In function '__inet_bhash2_conflict':
+>> include/net/sock.h:375:37: error: 'const struct sock_common' has no member named 'skc_v6_rcv_saddr'; did you mean 'skc_rcv_saddr'?
+     375 | #define sk_v6_rcv_saddr __sk_common.skc_v6_rcv_saddr
+         |                                     ^~~~~~~~~~~~~~~~
+   net/ipv4/inet_connection_sock.c:207:66: note: in expansion of macro 'sk_v6_rcv_saddr'
+     207 |             (sk->sk_family == AF_INET || ipv6_addr_v4mapped(&sk->sk_v6_rcv_saddr)))
+         |                                                                  ^~~~~~~~~~~~~~~
 
 
-vim +57 drivers/mfd/intel-lpss-pci.c
+vim +375 include/net/sock.h
 
-e6b142060b2401 Hans de Goede        2021-12-03  44  
-4b45efe8526359 Andy Shevchenko      2015-07-27  45  static int intel_lpss_pci_probe(struct pci_dev *pdev,
-4b45efe8526359 Andy Shevchenko      2015-07-27  46  				const struct pci_device_id *id)
-4b45efe8526359 Andy Shevchenko      2015-07-27  47  {
-9ffe4c1089f6c3 Andy Shevchenko      2023-11-24  48  	const struct intel_lpss_platform_info *data = (void *)id->driver_data;
-ac9538f6007e1c Aleksandrs Vinarskis 2023-12-21  49  	const struct pci_device_id *quirk_pci_info;
-4b45efe8526359 Andy Shevchenko      2015-07-27  50  	struct intel_lpss_platform_info *info;
-4b45efe8526359 Andy Shevchenko      2015-07-27  51  	int ret;
-4b45efe8526359 Andy Shevchenko      2015-07-27  52  
-4b45efe8526359 Andy Shevchenko      2015-07-27  53  	ret = pcim_enable_device(pdev);
-4b45efe8526359 Andy Shevchenko      2015-07-27  54  	if (ret)
-4b45efe8526359 Andy Shevchenko      2015-07-27  55  		return ret;
-4b45efe8526359 Andy Shevchenko      2015-07-27  56  
-6978c7d2dd81e0 Andy Shevchenko      2023-11-06 @57  	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_LEGACY);
-0c679fffd67605 Andy Shevchenko      2023-11-30  58  	if (ret < 0)
-6978c7d2dd81e0 Andy Shevchenko      2023-11-06  59  		return ret;
-6978c7d2dd81e0 Andy Shevchenko      2023-11-06  60  
-9ffe4c1089f6c3 Andy Shevchenko      2023-11-24  61  	info = devm_kmemdup(&pdev->dev, data, sizeof(*info), GFP_KERNEL);
-4b45efe8526359 Andy Shevchenko      2015-07-27  62  	if (!info)
-4b45efe8526359 Andy Shevchenko      2015-07-27  63  		return -ENOMEM;
-4b45efe8526359 Andy Shevchenko      2015-07-27  64  
-3b6dba220e67ed Andy Shevchenko      2023-11-24  65  	/* No need to check mem and irq here as intel_lpss_probe() does it for us */
-6978c7d2dd81e0 Andy Shevchenko      2023-11-06  66  	info->mem = pci_resource_n(pdev, 0);
-6978c7d2dd81e0 Andy Shevchenko      2023-11-06  67  	info->irq = pci_irq_vector(pdev, 0);
-4b45efe8526359 Andy Shevchenko      2015-07-27  68  
-ac9538f6007e1c Aleksandrs Vinarskis 2023-12-21  69  	quirk_pci_info = pci_match_id(quirk_ids, pdev);
-ac9538f6007e1c Aleksandrs Vinarskis 2023-12-21  70  	if (quirk_pci_info)
-ac9538f6007e1c Aleksandrs Vinarskis 2023-12-21  71  		info->quirks = quirk_pci_info->driver_data;
-e6b142060b2401 Hans de Goede        2021-12-03  72  
-76380a607ba0b2 Kai-Heng Feng        2019-07-05  73  	pdev->d3cold_delay = 0;
-76380a607ba0b2 Kai-Heng Feng        2019-07-05  74  
-4b45efe8526359 Andy Shevchenko      2015-07-27  75  	/* Probably it is enough to set this for iDMA capable devices only */
-4b45efe8526359 Andy Shevchenko      2015-07-27  76  	pci_set_master(pdev);
-85a9419a254e23 Andy Shevchenko      2016-11-15  77  	pci_try_set_mwi(pdev);
-4b45efe8526359 Andy Shevchenko      2015-07-27  78  
-4b45efe8526359 Andy Shevchenko      2015-07-27  79  	ret = intel_lpss_probe(&pdev->dev, info);
-4b45efe8526359 Andy Shevchenko      2015-07-27  80  	if (ret)
-4b45efe8526359 Andy Shevchenko      2015-07-27  81  		return ret;
-4b45efe8526359 Andy Shevchenko      2015-07-27  82  
-4b45efe8526359 Andy Shevchenko      2015-07-27  83  	pm_runtime_put(&pdev->dev);
-4b45efe8526359 Andy Shevchenko      2015-07-27  84  	pm_runtime_allow(&pdev->dev);
-4b45efe8526359 Andy Shevchenko      2015-07-27  85  
-4b45efe8526359 Andy Shevchenko      2015-07-27  86  	return 0;
-4b45efe8526359 Andy Shevchenko      2015-07-27  87  }
-4b45efe8526359 Andy Shevchenko      2015-07-27  88  
-
-:::::: The code at line 57 was first introduced by commit
-:::::: 6978c7d2dd81e0a3f9d30d1fbdb013a5ae5fabaf mfd: intel-lpss: Use PCI APIs instead of dereferencing
-
-:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-:::::: CC: Lee Jones <lee@kernel.org>
+4dc6dc7162c08b Eric Dumazet             2009-07-15  354  
+68835aba4d9b74 Eric Dumazet             2010-11-30  355  #define sk_dontcopy_begin	__sk_common.skc_dontcopy_begin
+68835aba4d9b74 Eric Dumazet             2010-11-30  356  #define sk_dontcopy_end		__sk_common.skc_dontcopy_end
+4dc6dc7162c08b Eric Dumazet             2009-07-15  357  #define sk_hash			__sk_common.skc_hash
+5080546682bae3 Eric Dumazet             2013-10-02  358  #define sk_portpair		__sk_common.skc_portpair
+05dbc7b59481ca Eric Dumazet             2013-10-03  359  #define sk_num			__sk_common.skc_num
+05dbc7b59481ca Eric Dumazet             2013-10-03  360  #define sk_dport		__sk_common.skc_dport
+5080546682bae3 Eric Dumazet             2013-10-02  361  #define sk_addrpair		__sk_common.skc_addrpair
+5080546682bae3 Eric Dumazet             2013-10-02  362  #define sk_daddr		__sk_common.skc_daddr
+5080546682bae3 Eric Dumazet             2013-10-02  363  #define sk_rcv_saddr		__sk_common.skc_rcv_saddr
+^1da177e4c3f41 Linus Torvalds           2005-04-16  364  #define sk_family		__sk_common.skc_family
+^1da177e4c3f41 Linus Torvalds           2005-04-16  365  #define sk_state		__sk_common.skc_state
+^1da177e4c3f41 Linus Torvalds           2005-04-16  366  #define sk_reuse		__sk_common.skc_reuse
+055dc21a1d1d21 Tom Herbert              2013-01-22  367  #define sk_reuseport		__sk_common.skc_reuseport
+9fe516ba3fb29b Eric Dumazet             2014-06-27  368  #define sk_ipv6only		__sk_common.skc_ipv6only
+26abe14379f8e2 Eric W. Biederman        2015-05-08  369  #define sk_net_refcnt		__sk_common.skc_net_refcnt
+^1da177e4c3f41 Linus Torvalds           2005-04-16  370  #define sk_bound_dev_if		__sk_common.skc_bound_dev_if
+^1da177e4c3f41 Linus Torvalds           2005-04-16  371  #define sk_bind_node		__sk_common.skc_bind_node
+8feaf0c0a5488b Arnaldo Carvalho de Melo 2005-08-09  372  #define sk_prot			__sk_common.skc_prot
+07feaebfcc10cd Eric W. Biederman        2007-09-12  373  #define sk_net			__sk_common.skc_net
+efe4208f47f907 Eric Dumazet             2013-10-03  374  #define sk_v6_daddr		__sk_common.skc_v6_daddr
+efe4208f47f907 Eric Dumazet             2013-10-03 @375  #define sk_v6_rcv_saddr	__sk_common.skc_v6_rcv_saddr
+33cf7c90fe2f97 Eric Dumazet             2015-03-11  376  #define sk_cookie		__sk_common.skc_cookie
+70da268b569d32 Eric Dumazet             2015-10-08  377  #define sk_incoming_cpu		__sk_common.skc_incoming_cpu
+8e5eb54d303b7c Eric Dumazet             2015-10-08  378  #define sk_flags		__sk_common.skc_flags
+ed53d0ab761f5c Eric Dumazet             2015-10-08  379  #define sk_rxhash		__sk_common.skc_rxhash
+efe4208f47f907 Eric Dumazet             2013-10-03  380  
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  381  	__cacheline_group_begin(sock_write_rx);
+43f51df4172955 Eric Dumazet             2021-11-15  382  
+9115e8cd2a0c6e Eric Dumazet             2016-12-03  383  	atomic_t		sk_drops;
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  384  	__s32			sk_peek_off;
+9115e8cd2a0c6e Eric Dumazet             2016-12-03  385  	struct sk_buff_head	sk_error_queue;
+b178bb3dfc30d9 Eric Dumazet             2010-11-16  386  	struct sk_buff_head	sk_receive_queue;
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  387  	/*
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  388  	 * The backlog queue is special, it is always used with
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  389  	 * the per-socket spinlock held and requires low latency
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  390  	 * access. Therefore we special case it's implementation.
+b178bb3dfc30d9 Eric Dumazet             2010-11-16  391  	 * Note : rmem_alloc is in this structure to fill a hole
+b178bb3dfc30d9 Eric Dumazet             2010-11-16  392  	 * on 64bit arches, not because its logically part of
+b178bb3dfc30d9 Eric Dumazet             2010-11-16  393  	 * backlog.
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  394  	 */
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  395  	struct {
+b178bb3dfc30d9 Eric Dumazet             2010-11-16  396  		atomic_t	rmem_alloc;
+b178bb3dfc30d9 Eric Dumazet             2010-11-16  397  		int		len;
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  398  		struct sk_buff	*head;
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  399  		struct sk_buff	*tail;
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  400  	} sk_backlog;
+b178bb3dfc30d9 Eric Dumazet             2010-11-16  401  #define sk_rmem_alloc sk_backlog.rmem_alloc
+2c8c56e15df3d4 Eric Dumazet             2014-11-11  402  
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  403  	__cacheline_group_end(sock_write_rx);
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  404  
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  405  	__cacheline_group_begin(sock_read_rx);
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  406  	/* early demux fields */
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  407  	struct dst_entry __rcu	*sk_rx_dst;
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  408  	int			sk_rx_dst_ifindex;
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  409  	u32			sk_rx_dst_cookie;
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  410  
 
 -- 
 0-DAY CI Kernel Test Service
