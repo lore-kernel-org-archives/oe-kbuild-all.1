@@ -1,96 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp-fw-80009.amazon.com (smtp-fw-80009.amazon.com [99.78.197.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A17535AB;
-	Tue, 26 Mar 2024 14:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E65D80055
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 14:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711461651; cv=none; b=MdXH7nZ5svfpJ/QcA6lsfK2I6/JxgD7jPNDxHD6CK1tSjhFKFT3+5P/Ix3fYbJgVecwD/XkeJQ4QwBWMyTFuIx750aMXwHBRPzklo3SJNWgcRD92UU8a0lxWsthIEp+ZlK14ArVi2khj57JRlIXyop/40fe2m5jWseSyhjf+csc=
+	t=1711461928; cv=none; b=oOw/eSXEQhquw74MZQHi+cjSnJc9IUi2uvkto98x5Uyj4NtyeStX3Dax/vRbhjEhsqXM1fpJ2Ztqr7R1K+37nusG0e8Ek8n5u2diiofINk15t6/FDoQMi4X3+BQLFNUw1V9gADPf7uoRRIfLaL4rLi3AwY4eF8y7qB0chb/NBdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711461651; c=relaxed/simple;
-	bh=dPmw/P3DQOIQeQOCPuoNevPMcY+dNrGN9ALSzGJjMyE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IpcnIqFCL4WsKTbuVdzt+h9XrFFGbmNV43PiwCfJbP9OTH2ZlretwSj4xMVDIwo9pEZA/MR+cskJHecp+6oRrSlIW20NNS4oz3WCzTJuDu1LhC/ekYyAI23RmhxdeYtvUPYjx8D12YNq08olnXJyXWHJUIAMVSRcvlcPPd/Bjfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ndr8TbKm; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1711461928; c=relaxed/simple;
+	bh=N3kss6PrGo5tc5VrZLQwv/+ImijnuKSAdKcXE3KeeMA=;
+	h=Subject:Message-ID:Date:MIME-Version:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=FwgRy2b7fYt/nReWgdaH1BOjcfkwDp+FHCF4zpuw35Kw9ctJUOrEBLhLj0DYfGnZrc2OYHzImRQF0J7Gu8cU61VXFQyxibYWxYmOU/8ujyjB/Df6hqD+Pj8wyMeL6r6I/ZacSgzGgdJxrIALrEWuu5/OrYXsZkE25zVWMPzLPB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=lkYOKy2y; arc=none smtp.client-ip=99.78.197.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ndr8TbKm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711461649; x=1742997649;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dPmw/P3DQOIQeQOCPuoNevPMcY+dNrGN9ALSzGJjMyE=;
-  b=ndr8TbKmLA/r4SrYIasVur+IGC9qXFVGi9kJEvdzroWFFnGDcysXvjfy
-   /C0Pm+rtRP5oYytcAcHGK9wqJrGxUz8f3Ti8gRKdd03r0zCTrv+n7upX7
-   zrzXnOpS3faa4GbSGp7koTCQ1FkUM1jWbF7ngKPjfM5d4xgtEMRa4q+le
-   HhjjqGE1GBWtGOOY2Q1R3v/FTeIQTI5FvFZKGLONP6kciAVNHk9suLUvn
-   9QB89lyof/a/SBrKNyccsO3ZPuCes6RyFyNWhvraUtCLHY0k4yCSoF1yH
-   CU9D5faazYL7HWuF2WhDI72WSVNTt1KXZaWoboGZBh3lnKwYXIEycU5Q3
-   w==;
-X-CSE-ConnectionGUID: B/mJAXtaSWCMZdrHLbPe3Q==
-X-CSE-MsgGUID: AaZBi65pQLyxv2Jjkg1OBA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="17055929"
-X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="17055929"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 07:00:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="914881298"
-X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="914881298"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 07:00:47 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rp7M5-0000000GJrL-1JZ2;
-	Tue, 26 Mar 2024 16:00:45 +0200
-Date: Tue, 26 Mar 2024 16:00:45 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [broonie-ci:fileECoqy0 5/6]
- sound/soc/generic/simple-card-utils.c:755:14: error: no member named 'gpio'
- in 'struct snd_soc_jack_gpio'
-Message-ID: <ZgLVDe5PfLMHOSGD@smile.fi.intel.com>
-References: <202403261005.2Hemu0jm-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="lkYOKy2y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
+  s=amazon201209; t=1711461927; x=1742997927;
+  h=message-id:date:mime-version:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:subject;
+  bh=3XwGW7dl6z5Ju7WwHMpRk8zOsGdEdnYbJH7m56E2TAY=;
+  b=lkYOKy2yMLhbTn2uEs+yY36xX0QPAbgBlLSsIoSt4JTbk6vvqQm4ZpUk
+   EefCmgJERnvJ5jbghuG6bMfYQiuADtUXEERMHhRD4QrjUu1yEtuJQ/blh
+   v1I8fat40Witpc3OUjUzpdO/G+flITcuaGQWEeJd/Ub6RVlGdvOkXhj1I
+   A=;
+X-IronPort-AV: E=Sophos;i="6.07,156,1708387200"; 
+   d="scan'208";a="76291474"
+Subject: Re: [PATCH v3 4/4] virt: vmgenid: add support for devicetree bindings
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.25.36.210])
+  by smtp-border-fw-80009.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 14:05:22 +0000
+Received: from EX19MTAEUB001.ant.amazon.com [10.0.43.254:24611]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.36.129:2525] with esmtp (Farcaster)
+ id 20f00147-80a5-4252-8699-a08fdd204313; Tue, 26 Mar 2024 14:05:21 +0000 (UTC)
+X-Farcaster-Flow-ID: 20f00147-80a5-4252-8699-a08fdd204313
+Received: from EX19D036EUC002.ant.amazon.com (10.252.61.191) by
+ EX19MTAEUB001.ant.amazon.com (10.252.51.28) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28; Tue, 26 Mar 2024 14:05:21 +0000
+Received: from [192.168.18.216] (10.106.83.18) by
+ EX19D036EUC002.ant.amazon.com (10.252.61.191) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28; Tue, 26 Mar 2024 14:05:15 +0000
+Message-ID: <b8029b57-a33c-4305-ad27-5848f0702053@amazon.co.uk>
+Date: Tue, 26 Mar 2024 14:05:11 +0000
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202403261005.2Hemu0jm-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, kernel test robot
+	<lkp@intel.com>, Sudan Landge <sudanl@amazon.com>, <tytso@mit.edu>,
+	<Jason@zx2c4.com>, <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+	<conor+dt@kernel.org>, <sathyanarayanan.kuppuswamy@linux.intel.com>,
+	<thomas.lendacky@amd.com>, <dan.j.williams@intel.com>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, <graf@amazon.de>, <dwmw@amazon.co.uk>,
+	<bchalios@amazon.es>, <xmarcalx@amazon.co.uk>
+References: <20240325195306.13133-5-sudanl@amazon.com>
+ <202403262047.aZVjmDY5-lkp@intel.com>
+ <727c3a30-d704-4d28-af40-a01e28ca042e@linaro.org>
+From: "Landge, Sudan" <sudanl@amazon.co.uk>
+In-Reply-To: <727c3a30-d704-4d28-af40-a01e28ca042e@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EX19D031UWA002.ant.amazon.com (10.13.139.96) To
+ EX19D036EUC002.ant.amazon.com (10.252.61.191)
 
-On Tue, Mar 26, 2024 at 10:33:35AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git fileECoqy0
-> head:   3c398a2eb9081a10c34a40701159a34319a35f19
-> commit: c81737adb6536b26ebf9176179b3551cb33be4c0 [5/6] ASoC: soc-jack: Get rid of legacy GPIO support
-> config: x86_64-buildonly-randconfig-002-20240325 (https://download.01.org/0day-ci/archive/20240326/202403261005.2Hemu0jm-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403261005.2Hemu0jm-lkp@intel.com/reproduce)
+
+
+On 26/03/2024 12:53, Krzysztof Kozlowski wrote:
+> CAUTION: This email originated from outside of the organization. Do not click links or open attachments unless you can confirm the sender and know the content is safe.
 > 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403261005.2Hemu0jm-lkp@intel.com/
 > 
-> All errors (new ones prefixed by >>):
 > 
-> >> sound/soc/generic/simple-card-utils.c:755:14: error: no member named 'gpio' in 'struct snd_soc_jack_gpio'
->      755 |         sjack->gpio.gpio = -ENOENT;
->          |         ~~~~~~~~~~~ ^
->    1 error generated.
-
-Already fixed.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> On 26/03/2024 13:48, kernel test robot wrote:
+>> Hi Sudan,
+>>
+>> kernel test robot noticed the following build errors:
+> 
+> ...
+> 
+>>     134                ret = setup_vmgenid_state(state, remapped_ptr);
+>>     135                if (ret)
+>>     136                        goto out;
+>>     137
+>>     138                state->irq = platform_get_irq(pdev, 0);
+>>     139                if (state->irq < 0) {
+>>     140                        ret = state->irq;
+>>     141                        goto out;
+>>     142                }
+>>     143                pdev->dev.driver_data = state;
+>>     144
+>>     145                ret =  devm_request_irq(&pdev->dev, state->irq,
+>>     146                                        vmgenid_of_irq_handler,
+>>     147                                        IRQF_SHARED, "vmgenid", &pdev->dev);
+>>     148                if (ret)
+>>     149                        pdev->dev.driver_data = NULL;
+>>     150
+>>     151        out:
+>>     152                return ret;
+>>     153        #else
+>>   > 154                (void)dev;
+> 
+> So this code was not even built...
+> 
+> Best regards,
+> Krzysztof
+> 
+I built it with CONFIG_ACPI and CONFIG_OF enabled but missed to build it 
+without the CONFIG_OF flag. As mentioned in the other mail I'll make 
+sure to run all required tools and check for all combinations before 
+posting future patches.
