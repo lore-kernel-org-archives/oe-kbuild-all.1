@@ -1,64 +1,55 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4408A13667F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 08:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98581292FD;
+	Tue, 26 Mar 2024 08:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711440420; cv=none; b=Y51zsfH38vKZnnLkQIUT7fgNtQOosXAL+lT1SIM6Qh8/Y+FW8mNl4vtqlGwy8Ypr6UGNFh3vUclcMovFUoe1YYppWBkfL6PTAmyz/8C1WOl+PruG4Toyv/+84frqiEfKLLUKWGSEl9DPZwIzGe2Hy+7cnblIZ01UICXyV8CoPNg=
+	t=1711441735; cv=none; b=PPwLCzgHiSt+53sZnOo07uctRLTmq3wmtjg307TvKAY+feb+SKB+OvcGAvdrBpA16jzmjJ1MQnLnQIdLCZ53lO+/xL20ZTPFh2if9K2ASqaJLL6oFDRo+i1G8zzsYzABHh+zDWyWAVgpPP+2k7KJcM9WZuO+xtUbDwqFRZtPmGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711440420; c=relaxed/simple;
-	bh=OauDzudJoTRweTb/Sc4PFkTacXGPjRj191RvQaU7XSM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=flj91kedjKJyrmftENuf7ajtWFHrqpJoULg41z4d6nPxekoGP0Cz06VXUMPu8WWkEwFTKY5cKLaHZ77FmlPs1ZenS/UF5bS3gqqHRPn63Es9Mi8GaNl7Ov9aD87LT1hnCPGe1BdaLSsDSzDMkY3F+sVs2LrvRbmLd3iUdzpzOBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KnnT3Y/W; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711441735; c=relaxed/simple;
+	bh=3MqfAJIaReLHkb92Ga4SmyIRtvI/vwxCb6zYOjqUiSo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XkRUUycauFoKyjoDYdDsQBWAAoo9kbKDaBcUjRY0JK4mlYc2XJURAO5m5iq+xrTh9plT0vcj1VmyAe417pLeyYNVcqTVbBb6TOmsMDC8gtwMMqq6mTegkZcV/Dtc/tKymywGCHM7boYw37KDaI0bZDB443wDRxpyyCqwKUIhYrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VIfL9lFh; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KnnT3Y/W"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-566e869f631so5519437a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 01:06:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711440416; x=1712045216; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Wv7Cgtq2y08WcN50NFCCBaGIgPs6PtJL2P5kxvAuzUg=;
-        b=KnnT3Y/WEnJM8XhBMOmwDOjn/VVwRUIHzk1yyLeklhFGzJxe/6os8Dt1fCimKqqC5h
-         fT07fyLHbzCh9rzlRDTwBO3yz2BiZPHhLzXWSxWtCKanWbsWhw5K8+SFdAoF4lKQJTD2
-         sfoWCMffQ9Gh6ztH1X+cBIXzalZWXbCfR5k1pI2xzOmGJw4qAVQUxx42SzHQeXyQGufa
-         euXzZMc3VufOYHV5WDFEq1Vi3wwItPQhT1ilqXMckiK2lgZcx/wAOktcqL+TkRP9pUSw
-         cZKTHYcLef5d7EwPzGBWnaPFd2Tv5O001C08NITAncHL8w4S1plBH8vl+iMOuy+jtIZb
-         DFDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711440416; x=1712045216;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wv7Cgtq2y08WcN50NFCCBaGIgPs6PtJL2P5kxvAuzUg=;
-        b=P46tJ597dkINUkuNrUzbDE06LL5oTkH0iq5ZRK3qGsi3BJo5BJwJysZQZai5z9EgL+
-         jFWYItVwajW5rWhio20utNRJ/VBcJ2F8Iy5MBdDVI3RYSyxn3vPXxwV6r8uQ/MADvfeX
-         mExy3wBuOBJpuOY1gNr7FWb3d2XjtpIOWvlMqbFttBRfooh/P2/jUVH3AnxzBvk2gPHL
-         77sraqp9F+0zQIbG9FRqLIl7G6tjbwYoS2vY78NLe0pDwxc+TWW3FsLB37ojPqE+rSZ8
-         yj6ffSjvUf5LZ5DTX/AeKQLNn0dKjCv5PKIcSEzldBIMDpt69vdtnG26siX1IwUjIeX1
-         T3cg==
-X-Forwarded-Encrypted: i=1; AJvYcCXPdKpbSXWCFvh0GOPCdGycCmClui6i3XGK7v+iYP60KfR/SLe92HnSbOE26tivCRWG6zu3wAuUJysrjpTWN9mv8NYKW0ACEWUKwnsCUg==
-X-Gm-Message-State: AOJu0YwCeLmYbesDQKMB3d5s313Af8EKZdw0zLkB5XIfx5zm9qUPdNGD
-	oSTjIDu2k4KXhLF5vOCBjJ4qjOFqgRmkWdtXsj7T/TT2cZdglH8KV9NU43ZjNQg=
-X-Google-Smtp-Source: AGHT+IEH3RjpGzp1NQMAlYAFpPpoGetXOyQI/NaUp8Uj0p16ni+pZo2x7jIBSS9R/jee1UWz7EtFdQ==
-X-Received: by 2002:a50:a6dc:0:b0:56b:a017:e9 with SMTP id f28-20020a50a6dc000000b0056ba01700e9mr5395742edc.41.1711440416124;
-        Tue, 26 Mar 2024 01:06:56 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id k18-20020a056402049200b0056c1cba8480sm1110471edv.25.2024.03.26.01.06.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Mar 2024 01:06:55 -0700 (PDT)
-Date: Tue, 26 Mar 2024 11:06:51 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Chao Yu <yuchao0@huawei.com>,
-	Chao Yu <chao@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Subject: [chao:wip 7/9] fs/f2fs/data.c:2590 f2fs_should_update_outplace()
- error: we previously assumed 'fio' could be null (see line 2581)
-Message-ID: <1239448e-5471-4c5d-8e80-7380af16660d@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VIfL9lFh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711441734; x=1742977734;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3MqfAJIaReLHkb92Ga4SmyIRtvI/vwxCb6zYOjqUiSo=;
+  b=VIfL9lFhVIhAdJCRcVZPV1Vtf+TqamhtYsAW7CSlqCL4u9WXb17Z7xzK
+   P/GzJsZDy3tFHBvjvFR1ea/cmZOw8fU2kxVUkEm6nkqlWRE87qQo0UAAA
+   vs43t3Uw5DgQ6Ahxmx44p05Rq1aQPBo2Qe7IEWaZPWNb/L3EGzShaTHkP
+   LGz0nHYG4UmwxzHllrufcr591vuxdfaaEsKIOOESuelbV/9RQLzMuLWS6
+   NSj+SnhmxgqON/+dr5rRiwausQRbcDDx/b1gxTQ7JNDWwDnQOA7Hf5U3k
+   6NFJdKysAasyZylCj2Wu3c7XChxhShq5K9SoPsKG6e2YEAFII4idonB0W
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="17026536"
+X-IronPort-AV: E=Sophos;i="6.07,155,1708416000"; 
+   d="scan'208";a="17026536"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 01:28:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,155,1708416000"; 
+   d="scan'208";a="39008975"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 26 Mar 2024 01:28:52 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rp2Ar-000NEY-2Z;
+	Tue, 26 Mar 2024 08:28:49 +0000
+Date: Tue, 26 Mar 2024 16:27:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Baoquan He <bhe@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/7] mm/mm_init.c: remove the useless dma_reserve
+Message-ID: <202403261658.HmbcBKca-lkp@intel.com>
+References: <20240325150459.1045407-2-bhe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,82 +58,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240325150459.1045407-2-bhe@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git wip
-head:   ffa2225cad631419f3944c962518291a7df50367
-commit: aac0576c96c228281b5db26528047da6a585fe84 [7/9] f2fs: zone: allow IPU in regular block device
-config: xtensa-randconfig-r081-20240325 (https://download.01.org/0day-ci/archive/20240326/202403260735.dL4awPJc-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
+Hi Baoquan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes linus/master v6.9-rc1]
+[cannot apply to akpm-mm/mm-everything next-20240325]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/mm-mm_init-c-remove-the-useless-dma_reserve/20240325-230756
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20240325150459.1045407-2-bhe%40redhat.com
+patch subject: [PATCH 1/7] mm/mm_init.c: remove the useless dma_reserve
+config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240326/202403261658.HmbcBKca-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403261658.HmbcBKca-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403260735.dL4awPJc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403261658.HmbcBKca-lkp@intel.com/
 
-New smatch warnings:
-fs/f2fs/data.c:2590 f2fs_should_update_outplace() error: we previously assumed 'fio' could be null (see line 2581)
+All errors (new ones prefixed by >>):
 
-vim +/fio +2590 fs/f2fs/data.c
+>> arch/x86/mm/init.c:1036:2: error: call to undeclared function 'set_dma_reserve'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1036 |         set_dma_reserve(nr_pages - nr_free_pages);
+         |         ^
+   arch/x86/mm/init.c:1036:2: note: did you mean 'get_dma_residue'?
+   arch/x86/include/asm/dma.h:288:19: note: 'get_dma_residue' declared here
+     288 | static inline int get_dma_residue(unsigned int dmanr)
+         |                   ^
+   1 error generated.
 
-4d57b86dd86404 Chao Yu          2018-05-30  2574  bool f2fs_should_update_outplace(struct inode *inode, struct f2fs_io_info *fio)
-bb9e3bb8dbf597 Chao Yu          2018-01-17  2575  {
-bb9e3bb8dbf597 Chao Yu          2018-01-17  2576  	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
-bb9e3bb8dbf597 Chao Yu          2018-01-17  2577  
-19bdba5265624b Jaegeuk Kim      2021-12-09  2578  	/* The below cases were checked when setting it. */
-19bdba5265624b Jaegeuk Kim      2021-12-09  2579  	if (f2fs_is_pinned_file(inode))
-19bdba5265624b Jaegeuk Kim      2021-12-09  2580  		return false;
-19bdba5265624b Jaegeuk Kim      2021-12-09 @2581  	if (fio && is_sbi_flag_set(sbi, SBI_NEED_FSCK))
-                                                            ^^^
-Can fio be NULL?
 
-19bdba5265624b Jaegeuk Kim      2021-12-09  2582  		return true;
-aac0576c96c228 Chao Yu          2024-03-23  2583  	if (f2fs_lfs_mode(sbi)) {
-aac0576c96c228 Chao Yu          2024-03-23  2584  		if (!f2fs_sb_has_blkzoned(sbi))
-bb9e3bb8dbf597 Chao Yu          2018-01-17  2585  			return true;
-aac0576c96c228 Chao Yu          2024-03-23  2586  		/* no regular block device in mainarea */
-aac0576c96c228 Chao Yu          2024-03-23  2587  		if (!sbi->first_zoned_segno)
-aac0576c96c228 Chao Yu          2024-03-23  2588  			return true;
-aac0576c96c228 Chao Yu          2024-03-23  2589  		/* blkaddr locates in sequential zone */
-aac0576c96c228 Chao Yu          2024-03-23 @2590  		if (GET_SEGNO(sbi, fio->old_blkaddr) >= sbi->first_zoned_segno)
-                                                                                   ^^^^^
-Unchecked dereference
+vim +/set_dma_reserve +1036 arch/x86/mm/init.c
 
-aac0576c96c228 Chao Yu          2024-03-23  2591  			return true;
-aac0576c96c228 Chao Yu          2024-03-23  2592  	}
-bb9e3bb8dbf597 Chao Yu          2018-01-17  2593  	if (S_ISDIR(inode->i_mode))
-bb9e3bb8dbf597 Chao Yu          2018-01-17  2594  		return true;
-af033b2aa8a874 Chao Yu          2018-09-20  2595  	if (IS_NOQUOTA(inode))
-af033b2aa8a874 Chao Yu          2018-09-20  2596  		return true;
-bb9e3bb8dbf597 Chao Yu          2018-01-17  2597  	if (f2fs_is_atomic_file(inode))
-bb9e3bb8dbf597 Chao Yu          2018-01-17  2598  		return true;
-943f7c6f987f4a Chao Yu          2023-09-04  2599  	/* rewrite low ratio compress data w/ OPU mode to avoid fragmentation */
-943f7c6f987f4a Chao Yu          2023-09-04  2600  	if (f2fs_compressed_file(inode) &&
-943f7c6f987f4a Chao Yu          2023-09-04  2601  		F2FS_OPTION(sbi).compress_mode == COMPR_MODE_USER &&
-943f7c6f987f4a Chao Yu          2023-09-04  2602  		is_inode_flag_set(inode, FI_ENABLE_COMPRESS))
-943f7c6f987f4a Chao Yu          2023-09-04  2603  		return true;
-859fca6b706e00 Chao Yu          2021-05-26  2604  
-859fca6b706e00 Chao Yu          2021-05-26  2605  	/* swap file is migrating in aligned write mode */
-859fca6b706e00 Chao Yu          2021-05-26  2606  	if (is_inode_flag_set(inode, FI_ALIGNED_WRITE))
-859fca6b706e00 Chao Yu          2021-05-26  2607  		return true;
-859fca6b706e00 Chao Yu          2021-05-26  2608  
-1018a5463a0637 Chao Yu          2022-02-04  2609  	if (is_inode_flag_set(inode, FI_OPU_WRITE))
-1018a5463a0637 Chao Yu          2022-02-04  2610  		return true;
-1018a5463a0637 Chao Yu          2022-02-04  2611  
-bb9e3bb8dbf597 Chao Yu          2018-01-17  2612  	if (fio) {
-                                                        ^^^^^^^^^^
-Checked here as well.
-
-b763f3bedc2da2 Chao Yu          2021-04-28  2613  		if (page_private_gcing(fio->page))
-bb9e3bb8dbf597 Chao Yu          2018-01-17  2614  			return true;
-4354994f097d06 Daniel Rosenberg 2018-08-20  2615  		if (unlikely(is_sbi_flag_set(sbi, SBI_CP_DISABLED) &&
-4354994f097d06 Daniel Rosenberg 2018-08-20  2616  			f2fs_is_checkpointed_data(sbi, fio->old_blkaddr)))
-4354994f097d06 Daniel Rosenberg 2018-08-20  2617  			return true;
-bb9e3bb8dbf597 Chao Yu          2018-01-17  2618  	}
-bb9e3bb8dbf597 Chao Yu          2018-01-17  2619  	return false;
-bb9e3bb8dbf597 Chao Yu          2018-01-17  2620  }
+176239153049a0 Pekka Enberg 2011-11-01   992  
+4270fd8b4c27f0 Ingo Molnar  2017-01-28   993  /*
+4270fd8b4c27f0 Ingo Molnar  2017-01-28   994   * Calculate the precise size of the DMA zone (first 16 MB of RAM),
+4270fd8b4c27f0 Ingo Molnar  2017-01-28   995   * and pass it to the MM layer - to help it set zone watermarks more
+4270fd8b4c27f0 Ingo Molnar  2017-01-28   996   * accurately.
+4270fd8b4c27f0 Ingo Molnar  2017-01-28   997   *
+4270fd8b4c27f0 Ingo Molnar  2017-01-28   998   * Done on 64-bit systems only for the time being, although 32-bit systems
+4270fd8b4c27f0 Ingo Molnar  2017-01-28   999   * might benefit from this as well.
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1000   */
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1001  void __init memblock_find_dma_reserve(void)
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1002  {
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1003  #ifdef CONFIG_X86_64
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1004  	u64 nr_pages = 0, nr_free_pages = 0;
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1005  	unsigned long start_pfn, end_pfn;
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1006  	phys_addr_t start_addr, end_addr;
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1007  	int i;
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1008  	u64 u;
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1009  
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1010  	/*
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1011  	 * Iterate over all memory ranges (free and reserved ones alike),
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1012  	 * to calculate the total number of pages in the first 16 MB of RAM:
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1013  	 */
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1014  	nr_pages = 0;
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1015  	for_each_mem_pfn_range(i, MAX_NUMNODES, &start_pfn, &end_pfn, NULL) {
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1016  		start_pfn = min(start_pfn, MAX_DMA_PFN);
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1017  		end_pfn   = min(end_pfn,   MAX_DMA_PFN);
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1018  
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1019  		nr_pages += end_pfn - start_pfn;
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1020  	}
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1021  
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1022  	/*
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1023  	 * Iterate over free memory ranges to calculate the number of free
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1024  	 * pages in the DMA zone, while not counting potential partial
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1025  	 * pages at the beginning or the end of the range:
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1026  	 */
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1027  	nr_free_pages = 0;
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1028  	for_each_free_mem_range(u, NUMA_NO_NODE, MEMBLOCK_NONE, &start_addr, &end_addr, NULL) {
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1029  		start_pfn = min_t(unsigned long, PFN_UP(start_addr), MAX_DMA_PFN);
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1030  		end_pfn   = min_t(unsigned long, PFN_DOWN(end_addr), MAX_DMA_PFN);
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1031  
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1032  		if (start_pfn < end_pfn)
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1033  			nr_free_pages += end_pfn - start_pfn;
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1034  	}
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1035  
+4270fd8b4c27f0 Ingo Molnar  2017-01-28 @1036  	set_dma_reserve(nr_pages - nr_free_pages);
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1037  #endif
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1038  }
+4270fd8b4c27f0 Ingo Molnar  2017-01-28  1039  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
