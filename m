@@ -1,61 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3DEE12B156
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 21:02:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191BD1E884;
+	Tue, 26 Mar 2024 21:13:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711486933; cv=none; b=B/PPgbTUGLt5xB9NAmp0FJlRvFZP0FIXp921/22Owfm4doavhpZGrvAniabUZlueLX8RUpYmQypkXcPrknX0PCKamNlQ3YftiE88nHqUPLAna7z8MwEo0mF5bibiJ6P/244uCzqlyR0u0OksPlCpLlissFKz281B4nLr1TcTbr4=
+	t=1711487604; cv=none; b=Brq6cBjLFlAYZJpCF7MFTTODO5ciF17dZ6Su0CsLabYlORvZu13wepmuWSsaXLucDQs1lyDWj81opWqDamC0hgVzH8BuvE1ad2JUmZWdxc0I2f9/sxqHjDlCta2kkiiFT7AS9mktABYFkiSdeNkWGYli+d85/v+xWT97tFwc5KY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711486933; c=relaxed/simple;
-	bh=jbbCJELoEAQqqkUBdoSUDMfhU+fP4buuslKhPG43iwc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q+TKDtGMdZ7hRTXR7jIAZiuZQKO41vZ46b1U+Ky1BDsL9n6XgcBfQu5r+/L9PuaquvmSKEc1EfPQv3vdrwdZgXPZfO9ogFoIH8qQJXs9RJAh+AUOWnyO0pnH8ELwLenYu3xNHMM5nquHsboxBoIbEfwoDO8zvhm6FUYqClWbZuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WwOCK0EN; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711487604; c=relaxed/simple;
+	bh=xQbKi5ntxrvhKyrBYbFCg4gD4cqWuSqGy6wuGhwULrs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=jNwm6d9pvtWQfFLbGvlYkh/EI3f7HUkw+37WQJwRy5m8Ag5H7w6I0jItcvxsA/TJNfi7oSqgI1j9zUI7cuPYO1/oSrbVMK4dKJQgo8bJ438+ddX20J7oXpEmm+1FXz6yziw+SPf8xUrhQ5/l4HhshUJobdlKk/gbvdmGFc/m7Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pTMh6vKd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WwOCK0EN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711486931; x=1743022931;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jbbCJELoEAQqqkUBdoSUDMfhU+fP4buuslKhPG43iwc=;
-  b=WwOCK0ENjAyJB5gvQRhRwxFqo8bYSQRc5Q7LO9t4hZRX45o1TYUGX7r/
-   /7ePIlY2ynJ0Qn+lYTKtvHL0iK+1EjJxThl6oQZYWZ/CU+Vvv90f6LHnB
-   Vd0T2TfRLr1xzIMlnHmoQ+SkaXka7CpEtksoIkNRYvkbAcIygMoCLaxjy
-   0+2uF3ikkRfU6HFXxAckjWaFicOaYanwQ5ycWMTgX6lrMjGxqPEceu1RV
-   Th4AG05okFFooiVu38cwt2Q8u2G44xkDu0PpMvAlVyw7uIDfdMvz9EPQ1
-   kSrw3/5jNPXqI5l45P1Gqcugk2IbSB7QLFj9AeoI0hYTfsSnzhNK2msMt
-   A==;
-X-CSE-ConnectionGUID: DnZksvdzQFSf9dePUronXQ==
-X-CSE-MsgGUID: aXIKjckgSf2DPZs1G2jTpQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6671375"
-X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
-   d="scan'208";a="6671375"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 14:02:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
-   d="scan'208";a="47262051"
-Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Mar 2024 14:02:01 -0700
-Received: from kbuild by be39aa325d23 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rpDvi-0000PA-2H;
-	Tue, 26 Mar 2024 21:01:58 +0000
-Date: Wed, 27 Mar 2024 05:01:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev, Jacob Keller <jacob.e.keller@intel.com>,
-	netdev@vger.kernel.org, Wojciech Drewek <wojciech.drewek@intel.com>,
-	Mateusz Polchlopek <mateusz.polchlopek@intel.com>
-Subject: Re: [Intel-wired-lan] [PATCH iwl-next v1 09/12] iavf: refactor
- iavf_clean_rx_irq to support legacy and flex descriptors
-Message-ID: <202403270404.dmqDS0ic-lkp@intel.com>
-References: <20240326115116.10040-10-mateusz.polchlopek@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pTMh6vKd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89491C433C7;
+	Tue, 26 Mar 2024 21:13:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711487603;
+	bh=xQbKi5ntxrvhKyrBYbFCg4gD4cqWuSqGy6wuGhwULrs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=pTMh6vKdfNM1gwB5XSP2SDKVR7BQOukK9RhvLK+uWVhgb3b2GcHeyWh4rS4EX9Xbf
+	 ivE0HquIBK+7iVxzAebpl0JkwRySbdbAV01OhX1Yb5bo3igqFexnNKtb35gxuW6HwJ
+	 G+kn7onehmpJ4XRN9GHxxiVkJt7yKGV5/JGO2vZpEeIS2Gw4TZukVCguQ5oHgc3/UW
+	 Esmea/O3Pk18Rj2YA8nY2lW1C/JG/SvHt/8v6ShEY8H26vnYlqHb/Iw6Ss2U8x0NwZ
+	 +ZC29+bMDvq9peveevf2B5pW1SVESHf0lp1OCEQEydsS1RpyK5uBWlh7hQZq+3slpu
+	 ZTm9BrTjIiEeQ==
+Date: Tue, 26 Mar 2024 16:13:21 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: Re: [pci:enumeration 28/28] drivers/mfd/intel-lpss-pci.c:57:49:
+ error: 'PCI_IRQ_LEGACY' undeclared; did you mean 'NR_IRQS_LEGACY'?
+Message-ID: <20240326211321.GA1497270@bhelgaas>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,121 +43,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240326115116.10040-10-mateusz.polchlopek@intel.com>
+In-Reply-To: <f13e9775-9dca-4a8f-b6bb-6d5a8f6dbccd@kernel.org>
 
-Hi Mateusz,
+On Tue, Mar 26, 2024 at 08:52:36PM +0900, Damien Le Moal wrote:
+> On 3/26/24 19:19, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git enumeration
+> > head:   8694697a54096ae97eb38bf4144f2d96c64c68f2
+> > commit: 8694697a54096ae97eb38bf4144f2d96c64c68f2 [28/28] PCI: Remove PCI_IRQ_LEGACY
+> > config: i386-buildonly-randconfig-001-20240326 (https://download.01.org/0day-ci/archive/20240326/202403261840.1RP419n5-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403261840.1RP419n5-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202403261840.1RP419n5-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    drivers/mfd/intel-lpss-pci.c: In function 'intel_lpss_pci_probe':
+> >>> drivers/mfd/intel-lpss-pci.c:57:49: error: 'PCI_IRQ_LEGACY' undeclared (first use in this function); did you mean 'NR_IRQS_LEGACY'?
+> >       57 |         ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_LEGACY);
+> >          |                                                 ^~~~~~~~~~~~~~
+> >          |                                                 NR_IRQS_LEGACY
+> >    drivers/mfd/intel-lpss-pci.c:57:49: note: each undeclared identifier is reported only once for each function it appears in
+> 
+> Bjorn,
+> 
+> Not sure what is going on here. I did an allyesconfig build on x86_64 and did
+> not see such issue. Did the build bot missed some patches ?
+> 
+> And the above also reminds me that we could change NR_IRQS_LEGACY to
+> NR_IRQS_INTX too.
 
-kernel test robot noticed the following build warnings:
+Sorry, this is my fault because I dropped the intel-lpss-pci.c patch
+because I was thinking Andy's patch would make it obsolete [1].  And
+it *does*, but we don't know the ordering of when his patch and this
+series will be merged into -next or upstream, so ...
 
-[auto build test WARNING on tnguy-next-queue/dev-queue]
+Anyway, I blew it, and I restore the intel-lpss-pci.c patch in the
+series, and we'll just have a trivial merge conflict to resolve until
+they're both upstream.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Polchlopek/virtchnl-add-support-for-enabling-PTP-on-iAVF/20240326-200321
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20240326115116.10040-10-mateusz.polchlopek%40intel.com
-patch subject: [Intel-wired-lan] [PATCH iwl-next v1 09/12] iavf: refactor iavf_clean_rx_irq to support legacy and flex descriptors
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240327/202403270404.dmqDS0ic-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240327/202403270404.dmqDS0ic-lkp@intel.com/reproduce)
+Sorry for all the confusion.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403270404.dmqDS0ic-lkp@intel.com/
+Bjorn
 
-All warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/intel/iavf/iavf_txrx.c: In function 'iavf_legacy_rx_csum':
->> drivers/net/ethernet/intel/iavf/iavf_txrx.c:1081:23: warning: variable 'rx_status' set but not used [-Wunused-but-set-variable]
-    1081 |         u32 rx_error, rx_status;
-         |                       ^~~~~~~~~
-   drivers/net/ethernet/intel/iavf/iavf_txrx.c: In function 'iavf_flex_rx_csum':
->> drivers/net/ethernet/intel/iavf/iavf_txrx.c:1118:25: warning: variable 'rx_status1' set but not used [-Wunused-but-set-variable]
-    1118 |         u16 rx_status0, rx_status1, ptype;
-         |                         ^~~~~~~~~~
-
-
-vim +/rx_status +1081 drivers/net/ethernet/intel/iavf/iavf_txrx.c
-
-  1065	
-  1066	/**
-  1067	 * iavf_legacy_rx_csum - Indicate in skb if hw indicated a good cksum
-  1068	 * @vsi: the VSI we care about
-  1069	 * @skb: skb currently being received and modified
-  1070	 * @rx_desc: the receive descriptor
-  1071	 *
-  1072	 * This function only operates on the VIRTCHNL_RXDID_1_32B_BASE legacy 32byte
-  1073	 * descriptor writeback format.
-  1074	 **/
-  1075	static inline void iavf_legacy_rx_csum(struct iavf_vsi *vsi,
-  1076					       struct sk_buff *skb,
-  1077					       union iavf_rx_desc *rx_desc)
-  1078	{
-  1079		struct iavf_rx_csum_decoded csum_bits;
-  1080		struct iavf_rx_ptype_decoded decoded;
-> 1081		u32 rx_error, rx_status;
-  1082		u64 qword;
-  1083		u16 ptype;
-  1084	
-  1085		qword = le64_to_cpu(rx_desc->wb.qword1.status_error_len);
-  1086		ptype = FIELD_GET(IAVF_RXD_QW1_PTYPE_MASK, qword);
-  1087		rx_error = FIELD_GET(IAVF_RXD_QW1_ERROR_MASK, qword);
-  1088		rx_status = FIELD_GET(IAVF_RXD_QW1_STATUS_MASK, qword);
-  1089		decoded = decode_rx_desc_ptype(ptype);
-  1090	
-  1091		csum_bits.ipe = FIELD_GET(IAVF_RX_DESC_ERROR_IPE_MASK, rx_error);
-  1092		csum_bits.eipe = FIELD_GET(IAVF_RX_DESC_ERROR_EIPE_MASK, rx_error);
-  1093		csum_bits.l4e = FIELD_GET(IAVF_RX_DESC_ERROR_L4E_MASK, rx_error);
-  1094		csum_bits.pprs = FIELD_GET(IAVF_RX_DESC_ERROR_PPRS_MASK, rx_error);
-  1095		csum_bits.l3l4p = FIELD_GET(IAVF_RX_DESC_STATUS_L3L4P_MASK, rx_error);
-  1096		csum_bits.ipv6exadd = FIELD_GET(IAVF_RX_DESC_STATUS_IPV6EXADD_MASK,
-  1097						rx_error);
-  1098		csum_bits.nat = 0;
-  1099		csum_bits.eudpe = 0;
-  1100	
-  1101		iavf_rx_csum(vsi, skb, &decoded, &csum_bits);
-  1102	}
-  1103	
-  1104	/**
-  1105	 * iavf_flex_rx_csum - Indicate in skb if hw indicated a good cksum
-  1106	 * @vsi: the VSI we care about
-  1107	 * @skb: skb currently being received and modified
-  1108	 * @rx_desc: the receive descriptor
-  1109	 *
-  1110	 * This function only operates on the VIRTCHNL_RXDID_2_FLEX_SQ_NIC flexible
-  1111	 * descriptor writeback format.
-  1112	 **/
-  1113	static inline void iavf_flex_rx_csum(struct iavf_vsi *vsi, struct sk_buff *skb,
-  1114					     union iavf_rx_desc *rx_desc)
-  1115	{
-  1116		struct iavf_rx_csum_decoded csum_bits;
-  1117		struct iavf_rx_ptype_decoded decoded;
-> 1118		u16 rx_status0, rx_status1, ptype;
-  1119	
-  1120		rx_status0 = le16_to_cpu(rx_desc->flex_wb.status_error0);
-  1121		rx_status1 = le16_to_cpu(rx_desc->flex_wb.status_error1);
-  1122		ptype = le16_to_cpu(FIELD_GET(IAVF_RX_FLEX_DESC_PTYPE_M,
-  1123					      rx_desc->flex_wb.ptype_flexi_flags0));
-  1124		decoded = decode_rx_desc_ptype(ptype);
-  1125	
-  1126		csum_bits.ipe = FIELD_GET(IAVF_RX_FLEX_DESC_STATUS0_XSUM_IPE_M,
-  1127					  rx_status0);
-  1128		csum_bits.eipe = FIELD_GET(IAVF_RX_FLEX_DESC_STATUS0_XSUM_EIPE_M,
-  1129					   rx_status0);
-  1130		csum_bits.l4e = FIELD_GET(IAVF_RX_FLEX_DESC_STATUS0_XSUM_L4E_M,
-  1131					  rx_status0);
-  1132		csum_bits.eudpe = FIELD_GET(IAVF_RX_FLEX_DESC_STATUS0_XSUM_EUDPE_M,
-  1133					    rx_status0);
-  1134		csum_bits.l3l4p = FIELD_GET(IAVF_RX_FLEX_DESC_STATUS0_L3L4P_M,
-  1135					    rx_status0);
-  1136		csum_bits.ipv6exadd = FIELD_GET(IAVF_RX_FLEX_DESC_STATUS0_IPV6EXADD_M,
-  1137						rx_status0);
-  1138		csum_bits.nat = FIELD_GET(IAVF_RX_FLEX_DESC_STATUS1_NAT_M, rx_status0);
-  1139		csum_bits.pprs = 0;
-  1140	
-  1141		iavf_rx_csum(vsi, skb, &decoded, &csum_bits);
-  1142	}
-  1143	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[1] https://lore.kernel.org/r/20240325210444.GA1449676@bhelgaas
