@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334E86EB5F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 12:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3EB71756
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 13:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711457932; cv=none; b=I4TiyjcVM7YI2jsS3TKc6n2epd8GFcCRx/Ncwvzs7KusQmBzRzsGGjVP9bydmNpFswNBF3S4ioLPNfBGBHtqkZS41JGnc4mr3FrDZGH51zY3aFXTl4TPIHLZc9MhEZZXgJMnaDLJgWcrzsR6fbDOtAutQyN6zwR4cySaJVfRg1E=
+	t=1711458530; cv=none; b=WhDBPENwdO6esij/gY8ifuJluSO/1FlqN9iJ2AQI71AFAux0bfSoVjeKFhBrGOQLmowz/PG8L0Ddt78n8uSLTsW4jH/MD7tE7MBHX33O5wjADAjDMSPgL6R7cDw6vYPAteX67/yAM0hQ5Z3+YgFRzmpKgGTcct5OWdZ69cnxtpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711457932; c=relaxed/simple;
-	bh=MtfhUEPPdvxqzOoAPyYQzVuPsUOh0otfavoqH+DBvNY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UuYMabMNBX+DbD6iIY60go57zOaAXUT51wTyaxcxJWfBlNECvNuTBVtyFYT4SKtxEA8jOSRraMAGW4eoeTlakvsXYNM1kbQ22nglpAgbOAAfe97NN3PXheBad61NzY/1tYcnNhZVc1yU7qaUGWgUFgADFHVSTv4cw+vd36kUC88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HgczrhOE; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1711458530; c=relaxed/simple;
+	bh=gt8vaX2b0FKGuEetK4iVG5ZZhrZs610OS2U/uLnwp68=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hy48QueGd8jHVREp2B/QERdTkF2uqIKs+d2gUvTOBefw/dICd3C9cjGgTIWIryP5Ze5YI8XzYfSzbZuOdU6c1rRfkSl5iow6dnI+KRYEeeBeWT9fnPgaYSrt3iUAAxcx2CBJjQL1mE53q0wkw6EBmANklmI9uWelJburXTRsd8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SIQZkAEu; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HgczrhOE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SIQZkAEu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711457931; x=1742993931;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MtfhUEPPdvxqzOoAPyYQzVuPsUOh0otfavoqH+DBvNY=;
-  b=HgczrhOEpGXNqmsakg/SLY84LWY2aMh438b4xSHF03g26JTY7hen7SgO
-   sQR/q5ck1pR95IBLDWhWpA1XNYbYFzY7WIGH/gbqDYh+J4mkrnVvEtMoR
-   CxRlBtZftEb1yTbEFvVNX70x6ZbkoMoQEU/S0uWzYBrvEKpeYew3NRQl2
-   uhdEaVXa33gzfPxzdMSui2hpuwnPLoGLobeJB3z9S0MvGMNQhV8kdEK7V
-   mT2NLwvzhodB66OrsrpoTpzApDDMCX5fzHhSNNbEcpRHBcQ594Jza3K0s
-   AK93iJtNk3kxD8Z7nw3P6OrTHfGBtwZb4SB/PtfI0M1w8UVJdKCRZiPxF
+  t=1711458529; x=1742994529;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gt8vaX2b0FKGuEetK4iVG5ZZhrZs610OS2U/uLnwp68=;
+  b=SIQZkAEu6XPBOXDzo97JhgQ1TCYVr+yZi0BkB6DiZVjWRmoYDpwES6v6
+   Mf3AjWXvLY0AIodnfebZt41N9ukzpPE+31JDa4ldnSz0XHeId6gnCcvPs
+   cDR90PbO8Ly6W4wuvQCV8x3qASlj2HuQB/gH2ndJSYk6Eee+r9bfLc3bc
+   ciytQe0hZ1Fs2Hw9Ybuy+bbr09szMMd3enFOMzeqmx/RM1LL2j6WRh6p9
+   yqtpnBwiIKUxzneMD5y5xz4lW/I5IEa8Jz32MC4Ip/XSBkSfkMSI6EgaK
+   LMNq+hxIudHdnxRwlTGDYCKItG5uyd1FQUQOWZysPWDyZTsrbg64ohTyf
    w==;
-X-CSE-ConnectionGUID: 6OkDEjexT+qrYVMwOkeXNw==
-X-CSE-MsgGUID: zAZ4ZzzzRPOs/iG0+hs+8A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6717073"
+X-CSE-ConnectionGUID: aJx2avgRSQq7j3q5X+X0tQ==
+X-CSE-MsgGUID: cpxx1usBSm6oUTlbPqRRMg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="17051040"
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="6717073"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 05:58:50 -0700
+   d="scan'208";a="17051040"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 06:08:49 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="46972395"
+   d="scan'208";a="53426069"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 26 Mar 2024 05:58:47 -0700
+  by orviesa001.jf.intel.com with ESMTP; 26 Mar 2024 06:08:47 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rp6O4-00003Q-2A;
-	Tue, 26 Mar 2024 12:58:44 +0000
-Date: Tue, 26 Mar 2024 20:58:27 +0800
+	id 1rp6Xk-00003c-2N;
+	Tue, 26 Mar 2024 13:08:44 +0000
+Date: Tue, 26 Mar 2024 21:08:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gergo Koteles <soyer@irl.hu>, Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Gergo Koteles <soyer@irl.hu>, stable@vger.kernel.org
-Subject: Re: [PATCH 1/3] ALSA: hda/tas2781: remove digital gain kcontrol
-Message-ID: <202403262031.SxBP17EM-lkp@intel.com>
-References: <313e00499eb2caadd23a92284fdec418b650b7f4.1711401621.git.soyer@irl.hu>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jacob Keller <jacob.e.keller@intel.com>
+Subject: powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data253'
+ from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data253'
+Message-ID: <202403262146.GvXAshxv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,52 +61,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <313e00499eb2caadd23a92284fdec418b650b7f4.1711401621.git.soyer@irl.hu>
 
-Hi Gergo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 4cece764965020c22cff7665b18a012006359095]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gergo-Koteles/ALSA-hda-tas2781-remove-digital-gain-kcontrol/20240326-052937
-base:   4cece764965020c22cff7665b18a012006359095
-patch link:    https://lore.kernel.org/r/313e00499eb2caadd23a92284fdec418b650b7f4.1711401621.git.soyer%40irl.hu
-patch subject: [PATCH 1/3] ALSA: hda/tas2781: remove digital gain kcontrol
-config: i386-buildonly-randconfig-004-20240326 (https://download.01.org/0day-ci/archive/20240326/202403262031.SxBP17EM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403262031.SxBP17EM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   928a87efa42302a23bb9554be081a28058495f22
+commit: c1f5204efcbcced83f67f12fa8f1a7f5f244fb87 cpumask: add cpumask_weight_andnot()
+date:   8 weeks ago
+config: powerpc64-randconfig-r009-20220608 (https://download.01.org/0day-ci/archive/20240326/202403262146.GvXAshxv-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403262146.GvXAshxv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403262031.SxBP17EM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403262146.GvXAshxv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from sound/soc/codecs/tas2781-i2c.c:29:
->> sound/soc/codecs/tas2781-i2c.c:148:41: error: 'dvc_tlv' undeclared here (not in a function)
-     148 |                 tas2781_digital_putvol, dvc_tlv),
-         |                                         ^~~~~~~
-   include/sound/soc.h:271:19: note: in definition of macro 'SOC_SINGLE_RANGE_EXT_TLV'
-     271 |         .tlv.p = (tlv_array), \
-         |                   ^~~~~~~~~
-
-
-vim +/dvc_tlv +148 sound/soc/codecs/tas2781-i2c.c
-
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  141  
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  142  static const struct snd_kcontrol_new tas2781_snd_controls[] = {
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  143  	SOC_SINGLE_RANGE_EXT_TLV("Speaker Analog Gain", TAS2781_AMP_LEVEL,
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  144  		1, 0, 20, 0, tas2781_amp_getvol,
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  145  		tas2781_amp_putvol, amp_vol_tlv),
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  146  	SOC_SINGLE_RANGE_EXT_TLV("Speaker Digital Gain", TAS2781_DVC_LVL,
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  147  		0, 0, 200, 1, tas2781_digital_getvol,
-ef3bcde75d06d6 Shenghao Ding 2023-06-18 @148  		tas2781_digital_putvol, dvc_tlv),
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  149  	SOC_SINGLE_BOOL_EXT("Speaker Force Firmware Load", 0,
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  150  		tas2781_force_fwload_get, tas2781_force_fwload_put),
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  151  };
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  152  
+>> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data253' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data253'
+>> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data260' from `fs/overlayfs/copy_up.o' being placed in section `.bss..Lubsan_data260'
+>> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data253' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data253'
+>> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data260' from `fs/overlayfs/copy_up.o' being placed in section `.bss..Lubsan_data260'
+>> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data253' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data253'
+>> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data260' from `fs/overlayfs/copy_up.o' being placed in section `.bss..Lubsan_data260'
 
 -- 
 0-DAY CI Kernel Test Service
