@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EFD1B960
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 09:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3775C911
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 10:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711446899; cv=none; b=ESThJSvKQ/Uzy6d3+alt1JmsEmchGREF4F06CDcBhdRe7mZqKJCqbi56M1NGkSFJVj5GPufoJCk0IWdMu5OI/CU2T0A789vGWXElUkgESov9Q7uwJ6vdkSYbZFG7NTjCj8oPIN4mepPRYrsbAoHXV31CfV5gwJORIgqhbK+bBh8=
+	t=1711448399; cv=none; b=aHyQofzzTb+7I90eoZdlXlBiU1bh1dkVgaagqIlmgU6IiGtBg/sFhokmPONkKIJi867FnYDLh8ytVxBcz7wy+Ttc8icTpAVw0lhJHGQamwYItfwvQjR/HTNv3xnqHjQuiPlONjE73nYsHKEzbQHykHD1XCwOAfcpqNhIcxwkF94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711446899; c=relaxed/simple;
-	bh=neOrCbv29aOEGyPLveb5y41xgnoY7u5YJapcaSyoc+Q=;
+	s=arc-20240116; t=1711448399; c=relaxed/simple;
+	bh=g3ASmgDCqbf8tjBm9AZOWj7TmW7sHPV4+DBr1CoVb0A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ERNCcuREv9NlTYeltF6B4POhdaCfZ7dbirsE7orXcjxRbNPlktOwQ8QyFyJKIXuKTv43jFadq1q4cuEuPMu3/trmbRVzTbKXHPzYB9ZrVGWuqvWudnyfkEFvWPvNWTThEnAj9zTDeF4Mgidu2q3oU6VVnwuWLFDBwzkcSmjQSeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eDIcgIs1; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=gRd0jnMzE76J/1j3wwPEGMThT4IKE8saKXsqCeu9tKYymjBH70dufIw3brjlqyVuxXEjvsah3yy1MFH44bYOOOHeUTJBdu+yd8a6MoZuualTraa6reLzkWNy7wQ67ecOnLltl49NLUUIN03fOtlZSdUO3R/hK+QjZSJnyZqBR8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VA8nVgTX; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eDIcgIs1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VA8nVgTX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711446897; x=1742982897;
+  t=1711448398; x=1742984398;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=neOrCbv29aOEGyPLveb5y41xgnoY7u5YJapcaSyoc+Q=;
-  b=eDIcgIs1i7criCt8jR6xA0P3w1Qz6mxIcLUIB0g3f+PmN2vDWfZjGUUm
-   X5kKpKfJe77ey0DCdc/3kJsVqPxPIPykvgxGdt5W8yVvZCrAVm+MZzER8
-   glq0j1R9f6vsHWfHEqH662mYmFDlJEpZK+hEKLeGiQR2GDk2REkY+M3Hu
-   QKCFBbnQbKy4UHC1oN8KcrelzAWD0ydxiZbfHVf1+CfWwl+S/K1I0XRB/
-   a3GlnF7/nc5+GPU0zqLskh4DxOoR9KAFjZCVNrS2eIAYmq5UjUh0RmYge
-   3DLaJDD7ULUOwWpVbZjsT4HosLgqcTgdgmlbZKUQNAvIEh50SQl78vbqu
-   g==;
-X-CSE-ConnectionGUID: Som9vzYMSCyA5BW/zkw5nw==
-X-CSE-MsgGUID: +3WSibUqToiPdlG8YQ9/lw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="23974121"
+  bh=g3ASmgDCqbf8tjBm9AZOWj7TmW7sHPV4+DBr1CoVb0A=;
+  b=VA8nVgTXL2Z2J2gnajeKLCSg8z94b+vMcxhsvkIW2UoHNuoiD6WuFZCp
+   IIj1JCcrxgS2oIUpree15c7y0QnUsvOU2NBa/ZFSPuLAzL2vd0nj3687H
+   6uItrRcbx4keMIg08X5kzhW5xZ9xeVJnFHKWm2qc0dR566aEfMcIFf+hE
+   oaCDFFRnca8lk0nPcNXL1HZC92WYHwS2wgFLGgkQv44cUgodyHZGZpmls
+   JeWgDR86hr6FiV8tdOe5X4HcjARoSFGw27Tv8kukxWVsPeOdOAh+Ii3hF
+   vnb7oiMCOkmXRIdopU9NymPRScyLroWwrq070qlz9qLzQ1s7kWSsIa9+U
+   w==;
+X-CSE-ConnectionGUID: 21xiQ1RlS+KKeK26rU5KdQ==
+X-CSE-MsgGUID: bC//8ICbR4SpaJwQ1DKi9Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6355728"
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="23974121"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 02:54:55 -0700
+   d="scan'208";a="6355728"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 03:19:57 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="47072669"
+   d="scan'208";a="15978491"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Mar 2024 02:54:54 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 26 Mar 2024 03:19:55 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rp3W7-000NHO-3D;
-	Tue, 26 Mar 2024 09:54:51 +0000
-Date: Tue, 26 Mar 2024 17:54:27 +0800
+	id 1rp3uK-000NIp-2x;
+	Tue, 26 Mar 2024 10:19:52 +0000
+Date: Tue, 26 Mar 2024 18:19:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:b4/arm32-cfi 4/10] arch/arm/mm/proc-xscale.S:415:
- Error: bad instruction `define_cache_functions xscale'
-Message-ID: <202403261700.b6M4kFIT-lkp@intel.com>
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	Bjorn Helgaas <helgaas@kernel.org>
+Subject: [pci:enumeration 28/28] drivers/mfd/intel-lpss-pci.c:57:49: error:
+ 'PCI_IRQ_LEGACY' undeclared; did you mean 'NR_IRQS_LEGACY'?
+Message-ID: <202403261840.1RP419n5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,77 +61,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/arm32-cfi
-head:   2fd3a7956b8a603c5d59b5851265a693536d9c35
-commit: 4c65b5257d3f8b2264b4b1c22d12f43127da740d [4/10] ARM: mm: Rewrite cacheflush vtables in CFI safe C
-config: arm-spitz_defconfig (https://download.01.org/0day-ci/archive/20240326/202403261700.b6M4kFIT-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403261700.b6M4kFIT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git enumeration
+head:   8694697a54096ae97eb38bf4144f2d96c64c68f2
+commit: 8694697a54096ae97eb38bf4144f2d96c64c68f2 [28/28] PCI: Remove PCI_IRQ_LEGACY
+config: i386-buildonly-randconfig-001-20240326 (https://download.01.org/0day-ci/archive/20240326/202403261840.1RP419n5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403261840.1RP419n5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403261700.b6M4kFIT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403261840.1RP419n5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/arm/mm/proc-xscale.S: Assembler messages:
->> arch/arm/mm/proc-xscale.S:415: Error: bad instruction `define_cache_functions xscale'
->> arch/arm/mm/proc-xscale.S:452: Error: bad instruction `define_cache_functions xscale_80200_A0_A1'
+   drivers/mfd/intel-lpss-pci.c: In function 'intel_lpss_pci_probe':
+>> drivers/mfd/intel-lpss-pci.c:57:49: error: 'PCI_IRQ_LEGACY' undeclared (first use in this function); did you mean 'NR_IRQS_LEGACY'?
+      57 |         ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_LEGACY);
+         |                                                 ^~~~~~~~~~~~~~
+         |                                                 NR_IRQS_LEGACY
+   drivers/mfd/intel-lpss-pci.c:57:49: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +415 arch/arm/mm/proc-xscale.S
+vim +57 drivers/mfd/intel-lpss-pci.c
 
-a9c9147eb9b1db Russell King      2009-11-26  410  
-031bd879f79d59 Lorenzo Pieralisi 2012-09-06  411  	.globl	xscale_flush_kern_cache_louis
-031bd879f79d59 Lorenzo Pieralisi 2012-09-06  412  	.equ	xscale_flush_kern_cache_louis, xscale_flush_kern_cache_all
-031bd879f79d59 Lorenzo Pieralisi 2012-09-06  413  
-ab1a746da9dd19 Dave Martin       2011-06-23  414  	@ define struct cpu_cache_fns (see <asm/cacheflush.h> and proc-macros.S)
-ab1a746da9dd19 Dave Martin       2011-06-23 @415  	define_cache_functions xscale
-^1da177e4c3f41 Linus Torvalds    2005-04-16  416  
-197c9444d6093b Lennert Buytenhek 2006-09-16  417  /*
-197c9444d6093b Lennert Buytenhek 2006-09-16  418   * On stepping A0/A1 of the 80200, invalidating D-cache by line doesn't
-197c9444d6093b Lennert Buytenhek 2006-09-16  419   * clear the dirty bits, which means that if we invalidate a dirty line,
-197c9444d6093b Lennert Buytenhek 2006-09-16  420   * the dirty data can still be written back to external memory later on.
-197c9444d6093b Lennert Buytenhek 2006-09-16  421   *
-197c9444d6093b Lennert Buytenhek 2006-09-16  422   * The recommended workaround is to always do a clean D-cache line before
-197c9444d6093b Lennert Buytenhek 2006-09-16  423   * doing an invalidate D-cache line, so on the affected processors,
-197c9444d6093b Lennert Buytenhek 2006-09-16  424   * dma_inv_range() is implemented as dma_flush_range().
-197c9444d6093b Lennert Buytenhek 2006-09-16  425   *
-197c9444d6093b Lennert Buytenhek 2006-09-16  426   * See erratum #25 of "Intel 80200 Processor Specification Update",
-197c9444d6093b Lennert Buytenhek 2006-09-16  427   * revision January 22, 2003, available at:
-197c9444d6093b Lennert Buytenhek 2006-09-16  428   *     http://www.intel.com/design/iio/specupdt/273415.htm
-197c9444d6093b Lennert Buytenhek 2006-09-16  429   */
-ab1a746da9dd19 Dave Martin       2011-06-23  430  .macro a0_alias basename
-ab1a746da9dd19 Dave Martin       2011-06-23  431  	.globl xscale_80200_A0_A1_\basename
-ab1a746da9dd19 Dave Martin       2011-06-23  432  	.type xscale_80200_A0_A1_\basename , %function
-ab1a746da9dd19 Dave Martin       2011-06-23  433  	.equ xscale_80200_A0_A1_\basename , xscale_\basename
-ab1a746da9dd19 Dave Martin       2011-06-23  434  .endm
-ab1a746da9dd19 Dave Martin       2011-06-23  435  
-ab1a746da9dd19 Dave Martin       2011-06-23  436  /*
-ab1a746da9dd19 Dave Martin       2011-06-23  437   * Most of the cache functions are unchanged for these processor revisions.
-ab1a746da9dd19 Dave Martin       2011-06-23  438   * Export suitable alias symbols for the unchanged functions:
-ab1a746da9dd19 Dave Martin       2011-06-23  439   */
-ab1a746da9dd19 Dave Martin       2011-06-23  440  	a0_alias flush_icache_all
-ab1a746da9dd19 Dave Martin       2011-06-23  441  	a0_alias flush_user_cache_all
-ab1a746da9dd19 Dave Martin       2011-06-23  442  	a0_alias flush_kern_cache_all
-8ee777fd915b0e Lorenzo Pieralisi 2012-09-28  443  	a0_alias flush_kern_cache_louis
-ab1a746da9dd19 Dave Martin       2011-06-23  444  	a0_alias flush_user_cache_range
-ab1a746da9dd19 Dave Martin       2011-06-23  445  	a0_alias coherent_kern_range
-ab1a746da9dd19 Dave Martin       2011-06-23  446  	a0_alias coherent_user_range
-ab1a746da9dd19 Dave Martin       2011-06-23  447  	a0_alias flush_kern_dcache_area
-ab1a746da9dd19 Dave Martin       2011-06-23  448  	a0_alias dma_flush_range
-ab1a746da9dd19 Dave Martin       2011-06-23  449  	a0_alias dma_unmap_area
-ab1a746da9dd19 Dave Martin       2011-06-23  450  
-ab1a746da9dd19 Dave Martin       2011-06-23  451  	@ define struct cpu_cache_fns (see <asm/cacheflush.h> and proc-macros.S)
-ab1a746da9dd19 Dave Martin       2011-06-23 @452  	define_cache_functions xscale_80200_A0_A1
-197c9444d6093b Lennert Buytenhek 2006-09-16  453  
+e6b142060b2401 Hans de Goede        2021-12-03  44  
+4b45efe8526359 Andy Shevchenko      2015-07-27  45  static int intel_lpss_pci_probe(struct pci_dev *pdev,
+4b45efe8526359 Andy Shevchenko      2015-07-27  46  				const struct pci_device_id *id)
+4b45efe8526359 Andy Shevchenko      2015-07-27  47  {
+9ffe4c1089f6c3 Andy Shevchenko      2023-11-24  48  	const struct intel_lpss_platform_info *data = (void *)id->driver_data;
+ac9538f6007e1c Aleksandrs Vinarskis 2023-12-21  49  	const struct pci_device_id *quirk_pci_info;
+4b45efe8526359 Andy Shevchenko      2015-07-27  50  	struct intel_lpss_platform_info *info;
+4b45efe8526359 Andy Shevchenko      2015-07-27  51  	int ret;
+4b45efe8526359 Andy Shevchenko      2015-07-27  52  
+4b45efe8526359 Andy Shevchenko      2015-07-27  53  	ret = pcim_enable_device(pdev);
+4b45efe8526359 Andy Shevchenko      2015-07-27  54  	if (ret)
+4b45efe8526359 Andy Shevchenko      2015-07-27  55  		return ret;
+4b45efe8526359 Andy Shevchenko      2015-07-27  56  
+6978c7d2dd81e0 Andy Shevchenko      2023-11-06 @57  	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_LEGACY);
+0c679fffd67605 Andy Shevchenko      2023-11-30  58  	if (ret < 0)
+6978c7d2dd81e0 Andy Shevchenko      2023-11-06  59  		return ret;
+6978c7d2dd81e0 Andy Shevchenko      2023-11-06  60  
+9ffe4c1089f6c3 Andy Shevchenko      2023-11-24  61  	info = devm_kmemdup(&pdev->dev, data, sizeof(*info), GFP_KERNEL);
+4b45efe8526359 Andy Shevchenko      2015-07-27  62  	if (!info)
+4b45efe8526359 Andy Shevchenko      2015-07-27  63  		return -ENOMEM;
+4b45efe8526359 Andy Shevchenko      2015-07-27  64  
+3b6dba220e67ed Andy Shevchenko      2023-11-24  65  	/* No need to check mem and irq here as intel_lpss_probe() does it for us */
+6978c7d2dd81e0 Andy Shevchenko      2023-11-06  66  	info->mem = pci_resource_n(pdev, 0);
+6978c7d2dd81e0 Andy Shevchenko      2023-11-06  67  	info->irq = pci_irq_vector(pdev, 0);
+4b45efe8526359 Andy Shevchenko      2015-07-27  68  
+ac9538f6007e1c Aleksandrs Vinarskis 2023-12-21  69  	quirk_pci_info = pci_match_id(quirk_ids, pdev);
+ac9538f6007e1c Aleksandrs Vinarskis 2023-12-21  70  	if (quirk_pci_info)
+ac9538f6007e1c Aleksandrs Vinarskis 2023-12-21  71  		info->quirks = quirk_pci_info->driver_data;
+e6b142060b2401 Hans de Goede        2021-12-03  72  
+76380a607ba0b2 Kai-Heng Feng        2019-07-05  73  	pdev->d3cold_delay = 0;
+76380a607ba0b2 Kai-Heng Feng        2019-07-05  74  
+4b45efe8526359 Andy Shevchenko      2015-07-27  75  	/* Probably it is enough to set this for iDMA capable devices only */
+4b45efe8526359 Andy Shevchenko      2015-07-27  76  	pci_set_master(pdev);
+85a9419a254e23 Andy Shevchenko      2016-11-15  77  	pci_try_set_mwi(pdev);
+4b45efe8526359 Andy Shevchenko      2015-07-27  78  
+4b45efe8526359 Andy Shevchenko      2015-07-27  79  	ret = intel_lpss_probe(&pdev->dev, info);
+4b45efe8526359 Andy Shevchenko      2015-07-27  80  	if (ret)
+4b45efe8526359 Andy Shevchenko      2015-07-27  81  		return ret;
+4b45efe8526359 Andy Shevchenko      2015-07-27  82  
+4b45efe8526359 Andy Shevchenko      2015-07-27  83  	pm_runtime_put(&pdev->dev);
+4b45efe8526359 Andy Shevchenko      2015-07-27  84  	pm_runtime_allow(&pdev->dev);
+4b45efe8526359 Andy Shevchenko      2015-07-27  85  
+4b45efe8526359 Andy Shevchenko      2015-07-27  86  	return 0;
+4b45efe8526359 Andy Shevchenko      2015-07-27  87  }
+4b45efe8526359 Andy Shevchenko      2015-07-27  88  
 
-:::::: The code at line 415 was first introduced by commit
-:::::: ab1a746da9dd19e30a98d9744d5c7dc6df597fb0 ARM: mm: proc-xscale: Use new generic struct definition macros
+:::::: The code at line 57 was first introduced by commit
+:::::: 6978c7d2dd81e0a3f9d30d1fbdb013a5ae5fabaf mfd: intel-lpss: Use PCI APIs instead of dereferencing
 
-:::::: TO: Dave Martin <dave.martin@linaro.org>
-:::::: CC: Dave Martin <dave.martin@linaro.org>
+:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+:::::: CC: Lee Jones <lee@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
