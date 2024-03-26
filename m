@@ -1,91 +1,127 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610AE23B1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 11:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85BD14AB8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 11:12:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711450883; cv=none; b=RW1i8Wrfi4uDukSq6doRT60HkpGQHvMxBxaIlvMD+h1OhCkGNyiGDz16eDPzblzv0E3wIKqUH+IFP8/Z7wkv6UqWCHcJyD8Gkshd+Yg9m5icnkmZXpvw9af+boky7QxKOxcRQpbc9mpRD6aYGjQ6UuK7/6SL411+fWyxKUDthJI=
+	t=1711451580; cv=none; b=mn3/HIqrXHDBnKrpc7ZRqxOUa+EK8dzFgQ1IbosfzXtNoB7UeSOZKrMcTwzqgHUQ+OWwkHhQ9l2xW9cdEFLbckzTjYpWFrRPeQwubyT9tnpYHvTew1lt/JuVmgMrIhztmP6lsC6EeEONYP7ZJWHZFViJ/mP1CCwkAA2VKIbhQHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711450883; c=relaxed/simple;
-	bh=7e+iSGGoTTRDwjQti+60Rs3AtsM74fgnUrtOGNawl9I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=rvWvv7U8Sj9YWvdIt3AA535DYCayyEPdgPHuguOBl4OAaHNA58iWN5WKNR7vN0tHphuYvp5Nhf3mVheVdV5e9Z1yAr5cTFZCoWVw+NMADwL0y0BzxVVE0G77ol+AfIsI44UCA1PrKMzQmDsHVwQ/ebZ9Atomh6jywHv7U3KCARA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hEeSIE3k; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1711451580; c=relaxed/simple;
+	bh=Ea3G906jG82abQTVAXlUpf2yEsIKlqveyQ5D7pbhHN8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CCXez+E4Rna5QQ2XLp/MaFwfF7++vLwekIgVJcjN8dxSRwp3vwFpzGQJ0Pjg3fP+/v0JrnVSt/9nCQfif4+Z6EUQXpOPjcY19Ee1PwPzf7pn6cRxCR0tHq0733gbC081hVd5j93mztgnwB89ZmCl3MnF5+PUiuyQHwSTBo8AOXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jrI+lnG4; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hEeSIE3k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711450880;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OS9+8KCgImTKZpmWkQmpOX1bGSaDAjfaxoRd1SKIvkQ=;
-	b=hEeSIE3kgM+blxdL5/z+44XUM2UeTwQGOVF/DB8r04UZMrJsBBPeSnoa462o2WLHOJH0nV
-	jW7Ntk9w4Pqat+F3UDr/CU1TJYqEqiqChu2C/ocOe2HX+zkB5OqJ1uwslWgQjfaIbo0YNN
-	Xc3j+2orpbakubyDF76yzBdD9XXqPmc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-427-9LLy6N0pNOK334SU1Lx_mQ-1; Tue, 26 Mar 2024 07:01:16 -0400
-X-MC-Unique: 9LLy6N0pNOK334SU1Lx_mQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 42B14800264;
-	Tue, 26 Mar 2024 11:01:16 +0000 (UTC)
-Received: from localhost (unknown [10.72.116.12])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B2A21121312;
-	Tue, 26 Mar 2024 11:01:15 +0000 (UTC)
-Date: Tue, 26 Mar 2024 19:01:02 +0800
-From: Baoquan He <bhe@redhat.com>
-To: kernel test robot <lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jrI+lnG4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711451578; x=1742987578;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ea3G906jG82abQTVAXlUpf2yEsIKlqveyQ5D7pbhHN8=;
+  b=jrI+lnG4UZT865N+CiCsrRVPQ4MmLSd32KiLPnuk/Fou5l8Y+9N3tRAa
+   eqwivf6UKU1OGt3njqOT0zGxxoYJ5kr+DCsPV/zcR68gevtKvwyKedZJT
+   +Uzcxg9JSEJsh40SwXMvvV7cT4X6Vu9G1lrJ9oxxMzNh5GJSQQj3yDtWP
+   URQQUsXtgcWc9MdhmFVM1C2m1hyEJfC78QOzCxOfKbtV0t3mN3Bihnzcy
+   DQpfpM+oLZKlqKy93CSRWrqWs36bPbGY5ErMSjwPKqTJ8psw8XH6CLq4r
+   kgMdJobEsPRWCmqCKcWBYmXqUPO0S9vp7HxeaUvYaIIdzdIelEdTr3NHH
+   w==;
+X-CSE-ConnectionGUID: Yliy9PLhR9iREYYMxFiMdg==
+X-CSE-MsgGUID: +czkwWlQQyOBC6RtPYxb5Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="23982824"
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
+   d="scan'208";a="23982824"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 04:12:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
+   d="scan'208";a="53403743"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 26 Mar 2024 04:12:56 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rp4jd-000NK6-23;
+	Tue, 26 Mar 2024 11:12:53 +0000
+Date: Tue, 26 Mar 2024 19:11:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/7] mm/mm_init.c: remove the useless dma_reserve
-Message-ID: <ZgKq7lwLJiH3vGUA@MiWiFi-R3L-srv>
-References: <20240325150459.1045407-2-bhe@redhat.com>
- <202403261645.M4PkWdmb-lkp@intel.com>
+Subject: [jimc:ddt-43 9/40] fs/smb/client/dfs_cache.c:239:9: sparse: sparse:
+ Initializer entry defined twice
+Message-ID: <202403261922.cEj8CHsP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202403261645.M4PkWdmb-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi,
+tree:   https://github.com/jimc/linux.git ddt-43
+head:   d4987a1b1c82c472ec96062343af3ad72aaab3fd
+commit: f51dae97cfef30ec06b75fd1e16f8a09031b985c [9/40] dyndbg: move flags field to a new structure
+config: arm64-randconfig-r121-20240326 (https://download.01.org/0day-ci/archive/20240326/202403261922.cEj8CHsP-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20240326/202403261922.cEj8CHsP-lkp@intel.com/reproduce)
 
-On 03/26/24 at 05:01pm, kernel test robot wrote:
-> Hi Baoquan,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on powerpc/next]
-> [also build test ERROR on powerpc/fixes linus/master v6.9-rc1]
-> [cannot apply to akpm-mm/mm-everything next-20240326]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/mm-mm_init-c-remove-the-useless-dma_reserve/20240325-230756
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-> patch link:    https://lore.kernel.org/r/20240325150459.1045407-2-bhe%40redhat.com
-> patch subject: [PATCH 1/7] mm/mm_init.c: remove the useless dma_reserve
-> config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240326/202403261645.M4PkWdmb-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403261645.M4PkWdmb-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403261645.M4PkWdmb-lkp@intel.com/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403261922.cEj8CHsP-lkp@intel.com/
 
-This patch series is discarded, please skip the testing for it.
+sparse warnings: (new ones prefixed by >>)
+>> fs/smb/client/dfs_cache.c:239:9: sparse: sparse: Initializer entry defined twice
+   fs/smb/client/dfs_cache.c:239:9: sparse:   also defined here
+>> fs/smb/client/dfs_cache.c:239:9: sparse: sparse: Initializer entry defined twice
+   fs/smb/client/dfs_cache.c:239:9: sparse:   also defined here
+   fs/smb/client/dfs_cache.c:230:9: sparse: sparse: Initializer entry defined twice
+   fs/smb/client/dfs_cache.c:230:9: sparse:   also defined here
+   fs/smb/client/dfs_cache.c:230:9: sparse: sparse: Initializer entry defined twice
+   fs/smb/client/dfs_cache.c:230:9: sparse:   also defined here
+   fs/smb/client/dfs_cache.c:232:17: sparse: sparse: Initializer entry defined twice
+   fs/smb/client/dfs_cache.c:232:17: sparse:   also defined here
+   fs/smb/client/dfs_cache.c:232:17: sparse: sparse: Initializer entry defined twice
+   fs/smb/client/dfs_cache.c:232:17: sparse:   also defined here
+>> fs/smb/client/dfs_cache.c:239:9: sparse: sparse: Initializer entry defined twice
+   fs/smb/client/dfs_cache.c:239:9: sparse:   also defined here
+>> fs/smb/client/dfs_cache.c:239:9: sparse: sparse: Initializer entry defined twice
+   fs/smb/client/dfs_cache.c:239:9: sparse:   also defined here
+   fs/smb/client/dfs_cache.c:230:9: sparse: sparse: Initializer entry defined twice
+   fs/smb/client/dfs_cache.c:230:9: sparse:   also defined here
+   fs/smb/client/dfs_cache.c:230:9: sparse: sparse: Initializer entry defined twice
+   fs/smb/client/dfs_cache.c:230:9: sparse:   also defined here
+   fs/smb/client/dfs_cache.c:232:17: sparse: sparse: Initializer entry defined twice
+   fs/smb/client/dfs_cache.c:232:17: sparse:   also defined here
+   fs/smb/client/dfs_cache.c:232:17: sparse: sparse: Initializer entry defined twice
+   fs/smb/client/dfs_cache.c:232:17: sparse:   also defined here
 
+vim +239 fs/smb/client/dfs_cache.c
+
+54be1f6c1c3749 fs/cifs/dfs_cache.c       Paulo Alcantara        2018-11-14  236  
+185352ae6171c8 fs/cifs/dfs_cache.c       Paulo Alcantara (SUSE  2019-12-04  237) static inline void dump_ce(const struct cache_entry *ce)
+54be1f6c1c3749 fs/cifs/dfs_cache.c       Paulo Alcantara        2018-11-14  238  {
+5ff2836ed3a5c2 fs/cifs/dfs_cache.c       Paulo Alcantara        2021-02-24 @239  	cifs_dbg(FYI, "cache entry: path=%s,type=%s,ttl=%d,etime=%ld,hdr_flags=0x%x,ref_flags=0x%x,interlink=%s,path_consumed=%d,expired=%s\n",
+a0a3036b81f1f6 fs/cifs/dfs_cache.c       Joe Perches            2020-04-14  240  		 ce->path,
+185352ae6171c8 fs/cifs/dfs_cache.c       Paulo Alcantara (SUSE  2019-12-04  241) 		 ce->srvtype == DFS_TYPE_ROOT ? "root" : "link", ce->ttl,
+185352ae6171c8 fs/cifs/dfs_cache.c       Paulo Alcantara (SUSE  2019-12-04  242) 		 ce->etime.tv_nsec,
+5ff2836ed3a5c2 fs/cifs/dfs_cache.c       Paulo Alcantara        2021-02-24  243  		 ce->hdr_flags, ce->ref_flags,
+ce04127c5849af fs/smb/client/dfs_cache.c Paulo Alcantara        2023-08-17  244  		 DFS_INTERLINK(ce->hdr_flags) ? "yes" : "no",
+185352ae6171c8 fs/cifs/dfs_cache.c       Paulo Alcantara (SUSE  2019-12-04  245) 		 ce->path_consumed,
+54be1f6c1c3749 fs/cifs/dfs_cache.c       Paulo Alcantara        2018-11-14  246  		 cache_entry_expired(ce) ? "yes" : "no");
+54be1f6c1c3749 fs/cifs/dfs_cache.c       Paulo Alcantara        2018-11-14  247  	dump_tgts(ce);
+54be1f6c1c3749 fs/cifs/dfs_cache.c       Paulo Alcantara        2018-11-14  248  }
+54be1f6c1c3749 fs/cifs/dfs_cache.c       Paulo Alcantara        2018-11-14  249  
+
+:::::: The code at line 239 was first introduced by commit
+:::::: 5ff2836ed3a5c24420a7235be25a462594cdc4ea cifs: introduce helper for finding referral server to improve DFS target resolution
+
+:::::: TO: Paulo Alcantara <pc@cjr.nz>
+:::::: CC: Steve French <stfrench@microsoft.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
