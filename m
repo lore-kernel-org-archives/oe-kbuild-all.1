@@ -1,65 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BBFF3838C;
-	Tue, 26 Mar 2024 11:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE03B52F9A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Mar 2024 11:23:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711451583; cv=none; b=TZxl7LsFSdjyzwDTSHctZj3yEeknHy1rHkPLvI6JrVjGPUv0+SNmYSWzSSTT3OURc/4sFnUxQlkn+F4GTAouDNeapw8cd8atAaY6Z6wylPr6Agp9PKx1L2LvYKgSXCmoAS1fWVQswowYeq/TiOJHEMjfCr4a/SX/s9Pk0J8U1KQ=
+	t=1711452239; cv=none; b=kkwtHSdeU2xWapZ+YGd/KqE19QOi2sP8hPhDpoHvGwI5GSr04bCBOSdOv5McXPR1aay6SGgEigxe3C0Yk5zOrMsfXZfuG8Z9LTQ2Lj1Q39jiZJiWYrXGHEpi5jEX7NaBPrwEgMO0SiXZoTc2OgLFHeBEgHgAbdIwDT2PO5A6siA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711451583; c=relaxed/simple;
-	bh=K/jjWGwDddPYSsUMpDxNJxL3gxVe+J5waRLRWI3JsoY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d0ufR97AHd0VwyLENA7Qo7jLBSR7WAR4xq3IJ6/pP7iKAgyFMxyK67jJZNc+xsnWX8GVI8WnVSozeR7UNRn29XluF5wW+x71JInlicqQzesvgldf/rgLANIa7cjkQ+aAsMZbzHJg6x35woyII2dnXDl0f1lQcmcWcH/M7oVFyQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WiSRK5vm; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1711452239; c=relaxed/simple;
+	bh=SrD+xmYisZ1lFSvgEQ2+QwiKv+aqsYMsfUt7ldyj4yw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=P0DCt5VzXCqQSl5YzJTq0yRf849chdRu6Ohz9l29KOIkP0LJShAQa0+hpOtT0W9Dd38CGkNnZQNTbZzu5pRUHHwytne4I5w+iL75bS+ad3aN2SFCDq/xgXnn2tzWC9DNW10KeJNIwjUY5wK9xlqWRZSDOrmwA9uy7wMTM2lM+Co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BP1FGBMG; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WiSRK5vm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BP1FGBMG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711451581; x=1742987581;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=K/jjWGwDddPYSsUMpDxNJxL3gxVe+J5waRLRWI3JsoY=;
-  b=WiSRK5vmtAdaT3qNsQx3T4PpBBegE0rfZxYnGKQZVGvi/hBv6CT69t54
-   zbpkrXpPUDMh4i9ooSAJ4mpuXDFR+NBxAs9gKVNQzc7gmf8hDTvun/bjy
-   whu4X0b1P5+d4R4KHGGj1GFt9FssOLdosMO1JYYUrKrMVPtkzGsLxPZCJ
-   /BX2dX1RVuuEbgYw+w+UGnhCvQjmvLibKjvzyRrixvOF+UynulkIwnna1
-   2GpBhvC8yUjQ7YyZzeLY3jwkGxNrE/dX6Xuj9429tHqa+Po4YZX0UR1IG
-   14GlR32k0pxrTEbiRsukdk7zpi5ySonBVdJgwZrjwkujfq9myl/RpO616
-   w==;
-X-CSE-ConnectionGUID: Z93bJ/NTTimvhcaEitOUQQ==
-X-CSE-MsgGUID: 7Xd7fOSySqeWfPtH2LOoIQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6327396"
+  t=1711452238; x=1742988238;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SrD+xmYisZ1lFSvgEQ2+QwiKv+aqsYMsfUt7ldyj4yw=;
+  b=BP1FGBMG6V66x7fdKcCtxbXqOwfDzd8V2HFmQKQ1Y6hvuZMXeTWkZlYd
+   lZ2I1rmEIxgennvQ14FOVh1ddjxQQkCGQhU06fy94SM11FICvoDAE9jlq
+   rDpjsBsxZ93zUYlt4uXyyqtjtPsEAh8OgNMOdTjzwf9+qKkeCSPRK1zWy
+   Vyo3Tn8OlhrxhCb0/4sroXu8tgwFitqMhiNwSjNfjrV9wmhFNgEa9iHKq
+   /Uv8jwP8rb5PKeq8cGjKAPyJBHMia2PgvskAe3JHdvQUuUa4Kq4X83Fo7
+   vN4pxDKfQBby1H8gfkZfmvQRzhaTZck8byk7cwmRzOhXbWWGBRfzI2s/J
+   A==;
+X-CSE-ConnectionGUID: bggkfhKeS9uhRVhihvcyDA==
+X-CSE-MsgGUID: UoXp3lDUR262w3R2lUTyfw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="23984543"
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="6327396"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 04:12:58 -0700
+   d="scan'208";a="23984543"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 04:23:57 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="15903463"
+   d="scan'208";a="15985213"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Mar 2024 04:12:55 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 26 Mar 2024 04:23:56 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rp4jd-000NK8-27;
-	Tue, 26 Mar 2024 11:12:53 +0000
-Date: Tue, 26 Mar 2024 19:11:56 +0800
+	id 1rp4uH-000NKa-2s;
+	Tue, 26 Mar 2024 11:23:53 +0000
+Date: Tue, 26 Mar 2024 19:23:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@amazon.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	David Ahern <dsahern@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>,
-	Jianguo Wu <wujianguo106@163.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>
-Subject: Re: [PATCH v1 net 1/8] tcp: Fix bind() regression for v6-only
- wildcard and v4-mapped-v6 non-wildcard addresses.
-Message-ID: <202403261821.5fkObY55-lkp@intel.com>
-References: <20240325181923.48769-2-kuniyu@amazon.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline 1398/4922]
+ drivers/dma-buf/dma-heap.c:45: warning: Function parameter or struct member
+ 'refcount' not described in 'dma_heap'
+Message-ID: <202403261908.BRsMs9AW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,56 +60,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240325181923.48769-2-kuniyu@amazon.com>
 
-Hi Kuniyuki,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/tcp-Fix-bind-regression-for-v6-only-wildcard-and-v4-mapped-v6-non-wildcard-addresses/20240326-024257
-base:   net/main
-patch link:    https://lore.kernel.org/r/20240325181923.48769-2-kuniyu%40amazon.com
-patch subject: [PATCH v1 net 1/8] tcp: Fix bind() regression for v6-only wildcard and v4-mapped-v6 non-wildcard addresses.
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240326/202403261821.5fkObY55-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403261821.5fkObY55-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   a1789984ea477a3d4b08364d2a38bb9f8e957236
+commit: c700bdd2233e000f089ce54556f987acfc391c7b [1398/4922] ANDROID: dma-heap: Add proper kref handling on dma-buf heaps
+config: i386-buildonly-randconfig-004-20240326 (https://download.01.org/0day-ci/archive/20240326/202403261908.BRsMs9AW-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240326/202403261908.BRsMs9AW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403261821.5fkObY55-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403261908.BRsMs9AW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/ipv4/inet_connection_sock.c:207:59: error: no member named 'skc_v6_rcv_saddr' in 'struct sock_common'; did you mean 'skc_rcv_saddr'?
-     207 |             (sk->sk_family == AF_INET || ipv6_addr_v4mapped(&sk->sk_v6_rcv_saddr)))
-         |                                                                  ^
-   include/net/sock.h:375:37: note: expanded from macro 'sk_v6_rcv_saddr'
-     375 | #define sk_v6_rcv_saddr __sk_common.skc_v6_rcv_saddr
-         |                                     ^
-   include/net/sock.h:155:11: note: 'skc_rcv_saddr' declared here
-     155 |                         __be32  skc_rcv_saddr;
-         |                                 ^
-   1 error generated.
+   drivers/dma-buf/dma-heap.c:45: warning: Function parameter or struct member 'priv' not described in 'dma_heap'
+   drivers/dma-buf/dma-heap.c:45: warning: Function parameter or struct member 'heap_devt' not described in 'dma_heap'
+   drivers/dma-buf/dma-heap.c:45: warning: Function parameter or struct member 'list' not described in 'dma_heap'
+   drivers/dma-buf/dma-heap.c:45: warning: Function parameter or struct member 'heap_cdev' not described in 'dma_heap'
+   drivers/dma-buf/dma-heap.c:45: warning: Function parameter or struct member 'minor' not described in 'dma_heap'
+>> drivers/dma-buf/dma-heap.c:45: warning: Function parameter or struct member 'refcount' not described in 'dma_heap'
 
 
-vim +207 net/ipv4/inet_connection_sock.c
+vim +45 drivers/dma-buf/dma-heap.c
 
-   201	
-   202	static bool __inet_bhash2_conflict(const struct sock *sk, struct sock *sk2,
-   203					   kuid_t sk_uid, bool relax,
-   204					   bool reuseport_cb_ok, bool reuseport_ok)
-   205	{
-   206		if (ipv6_only_sock(sk2) &&
- > 207		    (sk->sk_family == AF_INET || ipv6_addr_v4mapped(&sk->sk_v6_rcv_saddr)))
-   208			return false;
-   209	
-   210		return inet_bind_conflict(sk, sk2, sk_uid, relax,
-   211					  reuseport_cb_ok, reuseport_ok);
-   212	}
-   213	
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  25  
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  26  /**
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  27   * struct dma_heap - represents a dmabuf heap in the system
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  28   * @name:		used for debugging/device-node name
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  29   * @ops:		ops struct for this heap
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  30   * @heap_devt		heap device node
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  31   * @list		list head connecting to list of heaps
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  32   * @heap_cdev		heap char device
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  33   *
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  34   * Represents a heap of memory from which buffers can be made.
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  35   */
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  36  struct dma_heap {
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  37  	const char *name;
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  38  	const struct dma_heap_ops *ops;
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  39  	void *priv;
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  40  	dev_t heap_devt;
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  41  	struct list_head list;
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  42  	struct cdev heap_cdev;
+c700bdd2233e00 John Stultz     2020-07-25  43  	int minor;
+c700bdd2233e00 John Stultz     2020-07-25  44  	struct kref refcount;
+c02a81fba74fe3 Andrew F. Davis 2019-12-03 @45  };
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  46  
+
+:::::: The code at line 45 was first introduced by commit
+:::::: c02a81fba74fe3488ad6b08bfb5a1329005418f8 dma-buf: Add dma-buf heaps framework
+
+:::::: TO: Andrew F. Davis <afd@ti.com>
+:::::: CC: Sumit Semwal <sumit.semwal@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
