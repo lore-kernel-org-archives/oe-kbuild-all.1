@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D556CE541
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Mar 2024 12:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF87D12F5A9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Mar 2024 13:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711541009; cv=none; b=YU72wyj8EjOwDclgp6pvKrhNzT1fCjGOHXpqiDtioeMIQmzJKDFwSFsyFlIPRlu4MKZ9vH1eUvM8Ge5IW0RDEIkeluq+bmFIwK3MrUOyP2F9vvEGt5YDWmWatXgyZrVVTHEg/AlnJOom5h8CeXy/mUgS0fj+2YZ5n7pUxGX/QT4=
+	t=1711544958; cv=none; b=ENY6MHTAqa2dnIE3StLi51c2MTyDQuYzW97rx/Vp/NkGPJ4FAgCfdDgUPBKK/i3gYPQ+NXkm1LFLboxkztvs6ENJNqTu3NYyk3mAJU2Qu3NQ6xSN8iqcyTjUdsPxY+3IiifL5tXvF6NZVerYMwcsxnXs6R01ZbBvFKFVS0qYsHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711541009; c=relaxed/simple;
-	bh=u0Uq0H2KdaS2XZy7T+U8PG9pi+lg51+oc+hAPnAmGb4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q7gX0g0A3j8YrMieHbuknbDNIZcxad2zowmQfomX99kdO58QmEvh92uyot3FzzkyAUTBECFheg/Ccrp9jNmJWcLPbepmC2LawKQZ9FcnTOAWDUA9/fei1O3EUdYr16c10a/s5PCLao/7cBz5yIHqyzZDNs+thxKIc5hKbgykpSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KVwDvEkb; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711544958; c=relaxed/simple;
+	bh=Trki3eD1i9gJpV+lfj9mSu6+2HaoF0l0wKjTLLICYck=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CAA9hwxKFTvxLhaZAqjfqergxIdoovvAZ9Yv+0FRfUdQGAASUdV5TQ3JYsWX9CihhePi8fRGmpl7DSkYldBnjmrHiUylqEg1ECF95+rKCweBv+2/Gzd6rj5HSmqpYRSTO94x3A7ENqOKIejltzMVSzxODGl9iYG70t8sLh0sOmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nVB4p09H; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KVwDvEkb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nVB4p09H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711541006; x=1743077006;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u0Uq0H2KdaS2XZy7T+U8PG9pi+lg51+oc+hAPnAmGb4=;
-  b=KVwDvEkbY+PJDcPtghTJrkpBa9OE5KK3dPF4cwuyZxmTesIWd6irWPnB
-   o+nfoSmHLR3hIFR/OAuZSo+mIuEzTH37TCtniGl/A1MsURXDJQ4Ke99nA
-   U1nwmtk9E+xFJVZKWFoGmwjl7peiNaT285r5Ob3qrZW0DpnwP4FZoBscF
-   yvgdmhEZJUrxzo9/gl0MqbGVTFBNmbuz5au28eGJ7/z9WYg5cN8AbwiiG
-   1pXyXQVBLPb9pZ9cUuhlT2CctUsR0zR7st828sIQCwlp45JqfgszC1PBo
-   njeK1tc06ZG9ALia9qIvTGCMT6E4yMcsnX8TjzqbwcVClG9VUSlaZoLwS
+  t=1711544957; x=1743080957;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Trki3eD1i9gJpV+lfj9mSu6+2HaoF0l0wKjTLLICYck=;
+  b=nVB4p09Hx09Y+FCKgpHbuKocT9XIDFnDS20z9HKBBVh2IkPJjvDbO+jh
+   NXty1kfkrVDM8ExjS3qly4tXXJ/qmYj7wmeBZc890W8vkXx9pV6BjzheR
+   t4BZDxwJAGQw2/WPm7ss5fpTNveMlyM+GLCL/hMOztkryvknHu/9HSp9v
+   Vy+7XyEtzfYx9rrhOQb10QmrSZ8VQsLvTY4vpwVbUX75CZFQEDFA/D7p+
+   b35Ye+SuSRzHnIQdciHh6X4wL2e8YKH/JAU8vaM10hyJKkAxqds/OZGoo
+   QRlgrcvxz7zuKr/LJ+1Bxu20yx+F/YifqF726dRXZH9HFyLephUyJa6lj
    w==;
-X-CSE-ConnectionGUID: zJDCC8UkS4+l1f6SBwdlDw==
-X-CSE-MsgGUID: XwcdD0AgRweBEdBnmjuNnw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6843645"
+X-CSE-ConnectionGUID: e3shl6JiTaSC4Fg9z0VoAA==
+X-CSE-MsgGUID: nQf360MmQNe6ih3KNE9swA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6580775"
 X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
-   d="scan'208";a="6843645"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 05:03:25 -0700
+   d="scan'208";a="6580775"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 06:09:16 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="914912935"
 X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
-   d="scan'208";a="47472288"
-Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Mar 2024 05:03:24 -0700
-Received: from kbuild by be39aa325d23 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rpS01-00011i-30;
-	Wed, 27 Mar 2024 12:03:21 +0000
-Date: Wed, 27 Mar 2024 20:02:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Mark Brown <broonie@kernel.org>
-Subject: [linux-next:master 1915/2169]
- sound/soc/codecs/rk3308_codec.c:956:34: warning: 'rk3308_codec_of_match'
- defined but not used
-Message-ID: <202403271907.0z0uuG5I-lkp@intel.com>
+   d="scan'208";a="914912935"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 06:09:14 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rpT1j-0000000GdhP-4At0;
+	Wed, 27 Mar 2024 15:09:11 +0200
+Date: Wed, 27 Mar 2024 15:09:11 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: Re: [broonie-ci:fileECoqy0 5/6]
+ sound/soc/generic/simple-card-utils.c:755:20: error: 'struct
+ snd_soc_jack_gpio' has no member named 'gpio'
+Message-ID: <ZgQad95fT5rqAFZe@smile.fi.intel.com>
+References: <202403270859.Ew6NATlW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,40 +63,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202403270859.Ew6NATlW-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   26074e1be23143b2388cacb36166766c235feb7c
-commit: 4ed0915f5bc4bcc81bca783a5b984f3d81e9764e [1915/2169] ASoC: codecs: Add RK3308 internal audio codec driver
-config: x86_64-buildonly-randconfig-001-20240327 (https://download.01.org/0day-ci/archive/20240327/202403271907.0z0uuG5I-lkp@intel.com/config)
-compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240327/202403271907.0z0uuG5I-lkp@intel.com/reproduce)
+On Wed, Mar 27, 2024 at 09:01:01AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git fileECoqy0
+> head:   3c398a2eb9081a10c34a40701159a34319a35f19
+> commit: c81737adb6536b26ebf9176179b3551cb33be4c0 [5/6] ASoC: soc-jack: Get rid of legacy GPIO support
+> config: i386-buildonly-randconfig-003-20240325 (https://download.01.org/0day-ci/archive/20240327/202403270859.Ew6NATlW-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240327/202403270859.Ew6NATlW-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403270859.Ew6NATlW-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403271907.0z0uuG5I-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   ld: sound/soc/intel/boards/sof_board_helpers.o: in function `sof_intel_board_get_ctx':
->> sof_board_helpers.c:(.text+0x149): undefined reference to `sof_ssp_detect_codec_type'
->> ld: sof_board_helpers.c:(.text+0x157): undefined reference to `sof_ssp_detect_amp_type'
---
->> sound/soc/codecs/rk3308_codec.c:956:34: warning: 'rk3308_codec_of_match' defined but not used [-Wunused-const-variable=]
-     956 | static const struct of_device_id rk3308_codec_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/rk3308_codec_of_match +956 sound/soc/codecs/rk3308_codec.c
-
-   955	
- > 956	static const struct of_device_id rk3308_codec_of_match[] = {
-   957		{ .compatible = "rockchip,rk3308-codec", },
-   958		{},
-   959	};
-   960	MODULE_DEVICE_TABLE(of, rk3308_codec_of_match);
-   961	
+Already fixed.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
