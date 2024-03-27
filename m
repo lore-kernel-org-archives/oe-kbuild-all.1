@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CBEDDD7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Mar 2024 18:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13DE315099B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Mar 2024 18:34:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711562680; cv=none; b=c/yUF2SzDYdePLYEIO+KRKNV9cGwHh7QvuGA9aQKMJ3EbmGrL6m//JlCWIXyZmGjrlJ+8p2J+pYciPf9wiObfeMblinVvb4mHjnKvXTKNYJJVxgACxMlGxngZN7ElWvs+uwnxtIETR1+dhazUBJHJi6l61BlrgswVZVN/KADjag=
+	t=1711564481; cv=none; b=heRF6fYjamA1uFwelylvNa+27gN/bYiDgam1INbNCFXKJKkqzyypPHY4NYORmOIKFdrykSNo6yMPlZ/X2XSFqCP5xikThSe3hukGFouJw4fsTQpkS4wZ991ofawUu8y2pUmJmreT3Jb+mXtNZTEF5obFU/KW++1ZYlnw88nhnZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711562680; c=relaxed/simple;
-	bh=xWB8XWxCZgb2qItt9Xl6ufQrSL6nG/2L7TcBeUeBOXU=;
+	s=arc-20240116; t=1711564481; c=relaxed/simple;
+	bh=Zf3UfhIck5KDNQ4IxrlGr07PKbPDztgAtgN/Cvzlkjg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tJm7f2FliudHVeQh8zBPWkTv9n7WvwaKMObDByRGn91AkGtJLfgPQMgpszGS8g+an18xEgjI4FcfUpE6hn7NYajpLrJhZ5g8JtdZhaWbkCex2SHQ8yB2gxBCbvOCor1virMJkEBl9OaBM+vdsUdIxLk62z5PWpiqhhx1zZgzb8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VtbYowk/; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=biBLwM6gaZvX4yi2aHGZw5a8xEps2XEzroq0OIcpAmHZk+b4BzC0t3Czyy8VKiIjkmS355rHp5LtPg2Tuw837XL7nmDGz+aEZOozi1gfcqlQNYW6p3QQGg/jaf+Sr+f7FHsStfNctZIf9hKj3UJeGbph92layGalZYFtvlwp5vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JsYdqusI; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VtbYowk/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JsYdqusI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711562679; x=1743098679;
+  t=1711564479; x=1743100479;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xWB8XWxCZgb2qItt9Xl6ufQrSL6nG/2L7TcBeUeBOXU=;
-  b=VtbYowk/pIlWH8ilSSlCBvd4rBH+agCtisAOgL8p9by9FeHRbNMZLwUI
-   LGxMBSx4ylM+Yu97JX/gV02L+lqyse6QpFwSMF6ZpuzQqMlFYkm+GkLsp
-   tMQ/2meB9opmerKy6nnHqlnUSLXgHtN+WA1BYQRKi6JGtNje/4HA17ZwY
-   OdbvNYyQSt1kGxlpo3sndsqD6InBRuTU6XPJPbC+iTq63QxQB0ZCHevOR
-   Bi+bg+YZhELcnhaPdn8VCmYT8NzjZY8dxLidlOqdzy1zMRTCTH5EBhsEh
-   Ni2FAUdtfEA9vzVkA2fbtT8vecNbsjSD/hQjxUFqHhZ39m4j+6DDJ6Sr4
-   g==;
-X-CSE-ConnectionGUID: LwaNArKyQam6sJyXOpfPtw==
-X-CSE-MsgGUID: Q7yE7mUrSLWjA2S/MSrEpQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="6542640"
+  bh=Zf3UfhIck5KDNQ4IxrlGr07PKbPDztgAtgN/Cvzlkjg=;
+  b=JsYdqusIcMun0jBBSGJcDHiPMIqzw+Ozxx8lq1mInVZaYxRecVpt6cbU
+   3+WcFhIe1P6k3BuW7aZtaNUE39yb1o9jk3+0qrH9IgVNU1QUs3MIicCgR
+   044VmMzf8DnNZXJG6rjlA67QjuV6bxpG/JeeGVlxDCKMgkUvBxaBfV2fC
+   wegilxPBMHawHT5+JPTNoAVbzdDkHieVsTCRt50/T+aetyODiokNaqmAR
+   j9A1ddkhSbnMYmG5j4IWbEU/rKzPr9iPpse0j3NiN01l8KllwlYciPMqi
+   9PW3XMoV6yp8rdOxl49Gh1Jjg8XQxuUwWoQxIkL9kfHbdvWiCLJbQFhsY
+   w==;
+X-CSE-ConnectionGUID: 3y94DUYySfKtHxb+etZh1w==
+X-CSE-MsgGUID: GMjp9kiRQpGMdAyvJOJcRQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="6803431"
 X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; 
-   d="scan'208";a="6542640"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 11:04:38 -0700
+   d="scan'208";a="6803431"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 11:34:39 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; 
-   d="scan'208";a="16411980"
+   d="scan'208";a="47384400"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Mar 2024 11:04:35 -0700
+  by orviesa002.jf.intel.com with ESMTP; 27 Mar 2024 11:34:37 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rpXdZ-0001Ln-0x;
-	Wed, 27 Mar 2024 18:04:33 +0000
-Date: Thu, 28 Mar 2024 02:03:55 +0800
+	id 1rpY6b-0001Mw-2v;
+	Wed, 27 Mar 2024 18:34:33 +0000
+Date: Thu, 28 Mar 2024 02:34:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@kernel.org>, Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: Re: [PATCH 1/2] block: track per-node I/O latency
-Message-ID: <202403280137.o1GjQ6cI-lkp@intel.com>
-References: <20240326153529.75989-2-hare@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org,
+	linus.walleij@linaro.org, brgl@bgdev.pl
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-spi@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH 3/3] spi: cs42l43: Add bridged cs35l56 amplifiers
+Message-ID: <202403280258.rjWikSAr-lkp@intel.com>
+References: <20240326141108.1079993-4-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,58 +62,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240326153529.75989-2-hare@kernel.org>
+In-Reply-To: <20240326141108.1079993-4-ckeepax@opensource.cirrus.com>
 
-Hi Hannes,
+Hi Charles,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on axboe-block/for-next]
-[also build test ERROR on linus/master v6.9-rc1 next-20240327]
+[auto build test WARNING on broonie-spi/for-next]
+[also build test WARNING on brgl/gpio/for-next linus/master v6.9-rc1 next-20240327]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hannes-Reinecke/block-track-per-node-I-O-latency/20240326-234521
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20240326153529.75989-2-hare%40kernel.org
-patch subject: [PATCH 1/2] block: track per-node I/O latency
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240328/202403280137.o1GjQ6cI-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403280137.o1GjQ6cI-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Keepax/gpio-swnode-Add-ability-to-specify-native-chip-selects-for-SPI/20240326-221422
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20240326141108.1079993-4-ckeepax%40opensource.cirrus.com
+patch subject: [PATCH 3/3] spi: cs42l43: Add bridged cs35l56 amplifiers
+config: sh-randconfig-r121-20240327 (https://download.01.org/0day-ci/archive/20240328/202403280258.rjWikSAr-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240328/202403280258.rjWikSAr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403280137.o1GjQ6cI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403280258.rjWikSAr-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-cs42l43.c:48:28: sparse: sparse: symbol 'ampr' was not declared. Should it be static?
+>> drivers/spi/spi-cs42l43.c:52:23: sparse: sparse: symbol 'ampl_info' was not declared. Should it be static?
+>> drivers/spi/spi-cs42l43.c:61:23: sparse: sparse: symbol 'ampr_info' was not declared. Should it be static?
+   drivers/spi/spi-cs42l43.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-   In file included from include/linux/blk-integrity.h:5,
-                    from block/bdev.c:15:
->> include/linux/blk-mq.h:1240:15: error: unknown type name 'in'
-    1240 | static inline in blk_nodelat_enable(struct request_queue *q) { return 0; }
-         |               ^~
->> include/linux/blk-mq.h:1242:5: warning: no previous prototype for 'blk_nodelat_latency' [-Wmissing-prototypes]
-    1242 | u64 blk_nodelat_latency(struct request_queue *q, int node) { return 0; }
-         |     ^~~~~~~~~~~~~~~~~~~
-   include/linux/blk-mq.h:1243:15: error: unknown type name 'in'
-    1243 | static inline in blk_nodelat_init(struct gendisk *disk) { return -ENOTSUPP; }
-         |               ^~
+vim +/ampr +48 drivers/spi/spi-cs42l43.c
 
-
-vim +/in +1240 include/linux/blk-mq.h
-
-  1233	
-  1234	#ifdef CONFIG_BLK_NODE_LATENCY
-  1235	int blk_nodelat_enable(struct request_queue *q);
-  1236	void blk_nodelat_disable(struct request_queue *q);
-  1237	u64 blk_nodelat_latency(struct request_queue *q, int node);
-  1238	int blk_nodelat_init(struct gendisk *disk);
-  1239	#else
-> 1240	static inline in blk_nodelat_enable(struct request_queue *q) { return 0; }
-  1241	static inline void blk_nodelat_disable(struct request_queue *q) {}
-> 1242	u64 blk_nodelat_latency(struct request_queue *q, int node) { return 0; }
+    47	
+  > 48	const struct software_node ampr = {
+    49		.name			= "cs35l56-right",
+    50	};
+    51	
+  > 52	struct spi_board_info ampl_info = {
+    53		.modalias		= "cs35l56",
+    54		.max_speed_hz		= 2000000,
+    55		.chip_select		= 0,
+    56		.mode			= SPI_MODE_0,
+    57		.swnode			= &ampl,
+    58		.use_fwnode_name	= true,
+    59	};
+    60	
+  > 61	struct spi_board_info ampr_info = {
+    62		.modalias		= "cs35l56",
+    63		.max_speed_hz		= 2000000,
+    64		.chip_select		= 1,
+    65		.mode			= SPI_MODE_0,
+    66		.swnode			= &ampr,
+    67		.use_fwnode_name	= true,
+    68	};
+    69	
 
 -- 
 0-DAY CI Kernel Test Service
