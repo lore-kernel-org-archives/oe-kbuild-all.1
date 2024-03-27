@@ -1,58 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B118520323;
-	Wed, 27 Mar 2024 02:05:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3F5208A9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Mar 2024 02:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711505114; cv=none; b=R0u45c0Mxc9opbX7LC/d86WcgdeTO5wb2BTXem1D4Mhjmdb2S7qMqmBDPuQwWnVDngyl61hQLyPe8lUah6L1KpGOC3HtAWabJx1HtxLMn68+gjR/Ce7Yrc+BnwNZ4AudH3OPBHycjNsOkTs4lgcxDHSrJQda+0D0LVWyRy7X/wo=
+	t=1711505116; cv=none; b=oxSD19C4LiSaJcBwR4heOZvSNoF/eMYCgyP00EBO9YYn2XXIR3/ooZ+cVx6Vc3wKTX7ysC5uIuPNMl9s9J2KaqcEPcEuVzsC/NLIrvU5yjIzkJC74rxmQcvjrun6fzaUsdkdX+C/WmNhsCYAM6a6CuLLoGe6oOxyEpSNc1nnE84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711505114; c=relaxed/simple;
-	bh=zJ2pdkDq99TejjCYP2yDGfYTfThv2UjMMpR7iK6l/Pw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VBk4GGlvuGjPyuk/ys3o2rrFzL54TmVrwyYOcz1lWvbQPTao6V5Oz+ZsPTIy8VhzoZCS/aecvCq76SSafNkvZsinFyH16HrZ7s/azn9q6ukFW9NYeGj1dA49v58Hfmkdadv6uIIRgCibbjD1sRyYZIeG2hcf0+hpWyzlgwIA/rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I1v5vlVo; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1711505116; c=relaxed/simple;
+	bh=KNmTlJTRGy6Bojm7LfbS2Dlqybz3qxOHveKiVBO4lDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JiNNf0bLDHmYz4u+9Hc49LGXQJh4Hzjt4YzBrvSef+t47bU810fzoBnfsR2JmsnF1ijnkdysJ9OzORhyeWTNq5zAX/GS3jRirhwfmaXXpqmhl3IOsRrdV1WGxhj8Oa00jDzQZ/OhpOOIn2/77Do8prNFYeCkOjADQDcVTv5VFL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ioBubraX; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I1v5vlVo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ioBubraX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711505113; x=1743041113;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zJ2pdkDq99TejjCYP2yDGfYTfThv2UjMMpR7iK6l/Pw=;
-  b=I1v5vlVoiZQ2irq2d2ANtpIr7zd6Zso1SoMIaIbJUrafcVGQ7CJZQD/0
-   iwehYxPgxezWCfxlLQfcpw1iagnym4iGJdJMz+ImChN4Hc9dujJ0ab6SY
-   rHT/j1S1GD3lyjjiV8lKe1AA2jxyw3KxI2g4LL4MrKd5oLCoLyD7XoZ1O
-   1gFCOLRFn5m8azefv6o3RYDJV5UD+hbIRAz/9+AfGhv081m7w7cpSm2Hv
-   Zn8lpe55QAUztsDOS2Iij3k27vc4+1oN+jaUpZ2i8DkpbkgVz3ppF04dx
-   H74ZoylEmsPL8TKaa3TMJrQdEyGItfqxKBFEkMcbycT06IpNu/wfLEVQn
-   A==;
-X-CSE-ConnectionGUID: BI8e8Bb6QwWN4YsKxg+tmw==
-X-CSE-MsgGUID: 9sHRZL9CTpWV0X+LkG772A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="18017508"
+  t=1711505115; x=1743041115;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KNmTlJTRGy6Bojm7LfbS2Dlqybz3qxOHveKiVBO4lDA=;
+  b=ioBubraXYpthJKrHlxBjpAHQUuZYlFocartKlaslOPKGrF4ShY1VsDBL
+   ufl+Djis+izmY/OVQzd1ZNb4VmjS1ty4RWyNLrSqpRYGQaQ7QbBDfQ5tV
+   TSUMwptEJoCaVPI8L3/aZstAEuKWE8JfoFfK3hPa8KCWFJ/ORnIItQnN7
+   /4POZtUxD7k4Ru7EMYUSvOFsCm5UQfWFG5UOZyAOG2HXGPIsZGKSwkzWy
+   Tp4+Ffcwc3FMmz5a5L/0TPWX2vI8H4z32Xc3i96QcBwK44m81VrJZpUpI
+   /YMMl4tBvhADEJoW5kCjkbWZFBpWobgotPFijL/d8PkozdiMF+vlX6je/
+   Q==;
+X-CSE-ConnectionGUID: auQ+yW5wQx6n3QpNWTlmtw==
+X-CSE-MsgGUID: wbl8jS7JSSm3L65WD42lYg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="18017530"
 X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
-   d="scan'208";a="18017508"
+   d="scan'208";a="18017530"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 19:05:12 -0700
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 19:05:13 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
-   d="scan'208";a="39245073"
+   d="scan'208";a="39245072"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 26 Mar 2024 19:05:09 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rpIf5-0000dq-2W;
+	id 1rpIf5-0000do-2S;
 	Wed, 27 Mar 2024 02:05:07 +0000
-Date: Wed, 27 Mar 2024 10:05:03 +0800
+Date: Wed, 27 Mar 2024 10:05:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master 23/30]
- drivers/scsi/hisi_sas/hisi_sas_v2_hw.c:3548:3: error: use of undeclared
- identifier 'sas_ata_sdev_attr_group'
-Message-ID: <202403271050.wRQduzP2-lkp@intel.com>
+To: Ryan Roberts <ryan.roberts@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	David Hildenbrand <david@redhat.com>,
+	Donald Dutile <ddutile@redhat.com>,
+	Eric Chanudet <echanude@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ryan Roberts <ryan.roberts@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/3] arm64: mm: Don't remap pgtables for allocate vs
+ populate
+Message-ID: <202403270906.zFGZ2FXl-lkp@intel.com>
+References: <20240326101448.3453626-3-ryan.roberts@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,41 +68,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240326101448.3453626-3-ryan.roberts@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-head:   5e36d764b5dfcddd54895d9b6dc392eaaba17d6a
-commit: 61d4f86ef0002b12ed52d2dc7a08c23b53798766 [23/30] Revert "scsi: libsas: Define NCQ Priority sysfs attributes for SATA devices"
-config: i386-buildonly-randconfig-003-20240327 (https://download.01.org/0day-ci/archive/20240327/202403271050.wRQduzP2-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240327/202403271050.wRQduzP2-lkp@intel.com/reproduce)
+Hi Ryan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.9-rc1 next-20240326]
+[cannot apply to arm64/for-next/core arm-perf/for-next/perf arm/for-next arm/fixes kvmarm/next soc/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Roberts/arm64-mm-Don-t-remap-pgtables-per-cont-pte-pmd-block/20240326-181754
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240326101448.3453626-3-ryan.roberts%40arm.com
+patch subject: [PATCH v1 2/3] arm64: mm: Don't remap pgtables for allocate vs populate
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240327/202403270906.zFGZ2FXl-lkp@intel.com/config)
+compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240327/202403270906.zFGZ2FXl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403271050.wRQduzP2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403270906.zFGZ2FXl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/scsi/hisi_sas/hisi_sas_v2_hw.c:3548:3: error: use of undeclared identifier 'sas_ata_sdev_attr_group'
-    3548 |         &sas_ata_sdev_attr_group,
-         |          ^
-   1 error generated.
+   In file included from include/linux/mm.h:29,
+                    from include/linux/memcontrol.h:21,
+                    from include/linux/swap.h:9,
+                    from include/linux/suspend.h:5,
+                    from arch/x86/kernel/asm-offsets.c:14:
+>> include/linux/pgtable.h:87:29: error: redefinition of 'p4d_index'
+      87 | static inline unsigned long p4d_index(unsigned long address)
+         |                             ^~~~~~~~~
+   In file included from arch/x86/include/asm/tlbflush.h:16,
+                    from arch/x86/include/asm/uaccess.h:17,
+                    from include/linux/uaccess.h:11,
+                    from include/linux/sched/task.h:13,
+                    from include/linux/sched/signal.h:9,
+                    from include/linux/rcuwait.h:6,
+                    from include/linux/percpu-rwsem.h:7,
+                    from include/linux/fs.h:33,
+                    from include/linux/compat.h:17,
+                    from arch/x86/include/asm/ia32.h:7,
+                    from arch/x86/include/asm/elf.h:10,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:19,
+                    from include/crypto/aria.h:22,
+                    from arch/x86/kernel/asm-offsets.c:10:
+   arch/x86/include/asm/pgtable.h:1134:29: note: previous definition of 'p4d_index' with type 'long unsigned int(long unsigned int)'
+    1134 | static inline unsigned long p4d_index(unsigned long address)
+         |                             ^~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:117: arch/x86/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1197: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/sas_ata_sdev_attr_group +3548 drivers/scsi/hisi_sas/hisi_sas_v2_hw.c
+vim +/p4d_index +87 include/linux/pgtable.h
 
-62ac8ccbb819e3 Bart Van Assche 2021-10-12  3546  
-a23971e8ff0c43 Igor Pylypiv    2024-03-07  3547  static const struct attribute_group *sdev_groups_v2_hw[] = {
-a23971e8ff0c43 Igor Pylypiv    2024-03-07 @3548  	&sas_ata_sdev_attr_group,
-a23971e8ff0c43 Igor Pylypiv    2024-03-07  3549  	NULL
-a23971e8ff0c43 Igor Pylypiv    2024-03-07  3550  };
-a23971e8ff0c43 Igor Pylypiv    2024-03-07  3551  
-
-:::::: The code at line 3548 was first introduced by commit
-:::::: a23971e8ff0c43d47e1772b62c2916ff0b768fca scsi: hisi_sas: Add libsas SATA sysfs attributes group
-
-:::::: TO: Igor Pylypiv <ipylypiv@google.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+    85	
+    86	#ifndef p4d_index
+  > 87	static inline unsigned long p4d_index(unsigned long address)
+    88	{
+    89		return (address >> P4D_SHIFT) & (PTRS_PER_P4D - 1);
+    90	}
+    91	#define p4d_index p4d_index
+    92	#endif
+    93	
 
 -- 
 0-DAY CI Kernel Test Service
