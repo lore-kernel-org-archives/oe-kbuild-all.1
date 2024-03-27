@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA8323774;
-	Wed, 27 Mar 2024 04:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BCF36F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Mar 2024 05:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711513339; cv=none; b=jwxmR6MzydbIdeR0ifgMjTKjV5o/vSN6Z9tuLInyMYhXr468mltBTTS3gI80LC9xtTGm/zkFEXrAFKX5CjJJOIDwE0KbyYfGq5RNj0viMGxDBp+rYz7nydAWmtXyBIsBbAU8jK+telkXtAC4zafSuoE6lMgrhDp6Nm7zrR2Yhw4=
+	t=1711515859; cv=none; b=CYmKimsWC3J7yMmHlWeEpFxUPzpz6OZXQZG52xRej4wUN2V0o5UoqPgE01kRMBC5FxTgCiUyg3Ji47UsEEhSZfkQLuE477txmltji2eFjDPEVQZjoIPtgYBo5xlmEXC2s1i9wwuI8ZmFRoPPVAy1JpDNivxu/NkCyFLqwFovTrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711513339; c=relaxed/simple;
-	bh=oiKTiKOb5Jojd+oorgkSC6Zix3bkAATtMk0CoQngLAg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y8qdEgZKtD9X4DwWGlL9y8LWFtXbHnBPQCUb/lzcXvB2IDLzi8/BtKV/4m7HYKZ89n/7lTi4/jO6vUSwW3qOfNt3yskNoqvBkZ+e3W1ANiomZfnQY3rAunfKyZfJByjLuRxf98AV4EGqa49y4GGUE5d908+mNFevIuGCL/kLgmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nqzN21fe; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1711515859; c=relaxed/simple;
+	bh=om1pLU42e84ExumzSoCZJQerWqmrdts0t5PQQbfE3T8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FlPdNPCzf0yjdvah9zH8Al5keIsWPWKs4qgVzLjPzQKf7D149SIdtlYpGn1LPiVu1F1RgI9NfAyGCLj8fCp8/36iuEntPLG02q26H9FfzAjaY5Pxv5stcWr/OLAKnHUHuznN60yXTfyHiMkqtlOMq0to6XP7QW7MxSUXvKgJGAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ldpkhb70; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqzN21fe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ldpkhb70"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711513337; x=1743049337;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oiKTiKOb5Jojd+oorgkSC6Zix3bkAATtMk0CoQngLAg=;
-  b=nqzN21feLnHN6JklX3sqLCnr0OCZdswOP7LTl/QHSoa7AKh+GcJXhpU2
-   SEMIZXfPBsnttZBNl/XZlUJod1sye1Wy2aBRbpsshzmu5NxTDthoX7lzm
-   XSP3u+cgUbIk7bCWefIysbQM9/uHgtWqDQmIIkXBu4Me+ArfqkcMwoISx
-   Xu+leXMZcnllac+av53E3DepIe2KgRkSjPhMAU6PGLcFStCqc7WPZZGhc
-   hVFc3M5b9TQfuY6Yu565Hi/FKsUGCmQc53Gu3bw+J4mo5xy3drZDVUqMy
-   CD3J6T+PC7TH/vKbC5JKDQCLZAQ7IDGNK1GDJNennMVQP37heT4gHkQup
-   g==;
-X-CSE-ConnectionGUID: T6mVx7onT4K3+fXZF7msDg==
-X-CSE-MsgGUID: FxVQ9aV9STagdtvE2hnYXA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6458258"
+  t=1711515857; x=1743051857;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=om1pLU42e84ExumzSoCZJQerWqmrdts0t5PQQbfE3T8=;
+  b=Ldpkhb70UDjM2keUaXhG8hifnrezRHFCRHPJ0IP6QBnUtsLXSuyptFNC
+   YDJMj3nUjABNGC7SypPOBfadEFhVksPI00r31gtq6MVfcGRjvaXNY3ckR
+   ApR7qUF37+lh38lNaZyZ1cJ2E5/sZOAYd0yZ1k9dPDOSsvrFR5ovAx+AN
+   aX3P/DY/QOHIa+wjvNeEHkSAk+ayXxncCh4b8sZlkN9zTfduXy8VLbgkW
+   5+J61byZ7jL4dHhFM+akMJRsQ0wT1+S9ChIUw3aVlDytLWeLAe8/RGQiU
+   j04jkwMYRSDMqwTafXwm6XsmENEueSq/keBabGnvAflEMu9K4fks4fcFm
+   Q==;
+X-CSE-ConnectionGUID: njIfEtF7SxSyAp4JiaT2Tw==
+X-CSE-MsgGUID: EvFogzY/SgeCBAbEVO3HNg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6535454"
 X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
-   d="scan'208";a="6458258"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 21:22:15 -0700
+   d="scan'208";a="6535454"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 22:04:16 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
-   d="scan'208";a="20892615"
+   d="scan'208";a="53643682"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 26 Mar 2024 21:22:13 -0700
+  by orviesa001.jf.intel.com with ESMTP; 26 Mar 2024 22:04:14 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rpKnj-0000kQ-0N;
-	Wed, 27 Mar 2024 04:22:11 +0000
-Date: Wed, 27 Mar 2024 12:21:30 +0800
+	id 1rpLSN-0000le-2d;
+	Wed, 27 Mar 2024 05:04:11 +0000
+Date: Wed, 27 Mar 2024 13:03:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes@sipsolutions.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 1/4] tracing: add __print_sym() to replace
- __print_symbolic()
-Message-ID: <202403271216.iazgC6LR-lkp@intel.com>
-References: <20240326202131.9d261d5bb667.I9bd2617499f0d170df58471bc51379742190f92d@changeid>
+To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2698/6883]
+ drivers/platform/mpam/mpam_devices.c:247:11: error: call to undeclared
+ function '__acpi_get_mem_attribute'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202403271231.DndRjPnH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,195 +61,155 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240326202131.9d261d5bb667.I9bd2617499f0d170df58471bc51379742190f92d@changeid>
 
-Hi Johannes,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mcgrof/modules-next]
-[also build test WARNING on arnd-asm-generic/master tip/timers/core net/main net-next/main linus/master horms-ipvs/master v6.9-rc1 next-20240326]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/tracing-add-__print_sym-to-replace-__print_symbolic/20240327-032437
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git modules-next
-patch link:    https://lore.kernel.org/r/20240326202131.9d261d5bb667.I9bd2617499f0d170df58471bc51379742190f92d%40changeid
-patch subject: [RFC PATCH v2 1/4] tracing: add __print_sym() to replace __print_symbolic()
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240327/202403271216.iazgC6LR-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 23de3862dce582ce91c1aa914467d982cb1a73b4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240327/202403271216.iazgC6LR-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   ce3022885cff9ed62573d5866dee9e8f42756b4d
+commit: 3e9e723f3bf92a19e5e15dda89bbb136ce463294 [2698/6883] arm_mpam: Add probe/remove for mpam msc driver and kbuild boiler plate
+config: arm64-randconfig-002-20240327 (https://download.01.org/0day-ci/archive/20240327/202403271231.DndRjPnH-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240327/202403271231.DndRjPnH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403271216.iazgC6LR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403271231.DndRjPnH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from lib/maple_tree.c:65:
-   In file included from include/trace/events/maple_tree.h:123:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:27:
->> include/trace/stages/init.h:30:9: warning: 'TRACE_DEFINE_SYM_FNS' macro redefined [-Wmacro-redefined]
-      30 | #define TRACE_DEFINE_SYM_FNS(_symbol_id, _lookup, _show)                \
-         |         ^
-   include/linux/tracepoint.h:130:9: note: previous definition is here
-     130 | #define TRACE_DEFINE_SYM_FNS(...)
-         |         ^
-   In file included from lib/maple_tree.c:65:
-   In file included from include/trace/events/maple_tree.h:123:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:27:
->> include/trace/stages/init.h:54:9: warning: 'TRACE_DEFINE_SYM_LIST' macro redefined [-Wmacro-redefined]
-      54 | #define TRACE_DEFINE_SYM_LIST(_symbol_id, ...)                          \
-         |         ^
-   include/linux/tracepoint.h:131:9: note: previous definition is here
-     131 | #define TRACE_DEFINE_SYM_LIST(...)
-         |         ^
-   2 warnings generated.
---
-   In file included from lib/maple_tree.c:65:
-   In file included from include/trace/events/maple_tree.h:9:
-   In file included from include/linux/tracepoint.h:22:
-   In file included from include/linux/static_call.h:135:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:173:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from lib/maple_tree.c:65:
-   In file included from include/trace/events/maple_tree.h:123:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:27:
->> include/trace/stages/init.h:30:9: warning: 'TRACE_DEFINE_SYM_FNS' macro redefined [-Wmacro-redefined]
-      30 | #define TRACE_DEFINE_SYM_FNS(_symbol_id, _lookup, _show)                \
-         |         ^
-   include/linux/tracepoint.h:130:9: note: previous definition is here
-     130 | #define TRACE_DEFINE_SYM_FNS(...)
-         |         ^
-   In file included from lib/maple_tree.c:65:
-   In file included from include/trace/events/maple_tree.h:123:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:27:
->> include/trace/stages/init.h:54:9: warning: 'TRACE_DEFINE_SYM_LIST' macro redefined [-Wmacro-redefined]
-      54 | #define TRACE_DEFINE_SYM_LIST(_symbol_id, ...)                          \
-         |         ^
-   include/linux/tracepoint.h:131:9: note: previous definition is here
-     131 | #define TRACE_DEFINE_SYM_LIST(...)
-         |         ^
-   lib/maple_tree.c:351:21: warning: unused function 'mte_set_full' [-Wunused-function]
-     351 | static inline void *mte_set_full(const struct maple_enode *node)
-         |                     ^~~~~~~~~~~~
-   lib/maple_tree.c:356:21: warning: unused function 'mte_clear_full' [-Wunused-function]
-     356 | static inline void *mte_clear_full(const struct maple_enode *node)
-         |                     ^~~~~~~~~~~~~~
-   lib/maple_tree.c:361:20: warning: unused function 'mte_has_null' [-Wunused-function]
-     361 | static inline bool mte_has_null(const struct maple_enode *node)
-         |                    ^~~~~~~~~~~~
-   10 warnings generated.
+   drivers/platform/mpam/mpam_devices.c:212:24: error: no member named 'mon_sel_lock' in 'struct mpam_msc'; did you mean 'part_sel_lock'?
+                   spin_lock_init(&msc->mon_sel_lock);
+                                        ^~~~~~~~~~~~
+                                        part_sel_lock
+   include/linux/spinlock.h:335:38: note: expanded from macro 'spin_lock_init'
+           __raw_spin_lock_init(spinlock_check(lock),              \
+                                               ^
+   drivers/platform/mpam/mpam_internal.h:43:14: note: 'part_sel_lock' declared here
+           spinlock_t              part_sel_lock;
+                                   ^
+>> drivers/platform/mpam/mpam_devices.c:247:11: error: call to undeclared function '__acpi_get_mem_attribute'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                           prot = __acpi_get_mem_attribute(msc->pcc_chan->shmem_base_addr);
+                                  ^
+>> drivers/platform/mpam/mpam_devices.c:247:9: error: assigning to 'pgprot_t' from incompatible type 'int'
+                           prot = __acpi_get_mem_attribute(msc->pcc_chan->shmem_base_addr);
+                                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
 
 
-vim +/TRACE_DEFINE_SYM_FNS +30 include/trace/stages/init.h
+vim +/__acpi_get_mem_attribute +247 drivers/platform/mpam/mpam_devices.c
 
-    12	
-    13	#undef TRACE_DEFINE_ENUM
-    14	#define TRACE_DEFINE_ENUM(a)				\
-    15		static struct trace_eval_map __used __initdata	\
-    16		__##TRACE_SYSTEM##_##a =			\
-    17		{						\
-    18			.system = TRACE_SYSTEM_STRING,		\
-    19			.eval_string = #a,			\
-    20			.eval_value = a				\
-    21		};						\
-    22		static struct trace_eval_map __used		\
-    23		__section("_ftrace_eval_map")			\
-    24		*TRACE_SYSTEM##_##a = &__##TRACE_SYSTEM##_##a
-    25	
-    26	/*
-    27	 * Define a symbol for __print_sym by giving lookup and
-    28	 * show functions. See &struct trace_sym_def.
-    29	 */
-  > 30	#define TRACE_DEFINE_SYM_FNS(_symbol_id, _lookup, _show)		\
-    31		_TRACE_DEFINE_SYM_FNS(TRACE_SYSTEM, _symbol_id, _lookup, _show)
-    32	#define _TRACE_DEFINE_SYM_FNS(_system, _symbol_id, _lookup, _show)	\
-    33		__TRACE_DEFINE_SYM_FNS(_system, _symbol_id, _lookup, _show)
-    34	#define __TRACE_DEFINE_SYM_FNS(_system, _symbol_id, _lookup, _show)	\
-    35		___TRACE_DEFINE_SYM_FNS(_system ## _ ## _symbol_id, _symbol_id,	\
-    36					_lookup, _show)
-    37	#define ___TRACE_DEFINE_SYM_FNS(_name, _symbol_id, _lookup, _show)	\
-    38		static struct trace_sym_def					\
-    39		__trace_sym_def_ ## _name = {					\
-    40			.system = TRACE_SYSTEM_STRING,				\
-    41			/* need the ) for later strcmp */			\
-    42			.symbol_id = #_symbol_id ")",				\
-    43			.lookup = _lookup,					\
-    44			.show = _show,						\
-    45		};								\
-    46		static struct trace_sym_def 					\
-    47		__section("_ftrace_sym_defs")					\
-    48		*__trace_sym_def_p_ ## _name = &__trace_sym_def_ ## _name
-    49	
-    50	/*
-    51	 * Define a symbol for __print_sym by giving lookup and
-    52	 * show functions. See &struct trace_sym_def.
-    53	 */
-  > 54	#define TRACE_DEFINE_SYM_LIST(_symbol_id, ...)				\
-    55		_TRACE_DEFINE_SYM_LIST(TRACE_SYSTEM, _symbol_id, __VA_ARGS__)
-    56	#define _TRACE_DEFINE_SYM_LIST(_system, _symbol_id, ...)		\
-    57		__TRACE_DEFINE_SYM_LIST(_system, _symbol_id, __VA_ARGS__)
-    58	#define __TRACE_DEFINE_SYM_LIST(_system, _symbol_id, ...)		\
-    59		___TRACE_DEFINE_SYM_LIST(_system ## _ ## _symbol_id, _symbol_id,\
-    60					 __VA_ARGS__)
-    61	#define ___TRACE_DEFINE_SYM_LIST(_name, _symbol_id, ...)		\
-    62		static struct trace_sym_entry					\
-    63		__trace_sym_list_ ## _name[] = { __VA_ARGS__ };			\
-    64		static const char *						\
-    65		__trace_sym_lookup_ ## _name(unsigned long long value)		\
-    66		{								\
-    67			return trace_sym_lookup(__trace_sym_list_ ## _name,	\
-    68				ARRAY_SIZE(__trace_sym_list_ ## _name), value);	\
-    69		}								\
-    70		static void							\
-    71		__trace_sym_show_ ## _name(struct seq_file *m)			\
-    72		{								\
-    73			trace_sym_show(m, __trace_sym_list_ ## _name,		\
-    74				       ARRAY_SIZE(__trace_sym_list_ ## _name));	\
-    75		}								\
-    76		___TRACE_DEFINE_SYM_FNS(_name, _symbol_id,			\
-    77					__trace_sym_lookup_ ## _name,		\
-    78					__trace_sym_show_ ## _name)
-    79	
+   170	
+   171	static int mpam_msc_drv_probe(struct platform_device *pdev)
+   172	{
+   173		int err;
+   174		pgprot_t prot;
+   175		void * __iomem io;
+   176		struct mpam_msc *msc;
+   177		struct resource *msc_res;
+   178		void *plat_data = pdev->dev.platform_data;
+   179	
+   180		mutex_lock(&mpam_list_lock);
+   181		do {
+   182			msc = devm_kzalloc(&pdev->dev, sizeof(*msc), GFP_KERNEL);
+   183			if (!msc) {
+   184				err = -ENOMEM;
+   185				break;
+   186			}
+   187	
+   188			INIT_LIST_HEAD_RCU(&msc->glbl_list);
+   189			msc->pdev = pdev;
+   190	
+   191			err = device_property_read_u32(&pdev->dev, "arm,not-ready-us",
+   192						       &msc->nrdy_usec);
+   193			if (err) {
+   194				/* This will prevent CSU monitors being usable */
+   195				msc->nrdy_usec = 0;
+   196			}
+   197	
+   198			err = get_msc_affinity(msc);
+   199			if (err)
+   200				break;
+   201			if (cpumask_empty(&msc->accessibility)) {
+   202				pr_err_once("msc:%u is not accessible from any CPU!",
+   203					    msc->id);
+   204				err = -EINVAL;
+   205				break;
+   206			}
+   207	
+   208			mutex_init(&msc->lock);
+   209			msc->id = mpam_num_msc++;
+   210			INIT_LIST_HEAD_RCU(&msc->ris);
+   211			spin_lock_init(&msc->part_sel_lock);
+   212			spin_lock_init(&msc->mon_sel_lock);
+   213	
+   214			if (device_property_read_u32(&pdev->dev, "pcc-channel",
+   215						     &msc->pcc_subspace_id))
+   216				msc->iface = MPAM_IFACE_MMIO;
+   217			else
+   218				msc->iface = MPAM_IFACE_PCC;
+   219	
+   220			if (msc->iface == MPAM_IFACE_MMIO) {
+   221				io = devm_platform_get_and_ioremap_resource(pdev, 0,
+   222									    &msc_res);
+   223				if (IS_ERR(io)) {
+   224					pr_err("Failed to map MSC base address\n");
+   225					devm_kfree(&pdev->dev, msc);
+   226					err = PTR_ERR(io);
+   227					break;
+   228				}
+   229				msc->mapped_hwpage_sz = msc_res->end - msc_res->start;
+   230				msc->mapped_hwpage = io;
+   231			} else if (msc->iface == MPAM_IFACE_PCC) {
+   232				msc->pcc_cl.dev = &pdev->dev;
+   233				msc->pcc_cl.rx_callback = mpam_pcc_rx_callback;
+   234				msc->pcc_cl.tx_block = false;
+   235				msc->pcc_cl.tx_tout = 1000; /* 1s */
+   236				msc->pcc_cl.knows_txdone = false;
+   237	
+   238				msc->pcc_chan = pcc_mbox_request_channel(&msc->pcc_cl,
+   239									 msc->pcc_subspace_id);
+   240				if (IS_ERR(msc->pcc_chan)) {
+   241					pr_err("Failed to request MSC PCC channel\n");
+   242					devm_kfree(&pdev->dev, msc);
+   243					err = PTR_ERR(msc->pcc_chan);
+   244					break;
+   245				}
+   246	
+ > 247				prot = __acpi_get_mem_attribute(msc->pcc_chan->shmem_base_addr);
+   248				io = ioremap_prot(msc->pcc_chan->shmem_base_addr,
+   249						  msc->pcc_chan->shmem_size, pgprot_val(prot));
+   250				if (IS_ERR(io)) {
+   251					pr_err("Failed to map MSC base address\n");
+   252					pcc_mbox_free_channel(msc->pcc_chan);
+   253					devm_kfree(&pdev->dev, msc);
+   254					err = PTR_ERR(io);
+   255					break;
+   256				}
+   257	
+   258				/* TODO: issue a read to update the registers */
+   259	
+   260				msc->mapped_hwpage_sz = msc->pcc_chan->shmem_size;
+   261				msc->mapped_hwpage = io + sizeof(struct acpi_pcct_shared_memory);
+   262			}
+   263	
+   264			list_add_rcu(&msc->glbl_list, &mpam_all_msc);
+   265			platform_set_drvdata(pdev, msc);
+   266		} while (0);
+   267		mutex_unlock(&mpam_list_lock);
+   268	
+   269		if (!err) {
+   270			/* Create RIS entries described by firmware */
+   271			if (!acpi_disabled)
+   272				err = acpi_mpam_parse_resources(msc, plat_data);
+   273			else
+   274				err = mpam_dt_parse_resources(msc, plat_data);
+   275		}
+   276	
+   277		if (!err && fw_num_msc == mpam_num_msc)
+   278			mpam_discovery_complete();
+   279	
+   280		return err;
+   281	}
+   282	
 
 -- 
 0-DAY CI Kernel Test Service
