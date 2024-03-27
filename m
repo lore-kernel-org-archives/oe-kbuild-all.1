@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF87D12F5A9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Mar 2024 13:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA96B12D778
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Mar 2024 13:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711544958; cv=none; b=ENY6MHTAqa2dnIE3StLi51c2MTyDQuYzW97rx/Vp/NkGPJ4FAgCfdDgUPBKK/i3gYPQ+NXkm1LFLboxkztvs6ENJNqTu3NYyk3mAJU2Qu3NQ6xSN8iqcyTjUdsPxY+3IiifL5tXvF6NZVerYMwcsxnXs6R01ZbBvFKFVS0qYsHs=
+	t=1711547740; cv=none; b=fmUCIdwEyKtKYVkpXFuNw2tmrWRq6m0jnNDWMdnNCdgI8lhkgg9shRmJ9NXCLAJf5Aby+A6W41iqf1pWxr9JSRDx7VgYAGL+XX/C1nA6wt5nlQZnPHWLbcoFHL8Cfh2OYi/7FY/sBgwJL4TnqGo5y5JyTaf51HZxQflIBR3X614=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711544958; c=relaxed/simple;
-	bh=Trki3eD1i9gJpV+lfj9mSu6+2HaoF0l0wKjTLLICYck=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CAA9hwxKFTvxLhaZAqjfqergxIdoovvAZ9Yv+0FRfUdQGAASUdV5TQ3JYsWX9CihhePi8fRGmpl7DSkYldBnjmrHiUylqEg1ECF95+rKCweBv+2/Gzd6rj5HSmqpYRSTO94x3A7ENqOKIejltzMVSzxODGl9iYG70t8sLh0sOmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nVB4p09H; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1711547740; c=relaxed/simple;
+	bh=l7RNtYATIW/KlYSp187oC8/l1iCTUOXWmBZwWKFQEBc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HeDHBqgrf1+uTpmsiBAUxFveBjaMZbQC7RAC6RSH1SPzPVyc3D/bOEfhAzm8+5eu86eHWo0RXsFhZHj+dhKW1voOuGfyNujLjZ+OZIgZAyHpUsUYOp1SG1+kT2OCEqrGr42J4bgIfu/0bqRr+FRKDJrt8aJflEcfiD6pcZT/ttw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cIQL/+eL; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nVB4p09H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cIQL/+eL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711544957; x=1743080957;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Trki3eD1i9gJpV+lfj9mSu6+2HaoF0l0wKjTLLICYck=;
-  b=nVB4p09Hx09Y+FCKgpHbuKocT9XIDFnDS20z9HKBBVh2IkPJjvDbO+jh
-   NXty1kfkrVDM8ExjS3qly4tXXJ/qmYj7wmeBZc890W8vkXx9pV6BjzheR
-   t4BZDxwJAGQw2/WPm7ss5fpTNveMlyM+GLCL/hMOztkryvknHu/9HSp9v
-   Vy+7XyEtzfYx9rrhOQb10QmrSZ8VQsLvTY4vpwVbUX75CZFQEDFA/D7p+
-   b35Ye+SuSRzHnIQdciHh6X4wL2e8YKH/JAU8vaM10hyJKkAxqds/OZGoo
-   QRlgrcvxz7zuKr/LJ+1Bxu20yx+F/YifqF726dRXZH9HFyLephUyJa6lj
-   w==;
-X-CSE-ConnectionGUID: e3shl6JiTaSC4Fg9z0VoAA==
-X-CSE-MsgGUID: nQf360MmQNe6ih3KNE9swA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6580775"
-X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
-   d="scan'208";a="6580775"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 06:09:16 -0700
+  t=1711547738; x=1743083738;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=l7RNtYATIW/KlYSp187oC8/l1iCTUOXWmBZwWKFQEBc=;
+  b=cIQL/+eLLN1MleQtBqiCwjusWv0/zvYebPJdbloGJSnI4S0+LNEPUT/K
+   tuxQZmMaf+4sY7ItJMsFWFPlhB4QmNkP9mzcFza2pk6zXWWZ/F0crqHWR
+   m3CB5qykWX3PkAAiBkxw+12D/12Q5HteyX4DIq4N/0STntaUtGg70nEIV
+   kJ26tV/lnp9njvSSGBl80GnzJIeqy2uc5bCPiCP14xBlmK6Hs221IJ940
+   BPfow3JSuPZCWA/FEwS3TttcVH6PdpxikFX35J+x04yg7N57GAdhZ4l0s
+   GYi0sN78IfuUWJVz017woNqwRLSIg+793rxJnmXQBhP4CTM+UUYMQwdiT
+   Q==;
+X-CSE-ConnectionGUID: 0XyHB2w8SECxVUjyJalSyw==
+X-CSE-MsgGUID: 0SszM9zxQg2Xfr9PKH1rsQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6837363"
+X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; 
+   d="scan'208";a="6837363"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 06:55:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="914912935"
-X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
-   d="scan'208";a="914912935"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 06:09:14 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rpT1j-0000000GdhP-4At0;
-	Wed, 27 Mar 2024 15:09:11 +0200
-Date: Wed, 27 Mar 2024 15:09:11 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Subject: Re: [broonie-ci:fileECoqy0 5/6]
- sound/soc/generic/simple-card-utils.c:755:20: error: 'struct
- snd_soc_jack_gpio' has no member named 'gpio'
-Message-ID: <ZgQad95fT5rqAFZe@smile.fi.intel.com>
-References: <202403270859.Ew6NATlW-lkp@intel.com>
+X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; 
+   d="scan'208";a="20957952"
+Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 27 Mar 2024 06:55:26 -0700
+Received: from kbuild by be39aa325d23 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rpTkS-00015i-0S;
+	Wed, 27 Mar 2024 13:55:24 +0000
+Date: Wed, 27 Mar 2024 21:54:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.1 2/14]
+ arch/arm64/kvm/hyp_events.c:357:5: warning: no previous prototype for
+ function 'hyp_trace_init_mod_events'
+Message-ID: <202403272104.D4nqi5je-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,28 +60,136 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202403270859.Ew6NATlW-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Mar 27, 2024 at 09:01:01AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git fileECoqy0
-> head:   3c398a2eb9081a10c34a40701159a34319a35f19
-> commit: c81737adb6536b26ebf9176179b3551cb33be4c0 [5/6] ASoC: soc-jack: Get rid of legacy GPIO support
-> config: i386-buildonly-randconfig-003-20240325 (https://download.01.org/0day-ci/archive/20240327/202403270859.Ew6NATlW-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240327/202403270859.Ew6NATlW-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403270859.Ew6NATlW-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
+tree:   https://android.googlesource.com/kernel/common android15-6.1
+head:   3930d879e38c97b7777efd6be4ba7f99aa32e4da
+commit: ea75c0835c8fcd34d65b62f6299bf8bdc7744740 [2/14] ANDROID: KVM: arm64: Allow registration of pKVM module hyp events
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240327/202403272104.D4nqi5je-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 23de3862dce582ce91c1aa914467d982cb1a73b4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240327/202403272104.D4nqi5je-lkp@intel.com/reproduce)
 
-Already fixed.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403272104.D4nqi5je-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+      14 | HYP_EVENT(hyp_enter,
+         | ^
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^
+   <scratch space>:110:1: note: expanded from here
+     110 | hyp_event_trace_hyp_enter
+         | ^
+   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |         ^
+   In file included from arch/arm64/kvm/hyp_events.c:10:
+   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
+   arch/arm64/include/asm/kvm_hypevents.h:23:1: warning: no previous prototype for function 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
+      23 | HYP_EVENT(hyp_exit,
+         | ^
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^
+   <scratch space>:115:1: note: expanded from here
+     115 | hyp_event_trace_hyp_exit
+         | ^
+   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |         ^
+   In file included from arch/arm64/kvm/hyp_events.c:10:
+   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
+   arch/arm64/include/asm/kvm_hypevents.h:32:1: warning: no previous prototype for function 'hyp_event_trace_host_hcall' [-Wmissing-prototypes]
+      32 | HYP_EVENT(host_hcall,
+         | ^
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^
+   <scratch space>:120:1: note: expanded from here
+     120 | hyp_event_trace_host_hcall
+         | ^
+   arch/arm64/include/asm/kvm_hypevents.h:32:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |         ^
+   In file included from arch/arm64/kvm/hyp_events.c:10:
+   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
+   arch/arm64/include/asm/kvm_hypevents.h:46:1: warning: no previous prototype for function 'hyp_event_trace_host_smc' [-Wmissing-prototypes]
+      46 | HYP_EVENT(host_smc,
+         | ^
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^
+   <scratch space>:125:1: note: expanded from here
+     125 | hyp_event_trace_host_smc
+         | ^
+   arch/arm64/include/asm/kvm_hypevents.h:46:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |         ^
+   In file included from arch/arm64/kvm/hyp_events.c:10:
+   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
+   arch/arm64/include/asm/kvm_hypevents.h:61:1: warning: no previous prototype for function 'hyp_event_trace_host_mem_abort' [-Wmissing-prototypes]
+      61 | HYP_EVENT(host_mem_abort,
+         | ^
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^
+   <scratch space>:130:1: note: expanded from here
+     130 | hyp_event_trace_host_mem_abort
+         | ^
+   arch/arm64/include/asm/kvm_hypevents.h:61:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |         ^
+   arch/arm64/kvm/hyp_events.c:199:6: warning: no previous prototype for function 'hyp_trace_init_event_early' [-Wmissing-prototypes]
+     199 | bool hyp_trace_init_event_early(void)
+         |      ^
+   arch/arm64/kvm/hyp_events.c:199:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     199 | bool hyp_trace_init_event_early(void)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp_events.c:249:19: warning: no previous prototype for function 'hyp_trace_find_event' [-Wmissing-prototypes]
+     249 | struct hyp_event *hyp_trace_find_event(int id)
+         |                   ^
+   arch/arm64/kvm/hyp_events.c:249:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     249 | struct hyp_event *hyp_trace_find_event(int id)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp_events.c:323:6: warning: no previous prototype for function 'hyp_trace_init_event_tracefs' [-Wmissing-prototypes]
+     323 | void hyp_trace_init_event_tracefs(struct dentry *parent)
+         |      ^
+   arch/arm64/kvm/hyp_events.c:323:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     323 | void hyp_trace_init_event_tracefs(struct dentry *parent)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp_events.c:345:5: warning: no previous prototype for function 'hyp_trace_init_events' [-Wmissing-prototypes]
+     345 | int hyp_trace_init_events(void)
+         |     ^
+   arch/arm64/kvm/hyp_events.c:345:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     345 | int hyp_trace_init_events(void)
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp_events.c:357:5: warning: no previous prototype for function 'hyp_trace_init_mod_events' [-Wmissing-prototypes]
+     357 | int hyp_trace_init_mod_events(struct hyp_event *event,
+         |     ^
+   arch/arm64/kvm/hyp_events.c:357:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     357 | int hyp_trace_init_mod_events(struct hyp_event *event,
+         | ^
+         | static 
+   15 warnings generated.
+
+
+vim +/hyp_trace_init_mod_events +357 arch/arm64/kvm/hyp_events.c
+
+   356	
+ > 357	int hyp_trace_init_mod_events(struct hyp_event *event,
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
