@@ -1,113 +1,98 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBE838385
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Mar 2024 10:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE66A12837D;
+	Wed, 27 Mar 2024 11:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711537100; cv=none; b=rwxBLsgE99nQSvDVL6QU20W0MwgqasVkrOvi+fsBAwbDc+KRswQIJDmWfxEHTz+ZMSg45oHCfnTV9HvXoL2giqF9xVv2WAdfdxsf2QSWg7vZDEyV6cRCzb1Db5j1BOcZLUQ/nv5LSkIdPnakvmT7Gd/Q8yUGfcZkwZq2shCmv8I=
+	t=1711539747; cv=none; b=r+icKGmGhUFMLGmNW9SdcMcmiFHGo1E6niCcLlz1XywkXcUCBaC+wrv98QI6CTS5sVp7LPIRp5kaxg7O78G3Pf2hwckG5UiYdi+sLDI7dWimG/CqMrnbbH22UDRxMDxa7jtnZ6I15X+Maf88LGn7yfOy+kpGGswLOWg9+yjCGRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711537100; c=relaxed/simple;
-	bh=5YGY2JYfdhNoExvpR3rfuPooX1BwtAUW6FizmAqQNG0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=pW60FV1x94FWOb6Vo6TA5mvooyTAZFCKT25AJ/Npp0Jr1Q3HQAmlv0VizkjFw0IScmNPSAhz0WvWuUjbq0eWmT2rIRehFcBnyiqbxlH9eGSt7kOT7wFKEbhDoKSeSscdoEMVs7rofM+I2udNoMRbM3C98/Tyw/p0LvQ2NGsOMAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZBMFDEx5; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1711539747; c=relaxed/simple;
+	bh=PWzDEl5oi1sC/iz5WVqfL6+HJghndDKJjDp+YkqGS9o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ap8UtVHiy30HpYUkzsOjFFyN+j11/Df9APfsAah6bgdQHq3FHqznBaLKnWdxuJFWJCkmXYugSPKOiSzVmGFKsAPlSTZ3uTdxHLVRKcsPlu+bqj+7PXk2+iNxt1aK/LBJ32kU0vfcGlNZPth5mQg6hCWQ6mfVFPduOycCIPZfXYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A8f05f/k; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZBMFDEx5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711537097;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S91u8DyRWZqtyhFVILod0RfK/IbP2pYjnAqixDUfaaA=;
-	b=ZBMFDEx5a41ddIU6wameuAG/PpO3r9G7TlosxGCQ5BD9RqMSi/6zLar19PKUHoywsN/4SV
-	rqNi70VVNi6oOpok2rXbKJp+/wrgppO9Q18Zmx1MROXUcabpdJjaxv4B2FMAUA0FJVFVpx
-	4WHZyajUs3E1rEMsDZT/K2ssn8DCApA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-662-uIYtmaSXPE6G9Z4cSm9PcQ-1; Wed, 27 Mar 2024 06:58:16 -0400
-X-MC-Unique: uIYtmaSXPE6G9Z4cSm9PcQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0945C85A58B;
-	Wed, 27 Mar 2024 10:58:16 +0000 (UTC)
-Received: from localhost (unknown [10.72.116.12])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 506B91121306;
-	Wed, 27 Mar 2024 10:58:15 +0000 (UTC)
-Date: Wed, 27 Mar 2024 18:58:06 +0800
-From: Baoquan He <bhe@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 4/7] mm/page_alloc.c: remove unneeded codes in !NUMA
- version of build_zonelists()
-Message-ID: <ZgP7vpoLyQ+YUrys@MiWiFi-R3L-srv>
-References: <20240326061134.1055295-5-bhe@redhat.com>
- <202403270916.8ARzkyqB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A8f05f/k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711539746; x=1743075746;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PWzDEl5oi1sC/iz5WVqfL6+HJghndDKJjDp+YkqGS9o=;
+  b=A8f05f/kJ1j38RsThe3qJ9g46iBV/3AfsQcpk5vIf2+0H135x7KVEPkk
+   4Vw3pJX9Ms4v7gD0Dq3s33nhELcFEJv3QHTEIt/bVSLlpBECQWZXl3HIR
+   zhSE+OvXv2qU37kSPZ3KWtq0pUiNlsjsXtHXPxmccoB+wR7JajI+FUhIN
+   PksuY5PNSTQRjkdRIyGpSfhspN6kp46L+mOppNlfZgze7UQpQXj4QWFnC
+   4dhlaMsDU5G1i+m/ekhBcpErurFIq/YnW9oGIyasd7J3OtnyLqpxdGWuX
+   rKXKut1I5Eee85bkpmhmFAc/Rdwph2Le2bSyqzuk7H2IHSYFMc8ze13IW
+   A==;
+X-CSE-ConnectionGUID: ua4PLu2nTYmQSB479nwR5g==
+X-CSE-MsgGUID: GO+FOFy3QTqObeRBhjcf6A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6571291"
+X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
+   d="scan'208";a="6571291"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 04:42:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
+   d="scan'208";a="47283635"
+Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 27 Mar 2024 04:42:24 -0700
+Received: from kbuild by be39aa325d23 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rpRfh-00010w-1m;
+	Wed, 27 Mar 2024 11:42:21 +0000
+Date: Wed, 27 Mar 2024 19:42:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Mark Brown <broonie@kernel.org>
+Subject: [linux-next:master 1915/2169]
+ sound/soc/codecs/rk3308_codec.c:956:34: warning: unused variable
+ 'rk3308_codec_of_match'
+Message-ID: <202403271905.BYbGJiPi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202403270916.8ARzkyqB-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On 03/27/24 at 09:53am, kernel test robot wrote:
-> Hi Baoquan,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on akpm-mm/mm-everything]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/mm-move-array-mem_section-init-code-out-of-memory_present/20240326-141458
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20240326061134.1055295-5-bhe%40redhat.com
-> patch subject: [PATCH 4/7] mm/page_alloc.c: remove unneeded codes in !NUMA version of build_zonelists()
-> config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240327/202403270916.8ARzkyqB-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240327/202403270916.8ARzkyqB-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403270916.8ARzkyqB-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    mm/page_alloc.c: In function 'build_zonelists':
-> >> mm/page_alloc.c:5324:19: warning: variable 'local_node' set but not used [-Wunused-but-set-variable]
->     5324 |         int node, local_node;
->          |                   ^~~~~~~~~~
-> >> mm/page_alloc.c:5324:13: warning: unused variable 'node' [-Wunused-variable]
->     5324 |         int node, local_node;
->          |             ^~~~
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   26074e1be23143b2388cacb36166766c235feb7c
+commit: 4ed0915f5bc4bcc81bca783a5b984f3d81e9764e [1915/2169] ASoC: codecs: Add RK3308 internal audio codec driver
+config: i386-buildonly-randconfig-005-20240327 (https://download.01.org/0day-ci/archive/20240327/202403271905.BYbGJiPi-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240327/202403271905.BYbGJiPi-lkp@intel.com/reproduce)
 
-Thanks, below change can fix the warning. Will update and send out v2.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403271905.BYbGJiPi-lkp@intel.com/
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index b60cdcda46d2..b3872063ea63 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -5180,12 +5180,9 @@ static void setup_min_slab_ratio(void);
- 
- static void build_zonelists(pg_data_t *pgdat)
- {
--	int node, local_node;
- 	struct zoneref *zonerefs;
- 	int nr_zones;
- 
--	local_node = pgdat->node_id;
--
- 	zonerefs = pgdat->node_zonelists[ZONELIST_FALLBACK]._zonerefs;
- 	nr_zones = build_zonerefs_node(pgdat, zonerefs);
- 	zonerefs += nr_zones;
+All warnings (new ones prefixed by >>):
 
+>> sound/soc/codecs/rk3308_codec.c:956:34: warning: unused variable 'rk3308_codec_of_match' [-Wunused-const-variable]
+     956 | static const struct of_device_id rk3308_codec_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +/rk3308_codec_of_match +956 sound/soc/codecs/rk3308_codec.c
+
+   955	
+ > 956	static const struct of_device_id rk3308_codec_of_match[] = {
+   957		{ .compatible = "rockchip,rk3308-codec", },
+   958		{},
+   959	};
+   960	MODULE_DEVICE_TABLE(of, rk3308_codec_of_match);
+   961	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
