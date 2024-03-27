@@ -1,56 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7658B12EBEE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Mar 2024 16:09:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172881465AB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Mar 2024 16:31:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711555785; cv=none; b=X5+AGNSet420rTLqHSYGsVnKMowMjjOdG5nJgDnTssvJxUzkuaPyNjfQyjFK0/JddmiHb5dNvIcsTBcT3Oz6Tv3CgwHOdcNEwg8iftQIS1P0EihwcuAL1DPIAaMfsUvL9DX2FHkoIiifyKh1MOscCAE9ajP5PU25ZD3mJqU4FqA=
+	t=1711557100; cv=none; b=cuJI1BKFld58DpRLpavLrb38ExuOOlmDQnBMQ8P3+Noak0TVW4Z6w6rMfstLIKfDRBSKlJQcf6LwWNow2K3y8l0lWwI1DVaBZZsiVneaY3OUrovwoCGSDjmWH/nRMqoZI2y7kiHiQDt08+phYVFGkFaLuDXV4wuXWekljvslsGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711555785; c=relaxed/simple;
-	bh=urssge3TSWaWaGBVofVUOGpxD/V72hGYEUGON8Xdj3Y=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fcrU7RBfdLmy/7VvVBPVxCbf3K8DHU2Gjm5MRhG2QOkRyvarVPH98qSVnOF5hLV2zeHZlE3TCsYwvZs11pvgqX6gDj6lM6FQ35EWRHSAMZRgxfvyJ3HjM7ypBQ5cqNXBPSuaaqH94rZJXEg8zAj+qyirdaWz0jGvPbE48FxBeBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLEGAlPt; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1711557100; c=relaxed/simple;
+	bh=Dgr5BuJhx6RiGKMrFdgInhvo78rWkzAr9vTt4XTbPLE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YRhX0wBc+qOjEWYJeI/l4yaiD/3Jzi1GRZzsZgfwKeE0nh2QJDdN1JmXLzmMMUBDfV9otFzFqzBQDyQdMqaMOjjraQGNubXfuM3yjmeC0ZKspGil2CX9x0rA844sho5ZUd6WpPnuRj/ADmihZ5GVt2TAYFGRijTffG3zNdwXFiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XXum0Pjh; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLEGAlPt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XXum0Pjh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711555784; x=1743091784;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=urssge3TSWaWaGBVofVUOGpxD/V72hGYEUGON8Xdj3Y=;
-  b=KLEGAlPtU6VftrbprorkX9NW/JA2VCTGNB2CKQzQEE2stk4DE3vDm079
-   2VkXSTIb1D3+8PL2iFAI1TpBYU0FeGkPr349eb4Y7Xmnv/w02ejh5FZy3
-   H0RK36U+0a2ePog7RtVj/SlyB3q5VL+eNvNO2SgLDslhqiq721wR6IL8d
-   xk9glQpz1WacXKrbti35xL0KQmA6IAi5lRncOBFG5USwdN3UAXRl4Fl+E
-   F51SURlv07eKYW/p2Pzrx8LysELorxAn2oUQ2eGz973qF6nDqkG+CpW54
-   9e3Zj7uEbqpqyuhLgOBtJAaVpci8wy+f/DSxjOuzFbfqFvhh5PT5Pv1zo
-   Q==;
-X-CSE-ConnectionGUID: vPaCXbmKRa6uRdaERIfkSw==
-X-CSE-MsgGUID: aM4t10xPRm2NquRHM3ucaw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="17218488"
+  t=1711557095; x=1743093095;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Dgr5BuJhx6RiGKMrFdgInhvo78rWkzAr9vTt4XTbPLE=;
+  b=XXum0Pjhq1zQcTqfW8WlaxziiKtz62zNps5A2+lhv59s1PUhqXX1yXls
+   4AOGyixzRTOCJa3N340DyKas+Cn6tHfledQV4B5Vruo7/fbGKnNO9hUUk
+   SNeostQZViX9RkaNRaqnQQfNbERS7cZ4d8nfRSS90XcH+6GcpT7svf8TJ
+   143yKfrxSW00YL654+VNl2QXsleLnTCj4NbZjfPLTJ9/10HidS+5RFnFP
+   sib5wUTtKuWQbWeN/Y3F/rDo1oJfS8pDRVmUjcBK4ul+cdDIJhw7pnVQD
+   25vYykllSsU0bSqcXS3+qYXTgVVtkxacwYgEuAdtnzkBByQZJElqEUzhE
+   A==;
+X-CSE-ConnectionGUID: b+HHvzJ4TDORMQ7z1B5l8Q==
+X-CSE-MsgGUID: q3IEwDV3TxqVFNAzy370pw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="17223034"
 X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; 
-   d="scan'208";a="17218488"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 09:09:33 -0700
+   d="scan'208";a="17223034"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 09:31:34 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; 
-   d="scan'208";a="47552427"
+   d="scan'208";a="53823760"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Mar 2024 09:09:31 -0700
+  by orviesa001.jf.intel.com with ESMTP; 27 Mar 2024 09:31:32 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rpVqC-0001DQ-2M;
-	Wed, 27 Mar 2024 16:09:28 +0000
-Date: Thu, 28 Mar 2024 00:09:19 +0800
+	id 1rpWBV-0001Fq-33;
+	Wed, 27 Mar 2024 16:31:29 +0000
+Date: Thu, 28 Mar 2024 00:30:58 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
-Subject: [ti:linux-6.1.y 397/500] drivers/infiniband/hw/irdma/verbs.c:584:
- warning: Function parameter or member 'udata' not described in
- 'irdma_setup_umode_qp'
-Message-ID: <202403280004.TRdj9FkK-lkp@intel.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:timestats-hoist 184/450] fs/xfs/xfs_iops.c:1304:33:
+ error: no member named 'mr_lock' in 'struct rw_semaphore'
+Message-ID: <202403280022.1NF9fnqq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,106 +60,175 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git linux-6.1.y
-head:   e5cd595e23c1a075359a337c0e5c3a4f2dc28dd1
-commit: 0606bedcc373696c4c7d637dc30ed50725d184f5 [397/500] RDMA/irdma: Allow accurate reporting on QP max send/recv WR
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240328/202403280004.TRdj9FkK-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403280004.TRdj9FkK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git timestats-hoist
+head:   78ba84a4335927bab8c205732c55e2f6dd18a56f
+commit: 55d62e19a9497ff5464c22b037f488b5de7d53b8 [184/450] xfs: hide metadata inodes from everyone because they are special
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240328/202403280022.1NF9fnqq-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 23de3862dce582ce91c1aa914467d982cb1a73b4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403280022.1NF9fnqq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403280004.TRdj9FkK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403280022.1NF9fnqq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/infiniband/hw/irdma/verbs.c:584: warning: Function parameter or member 'udata' not described in 'irdma_setup_umode_qp'
+   In file included from fs/xfs/xfs_iops.c:6:
+   In file included from fs/xfs/xfs.h:22:
+   In file included from fs/xfs/xfs_linux.h:25:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from fs/xfs/xfs_iops.c:6:
+   In file included from fs/xfs/xfs.h:22:
+   In file included from fs/xfs/xfs_linux.h:28:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from fs/xfs/xfs_iops.c:6:
+   In file included from fs/xfs/xfs.h:22:
+   In file included from fs/xfs/xfs_linux.h:28:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from fs/xfs/xfs_iops.c:6:
+   In file included from fs/xfs/xfs.h:22:
+   In file included from fs/xfs/xfs_linux.h:28:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> fs/xfs/xfs_iops.c:1304:33: error: no member named 'mr_lock' in 'struct rw_semaphore'
+    1304 |                 lockdep_set_class(&ip->i_lock.mr_lock,
+         |                                    ~~~~~~~~~~ ^
+   include/linux/lockdep.h:158:26: note: expanded from macro 'lockdep_set_class'
+     158 |         lockdep_init_map_type(&(lock)->dep_map, #key, key, 0,   \
+         |                                 ^~~~
+>> fs/xfs/xfs_iops.c:1304:33: error: no member named 'mr_lock' in 'struct rw_semaphore'
+    1304 |                 lockdep_set_class(&ip->i_lock.mr_lock,
+         |                                    ~~~~~~~~~~ ^
+   include/linux/lockdep.h:159:11: note: expanded from macro 'lockdep_set_class'
+     159 |                               (lock)->dep_map.wait_type_inner,  \
+         |                                ^~~~
+>> fs/xfs/xfs_iops.c:1304:33: error: no member named 'mr_lock' in 'struct rw_semaphore'
+    1304 |                 lockdep_set_class(&ip->i_lock.mr_lock,
+         |                                    ~~~~~~~~~~ ^
+   include/linux/lockdep.h:160:11: note: expanded from macro 'lockdep_set_class'
+     160 |                               (lock)->dep_map.wait_type_outer,  \
+         |                                ^~~~
+>> fs/xfs/xfs_iops.c:1304:33: error: no member named 'mr_lock' in 'struct rw_semaphore'
+    1304 |                 lockdep_set_class(&ip->i_lock.mr_lock,
+         |                                    ~~~~~~~~~~ ^
+   include/linux/lockdep.h:161:11: note: expanded from macro 'lockdep_set_class'
+     161 |                               (lock)->dep_map.lock_type)
+         |                                ^~~~
+   fs/xfs/xfs_iops.c:1307:33: error: no member named 'mr_lock' in 'struct rw_semaphore'
+    1307 |                 lockdep_set_class(&ip->i_lock.mr_lock,
+         |                                    ~~~~~~~~~~ ^
+   include/linux/lockdep.h:158:26: note: expanded from macro 'lockdep_set_class'
+     158 |         lockdep_init_map_type(&(lock)->dep_map, #key, key, 0,   \
+         |                                 ^~~~
+   fs/xfs/xfs_iops.c:1307:33: error: no member named 'mr_lock' in 'struct rw_semaphore'
+    1307 |                 lockdep_set_class(&ip->i_lock.mr_lock,
+         |                                    ~~~~~~~~~~ ^
+   include/linux/lockdep.h:159:11: note: expanded from macro 'lockdep_set_class'
+     159 |                               (lock)->dep_map.wait_type_inner,  \
+         |                                ^~~~
+   fs/xfs/xfs_iops.c:1307:33: error: no member named 'mr_lock' in 'struct rw_semaphore'
+    1307 |                 lockdep_set_class(&ip->i_lock.mr_lock,
+         |                                    ~~~~~~~~~~ ^
+   include/linux/lockdep.h:160:11: note: expanded from macro 'lockdep_set_class'
+     160 |                               (lock)->dep_map.wait_type_outer,  \
+         |                                ^~~~
+   fs/xfs/xfs_iops.c:1307:33: error: no member named 'mr_lock' in 'struct rw_semaphore'
+    1307 |                 lockdep_set_class(&ip->i_lock.mr_lock,
+         |                                    ~~~~~~~~~~ ^
+   include/linux/lockdep.h:161:11: note: expanded from macro 'lockdep_set_class'
+     161 |                               (lock)->dep_map.lock_type)
+         |                                ^~~~
+   7 warnings and 8 errors generated.
 
 
-vim +584 drivers/infiniband/hw/irdma/verbs.c
+vim +1304 fs/xfs/xfs_iops.c
 
-   571	
-   572	/**
-   573	 * irdma_setup_umode_qp - setup sq and rq size in user mode qp
-   574	 * @iwdev: iwarp device
-   575	 * @iwqp: qp ptr (user or kernel)
-   576	 * @info: initialize info to return
-   577	 * @init_attr: Initial QP create attributes
-   578	 */
-   579	static int irdma_setup_umode_qp(struct ib_udata *udata,
-   580					struct irdma_device *iwdev,
-   581					struct irdma_qp *iwqp,
-   582					struct irdma_qp_init_info *info,
-   583					struct ib_qp_init_attr *init_attr)
- > 584	{
-   585		struct irdma_ucontext *ucontext = rdma_udata_to_drv_context(udata,
-   586					struct irdma_ucontext, ibucontext);
-   587		struct irdma_qp_uk_init_info *ukinfo = &info->qp_uk_init_info;
-   588		struct irdma_create_qp_req req;
-   589		unsigned long flags;
-   590		int ret;
-   591	
-   592		ret = ib_copy_from_udata(&req, udata,
-   593					 min(sizeof(req), udata->inlen));
-   594		if (ret) {
-   595			ibdev_dbg(&iwdev->ibdev, "VERBS: ib_copy_from_data fail\n");
-   596			return ret;
-   597		}
-   598	
-   599		iwqp->ctx_info.qp_compl_ctx = req.user_compl_ctx;
-   600		iwqp->user_mode = 1;
-   601		if (req.user_wqe_bufs) {
-   602			info->qp_uk_init_info.legacy_mode = ucontext->legacy_mode;
-   603			spin_lock_irqsave(&ucontext->qp_reg_mem_list_lock, flags);
-   604			iwqp->iwpbl = irdma_get_pbl((unsigned long)req.user_wqe_bufs,
-   605						    &ucontext->qp_reg_mem_list);
-   606			spin_unlock_irqrestore(&ucontext->qp_reg_mem_list_lock, flags);
-   607	
-   608			if (!iwqp->iwpbl) {
-   609				ret = -ENODATA;
-   610				ibdev_dbg(&iwdev->ibdev, "VERBS: no pbl info\n");
-   611				return ret;
-   612			}
-   613		}
-   614	
-   615		if (!ucontext->use_raw_attrs) {
-   616			/**
-   617			 * Maintain backward compat with older ABI which passes sq and
-   618			 * rq depth in quanta in cap.max_send_wr and cap.max_recv_wr.
-   619			 * There is no way to compute the correct value of
-   620			 * iwqp->max_send_wr/max_recv_wr in the kernel.
-   621			 */
-   622			iwqp->max_send_wr = init_attr->cap.max_send_wr;
-   623			iwqp->max_recv_wr = init_attr->cap.max_recv_wr;
-   624			ukinfo->sq_size = init_attr->cap.max_send_wr;
-   625			ukinfo->rq_size = init_attr->cap.max_recv_wr;
-   626			irdma_uk_calc_shift_wq(ukinfo, &ukinfo->sq_shift,
-   627					       &ukinfo->rq_shift);
-   628		} else {
-   629			ret = irdma_uk_calc_depth_shift_sq(ukinfo, &ukinfo->sq_depth,
-   630							   &ukinfo->sq_shift);
-   631			if (ret)
-   632				return ret;
-   633	
-   634			ret = irdma_uk_calc_depth_shift_rq(ukinfo, &ukinfo->rq_depth,
-   635							   &ukinfo->rq_shift);
-   636			if (ret)
-   637				return ret;
-   638	
-   639			iwqp->max_send_wr =
-   640				(ukinfo->sq_depth - IRDMA_SQ_RSVD) >> ukinfo->sq_shift;
-   641			iwqp->max_recv_wr =
-   642				(ukinfo->rq_depth - IRDMA_RQ_RSVD) >> ukinfo->rq_shift;
-   643			ukinfo->sq_size = ukinfo->sq_depth >> ukinfo->sq_shift;
-   644			ukinfo->rq_size = ukinfo->rq_depth >> ukinfo->rq_shift;
-   645		}
-   646	
-   647		irdma_setup_virt_qp(iwdev, iwqp, info);
-   648	
-   649		return 0;
-   650	}
-   651	
+  1280	
+  1281	static void
+  1282	xfs_setup_metadata_inode_lock_class(
+  1283		struct xfs_inode	*ip)
+  1284	{
+  1285		struct inode		*inode = &ip->i_vnode;
+  1286		/*
+  1287		 * Metadata directories and files are not exposed to userspace, which
+  1288		 * means that they never access any of the VFS IO locks and never
+  1289		 * experience page faults.  Give them separate locking classes so that
+  1290		 * lockdep will not complain about conflicts that cannot happen.
+  1291		 */
+  1292		static struct lock_class_key xfs_metadata_file_ilock_class;
+  1293		static struct lock_class_key xfs_metadata_dir_ilock_class;
+  1294	
+  1295		if (S_ISDIR(inode->i_mode)) {
+  1296			/*
+  1297			 * We set the i_rwsem class here to avoid potential races with
+  1298			 * lockdep_annotate_inode_mutex_key() reinitialising the lock
+  1299			 * after a filehandle lookup has already found the inode in
+  1300			 * cache before it has been unlocked via unlock_new_inode().
+  1301			 */
+  1302			lockdep_set_class(&inode->i_rwsem,
+  1303					  &inode->i_sb->s_type->i_mutex_dir_key);
+> 1304			lockdep_set_class(&ip->i_lock.mr_lock,
+  1305					  &xfs_metadata_dir_ilock_class);
+  1306		} else {
+  1307			lockdep_set_class(&ip->i_lock.mr_lock,
+  1308					  &xfs_metadata_file_ilock_class);
+  1309		}
+  1310	}
+  1311	
 
 -- 
 0-DAY CI Kernel Test Service
