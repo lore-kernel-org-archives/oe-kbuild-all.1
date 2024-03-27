@@ -1,75 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6621CF90;
-	Wed, 27 Mar 2024 06:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6512C1B4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Mar 2024 07:33:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711522763; cv=none; b=SKqcLCd2KHWJMlDWPSx0DKwXIrCePu/SvxUlJ4MjR787zaR0ofrB4w34Q5N60H8hSUsnAL6QUbAFGoOjLov/2xajb14ULYis85oCX/sUU1Zs3UcPhC24L2QhQDcvfeEk0K1vX+AAHskZXNTkw1Fv32kzft/+ICCCrV3RTWAFDnU=
+	t=1711524829; cv=none; b=k085uvwPJcB9MdKakiff7xlB41NqSTnckV7K5x71vnh4QazUs+3/HB/wZCwrTOjZ49FPBxAaq1m73oXkEznbHcsaB4PmW0YrewKEmMGhtGXuKe7FamO7KGkprzb4nvOmQqRgjhxrwOt/WTDhhtpllOfoU8ZmVdWxYzPtVN2WyaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711522763; c=relaxed/simple;
-	bh=hLDOEBys0tDZ3VSLJwmVJX4b55pSZYLrwlnBPzgYRh8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KDxCwhT2lUymUZ1cB2KVbblJYPD2Cont2yCuwsRihQAkYulQXPG7WL/iVOKUTh/fB8uhtocmwIQDd/f7SkIRR+6zPM/EY9dN1zgJuJh1ykQhE4lG7zN6xW8hWdacOT0IyRjwWao7Euw9UNTQVUAQHXcjibszmbwWxY2jNEd8FtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wLu5Wy0a; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wLu5Wy0a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FFE6C43390;
-	Wed, 27 Mar 2024 06:59:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1711522762;
-	bh=hLDOEBys0tDZ3VSLJwmVJX4b55pSZYLrwlnBPzgYRh8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wLu5Wy0azCwqVv3r0vGrPBrQMJ9bEGQgT3j2gA3ArDFWVJW9sO+a+AbZU6O5eZh5f
-	 XDfmST3B6wGU2fFLJLuUsYV07pMGOgqPgrtGA3GoSNzpaTr20XB6EYn0E5POFMlv+E
-	 LZEFOMfb0tcrRLidGzrxFbTxXFErOgQxNSaHhWbU=
-Date: Wed, 27 Mar 2024 07:59:19 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Luca Weiss <luca.weiss@fairphone.com>, Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: Re: [usb:usb-testing 9/45] kismet: WARNING: unmet direct
- dependencies detected for DRM_AUX_BRIDGE when selected by TYPEC_MUX_PTN36502
-Message-ID: <2024032754-overjoyed-curable-fb13@gregkh>
-References: <202403270819.6h8lCV3J-lkp@intel.com>
+	s=arc-20240116; t=1711524829; c=relaxed/simple;
+	bh=uoumoqKQqUyiOY+Ng8vrdUIak7rvCh/zc7q2HaEm42c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qgafNA1XfAxHhoEunPgDaBCUwps6+DYJjTHltAlCWDEBPKEcOWyzAZTd4JvEINt7KXlOKJFiief5kHVX9LnIQlr1TDP/YE+2VJZgAsJ7usW8nqYlD6JU8KSX3m8ewABDDySj2+vTpDQn0vUeHQ151BveQSBbuiz0lpvz0dZ/6iA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rpNmk-0002G9-0c; Wed, 27 Mar 2024 08:33:22 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rpNmi-008lQm-V6; Wed, 27 Mar 2024 08:33:20 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rpNmi-00CGTR-2q;
+	Wed, 27 Mar 2024 08:33:20 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] clk: Provide !COMMON_CLK dummy for devm_clk_rate_exclusive_get()
+Date: Wed, 27 Mar 2024 08:33:10 +0100
+Message-ID: <20240327073310.520950-2-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <202403270305.ydvX9xq1-lkp@intel.com>
+References: <202403270305.ydvX9xq1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202403270819.6h8lCV3J-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1082; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=uoumoqKQqUyiOY+Ng8vrdUIak7rvCh/zc7q2HaEm42c=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmA8u229hyJ+VZupW+Wqz6Kt09ZniAFiJKYE7tO tJHAz9zMGGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZgPLtgAKCRCPgPtYfRL+ TmyrB/9CIWuBmGV0INTpNhI5M1a+p6YFNukW/EFxLvDNmgoxSvmh+YnlSbcuFMbHkw7Wpt3zGF8 5bbNZ4TWafQWfhTYa7J7DBuzGolbJv+/NdIyvA5TkV9UYo2t+WHOOSLqwF6FF9L/eOB0e9bV8SO OREgEK3zwKqQQxV51uozyWa2jwKN5wZmgRJBxE1og6/IQFHwiHDaqk/zW+arBWKh9PFtlM+6bcO qMdYeKH5qrdr1kMZ1a75Y4ah8FSGVMxaRbjze5bVlT8tEQAgnZXiTcN1N3bdP8ucmIX7zJpu0+K LaHu2fB4KLc244zcCy16mu+Tyrbzq4VToTqz7vwNgJ5l7cke
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
-On Wed, Mar 27, 2024 at 08:18:11AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-> head:   5e589e59202db9b19b5a4a01c8de78435f86fde1
-> commit: 9dc28ea21eb40b9d023297ad9d513252260b1d63 [9/45] usb: typec: ptn36502: switch to DRM_AUX_BRIDGE
-> config: alpha-kismet-CONFIG_DRM_AUX_BRIDGE-CONFIG_TYPEC_MUX_PTN36502-0-0 (https://download.01.org/0day-ci/archive/20240327/202403270819.6h8lCV3J-lkp@intel.com/config)
-> reproduce: (https://download.01.org/0day-ci/archive/20240327/202403270819.6h8lCV3J-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403270819.6h8lCV3J-lkp@intel.com/
-> 
-> kismet warnings: (new ones prefixed by >>)
-> >> kismet: WARNING: unmet direct dependencies detected for DRM_AUX_BRIDGE when selected by TYPEC_MUX_PTN36502
->    
->    WARNING: unmet direct dependencies detected for DRM_AUX_BRIDGE
->      Depends on [n]: HAS_IOMEM [=y] && DRM_BRIDGE [=y] && OF [=n]
->      Selected by [y]:
->      - TYPEC_MUX_PTN36502 [=y] && USB_SUPPORT [=y] && TYPEC [=y] && I2C [=y] && (DRM [=y] || DRM [=y]=n) && DRM_BRIDGE [=y]
+To be able to compile drivers using devm_clk_rate_exclusive_get() also
+on platforms without the common clk framework, add a dummy
+implementation that does the same as clk_rate_exclusive_get() in that
+case (i.e. nothing).
 
-Odd that no other arch triggers this :(
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202403270305.ydvX9xq1-lkp@intel.com/
+Fixes: b0cde62e4c54 ("clk: Add a devm variant of clk_rate_exclusive_get()")
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ include/linux/clk.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Luca, can you make up a fixup patch for this that I can apply to my
-tree?
+diff --git a/include/linux/clk.h b/include/linux/clk.h
+index 00623f4de5e1..0fa56d672532 100644
+--- a/include/linux/clk.h
++++ b/include/linux/clk.h
+@@ -286,6 +286,11 @@ static inline int clk_rate_exclusive_get(struct clk *clk)
+ 	return 0;
+ }
+ 
++static inline int devm_clk_rate_exclusive_get(struct device *dev, struct clk *clk)
++{
++	return 0;
++}
++
+ static inline void clk_rate_exclusive_put(struct clk *clk) {}
+ 
+ #endif
 
-thanks
+base-commit: 4cece764965020c22cff7665b18a012006359095
+-- 
+2.43.0
 
-greg k-h
