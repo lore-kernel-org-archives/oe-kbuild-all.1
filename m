@@ -1,62 +1,56 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5588442AA1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 19:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E08D13B5B8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 19:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711654488; cv=none; b=p/3r1M11MNNlsSsEbarkTUKX9Ckaav89G80tSHEnSqvvwD08asDn/voQAhXQGnf60r9GlsJVpwvW7mrpzBjoXr8nI0dXOgAPYFvakdSy88PDzPj6ikzY4ihfG99PdmlL/la0jxcEF+CT2UovxS2osGI86c6l8udpYTb9faNYCbI=
+	t=1711655724; cv=none; b=rpj+cjWcUmsUDQcncGXZncQqm5xt40L8HARZ+rk47k+OrDkFEJsxwtTdXWbWKYQZT9Oqosf5stfiy3Kl2OJSME9WhZjO84GVuXMzclmRVkvDYULjzVkAOAfIY7Uc0SUAtWhRqbIYwGn3dmVv7WTt0wuDOHykM23U+kMX3F4lHJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711654488; c=relaxed/simple;
-	bh=DZ9SzEdhvGkr/KOY7nAR7mdhSGEQtyoTPcpY7EjDqOk=;
+	s=arc-20240116; t=1711655724; c=relaxed/simple;
+	bh=/y6zY225/fUzqMS0RLCUns6OQV0Ai7mEftmPYTDHtY4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SzwPFXO3gj7nmRcQNsW1/40NeoJfeG8Xdpio8TvZn180qkx8/T2lhNozYLunhBOhqD5cGIdSYvHYo/4IEVfLvTWHKEKsFsnxSOC/YmKkNAoCCHJui+puy6Fmbo//ba66pzS+CwL7yubSZTLPWZ08oWPlnli1NfrIVWlDK4vDoFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iF+69Muq; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=ivIOcNB1JogzJqTQU0YQvELpqPOF108wNOSyWcXfa1Jk0jWPM68VxTrs1JAtVuZwkm06WHMjYY8UZNrXw5p4Z7dwejyxhDJ/XB6Gm6zbhBn4CLXjOmIdheDb63AYgaTNJqDe0Ypj4D/sJUogs8Z1UGQjMQsDsfsHCj04vF0tsc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Khl7bfgv; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iF+69Muq"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-56c5d05128dso45339a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 12:34:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711654484; x=1712259284; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xPJjq9PiKPbe2cpCw0MVXxr0lIBlyImr1gSJFz2pgtY=;
-        b=iF+69MuqiYtpuYc0udSBoNvUk6kBqu3vOaFLmFVA0S+LlKG7Uip1U0zBRq3iq9/qhI
-         g7oLSdPJG2W5g184HWw8cdjsgOa3uiNuErynTdkQtcDoh3Q2+AgPetjiK39BqpiLJZKw
-         f8L8/9D27ka42LcNg+YA5Nrs8BBfFVfzoxbsBEsKB4vUBVgbkIXmeXam2yJKJO2bk/eo
-         Sm1cwLGszbXeI/7azB7WBJtlpHWynVje2koHdT4ahuo6JkhFnn62V7wyqfNiX8gw9UXM
-         pMg9Z4Ng0dgL0xms9oEbH1Kf4tUFtAN6f1JWBIn3mM1qNGLKbVkBhPArauYktUTpVLM6
-         ksWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711654484; x=1712259284;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xPJjq9PiKPbe2cpCw0MVXxr0lIBlyImr1gSJFz2pgtY=;
-        b=X+4/SnpQoT97x8EpQhPhqqWB1pxp0GfnbsMDUuabVZzD2NP8DEYu9LH2BI8uBilcTD
-         1q9lmrhdO/HJMrrf7qvBXa4z6HUVWPyOMlhiKaPwl/hA5wIO6wUdAA+PZERXPspVbQE5
-         YXrLx5xwYmvbrmgifeVSerOqgXDIFTn5Rmk9Vz6r16lJFZmXKEG5DAtyrNCHtDKCUxk4
-         zkxdC/ow/bGCgQ3UxQRSmqb6JbuSOUaBfRtyNNYY8jpPP9xddpAwETfoHbY7a512Tz3V
-         Wp9V+sZeDf2baJbl7qF4aazb1P4Qw32bXcPyWEhno6LDunuBFP5VX44EXxb1eQ73l4Wv
-         izQw==
-X-Forwarded-Encrypted: i=1; AJvYcCVzAf+ywv+chfTzs30xGZVeIrDi8tWVFdXYxSmW8yxtTrzvV+NCbr72SIuOgrra4pFvuhTWfmQRTeLDYU4YzJHLSHNuVPAFVUIa478k0Q==
-X-Gm-Message-State: AOJu0YxhSfj3dzsKCHKyny+K4ycHq50Ige0d42TzFujz1q2KU7JswmGr
-	AO3BR+12CTZmq45oDUnXIF7m0JlANU0UQ298oyUdPmUyoFjzqP1o/9MqzV8s+uc=
-X-Google-Smtp-Source: AGHT+IHsr6KplyNIewbI3DucCRUqH+KpKGEBlQsYqUmj0yt0ivEdGPzOT3ngE3ZBkazEBN6ZCnNqWA==
-X-Received: by 2002:a17:907:111b:b0:a4e:2b64:5a82 with SMTP id qu27-20020a170907111b00b00a4e2b645a82mr141228ejb.24.1711654484404;
-        Thu, 28 Mar 2024 12:34:44 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id hd18-20020a170907969200b00a4750a4a1f7sm1073478ejc.6.2024.03.28.12.34.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 12:34:43 -0700 (PDT)
-Date: Thu, 28 Mar 2024 22:34:40 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, David Howells <dhowells@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-writeback 23/26] fs/netfs/write_issue.c:567
- netfs_begin_writethrough() error: 'wreq' dereferencing possible ERR_PTR()
-Message-ID: <b1479c24-86b8-426e-95fa-8844cc383442@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Khl7bfgv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711655722; x=1743191722;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/y6zY225/fUzqMS0RLCUns6OQV0Ai7mEftmPYTDHtY4=;
+  b=Khl7bfgvr71Tr+9dkLRGP1QelHumU9rSrysjJgdqz5VSpNQNdlIpA2wM
+   bGjY5Es5mL9TmySfe5uDl7N5LaLZu3wiacbrSe8efFu9ponfoHyc2jnqy
+   0eHO3+cGzRNFKrp/k5VaD1HoTrYLoqqbYcqBmB8xMgSeOB98xfFgvLvxX
+   Yp8m5b57oolVlRwY3ews7UlU3mVmrXmiWr5cISn58/ba9qLvEdxGRjusp
+   JvMVaRsCihV7ijI3pbD5xOjQuCw82sORJL1S2wKyVAVMXzHHViKJZv2qF
+   +wOgT8y95w08Fbahpj2yl4DRHmC1thB3uHOq29aTcPUUkPv6L1pOZZQMh
+   w==;
+X-CSE-ConnectionGUID: ghI9i+08T6GptGd92zjUNg==
+X-CSE-MsgGUID: 5PRRfmBsS7S7jU2ax6u1Bg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="9791189"
+X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
+   d="scan'208";a="9791189"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 12:55:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
+   d="scan'208";a="21263353"
+Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 28 Mar 2024 12:55:20 -0700
+Received: from kbuild by be39aa325d23 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rpvqI-0002UC-2l;
+	Thu, 28 Mar 2024 19:55:18 +0000
+Date: Fri, 29 Mar 2024 03:54:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 437/441] ld.lld: error: duplicate symbol:
+ __cfi_set_slave_host_enable
+Message-ID: <202403290335.CYelvdrv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,47 +60,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
-head:   56d9c02d8386e1fbfc521da523af44cf48dd97f7
-commit: 4426913c4e18c06cfcdb92418a89a936d72dfc09 [23/26] netfs: Cut over to using new writeback code
-config: x86_64-randconfig-r081-20240328 (https://download.01.org/0day-ci/archive/20240329/202403290209.izqDvT86-lkp@intel.com/config)
-compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   704605877ce9913071214d2515a4c2b9077f5078
+commit: 3b469ecc9cb354fc42003ee184d2dafdd8eab1da [437/441] !5280  Add Huawei Intelligent Network Card Driver: hinic3
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240329/202403290335.CYelvdrv-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403290335.CYelvdrv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403290209.izqDvT86-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403290335.CYelvdrv-lkp@intel.com/
 
-smatch warnings:
-fs/netfs/write_issue.c:567 netfs_begin_writethrough() error: 'wreq' dereferencing possible ERR_PTR()
+All errors (new ones prefixed by >>):
 
-vim +/wreq +567 fs/netfs/write_issue.c
-
-4426913c4e18c0 David Howells 2024-03-08  555  struct netfs_io_request *netfs_begin_writethrough(struct kiocb *iocb, size_t len)
-c272eda1e8b823 David Howells 2024-03-18  556  {
-c272eda1e8b823 David Howells 2024-03-18  557  	struct netfs_io_request *wreq = NULL;
-c272eda1e8b823 David Howells 2024-03-18  558  	struct netfs_inode *ictx = netfs_inode(file_inode(iocb->ki_filp));
-c272eda1e8b823 David Howells 2024-03-18  559  
-c272eda1e8b823 David Howells 2024-03-18  560  	mutex_lock(&ictx->wb_lock);
-c272eda1e8b823 David Howells 2024-03-18  561  
-c272eda1e8b823 David Howells 2024-03-18  562  	wreq = netfs_create_write_req(iocb->ki_filp->f_mapping, iocb->ki_filp,
-c272eda1e8b823 David Howells 2024-03-18  563  				      iocb->ki_pos, NETFS_WRITETHROUGH);
-c272eda1e8b823 David Howells 2024-03-18  564  	if (IS_ERR(wreq))
-c272eda1e8b823 David Howells 2024-03-18  565  		mutex_unlock(&ictx->wb_lock);
-
-No return statement
-
-c272eda1e8b823 David Howells 2024-03-18  566  
-c272eda1e8b823 David Howells 2024-03-18 @567  	wreq->io_streams[0].avail = true;
-                                                ^^^^^^
-Warning
-
-c272eda1e8b823 David Howells 2024-03-18  568  	trace_netfs_write(wreq, netfs_write_trace_writethrough);
-c272eda1e8b823 David Howells 2024-03-18  569  	return wreq;
-c272eda1e8b823 David Howells 2024-03-18  570  }
+>> ld.lld: error: duplicate symbol: __cfi_set_slave_host_enable
+   >>> defined at hinic_multi_host_mgmt.c
+   >>>            drivers/net/ethernet/huawei/hinic/hinic_multi_host_mgmt.o:(__cfi_set_slave_host_enable) in archive vmlinux.a
+   >>> defined at hinic3_hwdev.c
+   >>>            drivers/net/ethernet/huawei/hinic3/hw/hinic3_hwdev.o:(.text+0x0) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: __cfi_nic_ioctl
+   >>> defined at hinic_nictool.c
+   >>>            drivers/net/ethernet/huawei/hinic/hinic_nictool.o:(__cfi_nic_ioctl) in archive vmlinux.a
+   >>> defined at hinic3_dbg.c
+   >>>            drivers/net/ethernet/huawei/hinic3/hinic3_dbg.o:(.text+0x0) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
