@@ -1,55 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A02847C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 13:15:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C79847C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 13:15:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711631714; cv=none; b=JNOKggG+xWnNYBeWcAIvaq3g8YhENFMj0m+VDTzdgWGEG2IHas7dbfn8Wh/cfOt6idnI4Tgtt+Hg40Tt3/vf1bLExLK2/pYT4m5bnIdI6noLJuZn2G02LUOjE2CT9vY/j1u01YVr0IAAtVglnRgsPaX6FZt9xziWuXFXuf/m6Jg=
+	t=1711631716; cv=none; b=NzAqVR49rmkAnXuFG53GiQO971PATyYSjGvykbUCu9NwsO3mU3cllX4ODgDcHtBDx2Ouf0v9XlX98x73Yc2llVimYGUQd1GKYRDLgP597D/b98Ug8OBBu6lONmYBnmMKJDV8/4n9PNjYx4GYzbpGgtSfaoynTpH46lw4ByXoQ4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711631714; c=relaxed/simple;
-	bh=22hq8yR/Lil8jOr6Jz7H3tVcsgi093s+pXOQHd1W9XU=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QcPAOWU9gTHMvsyRZvUZZ682ootTfGc3RdmUJUu7Pqd62m1/o8/h6f59yWsgibfGqMUCfTIhWhQP3oTzNUo2ddFXsPeWuFjkDu/doy4zxWl4T2IRA5xpFm6uLKMCvr49XbyErTXPEaGKUaLBoqsB2Qlam2rR06pwe0JjIZVBhrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KmGJagjg; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1711631716; c=relaxed/simple;
+	bh=pjqaQ071/VMsOTmA8BpkoiGRbVmT/eomFxqIvEbUJhM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=chhLQmn/VqUU5KzZvlmHUMslSDHy4RI2Fa7FGuBtI0OSY/bLS1ixUvgplYK7UWGMCxAyDWIt2+d1l4LmTfqJSUHQwWLlcxJHOEQSh68CEhgfLtHMIGQ4h80Dos/SmiZQCpVhcs7xhuSBq4wXBQ4fZ7loSrXz7y3xMpS3YvVzQoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EA2H29ff; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KmGJagjg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EA2H29ff"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711631712; x=1743167712;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=22hq8yR/Lil8jOr6Jz7H3tVcsgi093s+pXOQHd1W9XU=;
-  b=KmGJagjggafn8rjpXun2vl8hyH1tWvIicr8CehayO+sDVKoxHceCVBqv
-   lVi+uWV4FCsebFqj4o40q3A1ndn3BubjEiyrSI8kDOYyRZPFXWRzEwm/X
-   B/Iik/W+gHVK3XFsL2D3+HfzHSW9dnTiK8p28kWL5XCWtc/xZ4oeRD4eY
-   AKOPLyxw6mevj7j2LmeleeoLIExNELnE0V8qRL/A1X10KY1z4H78sjyLL
-   W3ZQlxWsdDKzaSC20/CN2mARi58fN4wNdF8m6Vec8/2OKlXj7OdbNqS6W
-   9n0U1uKYNBP3Op0dfH3vkwPnEMhHqvb1Vr71tQ3gE+fWpraIhLQb+Is20
-   A==;
-X-CSE-ConnectionGUID: b4dY6wv/QXSmGtmANxPhqw==
-X-CSE-MsgGUID: IEqxw15dRUuRjTTu16e5VA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="6638876"
+  t=1711631714; x=1743167714;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pjqaQ071/VMsOTmA8BpkoiGRbVmT/eomFxqIvEbUJhM=;
+  b=EA2H29ffUnZkq2XkvmJPVslsMeD4SEMO0EcIyCUNa4XK6pzrHs5CUgPo
+   ijwJQ7/oqPqNgqpSQVuLq21OEVmsA+9M4dynjRE3LSotOcCgJfLuYvyFR
+   e6DdQk9gvznih5nYdoly06pgCxZAuMJXcEb+DIAKhD5UzJ/wvi9K0CWPQ
+   q5CshY7DJE6tDgANcdgXz2OO/iWGsRupf39z8aRfpAyvyUe0yZ5FaKCD1
+   BR7Se5tlfDonDS8lGOCjc6O+80/5uThH2cWPU5DynnErNgSZhmV8JP1rX
+   5XcTM9sxUVOoQhggm9GubEGbr/jvfgUT6oXGba9MvTcnHghmnPDWfDwLU
+   w==;
+X-CSE-ConnectionGUID: SVZeDVUyQdSqbpeM672/ow==
+X-CSE-MsgGUID: b5yqp9fxRRKGjWHJKdKFbA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="6638881"
 X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
-   d="scan'208";a="6638876"
+   d="scan'208";a="6638881"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 06:15:09 -0700
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 06:15:10 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
-   d="scan'208";a="47827969"
+   d="scan'208";a="47827968"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 28 Mar 2024 06:15:08 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rppb0-0002A8-0C;
+	id 1rppb0-0002AD-0M;
 	Thu, 28 Mar 2024 13:15:06 +0000
-Date: Thu, 28 Mar 2024 21:15:00 +0800
+Date: Thu, 28 Mar 2024 21:15:02 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
-Subject: [ti:linux-4.19.y 32/184] arch/alpha/kernel/osf_sys.c:1274:43: error:
- passing argument 2 of 'put_tv_to_tv32' from incompatible pointer type
-Message-ID: <202403282051.aBWYYsaT-lkp@intel.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org,
+	linus.walleij@linaro.org, brgl@bgdev.pl
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-spi@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH 3/3] spi: cs42l43: Add bridged cs35l56 amplifiers
+Message-ID: <202403282033.oFvCtRT7-lkp@intel.com>
+References: <20240326141108.1079993-4-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,79 +62,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240326141108.1079993-4-ckeepax@opensource.cirrus.com>
 
-Hi Arnd,
+Hi Charles,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git linux-4.19.y
-head:   33caadfa4b279da780b99fb774337c870080b894
-commit: d5e38d6b84d6d21a4f8a4f555a0908b6d9ffe224 [32/184] y2038: rusage: use __kernel_old_timeval
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240328/202403282051.aBWYYsaT-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403282051.aBWYYsaT-lkp@intel.com/reproduce)
+[auto build test WARNING on broonie-spi/for-next]
+[also build test WARNING on brgl/gpio/for-next linus/master v6.9-rc1 next-20240328]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Keepax/gpio-swnode-Add-ability-to-specify-native-chip-selects-for-SPI/20240326-221422
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20240326141108.1079993-4-ckeepax%40opensource.cirrus.com
+patch subject: [PATCH 3/3] spi: cs42l43: Add bridged cs35l56 amplifiers
+config: sh-randconfig-r121-20240327 (https://download.01.org/0day-ci/archive/20240328/202403282033.oFvCtRT7-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240328/202403282033.oFvCtRT7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403282051.aBWYYsaT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403282033.oFvCtRT7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-cs42l43.c:48:28: sparse: sparse: symbol 'ampr' was not declared. Should it be static?
+>> drivers/spi/spi-cs42l43.c:52:23: sparse: sparse: symbol 'ampl_info' was not declared. Should it be static?
+>> drivers/spi/spi-cs42l43.c:61:23: sparse: sparse: symbol 'ampr_info' was not declared. Should it be static?
+   drivers/spi/spi-cs42l43.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-   arch/alpha/kernel/osf_sys.c: In function '__do_sys_osf_utsname':
-   arch/alpha/kernel/osf_sys.c:532:13: warning: unused variable 'error' [-Wunused-variable]
-     532 |         int error;
-         |             ^~~~~
-   arch/alpha/kernel/osf_sys.c: In function '__do_sys_osf_getdomainname':
-   arch/alpha/kernel/osf_sys.c:563:18: warning: unused variable 'err' [-Wunused-variable]
-     563 |         int len, err = 0;
-         |                  ^~~
-   arch/alpha/kernel/osf_sys.c: In function '__do_sys_old_adjtimex':
->> arch/alpha/kernel/osf_sys.c:1274:43: error: passing argument 2 of 'put_tv_to_tv32' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1274 |             (put_tv_to_tv32(&txc_p->time, &txc.time)))
-         |                                           ^~~~~~~~~
-         |                                           |
-         |                                           struct timeval *
-   arch/alpha/kernel/osf_sys.c:967:73: note: expected 'struct __kernel_old_timeval *' but argument is of type 'struct timeval *'
-     967 | put_tv_to_tv32(struct timeval32 __user *o, struct __kernel_old_timeval *i)
-         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
-   cc1: some warnings being treated as errors
+vim +/ampr +48 drivers/spi/spi-cs42l43.c
 
-
-vim +/put_tv_to_tv32 +1274 arch/alpha/kernel/osf_sys.c
-
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1254  
-e5d9a90c36e05d Ivan Kokshaysky 2009-01-29  1255  SYSCALL_DEFINE1(old_adjtimex, struct timex32 __user *, txc_p)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1256  {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1257          struct timex txc;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1258  	int ret;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1259  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1260  	/* copy relevant bits of struct timex. */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1261  	if (copy_from_user(&txc, txc_p, offsetof(struct timex32, time)) ||
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1262  	    copy_from_user(&txc.tick, &txc_p->tick, sizeof(struct timex32) - 
-2b5efc089769cd Al Viro         2017-03-25  1263  			   offsetof(struct timex32, tick)))
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1264  	  return -EFAULT;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1265  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1266  	ret = do_adjtimex(&txc);	
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1267  	if (ret < 0)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1268  	  return ret;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1269  	
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1270  	/* copy back to timex32 */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1271  	if (copy_to_user(txc_p, &txc, offsetof(struct timex32, time)) ||
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1272  	    (copy_to_user(&txc_p->tick, &txc.tick, sizeof(struct timex32) - 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1273  			  offsetof(struct timex32, tick))) ||
-ce4c253573ad18 Arnd Bergmann   2017-11-08 @1274  	    (put_tv_to_tv32(&txc_p->time, &txc.time)))
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1275  	  return -EFAULT;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1276  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1277  	return ret;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1278  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1279  
-
-:::::: The code at line 1274 was first introduced by commit
-:::::: ce4c253573ad184603e0fa77876ba155b0cde46d alpha: osf_sys.c: use timespec64 where appropriate
-
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+    47	
+  > 48	const struct software_node ampr = {
+    49		.name			= "cs35l56-right",
+    50	};
+    51	
+  > 52	struct spi_board_info ampl_info = {
+    53		.modalias		= "cs35l56",
+    54		.max_speed_hz		= 2000000,
+    55		.chip_select		= 0,
+    56		.mode			= SPI_MODE_0,
+    57		.swnode			= &ampl,
+    58		.use_fwnode_name	= true,
+    59	};
+    60	
+  > 61	struct spi_board_info ampr_info = {
+    62		.modalias		= "cs35l56",
+    63		.max_speed_hz		= 2000000,
+    64		.chip_select		= 1,
+    65		.mode			= SPI_MODE_0,
+    66		.swnode			= &ampr,
+    67		.use_fwnode_name	= true,
+    68	};
+    69	
 
 -- 
 0-DAY CI Kernel Test Service
