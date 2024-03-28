@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCACF1327F6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 20:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C22D52F62
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 21:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711656986; cv=none; b=MC1VrCFCkHt7uVkUewYCKYW3zhX9XTQE+gTPqO0h9Shch2SaFZ5tc/asWftWyi8jAVdEtphY5dlFKytQq6v2bkiYnKSeqpDfT6Rn7uQDhi75DRxNynC96vo2WOpoFA3rpri2L/e3BFYiFfPgY0z1jsVXiG7IseZDIyqACSEBYrA=
+	t=1711660046; cv=none; b=pDWDccneBKljrT355zz8yYnPumM1mKjVmsiphmGc0vJZWQ6ULDhDJeWz2tvkgr3kMQpuNUD9xUyd7V7iAyC5QiLgxnb10z/hArnyevTK0zmIUglOegbFRcP2vcTh2lTYGU0WJlDnVonpMebw51nq6ZxD+LNtXwTPvD1lJf97daE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711656986; c=relaxed/simple;
-	bh=EC6VsBfda2qZy3M5bvlbFWNuCxM4KPpfW4DqeiEZc28=;
+	s=arc-20240116; t=1711660046; c=relaxed/simple;
+	bh=WakwZuSdLqzld89orUC502TIto80jRQf9jd2N0l/Uig=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rWJYau+ytiZNUCIuHHk+tjeikyeUVaNMtNz3mNgcmZWLImz+YIrx5pK4gtHCkyC+enHHIE/P81rVL8BgytO78qFoaaI+pKzWXziueWFd9RzBiiy+XZjrC1tUdUHWRBnXN5K/MhWJJWRCK6H4eNAkXaIVYPfwdSXZK3oCGtdW2CU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PWzLsXjE; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=IeC1QIJppJmJ9FimqrvznupDOOcBieDR4mBE9yByI6Oa9Mwr5fpD+eAzb/dV6E5vSPzT91uSMRnZa7f3XASloAyPTxM31AE+c48nfR7TMtFKro3ijKTHTyTKLjHaiyWuFq+hqUjD4CNgCFYWBhV8h691gm1IIkV6bRcKUbuyymM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R5HFRot5; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PWzLsXjE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R5HFRot5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711656984; x=1743192984;
+  t=1711660044; x=1743196044;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EC6VsBfda2qZy3M5bvlbFWNuCxM4KPpfW4DqeiEZc28=;
-  b=PWzLsXjEiS2PYUymiXQHX0600J7Hk9Q88nvibAqZqvYVjnvcQ7uxbIah
-   G/UwS2AxpjNFPQAmcahTjl9VpVowJD6rrXzVy4nElRaQAp3NMDw+NADgr
-   BJJrYaburqEwzBRJx2qLJGqpZu6t/3ijvpxxuhmi6IIvGyOTV0jBcuz4e
-   GEF3fOCwXiS74hs+sVo39vTwY3ULNHc3IgLKE852mDa3cYVrUXWbkEzLw
-   pC7vwb/fiaynMK5WTSK1mso4vUTICEOEaqeWf4xMJKbeFGyIdygd4cSox
-   rKHMcE2DRqVjoFJXV/YhvL3xvXta1gCut7vmkbEetP1qFUk8KiN83fqTk
-   Q==;
-X-CSE-ConnectionGUID: ViOvfkghTtqfCDTcYZnDBA==
-X-CSE-MsgGUID: t1wC8mfnSl+u6hcbjZ8mRA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="9794308"
+  bh=WakwZuSdLqzld89orUC502TIto80jRQf9jd2N0l/Uig=;
+  b=R5HFRot5wrHpSxyvCiWXHMrtCI6v+10sBi0fa4F1zPN1y78+0RFtf+mk
+   btslJZctw7yhE0vT7cVMNJgdryDhrwj2XXNjA3MgxTeDxZqpRpKbDMPB2
+   O3F/MkxHiaqtJLuBT/fKPpdeMOoGl7pd5m5oYX+LuxAD7Q+QssGnJ4tWZ
+   KogGK9iP5Uc5GmYaPgjfgscRNR5NGrjem1IuoNP544f/WPEavplMzg5YB
+   du71X0H7tvmQv4Plamdw5IlTKClGgOY2Ux+v1f2IiT9lvxmSPO5HLcWm8
+   /tqL6fvmhppnvE+KGyYJNU9calyGjzr81lsMVjPTu07It3Ygg3aEOE9xv
+   w==;
+X-CSE-ConnectionGUID: nWcRFp//QSKndaHDDhQ10g==
+X-CSE-MsgGUID: lhWociQVQdu4JlfNZMofMg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="17566374"
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="9794308"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 13:16:23 -0700
+   d="scan'208";a="17566374"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 14:07:23 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="54213940"
+   d="scan'208";a="16647031"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 28 Mar 2024 13:16:21 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 28 Mar 2024 14:07:22 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rpwAd-0002Um-0L;
-	Thu, 28 Mar 2024 20:16:19 +0000
-Date: Fri, 29 Mar 2024 04:16:02 +0800
+	id 1rpwxz-0002WY-2y;
+	Thu, 28 Mar 2024 21:07:19 +0000
+Date: Fri, 29 Mar 2024 05:06:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ingo Molnar <mingo@kernel.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org
-Subject: [tip:sched/core 16/16] kernel/sched/fair.c:9944: warning: Function
- parameter or struct member 'sg_overloaded' not described in
- 'update_sg_lb_stats'
-Message-ID: <202403290435.TuY2hUx3-lkp@intel.com>
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Dave Chinner <dchinner@redhat.com>
+Subject: fs/xfs/./scrub/trace.h:748:3: warning: 'strncpy' specified bound 256
+ equals destination size
+Message-ID: <202403290419.HPcyvqZu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,73 +62,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
-head:   f322c65c648eac74cf1f13691a562a0738aa9e35
-commit: f322c65c648eac74cf1f13691a562a0738aa9e35 [16/16] sched/balancing: Simplify the sg_status bitmask and use separate sg_overloaded and sg_overutilized flags
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240329/202403290435.TuY2hUx3-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403290435.TuY2hUx3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8d025e2092e29bfd13e56c78e22af25fac83c8ec
+commit: 3934e8ebb7cc6e5f1ade35d586ed3eb79b88eb95 xfs: create a big array data structure
+date:   8 months ago
+config: x86_64-buildonly-randconfig-005-20240328 (https://download.01.org/0day-ci/archive/20240329/202403290419.HPcyvqZu-lkp@intel.com/config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403290419.HPcyvqZu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403290435.TuY2hUx3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403290419.HPcyvqZu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/sched/fair.c:9944: warning: Function parameter or struct member 'sg_overloaded' not described in 'update_sg_lb_stats'
->> kernel/sched/fair.c:9944: warning: Function parameter or struct member 'sg_overutilized' not described in 'update_sg_lb_stats'
->> kernel/sched/fair.c:9944: warning: Excess function parameter 'sg_status' description in 'update_sg_lb_stats'
+   In file included from include/trace/define_trace.h:103,
+                    from fs/xfs/scrub/trace.h:1119,
+                    from fs/xfs/scrub/trace.c:42:
+   fs/xfs/./scrub/trace.h: In function 'perf_trace_xfile_create':
+>> fs/xfs/./scrub/trace.h:748:3: warning: 'strncpy' specified bound 256 equals destination size [-Wstringop-truncation]
+      strncpy(__entry->pathname, path, sizeof(__entry->pathname));
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/perf.h:51:4: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     { assign; }       \
+       ^~~~~~
+   include/trace/trace_events.h:44:9: note: in expansion of macro 'PARAMS'
+            PARAMS(assign),         \
+            ^~~~~~
+   fs/xfs/./scrub/trace.h:731:1: note: in expansion of macro 'TRACE_EVENT'
+    TRACE_EVENT(xfile_create,
+    ^~~~~~~~~~~
+   fs/xfs/./scrub/trace.h:739:2: note: in expansion of macro 'TP_fast_assign'
+     TP_fast_assign(
+     ^~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from fs/xfs/scrub/trace.h:1119,
+                    from fs/xfs/scrub/trace.c:42:
+   fs/xfs/./scrub/trace.h: In function 'trace_event_raw_event_xfile_create':
+>> fs/xfs/./scrub/trace.h:748:3: warning: 'strncpy' specified bound 256 equals destination size [-Wstringop-truncation]
+      strncpy(__entry->pathname, path, sizeof(__entry->pathname));
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:402:4: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     { assign; }       \
+       ^~~~~~
+   include/trace/trace_events.h:44:9: note: in expansion of macro 'PARAMS'
+            PARAMS(assign),         \
+            ^~~~~~
+   fs/xfs/./scrub/trace.h:731:1: note: in expansion of macro 'TRACE_EVENT'
+    TRACE_EVENT(xfile_create,
+    ^~~~~~~~~~~
+   fs/xfs/./scrub/trace.h:739:2: note: in expansion of macro 'TP_fast_assign'
+     TP_fast_assign(
+     ^~~~~~~~~~~~~~
 
 
-vim +9944 kernel/sched/fair.c
+vim +/strncpy +748 fs/xfs/./scrub/trace.h
 
-c82a69629c53ed kernel/sched/fair.c Vincent Guittot  2022-07-08  9929  
-1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9930  /**
-1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9931   * update_sg_lb_stats - Update sched_group's statistics for load balancing.
-cd96891d48a945 kernel/sched/fair.c Randy Dunlap     2012-06-08  9932   * @env: The load balancing environment.
-a315da5e686b02 kernel/sched/fair.c Randy Dunlap     2021-12-17  9933   * @sds: Load-balancing data with statistics of the local group.
-1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9934   * @group: sched_group whose statistics are to be updated.
-1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9935   * @sgs: variable to hold the statistics for this group.
-630246a06ae2a7 kernel/sched/fair.c Quentin Perret   2018-12-03  9936   * @sg_status: Holds flag indicating the status of the sched_group
-1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9937   */
-bd939f45da24e2 kernel/sched/fair.c Peter Zijlstra   2012-05-02  9938  static inline void update_sg_lb_stats(struct lb_env *env,
-c0d14b57fe0c11 kernel/sched/fair.c Ricardo Neri     2021-09-10  9939  				      struct sd_lb_stats *sds,
-630246a06ae2a7 kernel/sched/fair.c Quentin Perret   2018-12-03  9940  				      struct sched_group *group,
-630246a06ae2a7 kernel/sched/fair.c Quentin Perret   2018-12-03  9941  				      struct sg_lb_stats *sgs,
-f322c65c648eac kernel/sched/fair.c Ingo Molnar      2024-03-28  9942  				      bool *sg_overloaded,
-f322c65c648eac kernel/sched/fair.c Ingo Molnar      2024-03-28  9943  				      bool *sg_overutilized)
-1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17 @9944  {
-0b0695f2b34a4a kernel/sched/fair.c Vincent Guittot  2019-10-18  9945  	int i, nr_running, local_group;
-1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9946  
-b72ff13ce6021b kernel/sched/fair.c Peter Zijlstra   2013-08-28  9947  	memset(sgs, 0, sizeof(*sgs));
-b72ff13ce6021b kernel/sched/fair.c Peter Zijlstra   2013-08-28  9948  
-c0d14b57fe0c11 kernel/sched/fair.c Ricardo Neri     2021-09-10  9949  	local_group = group == sds->local;
-0b0695f2b34a4a kernel/sched/fair.c Vincent Guittot  2019-10-18  9950  
-ae4df9d6c93510 kernel/sched/fair.c Peter Zijlstra   2017-05-01  9951  	for_each_cpu_and(i, sched_group_span(group), env->cpus) {
-1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9952  		struct rq *rq = cpu_rq(i);
-c82a69629c53ed kernel/sched/fair.c Vincent Guittot  2022-07-08  9953  		unsigned long load = cpu_load(rq);
-1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9954  
-c82a69629c53ed kernel/sched/fair.c Vincent Guittot  2022-07-08  9955  		sgs->group_load += load;
-82762d2af31a60 kernel/sched/fair.c Dietmar Eggemann 2021-11-18  9956  		sgs->group_util += cpu_util_cfs(i);
-070f5e860ee2bf kernel/sched/fair.c Vincent Guittot  2020-02-24  9957  		sgs->group_runnable += cpu_runnable(rq);
-a3498347030101 kernel/sched/fair.c Vincent Guittot  2019-10-18  9958  		sgs->sum_h_nr_running += rq->cfs.h_nr_running;
-4486edd12b5ac8 kernel/sched/fair.c Tim Chen         2014-06-23  9959  
-a426f99c91d103 kernel/sched/fair.c Waiman Long      2015-11-25  9960  		nr_running = rq->nr_running;
-5e23e474431529 kernel/sched/fair.c Vincent Guittot  2019-10-18  9961  		sgs->sum_nr_running += nr_running;
-5e23e474431529 kernel/sched/fair.c Vincent Guittot  2019-10-18  9962  
-a426f99c91d103 kernel/sched/fair.c Waiman Long      2015-11-25  9963  		if (nr_running > 1)
-f322c65c648eac kernel/sched/fair.c Ingo Molnar      2024-03-28  9964  			*sg_overloaded = 1;
-4486edd12b5ac8 kernel/sched/fair.c Tim Chen         2014-06-23  9965  
-2802bf3cd936fe kernel/sched/fair.c Morten Rasmussen 2018-12-03  9966  		if (cpu_overutilized(i))
-f322c65c648eac kernel/sched/fair.c Ingo Molnar      2024-03-28  9967  			*sg_overutilized = 1;
-4486edd12b5ac8 kernel/sched/fair.c Tim Chen         2014-06-23  9968  
-
-:::::: The code at line 9944 was first introduced by commit
-:::::: 1e3c88bdeb1260edc341e45c9fb8efd182a5c511 sched: Move load balance code into sched_fair.c
-
-:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+   730	
+   731	TRACE_EVENT(xfile_create,
+   732		TP_PROTO(struct xfile *xf),
+   733		TP_ARGS(xf),
+   734		TP_STRUCT__entry(
+   735			__field(dev_t, dev)
+   736			__field(unsigned long, ino)
+   737			__array(char, pathname, 256)
+   738		),
+   739		TP_fast_assign(
+   740			char		pathname[257];
+   741			char		*path;
+   742	
+   743			__entry->ino = file_inode(xf->file)->i_ino;
+   744			memset(pathname, 0, sizeof(pathname));
+   745			path = file_path(xf->file, pathname, sizeof(pathname) - 1);
+   746			if (IS_ERR(path))
+   747				path = "(unknown)";
+ > 748			strncpy(__entry->pathname, path, sizeof(__entry->pathname));
+   749		),
+   750		TP_printk("xfino 0x%lx path '%s'",
+   751			  __entry->ino,
+   752			  __entry->pathname)
+   753	);
+   754	
 
 -- 
 0-DAY CI Kernel Test Service
