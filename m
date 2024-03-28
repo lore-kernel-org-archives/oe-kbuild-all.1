@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544DF7E583;
-	Thu, 28 Mar 2024 15:34:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778C381731
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 15:34:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711640058; cv=none; b=m3/Ep1tIv9G892c6WgpdA/zWtZv/cKhTJGEOFJVdusLR3ZprPHTpoW/BdHELAJ6HoSglqL1dfPLfLt2pRbRepFmDmCu4QlnMtKZZT9ViS8enTR9udrSa0i52q6oZRWuk8obc+tr7mCnZpeTdtuHpdgwawyELaCT+l0RzWhoS8c4=
+	t=1711640058; cv=none; b=sCj6Gyd+6aPYuf30cTvzIPs97NrPaeDart+8qPireBv+n9beojoG79MfWPZWotYFT87F8nm2yUVCbXhkbGJhc9q/ThUde/R0de3hdVjiHcjwS0SIf0VahHIJ/zmZuE85YfE3VtlqoQlE69CYA9x1U0qWlHF9hUXI9bGYHLRH5NA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1711640058; c=relaxed/simple;
-	bh=nkU3bCTh86GEcjg5ESJxchooM6+nADk21kFFRRWMVfA=;
+	bh=pq4rM/jkC3pLBCbfs311M7bBO4YHyOpwr1F4hhSa1Qg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NcpR/gocIw3l2CXBlCioxJtTifuvGtJ6fcjNiFEFry8l31cA+X/qQKgs+wihCqfdGGIJ0wi5joFaaXNaA8p+AzFTT3PdeR7r3OxmhAP8fwLD32CY9jgD15cwzwc/mJYJj0T4ipgw2AHiNux5cqyB4aMT5AoKsOFxdflVPBzFNf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZBP9AyhH; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=OrYvw1h00XtA+ARrxdlYArU0wOa0gbgWfpyAmZZTZivM1v/XrmT21gVXvaJd3xwDG0b2NNojXiEdPM41J1UwybI1nUn5YlkmnTZjJFLkeYkism2U3xbC1qGKs+8uJrIuMk9K5cUFUyUKlAUvMs6ygtp73sfQyJ8ie1eOO8r0h2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gi66aJaQ; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZBP9AyhH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gi66aJaQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1711640056; x=1743176056;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nkU3bCTh86GEcjg5ESJxchooM6+nADk21kFFRRWMVfA=;
-  b=ZBP9AyhHV6g3S2MX3mNfRNFv3IieyxZo+V8dU006KpXdr5TXyhsO6ndu
-   vJihVLEHrtcmCaGTJiGt4WXRHvWfttSkOIk/B/xb5LoKc1Z3arYXjDvel
-   VSpZ8L80+KZG/4nsMg4PhHr8V0nsSZKVJDfSlV6eYmLjabpbAKEYw8GQg
-   JCj07ZVRCgbrx0e8Ic2FquI7nEpKwbRc35mxQj9RYJ/ciQZ6nUMEtUH3W
-   E93AZPIiIjANCSQazI3MVLxMoIO5Dn81JSoEU60F+O3msmanFIWhXx3Lq
-   9fJdUC7CehJmP2kqcUVWwHg7jr8TI9Z0UCQWBBmgY5U7GROCBEKyYvhd6
+  bh=pq4rM/jkC3pLBCbfs311M7bBO4YHyOpwr1F4hhSa1Qg=;
+  b=Gi66aJaQrSbRLpySAbsFkrva2zv2/EwVdfk63Z+ZzJLggeDJNffhmS5p
+   kdNmXxa/zIWgawEJySMEc1PGieyHcZuWh9OzqLG5huMvEZzyDmBZEONk8
+   h4N+junR946kfE+mMyARCMfdFZrJnBio1Ma5mzqJQOECgywP8RrTA/Au4
+   eNox0xWy75AY4WP2/o4TG4Mr7uI9ggn6N9xp1Ul2chkSkJb8w300/DS34
+   wHde1pZzbNtzEGHLrFFfDXkwRtRDAF9VszkqOftbReQbdyd3R1L4/k5ra
+   g9hyeLxdmBH+thoy5ZWFNSRmbELTk24yhz04B4Pms43ezxjaouMbvYl05
    g==;
-X-CSE-ConnectionGUID: ilmbcPwYStiYG88TReRcLw==
-X-CSE-MsgGUID: dMtH+A/nRAuh4yYwahECyQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="6912013"
+X-CSE-ConnectionGUID: KzaniXTUQ2ygeWstQiuXfw==
+X-CSE-MsgGUID: FhBLM5xUQHyNA25SL5oocA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="24249784"
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="6912013"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 08:34:13 -0700
+   d="scan'208";a="24249784"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 08:34:15 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="16519452"
+   d="scan'208";a="17080090"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 28 Mar 2024 08:34:12 -0700
+  by orviesa007.jf.intel.com with ESMTP; 28 Mar 2024 08:34:12 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rprlZ-0002Gq-2P;
+	id 1rprlZ-0002Gs-2T;
 	Thu, 28 Mar 2024 15:34:09 +0000
 Date: Thu, 28 Mar 2024 23:33:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: alison.schofield@intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 3/4] cxl/core: Add region info to cxl_general_media and
- cxl_dram events
-Message-ID: <202403282310.8boff281-lkp@intel.com>
-References: <061d1eac5d4e270337911199f0b0633c0ff230b4.1711598777.git.alison.schofield@intel.com>
+To: Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	willy@infradead.org, Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <naoya.horiguchi@nec.com>,
+	David Hildenbrand <david@redhat.com>,
+	Oscar Salvador <osalvador@suse.de>, Zi Yan <ziy@nvidia.com>,
+	Hugh Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: Re: [PATCH 3/6] mm: remove isolate_lru_page()
+Message-ID: <202403282357.bFSsmYuH-lkp@intel.com>
+References: <20240327141034.3712697-4-wangkefeng.wang@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,148 +70,124 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <061d1eac5d4e270337911199f0b0633c0ff230b4.1711598777.git.alison.schofield@intel.com>
+In-Reply-To: <20240327141034.3712697-4-wangkefeng.wang@huawei.com>
 
-Hi,
+Hi Kefeng,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 4cece764965020c22cff7665b18a012006359095]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.9-rc1]
+[cannot apply to akpm-mm/mm-everything next-20240328]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/alison-schofield-intel-com/cxl-region-Move-cxl_dpa_to_region-work-to-the-region-driver/20240328-123905
-base:   4cece764965020c22cff7665b18a012006359095
-patch link:    https://lore.kernel.org/r/061d1eac5d4e270337911199f0b0633c0ff230b4.1711598777.git.alison.schofield%40intel.com
-patch subject: [PATCH 3/4] cxl/core: Add region info to cxl_general_media and cxl_dram events
-config: powerpc-randconfig-001-20240328 (https://download.01.org/0day-ci/archive/20240328/202403282310.8boff281-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403282310.8boff281-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-migrate-add-isolate_movable_folio/20240327-221513
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240327141034.3712697-4-wangkefeng.wang%40huawei.com
+patch subject: [PATCH 3/6] mm: remove isolate_lru_page()
+config: x86_64-randconfig-013-20240328 (https://download.01.org/0day-ci/archive/20240328/202403282357.bFSsmYuH-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403282357.bFSsmYuH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403282310.8boff281-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403282357.bFSsmYuH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/cxl/core/trace.c:5:
-   drivers/cxl/core/core.h:49:9: error: returning 'void *' from a function with incompatible result type 'struct cxl_region'
-           return NULL;
-                  ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                ^~~~~~~~~~~
-   In file included from drivers/cxl/core/trace.c:8:
-   In file included from drivers/cxl/core/./trace.h:748:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:419:
->> drivers/cxl/core/./trace.h:380:3: error: assigning to 'struct cxl_region *' from incompatible type 'struct cxl_region'
-                   store_region_info(cxlmd, to_gm_dpa(record),
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/./trace.h:24:8: note: expanded from macro 'store_region_info'
-                   cxlr = cxl_dpa_to_region(cxlmd, dpa);                   \
-                        ^
-   include/trace/stages/stage6_event_callback.h:135:33: note: expanded from macro 'TP_fast_assign'
-   #define TP_fast_assign(args...) args
-                                   ^
-   include/trace/trace_events.h:44:16: note: expanded from macro 'TRACE_EVENT'
-                                PARAMS(assign),                   \
-                                ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
-   #define PARAMS(args...) args
-                           ^
-   include/trace/trace_events.h:402:4: note: expanded from macro 'DECLARE_EVENT_CLASS'
-           { assign; }                                                     \
-             ^~~~~~
-   In file included from drivers/cxl/core/trace.c:8:
-   In file included from drivers/cxl/core/./trace.h:748:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:419:
-   drivers/cxl/core/./trace.h:480:3: error: assigning to 'struct cxl_region *' from incompatible type 'struct cxl_region'
-                   store_region_info(cxlmd, __entry->dpa, __entry->region_uuid,
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/./trace.h:24:8: note: expanded from macro 'store_region_info'
-                   cxlr = cxl_dpa_to_region(cxlmd, dpa);                   \
-                        ^
-   include/trace/stages/stage6_event_callback.h:135:33: note: expanded from macro 'TP_fast_assign'
-   #define TP_fast_assign(args...) args
-                                   ^
-   include/trace/trace_events.h:44:16: note: expanded from macro 'TRACE_EVENT'
-                                PARAMS(assign),                   \
-                                ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
-   #define PARAMS(args...) args
-                           ^
-   include/trace/trace_events.h:402:4: note: expanded from macro 'DECLARE_EVENT_CLASS'
-           { assign; }                                                     \
-             ^~~~~~
-   3 errors generated.
+   mm/migrate_device.c: In function 'migrate_device_unmap':
+>> mm/migrate_device.c:388:9: error: implicit declaration of function 'isolate_lru_page' [-Werror=implicit-function-declaration]
+     388 |    if (!isolate_lru_page(page)) {
+         |         ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +380 drivers/cxl/core/./trace.h
+vim +/isolate_lru_page +388 mm/migrate_device.c
 
-   336	
-   337		TP_PROTO(const struct cxl_memdev *cxlmd, enum cxl_event_log_type log,
-   338			 struct cxl_event_gen_media *rec),
-   339	
-   340		TP_ARGS(cxlmd, log, rec),
-   341	
-   342		TP_STRUCT__entry(
-   343			CXL_EVT_TP_entry
-   344			/* General Media */
-   345			__field(u64, dpa)
-   346			__field(u8, descriptor)
-   347			__field(u8, type)
-   348			__field(u8, transaction_type)
-   349			__field(u8, channel)
-   350			__field(u32, device)
-   351			__array(u8, comp_id, CXL_EVENT_GEN_MED_COMP_ID_SIZE)
-   352			/* Following are out of order to pack trace record */
-   353			__field(u64, hpa)
-   354			__field_struct(uuid_t, region_uuid)
-   355			__field(u16, validity_flags)
-   356			__field(u8, rank)
-   357			__field(u8, dpa_flags)
-   358			__string(region_name, to_region_name(cxlmd, to_gm_dpa(record)))
-   359		),
-   360	
-   361		TP_fast_assign(
-   362			CXL_EVT_TP_fast_assign(cxlmd, log, rec->hdr);
-   363			__entry->hdr_uuid = CXL_EVENT_GEN_MEDIA_UUID;
-   364	
-   365			/* General Media */
-   366			__entry->dpa = le64_to_cpu(rec->phys_addr);
-   367			__entry->dpa_flags = __entry->dpa & CXL_DPA_FLAGS_MASK;
-   368			/* Mask after flags have been parsed */
-   369			__entry->dpa &= CXL_DPA_MASK;
-   370			__entry->descriptor = rec->descriptor;
-   371			__entry->type = rec->type;
-   372			__entry->transaction_type = rec->transaction_type;
-   373			__entry->channel = rec->channel;
-   374			__entry->rank = rec->rank;
-   375			__entry->device = get_unaligned_le24(rec->device);
-   376			memcpy(__entry->comp_id, &rec->component_id,
-   377				CXL_EVENT_GEN_MED_COMP_ID_SIZE);
-   378			__entry->validity_flags = get_unaligned_le16(&rec->validity_flags);
-   379			__assign_str(region_name, to_region_name(cxlmd, to_gm_dpa(record)));
- > 380			store_region_info(cxlmd, to_gm_dpa(record),
-   381					  __entry->region_uuid, __entry->hpa);
-   382		),
-   383	
-   384		CXL_EVT_TP_printk("dpa=%llx dpa_flags='%s' " \
-   385			"descriptor='%s' type='%s' transaction_type='%s' channel=%u rank=%u " \
-   386			"device=%x comp_id=%s validity_flags='%s' " \
-   387			"hpa=%llx region=%s region_uuid=%pUb",
-   388			__entry->dpa, show_dpa_flags(__entry->dpa_flags),
-   389			show_event_desc_flags(__entry->descriptor),
-   390			show_mem_event_type(__entry->type),
-   391			show_trans_type(__entry->transaction_type),
-   392			__entry->channel, __entry->rank, __entry->device,
-   393			__print_hex(__entry->comp_id, CXL_EVENT_GEN_MED_COMP_ID_SIZE),
-   394			show_valid_flags(__entry->validity_flags),
-   395			__entry->hpa, __get_str(region_name), &__entry->region_uuid
-   396		)
-   397	);
-   398	
+76cbbead253ddc Christoph Hellwig       2022-02-16  355  
+76cbbead253ddc Christoph Hellwig       2022-02-16  356  /*
+44af0b45d58d7b Alistair Popple         2022-11-11  357   * Unmaps pages for migration. Returns number of source pfns marked as
+44af0b45d58d7b Alistair Popple         2022-11-11  358   * migrating.
+76cbbead253ddc Christoph Hellwig       2022-02-16  359   */
+241f6885965683 Alistair Popple         2022-09-28  360  static unsigned long migrate_device_unmap(unsigned long *src_pfns,
+241f6885965683 Alistair Popple         2022-09-28  361  					  unsigned long npages,
+241f6885965683 Alistair Popple         2022-09-28  362  					  struct page *fault_page)
+76cbbead253ddc Christoph Hellwig       2022-02-16  363  {
+76cbbead253ddc Christoph Hellwig       2022-02-16  364  	unsigned long i, restore = 0;
+76cbbead253ddc Christoph Hellwig       2022-02-16  365  	bool allow_drain = true;
+241f6885965683 Alistair Popple         2022-09-28  366  	unsigned long unmapped = 0;
+76cbbead253ddc Christoph Hellwig       2022-02-16  367  
+76cbbead253ddc Christoph Hellwig       2022-02-16  368  	lru_add_drain();
+76cbbead253ddc Christoph Hellwig       2022-02-16  369  
+76cbbead253ddc Christoph Hellwig       2022-02-16  370  	for (i = 0; i < npages; i++) {
+241f6885965683 Alistair Popple         2022-09-28  371  		struct page *page = migrate_pfn_to_page(src_pfns[i]);
+4b8554c527f3cf Matthew Wilcox (Oracle  2022-01-28  372) 		struct folio *folio;
+76cbbead253ddc Christoph Hellwig       2022-02-16  373  
+44af0b45d58d7b Alistair Popple         2022-11-11  374  		if (!page) {
+44af0b45d58d7b Alistair Popple         2022-11-11  375  			if (src_pfns[i] & MIGRATE_PFN_MIGRATE)
+44af0b45d58d7b Alistair Popple         2022-11-11  376  				unmapped++;
+76cbbead253ddc Christoph Hellwig       2022-02-16  377  			continue;
+44af0b45d58d7b Alistair Popple         2022-11-11  378  		}
+76cbbead253ddc Christoph Hellwig       2022-02-16  379  
+76cbbead253ddc Christoph Hellwig       2022-02-16  380  		/* ZONE_DEVICE pages are not on LRU */
+76cbbead253ddc Christoph Hellwig       2022-02-16  381  		if (!is_zone_device_page(page)) {
+76cbbead253ddc Christoph Hellwig       2022-02-16  382  			if (!PageLRU(page) && allow_drain) {
+1fec6890bf2247 Matthew Wilcox (Oracle  2023-06-21  383) 				/* Drain CPU's lru cache */
+76cbbead253ddc Christoph Hellwig       2022-02-16  384  				lru_add_drain_all();
+76cbbead253ddc Christoph Hellwig       2022-02-16  385  				allow_drain = false;
+76cbbead253ddc Christoph Hellwig       2022-02-16  386  			}
+76cbbead253ddc Christoph Hellwig       2022-02-16  387  
+f7f9c00dfafffd Baolin Wang             2023-02-15 @388  			if (!isolate_lru_page(page)) {
+241f6885965683 Alistair Popple         2022-09-28  389  				src_pfns[i] &= ~MIGRATE_PFN_MIGRATE;
+76cbbead253ddc Christoph Hellwig       2022-02-16  390  				restore++;
+76cbbead253ddc Christoph Hellwig       2022-02-16  391  				continue;
+76cbbead253ddc Christoph Hellwig       2022-02-16  392  			}
+76cbbead253ddc Christoph Hellwig       2022-02-16  393  
+76cbbead253ddc Christoph Hellwig       2022-02-16  394  			/* Drop the reference we took in collect */
+76cbbead253ddc Christoph Hellwig       2022-02-16  395  			put_page(page);
+76cbbead253ddc Christoph Hellwig       2022-02-16  396  		}
+76cbbead253ddc Christoph Hellwig       2022-02-16  397  
+4b8554c527f3cf Matthew Wilcox (Oracle  2022-01-28  398) 		folio = page_folio(page);
+4b8554c527f3cf Matthew Wilcox (Oracle  2022-01-28  399) 		if (folio_mapped(folio))
+4b8554c527f3cf Matthew Wilcox (Oracle  2022-01-28  400) 			try_to_migrate(folio, 0);
+76cbbead253ddc Christoph Hellwig       2022-02-16  401  
+16ce101db85db6 Alistair Popple         2022-09-28  402  		if (page_mapped(page) ||
+241f6885965683 Alistair Popple         2022-09-28  403  		    !migrate_vma_check_page(page, fault_page)) {
+76cbbead253ddc Christoph Hellwig       2022-02-16  404  			if (!is_zone_device_page(page)) {
+76cbbead253ddc Christoph Hellwig       2022-02-16  405  				get_page(page);
+76cbbead253ddc Christoph Hellwig       2022-02-16  406  				putback_lru_page(page);
+76cbbead253ddc Christoph Hellwig       2022-02-16  407  			}
+76cbbead253ddc Christoph Hellwig       2022-02-16  408  
+241f6885965683 Alistair Popple         2022-09-28  409  			src_pfns[i] &= ~MIGRATE_PFN_MIGRATE;
+76cbbead253ddc Christoph Hellwig       2022-02-16  410  			restore++;
+76cbbead253ddc Christoph Hellwig       2022-02-16  411  			continue;
+76cbbead253ddc Christoph Hellwig       2022-02-16  412  		}
+241f6885965683 Alistair Popple         2022-09-28  413  
+241f6885965683 Alistair Popple         2022-09-28  414  		unmapped++;
+76cbbead253ddc Christoph Hellwig       2022-02-16  415  	}
+76cbbead253ddc Christoph Hellwig       2022-02-16  416  
+76cbbead253ddc Christoph Hellwig       2022-02-16  417  	for (i = 0; i < npages && restore; i++) {
+241f6885965683 Alistair Popple         2022-09-28  418  		struct page *page = migrate_pfn_to_page(src_pfns[i]);
+4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  419) 		struct folio *folio;
+76cbbead253ddc Christoph Hellwig       2022-02-16  420  
+241f6885965683 Alistair Popple         2022-09-28  421  		if (!page || (src_pfns[i] & MIGRATE_PFN_MIGRATE))
+76cbbead253ddc Christoph Hellwig       2022-02-16  422  			continue;
+76cbbead253ddc Christoph Hellwig       2022-02-16  423  
+4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  424) 		folio = page_folio(page);
+4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  425) 		remove_migration_ptes(folio, folio, false);
+76cbbead253ddc Christoph Hellwig       2022-02-16  426  
+241f6885965683 Alistair Popple         2022-09-28  427  		src_pfns[i] = 0;
+4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  428) 		folio_unlock(folio);
+4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  429) 		folio_put(folio);
+76cbbead253ddc Christoph Hellwig       2022-02-16  430  		restore--;
+76cbbead253ddc Christoph Hellwig       2022-02-16  431  	}
+241f6885965683 Alistair Popple         2022-09-28  432  
+241f6885965683 Alistair Popple         2022-09-28  433  	return unmapped;
+241f6885965683 Alistair Popple         2022-09-28  434  }
+241f6885965683 Alistair Popple         2022-09-28  435  
 
 -- 
 0-DAY CI Kernel Test Service
