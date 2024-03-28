@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7994A12F5BE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 15:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBCD651AE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 16:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711641376; cv=none; b=ZTXl2cIWLjzWYz6xCnZLtBYBfFowrZ8mHlAzajn1foRffHBYaAsr++4/fitKtQbUz9ov4a+GPS0QlmBZ9tFZyRrPsfQlsckppglUTO4ef7QE2Ti19TIMhz0amwL37X55QCIRMrMe4VyutZwkLV1SrNQXwS+w7fqIcbZTjPtv1Gg=
+	t=1711642351; cv=none; b=Q+HRqaclY3qI37jobO1Qn8c7PU+5gSxbleeDoi916K2k0yk8qz3P/jtnXCUjERBe/dCTO9sd6gKS8tjY+bcORs+m2HaaBr++AuuaeEYwXElzLWiOFdV7aphAJlbkXX4uvwoWbW4qfFBXfSyAVrfuzvOUqaKT/81yfk1y4ZyXp5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711641376; c=relaxed/simple;
-	bh=vwbLly6I3GZ7CR+wbxee82E1xfeIapoUlYJbYTZbNwI=;
+	s=arc-20240116; t=1711642351; c=relaxed/simple;
+	bh=/8GP8z5umjlvZRYL/u0lQ5WKvxrXJn0bO0Gwl6xJAiU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Mf2O4S0OAAKILCr1HfAETroyNWnvRnln1plM79o9Fc6kWq4KJJ3ux1WCeGLi1cOhrVJG6/2uXgyKz2tnWXmMIoPca2OV3KRYysiJAMQL9nNc3oo3xL8cGiJMaB4aVcUcqL8qmBBeEXmoNj7ZuwCyAuh0cX6Js/CjnvBQhnttRzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lz6E1std; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition:In-Reply-To; b=jrNGIu/Izew37GXEtI2btIO4BXd9103Jr69NGQnrxuMfZID8TOMuSUpwta2J85tYi90t6u88q3k8QD/Mwni8fhl1rJ13FZVuOJN7avFxmwCA3qjvfjSOh2XDDEm588Ve7cgJoJZIznoM7VcognYBU795b07pZeiFJ8aLpgXcJUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XjnvPcSw; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lz6E1std"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XjnvPcSw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711641374; x=1743177374;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vwbLly6I3GZ7CR+wbxee82E1xfeIapoUlYJbYTZbNwI=;
-  b=Lz6E1stdZLG2rMDF6JsRD62OivbCXKF5vy0si+dWonjvnLVMnfm6ftmA
-   z4PghJhCtqNqnjgRR1ziTsHszN0Aafw+aw2Z840fWRVROdSbfN8nqV2DE
-   d2YooslIIAp/34HfImwk48e4b9huDAAQG1t20+mQmkhKG5ASxgNzKWHvE
-   iLm2hGt8bdksU7lf8CmVT6Suw36VUP15xoUWw9Ob/E68tk5hoPyMcliZB
-   0miH7kHE/EqzSSFxCKrlawwEVrdApbpXhEoIyAAQTEfDZZ5OXGE18026R
-   oWacZF8kB+r1kiNtf/uHl/VYSh6gkzD21CSET8rq/4pMiQoGU69kdd+KC
+  t=1711642349; x=1743178349;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=/8GP8z5umjlvZRYL/u0lQ5WKvxrXJn0bO0Gwl6xJAiU=;
+  b=XjnvPcSwLwB4zkB4LOBQnPawoTYBGP/MeGoVePnYJH+Y8uJQEfqYFv3N
+   a6UWFZN72tk0mGXcRarS7j2FLK1z62H9L91vx40mIgkds6R+cbcUXxXui
+   XnCfZGpawJmtKopOCZntxVMbODkBS0TpzTjK0OdYJbGA++MFPrlt8y1NM
+   vx5OMqjrQjRtQ5mKy8hqyFjxVFlFcyHSM5rEkagskcj68j0S05Nua5bkP
+   cdJLY13DKSSaZGx54CRoP7y4f0nA5GH9tILT7Gp7HgB0rHTZzhbvSm+uz
+   OEmSFI9wBT1OoApcTud5R57eVoGJxw/dzgrIXojfcly8vXbt2sFcWhpXI
    A==;
-X-CSE-ConnectionGUID: pIsgYUeoQYaFqPw1X/5V5A==
-X-CSE-MsgGUID: SapcKCLjT1KWQewIJrQWUg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="17946720"
+X-CSE-ConnectionGUID: QBg8FIz5Th2f43uWLo+x+Q==
+X-CSE-MsgGUID: 3KPO9MGeTDCwzCbtke7zeQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="6921830"
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="17946720"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 08:56:14 -0700
+   d="scan'208";a="6921830"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 09:11:15 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="21388148"
+   d="scan'208";a="21367075"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 28 Mar 2024 08:56:13 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 28 Mar 2024 09:11:14 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rps6s-0002Hy-1G;
-	Thu, 28 Mar 2024 15:56:10 +0000
-Date: Thu, 28 Mar 2024 23:55:44 +0800
+	id 1rpsLP-0002JE-0S;
+	Thu, 28 Mar 2024 16:11:11 +0000
+Date: Fri, 29 Mar 2024 00:10:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org
-Subject: [rafael-pm:intel_pstate-testing 14/14]
- drivers/cpufreq/intel_pstate.c:963:2: error: implicit declaration of
- function 'arch_set_cpu_capacity'; did you mean 'arch_scale_cpu_capacity'?
-Message-ID: <202403282334.VfY1MU72-lkp@intel.com>
+To: Steve Wahl <steve.wahl@hpe.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4] x86/mm/ident_map: On UV systems, use gbpages only
+ where full GB page should be mapped.
+Message-ID: <ZgWWiBzhrvHMPjZd@f34f6e606ddc>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,41 +60,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240328160614.1838496-1-steve.wahl@hpe.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git intel_pstate-testing
-head:   16303764deedb814defe7e69712edec6a09b50ad
-commit: 16303764deedb814defe7e69712edec6a09b50ad [14/14] cpufreq: intel_pstate: Set asymmetric CPU capacity on hybrid systems
-config: x86_64-randconfig-161-20240328 (https://download.01.org/0day-ci/archive/20240328/202403282334.VfY1MU72-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403282334.VfY1MU72-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403282334.VfY1MU72-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   drivers/cpufreq/intel_pstate.c: In function 'hybrid_set_cpu_capacity':
->> drivers/cpufreq/intel_pstate.c:963:2: error: implicit declaration of function 'arch_set_cpu_capacity'; did you mean 'arch_scale_cpu_capacity'? [-Werror=implicit-function-declaration]
-     963 |  arch_set_cpu_capacity(cpu->cpu, cap);
-         |  ^~~~~~~~~~~~~~~~~~~~~
-         |  arch_scale_cpu_capacity
-   cc1: some warnings being treated as errors
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-
-vim +963 drivers/cpufreq/intel_pstate.c
-
-   957	
-   958	static void hybrid_set_cpu_capacity(struct cpudata *cpu)
-   959	{
-   960		u64 cap = div_u64((u64)SCHED_CAPACITY_SCALE * cpu->capacity_perf,
-   961				  hybrid_max_perf_cpu->capacity_perf);
-   962	
- > 963		arch_set_cpu_capacity(cpu->cpu, cap);
-   964	}
-   965	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v4] x86/mm/ident_map: On UV systems, use gbpages only where full GB page should be mapped.
+Link: https://lore.kernel.org/stable/20240328160614.1838496-1-steve.wahl%40hpe.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
