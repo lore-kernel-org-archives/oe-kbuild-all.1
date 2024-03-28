@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C22D52F62
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 21:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05564594C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 21:38:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711660046; cv=none; b=pDWDccneBKljrT355zz8yYnPumM1mKjVmsiphmGc0vJZWQ6ULDhDJeWz2tvkgr3kMQpuNUD9xUyd7V7iAyC5QiLgxnb10z/hArnyevTK0zmIUglOegbFRcP2vcTh2lTYGU0WJlDnVonpMebw51nq6ZxD+LNtXwTPvD1lJf97daE=
+	t=1711661907; cv=none; b=F69HS8LJzpiqFYRkkBRt+bVYckRuW7tpHQoFgW8oCBh6ewrJG2z4jWRSZkxsE6JpHq96RdlVjE3ABLyyafhh5ooVf7iOq9pl1A6+8ZOsSlKBdcgci2XscczFMMYlRKnbvVwXSfVbe13jJmdxsQVXMV9I15+SjQVSByY775nPCi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711660046; c=relaxed/simple;
-	bh=WakwZuSdLqzld89orUC502TIto80jRQf9jd2N0l/Uig=;
+	s=arc-20240116; t=1711661907; c=relaxed/simple;
+	bh=daglAzi6NK9JZ3oMGwMF7Qdcwper9V5+dfgjzOxFWfk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IeC1QIJppJmJ9FimqrvznupDOOcBieDR4mBE9yByI6Oa9Mwr5fpD+eAzb/dV6E5vSPzT91uSMRnZa7f3XASloAyPTxM31AE+c48nfR7TMtFKro3ijKTHTyTKLjHaiyWuFq+hqUjD4CNgCFYWBhV8h691gm1IIkV6bRcKUbuyymM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R5HFRot5; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=GyNTYk4Z93k8cYFoTQXcJrJyRvCVulj+ENUX8IrdYD8iD3B3n/2rQax7+RxAnOijx4uJl3KNWSX2JJJE4cf5g8XNybvPCgYSKXq0hFOpjISo1bHS9SEFKBdWR8MJEV41OVH7+RnfJ8qy2slULiHRC9WVd/ZUPZrAOqpzYnqtrIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VUAFDG/W; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R5HFRot5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VUAFDG/W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711660044; x=1743196044;
+  t=1711661905; x=1743197905;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WakwZuSdLqzld89orUC502TIto80jRQf9jd2N0l/Uig=;
-  b=R5HFRot5wrHpSxyvCiWXHMrtCI6v+10sBi0fa4F1zPN1y78+0RFtf+mk
-   btslJZctw7yhE0vT7cVMNJgdryDhrwj2XXNjA3MgxTeDxZqpRpKbDMPB2
-   O3F/MkxHiaqtJLuBT/fKPpdeMOoGl7pd5m5oYX+LuxAD7Q+QssGnJ4tWZ
-   KogGK9iP5Uc5GmYaPgjfgscRNR5NGrjem1IuoNP544f/WPEavplMzg5YB
-   du71X0H7tvmQv4Plamdw5IlTKClGgOY2Ux+v1f2IiT9lvxmSPO5HLcWm8
-   /tqL6fvmhppnvE+KGyYJNU9calyGjzr81lsMVjPTu07It3Ygg3aEOE9xv
+  bh=daglAzi6NK9JZ3oMGwMF7Qdcwper9V5+dfgjzOxFWfk=;
+  b=VUAFDG/WW8KjmLd71PhkhJ9nkSanCbudP2XLQ4sokX7KZjVr3R+mYzo+
+   APiWTzCwFf1ZLIjq7V2O1wURt2cfRFjgUaFgFtpstbQlWgEG3KhNJBBeW
+   RAwuf1482lDsdaheVDmFYik20MEWYk45U2n7DStic0As2lIlEXxM3GQDV
+   918eOmI9ho7WNK5oRCa4VFRpFY/H3X3jBRRTA6hRggmkCgZXbCgzvUC41
+   J6kYC/d3xUF0KSBPxFeKcDoCtHQ4X3ByyFaxE0k70T+h+QxYgSO3ax59V
+   Be/J0mDQbBlBPtq69HdYSi8AHMLM6XbA7AmXFkAbs+ivIU/Nyz0Xc1MiA
    w==;
-X-CSE-ConnectionGUID: nWcRFp//QSKndaHDDhQ10g==
-X-CSE-MsgGUID: lhWociQVQdu4JlfNZMofMg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="17566374"
+X-CSE-ConnectionGUID: Qye1J4PxT0WGnIHkJOZpJg==
+X-CSE-MsgGUID: f82TJ3k4TOu0XFP+rhmnAQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="6679474"
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="17566374"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 14:07:23 -0700
+   d="scan'208";a="6679474"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 14:38:24 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="16647031"
+   d="scan'208";a="39935998"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 28 Mar 2024 14:07:22 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 28 Mar 2024 14:38:22 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rpwxz-0002WY-2y;
-	Thu, 28 Mar 2024 21:07:19 +0000
-Date: Fri, 29 Mar 2024 05:06:49 +0800
+	id 1rpxS0-0002Xa-1S;
+	Thu, 28 Mar 2024 21:38:20 +0000
+Date: Fri, 29 Mar 2024 05:37:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Dave Chinner <dchinner@redhat.com>
-Subject: fs/xfs/./scrub/trace.h:748:3: warning: 'strncpy' specified bound 256
- equals destination size
-Message-ID: <202403290419.HPcyvqZu-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>
+Subject: [linux-next:master 2035/2532] arch/x86/mm/numa_32.c:57:9: error:
+ '__vmalloc_start_set' undeclared
+Message-ID: <202403290536.7f9zGl5Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,88 +64,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8d025e2092e29bfd13e56c78e22af25fac83c8ec
-commit: 3934e8ebb7cc6e5f1ade35d586ed3eb79b88eb95 xfs: create a big array data structure
-date:   8 months ago
-config: x86_64-buildonly-randconfig-005-20240328 (https://download.01.org/0day-ci/archive/20240329/202403290419.HPcyvqZu-lkp@intel.com/config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403290419.HPcyvqZu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a6bd6c9333397f5a0e2667d4d82fef8c970108f2
+commit: a491512a83cf145d0f04966b157b16130e9b63b9 [2035/2532] asm-generic/io.h: kill vmalloc.h dependency
+config: i386-buildonly-randconfig-r005-20221003 (https://download.01.org/0day-ci/archive/20240329/202403290536.7f9zGl5Q-lkp@intel.com/config)
+compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403290536.7f9zGl5Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403290419.HPcyvqZu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403290536.7f9zGl5Q-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:103,
-                    from fs/xfs/scrub/trace.h:1119,
-                    from fs/xfs/scrub/trace.c:42:
-   fs/xfs/./scrub/trace.h: In function 'perf_trace_xfile_create':
->> fs/xfs/./scrub/trace.h:748:3: warning: 'strncpy' specified bound 256 equals destination size [-Wstringop-truncation]
-      strncpy(__entry->pathname, path, sizeof(__entry->pathname));
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/perf.h:51:4: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     { assign; }       \
-       ^~~~~~
-   include/trace/trace_events.h:44:9: note: in expansion of macro 'PARAMS'
-            PARAMS(assign),         \
-            ^~~~~~
-   fs/xfs/./scrub/trace.h:731:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(xfile_create,
-    ^~~~~~~~~~~
-   fs/xfs/./scrub/trace.h:739:2: note: in expansion of macro 'TP_fast_assign'
-     TP_fast_assign(
-     ^~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from fs/xfs/scrub/trace.h:1119,
-                    from fs/xfs/scrub/trace.c:42:
-   fs/xfs/./scrub/trace.h: In function 'trace_event_raw_event_xfile_create':
->> fs/xfs/./scrub/trace.h:748:3: warning: 'strncpy' specified bound 256 equals destination size [-Wstringop-truncation]
-      strncpy(__entry->pathname, path, sizeof(__entry->pathname));
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:402:4: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     { assign; }       \
-       ^~~~~~
-   include/trace/trace_events.h:44:9: note: in expansion of macro 'PARAMS'
-            PARAMS(assign),         \
-            ^~~~~~
-   fs/xfs/./scrub/trace.h:731:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(xfile_create,
-    ^~~~~~~~~~~
-   fs/xfs/./scrub/trace.h:739:2: note: in expansion of macro 'TP_fast_assign'
-     TP_fast_assign(
-     ^~~~~~~~~~~~~~
+   arch/x86/mm/numa_32.c: In function 'initmem_init':
+>> arch/x86/mm/numa_32.c:57:9: error: '__vmalloc_start_set' undeclared (first use in this function)
+      57 |         __vmalloc_start_set = true;
+         |         ^~~~~~~~~~~~~~~~~~~
+   arch/x86/mm/numa_32.c:57:9: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/strncpy +748 fs/xfs/./scrub/trace.h
+vim +/__vmalloc_start_set +57 arch/x86/mm/numa_32.c
 
-   730	
-   731	TRACE_EVENT(xfile_create,
-   732		TP_PROTO(struct xfile *xf),
-   733		TP_ARGS(xf),
-   734		TP_STRUCT__entry(
-   735			__field(dev_t, dev)
-   736			__field(unsigned long, ino)
-   737			__array(char, pathname, 256)
-   738		),
-   739		TP_fast_assign(
-   740			char		pathname[257];
-   741			char		*path;
-   742	
-   743			__entry->ino = file_inode(xf->file)->i_ino;
-   744			memset(pathname, 0, sizeof(pathname));
-   745			path = file_path(xf->file, pathname, sizeof(pathname) - 1);
-   746			if (IS_ERR(path))
-   747				path = "(unknown)";
- > 748			strncpy(__entry->pathname, path, sizeof(__entry->pathname));
-   749		),
-   750		TP_printk("xfino 0x%lx path '%s'",
-   751			  __entry->ino,
-   752			  __entry->pathname)
-   753	);
-   754	
+^1da177e4c3f41 arch/i386/mm/discontig.c   Linus Torvalds 2005-04-16  31  
+d8fc3afc49bb22 arch/x86/mm/numa_32.c      Tejun Heo      2011-02-16  32  void __init initmem_init(void)
+^1da177e4c3f41 arch/i386/mm/discontig.c   Linus Torvalds 2005-04-16  33  {
+bd6709a91a593d arch/x86/mm/numa_32.c      Tejun Heo      2011-05-02  34  	x86_numa_init();
+^1da177e4c3f41 arch/i386/mm/discontig.c   Linus Torvalds 2005-04-16  35  
+^1da177e4c3f41 arch/i386/mm/discontig.c   Linus Torvalds 2005-04-16  36  #ifdef CONFIG_HIGHMEM
+^1da177e4c3f41 arch/i386/mm/discontig.c   Linus Torvalds 2005-04-16  37  	highstart_pfn = highend_pfn = max_pfn;
+2ec65f8b89ea00 arch/x86/mm/discontig_32.c Yinghai Lu     2008-06-23  38  	if (max_pfn > max_low_pfn)
+2ec65f8b89ea00 arch/x86/mm/discontig_32.c Yinghai Lu     2008-06-23  39  		highstart_pfn = max_low_pfn;
+^1da177e4c3f41 arch/i386/mm/discontig.c   Linus Torvalds 2005-04-16  40  	printk(KERN_NOTICE "%ldMB HIGHMEM available.\n",
+^1da177e4c3f41 arch/i386/mm/discontig.c   Linus Torvalds 2005-04-16  41  	       pages_to_mb(highend_pfn - highstart_pfn));
+ba9c231f7499ff arch/i386/mm/discontig.c   Jan Beulich    2006-09-26  42  	high_memory = (void *) __va(highstart_pfn * PAGE_SIZE - 1) + 1;
+ba9c231f7499ff arch/i386/mm/discontig.c   Jan Beulich    2006-09-26  43  #else
+2ec65f8b89ea00 arch/x86/mm/discontig_32.c Yinghai Lu     2008-06-23  44  	high_memory = (void *) __va(max_low_pfn * PAGE_SIZE - 1) + 1;
+^1da177e4c3f41 arch/i386/mm/discontig.c   Linus Torvalds 2005-04-16  45  #endif
+^1da177e4c3f41 arch/i386/mm/discontig.c   Linus Torvalds 2005-04-16  46  	printk(KERN_NOTICE "%ldMB LOWMEM available.\n",
+2ec65f8b89ea00 arch/x86/mm/discontig_32.c Yinghai Lu     2008-06-23  47  			pages_to_mb(max_low_pfn));
+c09434571d4b1d arch/x86/mm/discontig_32.c Yinghai Lu     2008-06-23  48  	printk(KERN_DEBUG "max_low_pfn = %lx, highstart_pfn = %lx\n",
+c09434571d4b1d arch/x86/mm/discontig_32.c Yinghai Lu     2008-06-23  49  			max_low_pfn, highstart_pfn);
+^1da177e4c3f41 arch/i386/mm/discontig.c   Linus Torvalds 2005-04-16  50  
+c09434571d4b1d arch/x86/mm/discontig_32.c Yinghai Lu     2008-06-23  51  	printk(KERN_DEBUG "Low memory ends at vaddr %08lx\n",
+^1da177e4c3f41 arch/i386/mm/discontig.c   Linus Torvalds 2005-04-16  52  			(ulong) pfn_to_kaddr(max_low_pfn));
+3a58a2a6c879b2 arch/x86/mm/discontig_32.c Yinghai Lu     2008-06-24  53  
+c09434571d4b1d arch/x86/mm/discontig_32.c Yinghai Lu     2008-06-23  54  	printk(KERN_DEBUG "High memory starts at vaddr %08lx\n",
+^1da177e4c3f41 arch/i386/mm/discontig.c   Linus Torvalds 2005-04-16  55  			(ulong) pfn_to_kaddr(highstart_pfn));
+3a58a2a6c879b2 arch/x86/mm/discontig_32.c Yinghai Lu     2008-06-24  56  
+861ce4a3244c21 arch/x86/mm/numa_32.c      Laura Abbott   2017-05-08 @57  	__vmalloc_start_set = true;
+
+:::::: The code at line 57 was first introduced by commit
+:::::: 861ce4a3244c21b0af64f880d5bfe5e6e2fb9e4a x86/mm/32: Set the '__vmalloc_start_set' flag in initmem_init()
+
+:::::: TO: Laura Abbott <labbott@redhat.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
