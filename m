@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05EE0136994;
-	Thu, 28 Mar 2024 20:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCACF1327F6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 20:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711656402; cv=none; b=dJqcN1rkQzwlfS+aKweJIY/jIxv3MlMhqcOLyPD5KWi2WIetLZ5Z/TY+/wr+hBBdsS/TTQd1eitrQ8PBVXQ4IPzEu6QoMhrFUo68IleOVQoL9O+guQOQl4tIHaBQDDe8AfDrOZrW8LuWtNW9XHrYQ/8TLKHDA+M+WGolPA3994Q=
+	t=1711656986; cv=none; b=MC1VrCFCkHt7uVkUewYCKYW3zhX9XTQE+gTPqO0h9Shch2SaFZ5tc/asWftWyi8jAVdEtphY5dlFKytQq6v2bkiYnKSeqpDfT6Rn7uQDhi75DRxNynC96vo2WOpoFA3rpri2L/e3BFYiFfPgY0z1jsVXiG7IseZDIyqACSEBYrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711656402; c=relaxed/simple;
-	bh=nkIjd0IXCVDR6LITaen5NTM7zN+lmF4nDqCRUBJ5Urs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nQ+mxNTQAB2ogMhBIw5Xat2Vqov0m1zUdnImex8+uivZ1dfcqpWzgaZPtuWb9P8DFBpxyIczqDJ1ekDnANRiUxrp3M4e/7gG9E5sUDaaFLnyAedT9LayWRjd+8Hh3+M7gSQMhxjMFptvZh3G212T7b8JZDw+L6vw0DW3LXxCz4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JasIlo3P; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1711656986; c=relaxed/simple;
+	bh=EC6VsBfda2qZy3M5bvlbFWNuCxM4KPpfW4DqeiEZc28=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rWJYau+ytiZNUCIuHHk+tjeikyeUVaNMtNz3mNgcmZWLImz+YIrx5pK4gtHCkyC+enHHIE/P81rVL8BgytO78qFoaaI+pKzWXziueWFd9RzBiiy+XZjrC1tUdUHWRBnXN5K/MhWJJWRCK6H4eNAkXaIVYPfwdSXZK3oCGtdW2CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PWzLsXjE; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JasIlo3P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PWzLsXjE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711656401; x=1743192401;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nkIjd0IXCVDR6LITaen5NTM7zN+lmF4nDqCRUBJ5Urs=;
-  b=JasIlo3PcxsTu3uG+Slk2DIDQ254NvJc+G1jFYErPA1ZLlTRZEoufzlq
-   tgXmZGesSKY1sS8sURSmSBxaE480YXfr3H7iyPhEc3tk/fokrnOHgoKan
-   I3vRmD9JXlKOJKdm3/BoAB+63RHFOmGBnGmepmIzSNgtDhmJbQb5dcLzd
-   dJEBjm0ouGIrvSQFtdspxKBYNxcrMFobL5iktqZEK0mIx7pJ5vwbVZB1s
-   8IJLMcQBMBW4H50fXFDrpWISpXfhZpo40UU5uS98UEfyKbSBG3fJzQcWO
-   9tMZHRqpe9suxnq6lIEieT4rlF6De1tsfeRH9hSzNxeqKaVOMhNMWRexs
+  t=1711656984; x=1743192984;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EC6VsBfda2qZy3M5bvlbFWNuCxM4KPpfW4DqeiEZc28=;
+  b=PWzLsXjEiS2PYUymiXQHX0600J7Hk9Q88nvibAqZqvYVjnvcQ7uxbIah
+   G/UwS2AxpjNFPQAmcahTjl9VpVowJD6rrXzVy4nElRaQAp3NMDw+NADgr
+   BJJrYaburqEwzBRJx2qLJGqpZu6t/3ijvpxxuhmi6IIvGyOTV0jBcuz4e
+   GEF3fOCwXiS74hs+sVo39vTwY3ULNHc3IgLKE852mDa3cYVrUXWbkEzLw
+   pC7vwb/fiaynMK5WTSK1mso4vUTICEOEaqeWf4xMJKbeFGyIdygd4cSox
+   rKHMcE2DRqVjoFJXV/YhvL3xvXta1gCut7vmkbEetP1qFUk8KiN83fqTk
    Q==;
-X-CSE-ConnectionGUID: ELx41s00TrqkbbzwEfl36Q==
-X-CSE-MsgGUID: FW6AHHXJQrq1DqeIadpnqg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="7030084"
+X-CSE-ConnectionGUID: ViOvfkghTtqfCDTcYZnDBA==
+X-CSE-MsgGUID: t1wC8mfnSl+u6hcbjZ8mRA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="9794308"
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="7030084"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 13:06:25 -0700
+   d="scan'208";a="9794308"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 13:16:23 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="16786652"
+   d="scan'208";a="54213940"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Mar 2024 13:06:21 -0700
+  by orviesa001.jf.intel.com with ESMTP; 28 Mar 2024 13:16:21 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rpw0w-0002UQ-2z;
-	Thu, 28 Mar 2024 20:06:18 +0000
-Date: Fri, 29 Mar 2024 04:05:34 +0800
+	id 1rpwAd-0002Um-0L;
+	Thu, 28 Mar 2024 20:16:19 +0000
+Date: Fri, 29 Mar 2024 04:16:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: git@luigi311.com, linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dave.stevenson@raspberrypi.com,
-	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, sakari.ailus@linux.intel.com,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Luigi311 <git@luigi311.com>
-Subject: Re: [PATCH 18/23] dt-bindings: media: imx258: Add alternate
- compatible strings
-Message-ID: <202403290352.sV38QfhQ-lkp@intel.com>
-References: <20240327231710.53188-19-git@luigi311.com>
+To: Ingo Molnar <mingo@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org
+Subject: [tip:sched/core 16/16] kernel/sched/fair.c:9944: warning: Function
+ parameter or struct member 'sg_overloaded' not described in
+ 'update_sg_lb_stats'
+Message-ID: <202403290435.TuY2hUx3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,38 +61,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240327231710.53188-19-git@luigi311.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linuxtv-media-stage/master linus/master v6.9-rc1 next-20240328]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/git-luigi311-com/media-i2c-imx258-Remove-unused-defines/20240328-072629
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240327231710.53188-19-git%40luigi311.com
-patch subject: [PATCH 18/23] dt-bindings: media: imx258: Add alternate compatible strings
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240329/202403290352.sV38QfhQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
+head:   f322c65c648eac74cf1f13691a562a0738aa9e35
+commit: f322c65c648eac74cf1f13691a562a0738aa9e35 [16/16] sched/balancing: Simplify the sg_status bitmask and use separate sg_overloaded and sg_overutilized flags
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240329/202403290435.TuY2hUx3-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403290435.TuY2hUx3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403290352.sV38QfhQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403290435.TuY2hUx3-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml: properties:compatible: [{'enum': ['sony,imx258', 'sony,imx258-pdaf']}] is not of type 'object', 'boolean'
-   	from schema $id: http://json-schema.org/draft-07/schema#
->> Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml: properties:compatible: [{'enum': ['sony,imx258', 'sony,imx258-pdaf']}] is not of type 'object', 'boolean'
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
---
->> Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml: ignoring, error in schema: properties: compatible
+All warnings (new ones prefixed by >>):
+
+>> kernel/sched/fair.c:9944: warning: Function parameter or struct member 'sg_overloaded' not described in 'update_sg_lb_stats'
+>> kernel/sched/fair.c:9944: warning: Function parameter or struct member 'sg_overutilized' not described in 'update_sg_lb_stats'
+>> kernel/sched/fair.c:9944: warning: Excess function parameter 'sg_status' description in 'update_sg_lb_stats'
+
+
+vim +9944 kernel/sched/fair.c
+
+c82a69629c53ed kernel/sched/fair.c Vincent Guittot  2022-07-08  9929  
+1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9930  /**
+1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9931   * update_sg_lb_stats - Update sched_group's statistics for load balancing.
+cd96891d48a945 kernel/sched/fair.c Randy Dunlap     2012-06-08  9932   * @env: The load balancing environment.
+a315da5e686b02 kernel/sched/fair.c Randy Dunlap     2021-12-17  9933   * @sds: Load-balancing data with statistics of the local group.
+1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9934   * @group: sched_group whose statistics are to be updated.
+1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9935   * @sgs: variable to hold the statistics for this group.
+630246a06ae2a7 kernel/sched/fair.c Quentin Perret   2018-12-03  9936   * @sg_status: Holds flag indicating the status of the sched_group
+1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9937   */
+bd939f45da24e2 kernel/sched/fair.c Peter Zijlstra   2012-05-02  9938  static inline void update_sg_lb_stats(struct lb_env *env,
+c0d14b57fe0c11 kernel/sched/fair.c Ricardo Neri     2021-09-10  9939  				      struct sd_lb_stats *sds,
+630246a06ae2a7 kernel/sched/fair.c Quentin Perret   2018-12-03  9940  				      struct sched_group *group,
+630246a06ae2a7 kernel/sched/fair.c Quentin Perret   2018-12-03  9941  				      struct sg_lb_stats *sgs,
+f322c65c648eac kernel/sched/fair.c Ingo Molnar      2024-03-28  9942  				      bool *sg_overloaded,
+f322c65c648eac kernel/sched/fair.c Ingo Molnar      2024-03-28  9943  				      bool *sg_overutilized)
+1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17 @9944  {
+0b0695f2b34a4a kernel/sched/fair.c Vincent Guittot  2019-10-18  9945  	int i, nr_running, local_group;
+1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9946  
+b72ff13ce6021b kernel/sched/fair.c Peter Zijlstra   2013-08-28  9947  	memset(sgs, 0, sizeof(*sgs));
+b72ff13ce6021b kernel/sched/fair.c Peter Zijlstra   2013-08-28  9948  
+c0d14b57fe0c11 kernel/sched/fair.c Ricardo Neri     2021-09-10  9949  	local_group = group == sds->local;
+0b0695f2b34a4a kernel/sched/fair.c Vincent Guittot  2019-10-18  9950  
+ae4df9d6c93510 kernel/sched/fair.c Peter Zijlstra   2017-05-01  9951  	for_each_cpu_and(i, sched_group_span(group), env->cpus) {
+1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9952  		struct rq *rq = cpu_rq(i);
+c82a69629c53ed kernel/sched/fair.c Vincent Guittot  2022-07-08  9953  		unsigned long load = cpu_load(rq);
+1e3c88bdeb1260 kernel/sched_fair.c Peter Zijlstra   2009-12-17  9954  
+c82a69629c53ed kernel/sched/fair.c Vincent Guittot  2022-07-08  9955  		sgs->group_load += load;
+82762d2af31a60 kernel/sched/fair.c Dietmar Eggemann 2021-11-18  9956  		sgs->group_util += cpu_util_cfs(i);
+070f5e860ee2bf kernel/sched/fair.c Vincent Guittot  2020-02-24  9957  		sgs->group_runnable += cpu_runnable(rq);
+a3498347030101 kernel/sched/fair.c Vincent Guittot  2019-10-18  9958  		sgs->sum_h_nr_running += rq->cfs.h_nr_running;
+4486edd12b5ac8 kernel/sched/fair.c Tim Chen         2014-06-23  9959  
+a426f99c91d103 kernel/sched/fair.c Waiman Long      2015-11-25  9960  		nr_running = rq->nr_running;
+5e23e474431529 kernel/sched/fair.c Vincent Guittot  2019-10-18  9961  		sgs->sum_nr_running += nr_running;
+5e23e474431529 kernel/sched/fair.c Vincent Guittot  2019-10-18  9962  
+a426f99c91d103 kernel/sched/fair.c Waiman Long      2015-11-25  9963  		if (nr_running > 1)
+f322c65c648eac kernel/sched/fair.c Ingo Molnar      2024-03-28  9964  			*sg_overloaded = 1;
+4486edd12b5ac8 kernel/sched/fair.c Tim Chen         2014-06-23  9965  
+2802bf3cd936fe kernel/sched/fair.c Morten Rasmussen 2018-12-03  9966  		if (cpu_overutilized(i))
+f322c65c648eac kernel/sched/fair.c Ingo Molnar      2024-03-28  9967  			*sg_overutilized = 1;
+4486edd12b5ac8 kernel/sched/fair.c Tim Chen         2014-06-23  9968  
+
+:::::: The code at line 9944 was first introduced by commit
+:::::: 1e3c88bdeb1260edc341e45c9fb8efd182a5c511 sched: Move load balance code into sched_fair.c
+
+:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
