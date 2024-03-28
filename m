@@ -1,57 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756EA12FB1B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 16:28:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C63139D10
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 16:37:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711643298; cv=none; b=elBoRGRP/e2U1BDFxPn2bGInMUTq4dz3cYYW4J6wlz63xdD3pGojjJiZrk46FbhV125o6ehyFTOkzKQp0nGQlgXT85KGh1KOvP4HQlD5aeKCgvckrf415NH60sMetvpqor/IqiUFu+bD8eBDKNIvdOO6isGDZTqTzzinYPI9jOw=
+	t=1711643845; cv=none; b=qQiHrmJEGScQ7hjPTINYzNbKGkks+mIO8hszhEA4IrkdmSK3Ap0ArfJx1jjcRjvCZmL1kgYYQuitCwbo+/5QD3tvo1ET1f5kZg3Iwyax1F4qc0ADoLSbyGZgTvBmSAOiSAv8/ES/YX4034os8xoVmfG32ZBa2IwsBL2phOMU4NI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711643298; c=relaxed/simple;
-	bh=choMBFtkmj6+7+fYC/4s5/pIwYec5KUcH193u4BpNQ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=c37Re2xfwJGMpVcSMR96cQ7uD6p6v1v2p+PFHe7me3BPAcktYqxIc+cX4o7kMFpwQ430QV7CJ4IZtD0T56fprJ7QSVuXMU4oIoL3fG/7842/JutFDMfEKhvPTcZnTAajBq+t6IWZefQToLrKKfK41JKrX6EHzqOrvL1HPX9mpf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LVUULs0B; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1711643845; c=relaxed/simple;
+	bh=oKhOL3EyDx0U3wUHH2cNjQih0LgHQEhwmCUnPFJxBd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pSsIk6LUYCNrkMp9BSbrfKUPXih380AZtcIPKSFr41Oag/I5luKfrqeXrblG1axA3/wLGGwvYhP8ksm5GOC0jyR+B1B95hNDNfJ1G7h+mpZkUwnIuvJZieC5mYwM9XyZbjR5e7NetbvNsr/FzAcLMYk72bvf9G/SdLzJeIF64xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AXoptmnw; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVUULs0B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AXoptmnw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711643296; x=1743179296;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=choMBFtkmj6+7+fYC/4s5/pIwYec5KUcH193u4BpNQ4=;
-  b=LVUULs0Bjw8ao/gtiO0vFGSFw8BN3Ti32iSAvqwFM1B/ww3P/tdsq3GL
-   5UJ3KxRIQPTiYs3wbjb6XJxeCeel+g3cUvMajqpm3vWlw/ZH1skdS4jeP
-   49wm4ic3o8vNBM6VKOygX4B3Llptd8SDWPW4lB4CK7fqKLeezFwbahbjI
-   I8HqEikoM2USMog47WpKZ8gToGq9JwlE+q1Xwx50vshOJkn2gUDbkbtyf
-   UPyGVC2+PldeQl9RCdZo2kIQTvKWJRp7koePdmQ/178B6GDrl+ROpb1TH
-   Zlt/MOwmgBngJdSk+hwL8C1kLjynIpkSvv8hf5kEBE1GbAhOcjgmANXAR
-   Q==;
-X-CSE-ConnectionGUID: Kl3Cu1XWQMS6pkwQ5oQ1YQ==
-X-CSE-MsgGUID: Vpy7oUqjRW+fvrsJ4sKDYw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="6703625"
+  t=1711643842; x=1743179842;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oKhOL3EyDx0U3wUHH2cNjQih0LgHQEhwmCUnPFJxBd4=;
+  b=AXoptmnw4RKZTrk4Zb2mG966dcQrPuyNq62XitHXU4IjWg/oStJPm3nS
+   N7SMcFOzICYDWTS5ghffsRzeVhqyx1iQYkxG484/rqDzDs6I3OohMiy2r
+   pMOQcle0qRCwlhLLbbu8/URaNP1ngMppGgSxnIdMcw/QdPOuc8QV6pJJw
+   UHb/a2TEQeWl6P4nsTZITxOjzrMIDs3hAfpqPlImRFJOnaIgKd+tTEGqK
+   9EXS1h0DJUSvsOxYzBftrUp6kSClLXEuc9H0iquV3sWFZzUJZDi/xWXm5
+   E5U3PTe9kQJuP5QDvTl23DMCVaF29/UNbr9WzdnQ6axh0bPD6KCW41FBk
+   A==;
+X-CSE-ConnectionGUID: lT9Of4G7Qba9iCD9TtmaHA==
+X-CSE-MsgGUID: q6e+nhMSSZK2fOrrvEMj/w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="6705560"
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="6703625"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 09:28:16 -0700
+   d="scan'208";a="6705560"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 09:37:18 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="21202645"
+   d="scan'208";a="16764511"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 28 Mar 2024 09:28:15 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 28 Mar 2024 09:37:16 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rpsbs-0002KM-2M;
-	Thu, 28 Mar 2024 16:28:12 +0000
-Date: Fri, 29 Mar 2024 00:28:09 +0800
+	id 1rpskb-0002LW-13;
+	Thu, 28 Mar 2024 16:37:13 +0000
+Date: Fri, 29 Mar 2024 00:37:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RESEND 1/2] usb: typec: tipd: fix event checking for
- tps25750
-Message-ID: <ZgWameBil6fAmN8T@f34f6e606ddc>
+To: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, sudeep.holla@arm.com,
+	cristian.marussi@arm.com, jassisinghbrar@gmail.com,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org
+Subject: Re: [PATCH 2/2] mailbox: arm_mhuv3: Add driver
+Message-ID: <202403290015.tCLXudqC-lkp@intel.com>
+References: <20240325092808.117510-3-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,23 +65,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240328-tps6598x_fix_event_handling-v1-1-865842a30009@wolfvision.net>
+In-Reply-To: <20240325092808.117510-3-cristian.marussi@arm.com>
 
-Hi,
+Hi Cristian,
 
-Thanks for your patch.
+kernel test robot noticed the following build warnings:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on robh/for-next linus/master v6.9-rc1 next-20240328]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/dt-bindings-mailbox-arm-mhuv3-Add-bindings/20240326-020048
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20240325092808.117510-3-cristian.marussi%40arm.com
+patch subject: [PATCH 2/2] mailbox: arm_mhuv3: Add driver
+config: powerpc-randconfig-r131-20240328 (https://download.01.org/0day-ci/archive/20240329/202403290015.tCLXudqC-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 23de3862dce582ce91c1aa914467d982cb1a73b4)
+reproduce: (https://download.01.org/0day-ci/archive/20240329/202403290015.tCLXudqC-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH RESEND 1/2] usb: typec: tipd: fix event checking for tps25750
-Link: https://lore.kernel.org/stable/20240328-tps6598x_fix_event_handling-v1-1-865842a30009%40wolfvision.net
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403290015.tCLXudqC-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mailbox/arm_mhuv3.c:565:46: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct pdbcw_page *dbcw @@     got struct pdbcw_page [noderef] __iomem * @@
+   drivers/mailbox/arm_mhuv3.c:565:46: sparse:     expected struct pdbcw_page *dbcw
+   drivers/mailbox/arm_mhuv3.c:565:46: sparse:     got struct pdbcw_page [noderef] __iomem *
+>> drivers/mailbox/arm_mhuv3.c:568:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got struct pdbcw_int * @@
+   drivers/mailbox/arm_mhuv3.c:568:25: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/mailbox/arm_mhuv3.c:568:25: sparse:     got struct pdbcw_int *
+>> drivers/mailbox/arm_mhuv3.c:568:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got struct pdbcw_int * @@
+   drivers/mailbox/arm_mhuv3.c:568:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/mailbox/arm_mhuv3.c:568:25: sparse:     got struct pdbcw_int *
+   drivers/mailbox/arm_mhuv3.c:569:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got struct pdbcw_int * @@
+   drivers/mailbox/arm_mhuv3.c:569:25: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/mailbox/arm_mhuv3.c:569:25: sparse:     got struct pdbcw_int *
+   drivers/mailbox/arm_mhuv3.c:569:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got struct pdbcw_int * @@
+   drivers/mailbox/arm_mhuv3.c:569:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/mailbox/arm_mhuv3.c:569:25: sparse:     got struct pdbcw_int *
+>> drivers/mailbox/arm_mhuv3.c:570:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got struct xbcw_ctrl * @@
+   drivers/mailbox/arm_mhuv3.c:570:25: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/mailbox/arm_mhuv3.c:570:25: sparse:     got struct xbcw_ctrl *
+>> drivers/mailbox/arm_mhuv3.c:570:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got struct xbcw_ctrl * @@
+   drivers/mailbox/arm_mhuv3.c:570:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/mailbox/arm_mhuv3.c:570:25: sparse:     got struct xbcw_ctrl *
+>> drivers/mailbox/arm_mhuv3.c:573:46: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct mdbcw_page *dbcw @@     got struct mdbcw_page [noderef] __iomem * @@
+   drivers/mailbox/arm_mhuv3.c:573:46: sparse:     expected struct mdbcw_page *dbcw
+   drivers/mailbox/arm_mhuv3.c:573:46: sparse:     got struct mdbcw_page [noderef] __iomem *
+>> drivers/mailbox/arm_mhuv3.c:576:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/mailbox/arm_mhuv3.c:576:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/mailbox/arm_mhuv3.c:576:25: sparse:     got unsigned int *
+   drivers/mailbox/arm_mhuv3.c:577:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/mailbox/arm_mhuv3.c:577:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/mailbox/arm_mhuv3.c:577:25: sparse:     got unsigned int *
+   drivers/mailbox/arm_mhuv3.c:578:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got struct xbcw_ctrl * @@
+   drivers/mailbox/arm_mhuv3.c:578:25: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/mailbox/arm_mhuv3.c:578:25: sparse:     got struct xbcw_ctrl *
+   drivers/mailbox/arm_mhuv3.c:578:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got struct xbcw_ctrl * @@
+   drivers/mailbox/arm_mhuv3.c:578:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/mailbox/arm_mhuv3.c:578:25: sparse:     got struct xbcw_ctrl *
+>> drivers/mailbox/arm_mhuv3.c:360:9: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/arm_mhuv3.c:370:9: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/arm_mhuv3.c:373:9: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/arm_mhuv3.c:639:30: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/arm_mhuv3.c:659:33: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/arm_mhuv3.c:688:14: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/arm_mhuv3.c:700:17: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/arm_mhuv3.c:719:14: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/arm_mhuv3.c:732:14: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/arm_mhuv3.c:789:22: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/arm_mhuv3.c:795:22: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/arm_mhuv3.c:796:22: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/arm_mhuv3.c:802:31: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/arm_mhuv3.c:806:17: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/arm_mhuv3.c:1038:17: sparse: sparse: dereference of noderef expression
+
+vim +565 drivers/mailbox/arm_mhuv3.c
+
+   558	
+   559	static void mhuv3_dbe_combined_irq_setup(struct mhuv3 *mhu)
+   560	{
+   561		int i;
+   562		struct mhuv3_extension *e = mhu->ext[DBE_EXT];
+   563	
+   564		if (mhu->frame == PBX_FRAME) {
+ > 565			struct pdbcw_page *dbcw = mhu->pbx->dbcw;
+   566	
+   567			for (i = 0; i < e->max_chans; i++) {
+ > 568				writel_relaxed_bitfield(0x1, &dbcw[i].int_clr, tfr_ack);
+   569				writel_relaxed_bitfield(0x0, &dbcw[i].int_en, tfr_ack);
+ > 570				writel_relaxed_bitfield(0x1, &dbcw[i].ctrl, comb_en);
+   571			}
+   572		} else {
+ > 573			struct mdbcw_page *dbcw = mhu->mbx->dbcw;
+   574	
+   575			for (i = 0; i < e->max_chans; i++) {
+ > 576				writel_relaxed(0xFFFFFFFF, &dbcw[i].clr);
+   577				writel_relaxed(0xFFFFFFFF, &dbcw[i].msk_set);
+   578				writel_relaxed_bitfield(0x1, &dbcw[i].ctrl, comb_en);
+   579			}
+   580		}
+   581	}
+   582	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
