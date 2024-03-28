@@ -1,62 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B1113B5AD;
-	Thu, 28 Mar 2024 21:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21FA312D1FC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 22:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711663108; cv=none; b=c2TGl/WOPbr/EuqVgpTU65Mw1T+rzBYsam9JFE9J8PvkWwlwbamnPmB6Bi7TIC0WhvNJRLt+c7rcz6m60StKJqpbCncpfQQv4ygpmnwz73o4uiOVJ4iJC0InJ5YFB7NYOnWSRTAjBX+Za2KlI6UIuT0F0GJOx99ybZ8OglpOltY=
+	t=1711663767; cv=none; b=VK+4Y3q3SinO4cvgTJd/9MC9SGfOHgiiYjsE4U4epgct5jpcYl1vF9bB8elgj3yYx1oEPOckMc5XiDD9u7re6VIpWnSuExbreD5/UW+vRkhH/HLRCvhr0YrZ0RTM4qasUsjf09xmUo1tIJ48V5sM6HRwwAzGo9ZxHiYvJ5JpA8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711663108; c=relaxed/simple;
-	bh=6BeKv7cynE9jXeLrlEUYf6ErJw5ak51OkXd65W8K8/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hvBhHy5p3gdxUHEKOXB1LEC9mqS3lkdZsS0Kd3n7fcCuQ69oLViqMto5ilWTeajsQ/L/9kpJ36C9Xk/882TJSCx0zrhF8cioGp55d1W9wNlF1pvEvM2R07VqR0wK16k2A3/gikoGD2OZsE+O+Dqh8sb4SmlfDDh+5rJDLMqC88g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WSTb6cQi; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1711663767; c=relaxed/simple;
+	bh=UZFEo1jkAn4TkmA857pmQF5IUCZeMpnowal6PjGuav0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=njU303eDS/oxTQaNuahNJUwjyPk1UPFe1HGeXfWqDmUd7yQID/qi2kd5wViQG7tRV68XopGjZ3b4FQjfbu8LU0QkNIZEwGuwflW3qZ7bBAC4qS4e+heqFArVNTvINY8R+A8bJjOtEq9uwrGSgnEMv1FDhUcqEGB9eI+aPclzTC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bssDM41z; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WSTb6cQi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bssDM41z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711663107; x=1743199107;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6BeKv7cynE9jXeLrlEUYf6ErJw5ak51OkXd65W8K8/M=;
-  b=WSTb6cQiICARtS8LBXNST57CI3R/+fFNWxn5nrRzpg+4WnD89YaZ/ANx
-   i4jwa9JYRMDZfbdG8ayVHtWfB5S6MZdc8wrKqcdByvqjd1/mFXC2rRLfK
-   Ta/LqXiWoz3wAlsRhDKvKhKCX/LZlvnP6dNmGF8JFaBBOujzM3hITVb5C
-   XpDzfg492D+WavF+i4uci5Wqb2JqibKd3etn+46Zx25ZnIl9c93C45V+/
-   RP2a1SZj2O0zXGErU8OOuvhjKU6t9HmCRTwhZ/8o+9xyxROkJZ9yxstTG
-   tHbmbcBkLJCcnhbpB7/mUMeniDJyiqYa/82EmYIE9N0L7d8FlvqIwZigW
-   Q==;
-X-CSE-ConnectionGUID: EInsqX0lSoCjF97NcyTk0w==
-X-CSE-MsgGUID: zebMMJe6Rba5jt1u5GfSIQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="24296239"
+  t=1711663765; x=1743199765;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UZFEo1jkAn4TkmA857pmQF5IUCZeMpnowal6PjGuav0=;
+  b=bssDM41zG7zsJ3M62N9i3uVKZ/4BXyxIozZAzpSNG7a+Iq4tABrX6LlT
+   4FtLQT2moNvD+5Eu0IqtwVVI55/byKDlc8wWaN+7/YRY7acS+VJBY93gs
+   z9DVNfs7PQw3XeF7Y2DYs2L34iDsOc5JHFyOlFyOZQxaVr322ci7jJA8w
+   c7FwXF3PKk0R+eVa+dJfMkTQl7nywN0oqh/Ccm40LvTlQJXkkJAyGwijS
+   Oj7N3AFe+x19+HJ7QWNWWhet4uiYtBZ68KEDTmWBtR6EUzlnpCCZbfTXb
+   iXvTv9S933WXJhTd8fkvgU7X082eRrUSSjqAPjl0BvkmbU6Nxw/Cl2A4d
+   A==;
+X-CSE-ConnectionGUID: 6v6yV0UDSbSK/I+drXCygw==
+X-CSE-MsgGUID: fcTAM2gFTneh5MbOBlm37w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="17995995"
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="24296239"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 14:58:26 -0700
+   d="scan'208";a="17995995"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 15:09:24 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="16817273"
+   d="scan'208";a="21439336"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 28 Mar 2024 14:58:22 -0700
+  by orviesa003.jf.intel.com with ESMTP; 28 Mar 2024 15:09:24 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rpxlM-0002YA-2a;
-	Thu, 28 Mar 2024 21:58:20 +0000
-Date: Fri, 29 Mar 2024 05:58:14 +0800
+	id 1rpxw1-0002Yc-0A;
+	Thu, 28 Mar 2024 22:09:21 +0000
+Date: Fri, 29 Mar 2024 06:08:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Jurgens <danielj@nvidia.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mst@redhat.com, jasowang@redhat.com,
-	xuanzhuo@linux.alibaba.com, virtualization@lists.linux.dev,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, jiri@nvidia.com,
-	Daniel Jurgens <danielj@nvidia.com>
-Subject: Re: [PATCH net-next v2 2/6] virtio_net: Remove command data from
- control_buf
-Message-ID: <202403290542.gM5D7hMG-lkp@intel.com>
-References: <20240328044715.266641-3-danielj@nvidia.com>
+To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2676/7000] ld:
+ include/linux/resctrl.h:291:undefined reference to `lockdep_is_cpus_held'
+Message-ID: <202403290645.zX0Lyrpo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,57 +59,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240328044715.266641-3-danielj@nvidia.com>
 
-Hi Daniel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Jurgens/virtio_net-Store-RSS-setting-in-virtnet_info/20240328-125022
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240328044715.266641-3-danielj%40nvidia.com
-patch subject: [PATCH net-next v2 2/6] virtio_net: Remove command data from control_buf
-config: x86_64-randconfig-122-20240328 (https://download.01.org/0day-ci/archive/20240329/202403290542.gM5D7hMG-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403290542.gM5D7hMG-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   704605877ce9913071214d2515a4c2b9077f5078
+commit: c054efea286659a6504fdeafc0a611c6a3b124cc [2676/7000] x86/resctrl: Claim get_domain_from_cpu() for resctrl
+config: x86_64-randconfig-013-20240328 (https://download.01.org/0day-ci/archive/20240329/202403290645.zX0Lyrpo-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403290645.zX0Lyrpo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403290542.gM5D7hMG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403290645.zX0Lyrpo-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/virtio_net.c:3978:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __virtio64 @@
-   drivers/net/virtio_net.c:3978:20: sparse:     expected unsigned long long [usertype]
-   drivers/net/virtio_net.c:3978:20: sparse:     got restricted __virtio64
+All errors (new ones prefixed by >>):
 
-vim +3978 drivers/net/virtio_net.c
-
-  3968	
-  3969	static int virtnet_set_guest_offloads(struct virtnet_info *vi, u64 offloads)
-  3970	{
-  3971		u64 *_offloads __free(kfree) = NULL;
-  3972		struct scatterlist sg;
-  3973	
-  3974		_offloads = kzalloc(sizeof(*_offloads), GFP_KERNEL);
-  3975		if (!_offloads)
-  3976			return -ENOMEM;
-  3977	
-> 3978		*_offloads = cpu_to_virtio64(vi->vdev, offloads);
-  3979	
-  3980		sg_init_one(&sg, _offloads, sizeof(*_offloads));
-  3981	
-  3982		if (!virtnet_send_command(vi, VIRTIO_NET_CTRL_GUEST_OFFLOADS,
-  3983					  VIRTIO_NET_CTRL_GUEST_OFFLOADS_SET, &sg)) {
-  3984			dev_warn(&vi->dev->dev, "Fail to set guest offload.\n");
-  3985			return -EINVAL;
-  3986		}
-  3987	
-  3988		return 0;
-  3989	}
-  3990	
+   ld: vmlinux.o: in function `resctrl_get_domain_from_cpu':
+   include/linux/resctrl.h:291:(.text+0xec75a): undefined reference to `lockdep_is_cpus_held'
+>> ld: include/linux/resctrl.h:291:(.text+0xff9aa): undefined reference to `lockdep_is_cpus_held'
+   ld: include/linux/resctrl.h:291:(.text+0x100423): undefined reference to `lockdep_is_cpus_held'
 
 -- 
 0-DAY CI Kernel Test Service
