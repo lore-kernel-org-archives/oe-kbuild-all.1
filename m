@@ -1,64 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93559BE58
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 01:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C9B1804A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 01:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711588193; cv=none; b=smF3V6yl+k7DChzYhT0OOzW6foprkMvw6OVL+Q/a9bPxowCvVKjpQ9HrDC8Y69Rk08DpMpGcApRr/T0KSdu4IciYRO2OdE64/WOCFY/D2KjnjK+jMcbcg7czvTBAWQwQSDZUNosbBetl0XJhD3LNrqC5JRhsZpQEu7ROutseuGI=
+	t=1711589511; cv=none; b=Elg7vrVIpK8FlxRL4pGjvrrDshaZzDDcPYqe6TaU+DLgSrlLSkawptCGlPgMtgw//E0dTeo8MPRH5XMaBAl1ThyZFj9yLnKNsf4pYyHfEXiyBPgFWTSav5mzvhCIf5Yn2KjP19BrWoD4S5KRXXbCc4NX73VfTuJRX0BJKbBe0HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711588193; c=relaxed/simple;
-	bh=Udc/J/js8gW3bfsrXjFKt4foNU5vAVjuTKQH3YecMVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mv6k/INSFbg9DzceiTVZCMFpjmXyflehL2z4O11eQ8xlX3ic1X32C3R4JMk0isiXjx03e50JYXbsaNkHBxoCO2r1Lv2yNuKLW9+GqXh/xwK3L/n4OUAfT4dJSHQgBDLVEXQIhs0kF9ObXgyLVAlvEfQAsOE4Ud0Xdm3K5iMJHvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a0zeFM1y; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1711589511; c=relaxed/simple;
+	bh=4WBwNSDLAD8PZNnI1Bhe9Fzeix21I0rWcpMaCs2vPD0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bJB+9dqpLHpjM45qrA5KxbyiznYyxMhljE3FrODsQbOCyYzuBx1109Lh7QKzkS7mVzm8lWeMrfhvwJ+V8Xq16Vz/zWxkAdDzumgCdE4RvLdKrR0b/90gky3tUVoN8nc0X5Bla2LOn+ozeaqwIfeFdb5OvA7TIuL/iqt1vFnXolw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U+VVyfbe; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a0zeFM1y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U+VVyfbe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711588191; x=1743124191;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Udc/J/js8gW3bfsrXjFKt4foNU5vAVjuTKQH3YecMVI=;
-  b=a0zeFM1yFsPLBaFAhUMdQK09FnPnvxVJNoktWfXuBxWxX97eHPkZQnBN
-   uzz6QRB9HdMHvDVkFIGUuGHKZQDiVotfsTd6o2EqU1hXuHgaCcIoj0b/O
-   bXDb1RljRiE9eIF2bK5zcEpcG9UHeg2gFAkHWeSLea2U6QFahdygwptYE
-   Opm8ToW9sVkmrg6oiTfPoacBhRlKTz9SxpbeuAPQPhxUv2Ks394yf6n1U
-   aMp6a53MoV8YAhQ8cVdWi1iPuK48+Es2PXDm4vBJ1O8DCnylv5wMiKhLE
-   YzkT1Dwn+wW1COO1gPN5EoZcbL0qlYCpGDdAP3NuuED34ZbZ82KSBmPdK
-   g==;
-X-CSE-ConnectionGUID: FYpJB88QTXq0qa9jojhg3Q==
-X-CSE-MsgGUID: MLf7aEweTpGY8srj0vP0sA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="9684486"
+  t=1711589510; x=1743125510;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4WBwNSDLAD8PZNnI1Bhe9Fzeix21I0rWcpMaCs2vPD0=;
+  b=U+VVyfbehLYv8f/6ZytofwWRn90FOfAeW3rH0AO3+c5wIJmmktQ/hpcY
+   5hfRRnRFN+VBXbizHMSaPhSvmwtpNpFR249nhh9Wz6A/ZZ7geCN8l7uwg
+   C/75hXDKubYry6VTbwwf10Ph6tcBCC/nDkiAlHh+KGTjkq2SgJDPwK/pe
+   Waas0R/iTIpeeuxih3tx8wad+AJd+S3y6HGXKVIHeeShD1qV5T/mEcnbH
+   1CrSoUG0+SLEnXsb1qcQI00EUM+U+HyTn14Cq2SA+zgNLH+KrYh4/oNkA
+   23bOe9NflSALZvVWp8r8aBScEWFZbG86l3lalG+0zmgqvsc+fHXVhreHP
+   Q==;
+X-CSE-ConnectionGUID: DriGP1GcRmCBPnbB961E+A==
+X-CSE-MsgGUID: oM1Z3zAKQHWsqa+Tc4+vaw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="17453279"
 X-IronPort-AV: E=Sophos;i="6.07,160,1708416000"; 
-   d="scan'208";a="9684486"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 18:09:51 -0700
+   d="scan'208";a="17453279"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 18:31:49 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,160,1708416000"; 
-   d="scan'208";a="17095487"
+   d="scan'208";a="16311831"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 27 Mar 2024 18:09:47 -0700
+  by orviesa010.jf.intel.com with ESMTP; 27 Mar 2024 18:31:47 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rpeH2-0001f8-1i;
-	Thu, 28 Mar 2024 01:09:44 +0000
-Date: Thu, 28 Mar 2024 09:09:18 +0800
+	id 1rpecK-0001fu-3C;
+	Thu, 28 Mar 2024 01:31:44 +0000
+Date: Thu, 28 Mar 2024 09:31:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
-	Lizhi Hou <lizhi.hou@amd.com>, Brian Xu <brian.xu@amd.com>,
-	Raj Kumar Rampelli <raj.kumar.rampelli@amd.com>,
-	Vinod Koul <vkoul@kernel.org>, Michal Simek <monstr@monstr.eu>,
-	Jan Kuliga <jankul@alatek.krakow.pl>,
-	Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, dmaengine@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH 2/3] dmaengine: xilinx: xdma: Fix synchronization issue
-Message-ID: <202403280803.IAFl90ZE-lkp@intel.com>
-References: <20240327-digigram-xdma-fixes-v1-2-45f4a52c0283@bootlin.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:timestats-hoist 289/450] fs/xfs/xfs_rtalloc.c:983:11-18:
+ WARNING opportunity for kmemdup
+Message-ID: <202403280909.pFV8iHQT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,60 +59,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240327-digigram-xdma-fixes-v1-2-45f4a52c0283@bootlin.com>
 
-Hi Louis,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8e938e39866920ddc266898e6ae1fffc5c8f51aa]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/dmaengine-xilinx-xdma-Fix-wrong-offsets-in-the-buffers-addresses-in-dma-descriptor/20240327-180155
-base:   8e938e39866920ddc266898e6ae1fffc5c8f51aa
-patch link:    https://lore.kernel.org/r/20240327-digigram-xdma-fixes-v1-2-45f4a52c0283%40bootlin.com
-patch subject: [PATCH 2/3] dmaengine: xilinx: xdma: Fix synchronization issue
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20240328/202403280803.IAFl90ZE-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403280803.IAFl90ZE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git timestats-hoist
+head:   78ba84a4335927bab8c205732c55e2f6dd18a56f
+commit: 4725eeedfb35a3de3e29db04766d6b5f74502d6d [289/450] xfs: check that the rtrmapbt maxlevels doesn't increase when growing fs
+config: nios2-randconfig-r063-20240328 (https://download.01.org/0day-ci/archive/20240328/202403280909.pFV8iHQT-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403280803.IAFl90ZE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403280909.pFV8iHQT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/xfs_rtalloc.c:983:11-18: WARNING opportunity for kmemdup
 
->> drivers/dma/xilinx/xdma.c:76: warning: Function parameter or struct member 'last_interrupt' not described in 'xdma_chan'
->> drivers/dma/xilinx/xdma.c:76: warning: Function parameter or struct member 'stop_requested' not described in 'xdma_chan'
+vim +983 fs/xfs/xfs_rtalloc.c
 
-
-vim +76 drivers/dma/xilinx/xdma.c
-
-17ce252266c7f0 Lizhi Hou     2023-01-19  53  
-17ce252266c7f0 Lizhi Hou     2023-01-19  54  /**
-17ce252266c7f0 Lizhi Hou     2023-01-19  55   * struct xdma_chan - Driver specific DMA channel structure
-17ce252266c7f0 Lizhi Hou     2023-01-19  56   * @vchan: Virtual channel
-17ce252266c7f0 Lizhi Hou     2023-01-19  57   * @xdev_hdl: Pointer to DMA device structure
-17ce252266c7f0 Lizhi Hou     2023-01-19  58   * @base: Offset of channel registers
-17ce252266c7f0 Lizhi Hou     2023-01-19  59   * @desc_pool: Descriptor pool
-17ce252266c7f0 Lizhi Hou     2023-01-19  60   * @busy: Busy flag of the channel
-17ce252266c7f0 Lizhi Hou     2023-01-19  61   * @dir: Transferring direction of the channel
-17ce252266c7f0 Lizhi Hou     2023-01-19  62   * @cfg: Transferring config of the channel
-17ce252266c7f0 Lizhi Hou     2023-01-19  63   * @irq: IRQ assigned to the channel
-17ce252266c7f0 Lizhi Hou     2023-01-19  64   */
-17ce252266c7f0 Lizhi Hou     2023-01-19  65  struct xdma_chan {
-17ce252266c7f0 Lizhi Hou     2023-01-19  66  	struct virt_dma_chan		vchan;
-17ce252266c7f0 Lizhi Hou     2023-01-19  67  	void				*xdev_hdl;
-17ce252266c7f0 Lizhi Hou     2023-01-19  68  	u32				base;
-17ce252266c7f0 Lizhi Hou     2023-01-19  69  	struct dma_pool			*desc_pool;
-17ce252266c7f0 Lizhi Hou     2023-01-19  70  	bool				busy;
-17ce252266c7f0 Lizhi Hou     2023-01-19  71  	enum dma_transfer_direction	dir;
-17ce252266c7f0 Lizhi Hou     2023-01-19  72  	struct dma_slave_config		cfg;
-17ce252266c7f0 Lizhi Hou     2023-01-19  73  	u32				irq;
-70e8496bf693e1 Louis Chauvet 2024-03-27  74  	struct completion		last_interrupt;
-70e8496bf693e1 Louis Chauvet 2024-03-27  75  	bool				stop_requested;
-17ce252266c7f0 Lizhi Hou     2023-01-19 @76  };
-17ce252266c7f0 Lizhi Hou     2023-01-19  77  
+   965	
+   966	/*
+   967	 * Check that changes to the realtime geometry won't affect the minimum
+   968	 * log size, which would cause the fs to become unusable.
+   969	 */
+   970	int
+   971	xfs_growfs_check_rtgeom(
+   972		const struct xfs_mount	*mp,
+   973		xfs_rfsblock_t		dblocks,
+   974		xfs_rfsblock_t		rblocks,
+   975		xfs_agblock_t		rextsize,
+   976		xfs_rtblock_t		rextents,
+   977		xfs_extlen_t		rbmblocks,
+   978		uint8_t			rextslog)
+   979	{
+   980		struct xfs_mount	*fake_mp;
+   981		int			min_logfsbs;
+   982	
+ > 983		fake_mp = kmalloc(sizeof(struct xfs_mount),
+   984				GFP_KERNEL | __GFP_RETRY_MAYFAIL);
+   985		if (!fake_mp)
+   986			return -ENOMEM;
+   987	
+   988		/*
+   989		 * Create a dummy xfs_mount with the new rt geometry, and compute the
+   990		 * new minimum log size.  This ensures that the log is big enough to
+   991		 * handle the larger transactions that we could start sending.
+   992		 */
+   993		memcpy(fake_mp, mp, sizeof(struct xfs_mount));
+   994	
+   995		fake_mp->m_sb.sb_dblocks = dblocks;
+   996		fake_mp->m_sb.sb_rblocks = rblocks;
+   997		fake_mp->m_sb.sb_rextents = rextents;
+   998		fake_mp->m_sb.sb_rextsize = rextsize;
+   999		fake_mp->m_sb.sb_rbmblocks = rbmblocks;
+  1000		fake_mp->m_sb.sb_rextslog = rextslog;
+  1001		if (rblocks > 0)
+  1002			fake_mp->m_features |= XFS_FEAT_REALTIME;
+  1003	
+  1004		xfs_rtrmapbt_compute_maxlevels(fake_mp);
+  1005	
+  1006		xfs_trans_resv_calc(fake_mp, M_RES(fake_mp));
+  1007		min_logfsbs = xfs_log_calc_minimum_size(fake_mp);
+  1008		trace_xfs_growfs_check_rtgeom(mp, min_logfsbs);
+  1009	
+  1010		kfree(fake_mp);
+  1011	
+  1012		if (mp->m_sb.sb_logblocks < min_logfsbs)
+  1013			return -ENOSPC;
+  1014	
+  1015		return 0;
+  1016	}
+  1017	
 
 -- 
 0-DAY CI Kernel Test Service
