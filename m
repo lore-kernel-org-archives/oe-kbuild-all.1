@@ -1,63 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C010B57898
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 09:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515154A18
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 10:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711616764; cv=none; b=gmMyQ6dqmSJ0Nm+DH+FB/Wh5l6dcR6NMnyVAkcFmDkM45t/If+uQonasrBQCgOXhQfoYdgQmK/xxnJrQSG/dTo6+Vc+pKb6VKCWgPMBdkWO1n+fBZo3z4tLUruqFN04oNXx9HHz/pIvBgx1Q92iaC4kZAySRu+6zcG8h1MzoDPQ=
+	t=1711622288; cv=none; b=eHzIlqzKFwAnNeO26aafaJxNJnRw0cJMqhHQqewkA/Ki2Zydjc9U9QGSF3pEx74gRgJO5AL2YRasdFycA9L7Y8pfw39MJZ2i199F+C/Xjg9mA67jAjbtD2Y5umxfBeaauLOzszyuUK07LXUQMdjp2xF5fR2zPNk7z+z2VXpxWoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711616764; c=relaxed/simple;
-	bh=/aSry/tvH4Kn2+KvvLdokxm+tTIRQW4w1k0pfVZBoUA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PB8UYt3wX3hL0V1PcJsX1QmjCkizIo/GQJtOvQtSZp6qxp2kuyLB3EP8yr3YPQZktA47ZIDgyQvB+3FqR5tJEXeBFg5S8fO0a2jRArQYLy+tDlvcBX6fWt9l+qgRUUkcaSRZE0BWbdKipXaTp1249EkzmE2eZXqnbPM0mtlKj54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OyARpCuB; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1711622288; c=relaxed/simple;
+	bh=FFuq2mNrqUT1iReNnrTOy77yWwWPMZrRXb4AFQYhuCE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JBFU1U+EK3j9ufhgJ8Z2/HGwCUx6TMEW0WTh/+/t4zmPi2HGkDxkmTWWqyFlSHULqS3i70K5H43HVh3WGzNPWqXkoguqdADz4nBHirHtvdA2QjLmNvLiO3wKA9UiPULOVvHlZcfIce8dyv0wehynpf/UFrHb51Jb6glpsBbBtwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fFJ36wDm; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OyARpCuB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fFJ36wDm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711616762; x=1743152762;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/aSry/tvH4Kn2+KvvLdokxm+tTIRQW4w1k0pfVZBoUA=;
-  b=OyARpCuBOUWiKEhSBRf7aQZcS+HxnTQzeF0J1AJgNa/8yPbAvaoV0BcZ
-   I3huY/UdmVh9+PBojjR0pUovGaLYT7RaViN6Exd1ODuDt49i1mtooMtmW
-   dMiRg2xLOzRxQRaBh3u9buABkgqPCeb32aCdXkNDBXP9kzIg11Mw394/y
-   oeBcYXhX+ndgMiopN3RzxgFV41N5wqnMMwfLwcFTRi3BudiWH9PHGUfbp
-   Wvrs0JxUYS3xMmwl/m++Ex6tNQCcTxHUQUwRflOB/Az9PiYV0j+gtsfAx
-   uIZO9XGJYLiGUw8DF3EqJbNnpJCAn5TCt4i5sjry0D4VjpqtxTkZedIj/
-   A==;
-X-CSE-ConnectionGUID: PrNye7ARQzCS77+dpcJSTw==
-X-CSE-MsgGUID: kX33GkjVS0yFCMdaLVyXZg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="7356547"
+  t=1711622285; x=1743158285;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FFuq2mNrqUT1iReNnrTOy77yWwWPMZrRXb4AFQYhuCE=;
+  b=fFJ36wDm4t+LBwRs5z7ErFjrkHGLYcdpv+Sp3nRA75p8th+8+ikKI/Ps
+   W94aitSbApupFb+j8zZfDZIZa4wvknYVzNgYqqEFOUHqgEwXTU3pgBBkZ
+   ehBJWX74oWn0i2wioJmGzgxlWxmOYG9hHwAf1BZ9zQ/EvpUd1zBHhbK1b
+   giouPL30JbvtxgR4jOvf1ID4uDKU9fMkzRLdooA833U22QAMlMJfaKQvy
+   97W6hmWVWB+SD6X8ZhY9nXYVEPbnnMZ1BHWWvOR7ZG2ADKnruOE2KyWUT
+   82Hr+B9vx+DaoI3IetkINf2HEshx/gUI/WhGEx2cZMeRMHgDt9McS5BhK
+   g==;
+X-CSE-ConnectionGUID: XgllpLHkQc21MuysqEtapg==
+X-CSE-MsgGUID: rS1iN6+RQn2PN5KSca9zLQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="9724895"
 X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
-   d="scan'208";a="7356547"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 02:06:02 -0700
+   d="scan'208";a="9724895"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 03:38:05 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
-   d="scan'208";a="21079288"
+   d="scan'208";a="54048197"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 28 Mar 2024 02:06:00 -0700
+  by orviesa001.jf.intel.com with ESMTP; 28 Mar 2024 03:38:04 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rplhu-0001yw-00;
-	Thu, 28 Mar 2024 09:05:58 +0000
-Date: Thu, 28 Mar 2024 17:05:19 +0800
+	id 1rpn8z-00023m-0G;
+	Thu, 28 Mar 2024 10:38:01 +0000
+Date: Thu, 28 Mar 2024 18:37:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavan Holla <pholla@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Pavan Holla <pholla@chromium.org>
-Subject: Re: [PATCH 3/3] platform/chrome: cros_ec_ucsi: Implement UCSI PDC
- driver
-Message-ID: <202403281639.AVfLPAVm-lkp@intel.com>
-References: <20240325-public-ucsi-h-v1-3-7c7e888edc0a@chromium.org>
+To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1624/6998]
+ drivers/cpufreq/loongson3-acpi-cpufreq.c:169:3: sparse: sparse: symbol
+ 'all_package_data' was not declared. Should it be static?
+Message-ID: <202403281803.cHWLgiB2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,39 +60,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240325-public-ucsi-h-v1-3-7c7e888edc0a@chromium.org>
 
-Hi Pavan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 4cece764965020c22cff7665b18a012006359095]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pavan-Holla/usb-typec-ucsi-Provide-interface-for-UCSI-transport/20240326-074003
-base:   4cece764965020c22cff7665b18a012006359095
-patch link:    https://lore.kernel.org/r/20240325-public-ucsi-h-v1-3-7c7e888edc0a%40chromium.org
-patch subject: [PATCH 3/3] platform/chrome: cros_ec_ucsi: Implement UCSI PDC driver
-config: x86_64-randconfig-123-20240328 (https://download.01.org/0day-ci/archive/20240328/202403281639.AVfLPAVm-lkp@intel.com/config)
-compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403281639.AVfLPAVm-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   a22ee16da0b46a53cf62e5915dec6c5cfbcc5ad6
+commit: 47a0b6f372d7f05822d021f86b21a34fd2142225 [1624/6998] cpufreq: Add cpufreq driver for LoongArch
+config: loongarch-randconfig-r113-20240328 (https://download.01.org/0day-ci/archive/20240328/202403281803.cHWLgiB2-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240328/202403281803.cHWLgiB2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403281639.AVfLPAVm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403281803.cHWLgiB2-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/platform/chrome/cros_ec_ucsi.c:119:24: sparse: sparse: symbol 'cros_ucsi_ops' was not declared. Should it be static?
+>> drivers/cpufreq/loongson3-acpi-cpufreq.c:169:3: sparse: sparse: symbol 'all_package_data' was not declared. Should it be static?
+>> drivers/cpufreq/loongson3-acpi-cpufreq.c:645:5: sparse: sparse: symbol 'loongson3_set_mode' was not declared. Should it be static?
+>> drivers/cpufreq/loongson3-acpi-cpufreq.c:835:14: sparse: sparse: symbol 'load_update' was not declared. Should it be static?
+   drivers/cpufreq/loongson3-acpi-cpufreq.c: note: in included file (through arch/loongarch/include/asm/loongarch.h, arch/loongarch/include/asm/cpu-info.h, ...):
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:322:3: sparse: sparse: undefined identifier '__builtin_loongarch_iocsrwr_w'
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:25: sparse: sparse: undefined identifier '__builtin_loongarch_iocsrrd_w'
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:11: sparse: sparse: cast from unknown type
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:11: sparse: sparse: cast from unknown type
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:11: sparse: sparse: cast from unknown type
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:11: sparse: sparse: cast from unknown type
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:11: sparse: sparse: cast from unknown type
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:11: sparse: sparse: cast from unknown type
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:107:25: sparse: sparse: undefined identifier '__builtin_loongarch_cpucfg'
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:107:11: sparse: sparse: cast from unknown type
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:107:11: sparse: sparse: cast from unknown type
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:107:11: sparse: sparse: cast from unknown type
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:11: sparse: sparse: cast from unknown type
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:107:11: sparse: sparse: cast from unknown type
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:107:11: sparse: sparse: cast from unknown type
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:107:11: sparse: sparse: cast from unknown type
 
-vim +/cros_ucsi_ops +119 drivers/platform/chrome/cros_ec_ucsi.c
+vim +/all_package_data +169 drivers/cpufreq/loongson3-acpi-cpufreq.c
 
-   118	
- > 119	struct ucsi_operations cros_ucsi_ops = {
-   120		.read = cros_ucsi_read,
-   121		.async_write = cros_ucsi_async_write,
-   122		.sync_write = cros_ucsi_sync_write,
-   123	};
-   124	
+   161	
+   162	struct package_data {
+   163		int boost_cores;
+   164		int max_boost_cores;
+   165		int nr_cores;
+   166		char in_boost;
+   167		int nr_full_load_cores;
+   168		struct core_data core[MAX_CORES_PER_PACKAGE];
+ > 169	} all_package_data[MAX_PACKAGES];
+   170	
 
 -- 
 0-DAY CI Kernel Test Service
