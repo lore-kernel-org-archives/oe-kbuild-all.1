@@ -1,56 +1,71 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B214D3BBE2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 17:08:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7F93BBC1;
+	Thu, 28 Mar 2024 17:08:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711645702; cv=none; b=ZhVZ7+OEq5qmQnLNEsCCXV7omXGqO3iXzbq6k7QZznxnFs7sDROvipN8CBi82gCPMArK3OrE4C35e7AVQJvHrDa5af7S/hG7RLNI2s8MkwuNG7NEAUiNSHJbAnJieSOBXXu8mjvqfjAJfsxkwRzAmzl5aJOxnQK1sJBQm/Tome8=
+	t=1711645703; cv=none; b=Ko9hmDRTI0cw4ZLH64W+jWYSz87yq9hIAsjc5ulLCGvFUcaFlopyIw7MPzkn9OzZq0/KHMQWVgRAbw9JZLjiaHp0FehNbrP156JT5vw8HG87WC2HZQkPsPMBaeuT5eonf1xx7Q4eQFvDKDGMMQZKiijEduLHffIoPOMPW6SQ5KM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711645702; c=relaxed/simple;
-	bh=BaPDupCv6UqrYXZi2uehYVOVjOquLeGs4/mCVLtJ4N0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XEFWLtDvcIGibzSR2ZLR3Dttn/n/ZFqf5zmYloRDCWJ511DHpU0znhIw53ctynkxhF0vyKyfnKPMy6XNdXWdPh9JP0Do0NOGfcdMB7yAhfDwJBVk+343sdk4JC8UkuHl4a6+/Cv3rwdv+wI3CGeH1oo+AwGhRLP+zZv35ZnlcGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TZqa7E4P; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1711645703; c=relaxed/simple;
+	bh=UCnU67HeXYoqYdj4S5dBKZ2Q4xHzdK3/OCAHu2KUfBI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EQOzDEg/Tbylz/gXhPcSgQ1Fc87Khc172Hn2d75d6TZ1y02ih2Lxe6teguUnZjlj2ZvkxxTlQwVtI5Bwevx4WrHmkNLUuxI2N/zwo61Dteb9iGcOUZzVcxanFK+PfeTNBAxGWGXupj1z0f4KJ9KRoc2VITfA9RRsNqIKRflJmT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=INiZVCt5; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TZqa7E4P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="INiZVCt5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711645698; x=1743181698;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BaPDupCv6UqrYXZi2uehYVOVjOquLeGs4/mCVLtJ4N0=;
-  b=TZqa7E4P/3N2FqNIK8r6kTdM/K8KX9YuIrGaaZIyWolzI4GEPcwfGhah
-   YdHRgogDCN5FXNJDNYPLPXe61is19pPZmqYUGX7AoyM/4FwagYmVEll8x
-   k20+3mXhDpJsIZ2/Yk+O428d0VmKqGLqq+V1T81RZQSACHjVZyayVxJT9
-   dOvKQtB/N+kDM2QFLlzpg2pmIF936DpSiMIatHxkQzVb8UNO4aXKofAuH
-   H5/+6Zf/DCcNJNukS3kmgoIAWtWYMleO0Sn3v2l65u0Hwiuo63HuBauUv
-   x2JpWp/Hop9haeS5jcvlbmcLTcjjeg2y5jy/6s+kYbOjPgXyt/dY6HlRq
-   g==;
-X-CSE-ConnectionGUID: 6V2Z4azZTMqEOb7RrbmEnw==
-X-CSE-MsgGUID: LpnpbA8eSAmTk2E/6B9K0Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="7417527"
+  t=1711645702; x=1743181702;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UCnU67HeXYoqYdj4S5dBKZ2Q4xHzdK3/OCAHu2KUfBI=;
+  b=INiZVCt5LfR0h69oeusbs2DDIcsG9YS/SaKXO6DrZ77ZivgjQ1dV3qmL
+   aC34HYaaDVCRzkVcwTY1BGqCjioKrq25r1ajQh3Q3wT+fXCiL4FMhM7lD
+   Q3aI8CfCZEdg/bj2QjW9nDV2Dm8/91ZLWm8TnWhrZ2BCfVa7Pj6qO5AzR
+   dy+XuKePpriX73LUDdHHOxm02896aTKrUev4ayNFse7MjY3YomttSchxj
+   DNt2LpXmxhN+ysSa7RO3Gq4mEYNl/hpVuml3wEQiEvBE+VDpRqCF6fCXw
+   KDsDPpFyglTYGYqeQLtmNWW6X6fgM3cjzuu4Tt1KZWx8K906UWtGCqCUa
+   Q==;
+X-CSE-ConnectionGUID: 0J+Ei/J+Ryu/8j0pMkwXKQ==
+X-CSE-MsgGUID: oqcVYIRIRNWNnuXmJA4RHg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="7417535"
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="7417527"
+   d="scan'208";a="7417535"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 10:08:18 -0700
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 10:08:21 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="39865447"
+   d="scan'208";a="39865448"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 28 Mar 2024 10:08:17 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rptEc-0002NE-2z;
+	id 1rptEc-0002NC-2v;
 	Thu, 28 Mar 2024 17:08:14 +0000
 Date: Fri, 29 Mar 2024 01:07:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Lu Wei <luwei32@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2170/7000] net/ipv4/tcp_comp.c:740:6: sparse:
- sparse: symbol 'comp_stream_read' was not declared. Should it be static?
-Message-ID: <202403290120.dpqjbxn2-lkp@intel.com>
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mina Almasry <almasrymina@google.com>,
+	Ayush Sawal <ayush.sawal@chelsio.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Mirko Lindner <mlindner@marvell.com>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Ahern <dsahern@kernel.org>,
+	Boris Pismenny <borisp@nvidia.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Dragos Tatulea <dtatulea@nvidia.com>
+Subject: Re: [PATCH net-next v2 2/3] net: mirror skb frag ref/unref helpers
+Message-ID: <202403290006.WfusvToB-lkp@intel.com>
+References: <20240327214523.2182174-3-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,82 +74,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240327214523.2182174-3-almasrymina@google.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   704605877ce9913071214d2515a4c2b9077f5078
-commit: c31dcf6c5ab41f07da38d3f270987807735ec93e [2170/7000] tcp_comp: implement tcp compression
-config: loongarch-randconfig-r113-20240328 (https://download.01.org/0day-ci/archive/20240329/202403290120.dpqjbxn2-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240329/202403290120.dpqjbxn2-lkp@intel.com/reproduce)
+Hi Mina,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mina-Almasry/net-make-napi_frag_unref-reuse-skb_page_unref/20240328-054816
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240327214523.2182174-3-almasrymina%40google.com
+patch subject: [PATCH net-next v2 2/3] net: mirror skb frag ref/unref helpers
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240329/202403290006.WfusvToB-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403290006.WfusvToB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403290120.dpqjbxn2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403290006.WfusvToB-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/ipv4/tcp_comp.c:740:6: sparse: sparse: symbol 'comp_stream_read' was not declared. Should it be static?
->> net/ipv4/tcp_comp.c:779:6: sparse: sparse: symbol 'comp_setup_strp' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/comp_stream_read +740 net/ipv4/tcp_comp.c
+>> net/tls/tls_device_fallback.c:280:22: error: too few arguments to function call, expected 2, have 1
+     280 |                 __skb_frag_ref(frag);
+         |                 ~~~~~~~~~~~~~~     ^
+   include/linux/skbuff.h:3517:20: note: '__skb_frag_ref' declared here
+    3517 | static inline void __skb_frag_ref(skb_frag_t *frag, bool recycle)
+         |                    ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
-   739	
- > 740	bool comp_stream_read(struct sock *sk)
-   741	{
-   742		struct tcp_comp_context *ctx = comp_get_ctx(sk);
-   743	
-   744		if (!ctx)
-   745			return false;
-   746	
-   747		if (ctx->rx.pkt || ctx->rx.dpkt)
-   748			return true;
-   749	
-   750		return false;
-   751	}
-   752	
-   753	static void comp_data_ready(struct sock *sk)
-   754	{
-   755		struct tcp_comp_context *ctx = comp_get_ctx(sk);
-   756	
-   757		strp_data_ready(&ctx->rx.strp);
-   758	}
-   759	
-   760	static void comp_queue(struct strparser *strp, struct sk_buff *skb)
-   761	{
-   762		struct tcp_comp_context *ctx = comp_get_ctx(strp->sk);
-   763	
-   764		ctx->rx.pkt = skb;
-   765		strp_pause(strp);
-   766		ctx->rx.saved_data_ready(strp->sk);
-   767	}
-   768	
-   769	static int comp_read_size(struct strparser *strp, struct sk_buff *skb)
-   770	{
-   771		struct strp_msg *rxm = strp_msg(skb);
-   772	
-   773		if (rxm->offset > skb->len)
-   774			return 0;
-   775	
-   776		return skb->len - rxm->offset;
-   777	}
-   778	
- > 779	void comp_setup_strp(struct sock *sk, struct tcp_comp_context *ctx)
-   780	{
-   781		struct strp_callbacks cb;
-   782	
-   783		memset(&cb, 0, sizeof(cb));
-   784		cb.rcv_msg = comp_queue;
-   785		cb.parse_msg = comp_read_size;
-   786		strp_init(&ctx->rx.strp, sk, &cb);
-   787	
-   788		write_lock_bh(&sk->sk_callback_lock);
-   789		ctx->rx.saved_data_ready = sk->sk_data_ready;
-   790		sk->sk_data_ready = comp_data_ready;
-   791		write_unlock_bh(&sk->sk_callback_lock);
-   792	
-   793		strp_check_rcv(&ctx->rx.strp);
-   794	}
-   795	
+
+vim +280 net/tls/tls_device_fallback.c
+
+e8f69799810c32 Ilya Lesokhin  2018-04-30  228  
+e8f69799810c32 Ilya Lesokhin  2018-04-30  229  /* This function may be called after the user socket is already
+e8f69799810c32 Ilya Lesokhin  2018-04-30  230   * closed so make sure we don't use anything freed during
+e8f69799810c32 Ilya Lesokhin  2018-04-30  231   * tls_sk_proto_close here
+e8f69799810c32 Ilya Lesokhin  2018-04-30  232   */
+e8f69799810c32 Ilya Lesokhin  2018-04-30  233  
+e8f69799810c32 Ilya Lesokhin  2018-04-30  234  static int fill_sg_in(struct scatterlist *sg_in,
+e8f69799810c32 Ilya Lesokhin  2018-04-30  235  		      struct sk_buff *skb,
+d80a1b9d186057 Boris Pismenny 2018-07-13  236  		      struct tls_offload_context_tx *ctx,
+e8f69799810c32 Ilya Lesokhin  2018-04-30  237  		      u64 *rcd_sn,
+e8f69799810c32 Ilya Lesokhin  2018-04-30  238  		      s32 *sync_size,
+e8f69799810c32 Ilya Lesokhin  2018-04-30  239  		      int *resync_sgs)
+e8f69799810c32 Ilya Lesokhin  2018-04-30  240  {
+504148fedb8542 Eric Dumazet   2022-06-30  241  	int tcp_payload_offset = skb_tcp_all_headers(skb);
+e8f69799810c32 Ilya Lesokhin  2018-04-30  242  	int payload_len = skb->len - tcp_payload_offset;
+e8f69799810c32 Ilya Lesokhin  2018-04-30  243  	u32 tcp_seq = ntohl(tcp_hdr(skb)->seq);
+e8f69799810c32 Ilya Lesokhin  2018-04-30  244  	struct tls_record_info *record;
+e8f69799810c32 Ilya Lesokhin  2018-04-30  245  	unsigned long flags;
+e8f69799810c32 Ilya Lesokhin  2018-04-30  246  	int remaining;
+e8f69799810c32 Ilya Lesokhin  2018-04-30  247  	int i;
+e8f69799810c32 Ilya Lesokhin  2018-04-30  248  
+e8f69799810c32 Ilya Lesokhin  2018-04-30  249  	spin_lock_irqsave(&ctx->lock, flags);
+e8f69799810c32 Ilya Lesokhin  2018-04-30  250  	record = tls_get_record(ctx, tcp_seq, rcd_sn);
+e8f69799810c32 Ilya Lesokhin  2018-04-30  251  	if (!record) {
+e8f69799810c32 Ilya Lesokhin  2018-04-30  252  		spin_unlock_irqrestore(&ctx->lock, flags);
+e8f69799810c32 Ilya Lesokhin  2018-04-30  253  		return -EINVAL;
+e8f69799810c32 Ilya Lesokhin  2018-04-30  254  	}
+e8f69799810c32 Ilya Lesokhin  2018-04-30  255  
+e8f69799810c32 Ilya Lesokhin  2018-04-30  256  	*sync_size = tcp_seq - tls_record_start_seq(record);
+e8f69799810c32 Ilya Lesokhin  2018-04-30  257  	if (*sync_size < 0) {
+e8f69799810c32 Ilya Lesokhin  2018-04-30  258  		int is_start_marker = tls_record_is_start_marker(record);
+e8f69799810c32 Ilya Lesokhin  2018-04-30  259  
+e8f69799810c32 Ilya Lesokhin  2018-04-30  260  		spin_unlock_irqrestore(&ctx->lock, flags);
+e8f69799810c32 Ilya Lesokhin  2018-04-30  261  		/* This should only occur if the relevant record was
+e8f69799810c32 Ilya Lesokhin  2018-04-30  262  		 * already acked. In that case it should be ok
+e8f69799810c32 Ilya Lesokhin  2018-04-30  263  		 * to drop the packet and avoid retransmission.
+e8f69799810c32 Ilya Lesokhin  2018-04-30  264  		 *
+e8f69799810c32 Ilya Lesokhin  2018-04-30  265  		 * There is a corner case where the packet contains
+e8f69799810c32 Ilya Lesokhin  2018-04-30  266  		 * both an acked and a non-acked record.
+e8f69799810c32 Ilya Lesokhin  2018-04-30  267  		 * We currently don't handle that case and rely
+a0e128ef88e4a0 Yueh-Shun Li   2023-06-22  268  		 * on TCP to retransmit a packet that doesn't contain
+e8f69799810c32 Ilya Lesokhin  2018-04-30  269  		 * already acked payload.
+e8f69799810c32 Ilya Lesokhin  2018-04-30  270  		 */
+e8f69799810c32 Ilya Lesokhin  2018-04-30  271  		if (!is_start_marker)
+e8f69799810c32 Ilya Lesokhin  2018-04-30  272  			*sync_size = 0;
+e8f69799810c32 Ilya Lesokhin  2018-04-30  273  		return -EINVAL;
+e8f69799810c32 Ilya Lesokhin  2018-04-30  274  	}
+e8f69799810c32 Ilya Lesokhin  2018-04-30  275  
+e8f69799810c32 Ilya Lesokhin  2018-04-30  276  	remaining = *sync_size;
+e8f69799810c32 Ilya Lesokhin  2018-04-30  277  	for (i = 0; remaining > 0; i++) {
+e8f69799810c32 Ilya Lesokhin  2018-04-30  278  		skb_frag_t *frag = &record->frags[i];
+e8f69799810c32 Ilya Lesokhin  2018-04-30  279  
+e8f69799810c32 Ilya Lesokhin  2018-04-30 @280  		__skb_frag_ref(frag);
+e8f69799810c32 Ilya Lesokhin  2018-04-30  281  		sg_set_page(sg_in + i, skb_frag_page(frag),
+b54c9d5bd6e38e Jonathan Lemon 2019-07-30  282  			    skb_frag_size(frag), skb_frag_off(frag));
+e8f69799810c32 Ilya Lesokhin  2018-04-30  283  
+e8f69799810c32 Ilya Lesokhin  2018-04-30  284  		remaining -= skb_frag_size(frag);
+e8f69799810c32 Ilya Lesokhin  2018-04-30  285  
+e8f69799810c32 Ilya Lesokhin  2018-04-30  286  		if (remaining < 0)
+e8f69799810c32 Ilya Lesokhin  2018-04-30  287  			sg_in[i].length += remaining;
+e8f69799810c32 Ilya Lesokhin  2018-04-30  288  	}
+e8f69799810c32 Ilya Lesokhin  2018-04-30  289  	*resync_sgs = i;
+e8f69799810c32 Ilya Lesokhin  2018-04-30  290  
+e8f69799810c32 Ilya Lesokhin  2018-04-30  291  	spin_unlock_irqrestore(&ctx->lock, flags);
+e8f69799810c32 Ilya Lesokhin  2018-04-30  292  	if (skb_to_sgvec(skb, &sg_in[i], tcp_payload_offset, payload_len) < 0)
+e8f69799810c32 Ilya Lesokhin  2018-04-30  293  		return -EINVAL;
+e8f69799810c32 Ilya Lesokhin  2018-04-30  294  
+e8f69799810c32 Ilya Lesokhin  2018-04-30  295  	return 0;
+e8f69799810c32 Ilya Lesokhin  2018-04-30  296  }
+e8f69799810c32 Ilya Lesokhin  2018-04-30  297  
 
 -- 
 0-DAY CI Kernel Test Service
