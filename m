@@ -1,84 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21FA312D1FC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Mar 2024 22:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268091D68F;
+	Thu, 28 Mar 2024 22:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711663767; cv=none; b=VK+4Y3q3SinO4cvgTJd/9MC9SGfOHgiiYjsE4U4epgct5jpcYl1vF9bB8elgj3yYx1oEPOckMc5XiDD9u7re6VIpWnSuExbreD5/UW+vRkhH/HLRCvhr0YrZ0RTM4qasUsjf09xmUo1tIJ48V5sM6HRwwAzGo9ZxHiYvJ5JpA8w=
+	t=1711665360; cv=none; b=YGYen09pj+YbotcgifqRn16SJ2tUjvGQjhrL6WVxd1N4mKD4exhdAPAMoOasEkQreEzOm5f/b8Wk3De/fF/iD2mrWijh1zFe7NnhZ1Ca0+PDtqGTEHchvr0Ge2Lv8CiVNvHnoxnfuTuXZHNUi4a/zZl5mzKW5kbzQ2sgX7LUvrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711663767; c=relaxed/simple;
-	bh=UZFEo1jkAn4TkmA857pmQF5IUCZeMpnowal6PjGuav0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=njU303eDS/oxTQaNuahNJUwjyPk1UPFe1HGeXfWqDmUd7yQID/qi2kd5wViQG7tRV68XopGjZ3b4FQjfbu8LU0QkNIZEwGuwflW3qZ7bBAC4qS4e+heqFArVNTvINY8R+A8bJjOtEq9uwrGSgnEMv1FDhUcqEGB9eI+aPclzTC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bssDM41z; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711665360; c=relaxed/simple;
+	bh=rvKtehwqnoxcmSN8NJNR3HB3kRar7BGFCncNbtbOnyA=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=rWu8pM8hR7Z3LNOFC+2xWFqisZeyP3uJ7hyRHp9PLRZVJ+YseCn8EEWh8n9UlnoLXkuFE/6zrMMUPYshUAX0T8QXSm2fiS0BM4xKhfLGIF9jGHAQCQ/H7Q7d4kt/T5pWkcJ9Svvm4byne8dxI1/Exa4WUq+x0LZMXG8MD2a7uAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ISvWRiMA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bssDM41z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711663765; x=1743199765;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UZFEo1jkAn4TkmA857pmQF5IUCZeMpnowal6PjGuav0=;
-  b=bssDM41zG7zsJ3M62N9i3uVKZ/4BXyxIozZAzpSNG7a+Iq4tABrX6LlT
-   4FtLQT2moNvD+5Eu0IqtwVVI55/byKDlc8wWaN+7/YRY7acS+VJBY93gs
-   z9DVNfs7PQw3XeF7Y2DYs2L34iDsOc5JHFyOlFyOZQxaVr322ci7jJA8w
-   c7FwXF3PKk0R+eVa+dJfMkTQl7nywN0oqh/Ccm40LvTlQJXkkJAyGwijS
-   Oj7N3AFe+x19+HJ7QWNWWhet4uiYtBZ68KEDTmWBtR6EUzlnpCCZbfTXb
-   iXvTv9S933WXJhTd8fkvgU7X082eRrUSSjqAPjl0BvkmbU6Nxw/Cl2A4d
-   A==;
-X-CSE-ConnectionGUID: 6v6yV0UDSbSK/I+drXCygw==
-X-CSE-MsgGUID: fcTAM2gFTneh5MbOBlm37w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="17995995"
-X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="17995995"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 15:09:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="21439336"
-Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 28 Mar 2024 15:09:24 -0700
-Received: from kbuild by be39aa325d23 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rpxw1-0002Yc-0A;
-	Thu, 28 Mar 2024 22:09:21 +0000
-Date: Fri, 29 Mar 2024 06:08:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2676/7000] ld:
- include/linux/resctrl.h:291:undefined reference to `lockdep_is_cpus_held'
-Message-ID: <202403290645.zX0Lyrpo-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ISvWRiMA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CA27C433F1;
+	Thu, 28 Mar 2024 22:35:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711665359;
+	bh=rvKtehwqnoxcmSN8NJNR3HB3kRar7BGFCncNbtbOnyA=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=ISvWRiMAPRsPznDPIhk/gvq27KHn4eT3kzjQPlvdxCV5Lma7AiRhTS7Jtst4LnTUF
+	 RvgXgUQBB4glRDuFIlHq3qeAr6hoMUlIeve/zid2LADwCuekRHx+L3sKuxNnBQMQwk
+	 5S2G+Cp5yTkVtlq7Idxfy2XAaqmxYjbYiUGuoK511oT0CMxEdFcYG+FcjG2jk2lL76
+	 DYcEIuugn9YiBt2obFSG80G2LXW+9vj1C7z8DyPdJtTjKo8h+KRoGKZpEMCJwx8CM7
+	 Bu8VquHxxTE6+TcgBjmH3XbwgE/urw3AxPMApgL3iZygE+TWEmq2TKC8l+/+uetXw8
+	 ZrNlQ2t881+ug==
+Message-ID: <d95554f623f023a2f5499fa2f6f76567.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240327073310.520950-2-u.kleine-koenig@pengutronix.de>
+References: <202403270305.ydvX9xq1-lkp@intel.com> <20240327073310.520950-2-u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH] clk: Provide !COMMON_CLK dummy for devm_clk_rate_exclusive_get()
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
+To: Uwe =?utf-8?q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Date: Thu, 28 Mar 2024 15:35:57 -0700
+User-Agent: alot/0.10
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   704605877ce9913071214d2515a4c2b9077f5078
-commit: c054efea286659a6504fdeafc0a611c6a3b124cc [2676/7000] x86/resctrl: Claim get_domain_from_cpu() for resctrl
-config: x86_64-randconfig-013-20240328 (https://download.01.org/0day-ci/archive/20240329/202403290645.zX0Lyrpo-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403290645.zX0Lyrpo-lkp@intel.com/reproduce)
+Quoting Uwe Kleine-K=C3=B6nig (2024-03-27 00:33:10)
+> To be able to compile drivers using devm_clk_rate_exclusive_get() also
+> on platforms without the common clk framework, add a dummy
+> implementation that does the same as clk_rate_exclusive_get() in that
+> case (i.e. nothing).
+>=20
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202403270305.ydvX9xq1-lkp@i=
+ntel.com/
+> Fixes: b0cde62e4c54 ("clk: Add a devm variant of clk_rate_exclusive_get()=
+")
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> ---
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403290645.zX0Lyrpo-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: vmlinux.o: in function `resctrl_get_domain_from_cpu':
-   include/linux/resctrl.h:291:(.text+0xec75a): undefined reference to `lockdep_is_cpus_held'
->> ld: include/linux/resctrl.h:291:(.text+0xff9aa): undefined reference to `lockdep_is_cpus_held'
-   ld: include/linux/resctrl.h:291:(.text+0x100423): undefined reference to `lockdep_is_cpus_held'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Applied to clk-fixes
