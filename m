@@ -1,120 +1,120 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD379134BC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 08:39:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B855040863
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 09:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711701592; cv=none; b=WaNmk9Lsd9R680NbxdbrXj9YRJh1YHr2DHnMpR1tKzoUgvrhh3HIJ3Zs6nDgxrI+zq+6AeAnO68QFzSLgc8WmId4KtywAhsDy7h7kTRvP3WBB2hncu2N8HkPOEaY0i5bWcu6nnY/Hj3EW9z/moZOjvm19QJBureXfFb+Ao0u22w=
+	t=1711703627; cv=none; b=uUzoBFzq2PTuwaNKMvJqMIcV4VnOe7pZPDuBvEd+C8ANkikCQVLPemWkSA1HFDjvZX2f5C5lUlKPkEY8mdQQitAzzRRlseHR7+znbfGvjEtSaK8EWEOH3vdYoNZiUEl9XSb8BdwNZ9IRBiV7j3YMy/HdMXC8Tim8Do3zNT7bUH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711701592; c=relaxed/simple;
-	bh=GR3x12krJXOXWvG/BBTxB9091fvn1PewsYR2Rzs/mFo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SpnjhXse9LEb8QaBba028gIYbwuTWz6TpBgvoUBT+GgXuEGfUGJ8qcAg5i1bqhvmuMDy1l/TYQnzEckXcBSYEC1NcRDbAEHMsO1fM8oyneArNKKcRK5eRvtZnDqQQAVRuee0nfsIRtOZ9a3pv4qmtVELXx9NPVEQB8LE3CQ/gIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6145a4c79cfso195497b3.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 01:39:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711701589; x=1712306389;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8hkLfUozsxdncT8HuF2o4O/3RcsP/sGMaEklDCCLn1M=;
-        b=MeluE2tzEeDWzq8GXwtLTCnMr2qqKxoMxisQm3+731K8clokVphILKahAEGg8oisAN
-         P9LcDUWKSKAol2XSMca7vyboqG5eL2vBdlnC9O6TPIEeLMYqU6A7oaxJ/zfN2vzVG3SA
-         JwbHpt7IvYuGoz7HwlAOiFCWLfqEkBS7hBtVrIPmz1Fjq07licef3cBLmwkR1tVyDuKI
-         5ZD81tNZN3mbd9ehOs/OqgchDelpmR0i9ImRgyTmhf5WiZasMFnjvMmUCxwhN9s9Upf0
-         HwI4VEeAKQTOMyYvC8/omfi4UGuooX1sEM7EBpVc+3K8i+GL2qukUtEohlZv5E9hfuwI
-         +JXA==
-X-Forwarded-Encrypted: i=1; AJvYcCVMcKKkeercIhte2byZd+CYK40H9SKBtPTHB0qJTu3XkgnfyfRjoKCya9UZZgSfZ3u4gkDhYgNzg8tYfqlyDDdanhtdL9JG7jdlUBuzOw==
-X-Gm-Message-State: AOJu0YxhKXj6icH+jSK1zWr4r+3B67hR7HO51t2K9LDyNqOOGuYSno8O
-	e8gi825YepBz27FezvI1NJdPaAxILLIpdMf/4rdU+YcFvxm90sWQia4o5WAq9sA=
-X-Google-Smtp-Source: AGHT+IEqAK04kOF5/MLvbH9CB537fDwpVGncrvZ2yn0QbsDaG8ZLGbPuUsQANUkw8xNdsQU3P9R/Xw==
-X-Received: by 2002:a81:8844:0:b0:610:ca8b:9a1a with SMTP id y65-20020a818844000000b00610ca8b9a1amr1716984ywf.46.1711701588825;
-        Fri, 29 Mar 2024 01:39:48 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id l25-20020a81ad59000000b006145a494d61sm8399ywk.86.2024.03.29.01.39.48
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Mar 2024 01:39:48 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dcbc6a6808fso1648525276.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 01:39:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUE3mcLhl1OHi0Bb4Km0B0gNyaVyVSsVmgTehkjtBiSmpO4RYnzVofTSTSZ5QGkvqMVNF54wh28Gn+zYgSRu8L9LJ0KTMrAfFokYZ3LRA==
-X-Received: by 2002:a25:83c5:0:b0:dcc:ae3:d8a0 with SMTP id
- v5-20020a2583c5000000b00dcc0ae3d8a0mr1625934ybm.48.1711701588203; Fri, 29 Mar
- 2024 01:39:48 -0700 (PDT)
+	s=arc-20240116; t=1711703627; c=relaxed/simple;
+	bh=ZTKxH5kcw795HXiVc41ybgH7g3lP7CizJYh3xtbBAUY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=shwp/kNryM2A5niFgBAI5no/j+qOvamGeebsXdlozPALyrWi8lGTYUpjNPTaJ34VB/WdRQnHT/um4Dc9oxnRpIl6AsV0F/exFeeFGiwj8s3uK1fYuVMrkcLcW4TmfSbEKsrljXQEh+6k+hox5WEfXImw/njNyJvkXAsyyz0/4HM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FR6nDDUE; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FR6nDDUE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711703626; x=1743239626;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZTKxH5kcw795HXiVc41ybgH7g3lP7CizJYh3xtbBAUY=;
+  b=FR6nDDUEfK5N3I4MZS9Lai80OLJma8zjs37bnygA2lz4dlPZWWwA+dKZ
+   uJ4CLfx6xCbwX5BCYQ9mmwcDpWoLDk5O9ur34qIkFR/IhSWgqlaIcvA52
+   sGFTYT8G76hz0MtUrz7P4LyBrYTPMbza21rs1v6PQ7cGFjpD4+vJE2GnW
+   96rKuJTL7g9m/Uk6dgJ4nQC+MXPxpTWArLrkUrnoXOq5ml69K7AbSEMSe
+   cXzXrOsoO3lBjv+nu/cQioM1LV4gwz65ahaj+RjjzM2MSjjH9Xc59eHBV
+   7HtChHtpwTD5TKqLS8wHVTnj45vWv5vKPh4oqvWYqIo1dhsk52xV3Dy9Q
+   w==;
+X-CSE-ConnectionGUID: UoKSX2JRR++Hqtqy0lOCpQ==
+X-CSE-MsgGUID: KNYtmeOOTQ6+mWHHTJY5PQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="6784594"
+X-IronPort-AV: E=Sophos;i="6.07,164,1708416000"; 
+   d="scan'208";a="6784594"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 02:13:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,164,1708416000"; 
+   d="scan'208";a="16957551"
+Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 29 Mar 2024 02:13:43 -0700
+Received: from kbuild by be39aa325d23 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rq8Iu-00032k-2F;
+	Fri, 29 Mar 2024 09:13:40 +0000
+Date: Fri, 29 Mar 2024 17:12:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Kees Cook <keescook@chromium.org>
+Subject: [linux-next:master 2059/2532] mm/util.c:128: warning: expecting
+ prototype for kmemdup_noprof(). Prototype was for kmemdup() instead
+Message-ID: <202403291732.eZTk1pGs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202403291057.uo43Mlue-lkp@intel.com>
-In-Reply-To: <202403291057.uo43Mlue-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 29 Mar 2024 09:39:36 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWPyz+bZ43Nu-iq_K0GnWbtP3oiXCt22cQSyMvMhQ=A2A@mail.gmail.com>
-Message-ID: <CAMuHMdWPyz+bZ43Nu-iq_K0GnWbtP3oiXCt22cQSyMvMhQ=A2A@mail.gmail.com>
-Subject: Re: arch/m68k/include/asm/page.h:10:25: error: 'CONFIG_PAGE_SHIFT'
- undeclared; did you mean 'CONFIG_LOG_BUF_SHIFT'?
-To: kernel test robot <lkp@intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, 
-	linux-m68k <linux-m68k@lists.linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Mar 29, 2024 at 3:19=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   8d025e2092e29bfd13e56c78e22af25fac83c8ec
-> commit: 5394f1e9b687bcf26595cabf83483e568676128d arch: define CONFIG_PAGE=
-_SIZE_*KB on all architectures
-> date:   3 weeks ago
-> config: m68k-alldefconfig (https://download.01.org/0day-ci/archive/202403=
-29/202403291057.uo43Mlue-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240329/202403291057.uo43Mlue-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403291057.uo43Mlue-lkp=
-@intel.com/
->
-> All error/warnings (new ones prefixed by >>):
->
->    In file included from arch/m68k/include/asm/thread_info.h:6,
->                     from include/linux/thread_info.h:60,
->                     from include/asm-generic/preempt.h:5,
->                     from ./arch/m68k/include/generated/asm/preempt.h:1,
->                     from include/linux/preempt.h:79,
->                     from arch/m68k/include/asm/processor.h:11,
->                     from include/linux/sched.h:13,
->                     from arch/m68k/kernel/asm-offsets.c:15:
->    arch/m68k/include/asm/page_mm.h: In function 'virt_to_pfn':
-> >> arch/m68k/include/asm/page.h:10:25: error: 'CONFIG_PAGE_SHIFT' undecla=
-red (first use in this function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a6bd6c9333397f5a0e2667d4d82fef8c970108f2
+commit: 8060cbdb2821fa59bd04964cc978066d07e13fac [2059/2532] mm/slab: enable slab allocation tagging for kmalloc and friends
+config: x86_64-randconfig-r071-20240327 (https://download.01.org/0day-ci/archive/20240329/202403291732.eZTk1pGs-lkp@intel.com/config)
+compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403291732.eZTk1pGs-lkp@intel.com/reproduce)
 
-This is the same issue I mentioned to Arnd in IRC before: as no
-platform is enabled, none of the MMU_* options, and thus none of
-the HAVE_PAGE_SIZE_* options, is selected.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403291732.eZTk1pGs-lkp@intel.com/
 
-Gr{oetje,eeting}s,
+All warnings (new ones prefixed by >>):
 
-                        Geert
+>> mm/util.c:128: warning: expecting prototype for kmemdup_noprof(). Prototype was for kmemdup() instead
+>> mm/util.c:613: warning: expecting prototype for kvmalloc_node_noprof(). Prototype was for kvmalloc_node() instead
+--
+>> mm/slub.c:4042: warning: expecting prototype for kmem_cache_alloc_node_noprof(). Prototype was for kmem_cache_alloc_node() instead
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+vim +128 mm/util.c
+
+1e66df3ee30120 Jeremy Fitzhardinge 2007-07-17  116  
+1a2f67b459bb78 Alexey Dobriyan     2006-09-30  117  /**
+8060cbdb2821fa Suren Baghdasaryan  2024-03-21  118   * kmemdup_noprof - duplicate region of memory
+1a2f67b459bb78 Alexey Dobriyan     2006-09-30  119   *
+1a2f67b459bb78 Alexey Dobriyan     2006-09-30  120   * @src: memory region to duplicate
+1a2f67b459bb78 Alexey Dobriyan     2006-09-30  121   * @len: memory region length
+1a2f67b459bb78 Alexey Dobriyan     2006-09-30  122   * @gfp: GFP mask to use
+a862f68a8b3600 Mike Rapoport       2019-03-05  123   *
+0b7b8704ddcee3 Hao Sun             2022-12-21  124   * Return: newly allocated copy of @src or %NULL in case of error,
+0b7b8704ddcee3 Hao Sun             2022-12-21  125   * result is physically contiguous. Use kfree() to free.
+1a2f67b459bb78 Alexey Dobriyan     2006-09-30  126   */
+8060cbdb2821fa Suren Baghdasaryan  2024-03-21  127  void *kmemdup_noprof(const void *src, size_t len, gfp_t gfp)
+1a2f67b459bb78 Alexey Dobriyan     2006-09-30 @128  {
+1a2f67b459bb78 Alexey Dobriyan     2006-09-30  129  	void *p;
+1a2f67b459bb78 Alexey Dobriyan     2006-09-30  130  
+8060cbdb2821fa Suren Baghdasaryan  2024-03-21  131  	p = kmalloc_node_track_caller_noprof(len, gfp, NUMA_NO_NODE, _RET_IP_);
+1a2f67b459bb78 Alexey Dobriyan     2006-09-30  132  	if (p)
+1a2f67b459bb78 Alexey Dobriyan     2006-09-30  133  		memcpy(p, src, len);
+1a2f67b459bb78 Alexey Dobriyan     2006-09-30  134  	return p;
+1a2f67b459bb78 Alexey Dobriyan     2006-09-30  135  }
+8060cbdb2821fa Suren Baghdasaryan  2024-03-21  136  EXPORT_SYMBOL(kmemdup_noprof);
+1a2f67b459bb78 Alexey Dobriyan     2006-09-30  137  
+
+:::::: The code at line 128 was first introduced by commit
+:::::: 1a2f67b459bb7846d4a15924face63eb2683acc2 [PATCH] kmemdup: introduce
+
+:::::: TO: Alexey Dobriyan <adobriyan@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
