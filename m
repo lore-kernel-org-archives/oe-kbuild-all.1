@@ -1,45 +1,56 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3B329D03;
-	Fri, 29 Mar 2024 20:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F7313B59A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 21:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711745713; cv=none; b=RJV5uogqWXLaR0baE3Kdp9u7Al+GnFQMjkLHEf05uTwzeNe+dzEvt6UaBEFxPONb1pdICmwhSm/9vt73EsgI1stPHjH8OGXWzsBs6TDURrsGEogqNhBXJtg5yrNktCsWEy/qH3pBJJ/T+DE6jbifk9L113BSOuSEshzaF1lpCSA=
+	t=1711747631; cv=none; b=lY0X8Lei1H/cHaJUdaTq20bzWYjr77qZ2HsNtEo15mva3gQCRVh6zWJ5nYSH4dtD7YoqexRhNIkqqizRmPQ20jdarmV+WlGyiQRV5k7VsrmsBv4jXoeYSpPWvBdLpD/PCXOdSrmv2aFBP6Wua6cmHl1HtchT/oDCVxvuBdwj83A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711745713; c=relaxed/simple;
-	bh=DMQucBcjCgpuomzn8VOqq6DIbR4Bhpkhb9Iw38JttEc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NV/up6myIR5LVN86GJ7cWAWD8r2UwzJors3YLr1yJwV1YDcHaavlrijpU3gp1Ozgz1buYelRwl9qLtmRLpKCRKZ0x8KbIr2ZHiIllCMBxUOmcBOXd325ivM1L83mJVyuGLzFc351v/Q5h5tIgKMX2kxy19ll9In4H1F+TieRTZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bFyOPmkv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711747631; c=relaxed/simple;
+	bh=LetMHBPBQXz6ixIsInVumoaExZfUK1GJsZvW08MI+m4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=n7+q8dTwwsUShJejdUj8iBBmZD3+xQ/3FkvUoF5jHyttzN+jHf5Y8fZY9hEK0fC/lhjuDUihn1xiHF1yzS5VoH1oLorGefe1pFpGrDzQiC/h1AS1+3HoBz3AJ1QKG2wGEUM40tSGMPL5g6ULqhGalMag2wcvCrwkTJ9pVenMtnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EEwfdHvc; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bFyOPmkv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA5CDC43390;
-	Fri, 29 Mar 2024 20:55:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711745712;
-	bh=DMQucBcjCgpuomzn8VOqq6DIbR4Bhpkhb9Iw38JttEc=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=bFyOPmkvrnhYh6H3oY9xqCtwqPgHzZ/jBgbrV28n0Aw5JE9VfucizCAHrBRNBRSsa
-	 VS+lTyaFJm4Ti/0ad87OnhXPcqBZ5TYnUuOgXDSPOXNURwY4jZIIOSZoRqvYP5/mp/
-	 G46nLej5dv1Iv70rHprxsQRDxurKDAg3w4Nsy05UK6ufEDr2iakoVIiDGHW2AyLDsw
-	 lxM+9MI2SiI+Kxq4QWRo02eX79JgLBdxhYSR7UWgKYBG+L/eYakzAh1vcU8xc0VCAq
-	 fkiaHLqkYE+U+pDlI+B+/ik4+vNZgAL0390X4P+Q6qppVM+H6RyscMnBkFQyLZ3Mqn
-	 0nWaTzmZXjrZQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 04B56CE1ACC; Fri, 29 Mar 2024 11:52:17 -0700 (PDT)
-Date: Fri, 29 Mar 2024 11:52:16 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [paulmck-rcu:dev.2024.03.27b 66/69]
- include/linux/atomic/atomic-arch-fallback.h:2026:9: error: call to
- undeclared function 'cmpxchg_emu_u8'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <45452057-6655-4bab-a27d-38f2dff018e8@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202403292322.bwguovKc-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EEwfdHvc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711747629; x=1743283629;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LetMHBPBQXz6ixIsInVumoaExZfUK1GJsZvW08MI+m4=;
+  b=EEwfdHvcpPJhrPRqGLuhdR7hrkAU07XPH4QR6TPrSTuftJilzC3mqcv5
+   cHoVLZ4QmONIISidOqz8rVts4T8piqFvObvvym70xHMyJ8lVIfcMLFalG
+   oOWWS6tST3zkL9sjTZo32yOFbr5ro8D3BZ9uXDwRQnWuVnsV+3cBB79VK
+   yMlHCRBdHJ0U3vCCsscEymChhgfNQkQ/hRrAYhG4WXF7ZN4H2rNAYo22l
+   ZQsxPbH3lBZyq9Uic1og/lhDEM8lhSe1Q/izKhAfbYOEgbgYbAnTHBTl9
+   GYXi0g/zsGI5NhnRU1plKCvuM1Opalv6fk2v270HeJZGwLdcMKc9HMHYr
+   w==;
+X-CSE-ConnectionGUID: z8gV0NzHS5KmEZ4ph/Df/Q==
+X-CSE-MsgGUID: mgKjNYs4Rw2iJN3UEwcA1g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="29430415"
+X-IronPort-AV: E=Sophos;i="6.07,165,1708416000"; 
+   d="scan'208";a="29430415"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 14:27:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,165,1708416000"; 
+   d="scan'208";a="48055763"
+Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 29 Mar 2024 14:27:07 -0700
+Received: from kbuild by be39aa325d23 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rqJke-0003e2-1y;
+	Fri, 29 Mar 2024 21:27:04 +0000
+Date: Sat, 30 Mar 2024 05:26:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [paulmck-rcu:dev.2024.03.27b 61/69] lib/cmpxchg-emu.c:24:11:
+ warning: no previous prototype for 'cmpxchg_emu_u8'
+Message-ID: <202403300508.Xz7XNp71-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,225 +59,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202403292322.bwguovKc-lkp@intel.com>
 
-On Fri, Mar 29, 2024 at 11:08:05PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.03.27b
-> head:   786fab3085d764055a78edb54023420920344333
-> commit: 032d9f7e1213171131a3f45c5c532ea5d11b4b9a [66/69] riscv: Emulate one-byte and two-byte cmpxchg
-> config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240329/202403292322.bwguovKc-lkp@intel.com/config)
-> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 79ba323bdd0843275019e16b6e9b35133677c514)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403292322.bwguovKc-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403292322.bwguovKc-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from arch/riscv/kernel/asm-offsets.c:10:
->    In file included from include/linux/mm.h:7:
->    In file included from include/linux/gfp.h:7:
->    In file included from include/linux/mmzone.h:8:
->    In file included from include/linux/spinlock.h:63:
->    In file included from include/linux/lockdep.h:14:
->    In file included from include/linux/smp.h:13:
->    In file included from include/linux/cpumask.h:14:
->    In file included from include/linux/atomic.h:80:
-> >> include/linux/atomic/atomic-arch-fallback.h:2026:9: error: call to undeclared function 'cmpxchg_emu_u8'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     2026 |         return raw_cmpxchg(&v->counter, old, new);
->          |                ^
->    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded from macro 'raw_cmpxchg'
->       55 | #define raw_cmpxchg arch_cmpxchg
->          |                     ^
->    arch/riscv/include/asm/cmpxchg.h:367:23: note: expanded from macro 'arch_cmpxchg'
->      367 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
->          |                              ^
->    arch/riscv/include/asm/cmpxchg.h:328:11: note: expanded from macro '__cmpxchg'
->      328 |                 __ret = cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
->          |                         ^
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.03.27b
+head:   786fab3085d764055a78edb54023420920344333
+commit: b48ffed4c636b96d2be7a93806870772ce34961f [61/69] csky: Emulate one-byte and two-byte cmpxchg
+config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20240330/202403300508.Xz7XNp71-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240330/202403300508.Xz7XNp71-lkp@intel.com/reproduce)
 
-Again, good catch!  And again, does the diff at the end of this email
-fix things for you?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403300508.Xz7XNp71-lkp@intel.com/
 
-							Thanx, Paul
+All warnings (new ones prefixed by >>):
 
->    In file included from arch/riscv/kernel/asm-offsets.c:10:
->    In file included from include/linux/mm.h:7:
->    In file included from include/linux/gfp.h:7:
->    In file included from include/linux/mmzone.h:8:
->    In file included from include/linux/spinlock.h:63:
->    In file included from include/linux/lockdep.h:14:
->    In file included from include/linux/smp.h:13:
->    In file included from include/linux/cpumask.h:14:
->    In file included from include/linux/atomic.h:80:
-> >> include/linux/atomic/atomic-arch-fallback.h:2026:9: error: call to undeclared function 'cmpxchg_emu_u16'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded from macro 'raw_cmpxchg'
->       55 | #define raw_cmpxchg arch_cmpxchg
->          |                     ^
->    arch/riscv/include/asm/cmpxchg.h:367:23: note: expanded from macro 'arch_cmpxchg'
->      367 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
->          |                              ^
->    arch/riscv/include/asm/cmpxchg.h:332:11: note: expanded from macro '__cmpxchg'
->      332 |                 __ret = cmpxchg_emu_u16((volatile u16 *)__ptr, __old, __new); \
->          |                         ^
->    In file included from arch/riscv/kernel/asm-offsets.c:10:
->    In file included from include/linux/mm.h:7:
->    In file included from include/linux/gfp.h:7:
->    In file included from include/linux/mmzone.h:8:
->    In file included from include/linux/spinlock.h:63:
->    In file included from include/linux/lockdep.h:14:
->    In file included from include/linux/smp.h:13:
->    In file included from include/linux/cpumask.h:14:
->    In file included from include/linux/atomic.h:80:
->    include/linux/atomic/atomic-arch-fallback.h:2055:9: error: call to undeclared function 'cmpxchg_emu_u8'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     2055 |         return raw_cmpxchg_acquire(&v->counter, old, new);
->          |                ^
->    include/linux/atomic/atomic-arch-fallback.h:65:29: note: expanded from macro 'raw_cmpxchg_acquire'
->       65 | #define raw_cmpxchg_acquire arch_cmpxchg_acquire
->          |                             ^
->    arch/riscv/include/asm/cmpxchg.h:263:23: note: expanded from macro 'arch_cmpxchg_acquire'
->      263 |         (__typeof__(*(ptr))) __cmpxchg_acquire((ptr),                   \
->          |                              ^
->    arch/riscv/include/asm/cmpxchg.h:224:11: note: expanded from macro '__cmpxchg_acquire'
->      224 |                 __ret = cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
->          |                         ^
->    In file included from arch/riscv/kernel/asm-offsets.c:10:
->    In file included from include/linux/mm.h:7:
->    In file included from include/linux/gfp.h:7:
->    In file included from include/linux/mmzone.h:8:
->    In file included from include/linux/spinlock.h:63:
->    In file included from include/linux/lockdep.h:14:
->    In file included from include/linux/smp.h:13:
->    In file included from include/linux/cpumask.h:14:
->    In file included from include/linux/atomic.h:80:
->    include/linux/atomic/atomic-arch-fallback.h:2055:9: error: call to undeclared function 'cmpxchg_emu_u16'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->    include/linux/atomic/atomic-arch-fallback.h:65:29: note: expanded from macro 'raw_cmpxchg_acquire'
->       65 | #define raw_cmpxchg_acquire arch_cmpxchg_acquire
->          |                             ^
->    arch/riscv/include/asm/cmpxchg.h:263:23: note: expanded from macro 'arch_cmpxchg_acquire'
->      263 |         (__typeof__(*(ptr))) __cmpxchg_acquire((ptr),                   \
->          |                              ^
->    arch/riscv/include/asm/cmpxchg.h:228:11: note: expanded from macro '__cmpxchg_acquire'
->      228 |                 __ret = cmpxchg_emu_u16((volatile u16 *)__ptr, __old, __new); \
->          |                         ^
->    In file included from arch/riscv/kernel/asm-offsets.c:10:
->    In file included from include/linux/mm.h:7:
->    In file included from include/linux/gfp.h:7:
->    In file included from include/linux/mmzone.h:8:
->    In file included from include/linux/spinlock.h:63:
->    In file included from include/linux/lockdep.h:14:
->    In file included from include/linux/smp.h:13:
->    In file included from include/linux/cpumask.h:14:
->    In file included from include/linux/atomic.h:80:
->    include/linux/atomic/atomic-arch-fallback.h:2083:9: error: call to undeclared function 'cmpxchg_emu_u8'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     2083 |         return raw_cmpxchg_release(&v->counter, old, new);
->          |                ^
->    include/linux/atomic/atomic-arch-fallback.h:77:29: note: expanded from macro 'raw_cmpxchg_release'
->       77 | #define raw_cmpxchg_release arch_cmpxchg_release
->          |                             ^
->    arch/riscv/include/asm/cmpxchg.h:315:23: note: expanded from macro 'arch_cmpxchg_release'
->      315 |         (__typeof__(*(ptr))) __cmpxchg_release((ptr),                   \
->          |                              ^
->    arch/riscv/include/asm/cmpxchg.h:276:11: note: expanded from macro '__cmpxchg_release'
->      276 |                 __ret = cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
->          |                         ^
->    In file included from arch/riscv/kernel/asm-offsets.c:10:
->    In file included from include/linux/mm.h:7:
->    In file included from include/linux/gfp.h:7:
->    In file included from include/linux/mmzone.h:8:
->    In file included from include/linux/spinlock.h:63:
->    In file included from include/linux/lockdep.h:14:
->    In file included from include/linux/smp.h:13:
->    In file included from include/linux/cpumask.h:14:
->    In file included from include/linux/atomic.h:80:
->    include/linux/atomic/atomic-arch-fallback.h:2083:9: error: call to undeclared function 'cmpxchg_emu_u16'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->    include/linux/atomic/atomic-arch-fallback.h:77:29: note: expanded from macro 'raw_cmpxchg_release'
->       77 | #define raw_cmpxchg_release arch_cmpxchg_release
->          |                             ^
->    arch/riscv/include/asm/cmpxchg.h:315:23: note: expanded from macro 'arch_cmpxchg_release'
->      315 |         (__typeof__(*(ptr))) __cmpxchg_release((ptr),                   \
->          |                              ^
->    arch/riscv/include/asm/cmpxchg.h:280:11: note: expanded from macro '__cmpxchg_release'
->      280 |                 __ret = cmpxchg_emu_u16((volatile u16 *)__ptr, __old, __new); \
->          |                         ^
->    In file included from arch/riscv/kernel/asm-offsets.c:10:
->    In file included from include/linux/mm.h:7:
->    In file included from include/linux/gfp.h:7:
->    In file included from include/linux/mmzone.h:8:
->    In file included from include/linux/spinlock.h:63:
->    In file included from include/linux/lockdep.h:14:
->    In file included from include/linux/smp.h:13:
->    In file included from include/linux/cpumask.h:14:
->    In file included from include/linux/atomic.h:80:
->    include/linux/atomic/atomic-arch-fallback.h:2108:9: error: call to undeclared function 'cmpxchg_emu_u8'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     2108 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
-> 
-> 
-> vim +/cmpxchg_emu_u8 +2026 include/linux/atomic/atomic-arch-fallback.h
-> 
-> 37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  2000  
-> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2001  /**
-> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2002   * raw_atomic_cmpxchg() - atomic compare and exchange with full ordering
-> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2003   * @v: pointer to atomic_t
-> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2004   * @old: int value to compare with
-> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2005   * @new: int value to assign
-> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2006   *
-> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2007   * If (@v == @old), atomically updates @v to @new with full ordering.
-> 6dfee110c6cc7a include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2024-02-09  2008   * Otherwise, @v is not modified and relaxed ordering is provided.
-> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2009   *
-> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2010   * Safe to use in noinstr code; prefer atomic_cmpxchg() elsewhere.
-> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2011   *
-> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2012   * Return: The original value of @v.
-> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2013   */
-> 37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  2014  static __always_inline int
-> 9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2015  raw_atomic_cmpxchg(atomic_t *v, int old, int new)
-> 37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  2016  {
-> 1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2017  #if defined(arch_atomic_cmpxchg)
-> 1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2018  	return arch_atomic_cmpxchg(v, old, new);
-> 1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2019  #elif defined(arch_atomic_cmpxchg_relaxed)
-> 37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  2020  	int ret;
-> 37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  2021  	__atomic_pre_full_fence();
-> 9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2022  	ret = arch_atomic_cmpxchg_relaxed(v, old, new);
-> 37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  2023  	__atomic_post_full_fence();
-> 37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  2024  	return ret;
-> 9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2025  #else
-> 9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05 @2026  	return raw_cmpxchg(&v->counter, old, new);
-> d12157efc8e083 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2027  #endif
-> 1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2028  }
-> d12157efc8e083 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  2029  
-> 
-> :::::: The code at line 2026 was first introduced by commit
-> :::::: 9257959a6e5b4fca6fc8e985790bff62c2046f20 locking/atomic: scripts: restructure fallback ifdeffery
-> 
-> :::::: TO: Mark Rutland <mark.rutland@arm.com>
-> :::::: CC: Peter Zijlstra <peterz@infradead.org>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+>> lib/cmpxchg-emu.c:24:11: warning: no previous prototype for 'cmpxchg_emu_u8' [-Wmissing-prototypes]
+      24 | uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new)
+         |           ^~~~~~~~~~~~~~
+>> lib/cmpxchg-emu.c:51:11: warning: no previous prototype for 'cmpxchg_emu_u16' [-Wmissing-prototypes]
+      51 | uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new)
+         |           ^~~~~~~~~~~~~~~
 
-commit da6c6c7a30e5a5015a2995b2119053ca3d12b7a2
-Author: Paul E. McKenney <paulmck@kernel.org>
-Date:   Fri Mar 29 11:50:32 2024 -0700
 
-    squash! riscv: Emulate one-byte and two-byte cmpxchg
-    
-    [ paulmck: Apply kernel test robot feedback. ]
-    
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+vim +/cmpxchg_emu_u8 +24 lib/cmpxchg-emu.c
 
-diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
-index b4cbea69ad2c8..a5b377481785c 100644
---- a/arch/riscv/include/asm/cmpxchg.h
-+++ b/arch/riscv/include/asm/cmpxchg.h
-@@ -9,6 +9,7 @@
- #include <linux/bug.h>
- 
- #include <asm/fence.h>
-+#include <linux/cmpxchg-emu.h>
- 
- #define __xchg_relaxed(ptr, new, size)					\
- ({									\
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  22  
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  23  /* Emulate one-byte cmpxchg() in terms of 4-byte cmpxchg. */
+0bbce967f3ecfc Paul E. McKenney 2024-03-17 @24  uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new)
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  25  {
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  26  	u32 *p32 = (u32 *)(((uintptr_t)p) & ~0x3);
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  27  	int i = ((uintptr_t)p) & 0x3;
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  28  	union u8_32 old32;
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  29  	union u8_32 new32;
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  30  	u32 ret;
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  31  
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  32  	old32.w = READ_ONCE(*p32);
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  33  	do {
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  34  		if (old32.b[i] != old)
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  35  			return old32.b[i];
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  36  		new32.w = old32.w;
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  37  		new32.b[i] = new;
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  38  		instrument_atomic_read_write(p, 1);
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  39  		ret = data_race(cmpxchg(p32, old32.w, new32.w));
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  40  	} while (ret != old32.w);
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  41  	return old;
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  42  }
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  43  EXPORT_SYMBOL_GPL(cmpxchg_emu_u8);
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  44  
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  45  union u16_32 {
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  46  	u16 h[2];
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  47  	u32 w;
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  48  };
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  49  
+0bbce967f3ecfc Paul E. McKenney 2024-03-17  50  /* Emulate two-byte cmpxchg() in terms of 4-byte cmpxchg. */
+0bbce967f3ecfc Paul E. McKenney 2024-03-17 @51  uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new)
 
+:::::: The code at line 24 was first introduced by commit
+:::::: 0bbce967f3ecfc6da1e7e8756b0d398e791b8dee lib: Add one-byte and two-byte cmpxchg() emulation functions
+
+:::::: TO: Paul E. McKenney <paulmck@kernel.org>
+:::::: CC: Paul E. McKenney <paulmck@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
