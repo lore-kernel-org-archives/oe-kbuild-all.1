@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEAA8529E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 12:07:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CE012F5BB;
+	Fri, 29 Mar 2024 12:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711714073; cv=none; b=e3XmlYF3PazUSnM8AJJWpLU980bOKTcqT4jtMT2YFOHF/uXHnR12fMuKVVRSz56LSZKb2sosfyrcjtsvNLzkF83bCTCO1kLVIGxh8y+2aO1MWbgjXmODvaJ4+lQg3T3XK1XUil4tI+dTBnfvU2WI99gckQaGGhzgHfTQvrIL64E=
+	t=1711715395; cv=none; b=IeaK2lWOaEv+y5/7P30Sdj9mcyaPTGLxOKR6cN0ULdMVvOodX4p3ph43+tBNsY0tRXrnD1aKEIV9Ua8gtQJ/XVDBNHE+lQETqo4iRdV/GkdNYwJitLAGHg0VZo2wMOiLRtYnz3mjnnXE1mlV6FFIXHWoquHhvy6qYPMVKFXQ+n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711714073; c=relaxed/simple;
-	bh=oj/jfgsVbBSjnzcksD9nnMW5zInQgkSw1MhcxfnlJ+s=;
+	s=arc-20240116; t=1711715395; c=relaxed/simple;
+	bh=zlL5uCtBWx/cCQnKA8sr/TvI8oSJzMNDzwGE/gDiQuA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QAIKsz37V8U3j5X4o+9A5+lrxvkhDA9rNQL71VvdFWOMTGgvcjzkIOD44OQQAa9hKngmK3nN1Y9/VxdnRHkyQVoIrBF7nYibf17CFZwvXW4CoFzp4HsJl9DsRFP8V3s9IxaboiE702PB0ZfEQv/44LLb38JbJAi2CQ7Jx+JJgxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a1f3Qpmf; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=JFUwoR0Mj+06Gzp5VamICCigrqcsbqQadFwWiTNueET+XFJwzzMHTff/AIcGqTJEjVLK9CQ2knA4hXMIS3VnGrk24HcyPamX5z2Z2I1arZb3hq03T1DXynUGPFajLyvW/jOYgOleqvkijK1hQM6PyjkuozlcGJ43Z1akRwrT8uQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OSMAQknI; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a1f3Qpmf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OSMAQknI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711714071; x=1743250071;
+  t=1711715394; x=1743251394;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oj/jfgsVbBSjnzcksD9nnMW5zInQgkSw1MhcxfnlJ+s=;
-  b=a1f3QpmfKp4DsnC+0GwnBcqRddSS2NWlnz8zJBZYB7tAxPfgyntbgpdb
-   XLpyKmmh8hfFHK6+cT2h+L+BDhVbKfPnk1jD4WOSpYU7S1TcV0eL/kCNQ
-   EaJtERyeh/Ky3wlb4CoZiEJkKLPgR5yaCncDieQrenQutaWBn5uAl8+o/
-   2US7Z3jh3nrOzgKFojaopL2p/b2HzncGIVc9YCDUqdKFtw+Il+7AnaipP
-   IsXldi0nQfoB8ZDDHIFqd8npVdhcD4P13IsGI000ZDw5lvvi7Azqex3Ex
-   eNt3iLA1d70RDBkntraiAvyGdvALEkjd2dzO0mpcncol53uzdv84kYhBt
-   w==;
-X-CSE-ConnectionGUID: 2B7FVKF2Q7qhhP7CozOLhg==
-X-CSE-MsgGUID: CyGaRMxGT6CLkFufwI8uOA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="6734601"
+  bh=zlL5uCtBWx/cCQnKA8sr/TvI8oSJzMNDzwGE/gDiQuA=;
+  b=OSMAQknIKmKzezaQsyGyPKMJroFM98dhiYVMTjEoibC4UoXwzKE/rCdP
+   InvBboEwHHbg1HAZpRXWiwgnqxj576ULid8TqXHP8YqhzJ4Fa3hAMor6J
+   1dYHD2hwonBL7g05f7QZEG/ALvZ1EHkcTn3M4FLDpegMlKEalkdvC4Mpt
+   8epVzJwEvRIqngS4+EU4SQF9MxooVs8rrvkaxrhZ3LZ1J9ve2DOCv3q2b
+   DvzVhveI+dRLVp4FhZGnEZOMvOlXMIJ7o8oUmuBwwk6JkkIrii3/YdGZG
+   t84uB2CfwTkPn8wpkLoxIvDS87Bs7DDuyCuKYoFfmBvwpa7cMpOdW2m0z
+   g==;
+X-CSE-ConnectionGUID: pzpAf/cRQECJXT85mAc24Q==
+X-CSE-MsgGUID: zD/4NJnUR+u8sJ0lIG1DKg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="9858832"
 X-IronPort-AV: E=Sophos;i="6.07,164,1708416000"; 
-   d="scan'208";a="6734601"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 05:07:50 -0700
+   d="scan'208";a="9858832"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 05:29:53 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,164,1708416000"; 
-   d="scan'208";a="17023112"
+   d="scan'208";a="17426697"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 29 Mar 2024 05:07:49 -0700
+  by orviesa006.jf.intel.com with ESMTP; 29 Mar 2024 05:29:50 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rqB1O-00039y-1a;
-	Fri, 29 Mar 2024 12:07:46 +0000
-Date: Fri, 29 Mar 2024 20:07:37 +0800
+	id 1rqBMh-0003BC-1E;
+	Fri, 29 Mar 2024 12:29:47 +0000
+Date: Fri, 29 Mar 2024 20:29:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Eric Dumazet <edumazet@google.com>,
 	"David S . Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	eric.dumazet@gmail.com, Eric Dumazet <edumazet@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, eric.dumazet@gmail.com,
+	Eric Dumazet <edumazet@google.com>
 Subject: Re: [PATCH net-next 6/8] net: rps: change
  input_queue_tail_incr_save()
-Message-ID: <202403291901.lqImStGD-lkp@intel.com>
+Message-ID: <202403292036.FloftiJL-lkp@intel.com>
 References: <20240328170309.2172584-7-edumazet@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -76,29 +77,105 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/net-move-kic
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/20240328170309.2172584-7-edumazet%40google.com
 patch subject: [PATCH net-next 6/8] net: rps: change input_queue_tail_incr_save()
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240329/202403291901.lqImStGD-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403291901.lqImStGD-lkp@intel.com/reproduce)
+config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20240329/202403292036.FloftiJL-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403292036.FloftiJL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403291901.lqImStGD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403292036.FloftiJL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/core/dev.c: In function 'enqueue_to_backlog':
->> net/core/dev.c:4819:24: error: implicit declaration of function 'rps_input_queue_tail_incr' [-Werror=implicit-function-declaration]
-    4819 |                 tail = rps_input_queue_tail_incr(sd);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~
->> net/core/dev.c:4823:17: error: implicit declaration of function 'rps_input_queue_tail_save' [-Werror=implicit-function-declaration]
-    4823 |                 rps_input_queue_tail_save(qtail, tail);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/dev.c: In function 'flush_backlog':
->> net/core/dev.c:5901:25: error: implicit declaration of function 'rps_input_queue_head_incr' [-Werror=implicit-function-declaration]
-    5901 |                         rps_input_queue_head_incr(sd);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from net/core/dev.c:89:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from net/core/dev.c:89:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from net/core/dev.c:89:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> net/core/dev.c:4819:10: error: call to undeclared function 'rps_input_queue_tail_incr'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                   tail = rps_input_queue_tail_incr(sd);
+                          ^
+>> net/core/dev.c:4823:3: error: call to undeclared function 'rps_input_queue_tail_save'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                   rps_input_queue_tail_save(qtail, tail);
+                   ^
+>> net/core/dev.c:5901:4: error: call to undeclared function 'rps_input_queue_head_incr'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                           rps_input_queue_head_incr(sd);
+                           ^
+   net/core/dev.c:5910:4: error: call to undeclared function 'rps_input_queue_head_incr'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                           rps_input_queue_head_incr(sd);
+                           ^
+   net/core/dev.c:6038:4: error: call to undeclared function 'rps_input_queue_head_incr'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                           rps_input_queue_head_incr(sd);
+                           ^
+   net/core/dev.c:11452:3: error: call to undeclared function 'rps_input_queue_head_incr'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                   rps_input_queue_head_incr(oldsd);
+                   ^
+   net/core/dev.c:11456:3: error: call to undeclared function 'rps_input_queue_head_incr'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                   rps_input_queue_head_incr(oldsd);
+                   ^
+   12 warnings and 7 errors generated.
 
 
 vim +/rps_input_queue_tail_incr +4819 net/core/dev.c
