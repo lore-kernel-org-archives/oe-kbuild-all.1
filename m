@@ -1,127 +1,369 @@
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26DB410976
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 15:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CFC713CF8F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 20:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711725941; cv=none; b=OzHRVHLrKOPucHqwAjdXttYb7eMREgD9tHaqPaDKXAqbDaAE3UCzjDjcJ/YHiL/MM3t8LJP7NZb/16mUHOtcFmjhHoXCDEXRB5kCpgev1Tns0dPWfPMJG6XO/sKOcnpVbZsbcEyAFNJtjAo8QNhbFQN672Qpl/ohpj8nbZ2APvg=
+	t=1711744510; cv=none; b=X1Hbt2VNahJQOLEzzSEIzcP2UDRZocp6h08E0xc8dwM+EvFBJ4uifgQ4gd2rfU/dt1l/Vgm1DY1qgEjFWOzCNL+deDmSIo3Zeu5U9AyH6TSewssAa+fnmgKEOHNQZg3TfW/naG8SogMOICum6sVipqjXHzoV1TvC6y2+V8jpLqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711725941; c=relaxed/simple;
-	bh=xH1hoGeSpmXPBXe+KWKwd5QpoqzOZj/ThNfZrXrxw5U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DmcW174ig9UZfwPSA2Mw0Y817wRxv58LWfwwt981qGo00d5BadV1lYcdJzERmwKSZf5pn/DPnx5W0UpPP2OfKRc7LeqBskGpnGQdeVJp+54eF5nd4ooAWClnQJIbeO6c4DsKcSJpb6lT8DUOHnoKrma/b+YO4xTZn4E1jL7/tbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=IyXRUt8y; arc=none smtp.client-ip=209.85.166.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	s=arc-20240116; t=1711744510; c=relaxed/simple;
+	bh=zf0dGGUtAWMBa6YQqTvJvFSwra34TleOUqknZtJJlUU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KGR0K3Xt32tFuf/bviHU+l+K/lJS+Rt0g1/Bd1ryK+V1TAMV30lxx0x1fF9BZgJfy0/QTnmt4ZwFXMukeBa8VRoC/nBFEhAJfamm5io0RJyRtpUn5GbQuyti1upb39zjTJtwguz6z9vGohIsYpv27YufV/c8afvopA+DVySk4EU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IxODdEnj; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="IyXRUt8y"
-Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-7c8b777ff8bso65203339f.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 08:25:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1711725938; x=1712330738; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5+Y07s43z/z9E4jZbw13GMhxL25Jinp4PnSaPuedD0c=;
-        b=IyXRUt8yUlCVJLG4fQQFBIi7Ac/ixvg5RIOM6TtbcaYwnchPrAGP1U3SOq+cq/ZA1N
-         f+W2IWUQJ4EUzt0ssivUGlo7Nqi6+Bwmkp16wvRbXm7tM3U5jGFPGh+Yo1y2Di5cGJ10
-         91wcM+n4eDYEkFtjx64TuCvKB7xBXBrkB/yLIVBzqeE/XI/I4IW8azXMvquwZ9h3WNVr
-         LnOLnudYYwWHqYztqG/Z5ilVV1qAvyfc0nsqN09T+TEwklo0hN0rZBmOyNpH6KTjozpE
-         qsWxm0eiJpjsw+m3/1kCgh/9F0t7PxczNqyXmS7+vjpL4mSsDUmSMjvX08lst9zgE65S
-         5XDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711725938; x=1712330738;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5+Y07s43z/z9E4jZbw13GMhxL25Jinp4PnSaPuedD0c=;
-        b=mtpRA7hRxTcz+ca90gqjhjRaap/14i9/HFAoihKLTueo/2nLgCSVmFJCpq2BD1Vpv2
-         E8Ww4RncNb7c6bmHdjhiKoM0Udgfv9asLJiCughobcI9MwUzPEXuVMI4AGPNSvNH5EzE
-         at+Bcfs5R3GR0fBbUJ3mXVR6uSL9keEOpiu4Kclu2WNSnZ8MiUFykXXLjXYwiZzTnYiq
-         9Gd9g6XZpsMy7XaQ5gWKeEY95S4C7xiWUoQtnFVdGS+8L++PnQE56qhU0HYZDem1ry2Z
-         XYBK6ok6ikVg56PtvD4WTit1zE5XuokEVWM8EVOxUDhnq3ND+pT3PMtVHHBPXI6VW63g
-         vdCw==
-X-Forwarded-Encrypted: i=1; AJvYcCVv1+f6CRTnlBZ+/6wXDWGj7MI6FRvdN5/2ENILMxxN/5JzKgEv5eDUuc2GhiVsZxNWpAnEI/U0jTfQUhDi3IwtKCkilYCTGWCbb25prg==
-X-Gm-Message-State: AOJu0YyWh6bCBjHzBogaUA34GtrSiLgP8x4ze1imTsxpY2an6S689rcO
-	dDZLA7pXIj9KWZ3pNVyZ1M7D0k86lakaOyGAe1/eBm74JTzHiBGPU4+Osfamoe4=
-X-Google-Smtp-Source: AGHT+IGTHmFJMtzjitlW/EZhM0/IqWw9UWZ41UkgkTbXz6yqKt5UohmlLRIQqRn/7C9tRRnmm8/YMQ==
-X-Received: by 2002:a5e:890b:0:b0:7d0:25d8:bbc4 with SMTP id k11-20020a5e890b000000b007d025d8bbc4mr2549154ioj.18.1711725938269;
-        Fri, 29 Mar 2024 08:25:38 -0700 (PDT)
-Received: from [100.64.0.1] ([170.85.6.190])
-        by smtp.gmail.com with ESMTPSA id v11-20020a6b610b000000b007d037ccff6bsm1071206iob.44.2024.03.29.08.25.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Mar 2024 08:25:37 -0700 (PDT)
-Message-ID: <3a2329e3-4006-4484-8e36-af11d8830b3f@sifive.com>
-Date: Fri, 29 Mar 2024 10:25:36 -0500
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IxODdEnj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711744508; x=1743280508;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zf0dGGUtAWMBa6YQqTvJvFSwra34TleOUqknZtJJlUU=;
+  b=IxODdEnjuAqccM1Hgsw18efx5/8V9qEAD+aNnsiCY1uFjQAqVT/hGhW/
+   SqayYatyVzd2XkSoUMYvELOTQMqchffIxZ2UVolvTJz2toqAtZUfJuddZ
+   V1lhgoXkDcTnB8b3uunUzqZeocCRDdAc7CoWjKMtJKvchbZ6+RgesnkGv
+   IDKpNycS8Vmqqa36jaw4eL9ScOgiQKeuUdRTyT9hnv6isdCRim7U7DFvH
+   ijXtKU6l+jWeh/dh4er5BnNrLQfpgGpBfp2Vo4mc7ivh3fc3xQFGXhqbP
+   IjcbiTnFqpPAgx13ZxWJu5W3oNqGZXVeP0qIE5FPG54W6kPOhzmNZ8p2y
+   w==;
+X-CSE-ConnectionGUID: Kl9JBvi6SFuyjLhxmGjzBQ==
+X-CSE-MsgGUID: 5WekjWavQq+/CR9fbdvQDQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="7052363"
+X-IronPort-AV: E=Sophos;i="6.07,165,1708416000"; 
+   d="scan'208";a="7052363"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 13:35:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,165,1708416000"; 
+   d="scan'208";a="48045871"
+Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 29 Mar 2024 13:35:06 -0700
+Received: from kbuild by be39aa325d23 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rqIwJ-0003bC-0A;
+	Fri, 29 Mar 2024 20:35:03 +0000
+Date: Sat, 30 Mar 2024 04:34:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-fix-classmap-add-trace 64/64]
+ include/linux/dynamic_debug.h:271:28: error: 'struct _ddebug' has no member
+ named 'ctrl'
+Message-ID: <202403300431.RczcBci8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [akpm-mm:mm-nonmm-unstable 53/62]
- lib/raid6/recov_neon_inner.c:7:10: fatal error: 'arm_neon.h' file not found
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Christoph Hellwig <hch@lst.de>, kernel test robot <lkp@intel.com>
-References: <202403291210.ioK7bfPA-lkp@intel.com>
- <20240329152053.GA2647510@dev-arch.thelio-3990X>
-From: Samuel Holland <samuel.holland@sifive.com>
-Content-Language: en-US
-In-Reply-To: <20240329152053.GA2647510@dev-arch.thelio-3990X>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 2024-03-29 10:20 AM, Nathan Chancellor wrote:
-> On Fri, Mar 29, 2024 at 12:27:57PM +0800, kernel test robot wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
->> head:   b065e14a3960a495216a032e6d383c104147c9ef
->> commit: aa73a95380b4ef76ccf00344b777d0d415026b7b [53/62] lib/raid6: use CC_FLAGS_FPU for NEON CFLAGS
->> config: arm-randconfig-002-20240329 (https://download.01.org/0day-ci/archive/20240329/202403291210.ioK7bfPA-lkp@intel.com/config)
->> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 79ba323bdd0843275019e16b6e9b35133677c514)
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403291210.ioK7bfPA-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202403291210.ioK7bfPA-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>>> lib/raid6/recov_neon_inner.c:7:10: fatal error: 'arm_neon.h' file not found
->>        7 | #include <arm_neon.h>
->>          |          ^~~~~~~~~~~~
->>    1 error generated.
-> 
-> Looks like the CFLAGS for recov_neon_inner.o got lost. This resolves it
-> for me.
+tree:   https://github.com/jimc/linux.git dd-fix-classmap-add-trace
+head:   9cf8914e3a113c16ba8cd3da48422401f20cfc33
+commit: 3341029059d1eb4ef9a6b48d5c2075e3f694daaf [64/64] dyndbg: grind out ctrl
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240330/202403300431.RczcBci8-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240330/202403300431.RczcBci8-lkp@intel.com/reproduce)
 
-Right. I fixed this in v4:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403300431.RczcBci8-lkp@intel.com/
 
-https://lore.kernel.org/linux-kernel/20240329072441.591471-7-samuel.holland@sifive.com/
+All errors (new ones prefixed by >>):
 
-Regards,
-Samuel
+   In file included from include/linux/array_size.h:5,
+                    from include/linux/kernel.h:16,
+                    from drivers/usb/phy/phy.c:7:
+   drivers/usb/phy/phy.c: In function 'usb_get_phy':
+>> include/linux/dynamic_debug.h:271:28: error: 'struct _ddebug' has no member named 'ctrl'
+     271 |         unlikely(descriptor.ctrl.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:289:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     289 |         if (DYNAMIC_DEBUG_BRANCH(id))                           \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:314:9: note: in expansion of macro '__dynamic_func_call_cls'
+     314 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:316:9: note: in expansion of macro '_dynamic_func_call_cls'
+     316 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:335:9: note: in expansion of macro '_dynamic_func_call'
+     335 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
+     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/usb/phy/phy.c:502:17: note: in expansion of macro 'pr_debug'
+     502 |                 pr_debug("PHY: unable to find transceiver of type %s\n",
+         |                 ^~~~~~~~
+   drivers/usb/phy/phy.c: In function 'devm_usb_get_phy_by_node':
+>> include/linux/dynamic_debug.h:271:28: error: 'struct _ddebug' has no member named 'ctrl'
+     271 |         unlikely(descriptor.ctrl.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:289:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     289 |         if (DYNAMIC_DEBUG_BRANCH(id))                           \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:314:9: note: in expansion of macro '__dynamic_func_call_cls'
+     314 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:316:9: note: in expansion of macro '_dynamic_func_call_cls'
+     316 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:339:9: note: in expansion of macro '_dynamic_func_call'
+     339 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/usb/phy/phy.c:545:17: note: in expansion of macro 'dev_dbg'
+     545 |                 dev_dbg(dev, "failed to allocate memory for devres\n");
+         |                 ^~~~~~~
+   drivers/usb/phy/phy.c: In function 'devm_usb_get_phy_by_phandle':
+>> include/linux/dynamic_debug.h:271:28: error: 'struct _ddebug' has no member named 'ctrl'
+     271 |         unlikely(descriptor.ctrl.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:289:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     289 |         if (DYNAMIC_DEBUG_BRANCH(id))                           \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:314:9: note: in expansion of macro '__dynamic_func_call_cls'
+     314 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:316:9: note: in expansion of macro '_dynamic_func_call_cls'
+     316 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:339:9: note: in expansion of macro '_dynamic_func_call'
+     339 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/usb/phy/phy.c:601:17: note: in expansion of macro 'dev_dbg'
+     601 |                 dev_dbg(dev, "device does not have a device node entry\n");
+         |                 ^~~~~~~
+>> include/linux/dynamic_debug.h:271:28: error: 'struct _ddebug' has no member named 'ctrl'
+     271 |         unlikely(descriptor.ctrl.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:289:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     289 |         if (DYNAMIC_DEBUG_BRANCH(id))                           \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:314:9: note: in expansion of macro '__dynamic_func_call_cls'
+     314 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:316:9: note: in expansion of macro '_dynamic_func_call_cls'
+     316 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:339:9: note: in expansion of macro '_dynamic_func_call'
+     339 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/usb/phy/phy.c:607:17: note: in expansion of macro 'dev_dbg'
+     607 |                 dev_dbg(dev, "failed to get %s phandle in %pOF node\n", phandle,
+         |                 ^~~~~~~
+--
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from drivers/usb/phy/phy-generic.c:14:
+   drivers/usb/phy/phy-generic.c: In function 'usb_phy_gen_create_phy':
+>> include/linux/dynamic_debug.h:271:28: error: 'struct _ddebug' has no member named 'ctrl'
+     271 |         unlikely(descriptor.ctrl.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:289:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     289 |         if (DYNAMIC_DEBUG_BRANCH(id))                           \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:314:9: note: in expansion of macro '__dynamic_func_call_cls'
+     314 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:316:9: note: in expansion of macro '_dynamic_func_call_cls'
+     316 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:339:9: note: in expansion of macro '_dynamic_func_call'
+     339 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/usb/phy/phy-generic.c:251:17: note: in expansion of macro 'dev_dbg'
+     251 |                 dev_dbg(dev, "Can't get phy clock: %ld\n",
+         |                 ^~~~~~~
+--
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/init.h:5,
+                    from include/linux/io.h:10,
+                    from drivers/usb/phy/phy-tahvo.c:15:
+   drivers/usb/phy/phy-tahvo.c: In function 'tahvo_usb_set_suspend':
+>> include/linux/dynamic_debug.h:271:28: error: 'struct _ddebug' has no member named 'ctrl'
+     271 |         unlikely(descriptor.ctrl.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:289:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     289 |         if (DYNAMIC_DEBUG_BRANCH(id))                           \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:314:9: note: in expansion of macro '__dynamic_func_call_cls'
+     314 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:316:9: note: in expansion of macro '_dynamic_func_call_cls'
+     316 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:339:9: note: in expansion of macro '_dynamic_func_call'
+     339 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/usb/phy/phy-tahvo.c:180:9: note: in expansion of macro 'dev_dbg'
+     180 |         dev_dbg(&tu->pt_dev->dev, "%s\n", __func__);
+         |         ^~~~~~~
+--
+   In file included from include/linux/array_size.h:5,
+                    from include/linux/kernel.h:16,
+                    from drivers/usb/phy/phy-gpio-vbus-usb.c:8:
+   drivers/usb/phy/phy-gpio-vbus-usb.c: In function 'gpio_vbus_irq':
+>> include/linux/dynamic_debug.h:271:28: error: 'struct _ddebug' has no member named 'ctrl'
+     271 |         unlikely(descriptor.ctrl.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:289:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     289 |         if (DYNAMIC_DEBUG_BRANCH(id))                           \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:314:9: note: in expansion of macro '__dynamic_func_call_cls'
+     314 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:316:9: note: in expansion of macro '_dynamic_func_call_cls'
+     316 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:339:9: note: in expansion of macro '_dynamic_func_call'
+     339 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/usb/phy/phy-gpio-vbus-usb.c:153:9: note: in expansion of macro 'dev_dbg'
+     153 |         dev_dbg(&pdev->dev, "VBUS %s (gadget: %s)\n",
+         |         ^~~~~~~
+   drivers/usb/phy/phy-gpio-vbus-usb.c: In function 'gpio_vbus_set_peripheral':
+>> include/linux/dynamic_debug.h:271:28: error: 'struct _ddebug' has no member named 'ctrl'
+     271 |         unlikely(descriptor.ctrl.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:289:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     289 |         if (DYNAMIC_DEBUG_BRANCH(id))                           \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:314:9: note: in expansion of macro '__dynamic_func_call_cls'
+     314 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:316:9: note: in expansion of macro '_dynamic_func_call_cls'
+     316 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:339:9: note: in expansion of macro '_dynamic_func_call'
+     339 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/usb/phy/phy-gpio-vbus-usb.c:176:17: note: in expansion of macro 'dev_dbg'
+     176 |                 dev_dbg(&pdev->dev, "unregistering gadget '%s'\n",
+         |                 ^~~~~~~
+>> include/linux/dynamic_debug.h:271:28: error: 'struct _ddebug' has no member named 'ctrl'
+     271 |         unlikely(descriptor.ctrl.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:289:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     289 |         if (DYNAMIC_DEBUG_BRANCH(id))                           \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:314:9: note: in expansion of macro '__dynamic_func_call_cls'
+     314 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:316:9: note: in expansion of macro '_dynamic_func_call_cls'
+     316 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:339:9: note: in expansion of macro '_dynamic_func_call'
+     339 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/usb/phy/phy-gpio-vbus-usb.c:193:9: note: in expansion of macro 'dev_dbg'
+     193 |         dev_dbg(&pdev->dev, "registered gadget '%s'\n", gadget->name);
+         |         ^~~~~~~
+   drivers/usb/phy/phy-gpio-vbus-usb.c: In function 'gpio_vbus_probe':
+>> include/linux/dynamic_debug.h:271:28: error: 'struct _ddebug' has no member named 'ctrl'
+     271 |         unlikely(descriptor.ctrl.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:289:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     289 |         if (DYNAMIC_DEBUG_BRANCH(id))                           \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:314:9: note: in expansion of macro '__dynamic_func_call_cls'
+     314 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:316:9: note: in expansion of macro '_dynamic_func_call_cls'
+     316 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:339:9: note: in expansion of macro '_dynamic_func_call'
+     339 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/usb/phy/phy-gpio-vbus-usb.c:310:17: note: in expansion of macro 'dev_dbg'
+     310 |                 dev_dbg(&pdev->dev, "can't get vbus_draw regulator, err: %ld\n",
+         |                 ^~~~~~~
 
-> diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
-> index c71984e04c4d..0e88bfe6445b 100644
-> --- a/lib/raid6/Makefile
-> +++ b/lib/raid6/Makefile
-> @@ -60,10 +60,12 @@ CFLAGS_neon1.o += $(CC_FLAGS_FPU)
->  CFLAGS_neon2.o += $(CC_FLAGS_FPU)
->  CFLAGS_neon4.o += $(CC_FLAGS_FPU)
->  CFLAGS_neon8.o += $(CC_FLAGS_FPU)
-> +CFLAGS_recov_neon_inner.o += $(CC_FLAGS_FPU)
->  CFLAGS_REMOVE_neon1.o += $(CC_FLAGS_NO_FPU)
->  CFLAGS_REMOVE_neon2.o += $(CC_FLAGS_NO_FPU)
->  CFLAGS_REMOVE_neon4.o += $(CC_FLAGS_NO_FPU)
->  CFLAGS_REMOVE_neon8.o += $(CC_FLAGS_NO_FPU)
-> +CFLAGS_REMOVE_recov_neon_inner.o += $(CC_FLAGS_NO_FPU)
->  targets += neon1.c neon2.c neon4.c neon8.c
->  $(obj)/neon%.c: $(src)/neon.uc $(src)/unroll.awk FORCE
->  	$(call if_changed,unroll)
 
+vim +271 include/linux/dynamic_debug.h
+
+9049fc745300c5 Jason Baron     2016-08-03  265  
+9049fc745300c5 Jason Baron     2016-08-03  266  #ifdef DEBUG
+9049fc745300c5 Jason Baron     2016-08-03  267  #define DYNAMIC_DEBUG_BRANCH(descriptor) \
+94c6ab312b15d1 Łukasz Bartosik 2024-02-11  268  	likely(descriptor.ctrl.flags & _DPRINTK_FLAGS_ENABLED)
+9049fc745300c5 Jason Baron     2016-08-03  269  #else
+9049fc745300c5 Jason Baron     2016-08-03  270  #define DYNAMIC_DEBUG_BRANCH(descriptor) \
+94c6ab312b15d1 Łukasz Bartosik 2024-02-11 @271  	unlikely(descriptor.ctrl.flags & _DPRINTK_FLAGS_ENABLED)
+9049fc745300c5 Jason Baron     2016-08-03  272  #endif
+9049fc745300c5 Jason Baron     2016-08-03  273  
+
+:::::: The code at line 271 was first introduced by commit
+:::::: 94c6ab312b15d10bcdda044613388bb1bf8ae406 dyndbg: move flags field to a new structure
+
+:::::: TO: Łukasz Bartosik <ukaszb@chromium.org>
+:::::: CC: Jim Cromie <jim.cromie@gmail.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
