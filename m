@@ -1,39 +1,42 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3EC13C9AF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 22:16:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FF613E6A7;
+	Fri, 29 Mar 2024 23:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711750620; cv=none; b=NZ0uB6ALEQXqRq5MnvItDSx8Mance4b7w9VZLlaj19IAOuH3wBLvxOGgZfUdaaaWSFI5NDgFowHm69Kqzj63t0N03x+ww67nzJskwxENBnAdbxavhl0r8UolF9KhNSLmRHSPErMSkxmul6V6qd8gVcnJsqCk7wEVSobq9uLeHNA=
+	t=1711753691; cv=none; b=oxOdEwa+gnrpgYLLObtn2z21LNMTQBuys0Ny65PyY4yc2Toq7skdSlXmZbkChM05ZlooMFZeTME9Nk6w4VLmwlekr4wCfcxn4f+m61CiZKQpaKiFL87qKUzE9ecxo3ZDmuk1WIYwMSftsogybn4iGhji4Lzep0YhgPa4fPShkIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711750620; c=relaxed/simple;
-	bh=iZv0j6t6Lga/eXvcEE/d2R52mnUt7+4NVy5w3ZpHZzg=;
+	s=arc-20240116; t=1711753691; c=relaxed/simple;
+	bh=ec2F1zO1pAITVaGxx6NZ6eWrWbWDN/2TSFFAHJU4qx8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vFxYRMSSVNFq87yQFRsNJpHaxu2y3cwVeBIq9zsvCvO4LUXLZ5+DpkxpGkK5IfjqTk52i/vDTdHt5Oxt/2MMM+UFHCFxWeCbUzkte1Kb6l+Pts/cmuE4hHrIp9Gqhm7B/uuIUDudjDtKheNt7nD00KKB8oZHgpSlRaG26zSfTUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rD5VuI68; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=fxk1hD7IrEFvjZBRco+0Qcj371tiachoK24OOlfO+HmNASWjCnzrBP97ZYTIno/bZKhX/IvDQDbA6nN/AtNhFG5oiXNEwqJfTWohMFNY6LukDIMjXhxM5BuLdka3nOXxlXY4uSTYTug+rAhKXZHwDTxkoF20gtrcSQ8zxhZXigM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MumSkYzI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rD5VuI68"
-Date: Fri, 29 Mar 2024 18:16:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1711750615;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rBOVDYfShto2J4n29ZrfXDkmY+2t5MMCGeRcYvKAsRk=;
-	b=rD5VuI68UlNvmUYsxdQdih2vNy7Xy5fmr0VS6xRq0vSYQkfMWM8H3huTN4qMPD263KyAwJ
-	3Objqg/L34e9RNi/oMJuMCGDUTxuqo7MBF+oPOD8tDngWyEPfH1eG3+sQyz5DmmHGLVm7+
-	ZtHQq4NeXTXiAUnO8MV7EsEU58RyeMc=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [bcachefs:bcachefs-testing 174/177] fs/bcachefs/error.c:360:1-7:
- preceding lock on line 227 (fwd)
-Message-ID: <xqdtx4h2vo6zpefemastzv754s4lheufqjl5lzzvmt6zxyvpuo@pfrvzhaljm77>
-References: <98178839-fcdc-b1b2-4228-a6f372c39e86@inria.fr>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MumSkYzI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B6A4C433C7;
+	Fri, 29 Mar 2024 23:08:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711753691;
+	bh=ec2F1zO1pAITVaGxx6NZ6eWrWbWDN/2TSFFAHJU4qx8=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=MumSkYzIEUc4uqNypRrvdB+KwOeTyHmCJvkXY/a5xogU7N+K4Up/4hzWtKyZA8UgJ
+	 rS4aTYzf+gLu4426YqfYE7YExEOZ3xkxYyUCT1BOW/4RNiXJwwDqRWMwgTwZTQrQo4
+	 qzCxw6CVdRm06Nm1/pWR2qRC1C6tu+zf5idv5sHJXGbngV2wPkMcUe2HBGpN2CduCb
+	 loqXWmtA60F8abfnBzW6vwFkCd8d5kGjfORVKADznCPGLAB/3qLJj4iWFG1X77LqJu
+	 WB9+3k1MjObb3cr3a7RW2yZG3V6++WLUvQpFc1TlEgCvOQxk+jbyEQvK0IT9kKxYo7
+	 6uzdeQwIpenSg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id B5D40CE120B; Fri, 29 Mar 2024 16:08:10 -0700 (PDT)
+Date: Fri, 29 Mar 2024 16:08:10 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [paulmck-rcu:dev.2024.03.27b 61/69] lib/cmpxchg-emu.c:24:11:
+ warning: no previous prototype for 'cmpxchg_emu_u8'
+Message-ID: <e4b7ecac-719e-40f5-80b5-7a1c63e72b33@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202403300508.Xz7XNp71-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -42,14 +45,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <98178839-fcdc-b1b2-4228-a6f372c39e86@inria.fr>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <202403300508.Xz7XNp71-lkp@intel.com>
 
-On Fri, Mar 29, 2024 at 06:34:51AM -0400, Julia Lawall wrote:
-> Hello,
+On Sat, Mar 30, 2024 at 05:26:12AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.03.27b
+> head:   786fab3085d764055a78edb54023420920344333
+> commit: b48ffed4c636b96d2be7a93806870772ce34961f [61/69] csky: Emulate one-byte and two-byte cmpxchg
+> config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20240330/202403300508.Xz7XNp71-lkp@intel.com/config)
+> compiler: csky-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240330/202403300508.Xz7XNp71-lkp@intel.com/reproduce)
 > 
-> Line 245 is missing an unlock.
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403300508.Xz7XNp71-lkp@intel.com/
 > 
-> julia
+> All warnings (new ones prefixed by >>):
+> 
+> >> lib/cmpxchg-emu.c:24:11: warning: no previous prototype for 'cmpxchg_emu_u8' [-Wmissing-prototypes]
+>       24 | uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new)
+>          |           ^~~~~~~~~~~~~~
+> >> lib/cmpxchg-emu.c:51:11: warning: no previous prototype for 'cmpxchg_emu_u16' [-Wmissing-prototypes]
+>       51 | uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new)
+>          |           ^~~~~~~~~~~~~~~
 
-Thanks!
+Again, good catch, and thank you for the testing!  Does the patch at the
+end of this email fix things for you?
+
+							Thanx, Paul
+
+> vim +/cmpxchg_emu_u8 +24 lib/cmpxchg-emu.c
+> 
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  22  
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  23  /* Emulate one-byte cmpxchg() in terms of 4-byte cmpxchg. */
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17 @24  uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new)
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  25  {
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  26  	u32 *p32 = (u32 *)(((uintptr_t)p) & ~0x3);
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  27  	int i = ((uintptr_t)p) & 0x3;
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  28  	union u8_32 old32;
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  29  	union u8_32 new32;
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  30  	u32 ret;
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  31  
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  32  	old32.w = READ_ONCE(*p32);
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  33  	do {
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  34  		if (old32.b[i] != old)
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  35  			return old32.b[i];
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  36  		new32.w = old32.w;
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  37  		new32.b[i] = new;
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  38  		instrument_atomic_read_write(p, 1);
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  39  		ret = data_race(cmpxchg(p32, old32.w, new32.w));
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  40  	} while (ret != old32.w);
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  41  	return old;
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  42  }
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  43  EXPORT_SYMBOL_GPL(cmpxchg_emu_u8);
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  44  
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  45  union u16_32 {
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  46  	u16 h[2];
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  47  	u32 w;
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  48  };
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  49  
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17  50  /* Emulate two-byte cmpxchg() in terms of 4-byte cmpxchg. */
+> 0bbce967f3ecfc Paul E. McKenney 2024-03-17 @51  uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new)
+> 
+> :::::: The code at line 24 was first introduced by commit
+> :::::: 0bbce967f3ecfc6da1e7e8756b0d398e791b8dee lib: Add one-byte and two-byte cmpxchg() emulation functions
+> 
+> :::::: TO: Paul E. McKenney <paulmck@kernel.org>
+> :::::: CC: Paul E. McKenney <paulmck@kernel.org>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+
+commit a326496eb88936b291adea830c2e59e74ca1d373
+Author: Paul E. McKenney <paulmck@kernel.org>
+Date:   Fri Mar 29 16:06:45 2024 -0700
+
+    squash! lib: Add one-byte and two-byte cmpxchg() emulation functions
+    
+    [ paulmck: Apply kernel test robot feedback. ]
+    
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+
+diff --git a/lib/cmpxchg-emu.c b/lib/cmpxchg-emu.c
+index abdd451767220..a88c4f3c88430 100644
+--- a/lib/cmpxchg-emu.c
++++ b/lib/cmpxchg-emu.c
+@@ -14,6 +14,7 @@
+ #include <linux/panic.h>
+ #include <linux/bug.h>
+ #include <asm-generic/rwonce.h>
++#include <linux/cmpxchg-emu.h>
+ 
+ union u8_32 {
+ 	u8 b[4];
