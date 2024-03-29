@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F7313B59A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 21:27:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725B013342A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 21:57:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711747631; cv=none; b=lY0X8Lei1H/cHaJUdaTq20bzWYjr77qZ2HsNtEo15mva3gQCRVh6zWJ5nYSH4dtD7YoqexRhNIkqqizRmPQ20jdarmV+WlGyiQRV5k7VsrmsBv4jXoeYSpPWvBdLpD/PCXOdSrmv2aFBP6Wua6cmHl1HtchT/oDCVxvuBdwj83A=
+	t=1711749432; cv=none; b=aBFAV3eIPJxfaIVjqDOTI7Grqu1XtqQ6ZvEjWgWL1khMHAKuP7fSFitKLp4phSXa0ZXGAJCUmvKPITLOWEV64TtSRzVIkbsQEqTXI/Ie/M5ieVIDUYztE0amoLDK3NeVny1XECapkSzVNH6zlc7YnQDRrMd5hSfKhf1gC++ACPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711747631; c=relaxed/simple;
-	bh=LetMHBPBQXz6ixIsInVumoaExZfUK1GJsZvW08MI+m4=;
+	s=arc-20240116; t=1711749432; c=relaxed/simple;
+	bh=sZaLgnS1uXyJTgiVDKhf8rID+mfzb77umu1vOiy92do=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n7+q8dTwwsUShJejdUj8iBBmZD3+xQ/3FkvUoF5jHyttzN+jHf5Y8fZY9hEK0fC/lhjuDUihn1xiHF1yzS5VoH1oLorGefe1pFpGrDzQiC/h1AS1+3HoBz3AJ1QKG2wGEUM40tSGMPL5g6ULqhGalMag2wcvCrwkTJ9pVenMtnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EEwfdHvc; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=FCdkCsUVNcDeECJSiTzR/rrHb8XLNoMItvaTiuWUxLq1epUcCJ0sIzEquUCnFxiFdzk+u6KI0VxKrTX2OPyvI/yOAYfhNCteUfDyPbVIbvZhgzihcJSDJb8yweHIPokZQfQ3RwIY8bruqyzNsS+all7Nx+OM/0H0Wd4DLkQzrnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T/sANYc0; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EEwfdHvc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T/sANYc0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711747629; x=1743283629;
+  t=1711749430; x=1743285430;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LetMHBPBQXz6ixIsInVumoaExZfUK1GJsZvW08MI+m4=;
-  b=EEwfdHvcpPJhrPRqGLuhdR7hrkAU07XPH4QR6TPrSTuftJilzC3mqcv5
-   cHoVLZ4QmONIISidOqz8rVts4T8piqFvObvvym70xHMyJ8lVIfcMLFalG
-   oOWWS6tST3zkL9sjTZo32yOFbr5ro8D3BZ9uXDwRQnWuVnsV+3cBB79VK
-   yMlHCRBdHJ0U3vCCsscEymChhgfNQkQ/hRrAYhG4WXF7ZN4H2rNAYo22l
-   ZQsxPbH3lBZyq9Uic1og/lhDEM8lhSe1Q/izKhAfbYOEgbgYbAnTHBTl9
-   GYXi0g/zsGI5NhnRU1plKCvuM1Opalv6fk2v270HeJZGwLdcMKc9HMHYr
-   w==;
-X-CSE-ConnectionGUID: z8gV0NzHS5KmEZ4ph/Df/Q==
-X-CSE-MsgGUID: mgKjNYs4Rw2iJN3UEwcA1g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="29430415"
-X-IronPort-AV: E=Sophos;i="6.07,165,1708416000"; 
-   d="scan'208";a="29430415"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 14:27:09 -0700
+  bh=sZaLgnS1uXyJTgiVDKhf8rID+mfzb77umu1vOiy92do=;
+  b=T/sANYc0oWuiPnxXP3HVOUyOs6f2UQNuwwrLUenzajbvEYIKiGDYpSvx
+   9MfgQog30WdOwVU+WurbviejRF2l7eT6fCXueCFfM2+plfCa7lB77RCh7
+   KmQi1YZW27mnSuMF/uCF/MySfIyiYum46NgfjbrKEOGFOLN5h2sHkLDEW
+   KK8BkVck8V00NYJmrP4GVYZF8bMgC/VebuT2dJrewxSXFTXyimBq6OXrV
+   PEqThfJkUPR+z32WAP9syGmxLsHpm6L9Co0gzpP4b9jqBbZ5234Veda61
+   XIHcbR6u0jWxyMpBgzpQPEDx2Vy782FhFBPxxp0reU1MFuHzNvivm2vIo
+   g==;
+X-CSE-ConnectionGUID: eYmYssDeQnyYJMVIGx9fzg==
+X-CSE-MsgGUID: dfIllPVXTMu4wYB9FDQviQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="6885704"
+X-IronPort-AV: E=Sophos;i="6.07,166,1708416000"; 
+   d="scan'208";a="6885704"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 14:57:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,165,1708416000"; 
-   d="scan'208";a="48055763"
+X-IronPort-AV: E=Sophos;i="6.07,166,1708416000"; 
+   d="scan'208";a="21824335"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 29 Mar 2024 14:27:07 -0700
+  by orviesa004.jf.intel.com with ESMTP; 29 Mar 2024 14:57:08 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rqJke-0003e2-1y;
-	Fri, 29 Mar 2024 21:27:04 +0000
-Date: Sat, 30 Mar 2024 05:26:12 +0800
+	id 1rqKDh-0003fM-0s;
+	Fri, 29 Mar 2024 21:57:05 +0000
+Date: Sat, 30 Mar 2024 05:56:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [paulmck-rcu:dev.2024.03.27b 61/69] lib/cmpxchg-emu.c:24:11:
- warning: no previous prototype for 'cmpxchg_emu_u8'
-Message-ID: <202403300508.Xz7XNp71-lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-fix-classmap-add-trace 64/64] lib/dynamic_debug.c:663:30:
+ warning: argument 2 null where non-null expected
+Message-ID: <202403300501.BxCxq14X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,66 +61,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.03.27b
-head:   786fab3085d764055a78edb54023420920344333
-commit: b48ffed4c636b96d2be7a93806870772ce34961f [61/69] csky: Emulate one-byte and two-byte cmpxchg
-config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20240330/202403300508.Xz7XNp71-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240330/202403300508.Xz7XNp71-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dd-fix-classmap-add-trace
+head:   9cf8914e3a113c16ba8cd3da48422401f20cfc33
+commit: 3341029059d1eb4ef9a6b48d5c2075e3f694daaf [64/64] dyndbg: grind out ctrl
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240330/202403300501.BxCxq14X-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240330/202403300501.BxCxq14X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403300508.Xz7XNp71-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403300501.BxCxq14X-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> lib/cmpxchg-emu.c:24:11: warning: no previous prototype for 'cmpxchg_emu_u8' [-Wmissing-prototypes]
-      24 | uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new)
-         |           ^~~~~~~~~~~~~~
->> lib/cmpxchg-emu.c:51:11: warning: no previous prototype for 'cmpxchg_emu_u16' [-Wmissing-prototypes]
-      51 | uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new)
-         |           ^~~~~~~~~~~~~~~
+   lib/dynamic_debug.c: In function 'ddebug_change':
+>> lib/dynamic_debug.c:663:30: warning: argument 2 null where non-null expected [-Wnonnull]
+     663 |                         if (!memcmp(&new_desc, get_ctrl(dp), sizeof(new_desc)))
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/string.h:61,
+                    from include/linux/bitmap.h:12,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from lib/dynamic_debug.c:17:
+   arch/sparc/include/asm/string.h:38:5: note: in a call to function 'memcmp' declared 'nonnull'
+      38 | int memcmp(const void *,const void *,__kernel_size_t);
+         |     ^~~~~~
 
 
-vim +/cmpxchg_emu_u8 +24 lib/cmpxchg-emu.c
+vim +663 lib/dynamic_debug.c
 
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  22  
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  23  /* Emulate one-byte cmpxchg() in terms of 4-byte cmpxchg. */
-0bbce967f3ecfc Paul E. McKenney 2024-03-17 @24  uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new)
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  25  {
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  26  	u32 *p32 = (u32 *)(((uintptr_t)p) & ~0x3);
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  27  	int i = ((uintptr_t)p) & 0x3;
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  28  	union u8_32 old32;
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  29  	union u8_32 new32;
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  30  	u32 ret;
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  31  
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  32  	old32.w = READ_ONCE(*p32);
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  33  	do {
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  34  		if (old32.b[i] != old)
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  35  			return old32.b[i];
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  36  		new32.w = old32.w;
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  37  		new32.b[i] = new;
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  38  		instrument_atomic_read_write(p, 1);
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  39  		ret = data_race(cmpxchg(p32, old32.w, new32.w));
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  40  	} while (ret != old32.w);
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  41  	return old;
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  42  }
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  43  EXPORT_SYMBOL_GPL(cmpxchg_emu_u8);
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  44  
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  45  union u16_32 {
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  46  	u16 h[2];
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  47  	u32 w;
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  48  };
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  49  
-0bbce967f3ecfc Paul E. McKenney 2024-03-17  50  /* Emulate two-byte cmpxchg() in terms of 4-byte cmpxchg. */
-0bbce967f3ecfc Paul E. McKenney 2024-03-17 @51  uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new)
-
-:::::: The code at line 24 was first introduced by commit
-:::::: 0bbce967f3ecfc6da1e7e8756b0d398e791b8dee lib: Add one-byte and two-byte cmpxchg() emulation functions
-
-:::::: TO: Paul E. McKenney <paulmck@kernel.org>
-:::::: CC: Paul E. McKenney <paulmck@kernel.org>
+   573	
+   574	/*
+   575	 * Search the tables for _ddebug's which match the given `query' and
+   576	 * apply the `flags' and `mask' to them.  Returns number of matching
+   577	 * callsites, normally the same as number of changes.  If verbose,
+   578	 * logs the changes.
+   579	 */
+   580	static int ddebug_change(const struct ddebug_query *query,
+   581				 struct flag_settings *modifiers)
+   582	{
+   583		int i;
+   584		struct ddebug_table *dt;
+   585		unsigned int nfound = 0;
+   586		struct ctrlbuf cbuf, nbuf;
+   587		struct _ddebug new_desc = {0};
+   588		struct ddebug_class_map *map = NULL;
+   589		int __outvar valid_class;
+   590	
+   591		/* search for matching ddebugs */
+   592		list_for_each_entry(dt, &ddebug_tables, link) {
+   593	
+   594			/* match against the module name */
+   595			if (query->module &&
+   596			    !match_wildcard(query->module, dt->mod_name))
+   597				continue;
+   598	
+   599			if (query->class_string) {
+   600				map = ddebug_find_valid_class(dt, query->class_string, &valid_class);
+   601				if (!map)
+   602					continue;
+   603			} else {
+   604				/* constrain query, do not touch class'd callsites */
+   605				valid_class = _DPRINTK_CLASS_DFLT;
+   606			}
+   607	
+   608			for (i = 0; i < dt->num_ddebugs; i++) {
+   609				struct _ddebug *dp = &dt->ddebugs[i];
+   610	
+   611				/* match site against query-class */
+   612				if (dp->class_id != valid_class)
+   613					continue;
+   614	
+   615				/* match against a given label */
+   616				if (query->user_label) {
+   617					int idx	= find_tr_instance(query->user_label);
+   618	
+   619					if (idx < 0)
+   620						continue;
+   621					if (idx != get_trace_dst(dp))
+   622						continue;
+   623				}
+   624	
+   625				/* match against the source filename */
+   626				if (query->filename &&
+   627				    !match_wildcard(query->filename, dp->filename) &&
+   628				    !match_wildcard(query->filename,
+   629						   kbasename(dp->filename)) &&
+   630				    !match_wildcard(query->filename,
+   631						   trim_prefix(dp->filename)))
+   632					continue;
+   633	
+   634				/* match against the function */
+   635				if (query->function &&
+   636				    !match_wildcard(query->function, dp->function))
+   637					continue;
+   638	
+   639				/* match against the format */
+   640				if (query->format) {
+   641					if (*query->format == '^') {
+   642						char *p;
+   643						/* anchored search. match must be at beginning */
+   644						p = strstr(dp->format, query->format+1);
+   645						if (p != dp->format)
+   646							continue;
+   647					} else if (!strstr(dp->format, query->format))
+   648						continue;
+   649				}
+   650	
+   651				/* match against the line number range */
+   652				if (query->first_lineno &&
+   653				    dp->lineno < query->first_lineno)
+   654					continue;
+   655				if (query->last_lineno &&
+   656				    dp->lineno > query->last_lineno)
+   657					continue;
+   658	
+   659				nfound++;
+   660	
+   661				new_desc.flags = (get_flags(dp) & modifiers->mask) | modifiers->flags;
+   662				new_desc.trace_dst = select_tr_dst(modifiers, get_trace_dst(dp));
+ > 663				if (!memcmp(&new_desc, get_ctrl(dp), sizeof(new_desc)))
+   664					continue;
+   665	#ifdef CONFIG_JUMP_LABEL
+   666				if (get_flags(dp) & _DPRINTK_FLAGS_ENABLED) {
+   667					if (!(new_desc.flags & _DPRINTK_FLAGS_ENABLED))
+   668						static_branch_disable(&dp->key.dd_key_true);
+   669				} else if (new_desc.flags & _DPRINTK_FLAGS_ENABLED) {
+   670					static_branch_enable(&dp->key.dd_key_true);
+   671				}
+   672	#endif
+   673				v4pr_info("changed %s:%d [%s]%s %s => %s\n",
+   674					  trim_prefix(dp->filename), dp->lineno,
+   675					  dt->mod_name, dp->function,
+   676					  ddebug_describe_flags(dp, &cbuf),
+   677					  ddebug_describe_flags(&new_desc, &nbuf));
+   678				update_tr_dst(dp, &new_desc);
+   679				set_dest(dp, new_desc.trace_dst);
+   680			}
+   681		}
+   682	
+   683		return nfound;
+   684	}
+   685	
 
 -- 
 0-DAY CI Kernel Test Service
