@@ -1,62 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CE012F5BB;
-	Fri, 29 Mar 2024 12:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3948914387E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 13:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711715395; cv=none; b=IeaK2lWOaEv+y5/7P30Sdj9mcyaPTGLxOKR6cN0ULdMVvOodX4p3ph43+tBNsY0tRXrnD1aKEIV9Ua8gtQJ/XVDBNHE+lQETqo4iRdV/GkdNYwJitLAGHg0VZo2wMOiLRtYnz3mjnnXE1mlV6FFIXHWoquHhvy6qYPMVKFXQ+n0=
+	t=1711719116; cv=none; b=Jbj7B+okl2dPzcarz9Q/3liBd4yeNvYqvsUa2lYcD8V9/drOJ8nSsrK5vxxJnLraGadzYPwVgKUfxyn7bXPPUj/goI/ig2c+qNKXZ4lWjLPA+QtGM7sMUilrukLJWYWmynAqO+DtfIEpPDyCnQIw22Ht2SQ+ArY+NeVRYfU0+0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711715395; c=relaxed/simple;
-	bh=zlL5uCtBWx/cCQnKA8sr/TvI8oSJzMNDzwGE/gDiQuA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JFUwoR0Mj+06Gzp5VamICCigrqcsbqQadFwWiTNueET+XFJwzzMHTff/AIcGqTJEjVLK9CQ2knA4hXMIS3VnGrk24HcyPamX5z2Z2I1arZb3hq03T1DXynUGPFajLyvW/jOYgOleqvkijK1hQM6PyjkuozlcGJ43Z1akRwrT8uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OSMAQknI; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1711719116; c=relaxed/simple;
+	bh=Xaez6yQeQac2NP8yCMeNuVN3Aji3F7qHpPaZpdK8iYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rFdFALilzff3yBlvjAsppJTSCtc6J+wS3IdJhrJa61cv4Q7/fmqJpCTyYCJHtqKg9bv3SkDuJFncA+sK8McIUc0hXZe+H7Qgf7fOpbRBTwh8Sae25wKGNbSRAwjSnuUi2cjYQb7EyLwQ4KzHb6MlX2Z7LCQSgzvYCqSmJqN42E0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OEQRlDsc; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OSMAQknI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OEQRlDsc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711715394; x=1743251394;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zlL5uCtBWx/cCQnKA8sr/TvI8oSJzMNDzwGE/gDiQuA=;
-  b=OSMAQknIKmKzezaQsyGyPKMJroFM98dhiYVMTjEoibC4UoXwzKE/rCdP
-   InvBboEwHHbg1HAZpRXWiwgnqxj576ULid8TqXHP8YqhzJ4Fa3hAMor6J
-   1dYHD2hwonBL7g05f7QZEG/ALvZ1EHkcTn3M4FLDpegMlKEalkdvC4Mpt
-   8epVzJwEvRIqngS4+EU4SQF9MxooVs8rrvkaxrhZ3LZ1J9ve2DOCv3q2b
-   DvzVhveI+dRLVp4FhZGnEZOMvOlXMIJ7o8oUmuBwwk6JkkIrii3/YdGZG
-   t84uB2CfwTkPn8wpkLoxIvDS87Bs7DDuyCuKYoFfmBvwpa7cMpOdW2m0z
-   g==;
-X-CSE-ConnectionGUID: pzpAf/cRQECJXT85mAc24Q==
-X-CSE-MsgGUID: zD/4NJnUR+u8sJ0lIG1DKg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="9858832"
-X-IronPort-AV: E=Sophos;i="6.07,164,1708416000"; 
-   d="scan'208";a="9858832"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 05:29:53 -0700
+  t=1711719114; x=1743255114;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Xaez6yQeQac2NP8yCMeNuVN3Aji3F7qHpPaZpdK8iYc=;
+  b=OEQRlDscyBTffUzSj/XR4/KWpvZhtNpkvTI80c4TyTpKqTVBLNS5CBn9
+   awZVXk6O3mv3133UcNKoDCURKIn5ZK23B7O3sJb5sIu2kA/W/WpqQtysF
+   1pUnrDDLKZ7Fb3/yGZzWwX3KIwZLvmM/q5WywYeQ0Mz6NgyLywL5dkuQh
+   O577Oes7Tk7DTyxfYGINAu45YoMrSZ/LnMMa1kNGwmaehzn/cuLJHRzJu
+   Ums5E5+DFXocw6qj0Zfypz68SxMor+6fv41rANpCRvExxJq5/4HhBezQc
+   AcHrkMSePXSsveiFkqE7KajM57Blz2n57FBLE67dUx5LJfB1RpwUju1r/
+   Q==;
+X-CSE-ConnectionGUID: wqifhoMeRNaMeUvk4hP8Ig==
+X-CSE-MsgGUID: 9qTeSdVrTNaCPU0Ul1MiZA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="17533420"
+X-IronPort-AV: E=Sophos;i="6.07,165,1708416000"; 
+   d="scan'208";a="17533420"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 06:31:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,164,1708416000"; 
-   d="scan'208";a="17426697"
+X-IronPort-AV: E=Sophos;i="6.07,165,1708416000"; 
+   d="scan'208";a="17020589"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 29 Mar 2024 05:29:50 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 29 Mar 2024 06:31:50 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rqBMh-0003BC-1E;
-	Fri, 29 Mar 2024 12:29:47 +0000
-Date: Fri, 29 Mar 2024 20:29:35 +0800
+	id 1rqCKi-0003Dm-2L;
+	Fri, 29 Mar 2024 13:31:48 +0000
+Date: Fri, 29 Mar 2024 21:31:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, eric.dumazet@gmail.com,
-	Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH net-next 6/8] net: rps: change
- input_queue_tail_incr_save()
-Message-ID: <202403292036.FloftiJL-lkp@intel.com>
-References: <20240328170309.2172584-7-edumazet@google.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-fix-classmap-add-trace 20/64]
+ include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+Message-ID: <202403292121.J65vrdhF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,177 +60,446 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240328170309.2172584-7-edumazet@google.com>
 
-Hi Eric,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/net-move-kick_defer_list_purge-to-net-core-dev-h/20240329-011413
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240328170309.2172584-7-edumazet%40google.com
-patch subject: [PATCH net-next 6/8] net: rps: change input_queue_tail_incr_save()
-config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20240329/202403292036.FloftiJL-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403292036.FloftiJL-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dd-fix-classmap-add-trace
+head:   3341029059d1eb4ef9a6b48d5c2075e3f694daaf
+commit: 198c1990e09a81474b7bad0e664cac4c18afa1d7 [20/64] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20240329/202403292121.J65vrdhF-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403292121.J65vrdhF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403292036.FloftiJL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403292121.J65vrdhF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from net/core/dev.c:89:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from net/core/dev.c:89:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from net/core/dev.c:89:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> net/core/dev.c:4819:10: error: call to undeclared function 'rps_input_queue_tail_incr'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   tail = rps_input_queue_tail_incr(sd);
-                          ^
->> net/core/dev.c:4823:3: error: call to undeclared function 'rps_input_queue_tail_save'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   rps_input_queue_tail_save(qtail, tail);
-                   ^
->> net/core/dev.c:5901:4: error: call to undeclared function 'rps_input_queue_head_incr'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           rps_input_queue_head_incr(sd);
-                           ^
-   net/core/dev.c:5910:4: error: call to undeclared function 'rps_input_queue_head_incr'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           rps_input_queue_head_incr(sd);
-                           ^
-   net/core/dev.c:6038:4: error: call to undeclared function 'rps_input_queue_head_incr'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           rps_input_queue_head_incr(sd);
-                           ^
-   net/core/dev.c:11452:3: error: call to undeclared function 'rps_input_queue_head_incr'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   rps_input_queue_head_incr(oldsd);
-                   ^
-   net/core/dev.c:11456:3: error: call to undeclared function 'rps_input_queue_head_incr'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   rps_input_queue_head_incr(oldsd);
-                   ^
-   12 warnings and 7 errors generated.
+   In file included from include/linux/printk.h:564,
+                    from include/asm-generic/bug.h:22,
+                    from arch/sparc/include/asm/bug.h:25,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6,
+                    from include/linux/pagemap.h:8,
+                    from include/drm/ttm/ttm_tt.h:30,
+                    from drivers/gpu/drm/xe/xe_bo.h:9,
+                    from drivers/gpu/drm/xe/xe_bo.c:6:
+   drivers/gpu/drm/xe/xe_bo.c: In function 'xe_gem_create_ioctl':
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1888:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1888 |         if (XE_IOCTL_DBG(xe, args->extensions) ||
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1889:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1889 |             XE_IOCTL_DBG(xe, args->pad[0] || args->pad[1] || args->pad[2]) ||
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1890:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1890 |             XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1894:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1894 |         if (XE_IOCTL_DBG(xe, (args->placement & ~xe->info.mem_region_mask) ||
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1898:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1898 |         if (XE_IOCTL_DBG(xe, args->flags &
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1904:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1904 |         if (XE_IOCTL_DBG(xe, args->handle))
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1907:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1907 |         if (XE_IOCTL_DBG(xe, !args->size))
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1910:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1910 |         if (XE_IOCTL_DBG(xe, args->size > SIZE_MAX))
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1913:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1913 |         if (XE_IOCTL_DBG(xe, args->size & ~PAGE_MASK))
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1926:21: note: in expansion of macro 'XE_IOCTL_DBG'
+    1926 |                 if (XE_IOCTL_DBG(xe, !(bo_flags & XE_BO_CREATE_VRAM_MASK)))
+         |                     ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1932:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1932 |         if (XE_IOCTL_DBG(xe, !args->cpu_caching ||
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1936:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1936 |         if (XE_IOCTL_DBG(xe, bo_flags & XE_BO_CREATE_VRAM_MASK &&
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1940:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1940 |         if (XE_IOCTL_DBG(xe, bo_flags & XE_BO_SCANOUT_BIT &&
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1946:21: note: in expansion of macro 'XE_IOCTL_DBG'
+    1946 |                 if (XE_IOCTL_DBG(xe, !vm))
+         |                     ^~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c: In function 'xe_gem_mmap_offset_ioctl':
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1993:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1993 |         if (XE_IOCTL_DBG(xe, args->extensions) ||
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1994:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1994 |             XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:1997:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    1997 |         if (XE_IOCTL_DBG(xe, args->flags))
+         |             ^~~~~~~~~~~~
+>> include/linux/dynamic_debug.h:271:58: error: expected expression before 'do'
+     271 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:298:9: note: in expansion of macro '__dynamic_func_call_cls'
+     298 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:423:9: note: in expansion of macro '_dynamic_func_call_cls'
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro 'drm_dbg'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:2001:13: note: in expansion of macro 'XE_IOCTL_DBG'
+    2001 |         if (XE_IOCTL_DBG(xe, !gem_obj))
+         |             ^~~~~~~~~~~~
+>> drivers/gpu/drm/xe/xe_bo.c:1989:27: warning: unused variable 'xe' [-Wunused-variable]
+    1989 |         struct xe_device *xe = to_xe_device(dev);
+         |                           ^~
+..
 
 
-vim +/rps_input_queue_tail_incr +4819 net/core/dev.c
+vim +/do +271 include/linux/dynamic_debug.h
 
-  4781	
-  4782	/*
-  4783	 * enqueue_to_backlog is called to queue an skb to a per CPU backlog
-  4784	 * queue (may be a remote CPU queue).
-  4785	 */
-  4786	static int enqueue_to_backlog(struct sk_buff *skb, int cpu,
-  4787				      unsigned int *qtail)
-  4788	{
-  4789		enum skb_drop_reason reason;
-  4790		struct softnet_data *sd;
-  4791		unsigned long flags;
-  4792		unsigned int qlen;
-  4793		int max_backlog;
-  4794		u32 tail;
-  4795	
-  4796		reason = SKB_DROP_REASON_DEV_READY;
-  4797		if (!netif_running(skb->dev))
-  4798			goto bad_dev;
-  4799	
-  4800		reason = SKB_DROP_REASON_CPU_BACKLOG;
-  4801		sd = &per_cpu(softnet_data, cpu);
-  4802	
-  4803		qlen = skb_queue_len_lockless(&sd->input_pkt_queue);
-  4804		max_backlog = READ_ONCE(net_hotdata.max_backlog);
-  4805		if (unlikely(qlen > max_backlog))
-  4806			goto cpu_backlog_drop;
-  4807		backlog_lock_irq_save(sd, &flags);
-  4808		qlen = skb_queue_len(&sd->input_pkt_queue);
-  4809		if (qlen <= max_backlog && !skb_flow_limit(skb, qlen)) {
-  4810			if (!qlen) {
-  4811				/* Schedule NAPI for backlog device. We can use
-  4812				 * non atomic operation as we own the queue lock.
-  4813				 */
-  4814				if (!__test_and_set_bit(NAPI_STATE_SCHED,
-  4815							&sd->backlog.state))
-  4816					napi_schedule_rps(sd);
-  4817			}
-  4818			__skb_queue_tail(&sd->input_pkt_queue, skb);
-> 4819			tail = rps_input_queue_tail_incr(sd);
-  4820			backlog_unlock_irq_restore(sd, &flags);
-  4821	
-  4822			/* save the tail outside of the critical section */
-> 4823			rps_input_queue_tail_save(qtail, tail);
-  4824			return NET_RX_SUCCESS;
-  4825		}
-  4826	
-  4827		backlog_unlock_irq_restore(sd, &flags);
-  4828	
-  4829	cpu_backlog_drop:
-  4830		atomic_inc(&sd->dropped);
-  4831	bad_dev:
-  4832		dev_core_stats_rx_dropped_inc(skb->dev);
-  4833		kfree_skb_reason(skb, reason);
-  4834		return NET_RX_DROP;
-  4835	}
-  4836	
+9049fc745300c5e Jason Baron      2016-08-03  259  
+ca90fca7f7b5183 Jim Cromie       2022-09-04  260  /*
+ca90fca7f7b5183 Jim Cromie       2022-09-04  261   * Factory macros: ($prefix)dynamic_func_call($suffix)
+ca90fca7f7b5183 Jim Cromie       2022-09-04  262   *
+ca90fca7f7b5183 Jim Cromie       2022-09-04  263   * Lower layer (with __ prefix) gets the callsite metadata, and wraps
+ca90fca7f7b5183 Jim Cromie       2022-09-04  264   * the func inside a debug-branch/static-key construct.  Upper layer
+ca90fca7f7b5183 Jim Cromie       2022-09-04  265   * (with _ prefix) does the UNIQUE_ID once, so that lower can ref the
+ca90fca7f7b5183 Jim Cromie       2022-09-04  266   * name/label multiple times, and tie the elements together.
+ca90fca7f7b5183 Jim Cromie       2022-09-04  267   * Multiple flavors:
+ca90fca7f7b5183 Jim Cromie       2022-09-04  268   * (|_cls):	adds in _DPRINT_CLASS_DFLT as needed
+ca90fca7f7b5183 Jim Cromie       2022-09-04  269   * (|_no_desc):	former gets callsite descriptor as 1st arg (for prdbgs)
+ca90fca7f7b5183 Jim Cromie       2022-09-04  270   */
+ca90fca7f7b5183 Jim Cromie       2022-09-04 @271  #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {	\
+ca90fca7f7b5183 Jim Cromie       2022-09-04  272  	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(id, cls, fmt);	\
+47cdd64be4832ff Rasmus Villemoes 2019-03-07  273  	if (DYNAMIC_DEBUG_BRANCH(id))				\
+47cdd64be4832ff Rasmus Villemoes 2019-03-07  274  		func(&id, ##__VA_ARGS__);			\
+e9d376f0fa66bd6 Jason Baron      2009-02-05  275  } while (0)
+ca90fca7f7b5183 Jim Cromie       2022-09-04  276  #define __dynamic_func_call(id, fmt, func, ...)				\
+ca90fca7f7b5183 Jim Cromie       2022-09-04  277  	__dynamic_func_call_cls(id, _DPRINTK_CLASS_DFLT, fmt,		\
+ca90fca7f7b5183 Jim Cromie       2022-09-04  278  				func, ##__VA_ARGS__)
+e9d376f0fa66bd6 Jason Baron      2009-02-05  279  
+
+:::::: The code at line 271 was first introduced by commit
+:::::: ca90fca7f7b51830dfb95bf655210a1c84588f15 dyndbg: add class_id to pr_debug callsites
+
+:::::: TO: Jim Cromie <jim.cromie@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
