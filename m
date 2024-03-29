@@ -1,109 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865FD3FE44
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 08:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD379134BC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 08:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711700447; cv=none; b=Kfa8vhiJ7kU/Do8IxLinhAOHcqpdesGO1/qNIuTYSF+h3c0wvxlz8jkBzQ3QGmq/CbfPQLbSpyWdo1z0RYtuWcPHovsBxIr5xm6x4Z70vG7XZ+Qe8AicefZmritxqMuvio0+XbyLprX+K8ByeWbeuP+J1AL7LAK1WTGr6DuH+Gk=
+	t=1711701592; cv=none; b=WaNmk9Lsd9R680NbxdbrXj9YRJh1YHr2DHnMpR1tKzoUgvrhh3HIJ3Zs6nDgxrI+zq+6AeAnO68QFzSLgc8WmId4KtywAhsDy7h7kTRvP3WBB2hncu2N8HkPOEaY0i5bWcu6nnY/Hj3EW9z/moZOjvm19QJBureXfFb+Ao0u22w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711700447; c=relaxed/simple;
-	bh=euIDv/bMlAG8q7AVNBouQvwowUNC5bhdLSI7uMJKXkY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ibcQIbeVkpHvKfl5FnPEG3WEqQIUgN9OXrd2CEofGiuxZx96A1Uu5Mb4086ZQgh8KWDyqnwaZwQ7NJaMEUDFWW5VXu9hm53LHhcjlKXQX7XNCGQRVyyxg40dzZ8K4Wpzbjh2Znb9X/24+r2VKAhU0IYE06rk2Uw0cdmYZgUWCi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YzTuR6+2; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YzTuR6+2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711700445; x=1743236445;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=euIDv/bMlAG8q7AVNBouQvwowUNC5bhdLSI7uMJKXkY=;
-  b=YzTuR6+2d5bxeifZBFgF/ZAD6PLLTfLPXQ+2Y6in4wJxsT5r100PULGn
-   Pb/qAuHnbi2xh/r4Uz3NX+uMTDeej9Snl3d8W0W7btVpgDo/Xm/Hotzdl
-   23OT+ZlagUhV2qRJ6WYI2o7cKfMMtKW/PbfHCaTIlSyfGmgxR4vbqw/cv
-   5gL9I+v8GycQKFH53fORkL4J2rXtboACFyy2Fb0dur6il7ByU2MCh7RjF
-   L9kATAenCM//KnJvIYIJ1dKUYbmt6K8llBr+3xCRJwWsTiSsjG9cpvCA/
-   yfEM8w4JIpHBjQ97pjn9yFVgMvW2IAcroQ4NpfgNG4IM+QDWPJlDsBVH6
-   w==;
-X-CSE-ConnectionGUID: P5qm1cW5Rzym6nqWwH9GoA==
-X-CSE-MsgGUID: 5+CNC+6pRC6jSpYimBYPxQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="10698884"
-X-IronPort-AV: E=Sophos;i="6.07,164,1708416000"; 
-   d="scan'208";a="10698884"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 01:20:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,164,1708416000"; 
-   d="scan'208";a="17369022"
-Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 29 Mar 2024 01:20:41 -0700
-Received: from kbuild by be39aa325d23 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rq7Tb-0002ze-0G;
-	Fri, 29 Mar 2024 08:20:39 +0000
-Date: Fri, 29 Mar 2024 16:20:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lukasz Luba <lukasz.luba@arm.com>, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, rafael@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, lukasz.luba@arm.com,
-	dietmar.eggemann@arm.com, linux-arm-kernel@lists.infradead.org,
-	sboyd@kernel.org, nm@ti.com, linux-samsung-soc@vger.kernel.org,
-	daniel.lezcano@linaro.org, viresh.kumar@linaro.org,
-	krzysztof.kozlowski@linaro.org, alim.akhtar@samsung.com,
-	m.szyprowski@samsung.com, mhiramat@kernel.org
-Subject: Re: [PATCH v3 3/4] PM: EM: Add em_dev_update_chip_binning()
-Message-ID: <202403291602.UyrrrpzO-lkp@intel.com>
-References: <20240328085112.3873050-4-lukasz.luba@arm.com>
+	s=arc-20240116; t=1711701592; c=relaxed/simple;
+	bh=GR3x12krJXOXWvG/BBTxB9091fvn1PewsYR2Rzs/mFo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SpnjhXse9LEb8QaBba028gIYbwuTWz6TpBgvoUBT+GgXuEGfUGJ8qcAg5i1bqhvmuMDy1l/TYQnzEckXcBSYEC1NcRDbAEHMsO1fM8oyneArNKKcRK5eRvtZnDqQQAVRuee0nfsIRtOZ9a3pv4qmtVELXx9NPVEQB8LE3CQ/gIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6145a4c79cfso195497b3.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 01:39:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711701589; x=1712306389;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8hkLfUozsxdncT8HuF2o4O/3RcsP/sGMaEklDCCLn1M=;
+        b=MeluE2tzEeDWzq8GXwtLTCnMr2qqKxoMxisQm3+731K8clokVphILKahAEGg8oisAN
+         P9LcDUWKSKAol2XSMca7vyboqG5eL2vBdlnC9O6TPIEeLMYqU6A7oaxJ/zfN2vzVG3SA
+         JwbHpt7IvYuGoz7HwlAOiFCWLfqEkBS7hBtVrIPmz1Fjq07licef3cBLmwkR1tVyDuKI
+         5ZD81tNZN3mbd9ehOs/OqgchDelpmR0i9ImRgyTmhf5WiZasMFnjvMmUCxwhN9s9Upf0
+         HwI4VEeAKQTOMyYvC8/omfi4UGuooX1sEM7EBpVc+3K8i+GL2qukUtEohlZv5E9hfuwI
+         +JXA==
+X-Forwarded-Encrypted: i=1; AJvYcCVMcKKkeercIhte2byZd+CYK40H9SKBtPTHB0qJTu3XkgnfyfRjoKCya9UZZgSfZ3u4gkDhYgNzg8tYfqlyDDdanhtdL9JG7jdlUBuzOw==
+X-Gm-Message-State: AOJu0YxhKXj6icH+jSK1zWr4r+3B67hR7HO51t2K9LDyNqOOGuYSno8O
+	e8gi825YepBz27FezvI1NJdPaAxILLIpdMf/4rdU+YcFvxm90sWQia4o5WAq9sA=
+X-Google-Smtp-Source: AGHT+IEqAK04kOF5/MLvbH9CB537fDwpVGncrvZ2yn0QbsDaG8ZLGbPuUsQANUkw8xNdsQU3P9R/Xw==
+X-Received: by 2002:a81:8844:0:b0:610:ca8b:9a1a with SMTP id y65-20020a818844000000b00610ca8b9a1amr1716984ywf.46.1711701588825;
+        Fri, 29 Mar 2024 01:39:48 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id l25-20020a81ad59000000b006145a494d61sm8399ywk.86.2024.03.29.01.39.48
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Mar 2024 01:39:48 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dcbc6a6808fso1648525276.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 01:39:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUE3mcLhl1OHi0Bb4Km0B0gNyaVyVSsVmgTehkjtBiSmpO4RYnzVofTSTSZ5QGkvqMVNF54wh28Gn+zYgSRu8L9LJ0KTMrAfFokYZ3LRA==
+X-Received: by 2002:a25:83c5:0:b0:dcc:ae3:d8a0 with SMTP id
+ v5-20020a2583c5000000b00dcc0ae3d8a0mr1625934ybm.48.1711701588203; Fri, 29 Mar
+ 2024 01:39:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240328085112.3873050-4-lukasz.luba@arm.com>
+References: <202403291057.uo43Mlue-lkp@intel.com>
+In-Reply-To: <202403291057.uo43Mlue-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 29 Mar 2024 09:39:36 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWPyz+bZ43Nu-iq_K0GnWbtP3oiXCt22cQSyMvMhQ=A2A@mail.gmail.com>
+Message-ID: <CAMuHMdWPyz+bZ43Nu-iq_K0GnWbtP3oiXCt22cQSyMvMhQ=A2A@mail.gmail.com>
+Subject: Re: arch/m68k/include/asm/page.h:10:25: error: 'CONFIG_PAGE_SHIFT'
+ undeclared; did you mean 'CONFIG_LOG_BUF_SHIFT'?
+To: kernel test robot <lkp@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, 
+	linux-m68k <linux-m68k@lists.linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Lukasz,
+On Fri, Mar 29, 2024 at 3:19=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   8d025e2092e29bfd13e56c78e22af25fac83c8ec
+> commit: 5394f1e9b687bcf26595cabf83483e568676128d arch: define CONFIG_PAGE=
+_SIZE_*KB on all architectures
+> date:   3 weeks ago
+> config: m68k-alldefconfig (https://download.01.org/0day-ci/archive/202403=
+29/202403291057.uo43Mlue-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240329/202403291057.uo43Mlue-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403291057.uo43Mlue-lkp=
+@intel.com/
+>
+> All error/warnings (new ones prefixed by >>):
+>
+>    In file included from arch/m68k/include/asm/thread_info.h:6,
+>                     from include/linux/thread_info.h:60,
+>                     from include/asm-generic/preempt.h:5,
+>                     from ./arch/m68k/include/generated/asm/preempt.h:1,
+>                     from include/linux/preempt.h:79,
+>                     from arch/m68k/include/asm/processor.h:11,
+>                     from include/linux/sched.h:13,
+>                     from arch/m68k/kernel/asm-offsets.c:15:
+>    arch/m68k/include/asm/page_mm.h: In function 'virt_to_pfn':
+> >> arch/m68k/include/asm/page.h:10:25: error: 'CONFIG_PAGE_SHIFT' undecla=
+red (first use in this function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
 
-kernel test robot noticed the following build warnings:
+This is the same issue I mentioned to Arnd in IRC before: as no
+platform is enabled, none of the MMU_* options, and thus none of
+the HAVE_PAGE_SIZE_* options, is selected.
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on krzk/for-next clk/clk-next linus/master v6.9-rc1 next-20240328]
-[cannot apply to soc/for-next rafael-pm/acpi-bus rafael-pm/devprop]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Gr{oetje,eeting}s,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukasz-Luba/OPP-OF-Export-dev_opp_pm_calc_power-for-usage-from-EM/20240328-165357
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20240328085112.3873050-4-lukasz.luba%40arm.com
-patch subject: [PATCH v3 3/4] PM: EM: Add em_dev_update_chip_binning()
-config: i386-buildonly-randconfig-002-20240328 (https://download.01.org/0day-ci/archive/20240329/202403291602.UyrrrpzO-lkp@intel.com/config)
-compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403291602.UyrrrpzO-lkp@intel.com/reproduce)
+                        Geert
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403291602.UyrrrpzO-lkp@intel.com/
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-All warnings (new ones prefixed by >>):
-
->> kernel/power/energy_model.c:814: warning: bad line:                                 information is present in the OPPs.
-
-
-vim +814 kernel/power/energy_model.c
-
-   811	
-   812	/**
-   813	 * em_dev_update_chip_binning() - Update Energy Model after the new voltage
- > 814					information is present in the OPPs.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
