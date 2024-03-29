@@ -1,61 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEF440866
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 07:27:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A2040869
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Mar 2024 07:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711697264; cv=none; b=g9edL+xzTQW0IJXMNJqiCxaAy7Q1o5tQ4BzZZ/HX7gA7tduONCI5Ty27IZjbrST7BhqEQbDadqW18ePQy99gXT66+SkShXSdl6BYE3x1TaGuJaXqBgEwIQ0f9NUKJw16se3GH9ZD/LT2xNkbWRtYTPHeE90H/X5bgrMI2NCnOKk=
+	t=1711697927; cv=none; b=qISOp775fgOP9BBlPqmBG1rJvr0TvxNaICkSwfEXdd2DXMuQ1z7YLpq6/g4Dr0D7cPI3W3IHsYGiRXurbi7/TOT7azu3Mo+V863dTQ5QqnCRf3tesEs2ZdrVSrcNIYVb8e150Gm2Qb5dsEhn5qs8B05aF64aSfZt6uv2s6y0OR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711697264; c=relaxed/simple;
-	bh=gA68YKZWnmU308KH7pbZZOpx5P0ZYUuWUuzDeWNs53Y=;
+	s=arc-20240116; t=1711697927; c=relaxed/simple;
+	bh=OtiL7hYIGDS1cNsv/IDRa43LiaIOTcDvq0KTA6y72sA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZlyWtgdllzpPu8lAghLoM3GAJRPWhwzJQiDK8Vhh0TeukIJDUcMznL7Gr4RyXc9V8mtp/1Fbp7B/BcWEXAlbOUEYbUHF5m24s40xjtfNgZOh/TL1PZxVHcEtg4Utk51cKXDi8yJzhKA99zyZKx8hkk+RmRDAdLrZNl0M1VIfTl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mIaO5oMs; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=DaD49fRh+ndr2+G6AtZGRrMEJ2/vSxpXK+EnX/B7MuI2IFlUOZ5f4LH+ibboNkU86dpTELUb2yleFtC2JRV5HaxDaOuQrCO/lH9ifuAawFyd8XjHvPnvpSYY52LuB8YVeTw4xgBbuovzykZppLlDesqG3mvUaxhnQGrcAs4lAOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eyGqzBo4; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mIaO5oMs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eyGqzBo4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711697263; x=1743233263;
+  t=1711697926; x=1743233926;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gA68YKZWnmU308KH7pbZZOpx5P0ZYUuWUuzDeWNs53Y=;
-  b=mIaO5oMsKHSi7IguAcUXQDKVLeDTr+GPcdtmD7/i2qhex1H0x8Cjq5Xt
-   G8PIsAGEXYFvk+XkLsP3xdInfAgZoAxTFBccCZCoF+W31Th9Aqf9/TjVX
-   5jU/52hiAtjzyQJ2zxYO0fQzPUZ+XXJl7WK/C4fe3G5kjRPpe6PZFNtoT
-   Qdee9jP64tEqoWPh6kPkQmFJ1mch7zJ79CgXn1CM9pEf5ejsvwpRbgAaZ
-   06waAYhTgk1vK7leUYsMM3fE3jxBwA2urWM3rqt8M4KINp5JpCzckxqxc
-   W6r+t36gLAZvXjhexImklBCM6FSTIHF3wNkf3yfpkjIN3uwOQT/PCAFj2
-   A==;
-X-CSE-ConnectionGUID: Mp2R3KVPRVO3wDtCqx/wDw==
-X-CSE-MsgGUID: w6KsBvNyR1eU5f+YGTw7bQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="17604810"
+  bh=OtiL7hYIGDS1cNsv/IDRa43LiaIOTcDvq0KTA6y72sA=;
+  b=eyGqzBo4R9dvGgIgaVEzuCralb+Ma5RM9R7Y/TyET5lC33mm1pAxQyjr
+   PXpvYguMyq7USpOmWL/PbqHNQANQp4pqPgHh5MzkjWSVHV4H1RUvX+H/+
+   Qp9lSv0B2O9rxClL0FTxO84UcLiXB5IL81zaTAFHoaeH11H+m/eYy6Rlo
+   e1XCKDI1OM3+zJ3jSSUMwOpBBLv7eNLREJZooeRiVKZ53L3LXxVM+51QX
+   MHHd5iimEjIoeXKMhZlbhoSOlVb3FZ/l+5eRengVCMb4qEHGsSjmIZ9uD
+   GeMfZMGNMnm+yq2lFm3+WiO51FOFaGGBk8Aj/cK3JYpDh7YHLPbHWmjCH
+   g==;
+X-CSE-ConnectionGUID: J3IDV2bcSIy09zUVSytebQ==
+X-CSE-MsgGUID: GVX4CvV/TXuKiEBIPAs51w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="9837897"
 X-IronPort-AV: E=Sophos;i="6.07,164,1708416000"; 
-   d="scan'208";a="17604810"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 00:27:42 -0700
+   d="scan'208";a="9837897"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 00:38:45 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,164,1708416000"; 
-   d="scan'208";a="40053301"
+   d="scan'208";a="16962746"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 29 Mar 2024 00:27:40 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 29 Mar 2024 00:38:40 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rq6eH-0002x0-0z;
-	Fri, 29 Mar 2024 07:27:37 +0000
-Date: Fri, 29 Mar 2024 15:26:57 +0800
+	id 1rq6ov-0002xC-1I;
+	Fri, 29 Mar 2024 07:38:37 +0000
+Date: Fri, 29 Mar 2024 15:37:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kemeng Shi <shikemeng@huaweicloud.com>, tytso@mit.edu,
-	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jack@suse.cz, ojaswin@linux.ibm.com,
-	ritesh.list@gmail.com
-Subject: Re: [PATCH 2/5] ext4: add test_mb_mark_used_cost to estimate cost of
- mb_mark_used
-Message-ID: <202403291544.lxme27eF-lkp@intel.com>
-References: <20240326213823.528302-3-shikemeng@huaweicloud.com>
+To: Lai Jiangshan <jiangshanlai@gmail.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, rcu@vger.kernel.org, x86@kernel.org,
+	Lai Jiangshan <jiangshan.ljs@antgroup.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Uros Bizjak <ubizjak@gmail.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>, Nadav Amit <namit@vmware.com>,
+	Breno Leitao <leitao@debian.org>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	Nikolay Borisov <nik.borisov@suse.com>
+Subject: Re: [PATCH 09/10] x86/rcu: Add rcu_preempt_count
+Message-ID: <202403291422.SOVYexxO-lkp@intel.com>
+References: <20240328075318.83039-10-jiangshanlai@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,64 +76,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240326213823.528302-3-shikemeng@huaweicloud.com>
+In-Reply-To: <20240328075318.83039-10-jiangshanlai@gmail.com>
 
-Hi Kemeng,
+Hi Lai,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tytso-ext4/dev]
-[also build test ERROR on linus/master v6.9-rc1 next-20240328]
+[auto build test ERROR on paulmck-rcu/dev]
+[also build test ERROR on tip/locking/core tip/sched/core tip/x86/asm tip/master linus/master v6.9-rc1 next-20240328]
+[cannot apply to tip/x86/core tip/auto-latest]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/ext4-keep-prefetch_grp-and-nr-consistent/20240326-214754
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20240326213823.528302-3-shikemeng%40huaweicloud.com
-patch subject: [PATCH 2/5] ext4: add test_mb_mark_used_cost to estimate cost of mb_mark_used
-config: x86_64-randconfig-072-20240329 (https://download.01.org/0day-ci/archive/20240329/202403291544.lxme27eF-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403291544.lxme27eF-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lai-Jiangshan/lib-Use-rcu_preempt_depth-to-replace-current-rcu_read_lock_nesting/20240328-155513
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
+patch link:    https://lore.kernel.org/r/20240328075318.83039-10-jiangshanlai%40gmail.com
+patch subject: [PATCH 09/10] x86/rcu: Add rcu_preempt_count
+config: x86_64-randconfig-161-20240328 (https://download.01.org/0day-ci/archive/20240329/202403291422.SOVYexxO-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403291422.SOVYexxO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403291544.lxme27eF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403291422.SOVYexxO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from include/kunit/static_stub.h:18:0,
-                    from fs/ext4/mballoc.c:21:
->> fs/ext4/mballoc-test.c:959:10: error: initializer element is not constant
-             slow_attr),
-             ^
-   include/kunit/test.h:218:13: note: in definition of macro 'KUNIT_CASE_PARAM_ATTR'
-        .attr = attributes, .module_name = KBUILD_MODNAME}
-                ^~~~~~~~~~
-   fs/ext4/mballoc-test.c:959:10: note: (near initialization for 'mbt_test_cases[6].attr')
-             slow_attr),
-             ^
-   include/kunit/test.h:218:13: note: in definition of macro 'KUNIT_CASE_PARAM_ATTR'
-        .attr = attributes, .module_name = KBUILD_MODNAME}
-                ^~~~~~~~~~
+>> arch/x86/kernel/cpu/common.c:1998:3: error: 'struct pcpu_hot' has no member named 'rcu_preempt_count'; did you mean 'preempt_count'?
+    1998 |  .rcu_preempt_count = RCU_PREEMPT_INIT,
+         |   ^~~~~~~~~~~~~~~~~
+         |   preempt_count
+>> arch/x86/kernel/cpu/common.c:1998:23: error: 'RCU_PREEMPT_INIT' undeclared here (not in a function); did you mean 'RCUREF_INIT'?
+    1998 |  .rcu_preempt_count = RCU_PREEMPT_INIT,
+         |                       ^~~~~~~~~~~~~~~~
+         |                       RCUREF_INIT
+>> arch/x86/kernel/cpu/common.c:1998:23: warning: excess elements in struct initializer
+   arch/x86/kernel/cpu/common.c:1998:23: note: (near initialization for 'pcpu_hot')
 
 
-vim +959 fs/ext4/mballoc-test.c
+vim +1998 arch/x86/kernel/cpu/common.c
 
-   950	
-   951	static struct kunit_case mbt_test_cases[] = {
-   952		KUNIT_CASE_PARAM(test_new_blocks_simple, mbt_layouts_gen_params),
-   953		KUNIT_CASE_PARAM(test_free_blocks_simple, mbt_layouts_gen_params),
-   954		KUNIT_CASE_PARAM(test_mb_generate_buddy, mbt_layouts_gen_params),
-   955		KUNIT_CASE_PARAM(test_mb_mark_used, mbt_layouts_gen_params),
-   956		KUNIT_CASE_PARAM(test_mb_free_blocks, mbt_layouts_gen_params),
-   957		KUNIT_CASE_PARAM(test_mark_diskspace_used, mbt_layouts_gen_params),
-   958		KUNIT_CASE_PARAM_ATTR(test_mb_mark_used_cost, mbt_layouts_gen_params,
- > 959				      slow_attr),
-   960		{}
-   961	};
-   962	
+  1993	
+  1994	DEFINE_PER_CPU_ALIGNED(struct pcpu_hot, pcpu_hot) = {
+  1995		.current_task		= &init_task,
+  1996		.preempt_count		= INIT_PREEMPT_COUNT,
+  1997		.top_of_stack		= TOP_OF_INIT_STACK,
+> 1998		.rcu_preempt_count	= RCU_PREEMPT_INIT,
+  1999	};
+  2000	EXPORT_PER_CPU_SYMBOL(pcpu_hot);
+  2001	EXPORT_PER_CPU_SYMBOL(const_pcpu_hot);
+  2002	
 
 -- 
 0-DAY CI Kernel Test Service
