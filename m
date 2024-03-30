@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363CB6FCA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Mar 2024 03:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF82B1C0DE5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Mar 2024 06:21:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711771103; cv=none; b=BQes7WScSA9O7QeBG5iz3P3Zh9pnhuuqs0SFOClKUT1b7sEyinJazzhAi3MoRZqm+oSvdY4jd39UJEpBm5rtthMvqMzcltbOw/hpqQj7018VKggmHpsuFuin+/CR014FJGioDufBmIPsXeWaXh1LaU795n9yWIxv/K0WIHZYZqw=
+	t=1711779685; cv=none; b=CPVVyN9q/VwDJ07zZZhWYg5mXw2jaRTEGuWErngrlC0q23NDav//SUlozxj5a8BsHEEBT3G4tUAqfPueQLPpQ9seEhZn6jGXzGND1n8n7HC5blmQJIg3mpR6dZKpCg9T6wgahILcJeJoQgQCY1QGwT0g/5jorESxrcTJ+pGCV5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711771103; c=relaxed/simple;
-	bh=+1r0KuPuLBo2r548nWnxoAcgxrG2gmAGvuQwZou/czA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cmvRK+HupfkWQA7LHy7MW5zQJSNcrdTMm65JLFF7hPYTStZMijQqkDnSkgtV438VvIMQxWEX7pTD25Q0M+i6BxM1VIkzUTUjYbsvLWRt3y8Fx/p4MFyknbbRLsqm/G2pn9Ov7Qu4d+DcZD8tAiFHk1VwId7BRRhFkkHBqxCRYnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Emfy5Sqo; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1711779685; c=relaxed/simple;
+	bh=g5KGxZez6UEMPtcbXTzqDFuf9u7N5NEmWhkO3ToUTzA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NVBtp2Vg9I6+oVy5aM67jd3gyNmZQhMCQ1TiM/oqo/8gpcOvvuWXDPLi4YFkQKtH8+PMI02gJUkitwX+8qpuk7/voCx9yUIDPsOMlMayrjRJEjd5+1UtyTWbU8qeG1VMyHqSZnWssPGqvAnyexZEGWVz3BoMU8xHswa089fQgBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EQdRplXy; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Emfy5Sqo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EQdRplXy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711771102; x=1743307102;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+1r0KuPuLBo2r548nWnxoAcgxrG2gmAGvuQwZou/czA=;
-  b=Emfy5SqoQSrjQrk8Qkp3SjXVExlOrmi0YaPbnXG8tzKV8EcgbLU0teLY
-   /SozqdZqJnYcRHTKyiNzx3nOx6sfk3o7z1jH3fHPpoPBHXsbGppbm8GKh
-   CULIaFUkybhVvzNDJ0sXWjfZqrW+bCBUlxsD/ednK1r0yKN3sGpt6oQak
-   GxUSsEBsR8i/10y4Ps8qNpjuIwbjimDPqyV3vYjngO1jLgiUty0xeyUHT
-   2IYIHfmcLLF/OvpEkUPFQ/hRMGJumKP9z8jzyC36eeJo/jk3v7ixV1S46
-   ojXxNXa4gCoAEuhPXStfv88qXq5/uqt+lowp/TN8nwQjiUilKtOkCoSGE
+  t=1711779683; x=1743315683;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=g5KGxZez6UEMPtcbXTzqDFuf9u7N5NEmWhkO3ToUTzA=;
+  b=EQdRplXyMwsWQXbOtCytBZVa6RMCYpwaV7XPIrIF1Ui0IKIuXoqmaair
+   gvBbKzn96UAJpD47rMTYR68S7pT7gyA+6mR/W3XYMvC3xtr9jRVTkee46
+   sK/72CUbTU8971phnXc7KeD6j0mpTcX9VuPYVh2IgGjFBujr8AqZGzAzI
+   R0OZYnvu8gyuZHJPipQmquMPWugWWcnrhFVhqyrNydD+fNzoRVYsm+bit
+   BmlxkTmfp8uaDlDYW3uGVApUw97CS+BmQ6YSpsqaVpX+dCnH7XJK3hq4i
+   JtbpvJtFTRfT76WvPtbyoayLad99TYfFMjvUj4/hTff1gw/f5QubkiIyR
    Q==;
-X-CSE-ConnectionGUID: 6l3pQYvoSfCDKfQZ0aY2sg==
-X-CSE-MsgGUID: 2+l7paErSx+WWDBHlvBdvg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="32370312"
+X-CSE-ConnectionGUID: srbG7vzuTgiAPn2rpZ/47w==
+X-CSE-MsgGUID: TlwevgNySFi91vUrmO1AHw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="7089642"
 X-IronPort-AV: E=Sophos;i="6.07,166,1708416000"; 
-   d="scan'208";a="32370312"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 20:58:21 -0700
+   d="scan'208";a="7089642"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 23:21:22 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,166,1708416000"; 
-   d="scan'208";a="17213261"
+   d="scan'208";a="17215159"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Mar 2024 20:58:18 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 29 Mar 2024 23:21:21 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rqPrD-0003vk-37;
-	Sat, 30 Mar 2024 03:58:15 +0000
-Date: Sat, 30 Mar 2024 11:57:34 +0800
+	id 1rqS5e-0003zU-1Q;
+	Sat, 30 Mar 2024 06:21:18 +0000
+Date: Sat, 30 Mar 2024 14:21:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Zhu <hongxing.zhu@nxp.com>, vkoul@kernel.org, kishon@kernel.org,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, frank.li@nxp.com
-Cc: oe-kbuild-all@lists.linux.dev, hongxing.zhu@nxp.com,
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kernel@pengutronix.de, linux-imx@nxp.com
-Subject: Re: [PATCH v1 3/3] phy: freescale: imx8q-hsio: Add i.MX8Q HSIO PHY
- driver support
-Message-ID: <202403301157.mPlhQUdz-lkp@intel.com>
-References: <1711699790-16494-4-git-send-email-hongxing.zhu@nxp.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.4 23/41]
+ drivers/media/pci/intel/ipu6/../ipu-mmu.c:357:9: warning: variable
+ 'unmapped' set but not used
+Message-ID: <202403301404.ToNsHibb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,80 +61,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1711699790-16494-4-git-send-email-hongxing.zhu@nxp.com>
 
-Hi Richard,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.9-rc1 next-20240328]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Zhu/dt-bindings-phy-Add-i-MX8Q-HSIO-SerDes-PHY-binding/20240329-162937
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/1711699790-16494-4-git-send-email-hongxing.zhu%40nxp.com
-patch subject: [PATCH v1 3/3] phy: freescale: imx8q-hsio: Add i.MX8Q HSIO PHY driver support
-config: powerpc64-randconfig-r062-20240330 (https://download.01.org/0day-ci/archive/20240330/202403301157.mPlhQUdz-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 79ba323bdd0843275019e16b6e9b35133677c514)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240330/202403301157.mPlhQUdz-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.4
+head:   1f54ce33a0c956409b727d5a4450e3dd2c206438
+commit: fbf76a456b55f8c41bdf340bde2bc51a001f60ce [23/41] CHROMIUM: media/ipu6: Optimize the IPU MMU mapping and unmapping flow
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240330/202403301404.ToNsHibb-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240330/202403301404.ToNsHibb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403301157.mPlhQUdz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403301404.ToNsHibb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/phy/freescale/phy-fsl-imx8q-hsio.c:8:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:24:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/phy/freescale/phy-fsl-imx8q-hsio.c:367:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     367 |         val = FIELD_PREP(MODE_MASK, val);
-         |               ^
-   1 warning and 1 error generated.
+>> drivers/media/pci/intel/ipu6/../ipu-mmu.c:357:9: warning: variable 'unmapped' set but not used [-Wunused-but-set-variable]
+     357 |         size_t unmapped = 0;
+         |                ^
+   1 warning generated.
 
 
-vim +/FIELD_PREP +367 drivers/phy/freescale/phy-fsl-imx8q-hsio.c
+vim +/unmapped +357 drivers/media/pci/intel/ipu6/../ipu-mmu.c
 
-   355	
-   356	static int imx8q_hsio_set_mode(struct phy *phy, enum phy_mode mode,
-   357					   int submode)
-   358	{
-   359		u32 val;
-   360		struct imx8q_hsio_lane *lane = phy_get_drvdata(phy);
-   361		struct imx8q_hsio_priv *priv = lane->priv;
-   362	
-   363		if (lane->lane_mode != mode)
-   364			return -EINVAL;
-   365	
-   366		val = (mode == PHY_MODE_PCIE) ? MODE_PCIE : MODE_SATA;
- > 367		val = FIELD_PREP(MODE_MASK, val);
-   368		regmap_update_bits(priv->phy, lane->phy_off + CTRL0, MODE_MASK, val);
-   369	
-   370		switch (submode) {
-   371		case PHY_MODE_PCIE_RC:
-   372			val = FIELD_PREP(DEVICE_TYPE_MASK, PCI_EXP_TYPE_ROOT_PORT);
-   373			break;
-   374		case PHY_MODE_PCIE_EP:
-   375			val = FIELD_PREP(DEVICE_TYPE_MASK, PCI_EXP_TYPE_ENDPOINT);
-   376			break;
-   377		default: /* Support only PCIe EP and RC now. */
-   378			return 0;
-   379		}
-   380		if (submode)
-   381			regmap_update_bits(priv->ctrl, lane->ctrl_off + CTRL0,
-   382					   DEVICE_TYPE_MASK, val);
-   383	
-   384		return 0;
-   385	}
-   386	
+83d148360cd5f0 Tianshu Qiu 2020-04-15  349  
+fbf76a456b55f8 Jianhui Dai 2024-01-02  350  static void l2_unmap(struct ipu_mmu_info *mmu_info, unsigned long iova,
+83d148360cd5f0 Tianshu Qiu 2020-04-15  351  		     phys_addr_t dummy, size_t size)
+83d148360cd5f0 Tianshu Qiu 2020-04-15  352  {
+fbf76a456b55f8 Jianhui Dai 2024-01-02  353  	u32 l1_idx;
+63f5dd5d46796e Tianshu Qiu 2021-07-16  354  	u32 *l2_pt;
+83d148360cd5f0 Tianshu Qiu 2020-04-15  355  	unsigned int l2_idx;
+fbf76a456b55f8 Jianhui Dai 2024-01-02  356  	unsigned int l2_entries;
+83d148360cd5f0 Tianshu Qiu 2020-04-15 @357  	size_t unmapped = 0;
+63f5dd5d46796e Tianshu Qiu 2021-07-16  358  	unsigned long flags;
+83d148360cd5f0 Tianshu Qiu 2020-04-15  359  
+fbf76a456b55f8 Jianhui Dai 2024-01-02  360  	spin_lock_irqsave(&mmu_info->lock, flags);
+fbf76a456b55f8 Jianhui Dai 2024-01-02  361  	for (l1_idx = iova >> ISP_L1PT_SHIFT;
+fbf76a456b55f8 Jianhui Dai 2024-01-02  362  	     size > 0 && l1_idx < ISP_L1PT_PTES; l1_idx++) {
+fbf76a456b55f8 Jianhui Dai 2024-01-02  363  		dev_dbg(mmu_info->dev,
+fbf76a456b55f8 Jianhui Dai 2024-01-02  364  			"unmapping l2 page table for l1 index %u (iova 0x%8.8lx)\n",
+83d148360cd5f0 Tianshu Qiu 2020-04-15  365  			l1_idx, iova);
+83d148360cd5f0 Tianshu Qiu 2020-04-15  366  
+63f5dd5d46796e Tianshu Qiu 2021-07-16  367  		if (mmu_info->l1_pt[l1_idx] == mmu_info->dummy_l2_pteval) {
+63f5dd5d46796e Tianshu Qiu 2021-07-16  368  			dev_err(mmu_info->dev,
+63f5dd5d46796e Tianshu Qiu 2021-07-16  369  				"unmap iova 0x%8.8lx l1 idx %u which was not mapped\n",
+63f5dd5d46796e Tianshu Qiu 2021-07-16  370  				iova, l1_idx);
+fbf76a456b55f8 Jianhui Dai 2024-01-02  371  			continue;
+63f5dd5d46796e Tianshu Qiu 2021-07-16  372  		}
+63f5dd5d46796e Tianshu Qiu 2021-07-16  373  		l2_pt = mmu_info->l2_pts[l1_idx];
+fbf76a456b55f8 Jianhui Dai 2024-01-02  374  
+fbf76a456b55f8 Jianhui Dai 2024-01-02  375  		l2_entries = 0;
+fbf76a456b55f8 Jianhui Dai 2024-01-02  376  		for (l2_idx = (iova & ISP_L2PT_MASK) >> ISP_L2PT_SHIFT;
+fbf76a456b55f8 Jianhui Dai 2024-01-02  377  		     size > 0 && l2_idx < ISP_L2PT_PTES; l2_idx++) {
+63f5dd5d46796e Tianshu Qiu 2021-07-16  378  			dev_dbg(mmu_info->dev,
+63f5dd5d46796e Tianshu Qiu 2021-07-16  379  				"unmap l2 index %u with pteval 0x%10.10llx\n",
+83d148360cd5f0 Tianshu Qiu 2020-04-15  380  				l2_idx, TBL_PHYS_ADDR(l2_pt[l2_idx]));
+63f5dd5d46796e Tianshu Qiu 2021-07-16  381  			l2_pt[l2_idx] = mmu_info->dummy_page_pteval;
+63f5dd5d46796e Tianshu Qiu 2021-07-16  382  
+fbf76a456b55f8 Jianhui Dai 2024-01-02  383  			iova += ISP_PAGE_SIZE;
+fbf76a456b55f8 Jianhui Dai 2024-01-02  384  			unmapped += ISP_PAGE_SIZE;
+fbf76a456b55f8 Jianhui Dai 2024-01-02  385  			size -= ISP_PAGE_SIZE;
+fbf76a456b55f8 Jianhui Dai 2024-01-02  386  
+fbf76a456b55f8 Jianhui Dai 2024-01-02  387  			l2_entries++;
+83d148360cd5f0 Tianshu Qiu 2020-04-15  388  		}
+83d148360cd5f0 Tianshu Qiu 2020-04-15  389  
+fbf76a456b55f8 Jianhui Dai 2024-01-02  390  		WARN_ON_ONCE(!l2_entries);
+fbf76a456b55f8 Jianhui Dai 2024-01-02  391  		clflush_cache_range(&l2_pt[l2_idx - l2_entries],
+fbf76a456b55f8 Jianhui Dai 2024-01-02  392  				    sizeof(l2_pt[0]) * l2_entries);
+83d148360cd5f0 Tianshu Qiu 2020-04-15  393  	}
+83d148360cd5f0 Tianshu Qiu 2020-04-15  394  
+fbf76a456b55f8 Jianhui Dai 2024-01-02  395  	WARN_ON_ONCE(size);
+fbf76a456b55f8 Jianhui Dai 2024-01-02  396  	spin_unlock_irqrestore(&mmu_info->lock, flags);
+fbf76a456b55f8 Jianhui Dai 2024-01-02  397  }
+fbf76a456b55f8 Jianhui Dai 2024-01-02  398  
+
+:::::: The code at line 357 was first introduced by commit
+:::::: 83d148360cd5f0b1f82fcf95471ac063acd06fcb CHROMIUM: media: intel-ipu6: Add IPU6 and IPU6SE drivers
+
+:::::: TO: Tianshu Qiu <tian.shu.qiu@intel.com>
+:::::: CC: Commit Bot <commit-bot@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
