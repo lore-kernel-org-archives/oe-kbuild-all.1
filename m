@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF82B1C0DE5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Mar 2024 06:21:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07DB64B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Mar 2024 06:53:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711779685; cv=none; b=CPVVyN9q/VwDJ07zZZhWYg5mXw2jaRTEGuWErngrlC0q23NDav//SUlozxj5a8BsHEEBT3G4tUAqfPueQLPpQ9seEhZn6jGXzGND1n8n7HC5blmQJIg3mpR6dZKpCg9T6wgahILcJeJoQgQCY1QGwT0g/5jorESxrcTJ+pGCV5g=
+	t=1711781606; cv=none; b=f7jO62VFVCxb9txgW22RvZJMoyGAZuv73N8Y0xLVTtlkXWrSQIfHwa5sgdVvBY8wNsGRbAJK2Alk2E1Rc8rtkBq9t6XvN6CaefRrm61sv3uHJ7EJCUCE4iw6yLpul8AJJXq6kKcukDCOI4M1g/4liSadue1lPBIfAJE4y39LN38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711779685; c=relaxed/simple;
-	bh=g5KGxZez6UEMPtcbXTzqDFuf9u7N5NEmWhkO3ToUTzA=;
+	s=arc-20240116; t=1711781606; c=relaxed/simple;
+	bh=U2X5wpKbuVyrnIB8Ng1AjP9jwGDPMgPYU8Fc/Yoowyk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NVBtp2Vg9I6+oVy5aM67jd3gyNmZQhMCQ1TiM/oqo/8gpcOvvuWXDPLi4YFkQKtH8+PMI02gJUkitwX+8qpuk7/voCx9yUIDPsOMlMayrjRJEjd5+1UtyTWbU8qeG1VMyHqSZnWssPGqvAnyexZEGWVz3BoMU8xHswa089fQgBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EQdRplXy; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=bq304x58a0vx7fSYgfanjWLi21xi6Ur7PfpTTJO0ctGjdMB8SHyzeAywOKb/4ocF12Btbxzt8rVWWdpBgJxtNfI1Y1i6AhawngMA3bqgRBzy1KudtMX4nYPN8NiYcVJwXWvKAIwaRGrJgkYQDVdY8Q/Sw9It4c6ZWpVtLC7bP0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GMgfet/h; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EQdRplXy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GMgfet/h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711779683; x=1743315683;
+  t=1711781604; x=1743317604;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g5KGxZez6UEMPtcbXTzqDFuf9u7N5NEmWhkO3ToUTzA=;
-  b=EQdRplXyMwsWQXbOtCytBZVa6RMCYpwaV7XPIrIF1Ui0IKIuXoqmaair
-   gvBbKzn96UAJpD47rMTYR68S7pT7gyA+6mR/W3XYMvC3xtr9jRVTkee46
-   sK/72CUbTU8971phnXc7KeD6j0mpTcX9VuPYVh2IgGjFBujr8AqZGzAzI
-   R0OZYnvu8gyuZHJPipQmquMPWugWWcnrhFVhqyrNydD+fNzoRVYsm+bit
-   BmlxkTmfp8uaDlDYW3uGVApUw97CS+BmQ6YSpsqaVpX+dCnH7XJK3hq4i
-   JtbpvJtFTRfT76WvPtbyoayLad99TYfFMjvUj4/hTff1gw/f5QubkiIyR
-   Q==;
-X-CSE-ConnectionGUID: srbG7vzuTgiAPn2rpZ/47w==
-X-CSE-MsgGUID: TlwevgNySFi91vUrmO1AHw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="7089642"
+  bh=U2X5wpKbuVyrnIB8Ng1AjP9jwGDPMgPYU8Fc/Yoowyk=;
+  b=GMgfet/hnGgQ7w38TvMxYJPG0FjfurWIycNeUh4YiEz67QxSmYd/bGD8
+   MnMUgimTJ/qtCNTI7gpZyhfXoMMoOUMwl2MSMQgQpqyE1r6E4UCUgBZrn
+   BuxbAxDJEFudZwKpB428oEvX5itxGsiUh/zJcAnQNRxs47WZeUHWRRZqz
+   ez8XYSHLwQlALJarIa3s1XOlmWEs2aAaaniARP1BPABojJlwVBXd0k22b
+   fO7jXKnNloq34ri7r2fHuUJoNKtdV2XEahJes80+bbs3MrmUM0bfBEK73
+   8E2Wh0/5yai2eyo5jRI/8Egomjq8xL/zOmHO/0Rwm3kcsQlF6nuGxZJIT
+   w==;
+X-CSE-ConnectionGUID: bCMIna+xQ0K76LK989gd1A==
+X-CSE-MsgGUID: 15TR8aszR6eHNrXDdVHPPQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="10753086"
 X-IronPort-AV: E=Sophos;i="6.07,166,1708416000"; 
-   d="scan'208";a="7089642"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 23:21:22 -0700
+   d="scan'208";a="10753086"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 23:53:24 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,166,1708416000"; 
-   d="scan'208";a="17215159"
+   d="scan'208";a="17254218"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Mar 2024 23:21:21 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 29 Mar 2024 23:53:23 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rqS5e-0003zU-1Q;
-	Sat, 30 Mar 2024 06:21:18 +0000
-Date: Sat, 30 Mar 2024 14:21:09 +0800
+	id 1rqSae-00041a-1X;
+	Sat, 30 Mar 2024 06:53:20 +0000
+Date: Sat, 30 Mar 2024 14:52:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.4 23/41]
- drivers/media/pci/intel/ipu6/../ipu-mmu.c:357:9: warning: variable
- 'unmapped' set but not used
-Message-ID: <202403301404.ToNsHibb-lkp@intel.com>
+Subject: [android-common:android15-6.6 1/1]
+ include/linux/page_size_compat.h:118:16: warning: division by zero is
+ undefined
+Message-ID: <202403301412.Xq9Q48QF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +61,162 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.4
-head:   1f54ce33a0c956409b727d5a4450e3dd2c206438
-commit: fbf76a456b55f8c41bdf340bde2bc51a001f60ce [23/41] CHROMIUM: media/ipu6: Optimize the IPU MMU mapping and unmapping flow
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240330/202403301404.ToNsHibb-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   ff3ecc94ab96bb59039aca3bbb8e1b12eb970d08
+commit: 9e2b94a355b6ffc92bb88c6642a9c7babd3ebee6 [1/1] ANDROID: 16K: Fix __MAP_NO_COMPAT overflow
+config: i386-buildonly-randconfig-006-20240329 (https://download.01.org/0day-ci/archive/20240330/202403301412.Xq9Q48QF-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240330/202403301404.ToNsHibb-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240330/202403301412.Xq9Q48QF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403301404.ToNsHibb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403301412.Xq9Q48QF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/media/pci/intel/ipu6/../ipu-mmu.c:357:9: warning: variable 'unmapped' set but not used [-Wunused-but-set-variable]
-     357 |         size_t unmapped = 0;
-         |                ^
-   1 warning generated.
+   In file included from include/linux/mman.h:5:
+   In file included from include/linux/mm.h:1081:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:186:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+     186 | _SIG_SET_OP(signotset, _sig_not)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:173:27: note: expanded from macro '_SIG_SET_OP'
+     173 |         case 4: set->sig[3] = op(set->sig[3]);                          \
+         |                                  ^        ~
+   include/linux/signal.h:185:24: note: expanded from macro '_sig_not'
+     185 | #define _sig_not(x)     (~(x))
+         |                            ^
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/gpio/gpio-74xx-mmio.c:12:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:8:
+   In file included from include/linux/page_size_compat.h:27:
+   In file included from include/linux/mman.h:5:
+   In file included from include/linux/mm.h:1081:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:186:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+     186 | _SIG_SET_OP(signotset, _sig_not)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:173:10: note: expanded from macro '_SIG_SET_OP'
+     173 |         case 4: set->sig[3] = op(set->sig[3]);                          \
+         |                 ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/gpio/gpio-74xx-mmio.c:12:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:8:
+   In file included from include/linux/page_size_compat.h:27:
+   In file included from include/linux/mman.h:5:
+   In file included from include/linux/mm.h:1081:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:186:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+     186 | _SIG_SET_OP(signotset, _sig_not)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:174:20: note: expanded from macro '_SIG_SET_OP'
+     174 |                 set->sig[2] = op(set->sig[2]);                          \
+         |                                  ^        ~
+   include/linux/signal.h:185:24: note: expanded from macro '_sig_not'
+     185 | #define _sig_not(x)     (~(x))
+         |                            ^
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/gpio/gpio-74xx-mmio.c:12:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:8:
+   In file included from include/linux/page_size_compat.h:27:
+   In file included from include/linux/mman.h:5:
+   In file included from include/linux/mm.h:1081:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:186:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+     186 | _SIG_SET_OP(signotset, _sig_not)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:174:3: note: expanded from macro '_SIG_SET_OP'
+     174 |                 set->sig[2] = op(set->sig[2]);                          \
+         |                 ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/gpio/gpio-74xx-mmio.c:12:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:8:
+   In file included from include/linux/page_size_compat.h:27:
+   include/linux/mman.h:158:9: warning: division by zero is undefined [-Wdivision-by-zero]
+     158 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
+     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpio/gpio-74xx-mmio.c:12:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:8:
+>> include/linux/page_size_compat.h:118:16: warning: division by zero is undefined [-Wdivision-by-zero]
+     118 |                 flag_bits |= _calc_vm_trans(flags, __MAP_NO_COMPAT,  __VM_NO_COMPAT );
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
+     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   30 warnings and 1 error generated.
 
 
-vim +/unmapped +357 drivers/media/pci/intel/ipu6/../ipu-mmu.c
+vim +118 include/linux/page_size_compat.h
 
-83d148360cd5f0 Tianshu Qiu 2020-04-15  349  
-fbf76a456b55f8 Jianhui Dai 2024-01-02  350  static void l2_unmap(struct ipu_mmu_info *mmu_info, unsigned long iova,
-83d148360cd5f0 Tianshu Qiu 2020-04-15  351  		     phys_addr_t dummy, size_t size)
-83d148360cd5f0 Tianshu Qiu 2020-04-15  352  {
-fbf76a456b55f8 Jianhui Dai 2024-01-02  353  	u32 l1_idx;
-63f5dd5d46796e Tianshu Qiu 2021-07-16  354  	u32 *l2_pt;
-83d148360cd5f0 Tianshu Qiu 2020-04-15  355  	unsigned int l2_idx;
-fbf76a456b55f8 Jianhui Dai 2024-01-02  356  	unsigned int l2_entries;
-83d148360cd5f0 Tianshu Qiu 2020-04-15 @357  	size_t unmapped = 0;
-63f5dd5d46796e Tianshu Qiu 2021-07-16  358  	unsigned long flags;
-83d148360cd5f0 Tianshu Qiu 2020-04-15  359  
-fbf76a456b55f8 Jianhui Dai 2024-01-02  360  	spin_lock_irqsave(&mmu_info->lock, flags);
-fbf76a456b55f8 Jianhui Dai 2024-01-02  361  	for (l1_idx = iova >> ISP_L1PT_SHIFT;
-fbf76a456b55f8 Jianhui Dai 2024-01-02  362  	     size > 0 && l1_idx < ISP_L1PT_PTES; l1_idx++) {
-fbf76a456b55f8 Jianhui Dai 2024-01-02  363  		dev_dbg(mmu_info->dev,
-fbf76a456b55f8 Jianhui Dai 2024-01-02  364  			"unmapping l2 page table for l1 index %u (iova 0x%8.8lx)\n",
-83d148360cd5f0 Tianshu Qiu 2020-04-15  365  			l1_idx, iova);
-83d148360cd5f0 Tianshu Qiu 2020-04-15  366  
-63f5dd5d46796e Tianshu Qiu 2021-07-16  367  		if (mmu_info->l1_pt[l1_idx] == mmu_info->dummy_l2_pteval) {
-63f5dd5d46796e Tianshu Qiu 2021-07-16  368  			dev_err(mmu_info->dev,
-63f5dd5d46796e Tianshu Qiu 2021-07-16  369  				"unmap iova 0x%8.8lx l1 idx %u which was not mapped\n",
-63f5dd5d46796e Tianshu Qiu 2021-07-16  370  				iova, l1_idx);
-fbf76a456b55f8 Jianhui Dai 2024-01-02  371  			continue;
-63f5dd5d46796e Tianshu Qiu 2021-07-16  372  		}
-63f5dd5d46796e Tianshu Qiu 2021-07-16  373  		l2_pt = mmu_info->l2_pts[l1_idx];
-fbf76a456b55f8 Jianhui Dai 2024-01-02  374  
-fbf76a456b55f8 Jianhui Dai 2024-01-02  375  		l2_entries = 0;
-fbf76a456b55f8 Jianhui Dai 2024-01-02  376  		for (l2_idx = (iova & ISP_L2PT_MASK) >> ISP_L2PT_SHIFT;
-fbf76a456b55f8 Jianhui Dai 2024-01-02  377  		     size > 0 && l2_idx < ISP_L2PT_PTES; l2_idx++) {
-63f5dd5d46796e Tianshu Qiu 2021-07-16  378  			dev_dbg(mmu_info->dev,
-63f5dd5d46796e Tianshu Qiu 2021-07-16  379  				"unmap l2 index %u with pteval 0x%10.10llx\n",
-83d148360cd5f0 Tianshu Qiu 2020-04-15  380  				l2_idx, TBL_PHYS_ADDR(l2_pt[l2_idx]));
-63f5dd5d46796e Tianshu Qiu 2021-07-16  381  			l2_pt[l2_idx] = mmu_info->dummy_page_pteval;
-63f5dd5d46796e Tianshu Qiu 2021-07-16  382  
-fbf76a456b55f8 Jianhui Dai 2024-01-02  383  			iova += ISP_PAGE_SIZE;
-fbf76a456b55f8 Jianhui Dai 2024-01-02  384  			unmapped += ISP_PAGE_SIZE;
-fbf76a456b55f8 Jianhui Dai 2024-01-02  385  			size -= ISP_PAGE_SIZE;
-fbf76a456b55f8 Jianhui Dai 2024-01-02  386  
-fbf76a456b55f8 Jianhui Dai 2024-01-02  387  			l2_entries++;
-83d148360cd5f0 Tianshu Qiu 2020-04-15  388  		}
-83d148360cd5f0 Tianshu Qiu 2020-04-15  389  
-fbf76a456b55f8 Jianhui Dai 2024-01-02  390  		WARN_ON_ONCE(!l2_entries);
-fbf76a456b55f8 Jianhui Dai 2024-01-02  391  		clflush_cache_range(&l2_pt[l2_idx - l2_entries],
-fbf76a456b55f8 Jianhui Dai 2024-01-02  392  				    sizeof(l2_pt[0]) * l2_entries);
-83d148360cd5f0 Tianshu Qiu 2020-04-15  393  	}
-83d148360cd5f0 Tianshu Qiu 2020-04-15  394  
-fbf76a456b55f8 Jianhui Dai 2024-01-02  395  	WARN_ON_ONCE(size);
-fbf76a456b55f8 Jianhui Dai 2024-01-02  396  	spin_unlock_irqrestore(&mmu_info->lock, flags);
-fbf76a456b55f8 Jianhui Dai 2024-01-02  397  }
-fbf76a456b55f8 Jianhui Dai 2024-01-02  398  
+e9c73e0594e0bd Kalesh Singh 2024-02-06   98  
+66197e927d9f4f Kalesh Singh 2024-02-06   99  /*
+66197e927d9f4f Kalesh Singh 2024-02-06  100   * Conditional page-alignment based on mmap flags
+66197e927d9f4f Kalesh Singh 2024-02-06  101   *
+66197e927d9f4f Kalesh Singh 2024-02-06  102   * If the VMA is allowed to not respect the emulated page size, align using the
+66197e927d9f4f Kalesh Singh 2024-02-06  103   * base PAGE_SIZE, else align using the emulated __PAGE_SIZE.
+66197e927d9f4f Kalesh Singh 2024-02-06  104   */
+66197e927d9f4f Kalesh Singh 2024-02-06  105  #define __COMPAT_PAGE_ALIGN(size, flags) \
+66197e927d9f4f Kalesh Singh 2024-02-06  106  	(flags & __MAP_NO_COMPAT) ? PAGE_ALIGN(size) : __PAGE_ALIGN(size)
+66197e927d9f4f Kalesh Singh 2024-02-06  107  
+66197e927d9f4f Kalesh Singh 2024-02-06  108  /*
+66197e927d9f4f Kalesh Singh 2024-02-06  109   * Combines the mmap "flags" argument into "vm_flags"
+66197e927d9f4f Kalesh Singh 2024-02-06  110   *
+66197e927d9f4f Kalesh Singh 2024-02-06  111   * If page size emulation is enabled, adds translation of the no-compat flag.
+66197e927d9f4f Kalesh Singh 2024-02-06  112   */
+66197e927d9f4f Kalesh Singh 2024-02-06  113  static __always_inline unsigned long calc_vm_flag_bits(unsigned long flags)
+e9c73e0594e0bd Kalesh Singh 2024-02-06  114  {
+66197e927d9f4f Kalesh Singh 2024-02-06  115  	unsigned long flag_bits = __calc_vm_flag_bits(flags);
+66197e927d9f4f Kalesh Singh 2024-02-06  116  
+66197e927d9f4f Kalesh Singh 2024-02-06  117  	if (static_branch_unlikely(&page_shift_compat_enabled))
+66197e927d9f4f Kalesh Singh 2024-02-06 @118  		flag_bits |= _calc_vm_trans(flags, __MAP_NO_COMPAT,  __VM_NO_COMPAT );
+66197e927d9f4f Kalesh Singh 2024-02-06  119  
+66197e927d9f4f Kalesh Singh 2024-02-06  120  	return flag_bits;
+66197e927d9f4f Kalesh Singh 2024-02-06  121  }
+66197e927d9f4f Kalesh Singh 2024-02-06  122  
 
-:::::: The code at line 357 was first introduced by commit
-:::::: 83d148360cd5f0b1f82fcf95471ac063acd06fcb CHROMIUM: media: intel-ipu6: Add IPU6 and IPU6SE drivers
+:::::: The code at line 118 was first introduced by commit
+:::::: 66197e927d9f4f6fe4d6cc90da3894a95daa71d8 ANDROID: 16K: Handle filemap faults
 
-:::::: TO: Tianshu Qiu <tian.shu.qiu@intel.com>
-:::::: CC: Commit Bot <commit-bot@chromium.org>
+:::::: TO: Kalesh Singh <kaleshsingh@google.com>
+:::::: CC: Kalesh Singh <kaleshsingh@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
