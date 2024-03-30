@@ -1,65 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F19236AE4;
-	Sat, 30 Mar 2024 21:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25394204C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Mar 2024 21:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711832466; cv=none; b=ubJlJUKVQmLQxDuwIbbLQkiBR4AEaHsmavmqRNvERXLvrCtKkK290aQB9xLrPQmTJoR8C1Kx7KCkaQDpU/dTo44tMCzGFQolLXQPcsVF2EwxIUfSkCjznvO6vIAqYXcmQwQXsFEcXNRSPAncUt+i4XFc5IZc8f4L/qpCn92E/UI=
+	t=1711833067; cv=none; b=lfH/iRsoWhDXFhxAWP9jp1YLYnc7guL7dA/1x+X/dd4vkcb2QhJYgknZV/6gsjhUasKgK/Ltc8ExkvU7x3Oyg6qqu69AoUhBf8qvddOpJk9hqftO5qlcGNiftQvJOLekXmvUBtPvoqVEP7KIbL0P6ZDyxXA16G7qa8xk/iDR5MU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711832466; c=relaxed/simple;
-	bh=e5I2rYsF7rsiw95li5OwBXcRBuJFwZ4pAt4TxQFNfco=;
+	s=arc-20240116; t=1711833067; c=relaxed/simple;
+	bh=rZCjSb/aqvGXzcCl3egT0ZAGXC2c6CWNxUC7glICW5o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uX7xEt8drYl1MIsr0UhZBxfDeZ5CBeWIuPktSm2DmGTmxGSzByQF9gnYZc8FvAvkC4anjhkFtBWSD1GnbmC4VJun5kYeMtwTUkbi7M8n6Jt0VUe5Kecv4xhP7EJNzH5h+LL066PPSUXyseqFMaEMsSOYUjDeQyAKGXZTlyZTxsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V0DSfSZM; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=ueHDZyEwR4/wx/BjhtQkjP0b1LUDDVBp//yTDQC3jOdG0/JVmo7ijNZ/W+0XdyXc83V9Ng3WKfa2kssO92T5ldLqi6kch29eS0rPIzZye/FG+lW+bPhqAw5E2lMlyFinSBZA6kx/tcm3qprWvK6HzZAv4ByPtE6QCgQ7ndjB6ZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CEItG4nl; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V0DSfSZM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CEItG4nl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711832465; x=1743368465;
+  t=1711833065; x=1743369065;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=e5I2rYsF7rsiw95li5OwBXcRBuJFwZ4pAt4TxQFNfco=;
-  b=V0DSfSZMsUMbViNPs/sSRTQvD6FEBABtBdFfd/ZcRaLJHkl/01XmTsxF
-   1ItnGLZbVgrXvV7TL5NJfVyL0dO4WHflD6pYwo2u0s6v6pMYmUpFR+Uaj
-   VRrqBeno7asNYOXqogOxznrj+ZbKEm6tKO+UImbAKDXAwwSMG69xIDPx5
-   ndlS54tNoQ/mIGvYv2NEAXIpKGca2G8QuLlxlV1gbdlKGxVzO2x5C8Jvd
-   voJSBd1ClyuGQgWBlCIcqvouhJpKewCERfpEk+oivAtBAjA4ytA6x4uoL
-   nJIv5gUI9w3oXenNySbhSj9u5nmj3V3GMh2iE1q7riAk4K0gm5GLYTRZM
+  bh=rZCjSb/aqvGXzcCl3egT0ZAGXC2c6CWNxUC7glICW5o=;
+  b=CEItG4nlwWAkUUSi3ytzNGID0V72pmv9/erv9xEx0BusA0L2ge9s1Uh2
+   dFtU6ee6Ginc2K8zyZynKhXP0lDRJ11OHndVuwYgwE+W65F2X9f0QB/ik
+   A3ZYZLtEmi76ToGVcxuGz0YM3aNjItwdIqE8lqwOvgZYJ/JOTMVh9F+AE
+   EwwA3G4uAL6d2p+LVMDsaGB4qCdI/uayD/naUxjmb5KhIviErswSidvjL
+   CKKfK983KNxB2ezS1dOdcj1Gq3AgSrAHhhhmcScLcOZoXkgVbN28tm18u
+   oiWNkxDRW2cVYigWgI5zRvhM3JlG1uxG5nObh7CkxFFO90vEHRA63jAYE
    g==;
-X-CSE-ConnectionGUID: 1/B6GdT6QXijesMmTYnqjg==
-X-CSE-MsgGUID: fMF5sifASnS40R4T6hzWEQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11029"; a="6848719"
+X-CSE-ConnectionGUID: m63iixpdS2+5rlzYvHg9uw==
+X-CSE-MsgGUID: D1wswpWiTDmB65qui2S5aw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11029"; a="6840532"
 X-IronPort-AV: E=Sophos;i="6.07,168,1708416000"; 
-   d="scan'208";a="6848719"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2024 14:01:04 -0700
+   d="scan'208";a="6840532"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2024 14:11:04 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,168,1708416000"; 
-   d="scan'208";a="21950900"
+   d="scan'208";a="21806939"
 Received: from lkp-server01.sh.intel.com (HELO 3d808bfd2502) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 30 Mar 2024 14:00:59 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 30 Mar 2024 14:11:00 -0700
 Received: from kbuild by 3d808bfd2502 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rqfou-0000P2-37;
-	Sat, 30 Mar 2024 21:00:56 +0000
-Date: Sun, 31 Mar 2024 04:59:57 +0800
+	id 1rqfyc-0000Pi-0y;
+	Sat, 30 Mar 2024 21:10:58 +0000
+Date: Sun, 31 Mar 2024 05:10:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: git@luigi311.com, linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dave.stevenson@raspberrypi.com,
-	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, sakari.ailus@linux.intel.com,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Luigi311 <git@luigi311.com>
-Subject: Re: [PATCH 18/23] dt-bindings: media: imx258: Add alternate
- compatible strings
-Message-ID: <202403310442.vdZu7Yh6-lkp@intel.com>
-References: <20240327231710.53188-19-git@luigi311.com>
+To: Frederic Weisbecker <frederic@kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>
+Subject: Re: [PATCH 2/4] task_work: Introduce task_work_cancel() again
+Message-ID: <202403310406.TPrIela8-lkp@intel.com>
+References: <20240329235812.18917-3-frederic@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,38 +70,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240327231710.53188-19-git@luigi311.com>
+In-Reply-To: <20240329235812.18917-3-frederic@kernel.org>
 
-Hi,
+Hi Frederic,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linuxtv-media-stage/master linus/master v6.9-rc1 next-20240328]
-[cannot apply to sailus-media-tree/streams]
+[auto build test WARNING on perf-tools-next/perf-tools-next]
+[also build test WARNING on tip/perf/core perf-tools/perf-tools linus/master acme/perf/core v6.9-rc1 next-20240328]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/git-luigi311-com/media-i2c-imx258-Remove-unused-defines/20240328-072629
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240327231710.53188-19-git%40luigi311.com
-patch subject: [PATCH 18/23] dt-bindings: media: imx258: Add alternate compatible strings
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240331/202403310442.vdZu7Yh6-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Frederic-Weisbecker/task_work-s-task_work_cancel-task_work_cancel_func/20240330-080207
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/20240329235812.18917-3-frederic%40kernel.org
+patch subject: [PATCH 2/4] task_work: Introduce task_work_cancel() again
+config: nios2-randconfig-r071-20240330 (https://download.01.org/0day-ci/archive/20240331/202403310406.TPrIela8-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240331/202403310406.TPrIela8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403310442.vdZu7Yh6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403310406.TPrIela8-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml: properties:compatible: [{'enum': ['sony,imx258', 'sony,imx258-pdaf']}] is not of type 'object', 'boolean'
-   	from schema $id: http://json-schema.org/draft-07/schema#
->> Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml: properties:compatible: [{'enum': ['sony,imx258', 'sony,imx258-pdaf']}] is not of type 'object', 'boolean'
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
---
->> Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml: ignoring, error in schema: properties: compatible
+All warnings (new ones prefixed by >>):
+
+>> kernel/task_work.c:155: warning: Function parameter or struct member 'cb' not described in 'task_work_cancel'
+>> kernel/task_work.c:155: warning: Excess function parameter 'func' description in 'task_work_cancel'
+
+
+vim +155 kernel/task_work.c
+
+   143	
+   144	/**
+   145	 * task_work_cancel - cancel a pending work added by task_work_add()
+   146	 * @task: the task which should execute the work
+   147	 * @func: the work to remove if queued
+   148	 *
+   149	 * Remove a callback from a task's queue if queued.
+   150	 *
+   151	 * RETURNS:
+   152	 * True if the callback was queued and got cancelled, false otherwise.
+   153	 */
+   154	bool task_work_cancel(struct task_struct *task, struct callback_head *cb)
+ > 155	{
+   156		struct callback_head *ret;
+   157	
+   158		ret = task_work_cancel_match(task, task_work_match, cb);
+   159	
+   160		return ret == cb;
+   161	}
+   162	
 
 -- 
 0-DAY CI Kernel Test Service
