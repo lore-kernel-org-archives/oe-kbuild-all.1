@@ -1,70 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6AD8F47
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Mar 2024 02:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB9E6AAD
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Mar 2024 03:48:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711767384; cv=none; b=PmclIcaA3gnRFVWcgN9Iqrita47V9LKB65j1PMTF6IpvpV+A1H/+nKGlSw1fSL6KzVmmOomEg6C5mC8cQLy2LX70yB6s3z7Rmde11hkgP06/teQbx1ERPGHfA0lKZfGwLyJ0XLa/OwRmgxDZZHi9EoWeL1upillc0L5aZO6SRjU=
+	t=1711770501; cv=none; b=imhnnjpbvtdtPs9zsCaTfrJyob8W12OcYgi+gU5sjnlOaFpHloFb87eYH14/5SF14dsEtBALgTPEzxpYy/j1u65Ykz/LyKzV7G3sGwcKMDY8+ELIch8V/iYFan+BHkgyDzgoorCeALIU/HZFnGLWQnRoGykL1xye6YfJHm1Rv/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711767384; c=relaxed/simple;
-	bh=ok6Xi4r2K06RgcDE9nmIMbn+6DIbBOa43maW16T1yVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KpmvZEjpHSi+9i0Hx+iVEPoxMyCLDphz2qFjgx2H3dYbZIqD+rdkjmcwy3xCccR+YPYIDqK4ZTB85hPCsDKKzhgauh8YATzbLfw7xbANQkO0O4ovksRc33T67INgqt2DoLQkrZBw0pn4gQiIQNjvoSdBgoLfeoe60zc3/ZNSM3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jHWkLFv8; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1711770501; c=relaxed/simple;
+	bh=rsrZTz+4j78/W8zzV6sWU9fjjo9eDo5zxE0698Xg6a0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YhrXhopoOlbuuTaOtEfG9Ldqs3icMaz5NElM9V3Hl7FmJ7C5skZ6Q7RpiRcTHWsTrNEK35jPuVXV/KR8kCoBWWpv7lmdBv1P1LiH8qCtbM0R/UIOMH904L78GJploffqEwcDimOsV7muCroipD1X1ohS0w7QLURH2kks0Ci3l4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YT0FlIjc; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jHWkLFv8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YT0FlIjc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711767382; x=1743303382;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ok6Xi4r2K06RgcDE9nmIMbn+6DIbBOa43maW16T1yVI=;
-  b=jHWkLFv8tyGsu+dC9xzv5tEjOdhkFr3QO7XxQlcj19Xf8C4hhiWLoVm8
-   Q49XU+5go5eeNlJO0Om1xoOxINI3bePYx74F75PjBet1Nj26HlbcTGoLe
-   ugZFa8z/LPt7VeRcnzTGj/kqR5RRYbFi43PbSE+KJ3u08LXKe8mCb890J
-   RW16iICAcldH3zxM6Ssy2Kkhf38cGI2m68dp61Xw2v32e3/KTzbogdrl9
-   BkGcZLYIBR0/XK8O2HYwhPX3j/oHJqpU3rZTPbbDR1xywhWZi3k7ha6Ic
-   Ujm3C3zgY9sL7bS11c9VMiHmy91obrGlw+Ioansz9vh/9am+ufvUxIDEM
-   w==;
-X-CSE-ConnectionGUID: ukiI9rYwT3mjuvIEcpkn3w==
-X-CSE-MsgGUID: iUpD/u4NQ36KWi/PfogxoQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="7088274"
+  t=1711770499; x=1743306499;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rsrZTz+4j78/W8zzV6sWU9fjjo9eDo5zxE0698Xg6a0=;
+  b=YT0FlIjca9Lr2HoI18PgOuM2efSMjKyovOzeAr0coLVlKFFZkfVmpEe6
+   u4zGsco6yWDPCSt6h8AGZ7txCFGsaKx/oKxqvnK014RSC5HovJRka0hZS
+   cHlOUIDW2tMtpLAeSzWMrTNx6ScPqrbvLzKRtHR+47TrmB3yPfUCmFoHZ
+   wznzGERuljm1k3jhphEzi6VZ79YAYfC5NFrTPPG2mMW27+BfF8sSF9JCR
+   1uVmv4FpAVA5pV27g2HvvL9mHXK01uE4UGjRD4Xgjp9ssqQifM+z6+M0X
+   yb2AzCN4Q3cqw3HN9rIduiXESK6znYdHkTu6j18H2Xq88q1klKNvzQIWu
+   Q==;
+X-CSE-ConnectionGUID: vekSC/8oT7q9t1nttmCvRw==
+X-CSE-MsgGUID: 7J94M40CQDyMzhGomgVlfA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="6856436"
 X-IronPort-AV: E=Sophos;i="6.07,166,1708416000"; 
-   d="scan'208";a="7088274"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 19:56:21 -0700
+   d="scan'208";a="6856436"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 20:48:19 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,166,1708416000"; 
-   d="scan'208";a="16971233"
+   d="scan'208";a="17117610"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 29 Mar 2024 19:56:17 -0700
+  by orviesa009.jf.intel.com with ESMTP; 29 Mar 2024 20:48:18 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rqOtC-0003tW-1e;
-	Sat, 30 Mar 2024 02:56:14 +0000
-Date: Sat, 30 Mar 2024 10:55:15 +0800
+	id 1rqPhX-0003uy-20;
+	Sat, 30 Mar 2024 03:48:15 +0000
+Date: Sat, 30 Mar 2024 11:47:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andrew Lunn <andrew@lunn.ch>, Eric Dumazet <edumazet@google.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Woojung Huh <woojung.huh@microchip.com>,
-	Arun Ramadoss <arun.ramadoss@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, UNGLinuxDriver@microchip.com,
-	David Ahern <dsahern@kernel.org>, Simon Horman <horms@kernel.org>,
-	Willem de Bruijn <willemb@google.com>,
-	=?iso-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>
-Subject: Re: [PATCH net-next v1 5/9] net: dsa: microchip: add support for
- different DCB app configurations
-Message-ID: <202403301034.rVoygO9P-lkp@intel.com>
-References: <20240328160518.2396238-6-o.rempel@pengutronix.de>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vireshk:rust/cpufreq-dt 14/24] error[E0425]: cannot find function
+ `of_match_device` in crate `bindings`
+Message-ID: <202403301114.dvIZbiI0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,131 +59,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240328160518.2396238-6-o.rempel@pengutronix.de>
 
-Hi Oleksij,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/net-dsa-add-support-for-DCB-get-set-apptrust-configuration/20240329-000847
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240328160518.2396238-6-o.rempel%40pengutronix.de
-patch subject: [PATCH net-next v1 5/9] net: dsa: microchip: add support for different DCB app configurations
-config: i386-randconfig-012-20240330 (https://download.01.org/0day-ci/archive/20240330/202403301034.rVoygO9P-lkp@intel.com/config)
-compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240330/202403301034.rVoygO9P-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git rust/cpufreq-dt
+head:   9f4ea12e8f515e38ba593b149a6c196d795f99c4
+commit: 0f52b11a439d23e354762fa86b8bd7eeb7aef8cc [14/24] rust: Import platform device's implementation from rust branch
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240330/202403301114.dvIZbiI0-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240330/202403301114.dvIZbiI0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403301034.rVoygO9P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403301114.dvIZbiI0-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/trace/preemptirq_delay_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/dmapool_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp737.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp860.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp862.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp949.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp950.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-7.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-cyrillic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-roman.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/bcachefs/mean_and_variance_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/minix/minix.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/efs/efs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx4/qnx4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx6/qnx6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_hash.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in block/t10-pi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-gw-pld.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
-WARNING: modpost: drivers/acpi/apei/einj: section mismatch in reference: einj_driver+0x8 (section: .data) -> einj_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_ring.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_hdlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_gem_shmem_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/gm12u320.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/open-dice.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/aha1740.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/xhci-pci-renesas.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/mon/usbmon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb-serial-simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/twl4030_wdt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_sd8787.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/gsmi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/of_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kretprobe_example.o
->> ERROR: modpost: "ietf_dscp_to_ieee8021q_tt" [drivers/net/dsa/microchip/ksz_switch.ko] undefined!
->> ERROR: modpost: "ieee8021q_tt_to_tc" [drivers/net/dsa/microchip/ksz_switch.ko] undefined!
+>> error[E0425]: cannot find function `of_match_device` in crate `bindings`
+   --> rust/kernel/platform.rs:69:37
+   |
+   69 |         let id = unsafe { bindings::of_match_device(table.as_ref(), dev.raw_device()) };
+   |                                     ^^^^^^^^^^^^^^^ not found in `bindings`
 
 -- 
 0-DAY CI Kernel Test Service
