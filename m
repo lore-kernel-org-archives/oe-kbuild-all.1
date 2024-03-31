@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F90F64F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 02:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E78A5F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 02:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711850655; cv=none; b=XeJdraRvr95BVlzRAzJBCxUGwDzZnE7VzVO/sZrk2eSF6mwIuNVJzp4lxglJx5BzcSeZZB2RWqLj2wSzG0zztAQzfcjEZMFXPTOb/OfnrsNQAmn18svl7mq+QQBqTepGdUUHdJGrKlnd7rVliOz4dNSnDJyuh80MzpyW0BHEPLc=
+	t=1711850655; cv=none; b=LEYU0NZlUViaf1GGVMrEH8J3jdYtoP9W884CthvArzRcCFg/eqJSv9VpEZ6iIag6LrxcVpGgxR33FRi7rHJnY3NAV1t4qCHkx5F+K+CPi/V1V28DPCUIX9QpF+9n0s4kdNHr40gkoY6HdozUcCVhbc4faDPLCnrdDAZErXqLn20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1711850655; c=relaxed/simple;
-	bh=WXYqaP2ySnOoLYcaLi/6XttihdhjYbxiZEVcfE8PIO8=;
+	bh=ergoIzABEDu8FXfkEAx5CdBSJwLyQ4n+t+7HDDIjwLc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OWGRm3+K6lSRtQJf7Q7lUVD5Ynn8JrZR3VYizw92rKo+ZHwxf5Qd0CjOSt5yN+h/7H5fG8os/3T/LEpE4PskNP1tdmxSdWo0hCEp/clvzlJ8lOnf9TTHGvh2XvqYG4OWHv0YS7ip4rCQsmqY08Tnjsak8tGwDHOigk33AH6+m/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GVhhK6TJ; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=p3A5ZUFu2tAo9MaAPF2UiOpq9dhgixGEcTa4EoPRCX97S4gEhHvJE6uJe9r0VeLEV9zZjlwzIe6zGI1b102ncdXQPgFSHEtXIcbxpdBzGXaUC806gvdMvQ7+KjPgmEPM9REnlu7FUrxwbO3Oh1ULNYNK7kMP2OIEbn+V7daLKAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V6i1dIzx; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GVhhK6TJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V6i1dIzx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1711850653; x=1743386653;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WXYqaP2ySnOoLYcaLi/6XttihdhjYbxiZEVcfE8PIO8=;
-  b=GVhhK6TJmkOJPWFLyvWVTDbeKDjVvt5CSmKJX5Am6/azTFsh+uU7B+/R
-   k5D6ZWsNMcAh5EWjOfwQ1oss9nM0VzEouOrfSD4es4uLDL1MOq0b9Yv0z
-   Pe7MyQiDfIv5x47TETbxIbS6HNz/6dKjdSItSB50+CbyO0cEe+RG4dw43
-   o0I1yvDugdu/AfROTyX67L59yUsCQO3RLYgJA3DlZk2P1ngGpVK613mjq
-   8q87DXFjjsDJEdsDfpBq4mytzBkWc5rZ9IqPA21i/Qt9BmQLuvqUO7VQo
-   wzUy5KvADAelQIagJ0M802OpEfzJ+vlyNAc3mW0qDd6b6gx+ZNlvkyGEl
-   Q==;
-X-CSE-ConnectionGUID: slkL2i9sRKmgV0xYq0k+zQ==
-X-CSE-MsgGUID: jddB4vYaS9O6RpIexUfx4A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11029"; a="17559977"
+  bh=ergoIzABEDu8FXfkEAx5CdBSJwLyQ4n+t+7HDDIjwLc=;
+  b=V6i1dIzxNSUzw/ldFaGQiMXVb0+05FYqN+GcZw0ssTndrgHk/lddoZTM
+   QUa+Iks1SOP8RziDNpJs/ciEREsYILM0F0D7UYst7wNHWOj3KReylRiVN
+   vFtSOYbdd/YL/SgNad+qiqFLNopD/dF9Z8j5QG6+u5sTwZ366y54bo/x6
+   8IA6GSnVFRZ3JoYIlOCd94+6d7gKh28CiPx46a76izcW55hFNdUHZcuyr
+   DEv/qrM7mDA2EdzpRuwhcJ9L4m+ZAIm8nS0SQxz8KdsttCzj4ksihorT5
+   XSsLDM7ncchR5QC1PljQfPLm5Briq3gKh1oz6kUksh58wT/tV9KhuDSPf
+   g==;
+X-CSE-ConnectionGUID: 6Brmu7cbQi2v42/ldP1VAw==
+X-CSE-MsgGUID: JnBh8qxzS5aBD4I7sQELng==
+X-IronPort-AV: E=McAfee;i="6600,9927,11029"; a="10818203"
 X-IronPort-AV: E=Sophos;i="6.07,169,1708416000"; 
-   d="scan'208";a="17559977"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2024 19:04:12 -0700
+   d="scan'208";a="10818203"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2024 19:04:13 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,169,1708416000"; 
-   d="scan'208";a="21852090"
+   d="scan'208";a="40492090"
 Received: from lkp-server01.sh.intel.com (HELO 3d808bfd2502) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 30 Mar 2024 19:04:10 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 30 Mar 2024 19:04:10 -0700
 Received: from kbuild by 3d808bfd2502 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rqkYK-0000gj-1C;
+	id 1rqkYK-0000ge-12;
 	Sun, 31 Mar 2024 02:04:08 +0000
-Date: Sun, 31 Mar 2024 10:03:09 +0800
+Date: Sun, 31 Mar 2024 10:03:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiqian Chen <Jiqian.Chen@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC KERNEL PATCH v5 2/3] xen/pvh: Setup gsi for passthrough
- device
-Message-ID: <202403310932.nmHEif4W-lkp@intel.com>
-References: <20240328065646.354782-3-Jiqian.Chen@amd.com>
+To: Damien Le Moal <dlemoal@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, linux-pci@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 17/19] PCI: rockchip-ep: Improve link training
+Message-ID: <202403310925.C7WNNuAl-lkp@intel.com>
+References: <20240329090945.1097609-18-dlemoal@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,80 +66,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240328065646.354782-3-Jiqian.Chen@amd.com>
+In-Reply-To: <20240329090945.1097609-18-dlemoal@kernel.org>
 
-Hi Jiqian,
+Hi Damien,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on xen-tip/linux-next]
-[also build test ERROR on pci/next pci/for-linus rafael-pm/linux-next linus/master v6.9-rc1 next-20240328]
-[cannot apply to tip/x86/core rafael-pm/acpi-bus rafael-pm/devprop]
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus mani-mhi/mhi-next linus/master v6.9-rc1 next-20240328]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiqian-Chen/xen-pci-Add-xen_reset_device_state-function/20240328-145956
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/xen/tip.git linux-next
-patch link:    https://lore.kernel.org/r/20240328065646.354782-3-Jiqian.Chen%40amd.com
-patch subject: [RFC KERNEL PATCH v5 2/3] xen/pvh: Setup gsi for passthrough device
-config: arm64-randconfig-001-20240331 (https://download.01.org/0day-ci/archive/20240331/202403310932.nmHEif4W-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240331/202403310932.nmHEif4W-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/PCI-endpoint-Introduce-pci_epc_check_func/20240329-171158
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20240329090945.1097609-18-dlemoal%40kernel.org
+patch subject: [PATCH 17/19] PCI: rockchip-ep: Improve link training
+config: arc-randconfig-001-20240330 (https://download.01.org/0day-ci/archive/20240331/202403310925.C7WNNuAl-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240331/202403310925.C7WNNuAl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403310932.nmHEif4W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403310925.C7WNNuAl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/xen/xen-pciback/pci_stub.c:23:
-   include/xen/acpi.h: In function 'xen_acpi_sleep_register':
->> include/xen/acpi.h:63:58: error: macro "acpi_os_set_prepare_sleep" requires 3 arguments, but only 1 given
-      63 |                         &xen_acpi_notify_hypervisor_sleep);
-         |                                                          ^
-   In file included from include/xen/acpi.h:41:
-   include/linux/acpi.h:1121: note: macro "acpi_os_set_prepare_sleep" defined here
-    1121 | #define acpi_os_set_prepare_sleep(func, pm1a_ctrl, pm1b_ctrl) do { } while (0)
-         | 
->> include/xen/acpi.h:62:17: error: 'acpi_os_set_prepare_sleep' undeclared (first use in this function); did you mean 'acpi_os_enter_sleep'?
-      62 |                 acpi_os_set_prepare_sleep(
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 acpi_os_enter_sleep
-   include/xen/acpi.h:62:17: note: each undeclared identifier is reported only once for each function it appears in
->> include/xen/acpi.h:64:17: error: implicit declaration of function 'acpi_os_set_prepare_extended_sleep'; did you mean 'acpi_os_set_prepare_sleep'? [-Werror=implicit-function-declaration]
-      64 |                 acpi_os_set_prepare_extended_sleep(
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 acpi_os_set_prepare_sleep
-   include/xen/acpi.h:67:17: error: 'acpi_suspend_lowlevel' undeclared (first use in this function); did you mean 'xen_acpi_suspend_lowlevel'?
-      67 |                 acpi_suspend_lowlevel = xen_acpi_suspend_lowlevel;
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-         |                 xen_acpi_suspend_lowlevel
-   cc1: some warnings being treated as errors
+>> drivers/pci/controller/pcie-rockchip-ep.c:54: warning: Function parameter or struct member 'link_training' not described in 'rockchip_pcie_ep'
 
 
-vim +/acpi_os_set_prepare_sleep +63 include/xen/acpi.h
+vim +54 drivers/pci/controller/pcie-rockchip-ep.c
 
-068e0dc7b7c1db Konrad Rzeszutek Wilk 2013-05-14  58  
-268a207563f933 Liu Jinsong           2013-02-14  59  static inline void xen_acpi_sleep_register(void)
-268a207563f933 Liu Jinsong           2013-02-14  60  {
-068e0dc7b7c1db Konrad Rzeszutek Wilk 2013-05-14  61  	if (xen_initial_domain()) {
-268a207563f933 Liu Jinsong           2013-02-14 @62  		acpi_os_set_prepare_sleep(
-be6b25d15f5e67 Ben Guthro            2013-07-30 @63  			&xen_acpi_notify_hypervisor_sleep);
-be6b25d15f5e67 Ben Guthro            2013-07-30 @64  		acpi_os_set_prepare_extended_sleep(
-be6b25d15f5e67 Ben Guthro            2013-07-30  65  			&xen_acpi_notify_hypervisor_extended_sleep);
-068e0dc7b7c1db Konrad Rzeszutek Wilk 2013-05-14  66  
-068e0dc7b7c1db Konrad Rzeszutek Wilk 2013-05-14  67  		acpi_suspend_lowlevel = xen_acpi_suspend_lowlevel;
-068e0dc7b7c1db Konrad Rzeszutek Wilk 2013-05-14  68  	}
-268a207563f933 Liu Jinsong           2013-02-14  69  }
-818bdd39dbd468 Jiqian Chen           2024-03-28  70  int xen_pvh_passthrough_gsi(struct pci_dev *dev);
-268a207563f933 Liu Jinsong           2013-02-14  71  #else
-268a207563f933 Liu Jinsong           2013-02-14  72  static inline void xen_acpi_sleep_register(void)
-268a207563f933 Liu Jinsong           2013-02-14  73  {
-268a207563f933 Liu Jinsong           2013-02-14  74  }
-818bdd39dbd468 Jiqian Chen           2024-03-28  75  
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  23  
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  24  /**
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  25   * struct rockchip_pcie_ep - private data for PCIe endpoint controller driver
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  26   * @rockchip: Rockchip PCIe controller
+9b41d19aff4090 drivers/pci/controller/pcie-rockchip-ep.c Krzysztof Kozlowski 2020-07-29  27   * @epc: PCI EPC device
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  28   * @max_regions: maximum number of regions supported by hardware
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  29   * @ob_region_map: bitmask of mapped outbound regions
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  30   * @ob_addr: base addresses in the AXI bus where the outbound regions start
+5815c2d17a7492 drivers/pci/controller/pcie-rockchip-ep.c Damien Le Moal      2023-11-22  31   * @irq_phys_addr: base address on the AXI bus where the MSI/INTX IRQ
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  32   *		   dedicated outbound regions is mapped.
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  33   * @irq_cpu_addr: base address in the CPU space where a write access triggers
+5815c2d17a7492 drivers/pci/controller/pcie-rockchip-ep.c Damien Le Moal      2023-11-22  34   *		  the sending of a memory write (MSI) / normal message (INTX
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  35   *		  IRQ) TLP through the PCIe bus.
+5815c2d17a7492 drivers/pci/controller/pcie-rockchip-ep.c Damien Le Moal      2023-11-22  36   * @irq_pci_addr: used to save the current mapping of the MSI/INTX IRQ
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  37   *		  dedicated outbound region.
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  38   * @irq_pci_fn: the latest PCI function that has updated the mapping of
+5815c2d17a7492 drivers/pci/controller/pcie-rockchip-ep.c Damien Le Moal      2023-11-22  39   *		the MSI/INTX IRQ dedicated outbound region.
+5815c2d17a7492 drivers/pci/controller/pcie-rockchip-ep.c Damien Le Moal      2023-11-22  40   * @irq_pending: bitmask of asserted INTX IRQs.
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  41   */
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  42  struct rockchip_pcie_ep {
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  43  	struct rockchip_pcie	rockchip;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  44  	struct pci_epc		*epc;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  45  	u32			max_regions;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  46  	unsigned long		ob_region_map;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  47  	phys_addr_t		*ob_addr;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  48  	phys_addr_t		irq_phys_addr;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  49  	void __iomem		*irq_cpu_addr;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  50  	u64			irq_pci_addr;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  51  	u8			irq_pci_fn;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  52  	u8			irq_pending;
+9bd13985625aa9 drivers/pci/controller/pcie-rockchip-ep.c Damien Le Moal      2024-03-29  53  	struct delayed_work	link_training;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09 @54  };
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin           2018-05-09  55  
 
 -- 
 0-DAY CI Kernel Test Service
