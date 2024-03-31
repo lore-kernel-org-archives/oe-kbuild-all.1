@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D362AE66
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 10:23:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B575DEEC0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 10:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711880609; cv=none; b=ZP1Ajk3BnOdNjyQP3yjNUNOk1ypjTYIwafrDlr7k4BIXEjvz/BKU5J1x1akxe6gNK2ZDVArH4eqBZukJmiazr67IIwyQl6GC3mXD57oEimrpXSGBXYSNpqCq0moxAiimA9cHiACi/xOwwzpWfdZV2apdbgXkdydBgkN9cl5YwQs=
+	t=1711881869; cv=none; b=QTWmeGyQfP5ALhJbxv795LdBHW48AqBml1sh4l8TC3dJWFWPicbS8kI9JZQg9GoTjeO++v9dW+D3VAVTJNQOnqH4Cj7K6a1UvK+5CpyNtI25MsVr6/pCde6fOx8bXW1ekkOWU2TNtZGzk8j0jrtrUlMlwZtx7DcekOH5DQSSCJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711880609; c=relaxed/simple;
-	bh=KaoJaQbxbOhgGC7wr9sI/ilxxZwj8c14MIAubXqSUic=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H/kCLte1OYbwYP2pQvslMBG94IRtBxFROhFs7H313IaPik1KTT5Fgmi8mx/+4896ne1F9mcukve+v7KnFUNXV9hwrdQom0quFuiB0dLZRSNyVg/8f6afm3DSsFMTlQedDFmazRdhUKYb/8ZUfwom2CCT3aol5banq7yJNHukdSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TKlgzKrm; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1711881869; c=relaxed/simple;
+	bh=4wY766296ZfpAwSeZfZ9r1LSDhx2fJTZd42YdXCZ5AY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=owziHRd+QwycJqoy6Xy7QRgtv45BgBerr6GBMUqvVsZHzMxHtzc7wLp1JYz1KERX3NgouLKwOZeckkeAuAKKZruDIy3VWgeHfNCCYEDNKrWuQTIgX4BWlyyIV+fd6+YA7lpRyjtFj3OOMTppuOz1e/ngyf3eWZ2r4CDd05iaO+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OGZTt3X8; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TKlgzKrm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OGZTt3X8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711880608; x=1743416608;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KaoJaQbxbOhgGC7wr9sI/ilxxZwj8c14MIAubXqSUic=;
-  b=TKlgzKrmzjuIDnHiqIIE2A7myTxE2F8dUsccw0aCzsG5GpwgAr5eclC7
-   4yi9U7ifOBuokuBRu8nStV2TYssOlLrgHoix7Zn6ulzFoKZGtRKYCmmrs
-   iD2QHp8YBI0ZPBcB7Nf9o8EiW+kCSRkixMANQoMP3nfGig1+iX8jBvrZo
-   dBcDmFGRUYzDIhGsahXNgvDV30ELJ6l9kcrcoqWv6aAx1cyEmG5UQU6DI
-   C+q0xHCnhunGpa2Rm9+gNx7WsFCEGAArmmbpqA1r4JtMGbM4EvgNCdg3Q
-   qpGXcrqabFk0JDYWGXr0fI9BuDWslX8pOYFPkVhJyajc1mohHdNo83i0Q
+  t=1711881868; x=1743417868;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4wY766296ZfpAwSeZfZ9r1LSDhx2fJTZd42YdXCZ5AY=;
+  b=OGZTt3X8tS97AaUkADmyuj3kstMC4d9DVVrcwaRp5kgXcGG0Ivy/o4FF
+   W94moUGGEQQnOGfEtPm13rn51UTrMFy0zE754iTkxGLtya9Gsh+t+hoY6
+   yrkYl98/dktkgzQrNlWXJyjZzxxcCDrjyTdZAFb7t4FXl3G/qDEWIST3e
+   7NJIyRvoKQXMhk2QOQvnCHu9vIDJg4+hAZpdd4Kukb2xfZ6F9vLL1lQaq
+   URbNethUH3/A9T5opFgHz6IEX5qFMU4fw/gAAQjUeH7ra/pJm5Dl6W/J2
+   kC6pdbR+ulPlCioaUVmjAflwiefauioF63QWssoqJcOcKF1WPkGBuB0D+
    A==;
-X-CSE-ConnectionGUID: tl7C8uHdTbGy5F5DG7ZlHA==
-X-CSE-MsgGUID: AS8beZ4HR7GIjrjSdydE9w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11029"; a="6853122"
+X-CSE-ConnectionGUID: LvJEUJNjRyaCsXpLvASE1A==
+X-CSE-MsgGUID: /MT3F2OuQuaIuYqfWpNXbw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11029"; a="9975515"
 X-IronPort-AV: E=Sophos;i="6.07,169,1708416000"; 
-   d="scan'208";a="6853122"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2024 03:23:26 -0700
+   d="scan'208";a="9975515"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2024 03:44:27 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,169,1708416000"; 
-   d="scan'208";a="48633543"
+   d="scan'208";a="48403245"
 Received: from lkp-server01.sh.intel.com (HELO 3d808bfd2502) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Mar 2024 03:23:23 -0700
+  by orviesa002.jf.intel.com with ESMTP; 31 Mar 2024 03:44:24 -0700
 Received: from kbuild by 3d808bfd2502 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rqsLQ-00011R-1y;
-	Sun, 31 Mar 2024 10:23:20 +0000
-Date: Sun, 31 Mar 2024 18:23:11 +0800
+	id 1rqsfl-00012Y-1y;
+	Sun, 31 Mar 2024 10:44:21 +0000
+Date: Sun, 31 Mar 2024 18:43:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Ho-Ren (Jack) Chuang" <horenchuang@bytedance.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Hao Xiang <hao.xiang@bytedance.com>,
-	"Huang, Ying" <ying.huang@intel.com>
-Subject: [akpm-mm:mm-unstable 263/270] mm/memory-tiers.c:769:13: warning:
- variable 'rc' set but not used
-Message-ID: <202403311826.SNOu8jAt-lkp@intel.com>
+To: Witold Sadowski <wsadowski@marvell.com>, linux-kernel@vger.kernel.org,
+	linux-spi@vger.kernel.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, broonie@kernel.org, robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	pthombar@cadence.com, Witold Sadowski <wsadowski@marvell.com>
+Subject: Re: [PATCH 1/5] spi: cadence: Add new bindings documentation for
+ Cadence XSPI
+Message-ID: <202403311827.DCvAFLcu-lkp@intel.com>
+References: <20240329194849.25554-2-wsadowski@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,69 +64,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240329194849.25554-2-wsadowski@marvell.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   0cef2c0a2a356137b170c3cb46cb9c1dd2ca3e6b
-commit: fbc8b54896eef0b4d9aaa793523867c7eb86e788 [263/270] memory tier: create CPUless memory tiers after obtaining HMAT info
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240331/202403311826.SNOu8jAt-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240331/202403311826.SNOu8jAt-lkp@intel.com/reproduce)
+Hi Witold,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-spi/for-next]
+[also build test WARNING on linus/master v6.9-rc1 next-20240328]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Witold-Sadowski/spi-cadence-Add-new-bindings-documentation-for-Cadence-XSPI/20240330-035124
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20240329194849.25554-2-wsadowski%40marvell.com
+patch subject: [PATCH 1/5] spi: cadence: Add new bindings documentation for Cadence XSPI
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240331/202403311827.DCvAFLcu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403311826.SNOu8jAt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403311827.DCvAFLcu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   mm/memory-tiers.c: In function 'mt_perf_to_adistance':
->> mm/memory-tiers.c:769:13: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
-     769 |         int rc = 0;
-         |             ^~
-
-
-vim +/rc +769 mm/memory-tiers.c
-
-   766	
-   767	int mt_perf_to_adistance(struct access_coordinate *perf, int *adist)
-   768	{
- > 769		int rc = 0;
-   770	
-   771		mutex_lock(&default_dram_perf_lock);
-   772		if (default_dram_perf_error) {
-   773			rc = -EIO;
-   774			goto out;
-   775		}
-   776	
-   777		if (perf->read_latency + perf->write_latency == 0 ||
-   778		    perf->read_bandwidth + perf->write_bandwidth == 0) {
-   779			rc = -EINVAL;
-   780			goto out;
-   781		}
-   782	
-   783		if (default_dram_perf_ref_nid == NUMA_NO_NODE) {
-   784			rc = -ENOENT;
-   785			goto out;
-   786		}
-   787		/*
-   788		 * The abstract distance of a memory node is in direct proportion to
-   789		 * its memory latency (read + write) and inversely proportional to its
-   790		 * memory bandwidth (read + write).  The abstract distance, memory
-   791		 * latency, and memory bandwidth of the default DRAM nodes are used as
-   792		 * the base.
-   793		 */
-   794		*adist = MEMTIER_ADISTANCE_DRAM *
-   795			(perf->read_latency + perf->write_latency) /
-   796			(default_dram_perf.read_latency + default_dram_perf.write_latency) *
-   797			(default_dram_perf.read_bandwidth + default_dram_perf.write_bandwidth) /
-   798			(perf->read_bandwidth + perf->write_bandwidth);
-   799	
-   800	out:
-   801		mutex_unlock(&default_dram_perf_lock);
-   802		return 0;
-   803	}
-   804	EXPORT_SYMBOL_GPL(mt_perf_to_adistance);
-   805	
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/spi/cdns,xspi.yaml: properties:compatible: [{'const': 'cdns,xspi-nor'}, {'const': 'mrvl,xspi-nor'}] is not of type 'object', 'boolean'
+   	from schema $id: http://json-schema.org/draft-07/schema#
+>> Documentation/devicetree/bindings/spi/cdns,xspi.yaml: properties:compatible: [{'const': 'cdns,xspi-nor'}, {'const': 'mrvl,xspi-nor'}] is not of type 'object', 'boolean'
+   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+--
+>> Documentation/devicetree/bindings/spi/cdns,xspi.yaml: ignoring, error in schema: properties: compatible
+   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
 
 -- 
 0-DAY CI Kernel Test Service
