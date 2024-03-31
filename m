@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CD38472
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 14:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B3D3399B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 15:02:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711896755; cv=none; b=MX9ZMr3pfaTH5Zq4Dq8Tw2SsTjo5RK3WQNQFLipj7qBz/hpDXElVrz/+d278zOs199pQ95DqRQouORHmz7kLs2QVDmIfo/nUS2hRkNtIDZUETYOw51lDrBlmUTO+AIPuyXrkyFt9nkUnTLM8GB5zqyJq8HQqsrbECBKaG6/pvc8=
+	t=1711897354; cv=none; b=J9E3kJHfMJX1SpPhd3uCU160YA2fvUkGbxyWarTRrrVf68pOpZESSijelqhYF4czpz5XuMZB0yNGRc4pWMQdoV77MYCc78lyudvMrgWaMPErddxwyPpAAYsBwAyyd39eaFpTeXrA8o6DfNJ9vkfKU24uDBSE8QPA8RxeHtArPHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711896755; c=relaxed/simple;
-	bh=K2hX76VKzAvGosm6eJPPPW9C9keFF/WVdbpvM5F1TCw=;
+	s=arc-20240116; t=1711897354; c=relaxed/simple;
+	bh=tC+TkKo5fyK4aa8flLVfFfG7cbnkYDgfHgixm2u2fXk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=K2qQ8lmNisUmJGOMAfP1By3VVDy83b19J8CTYI84i48EoW7TOkllHbo/OXmoxpFvvvu7lHXkNT6oJKmXDQNZneTVYDjq5iQG7YLWciZMYLKjKTJ5971GwFEif7Q6kG/g3DUuPDARTZ+Z1nu2Q73n0fvjP3JSMfBT8Vzc9OKpS28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GT1AsRbm; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=ZtwZY9eA36Drn+zN4Au1x1vdVHOJ49LsPygjHzhQKnsDPZJjq/It1awjAwTST81l/de+O8/an1kIU5oNtitUOBCZ5+ujp3h/uxFvHS1YcESwYEDkx8Umbl1WDmwbGcTNhgfaC7vS+UvdCK2P6Jacjnjpf1tVUAgR38nySz8k3jM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C8cgwXPn; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GT1AsRbm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C8cgwXPn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711896752; x=1743432752;
+  t=1711897353; x=1743433353;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K2hX76VKzAvGosm6eJPPPW9C9keFF/WVdbpvM5F1TCw=;
-  b=GT1AsRbmFWguaPAZcCXKMYEGhT31yjsk+LnhJBkMRrLRv9VOVQ7ZU0uo
-   9bkdllIYKn43vvJPPJzpeolmYenVzSNf84vMWEomwUunTZ+kz87SwsoP9
-   wQgJEmdC9XM9x7a6rjlueZebJXWFP2DOuWG0zi3kEyC6dW9mePyjk0FWY
-   W0BqnJFkTprja3kOu+RoyEyL1mlyZzYbDRm3h7tr/SX+E/29btbZUAr5M
-   fTdOChjUvEsC5FAby6VQ4v90JAX5kyOYzx/fDNCxsVrxM7bCW+SqZva9w
-   6Jc9uw8TmmqzkXAPWpE1XU/23hm0lbj4/Yu09bPHkDJrfCkEpPULmbdrR
+  bh=tC+TkKo5fyK4aa8flLVfFfG7cbnkYDgfHgixm2u2fXk=;
+  b=C8cgwXPnjnTlY0sD4jxywk0sfZH8NJU3x/DT/Vx+rurAIQ3xd5DJEMqD
+   VzCbGn20GxscgTDsd3iqng0wbM3wCabfssw8z0hhElPxD8FsUmjMGhhgs
+   fUfopKS7pcMhx0IeoG+a+Vjv6qiJbOCqgoYrjYFZ8murmqE3Gf40rWZIM
+   jhRy4k+6B7v5umIyHEw+qhbUMi9hQNEuQPHyzIKYkLj1Iu8ExN80JvnCa
+   uwi6Gvwkr/T20uRgCpRmWKvY3WU4o1eTEWmYGpxjMVbxwPzxNETc+9SBj
+   J6RhWd/BmAVZxXgvbFiK6FsbqZ+XrqXl/vZgLWajWFl6vXvG4rfi2LVff
    w==;
-X-CSE-ConnectionGUID: K9QhDVYRT86Rt0sVKD6Biw==
-X-CSE-MsgGUID: A15FYdNtQPW42j4269+qNA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11030"; a="10855799"
+X-CSE-ConnectionGUID: dO1oZrFYSyuLQBcsQD7wTg==
+X-CSE-MsgGUID: inUYBJiISTKMMVjqgQd1VQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11030"; a="17594425"
 X-IronPort-AV: E=Sophos;i="6.07,170,1708416000"; 
-   d="scan'208";a="10855799"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2024 07:52:31 -0700
+   d="scan'208";a="17594425"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2024 08:02:31 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,170,1708416000"; 
-   d="scan'208";a="17918112"
+   d="scan'208";a="17548113"
 Received: from lkp-server01.sh.intel.com (HELO 3d808bfd2502) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 31 Mar 2024 07:52:30 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 31 Mar 2024 08:02:29 -0700
 Received: from kbuild by 3d808bfd2502 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rqwXr-0001CA-1I;
-	Sun, 31 Mar 2024 14:52:27 +0000
-Date: Sun, 31 Mar 2024 22:51:35 +0800
+	id 1rqwhX-0001CQ-1l;
+	Sun, 31 Mar 2024 15:02:27 +0000
+Date: Sun, 31 Mar 2024 23:02:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 8630/30000]
- kernel/trace/trace_osnoise.c:933:undefined reference to `latency_fsnotify'
-Message-ID: <202403312200.s5tItbNx-lkp@intel.com>
+Subject: [android-common:android11-kiwi-5.4 1/2] virtio_pvclock.c:undefined
+ reference to `timekeeping_inject_sleeptime64'
+Message-ID: <202403312313.JnDKA1Hi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,192 +60,146 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   737efe73dd2ca6ee503ba26e6fc3ee41bd8cf633
-commit: d11dbe8b4e8ad4c5bd90147912352ef6f13a2bb6 [8630/30000] trace: Add osnoise tracer
-config: x86_64-randconfig-073-20240330 (https://download.01.org/0day-ci/archive/20240331/202403312200.s5tItbNx-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240331/202403312200.s5tItbNx-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
+head:   041e75aaccb4f83ecd969c31dc76d806db164020
+commit: 04f660d6724f5df1b07f8cf9e1c55f70fb43d1d2 [1/2] ANDROID: virtio: virtio_pvclock: initial driver impl
+config: x86_64-buildonly-randconfig-003-20240329 (https://download.01.org/0day-ci/archive/20240331/202403312313.JnDKA1Hi-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240331/202403312313.JnDKA1Hi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403312200.s5tItbNx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403312313.JnDKA1Hi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: warning: arch/x86/power/hibernate_asm_64.o: missing .note.GNU-stack section implies executable stack
+   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
    ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: arch/x86/power/hibernate_asm_64.o: missing .note.GNU-stack section implies executable stack
+   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
    ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
    ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
-   ld: kernel/trace/trace_osnoise.o: in function `run_osnoise':
->> kernel/trace/trace_osnoise.c:933:(.text+0x3eb7): undefined reference to `latency_fsnotify'
+   ld: drivers/virtio/virtio_pvclock.o: in function `update_suspend_time':
+>> virtio_pvclock.c:(.text+0x4a9): undefined reference to `timekeeping_inject_sleeptime64'
+   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_set_winsz':
+   hvc_console.c:(.text+0x203): undefined reference to `tty_port_tty_get'
+   ld: hvc_console.c:(.text+0x235): undefined reference to `tty_do_resize'
+   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_hangup':
+   hvc_console.c:(.text+0x33f): undefined reference to `tty_port_tty_set'
+   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_open':
+   hvc_console.c:(.text+0x3c6): undefined reference to `tty_port_tty_set'
+   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_close':
+   hvc_console.c:(.text+0x484): undefined reference to `tty_hung_up_p'
+   ld: hvc_console.c:(.text+0x4e0): undefined reference to `tty_port_tty_set'
+   ld: hvc_console.c:(.text+0x545): undefined reference to `tty_wait_until_sent'
+   ld: drivers/tty/hvc/hvc_console.o: in function `__hvc_poll':
+   hvc_console.c:(.text+0x5bf): undefined reference to `tty_port_tty_get'
+   ld: hvc_console.c:(.text+0x600): undefined reference to `tty_buffer_request_room'
+   ld: hvc_console.c:(.text+0x64c): undefined reference to `__tty_insert_flip_char'
+   ld: hvc_console.c:(.text+0x6d9): undefined reference to `tty_flip_buffer_push'
+   ld: hvc_console.c:(.text+0x7dd): undefined reference to `tty_wakeup'
+   ld: hvc_console.c:(.text+0x835): undefined reference to `tty_hangup'
+   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_install':
+   hvc_console.c:(.text+0xac1): undefined reference to `tty_port_install'
+   ld: hvc_console.c:(.text+0xadb): undefined reference to `tty_port_put'
+   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_instantiate':
+   hvc_console.c:(.text+0xee0): undefined reference to `tty_port_put'
+   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_alloc':
+   hvc_console.c:(.text+0xf88): undefined reference to `__tty_alloc_driver'
+   ld: hvc_console.c:(.text+0xfd3): undefined reference to `tty_std_termios'
+   ld: hvc_console.c:(.text+0xfe6): undefined reference to `tty_std_termios'
+   ld: hvc_console.c:(.text+0xff1): undefined reference to `tty_std_termios'
+   ld: hvc_console.c:(.text+0xffc): undefined reference to `tty_std_termios'
+   ld: hvc_console.c:(.text+0x1007): undefined reference to `tty_std_termios'
+   ld: drivers/tty/hvc/hvc_console.o:hvc_console.c:(.text+0x1011): more undefined references to `tty_std_termios' follow
+   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_alloc':
+   hvc_console.c:(.text+0x101a): undefined reference to `tty_set_operations'
+   ld: hvc_console.c:(.text+0x105a): undefined reference to `tty_register_driver'
+   ld: hvc_console.c:(.text+0x10c5): undefined reference to `tty_port_init'
+   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_remove':
+   hvc_console.c:(.text+0x1290): undefined reference to `tty_port_tty_get'
+   ld: hvc_console.c:(.text+0x12db): undefined reference to `tty_port_put'
+   ld: hvc_console.c:(.text+0x12e8): undefined reference to `tty_vhangup'
+   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_cleanup':
+   hvc_console.c:(.text+0x1b8): undefined reference to `tty_port_put'
+   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_alloc.cold':
+   hvc_console.c:(.text.unlikely+0x54): undefined reference to `put_tty_driver'
+   ld: hvc_console.c:(.text.unlikely+0x90): undefined reference to `put_tty_driver'
+   ld: drivers/power/supply/pda_power.o: in function `pda_power_remove':
+   pda_power.c:(.text+0x1c0): undefined reference to `usb_put_phy'
+   ld: drivers/power/supply/pda_power.o: in function `pda_power_probe':
+   pda_power.c:(.text+0x712): undefined reference to `usb_get_phy'
+   ld: drivers/power/supply/pda_power.o: in function `pda_power_probe.cold':
+   pda_power.c:(.text.unlikely+0xd5): undefined reference to `usb_put_phy'
+   ld: drivers/power/supply/da9150-charger.o: in function `da9150_charger_probe':
+   da9150-charger.c:(.text+0x6fd): undefined reference to `devm_usb_get_phy'
+   ld: drivers/power/supply/isp1704_charger.o: in function `isp1704_charger_probe':
+   isp1704_charger.c:(.text+0x16e): undefined reference to `devm_usb_get_phy_by_phandle'
+   ld: isp1704_charger.c:(.text+0x3f8): undefined reference to `devm_usb_get_phy'
+   ld: drivers/power/supply/twl4030_charger.o: in function `twl4030_bci_probe':
+   twl4030_charger.c:(.text+0x1592): undefined reference to `devm_usb_get_phy_by_node'
 
-
-vim +933 kernel/trace/trace_osnoise.c
-
-   784	
-   785	/*
-   786	 * run_osnoise - Sample the time and look for osnoise
-   787	 *
-   788	 * Used to capture the time, looking for potential osnoise latency repeatedly.
-   789	 * Different from hwlat_detector, it is called with preemption and interrupts
-   790	 * enabled. This allows irqs, softirqs and threads to run, interfering on the
-   791	 * osnoise sampling thread, as they would do with a regular thread.
-   792	 */
-   793	static int run_osnoise(void)
-   794	{
-   795		struct osnoise_variables *osn_var = this_cpu_osn_var();
-   796		u64 noise = 0, sum_noise = 0, max_noise = 0;
-   797		struct trace_array *tr = osnoise_trace;
-   798		u64 start, sample, last_sample;
-   799		u64 last_int_count, int_count;
-   800		s64 total, last_total = 0;
-   801		struct osnoise_sample s;
-   802		unsigned int threshold;
-   803		int hw_count = 0;
-   804		u64 runtime, stop_in;
-   805		int ret = -1;
-   806	
-   807		/*
-   808		 * Considers the current thread as the workload.
-   809		 */
-   810		osn_var->pid = current->pid;
-   811	
-   812		/*
-   813		 * Save the current stats for the diff
-   814		 */
-   815		save_osn_sample_stats(osn_var, &s);
-   816	
-   817		/*
-   818		 * if threshold is 0, use the default value of 5 us.
-   819		 */
-   820		threshold = tracing_thresh ? : 5000;
-   821	
-   822		/*
-   823		 * Make sure NMIs see sampling first
-   824		 */
-   825		osn_var->sampling = true;
-   826		barrier();
-   827	
-   828		/*
-   829		 * Transform the *_us config to nanoseconds to avoid the
-   830		 * division on the main loop.
-   831		 */
-   832		runtime = osnoise_data.sample_runtime * NSEC_PER_USEC;
-   833		stop_in = osnoise_data.stop_tracing * NSEC_PER_USEC;
-   834	
-   835		/*
-   836		 * Start timestemp
-   837		 */
-   838		start = time_get();
-   839	
-   840		/*
-   841		 * "previous" loop.
-   842		 */
-   843		last_int_count = set_int_safe_time(osn_var, &last_sample);
-   844	
-   845		do {
-   846			/*
-   847			 * Get sample!
-   848			 */
-   849			int_count = set_int_safe_time(osn_var, &sample);
-   850	
-   851			noise = time_sub(sample, last_sample);
-   852	
-   853			/*
-   854			 * This shouldn't happen.
-   855			 */
-   856			if (noise < 0) {
-   857				osnoise_taint("negative noise!");
-   858				goto out;
-   859			}
-   860	
-   861			/*
-   862			 * Sample runtime.
-   863			 */
-   864			total = time_sub(sample, start);
-   865	
-   866			/*
-   867			 * Check for possible overflows.
-   868			 */
-   869			if (total < last_total) {
-   870				osnoise_taint("total overflow!");
-   871				break;
-   872			}
-   873	
-   874			last_total = total;
-   875	
-   876			if (noise >= threshold) {
-   877				int interference = int_count - last_int_count;
-   878	
-   879				if (noise > max_noise)
-   880					max_noise = noise;
-   881	
-   882				if (!interference)
-   883					hw_count++;
-   884	
-   885				sum_noise += noise;
-   886	
-   887				trace_sample_threshold(last_sample, noise, interference);
-   888	
-   889				if (osnoise_data.stop_tracing)
-   890					if (noise > stop_in)
-   891						osnoise_stop_tracing();
-   892			}
-   893	
-   894			/*
-   895			 * For the non-preemptive kernel config: let threads runs, if
-   896			 * they so wish.
-   897			 */
-   898			cond_resched();
-   899	
-   900			last_sample = sample;
-   901			last_int_count = int_count;
-   902	
-   903		} while (total < runtime && !kthread_should_stop());
-   904	
-   905		/*
-   906		 * Finish the above in the view for interrupts.
-   907		 */
-   908		barrier();
-   909	
-   910		osn_var->sampling = false;
-   911	
-   912		/*
-   913		 * Make sure sampling data is no longer updated.
-   914		 */
-   915		barrier();
-   916	
-   917		/*
-   918		 * Save noise info.
-   919		 */
-   920		s.noise = time_to_us(sum_noise);
-   921		s.runtime = time_to_us(total);
-   922		s.max_sample = time_to_us(max_noise);
-   923		s.hw_count = hw_count;
-   924	
-   925		/* Save interference stats info */
-   926		diff_osn_sample_stats(osn_var, &s);
-   927	
-   928		trace_osnoise_sample(&s);
-   929	
-   930		/* Keep a running maximum ever recorded osnoise "latency" */
-   931		if (max_noise > tr->max_latency) {
-   932			tr->max_latency = max_noise;
- > 933			latency_fsnotify(tr);
-   934		}
-   935	
-   936		if (osnoise_data.stop_tracing_total)
-   937			if (s.noise > osnoise_data.stop_tracing_total)
-   938				osnoise_stop_tracing();
-   939	
-   940		return 0;
-   941	out:
-   942		return ret;
-   943	}
-   944	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 -- 
 0-DAY CI Kernel Test Service
