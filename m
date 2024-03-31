@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDEF567D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 06:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336FC79CC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 06:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711865003; cv=none; b=muKw2h1XvHv7tIFxCMf+i+sNLEFl1slIvg+MV5KtPUIQ82a6jE4g2GcVV6zc4EE4ms0ThRoNS8qxKEsUZRpGhfU68zFbFhSBuXTaHMb9SEuJRdVH9I63kfDbNgGNlnjzksqcXRg2X9TosbwmMiafjycL7PdmZrAEb8kEqjaysYg=
+	t=1711868124; cv=none; b=FpT4L7tAzDmwcKnuGOobFNR96TnX6XiA9RuQzZm63L/aylrB+/6D9y1BXRIBJPn5z1p2wXr5j9DW5es2fNsphlcqROMV05mXigUnKF+f5gIcAAvQEcbJAnN9TKMhulcOaHiPc53Zeg2zo+ZzeGWFwtoGBlGClcFYqy0vMPwsKlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711865003; c=relaxed/simple;
-	bh=nRQtuk+65XZXJMoGM5MuO3DPUwYoug1VdmDCSRXswN4=;
+	s=arc-20240116; t=1711868124; c=relaxed/simple;
+	bh=iNO8LsVCX2Hkz4wyDhMNUKDJD4dmmgFvrhv6Q3ZQ2Fk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S4LX2ZA9Teo4GIhU7pfu2i0SZgv0j1e2XCWuEps/hMsrJ399PbCs15fTJV2NrS5YXsiMo2jf+JTkpstC9YUhgqgGJs1bAhCXFtKdc+EmjvyBEBIZ4Ng8wwsk3FCfQAnmSVCKRe0YBi1e5aqoAYwwjt8F4cn5Wj29pielPfXI9aE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RMuj82PN; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=jApJGIFJZb1KUQRo8YIjZFX3R+fIP/pVCDggEt2KRI7iidXSMuCeESiQIpRIQPF2pD3vzksC1zIUp5aWzR/H2BWl2OSW7JXQO39FuhiPJH8qy8AaTFR/a8b/0aCPNaq3/ap0845sb3NvYXfLWcgVSopR76kxs2I7TSdgSXqddTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UHRjVf6/; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RMuj82PN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UHRjVf6/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711865000; x=1743401000;
+  t=1711868121; x=1743404121;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nRQtuk+65XZXJMoGM5MuO3DPUwYoug1VdmDCSRXswN4=;
-  b=RMuj82PNmN00zgJ7bK0bA8mcaZqR0mN4Lqe0GyKelsEVyLJUXx69CkyG
-   WEmB+7l59rhc514+Foc1WG/SRrJapqs0e46E7hejJFZZ3eg1Jl4K2NU38
-   0aUXzrZiJJCyjI0zsGhbzXjsP5wHhmX+N6Y0kZeP/fdxqvC/BWtsisAaW
-   K6FMXxM5c8cfUhtwRblAGIBJamjsREcpXVNFsMsP8Z2mJ4BKp5TRCwj0f
-   QdG89qqo/N3bE7SDhK4muV4p1w23DXLwTnDO+KDK1VfzsXXhQzl9Mmeor
-   fjzOfUDnDqMtrBtTFpfjWjDUJ3XJIM716B/4YnwnW10r5lgi2JAFWlu6u
-   A==;
-X-CSE-ConnectionGUID: T5B5ARpMSFyB9dshqB/xJA==
-X-CSE-MsgGUID: EjWKmerkRQGXzuf8B6K94w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11029"; a="6861508"
+  bh=iNO8LsVCX2Hkz4wyDhMNUKDJD4dmmgFvrhv6Q3ZQ2Fk=;
+  b=UHRjVf6/aif+hvMoriNAEDX2lPuPs7h+SpVi+0yE4H9pqURmFE3lmGcD
+   Jxv8pIh4iKCU11rq+ewc8SpeUyTsvK7yvTtxwIYRryDVouJJe3R7gnodl
+   Tv7KygGUmenQODlDCmTcB4pZcYnErDEniXxjPzhwpSVfcDFBUBPutkVgh
+   43lUuRXPZaocMcvGI5cVN45fyT5hjluAbr1EeNdgbvHlr/AhRSqgn9Ae2
+   g4qM5pfh+J3CQr5ax7ooo+7soUry9LFpXwr4Ob2A/dUvCRtB4/RzPVznZ
+   EzF/+vU/yp1IZtlFNSPI3EjAq4jsTXp1DpaAUUXJwCmORWfzCoIMJUfYW
+   Q==;
+X-CSE-ConnectionGUID: pxBk85DKSROqaHcVKr0xpg==
+X-CSE-MsgGUID: nzbbVnkfQReH1ImfEJd51Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11029"; a="7196367"
 X-IronPort-AV: E=Sophos;i="6.07,169,1708416000"; 
-   d="scan'208";a="6861508"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2024 23:03:19 -0700
+   d="scan'208";a="7196367"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2024 23:55:20 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,169,1708416000"; 
-   d="scan'208";a="54831833"
+   d="scan'208";a="48342218"
 Received: from lkp-server01.sh.intel.com (HELO 3d808bfd2502) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 Mar 2024 23:03:17 -0700
+  by orviesa002.jf.intel.com with ESMTP; 30 Mar 2024 23:55:18 -0700
 Received: from kbuild by 3d808bfd2502 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rqoHj-0000qw-0S;
-	Sun, 31 Mar 2024 06:03:15 +0000
-Date: Sun, 31 Mar 2024 14:02:26 +0800
+	id 1rqp64-0000sg-0H;
+	Sun, 31 Mar 2024 06:55:16 +0000
+Date: Sun, 31 Mar 2024 14:54:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/base/power/domain_governor.c:409: warning: cannot understand
- function prototype: 'struct dev_power_governor pm_domain_always_on_gov = '
-Message-ID: <202403311326.Dr2HlMYm-lkp@intel.com>
+To: Kartik <kkartik@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-tegra@vger.kernel.org,
+	Thierry Reding <treding@nvidia.com>
+Subject: [arm-tegra:for-6.8/soc 9/10]
+ drivers/soc/tegra/fuse/fuse-tegra30.c:684:17: error: 'tegra30_fuse_read'
+ undeclared here (not in a function); did you mean 'tegra_fuse_readl'?
+Message-ID: <202403311414.xn2GkelU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,92 +62,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Huacai,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   712e14250dd2907346617eba275c46f53db8fae7
-commit: 366bb35a8e48198cefcd3484ac6b2374d1347873 LoongArch: Add suspend (ACPI S3) support
-date:   1 year, 4 months ago
-config: loongarch-randconfig-r034-20230511 (https://download.01.org/0day-ci/archive/20240331/202403311326.Dr2HlMYm-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20240331/202403311326.Dr2HlMYm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/swarren/linux-tegra.git for-6.8/soc
+head:   f655182f9e9edda559b41a1f8b3b9c944443694a
+commit: dee509eb9cd593b7bcb1c1f1f5f2d7e75e389290 [9/10] soc/tegra: fuse: Add support for Tegra241
+config: arm64-randconfig-002-20240331 (https://download.01.org/0day-ci/archive/20240331/202403311414.xn2GkelU-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240331/202403311414.xn2GkelU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403311326.Dr2HlMYm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403311414.xn2GkelU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/base/power/domain_governor.c:409: warning: cannot understand function prototype: 'struct dev_power_governor pm_domain_always_on_gov = '
---
->> drivers/base/power/runtime.c:365: warning: Excess function parameter 'dev' description in '__rpm_callback'
+>> drivers/soc/tegra/fuse/fuse-tegra30.c:684:17: error: 'tegra30_fuse_read' undeclared here (not in a function); did you mean 'tegra_fuse_readl'?
+     684 |         .read = tegra30_fuse_read,
+         |                 ^~~~~~~~~~~~~~~~~
+         |                 tegra_fuse_readl
+>> drivers/soc/tegra/fuse/fuse-tegra30.c:694:17: error: 'tegra30_fuse_init' undeclared here (not in a function); did you mean 'tegra_fuse_info'?
+     694 |         .init = tegra30_fuse_init,
+         |                 ^~~~~~~~~~~~~~~~~
+         |                 tegra_fuse_info
+   drivers/soc/tegra/fuse/fuse-tegra30.c:698:28: error: 'tegra194_soc_attr_group' undeclared here (not in a function); did you mean 'tegra_soc_attr_group'?
+     698 |         .soc_attr_group = &tegra194_soc_attr_group,
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~
+         |                            tegra_soc_attr_group
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/acpi/nvs.c:140:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *kaddr @@
-   drivers/acpi/nvs.c:140:54: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/nvs.c:140:54: sparse:     got void *kaddr
->> drivers/acpi/nvs.c:143:66: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *virt @@     got void *kaddr @@
-   drivers/acpi/nvs.c:143:66: sparse:     expected void [noderef] __iomem *virt
-   drivers/acpi/nvs.c:143:66: sparse:     got void *kaddr
->> drivers/acpi/nvs.c:182:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *kaddr @@     got void [noderef] __iomem * @@
-   drivers/acpi/nvs.c:182:38: sparse:     expected void *kaddr
-   drivers/acpi/nvs.c:182:38: sparse:     got void [noderef] __iomem *
-   drivers/acpi/nvs.c:184:46: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *kaddr @@     got void [noderef] __iomem * @@
-   drivers/acpi/nvs.c:184:46: sparse:     expected void *kaddr
-   drivers/acpi/nvs.c:184:46: sparse:     got void [noderef] __iomem *
---
->> drivers/acpi/sleep.c:556:46: sparse: sparse: restricted suspend_state_t degrades to integer
-   drivers/acpi/sleep.c:656:50: sparse: sparse: restricted suspend_state_t degrades to integer
---
->> kernel/power/main.c:133:34: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:133:38: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:134:21: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:134:26: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:136:38: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:137:62: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:133:55: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:162:38: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:162:46: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:163:54: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:162:67: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:182:31: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:182:36: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:188:13: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:188:21: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:188:39: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:188:47: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:579:34: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:579:38: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:580:31: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:581:57: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:579:55: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:608:38: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:608:46: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:609:47: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:608:67: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:629:31: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:629:36: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:635:13: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:635:21: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:703:31: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/main.c:703:36: sparse: sparse: restricted suspend_state_t degrades to integer
 
-vim +409 drivers/base/power/domain_governor.c
+vim +684 drivers/soc/tegra/fuse/fuse-tegra30.c
 
-e59a8db8d9b7c0 Rafael J. Wysocki 2012-01-14  405  
-925b44a273aa8c Mark Brown        2011-12-08  406  /**
-925b44a273aa8c Mark Brown        2011-12-08  407   * pm_genpd_gov_always_on - A governor implementing an always-on policy
-925b44a273aa8c Mark Brown        2011-12-08  408   */
-925b44a273aa8c Mark Brown        2011-12-08 @409  struct dev_power_governor pm_domain_always_on_gov = {
-
-:::::: The code at line 409 was first introduced by commit
-:::::: 925b44a273aa8c4c23c006c1228aacd538eead09 PM / Domains: Provide an always on power domain governor
-
-:::::: TO: Mark Brown <broonie@opensource.wolfsonmicro.com>
-:::::: CC: Rafael J. Wysocki <rjw@sisk.pl>
+   681	
+   682	#if defined(CONFIG_ARCH_TEGRA_241_SOC)
+   683	static const struct tegra_fuse_info tegra241_fuse_info = {
+ > 684		.read = tegra30_fuse_read,
+   685		.size = 0x16008,
+   686		.spare = 0xcf0,
+   687	};
+   688	
+   689	static const struct nvmem_keepout tegra241_fuse_keepouts[] = {
+   690		{ .start = 0xc, .end = 0x1600c }
+   691	};
+   692	
+   693	const struct tegra_fuse_soc tegra241_fuse_soc = {
+ > 694		.init = tegra30_fuse_init,
 
 -- 
 0-DAY CI Kernel Test Service
