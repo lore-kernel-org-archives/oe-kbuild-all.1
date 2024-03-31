@@ -1,57 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DDE4688
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 18:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7F04688;
+	Sun, 31 Mar 2024 18:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711910380; cv=none; b=MGZzWFiulXzKkQlkGJDDmTa5RVMRMdO8FvhqVMrPb2Z0IwcicmymQ4ik9P26OtgTmbMtwiqJwMv/chTDxBRVlroMzDw8G1FzZrfUMMvYZmXFktvD0i9EIO7VfLAMuUUIlNNHrupjuZw/0P0NU0wBd0+FP+/UKz26jD4/2VUGtFM=
+	t=1711910453; cv=none; b=pfxYy6hXbj/EgKm/bgUsgpQMFt7+f//tBBYgJQhRvfA8ZR+JDIrROqp+/WCtkENGDvC7zrc4EmlIdWH9/DIXFoXzpBGb/C0SOfUDw7aJPHiRSXjPsspYmYcqABVlcgDN7lEsKzrABaRqd91EJ2ihsWD3pqG4fw9LnAv/xVwKQ/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711910380; c=relaxed/simple;
-	bh=BdRP69A6ruzzD5PtK39Wno0xL6G54u9O2vI6bzb/4xA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UTRBQYaTqGTddqK8LV2TJb6OKQEoaheVgUTgTEDwW9cqAk+OcsoqDJJSsyusJYZZbi9Ns1RqHRpjmXco6HwOjnkGxyNw/6EyXFDDOGp2YKZ6ftWlj3x0GD27H18O6wR4Y7MgUDha08hmOTuVYUkMZ+3BynhBBh/o6kDZQixKlSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ScXi0OrW; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711910453; c=relaxed/simple;
+	bh=ReDZvz0PK8Wdw1R/qBjVXBhqT+tqV1odnJn9/n31B0o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rIansGiARmi3OPl9tCxrh7pA4/ZX+5BEAJ6NpsEIxwgrn8Xay1VE8AvGAYiEQ7uow5Kb29SBL3c7aS+AwkSsyna/3ZWRdz+1EV/9w+zm01p5qXpTJK6dmiHTTN8VHFyFzv4eh0Y923N7W9cGpmqdr0oTrfchyczM9EPLKM86pE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DhPxK8Wo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ScXi0OrW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711910378; x=1743446378;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BdRP69A6ruzzD5PtK39Wno0xL6G54u9O2vI6bzb/4xA=;
-  b=ScXi0OrW5ljMarWjrh+dp0WJ6G9HP1a2uvJN0ycxfSWKIss4rIpjXOzY
-   5EnTyty0VjEPxl4FgXI0QMrcks/Qv+bQhH0uhwxV+/MZ52Wg6o0lemYB8
-   bzXn37yCJ0igtcgty5jULRR9E85FQ/c8/4Je/Nh00Dq5awBoF4643KZCQ
-   SwZcJSGQogye7FF2/pfZQarGk1X4q1GrYtrFwjyRDxaoym2jLnLmVIzT4
-   3k+576Vai6xGB84hPKcAKgDRFKf7g4pCGSaBlotHwVEd12M9n1HVru3rG
-   NO2QUHJ51A64NMaRx8hqiC0anxsTBcQl5fChvAlm0nTiIhs8NGgPx1NsV
-   Q==;
-X-CSE-ConnectionGUID: 7fOX55bISterlKhCfSWO+Q==
-X-CSE-MsgGUID: 7QWcaEfVR2uGWeoc57fh8Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11030"; a="18406305"
-X-IronPort-AV: E=Sophos;i="6.07,170,1708416000"; 
-   d="scan'208";a="18406305"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2024 11:39:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,170,1708416000"; 
-   d="scan'208";a="48708303"
-Received: from lkp-server01.sh.intel.com (HELO 3d808bfd2502) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Mar 2024 11:39:36 -0700
-Received: from kbuild by 3d808bfd2502 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rr05e-0001Ly-0q;
-	Sun, 31 Mar 2024 18:39:34 +0000
-Date: Mon, 1 Apr 2024 02:39:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ukleinek:pwm/for-nexxt 26/26] drivers/pwm/pwm-apple.c:125:15:
- error: implicit declaration of function 'devm_clk_rate_exclusive_get'; did
- you mean 'clk_rate_exclusive_get'?
-Message-ID: <202404010229.4zSY98zS-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DhPxK8Wo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 613B8C433F1;
+	Sun, 31 Mar 2024 18:40:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711910453;
+	bh=ReDZvz0PK8Wdw1R/qBjVXBhqT+tqV1odnJn9/n31B0o=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=DhPxK8WoHKpch5OEWQLfQUplJHthOcuBKsYkPRJ9cMgBULbeFAb6dBjuhEm4O/a6E
+	 LimE4cymp0JFJZb90d+tNlEQ5OgO3z18yDC0Kg0vAsjqkLnOqq9o9H4DoMli76FUC6
+	 ZVhAk9zzn4S3ydCfNfbHOYY3UFj+W+DVY4zg+2QoN8JyI5sC/RhwrNmsE4n445Woz0
+	 UqbXhwPDSV+0eiGfQgKsn0EetwN/NIFmZ9XUBySwvqhyyEhIAQiWqIDPF58SGSIyvV
+	 QyyWkgOu0tcX8sNGLtzajJKB8m3llcSqP+WjqJ3b5LTibpChLj7wt+UwBzY2hqbWKR
+	 lQQ/32xPiSOug==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id E79B2CE0ACC; Sun, 31 Mar 2024 11:40:52 -0700 (PDT)
+Date: Sun, 31 Mar 2024 11:40:52 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Yujie Liu <yujie.liu@intel.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [paulmck-rcu:dev.2024.03.27b 61/69] lib/cmpxchg-emu.c:24:11:
+ warning: no previous prototype for 'cmpxchg_emu_u8'
+Message-ID: <09a45a0f-1936-4712-94dd-156ab70cb332@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202403300508.Xz7XNp71-lkp@intel.com>
+ <e4b7ecac-719e-40f5-80b5-7a1c63e72b33@paulmck-laptop>
+ <ZgmKAil/a3+av1E8@yujie-X299>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,86 +48,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZgmKAil/a3+av1E8@yujie-X299>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for-nexxt
-head:   0bac6aced1c550ec9628e0fa5d98036c6cbc51b4
-commit: 0bac6aced1c550ec9628e0fa5d98036c6cbc51b4 [26/26] WIP: pwm: Fix clk rate using clk_rate_exclusive_get()
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240401/202404010229.4zSY98zS-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240401/202404010229.4zSY98zS-lkp@intel.com/reproduce)
+On Mon, Apr 01, 2024 at 12:06:26AM +0800, Yujie Liu wrote:
+> On Fri, Mar 29, 2024 at 04:08:10PM -0700, Paul E. McKenney wrote:
+> > On Sat, Mar 30, 2024 at 05:26:12AM +0800, kernel test robot wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.03.27b
+> > > head:   786fab3085d764055a78edb54023420920344333
+> > > commit: b48ffed4c636b96d2be7a93806870772ce34961f [61/69] csky: Emulate one-byte and two-byte cmpxchg
+> > > config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20240330/202403300508.Xz7XNp71-lkp@intel.com/config)
+> > > compiler: csky-linux-gcc (GCC) 13.2.0
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240330/202403300508.Xz7XNp71-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202403300508.Xz7XNp71-lkp@intel.com/
+> > > 
+> > > All warnings (new ones prefixed by >>):
+> > > 
+> > > >> lib/cmpxchg-emu.c:24:11: warning: no previous prototype for 'cmpxchg_emu_u8' [-Wmissing-prototypes]
+> > >       24 | uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new)
+> > >          |           ^~~~~~~~~~~~~~
+> > > >> lib/cmpxchg-emu.c:51:11: warning: no previous prototype for 'cmpxchg_emu_u16' [-Wmissing-prototypes]
+> > >       51 | uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new)
+> > >          |           ^~~~~~~~~~~~~~~
+> > 
+> > Again, good catch, and thank you for the testing!  Does the patch at the
+> > end of this email fix things for you?
+> 
+> The warning is fixed by the patch at the end of the mail.
+> 
+> Tested-by: Yujie Liu <yujie.liu@intel.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404010229.4zSY98zS-lkp@intel.com/
+Thank you!  I will apply all three of your Tested-by tags on my next
+rebase.
 
-All errors (new ones prefixed by >>):
+							Thanx, Paul
 
-   drivers/pwm/pwm-apple.c: In function 'apple_pwm_probe':
->> drivers/pwm/pwm-apple.c:125:15: error: implicit declaration of function 'devm_clk_rate_exclusive_get'; did you mean 'clk_rate_exclusive_get'? [-Werror=implicit-function-declaration]
-     125 |         ret = devm_clk_rate_exclusive_get(&pdev->dev, clk);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               clk_rate_exclusive_get
-   cc1: some warnings being treated as errors
---
-   drivers/pwm/pwm-lpc18xx-sct.c: In function 'lpc18xx_pwm_probe':
->> drivers/pwm/pwm-lpc18xx-sct.c:369:15: error: implicit declaration of function 'devm_clk_rate_exclusive_get'; did you mean 'clk_rate_exclusive_get'? [-Werror=implicit-function-declaration]
-     369 |         ret = devm_clk_rate_exclusive_get(&pdev->dev, lpc18xx_pwm->pwm_clk);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               clk_rate_exclusive_get
-   cc1: some warnings being treated as errors
-
-
-vim +125 drivers/pwm/pwm-apple.c
-
-   102	
-   103	static int apple_pwm_probe(struct platform_device *pdev)
-   104	{
-   105		struct pwm_chip *chip;
-   106		struct apple_pwm *fpwm;
-   107		struct clk *clk;
-   108		int ret;
-   109	
-   110		chip = devm_pwmchip_alloc(&pdev->dev, 1, sizeof(*fpwm));
-   111		if (IS_ERR(chip))
-   112			return PTR_ERR(chip);
-   113	
-   114		fpwm = to_apple_pwm(chip);
-   115	
-   116		fpwm->base = devm_platform_ioremap_resource(pdev, 0);
-   117		if (IS_ERR(fpwm->base))
-   118			return PTR_ERR(fpwm->base);
-   119	
-   120		clk = devm_clk_get_enabled(&pdev->dev, NULL);
-   121		if (IS_ERR(clk))
-   122			return dev_err_probe(&pdev->dev, PTR_ERR(clk), "unable to get the clock");
-   123	
-   124		/* Ensure that clk doesn't change behind our back */
- > 125		ret = devm_clk_rate_exclusive_get(&pdev->dev, clk);
-   126		if (ret)
-   127			return dev_err_probe(&pdev->dev, ret,
-   128					     "unable to lock clock rate");
-   129	
-   130		/*
-   131		 * Uses the 24MHz system clock on all existing devices, can only
-   132		 * happen if the device tree is broken
-   133		 *
-   134		 * This check is done to prevent an overflow in .apply
-   135		 */
-   136		fpwm->clkrate = clk_get_rate(clk);
-   137		if (fpwm->clkrate > NSEC_PER_SEC)
-   138			return dev_err_probe(&pdev->dev, -EINVAL, "pwm clock out of range");
-   139	
-   140		chip->ops = &apple_pwm_ops;
-   141	
-   142		ret = devm_pwmchip_add(&pdev->dev, chip);
-   143		if (ret < 0)
-   144			return dev_err_probe(&pdev->dev, ret, "unable to add pwm chip");
-   145	
-   146		return 0;
-   147	}
-   148	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> > > vim +/cmpxchg_emu_u8 +24 lib/cmpxchg-emu.c
+> > > 
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  22  
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  23  /* Emulate one-byte cmpxchg() in terms of 4-byte cmpxchg. */
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17 @24  uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new)
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  25  {
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  26  	u32 *p32 = (u32 *)(((uintptr_t)p) & ~0x3);
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  27  	int i = ((uintptr_t)p) & 0x3;
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  28  	union u8_32 old32;
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  29  	union u8_32 new32;
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  30  	u32 ret;
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  31  
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  32  	old32.w = READ_ONCE(*p32);
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  33  	do {
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  34  		if (old32.b[i] != old)
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  35  			return old32.b[i];
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  36  		new32.w = old32.w;
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  37  		new32.b[i] = new;
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  38  		instrument_atomic_read_write(p, 1);
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  39  		ret = data_race(cmpxchg(p32, old32.w, new32.w));
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  40  	} while (ret != old32.w);
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  41  	return old;
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  42  }
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  43  EXPORT_SYMBOL_GPL(cmpxchg_emu_u8);
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  44  
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  45  union u16_32 {
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  46  	u16 h[2];
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  47  	u32 w;
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  48  };
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  49  
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17  50  /* Emulate two-byte cmpxchg() in terms of 4-byte cmpxchg. */
+> > > 0bbce967f3ecfc Paul E. McKenney 2024-03-17 @51  uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new)
+> > > 
+> > > :::::: The code at line 24 was first introduced by commit
+> > > :::::: 0bbce967f3ecfc6da1e7e8756b0d398e791b8dee lib: Add one-byte and two-byte cmpxchg() emulation functions
+> > > 
+> > > :::::: TO: Paul E. McKenney <paulmck@kernel.org>
+> > > :::::: CC: Paul E. McKenney <paulmck@kernel.org>
+> > > 
+> > > -- 
+> > > 0-DAY CI Kernel Test Service
+> > > https://github.com/intel/lkp-tests/wiki
+> > 
+> > commit a326496eb88936b291adea830c2e59e74ca1d373
+> > Author: Paul E. McKenney <paulmck@kernel.org>
+> > Date:   Fri Mar 29 16:06:45 2024 -0700
+> > 
+> >     squash! lib: Add one-byte and two-byte cmpxchg() emulation functions
+> >     
+> >     [ paulmck: Apply kernel test robot feedback. ]
+> >     
+> >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> > 
+> > diff --git a/lib/cmpxchg-emu.c b/lib/cmpxchg-emu.c
+> > index abdd451767220..a88c4f3c88430 100644
+> > --- a/lib/cmpxchg-emu.c
+> > +++ b/lib/cmpxchg-emu.c
+> > @@ -14,6 +14,7 @@
+> >  #include <linux/panic.h>
+> >  #include <linux/bug.h>
+> >  #include <asm-generic/rwonce.h>
+> > +#include <linux/cmpxchg-emu.h>
+> >  
+> >  union u8_32 {
+> >  	u8 b[4];
+> > 
