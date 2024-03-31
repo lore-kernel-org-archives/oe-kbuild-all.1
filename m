@@ -1,64 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F9179CF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 05:41:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDEF567D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 06:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711863683; cv=none; b=OqMh3tH4lVrdN2YHwsYqSwdv0keutAtOlQZXGPh/Oi8jojjcyrvp0Pqk6YD5Mkqqf8ZVTny6oft+OZv7W5GZwLfPPYbsFwF5F3Q1wvjWrk/AxaJy+L1HOTIqpagTIcTKgzIRIBGWoQdo8vyOkbAw0zRay/KquN6tioGdoKPX9kY=
+	t=1711865003; cv=none; b=muKw2h1XvHv7tIFxCMf+i+sNLEFl1slIvg+MV5KtPUIQ82a6jE4g2GcVV6zc4EE4ms0ThRoNS8qxKEsUZRpGhfU68zFbFhSBuXTaHMb9SEuJRdVH9I63kfDbNgGNlnjzksqcXRg2X9TosbwmMiafjycL7PdmZrAEb8kEqjaysYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711863683; c=relaxed/simple;
-	bh=rgBxQWb018sUA1O77Ck6hkUHlAofNm8E+53lqjOtZa0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E5rfnQqUOtmSua8Gm0dm85KxQYywpPbYaZz85ozcxSq3fX90OPl7ch3anxtl4bjnLbPONUZWKz/4XcWoz5fiZm/9tovu47Fhyh3Vhu91jOisZlNswemSo39MlOO7jV5iuNgm9EWjhjye/pCi4yhxDUGHWjpgBphHQbjH3Y+ENGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fauTo1Qe; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1711865003; c=relaxed/simple;
+	bh=nRQtuk+65XZXJMoGM5MuO3DPUwYoug1VdmDCSRXswN4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=S4LX2ZA9Teo4GIhU7pfu2i0SZgv0j1e2XCWuEps/hMsrJ399PbCs15fTJV2NrS5YXsiMo2jf+JTkpstC9YUhgqgGJs1bAhCXFtKdc+EmjvyBEBIZ4Ng8wwsk3FCfQAnmSVCKRe0YBi1e5aqoAYwwjt8F4cn5Wj29pielPfXI9aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RMuj82PN; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fauTo1Qe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RMuj82PN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711863681; x=1743399681;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rgBxQWb018sUA1O77Ck6hkUHlAofNm8E+53lqjOtZa0=;
-  b=fauTo1QepqPBObqE7IPDa2rhpFtXdZC8iz0Pcvf/Im+f6aKR3+THlMF2
-   cqazEPlim/a2lLdgJCnt+ppA8h17G6Tob7mG0gjpDHoVZBEuiHDQK3HT9
-   z3w9vXRJCHtfvzQxwROJLExceR8/ir9aqjEi0G0CRR3Y/fL7IKkMd1P1A
-   3NQ6trAn0+kLFu0aftqBjyU0F1EadgmAOZijqqgSCkoCncDkCjA6cViLO
-   Gc6HbIyqYdD7TujyUDVYWhXDP1ZhXJjQwjSofESUedDQHA6rq1CrIQ9Zw
-   MY73g1SV684TzicumW3YBGol87TWFTKC+2h/EWHYNqb+7AaCA8y6q24DK
-   g==;
-X-CSE-ConnectionGUID: TrOH4rqxRwiJw2uD1nLErw==
-X-CSE-MsgGUID: g567kda9StKJaF0d7d15Rw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11029"; a="10793228"
+  t=1711865000; x=1743401000;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nRQtuk+65XZXJMoGM5MuO3DPUwYoug1VdmDCSRXswN4=;
+  b=RMuj82PNmN00zgJ7bK0bA8mcaZqR0mN4Lqe0GyKelsEVyLJUXx69CkyG
+   WEmB+7l59rhc514+Foc1WG/SRrJapqs0e46E7hejJFZZ3eg1Jl4K2NU38
+   0aUXzrZiJJCyjI0zsGhbzXjsP5wHhmX+N6Y0kZeP/fdxqvC/BWtsisAaW
+   K6FMXxM5c8cfUhtwRblAGIBJamjsREcpXVNFsMsP8Z2mJ4BKp5TRCwj0f
+   QdG89qqo/N3bE7SDhK4muV4p1w23DXLwTnDO+KDK1VfzsXXhQzl9Mmeor
+   fjzOfUDnDqMtrBtTFpfjWjDUJ3XJIM716B/4YnwnW10r5lgi2JAFWlu6u
+   A==;
+X-CSE-ConnectionGUID: T5B5ARpMSFyB9dshqB/xJA==
+X-CSE-MsgGUID: EjWKmerkRQGXzuf8B6K94w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11029"; a="6861508"
 X-IronPort-AV: E=Sophos;i="6.07,169,1708416000"; 
-   d="scan'208";a="10793228"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2024 22:41:20 -0700
+   d="scan'208";a="6861508"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2024 23:03:19 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,169,1708416000"; 
-   d="scan'208";a="17830104"
+   d="scan'208";a="54831833"
 Received: from lkp-server01.sh.intel.com (HELO 3d808bfd2502) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 30 Mar 2024 22:41:17 -0700
+  by orviesa001.jf.intel.com with ESMTP; 30 Mar 2024 23:03:17 -0700
 Received: from kbuild by 3d808bfd2502 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rqnwQ-0000py-1f;
-	Sun, 31 Mar 2024 05:41:14 +0000
-Date: Sun, 31 Mar 2024 13:40:32 +0800
+	id 1rqoHj-0000qw-0S;
+	Sun, 31 Mar 2024 06:03:15 +0000
+Date: Sun, 31 Mar 2024 14:02:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Damien Le Moal <dlemoal@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, linux-pci@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 19/19] PCI: rockchip-ep: Handle PERST signal in endpoint
- mode
-Message-ID: <202403311327.3pGGy6Qm-lkp@intel.com>
-References: <20240329090945.1097609-20-dlemoal@kernel.org>
+To: Huacai Chen <chenhuacai@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/base/power/domain_governor.c:409: warning: cannot understand
+ function prototype: 'struct dev_power_governor pm_domain_always_on_gov = '
+Message-ID: <202403311326.Dr2HlMYm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,102 +59,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240329090945.1097609-20-dlemoal@kernel.org>
 
-Hi Damien,
+Hi Huacai,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.9-rc1 next-20240328]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/PCI-endpoint-Introduce-pci_epc_check_func/20240329-171158
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240329090945.1097609-20-dlemoal%40kernel.org
-patch subject: [PATCH 19/19] PCI: rockchip-ep: Handle PERST signal in endpoint mode
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20240331/202403311327.3pGGy6Qm-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240331/202403311327.3pGGy6Qm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   712e14250dd2907346617eba275c46f53db8fae7
+commit: 366bb35a8e48198cefcd3484ac6b2374d1347873 LoongArch: Add suspend (ACPI S3) support
+date:   1 year, 4 months ago
+config: loongarch-randconfig-r034-20230511 (https://download.01.org/0day-ci/archive/20240331/202403311326.Dr2HlMYm-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20240331/202403311326.Dr2HlMYm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403311327.3pGGy6Qm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403311326.Dr2HlMYm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/pci/controller/pcie-rockchip-ep.c: In function 'rockchip_pcie_ep_perst_irq_thread':
->> drivers/pci/controller/pcie-rockchip-ep.c:633:9: error: implicit declaration of function 'irq_set_irq_type'; did you mean 'irq_set_irq_wake'? [-Werror=implicit-function-declaration]
-     633 |         irq_set_irq_type(ep->perst_irq,
-         |         ^~~~~~~~~~~~~~~~
-         |         irq_set_irq_wake
-   drivers/pci/controller/pcie-rockchip-ep.c: In function 'rockchip_pcie_ep_setup_irq':
->> drivers/pci/controller/pcie-rockchip-ep.c:657:9: error: implicit declaration of function 'irq_set_status_flags' [-Werror=implicit-function-declaration]
-     657 |         irq_set_status_flags(ep->perst_irq, IRQ_NOAUTOEN);
-         |         ^~~~~~~~~~~~~~~~~~~~
->> drivers/pci/controller/pcie-rockchip-ep.c:657:45: error: 'IRQ_NOAUTOEN' undeclared (first use in this function); did you mean 'IRQF_NO_AUTOEN'?
-     657 |         irq_set_status_flags(ep->perst_irq, IRQ_NOAUTOEN);
-         |                                             ^~~~~~~~~~~~
-         |                                             IRQF_NO_AUTOEN
-   drivers/pci/controller/pcie-rockchip-ep.c:657:45: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+>> drivers/base/power/domain_governor.c:409: warning: cannot understand function prototype: 'struct dev_power_governor pm_domain_always_on_gov = '
+--
+>> drivers/base/power/runtime.c:365: warning: Excess function parameter 'dev' description in '__rpm_callback'
 
+sparse warnings: (new ones prefixed by >>)
+>> drivers/acpi/nvs.c:140:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *kaddr @@
+   drivers/acpi/nvs.c:140:54: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/acpi/nvs.c:140:54: sparse:     got void *kaddr
+>> drivers/acpi/nvs.c:143:66: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *virt @@     got void *kaddr @@
+   drivers/acpi/nvs.c:143:66: sparse:     expected void [noderef] __iomem *virt
+   drivers/acpi/nvs.c:143:66: sparse:     got void *kaddr
+>> drivers/acpi/nvs.c:182:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *kaddr @@     got void [noderef] __iomem * @@
+   drivers/acpi/nvs.c:182:38: sparse:     expected void *kaddr
+   drivers/acpi/nvs.c:182:38: sparse:     got void [noderef] __iomem *
+   drivers/acpi/nvs.c:184:46: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *kaddr @@     got void [noderef] __iomem * @@
+   drivers/acpi/nvs.c:184:46: sparse:     expected void *kaddr
+   drivers/acpi/nvs.c:184:46: sparse:     got void [noderef] __iomem *
+--
+>> drivers/acpi/sleep.c:556:46: sparse: sparse: restricted suspend_state_t degrades to integer
+   drivers/acpi/sleep.c:656:50: sparse: sparse: restricted suspend_state_t degrades to integer
+--
+>> kernel/power/main.c:133:34: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:133:38: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:134:21: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:134:26: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:136:38: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:137:62: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:133:55: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:162:38: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:162:46: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:163:54: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:162:67: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:182:31: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:182:36: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:188:13: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:188:21: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:188:39: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:188:47: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:579:34: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:579:38: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:580:31: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:581:57: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:579:55: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:608:38: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:608:46: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:609:47: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:608:67: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:629:31: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:629:36: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:635:13: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:635:21: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:703:31: sparse: sparse: restricted suspend_state_t degrades to integer
+   kernel/power/main.c:703:36: sparse: sparse: restricted suspend_state_t degrades to integer
 
-vim +633 drivers/pci/controller/pcie-rockchip-ep.c
+vim +409 drivers/base/power/domain_governor.c
 
-   620	
-   621	static irqreturn_t rockchip_pcie_ep_perst_irq_thread(int irq, void *data)
-   622	{
-   623		struct pci_epc *epc = data;
-   624		struct rockchip_pcie_ep *ep = epc_get_drvdata(epc);
-   625		struct rockchip_pcie *rockchip = &ep->rockchip;
-   626		u32 perst = gpiod_get_value(rockchip->ep_gpio);
-   627	
-   628		if (perst)
-   629			rockchip_pcie_ep_perst_assert(ep);
-   630		else
-   631			rockchip_pcie_ep_perst_deassert(ep);
-   632	
- > 633		irq_set_irq_type(ep->perst_irq,
-   634				 (perst ? IRQF_TRIGGER_HIGH : IRQF_TRIGGER_LOW));
-   635	
-   636		return IRQ_HANDLED;
-   637	}
-   638	
-   639	static int rockchip_pcie_ep_setup_irq(struct pci_epc *epc)
-   640	{
-   641		struct rockchip_pcie_ep *ep = epc_get_drvdata(epc);
-   642		struct rockchip_pcie *rockchip = &ep->rockchip;
-   643		struct device *dev = rockchip->dev;
-   644		int ret;
-   645	
-   646		if (!rockchip->ep_gpio)
-   647			return 0;
-   648	
-   649		/* PCIe reset interrupt */
-   650		ep->perst_irq = gpiod_to_irq(rockchip->ep_gpio);
-   651		if (ep->perst_irq < 0) {
-   652			dev_err(dev, "No corresponding IRQ for PERST GPIO\n");
-   653			return ep->perst_irq;
-   654		}
-   655	
-   656		ep->perst_asserted = true;
- > 657		irq_set_status_flags(ep->perst_irq, IRQ_NOAUTOEN);
-   658		ret = devm_request_threaded_irq(dev, ep->perst_irq, NULL,
-   659						rockchip_pcie_ep_perst_irq_thread,
-   660						IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-   661						"pcie-ep-perst", epc);
-   662		if (ret) {
-   663			dev_err(dev, "Request PERST GPIO IRQ failed %d\n", ret);
-   664			return ret;
-   665		}
-   666	
-   667		return 0;
-   668	}
-   669	
+e59a8db8d9b7c0 Rafael J. Wysocki 2012-01-14  405  
+925b44a273aa8c Mark Brown        2011-12-08  406  /**
+925b44a273aa8c Mark Brown        2011-12-08  407   * pm_genpd_gov_always_on - A governor implementing an always-on policy
+925b44a273aa8c Mark Brown        2011-12-08  408   */
+925b44a273aa8c Mark Brown        2011-12-08 @409  struct dev_power_governor pm_domain_always_on_gov = {
+
+:::::: The code at line 409 was first introduced by commit
+:::::: 925b44a273aa8c4c23c006c1228aacd538eead09 PM / Domains: Provide an always on power domain governor
+
+:::::: TO: Mark Brown <broonie@opensource.wolfsonmicro.com>
+:::::: CC: Rafael J. Wysocki <rjw@sisk.pl>
 
 -- 
 0-DAY CI Kernel Test Service
