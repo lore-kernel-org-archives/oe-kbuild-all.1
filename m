@@ -1,56 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B3D3399B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 15:02:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956C02628C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 15:02:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711897354; cv=none; b=J9E3kJHfMJX1SpPhd3uCU160YA2fvUkGbxyWarTRrrVf68pOpZESSijelqhYF4czpz5XuMZB0yNGRc4pWMQdoV77MYCc78lyudvMrgWaMPErddxwyPpAAYsBwAyyd39eaFpTeXrA8o6DfNJ9vkfKU24uDBSE8QPA8RxeHtArPHU=
+	t=1711897356; cv=none; b=PtAtR6ggEHsyp2mePr4jju/VVx9BitLrRQnSIXUILPaA9ga75QD9uIwRwvxd92DxHDj6vKUT+f5EmFZncYCc4IDp8cOMlMs1TlrZ9XnBHaQS3hO8Pavo6u63zqknfV9WTt5EsubNLRtsYFwQrZFtfbMz817HoztA5OmQsZMzjP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711897354; c=relaxed/simple;
-	bh=tC+TkKo5fyK4aa8flLVfFfG7cbnkYDgfHgixm2u2fXk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZtwZY9eA36Drn+zN4Au1x1vdVHOJ49LsPygjHzhQKnsDPZJjq/It1awjAwTST81l/de+O8/an1kIU5oNtitUOBCZ5+ujp3h/uxFvHS1YcESwYEDkx8Umbl1WDmwbGcTNhgfaC7vS+UvdCK2P6Jacjnjpf1tVUAgR38nySz8k3jM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C8cgwXPn; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1711897356; c=relaxed/simple;
+	bh=aVuVh2OqrH74gF1FKTiMNhGw2N4I9suhNWP0z/DShdc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hk2tsWYNKyTfWOxkb/6GirTYkvo70dU7hyUolTM3Z5WKlswAE6LAFLi7vJVngLmF/6lGQsV3qlWcI6He+Wyw72TDYwsXujStQY6l4KTxgWCjLc5jsGlh7PhKZQkU0if7AsJ3Ms65gQ54kQaIozQXZj9LULX02ByJVPx6/GLte0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BnP8EbRS; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C8cgwXPn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BnP8EbRS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711897353; x=1743433353;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tC+TkKo5fyK4aa8flLVfFfG7cbnkYDgfHgixm2u2fXk=;
-  b=C8cgwXPnjnTlY0sD4jxywk0sfZH8NJU3x/DT/Vx+rurAIQ3xd5DJEMqD
-   VzCbGn20GxscgTDsd3iqng0wbM3wCabfssw8z0hhElPxD8FsUmjMGhhgs
-   fUfopKS7pcMhx0IeoG+a+Vjv6qiJbOCqgoYrjYFZ8murmqE3Gf40rWZIM
-   jhRy4k+6B7v5umIyHEw+qhbUMi9hQNEuQPHyzIKYkLj1Iu8ExN80JvnCa
-   uwi6Gvwkr/T20uRgCpRmWKvY3WU4o1eTEWmYGpxjMVbxwPzxNETc+9SBj
-   J6RhWd/BmAVZxXgvbFiK6FsbqZ+XrqXl/vZgLWajWFl6vXvG4rfi2LVff
-   w==;
-X-CSE-ConnectionGUID: dO1oZrFYSyuLQBcsQD7wTg==
-X-CSE-MsgGUID: inUYBJiISTKMMVjqgQd1VQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11030"; a="17594425"
+  t=1711897355; x=1743433355;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aVuVh2OqrH74gF1FKTiMNhGw2N4I9suhNWP0z/DShdc=;
+  b=BnP8EbRSCRzfxOPqVw1Ae9SZ/eLlLjxz9K4rEKtnCCZU+38vzVPF+Z8b
+   090qFGqDCqNiGHZzGFodDNTy0OqgiKE+CMIUPj/6scBZBTuFWi0vDdc1M
+   /VFQ92Eoiii8YxQGOtp6NzNAkf5smzw0r8dUAmGTjNgdpaLFZHX1QkBPO
+   h8KRdwZ4KqeVBns6fFCuYV7m+o56zQfvFSAbrJkBS+3w9TPe/4NZsMY94
+   vITY/oZBg00p5n3n7GQtdvBwWGAnEg2Y86Rw8PSquzDkeP0B9jVLrCCVd
+   TGcb54DNRWuWe0gxuNYMMhSp32yboomZaj0xKEqDFPznw4ZDA6OOk5bNy
+   Q==;
+X-CSE-ConnectionGUID: Wn8HirwcRTOLW1yBu/wDTA==
+X-CSE-MsgGUID: jxig/Z59RQaNMSAvRnFWwQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11030"; a="17594434"
 X-IronPort-AV: E=Sophos;i="6.07,170,1708416000"; 
-   d="scan'208";a="17594425"
+   d="scan'208";a="17594434"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2024 08:02:31 -0700
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2024 08:02:34 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,170,1708416000"; 
-   d="scan'208";a="17548113"
+   d="scan'208";a="17548115"
 Received: from lkp-server01.sh.intel.com (HELO 3d808bfd2502) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 31 Mar 2024 08:02:29 -0700
 Received: from kbuild by 3d808bfd2502 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rqwhX-0001CQ-1l;
+	id 1rqwhX-0001CS-1p;
 	Sun, 31 Mar 2024 15:02:27 +0000
-Date: Sun, 31 Mar 2024 23:02:18 +0800
+Date: Sun, 31 Mar 2024 23:02:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 1/2] virtio_pvclock.c:undefined
- reference to `timekeeping_inject_sleeptime64'
-Message-ID: <202403312313.JnDKA1Hi-lkp@intel.com>
+To: "yu-chang.lee" <yu-chang.lee@mediatek.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	MandyJH Liu <mandyjh.liu@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com,
+	fan.chen@mediatek.com, xiufeng.li@mediatek.com,
+	yu-chang.lee@mediatek.com
+Subject: Re: [PATCH v2 2/3] dt-bindings: power: Add mediatek larb definition
+Message-ID: <202403312222.fjYPC06h-lkp@intel.com>
+References: <20240327055732.28198-3-yu-chang.lee@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,147 +73,175 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240327055732.28198-3-yu-chang.lee@mediatek.com>
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   041e75aaccb4f83ecd969c31dc76d806db164020
-commit: 04f660d6724f5df1b07f8cf9e1c55f70fb43d1d2 [1/2] ANDROID: virtio: virtio_pvclock: initial driver impl
-config: x86_64-buildonly-randconfig-003-20240329 (https://download.01.org/0day-ci/archive/20240331/202403312313.JnDKA1Hi-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240331/202403312313.JnDKA1Hi-lkp@intel.com/reproduce)
+Hi yu-chang.lee,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk-dt/for-next linus/master v6.9-rc1 next-20240328]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/yu-chang-lee/pmdomain-mediatek-add-smi_larb_reset-function-when-power-on/20240327-140007
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240327055732.28198-3-yu-chang.lee%40mediatek.com
+patch subject: [PATCH v2 2/3] dt-bindings: power: Add mediatek larb definition
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240331/202403312222.fjYPC06h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403312313.JnDKA1Hi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403312222.fjYPC06h-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/power/mediatek,power-controller.yaml:128:6: [error] syntax error: expected <block end>, but found '<block mapping start>' (syntax)
+>> Documentation/devicetree/bindings/power/mediatek,power-controller.yaml:129:9: [warning] wrong indentation: expected 7 but found 8 (indentation)
+--
+>> Documentation/devicetree/bindings/power/mediatek,power-controller.yaml:128:6: did not find expected key
+>> Documentation/devicetree/bindings/mfd/mediatek,mt8195-scpsys.yaml:
+   while parsing a block mapping
+     in "<unicode string>", line 64, column 5
+   did not find expected key
+     in "<unicode string>", line 128, column 6
+--
+>> Documentation/devicetree/bindings/power/mediatek,power-controller.yaml: ignoring, error parsing file
 
-   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
-   ld: drivers/virtio/virtio_pvclock.o: in function `update_suspend_time':
->> virtio_pvclock.c:(.text+0x4a9): undefined reference to `timekeeping_inject_sleeptime64'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_set_winsz':
-   hvc_console.c:(.text+0x203): undefined reference to `tty_port_tty_get'
-   ld: hvc_console.c:(.text+0x235): undefined reference to `tty_do_resize'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_hangup':
-   hvc_console.c:(.text+0x33f): undefined reference to `tty_port_tty_set'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_open':
-   hvc_console.c:(.text+0x3c6): undefined reference to `tty_port_tty_set'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_close':
-   hvc_console.c:(.text+0x484): undefined reference to `tty_hung_up_p'
-   ld: hvc_console.c:(.text+0x4e0): undefined reference to `tty_port_tty_set'
-   ld: hvc_console.c:(.text+0x545): undefined reference to `tty_wait_until_sent'
-   ld: drivers/tty/hvc/hvc_console.o: in function `__hvc_poll':
-   hvc_console.c:(.text+0x5bf): undefined reference to `tty_port_tty_get'
-   ld: hvc_console.c:(.text+0x600): undefined reference to `tty_buffer_request_room'
-   ld: hvc_console.c:(.text+0x64c): undefined reference to `__tty_insert_flip_char'
-   ld: hvc_console.c:(.text+0x6d9): undefined reference to `tty_flip_buffer_push'
-   ld: hvc_console.c:(.text+0x7dd): undefined reference to `tty_wakeup'
-   ld: hvc_console.c:(.text+0x835): undefined reference to `tty_hangup'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_install':
-   hvc_console.c:(.text+0xac1): undefined reference to `tty_port_install'
-   ld: hvc_console.c:(.text+0xadb): undefined reference to `tty_port_put'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_instantiate':
-   hvc_console.c:(.text+0xee0): undefined reference to `tty_port_put'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_alloc':
-   hvc_console.c:(.text+0xf88): undefined reference to `__tty_alloc_driver'
-   ld: hvc_console.c:(.text+0xfd3): undefined reference to `tty_std_termios'
-   ld: hvc_console.c:(.text+0xfe6): undefined reference to `tty_std_termios'
-   ld: hvc_console.c:(.text+0xff1): undefined reference to `tty_std_termios'
-   ld: hvc_console.c:(.text+0xffc): undefined reference to `tty_std_termios'
-   ld: hvc_console.c:(.text+0x1007): undefined reference to `tty_std_termios'
-   ld: drivers/tty/hvc/hvc_console.o:hvc_console.c:(.text+0x1011): more undefined references to `tty_std_termios' follow
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_alloc':
-   hvc_console.c:(.text+0x101a): undefined reference to `tty_set_operations'
-   ld: hvc_console.c:(.text+0x105a): undefined reference to `tty_register_driver'
-   ld: hvc_console.c:(.text+0x10c5): undefined reference to `tty_port_init'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_remove':
-   hvc_console.c:(.text+0x1290): undefined reference to `tty_port_tty_get'
-   ld: hvc_console.c:(.text+0x12db): undefined reference to `tty_port_put'
-   ld: hvc_console.c:(.text+0x12e8): undefined reference to `tty_vhangup'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_cleanup':
-   hvc_console.c:(.text+0x1b8): undefined reference to `tty_port_put'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_alloc.cold':
-   hvc_console.c:(.text.unlikely+0x54): undefined reference to `put_tty_driver'
-   ld: hvc_console.c:(.text.unlikely+0x90): undefined reference to `put_tty_driver'
-   ld: drivers/power/supply/pda_power.o: in function `pda_power_remove':
-   pda_power.c:(.text+0x1c0): undefined reference to `usb_put_phy'
-   ld: drivers/power/supply/pda_power.o: in function `pda_power_probe':
-   pda_power.c:(.text+0x712): undefined reference to `usb_get_phy'
-   ld: drivers/power/supply/pda_power.o: in function `pda_power_probe.cold':
-   pda_power.c:(.text.unlikely+0xd5): undefined reference to `usb_put_phy'
-   ld: drivers/power/supply/da9150-charger.o: in function `da9150_charger_probe':
-   da9150-charger.c:(.text+0x6fd): undefined reference to `devm_usb_get_phy'
-   ld: drivers/power/supply/isp1704_charger.o: in function `isp1704_charger_probe':
-   isp1704_charger.c:(.text+0x16e): undefined reference to `devm_usb_get_phy_by_phandle'
-   ld: isp1704_charger.c:(.text+0x3f8): undefined reference to `devm_usb_get_phy'
-   ld: drivers/power/supply/twl4030_charger.o: in function `twl4030_bci_probe':
-   twl4030_charger.c:(.text+0x1592): undefined reference to `devm_usb_get_phy_by_node'
+vim +128 Documentation/devicetree/bindings/power/mediatek,power-controller.yaml
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-   Depends on [n]: TTY [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
+     8	
+     9	maintainers:
+    10	  - MandyJH Liu <mandyjh.liu@mediatek.com>
+    11	  - Matthias Brugger <mbrugger@suse.com>
+    12	
+    13	description: |
+    14	  Mediatek processors include support for multiple power domains which can be
+    15	  powered up/down by software based on different application scenes to save power.
+    16	
+    17	  IP cores belonging to a power domain should contain a 'power-domains'
+    18	  property that is a phandle for SCPSYS node representing the domain.
+    19	
+    20	properties:
+    21	  $nodename:
+    22	    pattern: '^power-controller(@[0-9a-f]+)?$'
+    23	
+    24	  compatible:
+    25	    enum:
+    26	      - mediatek,mt6795-power-controller
+    27	      - mediatek,mt8167-power-controller
+    28	      - mediatek,mt8173-power-controller
+    29	      - mediatek,mt8183-power-controller
+    30	      - mediatek,mt8186-power-controller
+    31	      - mediatek,mt8188-power-controller
+    32	      - mediatek,mt8192-power-controller
+    33	      - mediatek,mt8195-power-controller
+    34	      - mediatek,mt8365-power-controller
+    35	
+    36	  '#power-domain-cells':
+    37	    const: 1
+    38	
+    39	  '#address-cells':
+    40	    const: 1
+    41	
+    42	  '#size-cells':
+    43	    const: 0
+    44	
+    45	patternProperties:
+    46	  "^power-domain@[0-9a-f]+$":
+    47	    $ref: "#/$defs/power-domain-node"
+    48	    patternProperties:
+    49	      "^power-domain@[0-9a-f]+$":
+    50	        $ref: "#/$defs/power-domain-node"
+    51	        patternProperties:
+    52	          "^power-domain@[0-9a-f]+$":
+    53	            $ref: "#/$defs/power-domain-node"
+    54	            patternProperties:
+    55	              "^power-domain@[0-9a-f]+$":
+    56	                $ref: "#/$defs/power-domain-node"
+    57	                unevaluatedProperties: false
+    58	            unevaluatedProperties: false
+    59	        unevaluatedProperties: false
+    60	    unevaluatedProperties: false
+    61	
+    62	$defs:
+    63	  power-domain-node:
+    64	    type: object
+    65	    description: |
+    66	      Represents the power domains within the power controller node as documented
+    67	      in Documentation/devicetree/bindings/power/power-domain.yaml.
+    68	
+    69	    properties:
+    70	
+    71	      '#power-domain-cells':
+    72	        description:
+    73	          Must be 0 for nodes representing a single PM domain and 1 for nodes
+    74	          providing multiple PM domains.
+    75	
+    76	      '#address-cells':
+    77	        const: 1
+    78	
+    79	      '#size-cells':
+    80	        const: 0
+    81	
+    82	      reg:
+    83	        description: |
+    84	          Power domain index. Valid values are defined in:
+    85	              "include/dt-bindings/power/mt6795-power.h" - for MT8167 type power domain.
+    86	              "include/dt-bindings/power/mt8167-power.h" - for MT8167 type power domain.
+    87	              "include/dt-bindings/power/mt8173-power.h" - for MT8173 type power domain.
+    88	              "include/dt-bindings/power/mt8183-power.h" - for MT8183 type power domain.
+    89	              "include/dt-bindings/power/mediatek,mt8188-power.h" - for MT8188 type power domain.
+    90	              "include/dt-bindings/power/mt8192-power.h" - for MT8192 type power domain.
+    91	              "include/dt-bindings/power/mt8195-power.h" - for MT8195 type power domain.
+    92	              "include/dt-bindings/power/mediatek,mt8365-power.h" - for MT8365 type power domain.
+    93	        maxItems: 1
+    94	
+    95	      clocks:
+    96	        description: |
+    97	          A number of phandles to clocks that need to be enabled during domain
+    98	          power-up sequencing.
+    99	
+   100	      clock-names:
+   101	        description: |
+   102	          List of names of clocks, in order to match the power-up sequencing
+   103	          for each power domain we need to group the clocks by name. BASIC
+   104	          clocks need to be enabled before enabling the corresponding power
+   105	          domain, and should not have a '-' in their name (i.e mm, mfg, venc).
+   106	          SUSBYS clocks need to be enabled before releasing the bus protection,
+   107	          and should contain a '-' in their name (i.e mm-0, isp-0, cam-0).
+   108	
+   109	          In order to follow properly the power-up sequencing, the clocks must
+   110	          be specified by order, adding first the BASIC clocks followed by the
+   111	          SUSBSYS clocks.
+   112	
+   113	      domain-supply:
+   114	        description: domain regulator supply.
+   115	
+   116	      mediatek,infracfg:
+   117	        $ref: /schemas/types.yaml#/definitions/phandle
+   118	        description: phandle to the device containing the INFRACFG register range.
+   119	
+   120	      mediatek,infracfg-nao:
+   121	        $ref: /schemas/types.yaml#/definitions/phandle
+   122	        description: phandle to the device containing the INFRACFG-NAO register range.
+   123	
+   124	      mediatek,smi:
+   125	        $ref: /schemas/types.yaml#/definitions/phandle
+   126	        description: phandle to the device containing the SMI register range.
+   127	
+ > 128	     mediatek,larb:
+ > 129	        $ref: /schemas/types.yaml#/definitions/phandle
+   130	        description: phandle to the device containing the LARB register range.
+   131	
+   132	    required:
+   133	      - reg
+   134	
+   135	required:
+   136	  - compatible
+   137	
 
 -- 
 0-DAY CI Kernel Test Service
