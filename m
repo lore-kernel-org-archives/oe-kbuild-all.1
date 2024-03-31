@@ -1,87 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386FE290A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 19:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595F1145FF0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 20:59:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711914585; cv=none; b=FHjs0SD9TG9iiIbHlpQBFoyP2gU22Oa6YEfa2OvrFgSWY65s+ioqhOCol25dYCe7w1/Rf3mm6GmJcbUIb+8dzgeLLWOKsOW3g0cyb5zI2D5EcVOeFG1hpYxUS9ybSg7M53/H1w9416YvP4L0oblu4LcbQN8FtbeLl1ylV6bhuOc=
+	t=1711918796; cv=none; b=GoBI07qCAjQl/nRlDH4T2YMGttHUoEYrjfIb1Ra6tDV3PMfKv8GI0mg0drAotAh30PZLwdAeMNHRAL+5zPW4RabcFpdoQp5bUdr/ZlYC8WVH52mX3HjcP5k99f+y6/3D0G7ap878Pd2j3lm2zhbrUG1l0JqEJ+DJdExSYg2erQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711914585; c=relaxed/simple;
-	bh=DqoZ7l380fRg1aIQUg//KhvRQp0sC6rQUMzdUAOGu4M=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gKSe6fb5M8CvG5V9BV4EO6mePgaftk+qBpYtbdQk6dPry1MORQXCDOIRM44T7/p2FUgc1Ks3oCC9MYx7u23F07oaY+kN+VEDiVSB4EUNItPJIkpMnXSm/wZ9kPVVmzxKIUMszn3ILBnnhLjA5HKEB3DQoaoJPKb60/ob+Dr9sps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n0mx16C4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711918796; c=relaxed/simple;
+	bh=S9I+Dzh80MHnY1OT3f1I/KGqljo+hkE9iQAPevgW43I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NBNAcH0obqeGrIemZpkdU1LbPktDTDOuNH4a/aEgfXa458vT5YVJUxUyAd5u2q7g7+7UVYkMxabCgRJsZdODJGC3ynUjT8314mNSP7sizSBQuxZRJvAuflEV1PpzsP0XZoCbxL4XbuId4sYgdrZ6ezZLYYInMd5nmdexkDhXiGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=H2C6SKaY; arc=none smtp.client-ip=209.85.210.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n0mx16C4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67159C433F1;
-	Sun, 31 Mar 2024 19:49:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711914584;
-	bh=DqoZ7l380fRg1aIQUg//KhvRQp0sC6rQUMzdUAOGu4M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=n0mx16C49i2yf5lxCX+cvrZvaWjbCpdtBQGi0vz/2E87M6gNp5QBNegeG42Spj+DO
-	 xO/svwjwW12sWn0v3NbclN5cFTs/MDWYzguhoubueI52pA1xEVsiOQOohPNsKH9ZhK
-	 lY4RJwxSiOpS8ks94i67oLO6dxP3BA//ivTRfW315vOjWlZbFlRaPu1IrOs/8ZT+NC
-	 rZq//7lJ3syfsJQkbBrWNWtdkVnBylpIe6pLw7tTzIDso9T3PQOQli6fjtWfrSzB8K
-	 cMFbNePMvFi6SSJyx3vIQEGkQURCvwq1cPdyGng1YYJE9/DLGtrrnPVarSqsxb9uT7
-	 pE+kTkJEJg1Qg==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [sj:damon/next 3/32] .meta_changes/M9DezupS: warning: ignored by one of the .gitignore files
-Date: Sun, 31 Mar 2024 12:49:42 -0700
-Message-Id: <20240331194942.239760-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <202403310657.0az9Pf4T-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="H2C6SKaY"
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6e6888358dfso1978913a34.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Mar 2024 13:59:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1711918794; x=1712523594; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=62r08+vv81bc15gP+QLC+CCLQ9XEz9F5J6/drEN32h0=;
+        b=H2C6SKaYEHjlwGO5lf75hAZn90slx4juzm4ddPOb1SfVsFJBllHsX4B5yGFUic2OTB
+         M2HYPnOdR7WzaIvtwv5gEm5tnjdis9WOjde2/8MTQE2vzqpi482Y1x9sdz0tAEnmDcnL
+         0Uu8fY+ryv3bBjm8pRuKRjXCL5tTJ9vUgGCDDx/tg7D1k+QyT2DZtonmM/5DC76xkEMK
+         NkE5mmh12Ve3eoGcywZHGVCbQe3xr/i8XS5DrWnyI7LHgz285nbW102DTALQiaORUuny
+         w6psjW/wxaS+QH546Prdm8c8GuwU/p2XZkHllN6i4k0awN7mxUaIUN9gf5ZTIPRG5+BN
+         DD2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711918794; x=1712523594;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=62r08+vv81bc15gP+QLC+CCLQ9XEz9F5J6/drEN32h0=;
+        b=sPjQxSWLIgipX0UlSMPzL7kluGNgA0+3ttC8lE05BcypLFbTIlaNNJq5VhpDWnO66H
+         nSY8wEN0mMYZ4zjzQ5Zlz46r7V5DpF7PscbLdaoJGT3Lk8Ky4fsjd8cn5eDEwVgwOyVR
+         kYAo6XKNbEQt2multn61TBskM0ENAx+VPu/m6cL0sYWYEJN7w5mpqoUiiMhd75LCdT1p
+         PV7Osdvnqo6dd+7wbFkSCEQheLduobbJKr0ZfnzrGyCoI8za2+wk8F042mbWV4Nnvmwf
+         CEej/oN0bMVG1/upgH3AuViRxPWIQ1s/GReW71NRyH0/yscYOINSOUeAFRiVW/d7VFwn
+         pNoA==
+X-Forwarded-Encrypted: i=1; AJvYcCX79IR8WJezmROyUtbCb9J9XaJJ2civ7gPeSGFGAkuIF0NVSY5xvTt1XSEL3PTBJMI5/7eBAcStZnOUobTsdzaMGIvHd6yL8bs282504g==
+X-Gm-Message-State: AOJu0YzZu3xjsuBoeKJufuct1HovWsXPx318rwaeux41eKNzgJwuXUyk
+	P1MH5TyuCfjhAxzR98xQXxXA1DTlcauQGa6fb23Y2Gir1gkvmfg1SGavGZVDMuEbtB0BCFjch/F
+	2yV2Dxw9iwH/ynOvrNBAybLUiW5jB9/FgjwoE
+X-Google-Smtp-Source: AGHT+IEzHUCXtxEs/St9wm+0065V87APlYWHJK73R9BRkcaMBTaQUPw4xUsbBcEWCoGxmFWvQMN0ZyayAufxJn8GKQc=
+X-Received: by 2002:a05:6808:2e4c:b0:3c3:d847:7a8f with SMTP id
+ gp12-20020a0568082e4c00b003c3d8477a8fmr11313609oib.24.1711918794081; Sun, 31
+ Mar 2024 13:59:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <202403290334.USWrYrMw-lkp@intel.com> <CAJuCfpEKhhbG45RLFyh5yJ4iZ8NdqWcbj_+rf3=9Kg+hdxTtVg@mail.gmail.com>
+ <20240329193714.8e968aad80b39be32b848f82@linux-foundation.org>
+In-Reply-To: <20240329193714.8e968aad80b39be32b848f82@linux-foundation.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Sun, 31 Mar 2024 13:59:41 -0700
+Message-ID: <CAJuCfpHHcQStzQ3-XHyR5eyYh-8D8+6MLyknoCHatukquk8aUw@mail.gmail.com>
+Subject: Re: [linux-next:master 1076/1266] include/linux/alloc_tag.h:43:2:
+ error: "Memory allocation profiling is incompatible with ARCH_NEEDS_WEAK_PER_CPU"
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Robot,
+On Fri, Mar 29, 2024 at 7:37=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
+n.org> wrote:
+>
+> On Thu, 28 Mar 2024 13:02:44 -0700 Suren Baghdasaryan <surenb@google.com>=
+ wrote:
+>
+> > Well, this is what I expected, we do not support this feature for
+> > ARCH_NEEDS_WEAK_PER_CPU (alpha and s390 with CONFIG_SMP=3Dy &&
+> > CONFIG_MODULE=3Dy).
+> > Unfortunately ARCH_NEEDS_WEAK_PER_CPU is not a config option, so I
+> > can't add it as a dependency for CONFIG_MEM_ALLOC_PROFILING. Should I
+> > handle this differently?
+>
+> Make it a config option?  That would be a cleanup on its own.
 
-On Sun, 31 Mar 2024 06:12:57 +0800 kernel test robot <lkp@intel.com> wrote:
-
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   694c5d0b7f0af673991cf9d6c834acd9819cc41b
-> commit: c775b94618c181ff6ba088361cfdc5cd64c7407c [3/32] === temporal fixes ===
-> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240331/202403310657.0az9Pf4T-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240331/202403310657.0az9Pf4T-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403310657.0az9Pf4T-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> .meta_changes/M9DezupS: warning: ignored by one of the .gitignore files
->    .meta_changes/README: warning: ignored by one of the .gitignore files
-
-Thank you for this report.  I fixed this by renaming the directory[1].
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/sj/damon-hack.git/commit/?id=a4846efd0832aab6972a8703b2531648e6403b1d
-
-
-Thanks,
-SJ
-
->    tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
->    tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
->    tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored by one of the .gitignore files
->    tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
->    tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the .gitignore files
->    tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .gitignore files
->    tools/testing/selftests/kvm/config: warning: ignored by one of the .gitignore files
->    tools/testing/selftests/kvm/settings: warning: ignored by one of the .gitignore files
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+I'll take a stab at it. Thanks!
