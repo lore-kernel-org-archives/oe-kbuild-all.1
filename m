@@ -1,45 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA4947A76;
-	Mon,  1 Apr 2024 19:35:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4F020304
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Apr 2024 19:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712000116; cv=none; b=WikevgIFHGNPhc7gwVJ558vaCDTcwTyeO4GoIgdsBH60c+hjWN85av17DDkD6nJHEmetRcFK7TVDmKqRCsqg6LkhpCxVqivs6DeIF/8CO3AxAUvtn9dAkokga28A5f8R3eHBV9sIlSV6OYaJQOjafOz5d0sZ0nnkcV5icFUkQwc=
+	t=1712000483; cv=none; b=tyTZ7jYpYjSz+bTDHueTD2D5mubY4UfbcKV0NBlxG6EEjrLpQI5EF/IHrhQ4Vy1MTebEVnFniAd47tp+T+8v+7w17lONjSspQtKSAUf/K3sOs3jUvv1HAlnYswqtkSY2sbpF80HCWFz6gUiiBNxH4oc0DNUneRvKGVBGN9M2GDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712000116; c=relaxed/simple;
-	bh=8+8DMvn8H/rEx87hcTx4tH/GOEGymkbhk4P8ku15sRE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i4FOsymgTV0i3LqYfHV39RFPelyd6KogIvqv3iNM3+nJ+T6P9tBYIwaoccD7zqg0ODrDMpML4JkCGLiPDcM7okDTX9nIqG5UbMNRbC7uogjYQMXlgppslwygZ+aI0DixoXZmOCG4ksHMdaCKzoDoe9fGn0uROtxuEkNpKtqtc10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZi0dxgU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712000483; c=relaxed/simple;
+	bh=L0GCb/xtH/ObtuHjrUztekt1PZC9blG9AJ1sTSu/xac=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jawIIz/WPa/GPzIESu/UfCfCcJzCFM2w9TLczNWKHkKjvH8Wu1HCSTGIEOTtDkTXP/W+yXSA4eOCNAuqUDDegTk8PolUymzlNJhNhRurh5cWtNMqWDEzmoo/AwwjP9rDG0HSnKRiqSafwmT3xStCfsLbUI8FGWe5I+9AYR56mhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZCI1pYNd; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZi0dxgU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 411C9C433F1;
-	Mon,  1 Apr 2024 19:35:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712000115;
-	bh=8+8DMvn8H/rEx87hcTx4tH/GOEGymkbhk4P8ku15sRE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aZi0dxgUZgiApySUQV/d8HVdp9F2H+iaImfhPmb3uZqg/+R/LNgR0AXm/xE0EodaC
-	 f0pbd9A52N+ui13wMNc4sofbRJq84HpEy7axt1t9O2V10eM9l1nSOqBHNEjqWz1ip3
-	 yE4QLJticm5ZZQwQ4DuAVbeg0dMBQI3RwvcqE1dN5Fmubu4A/KqlHm96oh++3y03b1
-	 m3DSfKQFjpVxcjKeGxxjQXVzr8PYjxs2pDLjJ55j+t1c+kTjPdKS0IKJs6DlPpmPry
-	 PK+HMgTEZR5eN+7X/nxYJtzFT+K6a6Nt2/G+plhBiNJHK+m4hY58Aozfeqx1QcT7Do
-	 Lpafk3fUIcC3g==
-Date: Mon, 1 Apr 2024 12:35:13 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Gabriel Krisman Bertazi <krisman@suse.de>,
-	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	llvm@lists.linux.dev, io-uring@vger.kernel.org
-Subject: Re: [axboe-block:for-6.10/io_uring 42/42]
- io_uring/register.c:175:24: warning: arithmetic between different
- enumeration types ('enum io_uring_register_restriction_op' and 'enum
- io_uring_register_op')
-Message-ID: <20240401193513.GA132793@dev-arch.thelio-3990X>
-References: <202403291458.6AjzdI64-lkp@intel.com>
- <87h6go66fm.fsf@mailhost.krisman.be>
- <940f0842-194d-4799-8bb2-2024e6903608@kernel.dk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZCI1pYNd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712000482; x=1743536482;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=L0GCb/xtH/ObtuHjrUztekt1PZC9blG9AJ1sTSu/xac=;
+  b=ZCI1pYNdmfEQ7ilGggKCA15PIEryJiMgT9GslivoNKAhn9by052yl5Ku
+   4aTPDcVBUkC/XeA0de7KOrnuJmZXJLdePKTN/ICgkvdvum4vG5GDTqcfw
+   CMh5ZfSUALWslRkJ35ZfTj9WF/D3OnXYvdLtaVqjQBNGP4wX47Njz1FbO
+   rtaf5fIAwh2harLVik/4m7E07BW1S9vTAXvFrNvnznfexlpvJ1elIRVB0
+   IGlhOJhcIkvuydIubxd51R12YVijvv/fuUeJGlE2exVGufMayU1aDRStF
+   lI2M4/wi34UH0oAk4DwIZT4TtcOBxHRfGQx1EXjcsrvX9Ay+Iko7JPNCy
+   w==;
+X-CSE-ConnectionGUID: I1GhbPQLQTu1JDIGoS7Otw==
+X-CSE-MsgGUID: WMyaC75zSk6qO7v4vdE66A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="10924952"
+X-IronPort-AV: E=Sophos;i="6.07,173,1708416000"; 
+   d="scan'208";a="10924952"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 12:41:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,173,1708416000"; 
+   d="scan'208";a="22550632"
+Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 01 Apr 2024 12:41:20 -0700
+Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rrNWv-0000aD-1B;
+	Mon, 01 Apr 2024 19:41:17 +0000
+Date: Tue, 2 Apr 2024 03:40:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 11954/22019]
+ drivers/soc/amlogic/.tmp_meson-gx-socinfo.o: warning: objtool: missing
+ symbol for section .text
+Message-ID: <202404020329.LC4cVwbN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,49 +60,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <940f0842-194d-4799-8bb2-2024e6903608@kernel.dk>
 
-On Fri, Mar 29, 2024 at 05:15:44PM -0600, Jens Axboe wrote:
-> On 3/29/24 4:04 PM, Gabriel Krisman Bertazi wrote:
-> > kernel test robot <lkp@intel.com> writes:
-> > 
-> > [+ io_uring list ]
-> > 
-> >>>> io_uring/register.c:175:24: warning: arithmetic between different
-> >> enumeration types ('enum io_uring_register_restriction_op' and 'enum
-> >> io_uring_register_op') [-Wenum-enum-conversion]
-> >>      175 |         if (!arg || nr_args > IORING_MAX_RESTRICTIONS)
-> >>          |                               ^~~~~~~~~~~~~~~~~~~~~~~
-> >>    io_uring/register.c:31:58: note: expanded from macro 'IORING_MAX_RESTRICTIONS'
-> >>       31 | #define IORING_MAX_RESTRICTIONS (IORING_RESTRICTION_LAST + \
-> >>          |                                  ~~~~~~~~~~~~~~~~~~~~~~~ ^
-> >>       32 |                                  IORING_REGISTER_LAST + IORING_OP_LAST)
-> >>          |                                  ~~~~~~~~~~~~~~~~~~~~
-> >>    14 warnings generated.
-> > 
-> > hm.
-> > 
-> > Do we want to fix?  The arithmetic is safe here.  I actually tried
-> > triggering the warning with gcc, but even with -Wenum-conversion in
-> > gcc-12 (which is in -Wextra and we don't use in the kernel build), I
-> > couldn't do it.  only llvm catches this.
-> > 
-> > can we explicit cast to int to silent it?
-> 
-> I don't think we care, there are others like it in the kernel already.
-> Plus you need some magic warning incantation to hit it, clang by default
-> is not going to be enough.
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   bca07979c0a7054331b91c892163a0d214cffcbe
+commit: a95885602b93885b15fd80d3a9f59db0daa6d831 [11954/22019] drivers: soc: Allow building the amlogic drivers without ARCH_MESON
+config: x86_64-buildonly-randconfig-003-20240324 (https://download.01.org/0day-ci/archive/20240402/202404020329.LC4cVwbN-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240402/202404020329.LC4cVwbN-lkp@intel.com/reproduce)
 
-The magic incantion would be W=1 after commit 75b5ab134bb5 ("kbuild:
-Move -Wenum-{compare-conditional,enum-conversion} into W=1") but yes,
-there are plenty of other instances of this warning in the kernel and if
-the arithmetic is safe, ignoring the warning is perfectly fine in my
-opinion. The primary reason it is in W=1 rather than off by default is
-to see how many current instances may be bugs and see what new instances
-may pop up, as they may be unsafe conversions. We will have to come up
-with some way to annotate safe conversions if we want to turn this on by
-default (which is still being determined at this point). You do also
-have to have a tip of tree Clang to see this at the moment as well.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404020329.LC4cVwbN-lkp@intel.com/
 
-Cheers,
-Nathan
+All warnings (new ones prefixed by >>):
+
+>> drivers/soc/amlogic/.tmp_meson-gx-socinfo.o: warning: objtool: missing symbol for section .text
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
