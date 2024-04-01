@@ -1,139 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B275644E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Apr 2024 22:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD91B56754
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Apr 2024 23:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712012184; cv=none; b=L8pyORg8IkZYbBH1gPEK9i1WvWyOeHTGWdk3PcozZAOl9FyAA0HjAtyWA+czSYi6QHfUR++PZ/wPmnsLmarIuMG/J2fmFVBrOMjENC+0X1SF11y7AdvISlyktXXTMB9fzmJPLIz5ZbuAadNCRIbBkxZqWFvZE/xmSCboeQrmFKc=
+	t=1712012598; cv=none; b=ZhvPvOUpQKlBioJspeMvnXbYBJdTwJSMmTyQF/mq6Mdnkl6aDEiTpNGJF6+Zhfxf1OsgaiDdGw3AeLzN5+1ItbIX9unUDEaTH/FonnpgVZoF9rYrRj0VwsRy0StRdLCk2WbuM9UC0+rQOi6WDzKK6oQFfmifJu0MeT9XdbvtXBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712012184; c=relaxed/simple;
-	bh=HWcoYzLcadqjzv5w1Vao0XZJvifGka4oNIEPmv5U5BI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=am4XKGGaP4VU7DBReNit63Mz+UxVsPvRf2Gny0gr9J+h9+rzmS97Z3v9b/VpYtIriYAVrfXaktmcCPDXCGSwuuSDg3dDz+VCNp7slC27g3/VOS6Z3lt5vTG5+GSDrNQRSeo8T4PYVwWA3jqF89Z0bdSv5kmr0NjBs72Y+wyjXfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iap+bcp1; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1712012598; c=relaxed/simple;
+	bh=bnE7mqpJKSqTFSxXPdGovsiK78dKQTqNnNX/l8w1EL0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tKG9vHWhE4/W7+zJpB6n/sq3fxSKT8EUGe223rYc0JGUxWVAcydnJL2YuStvK2SCM+xp9a2B/6ej0t1UE5zI6Bva/K3me1O6PWVJhoqpzgJ2OTJ/cxmKoN271cJWG8+NARMQ/Qf6AjT6K3v2zO9D2WipjvXmF1OhkUrw9um14F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=KrmZMYiM; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iap+bcp1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712012183; x=1743548183;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=HWcoYzLcadqjzv5w1Vao0XZJvifGka4oNIEPmv5U5BI=;
-  b=Iap+bcp15sIELO9S0sGuY/Tj0opjeekfRc60ODYxZ7UkjhsFBXv4imtF
-   M7DArZxtadIEyhi90NOQgmQ2uzwTIW/igs0gV3q6Xp87IfXwXPDxcnnNc
-   bzo71aQ0RWB7dWE50UL80xwbdKya7LHB+WAfD6SCIaFQXr/decZ4a+Jl6
-   Ty+mqfyLdfRaYC6eKhlnT5ERS4TJG+pge3FbjbRvfhI0B7X6LZUCAfzn+
-   CDheWX1K9POR9i0rxGqx9q3NqlgTXHMprouaeCO5oq1O0QCc83k4MZvNq
-   DDdxreqQIYrQ3/t5TaICPnJh+Z/QVnk2p7HbJUQX6bWmxESDCp241dk4c
-   g==;
-X-CSE-ConnectionGUID: OTz77TrBQRCiIqZmlhQXng==
-X-CSE-MsgGUID: lm6+wVVgQ1+msd7YTiBDEQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="7276142"
-X-IronPort-AV: E=Sophos;i="6.07,173,1708416000"; 
-   d="scan'208";a="7276142"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 15:56:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,173,1708416000"; 
-   d="scan'208";a="22594009"
-Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 01 Apr 2024 15:56:15 -0700
-Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rrQZW-0000el-2e;
-	Mon, 01 Apr 2024 22:56:11 +0000
-Date: Tue, 2 Apr 2024 06:55:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>, Lukas Wunner <lukas@wunner.de>
-Subject: drivers/pci/pci.h:343:17: sparse: sparse: cast from restricted
- pci_channel_state_t
-Message-ID: <202404020648.ZvydnKCR-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="KrmZMYiM"
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dc6dcd9124bso4256042276.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 01 Apr 2024 16:03:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1712012595; x=1712617395; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aAzP4v8q6ZUrcIMKWV9ihMyx/mox5GX7NG3LvjArtJU=;
+        b=KrmZMYiM7MDqbIEQGGn6KyVx2HJXVhmwhI2oQFl2wSIhdFTwXr+BBL7hZDwaxhhJmz
+         089B3Fj0hKf3Inr0u4Pk6R5sMziyENwfFdA9o2PYBxbZVBI3GHxbN6BXFeIBhHh6lRdE
+         jrw1iOG3frGNw/kOzaeHzJ11B1l4MKtn7XYEsHW4J1/XNQQdJob7+g4KQDkFFUFCwl+N
+         S9z4WDh7BTTHiogPyPdTwGNcewp2oZWBUtArnaCRiEl3zfKOkOYDEwaMLRf0BQDb3E8T
+         ixcY6yNk6aHHTA75Vu8VQFVMPsZws/nDSzb+vbXbSbn5p74F4+lbcEUhgLCRWCRloLWz
+         /UMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712012595; x=1712617395;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aAzP4v8q6ZUrcIMKWV9ihMyx/mox5GX7NG3LvjArtJU=;
+        b=bAGEwj0U1as1kFfZae/VtR3XDw7DZ4J2QebDJPx3zav7UENQFG2Zqxsh8g7cAGk3zj
+         Gi4C4iPSppapaXFMzdmaXdT8fSSJ/oh0mTV+9H7DjShJWI8verxhYpa7/DBMNnIN6ZGG
+         4a+fmQ5HOL/VHxjsQZkVxj5EmmkXR/QRT6XpL72dYIJBduCAm4oxQ3nwwDxWXp0MomQ+
+         XjgfCTMyG6CkkEMPkyy4VTHZEOlbAVEPg2qqPuRW99GiIYJCZPJdwCThU6JAQf154nqs
+         6Psh7PjypkuDULziN1apjLVZxaZcPrEFyAPEBZDvk8dESU4GwlrUs4/HJRkUdlxLZH3l
+         x9sA==
+X-Forwarded-Encrypted: i=1; AJvYcCVfMEJGr87JVGVahD5j5JpcWHCFcTNkVu39K0bX6xp6Nb7O8Zjbab9+lXQbUfI47m/1HCNX10+XUQRj9JN5ziLd0AcsKPqr1xEd5aodKA==
+X-Gm-Message-State: AOJu0Yx9hEFZVBBoD6STLsp3dHdQamrbDSWzjdS7nvJ88V9CXgbAgOUE
+	lNB1MQobxyJifR1FSe21P0XO+Qew981WsYpKblT68FNJ4cpS8Lw60G8cLHkA4I+7yusTRyFDVlr
+	PKbhO1T9wHfwEAf+/EO/TBU2RKcYs5DHMZxPxhw==
+X-Google-Smtp-Source: AGHT+IHk+/3FWaZOGrd9QSOjD34cFN6VXLgdwa1vU1aw/TdKYme6QpFmevX9QOarkH38PBqDqpFMMw2iqggVDVwkyJo=
+X-Received: by 2002:a25:603:0:b0:dc8:5e26:f501 with SMTP id
+ 3-20020a250603000000b00dc85e26f501mr7806700ybg.61.1712012595628; Mon, 01 Apr
+ 2024 16:03:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <202403311952.oxw8fSed-lkp@intel.com> <20240401112012.58634114b0e76e062fad7bc0@linux-foundation.org>
+ <CAKPbEqqpXc7K11u087wYFux1ij5PnEhwNYk+EpMyUWFMUSKpCQ@mail.gmail.com>
+In-Reply-To: <CAKPbEqqpXc7K11u087wYFux1ij5PnEhwNYk+EpMyUWFMUSKpCQ@mail.gmail.com>
+From: "Ho-Ren (Jack) Chuang" <horenchuang@bytedance.com>
+Date: Mon, 1 Apr 2024 16:03:04 -0700
+Message-ID: <CAKPbEqrQ8bUKt1AmuWenxDGGn1Ht9xRfua_9BO5uquRC6=9Niw@mail.gmail.com>
+Subject: Re: [External] Re: [akpm-mm:mm-unstable 262/270] vmscan.c:(.text+0x2c90):
+ multiple definition of `mt_find_alloc_memory_type'; kernel/sched/fair.o:fair.c:(.text+0x1db4):
+ first defined here
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, "Huang, Ying" <ying.huang@intel.com>, SeongJae Park <sj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   026e680b0a08a62b1d948e5a8ca78700bfac0e6e
-commit: c82458101d5490230d735caecce14c9c27b1010c PCI/PM: Mark devices disconnected if upstream PCIe link is down on resume
-date:   6 months ago
-config: loongarch-randconfig-r034-20230511 (https://download.01.org/0day-ci/archive/20240402/202404020648.ZvydnKCR-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20240402/202404020648.ZvydnKCR-lkp@intel.com/reproduce)
+Hi Andrew and SeongJae,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404020648.ZvydnKCR-lkp@intel.com/
+These compilation errors can be solved by adding `static inline` to
+the two complaining functions, the same solution as SeongJae mentioned
+earlier.
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/pci/pci-driver.c:522:42: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci-driver.c:522:61: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci-driver.c:757:28: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci-driver.c:757:46: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci-driver.c: note: in included file:
->> drivers/pci/pci.h:343:17: sparse: sparse: cast from restricted pci_channel_state_t
->> drivers/pci/pci.h:343:17: sparse: sparse: cast to restricted pci_channel_state_t
-   drivers/pci/pci.h:346:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pci.h:346:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pci.h:346:23: sparse: sparse: cast to restricted pci_channel_state_t
-   drivers/pci/pci.h:350:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pci.h:350:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pci.h:350:23: sparse: sparse: cast to restricted pci_channel_state_t
+I've tested on my end as listed below and I will send out a V10 soon
+after I check a few more things:
+```
+$ ./tools/testing/kunit/kunit.py run --build_dir ../kunit.out/
+[22:53:24] Configuring KUnit Kernel ...
+[22:53:24] Building KUnit Kernel ...
+Populating config with:
+$ make ARCH=3Dum O=3D../kunit.out/ olddefconfig
+Building with:
+$ make ARCH=3Dum O=3D../kunit.out/ --jobs=3D8
+[22:53:30] Starting KUnit Kernel (1/1)...
+[...snip...]
+[22:53:37] [FAILED] alloc_size_kmalloc_const_test
+[...snip...]
+[22:53:37] [FAILED] alloc_size_vmalloc_const_test
+[...snip...]
+[22:53:37] [FAILED] alloc_size_kvmalloc_const_test
+[...snip...]
+[22:53:37] [FAILED] alloc_size_devm_kmalloc_const_test
+[...snip...]
+[22:53:37] Testing complete. Ran 306 tests: passed: 260, failed: 4, skipped=
+: 42
+[22:53:37] Failures: fortify.alloc_size_kmalloc_const_test,
+fortify.alloc_size_vmalloc_const_test,
+fortify.alloc_size_kvmalloc_const_test,
+fortify.alloc_size_devm_kmalloc_const_test
+[22:53:37] Elapsed time: 13.331s total, 0.003s configuring, 5.837s
+building, 7.482s running
+```
 
-vim +343 drivers/pci/pci.h
+Btw, I noticed there are 4 failed. Please feel free to let me know if
+any caused by my code.
 
-ac04840350e2c2 Lukas Wunner         2023-03-11  324  
-a6bd101b8f84f9 Keith Busch          2018-09-20  325  /**
-a6bd101b8f84f9 Keith Busch          2018-09-20  326   * pci_dev_set_io_state - Set the new error state if possible.
-a6bd101b8f84f9 Keith Busch          2018-09-20  327   *
-347269c113f10f Krzysztof Wilczyński 2021-07-03  328   * @dev: PCI device to set new error_state
-347269c113f10f Krzysztof Wilczyński 2021-07-03  329   * @new: the state we want dev to be in
-a6bd101b8f84f9 Keith Busch          2018-09-20  330   *
-74ff8864cc842b Lukas Wunner         2023-01-20  331   * If the device is experiencing perm_failure, it has to remain in that state.
-74ff8864cc842b Lukas Wunner         2023-01-20  332   * Any other transition is allowed.
-a6bd101b8f84f9 Keith Busch          2018-09-20  333   *
-a6bd101b8f84f9 Keith Busch          2018-09-20  334   * Returns true if state has been changed to the requested state.
-a6bd101b8f84f9 Keith Busch          2018-09-20  335   */
-a6bd101b8f84f9 Keith Busch          2018-09-20  336  static inline bool pci_dev_set_io_state(struct pci_dev *dev,
-a6bd101b8f84f9 Keith Busch          2018-09-20  337  					pci_channel_state_t new)
-a6bd101b8f84f9 Keith Busch          2018-09-20  338  {
-74ff8864cc842b Lukas Wunner         2023-01-20  339  	pci_channel_state_t old;
-a6bd101b8f84f9 Keith Busch          2018-09-20  340  
-a6bd101b8f84f9 Keith Busch          2018-09-20  341  	switch (new) {
-a6bd101b8f84f9 Keith Busch          2018-09-20  342  	case pci_channel_io_perm_failure:
-74ff8864cc842b Lukas Wunner         2023-01-20 @343  		xchg(&dev->error_state, pci_channel_io_perm_failure);
-74ff8864cc842b Lukas Wunner         2023-01-20  344  		return true;
-a6bd101b8f84f9 Keith Busch          2018-09-20  345  	case pci_channel_io_frozen:
-74ff8864cc842b Lukas Wunner         2023-01-20  346  		old = cmpxchg(&dev->error_state, pci_channel_io_normal,
-74ff8864cc842b Lukas Wunner         2023-01-20  347  			      pci_channel_io_frozen);
-74ff8864cc842b Lukas Wunner         2023-01-20  348  		return old != pci_channel_io_perm_failure;
-a6bd101b8f84f9 Keith Busch          2018-09-20  349  	case pci_channel_io_normal:
-74ff8864cc842b Lukas Wunner         2023-01-20  350  		old = cmpxchg(&dev->error_state, pci_channel_io_frozen,
-74ff8864cc842b Lukas Wunner         2023-01-20  351  			      pci_channel_io_normal);
-74ff8864cc842b Lukas Wunner         2023-01-20  352  		return old != pci_channel_io_perm_failure;
-74ff8864cc842b Lukas Wunner         2023-01-20  353  	default:
-74ff8864cc842b Lukas Wunner         2023-01-20  354  		return false;
-a6bd101b8f84f9 Keith Busch          2018-09-20  355  	}
-a6bd101b8f84f9 Keith Busch          2018-09-20  356  }
-89ee9f7680031d Keith Busch          2017-03-29  357  
+Thanks,
 
-:::::: The code at line 343 was first introduced by commit
-:::::: 74ff8864cc842be994853095dba6db48e716400a PCI: hotplug: Allow marking devices as disconnected during bind/unbind
+On Mon, Apr 1, 2024 at 11:23=E2=80=AFAM Ho-Ren (Jack) Chuang
+<horenchuang@bytedance.com> wrote:
+>
+> Hi Andrew,
+>
+> Thank you. I'm trying to figure out the problem. Will send a V10 to fix t=
+his.
+>
+> On Mon, Apr 1, 2024 at 11:20=E2=80=AFAM Andrew Morton <akpm@linux-foundat=
+ion.org> wrote:
+> >
+> > OK, thanks.  I'll drop
+> >
+> >         Patch series "Improved Memory Tier Creation for CPUless NUMA No=
+des", v9.
+> >
+> > and shall await a v10.
+> >
+>
+>
+> --
+> Best regards,
+> Ho-Ren (Jack) Chuang
+> =E8=8E=8A=E8=B3=80=E4=BB=BB
 
-:::::: TO: Lukas Wunner <lukas@wunner.de>
-:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+--=20
+Best regards,
+Ho-Ren (Jack) Chuang
+=E8=8E=8A=E8=B3=80=E4=BB=BB
