@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C0911187
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Apr 2024 09:57:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1891119E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Apr 2024 10:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711965478; cv=none; b=hWRxGNWx8xCIHFoQMGC6ERtRG9CUjCJVajknhFA/QMkKhleVlI4qG3C3/1bzyJttuGMDDQTHObtB0IIhZX/naHzoV6R8Bw3Yp6XtGmcX40AYaBUq2zq8DR11uI3Z78RN+avHE08drhwKuCH5tJeFVDRCVAavufZv16k8hcLH6PI=
+	t=1711968583; cv=none; b=N7XERaDqQII07KMKb/QQ42wl6+YNZzfpF7CeXcUsssI2aCOzgm9NxeZd0cvfxos0k73AzkuTGwj9TgmBbxcrMoGuTyqygrGkU+MuLKHiUySNhmhauP/9o4jepnTrIxEXYcWiZtCG+9nNrQTopJVqEGlwn0ZQhV2aeiMTP0N7GXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711965478; c=relaxed/simple;
-	bh=OwZ/u54Vcc/I38bMykZdqgACtIQaSu/xO2tyGnN1Mtc=;
+	s=arc-20240116; t=1711968583; c=relaxed/simple;
+	bh=1YrQei/ogHky5a6P90LId2J0+0IK+FWe2yUcEYuM3vU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fijEQuTMPLAoTVQK4CJ5WF1jT+7U06QjqMKtacWv84lgYqL174vsN16sL9wu4jxf3oAWRIuwAI07ahtSWCkkphBqhYtnBMRqpgF3O1Tqh94UBDoNhYBHYQitAiy6ugRyPr1S4XEJo8P01lP6pJMgbusWqht9jGa55S8PfrbmtRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aXiZuMqB; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=u+4VedQBcCf8e3NMEeI0OWljBpqKNCHmQ/a9nZSMnD4EFB4qVB49Qh5RqwpzKKDbdu9sRq3MyWaOLl9uokwz2xBCtGUc/D4QjXGQu5zRHOZH/PQBs33z3J50YXjGzin/9ZUL3Gq7bn2P7aIEa42FRK7fkpDuKWppnyaZLOau+vA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=flWtZssx; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aXiZuMqB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="flWtZssx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711965477; x=1743501477;
+  t=1711968582; x=1743504582;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OwZ/u54Vcc/I38bMykZdqgACtIQaSu/xO2tyGnN1Mtc=;
-  b=aXiZuMqBF3Z2HUMhDXLmcAqfybeJDt56A+B332pxMAk9mvsI30Lp8/TM
-   O8dCwKwIR8xNME7J9q9B/jFM+V5l6Jh214m03770Ph7O4IwkxV4yaYLoo
-   2bYuNsU/TZIN761Lm1xqbssFKelO6GkwJo5KWf1Iv+sMBQu3kMHbmu94n
-   nL+ORwKeM6iXAb5TZ/VnnPfKZsPcUTGiM48nHgIdpqz6K+e1ZJEL23ofb
-   etViSh910u68PqbJ8TOcE7cGw44Y2q66m/6/Gkln+VBlwCbvr3yduHmVT
-   FziP5tLYu+gkPPDlEoHCR5q7D1IOhyc4xs0tkL1fx8PqmNl/uK7LqoF1+
-   w==;
-X-CSE-ConnectionGUID: oz304/U/RVGIfpEUcmUvEg==
-X-CSE-MsgGUID: 8lYDVBciSpSTpa6qoFEfFg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11030"; a="10909401"
+  bh=1YrQei/ogHky5a6P90LId2J0+0IK+FWe2yUcEYuM3vU=;
+  b=flWtZssxkyA5JE1Dm/PjvzIJS/x3lM5Z9ed+8baoe4cElNHxtlt5bDtH
+   2CeaPUMKbeQAmmH4nH6jgfbF7Zji2W2Zlg8ICXvk0ShhdSMdcmqPmyPNq
+   MChH2/FOb1E2S6e040DG+4ibJ7XIFJRlWfpphkcHs7oHNRV6wCYSlMUPr
+   uLzZn4ILD+lIYcTb25unu00U+CJ6MK+JQEdhEPZegRks0rFtoDIuZl787
+   tDlZYzyEcXTbUOoT9XsMvWHNGwqRLxdr1cwXsxiqFlgSCZF396HOP2e4i
+   IWkuOpS/DRBpq/e8zSnMSHjlaw2FWTu88Zm/7HqOAxCmz+mN/CraweDTt
+   Q==;
+X-CSE-ConnectionGUID: 8pwHrRY+Qiu3bsSv6GRy7w==
+X-CSE-MsgGUID: z7Njm+GCS86FGDkMZQPyQw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11030"; a="6953816"
 X-IronPort-AV: E=Sophos;i="6.07,171,1708416000"; 
-   d="scan'208";a="10909401"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 02:57:57 -0700
+   d="scan'208";a="6953816"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 03:49:41 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,171,1708416000"; 
-   d="scan'208";a="18058658"
+   d="scan'208";a="18138234"
 Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 01 Apr 2024 02:57:55 -0700
+  by orviesa006.jf.intel.com with ESMTP; 01 Apr 2024 03:49:40 -0700
 Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rrEQK-0000ED-10;
-	Mon, 01 Apr 2024 09:57:52 +0000
-Date: Mon, 1 Apr 2024 17:57:16 +0800
+	id 1rrFEP-0000Ft-0b;
+	Mon, 01 Apr 2024 10:49:37 +0000
+Date: Mon, 1 Apr 2024 18:49:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ken Raeburn <raeburn@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>,
-	Matthew Sakai <msakai@redhat.com>
-Subject: [groeck-staging:testing 2/11] drivers/md/dm-vdo/murmurhash3.c:21:31:
- sparse: sparse: incorrect type in argument 1 (different base types)
-Message-ID: <202404011734.OlyXtb2L-lkp@intel.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vivek-drm-tip:virtgpu_import_rfc 9/9]
+ drivers/dma-buf/udmabuf.c:347:65: warning: passing argument 1 of
+ 'virt_to_pfn' makes pointer from integer without a cast
+Message-ID: <202404011818.7ITWXwDw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,46 +61,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git testing
-head:   ad98b547d596561b6bdc5c2fdf8aa1a620c9e6fa
-commit: af76a97d146976298a6fbd154dd39b6e9e321b73 [2/11] dm vdo: use kernel byteswapping routines instead of GCC ones
-config: alpha-randconfig-r111-20240331 (https://download.01.org/0day-ci/archive/20240401/202404011734.OlyXtb2L-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240401/202404011734.OlyXtb2L-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/Vivek/drm-tip.git virtgpu_import_rfc
+head:   2347bf8ba6d850818b830aa54bb75d4b892fb6a8
+commit: 2347bf8ba6d850818b830aa54bb75d4b892fb6a8 [9/9] udmabuf: Implement UDMABUF_CREATE_LIST_FOR_PCIDEV ioctl
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240401/202404011818.7ITWXwDw-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240401/202404011818.7ITWXwDw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404011734.OlyXtb2L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404011818.7ITWXwDw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/md/dm-vdo/murmurhash3.c:21:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le64 const [usertype] *p @@     got unsigned long long const [usertype] * @@
-   drivers/md/dm-vdo/murmurhash3.c:21:31: sparse:     expected restricted __le64 const [usertype] *p
-   drivers/md/dm-vdo/murmurhash3.c:21:31: sparse:     got unsigned long long const [usertype] *
->> drivers/md/dm-vdo/murmurhash3.c:21:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le64 const [usertype] *p @@     got unsigned long long const [usertype] * @@
-   drivers/md/dm-vdo/murmurhash3.c:21:31: sparse:     expected restricted __le64 const [usertype] *p
-   drivers/md/dm-vdo/murmurhash3.c:21:31: sparse:     got unsigned long long const [usertype] *
->> drivers/md/dm-vdo/murmurhash3.c:26:14: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __le64 [usertype] @@
-   drivers/md/dm-vdo/murmurhash3.c:26:14: sparse:     expected unsigned long long [usertype]
-   drivers/md/dm-vdo/murmurhash3.c:26:14: sparse:     got restricted __le64 [usertype]
->> drivers/md/dm-vdo/murmurhash3.c:26:14: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __le64 [usertype] @@
-   drivers/md/dm-vdo/murmurhash3.c:26:14: sparse:     expected unsigned long long [usertype]
-   drivers/md/dm-vdo/murmurhash3.c:26:14: sparse:     got restricted __le64 [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +21 drivers/md/dm-vdo/murmurhash3.c
+   In file included from arch/m68k/include/asm/page.h:66,
+                    from arch/m68k/include/asm/thread_info.h:6,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from arch/m68k/include/asm/irqflags.h:6,
+                    from include/linux/irqflags.h:18,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from include/linux/rcupdate.h:25,
+                    from include/linux/rbtree.h:24,
+                    from include/linux/key.h:15,
+                    from include/linux/cred.h:13,
+                    from drivers/dma-buf/udmabuf.c:2:
+   drivers/dma-buf/udmabuf.c: In function 'handle_pcidev_pages':
+>> drivers/dma-buf/udmabuf.c:347:65: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+     347 |                         page = virt_to_page((unsigned long)addr + size);
+         |                                             ~~~~~~~~~~~~~~~~~~~~^~~~~~
+         |                                                                 |
+         |                                                                 long unsigned int
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   drivers/dma-buf/udmabuf.c:347:32: note: in expansion of macro 'virt_to_page'
+     347 |                         page = virt_to_page((unsigned long)addr + size);
+         |                                ^~~~~~~~~~~~
+   In file included from arch/m68k/include/asm/page.h:60:
+   arch/m68k/include/asm/page_mm.h:123:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     123 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
 
-    17	
-    18	#define ROTL64(x, y) rotl64(x, y)
-    19	static __always_inline u64 getblock64(const u64 *p, int i)
-    20	{
-  > 21		return le64_to_cpup(&p[i]);
-    22	}
-    23	
-    24	static __always_inline void putblock64(u64 *p, int i, u64 value)
-    25	{
-  > 26		p[i] = cpu_to_le64(value);
-    27	}
-    28	
+
+vim +/virt_to_pfn +347 drivers/dma-buf/udmabuf.c
+
+   299	
+   300	static int handle_pcidev_pages(struct udmabuf *ubuf,
+   301				       struct udmabuf_create_list *head,
+   302				       struct udmabuf_create_item *list)
+   303	{
+   304		struct pci_dev *pdev = NULL;
+   305		resource_size_t bar_size;
+   306		pgoff_t pgbuf = 0;
+   307		struct page *page;
+   308		int i, ret;
+   309		size_t size;
+   310		void *addr;
+   311	
+   312		for (i = 0; i < head->count; i++) {
+   313			if (!ubuf->pdev) {
+   314				pdev = pci_get_domain_bus_and_slot(0,
+   315							PCI_BUS_NUM(list[i].devid),
+   316							list[i].devid & 0xff);
+   317				if (!pdev) {
+   318					ret = -ENODEV;
+   319					goto err;
+   320				}
+   321	
+   322				ubuf->pdev = pdev;
+   323			}
+   324	
+   325			bar_size = pci_resource_len(pdev, list[i].bar);
+   326			if (list[i].offset > bar_size ||
+   327			    list[i].offset + list[i].size > bar_size) {
+   328				ret = -EINVAL;
+   329				goto err;
+   330			}
+   331	
+   332			ret = pci_p2pdma_add_resource(pdev,
+   333						      list[i].bar,
+   334						      list[i].size,
+   335						      list[i].offset);
+   336			if (ret)
+   337				goto err;
+   338	
+   339			addr = pci_alloc_p2pmem(pdev, list[i].size);
+   340			if (!addr) {
+   341				ret = -EINVAL;
+   342				goto err;
+   343			}
+   344	
+   345			size = 0;
+   346			while (size < list[i].size) {
+ > 347				page = virt_to_page((unsigned long)addr + size);
+   348				ubuf->pages[pgbuf++] = page;
+   349	
+   350				size += PAGE_SIZE;
+   351			}
+   352		}
+   353	
+   354	err:
+   355		while (pgbuf > 0 && ubuf->pages[--pgbuf])
+   356			pci_free_p2pmem(pdev,
+   357					page_to_virt(ubuf->pages[pgbuf]),
+   358					PAGE_SIZE);
+   359		if (pdev)
+   360			pci_dev_put(pdev);
+   361		return ret;
+   362	}
+   363	
 
 -- 
 0-DAY CI Kernel Test Service
