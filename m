@@ -1,240 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD4628FD
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Apr 2024 02:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711938796; cv=fail; b=FFYxvl8sXHL9UnYE8HH2j1s/R7lNPfZ6COyEB7n3cl+wbaaRuNfilfasE49lP6EyYq+HRBh91hvbqihVm/YWtun2e2jOhIrZFgm2RkbgL8/68z7pohUYylAIxs2d38WBxRIOmVd5dlAF4lYJ4aGbhPR2D4uGfXtw7KwDoFc8ZJo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711938796; c=relaxed/simple;
-	bh=KtId0EKw+dx4CDVyAsGCtPQFYiT1uxcbs4rxYPKD0d4=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=YCKeFG7Ex829ySCP5aPmutOKGc84vIicTQmIpbS0zo2B/5sR1YqX5G+1GCUl8j8JNKJpAbQSbzDr8PHrBWh0RxvvkBW9vfeZvxkUu+78iPW7qe4G7R+YtLYMwF7GeCXUqtYc4j6gOUai3r81/A8XXnTYLBfTBSbgqk2UgRN5ppw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zto4dbSm; arc=fail smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8707F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Apr 2024 03:09:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711940945; cv=none; b=XMUdKSTr/B2+0nqs9PawmMRa8hkidTG9uG5Eooj2mB/s6k6gnWSnllcFiZdkpfjZQqIuzc7D1NXG9YjItO9QmK+cFX2fBioC4ATChFmfZ+J/dVQZ8kHyLWSqjL/5XIvGe/dyhuzhIioTRzF0iOSSIkYE6KJjsP0aunKmntuEVBM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711940945; c=relaxed/simple;
+	bh=O4Lr1xIC0Z7v6ri2VVYZcWnlCgyoBrNiluqDqj5QWC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=isNhBmG+rjd3CGJRWXQBpdj7kSadGMWk7A9AJsIia07qQAK8FbM+Et+8qCnnKtFIa1JEXX2aMnN3MxMFpp39xPRm6VGDsv2/S9OdfK/i040wdFf2yWCLkmDV7fsxedTxjqK6fjWrqFSIadaoLn9/1Zfh3pKJc3qrPRBOELhCbfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f6kEb4hy; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zto4dbSm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f6kEb4hy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711938794; x=1743474794;
+  t=1711940944; x=1743476944;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KtId0EKw+dx4CDVyAsGCtPQFYiT1uxcbs4rxYPKD0d4=;
-  b=Zto4dbSmIztsdIRJZ/ppKfIAI9NYP1FiCWGfhbBICKdnyLr8/Nn+bV8j
-   nU6+2XTlWu/6czv8nLKtaG/vmp2wuASd+IgVc4l9qYg3QFL2rRgvWJkbS
-   vte34pwSHZzdTH6O6jmq3ghbkoB5TWMZtD6GaB/t1XReBqXoA23Y8gTeq
-   THhL+wV/WDv4pIVUKNUA5WVg/g3H14N6EPaiRexEvs97+826bdClEDrj9
-   S3doFahLTR7gPm6gj9reTyUIUhZ+3nQPt630x5TBT0J4hNGQKytYBHoZ5
-   Ip0+UJCrFaaz5GRQ4oWI8j3KfFWbx14nzcPto/FN720JnQmtDcqezDFB8
-   A==;
-X-CSE-ConnectionGUID: 0H2w1tV4Rn6lHjk60MI/+Q==
-X-CSE-MsgGUID: Iw6xVKdISGycM5TiE4jgYQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11030"; a="7170162"
+  bh=O4Lr1xIC0Z7v6ri2VVYZcWnlCgyoBrNiluqDqj5QWC8=;
+  b=f6kEb4hy+6Xk2AA68ufzkoIIuiOm6nYZ+9C9AWQqeVpzTLuHclysuOgM
+   j00Dsr6kSHVg9+ZiTMFWBMtjo3a9v0kyTx2a8sx0+XGi4pWKIhMGnqcvO
+   a0ArEA2PYL6MmEhq6/J1fH3U7+7q2oNk2MhdtfxmS3pN0GK1OkUNlhyYI
+   G/22ThFKHxAxbWCNAwE15o5JHni2fjfzzOxWqMu0bT10BJeoFf4XAzu5H
+   xb40fWsISClPQ/ukhw3KOP8TeZknbxubMfHRp62ZkYMVaai6xYykcXahA
+   6BTS6g5qFzHR+IYQT2oyXXSYMARJL/kVdZ00ygBvtxNjRyTRyVpfYeK22
+   w==;
+X-CSE-ConnectionGUID: EfIn0D0PTLegEHLSjEzjFQ==
+X-CSE-MsgGUID: 8NlYD/z+RU6QRxAKxURtOg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11030"; a="6953704"
 X-IronPort-AV: E=Sophos;i="6.07,171,1708416000"; 
-   d="scan'208";a="7170162"
+   d="scan'208";a="6953704"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2024 19:33:11 -0700
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2024 20:09:03 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,171,1708416000"; 
-   d="scan'208";a="48556936"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 31 Mar 2024 19:33:11 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 31 Mar 2024 19:33:09 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Sun, 31 Mar 2024 19:33:09 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Sun, 31 Mar 2024 19:33:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nwaJfjXNqZzGuNCUamET/3nfOo9Q2cVJ6bXaY88/6DVqMPurZFIi2FeOcsfOJsdgxPrVkDm9kilhaensBdOiCBAWUBVjPVA/QzP52LHWC/fpQ653xB4AKqoQ1OQsBEUY324WTUwXkQ7358IbkRaXMhPDUzEQLYBXgdCX3kL7i8r9GTdnIFA065RF1hhwq997jpTcLDoGen28OGf8Ui3BzxqeOO+LAAKrEtmmy8qR/W93K1hYFx9Bjd8FGiNyqcQl7tWgvPjhval87YrjE+FyoKhBYQcP7j70jgPNQ5SLnK4alQx6Ikjs/995bUwkFFpp5iq2ojcc3HrzQ5L1Yid53w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VYx9yn9RZ4Lp7qBgIehUjB7enc0dJ/OUFbpf2fP7A9U=;
- b=SrDbsAp5h96IAPzcyoEF2duiM6l23ZOtuzhRgQWhfvRKo38DbKx3ykdzkfe9z9IMhe3yuCW/6KZnp84hFwpRe72kuxxg/tYWm/B+Vceuu0aDea5Q2sV6YFigrzSo0uXJJbW+qCtrrEgAewu/lsCeeC4LEreEZMyFwp6nHl/m8KqwvSXFhIucps7rEzuYzJo9+c3PdnnLwmbyManl8JilcM+oE084UWAgH1kAdB4tMNcE0qw5t4PIfIZPJ3P8aNaGZbVN3CpHmiqCriQu077OAD790w1Xk3RhUM9WemH7XxzL+56w9o+ThrzLf34Kv5Yt3EQlLYHQEh3/EeSbur1P+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by DS7PR11MB7887.namprd11.prod.outlook.com (2603:10b6:8:e2::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.32; Mon, 1 Apr
- 2024 02:33:08 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::7118:c3d4:7001:cf9d]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::7118:c3d4:7001:cf9d%6]) with mapi id 15.20.7452.017; Mon, 1 Apr 2024
- 02:33:07 +0000
-Date: Mon, 1 Apr 2024 10:26:27 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Andrew
- Morton" <akpm@linux-foundation.org>, Linux Memory Management List
-	<linux-mm@kvack.org>, Alexey Dobriyan <adobriyan@gmail.com>
-Subject: proc-empty-vm.c:342:17: warning: ignoring return value of 'write'
- declared with attribute 'warn_unused_result'
-Message-ID: <202404010211.ygidvMwa-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SI2PR01CA0003.apcprd01.prod.exchangelabs.com
- (2603:1096:4:191::16) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="48562882"
+Received: from lkp-server01.sh.intel.com (HELO 3d808bfd2502) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 31 Mar 2024 20:09:02 -0700
+Received: from kbuild by 3d808bfd2502 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rr82d-0001c4-0u;
+	Mon, 01 Apr 2024 03:08:59 +0000
+Date: Mon, 1 Apr 2024 11:08:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geoff Levand <geoff@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [geoff-ps3:ps3-queue-v6.9 16/17]
+ arch/powerpc/platforms/ps3/device-init.c:785:17-23: ERROR: application of
+ sizeof to pointer
+Message-ID: <202404011140.XIsjBjur-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|DS7PR11MB7887:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AhHmYH5ef+0TV5i1Yth6HyReDJB7MoYFheyTAqq+ddwp5GgrK1v69tklFlnoQJZ0025p/x1HkLlTKgjg8nVSANaEeGMDK5S4OF/MjR0F+Zk1LUQ4vjn+dxPZKu+wn7UbbRFEvjd5ubtrmMuDOSDTsy5I1WCJUUd8xr06Tzif6sAt5qAa4RDGauPC1eUCo0uM5nm+Zi4Q36y7kkJK6zH+ULedkTVW4dWmHCH/liLUinXMVneyenRxLG5cTzNyMRKpxKMHgq38geOGNQt7OVZejaZgIuHOQa6CqiJDG8GZJgxzkHobPZnYvxj2BBncXhjHIHLY6WSLdNISRjLZUQuKuenFOFCW6Z7B6flEsVH88dkmI1dNWwEFF2v/Gt2E7ZP1x+/lgETr4sRdAieGW/Ul5kRyhxiaMdWCOAbDT+bouHmbqRNnd+pNZNZIGifpHAGshUiTBkMhRHNwPWJWK9s6n+aFONpTpV6OVCTumC+7SXUEAInA0SQ2ULknQhKD5fwuvMEod7cC5Srv3S9up1JcoHKiwXzcD4XRTgmTrcmKwcSFnOvEYxsvvIvi2ujiCXjtHu1/EbKM/26ENnL2RSaVpELgbXu/FMR7eSNgWqFwRxXvfVm7BPYdh8c5iB+l59Wh
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1lqHnGVE1MuU/YTk0/WLxFQLd1Cw8Kd+MQttlfplIwG+D69lhinQSyrNvwzA?=
- =?us-ascii?Q?PD2UQTYJD9yPA6crb+/amJH1GFCmt/W6BS/nVbQA0lD+JOOdSfrE+0KvqeJm?=
- =?us-ascii?Q?iaefPC4/yEFWcHwNAvvVzwZ1x2sz+5lrJ5mnXs7KyZS1xUquoA/nCdU5g5Vp?=
- =?us-ascii?Q?xbf3M6dX5QP5MT3umE8ov91Jlx1OnRg/Ylm0klNez2YXjpyVrhvyxE96WmAT?=
- =?us-ascii?Q?LdrU0nT2bMO4pn2GSvh6L+b15VrcSmPhcl6Yvc/Th7sa/7Bxo8Z558r8eNjr?=
- =?us-ascii?Q?qqlG/v+OijodH1mVXM9STlFRbKEyS4IlMQq77hWm9nSzGxxpEnvuIx/YPBw6?=
- =?us-ascii?Q?iCOtRFY4T0OKjVV96/wkYAt2RNuAUVQhnTMac+MSOHLbsPGA9QyQsu5Y8Wfy?=
- =?us-ascii?Q?mgyJG+PWbQZFpUyU3kzJBmZfD3cnEcZKZD2JWkR+EK++50YxdLCH1Lm8dqOX?=
- =?us-ascii?Q?da8phCpbfxT3uBKWCP422M/XsckuvmtUMvG2t00thoteZSTGFy2v9k5uM33b?=
- =?us-ascii?Q?jNpEAlIsYahBp7+MB5z0UyIgaZaM2kwG0w/2zQT/F47gIidTdvBgFvzvDiMT?=
- =?us-ascii?Q?4Km9wEmDH3dm37IHRfgzj+NVPqbBKKzCSKffgsnGyZq2EIVTtyQZOFQDYJal?=
- =?us-ascii?Q?rI4o6YOF6nObZ9Y1wF/76RfPpxIyKZCEU2tD7+4g9HHl9FJQHefNajknD39y?=
- =?us-ascii?Q?GtfDIgq2lJ7gNVZtkz3v3a1NE8lz9k120PV+4mV0okdGVit2ZxXkmWnFHLHy?=
- =?us-ascii?Q?xPF5ducu4qJERn5bcY490CdJyhq1O9BYi8DM5eaTHJEltDtEhFIs0VulMa2X?=
- =?us-ascii?Q?Z0pknp+X20LrNKRgrq0YEqryDXLFDmXPUeUkphfKQo5nkx8FR3y8ogli29Ge?=
- =?us-ascii?Q?0AIXAcXrmtncy07CVBFXT19A5qikC2EfcyzVg7bLepxEcoWv+kh8QdY9rvyt?=
- =?us-ascii?Q?SQqHOHMdbmIWPnEKLN11tbfmx2qZFljCwz3nK0K+AeLj2y2ruBodIGq6Jix/?=
- =?us-ascii?Q?6HWi/J+0RW/yO0WlKxhKE3fLX085ZWm/xDuOhhYW68f7L9sBGXRl5G9mnvqF?=
- =?us-ascii?Q?TG5ysgx+RXiN+VsdyMxSyQlyOR7xiDHBmbXlZgvaq6Z0sIox6V93bH5QaaK8?=
- =?us-ascii?Q?UVftgQ+zxAA7Ak2OMe5fAkWZ25wBvNmVXWnELEH3ZEKM5V1hBpFxFYg+3zcj?=
- =?us-ascii?Q?RSCnZkEt/7E1NOMRmjULKm3Upa7nacmXDzmHUE1dg3jhTRI2RSx240HTwPlj?=
- =?us-ascii?Q?2yN/e4Ji8LmfEntj7JG7Z4kyMLWVFEcC+Y6R5S9sP64qbNrYn99vPQffd3SH?=
- =?us-ascii?Q?Ld9lBJf5zxh3BEYxQD9/IyInuNDAdt5gEG80vIpqGsDcqTctjXSIBOgbNLw+?=
- =?us-ascii?Q?KvcUBLb9BpIymCT8HCZvXcZGmeN5l3EmWJc1V58VI2s9vQZgdNHxoWoM3nlk?=
- =?us-ascii?Q?ajRZB6iRrAOex5tO3zKX29V8cdNBP0Yu8CZEvuWEQxx3IRc3oowM0TJIQrS6?=
- =?us-ascii?Q?LO/3OX07K4J74Guwx9VBLK0FC7Z/3Wb3LqyhylwlThxgNqMLetxIREoZXsbp?=
- =?us-ascii?Q?P96mk3gKQODRyxYKXvqmXjzhsUx+GJTX4+mnbZS/?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8cdb0be8-3d8e-418e-1c2b-08dc51f410ee
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2024 02:33:07.9253
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ITxKjVjtjdx0voZoKGcj9BGzyAzlEI7iAAiDjvykSqfwZy4w+nrWdRzMSigH83JIaxcLGEA7aKynAgoAvyF8vA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7887
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   712e14250dd2907346617eba275c46f53db8fae7
-commit: 6e79b375adb38219099d7e3ccc973a7808108a3e proc: test /proc/${pid}/statm
-compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geoff/ps3-linux.git ps3-queue-v6.9
+head:   dc948075b6eb13520ec93b1739a5bd6270e2803d
+commit: 187f6e3cc0d1111a352b95ad3da531c436b84984 [16/17] powerpc/ps3: Fix allmodconfig warning
+config: powerpc64-randconfig-r054-20240401 (https://download.01.org/0day-ci/archive/20240401/202404011140.XIsjBjur-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 546dc2245ffc4cccd0b05b58b7a5955e355a3b27)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202404010211.ygidvMwa-lkp@intel.com/
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404011140.XIsjBjur-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> arch/powerpc/platforms/ps3/device-init.c:785:17-23: ERROR: application of sizeof to pointer
 
-   proc-empty-vm.c: In function 'test_proc_pid_statm':
->> proc-empty-vm.c:342:17: warning: ignoring return value of 'write' declared with attribute 'warn_unused_result' [-Wunused-result]
-     342 |                 write(1, buf, rv);
-         |                 ^~~~~~~~~~~~~~~~~
+vim +785 arch/powerpc/platforms/ps3/device-init.c
 
-
-vim +342 tools/testing/selftests/proc/proc-empty-vm.c
-
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  320  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  321  /*
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  322   * There seems to be 2 types of valid output:
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  323   * "0 A A B 0 0 0\n" for dynamic exeuctables,
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  324   * "0 0 0 B 0 0 0\n" for static executables.
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  325   */
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  326  static int test_proc_pid_statm(pid_t pid)
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  327  {
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  328  	char buf[4096];
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  329  	snprintf(buf, sizeof(buf), "/proc/%u/statm", pid);
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  330  	int fd = open(buf, O_RDONLY);
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  331  	if (fd == -1) {
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  332  		perror("open /proc/${pid}/statm");
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  333  		return EXIT_FAILURE;
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  334  	}
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  335  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  336  	ssize_t rv = read(fd, buf, sizeof(buf));
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  337  	close(fd);
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  338  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  339  	assert(rv >= 0);
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  340  	assert(rv <= sizeof(buf));
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  341  	if (0) {
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09 @342  		write(1, buf, rv);
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  343  	}
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  344  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  345  	const char *p = buf;
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  346  	const char *const end = p + rv;
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  347  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  348  	/* size */
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  349  	assert(p != end && *p++ == '0');
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  350  	assert(p != end && *p++ == ' ');
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  351  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  352  	uint64_t resident;
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  353  	p = parse_u64(p, end, &resident);
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  354  	assert(p != end && *p++ == ' ');
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  355  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  356  	uint64_t shared;
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  357  	p = parse_u64(p, end, &shared);
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  358  	assert(p != end && *p++ == ' ');
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  359  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  360  	uint64_t text;
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  361  	p = parse_u64(p, end, &text);
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  362  	assert(p != end && *p++ == ' ');
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  363  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  364  	assert(p != end && *p++ == '0');
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  365  	assert(p != end && *p++ == ' ');
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  366  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  367  	/* data */
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  368  	assert(p != end && *p++ == '0');
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  369  	assert(p != end && *p++ == ' ');
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  370  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  371  	assert(p != end && *p++ == '0');
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  372  	assert(p != end && *p++ == '\n');
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  373  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  374  	assert(p == end);
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  375  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  376  	/*
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  377  	 * "text" is "mm->end_code - mm->start_code" at execve(2) time.
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  378  	 * munmap() doesn't change it. It can be anything (just link
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  379  	 * statically). It can't be 0 because executing to this point
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  380  	 * implies at least 1 page of code.
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  381  	 */
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  382  	assert(text > 0);
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  383  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  384  	/*
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  385  	 * These two are always equal. Always 0 for statically linked
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  386  	 * executables and sometimes 0 for dynamically linked executables.
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  387  	 * There is no way to tell one from another without parsing ELF
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  388  	 * which is too much for this test.
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  389  	 */
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  390  	assert(resident == shared);
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  391  
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  392  	return EXIT_SUCCESS;
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  393  }
-6e79b375adb382 Swarup Laxman Kotiaklapudi 2023-10-09  394  
+   760	
+   761	/**
+   762	 * ps3_probe_thread - Background repository probing at system startup.
+   763	 *
+   764	 * This implementation only supports background probing on a single bus.
+   765	 * It uses the hypervisor's storage device notification mechanism to wait until
+   766	 * a storage device is ready.  The device notification mechanism uses a
+   767	 * pseudo device to asynchronously notify the guest when storage devices become
+   768	 * ready.  The notification device has a block size of 512 bytes.
+   769	 */
+   770	
+   771	static int ps3_probe_thread(void *data)
+   772	{
+   773		struct {
+   774			struct ps3_notification_device dev;
+   775			u8 buf[512];
+   776		} *local;
+   777		struct ps3_notify_cmd *notify_cmd;
+   778		struct ps3_notify_event *notify_event;
+   779		int res;
+   780		unsigned int irq;
+   781		u64 lpar;
+   782	
+   783		pr_debug(" -> %s:%u: kthread started\n", __func__, __LINE__);
+   784	
+ > 785		local = kzalloc(sizeof(local), GFP_KERNEL);
+   786		if (!local)
+   787			return -ENOMEM;
+   788	
+   789		lpar = ps3_mm_phys_to_lpar(__pa(&local->buf));
+   790		notify_cmd = (struct ps3_notify_cmd *)&local->buf;
+   791		notify_event = (struct ps3_notify_event *)&local->buf;
+   792	
+   793		/* dummy system bus device */
+   794		local->dev.sbd.bus_id = (u64)data;
+   795		local->dev.sbd.dev_id = PS3_NOTIFICATION_DEV_ID;
+   796		local->dev.sbd.interrupt_id = PS3_NOTIFICATION_INTERRUPT_ID;
+   797	
+   798		res = lv1_open_device(local->dev.sbd.bus_id, local->dev.sbd.dev_id, 0);
+   799		if (res) {
+   800			pr_err("%s:%u: lv1_open_device failed %s\n", __func__,
+   801			       __LINE__, ps3_result(res));
+   802			goto fail_free;
+   803		}
+   804	
+   805		res = ps3_sb_event_receive_port_setup(&local->dev.sbd,
+   806			PS3_BINDING_CPU_ANY, &irq);
+   807		if (res) {
+   808			pr_err("%s:%u: ps3_sb_event_receive_port_setup failed %d\n",
+   809			       __func__, __LINE__, res);
+   810		       goto fail_close_device;
+   811		}
+   812	
+   813		spin_lock_init(&local->dev.lock);
+   814		rcuwait_init(&local->dev.wait);
+   815	
+   816		res = request_irq(irq, ps3_notification_interrupt, 0,
+   817				  "ps3_notification", &local->dev);
+   818		if (res) {
+   819			pr_err("%s:%u: request_irq failed %d\n", __func__, __LINE__,
+   820			       res);
+   821			goto fail_sb_event_receive_port_destroy;
+   822		}
+   823	
+   824		/* Setup and write the request for device notification. */
+   825		notify_cmd->operation_code = 0; /* must be zero */
+   826		notify_cmd->event_mask = 1UL << notify_region_probe;
+   827	
+   828		res = ps3_notification_read_write(&local->dev, lpar, 1);
+   829		if (res)
+   830			goto fail_free_irq;
+   831	
+   832		set_freezable();
+   833		/* Loop here processing the requested notification events. */
+   834		do {
+   835			try_to_freeze();
+   836	
+   837			memset(notify_event, 0, sizeof(*notify_event));
+   838	
+   839			res = ps3_notification_read_write(&local->dev, lpar, 0);
+   840			if (res)
+   841				break;
+   842	
+   843			pr_debug("%s:%u: notify event type 0x%llx bus id %llu dev id %llu"
+   844				 " type %llu port %llu\n", __func__, __LINE__,
+   845				notify_event->event_type, notify_event->bus_id,
+   846				notify_event->dev_id, notify_event->dev_type,
+   847				notify_event->dev_port);
+   848	
+   849			if (notify_event->event_type != notify_region_probe ||
+   850				notify_event->bus_id != local->dev.sbd.bus_id) {
+   851				pr_warn("%s:%u: bad notify_event: event %llu, dev_id %llu, dev_type %llu\n",
+   852					__func__, __LINE__, notify_event->event_type,
+   853					notify_event->dev_id, notify_event->dev_type);
+   854				continue;
+   855			}
+   856	
+   857			ps3_find_and_add_device(local->dev.sbd.bus_id,
+   858				notify_event->dev_id);
+   859	
+   860		} while (!kthread_should_stop());
+   861	
+   862	fail_free_irq:
+   863		free_irq(irq, &local->dev);
+   864	fail_sb_event_receive_port_destroy:
+   865		ps3_sb_event_receive_port_destroy(&local->dev.sbd, irq);
+   866	fail_close_device:
+   867		lv1_close_device(local->dev.sbd.bus_id, local->dev.sbd.dev_id);
+   868	fail_free:
+   869		kfree(local);
+   870	
+   871		probe_task = NULL;
+   872	
+   873		pr_debug(" <- %s:%u: kthread finished\n", __func__, __LINE__);
+   874	
+   875		return 0;
+   876	}
+   877	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
