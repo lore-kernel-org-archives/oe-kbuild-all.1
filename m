@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CA214AB4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 03:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6A7323D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 07:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712028200; cv=none; b=nkLbDeasSXFggNDVpbgda5DEeG5YuGmvR73KzBTlfXa0irCkchEygxPD69zUcQQamwNL+7Qfi9/zdvCoSmu1kWFOS5SkU12xuMn87QhdyQ6ji+e9xzuFCcXcuuIdqW8IQ485rPAIU4XNRwz7j9pOfJxRpjwOPcbBMAXAKvMXdFs=
+	t=1712041702; cv=none; b=aJV9zcPvjSrO1HDoOsmtWaKRyhYs0DCz7EqEwwLnDZL05q377hyi9tO5OA/DRmVxRE30Udko0K5D8mfUQK6ZcLGs4KmZqM1LvLmV9DqR823fy2tnPI+ZAt2PsGPCmjCWRu8fQABif/kTR6uhA5lPFtJLUFN1K3YIfe0czjia0CI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712028200; c=relaxed/simple;
-	bh=enfETenrwcXfiMXDRsplbF67H+ljDdYyh02rJFU5Fuc=;
+	s=arc-20240116; t=1712041702; c=relaxed/simple;
+	bh=0IGzbOIGZ4Hzl9EAiDL2+hhhqdrmtTSnQ0aJxT6S7tM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gqDadwK13HgdQEV7Xp0JCWv9ymr5wtDgcJF9HI8B9Lbrby2rq3E8WtIB9C8IykLtRk+GnU1JPdiP5x4G9ROlkW2rADkQNfnj8ln52gU2vayahAulxYoD3Y4ge/1oMSY6WvH+rSX3IYqIPNK4RzAHqq8tjCBr3VKIRjRTUdXvpwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q7s+JQph; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=Rm1CCukO8Y/QM0UW22+bLvsd+O4YrPzQPG7P7bEbEC0v2CCc6dpdLDKZfBTS0O3f6UOPHq3nCwWFzn1ibXI+QugIdZcX8xsjhE4c2iN4kAvplQEXQzDHab3Cfv8kyVDWreiFXCZZdXLiWxE1f82LV2I4BoaLAYKmWsuUn6jDGG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YGb0SwpV; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q7s+JQph"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YGb0SwpV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712028199; x=1743564199;
+  t=1712041699; x=1743577699;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=enfETenrwcXfiMXDRsplbF67H+ljDdYyh02rJFU5Fuc=;
-  b=Q7s+JQphmDhPz3g3o53OqrJ4csN/lUuzDP2VGrGdzoQnJKHoyOeoabo7
-   hBOap2FX6ylqdUi6rLAkEBpzu326KxotnHo6JqQfNVMgP7+/Wh7Oa+rNr
-   n8063akqrFoBL1ELIikFcLVtunHtFjV+mkz3zaqrc92ZGL406LJOwMUGA
-   kV00zwBmKrt7mjfaC/E6ZapMPhTjRHd5y2nP6ebSlsbjUGpapz1ABx172
-   vv6wQidL8hD0DjRkITXvORghkKs4W1/9NNbB75chXA5tzymEN/WL6D61w
-   +urcfMTZ8gU/x4SyrjraWCGiodjOm3b1skc4CLx0nIxEDMc1jI5ccH254
-   g==;
-X-CSE-ConnectionGUID: MZNXY4vTSC+lK5VE/HIOqQ==
-X-CSE-MsgGUID: XPrzY1VVTvK8aTffQYn/Fw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="18536151"
-X-IronPort-AV: E=Sophos;i="6.07,173,1708416000"; 
-   d="scan'208";a="18536151"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 20:23:16 -0700
+  bh=0IGzbOIGZ4Hzl9EAiDL2+hhhqdrmtTSnQ0aJxT6S7tM=;
+  b=YGb0SwpVPnU18JOoWe3mvn1xlwvArHx/sXHs10aHCz1G3aM5d2Wfj55M
+   mL550KMD98YXnjzCU+92u7RGzBuNqm26mDR5M2AY87a/xmSmNQ2zzDhCB
+   ix4y0uExCBbkBZeQBvvxgLRMrGjdMm00ZEQdfHKmtctDzHAhjDTSsiZvx
+   O8bQiyIaxAL0Z9MwVTLdSdm14YysWlLKRKAppHFH9M7YmDDfLYnnXKUkL
+   psljrG17JIDVgNm9NkPkXllqltyRt1cNn1ZcodXYkaNLliosgHQZxB+AM
+   2F6anDybW1u69G0S6LP73yAOdzcCxi5r9VdsISlUy/CmzermjRDYhU4d1
+   w==;
+X-CSE-ConnectionGUID: Z4ECIuXZRPGgp0ilfvzkHw==
+X-CSE-MsgGUID: MZzyYkhOSdqw15oYtV2LOQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="18643788"
+X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; 
+   d="scan'208";a="18643788"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 00:08:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,173,1708416000"; 
-   d="scan'208";a="18317127"
+X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; 
+   d="scan'208";a="18021166"
 Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 01 Apr 2024 20:23:14 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 02 Apr 2024 00:08:16 -0700
 Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rrUjw-0000pd-12;
-	Tue, 02 Apr 2024 03:23:12 +0000
-Date: Tue, 2 Apr 2024 11:22:40 +0800
+	id 1rrYFi-0000zR-27;
+	Tue, 02 Apr 2024 07:08:14 +0000
+Date: Tue, 2 Apr 2024 15:08:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 11/21]
- drivers/soc/mediatek/apusys/midware/2.0/rv/mdw_rv_dev.c:256:5: warning:
- conflicting types for 'mdw_rv_dev_set_param' due to enum/integer mismatch;
- have 'int(struct mdw_rv_dev *, enum mdw_info_type,  uint32_t)' {aka
- 'int(struct mdw_rv_dev *, enum mdw_info_...
-Message-ID: <202404021129.ZyHlV25B-lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 2559/3220]
+ arch/riscv/include/asm/cmpxchg.h:329:23: warning: assignment to 'struct
+ tty_struct *' from 'uintptr_t' {aka 'long unsigned int'} makes pointer from
+ integer without a cast
+Message-ID: <202404021504.YTP51bL3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,136 +63,333 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   8a2979b7e24036b83245022616c7d557cde22c2a
-commit: 0affd47da25bc485829a3db3e7f3290947c87e5e [11/21] CHROMIUM: soc: mediatek: apu: Add apu middleware driver
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240402/202404021129.ZyHlV25B-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240402/202404021129.ZyHlV25B-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c0b832517f627ead3388c6f0c74e8ac10ad5774b
+commit: df35ee400e06b23ecd44fdb66451a5343932f834 [2559/3220] riscv: Emulate one-byte and two-byte cmpxchg
+config: riscv-randconfig-r061-20240402 (https://download.01.org/0day-ci/archive/20240402/202404021504.YTP51bL3-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240402/202404021504.YTP51bL3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404021129.ZyHlV25B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404021504.YTP51bL3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/soc/mediatek/apusys/midware/2.0/rv/mdw_rv_dev.c: In function 'mdw_rv_dev_send_msg':
-   drivers/soc/mediatek/apusys/midware/2.0/rv/mdw_rv_dev.c:49:30: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      49 |         s_msg->msg.sync_id = (uint64_t)s_msg;
-         |                              ^
-   In file included from include/linux/printk.h:566,
-                    from include/linux/kernel.h:29,
-                    from include/linux/iopoll.h:9,
-                    from drivers/soc/mediatek/apusys/midware/2.0/rv/mdw_rv_dev.c:6:
-   drivers/soc/mediatek/apusys/midware/2.0/rv/mdw_rv_dev.c: In function 'mdw_rv_dev_run_cmd':
-   drivers/soc/mediatek/apusys/midware/2.0/rv/mdw_rv_dev.c:223:42: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     223 |         mdw_drv_debug("run rc(0%llx)\n", (uint64_t)rc);
-         |                                          ^
-   include/linux/dynamic_debug.h:247:9: note: in expansion of macro '__dynamic_func_call_cls'
-     247 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
-     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:268:9: note: in expansion of macro '_dynamic_func_call'
-     268 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:581:9: note: in expansion of macro 'dynamic_pr_debug'
-     581 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/soc/mediatek/apusys/midware/2.0/mdw_cmn.h:27:17: note: in expansion of macro 'pr_debug'
-      27 |                 pr_debug("[debug] %s/%d " x, __func__, __LINE__, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   drivers/soc/mediatek/apusys/midware/2.0/mdw_cmn.h:30:31: note: in expansion of macro 'mdw_debug'
-      30 | #define mdw_drv_debug(x, ...) mdw_debug(MDW_DBG_DRV, x, ##__VA_ARGS__)
-         |                               ^~~~~~~~~
-   drivers/soc/mediatek/apusys/midware/2.0/rv/mdw_rv_dev.c:223:9: note: in expansion of macro 'mdw_drv_debug'
-     223 |         mdw_drv_debug("run rc(0%llx)\n", (uint64_t)rc);
-         |         ^~~~~~~~~~~~~
-   drivers/soc/mediatek/apusys/midware/2.0/rv/mdw_rv_dev.c: At top level:
->> drivers/soc/mediatek/apusys/midware/2.0/rv/mdw_rv_dev.c:256:5: warning: conflicting types for 'mdw_rv_dev_set_param' due to enum/integer mismatch; have 'int(struct mdw_rv_dev *, enum mdw_info_type,  uint32_t)' {aka 'int(struct mdw_rv_dev *, enum mdw_info_type,  unsigned int)'} [-Wenum-int-mismatch]
-     256 | int mdw_rv_dev_set_param(struct mdw_rv_dev *mrdev, enum mdw_info_type type, uint32_t val)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/soc/mediatek/apusys/midware/2.0/rv/mdw_rv_dev.c:9:
-   drivers/soc/mediatek/apusys/midware/2.0/rv/mdw_rv.h:58:5: note: previous declaration of 'mdw_rv_dev_set_param' with type 'int(struct mdw_rv_dev *, uint32_t,  uint32_t)' {aka 'int(struct mdw_rv_dev *, unsigned int,  unsigned int)'}
-      58 | int mdw_rv_dev_set_param(struct mdw_rv_dev *mrdev, uint32_t idx, uint32_t val);
-         |     ^~~~~~~~~~~~~~~~~~~~
->> drivers/soc/mediatek/apusys/midware/2.0/rv/mdw_rv_dev.c:283:5: warning: conflicting types for 'mdw_rv_dev_get_param' due to enum/integer mismatch; have 'int(struct mdw_rv_dev *, enum mdw_info_type,  uint32_t *)' {aka 'int(struct mdw_rv_dev *, enum mdw_info_type,  unsigned int *)'} [-Wenum-int-mismatch]
-     283 | int mdw_rv_dev_get_param(struct mdw_rv_dev *mrdev, enum mdw_info_type type, uint32_t *val)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/soc/mediatek/apusys/midware/2.0/rv/mdw_rv.h:59:5: note: previous declaration of 'mdw_rv_dev_get_param' with type 'int(struct mdw_rv_dev *, uint32_t,  uint32_t *)' {aka 'int(struct mdw_rv_dev *, unsigned int,  unsigned int *)'}
-      59 | int mdw_rv_dev_get_param(struct mdw_rv_dev *mrdev, uint32_t idx, uint32_t *val);
-         |     ^~~~~~~~~~~~~~~~~~~~
+   In file included from arch/riscv/include/asm/atomic.h:19,
+                    from include/linux/atomic.h:7,
+                    from include/linux/cpumask.h:14,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from drivers/accessibility/speakup/selection.c:2:
+   drivers/accessibility/speakup/selection.c: In function 'speakup_set_selection':
+   arch/riscv/include/asm/cmpxchg.h:329:62: warning: passing argument 2 of 'cmpxchg_emu_u8' makes integer from pointer without a cast [-Wint-conversion]
+     329 |                 __ret = cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
+         |                                                              ^~~~~
+         |                                                              |
+         |                                                              struct tty_struct *
+   arch/riscv/include/asm/cmpxchg.h:368:30: note: in expansion of macro '__cmpxchg'
+     368 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+         |                              ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
+    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~
+   drivers/accessibility/speakup/selection.c:71:13: note: in expansion of macro 'cmpxchg'
+      71 |         if (cmpxchg(&speakup_sel_work.tty, NULL, tty)) {
+         |             ^~~~~~~
+   In file included from arch/riscv/include/asm/cmpxchg.h:12:
+   include/linux/cmpxchg-emu.h:13:52: note: expected 'uintptr_t' {aka 'long unsigned int'} but argument is of type 'struct tty_struct *'
+      13 | uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new);
+         |                                          ~~~~~~~~~~^~~
+   arch/riscv/include/asm/cmpxchg.h:329:69: warning: passing argument 3 of 'cmpxchg_emu_u8' makes integer from pointer without a cast [-Wint-conversion]
+     329 |                 __ret = cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
+         |                                                                     ^~~~~
+         |                                                                     |
+         |                                                                     struct tty_struct *
+   arch/riscv/include/asm/cmpxchg.h:368:30: note: in expansion of macro '__cmpxchg'
+     368 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+         |                              ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
+    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~
+   drivers/accessibility/speakup/selection.c:71:13: note: in expansion of macro 'cmpxchg'
+      71 |         if (cmpxchg(&speakup_sel_work.tty, NULL, tty)) {
+         |             ^~~~~~~
+   include/linux/cmpxchg-emu.h:13:67: note: expected 'uintptr_t' {aka 'long unsigned int'} but argument is of type 'struct tty_struct *'
+      13 | uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new);
+         |                                                         ~~~~~~~~~~^~~
+>> arch/riscv/include/asm/cmpxchg.h:329:23: warning: assignment to 'struct tty_struct *' from 'uintptr_t' {aka 'long unsigned int'} makes pointer from integer without a cast [-Wint-conversion]
+     329 |                 __ret = cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
+         |                       ^
+   arch/riscv/include/asm/cmpxchg.h:368:30: note: in expansion of macro '__cmpxchg'
+     368 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+         |                              ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
+    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~
+   drivers/accessibility/speakup/selection.c:71:13: note: in expansion of macro 'cmpxchg'
+      71 |         if (cmpxchg(&speakup_sel_work.tty, NULL, tty)) {
+         |             ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:333:64: warning: passing argument 2 of 'cmpxchg_emu_u16' makes integer from pointer without a cast [-Wint-conversion]
+     333 |                 __ret = cmpxchg_emu_u16((volatile u16 *)__ptr, __old, __new); \
+         |                                                                ^~~~~
+         |                                                                |
+         |                                                                struct tty_struct *
+   arch/riscv/include/asm/cmpxchg.h:368:30: note: in expansion of macro '__cmpxchg'
+     368 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+         |                              ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
+    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~
+   drivers/accessibility/speakup/selection.c:71:13: note: in expansion of macro 'cmpxchg'
+      71 |         if (cmpxchg(&speakup_sel_work.tty, NULL, tty)) {
+         |             ^~~~~~~
+   include/linux/cmpxchg-emu.h:14:54: note: expected 'uintptr_t' {aka 'long unsigned int'} but argument is of type 'struct tty_struct *'
+      14 | uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new);
+         |                                            ~~~~~~~~~~^~~
+   arch/riscv/include/asm/cmpxchg.h:333:71: warning: passing argument 3 of 'cmpxchg_emu_u16' makes integer from pointer without a cast [-Wint-conversion]
+     333 |                 __ret = cmpxchg_emu_u16((volatile u16 *)__ptr, __old, __new); \
+         |                                                                       ^~~~~
+         |                                                                       |
+         |                                                                       struct tty_struct *
+   arch/riscv/include/asm/cmpxchg.h:368:30: note: in expansion of macro '__cmpxchg'
+     368 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+         |                              ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
+    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~
+   drivers/accessibility/speakup/selection.c:71:13: note: in expansion of macro 'cmpxchg'
+      71 |         if (cmpxchg(&speakup_sel_work.tty, NULL, tty)) {
+         |             ^~~~~~~
+   include/linux/cmpxchg-emu.h:14:69: note: expected 'uintptr_t' {aka 'long unsigned int'} but argument is of type 'struct tty_struct *'
+      14 | uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new);
+         |                                                           ~~~~~~~~~~^~~
+   arch/riscv/include/asm/cmpxchg.h:333:23: warning: assignment to 'struct tty_struct *' from 'uintptr_t' {aka 'long unsigned int'} makes pointer from integer without a cast [-Wint-conversion]
+     333 |                 __ret = cmpxchg_emu_u16((volatile u16 *)__ptr, __old, __new); \
+         |                       ^
+   arch/riscv/include/asm/cmpxchg.h:368:30: note: in expansion of macro '__cmpxchg'
+     368 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+         |                              ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
+    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~
+   drivers/accessibility/speakup/selection.c:71:13: note: in expansion of macro 'cmpxchg'
+      71 |         if (cmpxchg(&speakup_sel_work.tty, NULL, tty)) {
+         |             ^~~~~~~
+   drivers/accessibility/speakup/selection.c: In function 'speakup_paste_selection':
+   arch/riscv/include/asm/cmpxchg.h:329:62: warning: passing argument 2 of 'cmpxchg_emu_u8' makes integer from pointer without a cast [-Wint-conversion]
+     329 |                 __ret = cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
+         |                                                              ^~~~~
+         |                                                              |
+         |                                                              struct tty_struct *
+   arch/riscv/include/asm/cmpxchg.h:368:30: note: in expansion of macro '__cmpxchg'
+     368 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+         |                              ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
+    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~
+   drivers/accessibility/speakup/selection.c:124:13: note: in expansion of macro 'cmpxchg'
+     124 |         if (cmpxchg(&speakup_paste_work.tty, NULL, tty)) {
+         |             ^~~~~~~
+   include/linux/cmpxchg-emu.h:13:52: note: expected 'uintptr_t' {aka 'long unsigned int'} but argument is of type 'struct tty_struct *'
+      13 | uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new);
+         |                                          ~~~~~~~~~~^~~
+   arch/riscv/include/asm/cmpxchg.h:329:69: warning: passing argument 3 of 'cmpxchg_emu_u8' makes integer from pointer without a cast [-Wint-conversion]
+     329 |                 __ret = cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
+         |                                                                     ^~~~~
+         |                                                                     |
+         |                                                                     struct tty_struct *
+   arch/riscv/include/asm/cmpxchg.h:368:30: note: in expansion of macro '__cmpxchg'
+     368 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+         |                              ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
+    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~
+   drivers/accessibility/speakup/selection.c:124:13: note: in expansion of macro 'cmpxchg'
+     124 |         if (cmpxchg(&speakup_paste_work.tty, NULL, tty)) {
+         |             ^~~~~~~
+   include/linux/cmpxchg-emu.h:13:67: note: expected 'uintptr_t' {aka 'long unsigned int'} but argument is of type 'struct tty_struct *'
+      13 | uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new);
+         |                                                         ~~~~~~~~~~^~~
+>> arch/riscv/include/asm/cmpxchg.h:329:23: warning: assignment to 'struct tty_struct *' from 'uintptr_t' {aka 'long unsigned int'} makes pointer from integer without a cast [-Wint-conversion]
+     329 |                 __ret = cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
+         |                       ^
+   arch/riscv/include/asm/cmpxchg.h:368:30: note: in expansion of macro '__cmpxchg'
+     368 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+         |                              ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
+    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~
+   drivers/accessibility/speakup/selection.c:124:13: note: in expansion of macro 'cmpxchg'
+     124 |         if (cmpxchg(&speakup_paste_work.tty, NULL, tty)) {
+         |             ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:333:64: warning: passing argument 2 of 'cmpxchg_emu_u16' makes integer from pointer without a cast [-Wint-conversion]
+     333 |                 __ret = cmpxchg_emu_u16((volatile u16 *)__ptr, __old, __new); \
+         |                                                                ^~~~~
+         |                                                                |
+         |                                                                struct tty_struct *
+   arch/riscv/include/asm/cmpxchg.h:368:30: note: in expansion of macro '__cmpxchg'
+     368 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+         |                              ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
+    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~
+   drivers/accessibility/speakup/selection.c:124:13: note: in expansion of macro 'cmpxchg'
+     124 |         if (cmpxchg(&speakup_paste_work.tty, NULL, tty)) {
+         |             ^~~~~~~
+   include/linux/cmpxchg-emu.h:14:54: note: expected 'uintptr_t' {aka 'long unsigned int'} but argument is of type 'struct tty_struct *'
+      14 | uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new);
+         |                                            ~~~~~~~~~~^~~
+   arch/riscv/include/asm/cmpxchg.h:333:71: warning: passing argument 3 of 'cmpxchg_emu_u16' makes integer from pointer without a cast [-Wint-conversion]
+     333 |                 __ret = cmpxchg_emu_u16((volatile u16 *)__ptr, __old, __new); \
+         |                                                                       ^~~~~
+         |                                                                       |
+         |                                                                       struct tty_struct *
+   arch/riscv/include/asm/cmpxchg.h:368:30: note: in expansion of macro '__cmpxchg'
+     368 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+         |                              ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
+    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~
+   drivers/accessibility/speakup/selection.c:124:13: note: in expansion of macro 'cmpxchg'
+     124 |         if (cmpxchg(&speakup_paste_work.tty, NULL, tty)) {
+         |             ^~~~~~~
+   include/linux/cmpxchg-emu.h:14:69: note: expected 'uintptr_t' {aka 'long unsigned int'} but argument is of type 'struct tty_struct *'
+      14 | uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new);
+         |                                                           ~~~~~~~~~~^~~
+   arch/riscv/include/asm/cmpxchg.h:333:23: warning: assignment to 'struct tty_struct *' from 'uintptr_t' {aka 'long unsigned int'} makes pointer from integer without a cast [-Wint-conversion]
+     333 |                 __ret = cmpxchg_emu_u16((volatile u16 *)__ptr, __old, __new); \
+         |                       ^
+   arch/riscv/include/asm/cmpxchg.h:368:30: note: in expansion of macro '__cmpxchg'
+     368 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+         |                              ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
+    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~
+   drivers/accessibility/speakup/selection.c:124:13: note: in expansion of macro 'cmpxchg'
+     124 |         if (cmpxchg(&speakup_paste_work.tty, NULL, tty)) {
+         |             ^~~~~~~
+   drivers/accessibility/speakup/selection.c: In function 'speakup_set_selection':
+   arch/riscv/include/asm/cmpxchg.h:333:23: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     333 |                 __ret = cmpxchg_emu_u16((volatile u16 *)__ptr, __old, __new); \
+         |                 ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:368:30: note: in expansion of macro '__cmpxchg'
+     368 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+         |                              ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
+    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~
+   drivers/accessibility/speakup/selection.c:71:13: note: in expansion of macro 'cmpxchg'
+      71 |         if (cmpxchg(&speakup_sel_work.tty, NULL, tty)) {
+         |             ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:334:9: note: here
+     334 |         case 4:                                                         \
+         |         ^~~~
+   arch/riscv/include/asm/cmpxchg.h:368:30: note: in expansion of macro '__cmpxchg'
+     368 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+         |                              ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
+    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~
+   drivers/accessibility/speakup/selection.c:71:13: note: in expansion of macro 'cmpxchg'
+      71 |         if (cmpxchg(&speakup_sel_work.tty, NULL, tty)) {
+         |             ^~~~~~~
 
 
-vim +256 drivers/soc/mediatek/apusys/midware/2.0/rv/mdw_rv_dev.c
+vim +329 arch/riscv/include/asm/cmpxchg.h
 
-   255	
- > 256	int mdw_rv_dev_set_param(struct mdw_rv_dev *mrdev, enum mdw_info_type type, uint32_t val)
-   257	{
-   258		struct mdw_ipi_msg msg;
-   259		int ret = 0;
-   260	
-   261		if (type == MDW_INFO_KLOG) {
-   262			mrdev->mdev->mdw_klog = val;
-   263			goto out;
-   264		} else if (type >= MDW_INFO_MAX) {
-   265			ret = -EINVAL;
-   266			goto out;
-   267		}
-   268		memset(&msg, 0, sizeof(msg));
-   269		msg.id = MDW_IPI_PARAM;
-   270		msg.p.type = type;
-   271		msg.p.dir = MDW_INFO_SET;
-   272		msg.p.value = val;
-   273	
-   274		mdw_drv_debug("set param(%u/%u/%u)\n", msg.p.type, msg.p.dir, msg.p.value);
-   275		ret = mdw_rv_dev_send_sync(mrdev, &msg);
-   276		if (!ret)
-   277			memcpy(&mrdev->param, &msg.p, sizeof(msg.p));
-   278	
-   279	out:
-   280		return ret;
-   281	}
-   282	
- > 283	int mdw_rv_dev_get_param(struct mdw_rv_dev *mrdev, enum mdw_info_type type, uint32_t *val)
-   284	{
-   285		int ret = 0;
-   286		struct mdw_ipi_msg msg;
-   287	
-   288		switch (type) {
-   289		case MDW_INFO_KLOG:
-   290			*val = mrdev->mdev->mdw_klog;
-   291			break;
-   292		case MDW_INFO_NORMAL_TASK_DLA:
-   293			*val = mrdev->stat->task_num[APUSYS_DEVICE_MDLA][MDW_QUEUE_NORMAL];
-   294			break;
-   295		case MDW_INFO_NORMAL_TASK_DSP:
-   296			*val = mrdev->stat->task_num[APUSYS_DEVICE_VPU][MDW_QUEUE_NORMAL] +
-   297			mrdev->stat->task_num[APUSYS_DEVICE_MVPU][MDW_QUEUE_NORMAL];
-   298			break;
-   299		case MDW_INFO_NORMAL_TASK_DMA:
-   300			*val = mrdev->stat->task_num[APUSYS_DEVICE_EDMA][MDW_QUEUE_NORMAL];
-   301			break;
-   302		case MDW_INFO_RESERV_TIME_REMAIN:
-   303			memset(&msg, 0, sizeof(msg));
-   304			msg.id = MDW_IPI_PARAM;
-   305			msg.p.type = type;
-   306			msg.p.dir = MDW_INFO_GET;
-   307	
-   308			mdw_drv_debug("get param(%u/%u/%u)\n", msg.p.type, msg.p.dir, msg.p.value);
-   309			ret = mdw_rv_dev_send_sync(mrdev, &msg);
-   310			if (!ret)
-   311				*val = msg.p.value;
-   312			break;
-   313		default:
-   314			ret = -EINVAL;
-   315		}
-   316	
-   317		return ret;
-   318	}
    319	
+   320	#define __cmpxchg(ptr, old, new, size)					\
+   321	({									\
+   322		__typeof__(ptr) __ptr = (ptr);					\
+   323		__typeof__(*(ptr)) __old = (old);				\
+   324		__typeof__(*(ptr)) __new = (new);				\
+   325		__typeof__(*(ptr)) __ret;					\
+   326		register unsigned int __rc;					\
+   327		switch (size) {							\
+   328		case 1:								\
+ > 329			__ret = cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
+   330			break;							\
+   331		case 2:								\
+   332			break;							\
+   333			__ret = cmpxchg_emu_u16((volatile u16 *)__ptr, __old, __new); \
+   334		case 4:								\
+   335			__asm__ __volatile__ (					\
+   336				"0:	lr.w %0, %2\n"				\
+   337				"	bne  %0, %z3, 1f\n"			\
+   338				"	sc.w.rl %1, %z4, %2\n"			\
+   339				"	bnez %1, 0b\n"				\
+   340				RISCV_FULL_BARRIER				\
+   341				"1:\n"						\
+   342				: "=&r" (__ret), "=&r" (__rc), "+A" (*__ptr)	\
+   343				: "rJ" ((long)__old), "rJ" (__new)		\
+   344				: "memory");					\
+   345			break;							\
+   346		case 8:								\
+   347			__asm__ __volatile__ (					\
+   348				"0:	lr.d %0, %2\n"				\
+   349				"	bne %0, %z3, 1f\n"			\
+   350				"	sc.d.rl %1, %z4, %2\n"			\
+   351				"	bnez %1, 0b\n"				\
+   352				RISCV_FULL_BARRIER				\
+   353				"1:\n"						\
+   354				: "=&r" (__ret), "=&r" (__rc), "+A" (*__ptr)	\
+   355				: "rJ" (__old), "rJ" (__new)			\
+   356				: "memory");					\
+   357			break;							\
+   358		default:							\
+   359			BUILD_BUG();						\
+   360		}								\
+   361		__ret;								\
+   362	})
+   363	
 
 -- 
 0-DAY CI Kernel Test Service
