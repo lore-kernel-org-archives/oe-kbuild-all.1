@@ -1,71 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362E351C52
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 10:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC805D75F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 10:11:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712052015; cv=none; b=nJf0WSsGiwqhcVfpMe5znSFbiKtutJ7Y8o+M7jgCSwWedt2nJV7x9o4QKAHxtJM/5ucoVioz/ajgv3kibnMvvJbUchILta6UZMOL6wpqQHGd1UUVIWpoeNx8zE7QLdk68HwzHgvnyQ9Xdt4a7rMq1sF3pbUTw5TUAqPzwk7wbN4=
+	t=1712052666; cv=none; b=Sr5CH21MSlTIVS3IwEVtVP3/HcTXuYKuG2ac19BM9JmpzMsyNcgPzxIAgMaZIUbqKJuebjXXdMQyTfur6faKaWeV2lB2nNBwVPy9waOW92/ga9009+htwAQa3pmWIbtqhk62ILnRPDohhZzTHw2/rvOM8QI+/QKct2c8rAY0xU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712052015; c=relaxed/simple;
-	bh=b0OIGFVB57rC+vRSHDqJps7mkAfSLfUHZGQ9SaT07mI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jUd8Z9Dl/+rRVBRWb4BODjVxZTwqvpzNQJIsp/MqzAXh/+pPcslImxqOnfUZDINhh4DfKRZLBEXbKTpKpgA6Bs53uYlcDmWrv0sZmYXvQWBL4je3VnFj+eGAmrbjJpHc8XkCaLZZRQ1S4HRZx+BGABJNjQZk1w2uyFagDAEnzfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nm9dbyEZ; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1712052666; c=relaxed/simple;
+	bh=nHhBe2OOjtY8cfSKSO8fdJJSzEWPeSGhQKemkb6dJIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TotJ3Imr5e12+Cm3cZDXJ85QU/nhC6O5+isF7IqcJjWcKpUux65aEH65WYS6LsgaJ4/Z/DdFLpV9xg41hwM3UA33O8JukRqzMbwMZ3l+93zCbDJO7hSj2KuVAf4LG4eTC11Ro+/8hVLncdBkyC/IZhqyTD+ClOb7js8TFsHFWj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A/NHP9RI; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nm9dbyEZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/NHP9RI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712052012; x=1743588012;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b0OIGFVB57rC+vRSHDqJps7mkAfSLfUHZGQ9SaT07mI=;
-  b=nm9dbyEZrMWGF8wScXVauCOzgRTiHWn0Mh0X5GT5NcCuzYhg5bftSPE5
-   N4FqD5K0OV/X9OEOPL9CVkF7GA91iK7CwaqvRwfZC0fN8E2mYW6TkLIiV
-   rYUEZfxhz2mHtolEoQt8+p8S0NTyWxh+0bUIvuV7FK6CW7uPltHUS13QM
-   5gkonLDZqukwbFHA0hKQYoa5Vv5LpH+chRBJ+wlw8SbNjKl9Ao7t98Qn2
-   9cPa/kfkDviF435amhbDq5onQZGT80r3Ee2dVwR4w71rv0DS2rz1TZqhY
-   /mWTSOwUMEvmq2E3omucudgJqp9bEWfCgEk2TBcWRXnnZPzXFHsiLfQKX
-   Q==;
-X-CSE-ConnectionGUID: VezheRxxSci5n2w/uKliyA==
-X-CSE-MsgGUID: +mAKXnm1SqW5C3ROvVcR6g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="24705415"
+  t=1712052662; x=1743588662;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nHhBe2OOjtY8cfSKSO8fdJJSzEWPeSGhQKemkb6dJIo=;
+  b=A/NHP9RISIzvNrsuqrIWViMaB8CLd1mLj/02x5WAzjmkVfeICTR+qnCE
+   gi8ITwY/0BYHDRC8VtIOF1cTaeaoFJP07foVe5VMNhyMQwlRD5VgsmRwR
+   pAE3m3O30L4OSs4TU/bB5ikDl+wTLG42TKjwnANLIMeQVs515UtrfwLjZ
+   lXCYrKM627H+WcmnqYXDgZN6D3pA1+ZQHyTgOCFphqEtJlP1o1V/sdPIz
+   qogsNMHIK99oGRtSFpsUB9KkNL/OOafRNxX6+bJPqhcHnTTkZGe5+wCgx
+   VA5HiPAHuR+PiXHlUijAugspxyHlNk7YuGoTCJn/jHlvUcUmOkYLkuTH4
+   A==;
+X-CSE-ConnectionGUID: NSI+rbdMQW+QebkEtPXdOA==
+X-CSE-MsgGUID: bLvOC6HYSyqClvnH1P3toA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="11045502"
 X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; 
-   d="scan'208";a="24705415"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 03:00:05 -0700
+   d="scan'208";a="11045502"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 03:11:02 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; 
-   d="scan'208";a="18069109"
+   d="scan'208";a="22700900"
 Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Apr 2024 03:00:00 -0700
+  by orviesa003.jf.intel.com with ESMTP; 02 Apr 2024 03:11:00 -0700
 Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rravu-000165-0S;
-	Tue, 02 Apr 2024 09:59:58 +0000
-Date: Tue, 2 Apr 2024 17:59:43 +0800
+	id 1rrb6Y-00016b-1f;
+	Tue, 02 Apr 2024 10:10:58 +0000
+Date: Tue, 2 Apr 2024 18:09:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ajit Pandey <quic_ajipan@quicinc.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Taniya Das <quic_tdas@quicinc.com>,
-	Jagadeesh Kona <quic_jkona@quicinc.com>,
-	Imran Shaik <quic_imrashai@quicinc.com>,
-	Satya Priya Kakitapalli <quic_skakitap@quicinc.com>,
-	Ajit Pandey <quic_ajipan@quicinc.com>
-Subject: Re: [PATCH 7/7] clk: qcom: Add GPUCC driver support for SM4450
-Message-ID: <202404021747.ie04rWAv-lkp@intel.com>
-References: <20240330182817.3272224-8-quic_ajipan@quicinc.com>
+To: Baolu Lu <baolu.lu@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lubaolu-intel-iommu:iommufd-io-pgfault-delivery-v4 4/12]
+ include/linux/iommu.h:1527:1: error: expected identifier or '(' before '{'
+ token
+Message-ID: <202404021853.vrUq3dBo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,53 +60,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240330182817.3272224-8-quic_ajipan@quicinc.com>
 
-Hi Ajit,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on robh/for-next linus/master v6.9-rc2 next-20240402]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ajit-Pandey/clk-qcom-clk-alpha-pll-Fix-CAL_L_VAL-override-for-LUCID-EVO-PLL/20240331-023329
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20240330182817.3272224-8-quic_ajipan%40quicinc.com
-patch subject: [PATCH 7/7] clk: qcom: Add GPUCC driver support for SM4450
-config: powerpc64-randconfig-r132-20240402 (https://download.01.org/0day-ci/archive/20240402/202404021747.ie04rWAv-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 546dc2245ffc4cccd0b05b58b7a5955e355a3b27)
-reproduce: (https://download.01.org/0day-ci/archive/20240402/202404021747.ie04rWAv-lkp@intel.com/reproduce)
+tree:   https://github.com/LuBaolu/intel-iommu.git iommufd-io-pgfault-delivery-v4
+head:   91344398110065da3f748b104d4b54d44414e3d6
+commit: 962e4c5599b0bd8a513c2f1ee3261373b8ca996a [4/12] iommu: Replace sva_iommu with iommu_attach_handle
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240402/202404021853.vrUq3dBo-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240402/202404021853.vrUq3dBo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404021747.ie04rWAv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404021853.vrUq3dBo-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/clk/qcom/gpucc-sm4450.c:740:10: sparse: sparse: Initializer entry defined twice
-   drivers/clk/qcom/gpucc-sm4450.c:746:10: sparse:   also defined here
+All errors (new ones prefixed by >>):
 
-vim +740 drivers/clk/qcom/gpucc-sm4450.c
+   In file included from kernel/fork.c:102:
+>> include/linux/iommu.h:1527:1: error: expected identifier or '(' before '{' token
+    1527 | {
+         | ^
+   include/linux/iommu.h:1526:1: warning: 'iommu_sva_bind_device' declared 'static' but never defined [-Wunused-function]
+    1526 | iommu_sva_bind_device(struct device *dev, struct mm_struct *mm);
+         | ^~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/io-pgtable.h:6,
+                    from drivers/iommu/amd/iommu.c:30:
+>> include/linux/iommu.h:1527:1: error: expected identifier or '(' before '{' token
+    1527 | {
+         | ^
+   drivers/iommu/amd/iommu.c: In function 'iommu_poll_ppr_log':
+   drivers/iommu/amd/iommu.c:833:21: warning: variable 'entry' set but not used [-Wunused-but-set-variable]
+     833 |                 u64 entry[2];
+         |                     ^~~~~
+   include/linux/iommu.h: At top level:
+   include/linux/iommu.h:1526:1: warning: 'iommu_sva_bind_device' declared 'static' but never defined [-Wunused-function]
+    1526 | iommu_sva_bind_device(struct device *dev, struct mm_struct *mm);
+         | ^~~~~~~~~~~~~~~~~~~~~
 
-   736	
-   737	static const struct qcom_reset_map gpu_cc_sm4450_resets[] = {
-   738		[GPU_CC_CB_BCR] = { 0x93a0 },
-   739		[GPU_CC_CX_BCR] = { 0x9104 },
- > 740		[GPU_CC_GX_BCR] = { 0x9058 },
-   741		[GPU_CC_FAST_HUB_BCR] = { 0x93e4 },
-   742		[GPU_CC_ACD_BCR] = { 0x9358 },
-   743		[GPU_CC_FF_BCR] = { 0x9470 },
-   744		[GPU_CC_GFX3D_AON_BCR] = { 0x9198 },
-   745		[GPU_CC_GMU_BCR] = { 0x9314 },
-   746		[GPU_CC_GX_BCR] = { 0x9058 },
-   747		[GPU_CC_RBCPR_BCR] = { 0x91e0 },
-   748		[GPU_CC_XO_BCR] = { 0x9000 },
-   749		[GPU_CC_GX_ACD_IROOT_BCR] = { 0x958c },
-   750	};
-   751	
+
+vim +1527 include/linux/iommu.h
+
+2396046d75d3c0 Tina Zhang 2023-10-27  1516  
+cd3891158a7768 Jacob Pan  2023-03-22  1517  void mm_pasid_drop(struct mm_struct *mm);
+962e4c5599b0bd Lu Baolu   2024-04-02  1518  struct iommu_attach_handle *iommu_sva_bind_device(struct device *dev,
+be51b1d6bbff48 Lu Baolu   2022-10-31  1519  						  struct mm_struct *mm);
+962e4c5599b0bd Lu Baolu   2024-04-02  1520  void iommu_sva_unbind_device(struct iommu_attach_handle *handle);
+962e4c5599b0bd Lu Baolu   2024-04-02  1521  u32 iommu_sva_get_pasid(struct iommu_attach_handle *handle);
+17c51a0ea36b80 Lu Baolu   2024-02-12  1522  struct iommu_domain *iommu_sva_domain_alloc(struct device *dev,
+17c51a0ea36b80 Lu Baolu   2024-02-12  1523  					    struct mm_struct *mm);
+be51b1d6bbff48 Lu Baolu   2022-10-31  1524  #else
+962e4c5599b0bd Lu Baolu   2024-04-02  1525  static inline struct iommu_attach_handle *
+962e4c5599b0bd Lu Baolu   2024-04-02  1526  iommu_sva_bind_device(struct device *dev, struct mm_struct *mm);
+be51b1d6bbff48 Lu Baolu   2022-10-31 @1527  {
+962e4c5599b0bd Lu Baolu   2024-04-02  1528  	return ERR_PTR(-ENODEV);
+be51b1d6bbff48 Lu Baolu   2022-10-31  1529  }
+be51b1d6bbff48 Lu Baolu   2022-10-31  1530  
+
+:::::: The code at line 1527 was first introduced by commit
+:::::: be51b1d6bbff48c7d1943a8ff1e5a55777807f6e iommu/sva: Refactoring iommu_sva_bind/unbind_device()
+
+:::::: TO: Lu Baolu <baolu.lu@linux.intel.com>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
