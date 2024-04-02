@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E529E8F55
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 01:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B393201
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 02:16:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712020300; cv=none; b=EvRc2/3F7a+uRpZpyyIbLrMkSaoKNWrRMC+88TZvXFrC0PSH6CgW/CZCIgkbQhASU5BynlEc7qC4DdNOu0icMSEJEsEcNXIU9IhGCta8aldoxyPLFyPdcT2RwR543rfgteaWPzGg1Bp282qwUybUDqiiP59mKh56CKzo+v3IqjE=
+	t=1712024211; cv=none; b=oeQCAHO7rNu0ET2uZuS0V+x/iKMeYf4Y2I00DA4xzwVrKFtlwSdJP5eMCSHV0o7iokPEqgUMC8XZdF7I+meIoafXpaSiI+xBoScP9vnbHHIVD4M3/eM0SMNsZ4bExSlA/fLTqHdv5wfxDBsz1NMJj4VZnZOeLkLZqIFmEM8p8Gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712020300; c=relaxed/simple;
-	bh=4uwq6KvpH4A/xwORuaAW85XMtyn6E6wb3ehd/VMrsQA=;
+	s=arc-20240116; t=1712024211; c=relaxed/simple;
+	bh=t8tfZniwN2aDHRVRyo9TjXmYsSuX0mgNqKuY3AR5JLE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=J3s/GaqLrPkpLyUWzRUXi4aiy9HGIchygsXC4ff8jJ2c5WVhwmUgJ1Hav7cdFlrx4zwR/Anqrh8rXwU5Dnc/oOy4LuI37sQnviXXnSLvYMOWgx9w3RruRKMx8ANcGyRPddnXg1VUyMXoRvGqYsF0b650WKtgX83ewwWU/0dZ56o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M4G5UKJB; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=CbVlcIw9tBSvvGE1jWfcdud1X+RBzSI35mpPVxnjKSrFgxsUt65O5bTn8l/Vt0LAf5YILeq8GEooNaHdVOdmNpPWQTTzkEa70PI/xXj6iu0frgcVpaG4DGBSxtuGr2GeGyIMdRa+ibEP5Qp1+RU+FRlWoW3v0KPD8uSs1mSQchg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OSuJCIq8; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M4G5UKJB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OSuJCIq8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712020298; x=1743556298;
+  t=1712024210; x=1743560210;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4uwq6KvpH4A/xwORuaAW85XMtyn6E6wb3ehd/VMrsQA=;
-  b=M4G5UKJBbkO8DzvP8FyCuWSJC6FGCbI5bHblclmNh5qha10jd2+isbho
-   l88y17ZPp5Bvds66PEk57CDTJ7PrT8yysAMFcvn2eV3AdAGxEBUV9gI95
-   HJ+elasl4ntAKc/qEebQIqWudFVcydYV0hSbIlG+LXMTPb2pC5w3k90/S
-   nX/qN1Xh9VLl0vrEqBDY7zyCr8ggSvq3QRJKcHad3SykhB6nH48pcbJjt
-   Y2DgKPPKmdRbnBcq4CCOHGylFtZxUwdkQsdc0IHciVYi7tQZxhvBnT8xP
-   iy5Hi8QtG/nQAgwAVLUmYZ7gf5I5CZDkhHQuIDoWO0Jo3gdq0Q891qFYB
+  bh=t8tfZniwN2aDHRVRyo9TjXmYsSuX0mgNqKuY3AR5JLE=;
+  b=OSuJCIq8gKhpN5S0OwBN6artz+C0feS79L79vfX/KTgKegzFdYjQaTqt
+   vnsNCfeDtUznqFCmd7/oe0zsReM82ukmMRqUk4qojJgpf7Ce8tDAorr77
+   kz1gLFf7l4rfKMTYbTL7Yi5ftqr9gw2DzCdP8R3ht1TMJGonJKpPWKF4u
+   BpnWDyE7hM1xd5TdhOh+2wHILbZiQ40XYXBTfvUIho3bedQpeEbzNMB59
+   cJ4Jp053K5kGCfpDucRLoKzBq/ylTtCd4qUOWEkh1DpZeEAdqagR+Shg/
+   BiRF+biKzGdoH4PCYBm96gfUfWIjTIDKZiqUyCPL9UC9GyRJrVDojU1Cy
    g==;
-X-CSE-ConnectionGUID: vYy77pxxR7Smcfp72+uLAA==
-X-CSE-MsgGUID: yDX+YLXYSUK6iP5IcoKrow==
-X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="7285946"
+X-CSE-ConnectionGUID: 9TAnnyH2QUaCQi9iqx2h8g==
+X-CSE-MsgGUID: hjIE86WmRCK5b+iLOCcMjw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="7073313"
 X-IronPort-AV: E=Sophos;i="6.07,173,1708416000"; 
-   d="scan'208";a="7285946"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 18:11:27 -0700
+   d="scan'208";a="7073313"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 19:16:50 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,173,1708416000"; 
-   d="scan'208";a="17945429"
+   d="scan'208";a="48903989"
 Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 01 Apr 2024 18:11:25 -0700
+  by orviesa002.jf.intel.com with ESMTP; 01 Apr 2024 19:16:47 -0700
 Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rrSgN-0000jp-0a;
-	Tue, 02 Apr 2024 01:11:23 +0000
-Date: Tue, 2 Apr 2024 09:11:22 +0800
+	id 1rrThd-0000mv-24;
+	Tue, 02 Apr 2024 02:16:45 +0000
+Date: Tue, 2 Apr 2024 10:15:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 18302/22019] mm/share_pool.c:837:29:
- sparse: sparse: incompatible types for operation (<=):
-Message-ID: <202404020952.XAujhr6P-lkp@intel.com>
+Subject: [android-common:android12-kiwi-5.10 1/1]
+ include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of
+ type 'long unsigned int', but argument 5 has type 'void *'
+Message-ID: <202404021042.okNybfyI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,123 +61,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   bca07979c0a7054331b91c892163a0d214cffcbe
-commit: 0f0c3021514f52310056c32406b4b760fc9a7e6e [18302/22019] share_pool: Apply sp_group_id_by_pid() to multi-group-mode
-config: arm64-randconfig-r111-20240331 (https://download.01.org/0day-ci/archive/20240402/202404020952.XAujhr6P-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240402/202404020952.XAujhr6P-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   e4f1f4c9a6f6bdc4ed2f2d6d05fe5cd78af07bdf
+commit: e4f1f4c9a6f6bdc4ed2f2d6d05fe5cd78af07bdf [1/1] ANDROID: Add kiwi_fault_logging kernel parameter
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240402/202404021042.okNybfyI-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240402/202404021042.okNybfyI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404020952.XAujhr6P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404021042.okNybfyI-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/share_pool.c:837:29: sparse: sparse: incompatible types for operation (<=):
-   mm/share_pool.c:837:29: sparse:    int *num
-   mm/share_pool.c:837:29: sparse:    int
-   mm/share_pool.c:1628:9: sparse: sparse: undefined identifier 'sysctl_compaction_handler'
-   mm/share_pool.c: In function 'sp_group_id_by_pid':
-   mm/share_pool.c:837:29: warning: ordered comparison of pointer with integer zero [-Wextra]
-     837 |         if (!spg_ids || num <= 0)
-         |                             ^~
-   mm/share_pool.c: In function 'sp_compact_nodes':
-   mm/share_pool.c:1628:9: error: implicit declaration of function 'sysctl_compaction_handler' [-Werror=implicit-function-declaration]
-    1628 |         sysctl_compaction_handler(NULL, 1, NULL, NULL, NULL);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In function 'vmalloc_area_clr_flag',
-       inlined from 'sp_make_share_k2u' at mm/share_pool.c:2550:8:
-   mm/share_pool.c:2396:18: warning: 'spa' may be used uninitialized [-Wmaybe-uninitialized]
-    2396 |         spa->kva = 0;
-         |         ~~~~~~~~~^~~
-   mm/share_pool.c: In function 'sp_make_share_k2u':
-   mm/share_pool.c:2429:25: note: 'spa' was declared here
-    2429 |         struct sp_area *spa;
-         |                         ^~~
-   mm/share_pool.c:2562:16: warning: 'uva' may be used uninitialized [-Wmaybe-uninitialized]
-    2562 |         return uva;
-         |                ^~~
-   mm/share_pool.c:2427:15: note: 'uva' was declared here
-    2427 |         void *uva;
-         |               ^~~
-   mm/share_pool.c: In function 'sp_group_post_exit':
-   mm/share_pool.c:3863:37: warning: 'alloc_size' may be used uninitialized [-Wmaybe-uninitialized]
-    3863 |                 if (alloc_size != 0 || k2u_size != 0)
-         |                     ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-   mm/share_pool.c:3831:14: note: 'alloc_size' was declared here
-    3831 |         long alloc_size, k2u_size;
-         |              ^~~~~~~~~~
-   mm/share_pool.c:3863:37: warning: 'k2u_size' may be used uninitialized [-Wmaybe-uninitialized]
-    3863 |                 if (alloc_size != 0 || k2u_size != 0)
-         |                     ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-   mm/share_pool.c:3831:26: note: 'k2u_size' was declared here
-    3831 |         long alloc_size, k2u_size;
-         |                          ^~~~~~~~
-   cc1: some warnings being treated as errors
+All warnings (new ones prefixed by >>):
 
-vim +837 mm/share_pool.c
+   In file included from include/linux/printk.h:7,
+                    from include/linux/kernel.h:17,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/current.h:6,
+                    from include/linux/sched.h:12,
+                    from include/linux/context_tracking.h:5,
+                    from arch/x86/kernel/traps.c:15:
+   arch/x86/kernel/traps.c: In function 'do_error_trap':
+>> include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 5 has type 'void *' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/kern_levels.h:9:25: note: in expansion of macro 'KERN_SOH'
+       9 | #define KERN_ALERT      KERN_SOH "1"    /* action must be taken immediately */
+         |                         ^~~~~~~~
+   arch/x86/kernel/traps.c:175:20: note: in expansion of macro 'KERN_ALERT'
+     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
+         |                    ^~~~~~~~~~
+   arch/x86/kernel/traps.c:175:66: note: format string is defined here
+     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
+         |                                                                ~~^
+         |                                                                  |
+         |                                                                  long unsigned int
+         |                                                                %p
+   include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 7 has type 'int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/kern_levels.h:9:25: note: in expansion of macro 'KERN_SOH'
+       9 | #define KERN_ALERT      KERN_SOH "1"    /* action must be taken immediately */
+         |                         ^~~~~~~~
+   arch/x86/kernel/traps.c:175:20: note: in expansion of macro 'KERN_ALERT'
+     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
+         |                    ^~~~~~~~~~
+   arch/x86/kernel/traps.c:175:87: note: format string is defined here
+     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
+         |                                                                                     ~~^
+         |                                                                                       |
+         |                                                                                       long unsigned int
+         |                                                                                     %x
+   include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 8 has type 'int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/kern_levels.h:9:25: note: in expansion of macro 'KERN_SOH'
+       9 | #define KERN_ALERT      KERN_SOH "1"    /* action must be taken immediately */
+         |                         ^~~~~~~~
+   arch/x86/kernel/traps.c:175:20: note: in expansion of macro 'KERN_ALERT'
+     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
+         |                    ^~~~~~~~~~
+   arch/x86/kernel/traps.c:175:98: note: format string is defined here
+     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
+         |                                                                                                ~~^
+         |                                                                                                  |
+         |                                                                                                  long unsigned int
+         |                                                                                                %x
 
-   815	
-   816	/**
-   817	 * sp_group_id_by_pid() - Get the sp_group ID array of a process.
-   818	 * @pid: pid of target process.
-   819	 * @spg_ids point to an array to save the group ids the process belongs to
-   820	 * @num input the spg_ids array size; output the spg number of the process
-   821	 *
-   822	 * Return:
-   823	 * >0		- the sp_group ID.
-   824	 * -ENODEV	- target process doesn't belong to any sp_group.
-   825	 * -EINVAL	- spg_ids or num is NULL.
-   826	 * -E2BIG	- the num of groups process belongs to is larger than *num
-   827	 */
-   828	int sp_group_id_by_pid(int pid, int *spg_ids, int *num)
-   829	{
-   830		int ret = 0;
-   831		struct sp_group_node *node;
-   832		struct sp_group_master *master = NULL;
-   833		struct task_struct *tsk;
-   834	
-   835		check_interrupt_context();
-   836	
- > 837		if (!spg_ids || num <= 0)
-   838			return -EINVAL;
-   839	
-   840		ret = get_task(pid, &tsk);
-   841		if (ret)
-   842			return ret;
-   843	
-   844		down_read(&sp_group_sem);
-   845		task_lock(tsk);
-   846		if (tsk->mm)
-   847			master = tsk->mm->sp_group_master;
-   848		task_unlock(tsk);
-   849	
-   850		if (!master) {
-   851			ret = -ENODEV;
-   852			goto out_up_read;
-   853		}
-   854	
-   855		if (!master->count) {
-   856			ret = -ENODEV;
-   857			goto out_up_read;
-   858		}
-   859		if ((unsigned int)*num < master->count) {
-   860			ret = -E2BIG;
-   861			goto out_up_read;
-   862		}
-   863		*num = master->count;
-   864	
-   865		list_for_each_entry(node, &master->node_list, group_node)
-   866			*(spg_ids++) = node->spg->id;
-   867	
-   868	out_up_read:
-   869		up_read(&sp_group_sem);
-   870		put_task_struct(tsk);
-   871		return ret;
-   872	}
-   873	EXPORT_SYMBOL_GPL(sp_group_id_by_pid);
-   874	
+
+vim +5 include/linux/kern_levels.h
+
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
