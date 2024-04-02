@@ -1,67 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7407415A49F;
-	Tue,  2 Apr 2024 17:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCE715A48E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 18:16:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712079283; cv=none; b=Flidz8CMW4Djpgv3p0/G9fVfs8BzUi1YJUi8ziO155PdiqIxnxPv+NZUnB/+iMci/rs6aolSBphCdl+LUVbFDCd3qNjAk4gk5RwpzSEuwjT5tyfiIaVSHJbxps1gl4sEJOMbmsoO9mBTodDQdvHC55qNzBmj9X3k68EUNPtBZy0=
+	t=1712081804; cv=none; b=jWZGeveyCrO3+HHQfUHoTn/cbpQe5X2BqKB4VFOHwh3Z2/7l5bv2XD6xZ3/FzQekOjYCfRoKFB5A2ASwQDK8OHa+bijLQmYRjdBzFXdvIsl+Dtxp/gC3l8Aiv9dDIaLcJDmSRGsOIrCnWx6nHaPGn9xCgUzrw5dsDv2b+AwJMu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712079283; c=relaxed/simple;
-	bh=fNYoNOn5B2vjF3chFRhRaoGkC5J7EsTH2AoQer+/ANQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZzJMsRlTRi8G6zB9JsqWvVf6AgnRstb/GxGTmr/eFzuHrU/u33k4d6FKtw0lXX0BBUsHySWoiggkR17H4CrB8tK3utPHKp8aEACWkHoS2jf3M51RFYZGumzS0xk84rWC9V561syWkOlahvFGXjTqpwUpqxMUzW1gs10DN2VB9aI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UHCwRBRq; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1712081804; c=relaxed/simple;
+	bh=vFDyknB4D1a67MjaZQrswAEpg2Y/JcDh+H8GH6GLr6c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rKCvn0eOBLYJQDtSO0rLuSF38gczgIUJgvTZnNvDEAjOWB1y5O/lmOWnbsGlD7P8xMsrNHHhkwcW6nKvnYKdxtgX7Jt4hKljVMHrc9iyveWKgju+WtF8LPDxwsPVjVHEABGBnJegu9WhuKi/L9ojv3b/fbdkXFxUBjIe42m2vik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzEH2tbm; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UHCwRBRq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzEH2tbm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712079281; x=1743615281;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fNYoNOn5B2vjF3chFRhRaoGkC5J7EsTH2AoQer+/ANQ=;
-  b=UHCwRBRq5A6Unz3E8uXorTmwX/IoFdipD6hrn5ECopTriEZN1N9PJa+z
-   MQjvlrpwMuJPKp+HLmqmB7332VvdefRDWTpYykqh14yjDsjRzAv7HGu9l
-   xJDIzk+Cqb+Fp7J0z2CBlMr2kZu8Pc1uLIrW/C1UzfZ5oPPG4Sw0tetQz
-   oJyIGxeAw7vtWQ4ra5I/+swijEOIQO8HjpP9Z1zTVMotGRcriTMEZRfOf
-   Zlo0R3+xpOCoCD5RXSSedJ1+tUy3rw/D4i2MDVJ+istj2VB32zXuDJyiE
-   /qUQ/XCaxY44XEaGn3lDvBOYvwcU0NiZ3elv3X+X5z5YlBCPHMgOVW4C3
-   g==;
-X-CSE-ConnectionGUID: um9DBSRvTv6k6iHHyR79Gw==
-X-CSE-MsgGUID: TAyJy+ewSEq1pCQd/HaeaA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7136177"
+  t=1712081802; x=1743617802;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vFDyknB4D1a67MjaZQrswAEpg2Y/JcDh+H8GH6GLr6c=;
+  b=gzEH2tbm2KicWrfzJdbz5jYtweHhDKUAAoSbY4K+V9xVyJxpjJvrE6mh
+   Ge8Fzlmcs/kbvku3Tb/QVN2l07/4MOjCFyltRKYZ6wOIJRrT0QsUFizpb
+   HoGdO4euNcn0MNDpEpYQchFrbt5s6AbDOD0Jh2mNxMnFE94uwuYWHUr2Q
+   RD4/T4Vu3mejjHjka2oRxBUf/ZBziURqPdsTZ4Td4/ieiRkdIS2loUSck
+   H1PuuH84ActsEMCO+hcIqLPFqM5Kk28ez5iZM1ZmrxLu7a20JoMN0TVi9
+   eqY6eLQEIoVWWS2zVpRiZNknkWTYDGIXiMdgDrPaTluqN51WZzN+n0g4y
+   A==;
+X-CSE-ConnectionGUID: ON19/Wd/Rg2Lzy5YoPvyzA==
+X-CSE-MsgGUID: HrZUikwaR7a7zvSEhPilug==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="29756950"
 X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="7136177"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 10:34:39 -0700
-X-CSE-ConnectionGUID: OSeGEsaLQ6G3xhHefXNoRQ==
-X-CSE-MsgGUID: kGl3BvEEROiCz1mlLQHR4A==
+   d="scan'208";a="29756950"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 11:16:41 -0700
+X-CSE-ConnectionGUID: XWjoFmMySAWGG8jS7A6WjQ==
+X-CSE-MsgGUID: a2Pzd+p6Re6PMa/dyHR0zQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="18255944"
+   d="scan'208";a="55612620"
 Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Apr 2024 10:34:36 -0700
+  by orviesa001.jf.intel.com with ESMTP; 02 Apr 2024 11:16:39 -0700
 Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rri1q-0001Lz-0E;
-	Tue, 02 Apr 2024 17:34:34 +0000
-Date: Wed, 3 Apr 2024 01:34:07 +0800
+	id 1rrigW-0001QP-26;
+	Tue, 02 Apr 2024 18:16:36 +0000
+Date: Wed, 3 Apr 2024 02:16:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Binbin Zhou <zhoubinbin@loongson.cn>,
-	Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, loongson-kernel@lists.loongnix.cn,
-	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev
-Subject: Re: [PATCH v1 5/5] LoongArch: dts: Add PWM support to Loongson-2K2000
-Message-ID: <202404030108.rzArK10u-lkp@intel.com>
-References: <7214b933ce85f9d030828e9efab7fbeb57eb712b.1711953223.git.zhoubinbin@loongson.cn>
+To: Boris Brezillon <bbrezillon@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Steven Price <steven.price@arm.com>
+Subject: [drm-misc:for-linux-next 3/4]
+ drivers/gpu/drm/panthor/panthor_device.h:326:13: error: unused variable
+ 'cookie'
+Message-ID: <202404030237.5YKBS02j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,35 +64,169 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7214b933ce85f9d030828e9efab7fbeb57eb712b.1711953223.git.zhoubinbin@loongson.cn>
 
-Hi Binbin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.9-rc2 next-20240402]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/dt-bindings-pwm-Add-Loongson-PWM-controller/20240402-160109
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/7214b933ce85f9d030828e9efab7fbeb57eb712b.1711953223.git.zhoubinbin%40loongson.cn
-patch subject: [PATCH v1 5/5] LoongArch: dts: Add PWM support to Loongson-2K2000
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20240403/202404030108.rzArK10u-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240403/202404030108.rzArK10u-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   10021ef27310279c850cf6cb38542c443a995e92
+commit: 962f88b9c91647f3ff4a0d3709662641baed5164 [3/4] drm/panthor: Drop the dev_enter/exit() sections in _irq_suspend/resume()
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240403/202404030237.5YKBS02j-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240403/202404030237.5YKBS02j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404030108.rzArK10u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404030237.5YKBS02j-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> Error: arch/loongarch/boot/dts/loongson-2k2000.dtsi:123.19-20 syntax error
-   FATAL ERROR: Unable to parse input tree
+   In file included from drivers/gpu/drm/panthor/panthor_fw.c:19:
+   drivers/gpu/drm/panthor/panthor_fw.c: In function 'panthor_job_irq_suspend':
+>> drivers/gpu/drm/panthor/panthor_device.h:326:13: error: unused variable 'cookie' [-Werror=unused-variable]
+     326 |         int cookie;                                                                             \
+         |             ^~~~~~
+   drivers/gpu/drm/panthor/panthor_fw.c:979:1: note: in expansion of macro 'PANTHOR_IRQ_HANDLER'
+     979 | PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
+         | ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_fw.c: In function 'panthor_job_irq_resume':
+   drivers/gpu/drm/panthor/panthor_device.h:336:13: error: unused variable 'cookie' [-Werror=unused-variable]
+     336 |         int cookie;                                                                             \
+         |             ^~~~~~
+   drivers/gpu/drm/panthor/panthor_fw.c:979:1: note: in expansion of macro 'PANTHOR_IRQ_HANDLER'
+     979 | PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
+         | ^~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/panthor/panthor_gpu.c:19:
+   drivers/gpu/drm/panthor/panthor_gpu.c: In function 'panthor_gpu_irq_suspend':
+>> drivers/gpu/drm/panthor/panthor_device.h:326:13: error: unused variable 'cookie' [-Werror=unused-variable]
+     326 |         int cookie;                                                                             \
+         |             ^~~~~~
+   drivers/gpu/drm/panthor/panthor_gpu.c:166:1: note: in expansion of macro 'PANTHOR_IRQ_HANDLER'
+     166 | PANTHOR_IRQ_HANDLER(gpu, GPU, panthor_gpu_irq_handler);
+         | ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_gpu.c: In function 'panthor_gpu_irq_resume':
+   drivers/gpu/drm/panthor/panthor_device.h:336:13: error: unused variable 'cookie' [-Werror=unused-variable]
+     336 |         int cookie;                                                                             \
+         |             ^~~~~~
+   drivers/gpu/drm/panthor/panthor_gpu.c:166:1: note: in expansion of macro 'PANTHOR_IRQ_HANDLER'
+     166 | PANTHOR_IRQ_HANDLER(gpu, GPU, panthor_gpu_irq_handler);
+         | ^~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/panthor/panthor_mmu.c:30:
+   drivers/gpu/drm/panthor/panthor_mmu.c: In function 'panthor_mmu_irq_suspend':
+>> drivers/gpu/drm/panthor/panthor_device.h:326:13: error: unused variable 'cookie' [-Werror=unused-variable]
+     326 |         int cookie;                                                                             \
+         |             ^~~~~~
+   drivers/gpu/drm/panthor/panthor_mmu.c:1689:1: note: in expansion of macro 'PANTHOR_IRQ_HANDLER'
+    1689 | PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
+         | ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_mmu.c: In function 'panthor_mmu_irq_resume':
+   drivers/gpu/drm/panthor/panthor_device.h:336:13: error: unused variable 'cookie' [-Werror=unused-variable]
+     336 |         int cookie;                                                                             \
+         |             ^~~~~~
+   drivers/gpu/drm/panthor/panthor_mmu.c:1689:1: note: in expansion of macro 'PANTHOR_IRQ_HANDLER'
+    1689 | PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
+         | ^~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+
+
+vim +/cookie +326 drivers/gpu/drm/panthor/panthor_device.h
+
+5fe909cae118a7 Boris Brezillon 2024-02-29  271  
+5fe909cae118a7 Boris Brezillon 2024-02-29  272  const char *panthor_exception_name(struct panthor_device *ptdev,
+5fe909cae118a7 Boris Brezillon 2024-02-29  273  				   u32 exception_code);
+5fe909cae118a7 Boris Brezillon 2024-02-29  274  
+5fe909cae118a7 Boris Brezillon 2024-02-29  275  /**
+5fe909cae118a7 Boris Brezillon 2024-02-29  276   * PANTHOR_IRQ_HANDLER() - Define interrupt handlers and the interrupt
+5fe909cae118a7 Boris Brezillon 2024-02-29  277   * registration function.
+5fe909cae118a7 Boris Brezillon 2024-02-29  278   *
+5fe909cae118a7 Boris Brezillon 2024-02-29  279   * The boiler-plate to gracefully deal with shared interrupts is
+5fe909cae118a7 Boris Brezillon 2024-02-29  280   * auto-generated. All you have to do is call PANTHOR_IRQ_HANDLER()
+5fe909cae118a7 Boris Brezillon 2024-02-29  281   * just after the actual handler. The handler prototype is:
+5fe909cae118a7 Boris Brezillon 2024-02-29  282   *
+5fe909cae118a7 Boris Brezillon 2024-02-29  283   * void (*handler)(struct panthor_device *, u32 status);
+5fe909cae118a7 Boris Brezillon 2024-02-29  284   */
+5fe909cae118a7 Boris Brezillon 2024-02-29  285  #define PANTHOR_IRQ_HANDLER(__name, __reg_prefix, __handler)					\
+5fe909cae118a7 Boris Brezillon 2024-02-29  286  static irqreturn_t panthor_ ## __name ## _irq_raw_handler(int irq, void *data)			\
+5fe909cae118a7 Boris Brezillon 2024-02-29  287  {												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  288  	struct panthor_irq *pirq = data;							\
+5fe909cae118a7 Boris Brezillon 2024-02-29  289  	struct panthor_device *ptdev = pirq->ptdev;						\
+5fe909cae118a7 Boris Brezillon 2024-02-29  290  												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  291  	if (atomic_read(&pirq->suspended))							\
+5fe909cae118a7 Boris Brezillon 2024-02-29  292  		return IRQ_NONE;								\
+5fe909cae118a7 Boris Brezillon 2024-02-29  293  	if (!gpu_read(ptdev, __reg_prefix ## _INT_STAT))					\
+5fe909cae118a7 Boris Brezillon 2024-02-29  294  		return IRQ_NONE;								\
+5fe909cae118a7 Boris Brezillon 2024-02-29  295  												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  296  	gpu_write(ptdev, __reg_prefix ## _INT_MASK, 0);						\
+5fe909cae118a7 Boris Brezillon 2024-02-29  297  	return IRQ_WAKE_THREAD;									\
+5fe909cae118a7 Boris Brezillon 2024-02-29  298  }												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  299  												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  300  static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *data)		\
+5fe909cae118a7 Boris Brezillon 2024-02-29  301  {												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  302  	struct panthor_irq *pirq = data;							\
+5fe909cae118a7 Boris Brezillon 2024-02-29  303  	struct panthor_device *ptdev = pirq->ptdev;						\
+5fe909cae118a7 Boris Brezillon 2024-02-29  304  	irqreturn_t ret = IRQ_NONE;								\
+5fe909cae118a7 Boris Brezillon 2024-02-29  305  												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  306  	while (true) {										\
+5fe909cae118a7 Boris Brezillon 2024-02-29  307  		u32 status = gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & pirq->mask;	\
+5fe909cae118a7 Boris Brezillon 2024-02-29  308  												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  309  		if (!status)									\
+5fe909cae118a7 Boris Brezillon 2024-02-29  310  			break;									\
+5fe909cae118a7 Boris Brezillon 2024-02-29  311  												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  312  		gpu_write(ptdev, __reg_prefix ## _INT_CLEAR, status);				\
+5fe909cae118a7 Boris Brezillon 2024-02-29  313  												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  314  		__handler(ptdev, status);							\
+5fe909cae118a7 Boris Brezillon 2024-02-29  315  		ret = IRQ_HANDLED;								\
+5fe909cae118a7 Boris Brezillon 2024-02-29  316  	}											\
+5fe909cae118a7 Boris Brezillon 2024-02-29  317  												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  318  	if (!atomic_read(&pirq->suspended))							\
+5fe909cae118a7 Boris Brezillon 2024-02-29  319  		gpu_write(ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
+5fe909cae118a7 Boris Brezillon 2024-02-29  320  												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  321  	return ret;										\
+5fe909cae118a7 Boris Brezillon 2024-02-29  322  }												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  323  												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  324  static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
+5fe909cae118a7 Boris Brezillon 2024-02-29  325  {												\
+5fe909cae118a7 Boris Brezillon 2024-02-29 @326  	int cookie;										\
+5fe909cae118a7 Boris Brezillon 2024-02-29  327  												\
+1de434e0b27570 Boris Brezillon 2024-03-26  328  	pirq->mask = 0;										\
+5fe909cae118a7 Boris Brezillon 2024-02-29  329  	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);					\
+5fe909cae118a7 Boris Brezillon 2024-02-29  330  	synchronize_irq(pirq->irq);								\
+1de434e0b27570 Boris Brezillon 2024-03-26  331  	atomic_set(&pirq->suspended, true);							\
+5fe909cae118a7 Boris Brezillon 2024-02-29  332  }												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  333  												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  334  static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq, u32 mask)	\
+5fe909cae118a7 Boris Brezillon 2024-02-29  335  {												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  336  	int cookie;										\
+5fe909cae118a7 Boris Brezillon 2024-02-29  337  												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  338  	atomic_set(&pirq->suspended, false);							\
+5fe909cae118a7 Boris Brezillon 2024-02-29  339  	pirq->mask = mask;									\
+5fe909cae118a7 Boris Brezillon 2024-02-29  340  	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, mask);				\
+5fe909cae118a7 Boris Brezillon 2024-02-29  341  	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, mask);				\
+5fe909cae118a7 Boris Brezillon 2024-02-29  342  }												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  343  												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  344  static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
+5fe909cae118a7 Boris Brezillon 2024-02-29  345  					      struct panthor_irq *pirq,				\
+5fe909cae118a7 Boris Brezillon 2024-02-29  346  					      int irq, u32 mask)				\
+5fe909cae118a7 Boris Brezillon 2024-02-29  347  {												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  348  	pirq->ptdev = ptdev;									\
+5fe909cae118a7 Boris Brezillon 2024-02-29  349  	pirq->irq = irq;									\
+5fe909cae118a7 Boris Brezillon 2024-02-29  350  	panthor_ ## __name ## _irq_resume(pirq, mask);						\
+5fe909cae118a7 Boris Brezillon 2024-02-29  351  												\
+5fe909cae118a7 Boris Brezillon 2024-02-29  352  	return devm_request_threaded_irq(ptdev->base.dev, irq,					\
+5fe909cae118a7 Boris Brezillon 2024-02-29  353  					 panthor_ ## __name ## _irq_raw_handler,		\
+5fe909cae118a7 Boris Brezillon 2024-02-29  354  					 panthor_ ## __name ## _irq_threaded_handler,		\
+5fe909cae118a7 Boris Brezillon 2024-02-29  355  					 IRQF_SHARED, KBUILD_MODNAME "-" # __name,		\
+5fe909cae118a7 Boris Brezillon 2024-02-29  356  					 pirq);							\
+5fe909cae118a7 Boris Brezillon 2024-02-29  357  }
+5fe909cae118a7 Boris Brezillon 2024-02-29  358  
+
+:::::: The code at line 326 was first introduced by commit
+:::::: 5fe909cae118a757a77afb37174b99436a36d2e2 drm/panthor: Add the device logical block
+
+:::::: TO: Boris Brezillon <boris.brezillon@collabora.com>
+:::::: CC: Boris Brezillon <boris.brezillon@collabora.com>
 
 -- 
 0-DAY CI Kernel Test Service
