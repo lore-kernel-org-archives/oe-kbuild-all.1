@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B393201
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 02:16:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F2CBA29
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 02:38:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712024211; cv=none; b=oeQCAHO7rNu0ET2uZuS0V+x/iKMeYf4Y2I00DA4xzwVrKFtlwSdJP5eMCSHV0o7iokPEqgUMC8XZdF7I+meIoafXpaSiI+xBoScP9vnbHHIVD4M3/eM0SMNsZ4bExSlA/fLTqHdv5wfxDBsz1NMJj4VZnZOeLkLZqIFmEM8p8Gw=
+	t=1712025498; cv=none; b=bu9wbODsDrZJ3g5uMDvjvg4xUnehD//tEiKnf3NdBBnXlon7KmFPxye12Gt0xaLPJ2QMA5BeO+/YTk14dnsBH2wovxyh+MoMC1Db+UJF7bEjsbwtSt8l8N3f88FPkPU1XoeJ6oTC0rhZSCr/XFcTb0FeHUz22gdoRo0RGkJCwrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712024211; c=relaxed/simple;
-	bh=t8tfZniwN2aDHRVRyo9TjXmYsSuX0mgNqKuY3AR5JLE=;
+	s=arc-20240116; t=1712025498; c=relaxed/simple;
+	bh=B0YkMpIL4lKGk1VzcKjuprcKufsRcCXzLubl9FFRhJk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CbVlcIw9tBSvvGE1jWfcdud1X+RBzSI35mpPVxnjKSrFgxsUt65O5bTn8l/Vt0LAf5YILeq8GEooNaHdVOdmNpPWQTTzkEa70PI/xXj6iu0frgcVpaG4DGBSxtuGr2GeGyIMdRa+ibEP5Qp1+RU+FRlWoW3v0KPD8uSs1mSQchg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OSuJCIq8; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=QCGXKmkjZHmiI9GBr3JJeTs8wSRNjoPZQ9PCoZwG29cIwG8Sx7cTTtLi8mXLjBt6zeYKwO9Mf3hJw/ywqIZ4v2mqayz/Kr33zNeSrSPMCf/+y5S1pHdTc98LJOrHgCD04SVhN8n7MJrJE2Agj0m1J+gBtkfOOl7IhULtp9Lgg74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DXasRHP3; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OSuJCIq8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DXasRHP3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712024210; x=1743560210;
+  t=1712025496; x=1743561496;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t8tfZniwN2aDHRVRyo9TjXmYsSuX0mgNqKuY3AR5JLE=;
-  b=OSuJCIq8gKhpN5S0OwBN6artz+C0feS79L79vfX/KTgKegzFdYjQaTqt
-   vnsNCfeDtUznqFCmd7/oe0zsReM82ukmMRqUk4qojJgpf7Ce8tDAorr77
-   kz1gLFf7l4rfKMTYbTL7Yi5ftqr9gw2DzCdP8R3ht1TMJGonJKpPWKF4u
-   BpnWDyE7hM1xd5TdhOh+2wHILbZiQ40XYXBTfvUIho3bedQpeEbzNMB59
-   cJ4Jp053K5kGCfpDucRLoKzBq/ylTtCd4qUOWEkh1DpZeEAdqagR+Shg/
-   BiRF+biKzGdoH4PCYBm96gfUfWIjTIDKZiqUyCPL9UC9GyRJrVDojU1Cy
-   g==;
-X-CSE-ConnectionGUID: 9TAnnyH2QUaCQi9iqx2h8g==
-X-CSE-MsgGUID: hjIE86WmRCK5b+iLOCcMjw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="7073313"
+  bh=B0YkMpIL4lKGk1VzcKjuprcKufsRcCXzLubl9FFRhJk=;
+  b=DXasRHP35kCawQpnRScLA145cndRc6fHpLuLFoXmbyyK4f80vlOMew+O
+   PKqC6VYacGyIvP0n7vWg5O9uXi8u3hsYe7xrsVCKtir208rhWjLq3dEya
+   SjeZp+x27RBo7LFNH3dryANNjvQOXjoOt8s6WaRdAGKNy3eQ3U5/+7QJl
+   6TAp+Xm8U1XU17cNbHfjfCw6ZYmyi4SRVggwOtMOFDaTJ7u3FgPZ7DqLP
+   7VNw5XQCzgss/D826j7nGby30O0lg9yzablO4Nj9yPKD0mPMsxLkm9T7u
+   XZRZy/49PHwRHTM0YCNNidQ6fAPAM39ikpSnsa/48c9GaoTV+Ukp8ivHC
+   A==;
+X-CSE-ConnectionGUID: HnR1gzYTSceWkR29saaLHw==
+X-CSE-MsgGUID: t3MuSm14T5KrbgQC4vim1w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="10956753"
 X-IronPort-AV: E=Sophos;i="6.07,173,1708416000"; 
-   d="scan'208";a="7073313"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 19:16:50 -0700
+   d="scan'208";a="10956753"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 19:38:15 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,173,1708416000"; 
-   d="scan'208";a="48903989"
+   d="scan'208";a="18365985"
 Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 01 Apr 2024 19:16:47 -0700
+  by orviesa006.jf.intel.com with ESMTP; 01 Apr 2024 19:38:14 -0700
 Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rrThd-0000mv-24;
-	Tue, 02 Apr 2024 02:16:45 +0000
-Date: Tue, 2 Apr 2024 10:15:59 +0800
+	id 1rrU2N-0000nz-0k;
+	Tue, 02 Apr 2024 02:38:11 +0000
+Date: Tue, 2 Apr 2024 10:38:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 1/1]
- include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of
- type 'long unsigned int', but argument 5 has type 'void *'
-Message-ID: <202404021042.okNybfyI-lkp@intel.com>
+To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Lee Jones <lee@kernel.org>
+Subject: drivers/leds/leds-turris-omnia.c:438:15: sparse: sparse: cast to
+ restricted __le16
+Message-ID: <202404021016.m87bJk3A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,87 +61,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   e4f1f4c9a6f6bdc4ed2f2d6d05fe5cd78af07bdf
-commit: e4f1f4c9a6f6bdc4ed2f2d6d05fe5cd78af07bdf [1/1] ANDROID: Add kiwi_fault_logging kernel parameter
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240402/202404021042.okNybfyI-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240402/202404021042.okNybfyI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   026e680b0a08a62b1d948e5a8ca78700bfac0e6e
+commit: 43e9082fbccc7df8b2028c1ba040c58cefda703f leds: turris-omnia: Add support for enabling/disabling HW gamma correction
+date:   5 months ago
+config: loongarch-randconfig-r034-20230511 (https://download.01.org/0day-ci/archive/20240402/202404021016.m87bJk3A-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20240402/202404021016.m87bJk3A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404021042.okNybfyI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404021016.m87bJk3A-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/leds/leds-turris-omnia.c:438:15: sparse: sparse: cast to restricted __le16
+   drivers/leds/leds-turris-omnia.c:446:16: sparse: sparse: cast to restricted __le16
 
-   In file included from include/linux/printk.h:7,
-                    from include/linux/kernel.h:17,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/current.h:6,
-                    from include/linux/sched.h:12,
-                    from include/linux/context_tracking.h:5,
-                    from arch/x86/kernel/traps.c:15:
-   arch/x86/kernel/traps.c: In function 'do_error_trap':
->> include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 5 has type 'void *' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/kern_levels.h:9:25: note: in expansion of macro 'KERN_SOH'
-       9 | #define KERN_ALERT      KERN_SOH "1"    /* action must be taken immediately */
-         |                         ^~~~~~~~
-   arch/x86/kernel/traps.c:175:20: note: in expansion of macro 'KERN_ALERT'
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                    ^~~~~~~~~~
-   arch/x86/kernel/traps.c:175:66: note: format string is defined here
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                                                                ~~^
-         |                                                                  |
-         |                                                                  long unsigned int
-         |                                                                %p
-   include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 7 has type 'int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/kern_levels.h:9:25: note: in expansion of macro 'KERN_SOH'
-       9 | #define KERN_ALERT      KERN_SOH "1"    /* action must be taken immediately */
-         |                         ^~~~~~~~
-   arch/x86/kernel/traps.c:175:20: note: in expansion of macro 'KERN_ALERT'
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                    ^~~~~~~~~~
-   arch/x86/kernel/traps.c:175:87: note: format string is defined here
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                                                                                     ~~^
-         |                                                                                       |
-         |                                                                                       long unsigned int
-         |                                                                                     %x
-   include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 8 has type 'int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/kern_levels.h:9:25: note: in expansion of macro 'KERN_SOH'
-       9 | #define KERN_ALERT      KERN_SOH "1"    /* action must be taken immediately */
-         |                         ^~~~~~~~
-   arch/x86/kernel/traps.c:175:20: note: in expansion of macro 'KERN_ALERT'
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                    ^~~~~~~~~~
-   arch/x86/kernel/traps.c:175:98: note: format string is defined here
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                                                                                                ~~^
-         |                                                                                                  |
-         |                                                                                                  long unsigned int
-         |                                                                                                %x
+vim +438 drivers/leds/leds-turris-omnia.c
 
-
-vim +5 include/linux/kern_levels.h
-
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
-
-:::::: The code at line 5 was first introduced by commit
-:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   426	
+   427	static int omnia_mcu_get_features(const struct i2c_client *client)
+   428	{
+   429		u16 reply;
+   430		int err;
+   431	
+   432		err = omnia_cmd_read_raw(client->adapter, OMNIA_MCU_I2C_ADDR,
+   433					 CMD_GET_STATUS_WORD, &reply, sizeof(reply));
+   434		if (err < 0)
+   435			return err;
+   436	
+   437		/* Check whether MCU firmware supports the CMD_GET_FEAUTRES command */
+ > 438		if (!(le16_to_cpu(reply) & STS_FEATURES_SUPPORTED))
+   439			return 0;
+   440	
+   441		err = omnia_cmd_read_raw(client->adapter, OMNIA_MCU_I2C_ADDR,
+   442					 CMD_GET_FEATURES, &reply, sizeof(reply));
+   443		if (err < 0)
+   444			return err;
+   445	
+   446		return le16_to_cpu(reply);
+   447	}
+   448	
 
 -- 
 0-DAY CI Kernel Test Service
