@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F051869979;
-	Tue,  2 Apr 2024 12:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A9B83A1D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 13:15:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712060030; cv=none; b=c8izejbtZh6S4e6+JMQJGgpS78/OhDQrRkqBLkXnMXWlNpOTI0Wt58q/anHkvcmuN8FZTeZFgUf+gdJ/J3+lwUHc+qszCCR9CCTD1Zzbeb0/T1G/sH4Nm+IV67zCCIpzYfaDfycVZEDi4h3phsVwrgManexkj7RfH2JaMf0AhaY=
+	t=1712063751; cv=none; b=EQbM6dz9CjOt6eP/eyPY9Myj9eF2E7sjUvLPlFTpr5lomwMvYoLktku1E44uiCgLtegw0cgMkHexpwqgEhEy+3sIlgw6NsRWqkfl4dINbR7LLjFfImCiUtGvq+Ixg7gYm5uye2MLn4wkmPdyWncR8k8noVHqf7g0zv1fBgNCeB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712060030; c=relaxed/simple;
-	bh=aDYNZXT29sScLZwmqSx01fCQPYlaD+3kwmxnBllTiKs=;
+	s=arc-20240116; t=1712063751; c=relaxed/simple;
+	bh=kt3p98lsL93vSzqtqYHdo03/45fovZP9+6WrxafvVp8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KkF5SlzgcWSrDwJEmElQolXKOvPzAUWzWSh4BkBERbG2OtyWr7fjlfjCfvQdmUt3qH9s55XdUGx25HcEzCbjwzZIrbsYdr3IHcbAZt2F51DwY1CkoH1UeFzNDpJzVU0hC4mN86yGrdVKSk3Y4hqVXaqiSz9GHyLCyVZLa/pCekI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MwO+Zu9a; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=PUyy9NKw1wvB6YQv/yMqn1BTfLsHTasfFHkZQk63nYC+GnHsKWY/bom2CWFEB0mhpDUwFNXxkB34Baio2MExsfG9CsHSjQvINzWr9JdTq971OD1jqw1QX6/XG/2zKm43RMEpd49zQcnSorXBuBOVVflQN3N5Z34cqBHSH6Rlb3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ChtK9bGH; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MwO+Zu9a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ChtK9bGH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712060029; x=1743596029;
+  t=1712063750; x=1743599750;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aDYNZXT29sScLZwmqSx01fCQPYlaD+3kwmxnBllTiKs=;
-  b=MwO+Zu9ajUbANj7lU0m3Wo3EKupR6ZI5jnHZi9I9Ke5MejJqVxH3pff+
-   2AFySTdGjXuR/FUZIwO9FsMz+41GJ7VNKphhSyUe5YGBDvgwzauBrJzG9
-   MtpuAyQ1evUDBdGvtzbDOIySBMNp0IyhHh929jshdgHTBegXO/UUEL41A
-   e2NOnJZnHB/XQxTJHERE7qhkTfc4kr7mZZwmbhj8S4lkLH3sY9mUfGMMS
-   aBXFyqGIBOFzK2uTT3wQzx/Bk0fbMWjKdStXZmF1Jd7Q203ym8u1FU95w
-   ctsjsfRuODhouXKNxKhcSmhw5I/7k/g4sPzOW4A1ySrsbFU37Wmt+VauG
-   g==;
-X-CSE-ConnectionGUID: j7Y0k9wsQuanZYZPMjyE5g==
-X-CSE-MsgGUID: z/vZmmrkT8m3ssjJMUS6OQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="7440348"
-X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; 
-   d="scan'208";a="7440348"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 05:13:48 -0700
-X-CSE-ConnectionGUID: woligKHCRlaAEiQ8YDQvDQ==
-X-CSE-MsgGUID: 2SX0pIfYTs+TU9lvyrrjVg==
+  bh=kt3p98lsL93vSzqtqYHdo03/45fovZP9+6WrxafvVp8=;
+  b=ChtK9bGH0Ok/DJLrZx9uUNBVwF8rtaki0Ksl70hXqMQpGCm/Ijs7xmNf
+   ypPtu3UqYaBYsnI6bFeJXoDWXeo+JYw0WyZvW/a0CfnSeogZC9FhLIX7H
+   RkCU16vrig7z/U5lji2/r86CjJLEQ0ypAl1NpwxVvCoNDJyPsK/vU7HRn
+   SkUW/+95HILnKoJabJtYA6t2HSXf95ASrX82yNTimzNIA/nOXdY5c6875
+   d6XUN7KrYmwDByiSE/udNBvpq0vO8kjOpPeneI1U52jrAw4tIg253PUNu
+   PJLvOfOY3CESSmNAzBQma12izhYU9OprM3lhVvz9h7y6BeAYRiQ9XNkng
+   w==;
+X-CSE-ConnectionGUID: +NjuGt4GTqSRR7cMnNofsw==
+X-CSE-MsgGUID: d2y1U9WiQUmoNZnV5/zf2A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="24687899"
+X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
+   d="scan'208";a="24687899"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 06:15:50 -0700
+X-CSE-ConnectionGUID: XMBRVS4tRXaDgh+D0JEQoA==
+X-CSE-MsgGUID: +c33UjftTAa5iRQFAz8rZQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; 
-   d="scan'208";a="18105411"
+X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
+   d="scan'208";a="22537593"
 Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Apr 2024 05:13:47 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 02 Apr 2024 06:15:48 -0700
 Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rrd1L-0001Ax-1f;
-	Tue, 02 Apr 2024 12:13:43 +0000
-Date: Tue, 2 Apr 2024 20:13:07 +0800
+	id 1rrdzN-0001D3-3B;
+	Tue, 02 Apr 2024 13:15:45 +0000
+Date: Tue, 2 Apr 2024 21:15:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Atish Patra <atishp@rivosinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Atish Patra <Atish.Patra@wdc.com>, Anup Patel <anup@brainfault.org>
-Subject: [atishp04:kvm_pmu_snapshot_v5 15/26] arch/riscv/kvm/vcpu_pmu.c:11:9:
- warning: 'pr_fmt' macro redefined
-Message-ID: <202404022021.LcazvaRh-lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 2555/3220]
+ arch/csky/include/asm/cmpxchg.h:138:25: error: implicit declaration of
+ function 'cmpxchg_emu_u8'
+Message-ID: <202404022106.mYwpypit-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,60 +64,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/atishp04/linux kvm_pmu_snapshot_v5
-head:   b0e65c6b9040f92d37b78f24aab4948fd3f26bf8
-commit: 77445e9905bd24241148bb9786af53c67e1a054d [15/26] RISC-V: KVM: Implement SBI PMU Snapshot feature
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240402/202404022021.LcazvaRh-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 546dc2245ffc4cccd0b05b58b7a5955e355a3b27)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240402/202404022021.LcazvaRh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c0b832517f627ead3388c6f0c74e8ac10ad5774b
+commit: ea7f9bb7268e89fff8590ab5a360f5b27a0fc19a [2555/3220] csky: Emulate one-byte and two-byte cmpxchg
+config: csky-randconfig-r012-20230202 (https://download.01.org/0day-ci/archive/20240402/202404022106.mYwpypit-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240402/202404022106.mYwpypit-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404022021.LcazvaRh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404022106.mYwpypit-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/riscv/kvm/vcpu_pmu.c:11:9: warning: 'pr_fmt' macro redefined [-Wmacro-redefined]
-      11 | #define pr_fmt(fmt)     "riscv-kvm-pmu: " fmt
-         |         ^
-   include/linux/printk.h:347:9: note: previous definition is here
-     347 | #define pr_fmt(fmt) fmt
-         |         ^
-   In file included from arch/riscv/kvm/vcpu_pmu.c:14:
-   In file included from include/linux/kvm_host.h:7:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:23:
-   In file included from arch/riscv/include/asm/irq.h:10:
-   In file included from include/linux/interrupt.h:21:
-   In file included from arch/riscv/include/asm/sections.h:9:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   2 warnings generated.
+   In file included from arch/csky/include/asm/atomic.h:9,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/csky/include/asm/bitops.h:69,
+                    from include/linux/bitops.h:68,
+                    from include/linux/log2.h:12,
+                    from kernel/bounds.c:13:
+   include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atomic_cmpxchg':
+>> arch/csky/include/asm/cmpxchg.h:138:25: error: implicit declaration of function 'cmpxchg_emu_u8' [-Werror=implicit-function-declaration]
+     138 |                 __ret = cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
+         |                         ^~~~~~~~~~~~~~
+   arch/csky/include/asm/cmpxchg.h:165:10: note: in expansion of macro '__cmpxchg'
+     165 |         (__cmpxchg((ptr), (o), (n), sizeof(*(ptr))))
+         |          ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expansion of macro 'raw_cmpxchg'
+    2026 |         return raw_cmpxchg(&v->counter, old, new);
+         |                ^~~~~~~~~~~
+>> arch/csky/include/asm/cmpxchg.h:141:25: error: implicit declaration of function 'cmpxchg_emu_u16' [-Werror=implicit-function-declaration]
+     141 |                 __ret = cmpxchg_emu_u16((volatile u16 *)__ptr, __old, __new); \
+         |                         ^~~~~~~~~~~~~~~
+   arch/csky/include/asm/cmpxchg.h:165:10: note: in expansion of macro '__cmpxchg'
+     165 |         (__cmpxchg((ptr), (o), (n), sizeof(*(ptr))))
+         |          ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expansion of macro 'raw_cmpxchg'
+    2026 |         return raw_cmpxchg(&v->counter, old, new);
+         |                ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
+   make[3]: *** [scripts/Makefile.build:117: kernel/bounds.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1197: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/pr_fmt +11 arch/riscv/kvm/vcpu_pmu.c
+vim +/cmpxchg_emu_u8 +138 arch/csky/include/asm/cmpxchg.h
 
-8f0153ecd3bf18 Atish Patra 2023-02-07 @11  #define pr_fmt(fmt)	"riscv-kvm-pmu: " fmt
-8f0153ecd3bf18 Atish Patra 2023-02-07  12  #include <linux/errno.h>
-8f0153ecd3bf18 Atish Patra 2023-02-07  13  #include <linux/err.h>
-8f0153ecd3bf18 Atish Patra 2023-02-07  14  #include <linux/kvm_host.h>
-8f0153ecd3bf18 Atish Patra 2023-02-07  15  #include <linux/perf/riscv_pmu.h>
-8f0153ecd3bf18 Atish Patra 2023-02-07  16  #include <asm/csr.h>
-8f0153ecd3bf18 Atish Patra 2023-02-07  17  #include <asm/kvm_vcpu_sbi.h>
-8f0153ecd3bf18 Atish Patra 2023-02-07  18  #include <asm/kvm_vcpu_pmu.h>
-0cb74b65d2e5e6 Atish Patra 2023-02-07  19  #include <linux/bitops.h>
-8f0153ecd3bf18 Atish Patra 2023-02-07  20  
-
-:::::: The code at line 11 was first introduced by commit
-:::::: 8f0153ecd3bf184bc06afca25b737c707fa4d765 RISC-V: KVM: Add skeleton support for perf
-
-:::::: TO: Atish Patra <atishp@rivosinc.com>
-:::::: CC: Anup Patel <anup@brainfault.org>
+   125	
+   126	#define arch_cmpxchg_acquire(ptr, o, n) \
+   127		(__cmpxchg_acquire((ptr), (o), (n), sizeof(*(ptr))))
+   128	
+   129	#define __cmpxchg(ptr, old, new, size)				\
+   130	({								\
+   131		__typeof__(ptr) __ptr = (ptr);				\
+   132		__typeof__(new) __new = (new);				\
+   133		__typeof__(new) __tmp;					\
+   134		__typeof__(old) __old = (old);				\
+   135		__typeof__(*(ptr)) __ret;				\
+   136		switch (size) {						\
+   137		case 1:							\
+ > 138			__ret = cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
+   139			break;						\
+   140		case 2:							\
+ > 141			__ret = cmpxchg_emu_u16((volatile u16 *)__ptr, __old, __new); \
+   142			break;						\
+   143		case 4:							\
+   144			asm volatile (					\
+   145			RELEASE_FENCE					\
+   146			"1:	ldex.w		%0, (%3) \n"		\
+   147			"	cmpne		%0, %4   \n"		\
+   148			"	bt		2f       \n"		\
+   149			"	mov		%1, %2   \n"		\
+   150			"	stex.w		%1, (%3) \n"		\
+   151			"	bez		%1, 1b   \n"		\
+   152			FULL_FENCE					\
+   153			"2:				 \n"		\
+   154				: "=&r" (__ret), "=&r" (__tmp)		\
+   155				: "r" (__new), "r"(__ptr), "r"(__old)	\
+   156				:);					\
+   157			break;						\
+   158		default:						\
+   159			BUILD_BUG();					\
+   160		}							\
+   161		__ret;							\
+   162	})
+   163	
 
 -- 
 0-DAY CI Kernel Test Service
