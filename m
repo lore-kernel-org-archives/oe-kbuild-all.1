@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2184A374F6
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 07:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045173AC2B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 07:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712041703; cv=none; b=oY+NGGsOGj82hmwprj4AQqIuxczT1X/hYAb2tZn3K2Va6mz1k5dtQ3zWUX2SA9U3pOYzT9tqtCaRQnZvHvPbLpmm7BcWBHxIQAZWcaaNUzprqVOjWHJI65JX7M+Bij0U+x4022RoX5lcrLtPgJ8CH5oDDiYXitOjQOXsOg3Tyus=
+	t=1712042361; cv=none; b=We3ZkylJ481AetG7TkIpBtVity1IAp1OIJCgUhyUHsIVkOsmaIncMfRpADhRzEjejqVXR0EvyCThVVlkf0DMNJI+WaGjxLLdUdbFU/O0rZ1ldWD/hIYvwJjO+uIpDKVa2wBWWgK5oh0Tm6N3kG97nBrGmPDdkGX/2iv60JALGVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712041703; c=relaxed/simple;
-	bh=zd3EQ3sNcbGIsVnKPnHAKk9L+OIqs32+MFXH0Y65lBo=;
+	s=arc-20240116; t=1712042361; c=relaxed/simple;
+	bh=WcwUrTBiWLrZoE359VY2teXK+aHKPYdOvQm+tybsn+s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GDfWZD9An7puU0dxTNIkbTrpQAzerzk2wHP+O1OdHk4hZw/vwgR46YQKv78tRuO8lhLf6mpXQx4c/Oz4bgfWSMOAlUSyp5z9YTKiTR6nIHVFfn80XLd/1Ga2assmh/s3OAP51OLT3p7HU8JpqPEJi/hBoOV0//oRt/T8EoawoiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a0wJvasI; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=kSJ5ZhJ8AWrCjZPTWtC0L1nwmxBJw6jkVpsH1vc+erab0exGKnGGBK7FKz1L+cloCP+xeraliYx4P23kxqNdT/dO45o1UiNMGH1pfAnhnY411KcDBus0htuvrpSfBD2etPtl1SY8DgrxXZWQiXFrgmh2sW032gslqSHYrWz2TRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H0rOF9uR; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a0wJvasI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H0rOF9uR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712041702; x=1743577702;
+  t=1712042360; x=1743578360;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zd3EQ3sNcbGIsVnKPnHAKk9L+OIqs32+MFXH0Y65lBo=;
-  b=a0wJvasIABS6MOXdf5czt4LQaINtSpSSR1d7vc4sNg/B8PQP0IsAAj6W
-   rXME80vrwIoSDTBZVaNKR0kOREwG2w8OP5Gkhqp7+bvpVlAdV0Ig3TwvF
-   AvkPADyhwhCAPpd+ZCUK9Hgxi4igbX+CseFLB1c9VGDMJnd9/8TRrQpY+
-   nCQPfmO83cvnfJ6GSA1mzni7onwfqh8h6bVuSi1pmu/Gc4ogwvl5Zg2e0
-   SnfV4QhEwPSR8170QVVAVIjPXGrIPb+AoL0rpy8wXFb+tRUVH83CIkhkn
-   dzQ3BUzSxSzvUAZ4agRhqKQ3/LNLU/8o1uS6cLasz3myJxt8oZsyFTH5P
-   w==;
-X-CSE-ConnectionGUID: ctB69sz4TdaMD7239VNMYg==
-X-CSE-MsgGUID: ZJvEjzTdRt2TcoVySKpnIw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="18643791"
+  bh=WcwUrTBiWLrZoE359VY2teXK+aHKPYdOvQm+tybsn+s=;
+  b=H0rOF9uRlAuhM/IlQhLPhHTj2GGsYromD9BUOYZ8AfUQ+JltBF3/Bi1J
+   k1ikixTaBEyoSU37MVG6p24um/NPxZf72kuDYtJgWLsbXcK5yRA0gWPiI
+   UXWB3ACGIRxl6gdav9/GQo5Eta/hxQ/HHArSjKnSxZpO9SPDiAZBcI0Po
+   3qbb2Fe6Y1yeC5Q+T7CGQn1/0V5Fybmzk6Dm1L3POs/LWkvpya3bOLOnI
+   sc4pozSWj+eY8PEu2Tj5FNKgVssKuRDlFHDcaH0/R5QnhqBHFsGkN6erB
+   sDxuHUL87SIy3Ekj86TAlnLkZN9h9DyfqTAONQHLxLHLVJAjK/jx3+vaZ
+   g==;
+X-CSE-ConnectionGUID: XUe5Lu/zSoaGOTFN9nK9OA==
+X-CSE-MsgGUID: WVeRbZEETaS12lWwHJmCJQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="10158143"
 X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; 
-   d="scan'208";a="18643791"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 00:08:19 -0700
+   d="scan'208";a="10158143"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 00:19:19 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; 
-   d="scan'208";a="18021167"
+   d="scan'208";a="18431936"
 Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Apr 2024 00:08:16 -0700
+  by orviesa006.jf.intel.com with ESMTP; 02 Apr 2024 00:19:17 -0700
 Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rrYFi-0000zT-2B;
-	Tue, 02 Apr 2024 07:08:14 +0000
-Date: Tue, 2 Apr 2024 15:08:08 +0800
+	id 1rrYQM-0000zp-31;
+	Tue, 02 Apr 2024 07:19:14 +0000
+Date: Tue, 2 Apr 2024 15:18:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: Paulo Alcantara <pc@manguebit.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
@@ -52,7 +52,7 @@ Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
 	Steve French <stfrench@microsoft.com>
 Subject: [cifs:for-next 3/6] fs/smb/client/connect.c:3647:37: error: invalid
  type argument of '->' (have 'struct cifs_mount_ctx')
-Message-ID: <202404021510.UA1q5xJ1-lkp@intel.com>
+Message-ID: <202404021527.ZlRkIxgv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,14 +65,14 @@ Content-Disposition: inline
 tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next
 head:   0bc54e6a9c31ede9508fb81edbd11983494047ee
 commit: 311deca30437896573ce0bf5c302095533041abb [3/6] smb: client: guarantee refcounted children from parent session
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240402/202404021510.UA1q5xJ1-lkp@intel.com/config)
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240402/202404021527.ZlRkIxgv-lkp@intel.com/config)
 compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240402/202404021510.UA1q5xJ1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240402/202404021527.ZlRkIxgv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404021510.UA1q5xJ1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404021527.ZlRkIxgv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
