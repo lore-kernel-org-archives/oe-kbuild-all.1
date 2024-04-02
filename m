@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120E158AAC
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 23:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91148626A0
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 23:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712101666; cv=none; b=fQnzpHAGjJ7MXQzfEUNFhS5Y+mhBxbGdx/8OxcB2Hpnypj/jhkCOEsbw44BbWDcnf3RW1+ulQuqmf6/p4eARJW/18Ex7EMhv5O4ef9Cd5/2dqVHu58NBwYv7yofxI4wNjQejXohok6wY63KRAXnEzTiNcuydbE1zkCXYNvrVOnI=
+	t=1712102329; cv=none; b=ZeX5e2AflCteWwqAg4JgIuDAeIXzBHXj9oR/ZSuGRpeMPTVW7GblO6+iYq5mDpqSlE84SkU+biN8RGqp81mgbltoSoZ3+W9vgpkQblMeHkiIpMGCrFxEOtigWm5EbGh7y6SFIgmTcP1NA/HJioidKA73X0I+YxFz7MncWiHB9Os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712101666; c=relaxed/simple;
-	bh=VMfo/fzLeI1eWqzdxPAYPYV6rHmS1gKdPx3YkVNPDNc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Je0NFs8gMR9BfmBk4g3a79AZk/9/d2H4Cc6hDLxDVk+3QfDbu9rcCX3JK8BbHrsPSs7DsAmfFW8EXcolBjgKhX8/bXNMzuMahYTOu9xy4965g7+H9BfWzzDpvT7yVlKFZZ1MJvVe8ISovzl6Kupa9Fe4lLBTad4qglhtclDdjm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LE8V1JUh; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1712102329; c=relaxed/simple;
+	bh=AiuyQ6KpY5OwIl/kOANr37LCmsygVJ4gTNLbVO+SnCQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C8Mz8SgTa0E2UkJ0eDOJedvCeO3bqSbLSx+D0tNd5azrNYnjkbm9Ft3qw7hIyjJ3QM8lFYbBuByRIeqg3QA89rtYlU8Ww+3IAR7sshEcj4L0aAPdpE3lSj0E84tbTvzkZ3MRyeuje2D7cmgrZ7h/1WurN7/QjJD0Uo2dWx1iLlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PEJJa9vz; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LE8V1JUh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PEJJa9vz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712101664; x=1743637664;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VMfo/fzLeI1eWqzdxPAYPYV6rHmS1gKdPx3YkVNPDNc=;
-  b=LE8V1JUhl9dIlaisLKfn0yJZ+RpfWpZ/bQE/0C13Ir0wXHbNmVPHaQrI
-   YbmUwBOf0MDKlWsd/drFepwKQKa2KI043Q2FAdPP1k0nCc1UnJ1EIFwFT
-   S+frHwkiLBawnBJbLBAU9yrzJJN2vI59WwyXJFq8jhN2D9UfHF29n1XEj
-   YpS0xOM6yo61CRDFJ76SgiB9SSBBfL1j6qamuJd73YXyTOpnn6nnLYyqe
-   EpsdeK+nzb9WXnOgSQ7yTV3BHxRgdRMdhlL8gXPUF0BYpMGc2dIfkkui/
-   n74JSo7iWyoK0I3HePexyJrOpZmcdgsICDM7M8ZykqOTf+T5HPSTGVIUw
-   Q==;
-X-CSE-ConnectionGUID: tVbc1liWRg2Gg6W9T/3+FQ==
-X-CSE-MsgGUID: XeBtJkhCRe+nzGjFT/feSA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7888101"
+  t=1712102328; x=1743638328;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AiuyQ6KpY5OwIl/kOANr37LCmsygVJ4gTNLbVO+SnCQ=;
+  b=PEJJa9vzTwI9OfBN9sBgPm5CO2qLoFDVxA205xXP5nV2OHWFQ302z9rt
+   T/e3YgKZrKMLTdv5RMho50d8BmYZ+tL63pedt0i9wzxTw6APi6rOmlO7R
+   ylYG0+o6E3GUaNqK+Ym2Z/KdCSxar8kS+QFO+uxlHhK+K+IPqC/e6H2bs
+   5DLBtNWCHcs1JipEF34W1+7uG2YCGPJuBvBsoY1ZGoM7Um78tK6ZL8Zf1
+   9K21RcWn/cmYkBcBiP72A6YHYjY9OkP0Cb08YT/kyQnwv7Hnnn+8FeJyp
+   ZXm+tuDznX+TMUCjtWtuf95P9nYu5/+pLsDbVYXtjnWH/OPaham9C+2Dt
+   A==;
+X-CSE-ConnectionGUID: 9DlPiAuuTW2z0VKx/xi9Zg==
+X-CSE-MsgGUID: jDdZTAYxRMyd2b44KzMa5g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="24800368"
 X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
-   d="scan'208";a="7888101"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 16:47:43 -0700
-X-CSE-ConnectionGUID: 49pjr48SRhOccvPn7NqKug==
-X-CSE-MsgGUID: Gh8VzD1qRWK+At3xrp8qog==
+   d="scan'208";a="24800368"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 16:58:46 -0700
+X-CSE-ConnectionGUID: /0rSqutbSYGezZVceapNnQ==
+X-CSE-MsgGUID: lJpG4qfoR8CBvsXJYGdm2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
-   d="scan'208";a="41383624"
+   d="scan'208";a="18058838"
 Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Apr 2024 16:47:42 -0700
+  by orviesa010.jf.intel.com with ESMTP; 02 Apr 2024 16:58:43 -0700
 Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rrnqu-0001dX-0w;
-	Tue, 02 Apr 2024 23:47:40 +0000
-Date: Wed, 3 Apr 2024 07:47:37 +0800
+	id 1rro1Y-0001dt-1Y;
+	Tue, 02 Apr 2024 23:58:40 +0000
+Date: Wed, 3 Apr 2024 07:58:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:rust/cpufreq-dt 14/23] error[E0425]: cannot find function
- `of_match_device` in crate `bindings`
-Message-ID: <202404030736.XImb5kdb-lkp@intel.com>
+To: Dawei Li <dawei.li@shingroup.cn>, will@kernel.org, mark.rutland@arm.com
+Cc: oe-kbuild-all@lists.linux.dev, xueshuai@linux.alibaba.com,
+	renyu.zj@linux.alibaba.com, yangyicong@hisilicon.com,
+	jonathan.cameron@huawei.com, andersson@kernel.org,
+	konrad.dybcio@linaro.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Dawei Li <dawei.li@shingroup.cn>
+Subject: Re: [PATCH 4/9] perf/arm_dsu: Avoid explicit cpumask var allocation
+ from stack
+Message-ID: <202404030702.vL5Ep98R-lkp@intel.com>
+References: <20240402105610.1695644-5-dawei.li@shingroup.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,26 +68,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240402105610.1695644-5-dawei.li@shingroup.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git rust/cpufreq-dt
-head:   f19b63063d7ed4b6714e9c0eff7c609a536035e6
-commit: cb80b6a69be141ebac4b9f0708de4f713c7ccd0f [14/23] rust: Import platform device's implementation from rust branch
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240403/202404030736.XImb5kdb-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240403/202404030736.XImb5kdb-lkp@intel.com/reproduce)
+Hi Dawei,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on soc/for-next]
+[also build test ERROR on linus/master v6.9-rc2 next-20240402]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dawei-Li/perf-alibaba_uncore_drw-Avoid-explicit-cpumask-var-allocation-from-stack/20240402-192244
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20240402105610.1695644-5-dawei.li%40shingroup.cn
+patch subject: [PATCH 4/9] perf/arm_dsu: Avoid explicit cpumask var allocation from stack
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240403/202404030702.vL5Ep98R-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240403/202404030702.vL5Ep98R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404030736.XImb5kdb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404030702.vL5Ep98R-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0425]: cannot find function `of_match_device` in crate `bindings`
-   --> rust/kernel/platform.rs:69:37
-   |
-   69 |         let id = unsafe { bindings::of_match_device(table.as_ref(), dev.raw_device()) };
-   |                                     ^^^^^^^^^^^^^^^ not found in `bindings`
+   drivers/perf/arm_dsu_pmu.c: In function 'dsu_pmu_get_online_cpu_any_but':
+>> drivers/perf/arm_dsu_pmu.c:243:31: error: passing argument 1 of 'cpumask_any_but' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     243 |         ret = cpumask_any_but(&online_supported, cpu);
+         |                               ^~~~~~~~~~~~~~~~~
+         |                               |
+         |                               struct cpumask (*)[1]
+   In file included from arch/arm64/include/asm/cpufeature.h:26,
+                    from arch/arm64/include/asm/ptrace.h:11,
+                    from arch/arm64/include/asm/irqflags.h:10,
+                    from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13,
+                    from drivers/perf/arm_dsu_pmu.c:14:
+   include/linux/cpumask.h:379:52: note: expected 'const struct cpumask *' but argument is of type 'struct cpumask (*)[1]'
+     379 | unsigned int cpumask_any_but(const struct cpumask *mask, unsigned int cpu)
+         |                              ~~~~~~~~~~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/cpumask_any_but +243 drivers/perf/arm_dsu_pmu.c
+
+   232	
+   233	static unsigned int dsu_pmu_get_online_cpu_any_but(struct dsu_pmu *dsu_pmu, int cpu)
+   234	{
+   235		cpumask_var_t online_supported;
+   236		unsigned int ret;
+   237	
+   238		if (!alloc_cpumask_var(&online_supported, GFP_KERNEL))
+   239			return -ENOMEM;
+   240	
+   241		cpumask_and(online_supported,
+   242			    &dsu_pmu->associated_cpus, cpu_online_mask);
+ > 243		ret = cpumask_any_but(&online_supported, cpu);
+   244	
+   245		free_cpumask_var(online_supported);
+   246	
+   247		return ret;
+   248	}
+   249	
 
 -- 
 0-DAY CI Kernel Test Service
