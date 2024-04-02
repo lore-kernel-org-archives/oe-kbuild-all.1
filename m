@@ -1,56 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693115731E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 09:19:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226F75822A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 09:40:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712049543; cv=none; b=Wh2V60e0EIh0WoA/4Dk1JGZX4e5OYPxb31NqlyCPKabCxNQxN0H6CPkenWNsD6QUa5qVG3zOTBy7vl76zqIQ6+2u8Symz/1zEXl15YqnlotakrP/S+7+cnuO2b9yeMisPh+ZnrnaJbucf6S+Ml5taW+/z+Ai4UFO6Z5NyGR4gLo=
+	t=1712050804; cv=none; b=PHSJTsn0E3zvDPsZatt27m1oey8CP5yqV3ROToAE4jaXQIKhaNbH+cdHI4tmk8lhuPQcRzoSfpsw6UNUg6iBNuxC2TlnAvfjWAH3+N4PbLDF1UZ9K1R5MIRkGLDvF8abU2gnzAzIY21vxnjNqw8Ix2mZVjDv9c8QpO448JzeWwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712049543; c=relaxed/simple;
-	bh=ioHvAwjLF/KP+S7xsYCBQC8cXmlxpYuGFRch9UVnjmg=;
+	s=arc-20240116; t=1712050804; c=relaxed/simple;
+	bh=dGYAqLCmPvCjOqvuW4Bkn3Fq1mzzLguzhZ/RHHcnMRc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GmaKm+FsvVIpniT8k1N0e8Rht2GhHX9j04XmlBavVJ84RlyK1ouvVBo2FiMfKjo18P1fh70TkIW+VXmt+Ws7aTdV8tLnLAW5+h837Xuqdsdfh9ju/929dkRuiFLmj16zo9heSK3jk8+/Npf8wg19AVZ1IK9DiBUxVb1nhGfZCks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b+EiYl5I; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=P3hlq5nIfY5ZSZLpQkDLtCc6xBVeN+Cs997SQjjIOvAG6nPPuoStIMSCg/Oi2y0PmEN35LRJdC0/49kh57yXaDOOBGcL3SV4SyfHbx98OjoMY716J8K9nTp7JTKcn7ajRFYK0E4UOWQLpYQuHMe2cDaNpLPwJpI6pkc3bVaUi8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=du2bRy5+; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b+EiYl5I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="du2bRy5+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712049541; x=1743585541;
+  t=1712050803; x=1743586803;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ioHvAwjLF/KP+S7xsYCBQC8cXmlxpYuGFRch9UVnjmg=;
-  b=b+EiYl5IBjfZa6K/m7ShDtEdWg7EKKrrnHcTguGCUBdPyeNjtCMCqfGL
-   iyUvEL0rESMyf7O+fWh/tY6LQ0K4Xs7t7Ti3ctdluAP819r6MTJsvQNZn
-   WiFN5GI9ZAg3fKTlaQjJUm+ACovBgNZdh3RWOwacmJv7Yny6DR/ocDM7y
-   CrxD9zJ8OikEH+DlMtfZpurXQwtK5SnNh6gUtaTBsjnnRHlfDcfje+lxH
-   +b2QDFrzECJZcN5wiQx801JxRUhibcpWBZWDWkBX6WvqH3TAHIEvyhO68
-   2k0C+CoWNaoenaLNqDkMydmuQuhi+xVfFwuqP6stAH/tKtXMGFVEy4MLT
-   Q==;
-X-CSE-ConnectionGUID: A72Wbd0WS06cIcSJxPhHZg==
-X-CSE-MsgGUID: xxWvM9V5T9aeuwL8j8gAlA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="11026588"
+  bh=dGYAqLCmPvCjOqvuW4Bkn3Fq1mzzLguzhZ/RHHcnMRc=;
+  b=du2bRy5+lK1ikGS47T0eHXna+PHFcAAG1LvcAXHBwRwm1gwou+Xb7SQp
+   CaPLmSS9QJduFlsoNVHb3wJD9YMUWIJ1Vrncv895PiIOtQrAFR4TMQB95
+   PUxVRWgGd8qdoYJbLqmfnRn5oKEj4+ad7cNvRAtqFSaNCm0oIIsbKvkBV
+   oDZBt26f7V9Ye3pnP7+y0pcZJbTSiuXc0k/IKzoOHDKLriFsTbQreU7qi
+   nHwDmjgFwtK8cunxhMOMncDrLNYH9JD7d8yxd68HDYClQrFml6RGMzSXs
+   ghzst84PhovVnLsuedwAow7aSp1LsPYflpxLtAox0H2aWsQU4+UVqI3ZD
+   w==;
+X-CSE-ConnectionGUID: A53auI9URfe5VhKPoaaF5A==
+X-CSE-MsgGUID: nmK0iPwDTJuM6+QK/xMCpg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="7079333"
 X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; 
-   d="scan'208";a="11026588"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 02:19:01 -0700
+   d="scan'208";a="7079333"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 02:40:02 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; 
-   d="scan'208";a="18057359"
+   d="scan'208";a="18083963"
 Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Apr 2024 02:18:59 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 02 Apr 2024 02:40:00 -0700
 Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rraID-00015B-2F;
-	Tue, 02 Apr 2024 09:18:57 +0000
-Date: Tue, 2 Apr 2024 17:18:48 +0800
+	id 1rracX-00015d-2x;
+	Tue, 02 Apr 2024 09:39:57 +0000
+Date: Tue, 2 Apr 2024 17:39:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 1/2] llvm-objcopy: error: Link field
- value 0 in section .symtab_shndx is invalid
-Message-ID: <202404021724.VI8elRzi-lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jani Nikula <jani.nikula@intel.com>
+Subject: [linux-next:master 2055/3220] ERROR: modpost:
+ "__drm_atomic_helper_private_obj_duplicate_state"
+ [drivers/gpu/drm/display/drm_display_helper.ko] undefined!
+Message-ID: <202404021700.LbyYZGFd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,21 +63,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   f085398f0e8f47d8744f0c974f9a50d9850e85bb
-commit: 353c3de3f112132e10d8649a97f0a03fad28c745 [1/2] ANDROID: thermal: Add vendor thermal_pm_notify_suspend function
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240402/202404021724.VI8elRzi-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240402/202404021724.VI8elRzi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c0b832517f627ead3388c6f0c74e8ac10ad5774b
+commit: d674858ff979550a0e97b4ac766f2640f0d9d7e7 [2055/3220] drm/display: Make all helpers visible and switch to depends on
+config: powerpc-stx_gp3_defconfig (https://download.01.org/0day-ci/archive/20240402/202404021700.LbyYZGFd-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240402/202404021700.LbyYZGFd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404021724.VI8elRzi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404021700.LbyYZGFd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> llvm-objcopy: error: Link field value 0 in section .symtab_shndx is invalid
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/isofs/isofs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+>> ERROR: modpost: "__drm_atomic_helper_private_obj_duplicate_state" [drivers/gpu/drm/display/drm_display_helper.ko] undefined!
+>> ERROR: modpost: "drm_kms_helper_hotplug_event" [drivers/gpu/drm/display/drm_display_helper.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
