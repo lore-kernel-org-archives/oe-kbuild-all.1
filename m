@@ -1,136 +1,120 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678406D1B2
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Apr 2024 10:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B5B73506;
+	Wed,  3 Apr 2024 11:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712141305; cv=none; b=S0CX1Jt0devkSOvMXDO3KQtZ8+HNfLalxNQNe1GGUcED/p+dmupWbMNsdBlaBtMpQ76lFYSecviPLYoaKxX/6j5YYhYfolX2/Lyp7ZieUKsuIN/x/NKMb/hWvgeL3xiJgGIzLeMwebvr1Z25QsC3B5HPUz09cinnivKBexMdGb4=
+	t=1712143926; cv=none; b=YzzHPEWaYhibrHsbPPtkQ90Gt5i7sJUfwRfecfeb/58RglCohX0i4nAJLlY9lJLZCfSSkt4hGt8AHsQgCytSIFo1IsKioYsxlelNZl158gk9Xy1XgIY5M5KVFYxeB1Fp2RRQbO6wPEskK7VJ4vujkcJZ4Q+wqqOyp6HsUVYq1xM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712141305; c=relaxed/simple;
-	bh=rVzwMOHevUYb9zbiefBLzJmJL2BLCod0EsmhP95pgUo=;
+	s=arc-20240116; t=1712143926; c=relaxed/simple;
+	bh=0zmDNVi3EuzUQ3djA1KlSACWfrrnxTwaUcaEUj/bsfw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cixcwF4MVO7SmPT0DP7b9qksdaBeRYJpEm0lhhz3zwzwxlVy2NFRV5gNtlvEbV+G33ob4v1FN/T7R9zrHIZaRsy670OqEszPhcQIpovCveWkqTVTI2hYSSnIJADVJgSnEsYOojVgPWQsfenIPNI7EyhdXlWLE1zSQUBM03e2zsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RaNjkwfk; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=sMeE/bIzxZ7fdHXZsHM5OjIxeqdjbFupSvnUZh5HCeNU09mEwXHwNW3SWpteW2vYdUynpJwafvYymFPfGPGiRFv6tgLVZ0Ed1uB5pUSwoFIfOQvUc10YFJL9aqQokjLH2jsT82jIyfbyQPLD1vw2R+FXraI6mYBXa6J/ls8OLrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C7bMAiuP; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RaNjkwfk"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-56c583f5381so1301737a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Apr 2024 03:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712141302; x=1712746102; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=A8/xWx4c0CtG/2UB+dKr8NhYYOILRHFBONTBopP5RV8=;
-        b=RaNjkwfkfLblnKb+5I+juEmYZLQK6XFEYG9Ke0BTs5ouPiZTy5EGI5q5SM2cprl32P
-         GqD99bvYaTWsxlGy4Mk8+5EzSsqeTNZlgWdhd3mIhMECnxlp9WLXZGegQiZj4m/D8QJv
-         eNfQIF2GZqdopD8xJUXTWiQyJ/QAF0Jv6fJ5uOALfZf+5mdwO13mrPWQLclad3AKhPA4
-         39Wr4m9vnAnvVFQ+jDO+jCrBMVTjOUnH77kL7op8nf0WER0kJ2TFMlPGr2d14bovvOxm
-         /WLtNa6j8LPU5jpE+Hz3PKYSSC7NjDgdcNPDIjmCaBZ1pUDKFbnVNgRc7EdBfzhEve8p
-         lOxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712141302; x=1712746102;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A8/xWx4c0CtG/2UB+dKr8NhYYOILRHFBONTBopP5RV8=;
-        b=NUeLePlm0EJo5bN9z0i00fYEe5HBBuVUVfSxX6RSzF2FMC51pN8loA+zcEfvKkQJ6B
-         sJrbKS0dIAH09nX2cC0BhdfVBUoOfv1iGW4yYsb2BFVfO4jSeVpViVoLT34HRSO/ynwi
-         pJ7AvUsOy9dkZB5jhUi5Z0T+Qb0LJrHhw6X/fWAWtvGsUJ6BPSb0unulGd/ttwwvHtuH
-         ITZ3RPicQ1onwPJ+EbzztsaUjO6UgCqr4GL5R/+rTiozZdw3DrPS6lYPfaCSE+5i+bsK
-         3L31PwL6eWQBTZiVtrO0w7uVBbFH1MK7SS9FJEqS1XGztQdwXoNsmmS8BQpQHAcAEZlN
-         7LhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXycaS15L/uCJ7fc2XwYcIvkEq+vbUyZtPnG0jhbuEEidQqshy3vdfh2rJW3Rm3L+ouzXYqLOgLLdfFDR0eChuTaYpBgKag0W64AhSkYQ==
-X-Gm-Message-State: AOJu0Yw9L3Lwa5Fp4WtZ7vsg5Nm88b3EC8KhFKvV5IL4ehtmPa7d5zex
-	DhSRA4Ip4VugtDxwxElqTdOasG1b9COp4mWFvIVKaKEsSWhE7dx33Suwfu6+kek=
-X-Google-Smtp-Source: AGHT+IHKaN7THG2ZzuGsKUj3Zs9uIRke3IgBj1z99ytwAGtKtugNNeCJOInuJb8dQw4krnmG78Tznw==
-X-Received: by 2002:a50:ba88:0:b0:56d:faa3:7dac with SMTP id x8-20020a50ba88000000b0056dfaa37dacmr1877653ede.9.1712141301653;
-        Wed, 03 Apr 2024 03:48:21 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id v3-20020aa7d643000000b0056e0376286bsm835183edr.24.2024.04.03.03.48.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 03:48:21 -0700 (PDT)
-Date: Wed, 3 Apr 2024 13:48:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 1131/2532] drivers/pwm/core.c:1282
- pwm_cdev_ioctl() warn: potential spectre issue 'cdata->pwm' [r]
-Message-ID: <d7dcc0bf-ace4-476f-9ef9-4f9f7955001c@moroto.mountain>
-References: <1e3dc81d-dcd4-4b04-85b1-23937e2f0acd@moroto.mountain>
- <jobtlrm6v7r2gssuko6hn3mo4wsjcifaytsltfj3nvwhrh66lr@wmihv53dv75s>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C7bMAiuP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712143925; x=1743679925;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0zmDNVi3EuzUQ3djA1KlSACWfrrnxTwaUcaEUj/bsfw=;
+  b=C7bMAiuP0yxL2g8/jA/+KZNvcwX/q1Xrqs6nN5vhJFQgkl6yYCU5a2Ug
+   YIz/SzgqK6GaHZ2iR6pkDVVnyjtbiwle4wW6o8/eOWNA6r9nHByrPGv9C
+   d3unexm4/LdYwk3QTBd9qWlOCPdJGgFnxP+TYHQLjaRY/7EuGgApw8aqG
+   G+OYdYP4ClkE3PVpPvo+JCVWpAeOMjvt7Tn+XnCn1MulipVVi1tkeN50r
+   xhDvEhkJEsZb1j87qInKrzn4SlzVKz0rwcJFM5YanWNU+r0LXdu1IqMnd
+   DNuYRlIvbq9noiOxkDoZkkoN1NCIAbOQyES3wpaci8vZG//ZnmSB4TKXF
+   A==;
+X-CSE-ConnectionGUID: MB7O0MqaTVC/cm0xBXKVZg==
+X-CSE-MsgGUID: QLLGUs6bQTerfCE8YujC1w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="18815379"
+X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
+   d="scan'208";a="18815379"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 04:32:04 -0700
+X-CSE-ConnectionGUID: DBlNApzzTQOXWKaqT9NXZg==
+X-CSE-MsgGUID: +v/6/jYpT6mup6YOoQHTqA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
+   d="scan'208";a="18459257"
+Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 03 Apr 2024 04:32:01 -0700
+Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rryqV-00029j-1c;
+	Wed, 03 Apr 2024 11:31:59 +0000
+Date: Wed, 3 Apr 2024 19:31:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zack Rusin <zack.rusin@broadcom.com>, dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	ian.forbes@broadcom.com, martin.krastev@broadcom.com,
+	maaz.mombasawala@broadcom.com, Zack Rusin <zack.rusin@broadcom.com>
+Subject: Re: [PATCH 2/5] drm/vmwgfx: Implement virtual crc generation
+Message-ID: <202404031944.HMjSiHkr-lkp@intel.com>
+References: <20240402232813.2670131-3-zack.rusin@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <jobtlrm6v7r2gssuko6hn3mo4wsjcifaytsltfj3nvwhrh66lr@wmihv53dv75s>
+In-Reply-To: <20240402232813.2670131-3-zack.rusin@broadcom.com>
 
-On Wed, Apr 03, 2024 at 12:28:57PM +0200, Uwe Kleine-König wrote:
-> On Tue, Apr 02, 2024 at 05:26:31PM +0300, Dan Carpenter wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   a6bd6c9333397f5a0e2667d4d82fef8c970108f2
-> > commit: 0835e5c8704297e91b54071c3bbcd0c05c63bd3f [1131/2532] pwm: Add support for pwmchip devices for faster and easier userspace access
-> > config: m68k-randconfig-r071-20240326 (https://download.01.org/0day-ci/archive/20240401/202404010703.o1yYkXrA-lkp@intel.com/config)
-> > compiler: m68k-linux-gcc (GCC) 13.2.0
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202404010703.o1yYkXrA-lkp@intel.com/
-> > 
-> > New smatch warnings:
-> > drivers/pwm/core.c:1282 pwm_cdev_ioctl() warn: potential spectre issue 'cdata->pwm' [r]
-> > drivers/pwm/core.c:1284 pwm_cdev_ioctl() warn: possible spectre second half.  'pwm'
-> > drivers/pwm/core.c:1368 pwm_cdev_ioctl() warn: maybe return -EFAULT instead of the bytes remaining?
-> 
-> I fixed the issue in line 1368 in my pwm/for-next branch.
-> 
-> For the spectre issue my first guess is:
-> 
-> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-> index 2745941a008b..dd54acd336a6 100644
-> --- a/drivers/pwm/core.c
-> +++ b/drivers/pwm/core.c
-> @@ -17,6 +17,7 @@
->  #include <linux/slab.h>
->  #include <linux/device.h>
->  #include <linux/debugfs.h>
-> +#include <linux/nospec.h>
->  #include <linux/seq_file.h>
->  
->  #include <dt-bindings/pwm/pwm.h>
-> @@ -1191,6 +1192,12 @@ static int pwm_cdev_request(struct pwm_cdev_data *cdata, unsigned int hwpwm)
->  	if (hwpwm >= chip->npwm)
->  		return -EINVAL;
->  
-> +	/*
-> +	 * Mitigate speculation side-channels; without considering speculation
-> +	 * this is a noop.
-> +	 */
-> +	hwpwm = array_index_nospec(hwpwm, chip->npwm);
-> +
->  	if (!cdata->pwm[hwpwm]) {
->  		struct pwm_device *pwm = &chip->pwms[hwpwm];
->  		int ret;
-> 
-> But I'm unsure if this also addresses the issue for
-> 
-> 	pwm = cdata->pwm[cstate.hwpwm];
-> 
-> Maybe pwm_cdev_request() is better changed to return the struct
-> pwm_device *? Who is the expert, who can help here?
+Hi Zack,
 
-I believe that your patch does fix it.  I'm not sure who the experts are
-but probably they are on the x86@kernel.org mailing list.
+kernel test robot noticed the following build warnings:
 
-regards,
-dan carpenter
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.9-rc2 next-20240403]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Zack-Rusin/drm-vmwgfx-Implement-virtual-kms/20240403-073132
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240402232813.2670131-3-zack.rusin%40broadcom.com
+patch subject: [PATCH 2/5] drm/vmwgfx: Implement virtual crc generation
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240403/202404031944.HMjSiHkr-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240403/202404031944.HMjSiHkr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404031944.HMjSiHkr-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c:515: warning: expecting prototype for vmw_vkms_lock_max_delay(). Prototype was for vmw_vkms_lock_max_wait_ns() instead
+
+
+vim +515 drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
+
+   504	
+   505	/**
+   506	 * vmw_vkms_lock_max_delay - Return the max wait for the vkms lock
+   507	 * @du: The vmw_display_unit from which to grab the vblank timings
+   508	 *
+   509	 * Returns the maximum wait time used to acquire the vkms lock. By
+   510	 * default uses a time of a single frame and in case where vblank
+   511	 * was not initialized for the display unit 1/60th of a second.
+   512	 */
+   513	static inline u64
+   514	vmw_vkms_lock_max_wait_ns(struct vmw_display_unit *du)
+ > 515	{
+   516		s64 nsecs = ktime_to_ns(du->vkms.period_ns);
+   517	
+   518		return  (nsecs > 0) ? nsecs : 16666666;
+   519	}
+   520	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
