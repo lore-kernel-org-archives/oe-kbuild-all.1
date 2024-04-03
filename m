@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E22C149DE1;
-	Wed,  3 Apr 2024 15:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58E31E871
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Apr 2024 15:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712159268; cv=none; b=e9M6sbld4F96SoELBoKvfUfTBTasCxc6vJong9wkcMmfaYAwrQhV3NT+x6GGRSPPyOG/ktE86ttAsljs94ZLpnzL3GGLIDUKdLTGwz1vBad2SFJZdJzy2GlUfmC+5HNhZd4h0bmiHnSgfdD48299+fgo45Gxaxlj8UcR2JQJIdA=
+	t=1712159279; cv=none; b=cl+W4DY4fwZ7etg+3RXRXJClqK+v9dZ8BgiRAmwOgP4dIUJjpfEhjKc2aGholwSyMfwTEkN2v+9zW4bQK1VW7EXxju3Rr+5CjcV9fAouWey9/+zMQLBpOxYUOy6as30Yjk6RHmDU7kbfV8WSPQn343P2Tp2lrvp4rHMNi8fagPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712159268; c=relaxed/simple;
-	bh=Mv2jyRsU575Q8ym9L421cwd+/ipzo0OLYjbFZQij8Bo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QYz9F3zyNmyiAeRVFS6ESxLKVNNLMkYCYSv6zRZWff3PVyBGIeNIDWcZUQYNonS9GqvudR48+dAT97gfyAPjBOc1wjugH5kM5biXLBLHJEfA2KZUn5/TefBR9x9ce8QU6fKiFMsFyFEex5ydO4ZcoK/reuDIGuS8Vc9WJBZOp58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gGeseyGz; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1712159279; c=relaxed/simple;
+	bh=wzzfIE273kK/KSd802a4HQaAZTBLYE4XpaXSQtu0YcQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BOomeMP0keHlgo1rG9LCnF1zGva4jCylnAByYW4Cdi7/Yu/bfJ1uRWdFGY8p5D8BGvFK0q1y9Z4cqM9++QfiJXMT0hrR8RWNTBfHCUTMSYP8V3Wjde96zU+szcdeQjyNrI9HoCh98VYyeOGVcwcIYfk0B+CdS5TTBbeazfImsc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n6K7ITzN; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gGeseyGz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n6K7ITzN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712159266; x=1743695266;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Mv2jyRsU575Q8ym9L421cwd+/ipzo0OLYjbFZQij8Bo=;
-  b=gGeseyGz1UAMq8OwLeGmXjTEcHnwO8MDnAjGOsJCx2HK84+fdJZFTHlo
-   4Mqkr0xgDypjJ+7VIu1lsqRZF88VSpdcBP13q7DpyaN721b+avg0dUVcI
-   pRxIV5C3cyFPulPq17tAmgo6SUnwyOnBOWDzwDgAM23KOq+E5LUfx8OQS
-   BGybCQ+sz2RtCD7BXk5ujKozL5xN/XqiEqb++qK/Hl5rht5t5nRcl2y02
-   GtjD3J7su/dTAlxZ0Ewwub+qp3vQb0gVcQMWPkDW6QpOBCki/dSW4PJie
-   N96fqQjCYpyo0dCXmDhhaV+PcBo7bxvoX+aVYpOI47gjnDEdaeTcxLT6h
-   w==;
-X-CSE-ConnectionGUID: ihEDTp5mQ/q5PV/pvtQvuA==
-X-CSE-MsgGUID: f5S3ujloT6+fOILlFdf29A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="18762170"
+  t=1712159278; x=1743695278;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wzzfIE273kK/KSd802a4HQaAZTBLYE4XpaXSQtu0YcQ=;
+  b=n6K7ITzN8RO5uiLtp+wuyiJPpLB025uf7GiVbXygO2ahUCx9ZmUOHh3r
+   C/+8ulIjNazaXgpkMpA2qltaBlcHHHkS+a47R7YD2fZA0gGBOv+uDqY60
+   J55DHwLRFoDOgWDi5CW8dF6Mlfp2iLKagacGHaOcaMHbymMh5IHpNlksy
+   V0fSIQPM74QHQEHWHdyo0hWBXIL0jyBV7sl8mL5QiCoubVwnSSCm8ClHw
+   cK0++8gv5z3wwEDvFlcTjNa1iJu9xnTN05AcdJ3l39mf0GnMmL5oLGMpc
+   53RTwIigrWFC4CJlrUAiB/Bh1wWC9qID0x0eQR/WXN7MQqHVr6TRMycLa
+   A==;
+X-CSE-ConnectionGUID: lePfE9JGQh6cEUUT1ckzLA==
+X-CSE-MsgGUID: khQUw+zLT8yFIG090fqqOg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="18558385"
 X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="18762170"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 08:47:45 -0700
-X-CSE-ConnectionGUID: /rP7a0gjSH2yRDoIxWozIw==
-X-CSE-MsgGUID: Esbof0l8QMuvXcrCmXCs5g==
+   d="scan'208";a="18558385"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 08:47:58 -0700
+X-CSE-ConnectionGUID: xFH3pTNqRYKDyd2CjLd83Q==
+X-CSE-MsgGUID: fkgl5cVSTnqwRuFhVMznNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="55937201"
+   d="scan'208";a="18397626"
 Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 03 Apr 2024 08:47:42 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 03 Apr 2024 08:47:54 -0700
 Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rs2pM-0002M3-2b;
-	Wed, 03 Apr 2024 15:47:12 +0000
-Date: Wed, 3 Apr 2024 23:39:21 +0800
+	id 1rs2q7-0002Mc-2t;
+	Wed, 03 Apr 2024 15:47:51 +0000
+Date: Wed, 3 Apr 2024 23:40:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andi Kleen <ak@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject: [intel-tdx:guest-debug 4/4] arch/x86/coco/core.c:23:8: error: call
- to undeclared function 'get_option'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202404032332.b7k80Bz6-lkp@intel.com>
+To: Vinicius Costa Gomes <vinicius.gomes@intel.com>, brauner@kernel.org,
+	amir73il@gmail.com, hu1.chen@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, miklos@szeredi.hu,
+	malini.bhandaru@intel.com, tim.c.chen@intel.com,
+	mikko.ylinen@intel.com, lizhen.you@intel.com,
+	linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Vinicius Costa Gomes <vinicius.gomes@intel.com>
+Subject: Re: [PATCH v1 2/3] fs: Optimize credentials reference count for
+ backing file ops
+Message-ID: <202404032344.SKdrnkhI-lkp@intel.com>
+References: <20240403021808.309900-3-vinicius.gomes@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,38 +69,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240403021808.309900-3-vinicius.gomes@intel.com>
 
-tree:   https://github.com/intel/tdx.git guest-debug
-head:   90df00c4e488a8b5b6c837995706f3e101d75e9c
-commit: 90df00c4e488a8b5b6c837995706f3e101d75e9c [4/4] x86/tdx: Add option to override prot values
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240403/202404032332.b7k80Bz6-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240403/202404032332.b7k80Bz6-lkp@intel.com/reproduce)
+Hi Vinicius,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v6.9-rc2 next-20240403]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vinicius-Costa-Gomes/cred-Add-a-light-version-of-override-revert_creds/20240403-101954
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20240403021808.309900-3-vinicius.gomes%40intel.com
+patch subject: [PATCH v1 2/3] fs: Optimize credentials reference count for backing file ops
+config: i386-randconfig-061-20240403 (https://download.01.org/0day-ci/archive/20240403/202404032344.SKdrnkhI-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240403/202404032344.SKdrnkhI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404032332.b7k80Bz6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404032344.SKdrnkhI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/backing-file.c: note: in included file (through include/linux/sched/signal.h, include/linux/rcuwait.h, include/linux/percpu-rwsem.h, ...):
+>> include/linux/cred.h:182:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *old @@     got struct cred const [noderef] __rcu *cred @@
+   include/linux/cred.h:182:41: sparse:     expected struct cred const *old
+   include/linux/cred.h:182:41: sparse:     got struct cred const [noderef] __rcu *cred
+>> include/linux/cred.h:182:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *old @@     got struct cred const [noderef] __rcu *cred @@
+   include/linux/cred.h:182:41: sparse:     expected struct cred const *old
+   include/linux/cred.h:182:41: sparse:     got struct cred const [noderef] __rcu *cred
+>> include/linux/cred.h:182:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *old @@     got struct cred const [noderef] __rcu *cred @@
+   include/linux/cred.h:182:41: sparse:     expected struct cred const *old
+   include/linux/cred.h:182:41: sparse:     got struct cred const [noderef] __rcu *cred
+>> include/linux/cred.h:182:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *old @@     got struct cred const [noderef] __rcu *cred @@
+   include/linux/cred.h:182:41: sparse:     expected struct cred const *old
+   include/linux/cred.h:182:41: sparse:     got struct cred const [noderef] __rcu *cred
+>> include/linux/cred.h:182:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *old @@     got struct cred const [noderef] __rcu *cred @@
+   include/linux/cred.h:182:41: sparse:     expected struct cred const *old
+   include/linux/cred.h:182:41: sparse:     got struct cred const [noderef] __rcu *cred
 
->> arch/x86/coco/core.c:23:8: error: call to undeclared function 'get_option'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      23 |        get_option(&arg, &x86_cc_attr_override);
-         |        ^
-   1 error generated.
+vim +182 include/linux/cred.h
 
-
-vim +/get_option +23 arch/x86/coco/core.c
-
-    20	
-    21	static int __init x86_cc_attr_override_setup(char *arg)
-    22	{
-  > 23	       get_option(&arg, &x86_cc_attr_override);
-    24	
-    25	       return 1;
-    26	}
-    27	__setup("x86_cc_attr_override=", x86_cc_attr_override_setup);
-    28	
+58319057b78476 Andy Lutomirski      2015-09-04  174  
+dd60a254548056 Vinicius Costa Gomes 2024-04-02  175  /*
+dd60a254548056 Vinicius Costa Gomes 2024-04-02  176   * Override creds without bumping reference count. Caller must ensure
+dd60a254548056 Vinicius Costa Gomes 2024-04-02  177   * reference remains valid or has taken reference. Almost always not the
+dd60a254548056 Vinicius Costa Gomes 2024-04-02  178   * interface you want. Use override_creds()/revert_creds() instead.
+dd60a254548056 Vinicius Costa Gomes 2024-04-02  179   */
+dd60a254548056 Vinicius Costa Gomes 2024-04-02  180  static inline const struct cred *override_creds_light(const struct cred *override_cred)
+dd60a254548056 Vinicius Costa Gomes 2024-04-02  181  {
+dd60a254548056 Vinicius Costa Gomes 2024-04-02 @182  	const struct cred *old = current->cred;
+dd60a254548056 Vinicius Costa Gomes 2024-04-02  183  
+dd60a254548056 Vinicius Costa Gomes 2024-04-02  184  	rcu_assign_pointer(current->cred, override_cred);
+dd60a254548056 Vinicius Costa Gomes 2024-04-02  185  	return old;
+dd60a254548056 Vinicius Costa Gomes 2024-04-02  186  }
+dd60a254548056 Vinicius Costa Gomes 2024-04-02  187  
 
 -- 
 0-DAY CI Kernel Test Service
