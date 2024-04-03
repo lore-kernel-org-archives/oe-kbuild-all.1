@@ -1,121 +1,124 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD0714C596
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Apr 2024 16:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3676E60F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Apr 2024 17:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712162857; cv=none; b=Gg1kH7fctXYbiZMgLEkFidseWry0B/L74wlI2VSIvm9mQp+RbfWy+8ZZ4tlpAyp0hL8BaqbJVoRCb4HO/jew0eLEhKfmOIteoo5//Zb2pDd0rR8SvqKKcaRy0troFqHh2wvCLq7f1hqC6sBaatQjl7SucVPk7SeWZIGPtnYIBUs=
+	t=1712163969; cv=none; b=XaqVsWqcIsZu4IUggsSE40B2Cg2L/jKqqhPgIbPgW/fvGeM1okTph5z5z9KN5nFQin7Q+QcXfdKh1/IpovdnuTPBPssGEzTY7jWtve7dKTeseYA92M0wzbnJkr3rqfnfT3AqtVvmQ4g3S34T1p5AIbOZl9s1A9X2+lVYIZZjMOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712162857; c=relaxed/simple;
-	bh=U0zflQ/DUqAS1WmebiTHjCOmEJuKOBLxiWtpxcTaz0g=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type; b=BlzgtcTFt7f1k/W7tS2CPoAw0CaGcWY9a8Vez8QVCLjvTSH7MIZGigXqcg1BagwIcNlA/Am68GzWAXfZFiMVJwIPblgUgfgEFRW0H3s62cNa/wgOQ77jjXlwONR6Sy/SubVQrqWeHPRGh6SpFnuf6d+aCT3FxUxLV7EM8vO9W5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=eKGMAGxW; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1712163969; c=relaxed/simple;
+	bh=4CQL/TxHMePJD1ZTCsPXKKZJ8ilB9UkZf7mZW0VsfPY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=X+dVbsuPJjfGOyYZrQmdBa7O9CRwveYymcdCZYlrDKbjR3bezOGkGFVFj/PUFEtYh+ikvfO/BEwJxdJ6YtKX/wY5SiFQXSDcs4Hf4xeHCjzFeh5he6BsYVsQIUvkyBU/0Stk4lQ60KXkNkI0vlfj8AdnGmBsodkpPLSk/8/WfBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q8LMR3E2; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="eKGMAGxW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=MRo1/HtqY+UvUOsLgmIiFjYWrueG23TAMQ7iEdx5nZI=;
-  b=eKGMAGxWkras6xzraIN+dYrzgdr/0NKVixxGSy94OrjTmwQvIWc5l9Xm
-   +7756Xbanm3tz3jazgAgNYGKvvEvR/9SD0h0tvaQ5Ua1WWp20de4IkkfS
-   l9VJrV2bBVSahFzJdPrcZ1pKKi9t+qS8P/ZThikEtOw0Nrtaid6ROW96O
-   k=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.07,177,1708383600"; 
-   d="scan'208";a="83808516"
-Received: from 71-51-181-183.chvl.centurylink.net (HELO hadrien) ([71.51.181.183])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 18:47:25 +0200
-Date: Wed, 3 Apr 2024 12:47:23 -0400 (EDT)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Mike Snitzer <snitzer@kernel.org>, Matthew Sakai <msakai@redhat.com>, 
-    linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: drivers/md/dm-vdo/data-vio.c:969:2-8: preceding lock on line 966
- (fwd)
-Message-ID: <801d737e-f7c0-b853-d7e-63eb68c7fd7b@inria.fr>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q8LMR3E2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712163968; x=1743699968;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4CQL/TxHMePJD1ZTCsPXKKZJ8ilB9UkZf7mZW0VsfPY=;
+  b=Q8LMR3E24swEcVWck/BF8c0Wh1IaL6WS5Y6sJTbKsD7w8NO5zrX1V31c
+   G51stJd9KJkwBFJBWAieN3J616KamUl0bNNMqjJaJCwKxbr4Co5SPETBW
+   iqlW3RDXB78RDevBq3I4cw59BqiY8t0l+n6Gpnd4/CIIS34KrpiObogJn
+   oIEzgs0l9AVxstnteShOjhD686GikyttIGKwDnjwSsh88kai+WliPji39
+   z3PtMC87I1+5F3fkNXk8HZxCSmeQL5osv2TARmVK64PVaDrNOtE0Ew+rH
+   Q6d5xbwHXJNdBQwgdGwiOmx/klkTaD+xat6UYWlNe6tXgRH993+I7TpBL
+   g==;
+X-CSE-ConnectionGUID: luaw6WHORM+3+HAGLUfnRw==
+X-CSE-MsgGUID: FXT87ECWTbyxY4XgaxMlgA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="11237674"
+X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
+   d="scan'208";a="11237674"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 10:06:07 -0700
+X-CSE-ConnectionGUID: AyDUef9WQZOSH4ELFsIoWA==
+X-CSE-MsgGUID: T2w9WmsPTz+rSiMawHQiDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
+   d="scan'208";a="18613038"
+Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 03 Apr 2024 10:06:05 -0700
+Received: from kbuild by e61807b1d151 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rs43m-00005S-2x;
+	Wed, 03 Apr 2024 17:06:02 +0000
+Date: Thu, 4 Apr 2024 01:05:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [krzk-github:n/audio-sm8450-sm8550-on-next 21/21]
+ sound/soc/codecs/wsa884x.c:1847:35: warning: variable 'sd_n' set but not
+ used
+Message-ID: <202404040026.Odz0rMuf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello,
-
-Please check whether the lock should be released before the returns.
-
-julia
-
----------- Forwarded message ----------
-Date: Wed, 3 Apr 2024 22:16:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/md/dm-vdo/data-vio.c:969:2-8: preceding lock on line 966
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Mike Snitzer <snitzer@kernel.org>
-CC: Matthew Sakai <msakai@redhat.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3e92c1e6cd876754b64d1998ec0a01800ed954a6
-commit: f36b1d3ba533d21b5b793623f05761b0297d114e dm vdo: use a proper Makefile for dm-vdo
-date:   6 weeks ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 6 weeks ago
-config: s390-randconfig-r052-20240403 (https://download.01.org/0day-ci/archive/20240403/202404032212.NV7EJ2Zj-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
+tree:   https://github.com/krzk/linux n/audio-sm8450-sm8550-on-next
+head:   3ba68b9cfd2e22408df8721e01e8c114a01c1135
+commit: 3ba68b9cfd2e22408df8721e01e8c114a01c1135 [21/21] DEBUG TESTING
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240404/202404040026.Odz0rMuf-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240404/202404040026.Odz0rMuf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202404032212.NV7EJ2Zj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404040026.Odz0rMuf-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/md/dm-vdo/data-vio.c:969:2-8: preceding lock on line 966
-   drivers/md/dm-vdo/data-vio.c:972:2-8: preceding lock on line 966
+All warnings (new ones prefixed by >>):
 
-vim +969 drivers/md/dm-vdo/data-vio.c
+   sound/soc/codecs/wsa884x.c: In function 'wsa884x_get_reset':
+>> sound/soc/codecs/wsa884x.c:1847:35: warning: variable 'sd_n' set but not used [-Wunused-but-set-variable]
+    1847 |                 struct gpio_desc *sd_n;
+         |                                   ^~~~
 
-79535a7881c0cb Matthew Sakai 2023-11-16  952
-79535a7881c0cb Matthew Sakai 2023-11-16  953  /**
-79535a7881c0cb Matthew Sakai 2023-11-16  954   * vdo_launch_bio() - Acquire a data_vio from the pool, assign the bio to it, and launch it.
-79535a7881c0cb Matthew Sakai 2023-11-16  955   *
-79535a7881c0cb Matthew Sakai 2023-11-16  956   * This will block if data_vios or discard permits are not available.
-79535a7881c0cb Matthew Sakai 2023-11-16  957   */
-79535a7881c0cb Matthew Sakai 2023-11-16  958  void vdo_launch_bio(struct data_vio_pool *pool, struct bio *bio)
-79535a7881c0cb Matthew Sakai 2023-11-16  959  {
-79535a7881c0cb Matthew Sakai 2023-11-16  960  	struct data_vio *data_vio;
-79535a7881c0cb Matthew Sakai 2023-11-16  961
-79535a7881c0cb Matthew Sakai 2023-11-16  962  	ASSERT_LOG_ONLY(!vdo_is_state_quiescent(&pool->state),
-79535a7881c0cb Matthew Sakai 2023-11-16  963  			"data_vio_pool not quiescent on acquire");
-79535a7881c0cb Matthew Sakai 2023-11-16  964
-79535a7881c0cb Matthew Sakai 2023-11-16  965  	bio->bi_private = (void *) jiffies;
-79535a7881c0cb Matthew Sakai 2023-11-16 @966  	spin_lock(&pool->lock);
-79535a7881c0cb Matthew Sakai 2023-11-16  967  	if ((bio_op(bio) == REQ_OP_DISCARD) &&
-79535a7881c0cb Matthew Sakai 2023-11-16  968  	    !acquire_permit(&pool->discard_limiter, bio))
-79535a7881c0cb Matthew Sakai 2023-11-16 @969  		return;
-79535a7881c0cb Matthew Sakai 2023-11-16  970
-79535a7881c0cb Matthew Sakai 2023-11-16  971  	if (!acquire_permit(&pool->limiter, bio))
-79535a7881c0cb Matthew Sakai 2023-11-16  972  		return;
-79535a7881c0cb Matthew Sakai 2023-11-16  973
-79535a7881c0cb Matthew Sakai 2023-11-16  974  	data_vio = get_available_data_vio(pool);
-79535a7881c0cb Matthew Sakai 2023-11-16  975  	spin_unlock(&pool->lock);
-79535a7881c0cb Matthew Sakai 2023-11-16  976  	launch_bio(pool->completion.vdo, data_vio, bio);
-79535a7881c0cb Matthew Sakai 2023-11-16  977  }
-79535a7881c0cb Matthew Sakai 2023-11-16  978
 
-:::::: The code at line 969 was first introduced by commit
-:::::: 79535a7881c0cbe95063a2670d840cc950ae9282 dm vdo: add data_vio, the request object which services incoming bios
+vim +/sd_n +1847 sound/soc/codecs/wsa884x.c
 
-:::::: TO: Matthew Sakai <msakai@redhat.com>
-:::::: CC: Mike Snitzer <snitzer@kernel.org>
+  1826	
+  1827	static int wsa884x_get_reset(struct device *dev, struct wsa884x_priv *wsa884x)
+  1828	{
+  1829		wsa884x->sd_reset = devm_reset_control_get_optional_shared(dev, NULL);
+  1830		if (IS_ERR(wsa884x->sd_reset))
+  1831			return dev_err_probe(dev, PTR_ERR(wsa884x->sd_reset),
+  1832					     "Failed to get reset\n");
+  1833		else if (wsa884x->sd_reset)
+  1834			return 0;
+  1835		dev_err(dev, "AAA %s:%d\n", __func__, __LINE__);
+  1836		/*
+  1837		 * else: NULL, so use the backwards compatible way for powerdown-gpios,
+  1838		 * which does not handle sharing GPIO properly.
+  1839		 */
+  1840		wsa884x->sd_n = devm_gpiod_get_optional(dev, "powerdown",
+  1841							GPIOD_OUT_HIGH);
+  1842		if (IS_ERR(wsa884x->sd_n))
+  1843			return dev_err_probe(dev, PTR_ERR(wsa884x->sd_n),
+  1844					     "Shutdown Control GPIO not found\n");
+  1845		dev_err(dev, "AAA %s:%d\n", __func__, __LINE__);
+  1846		{
+> 1847			struct gpio_desc *sd_n;
+  1848			sd_n = devm_gpiod_get_optional(dev, "powerdown2",
+  1849							GPIOD_OUT_HIGH);
+  1850			pr_err("AAA %s:%d\n", __func__, __LINE__);
+  1851			if (IS_ERR(wsa884x->sd_n))
+  1852				return dev_err_probe(dev, PTR_ERR(wsa884x->sd_n),
+  1853						     "Shutdown Control GPIO not found\n");
+  1854		}
+  1855		dev_err(dev, "AAA %s:%d\n", __func__, __LINE__);
+  1856	
+  1857		return 0;
+  1858	}
+  1859	
 
 -- 
 0-DAY CI Kernel Test Service
