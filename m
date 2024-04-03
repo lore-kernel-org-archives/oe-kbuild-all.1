@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75060156966
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Apr 2024 22:26:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96DBF1534E6
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Apr 2024 22:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712183178; cv=none; b=mhQ+VJzAKLU4UnzI/mEqozTzzetj0rCzcHR1TlA6cs2FAgO3fc7IL34uhU77CcvJE476dfzQK4fzkKbOa1ijU5FFTv2pZJdrDo7snzA0DHUy5iaPnMy8e5sxtd7qY5P7kUPGVtw6uFR12xrTkgeih7W/6/7S2vtEIqSWFmM4ag4=
+	t=1712185039; cv=none; b=ka3v6ZYBaX7CFknhp9gTemaKVf+Ujx6xW+Seg4K6dgUw9RaVU9B1Ui2mvejzF+/cjxRVGo5mhGYNx5DW1aLTy/SztxaHVzVPXP3D60JymtITpfJiObnoNDDzrB/GMUHsQklesgR6B0bRN1qImJCtLu7Ppw+u22Jw1UiwFIMcqCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712183178; c=relaxed/simple;
-	bh=Wrvk4nE1SYBACAaQaQjeDpnfMlN8qB7TtYEbJ3TAs+Y=;
+	s=arc-20240116; t=1712185039; c=relaxed/simple;
+	bh=k43/AQGBFLFx19/n+o/B3rFKWoNx3ZT8HnHbkjWNRqQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=locrpovxp/KDoaPrakvx0UjA+PkrLWQCQc+t3TdFx3cIvE2x4FocfWpEGeTV6ZQdzjvn9ssOvXiPqoykon8AF4q47Mtye+hRyfLHm/bETSYF7MS1H+h0o6kmPopaY5YUO6xS0OjFkCw0F5Hus9LDwNo4nmbxyQJtboLPCjSLdwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QZFg5+uJ; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=TX7tg9YZGEC5dw62rrJJR6EOou3m2D0QLUHfoO7MtovQJ7d3ar2UkyAg6U2KERPwqjwnChWqgmODCueVDcQbfQsNh8OuNqstYsXgrbUgER4phEOGD/910DdVisQ5/xzT83A7Uo/ttNSlQ23aQcU28ZzNU+lc3/aWC+K5g8KTqBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aq0+fsj1; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QZFg5+uJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aq0+fsj1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712183177; x=1743719177;
+  t=1712185038; x=1743721038;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Wrvk4nE1SYBACAaQaQjeDpnfMlN8qB7TtYEbJ3TAs+Y=;
-  b=QZFg5+uJolZmsxjeWpeaJIhtOV99C08wJzDH0NcFF8VL7mTLMnrmVt+x
-   Cnoab8Zc1GRwC2OgvRxbQ58mr1A5XIHDSw7bxEJXCsPUAEE1SmCBGF+EX
-   3jRoQtK/d/y+bbbnUg+d06tToQeFy5wQb0w/+22kNXLrtXVR4aiTQvoyF
-   Xy8AoY4aCYT/45ar3c0UkH6V6+ewEe6v1CW9GHno1KdWBCGZ7FdK1JqjS
-   cNjlRHcXdVXEySI5S8c7tKJkOBKsN208v/B+w42/7eYAUx9MVzQqY0kmu
-   mpo+Hr9tasu+8AQ1TtikeyCYTGmvSjx+i/sH1yCdgDG/uq0IckSoccYWq
+  bh=k43/AQGBFLFx19/n+o/B3rFKWoNx3ZT8HnHbkjWNRqQ=;
+  b=aq0+fsj1tm7s/1hB3RfIv6NP4vGbtsaBZ5UoyUEC7h6hf52kDkMlHpFZ
+   B/ULB8J+XZ4E2rORt+QQAuLJQYetvd9lxkU4FYAq2F2nFKB9YKOlubEFh
+   6oKMossfS91V87Jzpo+cM0oX3PuxaNZq8jN3/JAkz4vSlesSO5+dAnRT9
+   AsAiXUXFDLuBWT3INZJbkOEDHzJ3TAueouwO7b0VLrrM9OfKIoDCw9nNc
+   aXQOu5J2t7QI71bLqeT+EFrtlmRDUwiCoWrBjEONjRsA2+CsJLwAyuXu0
+   PmNxE1kev/c4zaN1T+HAqYndoLXcDqyfv4VdTt9gzhFJZJxQ2lAa8v7df
    Q==;
-X-CSE-ConnectionGUID: Dr/4s6vFRp+J7dYcijeetw==
-X-CSE-MsgGUID: ZbvuJ9sPTmyIcznCCkE2Hw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="29920085"
+X-CSE-ConnectionGUID: rF9QYwlLQPqiZVnvCTNPdw==
+X-CSE-MsgGUID: 70/qy5OOStSXyKEC27ZXww==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="7314412"
 X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="29920085"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 15:26:16 -0700
-X-CSE-ConnectionGUID: F+wALV7NQmuZNib4SWRDBQ==
-X-CSE-MsgGUID: 4ykD+oCxSsGefA0aN06awg==
+   d="scan'208";a="7314412"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 15:57:17 -0700
+X-CSE-ConnectionGUID: o4qFXwN5Q62oU9eshiuQ4A==
+X-CSE-MsgGUID: zHNrBZmRQr6clb0sbUO1og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="19183834"
+   d="scan'208";a="41758365"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 03 Apr 2024 15:26:15 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 03 Apr 2024 15:57:16 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rs93c-0000Io-2o;
-	Wed, 03 Apr 2024 22:26:12 +0000
-Date: Thu, 4 Apr 2024 06:25:47 +0800
+	id 1rs9Xd-0000Kv-2C;
+	Wed, 03 Apr 2024 22:57:13 +0000
+Date: Thu, 4 Apr 2024 06:56:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frederic-dynticks:timers/testing 6/6] timer.c:undefined reference
- to `__tracepoint_tmigr_fetched'
-Message-ID: <202404040653.eCLxKhSr-lkp@intel.com>
+Subject: [axboe-block:rw_iter 9/12] fs/tracefs/inode.c:56:16: error: implicit
+ declaration of function 'iov_iter_count'
+Message-ID: <202404040602.6i2z4YlT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,24 +62,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/testing
-head:   45406f6df1aa857434d206a1b0b9274b68ff5dc1
-commit: 45406f6df1aa857434d206a1b0b9274b68ff5dc1 [6/6] tracing
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240404/202404040653.eCLxKhSr-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240404/202404040653.eCLxKhSr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   8b68c0bba37e427ceb23ae39861ba6816fdec1f9
+commit: bb285b16cf180b4178bb9a45a8ffbf1ca5d9a701 [9/12] fs: convert remaining users of ->read and ->write to iterator variants
+config: sh-defconfig (https://download.01.org/0day-ci/archive/20240404/202404040602.6i2z4YlT-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240404/202404040602.6i2z4YlT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404040653.eCLxKhSr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404040602.6i2z4YlT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   /usr/bin/ld: kernel/time/timer.o: in function `__get_next_timer_interrupt':
->> timer.c:(.text+0x6491): undefined reference to `__tracepoint_tmigr_fetched'
->> /usr/bin/ld: timer.c:(.text+0x69db): undefined reference to `__traceiter_tmigr_fetched'
-   collect2: error: ld returned 1 exit status
+   fs/tracefs/inode.c: In function 'default_write_file_iter':
+>> fs/tracefs/inode.c:56:16: error: implicit declaration of function 'iov_iter_count' [-Werror=implicit-function-declaration]
+      56 |         return iov_iter_count(from);
+         |                ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/iov_iter_count +56 fs/tracefs/inode.c
+
+    53	
+    54	static ssize_t default_write_file_iter(struct kiocb *iocb, struct iov_iter *from)
+    55	{
+  > 56		return iov_iter_count(from);
+    57	}
+    58	
 
 -- 
 0-DAY CI Kernel Test Service
