@@ -1,133 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D017154429
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Apr 2024 17:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424221DFD6;
+	Wed,  3 Apr 2024 17:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712165772; cv=none; b=GCFe8L3Qx5cZ5iWB4sfI05AKa8pMkvfSgANThKPes8axZ3hdacwP95b8QwhZrJDoRlX3MRvZq3G4ZIrAjNWZLnCblTr9XNKsLTYMQja/9zbv316a3hrgS1xE3oZWxEP8Y6gXMSGFf9RabZVKyMVylqcZJipj3+h/XLerjK3Qqqw=
+	t=1712167046; cv=none; b=UE24PMMsTN6kWzCDeoiSl2SB4eJE+pgjlOSTQehEUwdY9yNOZAsLLMfhq2bIkL811whDWtdDpfjpq+rSInMb2hiwBUJoQhK8yA8z3qMumbE8oCRjUrxNDjBArBTbWWqvHyu3GPNWMObuvBQZIZBGqsr92/9xcJK2FjH/AnjBv+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712165772; c=relaxed/simple;
-	bh=6PZ4LJw6AXiAT0rhFxGtVc0bcCLapqG9VPK9e2pMEis=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GefGfpDg8o4vYqJKbaY1uaTarZDTLfn6BzUM7ueEgSoHOugGtHFLbd4cOdS0puNhVKs3oVeRLaNhmTRvxwgqVCWJdmlajoYR4C4DcMeCtTYRyS2wpE3sIgVznXXhPy6QSrTksZlD3UpANFcC2vtDwPb61sHGOQf6XtXLEsdK2lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CNMpjhEJ; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1712167046; c=relaxed/simple;
+	bh=d+ZUMUm1KAc8rkyq6ddYBLNSuuaZzHkrsJHewdp8CGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YClaAySQJpoP1jcxva1w3EXgG/Lnfr/oIZxo3nC/FfRpbad9fDTsgN1Jyynd210RCh9TlUEhj5NPa7AZbVYf/2WDHMcUHLI/hONw1+pedrd3bnqaz8vlS/dDGfoh6EqwjoL4ceiUdEEvniCbdRhY7Ts5xbxsA3Y8X/3HByZ9Knw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ybs71K4C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CNMpjhEJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712165770; x=1743701770;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6PZ4LJw6AXiAT0rhFxGtVc0bcCLapqG9VPK9e2pMEis=;
-  b=CNMpjhEJ8zSRWIWNZMaUzhZWGPsFgQqJjaC0Nfaym2SbP2mXxq1qg9qt
-   /KLS8Kik8UdXwg6pCj9VDcwN3R4sH/DYJarVrASClLP67sfjrxY66azV7
-   U4RXvAO40wiPFGdEAmCG9mtl0WrScKr2mtIJyKMUHPiaPLV/Ie+pEmIzD
-   IkyHWQPQ5/OHIhLhhzzSZp2QZkUbqtQXZr/yJfqsgN0CXwvmOqMk05XZ8
-   TS7RuM4zcki3FEaSCgDo9w6gfkd3xz1l2nmF7YfKx19o7eDTFy0mlDr9H
-   NAQ11sZWNaySwrwL0kzDQD7spvjFyTnt8vIGhQ1IZzFk1kFwzZTq7q9CT
-   g==;
-X-CSE-ConnectionGUID: FbMTeVrFSiWg+XsYUKGeGQ==
-X-CSE-MsgGUID: EWFLKlrFShyt5NOI6a4kHw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="18027062"
-X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="18027062"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 10:36:09 -0700
-X-CSE-ConnectionGUID: gVD7kHqvSeK9ojaNp0JaSA==
-X-CSE-MsgGUID: /jRXLxt6SwiT9c9KpqT0HA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="18487318"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 03 Apr 2024 10:36:08 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rs4Ws-00007S-19;
-	Wed, 03 Apr 2024 17:36:06 +0000
-Date: Thu, 4 Apr 2024 01:35:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-getparents-cleanup 3/3]
- include/linux/build_bug.h:78:41: error: static assertion failed: "XFS:
- sizeof(struct xfs_getparents) is wrong, expected 96"
-Message-ID: <202404040134.VGVcRny0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ybs71K4C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EF24C433F1;
+	Wed,  3 Apr 2024 17:57:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712167045;
+	bh=d+ZUMUm1KAc8rkyq6ddYBLNSuuaZzHkrsJHewdp8CGc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ybs71K4CaHKCzezTzi0rrbC9vZx7neRUWRqt0aX2rOcjTwvDoefIzHsDVku6laGq7
+	 uMP5K+CXvfXbI5o1I/ywjXvdPXxOWxkisQwEODDMRC1ggUb76Nf5ZnlZ5dYrNaNwAr
+	 H8rBZRb9iAdZGfr1wTRJ8Kw39dNDmcDLFW2juM1zHafyo4Nx3KuQ3ldxH4piv0Cd8w
+	 VU5iHl0yU8wHyQJg2aR4g/w2IKiOwhTK+EDAwgvUt6gjsAPEvZ3YjYVtqp65oAbz9Y
+	 Irsm/lDhIrVYlVVk8QBeI65oL0h5mgEYc7s4WrdLVZN1q12s/YPasYkhGEinwr/fCq
+	 fwxyPPYmRu75w==
+Date: Wed, 3 Apr 2024 10:57:23 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Arjan van de Ven <arjan@linux.intel.com>, x86@kernel.org,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	Sparse Mailing-list <linux-sparse@vger.kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>, llvm@lists.linux.dev
+Subject: Re: arch/x86/include/asm/processor.h:698:16: sparse: sparse:
+ incorrect type in initializer (different address spaces)
+Message-ID: <20240403175723.GA2667607@dev-arch.thelio-3990X>
+References: <CAHk-=wiWhfdc4Sw2VBq_2nL2NDxmZS32xG4P7mBVwABGqUoJnw@mail.gmail.com>
+ <87edcruvja.ffs@tglx>
+ <CAFULd4bVEUBEidTLbHNzRaJbSjXm99yC8LT=jdzFWb7xnuFH7g@mail.gmail.com>
+ <87bk7vuldh.ffs@tglx>
+ <CAFULd4arHT+_fy9_oUNpmsvyfVPGaeB_pdeuqVS3UTpP5R757A@mail.gmail.com>
+ <CAFULd4b0HN6eUJsOW6po8Hf16T3eMhjdKUvw-TS8yncNn-+Vyw@mail.gmail.com>
+ <87bk7ux4e9.ffs@tglx>
+ <CAFULd4aEe2KU=UXEt2=GeLQq2uTSFvydBiwAdSa7B6T61Am=5w@mail.gmail.com>
+ <878r2ywk3k.ffs@tglx>
+ <CAFULd4YG21NdF_qNVBGDtXO6xnaYFeRPvKicB=gpgUUqYE=4jw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFULd4YG21NdF_qNVBGDtXO6xnaYFeRPvKicB=gpgUUqYE=4jw@mail.gmail.com>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-getparents-cleanup
-head:   2e6e60ddb42e900b2030fbcb32e488e780d82ddc
-commit: 2e6e60ddb42e900b2030fbcb32e488e780d82ddc [3/3] xfs: simplify the getparents uapi
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240404/202404040134.VGVcRny0-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240404/202404040134.VGVcRny0-lkp@intel.com/reproduce)
+On Tue, Apr 02, 2024 at 01:43:00PM +0200, Uros Bizjak wrote:
+> On Mon, Mar 4, 2024 at 8:07 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+> >
+> > On Mon, Mar 04 2024 at 06:42, Uros Bizjak wrote:
+> >
+> > > On Mon, Mar 4, 2024 at 12:49 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+> > >>
+> > >> On Sun, Mar 03 2024 at 21:24, Uros Bizjak wrote:
+> > >> > On Sun, Mar 3, 2024 at 9:21 PM Uros Bizjak <ubizjak@gmail.com> wrote:
+> > >> >> On Sun, Mar 3, 2024 at 9:10 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+> > >> >> > That's so sad because it would provide us compiler based __percpu
+> > >> >> > validation.
+> > >> >>
+> > >> >> Unfortunately, the c compiler can't strip qualifiers, so typeof() is
+> > >> >> of limited use also when const and volatile qualifiers are used.
+> > >> >> Perhaps some extension could be introduced to c standard to provide an
+> > >> >> unqualified type, e.g. typeof_unqual().
+> > >> >
+> > >> > Oh, there is one in C23 [1].
+> > >>
+> > >> Yes. I found it right after ranting.
+> > >>
+> > >> gcc >= 14 and clang >= 16 have support for it of course only when adding
+> > >> -std=c2x to the command line.
+> > >>
+> > >> Sigh. The name space qualifiers are non standard and then the thing
+> > >> which makes them more useful is hidden behind a standard.
+> > >
+> > > With GCC, you can use __typeof_unqual__ (please note underscores)
+> > > without -std=c2x [1]:
+> > >
+> > > "... Alternate spelling __typeof_unqual__ is available in all C modes
+> > > and provides non-atomic unqualified version of what __typeof__
+> > > operator returns..."
+> > >
+> > > Please also see the example in my last post. It can be compiled without -std=...
+> >
+> > With gcc >= 14. Not so with clang...
+> 
+> Please note that clang-17.0.6 currently fails to compile kernel with
+> named address spaces [1]. So perhaps kernel can use __typeof_unqual__
+> (available without -std=c2x) in the hope that clang implements
+> __typeof_unqual__ in one of its next releases, following the examples
+> of GCC [2] and MSVC[3].
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404040134.VGVcRny0-lkp@intel.com/
+This is now supported in clang 19.0.0 (main):
 
-All errors (new ones prefixed by >>):
+https://github.com/llvm/llvm-project/commit/cc308f60d41744b5920ec2e2e5b25e1273c8704b
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/semaphore.h:11,
-                    from fs/xfs/xfs_linux.h:24,
-                    from fs/xfs/xfs.h:22,
-                    from fs/xfs/xfs_super.c:7:
-   fs/xfs/libxfs/xfs_ondisk.h: In function 'xfs_check_ondisk_structs':
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_getparents) is wrong, expected 96"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:161:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     161 |         XFS_CHECK_STRUCT_SIZE(struct xfs_getparents,            96);
-         |         ^~~~~~~~~~~~~~~~~~~~~
+I have inquired about applying this to the 18.x series, such that it
+would either make 18.1.3 or 18.1.4, but that is still open for
+discussion.
 
+I think the error that I mentioned at [1] is resolved with using
+__typeof_unqual__, I tested this diff, which is likely incorrect but
+allows me to continue testing without that warning/error due to -Werror:
 
-vim +78 include/linux/build_bug.h
+diff --git a/arch/x86/include/asm/percpu.h b/arch/x86/include/asm/percpu.h
+index 20696df5d567..fc77c99d2e80 100644
+--- a/arch/x86/include/asm/percpu.h
++++ b/arch/x86/include/asm/percpu.h
+@@ -95,7 +95,7 @@
+ 
+ #endif /* CONFIG_SMP */
+ 
+-#define __my_cpu_type(var)	typeof(var) __percpu_seg_override
++#define __my_cpu_type(var)	__typeof_unqual__(var) __percpu_seg_override
+ #define __my_cpu_ptr(ptr)	(__my_cpu_type(*ptr)*)(__force uintptr_t)(ptr)
+ #define __my_cpu_var(var)	(*__my_cpu_ptr(&(var)))
+ #define __percpu_arg(x)		__percpu_prefix "%" #x
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+However, I get a crash in LLVM's backend with that diff applied on top
+of commit 034dd140a6d8 ("Merge branch into tip/master: 'x86/shstk'"),
+which appears to be another tangential issue. I've filed
+https://github.com/ClangBuiltLinux/linux/issues/2013 so that we don't
+lose track of this.
 
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
