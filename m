@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6022B4D117;
-	Wed,  3 Apr 2024 06:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DDC50248
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Apr 2024 06:59:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712125458; cv=none; b=LxSDnaZ0oetXjXPaAYeY60sVHwmxMpZ9ACThuRAXc9TDjp9FRbdTGZeVpcAdFW7Dv2g/iBPhjv1LvQirpbw346V5eKgWMzrZndxSaQxxB6yMunZMB6kTWsenfhDkJI5QCN7oE6OcI2NH2FTrFp5gvdRyOGCqyh11CKEtz06GwsI=
+	t=1712127578; cv=none; b=C0NJE4ciwhtmq941/3NfNSoFG88LhAkvkHELFOv2ZfAKszWTuhJI8Bg6mYcfvgoPdDbsth8PAVDaTLsgw3FiajvNJ64WL19GamdBz0R0qlh0DK+IbDwK18H2dgHFU0IDOL47A0NEEnM/1pnDK7PN5fmEogpI/6w3dG3gHGmjKtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712125458; c=relaxed/simple;
-	bh=RDyK31AOeEL/cCCmbPt9zfwDnreb2sRz5FeVRJFgW4k=;
+	s=arc-20240116; t=1712127578; c=relaxed/simple;
+	bh=C63E9xFIqmaqyqq61R2hzDE8eqlb46lHuUiLFuY6IEw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b6oEnjzRnCcW1woCt2dUaUmKxZSveyWMlZoaWe02SQj66qPLSUMoYOlIGncZCTfF05BLr2sKDXQO43+QpfpToneIfRndg+RD1IBpTy8fQBanVH6KYJshY9mA1UCCT1VFcZ70lNp+o/P8zO+uJHCQ26TAwSkGKf9BJxIQJ6s1k+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g/CbTEd/; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=iWhxJ88XoYOX2xGRLHRk2exzSp755HggOIAkgCcLbuHGFomJq/R1VL2UuzZgTz34jfeSLJUZ52xwoQ0ZmNJ0wZ+mWlv0nw8oJZHUgZ2CUW/D3wsznWLlukC0AdYGyjdZpQxnZ+lkzTj4ltpMaYL8vI3z2og7zcc+GLFDfR8oVbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SGfli6gO; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g/CbTEd/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SGfli6gO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712125456; x=1743661456;
+  t=1712127577; x=1743663577;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RDyK31AOeEL/cCCmbPt9zfwDnreb2sRz5FeVRJFgW4k=;
-  b=g/CbTEd/+ghxnJHnV5qyGNa87QXKx03BdF8Tl7+iCtw6fE48RwVkmHZl
-   ROsMV9DgpwHMLQEZvHSklarSPR5D9izcMDN77Cl9xzbs/vYMsDO19j3Oy
-   IfQfikR4Jh6FYq7gROB4Js6eMP00UFBR/qqMzLDIZZbiVYZCSQoVRwIbx
-   QS5kzJtb7DcA3r6cNIVCWXpX1fBGLKxPslkLJnP3MkGWbBzEvOVHHWz2s
-   WI6UROdC9WecnbsFRU4nPDEN/enpowUY2Z62xU7Xcv8YN3ZUB+A359kNU
-   90pKIue/3w+yD+GwQPF/gW95loH/+ghOGyxDzNs4uQhmuHHtvQxJX0Aqj
+  bh=C63E9xFIqmaqyqq61R2hzDE8eqlb46lHuUiLFuY6IEw=;
+  b=SGfli6gO83rmByJtWG2jri7iPoKjmff05JJqPVfzMPLwNTEbo86Xum1/
+   szIrh3YfbXgk5KUcLM/+dP93WbHdR5Fv+RzB2HJ09ogt8utJpLZe8nct2
+   OzrDal4+e+5/fZKEvvtVJYV9eeKMZdNMbsssk2e36DZ87YYwNe5v/FLpu
+   gP9sOZ8dR8r3HbrWUAfD9idyEOtAqNvaVfcc4T/DtLdSEnJahcLI5LAdk
+   /o8oyyFfWPZWXB1pEyDKL8XqKgViu0yt0PQ6ftjKDQ04P5WV7ZiukCDCu
+   1oHdYfFiGy4ndBOiodClbLIQrhUmoiRWSvJv+0bVIyIIHyLrWeHbkm/37
    Q==;
-X-CSE-ConnectionGUID: dUMiA5iDSKKtnFEQOG01gg==
-X-CSE-MsgGUID: b+uv3a5XTTejQ6cIdYO0wQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7493069"
+X-CSE-ConnectionGUID: OtRF2GlFSlu56eytkQWaoQ==
+X-CSE-MsgGUID: LGUPnl6RQP25qE4ksfKPyA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="18496026"
 X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
-   d="scan'208";a="7493069"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 23:24:16 -0700
-X-CSE-ConnectionGUID: yQ41SlkZTjuPPmtk41U2Lw==
-X-CSE-MsgGUID: a4yDXplhTUiRPNH+ZpSmng==
+   d="scan'208";a="18496026"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 23:59:36 -0700
+X-CSE-ConnectionGUID: HmdooRwJQVSKUF9bR/U2HA==
+X-CSE-MsgGUID: r4IZeYqkScavXWJcFrl30Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
-   d="scan'208";a="18748633"
+   d="scan'208";a="23027565"
 Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 02 Apr 2024 23:24:14 -0700
+  by orviesa005.jf.intel.com with ESMTP; 02 Apr 2024 23:59:35 -0700
 Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rru2d-0001vZ-1y;
-	Wed, 03 Apr 2024 06:24:11 +0000
-Date: Wed, 3 Apr 2024 14:23:45 +0800
+	id 1rruaq-0001xR-1z;
+	Wed, 03 Apr 2024 06:59:32 +0000
+Date: Wed, 3 Apr 2024 14:58:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Boris Brezillon <bbrezillon@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
-	Steven Price <steven.price@arm.com>
-Subject: [drm-misc:for-linux-next 3/4]
- drivers/gpu/drm/panthor/panthor_fw.c:979:1: error: unused variable 'cookie'
-Message-ID: <202404031446.7Mpki5DV-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org
+Subject: [rafael-pm:intel_pstate-testing 14/14]
+ drivers/cpufreq/intel_pstate.c:3301:undefined reference to
+ `arch_rebuild_sched_domains'
+Message-ID: <202404031421.nMNiWZMY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,170 +64,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
-head:   10021ef27310279c850cf6cb38542c443a995e92
-commit: 962f88b9c91647f3ff4a0d3709662641baed5164 [3/4] drm/panthor: Drop the dev_enter/exit() sections in _irq_suspend/resume()
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20240403/202404031446.7Mpki5DV-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 546dc2245ffc4cccd0b05b58b7a5955e355a3b27)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240403/202404031446.7Mpki5DV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git intel_pstate-testing
+head:   e35f6a1b27a71e7c8cb1880197e01d93b593cc85
+commit: e35f6a1b27a71e7c8cb1880197e01d93b593cc85 [14/14] cpufreq: intel_pstate: Set asymmetric CPU capacity on hybrid systems
+config: x86_64-randconfig-014-20240403 (https://download.01.org/0day-ci/archive/20240403/202404031421.nMNiWZMY-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240403/202404031421.nMNiWZMY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404031446.7Mpki5DV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404031421.nMNiWZMY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/panthor/panthor_fw.c:9:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_fw.c:979:1: error: unused variable 'cookie' [-Werror,-Wunused-variable]
-     979 | PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_device.h:326:6: note: expanded from macro 'PANTHOR_IRQ_HANDLER'
-     326 |         int cookie;                                                                             \
-         |             ^~~~~~
->> drivers/gpu/drm/panthor/panthor_fw.c:979:1: error: unused variable 'cookie' [-Werror,-Wunused-variable]
-     979 | PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_device.h:336:6: note: expanded from macro 'PANTHOR_IRQ_HANDLER'
-     336 |         int cookie;                                                                             \
-         |             ^~~~~~
-   7 errors generated.
---
-   In file included from drivers/gpu/drm/panthor/panthor_gpu.c:9:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_gpu.c:166:1: error: unused variable 'cookie' [-Werror,-Wunused-variable]
-     166 | PANTHOR_IRQ_HANDLER(gpu, GPU, panthor_gpu_irq_handler);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_device.h:326:6: note: expanded from macro 'PANTHOR_IRQ_HANDLER'
-     326 |         int cookie;                                                                             \
-         |             ^~~~~~
->> drivers/gpu/drm/panthor/panthor_gpu.c:166:1: error: unused variable 'cookie' [-Werror,-Wunused-variable]
-     166 | PANTHOR_IRQ_HANDLER(gpu, GPU, panthor_gpu_irq_handler);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_device.h:336:6: note: expanded from macro 'PANTHOR_IRQ_HANDLER'
-     336 |         int cookie;                                                                             \
-         |             ^~~~~~
-   7 errors generated.
---
-   In file included from drivers/gpu/drm/panthor/panthor_mmu.c:5:
-   In file included from include/drm/drm_debugfs.h:38:
-   In file included from include/drm/drm_gpuvm.h:34:
-   In file included from include/drm/drm_gem.h:42:
-   In file included from include/drm/drm_vma_manager.h:27:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_mmu.c:1689:1: error: unused variable 'cookie' [-Werror,-Wunused-variable]
-    1689 | PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_device.h:326:6: note: expanded from macro 'PANTHOR_IRQ_HANDLER'
-     326 |         int cookie;                                                                             \
-         |             ^~~~~~
->> drivers/gpu/drm/panthor/panthor_mmu.c:1689:1: error: unused variable 'cookie' [-Werror,-Wunused-variable]
-    1689 | PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_device.h:336:6: note: expanded from macro 'PANTHOR_IRQ_HANDLER'
-     336 |         int cookie;                                                                             \
-         |             ^~~~~~
-   7 errors generated.
+   ld: drivers/cpufreq/intel_pstate.o: in function `intel_pstate_register_driver':
+>> drivers/cpufreq/intel_pstate.c:3301:(.text+0x409c): undefined reference to `arch_rebuild_sched_domains'
 
 
-vim +/cookie +979 drivers/gpu/drm/panthor/panthor_fw.c
+vim +3301 drivers/cpufreq/intel_pstate.c
 
-2718d91816eeed Boris Brezillon 2024-02-29  965  
-2718d91816eeed Boris Brezillon 2024-02-29  966  static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
-2718d91816eeed Boris Brezillon 2024-02-29  967  {
-2718d91816eeed Boris Brezillon 2024-02-29  968  	if (!ptdev->fw->booted && (status & JOB_INT_GLOBAL_IF))
-2718d91816eeed Boris Brezillon 2024-02-29  969  		ptdev->fw->booted = true;
-2718d91816eeed Boris Brezillon 2024-02-29  970  
-2718d91816eeed Boris Brezillon 2024-02-29  971  	wake_up_all(&ptdev->fw->req_waitqueue);
-2718d91816eeed Boris Brezillon 2024-02-29  972  
-2718d91816eeed Boris Brezillon 2024-02-29  973  	/* If the FW is not booted, don't process IRQs, just flag the FW as booted. */
-2718d91816eeed Boris Brezillon 2024-02-29  974  	if (!ptdev->fw->booted)
-2718d91816eeed Boris Brezillon 2024-02-29  975  		return;
-2718d91816eeed Boris Brezillon 2024-02-29  976  
-2718d91816eeed Boris Brezillon 2024-02-29  977  	panthor_sched_report_fw_events(ptdev, status);
-2718d91816eeed Boris Brezillon 2024-02-29  978  }
-2718d91816eeed Boris Brezillon 2024-02-29 @979  PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
-2718d91816eeed Boris Brezillon 2024-02-29  980  
-
-:::::: The code at line 979 was first introduced by commit
-:::::: 2718d91816eeed03c09c8abe872e45f59078768c drm/panthor: Add the FW logical block
-
-:::::: TO: Boris Brezillon <boris.brezillon@collabora.com>
-:::::: CC: Boris Brezillon <boris.brezillon@collabora.com>
+  3267	
+  3268	static int intel_pstate_register_driver(struct cpufreq_driver *driver)
+  3269	{
+  3270		int ret;
+  3271	
+  3272		if (driver == &intel_pstate)
+  3273			intel_pstate_sysfs_expose_hwp_dynamic_boost();
+  3274	
+  3275		memset(&global, 0, sizeof(global));
+  3276		global.max_perf_pct = 100;
+  3277		global.turbo_disabled = turbo_is_disabled();
+  3278		global.no_turbo = global.turbo_disabled;
+  3279	
+  3280		arch_set_max_freq_ratio(global.turbo_disabled);
+  3281	
+  3282		intel_pstate_driver = driver;
+  3283		ret = cpufreq_register_driver(intel_pstate_driver);
+  3284		if (ret) {
+  3285			intel_pstate_driver_cleanup();
+  3286			return ret;
+  3287		}
+  3288	
+  3289		global.min_perf_pct = min_perf_pct_min();
+  3290	
+  3291		/*
+  3292		 * On hybrid systems, use asym capacity instead of ITMT, but because
+  3293		 * the capacity of SMT threads is not deterministic even approximately,
+  3294		 * do not do that when SMT is in use.
+  3295		 */
+  3296		if (hwp_is_hybrid && !sched_smt_active()) {
+  3297			sched_clear_itmt_support();
+  3298	
+  3299			hybrid_init_cpu_scaling();
+  3300	
+> 3301			arch_rebuild_sched_domains();
+  3302		}
+  3303	
+  3304		return 0;
+  3305	}
+  3306	
 
 -- 
 0-DAY CI Kernel Test Service
