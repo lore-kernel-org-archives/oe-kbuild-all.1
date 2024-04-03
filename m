@@ -1,65 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91148626A0
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Apr 2024 23:58:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B496195
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Apr 2024 00:18:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712102329; cv=none; b=ZeX5e2AflCteWwqAg4JgIuDAeIXzBHXj9oR/ZSuGRpeMPTVW7GblO6+iYq5mDpqSlE84SkU+biN8RGqp81mgbltoSoZ3+W9vgpkQblMeHkiIpMGCrFxEOtigWm5EbGh7y6SFIgmTcP1NA/HJioidKA73X0I+YxFz7MncWiHB9Os=
+	t=1712103528; cv=none; b=WVGkPc6iOJaWVgoHl2yhwDvewNv/MOtbQBO5hw9zi52LOGGIYOuaMtlQxJeSuCR7sYKOknoxvRsonOvHitrKuJxpUv6m04rTXuUadDmzc6tv3AqQ7CY2mwVjg6Qz8tAC3Kt52A1gE0Yek8lAecgz1O/1muvT5lhuFQpAMnH5k/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712102329; c=relaxed/simple;
-	bh=AiuyQ6KpY5OwIl/kOANr37LCmsygVJ4gTNLbVO+SnCQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C8Mz8SgTa0E2UkJ0eDOJedvCeO3bqSbLSx+D0tNd5azrNYnjkbm9Ft3qw7hIyjJ3QM8lFYbBuByRIeqg3QA89rtYlU8Ww+3IAR7sshEcj4L0aAPdpE3lSj0E84tbTvzkZ3MRyeuje2D7cmgrZ7h/1WurN7/QjJD0Uo2dWx1iLlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PEJJa9vz; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1712103528; c=relaxed/simple;
+	bh=uGdLvzMM/tvXVSP6p0/9xOMIkaw2PTSTPzAQjqORd6k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aEf/MJTc30J6yx4xQPJWLPIeNQpC2ObuaijgbAv8G5Z6xgLs03MJ3cZHSLpnRucfGra0JyQsX6SYxHIa5Y9NpXhy9fcd/UUh2ZBgZdqq506YMqD7kTHclFl8e5m23C3aRJziINkte75reJ/R5DCgojbQXCeC8KxBS1/hhmH/MRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FYe4GdhA; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PEJJa9vz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FYe4GdhA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712102328; x=1743638328;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AiuyQ6KpY5OwIl/kOANr37LCmsygVJ4gTNLbVO+SnCQ=;
-  b=PEJJa9vzTwI9OfBN9sBgPm5CO2qLoFDVxA205xXP5nV2OHWFQ302z9rt
-   T/e3YgKZrKMLTdv5RMho50d8BmYZ+tL63pedt0i9wzxTw6APi6rOmlO7R
-   ylYG0+o6E3GUaNqK+Ym2Z/KdCSxar8kS+QFO+uxlHhK+K+IPqC/e6H2bs
-   5DLBtNWCHcs1JipEF34W1+7uG2YCGPJuBvBsoY1ZGoM7Um78tK6ZL8Zf1
-   9K21RcWn/cmYkBcBiP72A6YHYjY9OkP0Cb08YT/kyQnwv7Hnnn+8FeJyp
-   ZXm+tuDznX+TMUCjtWtuf95P9nYu5/+pLsDbVYXtjnWH/OPaham9C+2Dt
-   A==;
-X-CSE-ConnectionGUID: 9DlPiAuuTW2z0VKx/xi9Zg==
-X-CSE-MsgGUID: jDdZTAYxRMyd2b44KzMa5g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="24800368"
+  t=1712103527; x=1743639527;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uGdLvzMM/tvXVSP6p0/9xOMIkaw2PTSTPzAQjqORd6k=;
+  b=FYe4GdhAS+dMUS0lZs3Ucc9l7MNXvnN4Rki+l4qUv+S44+xVGazSaqXG
+   fT/IskJm1xNwDLiKy4H6bg4sjggcaiQ8EuHhnj5MLcXPVSDn5UypTc2KM
+   Xc7rMGSugZ2/Njn6e50q4zpvS1LoD03J7UJY+pj1LDIhEnV2iZROWaYFy
+   5iMysvFyuo/CAH5E+NVwGJs59vUBJA8RP5mhQgINTjyJZ3etb6lzdj2A2
+   Cnr+eltDBlBEESJgI4W2St3O9Q1uGQiDaNBVp+vo3M7xFFX3CxyOkhyq4
+   HfXPHvdmqGVs3bHTf1WI/w49lMpTXypwa0tYCgktwT6EorAUrNTwJy70J
+   Q==;
+X-CSE-ConnectionGUID: qOBgAaccSGur3CO+jIxUmw==
+X-CSE-MsgGUID: f00NkyLOQgm89beB/Mg+tQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="24802631"
 X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
-   d="scan'208";a="24800368"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 16:58:46 -0700
-X-CSE-ConnectionGUID: /0rSqutbSYGezZVceapNnQ==
-X-CSE-MsgGUID: lJpG4qfoR8CBvsXJYGdm2g==
+   d="scan'208";a="24802631"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 17:18:45 -0700
+X-CSE-ConnectionGUID: VqDnWvnCTXaJfkVeszCv3Q==
+X-CSE-MsgGUID: mx/+XVzERAeMBNT/WHVNQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
-   d="scan'208";a="18058838"
+   d="scan'208";a="18834799"
 Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 02 Apr 2024 16:58:43 -0700
+  by orviesa008.jf.intel.com with ESMTP; 02 Apr 2024 17:18:44 -0700
 Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rro1Y-0001dt-1Y;
-	Tue, 02 Apr 2024 23:58:40 +0000
-Date: Wed, 3 Apr 2024 07:58:05 +0800
+	id 1rroKv-0001er-0H;
+	Wed, 03 Apr 2024 00:18:41 +0000
+Date: Wed, 3 Apr 2024 08:18:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dawei Li <dawei.li@shingroup.cn>, will@kernel.org, mark.rutland@arm.com
-Cc: oe-kbuild-all@lists.linux.dev, xueshuai@linux.alibaba.com,
-	renyu.zj@linux.alibaba.com, yangyicong@hisilicon.com,
-	jonathan.cameron@huawei.com, andersson@kernel.org,
-	konrad.dybcio@linaro.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Dawei Li <dawei.li@shingroup.cn>
-Subject: Re: [PATCH 4/9] perf/arm_dsu: Avoid explicit cpumask var allocation
- from stack
-Message-ID: <202404030702.vL5Ep98R-lkp@intel.com>
-References: <20240402105610.1695644-5-dawei.li@shingroup.cn>
+To: Baolu Lu <baolu.lu@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lubaolu-intel-iommu:iommufd-io-pgfault-delivery-v4 3/12]
+ drivers/iommu/iommu.c:3501:6: warning: variable 'ret' is used uninitialized
+ whenever 'if' condition is true
+Message-ID: <202404030811.d15pFYS5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,76 +62,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240402105610.1695644-5-dawei.li@shingroup.cn>
 
-Hi Dawei,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on linus/master v6.9-rc2 next-20240402]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dawei-Li/perf-alibaba_uncore_drw-Avoid-explicit-cpumask-var-allocation-from-stack/20240402-192244
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20240402105610.1695644-5-dawei.li%40shingroup.cn
-patch subject: [PATCH 4/9] perf/arm_dsu: Avoid explicit cpumask var allocation from stack
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240403/202404030702.vL5Ep98R-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240403/202404030702.vL5Ep98R-lkp@intel.com/reproduce)
+tree:   https://github.com/LuBaolu/intel-iommu.git iommufd-io-pgfault-delivery-v4
+head:   6fc25b16b714233cbcb75b7dd5ded49f35f11e54
+commit: d5026804d865698bd727f615117eed7f231b25a6 [3/12] iommu: Introduce domain attachment handle
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240403/202404030811.d15pFYS5-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 546dc2245ffc4cccd0b05b58b7a5955e355a3b27)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240403/202404030811.d15pFYS5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404030702.vL5Ep98R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404030811.d15pFYS5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/perf/arm_dsu_pmu.c: In function 'dsu_pmu_get_online_cpu_any_but':
->> drivers/perf/arm_dsu_pmu.c:243:31: error: passing argument 1 of 'cpumask_any_but' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     243 |         ret = cpumask_any_but(&online_supported, cpu);
-         |                               ^~~~~~~~~~~~~~~~~
-         |                               |
-         |                               struct cpumask (*)[1]
-   In file included from arch/arm64/include/asm/cpufeature.h:26,
-                    from arch/arm64/include/asm/ptrace.h:11,
-                    from arch/arm64/include/asm/irqflags.h:10,
-                    from include/linux/irqflags.h:18,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from drivers/perf/arm_dsu_pmu.c:14:
-   include/linux/cpumask.h:379:52: note: expected 'const struct cpumask *' but argument is of type 'struct cpumask (*)[1]'
-     379 | unsigned int cpumask_any_but(const struct cpumask *mask, unsigned int cpu)
-         |                              ~~~~~~~~~~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/iommu/iommu.c:9:
+   In file included from include/linux/amba/bus.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iommu/iommu.c:3501:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    3501 |         if (IS_ERR(handle))
+         |             ^~~~~~~~~~~~~~
+   drivers/iommu/iommu.c:3516:9: note: uninitialized use occurs here
+    3516 |         return ret;
+         |                ^~~
+   drivers/iommu/iommu.c:3501:2: note: remove the 'if' if its condition is always false
+    3501 |         if (IS_ERR(handle))
+         |         ^~~~~~~~~~~~~~~~~~~
+    3502 |                 goto out_unlock;
+         |                 ~~~~~~~~~~~~~~~
+   drivers/iommu/iommu.c:3480:9: note: initialize the variable 'ret' to silence this warning
+    3480 |         int ret;
+         |                ^
+         |                 = 0
+   6 warnings generated.
 
 
-vim +/cpumask_any_but +243 drivers/perf/arm_dsu_pmu.c
+vim +3501 drivers/iommu/iommu.c
 
-   232	
-   233	static unsigned int dsu_pmu_get_online_cpu_any_but(struct dsu_pmu *dsu_pmu, int cpu)
-   234	{
-   235		cpumask_var_t online_supported;
-   236		unsigned int ret;
-   237	
-   238		if (!alloc_cpumask_var(&online_supported, GFP_KERNEL))
-   239			return -ENOMEM;
-   240	
-   241		cpumask_and(online_supported,
-   242			    &dsu_pmu->associated_cpus, cpu_online_mask);
- > 243		ret = cpumask_any_but(&online_supported, cpu);
-   244	
-   245		free_cpumask_var(online_supported);
-   246	
-   247		return ret;
-   248	}
-   249	
+  3464	
+  3465	/*
+  3466	 * iommu_attach_device_pasid() - Attach a domain to pasid of device
+  3467	 * @domain: the iommu domain.
+  3468	 * @dev: the attached device.
+  3469	 * @pasid: the pasid of the device.
+  3470	 *
+  3471	 * Return: 0 on success, or an error.
+  3472	 */
+  3473	int iommu_attach_device_pasid(struct iommu_domain *domain,
+  3474				      struct device *dev, ioasid_t pasid)
+  3475	{
+  3476		/* Caller must be a probed driver on dev */
+  3477		struct iommu_group *group = dev->iommu_group;
+  3478		struct iommu_attach_handle *handle;
+  3479		struct group_device *device;
+  3480		int ret;
+  3481	
+  3482		if (!domain->ops->set_dev_pasid)
+  3483			return -EOPNOTSUPP;
+  3484	
+  3485		if (!group)
+  3486			return -ENODEV;
+  3487	
+  3488		if (!dev_has_iommu(dev) || dev_iommu_ops(dev) != domain->owner ||
+  3489		    pasid == IOMMU_NO_PASID)
+  3490			return -EINVAL;
+  3491	
+  3492		mutex_lock(&group->mutex);
+  3493		for_each_group_device(group, device) {
+  3494			if (pasid >= device->dev->iommu->max_pasids) {
+  3495				ret = -EINVAL;
+  3496				goto out_unlock;
+  3497			}
+  3498		}
+  3499	
+  3500		handle = iommu_attach_handle_set(domain, group, pasid);
+> 3501		if (IS_ERR(handle))
+  3502			goto out_unlock;
+  3503	
+  3504		ret = __iommu_set_group_pasid(domain, group, pasid);
+  3505		if (ret)
+  3506			goto out_put_handle;
+  3507		mutex_unlock(&group->mutex);
+  3508	
+  3509		return 0;
+  3510	
+  3511	out_put_handle:
+  3512		__iommu_remove_group_pasid(group, pasid);
+  3513		iommu_attach_handle_put(handle);
+  3514	out_unlock:
+  3515		mutex_unlock(&group->mutex);
+  3516		return ret;
+  3517	}
+  3518	EXPORT_SYMBOL_GPL(iommu_attach_device_pasid);
+  3519	
 
 -- 
 0-DAY CI Kernel Test Service
