@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1C612F37C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 18:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0DB1CA82
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 18:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712253908; cv=none; b=dfnaG4YeLxW53eD2NIzdXzvoJVmqEpt2yL9FqNnUDtNyMPfkkDl5f+7PIFTpTFexV6YhD0fuTTHLiwOJa8MKZzkFFzBhKX8DvJtg8lX1MevDs7ndqekd2+3JYmU+iQudC9tMG2bfw4reh9U6xj1t/8nO4tsvV/XyD9QWXT1p0zc=
+	t=1712255168; cv=none; b=K0HHeJdCy+I02A5TKOgZFfYlop1jGWZuqpMy1XfrMUGo8QQbu9OytfVN517dvSk4xXoKKa9qpclj5CEbWUk8eCRrKEGQR0fpGpyuwQcsOvMUDV8tLgiMSHDVRwdn/gFlqa6q2OKf1FYSVYZwfMhL/Pg8hf7TNvpclv1oU5NBHes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712253908; c=relaxed/simple;
-	bh=bwNkXtnOzyNpHVckY+6VPgP8oUISPH2aCiB/SeI6SD0=;
+	s=arc-20240116; t=1712255168; c=relaxed/simple;
+	bh=jmJXOfoDImmIbYe7gSht0Is/BzrzjPQGUxsetvT7szI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SiLPyEhFkHg4YwKF655I/uyZ3UQGg9gPW4aboyOaahhCMAiTOwR8vQDj/VoKy4gDWHqLELOxJCabmPlPrUIemTvRjMyfam5nF5EdAPqFKNf2x8EmxcpmCBj2fVGMEnnkE2dU14MvTSpGqLYauPFg0OZyo1vP9DfQwRKvbc8jd3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VNw+6+D0; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=L8+EOhxuW4ADN6AEa6jHd1IGewBHLQvEoFaB8kTLaBoAYzIW9zJ2A0tkMTaZgOvTzorma5K7g0Mra3YblkcwxDnrk4w8lvAa/FLYgRj3b0pNGilKSDXtvz0lZiEESzfTfaaz9A1zqS7SKphb00P6lavTH0sGVQx5MgRN1t/LDMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CyDonxgd; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VNw+6+D0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CyDonxgd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712253906; x=1743789906;
+  t=1712255166; x=1743791166;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bwNkXtnOzyNpHVckY+6VPgP8oUISPH2aCiB/SeI6SD0=;
-  b=VNw+6+D0Kv7JE6Zh/fbV3u8tDj6nAdsB13L3VgmcdolhRlFcbQ7mcOMB
-   4CzwMsUYqHU7yBZPGqOlPfIyjhpblDHPYQkKhvgm0MXMZqeLKHfDbT+bj
-   Su48VpgbDoaI2lMio4BPb/vIWGgB36tPTYSrn/9Lir+t3UGBDZtI3ez1Q
-   dRp89NQY/9ncl+w+YLbL9ncj++ooyUKsxA0EHG03Bt2kdtiP7UwRWLCJm
-   WneJVNFXhTbEVGWtQVcT1NQNS2OoJWdFKVSPQ3oyyqyWZ9B3lLT27VVuz
-   S6c6ywIU7EWbOlyVwnuG0jFdrwpHd0r3r1hjXhj5sSvTgUpv1P2UCsg9Z
-   A==;
-X-CSE-ConnectionGUID: kPcL/RozTVu6Qq2yL8Dg3w==
-X-CSE-MsgGUID: 0RaiWUdCQKOY7uj/9S1ZWA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="25002923"
+  bh=jmJXOfoDImmIbYe7gSht0Is/BzrzjPQGUxsetvT7szI=;
+  b=CyDonxgd/CW92Je4ugwM6GEluMbvzJtJ0y3MvqJy0xWw0DW0JZzUTG2H
+   Gm4jBAkQww8Tctp4ATPIrOUvh58wvACLcwf+G1POZrQBrC6wORCnVrAMr
+   28Lzlwmjl75PvLKChUivmYCzNgkBl45M7AsF1V+8TDBh7YbB4ZRZL4SEz
+   rL5oIRXIf5d+lZM7RF7tbX60wLdJ/tdMtYuLZJQhtvRmH+6wEXaKstyIO
+   WD2KF73O6czHsVHFQ94njiYyKYT8yczidfP60gN7XHKjTmkEQ6E3v7057
+   affUQpprh8fvapuy8LcTQxz6gwCgv6tBuyoVlVM3SND8yAS/B9qgxD5P6
+   Q==;
+X-CSE-ConnectionGUID: TlvNTN9NRFmKb8JFODOvhg==
+X-CSE-MsgGUID: nRlRaJetRWqPC+H1CzDDhQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7718505"
 X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
-   d="scan'208";a="25002923"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 11:05:05 -0700
-X-CSE-ConnectionGUID: y/WHFc7KSPy53yIxbcxD3w==
-X-CSE-MsgGUID: xaCr/L+RRsu080MmcVEFgA==
+   d="scan'208";a="7718505"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 11:26:05 -0700
+X-CSE-ConnectionGUID: +KWj1scEQQ+Zy4Hi+tmsPQ==
+X-CSE-MsgGUID: vsiidV+jQVyHxQV9HhriFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
-   d="scan'208";a="19478034"
+   d="scan'208";a="23569730"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 04 Apr 2024 11:05:04 -0700
+  by orviesa003.jf.intel.com with ESMTP; 04 Apr 2024 11:26:05 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rsRSP-0001LW-2J;
-	Thu, 04 Apr 2024 18:05:01 +0000
-Date: Fri, 5 Apr 2024 02:04:01 +0800
+	id 1rsRmk-0001Mg-1A;
+	Thu, 04 Apr 2024 18:26:02 +0000
+Date: Fri, 5 Apr 2024 02:25:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
+To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 8/17] drivers/char/mem.c:209:17: error: 'buf'
- undeclared; did you mean 'btf'?
-Message-ID: <202404050113.bs8MZ6oZ-lkp@intel.com>
+Subject: [intel-tdx:guest-attest 4/8] arch/x86/coco/tdx/tdx.c:63: warning:
+ Function parameter or struct member 'hdr' not described in
+ 'service_query_req'
+Message-ID: <202404050249.J8I1tGE0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,118 +63,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   abf039f568d1cb3559719a95366691c120449cd9
-commit: a60eb2a07b5eb5064a5636204550c1df87d20751 [8/17] char: convert drivers to use ->read_iter() and ->write_iter()
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20240405/202404050113.bs8MZ6oZ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240405/202404050113.bs8MZ6oZ-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git guest-attest
+head:   e0c511fe981d8b05dd0a945acc1e8d7f4fba3a59
+commit: 614408cfce8b25afb96c6051f29a0a978feae893 [4/8] x86/tdx: Add tdx_hcall_query_service() interface
+config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240405/202404050249.J8I1tGE0-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240405/202404050249.J8I1tGE0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404050113.bs8MZ6oZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404050249.J8I1tGE0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/char/mem.c: In function 'write_mem':
->> drivers/char/mem.c:209:17: error: 'buf' undeclared (first use in this function); did you mean 'btf'?
-     209 |                 buf += sz;
-         |                 ^~~
-         |                 btf
-   drivers/char/mem.c:209:17: note: each undeclared identifier is reported only once for each function it appears in
---
-   drivers/char/nvram.c: In function 'nvram_misc_read':
->> drivers/char/nvram.c:230:24: error: implicit declaration of function 'iov_iter_count' [-Werror=implicit-function-declaration]
-     230 |         size_t count = iov_iter_count(to);
-         |                        ^~~~~~~~~~~~~~
->> drivers/char/nvram.c:249:13: error: implicit declaration of function 'copy_to_iter_full' [-Werror=implicit-function-declaration]
-     249 |         if (copy_to_iter_full(tmp, ret, to)) {
-         |             ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> arch/x86/coco/tdx/tdx.c:63: warning: Function parameter or struct member 'hdr' not described in 'service_query_req'
 
 
-vim +209 drivers/char/mem.c
+vim +63 arch/x86/coco/tdx/tdx.c
 
-^1da177e4c3f41 Linus Torvalds                2005-04-16  187  
-a60eb2a07b5eb5 Jens Axboe                    2024-04-03  188  static ssize_t write_mem(struct kiocb *iocb, struct iov_iter *from)
-^1da177e4c3f41 Linus Torvalds                2005-04-16  189  {
-a60eb2a07b5eb5 Jens Axboe                    2024-04-03  190  	size_t count = iov_iter_count(from);
-a60eb2a07b5eb5 Jens Axboe                    2024-04-03  191  	phys_addr_t p = iocb->ki_pos;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  192  	ssize_t written, sz;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  193  	unsigned long copied;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  194  	void *ptr;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  195  
-a60eb2a07b5eb5 Jens Axboe                    2024-04-03  196  	if (p != iocb->ki_pos)
-08d2d00b291ed4 Petr Tesarik                  2014-01-30  197  		return -EFBIG;
-08d2d00b291ed4 Petr Tesarik                  2014-01-30  198  
-136939a2b5aa43 Bjorn Helgaas                 2006-03-26  199  	if (!valid_phys_addr_range(p, count))
-^1da177e4c3f41 Linus Torvalds                2005-04-16  200  		return -EFAULT;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  201  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  202  	written = 0;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  203  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  204  #ifdef __ARCH_HAS_NO_PAGE_ZERO_MAPPED
-^1da177e4c3f41 Linus Torvalds                2005-04-16  205  	/* we don't have page 0 mapped on sparc and m68k.. */
-^1da177e4c3f41 Linus Torvalds                2005-04-16  206  	if (p < PAGE_SIZE) {
-7fabaddd09ab32 Wu Fengguang                  2009-12-14  207  		sz = size_inside_page(p, count);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  208  		/* Hmm. Do something? */
-^1da177e4c3f41 Linus Torvalds                2005-04-16 @209  		buf += sz;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  210  		p += sz;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  211  		count -= sz;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  212  		written += sz;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  213  	}
-^1da177e4c3f41 Linus Torvalds                2005-04-16  214  #endif
-^1da177e4c3f41 Linus Torvalds                2005-04-16  215  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  216  	while (count > 0) {
-a4866aa812518e Kees Cook                     2017-04-05  217  		int allowed;
-a4866aa812518e Kees Cook                     2017-04-05  218  
-f222318e9c3a31 Wu Fengguang                  2009-12-14  219  		sz = size_inside_page(p, count);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  220  
-a4866aa812518e Kees Cook                     2017-04-05  221  		allowed = page_is_allowed(p >> PAGE_SHIFT);
-a4866aa812518e Kees Cook                     2017-04-05  222  		if (!allowed)
-e045fb2a988a9a venkatesh.pallipadi@intel.com 2008-03-18  223  			return -EPERM;
-e045fb2a988a9a venkatesh.pallipadi@intel.com 2008-03-18  224  
-a4866aa812518e Kees Cook                     2017-04-05  225  		/* Skip actual writing when a page is marked as restricted. */
-a4866aa812518e Kees Cook                     2017-04-05  226  		if (allowed == 1) {
-^1da177e4c3f41 Linus Torvalds                2005-04-16  227  			/*
-a4866aa812518e Kees Cook                     2017-04-05  228  			 * On ia64 if a page has been mapped somewhere as
-a4866aa812518e Kees Cook                     2017-04-05  229  			 * uncached, then it must also be accessed uncached
-a4866aa812518e Kees Cook                     2017-04-05  230  			 * by the kernel or data corruption may occur.
-^1da177e4c3f41 Linus Torvalds                2005-04-16  231  			 */
-^1da177e4c3f41 Linus Torvalds                2005-04-16  232  			ptr = xlate_dev_mem_ptr(p);
-e045fb2a988a9a venkatesh.pallipadi@intel.com 2008-03-18  233  			if (!ptr) {
-e045fb2a988a9a venkatesh.pallipadi@intel.com 2008-03-18  234  				if (written)
-e045fb2a988a9a venkatesh.pallipadi@intel.com 2008-03-18  235  					break;
-e045fb2a988a9a venkatesh.pallipadi@intel.com 2008-03-18  236  				return -EFAULT;
-e045fb2a988a9a venkatesh.pallipadi@intel.com 2008-03-18  237  			}
-^1da177e4c3f41 Linus Torvalds                2005-04-16  238  
-a60eb2a07b5eb5 Jens Axboe                    2024-04-03  239  			copied = copy_from_iter(ptr, sz, from);
-fa29e97bb8c70f Wu Fengguang                  2009-12-14  240  			unxlate_dev_mem_ptr(p, ptr);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  241  			if (copied) {
-c654d60e8f0ea1 Jan Beulich                   2006-03-25  242  				written += sz - copied;
-c654d60e8f0ea1 Jan Beulich                   2006-03-25  243  				if (written)
-c654d60e8f0ea1 Jan Beulich                   2006-03-25  244  					break;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  245  				return -EFAULT;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  246  			}
-a4866aa812518e Kees Cook                     2017-04-05  247  		}
-e045fb2a988a9a venkatesh.pallipadi@intel.com 2008-03-18  248  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  249  		p += sz;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  250  		count -= sz;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  251  		written += sz;
-8619e5bdeee8b2 Tetsuo Handa                  2019-08-26  252  		if (should_stop_iteration())
-8619e5bdeee8b2 Tetsuo Handa                  2019-08-26  253  			break;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  254  	}
-^1da177e4c3f41 Linus Torvalds                2005-04-16  255  
-a60eb2a07b5eb5 Jens Axboe                    2024-04-03  256  	iocb->ki_pos += written;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  257  	return written;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  258  }
-^1da177e4c3f41 Linus Torvalds                2005-04-16  259  
-
-:::::: The code at line 209 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+    44	
+    45	/**
+    46	 * struct service_query_req - Service query command buffer
+    47	 * hdr: Command buffer header.
+    48	 * @version: Command version (default is 0).
+    49	 * @cmd: Command ID (0 for query command).
+    50	 * @rsvd: Reserved for future use.
+    51	 * @guid: Service GUID to query.
+    52	 */
+    53	struct service_query_req
+    54	{
+    55		/* Command buffer header */
+    56		struct tdx_service_req_hdr hdr;
+    57	
+    58		/* Command data */
+    59		u8 version;
+    60		u8 cmd;
+    61		u8 rsvd;
+    62		u8 guid[16];
+  > 63	};
+    64	
 
 -- 
 0-DAY CI Kernel Test Service
