@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A46C763E6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 09:58:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3714A8F7D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 10:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712224725; cv=none; b=OggV7uVcrOJxvpMYJPSPXViWD4SooBlR4OerUt1naaIR0+5TpU3lgZUctqj+YZFVjTj2jNSktLYqH0DJdCIR5muDX79KfUajSBF1+hILfdrvdWuoLBs7bWJYa0lg+0YWZ1U3PV+bbnH5RHzycdW9XJYWNYTBSQAcSP7kEKocwcE=
+	t=1712227370; cv=none; b=bm/a9AEbBk6Z4aXfcxDTAijcsFAiGLck2t30zMZ0Z+S3izT3MUDpKPu1qoEvpsN2gdoO5V3tyIlyuTb5OL77T3uTMdBz5TPFomRNBqGNe5A/oG7UX3UGllussIhxVjnsh/MyU7dNqDNBmdSWbmq7+1EENTUmEz5FCv2+DsJ2Cus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712224725; c=relaxed/simple;
-	bh=r93kZGE8lq9CvqdCkrxuuyYjexfZ/0/ktYPyHndCINE=;
+	s=arc-20240116; t=1712227370; c=relaxed/simple;
+	bh=CV7gj+XZ0oPSGQtIQ4WXYCwfeQ///Z3a48gWvO6HTsY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=riTLid7QLRgWfJ0ZUMcaYn8bmftfkri9ZhZnoT7a0eJUL58bOvhVjD7IAN04yrlocVGEJoAp9wnfg7Mn4HMoxK21kUe4RGIp1cT9MAOc2Y7GRj/cnRv8XU/IbnRFiQbSpbq35gmvb18J9soudL8MBauwgyDZ1pPCF5VraozjSTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jqu7y5uH; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=o2UThbm1DYRxt7N2eu1zO22MbOmAS4bnwUX7JsjY8cG/n04D5LtNAEMUIp0XopODoWXUFtFKbYBAof1JRJJ42b6XmuDK7ydTxMKsDBfQweWklynLHEc4DeTdMj5Ee4h9uabq3C2jBiRqArIT5V6Yee3R2k558jHdn5eauLKZOLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=THTYHzJW; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jqu7y5uH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="THTYHzJW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712224722; x=1743760722;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=r93kZGE8lq9CvqdCkrxuuyYjexfZ/0/ktYPyHndCINE=;
-  b=Jqu7y5uHlO8Q3HVBXlA0y+uwQLdEmCQ02UhMfDnvGc53Mp87sIFbcyYz
-   8JD4GRY8EUR8a30SP20dxjCFatyz9DZpQJKaNUOneNctzu2cY2j4Epcf4
-   vxTAF+vo+MBBbzQGZOdyoRaRx2E0iXmDx6QfYJZAyTcAXEaEcxXEuwKGN
-   RGsXp3HA3Ft6z8tQ5od6HkAP0nvL6EbKOVA86w7UObOxGL6zLuhvjHe+u
-   aBKKzGC9qq4Bkdsriu+oHFawkVg7lwlpEyfv29NeGU0QIWNGJq3ZIlkPI
-   v5EBnscTR0sLAfROuLBHB39LJmBICfkk6N3puBAbwwEVuqYoc1fo4si5K
-   w==;
-X-CSE-ConnectionGUID: Go9J4yMRT2mhA89q2ps/cw==
-X-CSE-MsgGUID: /FDJ6O5FTx2F8IFuW51cSg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="18850610"
-X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
-   d="scan'208";a="18850610"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 02:58:42 -0700
-X-CSE-ConnectionGUID: FvtEOqmSRq+zhEBOky5iRQ==
-X-CSE-MsgGUID: rrCBSCIhRFSjezZavJa16A==
+  t=1712227365; x=1743763365;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CV7gj+XZ0oPSGQtIQ4WXYCwfeQ///Z3a48gWvO6HTsY=;
+  b=THTYHzJWQeHlC9FRNC4bzd2rRtn/tSLuIeu/bXTQwmzKMIT3OMVO29IZ
+   zKVieOiDOITd2+j8HjlQQDwK2fZf1oMulV4KU9W6VTKlMe3zvG9ZgOjKp
+   mrUnpsvXYkIEiE3gzwAjWXC5prLb3huUvn+xq+aoCICUbq06Z7L0AqTj5
+   Bm8rhJtKcLM3yJvX8aDaYephyR4n3WG/dTk6GF5ocdWMC1pejl1plLZqb
+   g2IGIkp9fQXjeUJMjxEfhZj9TXM11vBus42iquhO4EiiQtJYpojKNevtw
+   t7cjjv5tFrEfjxPllOwE/sYBFH1f992ly46BvVYMzCk/2j23r/ly9AhA2
+   g==;
+X-CSE-ConnectionGUID: +nWFypNVQdGqutzoW9+XMA==
+X-CSE-MsgGUID: EnHSVmldStur5O0yUr/WEQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="29972658"
+X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
+   d="scan'208";a="29972658"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 03:37:44 -0700
+X-CSE-ConnectionGUID: khYFBxsOQ5O3Yz9hg9Sdaw==
+X-CSE-MsgGUID: luiP7FSDReOydeUAxCBPow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
-   d="scan'208";a="18842247"
+   d="scan'208";a="23431860"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 04 Apr 2024 02:58:41 -0700
+  by orviesa005.jf.intel.com with ESMTP; 04 Apr 2024 03:37:43 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rsJri-0000t2-31;
-	Thu, 04 Apr 2024 09:58:38 +0000
-Date: Thu, 4 Apr 2024 17:58:19 +0800
+	id 1rsKTU-0000wO-2X;
+	Thu, 04 Apr 2024 10:37:40 +0000
+Date: Thu, 4 Apr 2024 18:37:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mikhail Ukhin <mish.uxin2012@yandex.ru>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] ext4: fix i_data_sem unlock order in ext4_ind_migrate()
-Message-ID: <Zg55uwi6wI9OIRbT@92629a18465e>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Yury Norov <yury.norov@gmail.com>
+Subject: [linux-next:master 2530/3921] powerpc64-linux-ld: warning: orphan
+ section `.bss..Lubsan_data249' from `kernel/ptrace.o' being placed in
+ section `.bss..Lubsan_data249'
+Message-ID: <202404041832.tMSAtKyB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +64,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240404095000.5872-1-mish.uxin2012@yandex.ru>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2b3d5988ae2cb5cd945ddbc653f0a71706231fdd
+commit: b44759705f7dc95d539d145b4c2edcaf079e7c33 [2530/3921] bitmap: make bitmap_{get,set}_value8() use bitmap_{read,write}()
+config: powerpc64-randconfig-r016-20220119 (https://download.01.org/0day-ci/archive/20240404/202404041832.tMSAtKyB-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240404/202404041832.tMSAtKyB-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404041832.tMSAtKyB-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All warnings (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] ext4: fix i_data_sem unlock order in ext4_ind_migrate()
-Link: https://lore.kernel.org/stable/20240404095000.5872-1-mish.uxin2012%40yandex.ru
+>> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data249' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data249'
+>> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data249' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data249'
+>> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data249' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data249'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
