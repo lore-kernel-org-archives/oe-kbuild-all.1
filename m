@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3714A8F7D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 10:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FC176049
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 10:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712227370; cv=none; b=bm/a9AEbBk6Z4aXfcxDTAijcsFAiGLck2t30zMZ0Z+S3izT3MUDpKPu1qoEvpsN2gdoO5V3tyIlyuTb5OL77T3uTMdBz5TPFomRNBqGNe5A/oG7UX3UGllussIhxVjnsh/MyU7dNqDNBmdSWbmq7+1EENTUmEz5FCv2+DsJ2Cus=
+	t=1712228394; cv=none; b=tlv41z/FcI559AxPifoYT+2Jzt4vDm2wPRD5Q/X0g2B7HJZny6Rk4JLzuPRk5y5FvV3lyQ086hvY7cy0y5RgDa5S/32Er5RRffUjKCQ4hrT8lMONwe8z9pdw/7OcebqqUrnyJxsW5fr6s8IugxZ0Z5yXunGZY1puO++lF5C0YyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712227370; c=relaxed/simple;
-	bh=CV7gj+XZ0oPSGQtIQ4WXYCwfeQ///Z3a48gWvO6HTsY=;
+	s=arc-20240116; t=1712228394; c=relaxed/simple;
+	bh=BiLxkMMK4X1HlsJ0lg9rRJC/64lBfgmFYAPjHdNoygE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o2UThbm1DYRxt7N2eu1zO22MbOmAS4bnwUX7JsjY8cG/n04D5LtNAEMUIp0XopODoWXUFtFKbYBAof1JRJJ42b6XmuDK7ydTxMKsDBfQweWklynLHEc4DeTdMj5Ee4h9uabq3C2jBiRqArIT5V6Yee3R2k558jHdn5eauLKZOLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=THTYHzJW; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=qndOMgb+AdwdSD5VizJhyPRfZBAjcg41iI63PNDQ0Ak0svEqcDMoNXqqivi2y8TPtbtxy/o/7ZZ0coP72tTf9H0xAq0WirvhP4ZxMwpXrhbXa9LUNUtjt6PxBFbP6bnEt2Fzyn58AS0VNrAbyrw7rCuT4FRN6tfHeUhfDqWY9As=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BuHmSqWd; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="THTYHzJW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BuHmSqWd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712227365; x=1743763365;
+  t=1712228387; x=1743764387;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CV7gj+XZ0oPSGQtIQ4WXYCwfeQ///Z3a48gWvO6HTsY=;
-  b=THTYHzJWQeHlC9FRNC4bzd2rRtn/tSLuIeu/bXTQwmzKMIT3OMVO29IZ
-   zKVieOiDOITd2+j8HjlQQDwK2fZf1oMulV4KU9W6VTKlMe3zvG9ZgOjKp
-   mrUnpsvXYkIEiE3gzwAjWXC5prLb3huUvn+xq+aoCICUbq06Z7L0AqTj5
-   Bm8rhJtKcLM3yJvX8aDaYephyR4n3WG/dTk6GF5ocdWMC1pejl1plLZqb
-   g2IGIkp9fQXjeUJMjxEfhZj9TXM11vBus42iquhO4EiiQtJYpojKNevtw
-   t7cjjv5tFrEfjxPllOwE/sYBFH1f992ly46BvVYMzCk/2j23r/ly9AhA2
-   g==;
-X-CSE-ConnectionGUID: +nWFypNVQdGqutzoW9+XMA==
-X-CSE-MsgGUID: EnHSVmldStur5O0yUr/WEQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="29972658"
-X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="29972658"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 03:37:44 -0700
-X-CSE-ConnectionGUID: khYFBxsOQ5O3Yz9hg9Sdaw==
-X-CSE-MsgGUID: luiP7FSDReOydeUAxCBPow==
+  bh=BiLxkMMK4X1HlsJ0lg9rRJC/64lBfgmFYAPjHdNoygE=;
+  b=BuHmSqWdPbqZv9ja3CJl+TnzYNNlGpSmfobQH5RgikJsJI7hRAOPquu3
+   +ndewwCHK3KV6gIagp/iO8QX5OA8FhKNTuD5MRDGNNfpoxJrqhNpPPjBe
+   bttZFr2BwJTICUuZrq7B2lmAKr81wL7nighkBQfE05E6ie2gQS3pSl4Zy
+   2nceu9WrSsfE94GoeaKHwn+9W5xPpWb6c4sXgTBGs7IuvEYgAmFICRBtW
+   vRoVhszt47SNTK1J3VvRy2hds37dkPFYLEYTSHmPRO4l4Z7T0sJpEtdiQ
+   hOuZgJ5HFwUrbaplv37WcBQZct1Ui9OSKvIyV1my8FQdnP6yUlBja1ueU
+   A==;
+X-CSE-ConnectionGUID: 9VAOfaagQBKCj+gIsfWX2A==
+X-CSE-MsgGUID: gdfeMRTKSZW/V0NhslvOeQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="25007138"
+X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
+   d="scan'208";a="25007138"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 03:59:45 -0700
+X-CSE-ConnectionGUID: ggnl4FexSrSSOG8ipGZQ3A==
+X-CSE-MsgGUID: pzs/hhh8S1id31NjZczhyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
-   d="scan'208";a="23431860"
+   d="scan'208";a="19204096"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Apr 2024 03:37:43 -0700
+  by orviesa006.jf.intel.com with ESMTP; 04 Apr 2024 03:59:44 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rsKTU-0000wO-2X;
-	Thu, 04 Apr 2024 10:37:40 +0000
-Date: Thu, 4 Apr 2024 18:37:37 +0800
+	id 1rsKon-0000xc-24;
+	Thu, 04 Apr 2024 10:59:41 +0000
+Date: Thu, 4 Apr 2024 18:59:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Yury Norov <yury.norov@gmail.com>
-Subject: [linux-next:master 2530/3921] powerpc64-linux-ld: warning: orphan
- section `.bss..Lubsan_data249' from `kernel/ptrace.o' being placed in
- section `.bss..Lubsan_data249'
-Message-ID: <202404041832.tMSAtKyB-lkp@intel.com>
+To: kernel@openeuler.org, Dong Yibo <dong100@mucse.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 7041/7280] ld.lld: error: duplicate symbol:
+ remove_mbx_irq
+Message-ID: <202404041822.U2KyOb5f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,23 +62,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2b3d5988ae2cb5cd945ddbc653f0a71706231fdd
-commit: b44759705f7dc95d539d145b4c2edcaf079e7c33 [2530/3921] bitmap: make bitmap_{get,set}_value8() use bitmap_{read,write}()
-config: powerpc64-randconfig-r016-20220119 (https://download.01.org/0day-ci/archive/20240404/202404041832.tMSAtKyB-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240404/202404041832.tMSAtKyB-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   5cf97fd1b2bc5ef3aefe91efc63c73b4721a7a44
+commit: bf177ad1d8f72824180b44563c09f37562f645de [7041/7280] drivers: initial support for rnpgbevf drivers from Mucse Technology
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240404/202404041822.U2KyOb5f-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240404/202404041822.U2KyOb5f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404041832.tMSAtKyB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404041822.U2KyOb5f-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data249' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data249'
->> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data249' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data249'
->> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data249' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data249'
+>> ld.lld: error: duplicate symbol: remove_mbx_irq
+   >>> defined at rnpvf_main.c
+   >>>            drivers/net/ethernet/mucse/rnpvf/rnpvf_main.o:(remove_mbx_irq) in archive vmlinux.a
+   >>> defined at rnpgbevf_main.c
+   >>>            drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.o:(.text+0x9B40) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: __cfi_remove_mbx_irq
+   >>> defined at rnpvf_main.c
+   >>>            drivers/net/ethernet/mucse/rnpvf/rnpvf_main.o:(__cfi_remove_mbx_irq) in archive vmlinux.a
+   >>> defined at rnpgbevf_main.c
+   >>>            drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.o:(.text+0x9B00) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: register_mbx_irq
+   >>> defined at rnpvf_main.c
+   >>>            drivers/net/ethernet/mucse/rnpvf/rnpvf_main.o:(register_mbx_irq) in archive vmlinux.a
+   >>> defined at rnpgbevf_main.c
+   >>>            drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.o:(.text+0x9D80) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: __cfi_register_mbx_irq
+   >>> defined at rnpvf_main.c
+   >>>            drivers/net/ethernet/mucse/rnpvf/rnpvf_main.o:(__cfi_register_mbx_irq) in archive vmlinux.a
+   >>> defined at rnpgbevf_main.c
+   >>>            drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.o:(.text+0x9D40) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
