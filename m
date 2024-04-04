@@ -1,61 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0855A5C89;
-	Thu,  4 Apr 2024 01:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 453B65C99
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 02:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712194766; cv=none; b=oNo8h6JzqhX7G8KiqGeIlJiFdO+1Z2QDzkHz7fTL97ni1zco1k7t3javK287202wbpHrGOo4XoxvVngnDBGxYeQtRS+BfcnTgGXV8ebUkb5ITI/1fufUJAV3MANYFQ9DLSe8Keh5PWNBjscn4yl41DHzxjh3vA83/HG6TsqFMMw=
+	t=1712196148; cv=none; b=kMvZl6Lk8LM0xsoFUoOBwhooUBYqi6mJ/d2jJf/Tq/fqZpLCUUF+rtHnA5HJo4ZBs7B5Wdw0n2sfV9JXL/U+yaxwx0zOZ9NsyWs2nZ6bLnXEvTrLNfQGCUDGc3bfKe01UinczWtQS3N3o5okvjp+CZi9hGqljCNU/E2GYXmrJDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712194766; c=relaxed/simple;
-	bh=MixS7in2mkT8c1l8CaRWTGi44k619b8ngiKk9On/vmM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sYDj36zykyMUjmVzJzdLiABVR5cNmRPKg/+mIQWAWgg21LjnOQ32t2cS3ZI2GMFQRZHuVOFNdCjNEaMRcq1Q1EoW+Thx8F1WGgAkEs01jAYNhxxDRGTHwdDAHdshtMOILYDW7yw3UQ/EronEBWFFOEZNs8rBrK8kR2iJgn6DyNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c3aT4She; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1712196148; c=relaxed/simple;
+	bh=DUWHamg1uniKlSSBNG+c78Cu/IUUW7khihSA7S/VgtE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I2+QNW2u0ia9Cq2pZXnyWA9Nas//s+WAHCDY9rh3o+ZPUo8PYMVEDGEPU8gPjxvUnInFccu3PoVc6/nPcQCMpbgkU4MjaVDK2mM5YE7Pt6JqS50corLbFIeLQpJmL6fKBYNVoJ5U1s/7izoj2yM+Ld4VnmW1YCRbSvoGMpwcow8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZqcqdNso; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c3aT4She"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZqcqdNso"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712194765; x=1743730765;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MixS7in2mkT8c1l8CaRWTGi44k619b8ngiKk9On/vmM=;
-  b=c3aT4She3DAZy0r0yzhbOYDMinqc1wrjeDj/iUFLFRBA0jZgVTwRYRWJ
-   hfkNnJh+XxzW3+UHsJTcFPzLrlGKdEWYtxyCS7tN93kvUFP2WxsIghS+c
-   uoEfg2Uxs9HviAoPe9U14VCt8v5hfxUNG9V7FcWhUnDcUnphQMXzBxhFZ
-   cVGgYCyn2zjPqHAL0WcroCxSQeozqtZq4jdIbmciOOHxomEorjY0WEANW
-   e8eHehCnO+tOaLgoIG1leocPPocN6KSsGtPFggsEp/ebkiuV50B1MkWrn
-   qQbz3xKjMcESTB1SlHbA42a1kNN7DVzUf0+YWW6JxMGqYx0k8IoiIGZ6q
-   A==;
-X-CSE-ConnectionGUID: 5yOTmeHqSv6Xx5ktpn4inA==
-X-CSE-MsgGUID: YqtLD3YCS7Ws+ogDjyz1oQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="10426910"
+  t=1712196145; x=1743732145;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DUWHamg1uniKlSSBNG+c78Cu/IUUW7khihSA7S/VgtE=;
+  b=ZqcqdNso48OI5q9oALAR+1zEJ5+KCmnpc5gqeH5m3EBGDwefnEpy2ZK5
+   5aJX46+NeLlktCfmXMyeTmBwL1QgJ6tFOTKkAfHC8+GDvxRYXtcoEnFeA
+   Y2R9hHzwsr8zCZnGs8d5mPKssHHM4/GEtjpCzziBT7hpdWJzrGGtZZAZu
+   SmBMAW53JgXOQA0DbFgYZbLj0CT6ZrJScSqvWuREN+7qg/Jzy0t5tOLnA
+   0Ex8IZALQgdl80Exlj9hQF2qiKnEChI6WPVe36LcEnsEG/ERnZTTfIN/X
+   EsyEAtQpIhSQvdQQWzvSDjl6uvzV9vShrgidxe2I5bByr3LefkMOHB8wY
+   g==;
+X-CSE-ConnectionGUID: uSpjIDYdSwOwYymu21CO3Q==
+X-CSE-MsgGUID: c9oE8AbJTfKYFQh1XwMjIQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="11289968"
 X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="10426910"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 18:39:22 -0700
-X-CSE-ConnectionGUID: /yjUzED8R2aDj23eKJ0+MA==
-X-CSE-MsgGUID: XxCiVqy4QHyHcqhW6xXR0A==
+   d="scan'208";a="11289968"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 19:02:24 -0700
+X-CSE-ConnectionGUID: B35+lIb8S9+8XOEzA3rZAQ==
+X-CSE-MsgGUID: 8qmKPmsGSkehc2XgYSBgZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="23380975"
+   d="scan'208";a="18477636"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 03 Apr 2024 18:39:20 -0700
+  by orviesa010.jf.intel.com with ESMTP; 03 Apr 2024 19:02:22 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rsC4U-0000Rw-0I;
-	Thu, 04 Apr 2024 01:39:18 +0000
-Date: Thu, 4 Apr 2024 09:38:37 +0800
+	id 1rsCQk-0000TO-30;
+	Thu, 04 Apr 2024 02:02:18 +0000
+Date: Thu, 4 Apr 2024 10:01:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 11/14] kernel/panic.c:757:1: error:
- incompatible function pointer types initializing 'ssize_t (*)(struct kiocb
- *, struct iov_iter *)' (aka 'long (*)(struct kiocb *, struct iov_iter *)')
- with an expression of type 'ssize_t (struct file *, char *, size_t, loff_t
- *...
-Message-ID: <202404040949.Oar7h3b6-lkp@intel.com>
+To: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, sudeep.holla@arm.com,
+	cristian.marussi@arm.com, jassisinghbrar@gmail.com,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: mailbox: arm,mhuv3: Add bindings
+Message-ID: <202404040918.E8nkWuIn-lkp@intel.com>
+References: <20240403171346.3173843-2-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,158 +67,222 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240403171346.3173843-2-cristian.marussi@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   8e8fd62fac9e105d05cfda66070e98a3a255e1a0
-commit: e70895a95ab70c8ce8c28b7358dcbe587ce7b834 [11/14] libfs: switch to read iter and add copy helpers
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240404/202404040949.Oar7h3b6-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 546dc2245ffc4cccd0b05b58b7a5955e355a3b27)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240404/202404040949.Oar7h3b6-lkp@intel.com/reproduce)
+Hi Cristian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on robh/for-next linus/master v6.9-rc2 next-20240403]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/dt-bindings-mailbox-arm-mhuv3-Add-bindings/20240404-012010
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20240403171346.3173843-2-cristian.marussi%40arm.com
+patch subject: [PATCH v2 1/2] dt-bindings: mailbox: arm,mhuv3: Add bindings
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240404/202404040918.E8nkWuIn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404040949.Oar7h3b6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404040918.E8nkWuIn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/mailbox/arm,mhuv3.yaml:86:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
+--
+>> Documentation/devicetree/bindings/mailbox/arm,mhuv3.yaml:86:1: found a tab character where an indentation space is expected
+--
+>> Documentation/devicetree/bindings/mailbox/arm,mhuv3.yaml: ignoring, error parsing file
 
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from kernel/panic.c:19:
-   In file included from include/linux/vt_kern.h:12:
-   In file included from include/linux/tty.h:11:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from kernel/panic.c:19:
-   In file included from include/linux/vt_kern.h:12:
-   In file included from include/linux/tty.h:11:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   kernel/panic.c:757:1: error: use of undeclared identifier 'debugfs_attr_read_iter'; did you mean 'debugfs_attr_read'?
-     757 | DEFINE_DEBUGFS_ATTRIBUTE(clear_warn_once_fops, NULL, clear_warn_once_set,
-         | ^
-   include/linux/debugfs.h:64:2: note: expanded from macro 'DEFINE_DEBUGFS_ATTRIBUTE'
-      64 |         DEFINE_DEBUGFS_ATTRIBUTE_XSIGNED(__fops, __get, __set, __fmt, false)
-         |         ^
-   include/linux/debugfs.h:58:15: note: expanded from macro 'DEFINE_DEBUGFS_ATTRIBUTE_XSIGNED'
-      58 |         .read_iter = debugfs_attr_read_iter,                            \
-         |                      ^
-   include/linux/debugfs.h:271:23: note: 'debugfs_attr_read' declared here
-     271 | static inline ssize_t debugfs_attr_read(struct file *file, char __user *buf,
-         |                       ^
-   kernel/panic.c:757:1: error: use of undeclared identifier 'debugfs_attr_write_iter_signed'; did you mean 'debugfs_attr_write_signed'?
-     757 | DEFINE_DEBUGFS_ATTRIBUTE(clear_warn_once_fops, NULL, clear_warn_once_set,
-         | ^
-   include/linux/debugfs.h:64:2: note: expanded from macro 'DEFINE_DEBUGFS_ATTRIBUTE'
-      64 |         DEFINE_DEBUGFS_ATTRIBUTE_XSIGNED(__fops, __get, __set, __fmt, false)
-         |         ^
-   include/linux/debugfs.h:59:31: note: expanded from macro 'DEFINE_DEBUGFS_ATTRIBUTE_XSIGNED'
-      59 |         .write_iter= (__is_signed) ? debugfs_attr_write_iter_signed : debugfs_attr_write_iter,  \
-         |                                      ^
-   include/linux/debugfs.h:284:23: note: 'debugfs_attr_write_signed' declared here
-     284 | static inline ssize_t debugfs_attr_write_signed(struct file *file,
-         |                       ^
-   kernel/panic.c:757:1: error: use of undeclared identifier 'debugfs_attr_write_iter'; did you mean 'debugfs_attr_write_signed'?
-     757 | DEFINE_DEBUGFS_ATTRIBUTE(clear_warn_once_fops, NULL, clear_warn_once_set,
-         | ^
-   include/linux/debugfs.h:64:2: note: expanded from macro 'DEFINE_DEBUGFS_ATTRIBUTE'
-      64 |         DEFINE_DEBUGFS_ATTRIBUTE_XSIGNED(__fops, __get, __set, __fmt, false)
-         |         ^
-   include/linux/debugfs.h:59:64: note: expanded from macro 'DEFINE_DEBUGFS_ATTRIBUTE_XSIGNED'
-      59 |         .write_iter= (__is_signed) ? debugfs_attr_write_iter_signed : debugfs_attr_write_iter,  \
-         |                                                                       ^
-   include/linux/debugfs.h:284:23: note: 'debugfs_attr_write_signed' declared here
-     284 | static inline ssize_t debugfs_attr_write_signed(struct file *file,
-         |                       ^
->> kernel/panic.c:757:1: error: incompatible function pointer types initializing 'ssize_t (*)(struct kiocb *, struct iov_iter *)' (aka 'long (*)(struct kiocb *, struct iov_iter *)') with an expression of type 'ssize_t (struct file *, char *, size_t, loff_t *)' (aka 'long (struct file *, char *, unsigned long, long long *)') [-Wincompatible-function-pointer-types]
-     757 | DEFINE_DEBUGFS_ATTRIBUTE(clear_warn_once_fops, NULL, clear_warn_once_set,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     758 |                          "%lld\n");
-         |                          ~~~~~~~~~
-   include/linux/debugfs.h:64:2: note: expanded from macro 'DEFINE_DEBUGFS_ATTRIBUTE'
-      64 |         DEFINE_DEBUGFS_ATTRIBUTE_XSIGNED(__fops, __get, __set, __fmt, false)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/debugfs.h:58:15: note: expanded from macro 'DEFINE_DEBUGFS_ATTRIBUTE_XSIGNED'
-      58 |         .read_iter = debugfs_attr_read_iter,                            \
-         |                      ^~~~~~~~~~~~~~~~~~~~~~
->> kernel/panic.c:757:1: error: incompatible function pointer types initializing 'ssize_t (*)(struct kiocb *, struct iov_iter *)' (aka 'long (*)(struct kiocb *, struct iov_iter *)') with an expression of type 'ssize_t (*)(struct file *, const char *, size_t, loff_t *)' (aka 'long (*)(struct file *, const char *, unsigned long, long long *)') [-Wincompatible-function-pointer-types]
-     757 | DEFINE_DEBUGFS_ATTRIBUTE(clear_warn_once_fops, NULL, clear_warn_once_set,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     758 |                          "%lld\n");
-         |                          ~~~~~~~~~
-   include/linux/debugfs.h:64:2: note: expanded from macro 'DEFINE_DEBUGFS_ATTRIBUTE'
-      64 |         DEFINE_DEBUGFS_ATTRIBUTE_XSIGNED(__fops, __get, __set, __fmt, false)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/debugfs.h:59:15: note: expanded from macro 'DEFINE_DEBUGFS_ATTRIBUTE_XSIGNED'
-      59 |         .write_iter= (__is_signed) ? debugfs_attr_write_iter_signed : debugfs_attr_write_iter,  \
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   13 warnings and 5 errors generated.
+vim +86 Documentation/devicetree/bindings/mailbox/arm,mhuv3.yaml
 
-
-vim +757 kernel/panic.c
-
-b1fca27d384e84 Andi Kleen 2017-11-17  756  
-4169680e9f7cdb YueHaibing 2019-03-07 @757  DEFINE_DEBUGFS_ATTRIBUTE(clear_warn_once_fops, NULL, clear_warn_once_set,
-b1fca27d384e84 Andi Kleen 2017-11-17  758  			 "%lld\n");
-b1fca27d384e84 Andi Kleen 2017-11-17  759  
-
-:::::: The code at line 757 was first introduced by commit
-:::::: 4169680e9f7cdbf893f8885611b3235aeda94224 kernel/panic.c: taint: fix debugfs_simple_attr.cocci warnings
-
-:::::: TO: YueHaibing <yuehaibing@huawei.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+     8	
+     9	maintainers:
+    10	  - Sudeep Holla <sudeep.holla@arm.com>
+    11	  - Cristian Marussi <cristian.marussi@arm.com>
+    12	
+    13	description: |
+    14	  The Arm Message Handling Unit (MHU) Version 3 is a mailbox controller that
+    15	  enables unidirectional communications with remote processors through various
+    16	  possible transport protocols.
+    17	  The controller can optionally support a varying number of extensions that, in
+    18	  turn, enable different kinds of transport to be used for communication.
+    19	  Number, type and characteristics of each supported extension can be discovered
+    20	  dynamically at runtime.
+    21	
+    22	  Given the unidirectional nature of the controller, an MHUv3 mailbox controller
+    23	  is composed of a MHU Sender (MHUS) containing a PostBox (PBX) block and a MHU
+    24	  Receiver (MHUR) containing a MailBox (MBX) block, where
+    25	
+    26	   PBX is used to
+    27	      - Configure the MHU
+    28	      - Send Transfers to the Receiver
+    29	      - Optionally receive acknowledgment of a Transfer from the Receiver
+    30	
+    31	   MBX is used to
+    32	      - Configure the MHU
+    33	      - Receive Transfers from the Sender
+    34	      - Optionally acknowledge Transfers sent by the Sender
+    35	
+    36	  Both PBX and MBX need to be present and defined in the DT description if you
+    37	  need to establish a bidirectional communication, since you will have to
+    38	  acquire two distinct unidirectional channels, one for each block.
+    39	
+    40	  As a consequence both blocks needs to be represented separately and specified
+    41	  as distinct DT nodes in order to properly describe their resources.
+    42	
+    43	  Note that, though, thanks to the runtime discoverability, there is no need to
+    44	  identify the type of blocks with distinct compatibles.
+    45	
+    46	  Following are the MHUv3 possible extensions.
+    47	
+    48	  - Doorbell Extension (DBE): DBE defines a type of channel called a Doorbell
+    49	    Channel (DBCH). DBCH enables a single bit Transfer to be sent from the
+    50	    Sender to Receiver. The Transfer indicates that an event has occurred.
+    51	    When DBE is implemented, the number of DBCHs that an implementation of the
+    52	    MHU can support is between 1 and 128, numbered starting from 0 in ascending
+    53	    order and discoverable at run-time.
+    54	    Each DBCH contains 32 individual fields, referred to as flags, each of which
+    55	    can be used independently. It is possible for the Sender to send multiple
+    56	    Transfers at once using a single DBCH, so long as each Transfer uses
+    57	    a different flag in the DBCH.
+    58	    Optionally, data may be transmitted through an out-of-band shared memory
+    59	    region, wherein the MHU Doorbell is used strictly as an interrupt generation
+    60	    mechanism, but this is out of the scope of these bindings.
+    61	
+    62	  - FastChannel Extension (FCE): FCE defines a type of channel called a Fast
+    63	    Channel (FCH). FCH is intended for lower overhead communication between
+    64	    Sender and Receiver at the expense of determinism. An FCH allows the Sender
+    65	    to update the channel value at any time, regardless of whether the previous
+    66	    value has been seen by the Receiver. When the Receiver reads the channel's
+    67	    content it gets the last value written to the channel.
+    68	    FCH is considered lossy in nature, and means that the Sender has no way of
+    69	    knowing if, or when, the Receiver will act on the Transfer.
+    70	    FCHs are expected to behave as RAM which generates interrupts when writes
+    71	    occur to the locations within the RAM.
+    72	    When FCE is implemented, the number of FCHs that an implementation of the
+    73	    MHU can support is between 1-1024, if the FastChannel word-size is 32-bits,
+    74	    or between 1-512, when the FastChannel word-size is 64-bits.
+    75	    FCHs are numbered from 0 in ascending order.
+    76	    Note that the number of FCHs and the word-size are implementation defined,
+    77	    not configurable but discoverable at run-time.
+    78	    Optionally, data may be transmitted through an out-of-band shared memory
+    79	    region, wherein the MHU FastChannel is used as an interrupt generation
+    80	    mechanism which carries also a pointer to such out-of-band data, but this
+    81	    is out of the scope of these bindings.
+    82	
+    83	  - FIFO Extension (FE): FE defines a Channel type called a FIFO Channel (FFCH).
+    84	    FFCH allows a Sender to send
+    85	       - Multiple Transfers to the Receiver without having to wait for the
+  > 86		 previous Transfer to be acknowledged by the Receiver, as long as the
+    87		 FIFO has room for the Transfer.
+    88	       - Transfers which require the Receiver to provide acknowledgment.
+    89	       - Transfers which have in-band payload.
+    90	    In all cases, the data is guaranteed to be observed by the Receiver in the
+    91	    same order which the Sender sent it.
+    92	    When FE is implemented, the number of FFCHs that an implementation of the
+    93	    MHU can support is between 1 and 64, numbered starting from 0 in ascending
+    94	    order. The number of FFCHs, their depth (same for all implemented FFCHs) and
+    95	    the access-granularity are implementation defined, not configurable but
+    96	    discoverable at run-time.
+    97	    Optionally, additional data may be transmitted through an out-of-band shared
+    98	    memory region, wherein the MHU FIFO is used to transmit, in order, a small
+    99	    part of the payload (like a header) and a reference to the shared memory
+   100	    area holding the remaining, bigger, chunk of the payload, but this is out of
+   101	    the scope of these bindings.
+   102	
+   103	properties:
+   104	  compatible:
+   105	    const: arm,mhuv3
+   106	
+   107	  reg:
+   108	    maxItems: 1
+   109	
+   110	  interrupts:
+   111	    minItems: 1
+   112	    maxItems: 74
+   113	
+   114	  interrupt-names:
+   115	    description: |
+   116	      The MHUv3 controller generates a number of events some of which are used
+   117	      to generate interrupts; as a consequence it can expose a varying number of
+   118	      optional PBX/MBX interrupts, representing the events generated during the
+   119	      operation of the various transport protocols associated with different
+   120	      extensions. All interrupts of the MHU are level-sensitive.
+   121	      Some of these optional interrupts are defined per-channel, where the
+   122	      number of channels effectively available is implementation defined and
+   123	      run-time discoverable.
+   124	      In the following names are enumerated using patterns, with per-channel
+   125	      interrupts implicitly capped at the maximum channels allowed by the
+   126	      specification for each extension type.
+   127	      For the sake of simplicity maxItems is anyway capped to a most plausible
+   128	      number, assuming way less channels would be implemented than actually
+   129	      possible.
+   130	
+   131	      The only mandatory interrupts on the MHU are:
+   132	        - combined
+   133	        - mbx-fch-xfer-<N> but only if mbx-fcgrp-xfer-<N> is not implemented.
+   134	
+   135	    minItems: 1
+   136	    maxItems: 74
+   137	    items:
+   138	      oneOf:
+   139	        - const: combined
+   140	          description: PBX/MBX Combined interrupt
+   141	        - const: combined-ffch
+   142	          description: PBX/MBX FIFO Combined interrupt
+   143	        - pattern: '^ffch-low-tide-[0-9]+$'
+   144	          description: PBX/MBX FIFO Channel <N> Low Tide interrupt
+   145	        - pattern: '^ffch-high-tide-[0-9]+$'
+   146	          description: PBX/MBX FIFO Channel <N> High Tide interrupt
+   147	        - pattern: '^ffch-flush-[0-9]+$'
+   148	          description: PBX/MBX FIFO Channel <N> Flush interrupt
+   149	        - pattern: '^mbx-dbch-xfer-[0-9]+$'
+   150	          description: MBX Doorbell Channel <N> Transfer interrupt
+   151	        - pattern: '^mbx-fch-xfer-[0-9]+$'
+   152	          description: MBX FastChannel <N> Transfer interrupt
+   153	        - pattern: '^mbx-fchgrp-xfer-[0-9]+$'
+   154	          description: MBX FastChannel <N> Group Transfer interrupt
+   155	        - pattern: '^mbx-ffch-xfer-[0-9]+$'
+   156	          description: MBX FIFO Channel <N> Transfer interrupt
+   157	        - pattern: '^pbx-dbch-xfer-ack-[0-9]+$'
+   158	          description: PBX Doorbell Channel <N> Transfer Ack interrupt
+   159	        - pattern: '^pbx-ffch-xfer-ack-[0-9]+$'
+   160	          description: PBX FIFO Channel <N> Transfer Ack interrupt
+   161	
+   162	  '#mbox-cells':
+   163	    description: |
+   164	      The first argument in the consumers 'mboxes' property represents the
+   165	      extension type, the second is for the channel number while the third
+   166	      depends on extension type.
+   167	
+   168	      Extension type for DBE is 0 and the third parameter represents the
+   169	      doorbell flag number to use.
+   170	      Extension type for FCE is 1, third parameter unused.
+   171	      Extension type for FE is 2, third parameter unused.
+   172	
+   173	      mboxes = <&mhu 0 0 5>; // DBE, Doorbell Channel Window 0, doorbell flag 5.
+   174	      mboxes = <&mhu 0 1 7>; // DBE, Doorbell Channel Window 1, doorbell flag 7.
+   175	      mboxes = <&mhu 1 0 0>; // FCE, FastChannel Window 0.
+   176	      mboxes = <&mhu 1 3 0>; // FCE, FastChannel Window 3.
+   177	      mboxes = <&mhu 2 1 0>; // FE, FIFO Channel Window 1.
+   178	      mboxes = <&mhu 2 7 0>; // FE, FIFO Channel Window 7.
+   179	    const: 3
+   180	
+   181	  clocks:
+   182	    maxItems: 1
+   183	
+   184	required:
+   185	  - compatible
+   186	  - reg
+   187	  - interrupts
+   188	  - interrupt-names
+   189	  - '#mbox-cells'
+   190	
 
 -- 
 0-DAY CI Kernel Test Service
