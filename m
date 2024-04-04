@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FC176049
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 10:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C2C433AE
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 11:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712228394; cv=none; b=tlv41z/FcI559AxPifoYT+2Jzt4vDm2wPRD5Q/X0g2B7HJZny6Rk4JLzuPRk5y5FvV3lyQ086hvY7cy0y5RgDa5S/32Er5RRffUjKCQ4hrT8lMONwe8z9pdw/7OcebqqUrnyJxsW5fr6s8IugxZ0Z5yXunGZY1puO++lF5C0YyM=
+	t=1712230313; cv=none; b=e5L8g0iPKRYvYjL2MM2xctLJ3Sie+xkoMUr8ovpJhf8NqvXtp8DiJUJYmHdLS8Z8Hgmty+CAubjcMgmDpzDvjhAhZXohxzZU6iMoWfM87xIiW16DYeBOyzIH6ycbnI5YTbCZjUHX+EnodC6AazZtin1VulaJzmPc6hzQAgyNRlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712228394; c=relaxed/simple;
-	bh=BiLxkMMK4X1HlsJ0lg9rRJC/64lBfgmFYAPjHdNoygE=;
+	s=arc-20240116; t=1712230313; c=relaxed/simple;
+	bh=/geTPgO3JVDCNgwqzTeB2Eb4euONSV8TSZbUizZblBg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qndOMgb+AdwdSD5VizJhyPRfZBAjcg41iI63PNDQ0Ak0svEqcDMoNXqqivi2y8TPtbtxy/o/7ZZ0coP72tTf9H0xAq0WirvhP4ZxMwpXrhbXa9LUNUtjt6PxBFbP6bnEt2Fzyn58AS0VNrAbyrw7rCuT4FRN6tfHeUhfDqWY9As=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BuHmSqWd; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=BiU7HGRyDFAJVTXQgSLWaYckzRGreV/doOb80Yj9ZgROtJPwncaF+KAEN7Jzug/F4hXRaovm50+RlMYNBScBBoMnj8iRJdTLi0W9L5X0XfYKGIF68dUN64q1hKDDD8c7+PZ5cQI/6tVBeSJYVqVt3AdsfpBmr2vQ1P5VN2kteXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JYCpxbqc; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BuHmSqWd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JYCpxbqc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712228387; x=1743764387;
+  t=1712230311; x=1743766311;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BiLxkMMK4X1HlsJ0lg9rRJC/64lBfgmFYAPjHdNoygE=;
-  b=BuHmSqWdPbqZv9ja3CJl+TnzYNNlGpSmfobQH5RgikJsJI7hRAOPquu3
-   +ndewwCHK3KV6gIagp/iO8QX5OA8FhKNTuD5MRDGNNfpoxJrqhNpPPjBe
-   bttZFr2BwJTICUuZrq7B2lmAKr81wL7nighkBQfE05E6ie2gQS3pSl4Zy
-   2nceu9WrSsfE94GoeaKHwn+9W5xPpWb6c4sXgTBGs7IuvEYgAmFICRBtW
-   vRoVhszt47SNTK1J3VvRy2hds37dkPFYLEYTSHmPRO4l4Z7T0sJpEtdiQ
-   hOuZgJ5HFwUrbaplv37WcBQZct1Ui9OSKvIyV1my8FQdnP6yUlBja1ueU
-   A==;
-X-CSE-ConnectionGUID: 9VAOfaagQBKCj+gIsfWX2A==
-X-CSE-MsgGUID: gdfeMRTKSZW/V0NhslvOeQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="25007138"
+  bh=/geTPgO3JVDCNgwqzTeB2Eb4euONSV8TSZbUizZblBg=;
+  b=JYCpxbqcZE7jpHTfz2qPDFLaQiwsRrq91thuaH0GE/FHZMoPOXYDhRNK
+   dR2Vd7y9sgA5dop1uejqonMD+5Qmiqd792yQ1Rp02uYXDU2q9VFgTRNiA
+   DP3oaOJQRdx/ZhH/IU9PaTVgjmZM4x+wX1Co2oVhTlVEqkQO7RNGDrTNf
+   +F0LZ2+n+clCpDSpgOAb4dsTxG0KkoBjp9utX15MwUUyn4rucnvLTQkt4
+   qhzmP7qDJ2b0lgLcDvTQRTMoh2DiHJg1YzZKk57YEplyxr4OgTKWEx+Vt
+   4m3uOvXMnLn2fr5LxJhDz+fOWDaPRdjW34NbAy0mPmThzxe4bHebGscy2
+   g==;
+X-CSE-ConnectionGUID: 3rO+tgHYRB+DknM9U1AGMw==
+X-CSE-MsgGUID: mCCDWeEyRQKTurYkY5M6TQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="7692713"
 X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
-   d="scan'208";a="25007138"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 03:59:45 -0700
-X-CSE-ConnectionGUID: ggnl4FexSrSSOG8ipGZQ3A==
-X-CSE-MsgGUID: pzs/hhh8S1id31NjZczhyw==
+   d="scan'208";a="7692713"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 04:31:48 -0700
+X-CSE-ConnectionGUID: G7Jv8Ic5TuCwNqTKzvz9/g==
+X-CSE-MsgGUID: PgFyR56uQjOMRsPEvSjSJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
-   d="scan'208";a="19204096"
+   d="scan'208";a="23408532"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 04 Apr 2024 03:59:44 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 04 Apr 2024 04:31:47 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rsKon-0000xc-24;
-	Thu, 04 Apr 2024 10:59:41 +0000
-Date: Thu, 4 Apr 2024 18:59:34 +0800
+	id 1rsLJo-0000zc-1d;
+	Thu, 04 Apr 2024 11:31:44 +0000
+Date: Thu, 4 Apr 2024 19:31:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Dong Yibo <dong100@mucse.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 7041/7280] ld.lld: error: duplicate symbol:
- remove_mbx_irq
-Message-ID: <202404041822.U2KyOb5f-lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Dan Schatzberg <schatzberg.dan@gmail.com>
+Subject: [akpm-mm:mm-unstable 300/300] include/linux/mmdebug.h:114:35: error:
+ expected expression before 'do'
+Message-ID: <202404041924.UiccBz3l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,43 +64,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   5cf97fd1b2bc5ef3aefe91efc63c73b4721a7a44
-commit: bf177ad1d8f72824180b44563c09f37562f645de [7041/7280] drivers: initial support for rnpgbevf drivers from Mucse Technology
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240404/202404041822.U2KyOb5f-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240404/202404041822.U2KyOb5f-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   e04f729678f630b7304f9a8d5d22819fe589681a
+commit: e04f729678f630b7304f9a8d5d22819fe589681a [300/300] __mod_memcg_lruvec_state(): enhance diagnostics
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240404/202404041924.UiccBz3l-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240404/202404041924.UiccBz3l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404041822.U2KyOb5f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404041924.UiccBz3l-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: duplicate symbol: remove_mbx_irq
-   >>> defined at rnpvf_main.c
-   >>>            drivers/net/ethernet/mucse/rnpvf/rnpvf_main.o:(remove_mbx_irq) in archive vmlinux.a
-   >>> defined at rnpgbevf_main.c
-   >>>            drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.o:(.text+0x9B40) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: __cfi_remove_mbx_irq
-   >>> defined at rnpvf_main.c
-   >>>            drivers/net/ethernet/mucse/rnpvf/rnpvf_main.o:(__cfi_remove_mbx_irq) in archive vmlinux.a
-   >>> defined at rnpgbevf_main.c
-   >>>            drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.o:(.text+0x9B00) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: register_mbx_irq
-   >>> defined at rnpvf_main.c
-   >>>            drivers/net/ethernet/mucse/rnpvf/rnpvf_main.o:(register_mbx_irq) in archive vmlinux.a
-   >>> defined at rnpgbevf_main.c
-   >>>            drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.o:(.text+0x9D80) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: __cfi_register_mbx_irq
-   >>> defined at rnpvf_main.c
-   >>>            drivers/net/ethernet/mucse/rnpvf/rnpvf_main.o:(__cfi_register_mbx_irq) in archive vmlinux.a
-   >>> defined at rnpgbevf_main.c
-   >>>            drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.o:(.text+0x9D40) in archive vmlinux.a
+   In file included from arch/arm64/include/asm/memory.h:213,
+                    from arch/arm64/include/asm/page.h:46,
+                    from include/linux/page_counter.h:8,
+                    from mm/memcontrol.c:28:
+   mm/memcontrol.c: In function '__mod_memcg_lruvec_state':
+>> include/linux/mmdebug.h:114:35: error: expected expression before 'do'
+     114 | #define VM_WARN_ON_IRQS_ENABLED() do { } while (0)
+         |                                   ^~
+   mm/memcontrol.c:867:29: note: in expansion of macro 'VM_WARN_ON_IRQS_ENABLED'
+     867 |                         if (VM_WARN_ON_IRQS_ENABLED())
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/do +114 include/linux/mmdebug.h
+
+59ea746337c69f Jiri Slaby      2008-06-12  110  
+a738e9bad6030d Thomas Gleixner 2022-08-25  111  #ifdef CONFIG_DEBUG_VM_IRQSOFF
+a738e9bad6030d Thomas Gleixner 2022-08-25  112  #define VM_WARN_ON_IRQS_ENABLED() WARN_ON_ONCE(!irqs_disabled())
+a738e9bad6030d Thomas Gleixner 2022-08-25  113  #else
+a738e9bad6030d Thomas Gleixner 2022-08-25 @114  #define VM_WARN_ON_IRQS_ENABLED() do { } while (0)
+a738e9bad6030d Thomas Gleixner 2022-08-25  115  #endif
+a738e9bad6030d Thomas Gleixner 2022-08-25  116  
+
+:::::: The code at line 114 was first introduced by commit
+:::::: a738e9bad6030d4fd33bfd7db3399a250b7e94d8 mm/debug: Provide VM_WARN_ON_IRQS_ENABLED()
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
