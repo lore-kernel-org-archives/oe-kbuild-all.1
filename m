@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925124C634
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 06:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1834CB23
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 06:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712212123; cv=none; b=un6oXSTJaN0QWMG0ma7OUZLDzMGcPRdkH/wGBWVqtIIATUFEZfUkn8h9DK57dKXSxuss38OWKKyaXZzX5tzWjaBO4wRLGZHU6riJGksne5Mviid1Lwqjvi5y6BNS0XWTJTf0pBr7sEKOgruayItlbF0oMJEVH+YXvrTbKY0bNXI=
+	t=1712212197; cv=none; b=Hv8FV9tF9P6zFsLeOyogBaJCRwyvxk8prqTWJNvAgNPQbzkuicMIbfQFuMy09lPC3hG4o0z8mCyw/1ZCM9az8vnkMJX1oqFF0WAECgpRXT18M0dOe3xZuC/IAgxrV6iAb2uPVf7ZncroQU/JUpv+x4WUFqu5VGPmU4yhmDLzCjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712212123; c=relaxed/simple;
-	bh=iF5+18mtokd8BQNgolvcnKfGbXPyXbVqZ+IltNFGUUo=;
+	s=arc-20240116; t=1712212197; c=relaxed/simple;
+	bh=N2EBofg0RqwFuqCFJowHjGnGSYzIzirgztIJAPFJFr0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Vi70F9LXPErGmeHi7qfl9zQfOT2rJwLintQjmfD77q4ULuCAHXncluEI+950Nr1Rvm9SYlTHgt2I/FJzQMfj2LWbW699SJy5pGzpbzh12ptlNRLZ5B6Lk9woOIzp0gLBOtMM4k4Jjx8SxrYGj+JsMXhrEvevbhfgZ8FuBb9FmsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oACAS4fg; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=BG27GtrG+/TbLoG7sKd4K+OkEeuOCVq/aKZqfju5NLUiwcsEKxShHJP9f7zVACs7+0XPaM7TnFZSX+qYNVD2RAy17b5Dx+C1G523Fp087hWREj38p/9Fomk2GokJS2fj6yUd06h51pEnsnswgB4wAAP5H0DEeiXtWSyvS1UKZEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CE4/qFq0; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oACAS4fg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712212121; x=1743748121;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iF5+18mtokd8BQNgolvcnKfGbXPyXbVqZ+IltNFGUUo=;
-  b=oACAS4fg/27dsMEdmDrbPNQkXqTmBeo8SYN1cVU/KpCYC6i2ZsxBVLQX
-   hL4iHnH06+fnoP5ga2oUGRsCX2EpizMog3J+GFxEaCoFpJ93Sk8QPmQqw
-   q4rWKe9Vc/lIYAoBSX10W2R9pRkf0v1FsRI6Nt4wmNa77ditEdWRsEPY8
-   oB8n6+c2X/1TfNpZ/SJjh2Q65ozf+Ze2K+m4lcUtqKlNWmb8F+ofABywd
-   It+T/Bjk2hUmWeXuCjKjnu3C3m3n0zYerzi0KF/4s7/gCpO8qMKUZqed9
-   Ot9IeLIeDXjmjCCAI/L5dgyJufGXQT8X4ny6MjE0aVdvd9MRyecEoh82X
-   Q==;
-X-CSE-ConnectionGUID: eaOFZSnVTae0pGCGOY6V7Q==
-X-CSE-MsgGUID: u2AncEmnSzefbfUXXa0KxA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="7648200"
-X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="7648200"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 23:28:41 -0700
-X-CSE-ConnectionGUID: SvsdaAdOSDupv3EcjXkkjQ==
-X-CSE-MsgGUID: /4SSUfaOQNOwd2mxquMpzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="23173302"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Apr 2024 23:28:31 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rsGaL-0000h2-17;
-	Thu, 04 Apr 2024 06:28:29 +0000
-Date: Thu, 4 Apr 2024 14:27:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yongqiang Liu <duanzi@zju.edu.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 20217/22045]
- kernel/cgroup/cgroup.c:5286:48: sparse: sparse: incorrect type in argument 1
- (different address spaces)
-Message-ID: <202404041400.pyWx04Vl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CE4/qFq0"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a45f257b81fso77431766b.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Apr 2024 23:29:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712212194; x=1712816994; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+UNZae/k2EBcx5FlHf+Q0FilIMtRBcS/dSCMZEDWPas=;
+        b=CE4/qFq0Q8LasJMNsWJZk/ucoTTDNQxEkumg3k33vNRWvfB/zujMokgijUFZSHWeN6
+         8TMjrLIvKLZQO6DeT6zzZ+mFLw0S/M+EBkUMJsJc5E324xyRO67zbXDEgxxbmAIDNiUZ
+         nsIq68lz44DiYbVjIN/Rueaaa9EwbpztYFd+I0stqwnRhemcNQIOkyaH01gMRaiBGpqD
+         ZWGsA3z8LBpgqRhiUNXhu+D1/eRJwErT+mFjeb2nTMPOSwT2bdGq2U8D+JSyoYjwlZsM
+         gFCKt4sP20Uh7ciu5B5VJlb30U8xf3nnEfMdEDUVfffzE7HYikOfCO38oeMwxVgdeA9X
+         4umA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712212194; x=1712816994;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+UNZae/k2EBcx5FlHf+Q0FilIMtRBcS/dSCMZEDWPas=;
+        b=V4XFJdvkgqHhptRR+1m6SJaF6LvUM5KAL2PNuP3P5P+9AQ+4ZKsbnPn36VPw6kB0i2
+         BNl5wBDBgupOfLkfVmxiv1HakwmHoCtPE3kfzdtIljlPa1zx0q+Gu9L5SPcnN4Ai2PE1
+         h4PWOlceCbE01qJiJSgOK+BUA+MM1Zy6L90GTNUXnti4T9XMBN26HClZjeQdAr/6SjOJ
+         ChEJ9l1/PaOJc4Gj+73nRX0/BD8LKKVFHd7pG4y2MWR1F3ylSK2TvIWXQMenWlj4COoB
+         XkFTC/3kXD7fkH0Cx4zIw/b/47LsI96fxY62F/dv+6b41HDAWrW3XYbiF8b4donPH9Sf
+         WnXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW13uMoWJE5avjfyoJhysf7O+sXliUum9SD30jWGJASiAuh58ZG74Tj1cgB6ajIUBIXFyR6qzfKoGpcn4HX7PdxNeSsLWGa/KTMrKC8iQ==
+X-Gm-Message-State: AOJu0Yw0tj1cx+7dKyVGAXslP40K7ZmCSyC/CeWbAr59isSwVSHmKtKi
+	+Up1c5aBniD5LO+yZtCxQh/NJ51lmOgLr9eOhoFePx9alZvlmXz87IcMlJltmtU=
+X-Google-Smtp-Source: AGHT+IEC5kYIEakGdkrA8tGW3LWmI7igo3mAP1KXlZN0cpSOuO8oBoj84PvDyIQH6wZORBgrm+VQOw==
+X-Received: by 2002:a17:906:3891:b0:a4e:1035:3ed7 with SMTP id q17-20020a170906389100b00a4e10353ed7mr934130ejd.25.1712212193696;
+        Wed, 03 Apr 2024 23:29:53 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id xc4-20020a170907074400b00a4e5ab88803sm5503487ejb.183.2024.04.03.23.29.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Apr 2024 23:29:53 -0700 (PDT)
+Date: Thu, 4 Apr 2024 09:29:49 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Philipp Stanner <pstanner@redhat.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Bjorn Helgaas <helgaas@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+	dakr@redhat.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>
+Subject: Re: [PATCH v5 02/10] PCI: Deprecate iomap-table functions
+Message-ID: <c59ff5c5-7551-41ca-a5cc-9c214051a20d@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,126 +74,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240403080712.13986-5-pstanner@redhat.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   e89315eb08769716cbf7e08f49672222cf0eca47
-commit: 0bc0d0d57edacd59ebe38d05ad9c4b2bc185aa51 [20217/22045] dhugetlb: backport dynamic hugetlb feature
-config: arm64-randconfig-r112-20240401 (https://download.01.org/0day-ci/archive/20240404/202404041400.pyWx04Vl-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240404/202404041400.pyWx04Vl-lkp@intel.com/reproduce)
+Hi Philipp,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/PCI-Add-new-set-of-devres-functions/20240403-160932
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20240403080712.13986-5-pstanner%40redhat.com
+patch subject: [PATCH v5 02/10] PCI: Deprecate iomap-table functions
+config: i386-randconfig-141-20240404 (https://download.01.org/0day-ci/archive/20240404/202404040920.QIxhNeMu-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404041400.pyWx04Vl-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202404040920.QIxhNeMu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/cgroup/cgroup.c:5286:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cgroup_subsys_state *css @@     got struct cgroup_subsys_state [noderef] <asn:4> * @@
-   kernel/cgroup/cgroup.c:5286:48: sparse:     expected struct cgroup_subsys_state *css
-   kernel/cgroup/cgroup.c:5286:48: sparse:     got struct cgroup_subsys_state [noderef] <asn:4> *
-   kernel/cgroup/cgroup.c:2685:20: sparse: sparse: context imbalance in 'cgroup_procs_write_start' - wrong count at exit
-   kernel/cgroup/cgroup.c:2741:9: sparse: sparse: context imbalance in 'cgroup_procs_write_finish' - wrong count at exit
-   kernel/cgroup/cgroup.c:2874:9: sparse: sparse: context imbalance in 'cgroup_lock_and_drain_offline' - wrong count at exit
-   kernel/cgroup/cgroup.c:4528:16: sparse: sparse: context imbalance in 'cgroup_procs_write' - wrong count at exit
-   kernel/cgroup/cgroup.c:4580:16: sparse: sparse: context imbalance in 'cgroup_threads_write' - wrong count at exit
+smatch warnings:
+drivers/pci/devres.c:897 pcim_iomap_regions_request_all() error: we previously assumed 'legacy_iomap_table' could be null (see line 894)
 
-vim +5286 kernel/cgroup/cgroup.c
+vim +/legacy_iomap_table +897 drivers/pci/devres.c
 
-  5234	
-  5235	/**
-  5236	 * cgroup_destroy_locked - the first stage of cgroup destruction
-  5237	 * @cgrp: cgroup to be destroyed
-  5238	 *
-  5239	 * css's make use of percpu refcnts whose killing latency shouldn't be
-  5240	 * exposed to userland and are RCU protected.  Also, cgroup core needs to
-  5241	 * guarantee that css_tryget_online() won't succeed by the time
-  5242	 * ->css_offline() is invoked.  To satisfy all the requirements,
-  5243	 * destruction is implemented in the following two steps.
-  5244	 *
-  5245	 * s1. Verify @cgrp can be destroyed and mark it dying.  Remove all
-  5246	 *     userland visible parts and start killing the percpu refcnts of
-  5247	 *     css's.  Set up so that the next stage will be kicked off once all
-  5248	 *     the percpu refcnts are confirmed to be killed.
-  5249	 *
-  5250	 * s2. Invoke ->css_offline(), mark the cgroup dead and proceed with the
-  5251	 *     rest of destruction.  Once all cgroup references are gone, the
-  5252	 *     cgroup is RCU-freed.
-  5253	 *
-  5254	 * This function implements s1.  After this step, @cgrp is gone as far as
-  5255	 * the userland is concerned and a new cgroup with the same name may be
-  5256	 * created.  As cgroup doesn't care about the names internally, this
-  5257	 * doesn't cause any problem.
-  5258	 */
-  5259	static int cgroup_destroy_locked(struct cgroup *cgrp)
-  5260		__releases(&cgroup_mutex) __acquires(&cgroup_mutex)
-  5261	{
-  5262		struct cgroup *tcgrp, *parent = cgroup_parent(cgrp);
-  5263		struct cgroup_subsys_state *css;
-  5264		struct cgrp_cset_link *link;
-  5265		int ssid;
-  5266	
-  5267		lockdep_assert_held(&cgroup_mutex);
-  5268	
-  5269		/*
-  5270		 * Only migration can raise populated from zero and we're already
-  5271		 * holding cgroup_mutex.
-  5272		 */
-  5273		if (cgroup_is_populated(cgrp))
-  5274			return -EBUSY;
-  5275	
-  5276		/*
-  5277		 * Make sure there's no live children.  We can't test emptiness of
-  5278		 * ->self.children as dead children linger on it while being
-  5279		 * drained; otherwise, "rmdir parent/child parent" may fail.
-  5280		 */
-  5281		if (css_has_online_children(&cgrp->self))
-  5282			return -EBUSY;
-  5283	
-  5284	#ifdef CONFIG_MEMCG
-  5285		/* If we use dynamic hugetlb, make sure dhugtlb_pool is free */
-> 5286		if (!dhugetlb_pool_is_free(cgrp->subsys[memory_cgrp_id]))
-  5287			return -EBUSY;
-  5288	#endif
-  5289		/*
-  5290		 * Mark @cgrp and the associated csets dead.  The former prevents
-  5291		 * further task migration and child creation by disabling
-  5292		 * cgroup_lock_live_group().  The latter makes the csets ignored by
-  5293		 * the migration path.
-  5294		 */
-  5295		cgrp->self.flags &= ~CSS_ONLINE;
-  5296	
-  5297		spin_lock_irq(&css_set_lock);
-  5298		list_for_each_entry(link, &cgrp->cset_links, cset_link)
-  5299			link->cset->dead = true;
-  5300		spin_unlock_irq(&css_set_lock);
-  5301	
-  5302		/* initiate massacre of all css's */
-  5303		for_each_css(css, ssid, cgrp)
-  5304			kill_css(css);
-  5305	
-  5306		/* clear and remove @cgrp dir, @cgrp has an extra ref on its kn */
-  5307		css_clear_dir(&cgrp->self);
-  5308		kernfs_remove(cgrp->kn);
-  5309	
-  5310		if (parent && cgroup_is_threaded(cgrp))
-  5311			parent->nr_threaded_children--;
-  5312	
-  5313		spin_lock_irq(&css_set_lock);
-  5314		for (tcgrp = cgroup_parent(cgrp); tcgrp; tcgrp = cgroup_parent(tcgrp)) {
-  5315			tcgrp->nr_descendants--;
-  5316			tcgrp->nr_dying_descendants++;
-  5317		}
-  5318		spin_unlock_irq(&css_set_lock);
-  5319	
-  5320		cgroup1_check_for_release(parent);
-  5321	
-  5322		/* put the base reference */
-  5323		percpu_ref_kill(&cgrp->self.refcnt);
-  5324	
-  5325		return 0;
-  5326	};
-  5327	
+acc2364fe66106 Philipp Stanner 2024-01-31  865  int pcim_iomap_regions_request_all(struct pci_dev *pdev, int mask,
+acc2364fe66106 Philipp Stanner 2024-01-31  866  				   const char *name)
+acc2364fe66106 Philipp Stanner 2024-01-31  867  {
+34e90b966504f3 Philipp Stanner 2024-04-03  868  	short bar;
+34e90b966504f3 Philipp Stanner 2024-04-03  869  	int ret;
+34e90b966504f3 Philipp Stanner 2024-04-03  870  	void __iomem **legacy_iomap_table;
+acc2364fe66106 Philipp Stanner 2024-01-31  871  
+34e90b966504f3 Philipp Stanner 2024-04-03  872  	ret = pcim_request_all_regions(pdev, name);
+34e90b966504f3 Philipp Stanner 2024-04-03  873  	if (ret != 0)
+34e90b966504f3 Philipp Stanner 2024-04-03  874  		return ret;
+acc2364fe66106 Philipp Stanner 2024-01-31  875  
+34e90b966504f3 Philipp Stanner 2024-04-03  876  	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
+34e90b966504f3 Philipp Stanner 2024-04-03  877  		if (!mask_contains_bar(mask, bar))
+34e90b966504f3 Philipp Stanner 2024-04-03  878  			continue;
+34e90b966504f3 Philipp Stanner 2024-04-03  879  		if (!pcim_iomap(pdev, bar, 0))
+34e90b966504f3 Philipp Stanner 2024-04-03  880  			goto err;
+34e90b966504f3 Philipp Stanner 2024-04-03  881  	}
+34e90b966504f3 Philipp Stanner 2024-04-03  882  
+34e90b966504f3 Philipp Stanner 2024-04-03  883  	return 0;
+34e90b966504f3 Philipp Stanner 2024-04-03  884  
+34e90b966504f3 Philipp Stanner 2024-04-03  885  err:
+34e90b966504f3 Philipp Stanner 2024-04-03  886  	/*
+34e90b966504f3 Philipp Stanner 2024-04-03  887  	 * Here it gets tricky: pcim_iomap() above has most likely
+34e90b966504f3 Philipp Stanner 2024-04-03  888  	 * failed because it got an OOM when trying to create the
+34e90b966504f3 Philipp Stanner 2024-04-03  889  	 * legacy-table.
+34e90b966504f3 Philipp Stanner 2024-04-03  890  	 * We check here if that has happened. If not, pcim_iomap()
+34e90b966504f3 Philipp Stanner 2024-04-03  891  	 * must have failed because of EINVAL.
+34e90b966504f3 Philipp Stanner 2024-04-03  892  	 */
+34e90b966504f3 Philipp Stanner 2024-04-03  893  	legacy_iomap_table = (void __iomem **)pcim_iomap_table(pdev);
+34e90b966504f3 Philipp Stanner 2024-04-03 @894  	ret = legacy_iomap_table ? -EINVAL : -ENOMEM;
+                                                              ^^^^^^^^^^^^^^^^^^
+Check for NULL
+
+34e90b966504f3 Philipp Stanner 2024-04-03  895  
+34e90b966504f3 Philipp Stanner 2024-04-03  896  	while (--bar >= 0)
+34e90b966504f3 Philipp Stanner 2024-04-03 @897  		pcim_iounmap(pdev, legacy_iomap_table[bar]);
+                                                                                   ^^^^^^^^^^^^^^^^^^
+Unchecked dereference
+
+34e90b966504f3 Philipp Stanner 2024-04-03  898  
+34e90b966504f3 Philipp Stanner 2024-04-03  899  	pcim_release_all_regions(pdev);
+34e90b966504f3 Philipp Stanner 2024-04-03  900  
+34e90b966504f3 Philipp Stanner 2024-04-03  901  	return ret;
+acc2364fe66106 Philipp Stanner 2024-01-31  902  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
