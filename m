@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287521B28D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 02:23:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7511C6B8
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 02:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712197406; cv=none; b=ucEM9nUroUSqLzJXYL6jJttg+ojV1OWV0k70UfKAmIxo/D1lk59eDLCyD6XFBWUDsyTgkLAnKUgT7Q79gaoVJ2yVMrGd4xcjPfIjYptv/dMuquLBJhkGKey+zvqvYxzwwDcrWB/xYptN5Vk2pelNmrQ5d9Wkacns1AuRrbUA6FA=
+	t=1712198746; cv=none; b=pFOGQJwO2HyC+gjUYRyNEEX9ty1Abpbz4f8Fb6eA8c1VKJPEmZIY+jD7nUctNk88jud69Se1p3EGNDvE0P0gZ+9zDc+vUNnu3kdnD/hgDZFC5OCCG/G1U8K4TPH05sAM50C+HneON1uG0Poko/Si5dQGmOcHNYhFPYP32uF0tTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712197406; c=relaxed/simple;
-	bh=MOXl+c6fjnGSgBdKeGU7MYyvF2VkR4Gp4ish3zSpPUs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rZ873nLbwTqxnHKhhNGl5ouW1Cw3rUz33Nb67iPSKwjPAE6VDs8bqdozKkID9p5Vr0OeZbKiGYAyjvCr7Oz6Fz3pVaFkSC3TFMGpwHzkJ6DKT4BYhospJZhYJjiFGZ1+2ZFI+uN9aEw/S3p+QNJTfuzQY8R3nuduBv1IrDQ9KZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f6vOk0tr; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1712198746; c=relaxed/simple;
+	bh=5BsX06TMfBSlmE/t7DnrJSITMRuR2CgzzZG8uiVQISw=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pUiQEfBfpAHu8lWluCIqlrfqHgTusCakHgg4aHa/YTPyhMeaaZxCSauB5EdzIWR17IwaRIzk6fNN9+4tmtJyPNPH4ezfj6XbPSFYeui+qkBLUlhx4p+BdPHU5fOt7lODWs+B3cFWlUV1Q5AAPBFAtlZgSAXjnTkQ4LqjiRT8ZcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TVj58v0X; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f6vOk0tr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TVj58v0X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712197405; x=1743733405;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MOXl+c6fjnGSgBdKeGU7MYyvF2VkR4Gp4ish3zSpPUs=;
-  b=f6vOk0trWL1FWmCQ5kiyovi0WwzmMZcoJ6bjFfHsEcfB74VE04clcNs+
-   MHfpssoHsjr4vnuiyZ0sEA2wAU7/dnqd4Nan415C4g8gvMc3ETEp0qyE1
-   hroYjBcvm1ZI6m2cTgJcgmcJDNBemJitHurnBbCATFYtptD8YDEbhj69n
-   RUmDexRAvvttMqAM+n5xLq9q1/amlvcVHW4R8UmR/sMQby12FUlJcwKv2
-   uEIQ0HGWSCiKKULVoT11kFP1scThmgvfT2ePq7MpFWv5v5kow/oOZ2Ehw
-   7YxOtXwk6qS53T5EXeZxP4SLKLY8ls5P8OCWc+y8mDuhaSdZ1H9U9sikz
-   A==;
-X-CSE-ConnectionGUID: s9vUNtOfTXWzBvxqX3p1Ew==
-X-CSE-MsgGUID: JyqcATjXSgGjhU/zWZ3SpQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="7698334"
+  t=1712198745; x=1743734745;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=5BsX06TMfBSlmE/t7DnrJSITMRuR2CgzzZG8uiVQISw=;
+  b=TVj58v0XpN00j/nfSqpDtH8oHPf4kMeTG+HXQUsdrS3K5VLhL9x/RYac
+   HDWndndVLeWPWBivTIesn3bxV+k8MlnUG7AbUj7h65r1o697/flem333V
+   Pg4R44WhPy0kmJUZDVnPXr2Q1LAhb2gYdsZwo3CFnQldtIl6u7Anz1ORy
+   4OIzO1EphWjUQ5vuEMMgT5IwlSpeQLoMp2kBeNE1iti9TXvb8YOJ1rf1Z
+   E+Wef+GA6ECdpJoQTnhcDTRF5JSPUHiYHdD9vArHOYwZjG2gfPeS0usCX
+   Fjx/Z2uSNhsf/IM7Dl3+vJAuoyz0qDzA+ODDZfHooDQDvLn2ruHmOX+jo
+   Q==;
+X-CSE-ConnectionGUID: 7viFvO3jQA+oHdUu0F6iiw==
+X-CSE-MsgGUID: Pv/DNGNqR7qhPGj5+K9gQQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="11237560"
 X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="7698334"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 19:23:24 -0700
-X-CSE-ConnectionGUID: O2se1tykSFiiDIIO5vVv/A==
-X-CSE-MsgGUID: nP6sjbbBTluHPIL8KhE1Gw==
+   d="scan'208";a="11237560"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 19:45:25 -0700
+X-CSE-ConnectionGUID: y+8ZsSA2Q7K/W4dZ5cYd6Q==
+X-CSE-MsgGUID: WfuaKgDgQpix1h96GSjyPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="18609355"
+   d="scan'208";a="23390864"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 03 Apr 2024 19:23:23 -0700
+  by orviesa004.jf.intel.com with ESMTP; 03 Apr 2024 19:45:22 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rsCl5-0000Uv-2L;
-	Thu, 04 Apr 2024 02:23:19 +0000
-Date: Thu, 4 Apr 2024 10:22:32 +0800
+	id 1rsD6O-0000W0-18;
+	Thu, 04 Apr 2024 02:45:20 +0000
+Date: Thu, 4 Apr 2024 10:44:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: Re: [PATCH 1/2] block: track per-node I/O latency
-Message-ID: <202404041051.89LVIrNh-lkp@intel.com>
-References: <20240403141756.88233-2-hare@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Jai Luthra <j-luthra@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y 45/107] kismet: WARNING: unmet direct
+ dependencies detected for GPIOLIB_IRQCHIP when selected by PINCTRL_STMFX
+Message-ID: <202404041018.9FKNwuNB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,55 +61,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240403141756.88233-2-hare@kernel.org>
 
-Hi Hannes,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on linus/master v6.9-rc2 next-20240403]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hannes-Reinecke/block-track-per-node-I-O-latency/20240403-222254
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20240403141756.88233-2-hare%40kernel.org
-patch subject: [PATCH 1/2] block: track per-node I/O latency
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240404/202404041051.89LVIrNh-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240404/202404041051.89LVIrNh-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
+head:   01dbe4e64bacaa4c891c1997f2724c320698d61f
+commit: cf0136753f9892c69092d959eb86c8e06e706138 [45/107] media: i2c: add DS90UB960 driver
+config: alpha-kismet-CONFIG_GPIOLIB_IRQCHIP-CONFIG_PINCTRL_STMFX-0-0 (https://download.01.org/0day-ci/archive/20240404/202404041018.9FKNwuNB-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240404/202404041018.9FKNwuNB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404041051.89LVIrNh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404041018.9FKNwuNB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/blk-integrity.h:5,
-                    from block/bdev.c:15:
->> include/linux/blk-mq.h:1242:5: warning: no previous prototype for 'blk_nlat_latency' [-Wmissing-prototypes]
-    1242 | u64 blk_nlat_latency(struct gendisk *disk, int node) { return 0; }
-         |     ^~~~~~~~~~~~~~~~
-   include/linux/blk-mq.h:1243:15: error: unknown type name 'in'
-    1243 | static inline in blk_nlat_init(struct gendisk *disk) { return -ENOTSUPP; }
-         |               ^~
-
-
-vim +/blk_nlat_latency +1242 include/linux/blk-mq.h
-
-  1233	
-  1234	#ifdef CONFIG_BLK_NODE_LATENCY
-  1235	int blk_nlat_enable(struct gendisk *disk);
-  1236	void blk_nlat_disable(struct gendisk *disk);
-  1237	u64 blk_nlat_latency(struct gendisk *disk, int node);
-  1238	int blk_nlat_init(struct gendisk *disk);
-  1239	#else
-  1240	static inline int blk_nlat_enable(struct gendisk *disk) { return 0; }
-  1241	static inline void blk_nlat_disable(struct gendisk *disk) {}
-> 1242	u64 blk_nlat_latency(struct gendisk *disk, int node) { return 0; }
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GPIOLIB_IRQCHIP when selected by PINCTRL_STMFX
+   
+   WARNING: unmet direct dependencies detected for OF_GPIO
+     Depends on [n]: GPIOLIB [=n] && OF [=y] && HAS_IOMEM [=y]
+     Selected by [y]:
+     - VIDEO_DS90UB960 [=y] && MEDIA_SUPPORT [=y] && OF [=y] && I2C [=y] && VIDEO_DEV [=y]
+   
+   WARNING: unmet direct dependencies detected for GPIOLIB_IRQCHIP
+     Depends on [n]: GPIOLIB [=n]
+     Selected by [y]:
+     - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && OF_GPIO [=y]
 
 -- 
 0-DAY CI Kernel Test Service
