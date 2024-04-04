@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0DB1CA82
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 18:26:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0773E12EBDC
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Apr 2024 18:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712255168; cv=none; b=K0HHeJdCy+I02A5TKOgZFfYlop1jGWZuqpMy1XfrMUGo8QQbu9OytfVN517dvSk4xXoKKa9qpclj5CEbWUk8eCRrKEGQR0fpGpyuwQcsOvMUDV8tLgiMSHDVRwdn/gFlqa6q2OKf1FYSVYZwfMhL/Pg8hf7TNvpclv1oU5NBHes=
+	t=1712256549; cv=none; b=QT22k0FNKT8ID6fzWkVXPyH7/I3v8j2mL/jel2wOC0MyMjzNWIf82TuLVi0ae6HA4jYhHj8FL5ROfp67YUpbRSCbBXybYMPKNu2tihtvihlfyHmthyu9cN/HsCaM//UuJTM15B3Yw8JywxXN+I80qF88t1gMHzlmvb0nxvhC7bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712255168; c=relaxed/simple;
-	bh=jmJXOfoDImmIbYe7gSht0Is/BzrzjPQGUxsetvT7szI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L8+EOhxuW4ADN6AEa6jHd1IGewBHLQvEoFaB8kTLaBoAYzIW9zJ2A0tkMTaZgOvTzorma5K7g0Mra3YblkcwxDnrk4w8lvAa/FLYgRj3b0pNGilKSDXtvz0lZiEESzfTfaaz9A1zqS7SKphb00P6lavTH0sGVQx5MgRN1t/LDMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CyDonxgd; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1712256549; c=relaxed/simple;
+	bh=O1yHR13LMvqMhssupELkMLJy9srd8c4LfjZpuES3zNQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IX4P8tzbSHbhOskHJmLqU2PC1efOgKDGjlJEGd5hhzVZFsXSFl92H7u4CTeL884JgK4PsNsOpxaFsTQXaFcpI1YGzRDpAxsj4Se4IlKJDu/m6SqMZ6g5FHXntx33dJa0eZB4kUSIU79QQ/kxm/bJ6PEGdCqZaiR/h66nA5rwHDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LCybFS4/; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CyDonxgd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LCybFS4/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712255166; x=1743791166;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jmJXOfoDImmIbYe7gSht0Is/BzrzjPQGUxsetvT7szI=;
-  b=CyDonxgd/CW92Je4ugwM6GEluMbvzJtJ0y3MvqJy0xWw0DW0JZzUTG2H
-   Gm4jBAkQww8Tctp4ATPIrOUvh58wvACLcwf+G1POZrQBrC6wORCnVrAMr
-   28Lzlwmjl75PvLKChUivmYCzNgkBl45M7AsF1V+8TDBh7YbB4ZRZL4SEz
-   rL5oIRXIf5d+lZM7RF7tbX60wLdJ/tdMtYuLZJQhtvRmH+6wEXaKstyIO
-   WD2KF73O6czHsVHFQ94njiYyKYT8yczidfP60gN7XHKjTmkEQ6E3v7057
-   affUQpprh8fvapuy8LcTQxz6gwCgv6tBuyoVlVM3SND8yAS/B9qgxD5P6
+  t=1712256548; x=1743792548;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O1yHR13LMvqMhssupELkMLJy9srd8c4LfjZpuES3zNQ=;
+  b=LCybFS4/xAdTpuJpxpQxmAn2YvsJODkCv7mky42j6tt3E1jyTcLu80Z4
+   l9sPgtx5j8Go/UlRnVVhbLmW7PgcGfj8zao+SIDtbpLuzVuY9Q17CLZvt
+   Hw3SAMlSXE7jwKthczrPC4OJsDI3rE5fR0s9Zb/EB0ke0mI2wXOrtbFrt
+   2i60htFpekgCjlJZSA4g+1fWcthRJSmt0mj16zZHe7zAioNaUZVv3XdES
+   mcJm2HyUgHnNWN6+PDPkRMA3JdKi5Lf1vk6+4IiNstcwC5x5jX+txIL0M
+   Y7WFaIcnvZOkluLBSjn3AojA3VLSyI8WfCB95BgBdkP3UjHdvP7wjfu8r
    Q==;
-X-CSE-ConnectionGUID: TlvNTN9NRFmKb8JFODOvhg==
-X-CSE-MsgGUID: nRlRaJetRWqPC+H1CzDDhQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7718505"
+X-CSE-ConnectionGUID: UomiVaLYSEO3vdG7/BxDZQ==
+X-CSE-MsgGUID: oo1RCiorTvOrcU47aUZ4vw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7800050"
 X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
-   d="scan'208";a="7718505"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 11:26:05 -0700
-X-CSE-ConnectionGUID: +KWj1scEQQ+Zy4Hi+tmsPQ==
-X-CSE-MsgGUID: vsiidV+jQVyHxQV9HhriFw==
+   d="scan'208";a="7800050"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 11:49:07 -0700
+X-CSE-ConnectionGUID: Gjwf6HfMTtKWRqxdtEmlOA==
+X-CSE-MsgGUID: ZplNi7DnQimuLodTgr0YUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
-   d="scan'208";a="23569730"
+   d="scan'208";a="23542046"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 04 Apr 2024 11:26:05 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 04 Apr 2024 11:49:05 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rsRmk-0001Mg-1A;
-	Thu, 04 Apr 2024 18:26:02 +0000
-Date: Fri, 5 Apr 2024 02:25:23 +0800
+	id 1rsS91-0001O2-0K;
+	Thu, 04 Apr 2024 18:49:03 +0000
+Date: Fri, 5 Apr 2024 02:47:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:guest-attest 4/8] arch/x86/coco/tdx/tdx.c:63: warning:
- Function parameter or struct member 'hdr' not described in
- 'service_query_req'
-Message-ID: <202404050249.J8I1tGE0-lkp@intel.com>
+To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	Hannes Reinecke <hare@kernel.org>
+Subject: Re: [PATCH 1/2] block: track per-node I/O latency
+Message-ID: <202404050222.vYNG4y3i-lkp@intel.com>
+References: <20240403141756.88233-2-hare@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,47 +65,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240403141756.88233-2-hare@kernel.org>
 
-tree:   https://github.com/intel/tdx.git guest-attest
-head:   e0c511fe981d8b05dd0a945acc1e8d7f4fba3a59
-commit: 614408cfce8b25afb96c6051f29a0a978feae893 [4/8] x86/tdx: Add tdx_hcall_query_service() interface
-config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240405/202404050249.J8I1tGE0-lkp@intel.com/config)
+Hi Hannes,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on linus/master v6.9-rc2 next-20240404]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hannes-Reinecke/block-track-per-node-I-O-latency/20240403-222254
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20240403141756.88233-2-hare%40kernel.org
+patch subject: [PATCH 1/2] block: track per-node I/O latency
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240405/202404050222.vYNG4y3i-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240405/202404050249.J8I1tGE0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240405/202404050222.vYNG4y3i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404050249.J8I1tGE0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404050222.vYNG4y3i-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/coco/tdx/tdx.c:63: warning: Function parameter or struct member 'hdr' not described in 'service_query_req'
+   In file included from drivers/block/loop.c:36:
+   include/linux/blk-mq.h:1242:5: warning: no previous prototype for 'blk_nlat_latency' [-Wmissing-prototypes]
+    1242 | u64 blk_nlat_latency(struct gendisk *disk, int node) { return 0; }
+         |     ^~~~~~~~~~~~~~~~
+>> include/linux/blk-mq.h:1243:15: error: unknown type name 'in'
+    1243 | static inline in blk_nlat_init(struct gendisk *disk) { return -ENOTSUPP; }
+         |               ^~
 
 
-vim +63 arch/x86/coco/tdx/tdx.c
+vim +/in +1243 include/linux/blk-mq.h
 
-    44	
-    45	/**
-    46	 * struct service_query_req - Service query command buffer
-    47	 * hdr: Command buffer header.
-    48	 * @version: Command version (default is 0).
-    49	 * @cmd: Command ID (0 for query command).
-    50	 * @rsvd: Reserved for future use.
-    51	 * @guid: Service GUID to query.
-    52	 */
-    53	struct service_query_req
-    54	{
-    55		/* Command buffer header */
-    56		struct tdx_service_req_hdr hdr;
-    57	
-    58		/* Command data */
-    59		u8 version;
-    60		u8 cmd;
-    61		u8 rsvd;
-    62		u8 guid[16];
-  > 63	};
-    64	
+  1233	
+  1234	#ifdef CONFIG_BLK_NODE_LATENCY
+  1235	int blk_nlat_enable(struct gendisk *disk);
+  1236	void blk_nlat_disable(struct gendisk *disk);
+  1237	u64 blk_nlat_latency(struct gendisk *disk, int node);
+  1238	int blk_nlat_init(struct gendisk *disk);
+  1239	#else
+  1240	static inline int blk_nlat_enable(struct gendisk *disk) { return 0; }
+  1241	static inline void blk_nlat_disable(struct gendisk *disk) {}
+  1242	u64 blk_nlat_latency(struct gendisk *disk, int node) { return 0; }
+> 1243	static inline in blk_nlat_init(struct gendisk *disk) { return -ENOTSUPP; }
 
 -- 
 0-DAY CI Kernel Test Service
