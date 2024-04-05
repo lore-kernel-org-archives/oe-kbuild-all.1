@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786C6535B6
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 11:39:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7B116C454
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 11:39:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712317186; cv=none; b=cKDlZHsPGy7L6sc6hVIJpqI2LTFRKB/5AkskV5Us8M2qfW8pn62mXyw3YKShCkCvfujzCnRdj/8cMFIrXm+3idi4ukl1zgiyOiQU2452BdsHRddYkQ4iAcDRye8wxKiMT6w0aw7uvnQiT+vXpYFRgb8/YYvzbB/vPn05yP6BenI=
+	t=1712317188; cv=none; b=SNBXmzPuvnk6cAnRNkII9QR/ZMidxVeHvobqdzfCFWO15xP0obyf+wKp1j4qaKDEBs8wotElztuAa/gZ0RQyOyXeNf15nbIUGcOg1ANLsYMZPcg39K/gaNKvv7Vj+l9FntSr6Ze76mwf/lzA6KGvEmfO7pJQnubm66sBeQcIY2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712317186; c=relaxed/simple;
-	bh=SXww4ggCLsDahTC58dZOhY+9dTSbdtKObzydug1CUi4=;
+	s=arc-20240116; t=1712317188; c=relaxed/simple;
+	bh=fIRoCn8uR/VAmSYF7cqVQKLVRZmktoCYXwLJHrA/nHo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fw5qNchkY0wafTl8A1qvHoK9cPk98OkYHLFeR/OJ7Rpks0nuWlEYA86LQvFXG0BAiXaroKoHSv8hq9YxAXl+W1PGqobsnz+m/wdO96pW85Q77WVTa4xT1iooQjZcYJ6lNyiZuQwMNWjaH5llbbyN01Aqdx9ZAh8GVyaFO+cT/HM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oBtN048p; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=Fz4L56BJ7VRfkj3h75TTb1Vz077/AiYgCAql2Z1a6hEHpgjv1gFxumbpfGo/Yw5+v1yW0qbsD0730JthF1/JZ879TwYD3GcLL43Uf/Y2zxv6DuKcw0xvdsJNIEwzofzWtfHpC0Iw8PaxZkLMIQvWmb8i1SkLpFDoK3UIwKHzuFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YkPcoJB5; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oBtN048p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YkPcoJB5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712317184; x=1743853184;
+  t=1712317186; x=1743853186;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SXww4ggCLsDahTC58dZOhY+9dTSbdtKObzydug1CUi4=;
-  b=oBtN048pLPKYbHa5IGmDtHGKMXBPZSzxvNdIhdA2L42Fotep5HZ0V911
-   dn6lGHkT/VA5nEX/iYXGHxISN5J20gvXSURR2lSAv8qEF6D9EHL9iMyCo
-   7ZuMC2Ak1eHTqv4/bKVfXVwskSjZG82IpEIoyA0cjdkrlT4cy6AYpPpq4
-   4Et1YE++Ir0M2CcAbBNGpUazWwLf3QEcpsOedLWqKDLqQJhlfQSW12Lxo
-   9Yr0jMo8TZtaIZqwvki13eyAIeUvXtAueXDisH82k8MQJ7o/bCrfTS7k4
-   780Taghh5rx2/Nj3zsV/l8EISZir5CW1E5WBl24M1zwNX0njYd35LXoOq
+  bh=fIRoCn8uR/VAmSYF7cqVQKLVRZmktoCYXwLJHrA/nHo=;
+  b=YkPcoJB5VJvWxmX2YOOOmk/sL9mDomEAygIRuJ0TDq+6svLqoZd3QY80
+   OsRY1y+65tHFx5YPoNmp2QChzd5Rg9ul3vfZGJC5JvltIpXBeHVSwsU1A
+   dnclcOVdyyppw0eAKdVSbuUfl/IDvF0jLvlrFwgPhbu+uC5yNod3tIkw8
+   sopa7PEWDWJ3ZjYm9NLaciemc3j06bNI9J7RcaWjunMJfYBuUnFljO1E9
+   /r0QyDSCI06eo1TpCFalu+f24w5C2X5f8zdeFr1u532PyJdDgWIf/sPtM
+   Feihr8SSeo6dkmGvhX35eVtoYtpZV1AzGEnFa/XwUjq46WsvVqu8RNtZw
    Q==;
-X-CSE-ConnectionGUID: T4ziIg5pQZ2d0t0wl/I+CQ==
-X-CSE-MsgGUID: X0oUuSXWQyW430RPYdyFfA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7481517"
+X-CSE-ConnectionGUID: 8wdUkG5FSnm8utKgjtnXfg==
+X-CSE-MsgGUID: C62+dhS2SP2K7klr+72JaQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7481519"
 X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; 
-   d="scan'208";a="7481517"
+   d="scan'208";a="7481519"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 04:39:44 -0700
-X-CSE-ConnectionGUID: XkOOgWsiSo6l5MJG7Pfozg==
-X-CSE-MsgGUID: JaGLREURSRKPHB8UyL3pYQ==
+X-CSE-ConnectionGUID: 59YLQPFYR0evuBuOAuVjdQ==
+X-CSE-MsgGUID: 3LeumesdRvCrUYxIu2I7og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; 
-   d="scan'208";a="19169279"
+   d="scan'208";a="19169280"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 05 Apr 2024 04:39:43 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rshv2-0002Di-26;
+	id 1rshv2-0002Dg-21;
 	Fri, 05 Apr 2024 11:39:40 +0000
-Date: Fri, 5 Apr 2024 19:39:35 +0800
+Date: Fri, 5 Apr 2024 19:38:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
+To: Jens Axboe <axboe@kernel.dk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:vectorized-scrub 126/162] fs/xfs/xfs_handle.c:804:27:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202404051936.5RNctx1k-lkp@intel.com>
+Subject: [axboe-block:rw_iter 19/37] kernel/module/stats.c:393:35: sparse:
+ sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202404051924.XqqCjbV8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,119 +62,168 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git vectorized-scrub
-head:   85240c8c44aab15d3c6506be48f62eb9b7807f29
-commit: bfb94a70e7a4ca92d7e895de9c485f01a5a8cd0b [126/162] xfs: Add parent pointer ioctls
-config: alpha-randconfig-r123-20240405 (https://download.01.org/0day-ci/archive/20240405/202404051936.5RNctx1k-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240405/202404051936.5RNctx1k-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   449fd46baa282dd51ed0f757f111cd2cb11d03d9
+commit: 02b8fcd817e5dbfce4b90bc975bbb4b7c0934cd9 [19/37] kernel: convert to read/write iterators
+config: openrisc-randconfig-r132-20240405 (https://download.01.org/0day-ci/archive/20240405/202404051924.XqqCjbV8-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240405/202404051924.XqqCjbV8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404051936.5RNctx1k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404051924.XqqCjbV8-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_handle.c:804:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void * @@
-   fs/xfs/xfs_handle.c:804:27: sparse:     expected void [noderef] __user *to
-   fs/xfs/xfs_handle.c:804:27: sparse:     got void *
+>> kernel/module/stats.c:393:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user *from @@     got char *[assigned] buf @@
+   kernel/module/stats.c:393:35: sparse:     expected void const [noderef] __user *from
+   kernel/module/stats.c:393:35: sparse:     got char *[assigned] buf
+   kernel/module/stats.c: note: in included file (through include/linux/module.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+--
+>> kernel/trace/blktrace.c:421:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
+   kernel/trace/blktrace.c:421:36: sparse:     expected void const [noderef] __user *from
+   kernel/trace/blktrace.c:421:36: sparse:     got char *
+   kernel/trace/blktrace.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-vim +804 fs/xfs/xfs_handle.c
+vim +393 kernel/module/stats.c
 
-   720	
-   721	/* Retrieve the parent pointers for a given inode. */
-   722	STATIC int
-   723	xfs_getparents(
-   724		struct xfs_getparents_ctx	*gpx)
-   725	{
-   726		struct xfs_getparents		*gp = &gpx->gph.gph_request;
-   727		struct xfs_inode		*ip = gpx->ip;
-   728		struct xfs_mount		*mp = ip->i_mount;
-   729		size_t				bufsize;
-   730		int				error;
-   731	
-   732		/* Check size of buffer requested by user */
-   733		if (gp->gp_bufsize > XFS_XATTR_LIST_MAX)
-   734			return -ENOMEM;
-   735		if (gp->gp_bufsize < xfs_getparents_rec_sizeof(1))
-   736			return -EINVAL;
-   737	
-   738		if (gp->gp_iflags & ~XFS_GETPARENTS_IFLAGS_ALL)
-   739			return -EINVAL;
-   740		if (gp->__pad)
-   741			return -EINVAL;
-   742	
-   743		bufsize = round_down(gp->gp_bufsize, sizeof(uint32_t));
-   744		gpx->krecords = kvzalloc(bufsize, GFP_KERNEL);
-   745		if (!gpx->krecords) {
-   746			bufsize = min(bufsize, PAGE_SIZE);
-   747			gpx->krecords = kvzalloc(bufsize, GFP_KERNEL);
-   748			if (!gpx->krecords)
-   749				return -ENOMEM;
-   750		}
-   751	
-   752		gpx->context.dp = ip;
-   753		gpx->context.resynch = 1;
-   754		gpx->context.put_listent = xfs_getparents_put_listent;
-   755		gpx->context.bufsize = bufsize;
-   756		/* firstu is used to track the bytes filled in the buffer */
-   757		gpx->context.firstu = 0;
-   758	
-   759		/* Copy the cursor provided by caller */
-   760		memcpy(&gpx->context.cursor, &gp->gp_cursor,
-   761				sizeof(struct xfs_attrlist_cursor));
-   762		gp->gp_count = 0;
-   763		gp->gp_oflags = 0;
-   764	
-   765		trace_xfs_getparents_begin(ip, gp, &gpx->context.cursor);
-   766	
-   767		error = xfs_attr_list(&gpx->context);
-   768		if (error)
-   769			goto out_free_buf;
-   770		if (gpx->context.seen_enough < 0) {
-   771			error = gpx->context.seen_enough;
-   772			goto out_free_buf;
-   773		}
-   774	
-   775		/* Update the caller with the current cursor position */
-   776		memcpy(&gp->gp_cursor, &gpx->context.cursor,
-   777				sizeof(struct xfs_attrlist_cursor));
-   778	
-   779		/* Is this the root directory? */
-   780		if (ip->i_ino == mp->m_sb.sb_rootino)
-   781			gp->gp_oflags |= XFS_GETPARENTS_OFLAG_ROOT;
-   782	
-   783		if (gpx->context.seen_enough == 0) {
-   784			/*
-   785			 * If we did not run out of buffer space, then we reached the
-   786			 * end of the pptr recordset, so set the DONE flag.
-   787			 */
-   788			gp->gp_oflags |= XFS_GETPARENTS_OFLAG_DONE;
-   789		} else if (gp->gp_count == 0) {
-   790			/*
-   791			 * If we ran out of buffer space before copying any parent
-   792			 * pointers at all, the caller's buffer was too short.  Tell
-   793			 * userspace that, erm, the message is too long.
-   794			 */
-   795			error = -EMSGSIZE;
-   796			goto out_free_buf;
-   797		}
-   798	
-   799		trace_xfs_getparents_end(ip, gp, &gpx->context.cursor);
-   800	
-   801		ASSERT(gpx->context.firstu <= gpx->gph.gph_request.gp_bufsize);
-   802	
-   803		/* Copy the records to userspace. */
- > 804		if (copy_to_user((void *)gpx->gph.gph_request.gp_buffer,
-   805					gpx->krecords, gpx->context.firstu))
-   806			error = -EFAULT;
-   807	
-   808	out_free_buf:
-   809		kvfree(gpx->krecords);
-   810		gpx->krecords = NULL;
-   811		return error;
-   812	}
-   813	
+   263	
+   264	/*
+   265	 * At 64 bytes per module and assuming a 1024 bytes preamble we can fit the
+   266	 * 112 module prints within 8k.
+   267	 *
+   268	 * 1024 + (64*112) = 8k
+   269	 */
+   270	#define MAX_PREAMBLE 1024
+   271	#define MAX_FAILED_MOD_PRINT 112
+   272	#define MAX_BYTES_PER_MOD 64
+   273	static ssize_t read_file_mod_stats(struct kiocb *iocb, struct iov_iter *to)
+   274	{
+   275		struct mod_fail_load *mod_fail;
+   276		unsigned int len, size, count_failed = 0;
+   277		char *buf;
+   278		int ret;
+   279		u32 live_mod_count, fkreads, fdecompress, fbecoming, floads;
+   280		unsigned long total_size, text_size, ikread_bytes, ibecoming_bytes,
+   281			idecompress_bytes, imod_bytes, total_virtual_lost;
+   282	
+   283		live_mod_count = atomic_read(&modcount);
+   284		fkreads = atomic_read(&failed_kreads);
+   285		fdecompress = atomic_read(&failed_decompress);
+   286		fbecoming = atomic_read(&failed_becoming);
+   287		floads = atomic_read(&failed_load_modules);
+   288	
+   289		total_size = atomic_long_read(&total_mod_size);
+   290		text_size = atomic_long_read(&total_text_size);
+   291		ikread_bytes = atomic_long_read(&invalid_kread_bytes);
+   292		idecompress_bytes = atomic_long_read(&invalid_decompress_bytes);
+   293		ibecoming_bytes = atomic_long_read(&invalid_becoming_bytes);
+   294		imod_bytes = atomic_long_read(&invalid_mod_bytes);
+   295	
+   296		total_virtual_lost = ikread_bytes + idecompress_bytes + ibecoming_bytes + imod_bytes;
+   297	
+   298		size = MAX_PREAMBLE + min((unsigned int)(floads + fbecoming),
+   299					  (unsigned int)MAX_FAILED_MOD_PRINT) * MAX_BYTES_PER_MOD;
+   300		buf = kzalloc(size, GFP_KERNEL);
+   301		if (buf == NULL)
+   302			return -ENOMEM;
+   303	
+   304		/* The beginning of our debug preamble */
+   305		len = scnprintf(buf, size, "%25s\t%u\n", "Mods ever loaded", live_mod_count);
+   306	
+   307		len += scnprintf(buf + len, size - len, "%25s\t%u\n", "Mods failed on kread", fkreads);
+   308	
+   309		len += scnprintf(buf + len, size - len, "%25s\t%u\n", "Mods failed on decompress",
+   310				 fdecompress);
+   311		len += scnprintf(buf + len, size - len, "%25s\t%u\n", "Mods failed on becoming", fbecoming);
+   312	
+   313		len += scnprintf(buf + len, size - len, "%25s\t%u\n", "Mods failed on load", floads);
+   314	
+   315		len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Total module size", total_size);
+   316		len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Total mod text size", text_size);
+   317	
+   318		len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Failed kread bytes", ikread_bytes);
+   319	
+   320		len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Failed decompress bytes",
+   321				 idecompress_bytes);
+   322	
+   323		len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Failed becoming bytes", ibecoming_bytes);
+   324	
+   325		len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Failed kmod bytes", imod_bytes);
+   326	
+   327		len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Virtual mem wasted bytes", total_virtual_lost);
+   328	
+   329		if (live_mod_count && total_size) {
+   330			len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Average mod size",
+   331					 DIV_ROUND_UP(total_size, live_mod_count));
+   332		}
+   333	
+   334		if (live_mod_count && text_size) {
+   335			len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Average mod text size",
+   336					 DIV_ROUND_UP(text_size, live_mod_count));
+   337		}
+   338	
+   339		/*
+   340		 * We use WARN_ON_ONCE() for the counters to ensure we always have parity
+   341		 * for keeping tabs on a type of failure with one type of byte counter.
+   342		 * The counters for imod_bytes does not increase for fkreads failures
+   343		 * for example, and so on.
+   344		 */
+   345	
+   346		WARN_ON_ONCE(ikread_bytes && !fkreads);
+   347		if (fkreads && ikread_bytes) {
+   348			len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Avg fail kread bytes",
+   349					 DIV_ROUND_UP(ikread_bytes, fkreads));
+   350		}
+   351	
+   352		WARN_ON_ONCE(ibecoming_bytes && !fbecoming);
+   353		if (fbecoming && ibecoming_bytes) {
+   354			len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Avg fail becoming bytes",
+   355					 DIV_ROUND_UP(ibecoming_bytes, fbecoming));
+   356		}
+   357	
+   358		WARN_ON_ONCE(idecompress_bytes && !fdecompress);
+   359		if (fdecompress && idecompress_bytes) {
+   360			len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Avg fail decomp bytes",
+   361					 DIV_ROUND_UP(idecompress_bytes, fdecompress));
+   362		}
+   363	
+   364		WARN_ON_ONCE(imod_bytes && !floads);
+   365		if (floads && imod_bytes) {
+   366			len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Average fail load bytes",
+   367					 DIV_ROUND_UP(imod_bytes, floads));
+   368		}
+   369	
+   370		/* End of our debug preamble header. */
+   371	
+   372		/* Catch when we've gone beyond our expected preamble */
+   373		WARN_ON_ONCE(len >= MAX_PREAMBLE);
+   374	
+   375		if (list_empty(&dup_failed_modules))
+   376			goto out;
+   377	
+   378		len += scnprintf(buf + len, size - len, "Duplicate failed modules:\n");
+   379		len += scnprintf(buf + len, size - len, "%25s\t%15s\t%25s\n",
+   380				 "Module-name", "How-many-times", "Reason");
+   381		mutex_lock(&module_mutex);
+   382	
+   383	
+   384		list_for_each_entry_rcu(mod_fail, &dup_failed_modules, list) {
+   385			if (WARN_ON_ONCE(++count_failed >= MAX_FAILED_MOD_PRINT))
+   386				goto out_unlock;
+   387			len += scnprintf(buf + len, size - len, "%25s\t%15lu\t%25s\n", mod_fail->name,
+   388					 atomic_long_read(&mod_fail->count), mod_fail_to_str(mod_fail));
+   389		}
+   390	out_unlock:
+   391		mutex_unlock(&module_mutex);
+   392	out:
+ > 393		ret = simple_copy_to_iter(buf, &iocb->ki_pos, len, to);
+   394		kfree(buf);
+   395		return ret;
+   396	}
+   397	
 
 -- 
 0-DAY CI Kernel Test Service
