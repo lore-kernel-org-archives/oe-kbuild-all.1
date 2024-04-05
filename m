@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A449422EF2;
-	Fri,  5 Apr 2024 04:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1449328E2
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 05:58:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712292331; cv=none; b=lxctEKQC5Pwd00mi/ItI6mQXa1u7e28dWPATaztwkHscrkKRl0bsdjCwvBheoKHSYplksYvrokC6dsmNYJyhthqfXM+ST7BnFccGZNixYeRzNAiX3mNgh1VcnlMKbj2RCfyVWKl109o9/k/WccE1i4zlm4u6OZbdCas8Xc86xj0=
+	t=1712296717; cv=none; b=u2DuawggDcl9Zuj4E3lHDAvGXwphaLIuAKdoH59AumdmoS6BYvwbzc6qFxZtvSpzV3l2Mn70Qzu//vA46vAdMcXiPb38hrYNkqTpSXrWyqmRTxK6Prm3UcutsYFb/e+IHYI9mbajsjaZN5ORI6bB34dqoueSzGl8yunUYnH/2rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712292331; c=relaxed/simple;
-	bh=vD4QbkqfvTSmt/Gh2KCI6gGacZcfRXXvd5ryA6KC8T4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nASvXQIGTv0rhDDw9sk+0eVzbOXXcaJdxu6gDujdYLc+ghxv29vQ7740x2ASmHLsB++/PJkjdCQnxjEpjYFTzW5KOrgY/s/fRe/Y4YegX7bMnLoNXuilH4LBHjA/m9mHDqSLGkNsH49hxzPuQkd410f2j9KHsC3GaR1BG43Lcq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DmkD6uHR; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1712296717; c=relaxed/simple;
+	bh=iQax4IcqZXbJdBB10rufVmdsLmMgCuInbxBbXp5Wseo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SPm5EU7M9Z9fwr1lLzfaGfguu17RW1SHE/gsUqNfGlkQsTXfJw/Ox3qGetCHwfHUI57waFHP2S/xZzVH3br2UkW+U+JGfnfsiHPKzdUZ914whYnou8G5/Tawwf372ejOZJ9PFz2htOYdfcmmAP3tjJ9EZkuiuPzkWGDfY2I1hdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oDMm/1ol; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DmkD6uHR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDMm/1ol"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712292329; x=1743828329;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vD4QbkqfvTSmt/Gh2KCI6gGacZcfRXXvd5ryA6KC8T4=;
-  b=DmkD6uHR76G5m9Qmk2avpP5FN1GLmIiu0FnDWDSX2149nhyEgj4zNnqO
-   /S3VRUMANgRsjZHCaEnsF2dxQf4BfzasAfwBwP9BDV/PtwNyeCSbIHkHN
-   QyuVoZ+woyBEgMkCRB4qzbUYuThGGN9eEhIGc2v+T8p+DtOfj8HkjT6R5
-   6zObvk/afaJlRC7X9ELTfPXMwTiEDheE3WJ8ALlVQXqDlEgEz0ffMVU6z
-   06h4bEmu/RYMeEZ0iViLHCzBfwB/qMpEgky0uwoi1NUSKo7OODMwINnKB
-   90hOIhEqkByACe/MaHeb5vGSLNRd2q0w72vdGC6/3BfCou/GL6tAtOqvM
-   Q==;
-X-CSE-ConnectionGUID: wf8sjpVoSbSeB40sY9uJ3Q==
-X-CSE-MsgGUID: 39uMtDaGTxiQMnDN0Wy2ZA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="33007667"
+  t=1712296715; x=1743832715;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iQax4IcqZXbJdBB10rufVmdsLmMgCuInbxBbXp5Wseo=;
+  b=oDMm/1oleYbb7Mbv6csvQ2iWaDNDDhlowu+PiQ91c4QPIN2Z28qlQLMb
+   jlFjW7Iw0L26TtlAa7Qx+RvuESNW9EBHXrOsALm71xdBgM1qBV4SSUZHL
+   aoRbuG1UVEMEa4C5d/rW5lZ9DCj2YXL7TXzAOtFPsAavKmCPANVQaXb7I
+   raOAUExtcgfdws8PweKEe12xeLjypHFHAyPXIWk7mL5IqiUh0W+yZwg+5
+   emFdF7SGCnOU+sGn6oxSpu+RRPjTMQ+drEbhVsuGuQS4HIDCgaMoUktj4
+   YnsF149kIvG0PBBmvHfz+KabjuYqQIoin5VOwU/vwQ9Z8KTAgD8f5rS2J
+   A==;
+X-CSE-ConnectionGUID: e0jzH3K7TRaKBayuvGq5lg==
+X-CSE-MsgGUID: CyMBCKv6S+GHm1OXM6cuTw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="18966828"
 X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; 
-   d="scan'208";a="33007667"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 21:45:28 -0700
-X-CSE-ConnectionGUID: lcgGNDK3RkiZNTtxVT6BDQ==
-X-CSE-MsgGUID: hJ2pYlcKTPyjXUAZ4zs0gQ==
+   d="scan'208";a="18966828"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 22:58:32 -0700
+X-CSE-ConnectionGUID: Egzl5u98Q8KduD3wZfz79Q==
+X-CSE-MsgGUID: h8ABkUQSRQGTm1mc7s6OCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; 
-   d="scan'208";a="19073332"
+   d="scan'208";a="42228960"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Apr 2024 21:45:27 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 04 Apr 2024 22:58:31 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rsbS8-0001ta-1X;
-	Fri, 05 Apr 2024 04:45:24 +0000
-Date: Fri, 5 Apr 2024 12:44:59 +0800
+	id 1rscaq-0001xL-2T;
+	Fri, 05 Apr 2024 05:58:28 +0000
+Date: Fri, 5 Apr 2024 13:57:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCHv9 06/17] x86/mm: Make
- x86_platform.guest.enc_status_change_*() return errno
-Message-ID: <202404051207.YGViuP7O-lkp@intel.com>
-References: <20240325103911.2651793-7-kirill.shutemov@linux.intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:rw_iter 15/37]
+ drivers/staging/axis-fifo/axis-fifo.c:349: warning: Function parameter or
+ struct member 'iocb' not described in 'axis_fifo_read'
+Message-ID: <202404051317.OHoUjsgk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,187 +62,278 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240325103911.2651793-7-kirill.shutemov@linux.intel.com>
 
-Hi Kirill,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on linus/master v6.9-rc2]
-[cannot apply to tip/x86/core tip/x86/mm rafael-pm/acpi-bus rafael-pm/devprop next-20240405]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kirill-A-Shutemov/x86-acpi-Extract-ACPI-MADT-wakeup-code-into-a-separate-file/20240404-032544
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20240325103911.2651793-7-kirill.shutemov%40linux.intel.com
-patch subject: [PATCHv9 06/17] x86/mm: Make x86_platform.guest.enc_status_change_*() return errno
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240405/202404051207.YGViuP7O-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240405/202404051207.YGViuP7O-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   449fd46baa282dd51ed0f757f111cd2cb11d03d9
+commit: 9bddfc061dffa3ca19b6e971ef1f1281458ee8a3 [15/37] staging: convert drivers to read/write iterators
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240405/202404051317.OHoUjsgk-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240405/202404051317.OHoUjsgk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404051207.YGViuP7O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404051317.OHoUjsgk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/x86/hyperv/ivm.c:551:3: error: use of undeclared identifier 'result'
-     551 |                 result = false;
-         |                 ^
-   arch/x86/hyperv/ivm.c:587:3: error: use of undeclared identifier 'result'
-     587 |                 result = false;
-         |                 ^
->> arch/x86/hyperv/ivm.c:662:47: error: incompatible function pointer types assigning to 'int (*)(unsigned long, int, bool)' (aka 'int (*)(unsigned long, int, _Bool)') from 'bool (unsigned long, int, bool)' (aka '_Bool (unsigned long, int, _Bool)') [-Wincompatible-function-pointer-types]
-     662 |         x86_platform.guest.enc_status_change_prepare = hv_vtom_clear_present;
-         |                                                      ^ ~~~~~~~~~~~~~~~~~~~~~
-   3 errors generated.
+>> drivers/staging/axis-fifo/axis-fifo.c:349: warning: Function parameter or struct member 'iocb' not described in 'axis_fifo_read'
+>> drivers/staging/axis-fifo/axis-fifo.c:349: warning: Function parameter or struct member 'to' not described in 'axis_fifo_read'
+>> drivers/staging/axis-fifo/axis-fifo.c:349: warning: Excess function parameter 'f' description in 'axis_fifo_read'
+>> drivers/staging/axis-fifo/axis-fifo.c:349: warning: Excess function parameter 'buf' description in 'axis_fifo_read'
+>> drivers/staging/axis-fifo/axis-fifo.c:349: warning: Excess function parameter 'len' description in 'axis_fifo_read'
+>> drivers/staging/axis-fifo/axis-fifo.c:349: warning: Excess function parameter 'off' description in 'axis_fifo_read'
+>> drivers/staging/axis-fifo/axis-fifo.c:468: warning: Function parameter or struct member 'iocb' not described in 'axis_fifo_write'
+>> drivers/staging/axis-fifo/axis-fifo.c:468: warning: Function parameter or struct member 'from' not described in 'axis_fifo_write'
+>> drivers/staging/axis-fifo/axis-fifo.c:468: warning: Excess function parameter 'f' description in 'axis_fifo_write'
+>> drivers/staging/axis-fifo/axis-fifo.c:468: warning: Excess function parameter 'buf' description in 'axis_fifo_write'
+>> drivers/staging/axis-fifo/axis-fifo.c:468: warning: Excess function parameter 'len' description in 'axis_fifo_write'
+>> drivers/staging/axis-fifo/axis-fifo.c:468: warning: Excess function parameter 'off' description in 'axis_fifo_write'
 
 
-vim +/result +551 arch/x86/hyperv/ivm.c
+vim +349 drivers/staging/axis-fifo/axis-fifo.c
 
-0f34d11234868d Michael Kelley        2024-01-15  530  
-810a521265023a Tianyu Lan            2021-10-25  531  /*
-812b0597fb4043 Michael Kelley        2023-03-26  532   * hv_vtom_set_host_visibility - Set specified memory visible to host.
-810a521265023a Tianyu Lan            2021-10-25  533   *
-810a521265023a Tianyu Lan            2021-10-25  534   * In Isolation VM, all guest memory is encrypted from host and guest
-810a521265023a Tianyu Lan            2021-10-25  535   * needs to set memory visible to host via hvcall before sharing memory
-810a521265023a Tianyu Lan            2021-10-25  536   * with host. This function works as wrap of hv_mark_gpa_visibility()
-810a521265023a Tianyu Lan            2021-10-25  537   * with memory base and size.
-810a521265023a Tianyu Lan            2021-10-25  538   */
-93c65513f71649 Kirill A. Shutemov    2024-03-25  539  static int hv_vtom_set_host_visibility(unsigned long kbuffer, int pagecount, bool enc)
-810a521265023a Tianyu Lan            2021-10-25  540  {
-812b0597fb4043 Michael Kelley        2023-03-26  541  	enum hv_mem_host_visibility visibility = enc ?
-812b0597fb4043 Michael Kelley        2023-03-26  542  			VMBUS_PAGE_NOT_VISIBLE : VMBUS_PAGE_VISIBLE_READ_WRITE;
-810a521265023a Tianyu Lan            2021-10-25  543  	u64 *pfn_array;
-9fef276f9f416a Michael Kelley        2024-01-15  544  	phys_addr_t paddr;
-9fef276f9f416a Michael Kelley        2024-01-15  545  	void *vaddr;
-810a521265023a Tianyu Lan            2021-10-25  546  	int ret = 0;
-810a521265023a Tianyu Lan            2021-10-25  547  	int i, pfn;
-810a521265023a Tianyu Lan            2021-10-25  548  
-810a521265023a Tianyu Lan            2021-10-25  549  	pfn_array = kmalloc(HV_HYP_PAGE_SIZE, GFP_KERNEL);
-0f34d11234868d Michael Kelley        2024-01-15  550  	if (!pfn_array) {
-0f34d11234868d Michael Kelley        2024-01-15 @551  		result = false;
-0f34d11234868d Michael Kelley        2024-01-15  552  		goto err_set_memory_p;
-0f34d11234868d Michael Kelley        2024-01-15  553  	}
-810a521265023a Tianyu Lan            2021-10-25  554  
-810a521265023a Tianyu Lan            2021-10-25  555  	for (i = 0, pfn = 0; i < pagecount; i++) {
-9fef276f9f416a Michael Kelley        2024-01-15  556  		/*
-9fef276f9f416a Michael Kelley        2024-01-15  557  		 * Use slow_virt_to_phys() because the PRESENT bit has been
-9fef276f9f416a Michael Kelley        2024-01-15  558  		 * temporarily cleared in the PTEs.  slow_virt_to_phys() works
-9fef276f9f416a Michael Kelley        2024-01-15  559  		 * without the PRESENT bit while virt_to_hvpfn() or similar
-9fef276f9f416a Michael Kelley        2024-01-15  560  		 * does not.
-9fef276f9f416a Michael Kelley        2024-01-15  561  		 */
-9fef276f9f416a Michael Kelley        2024-01-15  562  		vaddr = (void *)kbuffer + (i * HV_HYP_PAGE_SIZE);
-9fef276f9f416a Michael Kelley        2024-01-15  563  		paddr = slow_virt_to_phys(vaddr);
-9fef276f9f416a Michael Kelley        2024-01-15  564  		pfn_array[pfn] = paddr >> HV_HYP_PAGE_SHIFT;
-810a521265023a Tianyu Lan            2021-10-25  565  		pfn++;
-810a521265023a Tianyu Lan            2021-10-25  566  
-810a521265023a Tianyu Lan            2021-10-25  567  		if (pfn == HV_MAX_MODIFY_GPA_REP_COUNT || i == pagecount - 1) {
-810a521265023a Tianyu Lan            2021-10-25  568  			ret = hv_mark_gpa_visibility(pfn, pfn_array,
-810a521265023a Tianyu Lan            2021-10-25  569  						     visibility);
-93c65513f71649 Kirill A. Shutemov    2024-03-25  570  			if (ret)
-810a521265023a Tianyu Lan            2021-10-25  571  				goto err_free_pfn_array;
-810a521265023a Tianyu Lan            2021-10-25  572  			pfn = 0;
-810a521265023a Tianyu Lan            2021-10-25  573  		}
-810a521265023a Tianyu Lan            2021-10-25  574  	}
-810a521265023a Tianyu Lan            2021-10-25  575  
-810a521265023a Tianyu Lan            2021-10-25  576  err_free_pfn_array:
-810a521265023a Tianyu Lan            2021-10-25  577  	kfree(pfn_array);
-0f34d11234868d Michael Kelley        2024-01-15  578  
-0f34d11234868d Michael Kelley        2024-01-15  579  err_set_memory_p:
-0f34d11234868d Michael Kelley        2024-01-15  580  	/*
-0f34d11234868d Michael Kelley        2024-01-15  581  	 * Set the PTE PRESENT bits again to revert what hv_vtom_clear_present()
-0f34d11234868d Michael Kelley        2024-01-15  582  	 * did. Do this even if there is an error earlier in this function in
-0f34d11234868d Michael Kelley        2024-01-15  583  	 * order to avoid leaving the memory range in a "broken" state. Setting
-0f34d11234868d Michael Kelley        2024-01-15  584  	 * the PRESENT bits shouldn't fail, but return an error if it does.
-0f34d11234868d Michael Kelley        2024-01-15  585  	 */
-0f34d11234868d Michael Kelley        2024-01-15  586  	if (set_memory_p(kbuffer, pagecount))
-0f34d11234868d Michael Kelley        2024-01-15  587  		result = false;
-0f34d11234868d Michael Kelley        2024-01-15  588  
-93c65513f71649 Kirill A. Shutemov    2024-03-25  589  	return ret;
-812b0597fb4043 Michael Kelley        2023-03-26  590  }
-812b0597fb4043 Michael Kelley        2023-03-26  591  
-812b0597fb4043 Michael Kelley        2023-03-26  592  static bool hv_vtom_tlb_flush_required(bool private)
-812b0597fb4043 Michael Kelley        2023-03-26  593  {
-0f34d11234868d Michael Kelley        2024-01-15  594  	/*
-0f34d11234868d Michael Kelley        2024-01-15  595  	 * Since hv_vtom_clear_present() marks the PTEs as "not present"
-0f34d11234868d Michael Kelley        2024-01-15  596  	 * and flushes the TLB, they can't be in the TLB. That makes the
-0f34d11234868d Michael Kelley        2024-01-15  597  	 * flush controlled by this function redundant, so return "false".
-0f34d11234868d Michael Kelley        2024-01-15  598  	 */
-0f34d11234868d Michael Kelley        2024-01-15  599  	return false;
-812b0597fb4043 Michael Kelley        2023-03-26  600  }
-812b0597fb4043 Michael Kelley        2023-03-26  601  
-812b0597fb4043 Michael Kelley        2023-03-26  602  static bool hv_vtom_cache_flush_required(void)
-812b0597fb4043 Michael Kelley        2023-03-26  603  {
-812b0597fb4043 Michael Kelley        2023-03-26  604  	return false;
-812b0597fb4043 Michael Kelley        2023-03-26  605  }
-812b0597fb4043 Michael Kelley        2023-03-26  606  
-812b0597fb4043 Michael Kelley        2023-03-26  607  static bool hv_is_private_mmio(u64 addr)
-812b0597fb4043 Michael Kelley        2023-03-26  608  {
-812b0597fb4043 Michael Kelley        2023-03-26  609  	/*
-812b0597fb4043 Michael Kelley        2023-03-26  610  	 * Hyper-V always provides a single IO-APIC in a guest VM.
-812b0597fb4043 Michael Kelley        2023-03-26  611  	 * When a paravisor is used, it is emulated by the paravisor
-812b0597fb4043 Michael Kelley        2023-03-26  612  	 * in the guest context and must be mapped private.
-812b0597fb4043 Michael Kelley        2023-03-26  613  	 */
-812b0597fb4043 Michael Kelley        2023-03-26  614  	if (addr >= HV_IOAPIC_BASE_ADDRESS &&
-812b0597fb4043 Michael Kelley        2023-03-26  615  	    addr < (HV_IOAPIC_BASE_ADDRESS + PAGE_SIZE))
-812b0597fb4043 Michael Kelley        2023-03-26  616  		return true;
-812b0597fb4043 Michael Kelley        2023-03-26  617  
-812b0597fb4043 Michael Kelley        2023-03-26  618  	/* Same with a vTPM */
-812b0597fb4043 Michael Kelley        2023-03-26  619  	if (addr >= VTPM_BASE_ADDRESS &&
-812b0597fb4043 Michael Kelley        2023-03-26  620  	    addr < (VTPM_BASE_ADDRESS + PAGE_SIZE))
-812b0597fb4043 Michael Kelley        2023-03-26  621  		return true;
-812b0597fb4043 Michael Kelley        2023-03-26  622  
-812b0597fb4043 Michael Kelley        2023-03-26  623  	return false;
-810a521265023a Tianyu Lan            2021-10-25  624  }
-846da38de0e822 Tianyu Lan            2021-12-13  625  
-812b0597fb4043 Michael Kelley        2023-03-26  626  void __init hv_vtom_init(void)
-812b0597fb4043 Michael Kelley        2023-03-26  627  {
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  628  	enum hv_isolation_type type = hv_get_isolation_type();
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  629  
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  630  	switch (type) {
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  631  	case HV_ISOLATION_TYPE_VBS:
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  632  		fallthrough;
-812b0597fb4043 Michael Kelley        2023-03-26  633  	/*
-812b0597fb4043 Michael Kelley        2023-03-26  634  	 * By design, a VM using vTOM doesn't see the SEV setting,
-812b0597fb4043 Michael Kelley        2023-03-26  635  	 * so SEV initialization is bypassed and sev_status isn't set.
-812b0597fb4043 Michael Kelley        2023-03-26  636  	 * Set it here to indicate a vTOM VM.
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  637  	 *
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  638  	 * Note: if CONFIG_AMD_MEM_ENCRYPT is not set, sev_status is
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  639  	 * defined as 0ULL, to which we can't assigned a value.
-812b0597fb4043 Michael Kelley        2023-03-26  640  	 */
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  641  #ifdef CONFIG_AMD_MEM_ENCRYPT
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  642  	case HV_ISOLATION_TYPE_SNP:
-812b0597fb4043 Michael Kelley        2023-03-26  643  		sev_status = MSR_AMD64_SNP_VTOM;
-da86eb96118407 Borislav Petkov (AMD  2023-05-08  644) 		cc_vendor = CC_VENDOR_AMD;
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  645  		break;
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  646  #endif
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  647  
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  648  	case HV_ISOLATION_TYPE_TDX:
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  649  		cc_vendor = CC_VENDOR_INTEL;
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  650  		break;
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  651  
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  652  	default:
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  653  		panic("hv_vtom_init: unsupported isolation type %d\n", type);
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  654  	}
-d3a9d7e49d1531 Dexuan Cui            2023-08-24  655  
-812b0597fb4043 Michael Kelley        2023-03-26  656  	cc_set_mask(ms_hyperv.shared_gpa_boundary);
-812b0597fb4043 Michael Kelley        2023-03-26  657  	physical_mask &= ms_hyperv.shared_gpa_boundary - 1;
-812b0597fb4043 Michael Kelley        2023-03-26  658  
-812b0597fb4043 Michael Kelley        2023-03-26  659  	x86_platform.hyper.is_private_mmio = hv_is_private_mmio;
-812b0597fb4043 Michael Kelley        2023-03-26  660  	x86_platform.guest.enc_cache_flush_required = hv_vtom_cache_flush_required;
-812b0597fb4043 Michael Kelley        2023-03-26  661  	x86_platform.guest.enc_tlb_flush_required = hv_vtom_tlb_flush_required;
-0f34d11234868d Michael Kelley        2024-01-15 @662  	x86_platform.guest.enc_status_change_prepare = hv_vtom_clear_present;
-812b0597fb4043 Michael Kelley        2023-03-26  663  	x86_platform.guest.enc_status_change_finish = hv_vtom_set_host_visibility;
-c957f1f3c498bc Juergen Gross         2023-05-02  664  
-c957f1f3c498bc Juergen Gross         2023-05-02  665  	/* Set WB as the default cache mode. */
-c957f1f3c498bc Juergen Gross         2023-05-02  666  	mtrr_overwrite_state(NULL, 0, MTRR_TYPE_WRBACK);
-812b0597fb4043 Michael Kelley        2023-03-26  667  }
-812b0597fb4043 Michael Kelley        2023-03-26  668  
+4a965c5f89decd Jacob Feder       2018-07-22  332  
+0443b3f4436321 Quentin Deslandes 2020-01-21  333  /**
+bbf40b2f6e38d0 Lee Jones         2021-04-14  334   * axis_fifo_read() - Read a packet from AXIS-FIFO character device.
+c848434c629db5 Lee Jones         2021-04-14  335   * @f: Open file.
+c848434c629db5 Lee Jones         2021-04-14  336   * @buf: User space buffer to read to.
+c848434c629db5 Lee Jones         2021-04-14  337   * @len: User space buffer length.
+c848434c629db5 Lee Jones         2021-04-14  338   * @off: Buffer offset.
+0443b3f4436321 Quentin Deslandes 2020-01-21  339   *
+0443b3f4436321 Quentin Deslandes 2020-01-21  340   * As defined by the device's documentation, we need to check the device's
+0443b3f4436321 Quentin Deslandes 2020-01-21  341   * occupancy before reading the length register and then the data. All these
+0443b3f4436321 Quentin Deslandes 2020-01-21  342   * operations must be executed atomically, in order and one after the other
+0443b3f4436321 Quentin Deslandes 2020-01-21  343   * without missing any.
+0443b3f4436321 Quentin Deslandes 2020-01-21  344   *
+0443b3f4436321 Quentin Deslandes 2020-01-21  345   * Returns the number of bytes read from the device or negative error code
+0443b3f4436321 Quentin Deslandes 2020-01-21  346   *	on failure.
+0443b3f4436321 Quentin Deslandes 2020-01-21  347   */
+9bddfc061dffa3 Jens Axboe        2024-04-03  348  static ssize_t axis_fifo_read(struct kiocb *iocb, struct iov_iter *to)
+4a965c5f89decd Jacob Feder       2018-07-22 @349  {
+9bddfc061dffa3 Jens Axboe        2024-04-03  350  	struct axis_fifo *fifo = iocb->ki_filp->private_data;
+9bddfc061dffa3 Jens Axboe        2024-04-03  351  	size_t len = iov_iter_count(to);
+4a965c5f89decd Jacob Feder       2018-07-22  352  	size_t bytes_available;
+4a965c5f89decd Jacob Feder       2018-07-22  353  	unsigned int words_available;
+4a965c5f89decd Jacob Feder       2018-07-22  354  	unsigned int copied;
+4a965c5f89decd Jacob Feder       2018-07-22  355  	unsigned int copy;
+4a965c5f89decd Jacob Feder       2018-07-22  356  	unsigned int i;
+4a965c5f89decd Jacob Feder       2018-07-22  357  	int ret;
+4a965c5f89decd Jacob Feder       2018-07-22  358  	u32 tmp_buf[READ_BUF_SIZE];
+4a965c5f89decd Jacob Feder       2018-07-22  359  
+4a965c5f89decd Jacob Feder       2018-07-22  360  	if (fifo->read_flags & O_NONBLOCK) {
+0443b3f4436321 Quentin Deslandes 2020-01-21  361  		/*
+0443b3f4436321 Quentin Deslandes 2020-01-21  362  		 * Device opened in non-blocking mode. Try to lock it and then
+0443b3f4436321 Quentin Deslandes 2020-01-21  363  		 * check if any packet is available.
+4a965c5f89decd Jacob Feder       2018-07-22  364  		 */
+0443b3f4436321 Quentin Deslandes 2020-01-21  365  		if (!mutex_trylock(&fifo->read_lock))
+4a965c5f89decd Jacob Feder       2018-07-22  366  			return -EAGAIN;
+0443b3f4436321 Quentin Deslandes 2020-01-21  367  
+0443b3f4436321 Quentin Deslandes 2020-01-21  368  		if (!ioread32(fifo->base_addr + XLLF_RDFO_OFFSET)) {
+0443b3f4436321 Quentin Deslandes 2020-01-21  369  			ret = -EAGAIN;
+0443b3f4436321 Quentin Deslandes 2020-01-21  370  			goto end_unlock;
+0443b3f4436321 Quentin Deslandes 2020-01-21  371  		}
+4a965c5f89decd Jacob Feder       2018-07-22  372  	} else {
+4a965c5f89decd Jacob Feder       2018-07-22  373  		/* opened in blocking mode
+4a965c5f89decd Jacob Feder       2018-07-22  374  		 * wait for a packet available interrupt (or timeout)
+4a965c5f89decd Jacob Feder       2018-07-22  375  		 * if nothing is currently available
+4a965c5f89decd Jacob Feder       2018-07-22  376  		 */
+0443b3f4436321 Quentin Deslandes 2020-01-21  377  		mutex_lock(&fifo->read_lock);
+0443b3f4436321 Quentin Deslandes 2020-01-21  378  		ret = wait_event_interruptible_timeout(fifo->read_queue,
+4a965c5f89decd Jacob Feder       2018-07-22  379  			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
+752cbd8f191678 Khadija Kamran    2023-03-17  380  			read_timeout);
+4a965c5f89decd Jacob Feder       2018-07-22  381  
+0443b3f4436321 Quentin Deslandes 2020-01-21  382  		if (ret <= 0) {
+4a965c5f89decd Jacob Feder       2018-07-22  383  			if (ret == 0) {
+0443b3f4436321 Quentin Deslandes 2020-01-21  384  				ret = -EAGAIN;
+0443b3f4436321 Quentin Deslandes 2020-01-21  385  			} else if (ret != -ERESTARTSYS) {
+4a965c5f89decd Jacob Feder       2018-07-22  386  				dev_err(fifo->dt_device, "wait_event_interruptible_timeout() error in read (ret=%i)\n",
+4a965c5f89decd Jacob Feder       2018-07-22  387  					ret);
+0443b3f4436321 Quentin Deslandes 2020-01-21  388  			}
+0443b3f4436321 Quentin Deslandes 2020-01-21  389  
+0443b3f4436321 Quentin Deslandes 2020-01-21  390  			goto end_unlock;
+4a965c5f89decd Jacob Feder       2018-07-22  391  		}
+4a965c5f89decd Jacob Feder       2018-07-22  392  	}
+4a965c5f89decd Jacob Feder       2018-07-22  393  
+4a965c5f89decd Jacob Feder       2018-07-22  394  	bytes_available = ioread32(fifo->base_addr + XLLF_RLR_OFFSET);
+4a965c5f89decd Jacob Feder       2018-07-22  395  	if (!bytes_available) {
+4a965c5f89decd Jacob Feder       2018-07-22  396  		dev_err(fifo->dt_device, "received a packet of length 0 - fifo core will be reset\n");
+4a965c5f89decd Jacob Feder       2018-07-22  397  		reset_ip_core(fifo);
+0443b3f4436321 Quentin Deslandes 2020-01-21  398  		ret = -EIO;
+0443b3f4436321 Quentin Deslandes 2020-01-21  399  		goto end_unlock;
+4a965c5f89decd Jacob Feder       2018-07-22  400  	}
+4a965c5f89decd Jacob Feder       2018-07-22  401  
+4a965c5f89decd Jacob Feder       2018-07-22  402  	if (bytes_available > len) {
+4a965c5f89decd Jacob Feder       2018-07-22  403  		dev_err(fifo->dt_device, "user read buffer too small (available bytes=%zu user buffer bytes=%zu) - fifo core will be reset\n",
+4a965c5f89decd Jacob Feder       2018-07-22  404  			bytes_available, len);
+4a965c5f89decd Jacob Feder       2018-07-22  405  		reset_ip_core(fifo);
+0443b3f4436321 Quentin Deslandes 2020-01-21  406  		ret = -EINVAL;
+0443b3f4436321 Quentin Deslandes 2020-01-21  407  		goto end_unlock;
+4a965c5f89decd Jacob Feder       2018-07-22  408  	}
+4a965c5f89decd Jacob Feder       2018-07-22  409  
+4a965c5f89decd Jacob Feder       2018-07-22  410  	if (bytes_available % sizeof(u32)) {
+4a965c5f89decd Jacob Feder       2018-07-22  411  		/* this probably can't happen unless IP
+4a965c5f89decd Jacob Feder       2018-07-22  412  		 * registers were previously mishandled
+4a965c5f89decd Jacob Feder       2018-07-22  413  		 */
+4a965c5f89decd Jacob Feder       2018-07-22  414  		dev_err(fifo->dt_device, "received a packet that isn't word-aligned - fifo core will be reset\n");
+4a965c5f89decd Jacob Feder       2018-07-22  415  		reset_ip_core(fifo);
+0443b3f4436321 Quentin Deslandes 2020-01-21  416  		ret = -EIO;
+0443b3f4436321 Quentin Deslandes 2020-01-21  417  		goto end_unlock;
+4a965c5f89decd Jacob Feder       2018-07-22  418  	}
+4a965c5f89decd Jacob Feder       2018-07-22  419  
+4a965c5f89decd Jacob Feder       2018-07-22  420  	words_available = bytes_available / sizeof(u32);
+4a965c5f89decd Jacob Feder       2018-07-22  421  
+4a965c5f89decd Jacob Feder       2018-07-22  422  	/* read data into an intermediate buffer, copying the contents
+4a965c5f89decd Jacob Feder       2018-07-22  423  	 * to userspace when the buffer is full
+4a965c5f89decd Jacob Feder       2018-07-22  424  	 */
+4a965c5f89decd Jacob Feder       2018-07-22  425  	copied = 0;
+4a965c5f89decd Jacob Feder       2018-07-22  426  	while (words_available > 0) {
+4a965c5f89decd Jacob Feder       2018-07-22  427  		copy = min(words_available, READ_BUF_SIZE);
+4a965c5f89decd Jacob Feder       2018-07-22  428  
+4a965c5f89decd Jacob Feder       2018-07-22  429  		for (i = 0; i < copy; i++) {
+4a965c5f89decd Jacob Feder       2018-07-22  430  			tmp_buf[i] = ioread32(fifo->base_addr +
+4a965c5f89decd Jacob Feder       2018-07-22  431  					      XLLF_RDFD_OFFSET);
+4a965c5f89decd Jacob Feder       2018-07-22  432  		}
+4a965c5f89decd Jacob Feder       2018-07-22  433  
+9bddfc061dffa3 Jens Axboe        2024-04-03  434  		if (!copy_to_iter_full(tmp_buf, copy * sizeof(u32), to)) {
+4a965c5f89decd Jacob Feder       2018-07-22  435  			reset_ip_core(fifo);
+0443b3f4436321 Quentin Deslandes 2020-01-21  436  			ret = -EFAULT;
+0443b3f4436321 Quentin Deslandes 2020-01-21  437  			goto end_unlock;
+4a965c5f89decd Jacob Feder       2018-07-22  438  		}
+4a965c5f89decd Jacob Feder       2018-07-22  439  
+4a965c5f89decd Jacob Feder       2018-07-22  440  		copied += copy;
+4a965c5f89decd Jacob Feder       2018-07-22  441  		words_available -= copy;
+4a965c5f89decd Jacob Feder       2018-07-22  442  	}
+4a965c5f89decd Jacob Feder       2018-07-22  443  
+0443b3f4436321 Quentin Deslandes 2020-01-21  444  	ret = bytes_available;
+0443b3f4436321 Quentin Deslandes 2020-01-21  445  
+0443b3f4436321 Quentin Deslandes 2020-01-21  446  end_unlock:
+0443b3f4436321 Quentin Deslandes 2020-01-21  447  	mutex_unlock(&fifo->read_lock);
+0443b3f4436321 Quentin Deslandes 2020-01-21  448  
+0443b3f4436321 Quentin Deslandes 2020-01-21  449  	return ret;
+4a965c5f89decd Jacob Feder       2018-07-22  450  }
+4a965c5f89decd Jacob Feder       2018-07-22  451  
+0443b3f4436321 Quentin Deslandes 2020-01-21  452  /**
+0443b3f4436321 Quentin Deslandes 2020-01-21  453   * axis_fifo_write() - Write buffer to AXIS-FIFO character device.
+c848434c629db5 Lee Jones         2021-04-14  454   * @f: Open file.
+c848434c629db5 Lee Jones         2021-04-14  455   * @buf: User space buffer to write to the device.
+c848434c629db5 Lee Jones         2021-04-14  456   * @len: User space buffer length.
+c848434c629db5 Lee Jones         2021-04-14  457   * @off: Buffer offset.
+0443b3f4436321 Quentin Deslandes 2020-01-21  458   *
+0443b3f4436321 Quentin Deslandes 2020-01-21  459   * As defined by the device's documentation, we need to write to the device's
+0443b3f4436321 Quentin Deslandes 2020-01-21  460   * data buffer then to the device's packet length register atomically. Also,
+0443b3f4436321 Quentin Deslandes 2020-01-21  461   * we need to lock before checking if the device has available space to avoid
+0443b3f4436321 Quentin Deslandes 2020-01-21  462   * any concurrency issue.
+0443b3f4436321 Quentin Deslandes 2020-01-21  463   *
+0443b3f4436321 Quentin Deslandes 2020-01-21  464   * Returns the number of bytes written to the device or negative error code
+0443b3f4436321 Quentin Deslandes 2020-01-21  465   *	on failure.
+0443b3f4436321 Quentin Deslandes 2020-01-21  466   */
+9bddfc061dffa3 Jens Axboe        2024-04-03  467  static ssize_t axis_fifo_write(struct kiocb *iocb, struct iov_iter *from)
+4a965c5f89decd Jacob Feder       2018-07-22 @468  {
+9bddfc061dffa3 Jens Axboe        2024-04-03  469  	struct axis_fifo *fifo = iocb->ki_filp->private_data;
+9bddfc061dffa3 Jens Axboe        2024-04-03  470  	size_t len = iov_iter_count(from);
+4a965c5f89decd Jacob Feder       2018-07-22  471  	unsigned int words_to_write;
+4a965c5f89decd Jacob Feder       2018-07-22  472  	unsigned int copied;
+4a965c5f89decd Jacob Feder       2018-07-22  473  	unsigned int copy;
+4a965c5f89decd Jacob Feder       2018-07-22  474  	unsigned int i;
+4a965c5f89decd Jacob Feder       2018-07-22  475  	int ret;
+4a965c5f89decd Jacob Feder       2018-07-22  476  	u32 tmp_buf[WRITE_BUF_SIZE];
+4a965c5f89decd Jacob Feder       2018-07-22  477  
+4a965c5f89decd Jacob Feder       2018-07-22  478  	if (len % sizeof(u32)) {
+4a965c5f89decd Jacob Feder       2018-07-22  479  		dev_err(fifo->dt_device,
+4a965c5f89decd Jacob Feder       2018-07-22  480  			"tried to send a packet that isn't word-aligned\n");
+4a965c5f89decd Jacob Feder       2018-07-22  481  		return -EINVAL;
+4a965c5f89decd Jacob Feder       2018-07-22  482  	}
+4a965c5f89decd Jacob Feder       2018-07-22  483  
+4a965c5f89decd Jacob Feder       2018-07-22  484  	words_to_write = len / sizeof(u32);
+4a965c5f89decd Jacob Feder       2018-07-22  485  
+4a965c5f89decd Jacob Feder       2018-07-22  486  	if (!words_to_write) {
+4a965c5f89decd Jacob Feder       2018-07-22  487  		dev_err(fifo->dt_device,
+4a965c5f89decd Jacob Feder       2018-07-22  488  			"tried to send a packet of length 0\n");
+4a965c5f89decd Jacob Feder       2018-07-22  489  		return -EINVAL;
+4a965c5f89decd Jacob Feder       2018-07-22  490  	}
+4a965c5f89decd Jacob Feder       2018-07-22  491  
+4a965c5f89decd Jacob Feder       2018-07-22  492  	if (words_to_write > fifo->tx_fifo_depth) {
+4a965c5f89decd Jacob Feder       2018-07-22  493  		dev_err(fifo->dt_device, "tried to write more words [%u] than slots in the fifo buffer [%u]\n",
+4a965c5f89decd Jacob Feder       2018-07-22  494  			words_to_write, fifo->tx_fifo_depth);
+4a965c5f89decd Jacob Feder       2018-07-22  495  		return -EINVAL;
+4a965c5f89decd Jacob Feder       2018-07-22  496  	}
+4a965c5f89decd Jacob Feder       2018-07-22  497  
+4a965c5f89decd Jacob Feder       2018-07-22  498  	if (fifo->write_flags & O_NONBLOCK) {
+0443b3f4436321 Quentin Deslandes 2020-01-21  499  		/*
+0443b3f4436321 Quentin Deslandes 2020-01-21  500  		 * Device opened in non-blocking mode. Try to lock it and then
+0443b3f4436321 Quentin Deslandes 2020-01-21  501  		 * check if there is any room to write the given buffer.
+4a965c5f89decd Jacob Feder       2018-07-22  502  		 */
+0443b3f4436321 Quentin Deslandes 2020-01-21  503  		if (!mutex_trylock(&fifo->write_lock))
+0443b3f4436321 Quentin Deslandes 2020-01-21  504  			return -EAGAIN;
+0443b3f4436321 Quentin Deslandes 2020-01-21  505  
+4a965c5f89decd Jacob Feder       2018-07-22  506  		if (words_to_write > ioread32(fifo->base_addr +
+4a965c5f89decd Jacob Feder       2018-07-22  507  					      XLLF_TDFV_OFFSET)) {
+0443b3f4436321 Quentin Deslandes 2020-01-21  508  			ret = -EAGAIN;
+0443b3f4436321 Quentin Deslandes 2020-01-21  509  			goto end_unlock;
+4a965c5f89decd Jacob Feder       2018-07-22  510  		}
+4a965c5f89decd Jacob Feder       2018-07-22  511  	} else {
+4a965c5f89decd Jacob Feder       2018-07-22  512  		/* opened in blocking mode */
+4a965c5f89decd Jacob Feder       2018-07-22  513  
+4a965c5f89decd Jacob Feder       2018-07-22  514  		/* wait for an interrupt (or timeout) if there isn't
+4a965c5f89decd Jacob Feder       2018-07-22  515  		 * currently enough room in the fifo
+4a965c5f89decd Jacob Feder       2018-07-22  516  		 */
+0443b3f4436321 Quentin Deslandes 2020-01-21  517  		mutex_lock(&fifo->write_lock);
+0443b3f4436321 Quentin Deslandes 2020-01-21  518  		ret = wait_event_interruptible_timeout(fifo->write_queue,
+4a965c5f89decd Jacob Feder       2018-07-22  519  			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
+4a965c5f89decd Jacob Feder       2018-07-22  520  				 >= words_to_write,
+752cbd8f191678 Khadija Kamran    2023-03-17  521  			write_timeout);
+4a965c5f89decd Jacob Feder       2018-07-22  522  
+0443b3f4436321 Quentin Deslandes 2020-01-21  523  		if (ret <= 0) {
+4a965c5f89decd Jacob Feder       2018-07-22  524  			if (ret == 0) {
+0443b3f4436321 Quentin Deslandes 2020-01-21  525  				ret = -EAGAIN;
+0443b3f4436321 Quentin Deslandes 2020-01-21  526  			} else if (ret != -ERESTARTSYS) {
+0443b3f4436321 Quentin Deslandes 2020-01-21  527  				dev_err(fifo->dt_device, "wait_event_interruptible_timeout() error in write (ret=%i)\n",
+4a965c5f89decd Jacob Feder       2018-07-22  528  					ret);
+0443b3f4436321 Quentin Deslandes 2020-01-21  529  			}
+0443b3f4436321 Quentin Deslandes 2020-01-21  530  
+0443b3f4436321 Quentin Deslandes 2020-01-21  531  			goto end_unlock;
+4a965c5f89decd Jacob Feder       2018-07-22  532  		}
+4a965c5f89decd Jacob Feder       2018-07-22  533  	}
+4a965c5f89decd Jacob Feder       2018-07-22  534  
+4a965c5f89decd Jacob Feder       2018-07-22  535  	/* write data from an intermediate buffer into the fifo IP, refilling
+4a965c5f89decd Jacob Feder       2018-07-22  536  	 * the buffer with userspace data as needed
+4a965c5f89decd Jacob Feder       2018-07-22  537  	 */
+4a965c5f89decd Jacob Feder       2018-07-22  538  	copied = 0;
+4a965c5f89decd Jacob Feder       2018-07-22  539  	while (words_to_write > 0) {
+4a965c5f89decd Jacob Feder       2018-07-22  540  		copy = min(words_to_write, WRITE_BUF_SIZE);
+4a965c5f89decd Jacob Feder       2018-07-22  541  
+9bddfc061dffa3 Jens Axboe        2024-04-03  542  		if (!copy_from_iter_full(tmp_buf, copy * sizeof(u32), from)) {
+4a965c5f89decd Jacob Feder       2018-07-22  543  			reset_ip_core(fifo);
+0443b3f4436321 Quentin Deslandes 2020-01-21  544  			ret = -EFAULT;
+0443b3f4436321 Quentin Deslandes 2020-01-21  545  			goto end_unlock;
+4a965c5f89decd Jacob Feder       2018-07-22  546  		}
+4a965c5f89decd Jacob Feder       2018-07-22  547  
+4a965c5f89decd Jacob Feder       2018-07-22  548  		for (i = 0; i < copy; i++)
+4a965c5f89decd Jacob Feder       2018-07-22  549  			iowrite32(tmp_buf[i], fifo->base_addr +
+4a965c5f89decd Jacob Feder       2018-07-22  550  				  XLLF_TDFD_OFFSET);
+4a965c5f89decd Jacob Feder       2018-07-22  551  
+4a965c5f89decd Jacob Feder       2018-07-22  552  		copied += copy;
+4a965c5f89decd Jacob Feder       2018-07-22  553  		words_to_write -= copy;
+4a965c5f89decd Jacob Feder       2018-07-22  554  	}
+4a965c5f89decd Jacob Feder       2018-07-22  555  
+0443b3f4436321 Quentin Deslandes 2020-01-21  556  	ret = copied * sizeof(u32);
+0443b3f4436321 Quentin Deslandes 2020-01-21  557  
+4a965c5f89decd Jacob Feder       2018-07-22  558  	/* write packet size to fifo */
+0443b3f4436321 Quentin Deslandes 2020-01-21  559  	iowrite32(ret, fifo->base_addr + XLLF_TLR_OFFSET);
+0443b3f4436321 Quentin Deslandes 2020-01-21  560  
+0443b3f4436321 Quentin Deslandes 2020-01-21  561  end_unlock:
+0443b3f4436321 Quentin Deslandes 2020-01-21  562  	mutex_unlock(&fifo->write_lock);
+4a965c5f89decd Jacob Feder       2018-07-22  563  
+0443b3f4436321 Quentin Deslandes 2020-01-21  564  	return ret;
+4a965c5f89decd Jacob Feder       2018-07-22  565  }
+4a965c5f89decd Jacob Feder       2018-07-22  566  
+
+:::::: The code at line 349 was first introduced by commit
+:::::: 4a965c5f89decd636129cddc47e5f2c61e8f13e6 staging: add driver for Xilinx AXI-Stream FIFO v4.1 IP core
+
+:::::: TO: Jacob Feder <jacobsfeder@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
