@@ -1,135 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mo-csw-fb.securemx.jp (mo-csw-fb1122.securemx.jp [210.130.202.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37DE24205
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 07:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29CE2C69F;
+	Fri,  5 Apr 2024 07:17:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.130.202.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712300499; cv=none; b=j4caFU11jsRRGctTeOCMGPX50DmLoKKCt/ciBSAXzsLFMUD7XGhOQ8u4XS07ym9b0kI7LOA3FDRw4QJbD9nMVlH5w0MFdkas4rJlPAwlLP+11rv7mR0aVIMO+FeIwtFQkYA+VL71oEfol1+xJJDiWZxKLLJGGNWC3hjZtQ/gln8=
+	t=1712301444; cv=none; b=XC3T8apiow0ZrRCO0unQiSk+yM23QgruI71A5Rp9B5zfqsnk+dvoAPt3Shqq/7YZAcU+nm/g5RmP4au5/2QaTiqkRNGCSBvDNDsduh8haedTtqCOacFjFZxjnEBRq0ZHwcBfg/OPnY2WYJ4/wlaMPfElwxynTlWXnIg8+rT4snc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712300499; c=relaxed/simple;
-	bh=u+pICOztmHPmcaubWio24QXGOGM3pV14s9VZnLdh1yc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GLnCI2UTxtHAX8XJBvl7WeA/5mpAujRiMkYZ2ulX6efi62OgladI7I2i834Hki0NZ3Jb08RzjZZDxB6Yx+K3bpOCMkJ9J0JqV2fvE9HlL9i+6HMpg4cbwVOj8GN7P07Byo/wdZ7Nn4BSOVMpM8c38/+iMYCRvk3NtqrBsagT39w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OidZ6JdH; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OidZ6JdH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712300497; x=1743836497;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u+pICOztmHPmcaubWio24QXGOGM3pV14s9VZnLdh1yc=;
-  b=OidZ6JdHfpZTmNDJj3MqGtWeGvm/kA5zFw3Hmy1nzif07t8wMqRHfOAl
-   IGuMz1Tz6GmOr+9CNg3NyeFIjjiewQJwmb1VUg/ksf81NNwA8QEOY1LWO
-   8Wq3w5MqV0d4kzDv+dAiCQYxVltApg8BE9R0aVRZkgtOvXufio+vSwtYB
-   OI4zI9ExarUsGtS5CvMywdRVAKXcsmePwsoW89gTPCWdi942blmNB0PWj
-   QkSv0NWsN1oqIk0WsA4we2TC+jEnfKUJ2rdOgMnXGGlbTb+zx6WkQXxob
-   TVxezOOmDuo4rXeeihAaMjjWsweAn626TRL88t+8L1cxDH0J9SwmdauKs
-   g==;
-X-CSE-ConnectionGUID: rsc7OaXpQFum4kcmtBfhOQ==
-X-CSE-MsgGUID: QPnJWwovRK2T3RlhCkmCGQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="18181392"
-X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; 
-   d="scan'208";a="18181392"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 00:01:34 -0700
-X-CSE-ConnectionGUID: gHh7ZS9SShOLFwQEiA2V1g==
-X-CSE-MsgGUID: sg6P9tFNRVmA1U8TdPuPQQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; 
-   d="scan'208";a="23744886"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 05 Apr 2024 00:01:32 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rsdZq-0001zx-0N;
-	Fri, 05 Apr 2024 07:01:30 +0000
-Date: Fri, 5 Apr 2024 15:01:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 06/12] drm/client: Constify modes
-Message-ID: <202404051422.BpYVK6TP-lkp@intel.com>
-References: <20240404203336.10454-7-ville.syrjala@linux.intel.com>
+	s=arc-20240116; t=1712301444; c=relaxed/simple;
+	bh=aWuYLQx3cT3sMqjyLNuhSw0YnpRhPP9iVZTnefmVILg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=LVmhkeVTyYE88m5cuZarHKAO5W9cCzmdw0+SnW5z5ODYotmvbPYLljwDSW3c2t5pMck6oCU744j3Fr85lnsol/4Ck4ATAWHnjqTERhhwDSOzXuqFP7DSxRH2f/uLL/CZ6I5u4iwb7pT/HHRkQFtzo3Rpx5x8NOq0Eb5yz9YXJNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kioxia.com; spf=pass smtp.mailfrom=kioxia.com; arc=none smtp.client-ip=210.130.202.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kioxia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kioxia.com
+Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1122) id 4355bqJ21399056; Fri, 5 Apr 2024 14:37:52 +0900
+Received: by mo-csw.securemx.jp (mx-mo-csw1121) id 4355bKPr2321699; Fri, 5 Apr 2024 14:37:21 +0900
+X-Iguazu-Qid: 2rWg9o4uj4bd4uUMYT
+X-Iguazu-QSIG: v=2; s=0; t=1712295440; q=2rWg9o4uj4bd4uUMYT; m=qaukDK6/RdB2jfGj6npjkS5B4Zl3dh7LPkYmq44zB1o=
+Received: from CNN1EMTA03.test.kioxia.com ([202.248.33.144])
+	by relay.securemx.jp (mx-mr1120) id 4355bIiq1330523
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 5 Apr 2024 14:37:19 +0900
+Received: from Switcher-Post_Send (gateway [10.232.20.1])
+	by CNN1EMTA03.test.kioxia.com (Postfix) with ESMTP id 8B45C2F603;
+	Fri,  5 Apr 2024 14:37:18 +0900 (JST)
+Received: from CNN1ESTR04.kioxia.com (localhost [127.0.0.1])
+	by Switcher-Post_Send (Postfix) with ESMTP id 463861900001F6;
+	Fri,  5 Apr 2024 14:24:45 +0900 (JST)
+Received: from localhost [127.0.0.1] 
+	 by CNN1ESTR04.kioxia.com with ESMTP id 0003QAAAAAA01FJ0;
+	 Fri, 5 Apr 2024 14:24:45 +0900
+Received: from CNN1EXMB01.r1.kioxia.com (CNN1EXMB01.r1.kioxia.com [10.232.20.150])
+	by Switcher-Pre_Send (Postfix) with ESMTP id 3A808A2A9BFD5;
+	Fri,  5 Apr 2024 14:24:45 +0900 (JST)
+Received: from CNN1EXMB03.r1.kioxia.com (10.232.20.152) by
+ CNN1EXMB01.r1.kioxia.com (10.232.20.150) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 5 Apr 2024 14:37:17 +0900
+Received: from CNN1EXMB03.r1.kioxia.com ([10.13.100.22]) by
+ CNN1EXMB03.r1.kioxia.com ([10.13.100.22]) with mapi id 15.01.2507.035; Fri, 5
+ Apr 2024 14:37:17 +0900
+From: tada keisuke <keisuke1.tada@kioxia.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+        "oe-kbuild@lists.linux.dev"
+	<oe-kbuild@lists.linux.dev>,
+        "song@kernel.org" <song@kernel.org>,
+        "yukuai3@huawei.com" <yukuai3@huawei.com>
+CC: "lkp@intel.com" <lkp@intel.com>,
+        "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>,
+        "linux-raid@vger.kernel.org"
+	<linux-raid@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 06/11] md: avoid conflicts in active_aligned_reads
+ operations
+Thread-Topic: [PATCH 06/11] md: avoid conflicts in active_aligned_reads
+ operations
+Thread-Index: AQHahQix9h4wjYrA/ke63gQzkJ761bFZJ/ew
+Date: Fri, 5 Apr 2024 05:37:17 +0000
+Message-ID: <d843796bc3634fa691685ee63aa68357@kioxia.com>
+References: <ffb112e756514a0eaab891379df0d834@kioxia.com>
+ <a35d6b54-8e63-4b0b-be18-bb5ab7d12bdf@moroto.mountain>
+In-Reply-To: <a35d6b54-8e63-4b0b-be18-bb5ab7d12bdf@moroto.mountain>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-as-product-ver: ISME-14.0.0.2080-9.0.1002-28298.001
+x-tm-as-result: No-10--23.847800-8.000000
+x-tmase-matchedrid: zwpC2WOSP9WmagT1k9kBpu5i6weAmSDKKQNhMboqZlo02EZLYIEwCyj5
+	3aEB5qDLe+eZU8eiw0YjkzXjqrWT+yK2CVtnYH0ynVTWWiNp+v9uwUsg2ZgJ8QMn8l3DFl4Q8oG
+	xyJMM48B7A20xaD5o5nBKGzyAWTMW9R7dwXny/be7LWwix27pUtOUg7tlBn3vStxxn32stFhjGq
+	ZxQuvF5r2jand2PRF8QjRHotpINbQf0H3tYJmWPU2xVQmDwU6mwMc7ZZ8e7/c0DNPwjqLncPGG5
+	PZMzxFoCpt1CXXJsmrhQDopaw5doU1QH6PUk2DD3QqJN4m15UGuLG21Eb4T8wZZ8N3RvTMxo8WM
+	kQWv6iUDpAZ2/B/Blrew1twePJJB3QfwsVk0UbslCGssfkpInQ==
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--23.847800-8.000000
+x-tmase-version: ISME-14.0.0.2080-9.0.1002-28298.001
+x-tm-snts-smtp: B85BA37545B82BF712B2F42B98231C28DF19BF716B56D57B32176A8C34120EBC2000:8
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240404203336.10454-7-ville.syrjala@linux.intel.com>
+X-CrossPremisesHeadersFilteredBySendConnector: CNN1EXMB01.r1.kioxia.com
+X-OrganizationHeadersPreserved: CNN1EXMB01.r1.kioxia.com
 
-Hi Ville,
+> Hi tada,
+>=20
+> kernel test robot noticed the following build warnings:
+>=20
+> url:
+> https://github.com/intel-lab-lkp/linux/commits/tada-keisuke/md-add-infra-=
+for-active_aligned_reads-changes/202403
+> 26-201827
+> base:   fcf3f7e2fc8a53a6140beee46ec782a4c88e4744
+> patch link:    https://lore.kernel.org/r/ffb112e756514a0eaab891379df0d834=
+%40kioxia.com
+> patch subject: [PATCH 06/11] md: avoid conflicts in active_aligned_reads =
+operations
+> config: i386-randconfig-141-20240328
+> (https://download.01.org/0day-ci/archive/20240331/202403312116.Sh5vFCWf-l=
+kp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009=
+708b4367171ccdbf4b5905cb6a803753fe18)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202403312116.Sh5vFCWf-lkp@intel.com/
+>=20
+> New smatch warnings:
+> drivers/md/raid5.c:7680 setup_conf() warn: passing zero to 'ERR_PTR'
+>=20
+> vim +/ERR_PTR +7680 drivers/md/raid5.c
 
-kernel test robot noticed the following build warnings:
+Thanks for reporting.
+I forgot to keep the error code.
+I will also fix another issue and submit v2.
+https://marc.info/?l=3Dlinux-raid&m=3D171184328530325
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.9-rc2 next-20240405]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks,
+Keisuke
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-client-Fully-protect-modes-with-dev-mode_config-mutex/20240405-043540
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240404203336.10454-7-ville.syrjala%40linux.intel.com
-patch subject: [PATCH 06/12] drm/client: Constify modes
-config: i386-randconfig-012-20240405 (https://download.01.org/0day-ci/archive/20240405/202404051422.BpYVK6TP-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240405/202404051422.BpYVK6TP-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404051422.BpYVK6TP-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/drm_client_modeset.c:1241:0:
-   drivers/gpu/drm/tests/drm_client_modeset_test.c: In function 'drm_test_pick_cmdline_res_1920_1080_60':
->> drivers/gpu/drm/tests/drm_client_modeset_test.c:108:7: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     mode = drm_connector_pick_cmdline_mode(connector);
-          ^
-
-
-vim +/const +108 drivers/gpu/drm/tests/drm_client_modeset_test.c
-
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   84  
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   85  static void drm_test_pick_cmdline_res_1920_1080_60(struct kunit *test)
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   86  {
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   87  	struct drm_client_modeset_test_priv *priv = test->priv;
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   88  	struct drm_device *drm = priv->drm;
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   89  	struct drm_connector *connector = &priv->connector;
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   90  	struct drm_cmdline_mode *cmdline_mode = &connector->cmdline_mode;
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   91  	struct drm_display_mode *expected_mode, *mode;
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   92  	const char *cmdline = "1920x1080@60";
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   93  	int ret;
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   94  
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   95  	expected_mode = drm_mode_find_dmt(priv->drm, 1920, 1080, 60, false);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   96  	KUNIT_ASSERT_NOT_NULL(test, expected_mode);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   97  
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   98  	KUNIT_ASSERT_TRUE(test,
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   99  			  drm_mode_parse_command_line_for_connector(cmdline,
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  100  								    connector,
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  101  								    cmdline_mode));
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  102  
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  103  	mutex_lock(&drm->mode_config.mutex);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  104  	ret = drm_helper_probe_single_connector_modes(connector, 1920, 1080);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  105  	mutex_unlock(&drm->mode_config.mutex);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  106  	KUNIT_ASSERT_GT(test, ret, 0);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  107  
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14 @108  	mode = drm_connector_pick_cmdline_mode(connector);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  109  	KUNIT_ASSERT_NOT_NULL(test, mode);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  110  
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  111  	KUNIT_EXPECT_TRUE(test, drm_mode_equal(expected_mode, mode));
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  112  }
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  113  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
