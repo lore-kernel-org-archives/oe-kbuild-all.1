@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19FAC1803D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 06:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4526A182AE
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 06:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712298576; cv=none; b=dcwq4RsfOtotfxczj7VFRzthlD3Z0K7Sdh3J5oY69NywvBRLov7ElY+obF7H8+JYFHESctByaJ1ojpO4YhJ0c/Ip3VFHtwj1LFNPMdoaCNUF/VlhwpnHipUoIGMKQ69cWDdBt7Jd7lRPRqpQaC5+pzztYGAixaalwqvyW+PIm7k=
+	t=1712299476; cv=none; b=tPg98lkIYay9Nqql6Sxrd56JHXO/8beNpRfyvqGpM7gJCeBQZIJqMB/NWgSNaYjiypzv0MRn5heU1IC7Ce552seb76wCiixBgR3tbG+ORCp/gmlIrQbG9SQSRMiZ504R4ZXbv4H/5DC8ymwERtLPzv2Ht3xkWMRvoSk+L9LDcoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712298576; c=relaxed/simple;
-	bh=wHLVfvGoFIF0XNGsgckpgRSPM650ays1iPL4RfXXSms=;
+	s=arc-20240116; t=1712299476; c=relaxed/simple;
+	bh=YJmH+h7H9M7nv3lu+l6dVYM39CBGSMwexCTbor4Qjbk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mHWyDzppdQI1AcbdHWMsdtjwsoan2Bs624JDeHjartos+TUTeF+t9E7G+T7cZDJcZqcZsQhqPFhyeE1ShO9FKYGMKSt7bFKjzG9hzbCvnxOf4yGYUL0NutBr6uklPi3tb97tYQbKOBJkYHy5AyA7eTL/9xiTLzzj1LgfJkWsFws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UC5zR74+; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=bT2iU7g0oOvnLfNkTfdnCNahQhtIP3+FxmPbKTxhEEUqScby+PiGZZiOa4RKtaDRUzWH4SlV13h5muVF/4o0IKWffzuZfLVErTztQ2dIYDMpsMgWZQducPQhxviZVmscjqeWqN4F6WYSc/WF0Su64XunntORSUihr7UFjCa0/VA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mPbZVel6; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UC5zR74+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712298574; x=1743834574;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wHLVfvGoFIF0XNGsgckpgRSPM650ays1iPL4RfXXSms=;
-  b=UC5zR74+OeaNTFrmYUxrubAW9XHU5gRy1O0TYa3llE93DgcPkl6vKCjD
-   bl0alPxAd2cirPdcfK6IAUgmuXhjNo052vKx8dgpHpUp/Y3Y0YLQfLNtO
-   xBBedItWwV1IZ3ulHkCwbP7ZkYeWP8WzpXnA09NbQTi5ZuDT1hkTwCJGK
-   YoiLJmlX+8gOMx/JqTEFzMsBn34Qi0p4D914LkE2/JVqvcuR7rqdp/35G
-   SXkVmaZN3C5CQRcKWzxK1woiIa4Jqpe6rctUd4b7nVqqo944GTVawFeD5
-   sswHfjOwUnnV2Qpi0m/ViDSZnRkItM4yKhB4VKOMem9gfTbp2wyKbx3/C
-   g==;
-X-CSE-ConnectionGUID: GCRE7HugT5esEfb50rqAJg==
-X-CSE-MsgGUID: tX7AqPBLTcC+5VWpkkrdmQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7802738"
-X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; 
-   d="scan'208";a="7802738"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 23:29:33 -0700
-X-CSE-ConnectionGUID: CDLEwv3yQ0q3yjKPr9iuZA==
-X-CSE-MsgGUID: PD3mKs4aQhGu412sg69djg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; 
-   d="scan'208";a="50307387"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Apr 2024 23:29:32 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rsd4r-0001yi-1T;
-	Fri, 05 Apr 2024 06:29:29 +0000
-Date: Fri, 5 Apr 2024 14:29:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Daniel Borkmann <daniel@iogearbox.net>
-Subject: [linux-next:master 3911/4242] kernel/bpf/verifier.c:19160:44:
- sparse: sparse: cast truncates bits from constant value (fffffffc00000000
- becomes 0)
-Message-ID: <202404051423.eiaXLwhX-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mPbZVel6"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-516c403cc46so3374931e87.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Apr 2024 23:44:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712299472; x=1712904272; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IsLlr2oPSdmLwFf0BCT91wHONVR1VBOvbRLU+KDTOps=;
+        b=mPbZVel6KyCq4IFoZguNnAsyyEG+I41mEEzPZTCUdsNfTRd3qqQ5Gz8GsAoOyYqX2/
+         DOHD2gz06v0HG2NmkmaC9sjwCmDU242+OjT1TTFPIVHmvdQ7AXi0pZwoeu5aBti5PgbF
+         46xQ6FeAH6JACFyjO6sY1uKbkJZv/TAVCYb971FBjKKrDozEM0dUvw18uYwNwwjPtrR4
+         pUlpnELv+En8hzyuNnE4lE2ZpaksXLWuPB3x9nxRE7YSg2IIa49LPptpLowozcu2ZGzA
+         FVZI86erQC+7Yu6fEld4/OtXM5ga/F/YmO24bRCyQMEWYiD00wtMoYb+tJozLdrbCA0p
+         4Jfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712299472; x=1712904272;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IsLlr2oPSdmLwFf0BCT91wHONVR1VBOvbRLU+KDTOps=;
+        b=NlsrpKfJJHSzILO+u76VrGKIZiIDY/Y8I1Jm34xASFf5+xCZE+v5xg7Qy2QQbd7tFz
+         SFGFo4gouWOiNgWLT4oWMy/4pNXIUFUVQ2kdl3nv7IadoyH69Lvs1UGMwuw55NNk9BV5
+         rbOxNnfEDcklWRrm7VB22r4EnjdeCaEeHdsYp8Q0A0L8cMe2SqaByvlaOzl7U10EAmZ1
+         wrejZXDTsqSdjjp6h3KDRlj7smCMh+u6H9zaAmwnyoU/vBSKKZXwUWUJiDMoEQgF6BH9
+         6Hx4uryLMW/IVLQzF421ikNLlHrotUd8BbRNWfrj7BjS/asEylIVqiYausKw14U13MyS
+         vQ3A==
+X-Forwarded-Encrypted: i=1; AJvYcCX28dLpbW3LIuQ46bJIteVo2Vg8enf+nHKuWFq4Sc0oHQosoFNTzZMZik7+J7dbUj7QgSpbR9fHyCLemYdxetisQO9P1hMVzWez0bpxvA==
+X-Gm-Message-State: AOJu0Yx8WZH04iGMcaLABS887byHx2ZZAQ8lkjLM2j+tYfoyRyk9GMDK
+	Htb4MsLcgMG0Mg6UPKKA9fcgibM3OBQoiW5fdUMBovCpiFs2xe1mmSlnpqqw1W0=
+X-Google-Smtp-Source: AGHT+IEk/sNj9mizgaXwf4IF1lG0EwujTvvXhHkPWVXm1ykqubhH7r7HKdk2k01J6O4Hly7JdiLJVQ==
+X-Received: by 2002:ac2:4a6a:0:b0:516:c9a8:5add with SMTP id q10-20020ac24a6a000000b00516c9a85addmr451677lfp.27.1712299472086;
+        Thu, 04 Apr 2024 23:44:32 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id qf15-20020a1709077f0f00b00a47439647efsm482203ejc.133.2024.04.04.23.44.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Apr 2024 23:44:31 -0700 (PDT)
+Date: Fri, 5 Apr 2024 09:44:28 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Ritvik Budhiraja <rbudhiraja@microsoft.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Steve French <stfrench@microsoft.com>
+Subject: [linux-next:master 3307/3504] fs/smb/client/file.c:619
+ serverclose_work() error: uninitialized symbol 'rc'.
+Message-ID: <422ce838-05f9-4e02-b852-5274faa997be@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,291 +68,171 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8568bb2ccc278f344e6ac44af6ed010a90aa88dc
-commit: af682b767a41772499f8e54ca7d7e1deb3395f44 [3911/4242] bpf: Optimize emit_mov_imm64().
-config: alpha-randconfig-r123-20240405 (https://download.01.org/0day-ci/archive/20240405/202404051423.eiaXLwhX-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240405/202404051423.eiaXLwhX-lkp@intel.com/reproduce)
+head:   727900b675b749c40ba1f6669c7ae5eb7eb8e837
+commit: a423dcbdabf457c0fff3669b0b20708d287c92c2 [3307/3504] smb3: retrying on failed server close
+config: x86_64-randconfig-161-20240403 (https://download.01.org/0day-ci/archive/20240403/202404031415.cIBwV2aU-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404051423.eiaXLwhX-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202404031415.cIBwV2aU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/bpf/verifier.c:20219:38: sparse: sparse: subtraction of functions? Share your drugs
-   kernel/bpf/verifier.c: note: in included file (through include/linux/bpf.h, include/linux/bpf-cgroup.h):
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
->> kernel/bpf/verifier.c:19160:44: sparse: sparse: cast truncates bits from constant value (fffffffc00000000 becomes 0)
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
-   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+New smatch warnings:
+fs/smb/client/file.c:619 serverclose_work() error: uninitialized symbol 'rc'.
+fs/smb/client/file.c:732 _cifsFileInfo_put() error: uninitialized symbol 'rc'.
 
-vim +19160 kernel/bpf/verifier.c
+Old smatch warnings:
+fs/smb/client/file.c:5050 cifs_oplock_break() warn: variable dereferenced before check 'inode' (see line 5021)
 
- 19113	
- 19114	static int jit_subprogs(struct bpf_verifier_env *env)
- 19115	{
- 19116		struct bpf_prog *prog = env->prog, **func, *tmp;
- 19117		int i, j, subprog_start, subprog_end = 0, len, subprog;
- 19118		struct bpf_map *map_ptr;
- 19119		struct bpf_insn *insn;
- 19120		void *old_bpf_func;
- 19121		int err, num_exentries;
- 19122	
- 19123		if (env->subprog_cnt <= 1)
- 19124			return 0;
- 19125	
- 19126		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
- 19127			if (!bpf_pseudo_func(insn) && !bpf_pseudo_call(insn))
- 19128				continue;
- 19129	
- 19130			/* Upon error here we cannot fall back to interpreter but
- 19131			 * need a hard reject of the program. Thus -EFAULT is
- 19132			 * propagated in any case.
- 19133			 */
- 19134			subprog = find_subprog(env, i + insn->imm + 1);
- 19135			if (subprog < 0) {
- 19136				WARN_ONCE(1, "verifier bug. No program starts at insn %d\n",
- 19137					  i + insn->imm + 1);
- 19138				return -EFAULT;
- 19139			}
- 19140			/* temporarily remember subprog id inside insn instead of
- 19141			 * aux_data, since next loop will split up all insns into funcs
- 19142			 */
- 19143			insn->off = subprog;
- 19144			/* remember original imm in case JIT fails and fallback
- 19145			 * to interpreter will be needed
- 19146			 */
- 19147			env->insn_aux_data[i].call_imm = insn->imm;
- 19148			/* point imm to __bpf_call_base+1 from JITs point of view */
- 19149			insn->imm = 1;
- 19150			if (bpf_pseudo_func(insn)) {
- 19151	#if defined(MODULES_VADDR)
- 19152				u64 addr = MODULES_VADDR;
- 19153	#else
- 19154				u64 addr = VMALLOC_START;
- 19155	#endif
- 19156				/* jit (e.g. x86_64) may emit fewer instructions
- 19157				 * if it learns a u32 imm is the same as a u64 imm.
- 19158				 * Set close enough to possible prog address.
- 19159				 */
- 19160				insn[0].imm = (u32)addr;
- 19161				insn[1].imm = addr >> 32;
- 19162			}
- 19163		}
- 19164	
- 19165		err = bpf_prog_alloc_jited_linfo(prog);
- 19166		if (err)
- 19167			goto out_undo_insn;
- 19168	
- 19169		err = -ENOMEM;
- 19170		func = kcalloc(env->subprog_cnt, sizeof(prog), GFP_KERNEL);
- 19171		if (!func)
- 19172			goto out_undo_insn;
- 19173	
- 19174		for (i = 0; i < env->subprog_cnt; i++) {
- 19175			subprog_start = subprog_end;
- 19176			subprog_end = env->subprog_info[i + 1].start;
- 19177	
- 19178			len = subprog_end - subprog_start;
- 19179			/* bpf_prog_run() doesn't call subprogs directly,
- 19180			 * hence main prog stats include the runtime of subprogs.
- 19181			 * subprogs don't have IDs and not reachable via prog_get_next_id
- 19182			 * func[i]->stats will never be accessed and stays NULL
- 19183			 */
- 19184			func[i] = bpf_prog_alloc_no_stats(bpf_prog_size(len), GFP_USER);
- 19185			if (!func[i])
- 19186				goto out_free;
- 19187			memcpy(func[i]->insnsi, &prog->insnsi[subprog_start],
- 19188			       len * sizeof(struct bpf_insn));
- 19189			func[i]->type = prog->type;
- 19190			func[i]->len = len;
- 19191			if (bpf_prog_calc_tag(func[i]))
- 19192				goto out_free;
- 19193			func[i]->is_func = 1;
- 19194			func[i]->sleepable = prog->sleepable;
- 19195			func[i]->aux->func_idx = i;
- 19196			/* Below members will be freed only at prog->aux */
- 19197			func[i]->aux->btf = prog->aux->btf;
- 19198			func[i]->aux->func_info = prog->aux->func_info;
- 19199			func[i]->aux->func_info_cnt = prog->aux->func_info_cnt;
- 19200			func[i]->aux->poke_tab = prog->aux->poke_tab;
- 19201			func[i]->aux->size_poke_tab = prog->aux->size_poke_tab;
- 19202	
- 19203			for (j = 0; j < prog->aux->size_poke_tab; j++) {
- 19204				struct bpf_jit_poke_descriptor *poke;
- 19205	
- 19206				poke = &prog->aux->poke_tab[j];
- 19207				if (poke->insn_idx < subprog_end &&
- 19208				    poke->insn_idx >= subprog_start)
- 19209					poke->aux = func[i]->aux;
- 19210			}
- 19211	
- 19212			func[i]->aux->name[0] = 'F';
- 19213			func[i]->aux->stack_depth = env->subprog_info[i].stack_depth;
- 19214			func[i]->jit_requested = 1;
- 19215			func[i]->blinding_requested = prog->blinding_requested;
- 19216			func[i]->aux->kfunc_tab = prog->aux->kfunc_tab;
- 19217			func[i]->aux->kfunc_btf_tab = prog->aux->kfunc_btf_tab;
- 19218			func[i]->aux->linfo = prog->aux->linfo;
- 19219			func[i]->aux->nr_linfo = prog->aux->nr_linfo;
- 19220			func[i]->aux->jited_linfo = prog->aux->jited_linfo;
- 19221			func[i]->aux->linfo_idx = env->subprog_info[i].linfo_idx;
- 19222			func[i]->aux->arena = prog->aux->arena;
- 19223			num_exentries = 0;
- 19224			insn = func[i]->insnsi;
- 19225			for (j = 0; j < func[i]->len; j++, insn++) {
- 19226				if (BPF_CLASS(insn->code) == BPF_LDX &&
- 19227				    (BPF_MODE(insn->code) == BPF_PROBE_MEM ||
- 19228				     BPF_MODE(insn->code) == BPF_PROBE_MEM32 ||
- 19229				     BPF_MODE(insn->code) == BPF_PROBE_MEMSX))
- 19230					num_exentries++;
- 19231				if ((BPF_CLASS(insn->code) == BPF_STX ||
- 19232				     BPF_CLASS(insn->code) == BPF_ST) &&
- 19233				     BPF_MODE(insn->code) == BPF_PROBE_MEM32)
- 19234					num_exentries++;
- 19235			}
- 19236			func[i]->aux->num_exentries = num_exentries;
- 19237			func[i]->aux->tail_call_reachable = env->subprog_info[i].tail_call_reachable;
- 19238			func[i]->aux->exception_cb = env->subprog_info[i].is_exception_cb;
- 19239			if (!i)
- 19240				func[i]->aux->exception_boundary = env->seen_exception;
- 19241			func[i] = bpf_int_jit_compile(func[i]);
- 19242			if (!func[i]->jited) {
- 19243				err = -ENOTSUPP;
- 19244				goto out_free;
- 19245			}
- 19246			cond_resched();
- 19247		}
- 19248	
- 19249		/* at this point all bpf functions were successfully JITed
- 19250		 * now populate all bpf_calls with correct addresses and
- 19251		 * run last pass of JIT
- 19252		 */
- 19253		for (i = 0; i < env->subprog_cnt; i++) {
- 19254			insn = func[i]->insnsi;
- 19255			for (j = 0; j < func[i]->len; j++, insn++) {
- 19256				if (bpf_pseudo_func(insn)) {
- 19257					subprog = insn->off;
- 19258					insn[0].imm = (u32)(long)func[subprog]->bpf_func;
- 19259					insn[1].imm = ((u64)(long)func[subprog]->bpf_func) >> 32;
- 19260					continue;
- 19261				}
- 19262				if (!bpf_pseudo_call(insn))
- 19263					continue;
- 19264				subprog = insn->off;
- 19265				insn->imm = BPF_CALL_IMM(func[subprog]->bpf_func);
- 19266			}
- 19267	
- 19268			/* we use the aux data to keep a list of the start addresses
- 19269			 * of the JITed images for each function in the program
- 19270			 *
- 19271			 * for some architectures, such as powerpc64, the imm field
- 19272			 * might not be large enough to hold the offset of the start
- 19273			 * address of the callee's JITed image from __bpf_call_base
- 19274			 *
- 19275			 * in such cases, we can lookup the start address of a callee
- 19276			 * by using its subprog id, available from the off field of
- 19277			 * the call instruction, as an index for this list
- 19278			 */
- 19279			func[i]->aux->func = func;
- 19280			func[i]->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
- 19281			func[i]->aux->real_func_cnt = env->subprog_cnt;
- 19282		}
- 19283		for (i = 0; i < env->subprog_cnt; i++) {
- 19284			old_bpf_func = func[i]->bpf_func;
- 19285			tmp = bpf_int_jit_compile(func[i]);
- 19286			if (tmp != func[i] || func[i]->bpf_func != old_bpf_func) {
- 19287				verbose(env, "JIT doesn't support bpf-to-bpf calls\n");
- 19288				err = -ENOTSUPP;
- 19289				goto out_free;
- 19290			}
- 19291			cond_resched();
- 19292		}
- 19293	
- 19294		/* finally lock prog and jit images for all functions and
- 19295		 * populate kallsysm. Begin at the first subprogram, since
- 19296		 * bpf_prog_load will add the kallsyms for the main program.
- 19297		 */
- 19298		for (i = 1; i < env->subprog_cnt; i++) {
- 19299			err = bpf_prog_lock_ro(func[i]);
- 19300			if (err)
- 19301				goto out_free;
- 19302		}
- 19303	
- 19304		for (i = 1; i < env->subprog_cnt; i++)
- 19305			bpf_prog_kallsyms_add(func[i]);
- 19306	
- 19307		/* Last step: make now unused interpreter insns from main
- 19308		 * prog consistent for later dump requests, so they can
- 19309		 * later look the same as if they were interpreted only.
- 19310		 */
- 19311		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
- 19312			if (bpf_pseudo_func(insn)) {
- 19313				insn[0].imm = env->insn_aux_data[i].call_imm;
- 19314				insn[1].imm = insn->off;
- 19315				insn->off = 0;
- 19316				continue;
- 19317			}
- 19318			if (!bpf_pseudo_call(insn))
- 19319				continue;
- 19320			insn->off = env->insn_aux_data[i].call_imm;
- 19321			subprog = find_subprog(env, i + insn->off + 1);
- 19322			insn->imm = subprog;
- 19323		}
- 19324	
- 19325		prog->jited = 1;
- 19326		prog->bpf_func = func[0]->bpf_func;
- 19327		prog->jited_len = func[0]->jited_len;
- 19328		prog->aux->extable = func[0]->aux->extable;
- 19329		prog->aux->num_exentries = func[0]->aux->num_exentries;
- 19330		prog->aux->func = func;
- 19331		prog->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
- 19332		prog->aux->real_func_cnt = env->subprog_cnt;
- 19333		prog->aux->bpf_exception_cb = (void *)func[env->exception_callback_subprog]->bpf_func;
- 19334		prog->aux->exception_boundary = func[0]->aux->exception_boundary;
- 19335		bpf_prog_jit_attempt_done(prog);
- 19336		return 0;
- 19337	out_free:
- 19338		/* We failed JIT'ing, so at this point we need to unregister poke
- 19339		 * descriptors from subprogs, so that kernel is not attempting to
- 19340		 * patch it anymore as we're freeing the subprog JIT memory.
- 19341		 */
- 19342		for (i = 0; i < prog->aux->size_poke_tab; i++) {
- 19343			map_ptr = prog->aux->poke_tab[i].tail_call.map;
- 19344			map_ptr->ops->map_poke_untrack(map_ptr, prog->aux);
- 19345		}
- 19346		/* At this point we're guaranteed that poke descriptors are not
- 19347		 * live anymore. We can just unlink its descriptor table as it's
- 19348		 * released with the main prog.
- 19349		 */
- 19350		for (i = 0; i < env->subprog_cnt; i++) {
- 19351			if (!func[i])
- 19352				continue;
- 19353			func[i]->aux->poke_tab = NULL;
- 19354			bpf_jit_free(func[i]);
- 19355		}
- 19356		kfree(func);
- 19357	out_undo_insn:
- 19358		/* cleanup main prog to be interpreted */
- 19359		prog->jit_requested = 0;
- 19360		prog->blinding_requested = 0;
- 19361		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
- 19362			if (!bpf_pseudo_call(insn))
- 19363				continue;
- 19364			insn->off = 0;
- 19365			insn->imm = env->insn_aux_data[i].call_imm;
- 19366		}
- 19367		bpf_prog_jit_attempt_done(prog);
- 19368		return err;
- 19369	}
- 19370	
+vim +/rc +619 fs/smb/client/file.c
+
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  601  void serverclose_work(struct work_struct *work)
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  602  {
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  603  	struct cifsFileInfo *cifs_file = container_of(work,
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  604  			struct cifsFileInfo, serverclose);
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  605  
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  606  	struct cifs_tcon *tcon = tlink_tcon(cifs_file->tlink);
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  607  
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  608  	struct TCP_Server_Info *server = tcon->ses->server;
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  609  	int rc;
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  610  	int retries = 0;
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  611  	int MAX_RETRIES = 4;
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  612  
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  613  	do {
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  614  		if (server->ops->close_getattr)
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  615  			rc = server->ops->close_getattr(0, tcon, cifs_file);
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  616  		else if (server->ops->close)
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  617  			rc = server->ops->close(0, tcon, &cifs_file->fid);
+
+rc not intialized on else path
+
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  618  
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02 @619  		if (rc == -EBUSY || rc == -EAGAIN) {
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  620  			retries++;
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  621  			msleep(250);
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  622  		}
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  623  	} while ((rc == -EBUSY || rc == -EAGAIN) && (retries < MAX_RETRIES)
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  624  	);
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  625  
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  626  	if (retries == MAX_RETRIES)
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  627  		pr_warn("Serverclose failed %d times, giving up\n", MAX_RETRIES);
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  628  
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  629  	if (cifs_file->offload)
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  630  		queue_work(fileinfo_put_wq, &cifs_file->put);
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  631  	else
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  632  		cifsFileInfo_put_final(cifs_file);
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  633  }
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  634  
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  635  /**
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  636   * cifsFileInfo_put - release a reference of file priv data
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  637   *
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  638   * Always potentially wait for oplock handler. See _cifsFileInfo_put().
+607dfc79c37a0e fs/cifs/file.c       Steve French     2020-12-12  639   *
+607dfc79c37a0e fs/cifs/file.c       Steve French     2020-12-12  640   * @cifs_file:	cifs/smb3 specific info (eg refcounts) for an open file
+cdff08e76612e5 fs/cifs/file.c       Steve French     2010-10-21  641   */
+b33879aa834ebe fs/cifs/file.c       Jeff Layton      2010-10-15  642  void cifsFileInfo_put(struct cifsFileInfo *cifs_file)
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  643  {
+32546a9586aa45 fs/cifs/file.c       Ronnie Sahlberg  2019-11-03  644  	_cifsFileInfo_put(cifs_file, true, true);
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  645  }
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  646  
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  647  /**
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  648   * _cifsFileInfo_put - release a reference of file priv data
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  649   *
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  650   * This may involve closing the filehandle @cifs_file out on the
+32546a9586aa45 fs/cifs/file.c       Ronnie Sahlberg  2019-11-03  651   * server. Must be called without holding tcon->open_file_lock,
+32546a9586aa45 fs/cifs/file.c       Ronnie Sahlberg  2019-11-03  652   * cinode->open_file_lock and cifs_file->file_info_lock.
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  653   *
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  654   * If @wait_for_oplock_handler is true and we are releasing the last
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  655   * reference, wait for any running oplock break handler of the file
+607dfc79c37a0e fs/cifs/file.c       Steve French     2020-12-12  656   * and cancel any pending one.
+607dfc79c37a0e fs/cifs/file.c       Steve French     2020-12-12  657   *
+607dfc79c37a0e fs/cifs/file.c       Steve French     2020-12-12  658   * @cifs_file:	cifs/smb3 specific info (eg refcounts) for an open file
+607dfc79c37a0e fs/cifs/file.c       Steve French     2020-12-12  659   * @wait_oplock_handler: must be false if called from oplock_break_handler
+607dfc79c37a0e fs/cifs/file.c       Steve French     2020-12-12  660   * @offload:	not offloaded on close and oplock breaks
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  661   *
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  662   */
+32546a9586aa45 fs/cifs/file.c       Ronnie Sahlberg  2019-11-03  663  void _cifsFileInfo_put(struct cifsFileInfo *cifs_file,
+32546a9586aa45 fs/cifs/file.c       Ronnie Sahlberg  2019-11-03  664  		       bool wait_oplock_handler, bool offload)
+b33879aa834ebe fs/cifs/file.c       Jeff Layton      2010-10-15  665  {
+2b0143b5c986be fs/cifs/file.c       David Howells    2015-03-17  666  	struct inode *inode = d_inode(cifs_file->dentry);
+96daf2b09178d8 fs/cifs/file.c       Steve French     2011-05-27  667  	struct cifs_tcon *tcon = tlink_tcon(cifs_file->tlink);
+233839b1df65a2 fs/cifs/file.c       Pavel Shilovsky  2012-09-19  668  	struct TCP_Server_Info *server = tcon->ses->server;
+e66673e39ac9d4 fs/cifs/file.c       Pavel Shilovsky  2010-11-02  669  	struct cifsInodeInfo *cifsi = CIFS_I(inode);
+24261fc23db950 fs/cifs/file.c       Mateusz Guzik    2013-03-08  670  	struct super_block *sb = inode->i_sb;
+24261fc23db950 fs/cifs/file.c       Mateusz Guzik    2013-03-08  671  	struct cifs_sb_info *cifs_sb = CIFS_SB(sb);
+2bff0659338e58 fs/cifs/file.c       Steve French     2022-10-14  672  	struct cifs_fid fid = {};
+233839b1df65a2 fs/cifs/file.c       Pavel Shilovsky  2012-09-19  673  	struct cifs_pending_open open;
+ca7df8e0bb2a5e fs/cifs/file.c       Sachin Prabhu    2015-01-15  674  	bool oplock_break_cancelled;
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  675  	bool serverclose_offloaded = false;
+cdff08e76612e5 fs/cifs/file.c       Steve French     2010-10-21  676  
+3afca265b5f53a fs/cifs/file.c       Steve French     2016-09-22  677  	spin_lock(&tcon->open_file_lock);
+1a67c415965752 fs/cifs/file.c       Pavel Shilovsky  2019-10-23  678  	spin_lock(&cifsi->open_file_lock);
+3afca265b5f53a fs/cifs/file.c       Steve French     2016-09-22  679  	spin_lock(&cifs_file->file_info_lock);
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  680  
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  681  	cifs_file->offload = offload;
+5f6dbc9e4afe4d fs/cifs/file.c       Jeff Layton      2010-10-15  682  	if (--cifs_file->count > 0) {
+3afca265b5f53a fs/cifs/file.c       Steve French     2016-09-22  683  		spin_unlock(&cifs_file->file_info_lock);
+1a67c415965752 fs/cifs/file.c       Pavel Shilovsky  2019-10-23  684  		spin_unlock(&cifsi->open_file_lock);
+3afca265b5f53a fs/cifs/file.c       Steve French     2016-09-22  685  		spin_unlock(&tcon->open_file_lock);
+cdff08e76612e5 fs/cifs/file.c       Steve French     2010-10-21  686  		return;
+cdff08e76612e5 fs/cifs/file.c       Steve French     2010-10-21  687  	}
+3afca265b5f53a fs/cifs/file.c       Steve French     2016-09-22  688  	spin_unlock(&cifs_file->file_info_lock);
+cdff08e76612e5 fs/cifs/file.c       Steve French     2010-10-21  689  
+233839b1df65a2 fs/cifs/file.c       Pavel Shilovsky  2012-09-19  690  	if (server->ops->get_lease_key)
+233839b1df65a2 fs/cifs/file.c       Pavel Shilovsky  2012-09-19  691  		server->ops->get_lease_key(inode, &fid);
+233839b1df65a2 fs/cifs/file.c       Pavel Shilovsky  2012-09-19  692  
+233839b1df65a2 fs/cifs/file.c       Pavel Shilovsky  2012-09-19  693  	/* store open in pending opens to make sure we don't miss lease break */
+233839b1df65a2 fs/cifs/file.c       Pavel Shilovsky  2012-09-19  694  	cifs_add_pending_open_locked(&fid, cifs_file->tlink, &open);
+233839b1df65a2 fs/cifs/file.c       Pavel Shilovsky  2012-09-19  695  
+cdff08e76612e5 fs/cifs/file.c       Steve French     2010-10-21  696  	/* remove it from the lists */
+cdff08e76612e5 fs/cifs/file.c       Steve French     2010-10-21  697  	list_del(&cifs_file->flist);
+cdff08e76612e5 fs/cifs/file.c       Steve French     2010-10-21  698  	list_del(&cifs_file->tlist);
+fae8044c03c3c0 fs/cifs/file.c       Steve French     2018-10-19  699  	atomic_dec(&tcon->num_local_opens);
+cdff08e76612e5 fs/cifs/file.c       Steve French     2010-10-21  700  
+cdff08e76612e5 fs/cifs/file.c       Steve French     2010-10-21  701  	if (list_empty(&cifsi->openFileList)) {
+f96637be081141 fs/cifs/file.c       Joe Perches      2013-05-04  702  		cifs_dbg(FYI, "closing last open instance for inode %p\n",
+2b0143b5c986be fs/cifs/file.c       David Howells    2015-03-17  703  			 d_inode(cifs_file->dentry));
+253641388a4925 fs/cifs/file.c       Pavel Shilovsky  2012-09-18  704  		/*
+253641388a4925 fs/cifs/file.c       Pavel Shilovsky  2012-09-18  705  		 * In strict cache mode we need invalidate mapping on the last
+253641388a4925 fs/cifs/file.c       Pavel Shilovsky  2012-09-18  706  		 * close  because it may cause a error when we open this file
+253641388a4925 fs/cifs/file.c       Pavel Shilovsky  2012-09-18  707  		 * again and get at least level II oplock.
+253641388a4925 fs/cifs/file.c       Pavel Shilovsky  2012-09-18  708  		 */
+4f8ba8a0c09593 fs/cifs/file.c       Pavel Shilovsky  2010-11-21  709  		if (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_STRICT_IO)
+aff8d5ca7a3dca fs/cifs/file.c       Jeff Layton      2014-04-30  710  			set_bit(CIFS_INO_INVALID_MAPPING, &cifsi->flags);
+c67236281c5d74 fs/cifs/file.c       Pavel Shilovsky  2010-11-03  711  		cifs_set_oplock_level(cifsi, 0);
+cdff08e76612e5 fs/cifs/file.c       Steve French     2010-10-21  712  	}
+3afca265b5f53a fs/cifs/file.c       Steve French     2016-09-22  713  
+1a67c415965752 fs/cifs/file.c       Pavel Shilovsky  2019-10-23  714  	spin_unlock(&cifsi->open_file_lock);
+3afca265b5f53a fs/cifs/file.c       Steve French     2016-09-22  715  	spin_unlock(&tcon->open_file_lock);
+cdff08e76612e5 fs/cifs/file.c       Steve French     2010-10-21  716  
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  717  	oplock_break_cancelled = wait_oplock_handler ?
+b98749cac4a695 fs/cifs/file.c       Aurelien Aptel   2019-03-29  718  		cancel_work_sync(&cifs_file->oplock_break) : false;
+ad635942c869ad fs/cifs/file.c       Jeff Layton      2011-07-26  719  
+cdff08e76612e5 fs/cifs/file.c       Steve French     2010-10-21  720  	if (!tcon->need_reconnect && !cifs_file->invalidHandle) {
+0ff78a221bf783 fs/cifs/file.c       Pavel Shilovsky  2012-09-18  721  		struct TCP_Server_Info *server = tcon->ses->server;
+6d5786a34d98bf fs/cifs/file.c       Pavel Shilovsky  2012-06-20  722  		unsigned int xid;
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  723  		int rc;
+0ff78a221bf783 fs/cifs/file.c       Pavel Shilovsky  2012-09-18  724  
+6d5786a34d98bf fs/cifs/file.c       Pavel Shilovsky  2012-06-20  725  		xid = get_xid();
+43f8a6a74ee244 fs/cifs/file.c       Steve French     2019-12-02  726  		if (server->ops->close_getattr)
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  727  			rc = server->ops->close_getattr(xid, tcon, cifs_file);
+43f8a6a74ee244 fs/cifs/file.c       Steve French     2019-12-02  728  		else if (server->ops->close)
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  729  			rc = server->ops->close(xid, tcon, &cifs_file->fid);
+760ad0cac19835 fs/cifs/file.c       Pavel Shilovsky  2012-09-25  730  		_free_xid(xid);
+
+Same
+
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  731  
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02 @732  		if (rc == -EBUSY || rc == -EAGAIN) {
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  733  			// Server close failed, hence offloading it as an async op
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  734  			queue_work(serverclose_wq, &cifs_file->serverclose);
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  735  			serverclose_offloaded = true;
+a423dcbdabf457 fs/smb/client/file.c Ritvik Budhiraja 2024-04-02  736  		}
+cdff08e76612e5 fs/cifs/file.c       Steve French     2010-10-21  737  	}
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
