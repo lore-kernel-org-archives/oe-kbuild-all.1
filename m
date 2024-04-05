@@ -1,66 +1,58 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB5623774
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 06:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1BE24205
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 07:01:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712299961; cv=none; b=N7gFFeMnWSrMyCEPOHSZ88W0oS2VSDE8bx/5+JCSaSrsjcVvl4O/sXjtIm4ddX+o6gTobzVpOj/GlFd8p5/N23ptU8Mta/0cH+1S6YCzTCX+dWqLXjZv/THfP4s/4zZNJ2JkMP8jjDL8tdg3jKtsY3thQ8PMKOaG5ph+AyXmWjU=
+	t=1712300495; cv=none; b=PMtxYiGLGB/M10kJcfy+FzQchLhs0dvbe6Zj2H91rLXHXZrE80DQOmhfqJGByZnl9w2d3w3P8gUMp+eCyo9wC+auOC5lrSE1q4ZmSttlFOw0OQZZ7sMBDFc8Na1PckM70cf5HPEblp9FwnGXDhL6ekE+kCF/h3gltFm88OZxEKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712299961; c=relaxed/simple;
-	bh=QSYd4loLBDBTAA1un1YLQuRsu4iU3ElNNFm8JqyeJFs=;
+	s=arc-20240116; t=1712300495; c=relaxed/simple;
+	bh=JTF++bQ2ccnEZcDcRDqdEZTQNd5vaEks6s35aMbtKMM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=hrP8lLkSCHtakJzADA1wmioC2rrBna6hI6j/pLjn1ZcKKfi6BUav0CmSUk3oXN7OmH3XF5WKZ9KLQgKQRz7Ai5Jy+NGwheXsqvm+PIpGlmXEQ3qdL5EKkQ7RGQinB/9nKsGWifmX38r2ckKaPXEC/GGQlmAIgyKpwQmV+yCMQf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qoBHm92T; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Jh1GD9vklohLjHkQ3sUm6rO1Oae+jiafUuLuuNfGhyp+5Qau3FxTiwP2ZCL8r+d6L/gyArwvQB+kp3fiaCOLiO3PHGVOnmKgx5pDF1vlOFKPrYScumInQt+FUd5wZM7aMfUwRcXAUJShtSTwwK/dOag8EpxiDK1tIWM1pWt4nFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DNISG6Jr; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qoBHm92T"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a468226e135so255729666b.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Apr 2024 23:52:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712299958; x=1712904758; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OAoWz44Vah0FBQQ++BlkUgil4y/bpkTelSJbB2HtwhU=;
-        b=qoBHm92TTG5xcgG6kdXKRwhiwuDR80GXpoV4dwcdJFCvmNHxaawzBSTTBK+OqAmsB5
-         sYrQwJJrpLzoSK+SmVuBNd4j1RN2nRIOAh2ZougKjSkM/aObeaj9ncYFSGzjCM1Uax/N
-         ul3teFHTb5sI4WxlWqo+SRFSVH5odzxiwaDLUdVcNk/a/OJVIV2NpvB2ZpG+83UJiYLd
-         5XyEjh+zLYqxDTjPYYvLdGTAWrSppkzdOhk8EU9c51HIeYsnlOxMR4BUUGJ4/oqs1/GF
-         ASjHb+PGYggHs4EZP+qsBpTUvNwU9e4AHvwNzEdigcE890zN3wEKUq2WX/YRuipm6XYx
-         AE0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712299958; x=1712904758;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OAoWz44Vah0FBQQ++BlkUgil4y/bpkTelSJbB2HtwhU=;
-        b=Eaqkty5pR08vGeH3/WdUl7roaOgEUo9wY4woCcorOWQxSOr9/jcpafjbkvM+KGSGom
-         0mvMptyNthHjod8nNIXGDMuNrp3x/Y7SesDHTpPPrdvRZWp+fpPlc7eTMFTzvwObJHWa
-         XeHzMs50wj9ne/rkc9bWky3LOLCV7Yl1q8H6Yd+x4fKW++7N4TMxjAA3Nne0CM1k6AL+
-         smzjr4BBWtg5nLAnFWoyr8yfOqc65FoBGJWaXZwB+6WQLPCaekkoA2hWYTk3jjAIjIeT
-         W99mvK5Nu8jHBRItABxPX6K9EaCG6SpvPW5xnBZXDsgUpfEp+gcCd4h5j3nMZLFJ7Dq2
-         U1ng==
-X-Forwarded-Encrypted: i=1; AJvYcCXcA+hwjp718loo1NlXOROZ/EbYB0PwhF//YNBD80GEs04dGkPgNlojpiekW39dgzp1/bUAmN2uylEtX3FYK6u+eBrqXWLTVkeFW5GoFw==
-X-Gm-Message-State: AOJu0YxRpbE+BwlH3a/c7ZAPMsLHE+IF714zA3M4hKha/GlqnYyhU5K2
-	bIIPw4miJyUk+D8wycH6ct4eTCHIM9107YcDKt9++OVUfyv4excQj+K0N5/mHCk=
-X-Google-Smtp-Source: AGHT+IHrwnngq+1Rt4kkQZqXldfwAXh/zqUOJ3sPDzmdU91aZ2DmDYA4tJB6sJ+Sb8yrjn9BGztDCg==
-X-Received: by 2002:a17:906:a895:b0:a4e:2a5b:f94 with SMTP id ha21-20020a170906a89500b00a4e2a5b0f94mr412192ejb.6.1712299957495;
-        Thu, 04 Apr 2024 23:52:37 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id se1-20020a170906ce4100b00a51a9d87570sm147217ejb.17.2024.04.04.23.52.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Apr 2024 23:52:37 -0700 (PDT)
-Date: Fri, 5 Apr 2024 09:52:34 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
-	javierm@redhat.com, jani.nikula@linux.intel.com, airlied@redhat.com,
-	sean@poorly.run
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 7/7] drm/udl: Remove struct udl_connector
-Message-ID: <39bfffb4-1e72-4b37-bfa7-1c52d969ddd3@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DNISG6Jr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712300494; x=1743836494;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JTF++bQ2ccnEZcDcRDqdEZTQNd5vaEks6s35aMbtKMM=;
+  b=DNISG6Jr/wnyHacuwXtK29ICSmzc2XQ/140oib/Nqie+Ai3GGMymyJ/Z
+   u9sSlCjVjAQ9AchsAIR3Xs+XK9sNNHPa86NLuWMNl9Cn5pZaqNEaHyxcM
+   B6MAts+dOC2YrUpPmvKEqFbIyFnChwXPnKiSfCRP7gR4t1MWWbtJgaJdC
+   6XJAawo+IViLGVXssyi9Z+ssOtbZ0RlhtjdxLkOExcs6ldtUR0XsMvdsQ
+   AkdWVRMpwH8YVpdsf4u14sRkVySrbVuocfGi+Xl03iV+ne1CrxdzaDtNV
+   sm0H6u1g/c4uUWD7bbtP9ELhpartPjb6kdJV8NI7nyH4b1IHOyIYRKPWn
+   w==;
+X-CSE-ConnectionGUID: JtFaDEq6SqWY3LCcV2EVqA==
+X-CSE-MsgGUID: NiJSUcYiQpaauaYPFCU+Lw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7458998"
+X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; 
+   d="scan'208";a="7458998"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 00:01:34 -0700
+X-CSE-ConnectionGUID: gK0OmGB+QTCOOix/PA6BzA==
+X-CSE-MsgGUID: 7lb1GC1fT1K8l0Z+No2nxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; 
+   d="scan'208";a="19515576"
+Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 05 Apr 2024 00:01:32 -0700
+Received: from kbuild by e61807b1d151 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rsdZq-0001zu-0E;
+	Fri, 05 Apr 2024 07:01:30 +0000
+Date: Fri, 5 Apr 2024 15:01:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:vectorized-scrub 126/162] fs/xfs/libxfs/xfs_fs.h:901:16:
+ warning: cast to pointer from integer of different size
+Message-ID: <202404051404.a5N42gcG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,49 +61,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240404150857.5520-8-tzimmermann@suse.de>
 
-Hi Thomas,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-edid-Implement-drm_probe_ddc-with-drm_edid_probe_custom/20240404-231057
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240404150857.5520-8-tzimmermann%40suse.de
-patch subject: [PATCH 7/7] drm/udl: Remove struct udl_connector
-config: parisc-randconfig-r071-20240405 (https://download.01.org/0day-ci/archive/20240405/202404051359.Y6AgUwFi-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git vectorized-scrub
+head:   85240c8c44aab15d3c6506be48f62eb9b7807f29
+commit: bfb94a70e7a4ca92d7e895de9c485f01a5a8cd0b [126/162] xfs: Add parent pointer ioctls
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20240405/202404051404.a5N42gcG-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240405/202404051404.a5N42gcG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202404051359.Y6AgUwFi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404051404.a5N42gcG-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/udl/udl_modeset.c:527 udl_modeset_init() warn: passing a valid pointer to 'PTR_ERR'
+All warnings (new ones prefixed by >>):
 
-vim +/PTR_ERR +527 drivers/gpu/drm/udl/udl_modeset.c
+   In file included from fs/xfs/xfs_linux.h:74,
+                    from fs/xfs/xfs.h:22,
+                    from fs/xfs/xfs_trace.c:6:
+   fs/xfs/libxfs/xfs_fs.h: In function 'xfs_getparents_first_rec':
+>> fs/xfs/libxfs/xfs_fs.h:901:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     901 |         return (struct xfs_getparents_rec *)gp->gp_buffer;
+         |                ^
+--
+   In file included from fs/xfs/xfs_linux.h:74,
+                    from fs/xfs/xfs.h:22,
+                    from fs/xfs/xfs_handle.c:7:
+   fs/xfs/libxfs/xfs_fs.h: In function 'xfs_getparents_first_rec':
+>> fs/xfs/libxfs/xfs_fs.h:901:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     901 |         return (struct xfs_getparents_rec *)gp->gp_buffer;
+         |                ^
+   fs/xfs/xfs_handle.c: In function 'xfs_getparents':
+>> fs/xfs/xfs_handle.c:804:26: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     804 |         if (copy_to_user((void *)gpx->gph.gph_request.gp_buffer,
+         |                          ^
+--
+   In file included from fs/xfs/xfs_linux.h:74,
+                    from fs/xfs/xfs.h:22,
+                    from fs/xfs/xfs_iwalk.c:6:
+   fs/xfs/libxfs/xfs_fs.h: In function 'xfs_getparents_first_rec':
+>> fs/xfs/libxfs/xfs_fs.h:901:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     901 |         return (struct xfs_getparents_rec *)gp->gp_buffer;
+         |                ^
+   fs/xfs/xfs_iwalk.c: In function 'xfs_iwalk_run_callbacks':
+   fs/xfs/xfs_iwalk.c:354:42: warning: variable 'irec' set but not used [-Wunused-but-set-variable]
+     354 |         struct xfs_inobt_rec_incore     *irec;
+         |                                          ^~~~
+--
+   In file included from fs/xfs/xfs_linux.h:74,
+                    from fs/xfs/xfs.h:22,
+                    from fs/xfs/xfs_trans.c:7:
+   fs/xfs/libxfs/xfs_fs.h: In function 'xfs_getparents_first_rec':
+>> fs/xfs/libxfs/xfs_fs.h:901:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     901 |         return (struct xfs_getparents_rec *)gp->gp_buffer;
+         |                ^
+   fs/xfs/xfs_trans.c: In function 'xfs_trans_unreserve_and_mod_sb':
+   fs/xfs/xfs_trans.c:601:33: warning: variable 'error' set but not used [-Wunused-but-set-variable]
+     601 |         int                     error;
+         |                                 ^~~~~
 
-72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  518  	encoder = &udl->encoder;
-72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  519  	ret = drm_encoder_init(dev, encoder, &udl_encoder_funcs, DRM_MODE_ENCODER_DAC, NULL);
-72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  520  	if (ret)
-72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  521  		return ret;
-72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  522  	encoder->possible_crtcs = drm_crtc_mask(crtc);
-5320918b9a87865 Dave Airlie       2010-12-15  523  
-a80d9e00c8195dc Thomas Zimmermann 2024-04-04  524  	connector = &udl->connector;
-a80d9e00c8195dc Thomas Zimmermann 2024-04-04  525  	ret = drm_connector_init(dev, connector, &udl_connector_funcs, DRM_MODE_CONNECTOR_VGA);
-a80d9e00c8195dc Thomas Zimmermann 2024-04-04  526  	if (ret)
-                                                        ^^^^^^^^
 
-fe5b7c86d6068ac Daniel Vetter     2020-03-23 @527  		return PTR_ERR(connector);
-                                                                       ^^^^^^^^^^^^^^^^^^^
+vim +901 fs/xfs/libxfs/xfs_fs.h
 
-This needs to be updated to "return ret;"
+   897	
+   898	static inline struct xfs_getparents_rec *
+   899	xfs_getparents_first_rec(struct xfs_getparents *gp)
+   900	{
+ > 901		return (struct xfs_getparents_rec *)gp->gp_buffer;
+   902	}
+   903	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
