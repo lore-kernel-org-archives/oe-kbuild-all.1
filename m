@@ -1,119 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06AF15EFDA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 20:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6985788E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 20:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712348644; cv=none; b=ZJCAP+qoCfUIQGKwSZWAvlR5IwGMqV5s20zK/rPXiF52a1w3H3rC2RqanbR8HFYcX/tdqHen//uvUpF7IB5EW7RkoPLrBGGsJLYxxMlRUc/08ulvx/fgsEkBRStS1IpJOev3Seo8wc6ukLW5CidP7ol267ojz1HVDMSmS9py3xk=
+	t=1712349020; cv=none; b=c3yuxkd2fcBywi2fJ89BXYjqoXqlegVioSEhlQ1/6daJwtMqf2dHByBGrmvTxRQNX26nfMBYMk7+vpDmGYGXni1lT+2czDETRdN3IXB+w7J3y1BxW4iG1VBS0QZRQUhwvlUI8BHbfxGf1LRh3phzGPGf9Qzt7mMVkL6hKvfg5Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712348644; c=relaxed/simple;
-	bh=Dw4JPIXlD0rrP8zv2l2cW7VTI4jVcNnThSj8nYZebo0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WEUguid8Vv1f0x9Uy5karFl/60F6I9lCWIWDDzqP7WmkxySB8PjoQL3n4Iq0RLYciWAJgyHJgcjR6zPlcWzSNda5sysXxnLfP+fPYaOYCi5be+9gVccbt3oRqU+qlRO1DHPcSxillWB1fKrO1jiU4TVNIH/JBWDfrxH5cOklrHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F5HQZl/c; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1712349020; c=relaxed/simple;
+	bh=nV9Y5sZu3ZPCtOva3EsmstVhIY4akSsXCrbWmGpcqII=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Lb0TpnFyL1Kovsok0NT8tPnO0OCVzqFUaVCEvF62awq2c/UiOJ9aKi34Ob1pYStZjp0KYAVYboVFim3oMJc3Il6A9VAnd8zdMsVlW8TShT3h7NUFR2RqAx3554Iw5GT8Jz0hRUvFHX/v7GIyFwsxy/bNpGelB34DwOklt8akNg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Lj/0EOer; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F5HQZl/c"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712348641; x=1743884641;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Dw4JPIXlD0rrP8zv2l2cW7VTI4jVcNnThSj8nYZebo0=;
-  b=F5HQZl/cSGEr6YP59T6EQppSLYHLRbW+BgXaHVpziFyiotxpgcz/SlKE
-   fpkP0GLUVQAZ86kpldnl1ZxvyU+ItvRpTMWnRMZKd5dLGPbfUN/2ddINl
-   wMMGmWvsDpPDdvmyZniMh2diCkYi7xXRJss5Yk/uELw9BbbrhYyWRRSxY
-   HgsUc2678GM3qm19qUoLskheAF/fssdyYOcxbzqOkUORYcTGhv2N8BS/G
-   jdkG467vzgWHIFxbNZEPsp9drmpcbUXM3CNLzvtd2rLrBqeyaTxEVywle
-   VsGFt2Ma8KjMIolLgsAE9Zsq8nlW5sA0Z0sockFAXiGOQuZEaCjx7qZVY
-   A==;
-X-CSE-ConnectionGUID: UY0DZERoQRqlPL3Aafmnww==
-X-CSE-MsgGUID: 7Kfo97v/SrGrKfc6OiCOzA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="7789087"
-X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; 
-   d="scan'208";a="7789087"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 13:24:01 -0700
-X-CSE-ConnectionGUID: LK0yzfpbTsu4u8NnnfJGcQ==
-X-CSE-MsgGUID: XTB8CfXqQwOSqMzhOI9Yfg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; 
-   d="scan'208";a="24000510"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 05 Apr 2024 13:23:59 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rsq6P-0002fw-2Z;
-	Fri, 05 Apr 2024 20:23:57 +0000
-Date: Sat, 6 Apr 2024 04:23:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yosry Ahmed <yosryahmed@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	linux-kernel@vger.kernel.org, Yosry Ahmed <yosryahmed@google.com>
-Subject: Re: [PATCH v2 2/5] mm: zswap: calculate limits only when updated
-Message-ID: <202404060445.zMPxumi9-lkp@intel.com>
-References: <20240405053510.1948982-3-yosryahmed@google.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Lj/0EOer"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-516d15d72c3so2429601e87.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 05 Apr 2024 13:30:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1712349017; x=1712953817; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M+jEmOFEjTU7lwjjt1V5FPrXRPUYL1ukEXhP8ohspNk=;
+        b=Lj/0EOeruCJF8nh2bpKBWPJitcOJq+E4aQpzzEp8lVeOiUEaCP1U4fSAR762bKLJRV
+         SXq0tcbFJrCYnw11JNzms1LG1E4Zf4vQBr2WRnPEoblPFBjXa1u4m3qh4Ldjej54zZbq
+         OY3UvBZwAlvZylYjDc8zNEXNkiOWZS0mKRFFRBkaXKs22/96ByIUwIv8Ijmn6jV5XT1w
+         2i95fg1L/TV/NtzHMHpFtWOE1QDgymbi+PyJ1AKM+DMVlTt00aN3c6UjfUt2mNaLdcfs
+         kL6tZxmTTxvAk4Y97t22gBiwy+gvW+stSnJcI1nIGbp4GuPPxQ4Yn7e6uvSCv00xIbC2
+         9I4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712349017; x=1712953817;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=M+jEmOFEjTU7lwjjt1V5FPrXRPUYL1ukEXhP8ohspNk=;
+        b=tVzMh1dN1T7w4J+6hC6X8t4MksqkMd35VG7aTX1yX1dQ6B1MJ4RD1UehCRSpCDa3tk
+         lXMhHyqu1ncO4LtICdlNQ19oCIpgQSC/+oGVTcV5rvNIOY6Y0R4xm7qerrdhVkKqeM1n
+         qmhcPFcfN1SX6PWw6gQ/8jBqloAut4IqXRtrQb6GYaMiTKhypJZWPJsv3oB4TvJl83S1
+         FaJTs1CRr42cowTOmJ7IB8r4EWzrcRhxQnxaroXj9KTsBkM49iMoA2DsuOvcO1FLOiDN
+         m4Y8QqNht8NzMcai2RK7eMTw3qSCrn8HBuGLz+UxdQoADQB2Sc0ZFlQ+9zQmBcCtcCuY
+         bu4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUk03bCl38C4sRHMzLqHgyuDfF5yedAQHdNWmVFp70eGckB5SUT5DG4I5VOGNQYLi7tydume7TV6o+cQGVLyzdKoiMG9Vc+vcDguXKkmQ==
+X-Gm-Message-State: AOJu0Yxj1yZIsrissRrHdfiS1EcNt3hp5ru0VmsCn+p3gcOSeoQ34Eki
+	M6XJzUd5Hd8dktrv5sbRv3Dsekat/brXt3cKURdOlAr3AmQYPVNpsRg8FeAlOlsPKRYPmtGKghp
+	CFyH/Rkkr7keyqOtkea78EzEFjDZlt12ndhxySp8IMDwVv6OgGklE
+X-Google-Smtp-Source: AGHT+IEctCIw+qSiNBMbysTxNZa7FXusQuq+U7LwmIXIiKndMkDSxEkCWBXPlF0xCd7GX4Brs7t/yyuAjdtpKpywhjM=
+X-Received: by 2002:ac2:5964:0:b0:513:edf4:6f20 with SMTP id
+ h4-20020ac25964000000b00513edf46f20mr1622327lfp.54.1712349016554; Fri, 05 Apr
+ 2024 13:30:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240405053510.1948982-3-yosryahmed@google.com>
+References: <20240405053510.1948982-3-yosryahmed@google.com> <202404060445.zMPxumi9-lkp@intel.com>
+In-Reply-To: <202404060445.zMPxumi9-lkp@intel.com>
+From: Yosry Ahmed <yosryahmed@google.com>
+Date: Fri, 5 Apr 2024 13:29:38 -0700
+Message-ID: <CAJD7tkZ20wwnM2PXTUS+VMvEXcNU5xrpBCjs4LT=Ds0gLpopLw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] mm: zswap: calculate limits only when updated
+To: kernel test robot <lkp@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Yosry,
+On Fri, Apr 5, 2024 at 1:24=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi Yosry,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on akpm-mm/mm-everything]
+> [also build test WARNING on next-20240405]
+> [cannot apply to linus/master v6.9-rc2]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/mm-zsw=
+ap-always-shrink-in-zswap_store-if-zswap_pool_reached_full/20240405-133623
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ev=
+erything
+> patch link:    https://lore.kernel.org/r/20240405053510.1948982-3-yosryah=
+med%40google.com
+> patch subject: [PATCH v2 2/5] mm: zswap: calculate limits only when updat=
+ed
+> config: i386-randconfig-061-20240405 (https://download.01.org/0day-ci/arc=
+hive/20240406/202404060445.zMPxumi9-lkp@intel.com/config)
+> compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240406/202404060445.zMPxumi9-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202404060445.zMPxumi9-lkp=
+@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+> >> mm/zswap.c:132:15: sparse: sparse: symbol 'zswap_accept_thr_pages' was=
+ not declared. Should it be static?
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on next-20240405]
-[cannot apply to linus/master v6.9-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/mm-zswap-always-shrink-in-zswap_store-if-zswap_pool_reached_full/20240405-133623
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240405053510.1948982-3-yosryahmed%40google.com
-patch subject: [PATCH v2 2/5] mm: zswap: calculate limits only when updated
-config: i386-randconfig-061-20240405 (https://download.01.org/0day-ci/archive/20240406/202404060445.zMPxumi9-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404060445.zMPxumi9-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404060445.zMPxumi9-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> mm/zswap.c:132:15: sparse: sparse: symbol 'zswap_accept_thr_pages' was not declared. Should it be static?
-   mm/zswap.c:1188:23: sparse: sparse: context imbalance in 'shrink_memcg_cb' - unexpected unlock
-
-vim +/zswap_accept_thr_pages +132 mm/zswap.c
-
-   120	
-   121	static int zswap_max_pool_param_set(const char *,
-   122					       const struct kernel_param *);
-   123	static const struct kernel_param_ops zswap_max_pool_param_ops = {
-   124		.set =		zswap_max_pool_param_set,
-   125		.get =		param_get_uint,
-   126	};
-   127	module_param_cb(max_pool_percent, &zswap_max_pool_param_ops,
-   128			&zswap_max_pool_percent, 0644);
-   129	
-   130	/* The threshold for accepting new pages after the max_pool_percent was hit */
-   131	static unsigned int zswap_accept_thr_percent = 90; /* of max pool size */
- > 132	unsigned long zswap_accept_thr_pages;
-   133	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yes, I already have it static for v3, which will be sent after the
+discussion on this patch settles.
