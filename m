@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCE616F858
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 16:44:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F45B171091
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 16:44:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712335498; cv=none; b=Sebls9i1zBK/kPaBjooTdvZHIlWVFjThX6VfX1E55ozM+ACiOhrylhf+NcoJwA+qNC2NREXGbCfqv0OdJ4PzjyvFjBX9R5B4UwGbP41NUe+mNkRmPWjEgdsTHJ7Rl+6LZ9MPn9bdrjnNcwmkj/pde+rPqC5voD3FnW7JJupaV6o=
+	t=1712335500; cv=none; b=Bd3k9UEMZFXDsbKaPK+hNzYydfB5Uo2cLHEhj/FpLldXh0pbtMmwF3o1Hi13EQaz2Li8q2ULI4lD9ZWc8DyxfJoetHVrpR4BBnSlZv+PULuhbuCofCX0ZE0Iu5qpGOBeD+foWu7ruGLUfdQfa6142VaE8PZ6HRxP9hUC2oZYU2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712335498; c=relaxed/simple;
-	bh=7k9h0NE9EXOpR5turkS0EZ0Jti1KeMqYMXQI/jLdrcc=;
+	s=arc-20240116; t=1712335500; c=relaxed/simple;
+	bh=heCY4Ia41ixWhlg7+tgzVsYhrkb4Rc3saxvX5gJ3aUY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BJJqOy7otpcxazW2IsdfgRvvrMNwFzFTWGKV2nCSrjFfMcIfUCnwbrTbl+fheja4pA+SmyOnlNMKwfVTlgi7A7pwMe0PPoBUKXxdIndonmTbGphg3tWBYpY6EO0btna1WF7p+BVheodDuyol0TLvugykg3EgoASdW/460oomZu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uui1Dr7l; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=AHlu6DUVKfMIqzIRiU825wwe0cP2xVPLo1uWRYcPRnaOG5jpDUPQO+qj/vOO0quJvSirh5tzDzgLRrnYlhvhwbRa1LFyUV51DCTnzuamvQ2WhfyTx4myTdslGTlyOn2bmy0Rra1Jz2VoiWTKu4NINyzmXwpX609VU4oNzZ23hME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OHFmlKRv; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uui1Dr7l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OHFmlKRv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712335497; x=1743871497;
+  t=1712335499; x=1743871499;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7k9h0NE9EXOpR5turkS0EZ0Jti1KeMqYMXQI/jLdrcc=;
-  b=Uui1Dr7lvvUF5TguGZJsGx5uHcK9+MQQghz7XbR5JJPW17hov9AAY7HX
-   /F7TOXyNPw7k8+bGm/IZpQchFY7Cj4jA8sRYAwp+3mfYCjacOzEbIkQjm
-   O+V8hEQq7/xBLyxbjwd5J4nuqiLotwz3m4trozu2xON47DOOmXIOSOVSQ
-   D+HvPDsQ9E7SO8Jye6TrxxgnNVYfdCyPPhrSgHRZRWck7OTQY64VWIMLz
-   7zpLfUr3VvoERyFifL0BzCqpxyr8LtUgAZJqL+d4jQUJn1M2b/ATOHq/1
-   SVAUFr51AaOLazHKxYKXub0gAVzO2nzehUyEaIT/AuyjDzEYbtCNj3guS
-   Q==;
-X-CSE-ConnectionGUID: fh75pK1wQRme3pLI4WV7MA==
-X-CSE-MsgGUID: 58gsSnsgRhSb9S40FZjYdg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="33073528"
+  bh=heCY4Ia41ixWhlg7+tgzVsYhrkb4Rc3saxvX5gJ3aUY=;
+  b=OHFmlKRve2Pn84JTjGyxNMWoSdAjjjSj2je01XEvffLdP9VuK33C9HYj
+   dNF/DUrTLAI4WYrHohvcUZZjjx3svD7NPibNqpNvha5Vo/IFdrQx9VR4I
+   D/y3WCX8vkQkuULbyy6pyCBT7J49wCb7WRVTaxG6x7El0VPjjvrsTjA2/
+   hHoXi6GGTw+hhuwMY2p8serq0R77rrPCqZl/Q/n/t1GxvDJH8EhvGmpVQ
+   n/jYfYwo1xrMpL2S3BVLd3HW7UQ1fye4d6fRTLNmo8VEKJtrDvP/2ZipU
+   hH9zMDC75oTAvzgBAITCpWwMkX0+YqXu0o6CGjLgTS1DgdC18fqkKJXRC
+   w==;
+X-CSE-ConnectionGUID: +7vp9f1PQnOdp9ow2uuCHA==
+X-CSE-MsgGUID: cV4BLTwvSwSrSqnx5q7l9w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="33073530"
 X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; 
-   d="scan'208";a="33073528"
+   d="scan'208";a="33073530"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 09:44:56 -0700
-X-CSE-ConnectionGUID: 1HVjq55cSFKZZ65Bgrw63w==
-X-CSE-MsgGUID: qF9Q9Ms7T46GrhaB8t3Mew==
+X-CSE-ConnectionGUID: s8FTre/ySh+Mq//ZpI6VXg==
+X-CSE-MsgGUID: 8LAr4oMaTzW1vufAhDWUNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; 
-   d="scan'208";a="19299339"
+   d="scan'208";a="19299338"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 05 Apr 2024 09:44:55 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rsmgO-0002W7-24;
+	id 1rsmgO-0002W2-1w;
 	Fri, 05 Apr 2024 16:44:52 +0000
-Date: Sat, 6 Apr 2024 00:44:17 +0800
+Date: Sat, 6 Apr 2024 00:44:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 40/40] drivers/xen/evtchn.c:205:24: error:
- implicit declaration of function 'iov_iter_count'
-Message-ID: <202404060039.PEQbpv7q-lkp@intel.com>
+Subject: [axboe-block:rw_iter 8/40] drivers/char/ps3flash.c:249:24: warning:
+ 'ps3flash_user_write_iter' defined but not used
+Message-ID: <202404060043.7yig5nre-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,156 +63,60 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   a9cbf952fcac761bffbb44eab7d5ef86b310c71c
-commit: a9cbf952fcac761bffbb44eab7d5ef86b310c71c [40/40] drivers/xen: convert to ->read_iter and ->write_iter
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240406/202404060039.PEQbpv7q-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404060039.PEQbpv7q-lkp@intel.com/reproduce)
+head:   449fd46baa282dd51ed0f757f111cd2cb11d03d9
+commit: a60eb2a07b5eb5064a5636204550c1df87d20751 [8/40] char: convert drivers to use ->read_iter() and ->write_iter()
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240406/202404060043.7yig5nre-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404060043.7yig5nre-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404060039.PEQbpv7q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404060043.7yig5nre-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/xen/evtchn.c: In function 'evtchn_read':
->> drivers/xen/evtchn.c:205:24: error: implicit declaration of function 'iov_iter_count' [-Werror=implicit-function-declaration]
-     205 |         size_t count = iov_iter_count(to);
-         |                        ^~~~~~~~~~~~~~
->> drivers/xen/evtchn.c:259:14: error: implicit declaration of function 'copy_to_iter_full'; did you mean 'copy_to_user_nofault'? [-Werror=implicit-function-declaration]
-     259 |         if (!copy_to_iter_full(evtchn_ring_entry(u, c), bytes1, to) ||
-         |              ^~~~~~~~~~~~~~~~~
-         |              copy_to_user_nofault
-   drivers/xen/evtchn.c: In function 'evtchn_write':
->> drivers/xen/evtchn.c:293:14: error: implicit declaration of function 'copy_from_iter_full'; did you mean 'copy_from_user_nofault'? [-Werror=implicit-function-declaration]
-     293 |         if (!copy_from_iter_full(kbuf, count, from) != 0)
-         |              ^~~~~~~~~~~~~~~~~~~
-         |              copy_from_user_nofault
+   drivers/char/ps3flash.c:315:27: error: initialization of 'ssize_t (*)(struct kiocb *, struct iov_iter *)' {aka 'long int (*)(struct kiocb *, struct iov_iter *)'} from incompatible pointer type 'ssize_t (*)(struct file *, char *, size_t,  loff_t *)' {aka 'long int (*)(struct file *, char *, long unsigned int,  long long int *)'} [-Werror=incompatible-pointer-types]
+     315 |         .read_iter      = ps3flash_user_read,
+         |                           ^~~~~~~~~~~~~~~~~~
+   drivers/char/ps3flash.c:315:27: note: (near initialization for 'ps3flash_fops.read_iter')
+   drivers/char/ps3flash.c:316:27: error: initialization of 'ssize_t (*)(struct kiocb *, struct iov_iter *)' {aka 'long int (*)(struct kiocb *, struct iov_iter *)'} from incompatible pointer type 'ssize_t (*)(struct file *, const char *, size_t,  loff_t *)' {aka 'long int (*)(struct file *, const char *, long unsigned int,  long long int *)'} [-Werror=incompatible-pointer-types]
+     316 |         .write_iter     = ps3flash_user_write,
+         |                           ^~~~~~~~~~~~~~~~~~~
+   drivers/char/ps3flash.c:316:27: note: (near initialization for 'ps3flash_fops.write_iter')
+   In file included from drivers/char/ps3flash.c:9:
+>> drivers/char/ps3flash.c:249:24: warning: 'ps3flash_user_write_iter' defined but not used [-Wunused-function]
+     249 | FOPS_WRITE_ITER_HELPER(ps3flash_user_write);
+         |                        ^~~~~~~~~~~~~~~~~~~
+   include/linux/fs.h:2153:16: note: in definition of macro 'FOPS_WRITE_ITER_HELPER'
+    2153 | static ssize_t name## _iter(struct kiocb *iocb, struct iov_iter *from)  \
+         |                ^~~~
+>> drivers/char/ps3flash.c:242:23: warning: 'ps3flash_user_read_iter' defined but not used [-Wunused-function]
+     242 | FOPS_READ_ITER_HELPER(ps3flash_user_read);
+         |                       ^~~~~~~~~~~~~~~~~~
+   include/linux/fs.h:2148:16: note: in definition of macro 'FOPS_READ_ITER_HELPER'
+    2148 | static ssize_t name## _iter(struct kiocb *iocb, struct iov_iter *to)    \
+         |                ^~~~
    cc1: some warnings being treated as errors
 
 
-vim +/iov_iter_count +205 drivers/xen/evtchn.c
+vim +/ps3flash_user_write_iter +249 drivers/char/ps3flash.c
 
-   199	
-   200	static ssize_t evtchn_read(struct kiocb *iocb, struct iov_iter *to)
-   201	{
-   202		int rc;
-   203		unsigned int c, p, bytes1 = 0, bytes2 = 0;
-   204		struct per_user_data *u = iocb->ki_filp->private_data;
- > 205		size_t count = iov_iter_count(to);
-   206	
-   207		/* Whole number of ports. */
-   208		count &= ~(sizeof(evtchn_port_t)-1);
-   209	
-   210		if (count == 0)
-   211			return 0;
-   212	
-   213		if (count > PAGE_SIZE)
-   214			count = PAGE_SIZE;
-   215	
-   216		for (;;) {
-   217			mutex_lock(&u->ring_cons_mutex);
-   218	
-   219			rc = -EFBIG;
-   220			if (u->ring_overflow)
-   221				goto unlock_out;
-   222	
-   223			c = READ_ONCE(u->ring_cons);
-   224			p = READ_ONCE(u->ring_prod);
-   225			if (c != p)
-   226				break;
-   227	
-   228			mutex_unlock(&u->ring_cons_mutex);
-   229	
-   230			if (iocb->ki_filp->f_flags & O_NONBLOCK)
-   231				return -EAGAIN;
-   232	
-   233			rc = wait_event_interruptible(u->evtchn_wait,
-   234				READ_ONCE(u->ring_cons) != READ_ONCE(u->ring_prod));
-   235			if (rc)
-   236				return rc;
-   237		}
-   238	
-   239		/* Byte lengths of two chunks. Chunk split (if any) is at ring wrap. */
-   240		if (((c ^ p) & u->ring_size) != 0) {
-   241			bytes1 = (u->ring_size - evtchn_ring_offset(u, c)) *
-   242				sizeof(evtchn_port_t);
-   243			bytes2 = evtchn_ring_offset(u, p) * sizeof(evtchn_port_t);
-   244		} else {
-   245			bytes1 = (p - c) * sizeof(evtchn_port_t);
-   246			bytes2 = 0;
-   247		}
-   248	
-   249		/* Truncate chunks according to caller's maximum byte count. */
-   250		if (bytes1 > count) {
-   251			bytes1 = count;
-   252			bytes2 = 0;
-   253		} else if ((bytes1 + bytes2) > count) {
-   254			bytes2 = count - bytes1;
-   255		}
-   256	
-   257		rc = -EFAULT;
-   258		smp_rmb(); /* Ensure that we see the port before we copy it. */
- > 259		if (!copy_to_iter_full(evtchn_ring_entry(u, c), bytes1, to) ||
-   260		    ((bytes2 != 0) &&
-   261		     !copy_to_iter_full(&u->ring[0], bytes2, to)))
-   262			goto unlock_out;
-   263	
-   264		WRITE_ONCE(u->ring_cons, c + (bytes1 + bytes2) / sizeof(evtchn_port_t));
-   265		rc = bytes1 + bytes2;
-   266	
-   267	 unlock_out:
-   268		mutex_unlock(&u->ring_cons_mutex);
-   269		return rc;
-   270	}
-   271	
-   272	static ssize_t evtchn_write(struct kiocb *iocb, struct iov_iter *from)
-   273	{
-   274		int rc, i;
-   275		evtchn_port_t *kbuf = (evtchn_port_t *)__get_free_page(GFP_KERNEL);
-   276		struct per_user_data *u = iocb->ki_filp->private_data;
-   277		size_t count = iov_iter_count(from);
-   278	
-   279		if (kbuf == NULL)
-   280			return -ENOMEM;
-   281	
-   282		/* Whole number of ports. */
-   283		count &= ~(sizeof(evtchn_port_t)-1);
-   284	
-   285		rc = 0;
-   286		if (count == 0)
-   287			goto out;
-   288	
-   289		if (count > PAGE_SIZE)
-   290			count = PAGE_SIZE;
-   291	
-   292		rc = -EFAULT;
- > 293		if (!copy_from_iter_full(kbuf, count, from) != 0)
-   294			goto out;
-   295	
-   296		mutex_lock(&u->bind_mutex);
-   297	
-   298		for (i = 0; i < (count/sizeof(evtchn_port_t)); i++) {
-   299			evtchn_port_t port = kbuf[i];
-   300			struct user_evtchn *evtchn;
-   301	
-   302			evtchn = find_evtchn(u, port);
-   303			if (evtchn && !evtchn->enabled) {
-   304				evtchn->enabled = true;
-   305				xen_irq_lateeoi(irq_from_evtchn(port), 0);
-   306			}
-   307		}
-   308	
-   309		mutex_unlock(&u->bind_mutex);
-   310	
-   311		rc = count;
-   312	
-   313	 out:
-   314		free_page((unsigned long)kbuf);
-   315		return rc;
-   316	}
-   317	
+   236	
+   237	static ssize_t ps3flash_user_read(struct file *file, char __user *buf,
+   238					  size_t count, loff_t *pos)
+   239	{
+   240		return ps3flash_read(buf, NULL, count, pos);
+   241	}
+ > 242	FOPS_READ_ITER_HELPER(ps3flash_user_read);
+   243	
+   244	static ssize_t ps3flash_user_write(struct file *file, const char __user *buf,
+   245					   size_t count, loff_t *pos)
+   246	{
+   247		return ps3flash_write(buf, NULL, count, pos);
+   248	}
+ > 249	FOPS_WRITE_ITER_HELPER(ps3flash_user_write);
+   250	
 
 -- 
 0-DAY CI Kernel Test Service
