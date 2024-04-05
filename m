@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2E122F0E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2C123746
 	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 22:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712356328; cv=none; b=H9IlZnFDeW2WI4si0cpDu1eRHoQrP0Oow2cfuwdJlhahW8E1ycgFrPv7N4E4ZBpVGPt8XsH56Q//li4a1hiIvL4zKAUxtw6mR7aFaU6z688UGzbH6d9hF88bG5klZMsotAksSJmND+0/N7RFeosBYgOcpqOdE1/BfsmjVRPzxvo=
+	t=1712356328; cv=none; b=ddQdMYOlIHEiwgGuhkPyj3BuXchgdyBCTDY7XjGUksIGDoJi97cJDMkx8nY6dlpGmYxru7pM6VRwSzzZDwbYBwIqPwGYu1IaHRzKyzhmzoibRJkQKrgeXA2erEyGKPJyUCJLo02bGtjomWqoZpGatnSOcAIGSpvpBmXnlBdCwx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1712356328; c=relaxed/simple;
-	bh=r9LQckR4JSjxFEODPHmjkQv04MQJuMO6NG3Mg0T5Mr0=;
+	bh=rnLq6GWqc43unzxFe6qS3yEHqU2YIPafRZXUYF9d5P4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FbGWTZpzFLmM48/iL05OjmdRg/BFDilEb6vi4XHZxbY1V40/zCLLYIMm/3fBrGDkzCDBB8BQFXsFvyscEqQU9/DCL5NJPsmE259nhjZHe0JFlpYmihhUtSxgcEyLZlfYRgqh6GlC8spPnL2eD9ejQEyAKYaFHzlnIVQPA4EQs90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bYm64uWS; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=n42GsYskCvs0vO1vtM/ENwqoSAf0aTG8Ycxk3BbBk+HeoLqnQAc42IA51rANjBwUoQj51/ezo2nQobhAq4W1omDmbzqPqPVINKe8HQpk2oB13tE+GSixv6MeLDQZulk+o8oCoxceVbGTz0jdSSSeoV3rX3L0i8/0g7xdSPr0AP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xz7I9YVX; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bYm64uWS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xz7I9YVX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1712356327; x=1743892327;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r9LQckR4JSjxFEODPHmjkQv04MQJuMO6NG3Mg0T5Mr0=;
-  b=bYm64uWSf4lrqgjQNslGr2MhOaS9oxakL7N1bCAAoPzv9+rpDCTrRsGc
-   +dmVA5kxKMA3DycHvy7JKKpeTNJ1n1y88+qnGkjIK+HW45akEXI4lUbws
-   ovfyAxqAfyWXYrOMw9IOdiOQ5raRpdJ1VBI9DJOBOYbEsOuFHzgqplaxK
-   +XtXpqokELQornAlCHz747oy6+YbK1ZnpGd9zmGFX5c3s3jcXkXuPL2L/
-   HnLHZu0jeik2tgiRJ7Ja1PEHhZ+lmXp5upCmn1+ZdroS5vDaS0CCc1wXE
-   hnjdfRfZdsF4qfJApxQsIz/eWDq2JmM6TIG7hHwBhqhI9Om7VO8nD8IS2
-   g==;
-X-CSE-ConnectionGUID: 0ymcC57hT42tcEC1+e+o0w==
-X-CSE-MsgGUID: 0xuVP6ZnRXGXiqvA68SyZA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="11498574"
+  bh=rnLq6GWqc43unzxFe6qS3yEHqU2YIPafRZXUYF9d5P4=;
+  b=Xz7I9YVXnTxCPtwtZbVyaHYb2wrUNB6GvcbJg9Dk5u5IdGsI63drZjBo
+   1amNGmhiZx160i/F++89ABWzC9IO8Dlrs0FSqoqf2TyUDkuawOuRXC0mc
+   jaTxGmL+p0qfxqg60moLFsaWfG8ih5DH3JhYjc0nzsYQuNYJ+G5iVm34F
+   ClBTTG36VSQx1dlfIoL1itpUZTixiaChmMlIfGWfutSPe/OtGOqfrr8dQ
+   7V6zr0NcY5Q4jvmvVGLjF2aPo0cW6Dw44sdtqYgnr2rTRKd6uQjk1zq5F
+   U6HPm1lr8WQD+4EngCRTajx1fhIPGdlfA8sPpuRs7/R1xokPKc88qqSdG
+   A==;
+X-CSE-ConnectionGUID: szAPyJvLR6WkrxZnjrVC8g==
+X-CSE-MsgGUID: EsftxV29Q+qj+Z0dQGUrgA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="18437341"
 X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; 
-   d="scan'208";a="11498574"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 15:32:06 -0700
-X-CSE-ConnectionGUID: x2nz7G+MQKGgxkXRryYSzA==
-X-CSE-MsgGUID: TDqd+zJbT2asIAl2yT6m5g==
+   d="scan'208";a="18437341"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 15:32:06 -0700
+X-CSE-ConnectionGUID: 6NeLNscPQOqfl7r1ixhpKA==
+X-CSE-MsgGUID: Z6kzOEKGRp+k7zbe81O34g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; 
-   d="scan'208";a="23786232"
+   d="scan'208";a="19739545"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 05 Apr 2024 15:32:04 -0700
+  by orviesa006.jf.intel.com with ESMTP; 05 Apr 2024 15:32:05 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rss6M-0002ms-26;
+	id 1rss6M-0002mx-2D;
 	Fri, 05 Apr 2024 22:32:02 +0000
-Date: Sat, 6 Apr 2024 06:31:23 +0800
+Date: Sat, 6 Apr 2024 06:31:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
+To: David Hildenbrand <david@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 93/93]
- drivers/gpu/drm/i915/i915_gpu_error.c:2439:17: error: initialization of 'int
- (*)(struct file *, void *)' from incompatible pointer type 'ssize_t
- (*)(struct file *, char *, size_t,  loff_t *)' {aka 'long int (*)(struct
- file *, char *, long unsigned int,  l...
-Message-ID: <202404060654.YXVrfqR8-lkp@intel.com>
+Subject: [davidhildenbrand:large_mapcount 24/27] fs/proc/page.c:73:44: error:
+ 'page' undeclared
+Message-ID: <202404060652.slKQLiOg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,109 +62,142 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   025d6230e73400e8c46ec29a297b9bca08f36f6f
-commit: 025d6230e73400e8c46ec29a297b9bca08f36f6f [93/93] REMOVE ->read() and ->write()
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240406/202404060654.YXVrfqR8-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404060654.YXVrfqR8-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux large_mapcount
+head:   7e8a03fbcd6b8b5a7e2b6ea60f620c5d816cb44b
+commit: efed85936fb7a152c58898dce59efa55105f78f9 [24/27] fs/proc/page: expose folio_mapcount() instead of page_mapcount()
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20240406/202404060652.slKQLiOg-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404060652.slKQLiOg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404060654.YXVrfqR8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404060652.slKQLiOg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/i915_gpu_error.c:2439:10: error: 'const struct file_operations' has no member named 'read'
-    2439 |         .read = gpu_state_read,
-         |          ^~~~
-   drivers/gpu/drm/i915/i915_gpu_error.c:2439:17: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-    2439 |         .read = gpu_state_read,
-         |                 ^~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_gpu_error.c:2439:17: note: (near initialization for 'i915_gpu_info_fops')
->> drivers/gpu/drm/i915/i915_gpu_error.c:2439:17: error: initialization of 'int (*)(struct file *, void *)' from incompatible pointer type 'ssize_t (*)(struct file *, char *, size_t,  loff_t *)' {aka 'long int (*)(struct file *, char *, long unsigned int,  long long int *)'} [-Werror=incompatible-pointer-types]
-   drivers/gpu/drm/i915/i915_gpu_error.c:2439:17: note: (near initialization for 'i915_gpu_info_fops.flush')
-   drivers/gpu/drm/i915/i915_gpu_error.c:2476:10: error: 'const struct file_operations' has no member named 'read'
-    2476 |         .read = gpu_state_read,
-         |          ^~~~
-   drivers/gpu/drm/i915/i915_gpu_error.c:2476:17: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-    2476 |         .read = gpu_state_read,
-         |                 ^~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_gpu_error.c:2476:17: note: (near initialization for 'i915_error_state_fops')
-   drivers/gpu/drm/i915/i915_gpu_error.c:2476:17: error: initialization of 'int (*)(struct file *, void *)' from incompatible pointer type 'ssize_t (*)(struct file *, char *, size_t,  loff_t *)' {aka 'long int (*)(struct file *, char *, long unsigned int,  long long int *)'} [-Werror=incompatible-pointer-types]
-   drivers/gpu/drm/i915/i915_gpu_error.c:2476:17: note: (near initialization for 'i915_error_state_fops.flush')
-   drivers/gpu/drm/i915/i915_gpu_error.c:2477:10: error: 'const struct file_operations' has no member named 'write'
-    2477 |         .write = i915_error_state_write,
-         |          ^~~~~
-   drivers/gpu/drm/i915/i915_gpu_error.c:2477:18: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-    2477 |         .write = i915_error_state_write,
-         |                  ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_gpu_error.c:2477:18: note: (near initialization for 'i915_error_state_fops')
->> drivers/gpu/drm/i915/i915_gpu_error.c:2477:18: error: initialization of 'int (*)(struct inode *, struct file *)' from incompatible pointer type 'ssize_t (*)(struct file *, const char *, size_t,  loff_t *)' {aka 'long int (*)(struct file *, const char *, long unsigned int,  long long int *)'} [-Werror=incompatible-pointer-types]
-   drivers/gpu/drm/i915/i915_gpu_error.c:2477:18: note: (near initialization for 'i915_error_state_fops.release')
-   drivers/gpu/drm/i915/i915_gpu_error.c:2479:20: warning: initialized field overwritten [-Woverride-init]
-    2479 |         .release = gpu_state_release,
-         |                    ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_gpu_error.c:2479:20: note: (near initialization for 'i915_error_state_fops.release')
-   cc1: some warnings being treated as errors
+   In file included from include/linux/mmzone.h:23,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from include/linux/memblock.h:12,
+                    from fs/proc/page.c:2:
+   fs/proc/page.c: In function 'kpagecount_read':
+>> fs/proc/page.c:73:44: error: 'page' undeclared (first use in this function)
+      73 |                         folio = page_folio(page);
+         |                                            ^~~~
+   include/linux/page-flags.h:267:44: note: in definition of macro 'page_folio'
+     267 | #define page_folio(p)           (_Generic((p),                          \
+         |                                            ^
+   fs/proc/page.c:73:44: note: each undeclared identifier is reported only once for each function it appears in
+      73 |                         folio = page_folio(page);
+         |                                            ^~~~
+   include/linux/page-flags.h:267:44: note: in definition of macro 'page_folio'
+     267 | #define page_folio(p)           (_Generic((p),                          \
+         |                                            ^
+>> fs/proc/page.c:74:49: error: 'dolio' undeclared (first use in this function); did you mean 'folio'?
+      74 |                         pcount = folio_mapcount(dolio);
+         |                                                 ^~~~~
+         |                                                 folio
+>> fs/proc/page.c:50:23: warning: variable 'folio' set but not used [-Wunused-but-set-variable]
+      50 |         struct folio *folio;
+         |                       ^~~~~
 
 
-vim +2439 drivers/gpu/drm/i915/i915_gpu_error.c
+vim +/page +73 fs/proc/page.c
 
-4fca51984371d9 Jani Nikula 2023-10-31  2435  
-4fca51984371d9 Jani Nikula 2023-10-31  2436  static const struct file_operations i915_gpu_info_fops = {
-4fca51984371d9 Jani Nikula 2023-10-31  2437  	.owner = THIS_MODULE,
-4fca51984371d9 Jani Nikula 2023-10-31  2438  	.open = i915_gpu_info_open,
-4fca51984371d9 Jani Nikula 2023-10-31 @2439  	.read = gpu_state_read,
-4fca51984371d9 Jani Nikula 2023-10-31  2440  	.llseek = default_llseek,
-4fca51984371d9 Jani Nikula 2023-10-31  2441  	.release = gpu_state_release,
-4fca51984371d9 Jani Nikula 2023-10-31  2442  };
-4fca51984371d9 Jani Nikula 2023-10-31  2443  
-4fca51984371d9 Jani Nikula 2023-10-31  2444  static ssize_t
-4fca51984371d9 Jani Nikula 2023-10-31  2445  i915_error_state_write(struct file *filp,
-4fca51984371d9 Jani Nikula 2023-10-31  2446  		       const char __user *ubuf,
-4fca51984371d9 Jani Nikula 2023-10-31  2447  		       size_t cnt,
-4fca51984371d9 Jani Nikula 2023-10-31  2448  		       loff_t *ppos)
-4fca51984371d9 Jani Nikula 2023-10-31  2449  {
-4fca51984371d9 Jani Nikula 2023-10-31  2450  	struct i915_gpu_coredump *error = filp->private_data;
-4fca51984371d9 Jani Nikula 2023-10-31  2451  
-4fca51984371d9 Jani Nikula 2023-10-31  2452  	if (!error)
-4fca51984371d9 Jani Nikula 2023-10-31  2453  		return 0;
-4fca51984371d9 Jani Nikula 2023-10-31  2454  
-4fca51984371d9 Jani Nikula 2023-10-31  2455  	drm_dbg(&error->i915->drm, "Resetting error state\n");
-4fca51984371d9 Jani Nikula 2023-10-31  2456  	i915_reset_error_state(error->i915);
-4fca51984371d9 Jani Nikula 2023-10-31  2457  
-4fca51984371d9 Jani Nikula 2023-10-31  2458  	return cnt;
-4fca51984371d9 Jani Nikula 2023-10-31  2459  }
-4fca51984371d9 Jani Nikula 2023-10-31  2460  
-4fca51984371d9 Jani Nikula 2023-10-31  2461  static int i915_error_state_open(struct inode *inode, struct file *file)
-4fca51984371d9 Jani Nikula 2023-10-31  2462  {
-4fca51984371d9 Jani Nikula 2023-10-31  2463  	struct i915_gpu_coredump *error;
-4fca51984371d9 Jani Nikula 2023-10-31  2464  
-4fca51984371d9 Jani Nikula 2023-10-31  2465  	error = i915_first_error_state(inode->i_private);
-4fca51984371d9 Jani Nikula 2023-10-31  2466  	if (IS_ERR(error))
-4fca51984371d9 Jani Nikula 2023-10-31  2467  		return PTR_ERR(error);
-4fca51984371d9 Jani Nikula 2023-10-31  2468  
-4fca51984371d9 Jani Nikula 2023-10-31  2469  	file->private_data  = error;
-4fca51984371d9 Jani Nikula 2023-10-31  2470  	return 0;
-4fca51984371d9 Jani Nikula 2023-10-31  2471  }
-4fca51984371d9 Jani Nikula 2023-10-31  2472  
-4fca51984371d9 Jani Nikula 2023-10-31  2473  static const struct file_operations i915_error_state_fops = {
-4fca51984371d9 Jani Nikula 2023-10-31  2474  	.owner = THIS_MODULE,
-4fca51984371d9 Jani Nikula 2023-10-31  2475  	.open = i915_error_state_open,
-4fca51984371d9 Jani Nikula 2023-10-31  2476  	.read = gpu_state_read,
-4fca51984371d9 Jani Nikula 2023-10-31 @2477  	.write = i915_error_state_write,
-4fca51984371d9 Jani Nikula 2023-10-31  2478  	.llseek = default_llseek,
-4fca51984371d9 Jani Nikula 2023-10-31  2479  	.release = gpu_state_release,
-4fca51984371d9 Jani Nikula 2023-10-31  2480  };
-4fca51984371d9 Jani Nikula 2023-10-31  2481  
-
-:::::: The code at line 2439 was first introduced by commit
-:::::: 4fca51984371d930a5d9d5a8b0848b892dbfdecc drm/i915: move gpu error debugfs to i915_gpu_error.c
-
-:::::: TO: Jani Nikula <jani.nikula@intel.com>
-:::::: CC: Jani Nikula <jani.nikula@intel.com>
+   > 2	#include <linux/memblock.h>
+     3	#include <linux/compiler.h>
+     4	#include <linux/fs.h>
+     5	#include <linux/init.h>
+     6	#include <linux/ksm.h>
+     7	#include <linux/mm.h>
+     8	#include <linux/mmzone.h>
+     9	#include <linux/huge_mm.h>
+    10	#include <linux/proc_fs.h>
+    11	#include <linux/seq_file.h>
+    12	#include <linux/hugetlb.h>
+    13	#include <linux/memremap.h>
+    14	#include <linux/memcontrol.h>
+    15	#include <linux/mmu_notifier.h>
+    16	#include <linux/page_idle.h>
+    17	#include <linux/kernel-page-flags.h>
+    18	#include <linux/uaccess.h>
+    19	#include "internal.h"
+    20	
+    21	#define KPMSIZE sizeof(u64)
+    22	#define KPMMASK (KPMSIZE - 1)
+    23	#define KPMBITS (KPMSIZE * BITS_PER_BYTE)
+    24	
+    25	static inline unsigned long get_max_dump_pfn(void)
+    26	{
+    27	#ifdef CONFIG_SPARSEMEM
+    28		/*
+    29		 * The memmap of early sections is completely populated and marked
+    30		 * online even if max_pfn does not fall on a section boundary -
+    31		 * pfn_to_online_page() will succeed on all pages. Allow inspecting
+    32		 * these memmaps.
+    33		 */
+    34		return round_up(max_pfn, PAGES_PER_SECTION);
+    35	#else
+    36		return max_pfn;
+    37	#endif
+    38	}
+    39	
+    40	/* /proc/kpagecount - an array exposing page counts
+    41	 *
+    42	 * Each entry is a u64 representing the corresponding
+    43	 * physical page count.
+    44	 */
+    45	static ssize_t kpagecount_read(struct file *file, char __user *buf,
+    46				     size_t count, loff_t *ppos)
+    47	{
+    48		const unsigned long max_dump_pfn = get_max_dump_pfn();
+    49		u64 __user *out = (u64 __user *)buf;
+  > 50		struct folio *folio;
+    51		struct page *ppage;
+    52		unsigned long src = *ppos;
+    53		unsigned long pfn;
+    54		ssize_t ret = 0;
+    55		u64 pcount;
+    56	
+    57		pfn = src / KPMSIZE;
+    58		if (src & KPMMASK || count & KPMMASK)
+    59			return -EINVAL;
+    60		if (src >= max_dump_pfn * KPMSIZE)
+    61			return 0;
+    62		count = min_t(unsigned long, count, (max_dump_pfn * KPMSIZE) - src);
+    63	
+    64		while (count > 0) {
+    65			/*
+    66			 * TODO: ZONE_DEVICE support requires to identify
+    67			 * memmaps that were actually initialized.
+    68			 */
+    69			ppage = pfn_to_online_page(pfn);
+    70	
+    71			pcount = 0;
+    72			if (ppage) {
+  > 73				folio = page_folio(page);
+  > 74				pcount = folio_mapcount(dolio);
+    75			}
+    76	
+    77			if (put_user(pcount, out)) {
+    78				ret = -EFAULT;
+    79				break;
+    80			}
+    81	
+    82			pfn++;
+    83			out++;
+    84			count -= KPMSIZE;
+    85	
+    86			cond_resched();
+    87		}
+    88	
+    89		*ppos += (char __user *)out - buf;
+    90		if (!ret)
+    91			ret = (char __user *)out - buf;
+    92		return ret;
+    93	}
+    94	
 
 -- 
 0-DAY CI Kernel Test Service
