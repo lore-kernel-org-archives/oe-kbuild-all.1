@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72D51C02
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 01:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C4C14288;
+	Fri,  5 Apr 2024 02:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712282006; cv=none; b=qXr1SGHoh9pq5cI93a3+OiHxE1UREhbewWLXtfWQwIMTwWkQvmP+irYu3qRhqhlscHFdsHXmqzNuZvt2n/cAvrHrToUEBUCMx5B+NmqOXm/xBUv/ArzEPvLC+iskiMPgCa+WJT7XRbQ/iIpW5bCddcbkxI93JtpTX4eH5VCNNy4=
+	t=1712283326; cv=none; b=C1+BQP+5Q+Cvc3Em4xjDGaK2Gr+xeeVTA0T4KRanMB4cNddPlt8QoWa//b6DgcUnr3qFy+aA1c/B5RvJxNgGMKXdkXez30/Ob3UOntc7Bqol3AbA50G7wguBSGn5GCnBG9yYiD7fuEfjLnGpzUUuoxmYiwYneGsUcLGESyPY1E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712282006; c=relaxed/simple;
-	bh=8CzqFsDTKK/ukOeTo1RUgDtvo311nfQZaNVBf8HqETo=;
+	s=arc-20240116; t=1712283326; c=relaxed/simple;
+	bh=8RNziIHlVkO0i8kR56y6C2xmukLnt0XbZgK/aTLFaqY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DZ8LUwnOsXtV16wsS9f9Jx3l0GdfouxiBHlrXp3Gg1R09fPmgeoPJ244c9qMUQ6j+WX4PFhMIsbBIk7fxPJIPuiZuYvMQpfN/oGjrdcdA8BWSV/a2v236LfJP3jtzq2HTJ+vpSD/A3NL4L7KEIEL0LpbpuFaQ3SmaHk2Dwmfqt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/at0aSZ; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=rqP22C3EOrAd7HImJ7nSWWaGR/80SnhkPNm4K2zOSMNbBhjBEZMFEl4IK053vSLv7shItexdbRFrC4CRkaHZuDsKLIXU8kP9vD+BoCYab9Zoz3GCi1VdpXDjELixLPEZ199pqp2by1v2xUFuHqIwgWeznOBB1VdwbH2li3OLhoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=buCPBzdY; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/at0aSZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="buCPBzdY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712282003; x=1743818003;
+  t=1712283324; x=1743819324;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8CzqFsDTKK/ukOeTo1RUgDtvo311nfQZaNVBf8HqETo=;
-  b=K/at0aSZpPOllo3kUXbzQLHMbbPAnUciXiHk4vgj69gH2HZTDGR29k92
-   ggBeLa8Z3lG64s9CYcw7TJBz5d2DORX2oqxQ6e5GR0Jd7en7LtVk1vPWh
-   YGakmoGZMmOAdxLBq2tCe36uOzjwy4Qsr2ygAYCrI01WGJ545nkRLEkWC
-   d55tb+OlEVEFd0STQcRcwUNAeniqoKl3xz94sJ1KCrOqFaPqkFbol4JE0
-   ftCbNJenKyZ4EyZSobYu6vntkQje3kohpjc+FKyW1uMtyuHwmZx3OjC/A
-   vVzc8VrR/VZkNx2RP2el5Q23BevvbgWoHSOJ3TGDFvH3j8WP9nqc21jd+
-   Q==;
-X-CSE-ConnectionGUID: qlJBKyOeSh6wsot9NgIpew==
-X-CSE-MsgGUID: vW0ZQCvSQbGqkHELrw2fsA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="11376930"
+  bh=8RNziIHlVkO0i8kR56y6C2xmukLnt0XbZgK/aTLFaqY=;
+  b=buCPBzdYExcMVKIxI5cNGaxCmLL59Kd/GRZugQ1ETw/9FgE2f6z1zef5
+   Erq4XHFY+4lRi22KKjelzYu5U9y+R7hs5e3LC6NB8H9jbEL7WjZZneZxm
+   fP1nybctDFmX1ugtONUZT92G23yyhGXUWBMchDKiGty0haaj4efL920y3
+   krmOKBBCj8C8Y4YzL69JEbi4lZSKFzqO62DTEyN7BBK6i7Yt5samI1cpx
+   MTcexFF77b9uCcclO9Siw20sxPMyndD3vDWlbnOyMFkqDvg5+Jpo02XEz
+   zjLyHkF8OZrGP23u7IMmBaOqbaeallj5kwTJmX0Xzv6wsztaUuHy8Iybe
+   g==;
+X-CSE-ConnectionGUID: UYqsCOY8Sce7dPOSbd5xkw==
+X-CSE-MsgGUID: d1LQBGtxRpiAIsynmgNzbA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7704735"
 X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; 
-   d="scan'208";a="11376930"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 18:53:23 -0700
-X-CSE-ConnectionGUID: QJqRuZrqQWmPk6VTNZp3sA==
-X-CSE-MsgGUID: MhzDEULCSUqgXbosrNgcdg==
+   d="scan'208";a="7704735"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 19:15:24 -0700
+X-CSE-ConnectionGUID: SEMxfj+JRKe2WsBGGoMKpA==
+X-CSE-MsgGUID: D9f/f4wGReCrFCoonpN7wA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; 
-   d="scan'208";a="23478649"
+   d="scan'208";a="18957183"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Apr 2024 18:53:21 -0700
+  by orviesa009.jf.intel.com with ESMTP; 04 Apr 2024 19:15:22 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rsYla-0001kQ-2b;
-	Fri, 05 Apr 2024 01:53:18 +0000
-Date: Fri, 5 Apr 2024 09:52:36 +0800
+	id 1rsZ6t-0001ls-1j;
+	Fri, 05 Apr 2024 02:15:19 +0000
+Date: Fri, 5 Apr 2024 10:14:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>
-Subject: [linux-next:master 2709/3921] WARNING: modpost: vmlinux: section
- mismatch in reference: (unknown)+0x1488 (section: __ex_table) -> .LASF136
- (section: .debug_str)
-Message-ID: <202404050934.bdQwGSAA-lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:rw_iter 15/29]
+ drivers/staging/axis-fifo/axis-fifo.c:354:15: warning: variable 'copied' set
+ but not used
+Message-ID: <202404051005.42QnWRjN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,227 +63,203 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2b3d5988ae2cb5cd945ddbc653f0a71706231fdd
-commit: 302519d9e80a7fbf2cf8d0b8961d491af648759f [2709/3921] asm-generic/io.h: kill vmalloc.h dependency
-config: riscv-buildonly-randconfig-r005-20221114 (https://download.01.org/0day-ci/archive/20240405/202404050934.bdQwGSAA-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240405/202404050934.bdQwGSAA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   34a49de340a534b0cb222309e73d1ef215ff4db6
+commit: 9bddfc061dffa3ca19b6e971ef1f1281458ee8a3 [15/29] staging: convert drivers to read/write iterators
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240405/202404051005.42QnWRjN-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 546dc2245ffc4cccd0b05b58b7a5955e355a3b27)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240405/202404051005.42QnWRjN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404050934.bdQwGSAA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404051005.42QnWRjN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-ERROR: modpost: vmlinux: local symbol 'simple_strtoull' was exported
-ERROR: modpost: vmlinux: local symbol 'simple_strtoul' was exported
-ERROR: modpost: vmlinux: local symbol 'simple_strtol' was exported
-ERROR: modpost: vmlinux: local symbol 'simple_strtoll' was exported
-ERROR: modpost: vmlinux: local symbol 'vsnprintf' was exported
-ERROR: modpost: vmlinux: local symbol 'vscnprintf' was exported
-ERROR: modpost: vmlinux: local symbol 'snprintf' was exported
-ERROR: modpost: vmlinux: local symbol 'scnprintf' was exported
-ERROR: modpost: vmlinux: local symbol 'vsprintf' was exported
-ERROR: modpost: vmlinux: local symbol 'sprintf' was exported
-ERROR: modpost: vmlinux: local symbol 'vbin_printf' was exported
-ERROR: modpost: vmlinux: local symbol 'bstr_printf' was exported
-ERROR: modpost: vmlinux: local symbol 'bprintf' was exported
-ERROR: modpost: vmlinux: local symbol 'vsscanf' was exported
-ERROR: modpost: vmlinux: local symbol 'sscanf' was exported
-ERROR: modpost: vmlinux: local symbol 'minmax_running_max' was exported
-ERROR: modpost: vmlinux: local symbol 'xas_load' was exported
-ERROR: modpost: vmlinux: local symbol 'xas_nomem' was exported
-ERROR: modpost: vmlinux: local symbol 'xas_create_range' was exported
-ERROR: modpost: vmlinux: local symbol 'xas_store' was exported
-ERROR: modpost: vmlinux: local symbol 'xas_get_mark' was exported
-ERROR: modpost: vmlinux: local symbol 'xas_set_mark' was exported
-ERROR: modpost: vmlinux: local symbol 'xas_clear_mark' was exported
-ERROR: modpost: vmlinux: local symbol 'xas_init_marks' was exported
-ERROR: modpost: vmlinux: local symbol 'xas_split_alloc' was exported
-ERROR: modpost: vmlinux: local symbol 'xas_split' was exported
-ERROR: modpost: vmlinux: local symbol 'xas_pause' was exported
-ERROR: modpost: vmlinux: local symbol '__xas_prev' was exported
-ERROR: modpost: vmlinux: local symbol '__xas_next' was exported
-ERROR: modpost: vmlinux: local symbol 'xas_find' was exported
-ERROR: modpost: vmlinux: local symbol 'xas_find_marked' was exported
-ERROR: modpost: vmlinux: local symbol 'xas_find_conflict' was exported
-ERROR: modpost: vmlinux: local symbol 'xa_load' was exported
-ERROR: modpost: vmlinux: local symbol '__xa_erase' was exported
-ERROR: modpost: vmlinux: local symbol 'xa_erase' was exported
-ERROR: modpost: vmlinux: local symbol '__xa_store' was exported
-ERROR: modpost: vmlinux: local symbol 'xa_store' was exported
-ERROR: modpost: vmlinux: local symbol '__xa_cmpxchg' was exported
-ERROR: modpost: vmlinux: local symbol '__xa_insert' was exported
-ERROR: modpost: vmlinux: local symbol 'xa_store_range' was exported
-ERROR: modpost: vmlinux: local symbol 'xa_get_order' was exported
-ERROR: modpost: vmlinux: local symbol '__xa_alloc' was exported
-ERROR: modpost: vmlinux: local symbol '__xa_alloc_cyclic' was exported
-ERROR: modpost: vmlinux: local symbol '__xa_set_mark' was exported
-ERROR: modpost: vmlinux: local symbol '__xa_clear_mark' was exported
-ERROR: modpost: vmlinux: local symbol 'xa_get_mark' was exported
-ERROR: modpost: vmlinux: local symbol 'xa_set_mark' was exported
-ERROR: modpost: vmlinux: local symbol 'xa_clear_mark' was exported
-ERROR: modpost: vmlinux: local symbol 'xa_find' was exported
-ERROR: modpost: vmlinux: local symbol 'xa_find_after' was exported
-ERROR: modpost: vmlinux: local symbol 'xa_extract' was exported
-ERROR: modpost: vmlinux: local symbol 'xa_delete_node' was exported
-ERROR: modpost: vmlinux: local symbol 'xa_destroy' was exported
-ERROR: modpost: vmlinux: local symbol 'clear_page' was exported
-ERROR: modpost: vmlinux: local symbol '__delay' was exported
-ERROR: modpost: vmlinux: local symbol 'udelay' was exported
-ERROR: modpost: vmlinux: local symbol 'ndelay' was exported
-ERROR: modpost: vmlinux: local symbol '__asm_copy_to_user' was exported
-ERROR: modpost: vmlinux: local symbol '__asm_copy_from_user' was exported
-ERROR: modpost: vmlinux: local symbol '__clear_user' was exported
-ERROR: modpost: vmlinux: local symbol 'xor_regs_2_' was exported
-ERROR: modpost: vmlinux: local symbol 'xor_regs_3_' was exported
-ERROR: modpost: vmlinux: local symbol 'xor_regs_4_' was exported
-ERROR: modpost: vmlinux: local symbol 'xor_regs_5_' was exported
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x13b0 (section: __ex_table) -> .LASF1893 (section: .debug_str)
-ERROR: modpost: __ex_table+0x13b0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x13b4 (section: __ex_table) -> .LASF1895 (section: .debug_str)
-ERROR: modpost: __ex_table+0x13b4 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x13ec (section: __ex_table) -> .LASF1680 (section: .debug_str)
-ERROR: modpost: __ex_table+0x13ec references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x13f0 (section: __ex_table) -> .LASF1682 (section: .debug_str)
-ERROR: modpost: __ex_table+0x13f0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x13f8 (section: __ex_table) -> .LASF394 (section: .debug_str)
-ERROR: modpost: __ex_table+0x13f8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x13fc (section: __ex_table) -> .LASF396 (section: .debug_str)
-ERROR: modpost: __ex_table+0x13fc references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1404 (section: __ex_table) -> .LASF398 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1404 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1408 (section: __ex_table) -> .LASF400 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1408 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1428 (section: __ex_table) -> .LASF2193 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1428 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x142c (section: __ex_table) -> .LASF2195 (section: .debug_str)
-ERROR: modpost: __ex_table+0x142c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1434 (section: __ex_table) -> .LASF2197 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1434 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1438 (section: __ex_table) -> .LASF2199 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1438 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1458 (section: __ex_table) -> .LLST3914 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1458 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1464 (section: __ex_table) -> .LLST3917 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1464 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1468 (section: __ex_table) -> .LLST3919 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1468 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1470 (section: __ex_table) -> .LLST3921 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1470 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1474 (section: __ex_table) -> .LLST3923 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1474 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1480 (section: __ex_table) -> .LLRL3926 (section: .debug_rnglists)
-ERROR: modpost: __ex_table+0x1480 references non-executable section '.debug_rnglists'
->> WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1488 (section: __ex_table) -> .LASF136 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1488 references non-executable section '.debug_str'
->> WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x148c (section: __ex_table) -> .LASF138 (section: .debug_str)
-ERROR: modpost: __ex_table+0x148c references non-executable section '.debug_str'
->> WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1494 (section: __ex_table) -> .LASF140 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1494 references non-executable section '.debug_str'
->> WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1498 (section: __ex_table) -> .LASF142 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1498 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x14a0 (section: __ex_table) -> .LASF1737 (section: .debug_str)
-ERROR: modpost: __ex_table+0x14a0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x14a4 (section: __ex_table) -> .LASF1739 (section: .debug_str)
-ERROR: modpost: __ex_table+0x14a4 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x14ac (section: __ex_table) -> .LASF1741 (section: .debug_str)
-ERROR: modpost: __ex_table+0x14ac references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x14b0 (section: __ex_table) -> .LASF1743 (section: .debug_str)
-ERROR: modpost: __ex_table+0x14b0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x14b8 (section: __ex_table) -> .LASF1745 (section: .debug_str)
-ERROR: modpost: __ex_table+0x14b8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x14bc (section: __ex_table) -> .LASF1747 (section: .debug_str)
-ERROR: modpost: __ex_table+0x14bc references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1500 (section: __ex_table) -> .LASF1022 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1500 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1504 (section: __ex_table) -> .LASF1024 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1504 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x150c (section: __ex_table) -> .LASF1026 (section: .debug_str)
-ERROR: modpost: __ex_table+0x150c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1510 (section: __ex_table) -> .LASF1028 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1510 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1518 (section: __ex_table) -> .LASF1030 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1518 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x151c (section: __ex_table) -> .LASF1032 (section: .debug_str)
-ERROR: modpost: __ex_table+0x151c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1798 (section: __ex_table) -> .LLRL2170 (section: .debug_rnglists)
-ERROR: modpost: __ex_table+0x1798 references non-executable section '.debug_rnglists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x17b0 (section: __ex_table) -> .LLST1998 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x17b0 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x17b8 (section: __ex_table) -> .LLST2000 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x17b8 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x17bc (section: __ex_table) -> .LLST2002 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x17bc references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x17c4 (section: __ex_table) -> .LLST2004 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x17c4 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x17e0 (section: __ex_table) -> .LLST2930 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x17e0 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1800 (section: __ex_table) -> .LASF3344 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1800 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1804 (section: __ex_table) -> .LASF3346 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1804 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x180c (section: __ex_table) -> .LASF3348 (section: .debug_str)
-ERROR: modpost: __ex_table+0x180c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1810 (section: __ex_table) -> .LASF3346 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1810 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1824 (section: __ex_table) -> .LLST1850 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1824 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1828 (section: __ex_table) -> .LLST1852 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1828 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1830 (section: __ex_table) -> .LLST1854 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1830 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1834 (section: __ex_table) -> .LLST1856 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1834 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1840 (section: __ex_table) -> .LASF6368 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1840 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x184c (section: __ex_table) -> .LLST1844 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x184c references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1854 (section: __ex_table) -> .LLST1846 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1854 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1858 (section: __ex_table) -> .LLST1848 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1858 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1870 (section: __ex_table) -> .LLST1836 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1870 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1878 (section: __ex_table) -> .LLST1838 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1878 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x187c (section: __ex_table) -> .LLST1840 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x187c references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: (unknown)+0x1884 (section: __ex_table) -> .LLST1842 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1884 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: event_f2fs_issue_reset_zone+0xc (section: .data) -> big_key_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ethnl_netdev_notifier+0x268 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ethnl_netdev_notifier+0x274 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ethnl_netdev_notifier+0x278 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ethnl_netdev_notifier+0x284 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ethnl_netdev_notifier+0x288 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ethnl_netdev_notifier+0x294 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ethnl_netdev_notifier+0x298 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ethnl_netdev_notifier+0x2a4 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ethnl_netdev_notifier+0x2a8 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ethnl_netdev_notifier+0x2b4 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x20 (section: .data) -> .LBE709 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x2c (section: .data) -> .LBB710 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x30 (section: .data) -> .LBE710 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x34 (section: .data) -> .LBE709 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x40 (section: .data) -> .LBB710 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x44 (section: .data) -> .LBE710 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x48 (section: .data) -> .LBE709 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x54 (section: .data) -> .LBB710 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x58 (section: .data) -> .LBB710 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x5c (section: .data) -> .LBE709 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x68 (section: .data) -> .LBB710 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x6c (section: .data) -> .LBB710 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x70 (section: .data) -> .LBE712 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x7c (section: .data) -> .LBB710 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x80 (section: .data) -> .LBB710 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x84 (section: .data) -> .LBB717 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x90 (section: .data) -> .LBE717 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x94 (section: .data) -> .LBB710 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0x98 (section: .data) -> .LBE709 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tsq_tasklet+0xa4 (section: .data) -> .LBB710 (section: .init.text)
+   In file included from drivers/staging/axis-fifo/axis-fifo.c:27:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/staging/axis-fifo/axis-fifo.c:27:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/staging/axis-fifo/axis-fifo.c:27:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   drivers/staging/axis-fifo/axis-fifo.c:351:15: error: call to undeclared function 'iov_iter_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     351 |         size_t len = iov_iter_count(to);
+         |                      ^
+   drivers/staging/axis-fifo/axis-fifo.c:434:8: error: call to undeclared function 'copy_to_iter_full'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     434 |                 if (!copy_to_iter_full(tmp_buf, copy * sizeof(u32), to)) {
+         |                      ^
+>> drivers/staging/axis-fifo/axis-fifo.c:354:15: warning: variable 'copied' set but not used [-Wunused-but-set-variable]
+     354 |         unsigned int copied;
+         |                      ^
+   drivers/staging/axis-fifo/axis-fifo.c:470:15: error: call to undeclared function 'iov_iter_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     470 |         size_t len = iov_iter_count(from);
+         |                      ^
+   drivers/staging/axis-fifo/axis-fifo.c:542:8: error: call to undeclared function 'copy_from_iter_full'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     542 |                 if (!copy_from_iter_full(tmp_buf, copy * sizeof(u32), from)) {
+         |                      ^
+   drivers/staging/axis-fifo/axis-fifo.c:542:8: note: did you mean 'copy_from_user_nofault'?
+   include/linux/uaccess.h:377:6: note: 'copy_from_user_nofault' declared here
+     377 | long copy_from_user_nofault(void *dst, const void __user *src, size_t size);
+         |      ^
+   7 warnings and 4 errors generated.
+
+
+vim +/copied +354 drivers/staging/axis-fifo/axis-fifo.c
+
+4a965c5f89decd Jacob Feder       2018-07-22  332  
+0443b3f4436321 Quentin Deslandes 2020-01-21  333  /**
+bbf40b2f6e38d0 Lee Jones         2021-04-14  334   * axis_fifo_read() - Read a packet from AXIS-FIFO character device.
+c848434c629db5 Lee Jones         2021-04-14  335   * @f: Open file.
+c848434c629db5 Lee Jones         2021-04-14  336   * @buf: User space buffer to read to.
+c848434c629db5 Lee Jones         2021-04-14  337   * @len: User space buffer length.
+c848434c629db5 Lee Jones         2021-04-14  338   * @off: Buffer offset.
+0443b3f4436321 Quentin Deslandes 2020-01-21  339   *
+0443b3f4436321 Quentin Deslandes 2020-01-21  340   * As defined by the device's documentation, we need to check the device's
+0443b3f4436321 Quentin Deslandes 2020-01-21  341   * occupancy before reading the length register and then the data. All these
+0443b3f4436321 Quentin Deslandes 2020-01-21  342   * operations must be executed atomically, in order and one after the other
+0443b3f4436321 Quentin Deslandes 2020-01-21  343   * without missing any.
+0443b3f4436321 Quentin Deslandes 2020-01-21  344   *
+0443b3f4436321 Quentin Deslandes 2020-01-21  345   * Returns the number of bytes read from the device or negative error code
+0443b3f4436321 Quentin Deslandes 2020-01-21  346   *	on failure.
+0443b3f4436321 Quentin Deslandes 2020-01-21  347   */
+9bddfc061dffa3 Jens Axboe        2024-04-03  348  static ssize_t axis_fifo_read(struct kiocb *iocb, struct iov_iter *to)
+4a965c5f89decd Jacob Feder       2018-07-22  349  {
+9bddfc061dffa3 Jens Axboe        2024-04-03  350  	struct axis_fifo *fifo = iocb->ki_filp->private_data;
+9bddfc061dffa3 Jens Axboe        2024-04-03  351  	size_t len = iov_iter_count(to);
+4a965c5f89decd Jacob Feder       2018-07-22  352  	size_t bytes_available;
+4a965c5f89decd Jacob Feder       2018-07-22  353  	unsigned int words_available;
+4a965c5f89decd Jacob Feder       2018-07-22 @354  	unsigned int copied;
+4a965c5f89decd Jacob Feder       2018-07-22  355  	unsigned int copy;
+4a965c5f89decd Jacob Feder       2018-07-22  356  	unsigned int i;
+4a965c5f89decd Jacob Feder       2018-07-22  357  	int ret;
+4a965c5f89decd Jacob Feder       2018-07-22  358  	u32 tmp_buf[READ_BUF_SIZE];
+4a965c5f89decd Jacob Feder       2018-07-22  359  
+4a965c5f89decd Jacob Feder       2018-07-22  360  	if (fifo->read_flags & O_NONBLOCK) {
+0443b3f4436321 Quentin Deslandes 2020-01-21  361  		/*
+0443b3f4436321 Quentin Deslandes 2020-01-21  362  		 * Device opened in non-blocking mode. Try to lock it and then
+0443b3f4436321 Quentin Deslandes 2020-01-21  363  		 * check if any packet is available.
+4a965c5f89decd Jacob Feder       2018-07-22  364  		 */
+0443b3f4436321 Quentin Deslandes 2020-01-21  365  		if (!mutex_trylock(&fifo->read_lock))
+4a965c5f89decd Jacob Feder       2018-07-22  366  			return -EAGAIN;
+0443b3f4436321 Quentin Deslandes 2020-01-21  367  
+0443b3f4436321 Quentin Deslandes 2020-01-21  368  		if (!ioread32(fifo->base_addr + XLLF_RDFO_OFFSET)) {
+0443b3f4436321 Quentin Deslandes 2020-01-21  369  			ret = -EAGAIN;
+0443b3f4436321 Quentin Deslandes 2020-01-21  370  			goto end_unlock;
+0443b3f4436321 Quentin Deslandes 2020-01-21  371  		}
+4a965c5f89decd Jacob Feder       2018-07-22  372  	} else {
+4a965c5f89decd Jacob Feder       2018-07-22  373  		/* opened in blocking mode
+4a965c5f89decd Jacob Feder       2018-07-22  374  		 * wait for a packet available interrupt (or timeout)
+4a965c5f89decd Jacob Feder       2018-07-22  375  		 * if nothing is currently available
+4a965c5f89decd Jacob Feder       2018-07-22  376  		 */
+0443b3f4436321 Quentin Deslandes 2020-01-21  377  		mutex_lock(&fifo->read_lock);
+0443b3f4436321 Quentin Deslandes 2020-01-21  378  		ret = wait_event_interruptible_timeout(fifo->read_queue,
+4a965c5f89decd Jacob Feder       2018-07-22  379  			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
+752cbd8f191678 Khadija Kamran    2023-03-17  380  			read_timeout);
+4a965c5f89decd Jacob Feder       2018-07-22  381  
+0443b3f4436321 Quentin Deslandes 2020-01-21  382  		if (ret <= 0) {
+4a965c5f89decd Jacob Feder       2018-07-22  383  			if (ret == 0) {
+0443b3f4436321 Quentin Deslandes 2020-01-21  384  				ret = -EAGAIN;
+0443b3f4436321 Quentin Deslandes 2020-01-21  385  			} else if (ret != -ERESTARTSYS) {
+4a965c5f89decd Jacob Feder       2018-07-22  386  				dev_err(fifo->dt_device, "wait_event_interruptible_timeout() error in read (ret=%i)\n",
+4a965c5f89decd Jacob Feder       2018-07-22  387  					ret);
+0443b3f4436321 Quentin Deslandes 2020-01-21  388  			}
+0443b3f4436321 Quentin Deslandes 2020-01-21  389  
+0443b3f4436321 Quentin Deslandes 2020-01-21  390  			goto end_unlock;
+4a965c5f89decd Jacob Feder       2018-07-22  391  		}
+4a965c5f89decd Jacob Feder       2018-07-22  392  	}
+4a965c5f89decd Jacob Feder       2018-07-22  393  
+4a965c5f89decd Jacob Feder       2018-07-22  394  	bytes_available = ioread32(fifo->base_addr + XLLF_RLR_OFFSET);
+4a965c5f89decd Jacob Feder       2018-07-22  395  	if (!bytes_available) {
+4a965c5f89decd Jacob Feder       2018-07-22  396  		dev_err(fifo->dt_device, "received a packet of length 0 - fifo core will be reset\n");
+4a965c5f89decd Jacob Feder       2018-07-22  397  		reset_ip_core(fifo);
+0443b3f4436321 Quentin Deslandes 2020-01-21  398  		ret = -EIO;
+0443b3f4436321 Quentin Deslandes 2020-01-21  399  		goto end_unlock;
+4a965c5f89decd Jacob Feder       2018-07-22  400  	}
+4a965c5f89decd Jacob Feder       2018-07-22  401  
+4a965c5f89decd Jacob Feder       2018-07-22  402  	if (bytes_available > len) {
+4a965c5f89decd Jacob Feder       2018-07-22  403  		dev_err(fifo->dt_device, "user read buffer too small (available bytes=%zu user buffer bytes=%zu) - fifo core will be reset\n",
+4a965c5f89decd Jacob Feder       2018-07-22  404  			bytes_available, len);
+4a965c5f89decd Jacob Feder       2018-07-22  405  		reset_ip_core(fifo);
+0443b3f4436321 Quentin Deslandes 2020-01-21  406  		ret = -EINVAL;
+0443b3f4436321 Quentin Deslandes 2020-01-21  407  		goto end_unlock;
+4a965c5f89decd Jacob Feder       2018-07-22  408  	}
+4a965c5f89decd Jacob Feder       2018-07-22  409  
+4a965c5f89decd Jacob Feder       2018-07-22  410  	if (bytes_available % sizeof(u32)) {
+4a965c5f89decd Jacob Feder       2018-07-22  411  		/* this probably can't happen unless IP
+4a965c5f89decd Jacob Feder       2018-07-22  412  		 * registers were previously mishandled
+4a965c5f89decd Jacob Feder       2018-07-22  413  		 */
+4a965c5f89decd Jacob Feder       2018-07-22  414  		dev_err(fifo->dt_device, "received a packet that isn't word-aligned - fifo core will be reset\n");
+4a965c5f89decd Jacob Feder       2018-07-22  415  		reset_ip_core(fifo);
+0443b3f4436321 Quentin Deslandes 2020-01-21  416  		ret = -EIO;
+0443b3f4436321 Quentin Deslandes 2020-01-21  417  		goto end_unlock;
+4a965c5f89decd Jacob Feder       2018-07-22  418  	}
+4a965c5f89decd Jacob Feder       2018-07-22  419  
+4a965c5f89decd Jacob Feder       2018-07-22  420  	words_available = bytes_available / sizeof(u32);
+4a965c5f89decd Jacob Feder       2018-07-22  421  
+4a965c5f89decd Jacob Feder       2018-07-22  422  	/* read data into an intermediate buffer, copying the contents
+4a965c5f89decd Jacob Feder       2018-07-22  423  	 * to userspace when the buffer is full
+4a965c5f89decd Jacob Feder       2018-07-22  424  	 */
+4a965c5f89decd Jacob Feder       2018-07-22  425  	copied = 0;
+4a965c5f89decd Jacob Feder       2018-07-22  426  	while (words_available > 0) {
+4a965c5f89decd Jacob Feder       2018-07-22  427  		copy = min(words_available, READ_BUF_SIZE);
+4a965c5f89decd Jacob Feder       2018-07-22  428  
+4a965c5f89decd Jacob Feder       2018-07-22  429  		for (i = 0; i < copy; i++) {
+4a965c5f89decd Jacob Feder       2018-07-22  430  			tmp_buf[i] = ioread32(fifo->base_addr +
+4a965c5f89decd Jacob Feder       2018-07-22  431  					      XLLF_RDFD_OFFSET);
+4a965c5f89decd Jacob Feder       2018-07-22  432  		}
+4a965c5f89decd Jacob Feder       2018-07-22  433  
+9bddfc061dffa3 Jens Axboe        2024-04-03  434  		if (!copy_to_iter_full(tmp_buf, copy * sizeof(u32), to)) {
+4a965c5f89decd Jacob Feder       2018-07-22  435  			reset_ip_core(fifo);
+0443b3f4436321 Quentin Deslandes 2020-01-21  436  			ret = -EFAULT;
+0443b3f4436321 Quentin Deslandes 2020-01-21  437  			goto end_unlock;
+4a965c5f89decd Jacob Feder       2018-07-22  438  		}
+4a965c5f89decd Jacob Feder       2018-07-22  439  
+4a965c5f89decd Jacob Feder       2018-07-22  440  		copied += copy;
+4a965c5f89decd Jacob Feder       2018-07-22  441  		words_available -= copy;
+4a965c5f89decd Jacob Feder       2018-07-22  442  	}
+4a965c5f89decd Jacob Feder       2018-07-22  443  
+0443b3f4436321 Quentin Deslandes 2020-01-21  444  	ret = bytes_available;
+0443b3f4436321 Quentin Deslandes 2020-01-21  445  
+0443b3f4436321 Quentin Deslandes 2020-01-21  446  end_unlock:
+0443b3f4436321 Quentin Deslandes 2020-01-21  447  	mutex_unlock(&fifo->read_lock);
+0443b3f4436321 Quentin Deslandes 2020-01-21  448  
+0443b3f4436321 Quentin Deslandes 2020-01-21  449  	return ret;
+4a965c5f89decd Jacob Feder       2018-07-22  450  }
+4a965c5f89decd Jacob Feder       2018-07-22  451  
+
+:::::: The code at line 354 was first introduced by commit
+:::::: 4a965c5f89decd636129cddc47e5f2c61e8f13e6 staging: add driver for Xilinx AXI-Stream FIFO v4.1 IP core
+
+:::::: TO: Jacob Feder <jacobsfeder@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
