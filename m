@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333A7173347
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 19:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06AF15EFDA
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 20:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712346721; cv=none; b=etTigHhyESG0YDNmnE5zpMg9iI0beMpfKQ1CfnKnMcRD78AF/8UPGRj2jaB0DBtvF/C5M1zvmYDXY4032Z84Zmb0IkHduCqJCMNOm41LhUtbaMtRJn8LlzfHqmbOX8XhNygSF2WiVEBc8ZChcX+od6boHQtLiwSyjdR0qa5idSY=
+	t=1712348644; cv=none; b=ZJCAP+qoCfUIQGKwSZWAvlR5IwGMqV5s20zK/rPXiF52a1w3H3rC2RqanbR8HFYcX/tdqHen//uvUpF7IB5EW7RkoPLrBGGsJLYxxMlRUc/08ulvx/fgsEkBRStS1IpJOev3Seo8wc6ukLW5CidP7ol267ojz1HVDMSmS9py3xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712346721; c=relaxed/simple;
-	bh=X7cVKiwP/6c6Y618VhwTpflawKWyMDZgwL6remS4wW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hON7Ai5BCnJbkVCu9JcrURY+QQUVp2qDYi7RlbxV9RDERQUF0k7RgytA9DkG7C/5SqkBl8KMpowEREDG0qAzznzHiSeW2gIFrmO0oyMAJWUI9JFeYEWmWFWFL1sY28jls7fqEK832auB5RuYhZIFtAbp74pajVcSASUf9XHL/4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZM0gsnQM; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1712348644; c=relaxed/simple;
+	bh=Dw4JPIXlD0rrP8zv2l2cW7VTI4jVcNnThSj8nYZebo0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WEUguid8Vv1f0x9Uy5karFl/60F6I9lCWIWDDzqP7WmkxySB8PjoQL3n4Iq0RLYciWAJgyHJgcjR6zPlcWzSNda5sysXxnLfP+fPYaOYCi5be+9gVccbt3oRqU+qlRO1DHPcSxillWB1fKrO1jiU4TVNIH/JBWDfrxH5cOklrHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F5HQZl/c; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZM0gsnQM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F5HQZl/c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712346721; x=1743882721;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X7cVKiwP/6c6Y618VhwTpflawKWyMDZgwL6remS4wW8=;
-  b=ZM0gsnQMHYaBzAt2511hCjoAFczDN0rmPi+iUkZAnlGKAvjJqmTZA2BO
-   iMRUjgddCwO2PkP/am/KN9rHzLaP90ELHCPKNrublZ5vX7GV7qJOcnDgU
-   0HHhhLzdsFP3i8JbDNnI9TZmmiEL+2I8bKTM+uVvIpS1P/5u/6GSuHMWi
-   yWI5ZCmjES8MSQP1LDSrFxeQ4fTWd64zPEW8phnXSDi1Ti5sEaR6q1T7C
-   6TgEWHsc1b9mwbQdDnC/th83FBBC+71OiJBGmFUV+M8Swa3P9KDqyXlvb
-   0xyRPIyQwU0/XWyuQ8tirpF7crksJ6YtPespjshJ4AZRkKLcQiRyDJuub
-   Q==;
-X-CSE-ConnectionGUID: XulLluk1TTej+2ACj2G6nA==
-X-CSE-MsgGUID: Ay1j3rI8SAiJbwsza8doMQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="11513535"
+  t=1712348641; x=1743884641;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Dw4JPIXlD0rrP8zv2l2cW7VTI4jVcNnThSj8nYZebo0=;
+  b=F5HQZl/cSGEr6YP59T6EQppSLYHLRbW+BgXaHVpziFyiotxpgcz/SlKE
+   fpkP0GLUVQAZ86kpldnl1ZxvyU+ItvRpTMWnRMZKd5dLGPbfUN/2ddINl
+   wMMGmWvsDpPDdvmyZniMh2diCkYi7xXRJss5Yk/uELw9BbbrhYyWRRSxY
+   HgsUc2678GM3qm19qUoLskheAF/fssdyYOcxbzqOkUORYcTGhv2N8BS/G
+   jdkG467vzgWHIFxbNZEPsp9drmpcbUXM3CNLzvtd2rLrBqeyaTxEVywle
+   VsGFt2Ma8KjMIolLgsAE9Zsq8nlW5sA0Z0sockFAXiGOQuZEaCjx7qZVY
+   A==;
+X-CSE-ConnectionGUID: UY0DZERoQRqlPL3Aafmnww==
+X-CSE-MsgGUID: 7Kfo97v/SrGrKfc6OiCOzA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="7789087"
 X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; 
-   d="scan'208";a="11513535"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 12:52:00 -0700
-X-CSE-ConnectionGUID: z2pssliFQSmYrxhszDgd+g==
-X-CSE-MsgGUID: 5WMc1pNJRdaU5oXiwpJvGQ==
+   d="scan'208";a="7789087"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 13:24:01 -0700
+X-CSE-ConnectionGUID: LK0yzfpbTsu4u8NnnfJGcQ==
+X-CSE-MsgGUID: XTB8CfXqQwOSqMzhOI9Yfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; 
-   d="scan'208";a="19109637"
+   d="scan'208";a="24000510"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 05 Apr 2024 12:51:59 -0700
+  by orviesa005.jf.intel.com with ESMTP; 05 Apr 2024 13:23:59 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rspbQ-0002eL-2d;
-	Fri, 05 Apr 2024 19:51:56 +0000
-Date: Sat, 6 Apr 2024 03:51:42 +0800
+	id 1rsq6P-0002fw-2Z;
+	Fri, 05 Apr 2024 20:23:57 +0000
+Date: Sat, 6 Apr 2024 04:23:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 30/40] drivers/usb/host/ohci-dbg.c:719:38:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202404060355.ZLteKhPM-lkp@intel.com>
+To: Yosry Ahmed <yosryahmed@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	linux-kernel@vger.kernel.org, Yosry Ahmed <yosryahmed@google.com>
+Subject: Re: [PATCH v2 2/5] mm: zswap: calculate limits only when updated
+Message-ID: <202404060445.zMPxumi9-lkp@intel.com>
+References: <20240405053510.1948982-3-yosryahmed@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,57 +67,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240405053510.1948982-3-yosryahmed@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   a9cbf952fcac761bffbb44eab7d5ef86b310c71c
-commit: 32cd57aa11bcff56cc617bd01c4e00fbcf4a5ee7 [30/40] drivers/usb: convert to ->read_iter and ->write_iter
-config: i386-randconfig-062-20240405 (https://download.01.org/0day-ci/archive/20240406/202404060355.ZLteKhPM-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404060355.ZLteKhPM-lkp@intel.com/reproduce)
+Hi Yosry,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on next-20240405]
+[cannot apply to linus/master v6.9-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/mm-zswap-always-shrink-in-zswap_store-if-zswap_pool_reached_full/20240405-133623
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240405053510.1948982-3-yosryahmed%40google.com
+patch subject: [PATCH v2 2/5] mm: zswap: calculate limits only when updated
+config: i386-randconfig-061-20240405 (https://download.01.org/0day-ci/archive/20240406/202404060445.zMPxumi9-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404060445.zMPxumi9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404060355.ZLteKhPM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404060445.zMPxumi9-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/usb/host/ohci-hcd.c: note: in included file:
->> drivers/usb/host/ohci-dbg.c:719:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user *from @@     got char *page @@
-   drivers/usb/host/ohci-dbg.c:719:38: sparse:     expected void const [noderef] __user *from
-   drivers/usb/host/ohci-dbg.c:719:38: sparse:     got char *page
-   drivers/usb/host/ohci-hcd.c: note: in included file:
-   drivers/usb/host/ohci-hub.c:269:9: sparse: sparse: context imbalance in 'ohci_rh_resume' - different lock contexts for basic block
---
->> drivers/usb/misc/idmouse.c:305:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char *bulk_in_buffer @@
-   drivers/usb/misc/idmouse.c:305:41: sparse:     expected void const [noderef] __user *from
-   drivers/usb/misc/idmouse.c:305:41: sparse:     got unsigned char *bulk_in_buffer
---
->> drivers/usb/mon/mon_stat.c:50:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   drivers/usb/mon/mon_stat.c:50:36: sparse:     expected void const [noderef] __user *from
-   drivers/usb/mon/mon_stat.c:50:36: sparse:     got char *
+>> mm/zswap.c:132:15: sparse: sparse: symbol 'zswap_accept_thr_pages' was not declared. Should it be static?
+   mm/zswap.c:1188:23: sparse: sparse: context imbalance in 'shrink_memcg_cb' - unexpected unlock
 
-vim +719 drivers/usb/host/ohci-dbg.c
+vim +/zswap_accept_thr_pages +132 mm/zswap.c
 
-   703	
-   704	static ssize_t debug_output(struct kiocb *iocb, struct iov_iter *to)
-   705	{
-   706		struct debug_buffer *buf = iocb->ki_filp->private_data;
-   707		int ret;
-   708	
-   709		mutex_lock(&buf->mutex);
-   710		if (buf->count == 0) {
-   711			ret = fill_buffer(buf);
-   712			if (ret != 0) {
-   713				mutex_unlock(&buf->mutex);
-   714				goto out;
-   715			}
-   716		}
-   717		mutex_unlock(&buf->mutex);
-   718	
- > 719		ret = simple_copy_to_iter(buf->page, &iocb->ki_pos, buf->count, to);
-   720	out:
-   721		return ret;
-   722	
+   120	
+   121	static int zswap_max_pool_param_set(const char *,
+   122					       const struct kernel_param *);
+   123	static const struct kernel_param_ops zswap_max_pool_param_ops = {
+   124		.set =		zswap_max_pool_param_set,
+   125		.get =		param_get_uint,
+   126	};
+   127	module_param_cb(max_pool_percent, &zswap_max_pool_param_ops,
+   128			&zswap_max_pool_percent, 0644);
+   129	
+   130	/* The threshold for accepting new pages after the max_pool_percent was hit */
+   131	static unsigned int zswap_accept_thr_percent = 90; /* of max pool size */
+ > 132	unsigned long zswap_accept_thr_pages;
+   133	
 
 -- 
 0-DAY CI Kernel Test Service
