@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB1F1E87C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 21:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29EC2174EF3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Apr 2024 21:39:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712353145; cv=none; b=DMjaZNL7+GEklFkmhJzjd1qgG2lgjTVTiLAaESuyLxQzvMLssqrbzNijs3VDnCL7Jq2MBSJEfDF3poD6n9SeCJ3pdq9alEDifZzD/o6zSWxhqqbRhscbPkFLjoAM3Ngaike1ctfQg7F1mZwmeo5krdae1AdurMttppmBzxHB12c=
+	t=1712353147; cv=none; b=ahTWRBPlL6ugaYdvpxTgoHXdz+ApR/xO5iVzzbJdJHaHw02GTPlA2GBb1PhyZyPxilKIC1ilwVlQD8glKoq/kyyhvnqBf+gF47Ck0bU5Isa/4ZHkKU/zBVSIuocqstS3i+sZwnTSsTn59yTmwFbubASZLdmJ73qw7ETM1t94raE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712353145; c=relaxed/simple;
-	bh=Xt/T53ghX94IcNx1unlVDUGbYp4JpUHcmQjuH24fElM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FKScEwcgT9xU2hSkjVsDn9ZHXLdiL4nTpGk3eA3S/lljgmYGEYBThBuCJ+ue9BUXyMkuMssSM0GdYvBslkm9DOH/vUXPGCguuc3dFXj5cmyyBiMxOoDPhdvE2iElW0p5js6WKM/rGlikL+ai7zkundIQ+68BtNdFW6JgK+0R9uU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CgIe1LL1; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1712353147; c=relaxed/simple;
+	bh=RApPKc3hERr9acqKp2HDcK1WouGmIIjMZlqQdY0Nznc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XG6DPJxn3YrxR7IxkNDgBlnfmVUeH7rv5SdAdLHCqkc6vDxjb+pWdaJzrOk1e37ACdZ4QWr2mN+205O/Iiou0SO/AiJ84Pvh5HnwYvN2E9ZANzlJamdu5OtcOYnFjkJ4SCLVAjMPC68/5wfAoQc18kFVGS0tYp5dhowU6/v1VGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CwtjxYLv; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CgIe1LL1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CwtjxYLv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712353143; x=1743889143;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Xt/T53ghX94IcNx1unlVDUGbYp4JpUHcmQjuH24fElM=;
-  b=CgIe1LL15vFi05jW9ABIBLEuXptAHhTekDM/xhX3cTWQfB9yvUg0jFCQ
-   a7b/99++xH5+U+UM1+pRgselg48yxSIkJug+XIUYZDcYIMIwE9s8Q9ZtU
-   72lMUbBxLMCU/T6DbYiQFQUevpb+00ry9Gh4y3mI/L8BvV1ulw/kj6cPf
-   X6X/v9szxZf21oOj/4uqa8uzvVH/Vf6IhGvXZ65vWqDICEZxHDGFTGO+N
-   GYa71DMDDxsClsjVpkdLSjV4j/BXPrNaO+48xp/vrRbIaRGG4erU9VKoT
-   fUwpUF2JXAoDwUd+jODmYQGUOMM0znwvwRIpGP47oDDlacv+D/kl1BBHy
-   g==;
-X-CSE-ConnectionGUID: +RmMnJ8CQH+Vw6tZtRtlGg==
-X-CSE-MsgGUID: K4TyC1BBRWu9coCN2twrzQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="7603799"
+  t=1712353144; x=1743889144;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RApPKc3hERr9acqKp2HDcK1WouGmIIjMZlqQdY0Nznc=;
+  b=CwtjxYLvLcxeFSSiagmjun0kCD5l8fFy/G3+WIgkWUJsWPodSDvXGVLL
+   dbTM7nyldPXEZqV9+9XG5QAn8+5pUz9fQsfirYY+LF9YtdpQvX6Bt0u4k
+   9tqzKMavkG2cK5mXVNuH1vA1kEBN+TbgzN8q8ldVJo4y+kcJQYgbUgvjc
+   HuoGWSvFbeIR/qnpEOz7hzP+mcNGXkygqbzsqq8Ewre5YgDVjcpyNKkiR
+   peWloTvje26lG1Ne269E/5iwe9U9vUgcsfoZ4prQXkl00Q7S3qVpSxQkQ
+   aStjrrnCgeyYLRvGt72TR4fvOyHxZxwO8bICcrvYL8bkxueKAFSLKBc59
+   Q==;
+X-CSE-ConnectionGUID: aLqfq0DIRy6SmQyOvXxFgw==
+X-CSE-MsgGUID: sDWPC9YLRNKK56YqCn3FVg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="18840579"
 X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; 
-   d="scan'208";a="7603799"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 14:39:03 -0700
-X-CSE-ConnectionGUID: Ec6cTuZKR8O4udgOfbsPWw==
-X-CSE-MsgGUID: xnkrF6XYQQOEcw311lMPqQ==
+   d="scan'208";a="18840579"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 14:39:04 -0700
+X-CSE-ConnectionGUID: GxtPERJYSjeB/dWEZryBdw==
+X-CSE-MsgGUID: I+/WaPIQRA208X13N8nkHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; 
-   d="scan'208";a="23778348"
+   d="scan'208";a="24019680"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 05 Apr 2024 14:39:01 -0700
+  by orviesa005.jf.intel.com with ESMTP; 05 Apr 2024 14:39:02 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rsrH1-0002jc-1q;
+	id 1rsrH1-0002jh-21;
 	Fri, 05 Apr 2024 21:38:59 +0000
-Date: Sat, 6 Apr 2024 05:38:33 +0800
+Date: Sat, 6 Apr 2024 05:38:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 12/13] ASoC: Intel: avs: Add assert_static to guarantee
- ABI sizes
-Message-ID: <202404060502.1lutajCW-lkp@intel.com>
-References: <20240405090929.1184068-13-cezary.rojewski@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Nick Desaulniers <ndesaulniers@google.com>
+Subject: ERROR: modpost: vmlinux: local symbol 'halt_poll_ns' was exported
+Message-ID: <202404060553.ewUhiAmu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,81 +61,246 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240405090929.1184068-13-cezary.rojewski@intel.com>
 
-Hi Cezary,
+Hi Masahiro,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.9-rc2 next-20240405]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cezary-Rojewski/ASoC-Intel-avs-Restore-stream-decoupling-on-prepare/20240405-171544
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240405090929.1184068-13-cezary.rojewski%40intel.com
-patch subject: [PATCH 12/13] ASoC: Intel: avs: Add assert_static to guarantee ABI sizes
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240406/202404060502.1lutajCW-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404060502.1lutajCW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8cb4a9a82b21623dbb4b3051dd30d98356cf95bc
+commit: 6d62b1c46b1e6e1686a0cf6617c96c80d4ab5cd5 modpost: check static EXPORT_SYMBOL* by modpost again
+date:   10 months ago
+config: riscv-randconfig-r042-20221001 (https://download.01.org/0day-ci/archive/20240406/202404060553.ewUhiAmu-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404060553.ewUhiAmu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404060502.1lutajCW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404060553.ewUhiAmu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from include/linux/init.h:5,
-                    from include/linux/printk.h:6,
-                    from include/asm-generic/bug.h:22,
-                    from arch/alpha/include/asm/bug.h:23,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/alpha/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from sound/soc/intel/avs/icl.c:9:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct avs_icl_memwnd2) == 65536"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   sound/soc/intel/avs/icl.c:73:1: note: in expansion of macro 'static_assert'
-      73 | static_assert(sizeof(struct avs_icl_memwnd2) == 65536);
-         | ^~~~~~~~~~~~~
-
-
-vim +78 include/linux/build_bug.h
-
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+WARNING: modpost: vmlinux: section mismatch in reference: vortex_a3d_register_controls.isra.0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: vortex_a3d_register_controls.isra.0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: vortex_a3d_register_controls.isra.0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: vortex_a3d_register_controls.isra.0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> riscv_kvm_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> riscv_kvm_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> riscv_kvm_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> riscv_kvm_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> init_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> init_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .exit.text) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .exit.text) -> debug_kernel (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .exit.text) -> debug_kernel (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: isi_unregister (section: .exit.text) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: isi_unregister (section: .exit.text) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .exit.text) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .exit.text) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .exit.text) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .exit.text) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .exit.text) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .exit.text) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .exit.text) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .exit.text) -> set_reset_devices (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: $xrv32i2p1_m2p0_a2p1_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .exit.text) -> set_reset_devices (section: .init.text)
+ERROR: modpost: vmlinux: local symbol 'system_state' was exported
+ERROR: modpost: vmlinux: local symbol 'static_key_initialized' was exported
+ERROR: modpost: vmlinux: local symbol 'reset_devices' was exported
+ERROR: modpost: vmlinux: local symbol 'loops_per_jiffy' was exported
+ERROR: modpost: vmlinux: local symbol 'init_uts_ns' was exported
+ERROR: modpost: vmlinux: local symbol 'name_to_dev_t' was exported
+ERROR: modpost: vmlinux: local symbol 'wait_for_initramfs' was exported
+ERROR: modpost: vmlinux: local symbol 'init_task' was exported
+ERROR: modpost: vmlinux: local symbol 'riscv_cached_mvendorid' was exported
+ERROR: modpost: vmlinux: local symbol 'riscv_cached_marchid' was exported
+ERROR: modpost: vmlinux: local symbol 'riscv_cached_mimpid' was exported
+ERROR: modpost: vmlinux: local symbol 'riscv_isa_extension_base' was exported
+ERROR: modpost: vmlinux: local symbol '__riscv_isa_extension_available' was exported
+ERROR: modpost: vmlinux: local symbol 'riscv_get_intc_hwnode' was exported
+ERROR: modpost: vmlinux: local symbol 'pm_power_off' was exported
+ERROR: modpost: vmlinux: local symbol 'riscv_timebase' was exported
+ERROR: modpost: vmlinux: local symbol 'memset' was exported
+ERROR: modpost: vmlinux: local symbol 'memcpy' was exported
+ERROR: modpost: vmlinux: local symbol 'memmove' was exported
+ERROR: modpost: vmlinux: local symbol 'strcmp' was exported
+ERROR: modpost: vmlinux: local symbol 'strlen' was exported
+ERROR: modpost: vmlinux: local symbol 'strncmp' was exported
+ERROR: modpost: vmlinux: local symbol '__memset' was exported
+ERROR: modpost: vmlinux: local symbol '__memcpy' was exported
+ERROR: modpost: vmlinux: local symbol '__memmove' was exported
+ERROR: modpost: vmlinux: local symbol 'riscv_set_cacheinfo_ops' was exported
+ERROR: modpost: vmlinux: local symbol 'riscv_ipi_for_rfence' was exported
+ERROR: modpost: vmlinux: local symbol 'arch_smp_send_reschedule' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_spec_version' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_ecall' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_err_map_linux_errno' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_console_putchar' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_console_getchar' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_shutdown' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_send_ipi' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_remote_fence_i' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_remote_sfence_vma' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_remote_sfence_vma_asid' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_remote_hfence_gvma' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_remote_hfence_gvma_vmid' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_remote_hfence_vvma' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_remote_hfence_vvma_asid' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_probe_extension' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_get_mvendorid' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_get_marchid' was exported
+ERROR: modpost: vmlinux: local symbol 'sbi_get_mimpid' was exported
+ERROR: modpost: vmlinux: local symbol 'kernel_map' was exported
+ERROR: modpost: vmlinux: local symbol 'satp_mode' was exported
+ERROR: modpost: vmlinux: local symbol 'pgtable_l4_enabled' was exported
+ERROR: modpost: vmlinux: local symbol 'pgtable_l5_enabled' was exported
+ERROR: modpost: vmlinux: local symbol 'phys_ram_base' was exported
+ERROR: modpost: vmlinux: local symbol 'empty_zero_page' was exported
+ERROR: modpost: vmlinux: local symbol 'vm_get_page_prot' was exported
+ERROR: modpost: vmlinux: local symbol 'flush_icache_all' was exported
+ERROR: modpost: vmlinux: local symbol 'riscv_cbom_block_size' was exported
+ERROR: modpost: vmlinux: local symbol 'riscv_cboz_block_size' was exported
+ERROR: modpost: vmlinux: local symbol 'arch_wb_cache_pmem' was exported
+ERROR: modpost: vmlinux: local symbol 'arch_invalidate_pmem' was exported
+ERROR: modpost: vmlinux: local symbol '__virt_to_phys' was exported
+ERROR: modpost: vmlinux: local symbol '__phys_addr_symbol' was exported
+ERROR: modpost: vmlinux: local symbol 'linear_mapping_va_to_pa' was exported
+ERROR: modpost: vmlinux: local symbol 'linear_mapping_pa_to_va' was exported
+>> ERROR: modpost: vmlinux: local symbol 'halt_poll_ns' was exported
+>> ERROR: modpost: vmlinux: local symbol 'halt_poll_ns_grow' was exported
+>> ERROR: modpost: vmlinux: local symbol 'halt_poll_ns_grow_start' was exported
+>> ERROR: modpost: vmlinux: local symbol 'halt_poll_ns_shrink' was exported
+>> ERROR: modpost: vmlinux: local symbol 'kvm_debugfs_dir' was exported
+>> ERROR: modpost: vmlinux: local symbol 'vcpu_load' was exported
+>> ERROR: modpost: vmlinux: local symbol 'vcpu_put' was exported
+>> ERROR: modpost: vmlinux: local symbol 'kvm_make_all_cpus_request' was exported
+>> ERROR: modpost: vmlinux: local symbol 'kvm_flush_remote_tlbs' was exported
+>> ERROR: modpost: vmlinux: local symbol 'kvm_destroy_vcpus' was exported
+>> ERROR: modpost: vmlinux: local symbol 'kvm_get_kvm' was exported
+>> ERROR: modpost: vmlinux: local symbol 'kvm_get_kvm_safe' was exported
+>> ERROR: modpost: vmlinux: local symbol 'kvm_put_kvm' was exported
+>> ERROR: modpost: vmlinux: local symbol 'kvm_put_kvm_no_destroy' was exported
+>> ERROR: modpost: vmlinux: local symbol '__kvm_set_memory_region' was exported
+>> ERROR: modpost: vmlinux: local symbol 'kvm_set_memory_region' was exported
+>> ERROR: modpost: vmlinux: local symbol 'gfn_to_memslot' was exported
+>> ERROR: modpost: vmlinux: local symbol 'kvm_is_visible_gfn' was exported
+>> ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_is_visible_gfn' was exported
+>> ERROR: modpost: vmlinux: local symbol 'gfn_to_hva_memslot' was exported
+ERROR: modpost: vmlinux: local symbol 'gfn_to_hva' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_gfn_to_hva' was exported
+ERROR: modpost: vmlinux: local symbol '__gfn_to_pfn_memslot' was exported
+ERROR: modpost: vmlinux: local symbol 'gfn_to_pfn_prot' was exported
+ERROR: modpost: vmlinux: local symbol 'gfn_to_pfn_memslot' was exported
+ERROR: modpost: vmlinux: local symbol 'gfn_to_pfn_memslot_atomic' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_gfn_to_pfn_atomic' was exported
+ERROR: modpost: vmlinux: local symbol 'gfn_to_pfn' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_gfn_to_pfn' was exported
+ERROR: modpost: vmlinux: local symbol 'gfn_to_page_many_atomic' was exported
+ERROR: modpost: vmlinux: local symbol 'gfn_to_page' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_map' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_unmap' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_release_page_clean' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_release_pfn_clean' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_release_page_dirty' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_release_pfn_dirty' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_set_pfn_dirty' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_set_pfn_accessed' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_read_guest_page' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_read_guest_page' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_read_guest' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_read_guest' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_read_guest_atomic' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_write_guest_page' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_write_guest_page' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_write_guest' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_write_guest' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_gfn_to_hva_cache_init' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_write_guest_offset_cached' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_write_guest_cached' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_read_guest_offset_cached' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_read_guest_cached' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_clear_guest' was exported
+ERROR: modpost: vmlinux: local symbol 'mark_page_dirty_in_slot' was exported
+ERROR: modpost: vmlinux: local symbol 'mark_page_dirty' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_mark_page_dirty' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_halt' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_wake_up' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_kick' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_yield_to' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_vcpu_on_spin' was exported
+ERROR: modpost: vmlinux: local symbol 'file_is_kvm' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_rebooting' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_io_bus_write' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_io_bus_get_dev' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_get_running_vcpu' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_init' was exported
+ERROR: modpost: vmlinux: local symbol 'kvm_exit' was exported
+ERROR: modpost: vmlinux: local symbol 'lockdep_tasklist_lock_is_held' was exported
+ERROR: modpost: vmlinux: local symbol 'free_task' was exported
+ERROR: modpost: vmlinux: local symbol '__mmdrop' was exported
+ERROR: modpost: vmlinux: local symbol '__put_task_struct' was exported
+ERROR: modpost: vmlinux: local symbol 'mmput' was exported
+ERROR: modpost: vmlinux: local symbol 'mmput_async' was exported
+ERROR: modpost: vmlinux: local symbol 'get_task_mm' was exported
+ERROR: modpost: vmlinux: local symbol 'panic_timeout' was exported
+ERROR: modpost: vmlinux: local symbol 'panic_notifier_list' was exported
+ERROR: modpost: vmlinux: local symbol 'panic_blink' was exported
+ERROR: modpost: vmlinux: local symbol 'nmi_panic' was exported
+ERROR: modpost: vmlinux: local symbol 'panic' was exported
+ERROR: modpost: vmlinux: local symbol 'test_taint' was exported
+ERROR: modpost: vmlinux: local symbol 'add_taint' was exported
+ERROR: modpost: vmlinux: local symbol '__warn_printk' was exported
+ERROR: modpost: vmlinux: local symbol 'cpuhp_tasks_frozen' was exported
+ERROR: modpost: vmlinux: local symbol 'cpus_read_lock' was exported
+ERROR: modpost: vmlinux: local symbol 'cpus_read_trylock' was exported
+ERROR: modpost: vmlinux: local symbol 'cpus_read_unlock' was exported
+ERROR: modpost: vmlinux: local symbol 'cpu_hotplug_disable' was exported
+ERROR: modpost: vmlinux: local symbol 'cpu_hotplug_enable' was exported
+ERROR: modpost: vmlinux: local symbol 'remove_cpu' was exported
+ERROR: modpost: vmlinux: local symbol 'add_cpu' was exported
+ERROR: modpost: vmlinux: local symbol '__cpuhp_state_add_instance' was exported
+ERROR: modpost: vmlinux: local symbol '__cpuhp_setup_state_cpuslocked' was exported
+ERROR: modpost: vmlinux: local symbol '__cpuhp_setup_state' was exported
+ERROR: modpost: vmlinux: local symbol '__cpuhp_state_remove_instance' was exported
+ERROR: modpost: vmlinux: local symbol '__cpuhp_remove_state_cpuslocked' was exported
+ERROR: modpost: vmlinux: local symbol '__cpuhp_remove_state' was exported
+ERROR: modpost: vmlinux: local symbol 'cpu_bit_bitmap' was exported
+ERROR: modpost: vmlinux: local symbol 'cpu_all_bits' was exported
+ERROR: modpost: vmlinux: local symbol '__cpu_possible_mask' was exported
+ERROR: modpost: vmlinux: local symbol '__cpu_online_mask' was exported
+ERROR: modpost: vmlinux: local symbol '__cpu_present_mask' was exported
+ERROR: modpost: vmlinux: local symbol '__cpu_active_mask' was exported
+ERROR: modpost: vmlinux: local symbol '__cpu_dying_mask' was exported
+ERROR: modpost: vmlinux: local symbol '__num_online_cpus' was exported
+ERROR: modpost: vmlinux: local symbol 'cpu_mitigations_off' was exported
+ERROR: modpost: vmlinux: local symbol 'cpu_mitigations_auto_nosmt' was exported
+ERROR: modpost: vmlinux: local symbol 'rcuwait_wake_up' was exported
+ERROR: modpost: vmlinux: local symbol 'thread_group_exited' was exported
+ERROR: modpost: vmlinux: local symbol 'abort' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_stat' was exported
+ERROR: modpost: vmlinux: local symbol 'hardirqs_enabled' was exported
+ERROR: modpost: vmlinux: local symbol 'hardirq_context' was exported
+ERROR: modpost: vmlinux: local symbol '__local_bh_disable_ip' was exported
+ERROR: modpost: vmlinux: local symbol '_local_bh_enable' was exported
+ERROR: modpost: vmlinux: local symbol '__local_bh_enable_ip' was exported
+ERROR: modpost: vmlinux: local symbol '__tasklet_schedule' was exported
+ERROR: modpost: vmlinux: local symbol '__tasklet_hi_schedule' was exported
+ERROR: modpost: vmlinux: local symbol 'tasklet_setup' was exported
 
 -- 
 0-DAY CI Kernel Test Service
