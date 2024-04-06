@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BAD632
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Apr 2024 00:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC7CED8
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Apr 2024 01:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712363955; cv=none; b=H4AjALfb9FIeYY+RBVVC8Mv4QC8cU/MoKaeui6/JjnFNIenziBeiAcDrl13PdK+g4vLi323bLzEKQBLLrYgLGzD231Oj+sHAp3RbLRCMAAm63T5IMt/e0DaobH7Z6/SRtPO6aYPpsd48R6Q3jGceZV2L40eUcqjsyqWqD1bU0SY=
+	t=1712365275; cv=none; b=GLzSWOvzJ7w4DBsDUxOHqKqPLYZhhnor7Jx3z0ZroA4j7Xqwm5ZxAnv65AnePcsaGZiUNv73Oj2IVKFnOCe5KxRzOQ7zfY9wHRgkrd1XHsvKyc+MJW56G+Yz7o1DTKDdMXRNsscHSGHCAzDZJLoV1uxqnyvZwHSXVnvVnqT+G9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712363955; c=relaxed/simple;
-	bh=PQFhyTRo+0lTFOLr1+mtqUeEG2gS7EFtEdMibGLzzxY=;
+	s=arc-20240116; t=1712365275; c=relaxed/simple;
+	bh=RPBiXOvJ3qO08FTb2PnV5TeQKTc1e33mARDhTSge36Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j2kc2WcPvct8ul9wptlTNwUHaEeX2DedPskNpIRS1KF8Y1D69aZZdS5p2Gr/R7HUCH29sgtujIRoe05xVERJZqKmms8Bcq1dTq0WC9ca1pgCPTPhut2ND3gdEo3eACp9O/KOacnTFB8pmh6fGQjYumhsGej/GzA/bPRCsQbTSu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2Eoo/Lw; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=Z0Tk7+YCeme3+CKW1HWox5zrMabezxySrvuCwdxh+jvpBA9y0pkKMA74HJc05RfUj28pDCLKJLXAHk24vex3vzCH4CUCXEcedfzAn9zJva78Wr7bPnW3pOjWhH8B7TeaavA5tFmUdqTbWevvCsnATkFiTTPtUJFxRtZsHuMkSWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AzG1Zzj8; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2Eoo/Lw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AzG1Zzj8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712363954; x=1743899954;
+  t=1712365274; x=1743901274;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PQFhyTRo+0lTFOLr1+mtqUeEG2gS7EFtEdMibGLzzxY=;
-  b=m2Eoo/Lw3QbC6mTek6LP8vQWsBmrmv35+KhB+TvV9ZCxYF1ZKh7ZPOhm
-   KsB/ALI522SoC0K7ivH8/t1nb9INTgH+mwfGEhGdfhsGSBwqfEKBHpLk1
-   OIrV/HritEBSE/XHGCCRuYOmbmyeMBmqqLvKZFhFrzy1OfDrzj2lV2UVM
-   snWQqoWFtMTMuLz834Qp6v+nxltyB6IR8uaINN5676gsSFNn7tIok3it/
-   JAB4DEqsJCHXzScE7Avy6mfvtYrrun3CGJPIjh5ZpscOwM02J+yzEuasm
-   hOJOBsv/RKDbNAos3PC1MpltCtn0WsHUxkKq5MkWNJZDanmNz3CJ63ekn
-   g==;
-X-CSE-ConnectionGUID: 4e/fg3IsQlWS6f1TgJ4w2A==
-X-CSE-MsgGUID: 8nngTFO9RMipV966vFHjcw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="11533005"
+  bh=RPBiXOvJ3qO08FTb2PnV5TeQKTc1e33mARDhTSge36Q=;
+  b=AzG1Zzj8vH65S8h+Zi1sunFXktTUfBJU6uLB5utz2YV/rzHdYQynv919
+   6cfpOstSC/bJStgJY+LSoY6FrWI613O8ws3r29wVkBhuNoXffaMPkTubM
+   BM8LJrIUPK2dJ5Ahp1zQDqmj3gS+2+0SbLUKA0TDcAGdsIOs7NFfCZSOa
+   VW4RW/mKj9AYM/1XrhbCgNSQ4FMH21Wn2QQy+7tuciP24hYFMrzMzbil2
+   iROT5jLHJyAS+wBArkJd0hc0mqRFye3WuRDpGosEFB+WT/aRS886/JGEP
+   HKUaOGldvEwR6vJUigEWM5WzoKPuhivxNm9aqlrgauzPfADcrakKR+MaK
+   w==;
+X-CSE-ConnectionGUID: Ms9IXTYiSi2Lw+Ip38zqcQ==
+X-CSE-MsgGUID: Eb7OiN42TdWUe98O56Gk5g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="25154211"
 X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; 
-   d="scan'208";a="11533005"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 17:39:13 -0700
-X-CSE-ConnectionGUID: EUvUyVczQU2+AMG5nlqlsQ==
-X-CSE-MsgGUID: SmbS6D3/SaWFO3kVFnhcVg==
+   d="scan'208";a="25154211"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 18:01:13 -0700
+X-CSE-ConnectionGUID: Kq04r+ZxSMyO0jmPvuZ9Mg==
+X-CSE-MsgGUID: TGfzPn0dS3aZHhuFHGentA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; 
-   d="scan'208";a="19397198"
+   d="scan'208";a="19253399"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Apr 2024 17:39:12 -0700
+  by orviesa009.jf.intel.com with ESMTP; 05 Apr 2024 18:01:12 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rsu5N-0002vm-0B;
-	Sat, 06 Apr 2024 00:39:09 +0000
-Date: Sat, 6 Apr 2024 08:39:01 +0800
+	id 1rsuQf-0002wu-1x;
+	Sat, 06 Apr 2024 01:01:09 +0000
+Date: Sat, 6 Apr 2024 09:00:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 69/93]
- arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:5079:22: error:
- 'kvm_vm_stats_read_iter' undeclared here (not in a function); did you mean
- 'kvm_vcpu_stats_read_iter'?
-Message-ID: <202404060855.g3TTkKkf-lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: include/linux/list.h:69:(.text+0x338f): dangerous relocation:
+ windowed longcall crosses 1GB boundary; return may fail: *UND*
+Message-ID: <202404060846.sebDx4Nj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,57 +62,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   222e1965f038cbce873a9392d6b9e0df82837498
-commit: ef0f2e8cc6f036e45cface7a6e208ffcf4de2fbf [69/93] virt: convert to ->read_iter and ->write_iter
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240406/202404060855.g3TTkKkf-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404060855.g3TTkKkf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8a05ef7087166d7fa0de986fb6a2d97850dbd551
+commit: 481461f5109919babbb393d6f68002936b8e2493 linux/export.h: make <linux/export.h> independent of CONFIG_MODULES
+date:   9 months ago
+config: xtensa-randconfig-r012-20230616 (https://download.01.org/0day-ci/archive/20240406/202404060846.sebDx4Nj-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404060846.sebDx4Nj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404060855.g3TTkKkf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404060846.sebDx4Nj-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:5079:22: error: 'kvm_vm_stats_read_iter' undeclared here (not in a function); did you mean 'kvm_vcpu_stats_read_iter'?
-    5079 |         .read_iter = kvm_vm_stats_read_iter,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~
-         |                      kvm_vcpu_stats_read_iter
->> arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:5059:16: warning: 'kvm_vm_stats_read' defined but not used [-Wunused-function]
-    5059 | static ssize_t kvm_vm_stats_read(struct file *file, char __user *user_buffer,
-         |                ^~~~~~~~~~~~~~~~~
+   drivers/media/common/siano/smscoreapi.o: in function `smscore_register_hotplug':
+>> include/linux/list.h:69:(.text+0x338f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: *UND*
 
 
-vim +5079 arch/loongarch/kvm/../../../virt/kvm/kvm_main.c
+vim +69 include/linux/list.h
 
-  5058	
-> 5059	static ssize_t kvm_vm_stats_read(struct file *file, char __user *user_buffer,
-  5060				      size_t size, loff_t *offset)
-  5061	{
-  5062		struct kvm *kvm = file->private_data;
-  5063	
-  5064		return kvm_stats_read(kvm->stats_id, &kvm_vm_stats_header,
-  5065					&kvm_vm_stats_desc[0], &kvm->stat,
-  5066					sizeof(kvm->stat), user_buffer, size, offset);
-  5067	}
-  5068	
-  5069	static int kvm_vm_stats_release(struct inode *inode, struct file *file)
-  5070	{
-  5071		struct kvm *kvm = file->private_data;
-  5072	
-  5073		kvm_put_kvm(kvm);
-  5074		return 0;
-  5075	}
-  5076	
-  5077	static const struct file_operations kvm_vm_stats_fops = {
-  5078		.owner = THIS_MODULE,
-> 5079		.read_iter = kvm_vm_stats_read_iter,
-  5080		.release = kvm_vm_stats_release,
-  5081		.llseek = noop_llseek,
-  5082	};
-  5083	
+d7c816733d501b Kees Cook        2016-08-17  58  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  59  /*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  60   * Insert a new entry between two known consecutive entries.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  61   *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  62   * This is only for internal list manipulation where we know
+^1da177e4c3f41 Linus Torvalds   2005-04-16  63   * the prev/next entries already!
+^1da177e4c3f41 Linus Torvalds   2005-04-16  64   */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  65  static inline void __list_add(struct list_head *new,
+^1da177e4c3f41 Linus Torvalds   2005-04-16  66  			      struct list_head *prev,
+^1da177e4c3f41 Linus Torvalds   2005-04-16  67  			      struct list_head *next)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  68  {
+d7c816733d501b Kees Cook        2016-08-17 @69  	if (!__list_add_valid(new, prev, next))
+d7c816733d501b Kees Cook        2016-08-17  70  		return;
+d7c816733d501b Kees Cook        2016-08-17  71  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  72  	next->prev = new;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  73  	new->next = next;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  74  	new->prev = prev;
+1c97be677f72b3 Paul E. McKenney 2015-09-20  75  	WRITE_ONCE(prev->next, new);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  76  }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  77  
+
+:::::: The code at line 69 was first introduced by commit
+:::::: d7c816733d501b59dbdc2483f2cc8e4431fd9160 list: Split list_add() debug checking into separate function
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
