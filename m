@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9417C39879
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Apr 2024 15:20:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3692C1B9
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Apr 2024 16:23:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712416842; cv=none; b=OAodicSJ7kZF+0F44TFnWb7sWTLMDCQDbLZXbxyTbFVIcbQxLCzUdwCLkiey2Xkr/NGAiGoqMU2A4oKdA1X6xrq1A2A4NkBN7bSoxMOEL0Eu5Dlt8vn90KkH1eao+Y3s1qmEer5yE+d8Kp+Bz5REoGA+S0c6CuPjdyeHFlPqCTk=
+	t=1712420624; cv=none; b=Ffi/g53CTfiHBMybalKwTUUtA5WqhFOS/MBW6dMfanpO/mrSqCO1AMRO3Ql3tYAHqhrjEE+g4LT3jqv17y3p/qpkOhEVUUZ+lzvExJFAOaHMWMvK3VbK5Jv51Gc/nF+K3mDH+Y/AmzkeS5diy92CAOPaRU9dziTQ+pxMsvUSlzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712416842; c=relaxed/simple;
-	bh=h33+JRIhIB4C749AdhNoUw22Cg1VDSQp2tVSMyM3x5o=;
+	s=arc-20240116; t=1712420624; c=relaxed/simple;
+	bh=vJBzgGrLuyEq62L8XGsL34tCVH2SCLa3GzE2YwtJGfw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YyPVykErCDevzcBU2QWoyvUeICNXrp8D3zNrxw+OFh/2vtmO3aaTTZh1YFzL8IET3A1I4hwdCXhxLsHNs4s7//swyTHTU6thp1kAvr7oJqlbovC54qn8d8r4amxLEvTf7TbuW6I42uS01kmLqds/pGS9hVHVUYj0o6YMc2F7ITM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lm1mpfwa; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=FDAnAnCGiG1JqDMSVySt4pTLtruGfeeX20RbDef9N8hgXTJjiv5+CcnOjrToTk/siOXZkPVC5VvdU5pAlhJYTSAdiBUOd/lvyg+jhlqUVL4sytAWW8QSXDkJwdk7cSy511X0kNiRAeVprpASFJOjy0XA95FD3y8N6QC+GMU8tc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A4F6HZYD; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lm1mpfwa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A4F6HZYD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712416840; x=1743952840;
+  t=1712420622; x=1743956622;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h33+JRIhIB4C749AdhNoUw22Cg1VDSQp2tVSMyM3x5o=;
-  b=lm1mpfwa3qty8kK6htinAxrtTlKKp0F50YsdUJsifXHXHkUZUdp8br9G
-   aJiSl0g0xA/j6rLBL0fp72XU3cnUnPqJeBkEHJr/rtx//zem5f6dQtxZc
-   iIiGrg++jekbU9L21h/bWRTB9eJLSPZUL4eh/sOkU5ftVCG32UjG93f5m
-   C6opugyJ92a+TbmOxDrvSy0J98bOzz0ym6QGqKuj1iX0kWkTR//Ek3xPx
-   L0/uS2y0qoSOdEBsLjxk2HevY+3put5/zu7aL1pIeryIBAKFOnHaBROgj
-   qWWbAFnjoFDC7jj9R7c/voybKAL8JDfFosIzSc/1iiSjtnPXW7ZP9qAyg
-   g==;
-X-CSE-ConnectionGUID: 89JH8wTqR3mabJH1YOYuoA==
-X-CSE-MsgGUID: FtkkM825S92XTcvXf2FcAA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11036"; a="7860955"
+  bh=vJBzgGrLuyEq62L8XGsL34tCVH2SCLa3GzE2YwtJGfw=;
+  b=A4F6HZYDbdOZfQsOgrVIxRHFArSSkKgN+inAEOIwEc0aLZwiEmpSbNGO
+   oQ5Q5eGfY+OzoThXt5Y47jKyDX88H7hsaKW4wJ8G4wcgEZPAXREd0hl6g
+   oPDNprmqpx7/JFcsyIclJkfnDRg6FnHT3ctsY1cNxNpx8LehEHGVozATu
+   SYCtWBGeud2dTaNUNqfVfmCr2LA/a9dGwuc3eLsDlETY9Aa00xDYtKr+/
+   7RUe9cPzm9tn8iBfvDNekfdwnu/InaFxfchKABW371LwUpojVoLV8rKN9
+   vIL8qs5G1LX4IyR6BrWXPqcM/dWDpZqwucgbLn8ph96YPiPlgwxlxE5We
+   A==;
+X-CSE-ConnectionGUID: gqcP9v8aR663xzcXs37xjg==
+X-CSE-MsgGUID: SDWN+nE4RSanWiEUsg0cvw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11036"; a="11533399"
 X-IronPort-AV: E=Sophos;i="6.07,183,1708416000"; 
-   d="scan'208";a="7860955"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2024 08:20:39 -0700
-X-CSE-ConnectionGUID: qkt0qdnjSEi7E817opw6KA==
-X-CSE-MsgGUID: s+JhaOf3Sayw3xa+On7PkQ==
+   d="scan'208";a="11533399"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2024 09:23:41 -0700
+X-CSE-ConnectionGUID: b04CX+GyTri11ch1n8G85Q==
+X-CSE-MsgGUID: 1VwT0ulUQo66JtkCJbnf+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,183,1708416000"; 
-   d="scan'208";a="50415204"
+   d="scan'208";a="19575312"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Apr 2024 08:20:37 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 06 Apr 2024 09:23:40 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rt7qN-0003b6-15;
-	Sat, 06 Apr 2024 15:20:35 +0000
-Date: Sat, 6 Apr 2024 23:20:21 +0800
+	id 1rt8pO-0003e8-0k;
+	Sat, 06 Apr 2024 16:23:38 +0000
+Date: Sun, 7 Apr 2024 00:22:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data150'
- from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data150'
-Message-ID: <202404062331.U6Dreg68-lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:rw_iter 105/105] arch/mips/mm/sc-debugfs.c:48:3: error:
+ field designator 'read' does not refer to any field in type 'const struct
+ file_operations'
+Message-ID: <202404070005.7LT6TnQb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,24 +63,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6c6e47d69d821047097909288b6d7f1aafb3b9b1
-commit: f568a3d49af9aed813a184353592efe29b0e3d16 bpf,lsm: Add BPF token LSM hooks
-date:   2 months ago
-config: powerpc-randconfig-r035-20220327 (https://download.01.org/0day-ci/archive/20240406/202404062331.U6Dreg68-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404062331.U6Dreg68-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   f5a71066e2fa8ca66dd137e17bac2e2090b3802d
+commit: 941c541566a6784beff5ef54ed880c606e3a6225 [105/105] REMOVE ->read() and ->write()
+config: mips-randconfig-r133-20240406 (https://download.01.org/0day-ci/archive/20240407/202404070005.7LT6TnQb-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 233c030dcb18880d5f0a749573f11f96f35e76b8)
+reproduce: (https://download.01.org/0day-ci/archive/20240407/202404070005.7LT6TnQb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404062331.U6Dreg68-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404070005.7LT6TnQb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data150' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data150'
->> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data150' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data150'
->> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data150' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data150'
+>> arch/mips/mm/sc-debugfs.c:48:3: error: field designator 'read' does not refer to any field in type 'const struct file_operations'
+      48 |         .read = sc_prefetch_read,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/mips/mm/sc-debugfs.c:49:3: error: field designator 'write' does not refer to any field in type 'const struct file_operations'
+      49 |         .write = sc_prefetch_write,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
+
+
+vim +48 arch/mips/mm/sc-debugfs.c
+
+d478b088a2f74f Paul Burton 2015-09-22  44  
+d478b088a2f74f Paul Burton 2015-09-22  45  static const struct file_operations sc_prefetch_fops = {
+d478b088a2f74f Paul Burton 2015-09-22  46  	.open = simple_open,
+d478b088a2f74f Paul Burton 2015-09-22  47  	.llseek = default_llseek,
+d478b088a2f74f Paul Burton 2015-09-22 @48  	.read = sc_prefetch_read,
+d478b088a2f74f Paul Burton 2015-09-22 @49  	.write = sc_prefetch_write,
+d478b088a2f74f Paul Burton 2015-09-22  50  };
+d478b088a2f74f Paul Burton 2015-09-22  51  
+
+:::::: The code at line 48 was first introduced by commit
+:::::: d478b088a2f74fc8f34af7ceed86fa7640ca8610 MIPS: Allow L2 prefetch to be configured via debugfs
+
+:::::: TO: Paul Burton <paul.burton@imgtec.com>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 -- 
 0-DAY CI Kernel Test Service
