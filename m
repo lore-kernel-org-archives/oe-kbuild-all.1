@@ -1,64 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DAA1DA3A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Apr 2024 10:16:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9AC1773A
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Apr 2024 10:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712484970; cv=none; b=AGdl66THxuVyFGzilTJD5NkfduRG0nwI+6hT0t2d8eKTq6TTgxLSoELU70eCHOLW07vFnlAlzIwJcCobTDTQVwuhJNKl9spchcrPo12R4TlAiiCM7Ez79n22bWCY0X40XUPsJhS590joBlqX620oUH9PKSyGKOEB6p1ZiHnmCPQ=
+	t=1712487491; cv=none; b=EUCA/MizO87ddeC/tYzyOLlvWSPRN31iCdtcqYHy0KHEya7ZR8P0MBbez4LjTe+F9FYSwOsq2L3wTSu3bTxzMgWAa+iNtfsNEmilIVcIG0SuOryLCX+iJcjgpm3tuTIBTKVMKp6o6fdqrw9P0WUtOLUJ3XdlA36TVPDXWSA3qBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712484970; c=relaxed/simple;
-	bh=xIwoUpAdp5toY3/OAmu6jYhB0B/z+bpifMKPr1wR6ZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uzJCtCFsSbvL1K7hLHwaq8H3RlLmA/QfuIhbx6GWb79TFr0sUrJtMbj1tKpUlPkTKrQrtC1XaB1vaEp944uJrI91n2a4w91/+Uiq2E4ImsqoKC4VBv8fFIkdMou8V5EzXkqs0xlZVxGbQHgLPtwKjRG8W5oVA0j2kP2Gm+2QosI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PF4MmWUs; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1712487491; c=relaxed/simple;
+	bh=hjTKP6fZ9KKik1egs72yhVaDTZdwdmePeVPd40HuwJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kTzrA4sWbNRfQ/wVYD1rtEmxeuQIjwoTLhha31pz0VtsOLmdJrPmUcxhmHQyERVxUAsWKlwJn/xpPUG/lq2WmXTHqj+itR1dAfCAsPkAyswq/9tBhG7S8Q6rEgIqXE7lpL6Ar7UrOAZ4aovfq+CzLjqi4w6hmUT/kTHlq2TNlRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oIJfe4Zp; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PF4MmWUs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oIJfe4Zp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712484969; x=1744020969;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xIwoUpAdp5toY3/OAmu6jYhB0B/z+bpifMKPr1wR6ZE=;
-  b=PF4MmWUsk8n7zuGjpKyO9VYMio2/GRQMnKk1a9NI8bkGy5x5g9zhxKoQ
-   cJ9Sos2p+OmHUKaAPjmDIBrQCg3gn+ZJ4P/biJUj6uAqaC55Ot7nWpEuS
-   H4jGCtYbNQ7jExmUH0FO5zJYd+oNjcUgEpT05BkXPvQiN0mWEDclAvuO/
-   d9Bhp76ggpKzOaLW15lJ0/xmp1t9plnHPwp1/oRKLGqKb8gZPUsqjQADp
-   iYRW5v8kTOKaXu0m+yK96R5VECufIGphT53Aqh++dAoGY4YKXRIDHbhzC
-   VHgFY/R2Db8cquBl1Oq3E6gaSmJl1N2ha7/nnNBt6EBQdwpTfrvL3Bpr3
+  t=1712487489; x=1744023489;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hjTKP6fZ9KKik1egs72yhVaDTZdwdmePeVPd40HuwJQ=;
+  b=oIJfe4ZpKlleNnVFrzs7UTGtIe1yrdpqFl9b8YXI2MNft7vP+tNwfSAL
+   muHi6qEOkvC1CkqvEJx3iQy+PeXv0Kg5lKxZVUeV8P0kpc4NVIninHOzg
+   TenSQj4jZN6lhMuxvQreC0MtCqGB3bzN4vqUH036XJOHbChoDChcKmh1H
+   hZMUB5czWbxAsRk9GkT88lsw3ticxzEf7AxzNiM+vcXO0lKFInkcK+Zo5
+   SkVcPOSMbkcNxuYu1fBDKcyDhgfzP7HXJ6sXe2sDFCpJarlBZ5tAnOmCq
+   Y9TGtM9nODUIs/qmG/cnHfR6WjGXVdfmrEN+f+ZsI+mtu41WxUJuy+woi
    A==;
-X-CSE-ConnectionGUID: s4lqTPXLSyG15TnmvUmGqg==
-X-CSE-MsgGUID: 6BQ5GiQSRkauBixLGWeeIw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11036"; a="30257007"
+X-CSE-ConnectionGUID: QqspB+zaSyWqhjl/lPLYgQ==
+X-CSE-MsgGUID: FRKdLWqmSyqui5wkFXbSEA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11036"; a="7999078"
 X-IronPort-AV: E=Sophos;i="6.07,185,1708416000"; 
-   d="scan'208";a="30257007"
+   d="scan'208";a="7999078"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2024 03:16:09 -0700
-X-CSE-ConnectionGUID: lr9E5ZQJR3SrWWf13jGObg==
-X-CSE-MsgGUID: tcTVdeD4RrK0TBrHXl+m9A==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2024 03:58:08 -0700
+X-CSE-ConnectionGUID: pCi6pWYxR8SQRwjnA1i7WA==
+X-CSE-MsgGUID: y76nr7A5RoCeOj08xX1vlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,185,1708416000"; 
-   d="scan'208";a="24334527"
+   d="scan'208";a="24340114"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 07 Apr 2024 03:16:06 -0700
+  by orviesa004.jf.intel.com with ESMTP; 07 Apr 2024 03:58:07 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rtPZD-0004HW-35;
-	Sun, 07 Apr 2024 10:16:04 +0000
-Date: Sun, 7 Apr 2024 18:15:38 +0800
+	id 1rtQDs-0004JC-2l;
+	Sun, 07 Apr 2024 10:58:04 +0000
+Date: Sun, 7 Apr 2024 18:57:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>
-Subject: Re: [PATCH 2/5] sched: Split out kernel/sched/fair_balance.c from
- kernel/sched/fair.c
-Message-ID: <202404071825.SlxOD5Yg-lkp@intel.com>
-References: <20240407084319.1462211-3-mingo@kernel.org>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: include/linux/compiler_types.h:357:45: error: call to
+ '__compiletime_assert_304' declared with attribute error: BUILD_BUG_ON
+ failed: sizeof(priv_tbl->probs) % 16
+Message-ID: <202404071853.zF9y90RI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,47 +64,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240407084319.1462211-3-mingo@kernel.org>
 
-Hi Ingo,
+Hi Andrzej,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on next-20240405]
-[cannot apply to linux/master linus/master peterz-queue/sched/core v6.9-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ingo-Molnar/sched-Split-out-kernel-sched-syscalls-c-from-kernel-sched-core-c/20240407-164646
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20240407084319.1462211-3-mingo%40kernel.org
-patch subject: [PATCH 2/5] sched: Split out kernel/sched/fair_balance.c from kernel/sched/fair.c
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240407/202404071825.SlxOD5Yg-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240407/202404071825.SlxOD5Yg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f2f80ac809875855ac843f9e5e7480604b5cbff5
+commit: 00c47aa85bb26450edc6059c3d245de062e60b5d media: rkvdec: Add required padding
+date:   1 year, 5 months ago
+config: arm-randconfig-r132-20240407 (https://download.01.org/0day-ci/archive/20240407/202404071853.zF9y90RI-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240407/202404071853.zF9y90RI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404071825.SlxOD5Yg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404071853.zF9y90RI-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: kernel/sched/fair.o: in function `switched_from_fair':
-   fair.c:(.text+0x16c): undefined reference to `update_tg_load_avg'
-   aarch64-linux-ld: kernel/sched/fair.o: in function `rq_offline_fair':
-   fair.c:(.text+0x230): undefined reference to `clear_tg_offline_cfs_rqs'
->> aarch64-linux-ld: fair.c:(.text+0x24c): undefined reference to `clear_tg_offline_cfs_rqs'
-   aarch64-linux-ld: kernel/sched/fair.o: in function `switched_to_fair':
-   fair.c:(.text+0x87c): undefined reference to `update_tg_load_avg'
-   aarch64-linux-ld: kernel/sched/fair_balance.o: in function `update_load_avg':
-   fair_balance.c:(.text+0x1520): undefined reference to `update_tg_load_avg'
->> aarch64-linux-ld: fair_balance.c:(.text+0x15ec): undefined reference to `update_tg_load_avg'
-   aarch64-linux-ld: fair_balance.c:(.text+0x1608): undefined reference to `update_tg_load_avg'
+   In file included from <command-line>:
+   drivers/staging/media/rkvdec/rkvdec-vp9.c: In function 'rkvdec_vp9_start':
+>> include/linux/compiler_types.h:357:45: error: call to '__compiletime_assert_304' declared with attribute error: BUILD_BUG_ON failed: sizeof(priv_tbl->probs) % 16
+     357 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:338:25: note: in definition of macro '__compiletime_assert'
+     338 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:357:9: note: in expansion of macro '_compiletime_assert'
+     357 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/staging/media/rkvdec/rkvdec-vp9.c:1011:9: note: in expansion of macro 'BUILD_BUG_ON'
+    1011 |         BUILD_BUG_ON(sizeof(priv_tbl->probs) % 16); /* ensure probs size is 128-bit aligned */
+         |         ^~~~~~~~~~~~
+
+
+vim +/__compiletime_assert_304 +357 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  343  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  344  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  345  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  346  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  347  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  348   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  349   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  350   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  351   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  352   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  353   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  354   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  355   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  356  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @357  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  358  
+
+:::::: The code at line 357 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
