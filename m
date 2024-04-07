@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEF51EB5C
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Apr 2024 10:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DAA1DA3A
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Apr 2024 10:16:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712484310; cv=none; b=nIXJTGSoyWhLwKL04dwmyAXLfaNnZUfpW47shp7eltQvX/uAbFbsYgauS+8d0Wr/EkgsmTJY1eAxjXCIHj0LrJuOA6ZB8G8Dtp277rC19743Yx1ND9/mkz/O+mYPA5OzTkZbAnIJicb4NlOB0WqEvDLYGovP8KBzZYHDwo14k7k=
+	t=1712484970; cv=none; b=AGdl66THxuVyFGzilTJD5NkfduRG0nwI+6hT0t2d8eKTq6TTgxLSoELU70eCHOLW07vFnlAlzIwJcCobTDTQVwuhJNKl9spchcrPo12R4TlAiiCM7Ez79n22bWCY0X40XUPsJhS590joBlqX620oUH9PKSyGKOEB6p1ZiHnmCPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712484310; c=relaxed/simple;
-	bh=05dYJTMnQ4oT/t4pv3P+UXvDhDRfMYze25dERHYk1jM=;
+	s=arc-20240116; t=1712484970; c=relaxed/simple;
+	bh=xIwoUpAdp5toY3/OAmu6jYhB0B/z+bpifMKPr1wR6ZE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lQda2u7OWjj+OLfyIgTru5aqqQhk5PHH6RS36mWvGeaVKrWz7SG7jwW+fr0e9Opjj8PHNXfNpxotVvXr2pSgFGiwHZv9Tqce4SB0j4jetc+ZrYtCVzU+ZQbPSYWPuKJDYaaUrhT2pR/v1gy1PZPhdvhHD/3KXx+5D1SjSpOFHqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VH557s+/; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=uzJCtCFsSbvL1K7hLHwaq8H3RlLmA/QfuIhbx6GWb79TFr0sUrJtMbj1tKpUlPkTKrQrtC1XaB1vaEp944uJrI91n2a4w91/+Uiq2E4ImsqoKC4VBv8fFIkdMou8V5EzXkqs0xlZVxGbQHgLPtwKjRG8W5oVA0j2kP2Gm+2QosI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PF4MmWUs; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VH557s+/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PF4MmWUs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712484309; x=1744020309;
+  t=1712484969; x=1744020969;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=05dYJTMnQ4oT/t4pv3P+UXvDhDRfMYze25dERHYk1jM=;
-  b=VH557s+//rndqFoD1oGErozjaxVWY5IEVrQtenC/8WatFMqZmO7PMdGn
-   nR8VNHETpN5kepX7FkzmzGy3R8nZWjwDrghDJlvxpSu2hIwmloWHqYVmJ
-   Q6j196Mg8mv/ZlRb7pzq8fzt0OaUtVz0fGvGCw+2CaP5rhCUPuG1thZRg
-   oVuME0xMlGTmHHM7/6hcMNusKWPAFrphwhk48R7HrWg22+GyOwuf3vISX
-   zle/Sl07yVaPUn/HaMvrH+tfh8rG1v8glL9nX4BMXdXX/oLFr5ceYon2B
-   V3DbHl9SSxF50uI7KIaKnH316MrpkA/AAXIbiuSDJGpXRfbLGLGWcGJnC
-   w==;
-X-CSE-ConnectionGUID: qRi9V6YVSDWblu3Oq+C7/A==
-X-CSE-MsgGUID: 87gvIhyMSQe7oLWfnjp9Vg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11036"; a="7869606"
+  bh=xIwoUpAdp5toY3/OAmu6jYhB0B/z+bpifMKPr1wR6ZE=;
+  b=PF4MmWUsk8n7zuGjpKyO9VYMio2/GRQMnKk1a9NI8bkGy5x5g9zhxKoQ
+   cJ9Sos2p+OmHUKaAPjmDIBrQCg3gn+ZJ4P/biJUj6uAqaC55Ot7nWpEuS
+   H4jGCtYbNQ7jExmUH0FO5zJYd+oNjcUgEpT05BkXPvQiN0mWEDclAvuO/
+   d9Bhp76ggpKzOaLW15lJ0/xmp1t9plnHPwp1/oRKLGqKb8gZPUsqjQADp
+   iYRW5v8kTOKaXu0m+yK96R5VECufIGphT53Aqh++dAoGY4YKXRIDHbhzC
+   VHgFY/R2Db8cquBl1Oq3E6gaSmJl1N2ha7/nnNBt6EBQdwpTfrvL3Bpr3
+   A==;
+X-CSE-ConnectionGUID: s4lqTPXLSyG15TnmvUmGqg==
+X-CSE-MsgGUID: 6BQ5GiQSRkauBixLGWeeIw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11036"; a="30257007"
 X-IronPort-AV: E=Sophos;i="6.07,185,1708416000"; 
-   d="scan'208";a="7869606"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2024 03:05:08 -0700
-X-CSE-ConnectionGUID: xjxJ2CRxTzWNJrV8m1q6Ng==
-X-CSE-MsgGUID: +mlLl4wBTxSdKAHl6nKxKA==
+   d="scan'208";a="30257007"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2024 03:16:09 -0700
+X-CSE-ConnectionGUID: lr9E5ZQJR3SrWWf13jGObg==
+X-CSE-MsgGUID: tcTVdeD4RrK0TBrHXl+m9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,185,1708416000"; 
-   d="scan'208";a="19719057"
+   d="scan'208";a="24334527"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Apr 2024 03:05:06 -0700
+  by orviesa004.jf.intel.com with ESMTP; 07 Apr 2024 03:16:06 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rtPOZ-0004GM-1D;
-	Sun, 07 Apr 2024 10:05:03 +0000
-Date: Sun, 7 Apr 2024 18:04:40 +0800
+	id 1rtPZD-0004HW-35;
+	Sun, 07 Apr 2024 10:16:04 +0000
+Date: Sun, 7 Apr 2024 18:15:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>,
@@ -57,7 +57,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>,
 	Vincent Guittot <vincent.guittot@linaro.org>
 Subject: Re: [PATCH 2/5] sched: Split out kernel/sched/fair_balance.c from
  kernel/sched/fair.c
-Message-ID: <202404071704.0xE8telk-lkp@intel.com>
+Message-ID: <202404071825.SlxOD5Yg-lkp@intel.com>
 References: <20240407084319.1462211-3-mingo@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -74,6 +74,7 @@ Hi Ingo,
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on tip/sched/core]
+[also build test ERROR on next-20240405]
 [cannot apply to linux/master linus/master peterz-queue/sched/core v6.9-rc2]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -83,36 +84,30 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Ingo-Molnar/sched-Split-o
 base:   tip/sched/core
 patch link:    https://lore.kernel.org/r/20240407084319.1462211-3-mingo%40kernel.org
 patch subject: [PATCH 2/5] sched: Split out kernel/sched/fair_balance.c from kernel/sched/fair.c
-config: arc-defconfig (https://download.01.org/0day-ci/archive/20240407/202404071704.0xE8telk-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240407/202404071704.0xE8telk-lkp@intel.com/reproduce)
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240407/202404071825.SlxOD5Yg-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240407/202404071825.SlxOD5Yg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404071704.0xE8telk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404071825.SlxOD5Yg-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/core.c:87:
->> kernel/sched/sched.h:3611:22: warning: 'task_h_load' defined but not used [-Wunused-function]
-    3611 | static unsigned long task_h_load(struct task_struct *p)
-         |                      ^~~~~~~~~~~
---
-   arc-elf-ld: kernel/sched/fair.o: in function `switched_from_fair':
->> fair.c:(.text+0x1f0): undefined reference to `update_tg_load_avg'
->> arc-elf-ld: fair.c:(.text+0x1f0): undefined reference to `update_tg_load_avg'
-   arc-elf-ld: kernel/sched/fair.o: in function `rq_offline_fair':
->> fair.c:(.text+0x766): undefined reference to `clear_tg_offline_cfs_rqs'
->> arc-elf-ld: fair.c:(.text+0x766): undefined reference to `clear_tg_offline_cfs_rqs'
-   arc-elf-ld: fair.c:(.text+0x774): undefined reference to `clear_tg_offline_cfs_rqs'
-   arc-elf-ld: fair.c:(.text+0x774): undefined reference to `clear_tg_offline_cfs_rqs'
-   arc-elf-ld: kernel/sched/fair.o: in function `switched_to_fair':
-   fair.c:(.text+0x158a): undefined reference to `update_tg_load_avg'
-   arc-elf-ld: fair.c:(.text+0x158a): undefined reference to `update_tg_load_avg'
-   arc-elf-ld: kernel/sched/fair_balance.o: in function `update_load_avg':
->> fair_balance.c:(.text+0x12c8): undefined reference to `update_tg_load_avg'
->> arc-elf-ld: fair_balance.c:(.text+0x12c8): undefined reference to `update_tg_load_avg'
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: kernel/sched/fair.o: in function `switched_from_fair':
+   fair.c:(.text+0x16c): undefined reference to `update_tg_load_avg'
+   aarch64-linux-ld: kernel/sched/fair.o: in function `rq_offline_fair':
+   fair.c:(.text+0x230): undefined reference to `clear_tg_offline_cfs_rqs'
+>> aarch64-linux-ld: fair.c:(.text+0x24c): undefined reference to `clear_tg_offline_cfs_rqs'
+   aarch64-linux-ld: kernel/sched/fair.o: in function `switched_to_fair':
+   fair.c:(.text+0x87c): undefined reference to `update_tg_load_avg'
+   aarch64-linux-ld: kernel/sched/fair_balance.o: in function `update_load_avg':
+   fair_balance.c:(.text+0x1520): undefined reference to `update_tg_load_avg'
+>> aarch64-linux-ld: fair_balance.c:(.text+0x15ec): undefined reference to `update_tg_load_avg'
+   aarch64-linux-ld: fair_balance.c:(.text+0x1608): undefined reference to `update_tg_load_avg'
 
 -- 
 0-DAY CI Kernel Test Service
