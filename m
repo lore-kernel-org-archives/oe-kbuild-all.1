@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6653F8C3;
-	Sun,  7 Apr 2024 19:20:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3189E4174C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Apr 2024 20:22:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712517627; cv=none; b=CEmRor+uZJfu9LdsQLm9/V1W73OXel0bEJ8O0nDT7XKcORYPFFxNqrhs0z9W+/vF0k8B/NGvfPWTcXw5qYCbMIuKHYClgI0dBsUDSEU+4bUoBS4wD4ReZI1M3uP9NGeD3RUh9zbGoFzw22Wr1N7A8EL5jLmNJWysFeEznVaixRU=
+	t=1712521352; cv=none; b=KAfdoQFLuEM5u+4Bg9c567sb4vxREoamftk6shGhN5ulPRPgtAI2nBzcRRMj5RN9dDZx8uk/w1hRWHg7Ys/35LVCfup7kj5qpo/gHukoT3w6YNerqI8/C4fDTiyZfi29N1nuG8g+RTCMTHlba/GhJv0+ieej7cyJAbqzoXYxpo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712517627; c=relaxed/simple;
-	bh=3VdWcgygLkN9IXwTXeGDBbYwK1eX9kLKfrlRWxdeZXA=;
+	s=arc-20240116; t=1712521352; c=relaxed/simple;
+	bh=QlgrfuurpFnr7seUgnGwsNNjSIf3pHfY6thV9QvJpDE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X3Asy2cv64DY2c3eWPqkElocASCType3LmnqTRxRdXX87XDyb0HZhQB+ib0o46qsPvSVW2e+HlfLgWSkacolk7NNY7UY/Lf4ykdHOc+MwNS0KYB1Sosd2+tjv8GtFZQWDjlbQSWI7RwYIUbo5sYzecYjGYoYcW1AyotgYvymcU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ym2/A9uO; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=Lt3iiWWeHw1CaBGHG73/QSTn6PvgKuTfOk1BNJFwcQIg2uNg9bdqsVg84SSA8Dqfdz+PlzqIQVqecbPPHjl3IhsoDspEQnFol2qzVLh/8qaRluyntGECps/CUYLu4tj9z+tlCelcsESKLtKBg5mBShLDZXoYySIU+KAyiPb+wiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RptNAz0m; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ym2/A9uO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RptNAz0m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712517625; x=1744053625;
+  t=1712521349; x=1744057349;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3VdWcgygLkN9IXwTXeGDBbYwK1eX9kLKfrlRWxdeZXA=;
-  b=Ym2/A9uO8UCH1ncMoDAye08pK4nqmnosjsff6p5JiQ7xzAFCvbDy79pe
-   F/62poFPYwpyalKiEkXWncqj/FV24yJDvyW62hSuL8v5kw0F8omKI1Wn+
-   gU2kRJAXoQFOcmamnjILGJjJb3xM6q4QKLL923jkiddUGPLI9QCMx9GgS
-   qeWU3K/SDlO9akT0vjsmxdbHz+Q5IxWppFC5JCh8NrEyq+OaJkDY5lYWY
-   idTacYy40BVoDdyZqPzwEE3kFqlY9xzmdeDUNuRGlAyryjxwthvpWAQYE
-   Rr264MoMc8Z/QPv/QktOFQtz4111HlchGS/3ELRPvXPonSDWyydaPatMr
-   g==;
-X-CSE-ConnectionGUID: O1aC1BD5RR+pqMlP1lOp2g==
-X-CSE-MsgGUID: wh+IsxkmQgWKVg+XXSs7Hg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="8362142"
+  bh=QlgrfuurpFnr7seUgnGwsNNjSIf3pHfY6thV9QvJpDE=;
+  b=RptNAz0mrUPxlo1ucUnAmPu2HtdFzpSBDXmyGAOvBVmafO7dEOZGfzg0
+   C3EpQ3JEvKxHWi0Xlf/FnAG7w67SB2Q3JfXnazLvxAdoT/8Qg0tLi6Lr5
+   6nrxoZr4sK4TSwZSf68n26xhJCp4OrEaGsOTvA+nZjyGcb9qyAY/YEA6m
+   EVFW6UdZIchO+J+fJcLV+g0DTt9KdMFqooVzKL6uffEM9Xeu2FfhnSKzD
+   zrIKO9sqF7KCtD/JCuh4CkAJZxGvQUR0rYNRdAi69tXM5qKUNQh5oCnB8
+   LUI3ZnDPbI2N0sxNPy1r4naHE31+pxUxViApBgbw+KcoFzZMdXgnM9i4P
+   Q==;
+X-CSE-ConnectionGUID: mpryTuxhSWyGEk7rfCVD2Q==
+X-CSE-MsgGUID: x/pj2h/nTo+1bUNIg/9g/Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="19160682"
 X-IronPort-AV: E=Sophos;i="6.07,185,1708416000"; 
-   d="scan'208";a="8362142"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2024 12:20:24 -0700
-X-CSE-ConnectionGUID: sLz108N8TC2+W65DcxgUbQ==
-X-CSE-MsgGUID: /c9BV4P7SPeIgLjmL3F9rw==
+   d="scan'208";a="19160682"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2024 13:22:28 -0700
+X-CSE-ConnectionGUID: 8y6kNaACTYiwvVhW2oImrQ==
+X-CSE-MsgGUID: UflRiwuTQhSHok7K62AmRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,185,1708416000"; 
-   d="scan'208";a="19695454"
+   d="scan'208";a="50891416"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Apr 2024 12:20:23 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 07 Apr 2024 13:22:26 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rtY3x-0004Yf-1c;
-	Sun, 07 Apr 2024 19:20:21 +0000
-Date: Mon, 8 Apr 2024 03:19:56 +0800
+	id 1rtZ20-0004ae-0I;
+	Sun, 07 Apr 2024 20:22:24 +0000
+Date: Mon, 8 Apr 2024 04:21:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 127/133] drivers/most/most_cdev.c:183: warning:
- Function parameter or struct member 'iocb' not described in 'comp_write'
-Message-ID: <202404080327.RU67mvJN-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Joerg Roedel <jroedel@suse.de>, Yi Liu <yi.l.liu@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>
+Subject: WARNING: modpost: vmlinux: section mismatch in reference:
+ iso_connect_bis+0xd8 (section: .text) -> lpj_setup (section: .init.text)
+Message-ID: <202404080414.ouxhGhJg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,143 +64,222 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   f1cf9d93aefca99fd4de1be19eff1764ba941174
-commit: 5e20f57e36986fd1fbf488594d6c04bdd6a62102 [127/133] drivers/most: convert to read/write iterators
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240408/202404080327.RU67mvJN-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240408/202404080327.RU67mvJN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9fe30842a90be9b57a3bd1a37c9aed92918cc6d0
+commit: c404f55c26fc23c70a9f2262f3f36a69fc46289b iommu: Validate the PASID in iommu_attach_device_pasid()
+date:   11 days ago
+config: riscv-randconfig-r003-20230418 (https://download.01.org/0day-ci/archive/20240408/202404080414.ouxhGhJg-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240408/202404080414.ouxhGhJg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404080327.RU67mvJN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404080414.ouxhGhJg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/most/most_cdev.c:183: warning: Function parameter or struct member 'iocb' not described in 'comp_write'
->> drivers/most/most_cdev.c:183: warning: Function parameter or struct member 'from' not described in 'comp_write'
->> drivers/most/most_cdev.c:183: warning: Excess function parameter 'filp' description in 'comp_write'
->> drivers/most/most_cdev.c:183: warning: Excess function parameter 'buf' description in 'comp_write'
->> drivers/most/most_cdev.c:183: warning: Excess function parameter 'count' description in 'comp_write'
->> drivers/most/most_cdev.c:183: warning: Excess function parameter 'offset' description in 'comp_write'
->> drivers/most/most_cdev.c:235: warning: Function parameter or struct member 'iocb' not described in 'comp_read'
->> drivers/most/most_cdev.c:235: warning: Function parameter or struct member 'to' not described in 'comp_read'
->> drivers/most/most_cdev.c:235: warning: Excess function parameter 'filp' description in 'comp_read'
->> drivers/most/most_cdev.c:235: warning: Excess function parameter 'buf' description in 'comp_read'
->> drivers/most/most_cdev.c:235: warning: Excess function parameter 'count' description in 'comp_read'
->> drivers/most/most_cdev.c:235: warning: Excess function parameter 'offset' description in 'comp_read'
-
-
-vim +183 drivers/most/most_cdev.c
-
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  174  
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  175  /**
-1fd923f38610a8 drivers/staging/most/cdev/cdev.c     Christian Gromm 2017-11-21  176   * comp_write - implements the syscall to write to the device
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  177   * @filp: file pointer
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  178   * @buf: pointer to user buffer
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  179   * @count: number of bytes to write
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  180   * @offset: offset from where to start writing
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  181   */
-5e20f57e36986f drivers/most/most_cdev.c             Jens Axboe      2024-04-06  182  static ssize_t comp_write(struct kiocb *iocb, struct iov_iter *from)
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24 @183  {
-5adf5dc5682fa7 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  184  	int ret;
-5e20f57e36986f drivers/most/most_cdev.c             Jens Axboe      2024-04-06  185  	size_t to_copy;
-fa96b8ed9cc562 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  186  	struct mbo *mbo = NULL;
-5e20f57e36986f drivers/most/most_cdev.c             Jens Axboe      2024-04-06  187  	struct comp_channel *c = iocb->ki_filp->private_data;
-5e20f57e36986f drivers/most/most_cdev.c             Jens Axboe      2024-04-06  188  	size_t count = iov_iter_count(from);
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  189  
-d8b082e6c625cb drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  190  	mutex_lock(&c->io_mutex);
-fa96b8ed9cc562 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  191  	while (c->dev && !ch_get_mbo(c, &mbo)) {
-d8b082e6c625cb drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  192  		mutex_unlock(&c->io_mutex);
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  193  
-5e20f57e36986f drivers/most/most_cdev.c             Jens Axboe      2024-04-06  194  		if (iocb->ki_filp->f_flags & O_NONBLOCK)
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  195  			return -EAGAIN;
-fa96b8ed9cc562 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  196  		if (wait_event_interruptible(c->wq, ch_has_mbo(c) || !c->dev))
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  197  			return -ERESTARTSYS;
-fa96b8ed9cc562 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  198  		mutex_lock(&c->io_mutex);
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  199  	}
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  200  
-d8b082e6c625cb drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  201  	if (unlikely(!c->dev)) {
-9b28e14818ad95 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2016-08-19  202  		ret = -ENODEV;
-5adf5dc5682fa7 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  203  		goto unlock;
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  204  	}
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  205  
-da2c08714c9478 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2016-09-23  206  	to_copy = min(count, c->cfg->buffer_size - c->mbo_offs);
-5e20f57e36986f drivers/most/most_cdev.c             Jens Axboe      2024-04-06  207  	ret = copy_from_iter(mbo->virt_address + c->mbo_offs, to_copy, from);
-5e20f57e36986f drivers/most/most_cdev.c             Jens Axboe      2024-04-06  208  	if (ret != to_copy) {
-5adf5dc5682fa7 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  209  		ret = -EFAULT;
-da2c08714c9478 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2016-09-23  210  		goto unlock;
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  211  	}
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  212  
-5e20f57e36986f drivers/most/most_cdev.c             Jens Axboe      2024-04-06  213  	c->mbo_offs += ret;
-da2c08714c9478 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2016-09-23  214  	if (c->mbo_offs >= c->cfg->buffer_size ||
-da2c08714c9478 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2016-09-23  215  	    c->cfg->data_type == MOST_CH_CONTROL ||
-da2c08714c9478 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2016-09-23  216  	    c->cfg->data_type == MOST_CH_ASYNC) {
-da2c08714c9478 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2016-09-23  217  		kfifo_skip(&c->fifo);
-da2c08714c9478 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2016-09-23  218  		mbo->buffer_length = c->mbo_offs;
-da2c08714c9478 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2016-09-23  219  		c->mbo_offs = 0;
-a6f9d846cc0980 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2016-09-21  220  		most_submit_mbo(mbo);
-da2c08714c9478 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2016-09-23  221  	}
-5adf5dc5682fa7 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  222  unlock:
-fa96b8ed9cc562 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  223  	mutex_unlock(&c->io_mutex);
-5adf5dc5682fa7 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  224  	return ret;
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  225  }
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  226  
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  227  /**
-1fd923f38610a8 drivers/staging/most/cdev/cdev.c     Christian Gromm 2017-11-21  228   * comp_read - implements the syscall to read from the device
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  229   * @filp: file pointer
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  230   * @buf: pointer to user buffer
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  231   * @count: number of bytes to read
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  232   * @offset: offset from where to start reading
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  233   */
-5e20f57e36986f drivers/most/most_cdev.c             Jens Axboe      2024-04-06  234  static ssize_t comp_read(struct kiocb *iocb, struct iov_iter *to)
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24 @235  {
-5e20f57e36986f drivers/most/most_cdev.c             Jens Axboe      2024-04-06  236  	size_t to_copy, copied;
-8463d9fab6e25a drivers/staging/most/cdev/cdev.c     Christian Gromm 2018-05-08  237  	struct mbo *mbo = NULL;
-5e20f57e36986f drivers/most/most_cdev.c             Jens Axboe      2024-04-06  238  	struct comp_channel *c = iocb->ki_filp->private_data;
-5e20f57e36986f drivers/most/most_cdev.c             Jens Axboe      2024-04-06  239  	size_t count = iov_iter_count(to);
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  240  
-fa96b8ed9cc562 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  241  	mutex_lock(&c->io_mutex);
-f45b0fba43f415 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  242  	while (c->dev && !kfifo_peek(&c->fifo, &mbo)) {
-fa96b8ed9cc562 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  243  		mutex_unlock(&c->io_mutex);
-5e20f57e36986f drivers/most/most_cdev.c             Jens Axboe      2024-04-06  244  		if (iocb->ki_filp->f_flags & O_NONBLOCK)
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  245  			return -EAGAIN;
-d8b082e6c625cb drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  246  		if (wait_event_interruptible(c->wq,
-d8b082e6c625cb drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  247  					     (!kfifo_is_empty(&c->fifo) ||
-d8b082e6c625cb drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  248  					      (!c->dev))))
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  249  			return -ERESTARTSYS;
-fa96b8ed9cc562 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  250  		mutex_lock(&c->io_mutex);
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  251  	}
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  252  
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  253  	/* make sure we don't submit to gone devices */
-d8b082e6c625cb drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  254  	if (unlikely(!c->dev)) {
-d8b082e6c625cb drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  255  		mutex_unlock(&c->io_mutex);
-9b28e14818ad95 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2016-08-19  256  		return -ENODEV;
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  257  	}
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  258  
-e6d6cbe303c5cf drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  259  	to_copy = min_t(size_t,
-e6d6cbe303c5cf drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  260  			count,
-d8b082e6c625cb drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  261  			mbo->processed_length - c->mbo_offs);
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  262  
-5e20f57e36986f drivers/most/most_cdev.c             Jens Axboe      2024-04-06  263  	copied = copy_to_iter(mbo->virt_address + c->mbo_offs, to_copy, to);
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  264  
-d8b082e6c625cb drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  265  	c->mbo_offs += copied;
-d8b082e6c625cb drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  266  	if (c->mbo_offs >= mbo->processed_length) {
-f45b0fba43f415 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  267  		kfifo_skip(&c->fifo);
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  268  		most_put_mbo(mbo);
-d8b082e6c625cb drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  269  		c->mbo_offs = 0;
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  270  	}
-d8b082e6c625cb drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  271  	mutex_unlock(&c->io_mutex);
-f9f24870d84d4c drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-12-22  272  	return copied;
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  273  }
-9bc79bbcd0c526 drivers/staging/most/aim-cdev/cdev.c Christian Gromm 2015-07-24  274  
-
-:::::: The code at line 183 was first introduced by commit
-:::::: 9bc79bbcd0c526e3ec7b98e08c5d34648bb3c158 Staging: most: add MOST driver's aim-cdev module
-
-:::::: TO: Christian Gromm <christian.gromm@microchip.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_getsockopt+0x422 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_getsockopt+0x438 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_getsockopt+0x456 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_getsockopt+0x488 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_getsockopt+0x4a4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_getsockopt+0x4ac (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_ucast_qos+0x3a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_ucast_qos+0x5c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_ucast_qos+0x7a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_ucast_qos+0x98 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_ucast_qos+0xb4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_ucast_qos+0xc4 (section: .text) -> initrd_load (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_ucast_qos+0xda (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_ucast_qos+0xe8 (section: .text) -> initrd_load (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_ucast_qos+0xf2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_bcast_qos+0x50 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_bcast_qos+0x6c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_bcast_qos+0x7c (section: .text) -> initrd_load (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_bcast_qos+0x92 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_bcast_qos+0xa2 (section: .text) -> initrd_load (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_bcast_qos+0xb8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_bcast_qos+0xd4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_bcast_qos+0xf2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_bcast_qos+0x114 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_bcast_qos+0x13e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_bcast_qos+0x15c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_bcast_qos+0x17a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: check_bcast_qos+0x1a8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_create+0x46 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_create+0x52 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_create+0x56 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_create+0x64 (section: .text) -> init_linuxrc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_create+0x6c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_create+0x90 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_create+0x94 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_add.part.0+0x5c (section: .text) -> init_linuxrc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_add.part.0+0x60 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_add.part.0+0x66 (section: .text) -> init_linuxrc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_add.part.0+0x6a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_add.part.0+0x7c (section: .text) -> init_linuxrc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_add.part.0+0x8c (section: .text) -> init_linuxrc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_add.part.0+0xac (section: .text) -> kernel_do_mounts_initrd_sysctls_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_add.part.0+0xb0 (section: .text) -> kernel_do_mounts_initrd_sysctls_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_add.part.0+0xb4 (section: .text) -> kernel_do_mounts_initrd_sysctls_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_add.part.0+0xb8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_add.part.0+0xc2 (section: .text) -> kernel_do_mounts_initrd_sysctls_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_add.part.0+0xc6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x3e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x42 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x76 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x9e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0xa2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0xa8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0xae (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0xd0 (section: .text) -> init_linuxrc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x102 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x11e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x140 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x162 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x1a2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x1c4 (section: .text) -> init_linuxrc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x210 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x244 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x266 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x2aa (section: .text) -> dir_add (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x2be (section: .text) -> init_linuxrc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x2f2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x352 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x396 (section: .text) -> init_linuxrc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x3c6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_setsockopt+0x42c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_accept+0x78 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_accept+0xce (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_accept+0xfc (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_accept+0x144 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_accept+0x15c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_accept+0x172 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_accept+0x1a4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_accept+0x1c2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_accept+0x204 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_accept+0x252 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_accept+0x280 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_accept+0x286 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_accept+0x2aa (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_accept+0x2c8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_sendmsg+0x66 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_sendmsg+0x84 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_sendmsg+0xb2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_sendmsg+0xf4 (section: .text) -> no_initrd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_sendmsg+0x154 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_sendmsg+0x15a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_sendmsg+0x1aa (section: .text) -> no_initrd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_sendmsg+0x24e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_sendmsg+0x2aa (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_sendmsg+0x33c (section: .text) -> xbc_node_get_subkey (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_sendmsg+0x3b4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_sendmsg+0x3e4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x78 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x94 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0xa6 (section: .text) -> no_initrd (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0xd8 (section: .text) -> lpj_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x206 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x2d4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x2d8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x30c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x36a (section: .text) -> init_linuxrc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x39e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x3a8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x3ac (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x3d0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x3de (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x3e2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x440 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_bis+0x4d6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_chan_del+0xf6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_chan_del+0xfa (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_del+0x166 (section: .text) -> early_initrd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_del+0x296 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_del+0x29c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_del+0x2a8 (section: .text) -> early_initrd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_disconn_cfm+0x6a (section: .text) -> early_initrdmem (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_disconn+0x234 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_disconn+0x238 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_disconn+0x388 (section: .text) -> early_initrd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __iso_sock_close+0x24 (section: .text) -> do_copy (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __iso_sock_close+0x28 (section: .text) -> do_copy (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __iso_sock_close+0xa6 (section: .text) -> create_dev.constprop.0.isra.0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __iso_sock_close+0xba (section: .text) -> early_initrdmem (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __iso_sock_close+0xc4 (section: .text) -> early_initrdmem (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __iso_sock_close+0x148 (section: .text) -> create_dev.constprop.0.isra.0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __iso_sock_close+0x188 (section: .text) -> early_initrd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_release+0x62 (section: .text) -> create_dev.constprop.0.isra.0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_release+0x76 (section: .text) -> early_initrdmem (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_release+0xd4 (section: .text) -> early_initrdmem (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_shutdown+0xde (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_shutdown+0xe2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_shutdown+0x132 (section: .text) -> create_dev.constprop.0.isra.0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_listen_bis+0x1e0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_listen_bis+0x2d6 (section: .text) -> no_initrd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_listen_bis+0x2f8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_listen_bis+0x2fc (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_listen_bis+0x34c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_listen_bis+0x350 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_listen_bis+0x390 (section: .text) -> init_linuxrc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_listen_bis+0x420 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_listen_bis+0x424 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_listen_bis+0x458 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_listen_bis+0x45c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_listen+0x1ba (section: .text) -> handle_initrd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cis+0x1fc (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cis+0x306 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cis+0x30a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cis+0x36e (section: .text) -> init_linuxrc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cis+0x3ac (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cis+0x3b0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cis+0x424 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cis+0x428 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_recvmsg+0x6e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_recvmsg+0x72 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_recvmsg+0x19a (section: .text) -> create_dev.constprop.0.isra.0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_connect+0x10a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_connect+0x158 (section: .text) -> kernel_do_mounts_initrd_sysctls_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_sock_connect+0x224 (section: .text) -> create_dev.constprop.0.isra.0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x10a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x112 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x11a (section: .text) -> early_initrd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x14c (section: .text) -> init_linuxrc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x182 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x2bc (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x374 (section: .text) -> error (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x4fe (section: .text) -> early_initrd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x5d2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x614 (section: .text) -> populate_rootfs (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x624 (section: .text) -> dir_add (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x638 (section: .text) -> populate_rootfs (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x64e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x654 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x65c (section: .text) -> early_initrd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x674 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x6a8 (section: .text) -> populate_rootfs (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x6ee (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x6f4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x6fe (section: .text) -> early_initrd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x738 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x73e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_conn_ready+0x748 (section: .text) -> early_initrd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cfm+0xba (section: .text) -> early_initrdmem (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cfm+0x134 (section: .text) -> do_populate_rootfs (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cfm+0x140 (section: .text) -> lpj_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cfm+0x14c (section: .text) -> initrd_load (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cfm+0x190 (section: .text) -> early_initrdmem (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cfm+0x1ba (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_cfm+0x1ce (section: .text) -> init_linuxrc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_ind+0x4c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_ind+0x56 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_ind+0x5c (section: .text) -> early_initrd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_ind+0x66 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_ind+0x82 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_ind+0xba (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_ind+0xf2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: iso_connect_ind+0x10a (section: .text) -> (unknown) (section: .init.text)
 
 -- 
 0-DAY CI Kernel Test Service
