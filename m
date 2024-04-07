@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9583929D02
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Apr 2024 15:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E7739AFA
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Apr 2024 17:05:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712503276; cv=none; b=YIvQMT2FD66EerQrLpI7mWlvHY8BJMiFkzRoaNbjTfFFyUuSDYKNyhihYBteV7ktsO5o/zf14rJIqOaEygYF5Gcuq0ZHfLC1rIoH9+bJ5LpMUm4XSkmy2XQSoBHVbLhRW7FHsw0mS9+fqAnirb7sC1ya293Cam4U5XvUwWnnFxs=
+	t=1712509520; cv=none; b=oVghYsArQ/5O6PJBq9/as+bNkBT/QJLqD7PRZ1hFDohihZxRJnxGOrAQo6uf/5vT1+Z7lrXVShsBJgtkwOeHvcW2nX/aRT3LTiJqwojUtilPjh21T7zwzj6V1AO2810tZ1A6MJslLz0cG0VEuokYa7h3O/UVMsNl9S1og/p3wJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712503276; c=relaxed/simple;
-	bh=wat1R7DZ6VZuQ7VIDgkqfyRCviEmcJNKK93KLgPTrVc=;
+	s=arc-20240116; t=1712509520; c=relaxed/simple;
+	bh=DsMH9oVYOTcSlxOnvsl6ICrVvgINDb5kCkLuN4aBYd4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F8Ftv1Y2AcQfarobPDj4qpZWJtHNmO0HJcF8wsOeMFjcsEZxGRo3IPrxiYRDVY4xXHJpo/31tCkiMocEayYs4c02yWVrlvm+V4jIHZgI5WVBYjHD8MWtMOrqkezYKywArmARsmBCETmKvb0JyZYv6qO02FTQdHVSZ2iOmZDuO0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kmsuqKaB; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=gcW8+nHFQlU8RfL88uvLWDyiwL85qXl/Mh/HL5QjOzvRgvhLGO+mX4A0qdtskmRaViADmco0FXNe1KoT6naSNRKxz/pqoEquBSvoYAjP/h148mqR4mNFSbbiUGwV4ixNvg86k4nSrEuIqKhDcTpDL0PoQ+ZLTA0wImuGnebRwR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AAmLdCfo; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kmsuqKaB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AAmLdCfo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712503274; x=1744039274;
+  t=1712509517; x=1744045517;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wat1R7DZ6VZuQ7VIDgkqfyRCviEmcJNKK93KLgPTrVc=;
-  b=kmsuqKaBOVpnpVyW6nCrDsClD7/I3czEB2dTXZwXduTpLJOo81BCsgWc
-   LS2HFsF7WAcrbAxOhO3TwptcLcjfsWaO/OXcPJwd8ge7JdgALnGs/X0m9
-   paDr0W0+jfiGUbUQbZP8Mm2JS/DcGqmP4r0rcNU+CAoO4Qf9PEte+HOHY
-   nfMfLiRZwmaZU8jXFVKCjNMjoscTbkxiDAcYPR82aFUKjzCgpQ7JQ1w1z
-   JoTLKceA5ukiRqjEAsrM+D5OUbdgKEdzCIkRHupzpfyjnwnPjWBcGIG3z
-   SKAiJqo7yku3pw8ozvKUffpLJ6FwE6CM6Czinm2G+0td46M03I0p6qXkC
+  bh=DsMH9oVYOTcSlxOnvsl6ICrVvgINDb5kCkLuN4aBYd4=;
+  b=AAmLdCfo9yMAgrBVQx4He5+/s73J9zU1+9cRY9Mq8eSEAmFAc8bx5T3u
+   vf8R4jpA8jeORyw44zzCFQBiKFyswefcDW8Zc7+/JGQVlshgdr6MWbMts
+   lWeVYvUmscoT8RKrs1SgOvPpqpvCGGpKfTXLhd6a6noFsCHHMp5MdE1AO
+   v9Z2KI09Sb9GauOqW5Lv0yoz7xDnF9RagbyeE20/SILQzfQCsxW0d9f3R
+   uvSevMNeADsmHdCMRSPqSd2JN+Rie/EOcvhkXJZth82ivZ+TFlCgmnCWP
+   W3y5cpPul2NoZdAKpseDJkVXWaxs2/cQjb8BALvadWISJ/u8OBLQufnw6
    g==;
-X-CSE-ConnectionGUID: ifXA33FWQVOu4MDziY3clQ==
-X-CSE-MsgGUID: Io8VjWTYShaP/ZMJL3vLvw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="7907140"
+X-CSE-ConnectionGUID: /T0LpfCyR2mRKblOnEj+/Q==
+X-CSE-MsgGUID: UQErV65pSUC5qjGS3h0d1Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="7692693"
 X-IronPort-AV: E=Sophos;i="6.07,185,1708416000"; 
-   d="scan'208";a="7907140"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2024 08:21:13 -0700
-X-CSE-ConnectionGUID: AWHfP/q1Rd2mW6fItzofTQ==
-X-CSE-MsgGUID: boxD/Y99RyuS4VV/BVhF1A==
+   d="scan'208";a="7692693"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2024 10:05:16 -0700
+X-CSE-ConnectionGUID: A3ncOyv/QnKnTyRrqcVimw==
+X-CSE-MsgGUID: 5lMPXpUUQp2hIK9eQ83uNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,185,1708416000"; 
-   d="scan'208";a="19703031"
+   d="scan'208";a="19780831"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Apr 2024 08:21:11 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 07 Apr 2024 10:05:15 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rtUKT-0004QQ-1P;
-	Sun, 07 Apr 2024 15:21:09 +0000
-Date: Sun, 7 Apr 2024 23:20:42 +0800
+	id 1rtVxA-0004V8-1G;
+	Sun, 07 Apr 2024 17:05:12 +0000
+Date: Mon, 8 Apr 2024 01:04:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shayne Chen <shayne.chen@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Felix Fietkau <nbd@nbd.name>
-Subject: include/linux/compiler_types.h:397:45: error: call to
- '__compiletime_assert_405' declared with attribute error: BUILD_BUG_ON
- failed: sizeof(mstat) > sizeof(skb->cb)
-Message-ID: <202404072357.9jgMQDqd-lkp@intel.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.8.0-net-next-mv88e6xxx-leds-v5 5/9] kismet: WARNING: unmet
+ direct dependencies detected for LEDS_TRIGGERS when selected by IWLEGACY
+Message-ID: <202404080044.1dFi4SVd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,72 +64,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Shayne,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f2f80ac809875855ac843f9e5e7480604b5cbff5
-commit: 021af945997ffaeaa37c9673d71afad7cde6bdef wifi: mt76: mt7996: add eht rx rate support
-date:   12 months ago
-config: arm-randconfig-r132-20240407 (https://download.01.org/0day-ci/archive/20240407/202404072357.9jgMQDqd-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240407/202404072357.9jgMQDqd-lkp@intel.com/reproduce)
+tree:   https://github.com/lunn/linux.git v6.8.0-net-next-mv88e6xxx-leds-v5
+head:   db5976dcfcee45b460fc59b10fc29abcfd9adb3d
+commit: 9d7e7e8493bc0393f85b88e2b3b49d4b7cd02407 [5/9] net: Add helpers for netdev LEDs
+config: alpha-kismet-CONFIG_LEDS_TRIGGERS-CONFIG_IWLEGACY-0-0 (https://download.01.org/0day-ci/archive/20240408/202404080044.1dFi4SVd-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240408/202404080044.1dFi4SVd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404072357.9jgMQDqd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404080044.1dFi4SVd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from <command-line>:
-   In function 'mt76_rx_convert',
-       inlined from 'mt76_rx_complete' at drivers/net/wireless/mediatek/mt76/mac80211.c:1334:3:
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_405' declared with attribute error: BUILD_BUG_ON failed: sizeof(mstat) > sizeof(skb->cb)
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mac80211.c:1094:9: note: in expansion of macro 'BUILD_BUG_ON'
-    1094 |         BUILD_BUG_ON(sizeof(mstat) > sizeof(skb->cb));
-         |         ^~~~~~~~~~~~
-
-
-vim +/__compiletime_assert_405 +397 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
-
-:::::: The code at line 397 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for LEDS_TRIGGERS when selected by IWLEGACY
+   
+   WARNING: unmet direct dependencies detected for LEDS_CLASS
+     Depends on [n]: NEW_LEDS [=n]
+     Selected by [y]:
+     - NETDEV_LEDS [=y] && NET [=y]
+   
+   WARNING: unmet direct dependencies detected for LEDS_TRIGGERS
+     Depends on [n]: NEW_LEDS [=n] && LEDS_CLASS [=y]
+     Selected by [y]:
+     - NETDEV_LEDS [=y] && NET [=y]
+     - MAC80211_LEDS [=y] && NET [=y] && WIRELESS [=y] && MAC80211 [=y] && (LEDS_CLASS [=y]=y || LEDS_CLASS [=y]=MAC80211 [=y])
+     - IWLEGACY [=y] && NETDEVICES [=y] && WLAN [=y] && WLAN_VENDOR_INTEL [=y]
+   
+   WARNING: unmet direct dependencies detected for LEDS_TRIGGER_NETDEV
+     Depends on [n]: NEW_LEDS [=n] && LEDS_TRIGGERS [=y] && NET [=y]
+     Selected by [y]:
+     - NETDEV_LEDS [=y] && NET [=y]
 
 -- 
 0-DAY CI Kernel Test Service
