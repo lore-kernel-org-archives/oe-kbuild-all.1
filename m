@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DEA7E8
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Apr 2024 21:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68C42D781;
+	Mon,  8 Apr 2024 23:06:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712613428; cv=none; b=rZ+lN1Q/QvtsspsXmqnjWfW53QU+p97b+Pe3Ayg7oVrGKa7F16K8ROJpQ+/CKVHNYo47hFO76TPV/y3SGIS++oaZ71ULheRndU48Y0Z8m3zHBgUzvXjymSzqWm6v0v/D/WAmrwcIw5vX92tHEYQL3+8+o8tY2k5UtKOqjKpRgKM=
+	t=1712617600; cv=none; b=b6r4BLIKlERAs657ycVeS6j9fTzqWuoyC7dKEOElivlqW4M9pDtNSnoNE6h4Ml2aGrcyHMJQj/5NPIMyfUW7BJu1RHJ3VdViskzCnK4T/Tc+WV1DHOxaUXBsEQYgHO6s4EDTw6w6eyX63D4hiqa5dZE5SWgMEF2Xxe/EBk4946M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712613428; c=relaxed/simple;
-	bh=D4nq351oL6CNrVekRIuaiUze9aybAxAosWJEvWVr/6w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WiaErDU1eRChl7V96bexb8coE8lU7gyGG4/EXADw6bub8OWjrYTQQg+49T8ZGIX0dMXwj0GhMnRfL8It6tTzwzUZkY5RkMXC/hADYTY1cMKJHpWsI5foQClcbJ07/RUFY+Dt+gRdCAB7+d/8LqE4v24srAWuENzAbwSocBiPbBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cE31ZywS; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1712617600; c=relaxed/simple;
+	bh=2nqT8r9MRUeDkaoHQotzGqXNji9hcmkP+IbGIBIVn8U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bPKJ8P6E2fga1gjKO/pmXuPfMzIQ7XY8VLUPhxTStBSdro/adpoIvG5CFU0Vsy51+zSl6vWMMvMffokf4cIjwEBq+g7AzmNz32/qNYni4qls/k4hmbtaMWpMcj1JM9XjueMkk6mnkD3XDJDjicfkxCeAkN/Ts8gwQpMiTGa9r8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kCzBEsU1; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cE31ZywS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712613427; x=1744149427;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D4nq351oL6CNrVekRIuaiUze9aybAxAosWJEvWVr/6w=;
-  b=cE31ZywSZMDnatRVFrbVyhfIwEr/jm3gi8jFG+1E8WaptZyC2KB4T30e
-   sqLm6gPNIbkiok6wZYtNXYiOibNo88/5oq7P2xRjPJTjin+wYiDxu2SDD
-   +pPRAXgpEct68+kB26RrJ1TVb2+6Rg9119rGVBt521Zpr1lUNai5yFExM
-   saN9EW4SWNOBh9C+NddizNqLmKWGGD2/WZf3h0tcvBe4B/ouaj2GFbBiX
-   mq5LMLwqL+uyYTa7BKoD5uMtG0wWCHSfyF2WRvzzvuTwfgjVAS2balvRy
-   7f2vDWN/YhYjYO3dZlpy3+fxg2dRGuif29+2cb9lZz5HSspJ45pI4CY/l
-   Q==;
-X-CSE-ConnectionGUID: 5OCD5GP6TGaIY0kCMAB1aQ==
-X-CSE-MsgGUID: RERQ6nW3Tguq1VT+Av0HZQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="11750029"
-X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="11750029"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 14:57:07 -0700
-X-CSE-ConnectionGUID: uXgMpYhPSuq/rmDjIt8mFw==
-X-CSE-MsgGUID: 3VUoG6myRq+qNTqiaWfBHg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="20138510"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 08 Apr 2024 14:57:04 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rtwz8-0005W6-1P;
-	Mon, 08 Apr 2024 21:57:02 +0000
-Date: Tue, 9 Apr 2024 05:56:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 78/144]
- drivers/misc/eeprom/idt_89hpesx.c:718:12: warning: 'idt_csr_write' defined
- but not used
-Message-ID: <202404090522.AgD8qLWl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kCzBEsU1"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-41551639550so34992745e9.2;
+        Mon, 08 Apr 2024 16:06:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712617596; x=1713222396; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cL7KaZHwNOsNwrP5VkwfgrZ0oTyftn93Uu1wttIm/Vg=;
+        b=kCzBEsU16sgA+F12RIWwaZU+aOOQNz1Qjw7BoygTaWhd5EOdhEA9CNZrK8u9irxwvo
+         HKFkMktu+FSGr7XKSPpa3Sr0rlgAi+pGs6tnyKofxp1WCpj3XZBTKiProol1sOhfixrh
+         JrvV9fUuDplsv3PNJJaQcPRuon0axTAA/pdorDNbGTbE3SHX4Fdmq+wlLgYPn1XoCx8P
+         UrZ+hkhrLu46sY3TCUqWfxN/Z5wxnvHg7RalJCDO4DwG5/idNC6rGDfcOOxBItJVlhcI
+         df9FzvjCLM2NyVWC4Qb/VI2tHEhpVfFYdoBUGaiXyUSVRRBwD5koiHMEeEr73frEO64d
+         b3FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712617596; x=1713222396;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cL7KaZHwNOsNwrP5VkwfgrZ0oTyftn93Uu1wttIm/Vg=;
+        b=bQO5MWOBCuI9UP0va+F7rskdDcaaitPHCFNF6iLC2odQJ4AUqdiH81QIG8meq+mQin
+         gE/u+R6VyJkxahEyCpiTN8QaYQYR7ly0yTdUaYz4kCdUzLZ6wibFYLIllmJVjUFcZTlB
+         jJuPbsTfHTaTJ0RHiCz8B6mqeqIuDppC7z/n5Z/x4gyQvJOFGnoB2Ckje4/zEuBUertK
+         /eQiZgEYzBlJpVK3QVYBbbYCm7oJR8Rq+KX5uuXXRbEiWeqRWdZq5vDs3Ab6hBDPxSJM
+         Bs05uLdw4Uk8nSPKUgwyXzpTQ2ltiwq3vFG6TvCVwQfC3qf2xKa1YPzJthz7UPG1bdjH
+         ppbA==
+X-Forwarded-Encrypted: i=1; AJvYcCWVeZZqcTj65ylzpMX/mb65ZrHmXFBb4oqzIl1OznlpOoK2o4NsZDyqbK8isSwGhLFpFk6L1sPn65gtLVJlKSv/05CRNO94xdrSe4KHrhGkQukGEILtSsd/+2Ocex/UMC140yo=
+X-Gm-Message-State: AOJu0Yx0UH4lJZpi+nuaAUtNPGQR+1ePiGUMTuP4mh5w9EpdEZEZTxaQ
+	jhDlqrIYhhI8KTTJbY45kv2dUnNkSDVemyx0IjvhRg2ay304ap//
+X-Google-Smtp-Source: AGHT+IFCt5R3Le2GQT2liPmUWp4ksG3+tMG8Gfc5G+0g9sXIZ7r4L9fKIjqpp/Qy9HVe0I86hjF19A==
+X-Received: by 2002:a05:600c:1f0a:b0:416:3762:cea0 with SMTP id bd10-20020a05600c1f0a00b004163762cea0mr5810580wmb.13.1712617595545;
+        Mon, 08 Apr 2024 16:06:35 -0700 (PDT)
+Received: from skbuf ([2a02:2f04:d201:1f00::b2c])
+        by smtp.gmail.com with ESMTPSA id n9-20020a05600c500900b00416a19403f3sm619331wmr.0.2024.04.08.16.06.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Apr 2024 16:06:34 -0700 (PDT)
+Date: Tue, 9 Apr 2024 02:06:32 +0300
+From: Vladimir Oltean <olteanv@gmail.com>
+To: Eric Dumazet <edumazet@google.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [net-next:main 26/50] net/ipv4/tcp.c:4673:2: error: call to
+ '__compiletime_assert_1030' declared with 'error' attribute: BUILD_BUG_ON
+ failed: offsetof(struct tcp_sock,
+ __cacheline_group_end__tcp_sock_write_txrx) - offsetofend(struct tcp_sock,
+ __cacheline_group_begin__tcp_sock_...
+Message-ID: <20240408230632.5ml3amaztr5soyfs@skbuf>
+References: <202404082207.HCEdQhUO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,317 +71,504 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202404082207.HCEdQhUO-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   b32f790cdb298ce85171870c8bf5557dc35a51a5
-commit: 79301b69940a7eb819122a94ae86009cde5fdfda [78/144] misc: eeprom/idt_89hpesx: convert to read/write iterators
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240409/202404090522.AgD8qLWl-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240409/202404090522.AgD8qLWl-lkp@intel.com/reproduce)
+Hi Eric,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404090522.AgD8qLWl-lkp@intel.com/
+On Mon, Apr 08, 2024 at 10:49:35PM +0800, kernel test robot wrote:
+> >> net/ipv4/tcp.c:4673:2: error: call to '__compiletime_assert_1030' declared with 'error' attribute: BUILD_BUG_ON failed: offsetof(struct tcp_sock, __cacheline_group_end__tcp_sock_write_txrx) - offsetofend(struct tcp_sock, __cacheline_group_begin__tcp_sock_write_txrx) > 92
+> > 4673		CACHELINE_ASSERT_GROUP_SIZE(struct tcp_sock, tcp_sock_write_txrx, 92);
 
-All warnings (new ones prefixed by >>):
+I can confirm the same compile time assertion with an armv7 gcc 7.3.1 compiler.
+If I revert commit 86dad9aebd0d ("Revert "tcp: more struct tcp_sock adjustments")
+it goes away.
 
-   drivers/misc/eeprom/idt_89hpesx.c:903:55: error: expected ';', ',' or ')' before '*' token
-     903 | static ssize_t idt_dbgfs_csr_write(struct file *kiocb *iocb,
-         |                                                       ^
-   drivers/misc/eeprom/idt_89hpesx.c:1028:23: error: 'idt_dbgfs_csr_write' undeclared here (not in a function); did you mean 'idt_dbgfs_csr_read'?
-    1028 |         .write_iter = idt_dbgfs_csr_write,
-         |                       ^~~~~~~~~~~~~~~~~~~
-         |                       idt_dbgfs_csr_read
->> drivers/misc/eeprom/idt_89hpesx.c:718:12: warning: 'idt_csr_write' defined but not used [-Wunused-function]
-     718 | static int idt_csr_write(struct idt_89hpesx_dev *pdev, u16 csraddr,
-         |            ^~~~~~~~~~~~~
+Before the change (actually with it reverted), I can see that the
+tcp_sock_write_txrx cacheline group begins at offset 1821 with a 3 byte
+hole, and ends at offset 1897 (it has 76 bytes).
 
+$ pahole -C tcp_sock $KBUILD_OUTPUT/net/ipv4/tcp.o
+struct tcp_sock {
+	struct inet_connection_sock inet_conn __attribute__((__aligned__(8))); /*     0  1568 */
+	/* --- cacheline 24 boundary (1536 bytes) was 32 bytes ago --- */
+	__u8                       __cacheline_group_begin__tcp_sock_read_tx[0]; /*  1568     0 */
+	u32                        max_window;           /*  1568     4 */
+	u32                        rcv_ssthresh;         /*  1572     4 */
+	u32                        reordering;           /*  1576     4 */
+	u32                        notsent_lowat;        /*  1580     4 */
+	u16                        gso_segs;             /*  1584     2 */
 
-vim +/idt_csr_write +718 drivers/misc/eeprom/idt_89hpesx.c
+	/* XXX 2 bytes hole, try to pack */
 
-cfad6425382ec8 Serge Semin    2017-01-13  706  
-cfad6425382ec8 Serge Semin    2017-01-13  707  /*===========================================================================
-cfad6425382ec8 Serge Semin    2017-01-13  708   *                          CSR IO-operations
-cfad6425382ec8 Serge Semin    2017-01-13  709   *===========================================================================
-cfad6425382ec8 Serge Semin    2017-01-13  710   */
-cfad6425382ec8 Serge Semin    2017-01-13  711  
-cfad6425382ec8 Serge Semin    2017-01-13  712  /*
-cfad6425382ec8 Serge Semin    2017-01-13  713   * idt_csr_write() - CSR write operation
-cfad6425382ec8 Serge Semin    2017-01-13  714   * @pdev:	Pointer to the driver data
-cfad6425382ec8 Serge Semin    2017-01-13  715   * @csraddr:	CSR address (with no two LS bits)
-cfad6425382ec8 Serge Semin    2017-01-13  716   * @data:	Data to be written to CSR
-cfad6425382ec8 Serge Semin    2017-01-13  717   */
-cfad6425382ec8 Serge Semin    2017-01-13 @718  static int idt_csr_write(struct idt_89hpesx_dev *pdev, u16 csraddr,
-cfad6425382ec8 Serge Semin    2017-01-13  719  			 const u32 data)
-cfad6425382ec8 Serge Semin    2017-01-13  720  {
-cfad6425382ec8 Serge Semin    2017-01-13  721  	struct device *dev = &pdev->client->dev;
-cfad6425382ec8 Serge Semin    2017-01-13  722  	struct idt_csr_seq csrseq;
-cfad6425382ec8 Serge Semin    2017-01-13  723  	struct idt_smb_seq smbseq;
-cfad6425382ec8 Serge Semin    2017-01-13  724  	int ret;
-cfad6425382ec8 Serge Semin    2017-01-13  725  
-cfad6425382ec8 Serge Semin    2017-01-13  726  	/* Initialize SMBus sequence fields */
-cfad6425382ec8 Serge Semin    2017-01-13  727  	smbseq.ccode = pdev->iniccode | CCODE_CSR;
-cfad6425382ec8 Serge Semin    2017-01-13  728  	smbseq.data = (u8 *)&csrseq;
-cfad6425382ec8 Serge Semin    2017-01-13  729  
-cfad6425382ec8 Serge Semin    2017-01-13  730  	/* Lock IDT SMBus device */
-cfad6425382ec8 Serge Semin    2017-01-13  731  	mutex_lock(&pdev->smb_mtx);
-cfad6425382ec8 Serge Semin    2017-01-13  732  
-cfad6425382ec8 Serge Semin    2017-01-13  733  	/* Perform write operation */
-cfad6425382ec8 Serge Semin    2017-01-13  734  	smbseq.bytecnt = CSR_WR_CNT;
-cfad6425382ec8 Serge Semin    2017-01-13  735  	csrseq.cmd = pdev->inicsrcmd | CSR_OP_WRITE;
-cfad6425382ec8 Serge Semin    2017-01-13  736  	csrseq.csraddr = cpu_to_le16(csraddr);
-cfad6425382ec8 Serge Semin    2017-01-13  737  	csrseq.data = cpu_to_le32(data);
-cfad6425382ec8 Serge Semin    2017-01-13  738  	ret = pdev->smb_write(pdev, &smbseq);
-cfad6425382ec8 Serge Semin    2017-01-13  739  	if (ret != 0) {
-cfad6425382ec8 Serge Semin    2017-01-13  740  		dev_err(dev, "Failed to write 0x%04x: 0x%04x to csr",
-cfad6425382ec8 Serge Semin    2017-01-13  741  			CSR_REAL_ADDR(csraddr), data);
-cfad6425382ec8 Serge Semin    2017-01-13  742  		goto err_mutex_unlock;
-cfad6425382ec8 Serge Semin    2017-01-13  743  	}
-cfad6425382ec8 Serge Semin    2017-01-13  744  
-cfad6425382ec8 Serge Semin    2017-01-13  745  	/* Send CSR address to read data from */
-cfad6425382ec8 Serge Semin    2017-01-13  746  	smbseq.bytecnt = CSR_WRRD_CNT;
-cfad6425382ec8 Serge Semin    2017-01-13  747  	csrseq.cmd = pdev->inicsrcmd | CSR_OP_READ;
-cfad6425382ec8 Serge Semin    2017-01-13  748  	ret = pdev->smb_write(pdev, &smbseq);
-cfad6425382ec8 Serge Semin    2017-01-13  749  	if (ret != 0) {
-cfad6425382ec8 Serge Semin    2017-01-13  750  		dev_err(dev, "Failed to init csr address 0x%04x",
-cfad6425382ec8 Serge Semin    2017-01-13  751  			CSR_REAL_ADDR(csraddr));
-cfad6425382ec8 Serge Semin    2017-01-13  752  		goto err_mutex_unlock;
-cfad6425382ec8 Serge Semin    2017-01-13  753  	}
-cfad6425382ec8 Serge Semin    2017-01-13  754  
-cfad6425382ec8 Serge Semin    2017-01-13  755  	/* Perform read operation */
-cfad6425382ec8 Serge Semin    2017-01-13  756  	smbseq.bytecnt = CSR_RD_CNT;
-cfad6425382ec8 Serge Semin    2017-01-13  757  	ret = pdev->smb_read(pdev, &smbseq);
-cfad6425382ec8 Serge Semin    2017-01-13  758  	if (ret != 0) {
-cfad6425382ec8 Serge Semin    2017-01-13  759  		dev_err(dev, "Failed to read csr 0x%04x",
-cfad6425382ec8 Serge Semin    2017-01-13  760  			CSR_REAL_ADDR(csraddr));
-cfad6425382ec8 Serge Semin    2017-01-13  761  		goto err_mutex_unlock;
-cfad6425382ec8 Serge Semin    2017-01-13  762  	}
-cfad6425382ec8 Serge Semin    2017-01-13  763  
-cfad6425382ec8 Serge Semin    2017-01-13  764  	/* Check whether IDT successfully retrieved CSR data */
-cfad6425382ec8 Serge Semin    2017-01-13  765  	if (csrseq.cmd & (CSR_RERR | CSR_WERR)) {
-cfad6425382ec8 Serge Semin    2017-01-13  766  		dev_err(dev, "IDT failed to perform CSR r/w");
-cfad6425382ec8 Serge Semin    2017-01-13  767  		ret = -EREMOTEIO;
-cfad6425382ec8 Serge Semin    2017-01-13  768  		goto err_mutex_unlock;
-cfad6425382ec8 Serge Semin    2017-01-13  769  	}
-cfad6425382ec8 Serge Semin    2017-01-13  770  
-cfad6425382ec8 Serge Semin    2017-01-13  771  	/* Unlock IDT SMBus device */
-cfad6425382ec8 Serge Semin    2017-01-13  772  err_mutex_unlock:
-cfad6425382ec8 Serge Semin    2017-01-13  773  	mutex_unlock(&pdev->smb_mtx);
-cfad6425382ec8 Serge Semin    2017-01-13  774  
-cfad6425382ec8 Serge Semin    2017-01-13  775  	return ret;
-cfad6425382ec8 Serge Semin    2017-01-13  776  }
-cfad6425382ec8 Serge Semin    2017-01-13  777  
-cfad6425382ec8 Serge Semin    2017-01-13  778  /*
-cfad6425382ec8 Serge Semin    2017-01-13  779   * idt_csr_read() - CSR read operation
-cfad6425382ec8 Serge Semin    2017-01-13  780   * @pdev:	Pointer to the driver data
-cfad6425382ec8 Serge Semin    2017-01-13  781   * @csraddr:	CSR address (with no two LS bits)
-cfad6425382ec8 Serge Semin    2017-01-13  782   * @data:	Data to be written to CSR
-cfad6425382ec8 Serge Semin    2017-01-13  783   */
-cfad6425382ec8 Serge Semin    2017-01-13  784  static int idt_csr_read(struct idt_89hpesx_dev *pdev, u16 csraddr, u32 *data)
-cfad6425382ec8 Serge Semin    2017-01-13  785  {
-cfad6425382ec8 Serge Semin    2017-01-13  786  	struct device *dev = &pdev->client->dev;
-cfad6425382ec8 Serge Semin    2017-01-13  787  	struct idt_csr_seq csrseq;
-cfad6425382ec8 Serge Semin    2017-01-13  788  	struct idt_smb_seq smbseq;
-cfad6425382ec8 Serge Semin    2017-01-13  789  	int ret;
-cfad6425382ec8 Serge Semin    2017-01-13  790  
-cfad6425382ec8 Serge Semin    2017-01-13  791  	/* Initialize SMBus sequence fields */
-cfad6425382ec8 Serge Semin    2017-01-13  792  	smbseq.ccode = pdev->iniccode | CCODE_CSR;
-cfad6425382ec8 Serge Semin    2017-01-13  793  	smbseq.data = (u8 *)&csrseq;
-cfad6425382ec8 Serge Semin    2017-01-13  794  
-cfad6425382ec8 Serge Semin    2017-01-13  795  	/* Lock IDT SMBus device */
-cfad6425382ec8 Serge Semin    2017-01-13  796  	mutex_lock(&pdev->smb_mtx);
-cfad6425382ec8 Serge Semin    2017-01-13  797  
-cfad6425382ec8 Serge Semin    2017-01-13  798  	/* Send CSR register address before reading it */
-cfad6425382ec8 Serge Semin    2017-01-13  799  	smbseq.bytecnt = CSR_WRRD_CNT;
-cfad6425382ec8 Serge Semin    2017-01-13  800  	csrseq.cmd = pdev->inicsrcmd | CSR_OP_READ;
-cfad6425382ec8 Serge Semin    2017-01-13  801  	csrseq.csraddr = cpu_to_le16(csraddr);
-cfad6425382ec8 Serge Semin    2017-01-13  802  	ret = pdev->smb_write(pdev, &smbseq);
-cfad6425382ec8 Serge Semin    2017-01-13  803  	if (ret != 0) {
-cfad6425382ec8 Serge Semin    2017-01-13  804  		dev_err(dev, "Failed to init csr address 0x%04x",
-cfad6425382ec8 Serge Semin    2017-01-13  805  			CSR_REAL_ADDR(csraddr));
-cfad6425382ec8 Serge Semin    2017-01-13  806  		goto err_mutex_unlock;
-cfad6425382ec8 Serge Semin    2017-01-13  807  	}
-cfad6425382ec8 Serge Semin    2017-01-13  808  
-cfad6425382ec8 Serge Semin    2017-01-13  809  	/* Perform read operation */
-cfad6425382ec8 Serge Semin    2017-01-13  810  	smbseq.bytecnt = CSR_RD_CNT;
-cfad6425382ec8 Serge Semin    2017-01-13  811  	ret = pdev->smb_read(pdev, &smbseq);
-cfad6425382ec8 Serge Semin    2017-01-13  812  	if (ret != 0) {
-ffff4913c7e22c Justin Stitt   2022-07-01  813  		dev_err(dev, "Failed to read csr 0x%04x",
-cfad6425382ec8 Serge Semin    2017-01-13  814  			CSR_REAL_ADDR(csraddr));
-cfad6425382ec8 Serge Semin    2017-01-13  815  		goto err_mutex_unlock;
-cfad6425382ec8 Serge Semin    2017-01-13  816  	}
-cfad6425382ec8 Serge Semin    2017-01-13  817  
-cfad6425382ec8 Serge Semin    2017-01-13  818  	/* Check whether IDT successfully retrieved CSR data */
-cfad6425382ec8 Serge Semin    2017-01-13  819  	if (csrseq.cmd & (CSR_RERR | CSR_WERR)) {
-cfad6425382ec8 Serge Semin    2017-01-13  820  		dev_err(dev, "IDT failed to perform CSR r/w");
-cfad6425382ec8 Serge Semin    2017-01-13  821  		ret = -EREMOTEIO;
-cfad6425382ec8 Serge Semin    2017-01-13  822  		goto err_mutex_unlock;
-cfad6425382ec8 Serge Semin    2017-01-13  823  	}
-cfad6425382ec8 Serge Semin    2017-01-13  824  
-cfad6425382ec8 Serge Semin    2017-01-13  825  	/* Save data retrieved from IDT */
-cfad6425382ec8 Serge Semin    2017-01-13  826  	*data = le32_to_cpu(csrseq.data);
-cfad6425382ec8 Serge Semin    2017-01-13  827  
-cfad6425382ec8 Serge Semin    2017-01-13  828  	/* Unlock IDT SMBus device */
-cfad6425382ec8 Serge Semin    2017-01-13  829  err_mutex_unlock:
-cfad6425382ec8 Serge Semin    2017-01-13  830  	mutex_unlock(&pdev->smb_mtx);
-cfad6425382ec8 Serge Semin    2017-01-13  831  
-cfad6425382ec8 Serge Semin    2017-01-13  832  	return ret;
-cfad6425382ec8 Serge Semin    2017-01-13  833  }
-cfad6425382ec8 Serge Semin    2017-01-13  834  
-cfad6425382ec8 Serge Semin    2017-01-13  835  /*===========================================================================
-cfad6425382ec8 Serge Semin    2017-01-13  836   *                          Sysfs/debugfs-nodes IO-operations
-cfad6425382ec8 Serge Semin    2017-01-13  837   *===========================================================================
-cfad6425382ec8 Serge Semin    2017-01-13  838   */
-cfad6425382ec8 Serge Semin    2017-01-13  839  
-cfad6425382ec8 Serge Semin    2017-01-13  840  /*
-cfad6425382ec8 Serge Semin    2017-01-13  841   * eeprom_write() - EEPROM sysfs-node write callback
-cfad6425382ec8 Serge Semin    2017-01-13  842   * @filep:	Pointer to the file system node
-cfad6425382ec8 Serge Semin    2017-01-13  843   * @kobj:	Pointer to the kernel object related to the sysfs-node
-cfad6425382ec8 Serge Semin    2017-01-13  844   * @attr:	Attributes of the file
-cfad6425382ec8 Serge Semin    2017-01-13  845   * @buf:	Buffer to write data to
-cfad6425382ec8 Serge Semin    2017-01-13  846   * @off:	Offset at which data should be written to
-cfad6425382ec8 Serge Semin    2017-01-13  847   * @count:	Number of bytes to write
-cfad6425382ec8 Serge Semin    2017-01-13  848   */
-cfad6425382ec8 Serge Semin    2017-01-13  849  static ssize_t eeprom_write(struct file *filp, struct kobject *kobj,
-cfad6425382ec8 Serge Semin    2017-01-13  850  			    struct bin_attribute *attr,
-cfad6425382ec8 Serge Semin    2017-01-13  851  			    char *buf, loff_t off, size_t count)
-cfad6425382ec8 Serge Semin    2017-01-13  852  {
-cfad6425382ec8 Serge Semin    2017-01-13  853  	struct idt_89hpesx_dev *pdev;
-cfad6425382ec8 Serge Semin    2017-01-13  854  	int ret;
-cfad6425382ec8 Serge Semin    2017-01-13  855  
-cfad6425382ec8 Serge Semin    2017-01-13  856  	/* Retrieve driver data */
-cfad6425382ec8 Serge Semin    2017-01-13  857  	pdev = dev_get_drvdata(kobj_to_dev(kobj));
-cfad6425382ec8 Serge Semin    2017-01-13  858  
-cfad6425382ec8 Serge Semin    2017-01-13  859  	/* Perform EEPROM write operation */
-cfad6425382ec8 Serge Semin    2017-01-13  860  	ret = idt_eeprom_write(pdev, (u16)off, (u16)count, (u8 *)buf);
-cfad6425382ec8 Serge Semin    2017-01-13  861  	return (ret != 0 ? ret : count);
-cfad6425382ec8 Serge Semin    2017-01-13  862  }
-cfad6425382ec8 Serge Semin    2017-01-13  863  
-cfad6425382ec8 Serge Semin    2017-01-13  864  /*
-cfad6425382ec8 Serge Semin    2017-01-13  865   * eeprom_read() - EEPROM sysfs-node read callback
-cfad6425382ec8 Serge Semin    2017-01-13  866   * @filep:	Pointer to the file system node
-cfad6425382ec8 Serge Semin    2017-01-13  867   * @kobj:	Pointer to the kernel object related to the sysfs-node
-cfad6425382ec8 Serge Semin    2017-01-13  868   * @attr:	Attributes of the file
-cfad6425382ec8 Serge Semin    2017-01-13  869   * @buf:	Buffer to write data to
-cfad6425382ec8 Serge Semin    2017-01-13  870   * @off:	Offset at which data should be written to
-cfad6425382ec8 Serge Semin    2017-01-13  871   * @count:	Number of bytes to write
-cfad6425382ec8 Serge Semin    2017-01-13  872   */
-cfad6425382ec8 Serge Semin    2017-01-13  873  static ssize_t eeprom_read(struct file *filp, struct kobject *kobj,
-cfad6425382ec8 Serge Semin    2017-01-13  874  			   struct bin_attribute *attr,
-cfad6425382ec8 Serge Semin    2017-01-13  875  			   char *buf, loff_t off, size_t count)
-cfad6425382ec8 Serge Semin    2017-01-13  876  {
-cfad6425382ec8 Serge Semin    2017-01-13  877  	struct idt_89hpesx_dev *pdev;
-cfad6425382ec8 Serge Semin    2017-01-13  878  	int ret;
-cfad6425382ec8 Serge Semin    2017-01-13  879  
-cfad6425382ec8 Serge Semin    2017-01-13  880  	/* Retrieve driver data */
-cfad6425382ec8 Serge Semin    2017-01-13  881  	pdev = dev_get_drvdata(kobj_to_dev(kobj));
-cfad6425382ec8 Serge Semin    2017-01-13  882  
-cfad6425382ec8 Serge Semin    2017-01-13  883  	/* Perform EEPROM read operation */
-cfad6425382ec8 Serge Semin    2017-01-13  884  	ret = idt_eeprom_read(pdev, (u16)off, (u16)count, (u8 *)buf);
-cfad6425382ec8 Serge Semin    2017-01-13  885  	return (ret != 0 ? ret : count);
-cfad6425382ec8 Serge Semin    2017-01-13  886  }
-cfad6425382ec8 Serge Semin    2017-01-13  887  
-cfad6425382ec8 Serge Semin    2017-01-13  888  /*
-cfad6425382ec8 Serge Semin    2017-01-13  889   * idt_dbgfs_csr_write() - CSR debugfs-node write callback
-cfad6425382ec8 Serge Semin    2017-01-13  890   * @filep:	Pointer to the file system file descriptor
-cfad6425382ec8 Serge Semin    2017-01-13  891   * @buf:	Buffer to read data from
-cfad6425382ec8 Serge Semin    2017-01-13  892   * @count:	Size of the buffer
-cfad6425382ec8 Serge Semin    2017-01-13  893   * @offp:	Offset within the file
-cfad6425382ec8 Serge Semin    2017-01-13  894   *
-cfad6425382ec8 Serge Semin    2017-01-13  895   * It accepts either "0x<reg addr>:0x<value>" for saving register address
-cfad6425382ec8 Serge Semin    2017-01-13  896   * and writing value to specified DWORD register or "0x<reg addr>" for
-cfad6425382ec8 Serge Semin    2017-01-13  897   * just saving register address in order to perform next read operation.
-cfad6425382ec8 Serge Semin    2017-01-13  898   *
-cfad6425382ec8 Serge Semin    2017-01-13  899   * WARNING No spaces are allowed. Incoming string must be strictly formated as:
-cfad6425382ec8 Serge Semin    2017-01-13  900   * "<reg addr>:<value>". Register address must be aligned within 4 bytes
-cfad6425382ec8 Serge Semin    2017-01-13  901   * (one DWORD).
-cfad6425382ec8 Serge Semin    2017-01-13  902   */
-79301b69940a7e Jens Axboe     2024-04-05 @903  static ssize_t idt_dbgfs_csr_write(struct file *kiocb *iocb,
-79301b69940a7e Jens Axboe     2024-04-05  904  				   struct iov_iter *from)
-cfad6425382ec8 Serge Semin    2017-01-13  905  {
-cfad6425382ec8 Serge Semin    2017-01-13  906  	struct idt_89hpesx_dev *pdev = filep->private_data;
-cfad6425382ec8 Serge Semin    2017-01-13  907  	char *colon_ch, *csraddr_str, *csrval_str;
-79301b69940a7e Jens Axboe     2024-04-05  908  	size_t count = iov_iter_count(from);
-bcdf91c9f9077d Justin Stitt   2023-09-27  909  	int ret;
-cfad6425382ec8 Serge Semin    2017-01-13  910  	u32 csraddr, csrval;
-cfad6425382ec8 Serge Semin    2017-01-13  911  	char *buf;
-cfad6425382ec8 Serge Semin    2017-01-13  912  
-79301b69940a7e Jens Axboe     2024-04-05  913  	if (iocb->ki_pos)
-71d46f1ff2212c Dan Carpenter  2022-07-08  914  		return 0;
-71d46f1ff2212c Dan Carpenter  2022-07-08  915  
-cfad6425382ec8 Serge Semin    2017-01-13  916  	/* Copy data from User-space */
-79301b69940a7e Jens Axboe     2024-04-05  917  	buf = iterdup_user(from, count);
-183238ffb8863e Ruan Jinjie    2023-08-10  918  	if (IS_ERR(buf))
-183238ffb8863e Ruan Jinjie    2023-08-10  919  		return PTR_ERR(buf);
-cfad6425382ec8 Serge Semin    2017-01-13  920  
-cfad6425382ec8 Serge Semin    2017-01-13  921  	/* Find position of colon in the buffer */
-cfad6425382ec8 Serge Semin    2017-01-13  922  	colon_ch = strnchr(buf, count, ':');
-cfad6425382ec8 Serge Semin    2017-01-13  923  
-cfad6425382ec8 Serge Semin    2017-01-13  924  	/*
-cfad6425382ec8 Serge Semin    2017-01-13  925  	 * If there is colon passed then new CSR value should be parsed as
-cfad6425382ec8 Serge Semin    2017-01-13  926  	 * well, so allocate buffer for CSR address substring.
-cfad6425382ec8 Serge Semin    2017-01-13  927  	 * If no colon is found, then string must have just one number with
-cfad6425382ec8 Serge Semin    2017-01-13  928  	 * no new CSR value
-cfad6425382ec8 Serge Semin    2017-01-13  929  	 */
-cfad6425382ec8 Serge Semin    2017-01-13  930  	if (colon_ch != NULL) {
-bcdf91c9f9077d Justin Stitt   2023-09-27  931  		/* Copy the register address to the substring buffer */
-bcdf91c9f9077d Justin Stitt   2023-09-27  932  		csraddr_str = kmemdup_nul(buf, colon_ch - buf, GFP_KERNEL);
-acf50ec773703f Colin Ian King 2017-01-24  933  		if (csraddr_str == NULL) {
-acf50ec773703f Colin Ian King 2017-01-24  934  			ret = -ENOMEM;
-acf50ec773703f Colin Ian King 2017-01-24  935  			goto free_buf;
-acf50ec773703f Colin Ian King 2017-01-24  936  		}
-cfad6425382ec8 Serge Semin    2017-01-13  937  		/* Register value must follow the colon */
-cfad6425382ec8 Serge Semin    2017-01-13  938  		csrval_str = colon_ch + 1;
-cfad6425382ec8 Serge Semin    2017-01-13  939  	} else /* if (str_colon == NULL) */ {
-cfad6425382ec8 Serge Semin    2017-01-13  940  		csraddr_str = (char *)buf; /* Just to shut warning up */
-cfad6425382ec8 Serge Semin    2017-01-13  941  		csrval_str = NULL;
-cfad6425382ec8 Serge Semin    2017-01-13  942  	}
-cfad6425382ec8 Serge Semin    2017-01-13  943  
-cfad6425382ec8 Serge Semin    2017-01-13  944  	/* Convert CSR address to u32 value */
-cfad6425382ec8 Serge Semin    2017-01-13  945  	ret = kstrtou32(csraddr_str, 0, &csraddr);
-cfad6425382ec8 Serge Semin    2017-01-13  946  	if (ret != 0)
-cfad6425382ec8 Serge Semin    2017-01-13  947  		goto free_csraddr_str;
-cfad6425382ec8 Serge Semin    2017-01-13  948  
-cfad6425382ec8 Serge Semin    2017-01-13  949  	/* Check whether passed register address is valid */
-cfad6425382ec8 Serge Semin    2017-01-13  950  	if (csraddr > CSR_MAX || !IS_ALIGNED(csraddr, SZ_4)) {
-cfad6425382ec8 Serge Semin    2017-01-13  951  		ret = -EINVAL;
-cfad6425382ec8 Serge Semin    2017-01-13  952  		goto free_csraddr_str;
-cfad6425382ec8 Serge Semin    2017-01-13  953  	}
-cfad6425382ec8 Serge Semin    2017-01-13  954  
-cfad6425382ec8 Serge Semin    2017-01-13  955  	/* Shift register address to the right so to have u16 address */
-cfad6425382ec8 Serge Semin    2017-01-13  956  	pdev->csr = (csraddr >> 2);
-cfad6425382ec8 Serge Semin    2017-01-13  957  
-cfad6425382ec8 Serge Semin    2017-01-13  958  	/* Parse new CSR value and send it to IDT, if colon has been found */
-cfad6425382ec8 Serge Semin    2017-01-13  959  	if (colon_ch != NULL) {
-cfad6425382ec8 Serge Semin    2017-01-13  960  		ret = kstrtou32(csrval_str, 0, &csrval);
-cfad6425382ec8 Serge Semin    2017-01-13  961  		if (ret != 0)
-cfad6425382ec8 Serge Semin    2017-01-13  962  			goto free_csraddr_str;
-cfad6425382ec8 Serge Semin    2017-01-13  963  
-cfad6425382ec8 Serge Semin    2017-01-13  964  		ret = idt_csr_write(pdev, pdev->csr, csrval);
-cfad6425382ec8 Serge Semin    2017-01-13  965  		if (ret != 0)
-cfad6425382ec8 Serge Semin    2017-01-13  966  			goto free_csraddr_str;
-cfad6425382ec8 Serge Semin    2017-01-13  967  	}
-cfad6425382ec8 Serge Semin    2017-01-13  968  
-cfad6425382ec8 Serge Semin    2017-01-13  969  	/* Free memory only if colon has been found */
-cfad6425382ec8 Serge Semin    2017-01-13  970  free_csraddr_str:
-cfad6425382ec8 Serge Semin    2017-01-13  971  	if (colon_ch != NULL)
-cfad6425382ec8 Serge Semin    2017-01-13  972  		kfree(csraddr_str);
-cfad6425382ec8 Serge Semin    2017-01-13  973  
-cfad6425382ec8 Serge Semin    2017-01-13  974  	/* Free buffer allocated for data retrieved from User-space */
-cfad6425382ec8 Serge Semin    2017-01-13  975  free_buf:
-cfad6425382ec8 Serge Semin    2017-01-13  976  	kfree(buf);
-cfad6425382ec8 Serge Semin    2017-01-13  977  
-cfad6425382ec8 Serge Semin    2017-01-13  978  	return (ret != 0 ? ret : count);
-cfad6425382ec8 Serge Semin    2017-01-13  979  }
-cfad6425382ec8 Serge Semin    2017-01-13  980  
+	struct sk_buff *           lost_skb_hint;        /*  1588     4 */
+	struct sk_buff *           retransmit_skb_hint;  /*  1592     4 */
+	__u8                       __cacheline_group_end__tcp_sock_read_tx[0]; /*  1596     0 */
+	__u8                       __cacheline_group_begin__tcp_sock_read_txrx[0]; /*  1596     0 */
+	u32                        tsoffset;             /*  1596     4 */
+	/* --- cacheline 25 boundary (1600 bytes) --- */
+	u32                        snd_wnd;              /*  1600     4 */
+	u32                        mss_cache;            /*  1604     4 */
+	u32                        snd_cwnd;             /*  1608     4 */
+	u32                        prr_out;              /*  1612     4 */
+	u32                        lost_out;             /*  1616     4 */
+	u32                        sacked_out;           /*  1620     4 */
+	u16                        tcp_header_len;       /*  1624     2 */
+	u8                         scaling_ratio;        /*  1626     1 */
+	u8                         chrono_type:2;        /*  1627: 0  1 */
+	u8                         repair:1;             /*  1627: 2  1 */
+	u8                         tcp_usec_ts:1;        /*  1627: 3  1 */
+	u8                         is_sack_reneg:1;      /*  1627: 4  1 */
+	u8                         is_cwnd_limited:1;    /*  1627: 5  1 */
 
-:::::: The code at line 718 was first introduced by commit
-:::::: cfad6425382ec81acd073fdf24361e1c30b4cb36 eeprom: Add IDT 89HPESx EEPROM/CSR driver
+	/* XXX 2 bits hole, try to pack */
 
-:::::: TO: Serge Semin <fancer.lancer@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	__u8                       __cacheline_group_end__tcp_sock_read_txrx[0]; /*  1628     0 */
+	__u8                       __cacheline_group_begin__tcp_sock_read_rx[0]; /*  1628     0 */
+	u32                        copied_seq;           /*  1628     4 */
+	u32                        rcv_tstamp;           /*  1632     4 */
+	u32                        snd_wl1;              /*  1636     4 */
+	u32                        tlp_high_seq;         /*  1640     4 */
+	u32                        rttvar_us;            /*  1644     4 */
+	u32                        retrans_out;          /*  1648     4 */
+	u16                        advmss;               /*  1652     2 */
+	u16                        urg_data;             /*  1654     2 */
+	u32                        lost;                 /*  1656     4 */
+	struct minmax              rtt_min;              /*  1660    24 */
+	/* --- cacheline 26 boundary (1664 bytes) was 20 bytes ago --- */
+	struct rb_root             out_of_order_queue;   /*  1684     4 */
+	u32                        snd_ssthresh;         /*  1688     4 */
+	__u8                       __cacheline_group_end__tcp_sock_read_rx[0]; /*  1692     0 */
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	/* XXX 36 bytes hole, try to pack */
+
+	/* --- cacheline 27 boundary (1728 bytes) --- */
+	__u8                       __cacheline_group_begin__tcp_sock_write_tx[0] __attribute__((__aligned__(64))); /*  1728     0 */
+	u32                        segs_out;             /*  1728     4 */
+	u32                        data_segs_out;        /*  1732     4 */
+	u64                        bytes_sent;           /*  1736     8 */
+	u32                        snd_sml;              /*  1744     4 */
+	u32                        chrono_start;         /*  1748     4 */
+	u32                        chrono_stat[3];       /*  1752    12 */
+	u32                        write_seq;            /*  1764     4 */
+	u32                        pushed_seq;           /*  1768     4 */
+	u32                        lsndtime;             /*  1772     4 */
+	u32                        mdev_us;              /*  1776     4 */
+	u32                        rtt_seq;              /*  1780     4 */
+	u64                        tcp_wstamp_ns;        /*  1784     8 */
+	/* --- cacheline 28 boundary (1792 bytes) --- */
+	u64                        tcp_clock_cache;      /*  1792     8 */
+	u64                        tcp_mstamp;           /*  1800     8 */
+	struct list_head           tsorted_sent_queue;   /*  1808     8 */
+	struct sk_buff *           highest_sack;         /*  1816     4 */
+	u8                         ecn_flags;            /*  1820     1 */
+	__u8                       __cacheline_group_end__tcp_sock_write_tx[0]; /*  1821     0 */
+	__u8                       __cacheline_group_begin__tcp_sock_write_txrx[0]; /*  1821     0 */
+
+	/* XXX 3 bytes hole, try to pack */
+
+	__be32                     pred_flags;           /*  1824     4 */
+	u32                        rcv_nxt;              /*  1828     4 */
+	u32                        snd_nxt;              /*  1832     4 */
+	u32                        snd_una;              /*  1836     4 */
+	u32                        window_clamp;         /*  1840     4 */
+	u32                        srtt_us;              /*  1844     4 */
+	u32                        packets_out;          /*  1848     4 */
+	u32                        snd_up;               /*  1852     4 */
+	/* --- cacheline 29 boundary (1856 bytes) --- */
+	u32                        delivered;            /*  1856     4 */
+	u32                        delivered_ce;         /*  1860     4 */
+	u32                        app_limited;          /*  1864     4 */
+	u32                        rcv_wnd;              /*  1868     4 */
+	struct tcp_options_received rx_opt;              /*  1872    24 */
+	u8                         nonagle:4;            /*  1896: 0  1 */
+	u8                         rate_app_limited:1;   /*  1896: 4  1 */
+
+	/* XXX 3 bits hole, try to pack */
+
+	__u8                       __cacheline_group_end__tcp_sock_write_txrx[0]; /*  1897     0 */
+
+	/* XXX 7 bytes hole, try to pack */
+
+	__u8                       __cacheline_group_begin__tcp_sock_write_rx[0] __attribute__((__aligned__(8))); /*  1904     0 */
+	u64                        bytes_received;       /*  1904     8 */
+	u32                        segs_in;              /*  1912     4 */
+	u32                        data_segs_in;         /*  1916     4 */
+	/* --- cacheline 30 boundary (1920 bytes) --- */
+	u32                        rcv_wup;              /*  1920     4 */
+	u32                        max_packets_out;      /*  1924     4 */
+	u32                        cwnd_usage_seq;       /*  1928     4 */
+	u32                        rate_delivered;       /*  1932     4 */
+	u32                        rate_interval_us;     /*  1936     4 */
+	u32                        rcv_rtt_last_tsecr;   /*  1940     4 */
+	u64                        first_tx_mstamp;      /*  1944     8 */
+	u64                        delivered_mstamp;     /*  1952     8 */
+	u64                        bytes_acked;          /*  1960     8 */
+	struct {
+		u32                rtt_us;               /*  1968     4 */
+		u32                seq;                  /*  1972     4 */
+		u64                time;                 /*  1976     8 */
+	} rcv_rtt_est;                                   /*  1968    16 */
+	/* --- cacheline 31 boundary (1984 bytes) --- */
+	struct {
+		u32                space;                /*  1984     4 */
+		u32                seq;                  /*  1988     4 */
+		u64                time;                 /*  1992     8 */
+	} rcvq_space;                                    /*  1984    16 */
+	__u8                       __cacheline_group_end__tcp_sock_write_rx[0]; /*  2000     0 */
+	u32                        dsack_dups;           /*  2000     4 */
+	u32                        compressed_ack_rcv_nxt; /*  2004     4 */
+	struct list_head           tsq_node;             /*  2008     8 */
+	struct tcp_rack            rack;                 /*  2016    24 */
+
+	/* XXX last struct has 2 bytes of padding */
+
+	u8                         compressed_ack;       /*  2040     1 */
+	u8                         dup_ack_counter:2;    /*  2041: 0  1 */
+	u8                         tlp_retrans:1;        /*  2041: 2  1 */
+	u8                         unused:5;             /*  2041: 3  1 */
+	u8                         thin_lto:1;           /*  2042: 0  1 */
+	u8                         recvmsg_inq:1;        /*  2042: 1  1 */
+	u8                         fastopen_connect:1;   /*  2042: 2  1 */
+	u8                         fastopen_no_cookie:1; /*  2042: 3  1 */
+	u8                         fastopen_client_fail:2; /*  2042: 4  1 */
+	u8                         frto:1;               /*  2042: 6  1 */
+
+	/* XXX 1 bit hole, try to pack */
+
+	u8                         repair_queue;         /*  2043     1 */
+	u8                         save_syn:2;           /*  2044: 0  1 */
+	u8                         syn_data:1;           /*  2044: 2  1 */
+	u8                         syn_fastopen:1;       /*  2044: 3  1 */
+	u8                         syn_fastopen_exp:1;   /*  2044: 4  1 */
+	u8                         syn_fastopen_ch:1;    /*  2044: 5  1 */
+	u8                         syn_data_acked:1;     /*  2044: 6  1 */
+
+	/* XXX 1 bit hole, try to pack */
+
+	u8                         keepalive_probes;     /*  2045     1 */
+
+	/* XXX 2 bytes hole, try to pack */
+
+	/* --- cacheline 32 boundary (2048 bytes) --- */
+	u32                        tcp_tx_delay;         /*  2048     4 */
+	u32                        mdev_max_us;          /*  2052     4 */
+	u32                        reord_seen;           /*  2056     4 */
+	u32                        snd_cwnd_cnt;         /*  2060     4 */
+	u32                        snd_cwnd_clamp;       /*  2064     4 */
+	u32                        snd_cwnd_used;        /*  2068     4 */
+	u32                        snd_cwnd_stamp;       /*  2072     4 */
+	u32                        prior_cwnd;           /*  2076     4 */
+	u32                        prr_delivered;        /*  2080     4 */
+	u32                        last_oow_ack_time;    /*  2084     4 */
+	struct hrtimer             pacing_timer __attribute__((__aligned__(8))); /*  2088    48 */
+
+	/* XXX last struct has 4 bytes of padding */
+
+	/* --- cacheline 33 boundary (2112 bytes) was 24 bytes ago --- */
+	struct hrtimer             compressed_ack_timer __attribute__((__aligned__(8))); /*  2136    48 */
+
+	/* XXX last struct has 4 bytes of padding */
+
+	/* --- cacheline 34 boundary (2176 bytes) was 8 bytes ago --- */
+	struct sk_buff *           ooo_last_skb;         /*  2184     4 */
+	struct tcp_sack_block      duplicate_sack[1];    /*  2188     8 */
+	struct tcp_sack_block      selective_acks[4];    /*  2196    32 */
+	struct tcp_sack_block      recv_sack_cache[4];   /*  2228    32 */
+	/* --- cacheline 35 boundary (2240 bytes) was 20 bytes ago --- */
+	int                        lost_cnt_hint;        /*  2260     4 */
+	u32                        prior_ssthresh;       /*  2264     4 */
+	u32                        high_seq;             /*  2268     4 */
+	u32                        retrans_stamp;        /*  2272     4 */
+	u32                        undo_marker;          /*  2276     4 */
+	int                        undo_retrans;         /*  2280     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	u64                        bytes_retrans;        /*  2288     8 */
+	u32                        total_retrans;        /*  2296     4 */
+	u32                        rto_stamp;            /*  2300     4 */
+	/* --- cacheline 36 boundary (2304 bytes) --- */
+	u16                        total_rto;            /*  2304     2 */
+	u16                        total_rto_recoveries; /*  2306     2 */
+	u32                        total_rto_time;       /*  2308     4 */
+	u32                        urg_seq;              /*  2312     4 */
+	unsigned int               keepalive_time;       /*  2316     4 */
+	unsigned int               keepalive_intvl;      /*  2320     4 */
+	int                        linger2;              /*  2324     4 */
+	u8                         bpf_sock_ops_cb_flags; /*  2328     1 */
+	u8                         bpf_chg_cc_inprogress:1; /*  2329: 0  1 */
+
+	/* XXX 7 bits hole, try to pack */
+
+	u16                        timeout_rehash;       /*  2330     2 */
+	u32                        rcv_ooopack;          /*  2332     4 */
+	struct {
+		u32                probe_seq_start;      /*  2336     4 */
+		u32                probe_seq_end;        /*  2340     4 */
+	} mtu_probe;                                     /*  2336     8 */
+	u32                        plb_rehash;           /*  2344     4 */
+	u32                        mtu_info;             /*  2348     4 */
+	struct tcp_fastopen_request * fastopen_req;      /*  2352     4 */
+	struct request_sock *      fastopen_rsk;         /*  2356     4 */
+	struct saved_syn *         saved_syn;            /*  2360     4 */
+
+	/* size: 2368, cachelines: 37, members: 156 */
+	/* sum members: 2304, holes: 6, sum holes: 54 */
+	/* sum bitfield members: 34 bits, bit holes: 5, sum bit holes: 14 bits */
+	/* padding: 4 */
+	/* paddings: 3, sum paddings: 10 */
+	/* forced alignments: 5, forced holes: 2, sum forced holes: 43 */
+} __attribute__((__aligned__(64)));
+
+After the change, it begins at 1805 and ends at 1901, thus triggering
+the assertion (96 > 92):
+
+struct tcp_sock {
+	struct inet_connection_sock inet_conn __attribute__((__aligned__(8))); /*     0  1568 */
+	/* --- cacheline 24 boundary (1536 bytes) was 32 bytes ago --- */
+	__u8                       __cacheline_group_begin__tcp_sock_read_tx[0]; /*  1568     0 */
+	u32                        max_window;           /*  1568     4 */
+	u32                        rcv_ssthresh;         /*  1572     4 */
+	u32                        reordering;           /*  1576     4 */
+	u32                        notsent_lowat;        /*  1580     4 */
+	u16                        gso_segs;             /*  1584     2 */
+
+	/* XXX 2 bytes hole, try to pack */
+
+	struct sk_buff *           lost_skb_hint;        /*  1588     4 */
+	struct sk_buff *           retransmit_skb_hint;  /*  1592     4 */
+	__u8                       __cacheline_group_end__tcp_sock_read_tx[0]; /*  1596     0 */
+	__u8                       __cacheline_group_begin__tcp_sock_read_txrx[0]; /*  1596     0 */
+	u32                        tsoffset;             /*  1596     4 */
+	/* --- cacheline 25 boundary (1600 bytes) --- */
+	u32                        snd_wnd;              /*  1600     4 */
+	u32                        mss_cache;            /*  1604     4 */
+	u32                        snd_cwnd;             /*  1608     4 */
+	u32                        prr_out;              /*  1612     4 */
+	u32                        lost_out;             /*  1616     4 */
+	u32                        sacked_out;           /*  1620     4 */
+	u16                        tcp_header_len;       /*  1624     2 */
+	u8                         scaling_ratio;        /*  1626     1 */
+	u8                         chrono_type:2;        /*  1627: 0  1 */
+	u8                         repair:1;             /*  1627: 2  1 */
+	u8                         tcp_usec_ts:1;        /*  1627: 3  1 */
+	u8                         is_sack_reneg:1;      /*  1627: 4  1 */
+	u8                         is_cwnd_limited:1;    /*  1627: 5  1 */
+
+	/* XXX 2 bits hole, try to pack */
+
+	__u8                       __cacheline_group_end__tcp_sock_read_txrx[0]; /*  1628     0 */
+	__u8                       __cacheline_group_begin__tcp_sock_read_rx[0]; /*  1628     0 */
+	u32                        copied_seq;           /*  1628     4 */
+	u32                        rcv_tstamp;           /*  1632     4 */
+	u32                        snd_wl1;              /*  1636     4 */
+	u32                        tlp_high_seq;         /*  1640     4 */
+	u32                        rttvar_us;            /*  1644     4 */
+	u32                        retrans_out;          /*  1648     4 */
+	u16                        advmss;               /*  1652     2 */
+	u16                        urg_data;             /*  1654     2 */
+	u32                        lost;                 /*  1656     4 */
+	struct minmax              rtt_min;              /*  1660    24 */
+	/* --- cacheline 26 boundary (1664 bytes) was 20 bytes ago --- */
+	struct rb_root             out_of_order_queue;   /*  1684     4 */
+	u32                        snd_ssthresh;         /*  1688     4 */
+	u8                         recvmsg_inq:1;        /*  1692: 0  1 */
+
+	/* XXX 7 bits hole, try to pack */
+
+	__u8                       __cacheline_group_end__tcp_sock_read_rx[0]; /*  1693     0 */
+
+	/* XXX 35 bytes hole, try to pack */
+
+	/* --- cacheline 27 boundary (1728 bytes) --- */
+	__u8                       __cacheline_group_begin__tcp_sock_write_tx[0] __attribute__((__aligned__(64))); /*  1728     0 */
+	u32                        segs_out;             /*  1728     4 */
+	u32                        data_segs_out;        /*  1732     4 */
+	u64                        bytes_sent;           /*  1736     8 */
+	u32                        snd_sml;              /*  1744     4 */
+	u32                        chrono_start;         /*  1748     4 */
+	u32                        chrono_stat[3];       /*  1752    12 */
+	u32                        write_seq;            /*  1764     4 */
+	u32                        pushed_seq;           /*  1768     4 */
+	u32                        lsndtime;             /*  1772     4 */
+	u32                        mdev_us;              /*  1776     4 */
+	u32                        rtt_seq;              /*  1780     4 */
+	u64                        tcp_wstamp_ns;        /*  1784     8 */
+	/* --- cacheline 28 boundary (1792 bytes) --- */
+	struct list_head           tsorted_sent_queue;   /*  1792     8 */
+	struct sk_buff *           highest_sack;         /*  1800     4 */
+	u8                         ecn_flags;            /*  1804     1 */
+	__u8                       __cacheline_group_end__tcp_sock_write_tx[0]; /*  1805     0 */
+	__u8                       __cacheline_group_begin__tcp_sock_write_txrx[0]; /*  1805     0 */
+
+	/* XXX 3 bytes hole, try to pack */
+
+	__be32                     pred_flags;           /*  1808     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	u64                        tcp_clock_cache;      /*  1816     8 */
+	u64                        tcp_mstamp;           /*  1824     8 */
+	u32                        rcv_nxt;              /*  1832     4 */
+	u32                        snd_nxt;              /*  1836     4 */
+	u32                        snd_una;              /*  1840     4 */
+	u32                        window_clamp;         /*  1844     4 */
+	u32                        srtt_us;              /*  1848     4 */
+	u32                        packets_out;          /*  1852     4 */
+	/* --- cacheline 29 boundary (1856 bytes) --- */
+	u32                        snd_up;               /*  1856     4 */
+	u32                        delivered;            /*  1860     4 */
+	u32                        delivered_ce;         /*  1864     4 */
+	u32                        app_limited;          /*  1868     4 */
+	u32                        rcv_wnd;              /*  1872     4 */
+	struct tcp_options_received rx_opt;              /*  1876    24 */
+	u8                         nonagle:4;            /*  1900: 0  1 */
+	u8                         rate_app_limited:1;   /*  1900: 4  1 */
+
+	/* XXX 3 bits hole, try to pack */
+
+	__u8                       __cacheline_group_end__tcp_sock_write_txrx[0]; /*  1901     0 */
+
+	/* XXX 3 bytes hole, try to pack */
+
+	__u8                       __cacheline_group_begin__tcp_sock_write_rx[0] __attribute__((__aligned__(8))); /*  1904     0 */
+	u64                        bytes_received;       /*  1904     8 */
+	u32                        segs_in;              /*  1912     4 */
+	u32                        data_segs_in;         /*  1916     4 */
+	/* --- cacheline 30 boundary (1920 bytes) --- */
+	u32                        rcv_wup;              /*  1920     4 */
+	u32                        max_packets_out;      /*  1924     4 */
+	u32                        cwnd_usage_seq;       /*  1928     4 */
+	u32                        rate_delivered;       /*  1932     4 */
+	u32                        rate_interval_us;     /*  1936     4 */
+	u32                        rcv_rtt_last_tsecr;   /*  1940     4 */
+	u64                        first_tx_mstamp;      /*  1944     8 */
+	u64                        delivered_mstamp;     /*  1952     8 */
+	u64                        bytes_acked;          /*  1960     8 */
+	struct {
+		u32                rtt_us;               /*  1968     4 */
+		u32                seq;                  /*  1972     4 */
+		u64                time;                 /*  1976     8 */
+	} rcv_rtt_est;                                   /*  1968    16 */
+	/* --- cacheline 31 boundary (1984 bytes) --- */
+	struct {
+		u32                space;                /*  1984     4 */
+		u32                seq;                  /*  1988     4 */
+		u64                time;                 /*  1992     8 */
+	} rcvq_space;                                    /*  1984    16 */
+	__u8                       __cacheline_group_end__tcp_sock_write_rx[0]; /*  2000     0 */
+	u32                        dsack_dups;           /*  2000     4 */
+	u32                        compressed_ack_rcv_nxt; /*  2004     4 */
+	struct list_head           tsq_node;             /*  2008     8 */
+	struct tcp_rack            rack;                 /*  2016    24 */
+
+	/* XXX last struct has 2 bytes of padding */
+
+	u8                         compressed_ack;       /*  2040     1 */
+	u8                         dup_ack_counter:2;    /*  2041: 0  1 */
+	u8                         tlp_retrans:1;        /*  2041: 2  1 */
+	u8                         unused:5;             /*  2041: 3  1 */
+	u8                         thin_lto:1;           /*  2042: 0  1 */
+	u8                         fastopen_connect:1;   /*  2042: 1  1 */
+	u8                         fastopen_no_cookie:1; /*  2042: 2  1 */
+	u8                         fastopen_client_fail:2; /*  2042: 3  1 */
+	u8                         frto:1;               /*  2042: 5  1 */
+
+	/* XXX 2 bits hole, try to pack */
+
+	u8                         repair_queue;         /*  2043     1 */
+	u8                         save_syn:2;           /*  2044: 0  1 */
+	u8                         syn_data:1;           /*  2044: 2  1 */
+	u8                         syn_fastopen:1;       /*  2044: 3  1 */
+	u8                         syn_fastopen_exp:1;   /*  2044: 4  1 */
+	u8                         syn_fastopen_ch:1;    /*  2044: 5  1 */
+	u8                         syn_data_acked:1;     /*  2044: 6  1 */
+
+	/* XXX 1 bit hole, try to pack */
+
+	u8                         keepalive_probes;     /*  2045     1 */
+
+	/* XXX 2 bytes hole, try to pack */
+
+	/* --- cacheline 32 boundary (2048 bytes) --- */
+	u32                        tcp_tx_delay;         /*  2048     4 */
+	u32                        mdev_max_us;          /*  2052     4 */
+	u32                        reord_seen;           /*  2056     4 */
+	u32                        snd_cwnd_cnt;         /*  2060     4 */
+	u32                        snd_cwnd_clamp;       /*  2064     4 */
+	u32                        snd_cwnd_used;        /*  2068     4 */
+	u32                        snd_cwnd_stamp;       /*  2072     4 */
+	u32                        prior_cwnd;           /*  2076     4 */
+	u32                        prr_delivered;        /*  2080     4 */
+	u32                        last_oow_ack_time;    /*  2084     4 */
+	struct hrtimer             pacing_timer __attribute__((__aligned__(8))); /*  2088    48 */
+
+	/* XXX last struct has 4 bytes of padding */
+
+	/* --- cacheline 33 boundary (2112 bytes) was 24 bytes ago --- */
+	struct hrtimer             compressed_ack_timer __attribute__((__aligned__(8))); /*  2136    48 */
+
+	/* XXX last struct has 4 bytes of padding */
+
+	/* --- cacheline 34 boundary (2176 bytes) was 8 bytes ago --- */
+	struct sk_buff *           ooo_last_skb;         /*  2184     4 */
+	struct tcp_sack_block      duplicate_sack[1];    /*  2188     8 */
+	struct tcp_sack_block      selective_acks[4];    /*  2196    32 */
+	struct tcp_sack_block      recv_sack_cache[4];   /*  2228    32 */
+	/* --- cacheline 35 boundary (2240 bytes) was 20 bytes ago --- */
+	int                        lost_cnt_hint;        /*  2260     4 */
+	u32                        prior_ssthresh;       /*  2264     4 */
+	u32                        high_seq;             /*  2268     4 */
+	u32                        retrans_stamp;        /*  2272     4 */
+	u32                        undo_marker;          /*  2276     4 */
+	int                        undo_retrans;         /*  2280     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	u64                        bytes_retrans;        /*  2288     8 */
+	u32                        total_retrans;        /*  2296     4 */
+	u32                        rto_stamp;            /*  2300     4 */
+	/* --- cacheline 36 boundary (2304 bytes) --- */
+	u16                        total_rto;            /*  2304     2 */
+	u16                        total_rto_recoveries; /*  2306     2 */
+	u32                        total_rto_time;       /*  2308     4 */
+	u32                        urg_seq;              /*  2312     4 */
+	unsigned int               keepalive_time;       /*  2316     4 */
+	unsigned int               keepalive_intvl;      /*  2320     4 */
+	int                        linger2;              /*  2324     4 */
+	u8                         bpf_sock_ops_cb_flags; /*  2328     1 */
+	u8                         bpf_chg_cc_inprogress:1; /*  2329: 0  1 */
+
+	/* XXX 7 bits hole, try to pack */
+
+	u16                        timeout_rehash;       /*  2330     2 */
+	u32                        rcv_ooopack;          /*  2332     4 */
+	struct {
+		u32                probe_seq_start;      /*  2336     4 */
+		u32                probe_seq_end;        /*  2340     4 */
+	} mtu_probe;                                     /*  2336     8 */
+	u32                        plb_rehash;           /*  2344     4 */
+	u32                        mtu_info;             /*  2348     4 */
+	struct tcp_fastopen_request * fastopen_req;      /*  2352     4 */
+	struct request_sock *      fastopen_rsk;         /*  2356     4 */
+	struct saved_syn *         saved_syn;            /*  2360     4 */
+
+	/* size: 2368, cachelines: 37, members: 156 */
+	/* sum members: 2304, holes: 7, sum holes: 53 */
+	/* sum bitfield members: 34 bits, bit holes: 6, sum bit holes: 22 bits */
+	/* padding: 4 */
+	/* paddings: 3, sum paddings: 10 */
+	/* forced alignments: 5, forced holes: 2, sum forced holes: 38 */
+} __attribute__((__aligned__(64)));
+
+It gained 20 bytes in the change. Most notably, it gained a 4 byte hole
+between pred_flags and tcp_clock_cache.
+
+I haven't followed the development of these optimizations, and I tried a
+few trivial things, some of which didn't work, and some of which did.
+Of those that worked, the most notable one was letting the 2 u64 fields,
+tcp_clock_cache and tcp_mstamp, be the first members of the group, and
+moving the __be32 pred_flags right below them.
+
+Obviously my level of confidence in the fix is quite low, so it would be
+great if you could cast an expert eye onto this.
