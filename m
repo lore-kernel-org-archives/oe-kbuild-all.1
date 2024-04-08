@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F961146599
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Apr 2024 20:20:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D69F146A68;
+	Mon,  8 Apr 2024 20:20:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712607609; cv=none; b=DQrCUMPpLBDt2YZmu4YJggXiwuTy02uZWIDZmuS18JO1GhDywLPRo2IXt3W4eJfmB4DLvCgsZE7dob8IWEa4BP9mnyCG8wThDr35PiOm7KbtU7GWJFnVgzNnWklyoPhlfkObuQ/oZwucUaXFm7z3RMhFkPp/mu/vEVwJ6LlRBJ0=
+	t=1712607612; cv=none; b=pmBnO/xlLhZZiGrxoQIqtKDymqqWp2U+KlPZ9HOFaPFfvF61i9ntJMk06peSnsoLIG9kIehh06zf7XyUvMcNTd9PfweZEqcntpl7p8om7qjl4mq9USTHdOWElTOQ/9I2huIXwiCeEeS2WcbmiaPAFUotuYZsK/Qj6KVfR1AwhII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712607609; c=relaxed/simple;
-	bh=MlyH1697BnLsSgZkeuG/RoqLh30RxywdT9/+kd4qyQk=;
+	s=arc-20240116; t=1712607612; c=relaxed/simple;
+	bh=FopTkbXlJzDGZH5vTNleHJZA3l0e8MEhRKXnz8foTUA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mhnO7kaiTD8fkrdCmaruFZDx6pfpsIWrn5wZvoTI7DndJJgCRUMIHNtltFoWgNMJK+ndhLFVVmsuxn7Rk4L7U+VrECr2bHgD+jQQKRpiOJLTZhq0wg8pOREfDFddKXQYbVqd+po6UHZ9R1s2Y9k6qZvvNiL1NQlcynfUv39yxEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKRmqtK3; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=QSustNkiM6sl35iR8TxYUxtvatQvBazyzATKmS21yas4gV0VumPeqxL5qwfOFV9Rf4vL+C4Ef33PzjZguyWQZ+d23FCfnoqNc+CpXkx2s80ofq791vK1yOS/UvosDpo2Jq9svOFjWQAjzdnEANilgfGaHV/H8zZ6KCStJIgGZEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HxYWI+je; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKRmqtK3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HxYWI+je"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712607606; x=1744143606;
+  t=1712607609; x=1744143609;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MlyH1697BnLsSgZkeuG/RoqLh30RxywdT9/+kd4qyQk=;
-  b=OKRmqtK3TKa6VnFWTNFa7+2ZScv+a9im2egBgUtgOJpemTOtIpHz2sxy
-   pDOTQOYLx6ZCz27wFacbYp9nBrmtulw/VGbr7qrmlJWpPkkWy0AlU0nAo
-   rN1yRx769Yrc9M4THKZMD/BuSCnAAspqyKBiBzbxYs+awC+0IR/VwgNgO
-   LYfR7QK5uDxf7DAkDSvEU/1tuUR0tySADy98/DSB5KMCUgnO1NXDXiUFG
-   3PV4nD+ct6iwVUWVrikqVxM2kqeZIkRf4yFkJSbX6zVOWb6Kon34QZ6Wy
-   10NMs3AHJAKebNdNFV1NaH5hwt9ACazitl2FVKZXTczii9F0xpe2NtHn8
-   Q==;
-X-CSE-ConnectionGUID: xRUCwnAMSROW3DhZ8Zd6eQ==
-X-CSE-MsgGUID: ocmQuUXkTIywy5F7hXaFSg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="8085751"
+  bh=FopTkbXlJzDGZH5vTNleHJZA3l0e8MEhRKXnz8foTUA=;
+  b=HxYWI+jeeyPIxrJx/esE/0ARCjyLXPCp76BfUTGXWEj9B9iCplPjPHxK
+   dA9NNsqMtzonovF2CqRXbWC7O2j+nTJRXsNELvxt95ZsUwTLiQy6uJwey
+   g4G77cgNr+uHlwQ/xfh/yr1U/rg2QSLQ3e6lIqK6DWk0Hq8cRr6tMW+Kr
+   TQoNZleZKENNmNUAFm0uxsI/jj3KtOMKXlwAQD18PQp2ejYJp93tKw8FM
+   S73xrt+OP4IC9TRniWDaTN+eQ/+eb3xSOYPYTwQQqRZFgbj7p+jIL3d8Y
+   EkwobD2cSO/xVLqKRbfHVbhU8HA6joky3Mnr1nTpFj8RrgR5Jqow+vmeR
+   w==;
+X-CSE-ConnectionGUID: 4fOdhhfdTX+SnH2qOZE8Tg==
+X-CSE-MsgGUID: 2zvMS6uVRmCDmCF1+8Nvdg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="8085753"
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="8085751"
+   d="scan'208";a="8085753"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 13:20:04 -0700
-X-CSE-ConnectionGUID: lWLnNX5TTDyomqsCgcctCw==
-X-CSE-MsgGUID: J9/z+te1Q5O4TaQzoVzQAA==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 13:20:05 -0700
+X-CSE-ConnectionGUID: goSAFJy5SZChhJsbk4b5Ew==
+X-CSE-MsgGUID: Vwmj11fsSH+3gcLuoUu1Iw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="19866441"
+   d="scan'208";a="19866443"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Apr 2024 13:20:02 -0700
+  by orviesa010.jf.intel.com with ESMTP; 08 Apr 2024 13:20:03 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rtvTE-0005Su-12;
+	id 1rtvTE-0005Ss-0y;
 	Mon, 08 Apr 2024 20:20:00 +0000
-Date: Tue, 9 Apr 2024 04:19:27 +0800
+Date: Tue, 9 Apr 2024 04:19:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 8/144] lib/kstrtox.c:418:14: error: implicit
- declaration of function 'copy_from_iter_full'; did you mean
- 'copy_from_user_nofault'?
-Message-ID: <202404090428.ta0JpVFk-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:rw_iter 78/144]
+ drivers/misc/eeprom/idt_89hpesx.c:903:55: error: expected ')'
+Message-ID: <202404090440.xDx6plBE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,428 +63,285 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   b32f790cdb298ce85171870c8bf5557dc35a51a5
-commit: 0e32bf18f84067b75d543d34fe510f00b75b20f7 [8/144] kstrtox: add iov_iter versions of the string conversion helpers
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240409/202404090428.ta0JpVFk-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240409/202404090428.ta0JpVFk-lkp@intel.com/reproduce)
+head:   1b82b543d52b554590942733a069919265a5f27b
+commit: 79301b69940a7eb819122a94ae86009cde5fdfda [78/144] misc: eeprom/idt_89hpesx: convert to read/write iterators
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240409/202404090440.xDx6plBE-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240409/202404090440.xDx6plBE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404090428.ta0JpVFk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404090440.xDx6plBE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   lib/kstrtox.c: In function 'kstrtobool_from_iter':
->> lib/kstrtox.c:418:14: error: implicit declaration of function 'copy_from_iter_full'; did you mean 'copy_from_user_nofault'? [-Werror=implicit-function-declaration]
-     418 |         if (!copy_from_iter_full(buf, count, src))
-         |              ^~~~~~~~~~~~~~~~~~~
-         |              copy_from_user_nofault
-   lib/kstrtox.c: At top level:
->> lib/kstrtox.c:464:18: error: conflicting types for 'kstrtoull_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  long long unsigned int *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  long long unsigned int *)'}
-     464 | kstrto_from_iter(kstrtoull_from_user,   kstrtoull,      unsigned long long);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:451:5: note: in definition of macro 'kstrto_from_iter'
-     451 | int f(const struct iov_iter *s, size_t count, unsigned int base, type *res)     \
-         |     ^
-   lib/kstrtox.c:439:18: note: previous definition of 'kstrtoull_from_user' with type 'int(const char *, size_t,  unsigned int,  long long unsigned int *)' {aka 'int(const char *, unsigned int,  unsigned int,  long long unsigned int *)'}
-     439 | kstrto_from_user(kstrtoull_from_user,   kstrtoull,      unsigned long long);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
-   In file included from lib/kstrtox.c:17:
->> lib/kstrtox.c:464:18: error: conflicting types for 'kstrtoull_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  long long unsigned int *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  long long unsigned int *)'}
-     464 | kstrto_from_iter(kstrtoull_from_user,   kstrtoull,      unsigned long long);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:68:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      68 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   lib/kstrtox.c:462:1: note: in expansion of macro 'EXPORT_SYMBOL'
-     462 | EXPORT_SYMBOL(f)
-         | ^~~~~~~~~~~~~
-   lib/kstrtox.c:464:1: note: in expansion of macro 'kstrto_from_iter'
-     464 | kstrto_from_iter(kstrtoull_from_user,   kstrtoull,      unsigned long long);
-         | ^~~~~~~~~~~~~~~~
-   lib/kstrtox.c:439:18: note: previous definition of 'kstrtoull_from_user' with type 'int(const char *, size_t,  unsigned int,  long long unsigned int *)' {aka 'int(const char *, unsigned int,  unsigned int,  long long unsigned int *)'}
-     439 | kstrto_from_user(kstrtoull_from_user,   kstrtoull,      unsigned long long);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:465:18: error: conflicting types for 'kstrtoll_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  long long int *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  long long int *)'}
-     465 | kstrto_from_iter(kstrtoll_from_user,    kstrtoll,       long long);
-         |                  ^~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:451:5: note: in definition of macro 'kstrto_from_iter'
-     451 | int f(const struct iov_iter *s, size_t count, unsigned int base, type *res)     \
-         |     ^
-   lib/kstrtox.c:440:18: note: previous definition of 'kstrtoll_from_user' with type 'int(const char *, size_t,  unsigned int,  long long int *)' {aka 'int(const char *, unsigned int,  unsigned int,  long long int *)'}
-     440 | kstrto_from_user(kstrtoll_from_user,    kstrtoll,       long long);
-         |                  ^~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:465:18: error: conflicting types for 'kstrtoll_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  long long int *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  long long int *)'}
-     465 | kstrto_from_iter(kstrtoll_from_user,    kstrtoll,       long long);
-         |                  ^~~~~~~~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:68:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      68 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   lib/kstrtox.c:462:1: note: in expansion of macro 'EXPORT_SYMBOL'
-     462 | EXPORT_SYMBOL(f)
-         | ^~~~~~~~~~~~~
-   lib/kstrtox.c:465:1: note: in expansion of macro 'kstrto_from_iter'
-     465 | kstrto_from_iter(kstrtoll_from_user,    kstrtoll,       long long);
-         | ^~~~~~~~~~~~~~~~
-   lib/kstrtox.c:440:18: note: previous definition of 'kstrtoll_from_user' with type 'int(const char *, size_t,  unsigned int,  long long int *)' {aka 'int(const char *, unsigned int,  unsigned int,  long long int *)'}
-     440 | kstrto_from_user(kstrtoll_from_user,    kstrtoll,       long long);
-         |                  ^~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:466:18: error: conflicting types for 'kstrtoul_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  long unsigned int *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  long unsigned int *)'}
-     466 | kstrto_from_iter(kstrtoul_from_user,    kstrtoul,       unsigned long);
-         |                  ^~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:451:5: note: in definition of macro 'kstrto_from_iter'
-     451 | int f(const struct iov_iter *s, size_t count, unsigned int base, type *res)     \
-         |     ^
-   lib/kstrtox.c:441:18: note: previous definition of 'kstrtoul_from_user' with type 'int(const char *, size_t,  unsigned int,  long unsigned int *)' {aka 'int(const char *, unsigned int,  unsigned int,  long unsigned int *)'}
-     441 | kstrto_from_user(kstrtoul_from_user,    kstrtoul,       unsigned long);
-         |                  ^~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:466:18: error: conflicting types for 'kstrtoul_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  long unsigned int *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  long unsigned int *)'}
-     466 | kstrto_from_iter(kstrtoul_from_user,    kstrtoul,       unsigned long);
-         |                  ^~~~~~~~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:68:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      68 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   lib/kstrtox.c:462:1: note: in expansion of macro 'EXPORT_SYMBOL'
-     462 | EXPORT_SYMBOL(f)
-         | ^~~~~~~~~~~~~
-   lib/kstrtox.c:466:1: note: in expansion of macro 'kstrto_from_iter'
-     466 | kstrto_from_iter(kstrtoul_from_user,    kstrtoul,       unsigned long);
-         | ^~~~~~~~~~~~~~~~
-   lib/kstrtox.c:441:18: note: previous definition of 'kstrtoul_from_user' with type 'int(const char *, size_t,  unsigned int,  long unsigned int *)' {aka 'int(const char *, unsigned int,  unsigned int,  long unsigned int *)'}
-     441 | kstrto_from_user(kstrtoul_from_user,    kstrtoul,       unsigned long);
-         |                  ^~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:467:18: error: conflicting types for 'kstrtol_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  long int *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  long int *)'}
-     467 | kstrto_from_iter(kstrtol_from_user,     kstrtol,        long);
-         |                  ^~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:451:5: note: in definition of macro 'kstrto_from_iter'
-     451 | int f(const struct iov_iter *s, size_t count, unsigned int base, type *res)     \
-         |     ^
-   lib/kstrtox.c:442:18: note: previous definition of 'kstrtol_from_user' with type 'int(const char *, size_t,  unsigned int,  long int *)' {aka 'int(const char *, unsigned int,  unsigned int,  long int *)'}
-     442 | kstrto_from_user(kstrtol_from_user,     kstrtol,        long);
-         |                  ^~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:467:18: error: conflicting types for 'kstrtol_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  long int *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  long int *)'}
-     467 | kstrto_from_iter(kstrtol_from_user,     kstrtol,        long);
-         |                  ^~~~~~~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:68:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      68 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   lib/kstrtox.c:462:1: note: in expansion of macro 'EXPORT_SYMBOL'
-     462 | EXPORT_SYMBOL(f)
-         | ^~~~~~~~~~~~~
-   lib/kstrtox.c:467:1: note: in expansion of macro 'kstrto_from_iter'
-     467 | kstrto_from_iter(kstrtol_from_user,     kstrtol,        long);
-         | ^~~~~~~~~~~~~~~~
-   lib/kstrtox.c:442:18: note: previous definition of 'kstrtol_from_user' with type 'int(const char *, size_t,  unsigned int,  long int *)' {aka 'int(const char *, unsigned int,  unsigned int,  long int *)'}
-     442 | kstrto_from_user(kstrtol_from_user,     kstrtol,        long);
-         |                  ^~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:468:18: error: conflicting types for 'kstrtouint_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  unsigned int *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  unsigned int *)'}
-     468 | kstrto_from_iter(kstrtouint_from_user,  kstrtouint,     unsigned int);
-         |                  ^~~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:451:5: note: in definition of macro 'kstrto_from_iter'
-     451 | int f(const struct iov_iter *s, size_t count, unsigned int base, type *res)     \
-         |     ^
-   lib/kstrtox.c:443:18: note: previous definition of 'kstrtouint_from_user' with type 'int(const char *, size_t,  unsigned int,  unsigned int *)' {aka 'int(const char *, unsigned int,  unsigned int,  unsigned int *)'}
-     443 | kstrto_from_user(kstrtouint_from_user,  kstrtouint,     unsigned int);
-         |                  ^~~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:468:18: error: conflicting types for 'kstrtouint_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  unsigned int *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  unsigned int *)'}
-     468 | kstrto_from_iter(kstrtouint_from_user,  kstrtouint,     unsigned int);
-         |                  ^~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:68:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      68 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   lib/kstrtox.c:462:1: note: in expansion of macro 'EXPORT_SYMBOL'
-     462 | EXPORT_SYMBOL(f)
-         | ^~~~~~~~~~~~~
-   lib/kstrtox.c:468:1: note: in expansion of macro 'kstrto_from_iter'
-     468 | kstrto_from_iter(kstrtouint_from_user,  kstrtouint,     unsigned int);
-         | ^~~~~~~~~~~~~~~~
-   lib/kstrtox.c:443:18: note: previous definition of 'kstrtouint_from_user' with type 'int(const char *, size_t,  unsigned int,  unsigned int *)' {aka 'int(const char *, unsigned int,  unsigned int,  unsigned int *)'}
-     443 | kstrto_from_user(kstrtouint_from_user,  kstrtouint,     unsigned int);
-         |                  ^~~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:469:18: error: conflicting types for 'kstrtoint_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  int *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  int *)'}
-     469 | kstrto_from_iter(kstrtoint_from_user,   kstrtoint,      int);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:451:5: note: in definition of macro 'kstrto_from_iter'
-     451 | int f(const struct iov_iter *s, size_t count, unsigned int base, type *res)     \
-         |     ^
-   lib/kstrtox.c:444:18: note: previous definition of 'kstrtoint_from_user' with type 'int(const char *, size_t,  unsigned int,  int *)' {aka 'int(const char *, unsigned int,  unsigned int,  int *)'}
-     444 | kstrto_from_user(kstrtoint_from_user,   kstrtoint,      int);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:469:18: error: conflicting types for 'kstrtoint_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  int *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  int *)'}
-     469 | kstrto_from_iter(kstrtoint_from_user,   kstrtoint,      int);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:68:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      68 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   lib/kstrtox.c:462:1: note: in expansion of macro 'EXPORT_SYMBOL'
-     462 | EXPORT_SYMBOL(f)
-         | ^~~~~~~~~~~~~
-   lib/kstrtox.c:469:1: note: in expansion of macro 'kstrto_from_iter'
-     469 | kstrto_from_iter(kstrtoint_from_user,   kstrtoint,      int);
-         | ^~~~~~~~~~~~~~~~
-   lib/kstrtox.c:444:18: note: previous definition of 'kstrtoint_from_user' with type 'int(const char *, size_t,  unsigned int,  int *)' {aka 'int(const char *, unsigned int,  unsigned int,  int *)'}
-     444 | kstrto_from_user(kstrtoint_from_user,   kstrtoint,      int);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:470:18: error: conflicting types for 'kstrtou16_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  u16 *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  short unsigned int *)'}
-     470 | kstrto_from_iter(kstrtou16_from_user,   kstrtou16,      u16);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:451:5: note: in definition of macro 'kstrto_from_iter'
-     451 | int f(const struct iov_iter *s, size_t count, unsigned int base, type *res)     \
-         |     ^
-   lib/kstrtox.c:445:18: note: previous definition of 'kstrtou16_from_user' with type 'int(const char *, size_t,  unsigned int,  u16 *)' {aka 'int(const char *, unsigned int,  unsigned int,  short unsigned int *)'}
-     445 | kstrto_from_user(kstrtou16_from_user,   kstrtou16,      u16);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:470:18: error: conflicting types for 'kstrtou16_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  u16 *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  short unsigned int *)'}
-     470 | kstrto_from_iter(kstrtou16_from_user,   kstrtou16,      u16);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:68:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      68 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   lib/kstrtox.c:462:1: note: in expansion of macro 'EXPORT_SYMBOL'
-     462 | EXPORT_SYMBOL(f)
-         | ^~~~~~~~~~~~~
-   lib/kstrtox.c:470:1: note: in expansion of macro 'kstrto_from_iter'
-     470 | kstrto_from_iter(kstrtou16_from_user,   kstrtou16,      u16);
-         | ^~~~~~~~~~~~~~~~
-   lib/kstrtox.c:445:18: note: previous definition of 'kstrtou16_from_user' with type 'int(const char *, size_t,  unsigned int,  u16 *)' {aka 'int(const char *, unsigned int,  unsigned int,  short unsigned int *)'}
-     445 | kstrto_from_user(kstrtou16_from_user,   kstrtou16,      u16);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:471:18: error: conflicting types for 'kstrtos16_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  s16 *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  short int *)'}
-     471 | kstrto_from_iter(kstrtos16_from_user,   kstrtos16,      s16);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:451:5: note: in definition of macro 'kstrto_from_iter'
-     451 | int f(const struct iov_iter *s, size_t count, unsigned int base, type *res)     \
-         |     ^
-   lib/kstrtox.c:446:18: note: previous definition of 'kstrtos16_from_user' with type 'int(const char *, size_t,  unsigned int,  s16 *)' {aka 'int(const char *, unsigned int,  unsigned int,  short int *)'}
-     446 | kstrto_from_user(kstrtos16_from_user,   kstrtos16,      s16);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:471:18: error: conflicting types for 'kstrtos16_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  s16 *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  short int *)'}
-     471 | kstrto_from_iter(kstrtos16_from_user,   kstrtos16,      s16);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:68:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      68 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   lib/kstrtox.c:462:1: note: in expansion of macro 'EXPORT_SYMBOL'
-     462 | EXPORT_SYMBOL(f)
-         | ^~~~~~~~~~~~~
-   lib/kstrtox.c:471:1: note: in expansion of macro 'kstrto_from_iter'
-     471 | kstrto_from_iter(kstrtos16_from_user,   kstrtos16,      s16);
-         | ^~~~~~~~~~~~~~~~
-   lib/kstrtox.c:446:18: note: previous definition of 'kstrtos16_from_user' with type 'int(const char *, size_t,  unsigned int,  s16 *)' {aka 'int(const char *, unsigned int,  unsigned int,  short int *)'}
-     446 | kstrto_from_user(kstrtos16_from_user,   kstrtos16,      s16);
-         |                  ^~~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:472:18: error: conflicting types for 'kstrtou8_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  u8 *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  unsigned char *)'}
-     472 | kstrto_from_iter(kstrtou8_from_user,    kstrtou8,       u8);
-         |                  ^~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:451:5: note: in definition of macro 'kstrto_from_iter'
-     451 | int f(const struct iov_iter *s, size_t count, unsigned int base, type *res)     \
-         |     ^
-   lib/kstrtox.c:447:18: note: previous definition of 'kstrtou8_from_user' with type 'int(const char *, size_t,  unsigned int,  u8 *)' {aka 'int(const char *, unsigned int,  unsigned int,  unsigned char *)'}
-     447 | kstrto_from_user(kstrtou8_from_user,    kstrtou8,       u8);
-         |                  ^~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:472:18: error: conflicting types for 'kstrtou8_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  u8 *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  unsigned char *)'}
-     472 | kstrto_from_iter(kstrtou8_from_user,    kstrtou8,       u8);
-         |                  ^~~~~~~~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:68:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      68 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   lib/kstrtox.c:462:1: note: in expansion of macro 'EXPORT_SYMBOL'
-     462 | EXPORT_SYMBOL(f)
-         | ^~~~~~~~~~~~~
-   lib/kstrtox.c:472:1: note: in expansion of macro 'kstrto_from_iter'
-     472 | kstrto_from_iter(kstrtou8_from_user,    kstrtou8,       u8);
-         | ^~~~~~~~~~~~~~~~
-   lib/kstrtox.c:447:18: note: previous definition of 'kstrtou8_from_user' with type 'int(const char *, size_t,  unsigned int,  u8 *)' {aka 'int(const char *, unsigned int,  unsigned int,  unsigned char *)'}
-     447 | kstrto_from_user(kstrtou8_from_user,    kstrtou8,       u8);
-         |                  ^~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
->> lib/kstrtox.c:473:18: error: conflicting types for 'kstrtos8_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  s8 *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  signed char *)'}
-     473 | kstrto_from_iter(kstrtos8_from_user,    kstrtos8,       s8);
-         |                  ^~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:451:5: note: in definition of macro 'kstrto_from_iter'
-     451 | int f(const struct iov_iter *s, size_t count, unsigned int base, type *res)     \
-         |     ^
-   lib/kstrtox.c:448:18: note: previous definition of 'kstrtos8_from_user' with type 'int(const char *, size_t,  unsigned int,  s8 *)' {aka 'int(const char *, unsigned int,  unsigned int,  signed char *)'}
-     448 | kstrto_from_user(kstrtos8_from_user,    kstrtos8,       s8);
-         |                  ^~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
-   lib/kstrtox.c:473:18: error: conflicting types for 'kstrtos8_from_user'; have 'int(const struct iov_iter *, size_t,  unsigned int,  s8 *)' {aka 'int(const struct iov_iter *, unsigned int,  unsigned int,  signed char *)'}
-     473 | kstrto_from_iter(kstrtos8_from_user,    kstrtos8,       s8);
-         |                  ^~~~~~~~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:68:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      68 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   lib/kstrtox.c:462:1: note: in expansion of macro 'EXPORT_SYMBOL'
-     462 | EXPORT_SYMBOL(f)
-         | ^~~~~~~~~~~~~
-   lib/kstrtox.c:473:1: note: in expansion of macro 'kstrto_from_iter'
-     473 | kstrto_from_iter(kstrtos8_from_user,    kstrtos8,       s8);
-         | ^~~~~~~~~~~~~~~~
-   lib/kstrtox.c:448:18: note: previous definition of 'kstrtos8_from_user' with type 'int(const char *, size_t,  unsigned int,  s8 *)' {aka 'int(const char *, unsigned int,  unsigned int,  signed char *)'}
-     448 | kstrto_from_user(kstrtos8_from_user,    kstrtos8,       s8);
-         |                  ^~~~~~~~~~~~~~~~~~
-   lib/kstrtox.c:426:5: note: in definition of macro 'kstrto_from_user'
-     426 | int f(const char __user *s, size_t count, unsigned int base, type *res) \
-         |     ^
-   cc1: some warnings being treated as errors
+   In file included from drivers/misc/eeprom/idt_89hpesx.c:50:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/misc/eeprom/idt_89hpesx.c:50:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/misc/eeprom/idt_89hpesx.c:50:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/misc/eeprom/idt_89hpesx.c:50:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/misc/eeprom/idt_89hpesx.c:903:55: error: expected ')'
+     903 | static ssize_t idt_dbgfs_csr_write(struct file *kiocb *iocb,
+         |                                                       ^
+   drivers/misc/eeprom/idt_89hpesx.c:903:35: note: to match this '('
+     903 | static ssize_t idt_dbgfs_csr_write(struct file *kiocb *iocb,
+         |                                   ^
+>> drivers/misc/eeprom/idt_89hpesx.c:906:33: error: use of undeclared identifier 'filep'
+     906 |         struct idt_89hpesx_dev *pdev = filep->private_data;
+         |                                        ^
+>> drivers/misc/eeprom/idt_89hpesx.c:908:32: error: use of undeclared identifier 'from'
+     908 |         size_t count = iov_iter_count(from);
+         |                                       ^
+>> drivers/misc/eeprom/idt_89hpesx.c:913:6: error: use of undeclared identifier 'iocb'; did you mean 'kiocb'?
+     913 |         if (iocb->ki_pos)
+         |             ^~~~
+         |             kiocb
+   drivers/misc/eeprom/idt_89hpesx.c:903:49: note: 'kiocb' declared here
+     903 | static ssize_t idt_dbgfs_csr_write(struct file *kiocb *iocb,
+         |                                                 ^
+>> drivers/misc/eeprom/idt_89hpesx.c:913:12: error: no member named 'ki_pos' in 'struct file'; did you mean 'f_pos'?
+     913 |         if (iocb->ki_pos)
+         |                   ^~~~~~
+         |                   f_pos
+   include/linux/fs.h:1011:11: note: 'f_pos' declared here
+    1011 |         loff_t                  f_pos;
+         |                                 ^
+>> drivers/misc/eeprom/idt_89hpesx.c:917:8: error: call to undeclared function 'iterdup_user'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     917 |         buf = iterdup_user(from, count);
+         |               ^
+   drivers/misc/eeprom/idt_89hpesx.c:917:21: error: use of undeclared identifier 'from'; did you mean 'for'?
+     917 |         buf = iterdup_user(from, count);
+         |                            ^~~~
+         |                            for
+>> drivers/misc/eeprom/idt_89hpesx.c:917:21: error: expected expression
+>> drivers/misc/eeprom/idt_89hpesx.c:1028:16: error: incompatible function pointer types initializing 'ssize_t (*)(struct kiocb *, struct iov_iter *)' (aka 'int (*)(struct kiocb *, struct iov_iter *)') with an expression of type 'ssize_t (struct file *)' (aka 'int (struct file *)') [-Wincompatible-function-pointer-types]
+    1028 |         .write_iter = idt_dbgfs_csr_write,
+         |                       ^~~~~~~~~~~~~~~~~~~
+   7 warnings and 9 errors generated.
 
 
-vim +418 lib/kstrtox.c
+vim +903 drivers/misc/eeprom/idt_89hpesx.c
 
-   407	
-   408	/*
-   409	 * Like kstrtobool_from_user(), but takes a source iov_iter rather than a
-   410	 * buffer.
-   411	 */
-   412	int kstrtobool_from_iter(const struct iov_iter *src, size_t count, bool *res)
-   413	{
-   414		/* Longest string needed to differentiate, newline, terminator */
-   415		char buf[4];
-   416	
-   417		count = min(count, sizeof(buf) - 1);
- > 418		if (!copy_from_iter_full(buf, count, src))
-   419			return -EFAULT;
-   420		buf[count] = '\0';
-   421		return kstrtobool(buf, res);
-   422	}
-   423	EXPORT_SYMBOL(kstrtobool_from_iter);
-   424	
-   425	#define kstrto_from_user(f, g, type)					\
-   426	int f(const char __user *s, size_t count, unsigned int base, type *res)	\
-   427	{									\
-   428		/* sign, base 2 representation, newline, terminator */		\
-   429		char buf[1 + sizeof(type) * 8 + 1 + 1];				\
-   430										\
-   431		count = min(count, sizeof(buf) - 1);				\
-   432		if (copy_from_user(buf, s, count))				\
-   433			return -EFAULT;						\
-   434		buf[count] = '\0';						\
-   435		return g(buf, base, res);					\
-   436	}									\
-   437	EXPORT_SYMBOL(f)
-   438	
-   439	kstrto_from_user(kstrtoull_from_user,	kstrtoull,	unsigned long long);
-   440	kstrto_from_user(kstrtoll_from_user,	kstrtoll,	long long);
-   441	kstrto_from_user(kstrtoul_from_user,	kstrtoul,	unsigned long);
-   442	kstrto_from_user(kstrtol_from_user,	kstrtol,	long);
-   443	kstrto_from_user(kstrtouint_from_user,	kstrtouint,	unsigned int);
-   444	kstrto_from_user(kstrtoint_from_user,	kstrtoint,	int);
-   445	kstrto_from_user(kstrtou16_from_user,	kstrtou16,	u16);
-   446	kstrto_from_user(kstrtos16_from_user,	kstrtos16,	s16);
-   447	kstrto_from_user(kstrtou8_from_user,	kstrtou8,	u8);
-   448	kstrto_from_user(kstrtos8_from_user,	kstrtos8,	s8);
-   449	
-   450	#define kstrto_from_iter(f, g, type)					\
-   451	int f(const struct iov_iter *s, size_t count, unsigned int base, type *res)	\
-   452	{									\
-   453		/* sign, base 2 representation, newline, terminator */		\
-   454		char buf[1 + sizeof(type) * 8 + 1 + 1];				\
-   455										\
-   456		count = min(count, sizeof(buf) - 1);				\
-   457		if (!copy_from_iter_full(s, s, count))				\
-   458			return -EFAULT;						\
-   459		buf[count] = '\0';						\
-   460		return g(buf, base, res);					\
-   461	}									\
-   462	EXPORT_SYMBOL(f)
-   463	
- > 464	kstrto_from_iter(kstrtoull_from_user,	kstrtoull,	unsigned long long);
- > 465	kstrto_from_iter(kstrtoll_from_user,	kstrtoll,	long long);
- > 466	kstrto_from_iter(kstrtoul_from_user,	kstrtoul,	unsigned long);
- > 467	kstrto_from_iter(kstrtol_from_user,	kstrtol,	long);
- > 468	kstrto_from_iter(kstrtouint_from_user,	kstrtouint,	unsigned int);
- > 469	kstrto_from_iter(kstrtoint_from_user,	kstrtoint,	int);
- > 470	kstrto_from_iter(kstrtou16_from_user,	kstrtou16,	u16);
- > 471	kstrto_from_iter(kstrtos16_from_user,	kstrtos16,	s16);
- > 472	kstrto_from_iter(kstrtou8_from_user,	kstrtou8,	u8);
- > 473	kstrto_from_iter(kstrtos8_from_user,	kstrtos8,	s8);
+   887	
+   888	/*
+   889	 * idt_dbgfs_csr_write() - CSR debugfs-node write callback
+   890	 * @filep:	Pointer to the file system file descriptor
+   891	 * @buf:	Buffer to read data from
+   892	 * @count:	Size of the buffer
+   893	 * @offp:	Offset within the file
+   894	 *
+   895	 * It accepts either "0x<reg addr>:0x<value>" for saving register address
+   896	 * and writing value to specified DWORD register or "0x<reg addr>" for
+   897	 * just saving register address in order to perform next read operation.
+   898	 *
+   899	 * WARNING No spaces are allowed. Incoming string must be strictly formated as:
+   900	 * "<reg addr>:<value>". Register address must be aligned within 4 bytes
+   901	 * (one DWORD).
+   902	 */
+ > 903	static ssize_t idt_dbgfs_csr_write(struct file *kiocb *iocb,
+   904					   struct iov_iter *from)
+   905	{
+ > 906		struct idt_89hpesx_dev *pdev = filep->private_data;
+   907		char *colon_ch, *csraddr_str, *csrval_str;
+ > 908		size_t count = iov_iter_count(from);
+   909		int ret;
+   910		u32 csraddr, csrval;
+   911		char *buf;
+   912	
+ > 913		if (iocb->ki_pos)
+   914			return 0;
+   915	
+   916		/* Copy data from User-space */
+ > 917		buf = iterdup_user(from, count);
+   918		if (IS_ERR(buf))
+   919			return PTR_ERR(buf);
+   920	
+   921		/* Find position of colon in the buffer */
+   922		colon_ch = strnchr(buf, count, ':');
+   923	
+   924		/*
+   925		 * If there is colon passed then new CSR value should be parsed as
+   926		 * well, so allocate buffer for CSR address substring.
+   927		 * If no colon is found, then string must have just one number with
+   928		 * no new CSR value
+   929		 */
+   930		if (colon_ch != NULL) {
+   931			/* Copy the register address to the substring buffer */
+   932			csraddr_str = kmemdup_nul(buf, colon_ch - buf, GFP_KERNEL);
+   933			if (csraddr_str == NULL) {
+   934				ret = -ENOMEM;
+   935				goto free_buf;
+   936			}
+   937			/* Register value must follow the colon */
+   938			csrval_str = colon_ch + 1;
+   939		} else /* if (str_colon == NULL) */ {
+   940			csraddr_str = (char *)buf; /* Just to shut warning up */
+   941			csrval_str = NULL;
+   942		}
+   943	
+   944		/* Convert CSR address to u32 value */
+   945		ret = kstrtou32(csraddr_str, 0, &csraddr);
+   946		if (ret != 0)
+   947			goto free_csraddr_str;
+   948	
+   949		/* Check whether passed register address is valid */
+   950		if (csraddr > CSR_MAX || !IS_ALIGNED(csraddr, SZ_4)) {
+   951			ret = -EINVAL;
+   952			goto free_csraddr_str;
+   953		}
+   954	
+   955		/* Shift register address to the right so to have u16 address */
+   956		pdev->csr = (csraddr >> 2);
+   957	
+   958		/* Parse new CSR value and send it to IDT, if colon has been found */
+   959		if (colon_ch != NULL) {
+   960			ret = kstrtou32(csrval_str, 0, &csrval);
+   961			if (ret != 0)
+   962				goto free_csraddr_str;
+   963	
+   964			ret = idt_csr_write(pdev, pdev->csr, csrval);
+   965			if (ret != 0)
+   966				goto free_csraddr_str;
+   967		}
+   968	
+   969		/* Free memory only if colon has been found */
+   970	free_csraddr_str:
+   971		if (colon_ch != NULL)
+   972			kfree(csraddr_str);
+   973	
+   974		/* Free buffer allocated for data retrieved from User-space */
+   975	free_buf:
+   976		kfree(buf);
+   977	
+   978		return (ret != 0 ? ret : count);
+   979	}
+   980	
+   981	/*
+   982	 * idt_dbgfs_csr_read() - CSR debugfs-node read callback
+   983	 * @filep:	Pointer to the file system file descriptor
+   984	 * @buf:	Buffer to write data to
+   985	 * @count:	Size of the buffer
+   986	 * @offp:	Offset within the file
+   987	 *
+   988	 * It just prints the pair "0x<reg addr>:0x<value>" to passed buffer.
+   989	 */
+   990	#define CSRBUF_SIZE	((size_t)32)
+   991	static ssize_t idt_dbgfs_csr_read(struct kiocb *iocb, struct iov_iter *to)
+   992	{
+   993		struct idt_89hpesx_dev *pdev = iocb->ki_filp->private_data;
+   994		u32 csraddr, csrval;
+   995		char buf[CSRBUF_SIZE];
+   996		int ret, size;
+   997	
+   998		/* Perform CSR read operation */
+   999		ret = idt_csr_read(pdev, pdev->csr, &csrval);
+  1000		if (ret != 0)
+  1001			return ret;
+  1002	
+  1003		/* Shift register address to the left so to have real address */
+  1004		csraddr = ((u32)pdev->csr << 2);
+  1005	
+  1006		/* Print the "0x<reg addr>:0x<value>" to buffer */
+  1007		size = snprintf(buf, CSRBUF_SIZE, "0x%05x:0x%08x\n",
+  1008			(unsigned int)csraddr, (unsigned int)csrval);
+  1009	
+  1010		/* Copy data to User-space */
+  1011		return simple_copy_to_iter(buf, &iocb->ki_pos, size, to);
+  1012	}
+  1013	
+  1014	/*
+  1015	 * eeprom_attribute - EEPROM sysfs-node attributes
+  1016	 *
+  1017	 * NOTE Size will be changed in compliance with OF node. EEPROM attribute will
+  1018	 * be read-only as well if the corresponding flag is specified in OF node.
+  1019	 */
+  1020	static BIN_ATTR_RW(eeprom, EEPROM_DEF_SIZE);
+  1021	
+  1022	/*
+  1023	 * csr_dbgfs_ops - CSR debugfs-node read/write operations
+  1024	 */
+  1025	static const struct file_operations csr_dbgfs_ops = {
+  1026		.owner = THIS_MODULE,
+  1027		.open = simple_open,
+> 1028		.write_iter = idt_dbgfs_csr_write,
+  1029		.read_iter = idt_dbgfs_csr_read
+  1030	};
+  1031	
 
 -- 
 0-DAY CI Kernel Test Service
