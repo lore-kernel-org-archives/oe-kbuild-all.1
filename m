@@ -1,227 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E051448C3;
-	Mon,  8 Apr 2024 17:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524081E489
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Apr 2024 17:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712598040; cv=none; b=gnJZyuIzVBXrKaTqUp10UHgs4Gt7lDdv+eW052AoRHfy6Tuxbnpqc3TsFZr7rJ25QGjqHrGRRGSGdrMQNZWGwy/uzTPofn3ppkjQb17JG4dZxxHLIDiBHtBksAmADZMMvvyz6+aFZwAS/+HOJaFe7DgR5/fy8VqrGsMu2Nc29Jc=
+	t=1712598725; cv=none; b=T7dlXcp9UZPQvtl4TV4xRAdboQ0cmbs2r6JH2NpywOAXKyEaelkredxMNbDZPlK/KHtoZvIxCVvFHgiXsVwt8Ltjk9jcbqr34Gm2dXhTJD2MbPmw7hb7LIEz8e39WIANfcjiiaPIUn3IFz3mjZAf5RY6/vdK7xl5gVnSHpOF7qI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712598040; c=relaxed/simple;
-	bh=zRPDmo8wzpH7MlQn4X4AWPBc1kRD+usMYJ2d45VIlrc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nhBUSjEVTPLmuAK6ocd/tX2Ng8ZTBgZdVrXZiokXjebgxzeXK8gFwFKyhjAI6H/Ckmt5pFBYQLEAp8rHWWQAJ2auryQkoyQFWF9T2L7iiLB2D3RPA+eNROFCWWC6Hyyuv8hCxzWfFCmPEwoQFVpx2AXDbQCoNtVocs77MxS4xjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SOaK6WnO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712598725; c=relaxed/simple;
+	bh=hXj716UH5X5M29q4UJlmi9i5R+rJ+cK0C+67A8HIdkg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sH+v/FU60obDjXig+vro4y8FgpPL8AOq7AquZ4ptB4FadzPviBB3cgjaM75yV2gjj2V0fIyOWS4/dC0uvWirCGNFaLajt11h4fBGnTNsUOTQmac3taTGCj73fRox8Z01tljVYXjJ9Lqbx9FNyYQWD4jdZq6tuo9cLfqKcJp37Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F46Y0PDT; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SOaK6WnO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C4DCC433C7;
-	Mon,  8 Apr 2024 17:40:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712598040;
-	bh=zRPDmo8wzpH7MlQn4X4AWPBc1kRD+usMYJ2d45VIlrc=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=SOaK6WnObDMcMHd8T8S9Z0NgzHv3kuI7vwL8ETNJXEIQpVKAmy4kN+yHE4zqLd5jz
-	 +DrV6ICL0i2Xl8xcYT6WbD5gwnsyrUcuRGfQvKnRRb6HvWAPU1/JY7/nZidoszEakY
-	 9GOnZSPsYAvBCNbYKdM6vdFcsKlPD60YRemfCGSEk4RraWCT5vTBybckptOTvqqrvB
-	 ipgAbzt4J8Wua+pUbGc1XgUgMYtvCw9Ow12VK8HWGyYNwZ+qGN8bcASBl8pMUiGZUs
-	 XllRM3Z2nSnJY2Z7wtT7tPJD83EXeMwbVMPTLkW4Fd3tfWczNXm3zo/Q99Ja/FLyX3
-	 KgK2AJbL5+grw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id B81C1CE126C; Mon,  8 Apr 2024 10:40:39 -0700 (PDT)
-Date: Mon, 8 Apr 2024 10:40:39 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: "Liu, Yujie" <yujie.liu@intel.com>
-Cc: lkp <lkp@intel.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [linux-next:master 2524/3504] kernel/locking/rtmutex.c:218:9:
- error: incompatible pointer to integer conversion passing 'typeof
- (*(((__ai_ptr))))' (aka 'struct task_struct *') to parameter of type
- 'uintptr_t' (aka 'unsigned long')
-Message-ID: <9683809f-ff98-4c9f-bd67-97d99dc89e8f@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202404040526.GVzaL2io-lkp@intel.com>
- <302e5ce2-5a65-4e07-8ca8-cced83e9af5b@paulmck-laptop>
- <98704087ab6012031f3e117460cc1b24457a554f.camel@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F46Y0PDT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712598724; x=1744134724;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hXj716UH5X5M29q4UJlmi9i5R+rJ+cK0C+67A8HIdkg=;
+  b=F46Y0PDTwBnEo1OwOYmbsBLvJksO6kJb4jxwdKbgmRFewiIzL/R20ufg
+   SCqiEnsKLQoYM8Ik0EzZQoNQuPbaFBiYh/6bBS2mWzF7l0IdZkjLIilQb
+   L0S8rSe3YVVEnFoflBCZueUTq0eRFTA+MlJoqj6UxOc17iAKjgbgmBrzC
+   p3Av8oVW3BMtrfPXVPSPUpFX+hJ2uiSjEPnCvnKbe0J436UtIq2uS34+1
+   20+6Km5wcurPjmyq0ODAdUozzBYlT9LGDAvWS9tbcKiL7YC4XAgnkzB/g
+   xDYxdv1Olk7lKYQtUpBuzOieGlF/9cY5lneLycnzLnHQiqz98cGm8t5Zl
+   A==;
+X-CSE-ConnectionGUID: vgSCOuEYSrWYjKcDfOiJww==
+X-CSE-MsgGUID: 03ce9Q+4Qli8O3Cfi6/3Sg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="19036281"
+X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
+   d="scan'208";a="19036281"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 10:52:03 -0700
+X-CSE-ConnectionGUID: 7c7LryRqSjiSxVP69I8hkA==
+X-CSE-MsgGUID: 3q3lQdJBSvaP6GnmJyvtow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
+   d="scan'208";a="24440878"
+Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 08 Apr 2024 10:51:59 -0700
+Received: from kbuild by e61807b1d151 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rtt9x-0005P8-1U;
+	Mon, 08 Apr 2024 17:51:57 +0000
+Date: Tue, 9 Apr 2024 01:51:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 4742/4745] versioncheck:
+ ./drivers/gpu/drm/phytium/phytium_gem.c: 9 linux/version.h not needed.
+Message-ID: <202404090115.v2w0qa82-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <98704087ab6012031f3e117460cc1b24457a554f.camel@intel.com>
 
-On Sun, Apr 07, 2024 at 04:41:02AM +0000, Liu, Yujie wrote:
-> Hi Paul,
-> 
-> On Thu, 2024-04-04 at 10:44 -0700, Paul E. McKenney wrote:
-> > On Thu, Apr 04, 2024 at 05:13:20AM +0800, kernel test robot wrote:
-> > > tree:  
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-> > >  master
-> > > head:   727900b675b749c40ba1f6669c7ae5eb7eb8e837
-> > > commit: df35ee400e06b23ecd44fdb66451a5343932f834 [2524/3504] riscv:
-> > > Emulate one-byte and two-byte cmpxchg
-> > > config: riscv-nommu_virt_defconfig
-> > > (https://download.01.org/0day-ci/archive/20240404/202404040526.GVza
-> > > L2io-lkp@intel.com/config)
-> > > compiler: clang version 19.0.0git
-> > > (https://github.com/llvm/llvm-project 546dc2245ffc4cccd0b05b58b7a59
-> > > 55e355a3b27)
-> > > reproduce (this is a W=1 build):
-> > > (https://download.01.org/0day-ci/archive/20240404/202404040526.GVza
-> > > L2io-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a
-> > > new version of
-> > > the same patch/commit), kindly add following tags
-> > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > Closes:
-> > > > https://lore.kernel.org/oe-kbuild-all/202404040526.GVzaL2io-lkp@intel.com/
-> > 
-> > I believe that this is fixed by the following updated commit in -rcu:
-> > 
-> > 27011e7159ef ("riscv: Emulate one-byte cmpxchg")
-> > 
-> > But please let me know if I am missing something.
-> 
-> Sorry for the delay of reply due to we were on public holidays in the
-> last few days.
-> 
-> The error still exists on the updated commit.
-> 
-> Commit 27011e7159ef added the uintptr_t cast for __old and __new only
-> in the first occurrence of __ret assignment, but missed that in the
-> remaining __ret assignments. Seems it needs another fixup as below:
-> 
-> -------------------------------------------------------------------
-> 
-> diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
-> index abcd5543b861b..a9803825567cf 100644
-> --- a/arch/riscv/include/asm/cmpxchg.h
-> +++ b/arch/riscv/include/asm/cmpxchg.h
-> @@ -219,7 +219,7 @@
->         register unsigned int __rc;                                     \
->         switch (size) {                                                 \
->         case 1:                                                         \
-> -               __ret = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
-> +               __ret = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)__ptr, (uintptr_t)__old, (uintptr_t)__new); \
->                 break;                                                  \
->         case 4:                                                         \
->                 __asm__ __volatile__ (                                  \
-> @@ -268,7 +268,7 @@
->         register unsigned int __rc;                                     \
->         switch (size) {                                                 \
->         case 1:                                                         \
-> -               __ret = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
-> +               __ret = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)__ptr, (uintptr_t)__old, (uintptr_t)__new); \
->                 break;                                                  \
->         case 4:                                                         \
->                 __asm__ __volatile__ (                                  \
-> @@ -317,7 +317,7 @@
->         register unsigned int __rc;                                     \
->         switch (size) {                                                 \
->         case 1:                                                         \
-> -               __ret = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)__ptr, __old, __new); \
-> +               __ret = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)__ptr, (uintptr_t)__old, (uintptr_t)__new); \
->                 break;                                                  \
->         case 4:                                                         \
->                 __asm__ __volatile__ (                                  \
-> 
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   8f6a5e3290e9f21469c4c1a19720d99ba74574b3
+commit: c090427aa9fedae1c25d50678064010926b02de8 [4742/4745] DRM: Phytium display DRM driver
+reproduce: (https://download.01.org/0day-ci/archive/20240409/202404090115.v2w0qa82-lkp@intel.com/reproduce)
 
-Applied with attribution, thank you!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404090115.v2w0qa82-lkp@intel.com/
 
-Quite the variety of casts required by the various architectures.  ;-)
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-13 CC=gcc-13 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/char/ipmi/ipmi_si_ls2k500.c: 19 linux/version.h not needed.
+>> ./drivers/gpu/drm/phytium/phytium_gem.c: 9 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-zhaoxin.c: 18 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./net/toa/toa.h: 7 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
-Please see below for the updated patch.
-
-							Thanx, Paul
-
-------------------------------------------------------------------------
-
-commit 4d5c72a34948625caf85c00b1db85372f4edbcae
-Author: Paul E. McKenney <paulmck@kernel.org>
-Date:   Wed Mar 27 17:13:02 2024 -0700
-
-    riscv: Emulate one-byte cmpxchg
-    
-    Use the new cmpxchg_emu_u8() to emulate one-byte cmpxchg() on riscv.
-    
-    [ paulmck: Apply kernel test robot feedback, additional casts from Liu, Yujie. ]
-    [ paulmck: Drop two-byte support per Arnd Bergmann feedback. ]
-    
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-    Tested-by: Yujie Liu <yujie.liu@intel.com>
-    Cc: Andi Shyti <andi.shyti@linux.intel.com>
-    Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-    Cc: Arnd Bergmann <arnd@arndb.de>
-    Cc: <linux-riscv@lists.infradead.org>
-    Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
-
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index be09c8836d56b..3bab9c5c0f465 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -44,6 +44,7 @@ config RISCV
- 	select ARCH_HAS_UBSAN
- 	select ARCH_HAS_VDSO_DATA
- 	select ARCH_KEEP_MEMBLOCK if ACPI
-+	select ARCH_NEED_CMPXCHG_1_EMU
- 	select ARCH_OPTIONAL_KERNEL_RWX if ARCH_HAS_STRICT_KERNEL_RWX
- 	select ARCH_OPTIONAL_KERNEL_RWX_DEFAULT
- 	select ARCH_STACKWALK
-diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
-index 2fee65cc84432..a9803825567cf 100644
---- a/arch/riscv/include/asm/cmpxchg.h
-+++ b/arch/riscv/include/asm/cmpxchg.h
-@@ -9,6 +9,7 @@
- #include <linux/bug.h>
- 
- #include <asm/fence.h>
-+#include <linux/cmpxchg-emu.h>
- 
- #define __xchg_relaxed(ptr, new, size)					\
- ({									\
-@@ -170,6 +171,9 @@
- 	__typeof__(*(ptr)) __ret;					\
- 	register unsigned int __rc;					\
- 	switch (size) {							\
-+	case 1:								\
-+		__ret = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)__ptr, (uintptr_t)__old, (uintptr_t)__new); \
-+		break;							\
- 	case 4:								\
- 		__asm__ __volatile__ (					\
- 			"0:	lr.w %0, %2\n"				\
-@@ -214,6 +218,9 @@
- 	__typeof__(*(ptr)) __ret;					\
- 	register unsigned int __rc;					\
- 	switch (size) {							\
-+	case 1:								\
-+		__ret = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)__ptr, (uintptr_t)__old, (uintptr_t)__new); \
-+		break;							\
- 	case 4:								\
- 		__asm__ __volatile__ (					\
- 			"0:	lr.w %0, %2\n"				\
-@@ -260,6 +267,9 @@
- 	__typeof__(*(ptr)) __ret;					\
- 	register unsigned int __rc;					\
- 	switch (size) {							\
-+	case 1:								\
-+		__ret = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)__ptr, (uintptr_t)__old, (uintptr_t)__new); \
-+		break;							\
- 	case 4:								\
- 		__asm__ __volatile__ (					\
- 			RISCV_RELEASE_BARRIER				\
-@@ -306,6 +316,9 @@
- 	__typeof__(*(ptr)) __ret;					\
- 	register unsigned int __rc;					\
- 	switch (size) {							\
-+	case 1:								\
-+		__ret = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)__ptr, (uintptr_t)__old, (uintptr_t)__new); \
-+		break;							\
- 	case 4:								\
- 		__asm__ __volatile__ (					\
- 			"0:	lr.w %0, %2\n"				\
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
