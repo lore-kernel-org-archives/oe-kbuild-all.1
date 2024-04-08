@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D69F146A68;
-	Mon,  8 Apr 2024 20:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99037482
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Apr 2024 20:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712607612; cv=none; b=pmBnO/xlLhZZiGrxoQIqtKDymqqWp2U+KlPZ9HOFaPFfvF61i9ntJMk06peSnsoLIG9kIehh06zf7XyUvMcNTd9PfweZEqcntpl7p8om7qjl4mq9USTHdOWElTOQ/9I2huIXwiCeEeS2WcbmiaPAFUotuYZsK/Qj6KVfR1AwhII=
+	t=1712608327; cv=none; b=bk50dwFDRv76QY48Ugqca6JuvRXoZGKPQSqGS1cxewLjA2UieoA3HKQIuuiEqfw7Q4c0NEIEaJVNsWtESNUwcXMLBosbJLHd9F1VgpW7SSTyIxRHyLQg6i98QFMJg2HR44dntu8jkX3YhK1YuTdM+ecKUu2+CrQXxmZC7JN5H1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712607612; c=relaxed/simple;
-	bh=FopTkbXlJzDGZH5vTNleHJZA3l0e8MEhRKXnz8foTUA=;
+	s=arc-20240116; t=1712608327; c=relaxed/simple;
+	bh=UoKgT1p8UQX0H0Mc1pg5UY7wmnV4mHtUIlA38Z1lIcQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QSustNkiM6sl35iR8TxYUxtvatQvBazyzATKmS21yas4gV0VumPeqxL5qwfOFV9Rf4vL+C4Ef33PzjZguyWQZ+d23FCfnoqNc+CpXkx2s80ofq791vK1yOS/UvosDpo2Jq9svOFjWQAjzdnEANilgfGaHV/H8zZ6KCStJIgGZEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HxYWI+je; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=Twxbfs4VXCZT2L4bAS7O8A/5GTdOaoFRriXVqpPhGqPwiGNfIjZ452k8nnXYq2AqKquzhrNr3eT4bullyamjkdv+yybTU4TW8PJZpgqF1Jqpe1kveBjIhzqXZUCvCTGAMFr65wlzWXP1AkqtwAGnwFfwPO8+apZRDw+NHrFB+t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sp2NVzPB; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HxYWI+je"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sp2NVzPB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712607609; x=1744143609;
+  t=1712608325; x=1744144325;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FopTkbXlJzDGZH5vTNleHJZA3l0e8MEhRKXnz8foTUA=;
-  b=HxYWI+jeeyPIxrJx/esE/0ARCjyLXPCp76BfUTGXWEj9B9iCplPjPHxK
-   dA9NNsqMtzonovF2CqRXbWC7O2j+nTJRXsNELvxt95ZsUwTLiQy6uJwey
-   g4G77cgNr+uHlwQ/xfh/yr1U/rg2QSLQ3e6lIqK6DWk0Hq8cRr6tMW+Kr
-   TQoNZleZKENNmNUAFm0uxsI/jj3KtOMKXlwAQD18PQp2ejYJp93tKw8FM
-   S73xrt+OP4IC9TRniWDaTN+eQ/+eb3xSOYPYTwQQqRZFgbj7p+jIL3d8Y
-   EkwobD2cSO/xVLqKRbfHVbhU8HA6joky3Mnr1nTpFj8RrgR5Jqow+vmeR
-   w==;
-X-CSE-ConnectionGUID: 4fOdhhfdTX+SnH2qOZE8Tg==
-X-CSE-MsgGUID: 2zvMS6uVRmCDmCF1+8Nvdg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="8085753"
+  bh=UoKgT1p8UQX0H0Mc1pg5UY7wmnV4mHtUIlA38Z1lIcQ=;
+  b=Sp2NVzPBsbDvU7iiGSKqIZyRAWAPrxhTh14TcUTXif3+Dg06Aa7Iu5Wf
+   faPfrfYWcFXhAsqLMyF4V9128h2YcgWPtr24yzGcsSVIF88L6s3g0NkLb
+   EW6OOawo4Pa79jPRNtVxdSxRmaY8+mCUy92X/5sT36TMm7eEg+F6gGyqx
+   e2+4jdiJsEFcfrlEki6eQQe7curIXVNNL92uZrgd7xSFfupG8XH1CQSvS
+   8hm84B/i4JdcoGvXBgDEIiPJ0QUVLdJun1B5YwCZIcUljMGdZSsPRBHzI
+   pOucwtqwLqE7bnmK/0KR4RNLY7Esr7k+dSWrDNyzHU+tIkW77KsVMPZPV
+   A==;
+X-CSE-ConnectionGUID: H/nib02oSQ2KDipwjqS2JA==
+X-CSE-MsgGUID: +ZtHj80xQEW39B7FQLWqyA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7774230"
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="8085753"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 13:20:05 -0700
-X-CSE-ConnectionGUID: goSAFJy5SZChhJsbk4b5Ew==
-X-CSE-MsgGUID: Vwmj11fsSH+3gcLuoUu1Iw==
+   d="scan'208";a="7774230"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 13:32:04 -0700
+X-CSE-ConnectionGUID: UPd5fCcFQG6cfxjvkth87Q==
+X-CSE-MsgGUID: M1zMGNgMSZWhd+nC2Hrwdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="19866443"
+   d="scan'208";a="20559071"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Apr 2024 13:20:03 -0700
+  by orviesa008.jf.intel.com with ESMTP; 08 Apr 2024 13:32:03 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rtvTE-0005Ss-0y;
-	Mon, 08 Apr 2024 20:20:00 +0000
-Date: Tue, 9 Apr 2024 04:19:28 +0800
+	id 1rtveq-0005TK-1l;
+	Mon, 08 Apr 2024 20:32:00 +0000
+Date: Tue, 9 Apr 2024 04:31:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jens Axboe <axboe@kernel.dk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 78/144]
- drivers/misc/eeprom/idt_89hpesx.c:903:55: error: expected ')'
-Message-ID: <202404090440.xDx6plBE-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:rw_iter 17/144] fs/ecryptfs/miscdev.c:355: warning:
+ Function parameter or struct member 'iocb' not described in
+ 'ecryptfs_miscdev_write'
+Message-ID: <202404090405.h9P7f5kf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,285 +64,138 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   1b82b543d52b554590942733a069919265a5f27b
-commit: 79301b69940a7eb819122a94ae86009cde5fdfda [78/144] misc: eeprom/idt_89hpesx: convert to read/write iterators
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240409/202404090440.xDx6plBE-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240409/202404090440.xDx6plBE-lkp@intel.com/reproduce)
+head:   b32f790cdb298ce85171870c8bf5557dc35a51a5
+commit: 955f0bac24d7ca64c900aa4381002b1b67895534 [17/144] fs: convert remaining users of ->read and ->write to iterator variants
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240409/202404090405.h9P7f5kf-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240409/202404090405.h9P7f5kf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404090440.xDx6plBE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404090405.h9P7f5kf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/misc/eeprom/idt_89hpesx.c:50:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/misc/eeprom/idt_89hpesx.c:50:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/misc/eeprom/idt_89hpesx.c:50:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/misc/eeprom/idt_89hpesx.c:50:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/misc/eeprom/idt_89hpesx.c:903:55: error: expected ')'
-     903 | static ssize_t idt_dbgfs_csr_write(struct file *kiocb *iocb,
-         |                                                       ^
-   drivers/misc/eeprom/idt_89hpesx.c:903:35: note: to match this '('
-     903 | static ssize_t idt_dbgfs_csr_write(struct file *kiocb *iocb,
-         |                                   ^
->> drivers/misc/eeprom/idt_89hpesx.c:906:33: error: use of undeclared identifier 'filep'
-     906 |         struct idt_89hpesx_dev *pdev = filep->private_data;
-         |                                        ^
->> drivers/misc/eeprom/idt_89hpesx.c:908:32: error: use of undeclared identifier 'from'
-     908 |         size_t count = iov_iter_count(from);
-         |                                       ^
->> drivers/misc/eeprom/idt_89hpesx.c:913:6: error: use of undeclared identifier 'iocb'; did you mean 'kiocb'?
-     913 |         if (iocb->ki_pos)
-         |             ^~~~
-         |             kiocb
-   drivers/misc/eeprom/idt_89hpesx.c:903:49: note: 'kiocb' declared here
-     903 | static ssize_t idt_dbgfs_csr_write(struct file *kiocb *iocb,
-         |                                                 ^
->> drivers/misc/eeprom/idt_89hpesx.c:913:12: error: no member named 'ki_pos' in 'struct file'; did you mean 'f_pos'?
-     913 |         if (iocb->ki_pos)
-         |                   ^~~~~~
-         |                   f_pos
-   include/linux/fs.h:1011:11: note: 'f_pos' declared here
-    1011 |         loff_t                  f_pos;
-         |                                 ^
->> drivers/misc/eeprom/idt_89hpesx.c:917:8: error: call to undeclared function 'iterdup_user'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     917 |         buf = iterdup_user(from, count);
-         |               ^
-   drivers/misc/eeprom/idt_89hpesx.c:917:21: error: use of undeclared identifier 'from'; did you mean 'for'?
-     917 |         buf = iterdup_user(from, count);
-         |                            ^~~~
-         |                            for
->> drivers/misc/eeprom/idt_89hpesx.c:917:21: error: expected expression
->> drivers/misc/eeprom/idt_89hpesx.c:1028:16: error: incompatible function pointer types initializing 'ssize_t (*)(struct kiocb *, struct iov_iter *)' (aka 'int (*)(struct kiocb *, struct iov_iter *)') with an expression of type 'ssize_t (struct file *)' (aka 'int (struct file *)') [-Wincompatible-function-pointer-types]
-    1028 |         .write_iter = idt_dbgfs_csr_write,
-         |                       ^~~~~~~~~~~~~~~~~~~
-   7 warnings and 9 errors generated.
+>> fs/ecryptfs/miscdev.c:355: warning: Function parameter or struct member 'iocb' not described in 'ecryptfs_miscdev_write'
+>> fs/ecryptfs/miscdev.c:355: warning: Function parameter or struct member 'from' not described in 'ecryptfs_miscdev_write'
+>> fs/ecryptfs/miscdev.c:355: warning: Excess function parameter 'file' description in 'ecryptfs_miscdev_write'
+>> fs/ecryptfs/miscdev.c:355: warning: Excess function parameter 'buf' description in 'ecryptfs_miscdev_write'
+>> fs/ecryptfs/miscdev.c:355: warning: Excess function parameter 'count' description in 'ecryptfs_miscdev_write'
+>> fs/ecryptfs/miscdev.c:355: warning: Excess function parameter 'ppos' description in 'ecryptfs_miscdev_write'
 
 
-vim +903 drivers/misc/eeprom/idt_89hpesx.c
+vim +355 fs/ecryptfs/miscdev.c
 
-   887	
-   888	/*
-   889	 * idt_dbgfs_csr_write() - CSR debugfs-node write callback
-   890	 * @filep:	Pointer to the file system file descriptor
-   891	 * @buf:	Buffer to read data from
-   892	 * @count:	Size of the buffer
-   893	 * @offp:	Offset within the file
-   894	 *
-   895	 * It accepts either "0x<reg addr>:0x<value>" for saving register address
-   896	 * and writing value to specified DWORD register or "0x<reg addr>" for
-   897	 * just saving register address in order to perform next read operation.
-   898	 *
-   899	 * WARNING No spaces are allowed. Incoming string must be strictly formated as:
-   900	 * "<reg addr>:<value>". Register address must be aligned within 4 bytes
-   901	 * (one DWORD).
-   902	 */
- > 903	static ssize_t idt_dbgfs_csr_write(struct file *kiocb *iocb,
-   904					   struct iov_iter *from)
-   905	{
- > 906		struct idt_89hpesx_dev *pdev = filep->private_data;
-   907		char *colon_ch, *csraddr_str, *csrval_str;
- > 908		size_t count = iov_iter_count(from);
-   909		int ret;
-   910		u32 csraddr, csrval;
-   911		char *buf;
-   912	
- > 913		if (iocb->ki_pos)
-   914			return 0;
-   915	
-   916		/* Copy data from User-space */
- > 917		buf = iterdup_user(from, count);
-   918		if (IS_ERR(buf))
-   919			return PTR_ERR(buf);
-   920	
-   921		/* Find position of colon in the buffer */
-   922		colon_ch = strnchr(buf, count, ':');
-   923	
-   924		/*
-   925		 * If there is colon passed then new CSR value should be parsed as
-   926		 * well, so allocate buffer for CSR address substring.
-   927		 * If no colon is found, then string must have just one number with
-   928		 * no new CSR value
-   929		 */
-   930		if (colon_ch != NULL) {
-   931			/* Copy the register address to the substring buffer */
-   932			csraddr_str = kmemdup_nul(buf, colon_ch - buf, GFP_KERNEL);
-   933			if (csraddr_str == NULL) {
-   934				ret = -ENOMEM;
-   935				goto free_buf;
-   936			}
-   937			/* Register value must follow the colon */
-   938			csrval_str = colon_ch + 1;
-   939		} else /* if (str_colon == NULL) */ {
-   940			csraddr_str = (char *)buf; /* Just to shut warning up */
-   941			csrval_str = NULL;
-   942		}
-   943	
-   944		/* Convert CSR address to u32 value */
-   945		ret = kstrtou32(csraddr_str, 0, &csraddr);
-   946		if (ret != 0)
-   947			goto free_csraddr_str;
-   948	
-   949		/* Check whether passed register address is valid */
-   950		if (csraddr > CSR_MAX || !IS_ALIGNED(csraddr, SZ_4)) {
-   951			ret = -EINVAL;
-   952			goto free_csraddr_str;
-   953		}
-   954	
-   955		/* Shift register address to the right so to have u16 address */
-   956		pdev->csr = (csraddr >> 2);
-   957	
-   958		/* Parse new CSR value and send it to IDT, if colon has been found */
-   959		if (colon_ch != NULL) {
-   960			ret = kstrtou32(csrval_str, 0, &csrval);
-   961			if (ret != 0)
-   962				goto free_csraddr_str;
-   963	
-   964			ret = idt_csr_write(pdev, pdev->csr, csrval);
-   965			if (ret != 0)
-   966				goto free_csraddr_str;
-   967		}
-   968	
-   969		/* Free memory only if colon has been found */
-   970	free_csraddr_str:
-   971		if (colon_ch != NULL)
-   972			kfree(csraddr_str);
-   973	
-   974		/* Free buffer allocated for data retrieved from User-space */
-   975	free_buf:
-   976		kfree(buf);
-   977	
-   978		return (ret != 0 ? ret : count);
-   979	}
-   980	
-   981	/*
-   982	 * idt_dbgfs_csr_read() - CSR debugfs-node read callback
-   983	 * @filep:	Pointer to the file system file descriptor
-   984	 * @buf:	Buffer to write data to
-   985	 * @count:	Size of the buffer
-   986	 * @offp:	Offset within the file
-   987	 *
-   988	 * It just prints the pair "0x<reg addr>:0x<value>" to passed buffer.
-   989	 */
-   990	#define CSRBUF_SIZE	((size_t)32)
-   991	static ssize_t idt_dbgfs_csr_read(struct kiocb *iocb, struct iov_iter *to)
-   992	{
-   993		struct idt_89hpesx_dev *pdev = iocb->ki_filp->private_data;
-   994		u32 csraddr, csrval;
-   995		char buf[CSRBUF_SIZE];
-   996		int ret, size;
-   997	
-   998		/* Perform CSR read operation */
-   999		ret = idt_csr_read(pdev, pdev->csr, &csrval);
-  1000		if (ret != 0)
-  1001			return ret;
-  1002	
-  1003		/* Shift register address to the left so to have real address */
-  1004		csraddr = ((u32)pdev->csr << 2);
-  1005	
-  1006		/* Print the "0x<reg addr>:0x<value>" to buffer */
-  1007		size = snprintf(buf, CSRBUF_SIZE, "0x%05x:0x%08x\n",
-  1008			(unsigned int)csraddr, (unsigned int)csrval);
-  1009	
-  1010		/* Copy data to User-space */
-  1011		return simple_copy_to_iter(buf, &iocb->ki_pos, size, to);
-  1012	}
-  1013	
-  1014	/*
-  1015	 * eeprom_attribute - EEPROM sysfs-node attributes
-  1016	 *
-  1017	 * NOTE Size will be changed in compliance with OF node. EEPROM attribute will
-  1018	 * be read-only as well if the corresponding flag is specified in OF node.
-  1019	 */
-  1020	static BIN_ATTR_RW(eeprom, EEPROM_DEF_SIZE);
-  1021	
-  1022	/*
-  1023	 * csr_dbgfs_ops - CSR debugfs-node read/write operations
-  1024	 */
-  1025	static const struct file_operations csr_dbgfs_ops = {
-  1026		.owner = THIS_MODULE,
-  1027		.open = simple_open,
-> 1028		.write_iter = idt_dbgfs_csr_write,
-  1029		.read_iter = idt_dbgfs_csr_read
-  1030	};
-  1031	
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  343  
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  344  /**
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  345   * ecryptfs_miscdev_write - handle write to daemon miscdev handle
+2ecaf55db6dcf4 Tyler Hicks     2012-06-11  346   * @file: File for misc dev handle
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  347   * @buf: Buffer containing user data
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  348   * @count: Amount of data in @buf
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  349   * @ppos: Pointer to offset in file (ignored)
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  350   *
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  351   * Returns the number of bytes read from @buf
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  352   */
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  353  static ssize_t
+955f0bac24d7ca Jens Axboe      2024-04-03  354  ecryptfs_miscdev_write(struct kiocb *iocb, struct iov_iter *from)
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29 @355  {
+79bc12a0a09c2e Al Viro         2008-05-21  356  	__be32 counter_nbo;
+79bc12a0a09c2e Al Viro         2008-05-21  357  	u32 seq;
+48399c0b0e6172 Tyler Hicks     2012-01-14  358  	size_t packet_size, packet_size_length;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  359  	char *data;
+48399c0b0e6172 Tyler Hicks     2012-01-14  360  	unsigned char packet_size_peek[ECRYPTFS_MAX_PKT_LEN_SIZE];
+955f0bac24d7ca Jens Axboe      2024-04-03  361  	size_t count = iov_iter_count(from);
+7f133504249afa Tyler Hicks     2012-01-14  362  	ssize_t rc;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  363  
+db10e556518eb9 Tyler Hicks     2012-01-12  364  	if (count == 0) {
+7f133504249afa Tyler Hicks     2012-01-14  365  		return 0;
+48399c0b0e6172 Tyler Hicks     2012-01-14  366  	} else if (count == MIN_NON_MSG_PKT_SIZE) {
+db10e556518eb9 Tyler Hicks     2012-01-12  367  		/* Likely a harmless MSG_HELO or MSG_QUIT - no packet length */
+db10e556518eb9 Tyler Hicks     2012-01-12  368  		goto memdup;
+48399c0b0e6172 Tyler Hicks     2012-01-14  369  	} else if (count < MIN_MSG_PKT_SIZE || count > MAX_MSG_PKT_SIZE) {
+db10e556518eb9 Tyler Hicks     2012-01-12  370  		printk(KERN_WARNING "%s: Acceptable packet size range is "
+0996b67df6c135 Colin Ian King  2016-09-27  371  		       "[%d-%zu], but amount of data written is [%zu].\n",
+48399c0b0e6172 Tyler Hicks     2012-01-14  372  		       __func__, MIN_MSG_PKT_SIZE, MAX_MSG_PKT_SIZE, count);
+db10e556518eb9 Tyler Hicks     2012-01-12  373  		return -EINVAL;
+db10e556518eb9 Tyler Hicks     2012-01-12  374  	}
+db10e556518eb9 Tyler Hicks     2012-01-12  375  
+955f0bac24d7ca Jens Axboe      2024-04-03  376  	if (!copy_from_iter_full(packet_size_peek, sizeof(packet_size_peek),
+955f0bac24d7ca Jens Axboe      2024-04-03  377  				 from)) {
+db10e556518eb9 Tyler Hicks     2012-01-12  378  		printk(KERN_WARNING "%s: Error while inspecting packet size\n",
+db10e556518eb9 Tyler Hicks     2012-01-12  379  		       __func__);
+db10e556518eb9 Tyler Hicks     2012-01-12  380  		return -EFAULT;
+db10e556518eb9 Tyler Hicks     2012-01-12  381  	}
+db10e556518eb9 Tyler Hicks     2012-01-12  382  
+db10e556518eb9 Tyler Hicks     2012-01-12  383  	rc = ecryptfs_parse_packet_length(packet_size_peek, &packet_size,
+db10e556518eb9 Tyler Hicks     2012-01-12  384  					  &packet_size_length);
+db10e556518eb9 Tyler Hicks     2012-01-12  385  	if (rc) {
+db10e556518eb9 Tyler Hicks     2012-01-12  386  		printk(KERN_WARNING "%s: Error parsing packet length; "
+7f133504249afa Tyler Hicks     2012-01-14  387  		       "rc = [%zd]\n", __func__, rc);
+db10e556518eb9 Tyler Hicks     2012-01-12  388  		return rc;
+db10e556518eb9 Tyler Hicks     2012-01-12  389  	}
+db10e556518eb9 Tyler Hicks     2012-01-12  390  
+48399c0b0e6172 Tyler Hicks     2012-01-14  391  	if ((PKT_TYPE_SIZE + PKT_CTR_SIZE + packet_size_length + packet_size)
+48399c0b0e6172 Tyler Hicks     2012-01-14  392  	    != count) {
+db10e556518eb9 Tyler Hicks     2012-01-12  393  		printk(KERN_WARNING "%s: Invalid packet size [%zu]\n", __func__,
+db10e556518eb9 Tyler Hicks     2012-01-12  394  		       packet_size);
+db10e556518eb9 Tyler Hicks     2012-01-12  395  		return -EINVAL;
+db10e556518eb9 Tyler Hicks     2012-01-12  396  	}
+fd56d242b3b80b Li Zefan        2009-04-08  397  
+db10e556518eb9 Tyler Hicks     2012-01-12  398  memdup:
+955f0bac24d7ca Jens Axboe      2024-04-03  399  	data = iterdup(from, count);
+fd56d242b3b80b Li Zefan        2009-04-08  400  	if (IS_ERR(data)) {
+fd56d242b3b80b Li Zefan        2009-04-08  401  		printk(KERN_ERR "%s: memdup_user returned error [%ld]\n",
+fd56d242b3b80b Li Zefan        2009-04-08  402  		       __func__, PTR_ERR(data));
+7f133504249afa Tyler Hicks     2012-01-14  403  		return PTR_ERR(data);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  404  	}
+48399c0b0e6172 Tyler Hicks     2012-01-14  405  	switch (data[PKT_TYPE_OFFSET]) {
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  406  	case ECRYPTFS_MSG_RESPONSE:
+48399c0b0e6172 Tyler Hicks     2012-01-14  407  		if (count < (MIN_MSG_PKT_SIZE
+48399c0b0e6172 Tyler Hicks     2012-01-14  408  			     + sizeof(struct ecryptfs_message))) {
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  409  			printk(KERN_WARNING "%s: Minimum acceptable packet "
+df261c52abdef1 Michael Halcrow 2009-01-06  410  			       "size is [%zd], but amount of data written is "
+df261c52abdef1 Michael Halcrow 2009-01-06  411  			       "only [%zd]. Discarding response packet.\n",
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  412  			       __func__,
+48399c0b0e6172 Tyler Hicks     2012-01-14  413  			       (MIN_MSG_PKT_SIZE
+48399c0b0e6172 Tyler Hicks     2012-01-14  414  				+ sizeof(struct ecryptfs_message)), count);
+7f133504249afa Tyler Hicks     2012-01-14  415  			rc = -EINVAL;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  416  			goto out_free;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  417  		}
+48399c0b0e6172 Tyler Hicks     2012-01-14  418  		memcpy(&counter_nbo, &data[PKT_CTR_OFFSET], PKT_CTR_SIZE);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  419  		seq = be32_to_cpu(counter_nbo);
+955f0bac24d7ca Jens Axboe      2024-04-03  420  		rc = ecryptfs_miscdev_response(iocb->ki_filp->private_data,
+48399c0b0e6172 Tyler Hicks     2012-01-14  421  				&data[PKT_LEN_OFFSET + packet_size_length],
+2ecaf55db6dcf4 Tyler Hicks     2012-06-11  422  				packet_size, seq);
+7f133504249afa Tyler Hicks     2012-01-14  423  		if (rc) {
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  424  			printk(KERN_WARNING "%s: Failed to deliver miscdev "
+7f133504249afa Tyler Hicks     2012-01-14  425  			       "response to requesting operation; rc = [%zd]\n",
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  426  			       __func__, rc);
+7f133504249afa Tyler Hicks     2012-01-14  427  			goto out_free;
+7f133504249afa Tyler Hicks     2012-01-14  428  		}
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  429  		break;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  430  	case ECRYPTFS_MSG_HELO:
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  431  	case ECRYPTFS_MSG_QUIT:
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  432  		break;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  433  	default:
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  434  		ecryptfs_printk(KERN_WARNING, "Dropping miscdev "
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  435  				"message of unrecognized type [%d]\n",
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  436  				data[0]);
+7f133504249afa Tyler Hicks     2012-01-14  437  		rc = -EINVAL;
+7f133504249afa Tyler Hicks     2012-01-14  438  		goto out_free;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  439  	}
+7f133504249afa Tyler Hicks     2012-01-14  440  	rc = count;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  441  out_free:
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  442  	kfree(data);
+7f133504249afa Tyler Hicks     2012-01-14  443  	return rc;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  444  }
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  445  
+
+:::::: The code at line 355 was first introduced by commit
+:::::: 8bf2debd5f7bf12d122124e34fec14af5b1e8ecf eCryptfs: introduce device handle for userspace daemon communications
+
+:::::: TO: Michael Halcrow <mhalcrow@us.ibm.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
