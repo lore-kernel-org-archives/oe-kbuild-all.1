@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99037482
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Apr 2024 20:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A77A147C60
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Apr 2024 21:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712608327; cv=none; b=bk50dwFDRv76QY48Ugqca6JuvRXoZGKPQSqGS1cxewLjA2UieoA3HKQIuuiEqfw7Q4c0NEIEaJVNsWtESNUwcXMLBosbJLHd9F1VgpW7SSTyIxRHyLQg6i98QFMJg2HR44dntu8jkX3YhK1YuTdM+ecKUu2+CrQXxmZC7JN5H1M=
+	t=1712611509; cv=none; b=hhcyLnLgWtqG3g0t4u3VOW3aacq1r0cou5ooaaOd0Ry4YIW/wCtFuYG1KBbe7+sz9WyZYWp+I8e7tgJWwAoHF+JwYe7ctm9s7n68KzyLDhoCmGd30S4oJuS3l5eygRRFbRpRosm72AoiyQDERAhCGO2HKlWnQrT8GheAQpFdBAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712608327; c=relaxed/simple;
-	bh=UoKgT1p8UQX0H0Mc1pg5UY7wmnV4mHtUIlA38Z1lIcQ=;
+	s=arc-20240116; t=1712611509; c=relaxed/simple;
+	bh=RQlkDGeM0plgF7kqsG+MTmknBKynQpcMjOc/dYZhYds=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Twxbfs4VXCZT2L4bAS7O8A/5GTdOaoFRriXVqpPhGqPwiGNfIjZ452k8nnXYq2AqKquzhrNr3eT4bullyamjkdv+yybTU4TW8PJZpgqF1Jqpe1kveBjIhzqXZUCvCTGAMFr65wlzWXP1AkqtwAGnwFfwPO8+apZRDw+NHrFB+t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sp2NVzPB; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=PKFDDZ0B9tTGLtduMSg6B/VBb3LXYoBQsfHwPFIOkhae/JopQrFw0rWyGidHdOxnssdaUPaah1H1j3hqkuMMRj4kDHiby8MY2r6+ss4rFYPrVXFunVUmnQCsj5DzuzGItlxtZDzjW+p6wpFZHb3x6FhB+A57KLD+LZ+X2v58Bz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XglNS4ZU; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sp2NVzPB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XglNS4ZU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712608325; x=1744144325;
+  t=1712611506; x=1744147506;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UoKgT1p8UQX0H0Mc1pg5UY7wmnV4mHtUIlA38Z1lIcQ=;
-  b=Sp2NVzPBsbDvU7iiGSKqIZyRAWAPrxhTh14TcUTXif3+Dg06Aa7Iu5Wf
-   faPfrfYWcFXhAsqLMyF4V9128h2YcgWPtr24yzGcsSVIF88L6s3g0NkLb
-   EW6OOawo4Pa79jPRNtVxdSxRmaY8+mCUy92X/5sT36TMm7eEg+F6gGyqx
-   e2+4jdiJsEFcfrlEki6eQQe7curIXVNNL92uZrgd7xSFfupG8XH1CQSvS
-   8hm84B/i4JdcoGvXBgDEIiPJ0QUVLdJun1B5YwCZIcUljMGdZSsPRBHzI
-   pOucwtqwLqE7bnmK/0KR4RNLY7Esr7k+dSWrDNyzHU+tIkW77KsVMPZPV
-   A==;
-X-CSE-ConnectionGUID: H/nib02oSQ2KDipwjqS2JA==
-X-CSE-MsgGUID: +ZtHj80xQEW39B7FQLWqyA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7774230"
+  bh=RQlkDGeM0plgF7kqsG+MTmknBKynQpcMjOc/dYZhYds=;
+  b=XglNS4ZUkXyKh9+TNype3A9gc2ptSJb86D/GtkdfaxwA/wIufJ+zRGSU
+   f4/Pqb2w+/IVcm7Lz6XWLi28HMphuhEN+g5Xwi8m0t5uHN1Vqgt373sDM
+   +YhzeMIq8rf3t3Xg3LiVUPRF3JZnNLYGRReFZacglVzbBxaI12qlMIeRI
+   99ht+f3rq5A8lH1uCxHqQbLqivi/h9IEpM+17oRS7DXRtXKUylEWN1EX7
+   FN0E9L0HarPIYmWANCsCwdGOWpVtGTW5ODLMms3rsEUxpfrxKnHGmo/0P
+   qctFAjUED0uWlRXlz8luAnWyQ0jD60FYkUp01aI6lep+sGBbePhN5neTF
+   g==;
+X-CSE-ConnectionGUID: qENaNBfTReejotsuDRXuiQ==
+X-CSE-MsgGUID: KgI1UbzBTiGweAhqqWqnbg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7777034"
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="7774230"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 13:32:04 -0700
-X-CSE-ConnectionGUID: UPd5fCcFQG6cfxjvkth87Q==
-X-CSE-MsgGUID: M1zMGNgMSZWhd+nC2Hrwdg==
+   d="scan'208";a="7777034"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 14:25:05 -0700
+X-CSE-ConnectionGUID: Yt1bIG7LSO+nMXdKAcBMkw==
+X-CSE-MsgGUID: 1EFcIdLXTaud7E+N45Umsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="20559071"
+   d="scan'208";a="20446910"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 08 Apr 2024 13:32:03 -0700
+  by orviesa007.jf.intel.com with ESMTP; 08 Apr 2024 14:25:04 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rtveq-0005TK-1l;
-	Mon, 08 Apr 2024 20:32:00 +0000
-Date: Tue, 9 Apr 2024 04:31:34 +0800
+	id 1rtwU9-0005VG-2q;
+	Mon, 08 Apr 2024 21:25:01 +0000
+Date: Tue, 9 Apr 2024 05:24:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
+To: kernel@openeuler.org, Jiantao Xiao <xiaojiantao1@h-partners.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 17/144] fs/ecryptfs/miscdev.c:355: warning:
- Function parameter or struct member 'iocb' not described in
- 'ecryptfs_miscdev_write'
-Message-ID: <202404090405.h9P7f5kf-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 6913/7311]
+ drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:6003:37: sparse:
+ sparse: restricted __le32 degrades to integer
+Message-ID: <202404090532.QLIDcYg8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,139 +63,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   b32f790cdb298ce85171870c8bf5557dc35a51a5
-commit: 955f0bac24d7ca64c900aa4381002b1b67895534 [17/144] fs: convert remaining users of ->read and ->write to iterator variants
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240409/202404090405.h9P7f5kf-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240409/202404090405.h9P7f5kf-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   05607873db411ec3c614313b43cec60138c26a99
+commit: e992b88fa60f2e405a35c281c549b4caf3cd78f3 [6913/7311] net: hns3: support set/get VxLAN rule of rx flow director by ethtool
+config: loongarch-randconfig-r113-20240408 (https://download.01.org/0day-ci/archive/20240409/202404090532.QLIDcYg8-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240409/202404090532.QLIDcYg8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404090405.h9P7f5kf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404090532.QLIDcYg8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:6003:37: sparse: sparse: restricted __le32 degrades to integer
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:6004:37: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:6238:17: sparse: sparse: restricted __be32 degrades to integer
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:6332:17: sparse: sparse: restricted __be32 degrades to integer
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:13360:21: sparse: sparse: symbol 'hclge_ops' was not declared. Should it be static?
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
+   include/linux/page-flags.h:245:46: sparse: sparse: self-comparison always evaluates to false
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:5574:31: sparse: sparse: context imbalance in 'hclge_sync_fd_user_def_cfg' - unexpected unlock
 
->> fs/ecryptfs/miscdev.c:355: warning: Function parameter or struct member 'iocb' not described in 'ecryptfs_miscdev_write'
->> fs/ecryptfs/miscdev.c:355: warning: Function parameter or struct member 'from' not described in 'ecryptfs_miscdev_write'
->> fs/ecryptfs/miscdev.c:355: warning: Excess function parameter 'file' description in 'ecryptfs_miscdev_write'
->> fs/ecryptfs/miscdev.c:355: warning: Excess function parameter 'buf' description in 'ecryptfs_miscdev_write'
->> fs/ecryptfs/miscdev.c:355: warning: Excess function parameter 'count' description in 'ecryptfs_miscdev_write'
->> fs/ecryptfs/miscdev.c:355: warning: Excess function parameter 'ppos' description in 'ecryptfs_miscdev_write'
+vim +6003 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
 
-
-vim +355 fs/ecryptfs/miscdev.c
-
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  343  
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  344  /**
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  345   * ecryptfs_miscdev_write - handle write to daemon miscdev handle
-2ecaf55db6dcf4 Tyler Hicks     2012-06-11  346   * @file: File for misc dev handle
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  347   * @buf: Buffer containing user data
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  348   * @count: Amount of data in @buf
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  349   * @ppos: Pointer to offset in file (ignored)
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  350   *
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  351   * Returns the number of bytes read from @buf
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  352   */
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  353  static ssize_t
-955f0bac24d7ca Jens Axboe      2024-04-03  354  ecryptfs_miscdev_write(struct kiocb *iocb, struct iov_iter *from)
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29 @355  {
-79bc12a0a09c2e Al Viro         2008-05-21  356  	__be32 counter_nbo;
-79bc12a0a09c2e Al Viro         2008-05-21  357  	u32 seq;
-48399c0b0e6172 Tyler Hicks     2012-01-14  358  	size_t packet_size, packet_size_length;
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  359  	char *data;
-48399c0b0e6172 Tyler Hicks     2012-01-14  360  	unsigned char packet_size_peek[ECRYPTFS_MAX_PKT_LEN_SIZE];
-955f0bac24d7ca Jens Axboe      2024-04-03  361  	size_t count = iov_iter_count(from);
-7f133504249afa Tyler Hicks     2012-01-14  362  	ssize_t rc;
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  363  
-db10e556518eb9 Tyler Hicks     2012-01-12  364  	if (count == 0) {
-7f133504249afa Tyler Hicks     2012-01-14  365  		return 0;
-48399c0b0e6172 Tyler Hicks     2012-01-14  366  	} else if (count == MIN_NON_MSG_PKT_SIZE) {
-db10e556518eb9 Tyler Hicks     2012-01-12  367  		/* Likely a harmless MSG_HELO or MSG_QUIT - no packet length */
-db10e556518eb9 Tyler Hicks     2012-01-12  368  		goto memdup;
-48399c0b0e6172 Tyler Hicks     2012-01-14  369  	} else if (count < MIN_MSG_PKT_SIZE || count > MAX_MSG_PKT_SIZE) {
-db10e556518eb9 Tyler Hicks     2012-01-12  370  		printk(KERN_WARNING "%s: Acceptable packet size range is "
-0996b67df6c135 Colin Ian King  2016-09-27  371  		       "[%d-%zu], but amount of data written is [%zu].\n",
-48399c0b0e6172 Tyler Hicks     2012-01-14  372  		       __func__, MIN_MSG_PKT_SIZE, MAX_MSG_PKT_SIZE, count);
-db10e556518eb9 Tyler Hicks     2012-01-12  373  		return -EINVAL;
-db10e556518eb9 Tyler Hicks     2012-01-12  374  	}
-db10e556518eb9 Tyler Hicks     2012-01-12  375  
-955f0bac24d7ca Jens Axboe      2024-04-03  376  	if (!copy_from_iter_full(packet_size_peek, sizeof(packet_size_peek),
-955f0bac24d7ca Jens Axboe      2024-04-03  377  				 from)) {
-db10e556518eb9 Tyler Hicks     2012-01-12  378  		printk(KERN_WARNING "%s: Error while inspecting packet size\n",
-db10e556518eb9 Tyler Hicks     2012-01-12  379  		       __func__);
-db10e556518eb9 Tyler Hicks     2012-01-12  380  		return -EFAULT;
-db10e556518eb9 Tyler Hicks     2012-01-12  381  	}
-db10e556518eb9 Tyler Hicks     2012-01-12  382  
-db10e556518eb9 Tyler Hicks     2012-01-12  383  	rc = ecryptfs_parse_packet_length(packet_size_peek, &packet_size,
-db10e556518eb9 Tyler Hicks     2012-01-12  384  					  &packet_size_length);
-db10e556518eb9 Tyler Hicks     2012-01-12  385  	if (rc) {
-db10e556518eb9 Tyler Hicks     2012-01-12  386  		printk(KERN_WARNING "%s: Error parsing packet length; "
-7f133504249afa Tyler Hicks     2012-01-14  387  		       "rc = [%zd]\n", __func__, rc);
-db10e556518eb9 Tyler Hicks     2012-01-12  388  		return rc;
-db10e556518eb9 Tyler Hicks     2012-01-12  389  	}
-db10e556518eb9 Tyler Hicks     2012-01-12  390  
-48399c0b0e6172 Tyler Hicks     2012-01-14  391  	if ((PKT_TYPE_SIZE + PKT_CTR_SIZE + packet_size_length + packet_size)
-48399c0b0e6172 Tyler Hicks     2012-01-14  392  	    != count) {
-db10e556518eb9 Tyler Hicks     2012-01-12  393  		printk(KERN_WARNING "%s: Invalid packet size [%zu]\n", __func__,
-db10e556518eb9 Tyler Hicks     2012-01-12  394  		       packet_size);
-db10e556518eb9 Tyler Hicks     2012-01-12  395  		return -EINVAL;
-db10e556518eb9 Tyler Hicks     2012-01-12  396  	}
-fd56d242b3b80b Li Zefan        2009-04-08  397  
-db10e556518eb9 Tyler Hicks     2012-01-12  398  memdup:
-955f0bac24d7ca Jens Axboe      2024-04-03  399  	data = iterdup(from, count);
-fd56d242b3b80b Li Zefan        2009-04-08  400  	if (IS_ERR(data)) {
-fd56d242b3b80b Li Zefan        2009-04-08  401  		printk(KERN_ERR "%s: memdup_user returned error [%ld]\n",
-fd56d242b3b80b Li Zefan        2009-04-08  402  		       __func__, PTR_ERR(data));
-7f133504249afa Tyler Hicks     2012-01-14  403  		return PTR_ERR(data);
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  404  	}
-48399c0b0e6172 Tyler Hicks     2012-01-14  405  	switch (data[PKT_TYPE_OFFSET]) {
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  406  	case ECRYPTFS_MSG_RESPONSE:
-48399c0b0e6172 Tyler Hicks     2012-01-14  407  		if (count < (MIN_MSG_PKT_SIZE
-48399c0b0e6172 Tyler Hicks     2012-01-14  408  			     + sizeof(struct ecryptfs_message))) {
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  409  			printk(KERN_WARNING "%s: Minimum acceptable packet "
-df261c52abdef1 Michael Halcrow 2009-01-06  410  			       "size is [%zd], but amount of data written is "
-df261c52abdef1 Michael Halcrow 2009-01-06  411  			       "only [%zd]. Discarding response packet.\n",
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  412  			       __func__,
-48399c0b0e6172 Tyler Hicks     2012-01-14  413  			       (MIN_MSG_PKT_SIZE
-48399c0b0e6172 Tyler Hicks     2012-01-14  414  				+ sizeof(struct ecryptfs_message)), count);
-7f133504249afa Tyler Hicks     2012-01-14  415  			rc = -EINVAL;
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  416  			goto out_free;
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  417  		}
-48399c0b0e6172 Tyler Hicks     2012-01-14  418  		memcpy(&counter_nbo, &data[PKT_CTR_OFFSET], PKT_CTR_SIZE);
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  419  		seq = be32_to_cpu(counter_nbo);
-955f0bac24d7ca Jens Axboe      2024-04-03  420  		rc = ecryptfs_miscdev_response(iocb->ki_filp->private_data,
-48399c0b0e6172 Tyler Hicks     2012-01-14  421  				&data[PKT_LEN_OFFSET + packet_size_length],
-2ecaf55db6dcf4 Tyler Hicks     2012-06-11  422  				packet_size, seq);
-7f133504249afa Tyler Hicks     2012-01-14  423  		if (rc) {
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  424  			printk(KERN_WARNING "%s: Failed to deliver miscdev "
-7f133504249afa Tyler Hicks     2012-01-14  425  			       "response to requesting operation; rc = [%zd]\n",
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  426  			       __func__, rc);
-7f133504249afa Tyler Hicks     2012-01-14  427  			goto out_free;
-7f133504249afa Tyler Hicks     2012-01-14  428  		}
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  429  		break;
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  430  	case ECRYPTFS_MSG_HELO:
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  431  	case ECRYPTFS_MSG_QUIT:
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  432  		break;
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  433  	default:
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  434  		ecryptfs_printk(KERN_WARNING, "Dropping miscdev "
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  435  				"message of unrecognized type [%d]\n",
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  436  				data[0]);
-7f133504249afa Tyler Hicks     2012-01-14  437  		rc = -EINVAL;
-7f133504249afa Tyler Hicks     2012-01-14  438  		goto out_free;
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  439  	}
-7f133504249afa Tyler Hicks     2012-01-14  440  	rc = count;
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  441  out_free:
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  442  	kfree(data);
-7f133504249afa Tyler Hicks     2012-01-14  443  	return rc;
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  444  }
-8bf2debd5f7bf1 Michael Halcrow 2008-04-29  445  
-
-:::::: The code at line 355 was first introduced by commit
-:::::: 8bf2debd5f7bf12d122124e34fec14af5b1e8ecf eCryptfs: introduce device handle for userspace daemon communications
-
-:::::: TO: Michael Halcrow <mhalcrow@us.ibm.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+  5945	
+  5946		int offset, moffset, ip_offset;
+  5947		enum HCLGE_FD_KEY_OPT key_opt;
+  5948		u16 tmp_x_s, tmp_y_s;
+  5949		u32 tmp_x_l, tmp_y_l;
+  5950		u8 *p = (u8 *)rule;
+  5951		int i;
+  5952	
+  5953		if (rule->unused_tuple & BIT(tuple_bit))
+  5954			return true;
+  5955	
+  5956		key_opt = tuple_key_info[tuple_bit].key_opt;
+  5957		offset = tuple_key_info[tuple_bit].offset;
+  5958		moffset = tuple_key_info[tuple_bit].moffset;
+  5959	
+  5960		switch (key_opt) {
+  5961		case KEY_OPT_U8:
+  5962			calc_x(*key_x, p[offset], p[moffset]);
+  5963			calc_y(*key_y, p[offset], p[moffset]);
+  5964	
+  5965			return true;
+  5966		case KEY_OPT_LE16:
+  5967			calc_x(tmp_x_s, *(u16 *)(&p[offset]), *(u16 *)(&p[moffset]));
+  5968			calc_y(tmp_y_s, *(u16 *)(&p[offset]), *(u16 *)(&p[moffset]));
+  5969			*(__le16 *)key_x = cpu_to_le16(tmp_x_s);
+  5970			*(__le16 *)key_y = cpu_to_le16(tmp_y_s);
+  5971	
+  5972			return true;
+  5973		case KEY_OPT_LE32:
+  5974			calc_x(tmp_x_l, *(u32 *)(&p[offset]), *(u32 *)(&p[moffset]));
+  5975			calc_y(tmp_y_l, *(u32 *)(&p[offset]), *(u32 *)(&p[moffset]));
+  5976			*(__le32 *)key_x = cpu_to_le32(tmp_x_l);
+  5977			*(__le32 *)key_y = cpu_to_le32(tmp_y_l);
+  5978	
+  5979			return true;
+  5980		case KEY_OPT_MAC:
+  5981			for (i = 0; i < ETH_ALEN; i++) {
+  5982				calc_x(key_x[ETH_ALEN - 1 - i], p[offset + i],
+  5983				       p[moffset + i]);
+  5984				calc_y(key_y[ETH_ALEN - 1 - i], p[offset + i],
+  5985				       p[moffset + i]);
+  5986			}
+  5987	
+  5988			return true;
+  5989		case KEY_OPT_IP:
+  5990			ip_offset = IPV4_INDEX * sizeof(u32);
+  5991			calc_x(tmp_x_l, *(u32 *)(&p[offset + ip_offset]),
+  5992			       *(u32 *)(&p[moffset + ip_offset]));
+  5993			calc_y(tmp_y_l, *(u32 *)(&p[offset + ip_offset]),
+  5994			       *(u32 *)(&p[moffset + ip_offset]));
+  5995			*(__le32 *)key_x = cpu_to_le32(tmp_x_l);
+  5996			*(__le32 *)key_y = cpu_to_le32(tmp_y_l);
+  5997	
+  5998			return true;
+  5999		case KEY_OPT_VNI:
+  6000			calc_x(tmp_x_l, *(u32 *)(&p[offset]), *(u32 *)(&p[moffset]));
+  6001			calc_y(tmp_y_l, *(u32 *)(&p[offset]), *(u32 *)(&p[moffset]));
+  6002			for (i = 0; i < HCLGE_VNI_LENGTH; i++) {
+> 6003				key_x[i] = (cpu_to_le32(tmp_x_l) >> (i * BITS_PER_BYTE)) & 0xFF;
+  6004				key_y[i] = (cpu_to_le32(tmp_y_l) >> (i * BITS_PER_BYTE)) & 0xFF;
+  6005			}
+  6006			return true;
+  6007		default:
+  6008			return false;
+  6009		}
+  6010	}
+  6011	
 
 -- 
 0-DAY CI Kernel Test Service
