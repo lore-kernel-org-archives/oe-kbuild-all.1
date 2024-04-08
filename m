@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DDDD17745
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Apr 2024 23:50:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E70149007
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Apr 2024 23:50:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712620210; cv=none; b=CNC7jC3dnjY1ro5Mu3V4ls9kWmSC7JbSEc1zWc8JzoqJvZ5rY+6dtHgi48Ck2pBPody7PgsUSFOfF7OoOL3QqrH1DgkN98a19BaOVNnlU+9ZzWtdfNLI6PqeCntz7JcmKpT3NaZh2i9jLu1qnzru27xPu5HRARiFC6pFxgSr8Rs=
+	t=1712620212; cv=none; b=NIVC8swurw2cuCPBlF6J0A5qLxw2+eQn2FHlnFurmc1/6/Fgk/S/h2oYDkdmDumVTgi52o9QdlZChJss5fDIr/Kz74z15QChMs4dc5HDFuyO1/SOtfofdqG/8m1iFhdrXO02U3ht91gcUFfoCrjVVZiBkwWJwRpuoiYVEDIp7ZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712620210; c=relaxed/simple;
-	bh=BVy9IYmDui4BKydaWYyJjAXWalfPM7z/Z+8hILNQJWs=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f62Ljuy3W2TbsckdbXq1MsyL650SFsehI7xaJIUA7ah7+jfXVpiDvtVVm/JWhz3Qh/uSo8KTWCWLEBr0cOBwSy3l3dvbsC6HSw4yRTDLHIFKNE0/+vQ+Ve81E00w/i8+iGgWVrVa1lueHVzEHLNMNO/mJwz0/XBlRrb26CdEpEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=COE77tYr; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1712620212; c=relaxed/simple;
+	bh=LLcjiI0pSeFKv1C5PSocqh2nT/n/rEo1I0KFwVpGJKA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=J2gQGbW7Y7Hrnqn6yuQphdgy8909OFRzi5Bg8/B4cjDPlmlZIyReFNqj8FJ+16lDOIcTD0l/AnmFYYEYsSfD2/AAlP64U0Fw4/SndwCE1hdbGp0u0Y9s/JnsRL+NQGFFkupZchn0dJwpL/4C0HRJD18y3Dlud+iGrk1u9mErkWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RrG4926J; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="COE77tYr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RrG4926J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712620208; x=1744156208;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=BVy9IYmDui4BKydaWYyJjAXWalfPM7z/Z+8hILNQJWs=;
-  b=COE77tYr9aRBNDgFgnYhXT33/vm3lbuetWfe5Hm41tWOR39XZIoz0lig
-   Af4PqC92gCJDBGPKo4e3HRUWgI70bngImV3IOQm45h146tHze55fN/n/1
-   lkccyASHHyJ3eAhJ6XEE5PC2yj0LOd6xANwnFO3JmYX/2pLe2jUGKaDrg
-   O5Zr5AWJ1Juq1IlTsIx2p2heB4hId6AmMfznnXTBuStR1r1hLz17r+NU/
-   UxUfUwGhxOMxZTA7bH37IHfi7EEMBbUnMiFgeiTYQ06t9q/k9fVDnzL1E
-   m+dhOjwgYzoWB0aRzz6/MiNV04kFyR0sowA3pGFzXHe9Hc3dkDpUc/0xn
-   w==;
-X-CSE-ConnectionGUID: fKVxGYZES4SCF0NXxaErRQ==
-X-CSE-MsgGUID: 6fJlBcexRmuzTeB8FSs+bQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="25365767"
+  t=1712620210; x=1744156210;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LLcjiI0pSeFKv1C5PSocqh2nT/n/rEo1I0KFwVpGJKA=;
+  b=RrG4926JJ7JKLTltB49C3R1+dVmlJ5aehS9ieYDNu32SuYMqYRNXAa14
+   XIuw6Z0I7Q5UfLEBIhgp8xu+ynMIbHZts4poGMbUx/rFHYFbYQZIXcdw+
+   rA69DE7BWZqdpXwn0TXKISjolKNH+NniRgt3atjxKrbBRfgtfaMDVqiDn
+   Aw+INW16CvEeuWR4NYJq0OeFojrJ60b5cqYRyGN7NX9li4P1fjor+CaTN
+   hL7XsSZMUPeDhOuqyw79+LZxwSaetHvHD3XBiP9W428Pts5d64f6AUKxt
+   9WlrLlOwvoxqVBv33c+kb+DMlKKGYVR/KDAl3DkIhHNSEHkBc8UyIPLrU
+   Q==;
+X-CSE-ConnectionGUID: T6mXsTz4RMWpX1e+0sqQ2g==
+X-CSE-MsgGUID: OES/P8AHQtq23zlpdj2wFQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="25365768"
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="25365767"
+   d="scan'208";a="25365768"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 16:50:07 -0700
-X-CSE-ConnectionGUID: 6TomZ7ODRq+Q+3MnAvp+gQ==
-X-CSE-MsgGUID: 0VQ0MDJeRLizKOCZv2KpSw==
+X-CSE-ConnectionGUID: Enrp1Na9RNmHoGLYnLMEBg==
+X-CSE-MsgGUID: /U30eXFyRy6x8mlS0KL/BA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="24674848"
+   d="scan'208";a="24674846"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 08 Apr 2024 16:50:06 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rtykW-0005Ym-0V
-	for oe-kbuild-all@lists.linux.dev;
+	id 1rtykW-0005Yo-0Y;
 	Mon, 08 Apr 2024 23:50:04 +0000
 Date: Tue, 9 Apr 2024 07:49:36 +0800
 From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:4.19/android_s 290/1172] fs/crypto/policy.c:270:13:
- sparse: sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202404090707.riELX8Fb-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 18302/22054] mm/share_pool.c:837:29:
+ sparse: sparse: incompatible types for operation (<=):
+Message-ID: <202404090717.XitFSfCo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,100 +62,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common 4.19/android_s
-head:   71b63f21a8292ca960a4c363d69d5e95c0265597
-commit: 73ce50dc2defcca646627630597dfe32bb8d3fdf [290/1172] fscrypt: v2 encryption policy support
-config: m68k-randconfig-r123-20240406 (https://download.01.org/0day-ci/archive/20240409/202404090707.riELX8Fb-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240409/202404090707.riELX8Fb-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   1ed85cbd67db3ccd721e15f7459154e8daec22a8
+commit: 0f0c3021514f52310056c32406b4b760fc9a7e6e [18302/22054] share_pool: Apply sp_group_id_by_pid() to multi-group-mode
+config: arm64-randconfig-r111-20240331 (https://download.01.org/0day-ci/archive/20240409/202404090717.XitFSfCo-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240409/202404090717.XitFSfCo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404090707.riELX8Fb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404090717.XitFSfCo-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/crypto/policy.c:270:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const *__gu_ptr @@     got unsigned char const [noderef] [usertype] <asn:1> * @@
-   fs/crypto/policy.c:270:13: sparse:     expected void const *__gu_ptr
-   fs/crypto/policy.c:270:13: sparse:     got unsigned char const [noderef] [usertype] <asn:1> *
-   fs/crypto/policy.c:25: warning: Function parameter or member 'policy1' not described in 'fscrypt_policies_equal'
-   fs/crypto/policy.c:25: warning: Function parameter or member 'policy2' not described in 'fscrypt_policies_equal'
-   fs/crypto/policy.c:44: warning: Function parameter or member 'policy_u' not described in 'fscrypt_supported_policy'
-   fs/crypto/policy.c:44: warning: Function parameter or member 'inode' not described in 'fscrypt_supported_policy'
-   fs/crypto/policy.c:109: warning: Function parameter or member 'ctx_u' not described in 'fscrypt_new_context_from_policy'
-   fs/crypto/policy.c:109: warning: Function parameter or member 'policy_u' not described in 'fscrypt_new_context_from_policy'
-   fs/crypto/policy.c:163: warning: Function parameter or member 'policy_u' not described in 'fscrypt_policy_from_context'
-   fs/crypto/policy.c:163: warning: Function parameter or member 'ctx_u' not described in 'fscrypt_policy_from_context'
-   fs/crypto/policy.c:163: warning: Function parameter or member 'ctx_size' not described in 'fscrypt_policy_from_context'
+>> mm/share_pool.c:837:29: sparse: sparse: incompatible types for operation (<=):
+   mm/share_pool.c:837:29: sparse:    int *num
+   mm/share_pool.c:837:29: sparse:    int
+   mm/share_pool.c:1628:9: sparse: sparse: undefined identifier 'sysctl_compaction_handler'
+   mm/share_pool.c: In function 'sp_group_id_by_pid':
+   mm/share_pool.c:837:29: warning: ordered comparison of pointer with integer zero [-Wextra]
+     837 |         if (!spg_ids || num <= 0)
+         |                             ^~
+   mm/share_pool.c: In function 'sp_compact_nodes':
+   mm/share_pool.c:1628:9: error: implicit declaration of function 'sysctl_compaction_handler' [-Werror=implicit-function-declaration]
+    1628 |         sysctl_compaction_handler(NULL, 1, NULL, NULL, NULL);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In function 'vmalloc_area_clr_flag',
+       inlined from 'sp_make_share_k2u' at mm/share_pool.c:2550:8:
+   mm/share_pool.c:2396:18: warning: 'spa' may be used uninitialized [-Wmaybe-uninitialized]
+    2396 |         spa->kva = 0;
+         |         ~~~~~~~~~^~~
+   mm/share_pool.c: In function 'sp_make_share_k2u':
+   mm/share_pool.c:2429:25: note: 'spa' was declared here
+    2429 |         struct sp_area *spa;
+         |                         ^~~
+   mm/share_pool.c:2562:16: warning: 'uva' may be used uninitialized [-Wmaybe-uninitialized]
+    2562 |         return uva;
+         |                ^~~
+   mm/share_pool.c:2427:15: note: 'uva' was declared here
+    2427 |         void *uva;
+         |               ^~~
+   mm/share_pool.c: In function 'sp_group_post_exit':
+   mm/share_pool.c:3863:37: warning: 'alloc_size' may be used uninitialized [-Wmaybe-uninitialized]
+    3863 |                 if (alloc_size != 0 || k2u_size != 0)
+         |                     ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+   mm/share_pool.c:3831:14: note: 'alloc_size' was declared here
+    3831 |         long alloc_size, k2u_size;
+         |              ^~~~~~~~~~
+   mm/share_pool.c:3863:37: warning: 'k2u_size' may be used uninitialized [-Wmaybe-uninitialized]
+    3863 |                 if (alloc_size != 0 || k2u_size != 0)
+         |                     ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+   mm/share_pool.c:3831:26: note: 'k2u_size' was declared here
+    3831 |         long alloc_size, k2u_size;
+         |                          ^~~~~~~~
+   cc1: some warnings being treated as errors
 
-vim +270 fs/crypto/policy.c
+vim +837 mm/share_pool.c
 
-   260	
-   261	int fscrypt_ioctl_set_policy(struct file *filp, const void __user *arg)
-   262	{
-   263		union fscrypt_policy policy;
-   264		union fscrypt_policy existing_policy;
-   265		struct inode *inode = file_inode(filp);
-   266		u8 version;
-   267		int size;
-   268		int ret;
-   269	
- > 270		if (get_user(policy.version, (const u8 __user *)arg))
-   271			return -EFAULT;
-   272	
-   273		size = fscrypt_policy_size(&policy);
-   274		if (size <= 0)
-   275			return -EINVAL;
-   276	
-   277		/*
-   278		 * We should just copy the remaining 'size - 1' bytes here, but a
-   279		 * bizarre bug in gcc 7 and earlier (fixed by gcc r255731) causes gcc to
-   280		 * think that size can be 0 here (despite the check above!) *and* that
-   281		 * it's a compile-time constant.  Thus it would think copy_from_user()
-   282		 * is passed compile-time constant ULONG_MAX, causing the compile-time
-   283		 * buffer overflow check to fail, breaking the build. This only occurred
-   284		 * when building an i386 kernel with -Os and branch profiling enabled.
-   285		 *
-   286		 * Work around it by just copying the first byte again...
-   287		 */
-   288		version = policy.version;
-   289		if (copy_from_user(&policy, arg, size))
-   290			return -EFAULT;
-   291		policy.version = version;
-   292	
-   293		if (!inode_owner_or_capable(inode))
-   294			return -EACCES;
-   295	
-   296		ret = mnt_want_write_file(filp);
-   297		if (ret)
-   298			return ret;
-   299	
-   300		inode_lock(inode);
-   301	
-   302		ret = fscrypt_get_policy(inode, &existing_policy);
-   303		if (ret == -ENODATA) {
-   304			if (!S_ISDIR(inode->i_mode))
-   305				ret = -ENOTDIR;
-   306			else if (IS_DEADDIR(inode))
-   307				ret = -ENOENT;
-   308			else if (!inode->i_sb->s_cop->empty_dir(inode))
-   309				ret = -ENOTEMPTY;
-   310			else
-   311				ret = set_encryption_policy(inode, &policy);
-   312		} else if (ret == -EINVAL ||
-   313			   (ret == 0 && !fscrypt_policies_equal(&policy,
-   314								&existing_policy))) {
-   315			/* The file already uses a different encryption policy. */
-   316			ret = -EEXIST;
-   317		}
-   318	
-   319		inode_unlock(inode);
-   320	
-   321		mnt_drop_write_file(filp);
-   322		return ret;
-   323	}
-   324	EXPORT_SYMBOL(fscrypt_ioctl_set_policy);
-   325	
+   815	
+   816	/**
+   817	 * sp_group_id_by_pid() - Get the sp_group ID array of a process.
+   818	 * @pid: pid of target process.
+   819	 * @spg_ids point to an array to save the group ids the process belongs to
+   820	 * @num input the spg_ids array size; output the spg number of the process
+   821	 *
+   822	 * Return:
+   823	 * >0		- the sp_group ID.
+   824	 * -ENODEV	- target process doesn't belong to any sp_group.
+   825	 * -EINVAL	- spg_ids or num is NULL.
+   826	 * -E2BIG	- the num of groups process belongs to is larger than *num
+   827	 */
+   828	int sp_group_id_by_pid(int pid, int *spg_ids, int *num)
+   829	{
+   830		int ret = 0;
+   831		struct sp_group_node *node;
+   832		struct sp_group_master *master = NULL;
+   833		struct task_struct *tsk;
+   834	
+   835		check_interrupt_context();
+   836	
+ > 837		if (!spg_ids || num <= 0)
+   838			return -EINVAL;
+   839	
+   840		ret = get_task(pid, &tsk);
+   841		if (ret)
+   842			return ret;
+   843	
+   844		down_read(&sp_group_sem);
+   845		task_lock(tsk);
+   846		if (tsk->mm)
+   847			master = tsk->mm->sp_group_master;
+   848		task_unlock(tsk);
+   849	
+   850		if (!master) {
+   851			ret = -ENODEV;
+   852			goto out_up_read;
+   853		}
+   854	
+   855		if (!master->count) {
+   856			ret = -ENODEV;
+   857			goto out_up_read;
+   858		}
+   859		if ((unsigned int)*num < master->count) {
+   860			ret = -E2BIG;
+   861			goto out_up_read;
+   862		}
+   863		*num = master->count;
+   864	
+   865		list_for_each_entry(node, &master->node_list, group_node)
+   866			*(spg_ids++) = node->spg->id;
+   867	
+   868	out_up_read:
+   869		up_read(&sp_group_sem);
+   870		put_task_struct(tsk);
+   871		return ret;
+   872	}
+   873	EXPORT_SYMBOL_GPL(sp_group_id_by_pid);
+   874	
 
 -- 
 0-DAY CI Kernel Test Service
