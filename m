@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49ED66FCB
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Apr 2024 00:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98D625757;
+	Tue,  9 Apr 2024 01:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712623575; cv=none; b=mS9O+rvTIfrErr3PiTrRpHAnpjqx2uqDKxV0MizLM1UH+ewacHsDi0bbHGdDRswVjz+rA26bAU7/VB2kNEDDNMLN7hJuduqS6PQveNmIh4/CNQkdWLdc/ctW3uArZW/2Ed92NEpg6zIWH1zcNo7N4xDxbPA5jALq/61C9aAeDoU=
+	t=1712626761; cv=none; b=EAhX28yNTeYdXIiHObMpP2dEdU1aptfPqDgsXQa4OQCmKh24cDmiY5TpbMLsout7lBmB7FkngcsygCHrDzCXqjtKVu+4FFQuYZ1o1939a8JerjHlZIpB1cI8zyiFvx/kRjSNqaRGRzNd1v1P6x8B8deOWa4VBXPELXgdcvwpDng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712623575; c=relaxed/simple;
-	bh=ef+GHsE25y8FCBN2LthYrBmec0jk/70hqRxVZ7B2Uek=;
+	s=arc-20240116; t=1712626761; c=relaxed/simple;
+	bh=tRpQu3DxrdMPH2qjdKtVhpr8d6ZtbukDJ5ckyoAW3+A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qr83Zt7on40C37yH6vMuweKQRE0LYdgqt3JfjpuxH+Lu87FwRhzoK7oGhhfL49O0wwdKvXu4QL+BOJaqYvQn8o3HZUBsb6HY+kkmpSla3b+eXQ3KVxU3oC1izYwW/pBzE0td+tGEER+ixHIMMw4om5QdGspfwqd2LIfCNfu/cCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sll1gYxj; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fnjyv1/0sLQTIFN9lCAmyP/WbkCyZF/c3aT9H68GyLrbVuQXi300XKhNUtCfxiynnK6RlfHCgKSlOdWG6pmPYdpEET+pezHgr/48eOMots1jktu10Murs9R4tA06QRoNV4/O9Xww/vaWscZDwGMJJktQ/Lq+nb/76vk60RwutAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kYASZGSG; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sll1gYxj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kYASZGSG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712623573; x=1744159573;
+  t=1712626759; x=1744162759;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ef+GHsE25y8FCBN2LthYrBmec0jk/70hqRxVZ7B2Uek=;
-  b=Sll1gYxjyNmcYBvzP3UZ6dpKVd1TsgqPGaN5Vfle6aUsqoe8kuL50oEm
-   5tPt/iJ4iwLZ12Nk8GBnwxJ9o/bB+c+AozL0eHfjbMytA0ybHR8nT2P07
-   bkoRUlobedzuWRLKJ9sCZIqBSbNLbQKnFY2/mCtIteswllC83gxwkRBQX
-   keWYjVk2VLHyATc87nvtRJ2wFTMvwDUO1YQJfnOhTvp/m8De3h9XiWa6B
-   7j5jfqKB3n7e9TZ5TAuJTX0ehyddg5JnZrTBkP575+3ayZ5hmfHQ5X080
-   ZD7o5MXsBND2zB6BCNiwcTyw3dntBR8X/w/bSBnFFesTLJbZd9I2RnpF6
-   Q==;
-X-CSE-ConnectionGUID: hfRS5l9tSzGbhV7CFjcYMg==
-X-CSE-MsgGUID: 9ov9FZArS2+YmzHEUQ8DSQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7795847"
+  bh=tRpQu3DxrdMPH2qjdKtVhpr8d6ZtbukDJ5ckyoAW3+A=;
+  b=kYASZGSGrUu7t80z7mZX+JrDr/rw8vtxj8VspyOng330T8wbZllCBqeS
+   JNvvJ9ljGpnDZaUFrM4Ze46YW6eT+UnUQDwG3OzdNlu7hy/71SwcOmDn9
+   nMRNBrHzV33Bif2sESqrPUnabrYD/7myB05cRATdnAKMs8TFelu4R8+4g
+   AVQ2//jtdaVGVU4RG8EQbpVdB6TTrZ1DsnTHHGtCQBweLoL3lctZlqdTv
+   zSfUg8B6v5fBL/yzY5gFKyaf2YdguCAF5XtL9bO59sUeolKc8e4DLcEgX
+   Jy+dmOBMsBSw3AZCojxMTiO7qQcv1/ZVWWLF8fZHwHYN9rzdr4IujTEZM
+   A==;
+X-CSE-ConnectionGUID: uBRt1cKRS9OvLFSMRor3sw==
+X-CSE-MsgGUID: tSAephDwSje//UltebWpXw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="11726807"
 X-IronPort-AV: E=Sophos;i="6.07,188,1708416000"; 
-   d="scan'208";a="7795847"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 17:46:12 -0700
-X-CSE-ConnectionGUID: oM6sTgQJRWKOORKaaB5IGA==
-X-CSE-MsgGUID: eK2N4OaNSOuxBB+EtmqSWQ==
+   d="scan'208";a="11726807"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 18:39:18 -0700
+X-CSE-ConnectionGUID: sUGsHqUPTBesDku/0iTpzg==
+X-CSE-MsgGUID: om5MEIpIRMmjq8G2eVnS2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,188,1708416000"; 
-   d="scan'208";a="24691702"
+   d="scan'208";a="43260894"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Apr 2024 17:46:08 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 08 Apr 2024 18:39:13 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rtzcj-0005bU-2C;
-	Tue, 09 Apr 2024 00:46:05 +0000
-Date: Tue, 9 Apr 2024 08:45:19 +0800
+	id 1ru0S7-0005cQ-1q;
+	Tue, 09 Apr 2024 01:39:11 +0000
+Date: Tue, 9 Apr 2024 09:38:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
 	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Steven Rostedt <rostedt@goodmis.org>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Christian Brauner <brauner@kernel.org>,
@@ -64,7 +65,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>,
 	Tycho Andersen <tandersen@netflix.com>,
 	Jens Axboe <axboe@kernel.dk>, Aleksa Sarai <cyphar@cyphar.com>
 Subject: Re: [PATCH 2/3] kernel/pid: Remove default pid_max value
-Message-ID: <202404090849.mgJ3z0xI-lkp@intel.com>
+Message-ID: <202404090903.3Jz667sn-lkp@intel.com>
 References: <20240408145819.8787-3-mkoutny@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -78,31 +79,37 @@ In-Reply-To: <20240408145819.8787-3-mkoutny@suse.com>
 
 Hi Michal,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on fec50db7033ea478773b159e0e2efb135270e3b7]
+[auto build test ERROR on fec50db7033ea478773b159e0e2efb135270e3b7]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Koutn/tracing-Remove-dependency-of-saved_cmdlines_buffer-on-PID_MAX_DEFAULT/20240408-230031
 base:   fec50db7033ea478773b159e0e2efb135270e3b7
 patch link:    https://lore.kernel.org/r/20240408145819.8787-3-mkoutny%40suse.com
 patch subject: [PATCH 2/3] kernel/pid: Remove default pid_max value
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240409/202404090849.mgJ3z0xI-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240409/202404090849.mgJ3z0xI-lkp@intel.com/reproduce)
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240409/202404090903.3Jz667sn-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240409/202404090903.3Jz667sn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404090849.mgJ3z0xI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404090903.3Jz667sn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/sysctl.c:1819:35: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   In file included from kernel/sysctl.c:23:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> kernel/sysctl.c:1819:14: error: initializing 'void *' with an expression of type 'const int *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
     1819 |                 .extra2         = &pid_max_max,
-         |                                   ^
+         |                                   ^~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 
-vim +/const +1819 kernel/sysctl.c
+vim +1819 kernel/sysctl.c
 
 f461d2dcd511c0 Christoph Hellwig   2020-04-24  1617  
 f461d2dcd511c0 Christoph Hellwig   2020-04-24  1618  static struct ctl_table kern_table[] = {
