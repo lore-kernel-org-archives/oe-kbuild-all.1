@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA38156F40
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Apr 2024 21:49:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB643158A2D;
+	Tue,  9 Apr 2024 21:49:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712699347; cv=none; b=SlcgaAZ0wxpD6mwHBaQXB9Lmy6ZKDl+GlrTUd9RAquT7rNF+pMeG68ltzIdvVdEEIqKgjxpxS5X48hginrBXYEZR0C2m6MbT1GkuadQZKI7ubLtg57g2+cCfc31yToQRMgjyjp9mCDqwJ1nQtXUEtSm91zUiQ5lOUUMPqMG5gek=
+	t=1712699348; cv=none; b=Dg3ayR4VftAVCXyYt3rfZjNRp6eoRIVU4HxyuYHYn2jvK0J2m3276b9NfubcbBPpsoeWu1HatE5xQMYvLo3hAL5K21iyuYztQKTYaBkq2s9CaZ0S5ribGRLEYnjXi6CIusizGzONzsPs+aOAawUSgrxq/s8q+GZSZoZOM4TdlZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712699347; c=relaxed/simple;
-	bh=m5h+6waFLD0AkHOvpDNoZ/JEadymNLUldkcD1INsqQ8=;
+	s=arc-20240116; t=1712699348; c=relaxed/simple;
+	bh=8+YnjvCExqshUUEVy/QNQYYWHn7CXuK9KgtdnAdVd7k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dSRkTfHDo9iEtwNHWdVBhw59ryBSvHzW/pQtmzLKwlo41ZxwA1yjFwU4fSdLqGFxR9y1av+Xh1OHHYV5sahZXN+LPgBhB8P0S39P75wQG03sWdb+b6SYNQQI8jni1mrmxx2INVFcEgJmfzfRmnD9n7DZqgvze8E+x2D7e53/0qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AAQ6apk/; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=YuPTh/qIt37ch6uWYNRPHee6gLyPG0Ec6Bwv7hcU/Q/LQtCD1PrUqtp6UOUT7pOng9R4R1rSRtZ8gWG7b4sS3Me5hN5ZbEmfp5+E5bI+z20KRYjlwuEcil7JYbWi+FDXFSH7Wb6cTja7ULRdJLor03mTL/UX3Un+BKuJUg/5+8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GHtnLjx3; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AAQ6apk/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GHtnLjx3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712699346; x=1744235346;
+  t=1712699347; x=1744235347;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m5h+6waFLD0AkHOvpDNoZ/JEadymNLUldkcD1INsqQ8=;
-  b=AAQ6apk/LSjfaUqobem1sbRrs3Ad3fclWIy5V+6UK3IiW9bngPPVqUuD
-   gWcGGl8ISaIbbz6MCZ1/GN1j+wluzo1XGoz/kEGVxC8NFiF3fy0XlmHeS
-   qi14Ia/ER4cOEz2xrUpKYgqmMtq+MvJiDpHM/PD/uS25izulV83aIpp9/
-   YOWyDMmf2YPH+DcjDWXC/vqYEr1Zd1Ehrbx4d/JVZxVI9xJmXQm/KrP6j
-   GDmqdEOh1wD8RBEF3G2URNPKFkvMFipS69sOq53+OfeljKO2uC1CPCJD8
-   6ddjkhMycufQTFAVceLPOeZqgiQ8bMAu5QENioQ6MfKrxOTDNpOLl7pK8
-   w==;
-X-CSE-ConnectionGUID: q8/JA9s5QJWxlHKtG1+o0w==
-X-CSE-MsgGUID: l/DiGCH0QB6L34wjqKtt1w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="18754652"
+  bh=8+YnjvCExqshUUEVy/QNQYYWHn7CXuK9KgtdnAdVd7k=;
+  b=GHtnLjx3YZnMLAdLO35Xcsj0xwio55iiwBJzTiMuNjwy/WqwoPnS2kWm
+   fQiO3ChymVn6ka4tnriU1kFd44ls4VKWXkUGiU1q3yFE/QsU6RCaX5kgi
+   v3sdKkIj4/XiYcjda/XbRF6dXvvIdNAIBkV7e8J004TCVfzHHXN2A/AGo
+   zs5uocjaNzsCWYkl6MeWpwnsv6NwUFvpJUDbzMlsDIO6naRRSdZMVra91
+   6bMJ8OzsQ5X+/cn2fgJjbbhnYBeHsvLo6tnaNPsou7Dfswe6k5/DzRfNC
+   M1YXY2VfyYSzZenNcjR6xVWcnFK6fVy2JRzxk6Fhlumx6eB2uQl+bqVUk
+   Q==;
+X-CSE-ConnectionGUID: rGuKYBSXSa2OysSwIIOg0A==
+X-CSE-MsgGUID: YQtb8ltDQqGgYFNFC7bc/g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8208583"
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="18754652"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 14:49:05 -0700
-X-CSE-ConnectionGUID: T5kKeraoQJGmOGkppG/D0Q==
-X-CSE-MsgGUID: dAc+b6xeSMGs6JJLNsNOiA==
+   d="scan'208";a="8208583"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 14:49:06 -0700
+X-CSE-ConnectionGUID: H7i8SzPZQMSRFtobA359fg==
+X-CSE-MsgGUID: zoeztdJhRoG2XZ17kW9M9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="20304470"
+   d="scan'208";a="51558559"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 09 Apr 2024 14:49:04 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 09 Apr 2024 14:49:04 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ruJKw-0006Xk-0a;
+	id 1ruJKw-0006Xi-0W;
 	Tue, 09 Apr 2024 21:49:02 +0000
-Date: Wed, 10 Apr 2024 05:48:02 +0800
+Date: Wed, 10 Apr 2024 05:48:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:clk-reset-stuff 6/6] drivers/reset/reset-mpfs.c:162:14:
- warning: assignment to 'struct auxiliary_device *' from 'int' makes pointer
- from integer without a cast
-Message-ID: <202404100536.HhCUMZEB-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-vfs:vfs.misc 14/14] drivers/accel/qaic/qaic_drv.c:189:1:
+ error: expected expression
+Message-ID: <202404100540.G26QRS9O-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,62 +63,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git clk-reset-stuff
-head:   a12f281d2cb869bcd9a6ffc45d0c6a0d3aa2e9e2
-commit: a12f281d2cb869bcd9a6ffc45d0c6a0d3aa2e9e2 [6/6] clock, reset: microchip: move all mpfs reset code to the reset subsystem
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240410/202404100536.HhCUMZEB-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404100536.HhCUMZEB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.misc
+head:   27a838e027e7fca274675ba21eeedb93b9425f3e
+commit: 27a838e027e7fca274675ba21eeedb93b9425f3e [14/14] fs: move FMODE_UNSIGNED_OFFSET to fop_flags
+config: i386-randconfig-001-20240410 (https://download.01.org/0day-ci/archive/20240410/202404100540.G26QRS9O-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404100540.G26QRS9O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404100536.HhCUMZEB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404100540.G26QRS9O-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/reset/reset-mpfs.c: In function 'mpfs_reset_adev_release':
-   drivers/reset/reset-mpfs.c:154:9: error: implicit declaration of function 'kfree'; did you mean 'vfree'? [-Werror=implicit-function-declaration]
-     154 |         kfree(adev);
-         |         ^~~~~
-         |         vfree
-   drivers/reset/reset-mpfs.c: In function 'mpfs_reset_adev_alloc':
-   drivers/reset/reset-mpfs.c:162:16: error: implicit declaration of function 'kzalloc'; did you mean 'vzalloc'? [-Werror=implicit-function-declaration]
-     162 |         adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-         |                ^~~~~~~
-         |                vzalloc
->> drivers/reset/reset-mpfs.c:162:14: warning: assignment to 'struct auxiliary_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     162 |         adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-         |              ^
-   cc1: some warnings being treated as errors
+>> drivers/accel/qaic/qaic_drv.c:189:1: error: expected expression
+     189 | DEFINE_DRM_ACCEL_FOPS(qaic_accel_fops);
+         | ^
+   include/drm/drm_accel.h:50:17: note: expanded from macro 'DEFINE_DRM_ACCEL_FOPS'
+      50 |                 DRM_ACCEL_FOPS,\
+         |                               ^
+   drivers/accel/qaic/qaic_drv.c:437:46: warning: shift count >= width of type [-Wshift-count-overflow]
+     437 |         ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+         |                                                     ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
+      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                                      ^ ~~~
+   1 warning and 1 error generated.
 
 
-vim +162 drivers/reset/reset-mpfs.c
+vim +189 drivers/accel/qaic/qaic_drv.c
 
-   156	
-   157	static struct auxiliary_device *mpfs_reset_adev_alloc(struct device *clk_dev)
-   158	{
-   159		struct auxiliary_device *adev;
-   160		int ret;
-   161	
- > 162		adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-   163		if (!adev)
-   164			return ERR_PTR(-ENOMEM);
-   165	
-   166		adev->name = "reset-mpfs";
-   167		adev->dev.parent = clk_dev;
-   168		adev->dev.release = mpfs_reset_adev_release;
-   169		adev->id = 666u;
-   170	
-   171		ret = auxiliary_device_init(adev);
-   172		if (ret) {
-   173			kfree(adev);
-   174			return ERR_PTR(ret);
-   175		}
-   176	
-   177		return adev;
-   178	}
-   179	
+c501ca23a6a306 Jeffrey Hugo 2023-03-27  188  
+c501ca23a6a306 Jeffrey Hugo 2023-03-27 @189  DEFINE_DRM_ACCEL_FOPS(qaic_accel_fops);
+c501ca23a6a306 Jeffrey Hugo 2023-03-27  190  
+
+:::::: The code at line 189 was first introduced by commit
+:::::: c501ca23a6a306a7c11631e02a26c8e0a768d64b accel/qaic: Add uapi and core driver file
+
+:::::: TO: Jeffrey Hugo <quic_jhugo@quicinc.com>
+:::::: CC: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
