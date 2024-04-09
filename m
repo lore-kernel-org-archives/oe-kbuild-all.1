@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43A6158869;
-	Tue,  9 Apr 2024 21:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57726156F4F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Apr 2024 21:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712697376; cv=none; b=QuFFZfKd6aXv7Akr6wuOthWj5IRVTr1YNObXIeguLUbNAdi2J25T3qk6yjkvullaQLmHWulMDVWCd7xKmDB9Gf+z/vcHpTu2VwNOyx5a66yNrboUV/URfX4DxNtVBxeHIotqz8b066IKXr2+V+UKsiyuwAMiiMb5SsPl4AgA5yU=
+	t=1712697969; cv=none; b=V3RyGA7fesm5GNz5OZBCiKhup77caD+ClvJMQytcKdlMVU7uAZJRFa/dODw0R5855U8okR3sZK67f/2ES/ZqA7RqvC0RJuuvXUkhFrWJlJgMELkAm3YAxuBNpUDvuS0dneeazHNPcmvLxmV7sNNc8Sfl2kT4DlQ/15EHu2cvo0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712697376; c=relaxed/simple;
-	bh=a6ygL+/fUwPck1ccv8s7ruzmTryeKbeD8k2zVjh+OOM=;
+	s=arc-20240116; t=1712697969; c=relaxed/simple;
+	bh=MFUk7Q9DxQTw0mb3PytFtmo806xH8/pvPs/dX/4GHK4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CPxSyAQByDleQfUx8hdLHdFyVRrTGV9u5wjHoPlp/K08nYuKdEDZMnAXHUjvIBrWB1QJ9M1wu/v7VaZsu8rGbha7SHKOj/q/wZqTnE2hfvEOlI/QLf9/DmPIfNQhuBTGr0nTbkkban77fm4+gH5nIwekkFHkyQ3TAgvBnma8rvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IKvGdjB+; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=mnq0daCSlA6DMydxVeAmk0mbHYEReS0OKnQLUJw1PRg+6tYPilwUwVEc8BzrC3sZNXWM4zBpqk5C/UQOLA9lvdubDmzxRShkaTegAPsFiliNI0rq8/me44xSkJVnktaFyE9bB/JgvWPZ7uvbh6XWbzXXMa+CpPqbOmCS73VKAFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e83aJcZs; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IKvGdjB+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e83aJcZs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712697374; x=1744233374;
+  t=1712697968; x=1744233968;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=a6ygL+/fUwPck1ccv8s7ruzmTryeKbeD8k2zVjh+OOM=;
-  b=IKvGdjB+dtLPRHhYP321zGYpgSTHCAIdAEN2qvZdNYRoNX2vCRVXGpMx
-   AhUBZgcTBc0McyIF8Y0cB+0D8CsSHWVAaXoeK0NwrkUaQciUphEWhp76t
-   xNvAO5cWO6LrH11EU8GNsbqf999fHzO+sEdfWRRJqMOt5jbmNUICJmLcA
-   3eYYURY6J/LsI88kK/Wwav/ROAtphIXTLXHAizvzie3igqmcg99HVv9Wt
-   6s7aPe3J7MItS90D+q4KB3hRSFvCTIwjoY6SJuLbYoC5vmzb115huDVX7
-   C46J0ggrB0EWVvGZJyr758bOSQ7kzYrPqnltjiXJ6IWP1R/UfyKj/iRCg
-   A==;
-X-CSE-ConnectionGUID: vMLGTPFsQaC1wBzIW333NA==
-X-CSE-MsgGUID: LwXb4e2WQUiRo73GzQ+qrg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="7907326"
+  bh=MFUk7Q9DxQTw0mb3PytFtmo806xH8/pvPs/dX/4GHK4=;
+  b=e83aJcZsIN+obney+phJav3yQpt5E2vsGLp0/MyQVaivDRGJCIbaiEqj
+   p27RHwRj6FHw46prdq2bGWdLX/tfvCCKjeGQQaTO+UopnVbe+t3g418QC
+   NiuO5pUoMxe09RZxRW9vJG+rBOqeoqIt4trr0eVNLLrXJ3LqCTs7IEfBz
+   +tkTy0HMLGIe4mLBIcKPTR3AcQZlCqfeLOkcJ7wQmmSITV4k4m1mtkUlm
+   +TsqF1zkG/jKfVTzaqk/W8ZOfLYxL7PJ7g80YaA33aCLnL34m8MS7Yz9G
+   cCoy/zmp0kdHEAn8igxYN8d1YlEV318wafYhxgNd6a8aDJnTQi+YaxnM8
+   Q==;
+X-CSE-ConnectionGUID: 28Qpyqn3QGmzhjIRQ1k1/g==
+X-CSE-MsgGUID: fI1aFBQvS+KrO/ZacFRyfw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8263514"
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="7907326"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 14:16:06 -0700
-X-CSE-ConnectionGUID: 2twYPn6RTra1WZAfOA0uwA==
-X-CSE-MsgGUID: niUwqrdZQQy2XgiiTH0liw==
+   d="scan'208";a="8263514"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 14:26:07 -0700
+X-CSE-ConnectionGUID: 3fcwSMP5SCCrJQ5i+fjp0g==
+X-CSE-MsgGUID: 4dkKLevxRam9bt9qC4DHcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="20454084"
+   d="scan'208";a="25146249"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Apr 2024 14:16:02 -0700
+  by orviesa005.jf.intel.com with ESMTP; 09 Apr 2024 14:26:04 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ruIoy-0006W0-1c;
-	Tue, 09 Apr 2024 21:16:00 +0000
-Date: Wed, 10 Apr 2024 05:15:01 +0800
+	id 1ruIye-0006WY-2h;
+	Tue, 09 Apr 2024 21:26:00 +0000
+Date: Wed, 10 Apr 2024 05:25:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: Baolin Wang <baolin.wang@linux.alibaba.com>, vbabka@suse.cz
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	akpm@linux-foundation.org, baolin.wang@linux.alibaba.com,
-	david@redhat.com, hannes@cmpxchg.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, mgorman@techsingularity.net,
-	ying.huang@intel.com, ziy@nvidia.com
+Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
+	baolin.wang@linux.alibaba.com, david@redhat.com, hannes@cmpxchg.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	mgorman@techsingularity.net, ying.huang@intel.com, ziy@nvidia.com
 Subject: Re: [PATCH] mm: page_alloc: consolidate free page accounting fix 3
-Message-ID: <202404100519.mVXXF6kV-lkp@intel.com>
+Message-ID: <202404100551.aq0YQFuT-lkp@intel.com>
 References: <a2a48baca69f103aa431fd201f8a06e3b95e203d.1712648441.git.baolin.wang@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -78,29 +77,44 @@ url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20240409-154935/Jo
 base:   the 10th patch of https://lore.kernel.org/r/20240320180429.678181-11-hannes%40cmpxchg.org
 patch link:    https://lore.kernel.org/r/a2a48baca69f103aa431fd201f8a06e3b95e203d.1712648441.git.baolin.wang%40linux.alibaba.com
 patch subject: [PATCH] mm: page_alloc: consolidate free page accounting fix 3
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240410/202404100519.mVXXF6kV-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404100519.mVXXF6kV-lkp@intel.com/reproduce)
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240410/202404100551.aq0YQFuT-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404100551.aq0YQFuT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404100519.mVXXF6kV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404100551.aq0YQFuT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> mm/page_alloc.c:808:54: error: too few arguments to function call, expected 4, have 3
+   mm/page_alloc.c: In function '__free_one_page':
+>> mm/page_alloc.c:808:43: error: passing argument 1 of 'account_freepages' from incompatible pointer type [-Werror=incompatible-pointer-types]
      808 |                         account_freepages(zone, -(1 << order), migratetype);
-         |                         ~~~~~~~~~~~~~~~~~                                 ^
-   mm/page_alloc.c:645:20: note: 'account_freepages' declared here
+         |                                           ^~~~
+         |                                           |
+         |                                           struct zone *
+   mm/page_alloc.c:645:51: note: expected 'struct page *' but argument is of type 'struct zone *'
      645 | static inline void account_freepages(struct page *page, struct zone *zone,
-         |                    ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     646 |                                      int nr_pages, int migratetype)
-         |                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+         |                                      ~~~~~~~~~~~~~^~~~
+>> mm/page_alloc.c:808:49: warning: passing argument 2 of 'account_freepages' makes pointer from integer without a cast [-Wint-conversion]
+     808 |                         account_freepages(zone, -(1 << order), migratetype);
+         |                                                 ^~~~~~~~~~~~~
+         |                                                 |
+         |                                                 int
+   mm/page_alloc.c:645:70: note: expected 'struct zone *' but argument is of type 'int'
+     645 | static inline void account_freepages(struct page *page, struct zone *zone,
+         |                                                         ~~~~~~~~~~~~~^~~~
+>> mm/page_alloc.c:808:25: error: too few arguments to function 'account_freepages'
+     808 |                         account_freepages(zone, -(1 << order), migratetype);
+         |                         ^~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:645:20: note: declared here
+     645 | static inline void account_freepages(struct page *page, struct zone *zone,
+         |                    ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +808 mm/page_alloc.c
+vim +/account_freepages +808 mm/page_alloc.c
 
    759	
    760	/*
