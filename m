@@ -1,358 +1,208 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98D625757;
-	Tue,  9 Apr 2024 01:39:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F15A54729
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Apr 2024 02:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712626761; cv=none; b=EAhX28yNTeYdXIiHObMpP2dEdU1aptfPqDgsXQa4OQCmKh24cDmiY5TpbMLsout7lBmB7FkngcsygCHrDzCXqjtKVu+4FFQuYZ1o1939a8JerjHlZIpB1cI8zyiFvx/kRjSNqaRGRzNd1v1P6x8B8deOWa4VBXPELXgdcvwpDng=
+	t=1712629942; cv=none; b=ISkvcAADt1RQRyQ5tcJyfDecvy2z0HqcwVNCPNuuFPnsNd98GynpwsrbRNhrgEAB/gzERi0q0BYjTcB/zdAT//36XRR3gw8bE1wClSmR3lcGAR0gY9i0GJnkS7KK+PmuKcifTXLvmXlve/YSlyYbjDghkFoFZd+h7imlsLE/Pnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712626761; c=relaxed/simple;
-	bh=tRpQu3DxrdMPH2qjdKtVhpr8d6ZtbukDJ5ckyoAW3+A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fnjyv1/0sLQTIFN9lCAmyP/WbkCyZF/c3aT9H68GyLrbVuQXi300XKhNUtCfxiynnK6RlfHCgKSlOdWG6pmPYdpEET+pezHgr/48eOMots1jktu10Murs9R4tA06QRoNV4/O9Xww/vaWscZDwGMJJktQ/Lq+nb/76vk60RwutAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kYASZGSG; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1712629942; c=relaxed/simple;
+	bh=+dLhn3QOSc8XCGXSzI0B6UIrUd6uipXc4Ax/ZO9eRfY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YDxK//x8qE5Zmah4iiLtOYrsVVW3e8yGthRvx+P82BuVtkCgC6eeadBZiwdetAWxkRRiPkj/tCy78GpEPOmoLO4QWW3CPcD6b2tagS+RYx8f89au3FuSSYh5KLbDjZ9g+A91Xh8yJgFyB6XpK6mZvTCt7+4CtrMzyDmAXWXxSuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eym9RTXY; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kYASZGSG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eym9RTXY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712626759; x=1744162759;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tRpQu3DxrdMPH2qjdKtVhpr8d6ZtbukDJ5ckyoAW3+A=;
-  b=kYASZGSGrUu7t80z7mZX+JrDr/rw8vtxj8VspyOng330T8wbZllCBqeS
-   JNvvJ9ljGpnDZaUFrM4Ze46YW6eT+UnUQDwG3OzdNlu7hy/71SwcOmDn9
-   nMRNBrHzV33Bif2sESqrPUnabrYD/7myB05cRATdnAKMs8TFelu4R8+4g
-   AVQ2//jtdaVGVU4RG8EQbpVdB6TTrZ1DsnTHHGtCQBweLoL3lctZlqdTv
-   zSfUg8B6v5fBL/yzY5gFKyaf2YdguCAF5XtL9bO59sUeolKc8e4DLcEgX
-   Jy+dmOBMsBSw3AZCojxMTiO7qQcv1/ZVWWLF8fZHwHYN9rzdr4IujTEZM
-   A==;
-X-CSE-ConnectionGUID: uBRt1cKRS9OvLFSMRor3sw==
-X-CSE-MsgGUID: tSAephDwSje//UltebWpXw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="11726807"
+  t=1712629940; x=1744165940;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+dLhn3QOSc8XCGXSzI0B6UIrUd6uipXc4Ax/ZO9eRfY=;
+  b=eym9RTXYj8MTI0XOKIHpoUzATq4SphZiQb6SvGe8jaMZTLvwX11jy/ZJ
+   O1rYV2NIOpAvsjRg9rPgyncWLbg9r+w1P4zxO0Q3v18J3bAr60oaUtHsK
+   bQ+uA/7yQP3kImlux9d7y1Jhu1ldT2JhAgFXoDiIQ8bp03SND8OlvQ7OR
+   d0b9AiRtLadmyvFAzcxHj+KVEMeJ57tE5w/Up2xgT8UDnXoFVHT5HUQ16
+   ssJPqR5b2GdJfKQFkorH7eXKCdrGprO4xCgKbSprdI3UE8ld13dsgQGub
+   kZlvYX0ix/Naskb9NNtuW6yBksl1X9AsX/Qouz7igWqDS28t65nwzIjGM
+   w==;
+X-CSE-ConnectionGUID: n8QvZR1MR+GseFr5ked1qg==
+X-CSE-MsgGUID: B2YahQ3pS++zdUSbtp1Pug==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="8160552"
 X-IronPort-AV: E=Sophos;i="6.07,188,1708416000"; 
-   d="scan'208";a="11726807"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 18:39:18 -0700
-X-CSE-ConnectionGUID: sUGsHqUPTBesDku/0iTpzg==
-X-CSE-MsgGUID: om5MEIpIRMmjq8G2eVnS2Q==
+   d="scan'208";a="8160552"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 19:32:19 -0700
+X-CSE-ConnectionGUID: 2EPzJeO/RTmlPYqfF7Up7g==
+X-CSE-MsgGUID: wxK8VbDrQlWstLWZeATFcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,188,1708416000"; 
-   d="scan'208";a="43260894"
+   d="scan'208";a="20196209"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Apr 2024 18:39:13 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 08 Apr 2024 19:32:17 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ru0S7-0005cQ-1q;
-	Tue, 09 Apr 2024 01:39:11 +0000
-Date: Tue, 9 Apr 2024 09:38:51 +0800
+	id 1ru1HS-0005dm-2s;
+	Tue, 09 Apr 2024 02:32:14 +0000
+Date: Tue, 9 Apr 2024 10:32:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Kees Cook <keescook@chromium.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Tycho Andersen <tandersen@netflix.com>,
-	Jens Axboe <axboe@kernel.dk>, Aleksa Sarai <cyphar@cyphar.com>
-Subject: Re: [PATCH 2/3] kernel/pid: Remove default pid_max value
-Message-ID: <202404090903.3Jz667sn-lkp@intel.com>
-References: <20240408145819.8787-3-mkoutny@suse.com>
+To: kernel@openeuler.org, Wei Tian <tianwei@phytium.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 21385/22056]
+ drivers/tee/optee/core.c:618:31: sparse: sparse: incorrect type in return
+ expression (different base types)
+Message-ID: <202404091014.UzbOQtd8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240408145819.8787-3-mkoutny@suse.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Michal,
+Hi Ard,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on fec50db7033ea478773b159e0e2efb135270e3b7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Koutn/tracing-Remove-dependency-of-saved_cmdlines_buffer-on-PID_MAX_DEFAULT/20240408-230031
-base:   fec50db7033ea478773b159e0e2efb135270e3b7
-patch link:    https://lore.kernel.org/r/20240408145819.8787-3-mkoutny%40suse.com
-patch subject: [PATCH 2/3] kernel/pid: Remove default pid_max value
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240409/202404090903.3Jz667sn-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240409/202404090903.3Jz667sn-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   11b92ddca3376d425d16b81adebee1e8033e3df0
+commit: 595311cf7e49c781dd26782e4b45fd54bbfb3e40 [21385/22056] optee: model OP-TEE as a platform device/driver
+config: arm64-randconfig-r111-20240331 (https://download.01.org/0day-ci/archive/20240409/202404091014.UzbOQtd8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240409/202404091014.UzbOQtd8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404090903.3Jz667sn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404091014.UzbOQtd8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/tee/optee/core.c:618:31: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got void * @@
+   drivers/tee/optee/core.c:618:31: sparse:     expected int
+   drivers/tee/optee/core.c:618:31: sparse:     got void *
+   drivers/tee/optee/core.c: In function 'optee_probe':
+   drivers/tee/optee/core.c:618:24: warning: returning 'void *' from a function with return type 'int' makes integer from pointer without a cast [-Wint-conversion]
+     618 |                 return ERR_PTR(-EINVAL);
+         |                        ^~~~~~~~~~~~~~~~
 
-   In file included from kernel/sysctl.c:23:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/sysctl.c:1819:14: error: initializing 'void *' with an expression of type 'const int *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-    1819 |                 .extra2         = &pid_max_max,
-         |                                   ^~~~~~~~~~~~
-   1 warning and 1 error generated.
+vim +618 drivers/tee/optee/core.c
 
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  581  
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  582  static int optee_probe(struct platform_device *pdev)
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  583  {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  584  	optee_invoke_fn *invoke_fn;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  585  	struct tee_shm_pool *pool;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  586  	struct optee *optee = NULL;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  587  	void *memremaped_shm = NULL;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  588  	struct tee_device *teedev;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  589  	u32 sec_caps;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  590  	int rc;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  591  
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  592  	invoke_fn = get_invoke_func(&pdev->dev);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  593  	if (IS_ERR(invoke_fn))
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  594  		return PTR_ERR(invoke_fn);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  595  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  596  	if (!optee_msg_api_uid_is_optee_api(invoke_fn)) {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  597  		pr_warn("api uid mismatch\n");
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  598  		return -EINVAL;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  599  	}
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  600  
+5c5f80307ab27c Jérôme Forissier  2017-11-24  601  	optee_msg_get_os_revision(invoke_fn);
+5c5f80307ab27c Jérôme Forissier  2017-11-24  602  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  603  	if (!optee_msg_api_revision_is_compatible(invoke_fn)) {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  604  		pr_warn("api revision mismatch\n");
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  605  		return -EINVAL;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  606  	}
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  607  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  608  	if (!optee_msg_exchange_capabilities(invoke_fn, &sec_caps)) {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  609  		pr_warn("capabilities mismatch\n");
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  610  		return -EINVAL;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  611  	}
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  612  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  613  	/*
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  614  	 * We have no other option for shared memory, if secure world
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  615  	 * doesn't have any reserved memory we can use we can't continue.
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  616  	 */
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  617  	if (!(sec_caps & OPTEE_SMC_SEC_CAP_HAVE_RESERVED_SHM))
+4fb0a5eb364d23 Jens Wiklander    2015-04-14 @618  		return ERR_PTR(-EINVAL);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  619  
+f58e236c9d665a Volodymyr Babchuk 2017-11-29  620  	pool = optee_config_shm_memremap(invoke_fn, &memremaped_shm, sec_caps);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  621  	if (IS_ERR(pool))
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  622  		return PTR_ERR(pool);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  623  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  624  	optee = kzalloc(sizeof(*optee), GFP_KERNEL);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  625  	if (!optee) {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  626  		rc = -ENOMEM;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  627  		goto err;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  628  	}
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  629  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  630  	optee->invoke_fn = invoke_fn;
+d885cc5e0759fc Volodymyr Babchuk 2017-11-29  631  	optee->sec_caps = sec_caps;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  632  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  633  	teedev = tee_device_alloc(&optee_desc, NULL, pool, optee);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  634  	if (IS_ERR(teedev)) {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  635  		rc = PTR_ERR(teedev);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  636  		goto err;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  637  	}
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  638  	optee->teedev = teedev;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  639  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  640  	teedev = tee_device_alloc(&optee_supp_desc, NULL, pool, optee);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  641  	if (IS_ERR(teedev)) {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  642  		rc = PTR_ERR(teedev);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  643  		goto err;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  644  	}
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  645  	optee->supp_teedev = teedev;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  646  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  647  	rc = tee_device_register(optee->teedev);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  648  	if (rc)
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  649  		goto err;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  650  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  651  	rc = tee_device_register(optee->supp_teedev);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  652  	if (rc)
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  653  		goto err;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  654  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  655  	mutex_init(&optee->call_queue.mutex);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  656  	INIT_LIST_HEAD(&optee->call_queue.waiters);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  657  	optee_wait_queue_init(&optee->wait_queue);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  658  	optee_supp_init(&optee->supp);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  659  	optee->memremaped_shm = memremaped_shm;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  660  	optee->pool = pool;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  661  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  662  	optee_enable_shm_cache(optee);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  663  
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  664  	platform_set_drvdata(pdev, optee);
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  665  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  666  	pr_info("initialized driver\n");
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  667  	return 0;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  668  err:
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  669  	if (optee) {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  670  		/*
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  671  		 * tee_device_unregister() is safe to call even if the
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  672  		 * devices hasn't been registered with
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  673  		 * tee_device_register() yet.
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  674  		 */
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  675  		tee_device_unregister(optee->supp_teedev);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  676  		tee_device_unregister(optee->teedev);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  677  		kfree(optee);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  678  	}
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  679  	if (pool)
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  680  		tee_shm_pool_free(pool);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  681  	if (memremaped_shm)
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  682  		memunmap(memremaped_shm);
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  683  	return rc;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  684  }
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  685  
 
-vim +1819 kernel/sysctl.c
+:::::: The code at line 618 was first introduced by commit
+:::::: 4fb0a5eb364d239722e745c02aef0dbd4e0f1ad2 tee: add OP-TEE driver
 
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1617  
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1618  static struct ctl_table kern_table[] = {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1619  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1620  		.procname	= "panic",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1621  		.data		= &panic_timeout,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1622  		.maxlen		= sizeof(int),
-49f0ce5f92321c Jerome Marchand     2014-01-21  1623  		.mode		= 0644,
-6d4561110a3e9f Eric W. Biederman   2009-11-16  1624  		.proc_handler	= proc_dointvec,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1625  	},
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1626  #ifdef CONFIG_PROC_SYSCTL
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1627  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1628  		.procname	= "tainted",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1629  		.maxlen 	= sizeof(long),
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1630  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1631  		.proc_handler	= proc_taint,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1632  	},
-2da02997e08d3e David Rientjes      2009-01-06  1633  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1634  		.procname	= "sysctl_writes_strict",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1635  		.data		= &sysctl_writes_strict,
-9e3961a0979817 Prarit Bhargava     2014-12-10  1636  		.maxlen		= sizeof(int),
-2da02997e08d3e David Rientjes      2009-01-06  1637  		.mode		= 0644,
-9e3961a0979817 Prarit Bhargava     2014-12-10  1638  		.proc_handler	= proc_dointvec_minmax,
-78e36f3b0dae58 Xiaoming Ni         2022-01-21  1639  		.extra1		= SYSCTL_NEG_ONE,
-eec4844fae7c03 Matteo Croce        2019-07-18  1640  		.extra2		= SYSCTL_ONE,
-2da02997e08d3e David Rientjes      2009-01-06  1641  	},
-964c9dff009189 Alexander Popov     2018-08-17  1642  #endif
-1efff914afac8a Theodore Ts'o       2015-03-17  1643  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1644  		.procname	= "print-fatal-signals",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1645  		.data		= &print_fatal_signals,
-964c9dff009189 Alexander Popov     2018-08-17  1646  		.maxlen		= sizeof(int),
-1efff914afac8a Theodore Ts'o       2015-03-17  1647  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1648  		.proc_handler	= proc_dointvec,
-1efff914afac8a Theodore Ts'o       2015-03-17  1649  	},
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1650  #ifdef CONFIG_SPARC
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1651  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1652  		.procname	= "reboot-cmd",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1653  		.data		= reboot_command,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1654  		.maxlen		= 256,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1655  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1656  		.proc_handler	= proc_dostring,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1657  	},
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1658  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1659  		.procname	= "stop-a",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1660  		.data		= &stop_a_enabled,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1661  		.maxlen		= sizeof (int),
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1662  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1663  		.proc_handler	= proc_dointvec,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1664  	},
-06808b0827e1cd Lee Schermerhorn    2009-12-14  1665  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1666  		.procname	= "scons-poweroff",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1667  		.data		= &scons_pwroff,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1668  		.maxlen		= sizeof (int),
-06808b0827e1cd Lee Schermerhorn    2009-12-14  1669  		.mode		= 0644,
-6d4561110a3e9f Eric W. Biederman   2009-11-16  1670  		.proc_handler	= proc_dointvec,
-06808b0827e1cd Lee Schermerhorn    2009-12-14  1671  	},
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1672  #endif
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1673  #ifdef CONFIG_SPARC64
-4518085e127dff Kemi Wang           2017-11-15  1674  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1675  		.procname	= "tsb-ratio",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1676  		.data		= &sysctl_tsb_ratio,
-4518085e127dff Kemi Wang           2017-11-15  1677  		.maxlen		= sizeof (int),
-4518085e127dff Kemi Wang           2017-11-15  1678  		.mode		= 0644,
-6d4561110a3e9f Eric W. Biederman   2009-11-16  1679  		.proc_handler	= proc_dointvec,
-4518085e127dff Kemi Wang           2017-11-15  1680  	},
-06808b0827e1cd Lee Schermerhorn    2009-12-14  1681  #endif
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1682  #ifdef CONFIG_PARISC
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1683  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1684  		.procname	= "soft-power",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1685  		.data		= &pwrsw_enabled,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1686  		.maxlen		= sizeof (int),
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1687  		.mode		= 0644,
-6d4561110a3e9f Eric W. Biederman   2009-11-16  1688  		.proc_handler	= proc_dointvec,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1689  	},
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1690  #endif
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1691  #ifdef CONFIG_SYSCTL_ARCH_UNALIGN_ALLOW
-d1c3fb1f8f29c4 Nishanth Aravamudan 2007-12-17  1692  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1693  		.procname	= "unaligned-trap",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1694  		.data		= &unaligned_enabled,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1695  		.maxlen		= sizeof (int),
-d1c3fb1f8f29c4 Nishanth Aravamudan 2007-12-17  1696  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1697  		.proc_handler	= proc_dointvec,
-d1c3fb1f8f29c4 Nishanth Aravamudan 2007-12-17  1698  	},
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1699  #endif
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1700  #ifdef CONFIG_STACK_TRACER
-76ab0f530e4a01 Mel Gorman          2010-05-24  1701  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1702  		.procname	= "stack_tracer_enabled",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1703  		.data		= &stack_tracer_enabled,
-76ab0f530e4a01 Mel Gorman          2010-05-24  1704  		.maxlen		= sizeof(int),
-2da02997e08d3e David Rientjes      2009-01-06  1705  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1706  		.proc_handler	= stack_trace_sysctl,
-76ab0f530e4a01 Mel Gorman          2010-05-24  1707  	},
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1708  #endif
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1709  #ifdef CONFIG_TRACING
-5e7719058079a1 Mel Gorman          2010-05-24  1710  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1711  		.procname	= "ftrace_dump_on_oops",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1712  		.data		= &ftrace_dump_on_oops,
-19f0423fd55c30 Huang Yiwei         2024-02-23  1713  		.maxlen		= MAX_TRACER_SIZE,
-5e7719058079a1 Mel Gorman          2010-05-24  1714  		.mode		= 0644,
-19f0423fd55c30 Huang Yiwei         2024-02-23  1715  		.proc_handler	= proc_dostring,
-5e7719058079a1 Mel Gorman          2010-05-24  1716  	},
-5bbe3547aa3ba5 Eric B Munson       2015-04-15  1717  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1718  		.procname	= "traceoff_on_warning",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1719  		.data		= &__disable_trace_on_warning,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1720  		.maxlen		= sizeof(__disable_trace_on_warning),
-5bbe3547aa3ba5 Eric B Munson       2015-04-15  1721  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1722  		.proc_handler	= proc_dointvec,
-5bbe3547aa3ba5 Eric B Munson       2015-04-15  1723  	},
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1724  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1725  		.procname	= "tracepoint_printk",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1726  		.data		= &tracepoint_printk,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1727  		.maxlen		= sizeof(tracepoint_printk),
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1728  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1729  		.proc_handler	= tracepoint_printk_sysctl,
-1c30844d2dfe27 Mel Gorman          2018-12-28  1730  	},
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1731  #endif
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1732  #ifdef CONFIG_MODULES
-8ad4b1fb820534 Rohit Seth          2006-01-08  1733  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1734  		.procname	= "modprobe",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1735  		.data		= &modprobe_path,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1736  		.maxlen		= KMOD_PATH_LEN,
-8ad4b1fb820534 Rohit Seth          2006-01-08  1737  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1738  		.proc_handler	= proc_dostring,
-8ad4b1fb820534 Rohit Seth          2006-01-08  1739  	},
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1740  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1741  		.procname	= "modules_disabled",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1742  		.data		= &modules_disabled,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1743  		.maxlen		= sizeof(int),
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1744  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1745  		/* only handle a transition from default "0" to "1" */
-3e26120cc7c819 WANG Cong           2009-12-17  1746  		.proc_handler	= proc_dointvec_minmax,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1747  		.extra1		= SYSCTL_ONE,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1748  		.extra2		= SYSCTL_ONE,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1749  	},
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1750  #endif
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1751  #ifdef CONFIG_UEVENT_HELPER
-dd8632a12e500a Paul Mundt          2009-01-08  1752  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1753  		.procname	= "hotplug",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1754  		.data		= &uevent_helper,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1755  		.maxlen		= UEVENT_HELPER_PATH_LEN,
-dd8632a12e500a Paul Mundt          2009-01-08  1756  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1757  		.proc_handler	= proc_dostring,
-dd8632a12e500a Paul Mundt          2009-01-08  1758  	},
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1759  #endif
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1760  #ifdef CONFIG_MAGIC_SYSRQ
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1761  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1762  		.procname	= "sysrq",
-e5ff215941d59f Andi Kleen          2008-07-23  1763  		.data		= NULL,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1764  		.maxlen		= sizeof (int),
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1765  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1766  		.proc_handler	= sysrq_sysctl_handler,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1767  	},
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1768  #endif
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1769  #ifdef CONFIG_PROC_SYSCTL
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1770  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1771  		.procname	= "cad_pid",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1772  		.data		= NULL,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1773  		.maxlen		= sizeof (int),
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1774  		.mode		= 0600,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1775  		.proc_handler	= proc_do_cad_pid,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1776  	},
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1777  #endif
-9d0243bca345d5 Andrew Morton       2006-01-08  1778  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1779  		.procname	= "threads-max",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1780  		.data		= NULL,
-9d0243bca345d5 Andrew Morton       2006-01-08  1781  		.maxlen		= sizeof(int),
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1782  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1783  		.proc_handler	= sysctl_max_threads,
-9d0243bca345d5 Andrew Morton       2006-01-08  1784  	},
-1743660b911bfb Christoph Lameter   2006-01-18  1785  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1786  		.procname	= "overflowuid",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1787  		.data		= &overflowuid,
-5e7719058079a1 Mel Gorman          2010-05-24  1788  		.maxlen		= sizeof(int),
-1743660b911bfb Christoph Lameter   2006-01-18  1789  		.mode		= 0644,
-6b7e5cad651a2b Matthew Wilcox      2019-03-05  1790  		.proc_handler	= proc_dointvec_minmax,
-2452dcb9f7f2ba Xiaoming Ni         2022-01-21  1791  		.extra1		= SYSCTL_ZERO,
-54771613e8a7db Luis Chamberlain    2022-01-21  1792  		.extra2		= SYSCTL_MAXOLDUID,
-1743660b911bfb Christoph Lameter   2006-01-18  1793  	},
-9614634fe6a138 Christoph Lameter   2006-07-03  1794  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1795  		.procname	= "overflowgid",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1796  		.data		= &overflowgid,
-5bbe3547aa3ba5 Eric B Munson       2015-04-15  1797  		.maxlen		= sizeof(int),
-9614634fe6a138 Christoph Lameter   2006-07-03  1798  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1799  		.proc_handler	= proc_dointvec_minmax,
-2452dcb9f7f2ba Xiaoming Ni         2022-01-21  1800  		.extra1		= SYSCTL_ZERO,
-54771613e8a7db Luis Chamberlain    2022-01-21  1801  		.extra2		= SYSCTL_MAXOLDUID,
-9614634fe6a138 Christoph Lameter   2006-07-03  1802  	},
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1803  #ifdef CONFIG_S390
-0ff38490c836dc Christoph Lameter   2006-09-25  1804  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1805  		.procname	= "userprocess_debug",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1806  		.data		= &show_unhandled_signals,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1807  		.maxlen		= sizeof(int),
-0ff38490c836dc Christoph Lameter   2006-09-25  1808  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1809  		.proc_handler	= proc_dointvec,
-0ff38490c836dc Christoph Lameter   2006-09-25  1810  	},
-e6e5494cb23d19 Ingo Molnar         2006-06-27  1811  #endif
-77461ab33229d4 Christoph Lameter   2007-05-09  1812  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1813  		.procname	= "pid_max",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1814  		.data		= &pid_max,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1815  		.maxlen		= sizeof (int),
-77461ab33229d4 Christoph Lameter   2007-05-09  1816  		.mode		= 0644,
-26363af5643490 Christoph Hellwig   2020-04-24  1817  		.proc_handler	= proc_dointvec_minmax,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1818  		.extra1		= &pid_max_min,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24 @1819  		.extra2		= &pid_max_max,
-77461ab33229d4 Christoph Lameter   2007-05-09  1820  	},
-52b6f46bc163ee Hugh Dickins        2016-05-19  1821  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1822  		.procname	= "panic_on_oops",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1823  		.data		= &panic_on_oops,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1824  		.maxlen		= sizeof(int),
-795ae7a0de6b83 Johannes Weiner     2016-03-17  1825  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1826  		.proc_handler	= proc_dointvec,
-52b6f46bc163ee Hugh Dickins        2016-05-19  1827  	},
-ed0321895182ff Eric Paris          2007-06-28  1828  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1829  		.procname	= "panic_print",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1830  		.data		= &panic_print,
-ed0321895182ff Eric Paris          2007-06-28  1831  		.maxlen		= sizeof(unsigned long),
-ed0321895182ff Eric Paris          2007-06-28  1832  		.mode		= 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1833  		.proc_handler	= proc_doulongvec_minmax,
-ed0321895182ff Eric Paris          2007-06-28  1834  	},
-c9b1d0981fcce3 Andrew Shewmaker    2013-04-29  1835  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1836  		.procname	= "ngroups_max",
-f628867da46f88 Stephen Kitt        2022-01-21  1837  		.data		= (void *)&ngroups_max,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1838  		.maxlen		= sizeof (int),
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1839  		.mode		= 0444,
-6d4561110a3e9f Eric W. Biederman   2009-11-16  1840  		.proc_handler	= proc_dointvec,
-1743660b911bfb Christoph Lameter   2006-01-18  1841  	},
-9614634fe6a138 Christoph Lameter   2006-07-03  1842  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1843  		.procname	= "cap_last_cap",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1844  		.data		= (void *)&cap_last_cap,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1845  		.maxlen		= sizeof(int),
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1846  		.mode		= 0444,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1847  		.proc_handler	= proc_dointvec,
-9614634fe6a138 Christoph Lameter   2006-07-03  1848  	},
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1849  #if defined(CONFIG_X86_LOCAL_APIC) && defined(CONFIG_X86)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1850  	{
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1851  		.procname       = "unknown_nmi_panic",
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1852  		.data           = &unknown_nmi_panic,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1853  		.maxlen         = sizeof (int),
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1854  		.mode           = 0644,
-f461d2dcd511c0 Christoph Hellwig   2020-04-24  1855  		.proc_handler   = proc_dointvec,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1856  	},
-6a46079cf57a7f Andi Kleen          2009-09-16  1857  #endif
-cb8e59cc87201a Linus Torvalds      2020-06-03  1858  
+:::::: TO: Jens Wiklander <jens.wiklander@linaro.org>
+:::::: CC: Jens Wiklander <jens.wiklander@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
