@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A9B12EBE6
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Apr 2024 13:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC01C12EBEF
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Apr 2024 13:19:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712668689; cv=none; b=HuF3FSm4saxfCphUW2EDYvOIcc5I867NFCNdflAKrm9J32zcjShB34ZfiS9asWwPkZz3cbRapY5MMO5i/kdw+RMSIyqdfvvxHcqv1FRDfScsdbrTtXb07WRWGT9PD+p0+HZhHjzUyKaUmh3mRYAvUVyqd3gwjP0+jeekFKa8P2M=
+	t=1712668749; cv=none; b=GnRpA8BTpkvGY/HwRkR81/dkZH38gFwZMLy6dGQ+kiqd+VC5aS+MWFtfKnCRhwbSkwRNMq6QhTxV3Tiq+y6jSK3etRvT52nvEhIT1WavCqYzJF3SuLOqeZa1rTEj+cpOEXzIxQBIf4c4BpQ8bjF4q0C1lD7HuLuGE81NFWwpE48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712668689; c=relaxed/simple;
-	bh=MhrD2x9WLW48yb7aw143VCAmkj65zimDvpKUhlQ3eUs=;
+	s=arc-20240116; t=1712668749; c=relaxed/simple;
+	bh=aZedw2b4LT7GilcwbfsoYa4nux7SRJrnKxKquaIln74=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ekS58ojQ3njepmyuQBUn2D4zQTwMD9GzKaScoNwl6HhcfhY00BuqMraDLhVkhqoANfvFk8rVgEdBJBuR7Ef5Puf127lH1W5+YXFVLABxnGhAeQczqEhTKyuEGAmTvJVHnxSnfhirUr//V+XVTmVNAdU0h5GKK3ofYm9XSjjiAoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HAy2RStL; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=TGGIuUZJLk9/JSAKErr5TW/RPRE/CC/U5clgW1cfUQRGSJLAZtqSSN7UnvfJO8DN2sFLtrthm1FwdcRL9ZIhQrWaVabe9VpWrqAL7HH+wg/FO5BCIuckNBf3YEX5eYMrT7Ms/OlQbo0yVO4qDzbyM0K6a7LKovDoFOjrYti5+5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XdIynFia; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HAy2RStL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XdIynFia"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712668688; x=1744204688;
+  t=1712668748; x=1744204748;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MhrD2x9WLW48yb7aw143VCAmkj65zimDvpKUhlQ3eUs=;
-  b=HAy2RStLgoZbEPJ7lOtRQo1q3IUyPzX6q7CAEdL8qL8PcX7YjQsu3gRj
-   CsWNTUTVr6OvMtnuGIN0vH6AdWQXJ986H77OCOjzkjXJjhBhoHMUUIJrm
-   2XA65OI3rTbQptZjEuRK6ONA8JaIX9PgWhCJC2t1aP5TsM4aKUdtuz7EG
-   abCIJdzQ12/SzeRptN6bdwrBwaLREpOe0p0nbiAMHR3E73nzfxRX9FNX3
-   PWKZBqhGsXd36/fETYfYSe26LVj7Qk3uEAlNEIvFXaIKMaPDcHdMkHJn4
-   WB6eunGyD6VrnilIZCPR7VPb6gMzC17uw8By8OAh/4N4DcgZn6TEQXytK
-   Q==;
-X-CSE-ConnectionGUID: v1HkizKVSheIibJrgYp39Q==
-X-CSE-MsgGUID: NdT2kM4uT+2fMXOUaH1y5A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="19363292"
+  bh=aZedw2b4LT7GilcwbfsoYa4nux7SRJrnKxKquaIln74=;
+  b=XdIynFiasDtQlAngdl/wwOoEU0TP22Ei+Q6LDMiXhTZnYG+PLXXxN0kW
+   2XBN8LcA0ys7p5K7WZ+Hj8jcprD1DTi1xVYMY05UqPHc9okVHcCuwQz8D
+   5mlR4R6mB1xdzwVuJS+TY2Qnqor0dcGPYYptwNOJCVUug+9LqRybR+YJW
+   YP/oBlXoHdiF1/1ThzceGV6a7zKkmGpPNox5mvBnBOhlAVtDzFVi6AV1+
+   cHZtWVFT6cMQlobzRcrxpso8chg3qZj5kalVVmmLZURGiTsJEutXJAlFY
+   U24E0yosp+5ZE0OIYmJ6WxNKRpEowWxU+X8jtyv7zUN1+utxi8QoZL7um
+   g==;
+X-CSE-ConnectionGUID: epXcxQ0sTkKC1S5Q9c5PUw==
+X-CSE-MsgGUID: CtBUj4zjSFi9mxRnHDZ+Cw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="7824845"
 X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="19363292"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 06:18:07 -0700
-X-CSE-ConnectionGUID: ZUsLw0lfS2+U/YMp5zRaAA==
-X-CSE-MsgGUID: 7SkHRfWpTKa5zrCWrvc0ag==
+   d="scan'208";a="7824845"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 06:19:07 -0700
+X-CSE-ConnectionGUID: BhfxjqR5QHWtBsGsks5bkg==
+X-CSE-MsgGUID: 2k3FdExJRy2o4bGHpBhfxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="24952071"
+   d="scan'208";a="24852130"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Apr 2024 06:18:06 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 09 Apr 2024 06:19:06 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ruBMR-00066Y-2x;
-	Tue, 09 Apr 2024 13:18:03 +0000
-Date: Tue, 9 Apr 2024 21:17:59 +0800
+	id 1ruBNP-00066c-32;
+	Tue, 09 Apr 2024 13:19:03 +0000
+Date: Tue, 9 Apr 2024 21:18:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
+To: kernel@openeuler.org, Dong Yibo <dong100@mucse.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 84/238]
- drivers/platform/x86/intel/pmc/core.c:539:35: error: 'userbuf' undeclared;
- did you mean 'user'?
-Message-ID: <202404092158.O7XPtg0g-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 7226/7334]
+ drivers/net/ethernet/mucse/rnp/rnp_main.c:5739: warning: Function parameter
+ or member 'netdev' not described in 'rnp_netpoll'
+Message-ID: <202404092155.wk6wC2Wu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,57 +63,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   8d5e62882d13747268ce489ec43048c8eff31b7a
-commit: a387b5fdb54ccafed9cba198daefd9ea6cedc8ac [84/238] drivers/platform: convert to ->read_iter and ->write_iter
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240409/202404092158.O7XPtg0g-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240409/202404092158.O7XPtg0g-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   830c644d6e307456c2e77e6ce8bd6f1cf1ddc351
+commit: bc0e7c9b35e0290125847e322dce4609f83f2dc9 [7226/7334] RNP: Fix warnings
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240409/202404092155.wk6wC2Wu-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240409/202404092155.wk6wC2Wu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404092158.O7XPtg0g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404092155.wk6wC2Wu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/platform/x86/intel/pmc/core.c: In function 'pmc_core_ltr_ignore_write':
->> drivers/platform/x86/intel/pmc/core.c:539:35: error: 'userbuf' undeclared (first use in this function); did you mean 'user'?
-     539 |         err = kstrtou32_from_user(userbuf, buf_size, 10, &value);
-         |                                   ^~~~~~~
-         |                                   user
-   drivers/platform/x86/intel/pmc/core.c:539:35: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/net/ethernet/mucse/rnp/rnp_main.c:5739: warning: Function parameter or member 'netdev' not described in 'rnp_netpoll'
+>> drivers/net/ethernet/mucse/rnp/rnp_main.c:5739: warning: expecting prototype for Polling 'interrupt'(). Prototype was for rnp_netpoll() instead
+--
+>> drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.c:65: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * force firmware report link event to driver
 
 
-vim +539 drivers/platform/x86/intel/pmc/core.c
+vim +5739 drivers/net/ethernet/mucse/rnp/rnp_main.c
 
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  527  
-a387b5fdb54cca drivers/platform/x86/intel/pmc/core.c Jens Axboe        2024-04-04  528  static ssize_t pmc_core_ltr_ignore_write(struct kiocb *iocb,
-a387b5fdb54cca drivers/platform/x86/intel/pmc/core.c Jens Axboe        2024-04-04  529  					 struct iov_iter *from)
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  530  {
-a387b5fdb54cca drivers/platform/x86/intel/pmc/core.c Jens Axboe        2024-04-04  531  	struct seq_file *s = iocb->ki_filp->private_data;
-7dc4dc563dd40c drivers/platform/x86/intel_pmc_core.c David E. Box      2021-04-16  532  	struct pmc_dev *pmcdev = s->private;
-a387b5fdb54cca drivers/platform/x86/intel/pmc/core.c Jens Axboe        2024-04-04  533  	size_t count = iov_iter_count(from);
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  534  	u32 buf_size, value;
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  535  	int err;
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  536  
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  537  	buf_size = min_t(u32, count, 64);
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  538  
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19 @539  	err = kstrtou32_from_user(userbuf, buf_size, 10, &value);
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  540  	if (err)
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  541  		return err;
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  542  
-6f9cc5c1f94daa drivers/platform/x86/intel/pmc/core.c David E. Box      2023-12-22  543  	err = pmc_core_send_ltr_ignore(pmcdev, value, 1);
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  544  
-9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  545  	return err == 0 ? count : err;
-9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  546  }
-9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  547  
+455d45ae080810 Dong Yibo 2024-02-22  5731  
+455d45ae080810 Dong Yibo 2024-02-22  5732  #ifdef CONFIG_NET_POLL_CONTROLLER
+bc0e7c9b35e029 Dong Yibo 2024-03-29  5733  /**
+455d45ae080810 Dong Yibo 2024-02-22  5734   * Polling 'interrupt' - used by things like netconsole to send skbs
+455d45ae080810 Dong Yibo 2024-02-22  5735   * without having to re-enable interrupts. It's not called while
+455d45ae080810 Dong Yibo 2024-02-22  5736   * the interrupt routine is executing.
+455d45ae080810 Dong Yibo 2024-02-22  5737   */
+455d45ae080810 Dong Yibo 2024-02-22  5738  static void rnp_netpoll(struct net_device *netdev)
+455d45ae080810 Dong Yibo 2024-02-22 @5739  {
+455d45ae080810 Dong Yibo 2024-02-22  5740  	struct rnp_adapter *adapter = netdev_priv(netdev);
+455d45ae080810 Dong Yibo 2024-02-22  5741  	int i;
+455d45ae080810 Dong Yibo 2024-02-22  5742  
+455d45ae080810 Dong Yibo 2024-02-22  5743  	/* if interface is down do nothing */
+455d45ae080810 Dong Yibo 2024-02-22  5744  	if (test_bit(__RNP_DOWN, &adapter->state))
+455d45ae080810 Dong Yibo 2024-02-22  5745  		return;
+455d45ae080810 Dong Yibo 2024-02-22  5746  
+455d45ae080810 Dong Yibo 2024-02-22  5747  	adapter->flags |= RNP_FLAG_IN_NETPOLL;
+455d45ae080810 Dong Yibo 2024-02-22  5748  	for (i = 0; i < adapter->num_q_vectors; i++)
+455d45ae080810 Dong Yibo 2024-02-22  5749  		rnp_msix_clean_rings(0, adapter->q_vector[i]);
+455d45ae080810 Dong Yibo 2024-02-22  5750  	adapter->flags &= ~RNP_FLAG_IN_NETPOLL;
+455d45ae080810 Dong Yibo 2024-02-22  5751  }
+455d45ae080810 Dong Yibo 2024-02-22  5752  
 
-:::::: The code at line 539 was first introduced by commit
-:::::: 36974daf53888e5eac986517b5ffac5bdd47b74d platform/x86: intel_pmc_core: Ignore GBE LTR on Tiger Lake platforms
+:::::: The code at line 5739 was first introduced by commit
+:::::: 455d45ae080810ae554f5e586adb9004230f9f70 drivers: initial support for rnp drivers from Mucse Technology
 
-:::::: TO: David E. Box <david.e.box@linux.intel.com>
-:::::: CC: Hans de Goede <hdegoede@redhat.com>
+:::::: TO: Dong Yibo <dong100@mucse.com>
+:::::: CC: Dong Yibo <dong100@mucse.com>
 
 -- 
 0-DAY CI Kernel Test Service
