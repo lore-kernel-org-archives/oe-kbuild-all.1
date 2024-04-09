@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A727E5646E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Apr 2024 03:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C7B54794;
+	Tue,  9 Apr 2024 03:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712632536; cv=none; b=rqhzlbMzHDuz9kCHhgS6uIfn6/luzZXjOAjXIgp6czktccmAZjchOgJyjrVI1ZR++YqS7FZ0Rr7GjMrQU2uWdcF1EUPHFWVN7zO7/bGRZphuDT5SxXnDK2xFY78XTmfRAZYNAqznNYncsmcAVH2eEa3abxHwDDBgfbiEYd+8YDY=
+	t=1712632538; cv=none; b=pWa3nhUF8HA2sDK5G2JMkNSsxWfcCtJg8PWV9ZA7KbKZhx/CNWYRbwXIIBbcN6xTxAfMT2LPptNSaGzjZiy6RFL3uEUTMoyTpt1q5DCp37952ubmQFM8/7E6EE9oYW6BE5OWssmSNfkSttD9FHfntcdeJKfCzMd7p+kWaUpdejQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712632536; c=relaxed/simple;
-	bh=Ld6pXzi/lJ7PiRPMHcRpSeWEn0PZTMhgO1NPDTRS6NU=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=twEW5y8QaciiAh1LKLypHmGejjTeB/8jbKkWTv7CTTdb2G4Wn1BZCjMEXuYU+nosWyYAacFJtboqTKdlQSq+DCptGp8wJwjFOU7tgSy9e7Uq8AZcmOxV9d7hKArp8/rH9rEPxfQRRFNUk/ke34rTj9GK8sFhlNY/x18VOMMdNCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cOTfWK3P; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1712632538; c=relaxed/simple;
+	bh=QqeHzXMVJ0irSOqoEDbTXP6pf9dzwvyBcaGWTv6ysbU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ryFqWzqA1SIJuYpqoJ1vgSJTLp+3nmGCzWSCHsudyTNhXV9wOl0LyDVigpWmUz7SeG3tlnboH8BmX3cCJlTn+ZdYlHgm+nJaUGMJAmbixxW3bLV/xwl0cuceBif6yxLgvSpBZHbrAgdCYifvfaJPkYoOXcpupk3noYm4/eFdBs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DuWeWw1w; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cOTfWK3P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DuWeWw1w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712632534; x=1744168534;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Ld6pXzi/lJ7PiRPMHcRpSeWEn0PZTMhgO1NPDTRS6NU=;
-  b=cOTfWK3PtEmT0hdpzULlL+WU1TkeQJdQwNmPsbAVb3/Xm3kF5MpnE7DI
-   JeuWr01+l93vKD1u5PB6iESN6jtIB7TzBmLkAhdCQMgaeDGxJ5IC38jiR
-   E+CBoRsmdoDgFZuj+I/eD8mA6x35dUcbsyQUkyW+Ze9Jk2mK0mLqTNwYx
-   6IvSoi0I2SodOey52WovF7yYT4loco9wgYm1i6suhDYQ+C6v9Tg48LtoE
-   K9RCXapBKuJwgyAEN10Mm5/pS/XYnzDtPF//iXANPGyjsHvSAUCsThb03
-   k9p7ktTsFllHbnq74xfw5oT43GTzceitobY9dlbi7UwQ6ecZEnRLAY6Co
+  t=1712632536; x=1744168536;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QqeHzXMVJ0irSOqoEDbTXP6pf9dzwvyBcaGWTv6ysbU=;
+  b=DuWeWw1wKkQB3hTgGaT3Iawbzkax1qqsjl4giDm8LxpX3jnyXj7jBfnx
+   iApA2peh4xz9349e/6bM1BehnhUtGpDySeNa997x0waUIXgAx//zICcsq
+   PYeUDpM1exLpyY45QBLvTQwil74j+H2HOAnkTAE3eMQcYexaOt8hrOLNy
+   CZTRdaddVs/8kCUi16QECVuYxlrr5Q9g7svryjw1vfv/UWBZl4DgsVakh
+   telgBH9qenBVfauwT5BX3IjhhG9MpRe418mnRgULce4GK7bjIuAvzP5se
+   D57/oq9apL/IlUa4Xce8B4ZuQ5K4CcndRHG2jaW/swhdPwO/WTnMvxs4S
    w==;
-X-CSE-ConnectionGUID: cRWq6pZnTAKyS2IKfuzmfg==
-X-CSE-MsgGUID: zK6VfGEsQBmtT0eZeC3Rrg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7788824"
+X-CSE-ConnectionGUID: 2jX3EwxoT9CUkBEsvxMChg==
+X-CSE-MsgGUID: 1ga0INxKQliSvGpc5AO1Kw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="18654790"
 X-IronPort-AV: E=Sophos;i="6.07,188,1708416000"; 
-   d="scan'208";a="7788824"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 20:15:33 -0700
-X-CSE-ConnectionGUID: nKOwFbo+SFmMSESkoZiKnw==
-X-CSE-MsgGUID: FyoMkaYNTGOuuOQJxS1+1w==
+   d="scan'208";a="18654790"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 20:15:36 -0700
+X-CSE-ConnectionGUID: S/Pa6DX7QJK0zfKzU+XnZw==
+X-CSE-MsgGUID: XpsFjjNeSYW23JqQkmILkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,188,1708416000"; 
-   d="scan'208";a="19970174"
+   d="scan'208";a="20655425"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Apr 2024 20:15:32 -0700
+  by orviesa008.jf.intel.com with ESMTP; 08 Apr 2024 20:15:32 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ru1xK-0005fq-0U
-	for oe-kbuild-all@lists.linux.dev;
+	id 1ru1xK-0005fs-0e;
 	Tue, 09 Apr 2024 03:15:30 +0000
-Date: Tue, 9 Apr 2024 11:15:00 +0800
+Date: Tue, 9 Apr 2024 11:15:01 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:4.19/android_s 325/1172] fs/verity/measure.c:40:13:
- sparse: sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202404091136.mybDQxJl-lkp@intel.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Eric Dumazet <edumazet@google.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [PATCH net-next 2/3] net: dsa: allow DSA switch drivers to
+ provide their own phylink mac ops
+Message-ID: <202404091147.pdi8izJ3-lkp@intel.com>
+References: <E1rtn25-0065p0-2C@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,58 +68,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <E1rtn25-0065p0-2C@rmk-PC.armlinux.org.uk>
 
-tree:   https://android.googlesource.com/kernel/common 4.19/android_s
-head:   71b63f21a8292ca960a4c363d69d5e95c0265597
-commit: ebeb654881fe81557c7344902ce3beae527ba5e2 [325/1172] fs-verity: implement FS_IOC_MEASURE_VERITY ioctl
-config: m68k-randconfig-r123-20240406 (https://download.01.org/0day-ci/archive/20240409/202404091136.mybDQxJl-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240409/202404091136.mybDQxJl-lkp@intel.com/reproduce)
+Hi Russell,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-dsa-introduce-dsa_phylink_to_port/20240408-232316
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/E1rtn25-0065p0-2C%40rmk-PC.armlinux.org.uk
+patch subject: [PATCH net-next 2/3] net: dsa: allow DSA switch drivers to provide their own phylink mac ops
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240409/202404091147.pdi8izJ3-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240409/202404091147.pdi8izJ3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404091136.mybDQxJl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404091147.pdi8izJ3-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/verity/measure.c:40:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const *__gu_ptr @@     got unsigned short [noderef] <asn:1> * @@
-   fs/verity/measure.c:40:13: sparse:     expected void const *__gu_ptr
-   fs/verity/measure.c:40:13: sparse:     got unsigned short [noderef] <asn:1> *
-   fs/verity/measure.c:22: warning: Function parameter or member 'filp' not described in 'fsverity_ioctl_measure'
-   fs/verity/measure.c:22: warning: Function parameter or member '_uarg' not described in 'fsverity_ioctl_measure'
+All warnings (new ones prefixed by >>):
 
-vim +40 fs/verity/measure.c
+>> net/dsa/port.c:1981:6: warning: unused variable 'port' [-Wunused-variable]
+           int port = dp->index;
+               ^
+   1 warning generated.
 
-    11	
-    12	/**
-    13	 * fsverity_ioctl_measure() - get a verity file's measurement
-    14	 *
-    15	 * Retrieve the file measurement that the kernel is enforcing for reads from a
-    16	 * verity file.  See the "FS_IOC_MEASURE_VERITY" section of
-    17	 * Documentation/filesystems/fsverity.rst for the documentation.
-    18	 *
-    19	 * Return: 0 on success, -errno on failure
-    20	 */
-    21	int fsverity_ioctl_measure(struct file *filp, void __user *_uarg)
-    22	{
-    23		const struct inode *inode = file_inode(filp);
-    24		struct fsverity_digest __user *uarg = _uarg;
-    25		const struct fsverity_info *vi;
-    26		const struct fsverity_hash_alg *hash_alg;
-    27		struct fsverity_digest arg;
-    28	
-    29		vi = fsverity_get_info(inode);
-    30		if (!vi)
-    31			return -ENODATA; /* not a verity file */
-    32		hash_alg = vi->tree_params.hash_alg;
-    33	
-    34		/*
-    35		 * The user specifies the digest_size their buffer has space for; we can
-    36		 * return the digest if it fits in the available space.  We write back
-    37		 * the actual size, which may be shorter than the user-specified size.
-    38		 */
-    39	
-  > 40		if (get_user(arg.digest_size, &uarg->digest_size))
+
+vim +/port +1981 net/dsa/port.c
+
+3a506cb7012a98 Russell King (Oracle  2024-04-08  1975) 
+770375ff331111 Vladimir Oltean       2022-08-18  1976  int dsa_shared_port_link_register_of(struct dsa_port *dp)
+57ab1ca2159717 Vivien Didelot        2017-10-26  1977  {
+0e27921816ad99 Ioana Ciornei         2019-05-28  1978  	struct dsa_switch *ds = dp->ds;
+e09e9873152e3f Vladimir Oltean       2022-08-18  1979  	bool missing_link_description;
+e09e9873152e3f Vladimir Oltean       2022-08-18  1980  	bool missing_phy_mode;
+3be98b2d5fbca3 Andrew Lunn           2020-04-14 @1981  	int port = dp->index;
+0e27921816ad99 Ioana Ciornei         2019-05-28  1982  
+e09e9873152e3f Vladimir Oltean       2022-08-18  1983  	dsa_shared_port_validate_of(dp, &missing_phy_mode,
+e09e9873152e3f Vladimir Oltean       2022-08-18  1984  				    &missing_link_description);
+e09e9873152e3f Vladimir Oltean       2022-08-18  1985  
+e09e9873152e3f Vladimir Oltean       2022-08-18  1986  	if ((missing_phy_mode || missing_link_description) &&
+e09e9873152e3f Vladimir Oltean       2022-08-18  1987  	    !of_device_compatible_match(ds->dev->of_node,
+e09e9873152e3f Vladimir Oltean       2022-08-18  1988  					dsa_switches_apply_workarounds))
+e09e9873152e3f Vladimir Oltean       2022-08-18  1989  		return -EINVAL;
+e09e9873152e3f Vladimir Oltean       2022-08-18  1990  
+a20f997010c4ec Andrew Lunn           2020-03-11  1991  	if (!ds->ops->adjust_link) {
+e09e9873152e3f Vladimir Oltean       2022-08-18  1992  		if (missing_link_description) {
+e09e9873152e3f Vladimir Oltean       2022-08-18  1993  			dev_warn(ds->dev,
+e09e9873152e3f Vladimir Oltean       2022-08-18  1994  				 "Skipping phylink registration for %s port %d\n",
+e09e9873152e3f Vladimir Oltean       2022-08-18  1995  				 dsa_port_is_cpu(dp) ? "CPU" : "DSA", dp->index);
+e09e9873152e3f Vladimir Oltean       2022-08-18  1996  		} else {
+3a506cb7012a98 Russell King (Oracle  2024-04-08  1997) 			dsa_shared_port_link_down(dp);
+e09e9873152e3f Vladimir Oltean       2022-08-18  1998  
+770375ff331111 Vladimir Oltean       2022-08-18  1999  			return dsa_shared_port_phylink_register(dp);
+3be98b2d5fbca3 Andrew Lunn           2020-04-14  2000  		}
+a20f997010c4ec Andrew Lunn           2020-03-11  2001  		return 0;
+a20f997010c4ec Andrew Lunn           2020-03-11  2002  	}
+0e27921816ad99 Ioana Ciornei         2019-05-28  2003  
+0e27921816ad99 Ioana Ciornei         2019-05-28  2004  	dev_warn(ds->dev,
+0e27921816ad99 Ioana Ciornei         2019-05-28  2005  		 "Using legacy PHYLIB callbacks. Please migrate to PHYLINK!\n");
+0e27921816ad99 Ioana Ciornei         2019-05-28  2006  
+33615367f378fe Sebastian Reichel     2018-01-23  2007  	if (of_phy_is_fixed_link(dp->dn))
+770375ff331111 Vladimir Oltean       2022-08-18  2008  		return dsa_shared_port_fixed_link_register_of(dp);
+33615367f378fe Sebastian Reichel     2018-01-23  2009  	else
+770375ff331111 Vladimir Oltean       2022-08-18  2010  		return dsa_shared_port_setup_phy_of(dp, true);
+33615367f378fe Sebastian Reichel     2018-01-23  2011  }
+57ab1ca2159717 Vivien Didelot        2017-10-26  2012  
 
 -- 
 0-DAY CI Kernel Test Service
