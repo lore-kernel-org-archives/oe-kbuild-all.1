@@ -1,148 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2182B2DD;
-	Tue,  9 Apr 2024 04:38:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 453E14D5AB
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Apr 2024 05:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712637527; cv=none; b=qjyTL55i6QM1+iSFoODcooHNv2WzgnmRNQMdNXxZxt/RThbOYNMQbOaeXqCi3GeywSIFAP/tw95RHnfYObzhjp5WpCUY6kKbZP5pHXBGIZNPILRYaS67PLOs5TyffvEXH+copqw3HgbKNn2bJgbinUyN4noiGPwI8S2iu/rPZVY=
+	t=1712639339; cv=none; b=P/ssEJUHP0lKAuKc/KoELq/Hllkvw3NYHWzVtWD6wXzODceDifPXQDnSq4P5USziyIHaRdpq5RkZUFV+TIpCY8aK7qJDKpO2TJA/YUHZUAW16nkaagZNrhzciSK0Ko/jtD0pNvPd10J7Gvy9CNzXsoqBZQ2gwwzxUHhWCkioY/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712637527; c=relaxed/simple;
-	bh=FwDRjCBN71NNWbuqJwe1vhuFGM+457CREEz1uKWOfUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FniVyaY56nXMfGM/Wq7cgPNtJ/msP4YU1AXyWeRm4zaFZkf8jHOhXtU6o1eeFJnygve/0pSJ8tj/yVjXn78fQtBTTTDIH0laiGGeQtGTqp+5tJszGD2J8UnviX98MAu5dcz9yEzlEHt/IkORcZQtqgXFEzGGaXGqND+dh91m9YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oAMAo2iP; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1712639339; c=relaxed/simple;
+	bh=dpumPbGeuszlGgZ/6QcYn1ZPkL3r/LCYuwQdgcIzQWU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZMpa/IZvhHcVVx53Ip6MYmrWrSMoFgefFcaKCWcQDzxQqlXZ1eLM4oh086er7/DRwFijSBXGhZW6Gy3ob9M6nQQM1v3F1elpDQ/GwP8NJndY8Kn/MXzYaULeSv/ix59VZz3GySkEFjVrPBWLqIiQOeClQ1gm2Hs8TDjdy4vk/EU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=i1DdHUgo; arc=none smtp.client-ip=209.85.166.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oAMAo2iP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712637524; x=1744173524;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FwDRjCBN71NNWbuqJwe1vhuFGM+457CREEz1uKWOfUI=;
-  b=oAMAo2iPP3fui8EI/E5HMMr5k0Xf2FGzQk6JjabSMxQuaalq8AYxM24p
-   z7w4t0bubp5QC7co71gKnTKnA7IPQ2gBOmJo6vUp3UkfJ/50pnSOfcYyU
-   Y5y+3ew7vzyzVhFS06TzuZ55/V1ha0GqSrfkiH5V6i4aJ7QJFeX2Buevf
-   pQrcnfA7G4KDgpFDCHEHVkN11hFZXqFlqX9ubSlK38FCWZaEhT88qJFQL
-   jFO1XMIsiPeEaGOvIZdWV1jzxHVeThA/GNHSFPf8AkUF7FnBWVo/UrZyE
-   KsHILzX2/8PpL1xog+NPFA0BWrwAKb26mau/07+HWGpPUX6Ptc32YVVo7
-   w==;
-X-CSE-ConnectionGUID: SREYXGlmSfWAtArseowN2w==
-X-CSE-MsgGUID: /AAT5vJMRaa3YftCtPe0HQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="25440831"
-X-IronPort-AV: E=Sophos;i="6.07,188,1708416000"; 
-   d="scan'208";a="25440831"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 21:38:44 -0700
-X-CSE-ConnectionGUID: e33hYWNgRzu9vk7HTBhA9w==
-X-CSE-MsgGUID: n4YA2P8CTm+jg8h8Evwn1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,188,1708416000"; 
-   d="scan'208";a="20017073"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 Apr 2024 21:38:40 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ru3Fm-0005jy-0R;
-	Tue, 09 Apr 2024 04:38:38 +0000
-Date: Tue, 9 Apr 2024 12:38:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Kent Gibson <warthog618@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Arend van Spriel <arend.vanspriel@broadcom.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH v2 1/2] gpiolib: Fix a mess with the GPIO_* flags
-Message-ID: <202404091205.rnu1DOaq-lkp@intel.com>
-References: <20240408231727.396452-2-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="i1DdHUgo"
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-36a2825cdf7so73515ab.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 08 Apr 2024 22:08:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1712639337; x=1713244137; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LEL615D0PAohpi/ZueAVrRaSlrpex4n/Ywu5HFL+HUA=;
+        b=i1DdHUgo5PVzMiNjTEc/Z2SzHKTnWakfiEcBZhWpLhj1TY0Ahu1FMZZpuc4rh6g0zS
+         9oC8V+PAeeywD8y6e/1TKGQ1f3d1wCsS0XHXzUJmIuVmRaURcp9XUO/gYSBqGQbPx67Y
+         aBA7YYcV6Ge2m+2G32EgmDQ04H8p/1b17yLwy6V5P3NWBpGPC8dyi71kDBZbxXgbxv0L
+         fAzhZmRQ3SLVLUjFy7C0FLGCDfx9ZAliRIA8QmRH7UCRO2TUdNtrzKRBnYF1TlPvFfAR
+         2G19Dtc7dbd3grJApuo1gfTS0rQICJhRiJhkmKN1c3bQ/LwsFMtXaeu4y8+su3Mv3wR9
+         9gAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712639337; x=1713244137;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LEL615D0PAohpi/ZueAVrRaSlrpex4n/Ywu5HFL+HUA=;
+        b=KY7G5/xZHIgR01yQ6qIiwKZ0qQ1s5zceF1kmpDoDDWngSGMuS4G7O/OUN0mfVw8lxN
+         +ANgUvZylxjeAXC2SqGUZml/hVW3KvKo3OGNw8dMp+V6MAlO4yJHl2NvhVjrdioDWsfo
+         LhQO/7Rfg6AvvACwN51YPlkMXIjFF5vwZn563YV1jgvAnOh8dB3mNP9bhjcq2Wjbpqqg
+         FpFAp9BygzQdi/7d5ButJ71kkmQ++MrRDaM4Uu8+lamoNi3QhFshClwwQ8TjWHSo8sQp
+         yZFddrFa1uGbXNw0JIYUZaT09Zk0eeZgUaCUzeWaBCuezSBncTyVXzXnxgAJWQUZzj05
+         qa9w==
+X-Forwarded-Encrypted: i=1; AJvYcCXCFqINh497tVhyjmkzRuFYIlTApr/vgr5rInsXyod3bwHlNwgPq7b+Ol5KuLH8d6VmVcJM/qjqb0SgM4lFKJKsnyM0NPOplhkYAI9yJA==
+X-Gm-Message-State: AOJu0YwRlAYXNUp97EXqk9HgcbF0L3AEfegG/FSXMnApXGt+nUjriks3
+	SM8fuBN29HT/EnQ3hFODXNN2vhyrvaTROL3VU7So3p6hAYfJxLuCdC1aR9/pfdnqqDAuo/O0Twq
+	ngy4djBawkJDs330A8dq/4O/UlCCc5CWwYeY3
+X-Google-Smtp-Source: AGHT+IH7efisCsDzy68bbh6f3D2qyn7Zhr5zd6BXbQlYQ1t6gloGyZQkP7PdJR/HI8I6TtSndLyjiGhNNjGm2w1rVPE=
+X-Received: by 2002:a05:6e02:1d86:b0:36a:1278:5c5 with SMTP id
+ h6-20020a056e021d8600b0036a127805c5mr177596ila.26.1712639337111; Mon, 08 Apr
+ 2024 22:08:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240408231727.396452-2-andriy.shevchenko@linux.intel.com>
+References: <202404082207.HCEdQhUO-lkp@intel.com> <20240408230632.5ml3amaztr5soyfs@skbuf>
+In-Reply-To: <20240408230632.5ml3amaztr5soyfs@skbuf>
+From: Eric Dumazet <edumazet@google.com>
+Date: Tue, 9 Apr 2024 07:08:42 +0200
+Message-ID: <CANn89iJ8EcqiF8YCPhDxcp5t79J1RLzTh6GHHgAxbTXbC+etRA@mail.gmail.com>
+Subject: Re: [net-next:main 26/50] net/ipv4/tcp.c:4673:2: error: call to
+ '__compiletime_assert_1030' declared with 'error' attribute: BUILD_BUG_ON
+ failed: offsetof(struct tcp_sock, __cacheline_group_end__tcp_sock_write_txrx)
+ - offsetofend(struct tcp_sock, __cacheline_group_begin__tcp_sock_...
+To: Vladimir Oltean <olteanv@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on wireless-next/main wireless/main linus/master v6.9-rc3 next-20240408]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/gpiolib-Fix-a-mess-with-the-GPIO_-flags/20240409-071911
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20240408231727.396452-2-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v2 1/2] gpiolib: Fix a mess with the GPIO_* flags
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240409/202404091205.rnu1DOaq-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240409/202404091205.rnu1DOaq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404091205.rnu1DOaq-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/x86/include/asm/geode.h:12,
-                    from arch/x86/platform/geode/alix.c:28:
->> include/linux/cs5535.h:149: warning: "GPIO_PULL_UP" redefined
-     149 | #define GPIO_PULL_UP            0x18
-         | 
-   In file included from include/linux/gpio/machine.h:5,
-                    from arch/x86/platform/geode/alix.c:25:
-   include/dt-bindings/gpio/gpio.h:37: note: this is the location of the previous definition
-      37 | #define GPIO_PULL_UP 16
-         | 
->> include/linux/cs5535.h:150: warning: "GPIO_PULL_DOWN" redefined
-     150 | #define GPIO_PULL_DOWN          0x1C
-         | 
-   include/dt-bindings/gpio/gpio.h:40: note: this is the location of the previous definition
-      40 | #define GPIO_PULL_DOWN 32
-         | 
+On Tue, Apr 9, 2024 at 1:06=E2=80=AFAM Vladimir Oltean <olteanv@gmail.com> =
+wrote:
+>
+> Hi Eric,
+>
+> On Mon, Apr 08, 2024 at 10:49:35PM +0800, kernel test robot wrote:
+> > >> net/ipv4/tcp.c:4673:2: error: call to '__compiletime_assert_1030' de=
+clared with 'error' attribute: BUILD_BUG_ON failed: offsetof(struct tcp_soc=
+k, __cacheline_group_end__tcp_sock_write_txrx) - offsetofend(struct tcp_soc=
+k, __cacheline_group_begin__tcp_sock_write_txrx) > 92
+> > > 4673                CACHELINE_ASSERT_GROUP_SIZE(struct tcp_sock, tcp_=
+sock_write_txrx, 92);
+>
+> I can confirm the same compile time assertion with an armv7 gcc 7.3.1 com=
+piler.
+> If I revert commit 86dad9aebd0d ("Revert "tcp: more struct tcp_sock adjus=
+tments")
+> it goes away.
+>
+> Before the change (actually with it reverted), I can see that the
+> tcp_sock_write_txrx cacheline group begins at offset 1821 with a 3 byte
+> hole, and ends at offset 1897 (it has 76 bytes).
 
 
-vim +/GPIO_PULL_UP +149 include/linux/cs5535.h
+...
 
-f060f27007b393 Andres Salomon 2009-12-14  141  
-5f0a96b044d8ed Andres Salomon 2009-12-14  142  /* GPIOs */
-5f0a96b044d8ed Andres Salomon 2009-12-14  143  #define GPIO_OUTPUT_VAL		0x00
-5f0a96b044d8ed Andres Salomon 2009-12-14  144  #define GPIO_OUTPUT_ENABLE	0x04
-5f0a96b044d8ed Andres Salomon 2009-12-14  145  #define GPIO_OUTPUT_OPEN_DRAIN	0x08
-5f0a96b044d8ed Andres Salomon 2009-12-14  146  #define GPIO_OUTPUT_INVERT	0x0C
-5f0a96b044d8ed Andres Salomon 2009-12-14  147  #define GPIO_OUTPUT_AUX1	0x10
-5f0a96b044d8ed Andres Salomon 2009-12-14  148  #define GPIO_OUTPUT_AUX2	0x14
-5f0a96b044d8ed Andres Salomon 2009-12-14 @149  #define GPIO_PULL_UP		0x18
-5f0a96b044d8ed Andres Salomon 2009-12-14 @150  #define GPIO_PULL_DOWN		0x1C
-5f0a96b044d8ed Andres Salomon 2009-12-14  151  #define GPIO_INPUT_ENABLE	0x20
-5f0a96b044d8ed Andres Salomon 2009-12-14  152  #define GPIO_INPUT_INVERT	0x24
-5f0a96b044d8ed Andres Salomon 2009-12-14  153  #define GPIO_INPUT_FILTER	0x28
-5f0a96b044d8ed Andres Salomon 2009-12-14  154  #define GPIO_INPUT_EVENT_COUNT	0x2C
-5f0a96b044d8ed Andres Salomon 2009-12-14  155  #define GPIO_READ_BACK		0x30
-5f0a96b044d8ed Andres Salomon 2009-12-14  156  #define GPIO_INPUT_AUX1		0x34
-5f0a96b044d8ed Andres Salomon 2009-12-14  157  #define GPIO_EVENTS_ENABLE	0x38
-5f0a96b044d8ed Andres Salomon 2009-12-14  158  #define GPIO_LOCK_ENABLE	0x3C
-5f0a96b044d8ed Andres Salomon 2009-12-14  159  #define GPIO_POSITIVE_EDGE_EN	0x40
-5f0a96b044d8ed Andres Salomon 2009-12-14  160  #define GPIO_NEGATIVE_EDGE_EN	0x44
-5f0a96b044d8ed Andres Salomon 2009-12-14  161  #define GPIO_POSITIVE_EDGE_STS	0x48
-5f0a96b044d8ed Andres Salomon 2009-12-14  162  #define GPIO_NEGATIVE_EDGE_STS	0x4C
-5f0a96b044d8ed Andres Salomon 2009-12-14  163  
+> It gained 20 bytes in the change. Most notably, it gained a 4 byte hole
+> between pred_flags and tcp_clock_cache.
+>
+> I haven't followed the development of these optimizations, and I tried a
+> few trivial things, some of which didn't work, and some of which did.
+> Of those that worked, the most notable one was letting the 2 u64 fields,
+> tcp_clock_cache and tcp_mstamp, be the first members of the group, and
+> moving the __be32 pred_flags right below them.
+>
+> Obviously my level of confidence in the fix is quite low, so it would be
+> great if you could cast an expert eye onto this.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I am on it, do not worry, thanks !
