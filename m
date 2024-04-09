@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEE9158D66
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Apr 2024 22:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B86158D96
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Apr 2024 23:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712703075; cv=none; b=OQw8W9Q7qiZhNxtLphVHccDCm83XsxEigAXfW9X1VggZMnhaI083RYAjzOvjuAqzWZ9YyMK5YFCaj5UqYcT+PHpLm6/ZtTZDF1nK0Jsue4AU6oDFCKxpGVHxZq+PcYwueBL8Ph9Sm9vYSdpBu9wp3yorzT72VcHHpOBuuwCTWzE=
+	t=1712703793; cv=none; b=rU8sA8ocJEOgAQEmxaTY4oUwDSI7NtsVZLHnicnXQ3tt5Jf5Z4HYmPX1AAn+V7JbNi/e+aQBml8vDKBLpkYVIPDz8yLdzqM4ejs8aqCoKHee4eX6Gqgi5RAUsPiQfpnVsEfQeTO7xCAMrRet7XIjSvJRp+HuKiVADdNkBwNftZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712703075; c=relaxed/simple;
-	bh=rXrlqd3Ot5QvjPaQ5jAwi3NeK8jdOPQwuBJhoX4Z7BU=;
+	s=arc-20240116; t=1712703793; c=relaxed/simple;
+	bh=IdohVNvU3qr5Wr5UrBvazvHqZcZjB8QiyZotMsuJMUo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XfcHf15sDou/C7hT1pdCzUBaYJxIBqI1Li4yQw9wKwvhQNof33fHz6PdMWn/FRnoePgXjvXZgbwMlHkxzNBInvf9dhpj7NSgo0iIE3TWXdBVIx/9I/SRaKNqhEhMCe6h2hLjR+PcNsQ/ojsp6sHHhk6owrdw1JWfoKDt+hH1Ris=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QA2ka/J4; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=jwMrvQ1ydWHT8gvDpGW5oCuJU3hUTePao0rDvptCReyBuey5cuvuzD40zapxadmXffHRvbVx4zSgGVHtdg80Z1rT+Aiib4dBmavDPhiZkTJ2gMLzmfut8Qu7hp5GjXuT5ugU2z6/1H/R8nYj6Gifik1/sSi7vdj2/cOGGM9cEKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jIkxa2uD; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QA2ka/J4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jIkxa2uD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712703074; x=1744239074;
+  t=1712703792; x=1744239792;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rXrlqd3Ot5QvjPaQ5jAwi3NeK8jdOPQwuBJhoX4Z7BU=;
-  b=QA2ka/J4ZKRR/91UO7YKH/zcP+Atf/vhWZqpN62cy0zughvem4W96E1V
-   r3Bz/q/E/0dWUTjaVLRn2pl4e9guHzA4TeQvA1bBQzRjmqrPNrWgFh5Sy
-   ZaOqL7kwX/tVuze1wYfuhFXmMsukxPShwWM3kfUpLpbRXkB2kI3+jBx4Q
-   w1lvAGMK6TJt20Fg8mRYwN0Lt0bIcwMwdaNL6j00sORCMUW1I9mJJJYxd
-   4ooQbaYrDYDPxmrJq9fD8APJIqyk247CZKsHlW7yJFjF36fWdHU1wadQY
-   KfbY7C5XkbZfZBFOg8WT9+NBtWBK9a1Gnhon+jnx550kwR8s3q/dCURxm
-   Q==;
-X-CSE-ConnectionGUID: gyN6YmKFQ2GOsRr5K+scxA==
-X-CSE-MsgGUID: WLXE1VAvTbC5do+Su7OGQA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="11884119"
+  bh=IdohVNvU3qr5Wr5UrBvazvHqZcZjB8QiyZotMsuJMUo=;
+  b=jIkxa2uDaQCBmUweZnMtsQosxdsIekMMKkOE4aGeT0QFF4HxpxM6w6fl
+   ME538xqEUh2n/o7siga3WqrhIcEmpkpR4UihXHGTFuOIz5TQFztsyxNjI
+   6f6DU7Gn29VPZbzk83vjXm3fsnGRmFxQoclciEmF/WFpkc+dw1/G5uBzZ
+   5MmiJOyacFT7VHpFuDfbEdKlCdzw3uOxUJJnpuQYJwFwAzWrdNbAaaSq8
+   HmslwqWJLfwIwcg7fIHSQFpUTbiDnbY0Vt3yZwy+wKTqZq8jq4TmrE/Rf
+   9rKhXFKYIFGjGajxtvjTdndsu8aCakAaRr5iBEyvOfRk+2v89fBPeUwR7
+   g==;
+X-CSE-ConnectionGUID: 46EqZRVxSpugkWrAT70ERw==
+X-CSE-MsgGUID: /k97xMBBRpSH+w61C3n26w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="18611466"
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="11884119"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 15:51:11 -0700
-X-CSE-ConnectionGUID: lt4IdXNhTzGDqI2LW506sw==
-X-CSE-MsgGUID: 3CfsIiPnSsayFdQ6yYBUDQ==
+   d="scan'208";a="18611466"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 16:03:10 -0700
+X-CSE-ConnectionGUID: qjZlOoSYSsiFkana82iDuQ==
+X-CSE-MsgGUID: 8hIzaALlQSWg/F9xejFkwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="20337145"
+   d="scan'208";a="51572416"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Apr 2024 15:51:08 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 09 Apr 2024 16:03:09 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ruKJ0-0006ai-1T;
-	Tue, 09 Apr 2024 22:51:06 +0000
-Date: Wed, 10 Apr 2024 06:50:48 +0800
+	id 1ruKUc-0006b8-2j;
+	Tue, 09 Apr 2024 23:03:06 +0000
+Date: Wed, 10 Apr 2024 07:03:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1624/7334]
- drivers/cpufreq/loongson3-acpi-cpufreq.c:93:1: sparse: sparse: symbol
- '__pcpu_scope_msa_count' was not declared. Should it be static?
-Message-ID: <202404100627.ugFjSuPi-lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: [linusw-gpio:b4/descriptors-wireless 2/2]
+ drivers/gpio/gpio-ath79.c:263:1: warning: no return statement in function
+ returning non-void
+Message-ID: <202404100626.HQOO79B8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +63,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   830c644d6e307456c2e77e6ce8bd6f1cf1ddc351
-commit: 47a0b6f372d7f05822d021f86b21a34fd2142225 [1624/7334] cpufreq: Add cpufreq driver for LoongArch
-config: loongarch-randconfig-r123-20240410 (https://download.01.org/0day-ci/archive/20240410/202404100627.ugFjSuPi-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240410/202404100627.ugFjSuPi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git b4/descriptors-wireless
+head:   3ca0eec7ecfa5c404f41e9b1e7690ec64de77b53
+commit: 3ca0eec7ecfa5c404f41e9b1e7690ec64de77b53 [2/2] wifi: ath9k: Obtain system GPIOS from descriptors
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20240410/202404100626.HQOO79B8-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404100626.HQOO79B8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404100627.ugFjSuPi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404100626.HQOO79B8-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/cpufreq/loongson3-acpi-cpufreq.c:93:1: sparse: sparse: symbol '__pcpu_scope_msa_count' was not declared. Should it be static?
-   drivers/cpufreq/loongson3-acpi-cpufreq.c:169:3: sparse: sparse: symbol 'all_package_data' was not declared. Should it be static?
-   drivers/cpufreq/loongson3-acpi-cpufreq.c:645:5: sparse: sparse: symbol 'loongson3_set_mode' was not declared. Should it be static?
-   drivers/cpufreq/loongson3-acpi-cpufreq.c:835:14: sparse: sparse: symbol 'load_update' was not declared. Should it be static?
-   drivers/cpufreq/loongson3-acpi-cpufreq.c: note: in included file (through arch/loongarch/include/asm/loongarch.h, arch/loongarch/include/asm/cpu-info.h, ...):
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:322:3: sparse: sparse: undefined identifier '__builtin_loongarch_iocsrwr_w'
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:25: sparse: sparse: undefined identifier '__builtin_loongarch_iocsrrd_w'
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:11: sparse: sparse: cast from unknown type
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:11: sparse: sparse: cast from unknown type
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:11: sparse: sparse: cast from unknown type
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:11: sparse: sparse: cast from unknown type
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:11: sparse: sparse: cast from unknown type
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:11: sparse: sparse: cast from unknown type
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:107:25: sparse: sparse: undefined identifier '__builtin_loongarch_cpucfg'
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:107:11: sparse: sparse: cast from unknown type
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:107:11: sparse: sparse: cast from unknown type
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:107:11: sparse: sparse: cast from unknown type
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:284:11: sparse: sparse: cast from unknown type
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:107:11: sparse: sparse: cast from unknown type
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:107:11: sparse: sparse: cast from unknown type
-   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:107:11: sparse: sparse: cast from unknown type
+All warnings (new ones prefixed by >>):
 
-vim +/__pcpu_scope_msa_count +93 drivers/cpufreq/loongson3-acpi-cpufreq.c
+   drivers/gpio/gpio-ath79.c: In function 'ath79_gpio_register_wifi_descriptors':
+>> drivers/gpio/gpio-ath79.c:263:1: warning: no return statement in function returning non-void [-Wreturn-type]
+     263 | }
+         | ^
 
-    92	
-  > 93	DEFINE_PER_CPU(unsigned long, msa_count);
-    94	EXPORT_PER_CPU_SYMBOL(msa_count);
-    95	
+
+vim +263 drivers/gpio/gpio-ath79.c
+
+   225	
+   226	#if IS_ENABLED(CONFIG_ATH9K_AHB)
+   227	/*
+   228	 * This registers all of the ath79k GPIOs as descriptors to be picked
+   229	 * directly from the ATH79K wifi driver if the two are jitted together
+   230	 * in the same SoC.
+   231	 */
+   232	#define ATH79K_WIFI_DESCS 32
+   233	static int ath79_gpio_register_wifi_descriptors(struct device *dev,
+   234							const char *label)
+   235	{
+   236		struct gpiod_lookup_table *lookup;
+   237		int i;
+   238	
+   239		/* Create a gpiod lookup using gpiochip-local offsets + 1 for NULL */
+   240	        lookup = devm_kzalloc(&pdev->dev,
+   241				      struct_size(lookup, table, ATH79K_WIFI_DESCS + 1),
+   242				      GFP_KERNEL);
+   243	
+   244		if (!lookup)
+   245			return -ENOMEM;
+   246	
+   247		lookup->dev_id = "ath9k";
+   248	
+   249		for (i = 0; i < ATH79K_WIFI_DESCS; i++) {
+   250			lookup->table[i] = (struct gpiod_lookup)
+   251				PIO_LOOKUP_IDX(label, 0, NULL, i,
+   252					       GPIO_ACTIVE_HIGH);
+   253		}
+   254	
+   255		gpiod_add_lookup_table(lookup);
+   256	
+   257		return 0;
+   258	}
+   259	#else
+   260	static int ath79_gpio_register_wifi_descriptors(struct device *dev,
+   261							const char *label)
+   262	{
+ > 263	}
+   264	#endif
+   265	
 
 -- 
 0-DAY CI Kernel Test Service
