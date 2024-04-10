@@ -1,58 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A01A385
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 22:30:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8948379CF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 22:41:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712788252; cv=none; b=O8za76Q1OhivzNi/J1tE7JvPBQ9xF8Q+jyfC2OQV/gO48JYMVaF+7pyEwuaB5/n13DW3+C3FUGnLcQTNl3g7baxrwWpIhVhEplUZ+j2wRRQ+eZErZWXTiZ/1GE4zKVZYac6/PbLjGGyMjK5UHScQN9Rh5615SIjt2gYlgYacZ28=
+	t=1712788914; cv=none; b=oewW/IyjBjROx/PaCcMuoB+ZCqp8yJuP5ya4AXbjLl2oCQqe5LuOmN+3vwb+KzrhFzhGqeZMZJiIiJzPr5jCWgZEiCxbwFtkf+HV+AFPc4/6wablLkc+DcoqWAv8GBBY2I82tupzZKVSxUfNU1rWi+3o63d4tKv36yF0iiqZhjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712788252; c=relaxed/simple;
-	bh=T0ToEqrpx+hL25eJrum6aadYIf0wv3J9FCx6FwxXFgs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dGcuwTnI0l8IyyCRDNoQ9LUytWoFkYtpHyxjpct/S6FZZVCZtm4MbGMXT5+BPt5pXHy5prCyLedViy472K09tjjDguYTWeOje1QQ5kvT5mklypq2NGbV1mE/PqCe8EeiuFTBbV69oCL3cfd3i8XWQr0KlZn1IO4koQyrxQdl+TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TIR6QAPb; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1712788914; c=relaxed/simple;
+	bh=pVO+KvsnkUJshXT4I00MUbgRLH0fyVCGVuDFbU7L3fU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hkSYGUBktV8unrRdzL0IxamgCGoSeJuaJQJWORhpctyaSCsfGXQ/9x2F14P5WX3xWmkEwK6lqZ/UzWRVK6FEe4V3MMUlgaw+YOThLYsomO5RzgcJYQoKchDVCWBkA/zvxIuxaRkueKjulY0FSmE0zYVh7ozUVm2zsX4FJR2NbjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EXlg6z67; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TIR6QAPb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EXlg6z67"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712788250; x=1744324250;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T0ToEqrpx+hL25eJrum6aadYIf0wv3J9FCx6FwxXFgs=;
-  b=TIR6QAPbL9bWurLKG7saTqQcG4TSffa+bmMvRvLVlx2UMO61U8J37svM
-   I+ZC2q55R9k3zkoaS+UTTWLFWNpgoRCW3NTxYBswmS/onFQ3TwiX4HvdO
-   Tji5dbQc1uoJ3qwA9DMHsKJu+VAUFC5lAICQeYvJe30/lkC68j39y7ZNV
-   LHPy/ZdKTna11au+1co0nA2I2GoQItzLhenPZMQ0QyJOSlthlEUZ1/hJw
-   IxxpW2RgR/T4FIVgojM7eQ182cspdUVCX/5x6SMtU/4riQOysViMhBdWR
-   +JVBwSE7TJOnKyElXu3YrLvpi1DLclGymTT/bV9wYy83gBGgIWbYiQpGB
-   A==;
-X-CSE-ConnectionGUID: 973Qs/PtSh60885j6CsSOA==
-X-CSE-MsgGUID: 9h1MEIZdR06SkuuCA/Ad2A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8740892"
+  t=1712788912; x=1744324912;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pVO+KvsnkUJshXT4I00MUbgRLH0fyVCGVuDFbU7L3fU=;
+  b=EXlg6z67Dsomgh5pnBa+awycdx0w0ovq2I0bRwawnmbX6YT0acHw2NyZ
+   uVEtXIDA9CmEO8lQYs6o9oRWtpnfJfMuowb9kUDSJ97E39MPibC8fPBHd
+   k4M6hYYwT9LuhDG5V6Vh48TuGSgIFVikXFVaRANrjKXgSrrEG+Y/VExfH
+   WL12yS+89xjghMInCQ90HL8RAuDSlsIOHUC9dSsyJiCfgo+F+yv0Y9gV4
+   7xMxvqYDyKcAETuxAZTZzEfkNm8cl7eloqUVT5dC14XTBSE48TBnaHS37
+   tm+I9BOchXkBgh5hIEANojWWZU7vFjInRpkO15dhiK/nq1kjhi6X2qU0+
+   Q==;
+X-CSE-ConnectionGUID: rPc6rX+2Q4iAx4h9TLv8OA==
+X-CSE-MsgGUID: kno0Bb+ZQTKfv/f/gqosFA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8741738"
 X-IronPort-AV: E=Sophos;i="6.07,191,1708416000"; 
-   d="scan'208";a="8740892"
+   d="scan'208";a="8741738"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 15:30:50 -0700
-X-CSE-ConnectionGUID: zTnYnxvtSxiXNJCXwVJAVA==
-X-CSE-MsgGUID: KwXlN7u1RUKZHDt2HWjP1Q==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 15:41:51 -0700
+X-CSE-ConnectionGUID: Lu4FmwWnS1ekimFQZ335Wg==
+X-CSE-MsgGUID: CmrvQwfdQJ6M/pDg73SEJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,191,1708416000"; 
-   d="scan'208";a="25177698"
+   d="scan'208";a="25181077"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Apr 2024 15:30:48 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 10 Apr 2024 15:41:50 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rugSs-0007tj-1O;
-	Wed, 10 Apr 2024 22:30:46 +0000
-Date: Thu, 11 Apr 2024 06:29:54 +0800
+	id 1rugdW-0007u6-21;
+	Wed, 10 Apr 2024 22:41:46 +0000
+Date: Thu, 11 Apr 2024 06:41:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:page_counters.1 4/5]
- arch/x86/include/asm/page_types.h:11:9: warning: 'PAGE_SIZE' macro redefined
-Message-ID: <202404110609.ENnGWkgn-lkp@intel.com>
+To: Zhihao Cheng <chengzhihao1@huawei.com>, richard@nod.at,
+	daniel@makrotopia.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-mtd@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] ubi: ubi_init: Fix missed ubiblock cleanup in error
+ handling path
+Message-ID: <202404110656.wLLc5mHR-lkp@intel.com>
+References: <20240410074033.2523399-3-chengzhihao1@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,450 +65,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240410074033.2523399-3-chengzhihao1@huawei.com>
 
-tree:   https://github.com/rgushchin/linux.git page_counters.1
-head:   dbe528dceca7fe608061c8686e00aa4d53042767
-commit: 7fb104a83d94f08496291125374fdf7c49ea7baa [4/5] mm: memcg: merge multiple page_counters into a single structure
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20240411/202404110609.ENnGWkgn-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240411/202404110609.ENnGWkgn-lkp@intel.com/reproduce)
+Hi Zhihao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rw-ubifs/next]
+[also build test WARNING on linus/master v6.9-rc3 next-20240410]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhihao-Cheng/ubi-ubi_init-Fix-missed-debugfs-cleanup-in-error-handling-path/20240410-155105
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rw/ubifs.git next
+patch link:    https://lore.kernel.org/r/20240410074033.2523399-3-chengzhihao1%40huawei.com
+patch subject: [PATCH 2/2] ubi: ubi_init: Fix missed ubiblock cleanup in error handling path
+config: x86_64-randconfig-103-20240411 (https://download.01.org/0day-ci/archive/20240411/202404110656.wLLc5mHR-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240411/202404110656.wLLc5mHR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404110609.ENnGWkgn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404110656.wLLc5mHR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from fs/open.c:14:
-   In file included from include/linux/tty.h:11:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from fs/open.c:14:
-   In file included from include/linux/tty.h:11:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from fs/open.c:14:
-   In file included from include/linux/tty.h:11:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from fs/open.c:19:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
->> arch/x86/include/asm/page_types.h:11:9: warning: 'PAGE_SIZE' macro redefined [-Wmacro-redefined]
-      11 | #define PAGE_SIZE               (_AC(1,UL) << PAGE_SHIFT)
-         |         ^
-   arch/um/include/asm/page.h:14:9: note: previous definition is here
-      14 | #define PAGE_SIZE       (_AC(1, UL) << PAGE_SHIFT)
-         |         ^
-   In file included from fs/open.c:19:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
->> arch/x86/include/asm/page_types.h:30:9: warning: 'PAGE_OFFSET' macro redefined [-Wmacro-redefined]
-      30 | #define PAGE_OFFSET             ((unsigned long)__PAGE_OFFSET)
-         |         ^
-   arch/um/include/asm/page.h:93:9: note: previous definition is here
-      93 | #define PAGE_OFFSET (uml_physmem)
-         |         ^
-   In file included from fs/open.c:19:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
->> arch/x86/include/asm/page_types.h:32:9: warning: 'VM_DATA_DEFAULT_FLAGS' macro redefined [-Wmacro-redefined]
-      32 | #define VM_DATA_DEFAULT_FLAGS   VM_DATA_FLAGS_TSK_EXEC
-         |         ^
-   include/linux/mm.h:423:9: note: previous definition is here
-     423 | #define VM_DATA_DEFAULT_FLAGS  VM_DATA_FLAGS_EXEC
-         |         ^
-   In file included from fs/open.c:19:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
-   In file included from arch/x86/include/asm/page_types.h:40:
->> arch/x86/include/asm/page_64_types.h:15:9: warning: 'THREAD_SIZE_ORDER' macro redefined [-Wmacro-redefined]
-      15 | #define THREAD_SIZE_ORDER       (2 + KASAN_STACK_ORDER)
-         |         ^
-   arch/um/include/asm/thread_info.h:9:9: note: previous definition is here
-       9 | #define THREAD_SIZE_ORDER CONFIG_KERNEL_STACK_ORDER
-         |         ^
-   In file included from fs/open.c:19:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
-   In file included from arch/x86/include/asm/page_types.h:40:
->> arch/x86/include/asm/page_64_types.h:16:9: warning: 'THREAD_SIZE' macro redefined [-Wmacro-redefined]
-      16 | #define THREAD_SIZE  (PAGE_SIZE << THREAD_SIZE_ORDER)
-         |         ^
-   arch/um/include/asm/thread_info.h:10:9: note: previous definition is here
-      10 | #define THREAD_SIZE ((1 << CONFIG_KERNEL_STACK_ORDER) * PAGE_SIZE)
-         |         ^
-   In file included from fs/open.c:19:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
-   In file included from arch/x86/include/asm/page_types.h:40:
->> arch/x86/include/asm/page_64_types.h:64:9: warning: 'TASK_SIZE_MAX' macro redefined [-Wmacro-redefined]
-      64 | #define TASK_SIZE_MAX           task_size_max()
-         |         ^
-   include/asm-generic/access_ok.h:16:9: note: previous definition is here
-      16 | #define TASK_SIZE_MAX                   TASK_SIZE
-         |         ^
-   In file included from fs/open.c:19:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
-   In file included from arch/x86/include/asm/page_types.h:40:
->> arch/x86/include/asm/page_64_types.h:75:9: warning: 'TASK_SIZE' macro redefined [-Wmacro-redefined]
-      75 | #define TASK_SIZE               (test_thread_flag(TIF_ADDR32) ? \
-         |         ^
-   arch/um/include/asm/processor-generic.h:62:9: note: previous definition is here
-      62 | #define TASK_SIZE (task_size)
-         |         ^
-   In file included from fs/open.c:19:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
-   In file included from arch/x86/include/asm/page_types.h:40:
->> arch/x86/include/asm/page_64_types.h:77:9: warning: 'TASK_SIZE_OF' macro redefined [-Wmacro-redefined]
-      77 | #define TASK_SIZE_OF(child)     ((test_tsk_thread_flag(child, TIF_ADDR32)) ? \
-         |         ^
-   include/linux/sched.h:2164:9: note: previous definition is here
-    2164 | #define TASK_SIZE_OF(tsk)       TASK_SIZE
-         |         ^
-   In file included from fs/open.c:19:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
-   In file included from arch/x86/include/asm/page_types.h:40:
->> arch/x86/include/asm/page_64_types.h:80:9: warning: 'STACK_TOP' macro redefined [-Wmacro-redefined]
-      80 | #define STACK_TOP               TASK_SIZE_LOW
-         |         ^
-   arch/um/include/asm/processor-generic.h:70:9: note: previous definition is here
-      70 | #define STACK_TOP       (TASK_SIZE - 2 * PAGE_SIZE)
-         |         ^
-   In file included from fs/open.c:19:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
-   In file included from arch/x86/include/asm/page_types.h:40:
->> arch/x86/include/asm/page_64_types.h:81:9: warning: 'STACK_TOP_MAX' macro redefined [-Wmacro-redefined]
-      81 | #define STACK_TOP_MAX           TASK_SIZE_MAX
-         |         ^
-   arch/um/include/asm/processor-generic.h:71:9: note: previous definition is here
-      71 | #define STACK_TOP_MAX   STACK_TOP
-         |         ^
-   22 warnings generated.
---
-   In file included from fs/exec.c:33:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from fs/exec.c:33:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from fs/exec.c:33:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from fs/exec.c:33:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
->> arch/x86/include/asm/page_types.h:11:9: warning: 'PAGE_SIZE' macro redefined [-Wmacro-redefined]
-      11 | #define PAGE_SIZE               (_AC(1,UL) << PAGE_SHIFT)
-         |         ^
-   arch/um/include/asm/page.h:14:9: note: previous definition is here
-      14 | #define PAGE_SIZE       (_AC(1, UL) << PAGE_SHIFT)
-         |         ^
-   In file included from fs/exec.c:33:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
->> arch/x86/include/asm/page_types.h:30:9: warning: 'PAGE_OFFSET' macro redefined [-Wmacro-redefined]
-      30 | #define PAGE_OFFSET             ((unsigned long)__PAGE_OFFSET)
-         |         ^
-   arch/um/include/asm/page.h:93:9: note: previous definition is here
-      93 | #define PAGE_OFFSET (uml_physmem)
-         |         ^
-   In file included from fs/exec.c:33:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
->> arch/x86/include/asm/page_types.h:32:9: warning: 'VM_DATA_DEFAULT_FLAGS' macro redefined [-Wmacro-redefined]
-      32 | #define VM_DATA_DEFAULT_FLAGS   VM_DATA_FLAGS_TSK_EXEC
-         |         ^
-   include/linux/mm.h:423:9: note: previous definition is here
-     423 | #define VM_DATA_DEFAULT_FLAGS  VM_DATA_FLAGS_EXEC
-         |         ^
-   In file included from fs/exec.c:33:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
-   In file included from arch/x86/include/asm/page_types.h:40:
->> arch/x86/include/asm/page_64_types.h:15:9: warning: 'THREAD_SIZE_ORDER' macro redefined [-Wmacro-redefined]
-      15 | #define THREAD_SIZE_ORDER       (2 + KASAN_STACK_ORDER)
-         |         ^
-   arch/um/include/asm/thread_info.h:9:9: note: previous definition is here
-       9 | #define THREAD_SIZE_ORDER CONFIG_KERNEL_STACK_ORDER
-         |         ^
-   In file included from fs/exec.c:33:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
-   In file included from arch/x86/include/asm/page_types.h:40:
->> arch/x86/include/asm/page_64_types.h:16:9: warning: 'THREAD_SIZE' macro redefined [-Wmacro-redefined]
-      16 | #define THREAD_SIZE  (PAGE_SIZE << THREAD_SIZE_ORDER)
-         |         ^
-   arch/um/include/asm/thread_info.h:10:9: note: previous definition is here
-      10 | #define THREAD_SIZE ((1 << CONFIG_KERNEL_STACK_ORDER) * PAGE_SIZE)
-         |         ^
-   In file included from fs/exec.c:33:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
-   In file included from arch/x86/include/asm/page_types.h:40:
->> arch/x86/include/asm/page_64_types.h:64:9: warning: 'TASK_SIZE_MAX' macro redefined [-Wmacro-redefined]
-      64 | #define TASK_SIZE_MAX           task_size_max()
-         |         ^
-   include/asm-generic/access_ok.h:16:9: note: previous definition is here
-      16 | #define TASK_SIZE_MAX                   TASK_SIZE
-         |         ^
-   In file included from fs/exec.c:33:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
-   In file included from arch/x86/include/asm/page_types.h:40:
->> arch/x86/include/asm/page_64_types.h:75:9: warning: 'TASK_SIZE' macro redefined [-Wmacro-redefined]
-      75 | #define TASK_SIZE               (test_thread_flag(TIF_ADDR32) ? \
-         |         ^
-   arch/um/include/asm/processor-generic.h:62:9: note: previous definition is here
-      62 | #define TASK_SIZE (task_size)
-         |         ^
-   In file included from fs/exec.c:33:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
-   In file included from arch/x86/include/asm/page_types.h:40:
->> arch/x86/include/asm/page_64_types.h:77:9: warning: 'TASK_SIZE_OF' macro redefined [-Wmacro-redefined]
-      77 | #define TASK_SIZE_OF(child)     ((test_tsk_thread_flag(child, TIF_ADDR32)) ? \
-         |         ^
-   include/linux/sched.h:2164:9: note: previous definition is here
-    2164 | #define TASK_SIZE_OF(tsk)       TASK_SIZE
-         |         ^
-   In file included from fs/exec.c:33:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
-   In file included from arch/x86/include/asm/page_types.h:40:
->> arch/x86/include/asm/page_64_types.h:80:9: warning: 'STACK_TOP' macro redefined [-Wmacro-redefined]
-      80 | #define STACK_TOP               TASK_SIZE_LOW
-         |         ^
-   arch/um/include/asm/processor-generic.h:70:9: note: previous definition is here
-      70 | #define STACK_TOP       (TASK_SIZE - 2 * PAGE_SIZE)
-         |         ^
-   In file included from fs/exec.c:33:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:18:
-   In file included from include/linux/page_counter.h:9:
-   In file included from arch/x86/include/asm/page_types.h:40:
->> arch/x86/include/asm/page_64_types.h:81:9: warning: 'STACK_TOP_MAX' macro redefined [-Wmacro-redefined]
-      81 | #define STACK_TOP_MAX           TASK_SIZE_MAX
-         |         ^
-   arch/um/include/asm/processor-generic.h:71:9: note: previous definition is here
-      71 | #define STACK_TOP_MAX   STACK_TOP
-         |         ^
-   In file included from fs/exec.c:74:
-   In file included from arch/um/include/asm/tlb.h:9:
-   include/asm-generic/tlb.h:375:16: error: use of undeclared identifier 'TIF_ADDR32'
-     375 |                 tlb->start = TASK_SIZE;
-         |                              ^
-   arch/x86/include/asm/page_64_types.h:75:38: note: expanded from macro 'TASK_SIZE'
-      75 | #define TASK_SIZE               (test_thread_flag(TIF_ADDR32) ? \
-         |                                                   ^
-   fs/exec.c:1481:22: error: use of undeclared identifier 'TIF_ADDR32'
-    1481 |         me->mm->task_size = TASK_SIZE;
-         |                             ^
-   arch/x86/include/asm/page_64_types.h:75:38: note: expanded from macro 'TASK_SIZE'
-      75 | #define TASK_SIZE               (test_thread_flag(TIF_ADDR32) ? \
-         |                                                   ^
-   22 warnings and 2 errors generated.
-..
-
-
-vim +/PAGE_SIZE +11 arch/x86/include/asm/page_types.h
-
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08   8  
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08   9  /* PAGE_SHIFT determines the page size */
-5394f1e9b687bc Arnd Bergmann       2024-02-26  10  #define PAGE_SHIFT		CONFIG_PAGE_SHIFT
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08 @11  #define PAGE_SIZE		(_AC(1,UL) << PAGE_SHIFT)
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  12  #define PAGE_MASK		(~(PAGE_SIZE-1))
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  13  
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  14  #define __VIRTUAL_MASK		((1UL << __VIRTUAL_MASK_SHIFT) - 1)
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  15  
-82328227db8f0b Pasha Tatashin      2022-05-16  16  /* Cast P*D_MASK to a signed type so that it is sign-extended if
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  17     virtual addresses are 32-bits but physical addresses are larger
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  18     (ie, 32-bit PAE). */
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  19  #define PHYSICAL_PAGE_MASK	(((signed long)PAGE_MASK) & __PHYSICAL_MASK)
-82328227db8f0b Pasha Tatashin      2022-05-16  20  #define PHYSICAL_PMD_PAGE_MASK	(((signed long)PMD_MASK) & __PHYSICAL_MASK)
-82328227db8f0b Pasha Tatashin      2022-05-16  21  #define PHYSICAL_PUD_PAGE_MASK	(((signed long)PUD_MASK) & __PHYSICAL_MASK)
-832102671855f7 Toshi Kani          2015-09-17  22  
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  23  #define HPAGE_SHIFT		PMD_SHIFT
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  24  #define HPAGE_SIZE		(_AC(1,UL) << HPAGE_SHIFT)
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  25  #define HPAGE_MASK		(~(HPAGE_SIZE - 1))
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  26  #define HUGETLB_PAGE_ORDER	(HPAGE_SHIFT - PAGE_SHIFT)
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  27  
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  28  #define HUGE_MAX_HSTATE 2
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  29  
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08 @30  #define PAGE_OFFSET		((unsigned long)__PAGE_OFFSET)
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  31  
-c62da0c35d5851 Anshuman Khandual   2020-04-10 @32  #define VM_DATA_DEFAULT_FLAGS	VM_DATA_FLAGS_TSK_EXEC
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  33  
-a02150610776f6 Kees Cook           2013-07-08  34  #define __PHYSICAL_START	ALIGN(CONFIG_PHYSICAL_START, \
-a02150610776f6 Kees Cook           2013-07-08  35  				      CONFIG_PHYSICAL_ALIGN)
-a02150610776f6 Kees Cook           2013-07-08  36  
-a02150610776f6 Kees Cook           2013-07-08  37  #define __START_KERNEL		(__START_KERNEL_map + __PHYSICAL_START)
-a02150610776f6 Kees Cook           2013-07-08  38  
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  39  #ifdef CONFIG_X86_64
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  40  #include <asm/page_64_types.h>
-5d72b4fba40ef4 Toshi Kani          2015-04-14 @41  #define IOREMAP_MAX_ORDER       (PUD_SHIFT)
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  42  #else
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  43  #include <asm/page_32_types.h>
-5d72b4fba40ef4 Toshi Kani          2015-04-14  44  #define IOREMAP_MAX_ORDER       (PMD_SHIFT)
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  45  #endif	/* CONFIG_X86_64 */
-51c78eb3f0eb03 Jeremy Fitzhardinge 2009-02-08  46  
-
-:::::: The code at line 11 was first introduced by commit
-:::::: 51c78eb3f0eb033f9fb4f2316851df1d9b07b953 x86: create _types.h counterparts for page*.h
-
-:::::: TO: Jeremy Fitzhardinge <jeremy@goop.org>
-:::::: CC: Jeremy Fitzhardinge <jeremy.fitzhardinge@citrix.com>
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/nvram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/tlclk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_gem_shmem_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-novatek-nt39016.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_mipi_dbi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/udl/udl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-altera-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/storage/uas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/ezusb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/libcomposite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ss_lb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_ether.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ncm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_eem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm_subset.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_rndis.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uac1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_midi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_printer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_tcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/legacy/g_zero.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-betopff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-kbd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-mouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ntrig.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-prodikeys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-retrode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-samsung.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sony.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steelseries.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-uclogic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/intel-smartconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/classmate-laptop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+>> WARNING: modpost: drivers/mtd/ubi/ubi: section mismatch in reference: ubi_init+0x49f (section: .init.text) -> ubiblock_exit (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kprobe_example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kretprobe_example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/video/fbdev.o
 
 -- 
 0-DAY CI Kernel Test Service
