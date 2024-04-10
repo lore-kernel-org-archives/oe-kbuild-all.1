@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80B27F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 00:19:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E7119E;
+	Wed, 10 Apr 2024 00:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712708355; cv=none; b=artmHTjD4XrtfEcM2WOfvqJHNTnxFjcO1c/KxScN4AfCgXpclWA1V63Dy4uUYyqgqiGbGWfAdmC0urAiGoKuAlC8XumE7xP9FY/EQdEPCwhqC5vZ4SeppyBzKVbhgBzgMdOljBlwsP329qMm10QNo23lnwm2ujUAXw0CZPf2kNE=
+	t=1712709614; cv=none; b=UlhXLdEsfJIJhTmvswWlaDG6bhTifW7VvdMM1u1pvLuQ1EwNChdUhRArjcr4PWhFpR1bFwWdOhHLoj0uDPlJ+KP+Ig6nROlf1Gm0MBhsFMsgHXpbWnU6vc9ukSpHf+xx4vFx8oE13QPEGCCMCKH+fnSBUsal0ce0Jvhv2BvpUIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712708355; c=relaxed/simple;
-	bh=zplqVf4DQ8iquxUU4Xp981fym0oLVN9utTdlt0SAfyk=;
+	s=arc-20240116; t=1712709614; c=relaxed/simple;
+	bh=qdKDoFgqGC7rf4IyHpvqVOhYXIVrlns2deNdJVB8rK8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LFPpPT28r/YJGjSXTFaUVoMQ/L8dc2ETsi9zAxMqZrMb9j9EjPsyyf8i4JhFhfPpk5NYfJOGaS514FwN4ejIELfKhnGgW0STPz85xA2S0yUTuZvu8407C9Sup3jXMPNCx4KF43qXeg9XEGQNnddPzJ04sHIEb5QDroH4DXieAYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kL2EF7sh; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=A7pbc9TXZIrT0ISKbzdxsX/2WTTIXywnh8d1/dPggR4oWgZHGu20WG6nSYC4I8+excT7HGGN85gV7dGIcqD2x+2229xIJ6aah0d2BnBccenseHN3TnTBmCkevU+c+KDiozGf11xHqynkSJWcV5gyL2PNMZAy9lVNZEY8qou9Kno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UsUOjQLo; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kL2EF7sh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UsUOjQLo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712708354; x=1744244354;
+  t=1712709612; x=1744245612;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zplqVf4DQ8iquxUU4Xp981fym0oLVN9utTdlt0SAfyk=;
-  b=kL2EF7shNF2ex5SiDEYOr5g8V/JcGAPUJLmie5iRSdIcCidu2Xr37PA7
-   EO/IwufOxp/5ncfnBL5JPYVjdFYk9P5s/FzbzjM76xx/1LDunctAfSxTO
-   v/F0xsly1KQWhXqCNxI1mxLWSKtBlkMhCOslMkLtc60jPF440GhzeFT5m
-   FNtDA0d+h4VM4D0gXavX0FhCeNV3QDji2NxZxax4Egal148VsvoXARNiX
-   K8kjTxzavprzvl1MmhtHqYp20gtEH3fI8sr+0MI+2N6YsHLMiVPXX865T
-   +fhH2JQm4H4MF8EGA8qGiYbQxmHqH024kHdtdOwQhemse4vAnhk5Cs9J4
-   w==;
-X-CSE-ConnectionGUID: a15mswDOQuilv2qenOCcPg==
-X-CSE-MsgGUID: rO8HgEGfRiC9Ezo+gdN7PQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8175691"
+  bh=qdKDoFgqGC7rf4IyHpvqVOhYXIVrlns2deNdJVB8rK8=;
+  b=UsUOjQLoTcI4PcJOoMxbRmDUzV4gk29ICnBOxOP1+FKYl+h24r5EJzCS
+   Gf3oGd5JsRGmaKNCSxLwpf/Y3RGcgI4lB1peYnUe1Uv8eR/XLoJHFTqPA
+   jALqNfpA5ezKOs7tqn1Jxqpll+1iakeFUVrE2Fepjn6jf5HxMDWRzsUIl
+   9TlV+FFkIZluxXsrNi9TdbWG5GL9VH6951LSFMprZBgtsms93EcKZLDRx
+   B0+tmbdkX8Ht5zhmcCeCUkwMEIxz6pkABAmPRzzuOWepYH6Vpud/tfszU
+   c7t5JHKiyBxQprClumnK5uxSoDmVeYCwas6gOhBRpe4rrw64VSVi9+3Yr
+   Q==;
+X-CSE-ConnectionGUID: Y+kLHGgiT6SuXWO9wN+Iiw==
+X-CSE-MsgGUID: JjrQFuv2QuaBtfRShRJjsA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="18661921"
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="8175691"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 17:19:12 -0700
-X-CSE-ConnectionGUID: srvSzDHUT1mGMbPZ3rsaTg==
-X-CSE-MsgGUID: jRf3EI8HSumD7B6LkmlBbw==
+   d="scan'208";a="18661921"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 17:40:12 -0700
+X-CSE-ConnectionGUID: EZTvQitISg2aYh4cDOTRXg==
+X-CSE-MsgGUID: xb+RorVDTpSJnunJKPewhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="25180988"
+   d="scan'208";a="20418735"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 09 Apr 2024 17:19:11 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 09 Apr 2024 17:40:11 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ruLgC-0006e0-1U;
-	Wed, 10 Apr 2024 00:19:08 +0000
-Date: Wed, 10 Apr 2024 08:18:58 +0800
+	id 1ruM0X-0006f4-04;
+	Wed, 10 Apr 2024 00:40:09 +0000
+Date: Wed, 10 Apr 2024 08:39:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:clk-reset-stuff 6/6] drivers/reset/reset-mpfs.c:154:9: error:
- implicit declaration of function 'kfree'; did you mean 'vfree'?
-Message-ID: <202404100824.he3s5A31-lkp@intel.com>
+To: "Mike Rapoport (IBM)" <rppt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:execmem/v4+x86-rox 18/22] include/linux/text-patching.h:5:10:
+ fatal error: 'asm/text-patching.h' file not found
+Message-ID: <202404100830.JIQavjKK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,69 +63,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git clk-reset-stuff
-head:   a12f281d2cb869bcd9a6ffc45d0c6a0d3aa2e9e2
-commit: a12f281d2cb869bcd9a6ffc45d0c6a0d3aa2e9e2 [6/6] clock, reset: microchip: move all mpfs reset code to the reset subsystem
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240410/202404100824.he3s5A31-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404100824.he3s5A31-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git execmem/v4+x86-rox
+head:   a14551111ff8bbf3c520771e89892d599463da71
+commit: 158774f2959493d41916e8ea6af40ba2de85c04f [18/22] module: prepare to handle ROX allocations for text
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240410/202404100830.JIQavjKK-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404100830.JIQavjKK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404100824.he3s5A31-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404100830.JIQavjKK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/reset/reset-mpfs.c: In function 'mpfs_reset_adev_release':
->> drivers/reset/reset-mpfs.c:154:9: error: implicit declaration of function 'kfree'; did you mean 'vfree'? [-Werror=implicit-function-declaration]
-     154 |         kfree(adev);
-         |         ^~~~~
-         |         vfree
-   drivers/reset/reset-mpfs.c: In function 'mpfs_reset_adev_alloc':
->> drivers/reset/reset-mpfs.c:162:16: error: implicit declaration of function 'kzalloc'; did you mean 'vzalloc'? [-Werror=implicit-function-declaration]
-     162 |         adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-         |                ^~~~~~~
-         |                vzalloc
-   drivers/reset/reset-mpfs.c:162:14: warning: assignment to 'struct auxiliary_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     162 |         adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-         |              ^
-   cc1: some warnings being treated as errors
+   In file included from mm/execmem.c:3:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/execmem.c:7:
+>> include/linux/text-patching.h:5:10: fatal error: 'asm/text-patching.h' file not found
+       5 | #include <asm/text-patching.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 
-vim +154 drivers/reset/reset-mpfs.c
+vim +5 include/linux/text-patching.h
 
-   149	
-   150	static void mpfs_reset_adev_release(struct device *dev)
-   151	{
-   152		struct auxiliary_device *adev = to_auxiliary_dev(dev);
-   153	
- > 154		kfree(adev);
-   155	}
-   156	
-   157	static struct auxiliary_device *mpfs_reset_adev_alloc(struct device *clk_dev)
-   158	{
-   159		struct auxiliary_device *adev;
-   160		int ret;
-   161	
- > 162		adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-   163		if (!adev)
-   164			return ERR_PTR(-ENOMEM);
-   165	
-   166		adev->name = "reset-mpfs";
-   167		adev->dev.parent = clk_dev;
-   168		adev->dev.release = mpfs_reset_adev_release;
-   169		adev->id = 666u;
-   170	
-   171		ret = auxiliary_device_init(adev);
-   172		if (ret) {
-   173			kfree(adev);
-   174			return ERR_PTR(ret);
-   175		}
-   176	
-   177		return adev;
-   178	}
-   179	
+ffdd58e8bffb1b Mike Rapoport (IBM  2024-02-29  4) 
+ffdd58e8bffb1b Mike Rapoport (IBM  2024-02-29 @5) #include <asm/text-patching.h>
+ffdd58e8bffb1b Mike Rapoport (IBM  2024-02-29  6) 
+
+:::::: The code at line 5 was first introduced by commit
+:::::: ffdd58e8bffb1b8316c7abdabd8b2e9bbbb921ff asm-generic: introduce text-patching.h
+
+:::::: TO: Mike Rapoport (IBM) <rppt@kernel.org>
+:::::: CC: Mike Rapoport (IBM) <rppt@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
