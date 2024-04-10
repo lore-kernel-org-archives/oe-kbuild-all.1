@@ -1,133 +1,248 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9A017BB05
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 17:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124B053372
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 19:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712770451; cv=none; b=NK6p6wQ3uDSO6G5QgzNOnuCvirK46GpfAYxu/Xjj8ZcXYQaUxOQxO/br4qPh3J2f5pEZXQ/NoftMzGRwS9PPiOoAdBN9uKcyrCPX/cWK2LdnSf+dzEwHAQ4I0AOVCUiNJvtif1PVBd0IdHxX746Icn993zPuIz42HOoI3j9x1s8=
+	t=1712776169; cv=none; b=m/S9lr2zu641cB/AbZUwOdGwFOToEK51lm2214nNUgm/pHN0zIDCIedLCLYw0maJD8GZVNVZ5C7a4A1iKiOf1ydIc0dLQUFZSUY34zrSMOYtP0Q8EuUF2o9z8Wy9sv1IvAoxhumiVOtZCP70npCMJpkdlr3lpAM/W9Xzw/Eaq2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712770451; c=relaxed/simple;
-	bh=JdPYH8zXzJjCy+9t2t002gX792kNQ6LJClxLBlf8XAQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S5lzvcX9hV1WZxtYFwEn8hmWP+dT/HJN0uJSjoIsqa8rjgYMwsceYWPFNNcyWPsG8iTGB9vK01bjwjcerbm+ivoNDikJcKTlnJVRapLhcxRW+QiMVT8OZYFV9wvLfzt7fXEoCc+G/cGFfG3bGHup0K/uuygyuocAv5zOyT6+MhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uaFYF34m; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1712776169; c=relaxed/simple;
+	bh=Q43p2CsLNppvEhW67gRi+TladYynr7Al3OFagLFs1MU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GOIlP+egSGaMnsgYi5YzokQT+mowS0s8T1wAgnT4EXvqIjDQT/SuUL8ai74wK2zAPXPoC2hsvfS13k3vWL/+TMT4QqoggiSd6l0Li3zxlNVVeOKlL6neAi+OlQxUa/N3eatXu9V+T/i/dKHp4LRTuIBs9oIn3EUlB3jPNLeXDL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jk3F4F+Z; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uaFYF34m"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-56e5174ffc2so857a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 10:34:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712770448; x=1713375248; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=24S3Bg+rcESNRT2cXFvXR7bglB21qtrQn/+dYIrwVcs=;
-        b=uaFYF34mgUt/f0PwBDKCIB654H9hs4PDJR3No5zSs+mRhSgsi2yfFmmzL6gWJIfG28
-         O49unNzuNL3WY7tjB5YQD76g5g9C1fzZDJyCHiY6GDFATn7MdX4pM21VYjJzcaC0u1MB
-         bYKmcIYmYoEAw2TLjHnvXZ4JVXY4b4mQTwaZ3QYf1M0R9uW0FlDgp9RRBcpTVgsqheGt
-         IIKwTTkceBfJDA/yvK0/1gMIdPuJ31kpBohvJ0XuRmT6KigvqRcycnLRA4UbFJ5a+LVG
-         JKu88KA3Rr1HryuAs96OFp/lD+2JCg4L41b3ET2uYZPligeQJH0st3Y67F88rKy1f67u
-         Zbdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712770448; x=1713375248;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=24S3Bg+rcESNRT2cXFvXR7bglB21qtrQn/+dYIrwVcs=;
-        b=biifjTwmhGUcaCafwNf7st37RsXNsTPVdUrkJXJdQmyNsfG1Sp9lQxJWZQgJk12n2V
-         1T9k4teOGR/fQVxejW9NlzLK79grnwhJp+PDaQhH3WrqEpsfpyDmLZaq+S4HuUl8DUwZ
-         1joVfHxT2pQjnhca6jd0UbGAxhHoyellyYy8LYl3udkY/mjNkKeq20q94+T0J4NmJuB1
-         FoBCdICDwZoA7SohmvQBl3xWLRyFxvUEyuB843CO9YSkurAmAfuQNsm7YTg83TzEzVyJ
-         jjg2N+xY1PjmyGbUOd26kuOi6MqBw9Do8LTim3pUbDp4VaMnZQAMcXy23M9hNp4CU+Fd
-         M3ow==
-X-Forwarded-Encrypted: i=1; AJvYcCXSi0KLFFf+RGkL9kf8s5afTHHpRG9teHqXxyIH6jMcLoQM6C91Eg/CE8D2zxBMifHI/wraECRh5bV8gcO42cEP05ogpTB0DMXrKlGPfQ==
-X-Gm-Message-State: AOJu0Yydm1gribVDbEBx8otrjuPCN0AzqQhmGVo1wzltUu4HZra7qkqn
-	EVSPaLXtDaRPsSQSJFIzdQktciYCy9OV4ttITMs2NXVnMD3FjaEEDxhqye7UZyiCgME/Ibllu+R
-	5myCC7Iz2lg2Z7rd1eGoEZ7pN5mv0CYMGBtRt
-X-Google-Smtp-Source: AGHT+IHwKZj9oiU3oRdw6YKYrDV891dVli+TzPT9xQvC/me3PFqdqWwwMbeMDWlvcwENE3/ToQALhQMOxXDDEn4giRA=
-X-Received: by 2002:aa7:d753:0:b0:56f:ce8d:8f9 with SMTP id
- a19-20020aa7d753000000b0056fce8d08f9mr167166eds.3.1712770448176; Wed, 10 Apr
- 2024 10:34:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jk3F4F+Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712776167; x=1744312167;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Q43p2CsLNppvEhW67gRi+TladYynr7Al3OFagLFs1MU=;
+  b=jk3F4F+ZDqXcVXwfItd67PlQlF4hsL9mZqQXtDToDDgDxa128EjG394u
+   p2yCVEe9mu2wahAusptC1OdFsKCEb/oyJEu62vuKtyOtt7hV/rARKWCyi
+   f4W2xlYTQSx9aoTQ1ip0ma1suzrXfWIQ0PTxT2K+bJTL0b0y4QQ3t0Zg8
+   SHgyO+jA6Qu8JgCzxCEQWg2z+rHHCZBVXA4zf2fNtpYNdig9xMyhihhMC
+   w35HNMX0XMfzxensIinb32ic5s+E8mwtJ9ImoGZl1u7JLuYWX4T20zW9Q
+   TM3g9CUFU7mEa1sW6SZYMm2o+ZBL620BVVHSwsW/Wjdh5Zcp9l+Qk5iCP
+   g==;
+X-CSE-ConnectionGUID: gCVBnK1CScCZhHZ3vFqebg==
+X-CSE-MsgGUID: D24cF/fyTTiBdY0vRMwY0Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="33562912"
+X-IronPort-AV: E=Sophos;i="6.07,191,1708416000"; 
+   d="scan'208";a="33562912"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 12:09:26 -0700
+X-CSE-ConnectionGUID: 8IltNqPpQv67PAo7RQiriw==
+X-CSE-MsgGUID: +dRAfH0DT7e18CjQ13CzwQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,191,1708416000"; 
+   d="scan'208";a="21153327"
+Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 10 Apr 2024 12:09:25 -0700
+Received: from kbuild by e61807b1d151 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rudJy-0007iA-2E;
+	Wed, 10 Apr 2024 19:09:22 +0000
+Date: Thu, 11 Apr 2024 03:08:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Malloy Liu <liuqi1610@phytium.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 21349/22070]
+ drivers/mmc/host/phytium-mci-pci.c:48:15: error: implicit declaration of
+ function 'pcim_enable_device'; did you mean 'pci_enable_device'?
+Message-ID: <202404110253.L2D6kNbe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202404082207.HCEdQhUO-lkp@intel.com> <20240408230632.5ml3amaztr5soyfs@skbuf>
- <CANn89iJ8EcqiF8YCPhDxcp5t79J1RLzTh6GHHgAxbTXbC+etRA@mail.gmail.com> <db4d4a48-b581-4060-b611-996543336cd2@gmail.com>
-In-Reply-To: <db4d4a48-b581-4060-b611-996543336cd2@gmail.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Wed, 10 Apr 2024 19:33:54 +0200
-Message-ID: <CANn89iJMirOe=TqMZ=J8mFLNQLDV=wzL4jOf9==Zkv7L2U5jcQ@mail.gmail.com>
-Subject: Re: [net-next:main 26/50] net/ipv4/tcp.c:4673:2: error: call to
- '__compiletime_assert_1030' declared with 'error' attribute: BUILD_BUG_ON
- failed: offsetof(struct tcp_sock, __cacheline_group_end__tcp_sock_write_txrx)
- - offsetofend(struct tcp_sock, __cacheline_group_begin__tcp_sock_...
-To: Florian Fainelli <f.fainelli@gmail.com>
-Cc: Vladimir Oltean <olteanv@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
-	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Apr 10, 2024 at 7:28=E2=80=AFPM Florian Fainelli <f.fainelli@gmail.=
-com> wrote:
->
->
->
-> On 4/8/2024 10:08 PM, Eric Dumazet wrote:
-> > On Tue, Apr 9, 2024 at 1:06=E2=80=AFAM Vladimir Oltean <olteanv@gmail.c=
-om> wrote:
-> >>
-> >> Hi Eric,
-> >>
-> >> On Mon, Apr 08, 2024 at 10:49:35PM +0800, kernel test robot wrote:
-> >>>>> net/ipv4/tcp.c:4673:2: error: call to '__compiletime_assert_1030' d=
-eclared with 'error' attribute: BUILD_BUG_ON failed: offsetof(struct tcp_so=
-ck, __cacheline_group_end__tcp_sock_write_txrx) - offsetofend(struct tcp_so=
-ck, __cacheline_group_begin__tcp_sock_write_txrx) > 92
-> >>>> 4673                CACHELINE_ASSERT_GROUP_SIZE(struct tcp_sock, tcp=
-_sock_write_txrx, 92);
-> >>
-> >> I can confirm the same compile time assertion with an armv7 gcc 7.3.1 =
-compiler.
-> >> If I revert commit 86dad9aebd0d ("Revert "tcp: more struct tcp_sock ad=
-justments")
-> >> it goes away.
-> >>
-> >> Before the change (actually with it reverted), I can see that the
-> >> tcp_sock_write_txrx cacheline group begins at offset 1821 with a 3 byt=
-e
-> >> hole, and ends at offset 1897 (it has 76 bytes).
-> >
-> >
-> > ...
-> >
-> >> It gained 20 bytes in the change. Most notably, it gained a 4 byte hol=
-e
-> >> between pred_flags and tcp_clock_cache.
-> >>
-> >> I haven't followed the development of these optimizations, and I tried=
- a
-> >> few trivial things, some of which didn't work, and some of which did.
-> >> Of those that worked, the most notable one was letting the 2 u64 field=
-s,
-> >> tcp_clock_cache and tcp_mstamp, be the first members of the group, and
-> >> moving the __be32 pred_flags right below them.
-> >>
-> >> Obviously my level of confidence in the fix is quite low, so it would =
-be
-> >> great if you could cast an expert eye onto this.
-> >
-> > I am on it, do not worry, thanks !
->
-> Also just got hit by this on an ARMv7 build configuration as well.
->
-> Jakub, I do not see a 32-bit build in the various checks being run for a
-> patch, could you add one, if nothing else a i386 build and a
-> multi_v7_defconfig build would get us a good build coverage.
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   9b7534a0d66b224a89df1826d1494d121b15ada5
+commit: d65622e6edee11f7fcbd295bdb5aef86e12dfef3 [21349/22070] mmc: add support for Phytium MMC
+config: arm64-randconfig-002-20240411 (https://download.01.org/0day-ci/archive/20240411/202404110253.L2D6kNbe-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240411/202404110253.L2D6kNbe-lkp@intel.com/reproduce)
 
-i386 build was just fine for me.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404110253.L2D6kNbe-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/mmc/host/phytium-mci-pci.c: In function 'phytium_mci_pci_probe':
+>> drivers/mmc/host/phytium-mci-pci.c:48:15: error: implicit declaration of function 'pcim_enable_device'; did you mean 'pci_enable_device'? [-Werror=implicit-function-declaration]
+      48 |         ret = pcim_enable_device(pdev);
+         |               ^~~~~~~~~~~~~~~~~~
+         |               pci_enable_device
+>> drivers/mmc/host/phytium-mci-pci.c:61:9: error: implicit declaration of function 'pci_enable_msi'; did you mean 'pci_enable_sriov'? [-Werror=implicit-function-declaration]
+      61 |         pci_enable_msi(pdev);
+         |         ^~~~~~~~~~~~~~
+         |         pci_enable_sriov
+   drivers/mmc/host/phytium-mci-pci.c: At top level:
+>> drivers/mmc/host/phytium-mci-pci.c:180:1: warning: data definition has no type or storage class
+     180 | module_pci_driver(phytium_mci_pci_driver);
+         | ^~~~~~~~~~~~~~~~~
+>> drivers/mmc/host/phytium-mci-pci.c:180:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Werror=implicit-int]
+>> drivers/mmc/host/phytium-mci-pci.c:180:1: warning: parameter names (without types) in function declaration
+>> drivers/mmc/host/phytium-mci-pci.c:171:26: warning: 'phytium_mci_pci_driver' defined but not used [-Wunused-variable]
+     171 | static struct pci_driver phytium_mci_pci_driver = {
+         |                          ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +48 drivers/mmc/host/phytium-mci-pci.c
+
+    40	
+    41	static int
+    42	phytium_mci_pci_probe(struct pci_dev *pdev, const struct pci_device_id *pid)
+    43	{
+    44		struct phytium_mci_host *host;
+    45		struct mmc_host *mmc;
+    46		int ret;
+    47	
+  > 48		ret = pcim_enable_device(pdev);
+    49	
+    50		if (ret)
+    51			return ret;
+    52		pci_set_master(pdev);
+    53	
+    54		mmc = mmc_alloc_host(sizeof(struct phytium_mci_host), &pdev->dev);
+    55	
+    56		if (!mmc)
+    57			return -ENOMEM;
+    58	
+    59		host = mmc_priv(mmc);
+    60	
+  > 61		pci_enable_msi(pdev);
+    62	
+    63		host->irq = pdev->irq;
+    64		host->irq_flags = IRQF_SHARED;
+    65		host->dev = &pdev->dev;
+    66		ret = pcim_iomap_regions(pdev, 1 << PCI_BAR_NO, pci_name(pdev));
+    67	
+    68		if (ret) {
+    69			dev_err(&pdev->dev, "I/O memory remapping failed\n");
+    70			goto host_free;
+    71		}
+    72	
+    73		host->base = pcim_iomap_table(pdev)[PCI_BAR_NO];
+    74		host->is_use_dma = 1;
+    75		host->is_device_x100 = 1;
+    76	
+    77		if (pdev->devfn == 2) {
+    78			host->caps = emmc_caps;
+    79			host->caps2 = emmc_caps2;
+    80		} else {
+    81			host->caps = sd_caps;
+    82			host->caps2 = sd_caps2;
+    83			mmc->f_max = 25000000; /* stable frequency */
+    84		}
+    85	
+    86		host->mmc = mmc;
+    87		host->clk_rate = MCI_CLK;
+    88	
+    89		dev_info(&pdev->dev,
+    90			"%s %d:[bar %d] addr:0x%llx size:0x%llx km:0x%llx devfn:%d\n",
+    91			 __func__, __LINE__, PCI_BAR_NO, pci_resource_start(pdev, 0),
+    92			 pci_resource_len(pdev, 0), (uint64_t)host->base, pdev->devfn);
+    93	
+    94		dev_dbg(&pdev->dev, "%s %d:irq:0x%x\n", __func__, __LINE__, host->irq);
+    95	
+    96		ret = phytium_mci_common_probe(host);
+    97	
+    98		if (ret == MCI_REALEASE_MEM) {
+    99			ret = -ENOMEM;
+   100			goto release_mem;
+   101		} else if (ret) {
+   102			goto release;
+   103		}
+   104		pci_set_drvdata(pdev, mmc);
+   105		dev_info(&pdev->dev,
+   106			"%s %d: probe phytium mci successful.\n", __func__, __LINE__);
+   107		return 0;
+   108	
+   109	release:
+   110		phytium_mci_deinit_hw(host);
+   111	release_mem:
+   112	
+   113		if (host->dma.adma_table) {
+   114			dma_free_coherent(&pdev->dev,
+   115				MAX_BD_NUM * sizeof(struct phytium_adma2_64_desc),
+   116				host->dma.adma_table, host->dma.adma_addr);
+   117		}
+   118	host_free:
+   119		mmc_free_host(mmc);
+   120		pci_disable_device(pdev);
+   121		return ret;
+   122	}
+   123	
+   124	static void phytium_mci_pci_remove(struct pci_dev *pdev)
+   125	{
+   126		struct phytium_mci_host *host;
+   127		struct mmc_host *mmc;
+   128	
+   129		mmc = pci_get_drvdata(pdev);
+   130		if (!mmc) {
+   131			dev_info(&pdev->dev,
+   132				"%s %d: mmc is null.\n", __func__, __LINE__);
+   133			return;
+   134		}
+   135		host = mmc_priv(mmc);
+   136		if (!host) {
+   137			dev_info(&pdev->dev,
+   138				"%s %d: host is null.\n", __func__, __LINE__);
+   139			mmc_remove_host(mmc);
+   140			mmc_free_host(mmc);
+   141			return;
+   142		}
+   143	
+   144		del_timer(&host->hotplug_timer);
+   145	
+   146		mmc_remove_host(host->mmc);
+   147	
+   148		if (host->dma.adma_table) {
+   149			dma_free_coherent(&pdev->dev,
+   150				MAX_BD_NUM * sizeof(struct phytium_adma2_64_desc),
+   151				host->dma.adma_table, host->dma.adma_addr);
+   152		}
+   153		phytium_mci_deinit_hw(host);
+   154		mmc_free_host(mmc);
+   155		pci_set_drvdata(pdev, NULL);
+   156	}
+   157	
+   158	static const struct pci_device_id phytium_mci_pci_tbl[] = {
+   159		{
+   160			.vendor		= 0x1DB7,
+   161			.device		= 0xDC28,
+   162			.subvendor	= PCI_ANY_ID,
+   163			.subdevice	= PCI_ANY_ID,
+   164			.class		= 0x5,
+   165			.class_mask	= 0,
+   166		},
+   167		{}
+   168	};
+   169	MODULE_DEVICE_TABLE(pci, phytium_mci_pci_tbl);
+   170	
+ > 171	static struct pci_driver phytium_mci_pci_driver = {
+   172		.name		= "phytium-mci-pci",
+   173		.id_table	= phytium_mci_pci_tbl,
+   174		.probe		= phytium_mci_pci_probe,
+   175		.remove		= phytium_mci_pci_remove,
+   176		.driver	= {
+   177			.pm	= &phytium_mci_dev_pm_ops,
+   178		}
+   179	};
+ > 180	module_pci_driver(phytium_mci_pci_driver);
+   181	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
