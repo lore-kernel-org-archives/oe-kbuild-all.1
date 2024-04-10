@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4284F8828
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 03:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEC5BA50;
+	Wed, 10 Apr 2024 03:56:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712720735; cv=none; b=hXyctV5sq+8jTa9EyXK+8MVIgDLpUHZbwoBdXRv3HiIx+HPxI6853jovtSY24pGyb2fBmpUScdNS+TDq1xNzEFs5AbqmscoTNP3dHqGRB8wGJ8mUwrJhaiCJbsXx5KgUsqO+2ZSxO+x0mb9Unztn3pzxS5aZlZCVGwBCSuTb448=
+	t=1712721398; cv=none; b=go2gNqDxwBVJSjfgwqYRdU0+ZfePSUk+7kWDg8AX1Vr3F89Wya52MJSpeUN301qiy0N+LUsQKljqlIKXfH0f7ridTW+PdmFWX2Wa8A2z6fDDkHqWZhU3RyLpnjLCmHoWpE689Y+ZZoggNd009ma9OIVuhy71uOpN9C9/XTOrmvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712720735; c=relaxed/simple;
-	bh=caL/Xby2kDjetgjZSrex7KZKzQ5p5bYQ+hLkGGn+0xk=;
+	s=arc-20240116; t=1712721398; c=relaxed/simple;
+	bh=jBUyUHzXJqiXF/+3/vD7c2n4Aa+hDWuYW8SzIS5MCOI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I/Mee7sDj1Grm8hx5Nlz/vo7DrVDJA7qQgfcZk2+ZomtpT6OrnN4Imk6xvt7e5rfgFFA6fhmj/P1ZOZDa6jVZqquVlKAylechLLMbaO0zKL2eCEjdVXe0fnGfjODVbpdcR294DLfOUWctKVSxbOBv1BFqWR+vapRRfPI17FBU6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jJ1/zYxW; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=Tl6Cs1lxFHsfiVwbtT6xFFeix2yhtxBmHAkE5QNwqH4YyqJXU12cEdEIDij41uBneZO6sounrxFHRRXswvNH7YYNMp2RkUmI5PWCUDL9y5yHlph6sMmdVRBLLpugw8GQcBsn8hYAIpuR7c13OQfO7WglChOUuSxXDdjNREYOumU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S1vRn4W+; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jJ1/zYxW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S1vRn4W+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712720733; x=1744256733;
+  t=1712721395; x=1744257395;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=caL/Xby2kDjetgjZSrex7KZKzQ5p5bYQ+hLkGGn+0xk=;
-  b=jJ1/zYxWcHG1ZEF4Eg3TU6rphyU7u7d8JgkSqJD/xPevhNRMjLQpIuaQ
-   hs7xI1PSF8IE7z/gYitLbthYm0TvmRJMu9A9ll+n1WxizGrCbFQ/pgz/k
-   iQt3HlEKr6O8F+1PVoGxxv3V3/sSr8qbYi1oLNPNTjIEMPFtD9D10g2wy
-   CpdUXl7r9l4bpFd0sVJE4wrknr255NqZvcylFUyetlcsNXF+jT7Y9llS8
-   kpAma88wwJzLdt8mRajZEpCZXwluVK0ZckMahWplycT3R7rekRjsV95kV
-   OEYkU8a4Pu+U/gEKWI+vsIZe741oV/MbDGd/20rYhK2a7wYEz82nwLh95
+  bh=jBUyUHzXJqiXF/+3/vD7c2n4Aa+hDWuYW8SzIS5MCOI=;
+  b=S1vRn4W+WU5GkSOTadnK9Ap1QVMM4Vb5vjiPjVR7xR+3ljNFB8WbnerK
+   0NT7vzwFUvMruI3CkJ+B0MxxUGreWrqRGumIAfCbLz46+idNgVPJuoFii
+   X6JCtNFL04mBo3oRGrh2792wRUFc1Ipbz/67bwJfbzcOWHPcLL9pLCg6R
+   d9yiohsofb6FqZzQPPUeUnaadjHREFEFhwK/rGYH8UZ2I6ti1vbTINPKP
+   Ps9v438YeRTsLwlH+pGZXZB+SCmoPAUUpQYdhvNMz2iftYWT9R41ZsOyR
+   s794V8CYnCqO9y99EI2NKhJ/GovQWgn6aPCsGnRlu5GsfayXAmW56cqnP
    Q==;
-X-CSE-ConnectionGUID: pDrK3gnaQJeJtcwUL7niVg==
-X-CSE-MsgGUID: lumZlu7mSGuyl/CKg41uCg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8240784"
+X-CSE-ConnectionGUID: N/5kiJFHTHSaj7DcYEkv7Q==
+X-CSE-MsgGUID: gxyYPU8hS4SaGArv6q2uzg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="11030723"
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="8240784"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 20:45:33 -0700
-X-CSE-ConnectionGUID: WlpWiKPESDS2iX2YGuIFFQ==
-X-CSE-MsgGUID: ug9zodVBQdWyStTvfrRQJQ==
+   d="scan'208";a="11030723"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 20:56:34 -0700
+X-CSE-ConnectionGUID: EhjJNzb5RzunD9bNhSUq6g==
+X-CSE-MsgGUID: fYN2qyhQSQKiEgpg77/UxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="57865773"
+   d="scan'208";a="20308513"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 09 Apr 2024 20:45:32 -0700
+  by orviesa010.jf.intel.com with ESMTP; 09 Apr 2024 20:56:34 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ruOtt-0006lC-0g;
-	Wed, 10 Apr 2024 03:45:29 +0000
-Date: Wed, 10 Apr 2024 11:44:33 +0800
+	id 1ruP4Z-0006lu-0T;
+	Wed, 10 Apr 2024 03:56:31 +0000
+Date: Wed, 10 Apr 2024 11:55:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 99/317]
- drivers/firmware/tegra/bpmp-debugfs.c:380:19: error: implicit declaration of
- function 'iterdup_user'; did you mean 'vmemdup_user'?
-Message-ID: <202404101128.moxBnVwD-lkp@intel.com>
+To: "Mike Rapoport (IBM)" <rppt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:execmem/v4+x86-rox 21/22] mm/execmem.c:192:2: error: call to
+ undeclared function 'flush_tlb_kernel_range'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202404101125.Ne2NU3YV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,67 +64,133 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   055ce0185fada17bfc0c1b6d6f618704293314e7
-commit: 0a91801558f6a97d215ad9f3987285e191699d0b [99/317] firmware: tegra: convert to read/write iterators
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240410/202404101128.moxBnVwD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404101128.moxBnVwD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git execmem/v4+x86-rox
+head:   a14551111ff8bbf3c520771e89892d599463da71
+commit: 85e04aa7ae67c997077a12fc9e6ed04fbc2d6975 [21/22] execmem: add support for cache of large ROX pages
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240410/202404101125.Ne2NU3YV-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404101125.Ne2NU3YV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404101128.moxBnVwD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404101125.Ne2NU3YV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/firmware/tegra/bpmp-debugfs.c: In function 'bpmp_debug_store':
->> drivers/firmware/tegra/bpmp-debugfs.c:380:19: error: implicit declaration of function 'iterdup_user'; did you mean 'vmemdup_user'? [-Werror=implicit-function-declaration]
-     380 |         databuf = iterdup_user(from count);
-         |                   ^~~~~~~~~~~~
-         |                   vmemdup_user
->> drivers/firmware/tegra/bpmp-debugfs.c:380:36: error: expected ')' before 'count'
-     380 |         databuf = iterdup_user(from count);
-         |                               ~    ^~~~~~
-         |                                    )
-   drivers/firmware/tegra/bpmp-debugfs.c:380:17: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     380 |         databuf = iterdup_user(from count);
-         |                 ^
-   drivers/firmware/tegra/bpmp-debugfs.c: In function 'debugfs_store':
->> drivers/firmware/tegra/bpmp-debugfs.c:666:38: error: 'buf' undeclared (first use in this function)
-     666 |         if (copy_from_user(datavirt, buf, count)) {
-         |                                      ^~~
-   drivers/firmware/tegra/bpmp-debugfs.c:666:38: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+   In file included from mm/execmem.c:3:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/execmem.c:11:
+   In file included from mm/internal.h:12:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from mm/execmem.c:11:
+   In file included from mm/internal.h:12:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from mm/execmem.c:11:
+   In file included from mm/internal.h:12:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> mm/execmem.c:192:2: error: call to undeclared function 'flush_tlb_kernel_range'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     192 |         flush_tlb_kernel_range(start, end);
+         |         ^
+   7 warnings and 1 error generated.
 
 
-vim +380 drivers/firmware/tegra/bpmp-debugfs.c
+vim +/flush_tlb_kernel_range +192 mm/execmem.c
 
-   365	
-   366	static ssize_t bpmp_debug_store(struct kiocb *iocb, struct iov_iter *from)
-   367	{
-   368		struct inode *inode = file_inode(iocb->ki_filp);
-   369		struct tegra_bpmp *bpmp = inode->i_private;
-   370		size_t count = iov_iter_count(from);
-   371		char *databuf = NULL;
-   372		char fnamebuf[256];
-   373		const char *filename;
-   374		ssize_t err;
-   375	
-   376		filename = get_filename(bpmp, iocb->ki_filp, fnamebuf, sizeof(fnamebuf));
-   377		if (!filename)
-   378			return -ENOENT;
-   379	
- > 380		databuf = iterdup_user(from count);
-   381		if (IS_ERR(databuf))
-   382			return PTR_ERR(databuf);
-   383	
-   384		err = mrq_debug_write(bpmp, filename, databuf, count);
-   385		kfree(databuf);
-   386	
-   387		return err ?: count;
-   388	}
-   389	
+   166	
+   167	static int execmem_cache_populate(struct execmem_range *range, size_t size)
+   168	{
+   169		unsigned long vm_flags = VM_FLUSH_RESET_PERMS | VM_ALLOW_HUGE_VMAP;
+   170		unsigned long start, end;
+   171		struct vm_struct *vm;
+   172		size_t alloc_size;
+   173		int err = -ENOMEM;
+   174		void *p;
+   175	
+   176		alloc_size = round_up(size, PMD_SIZE);
+   177		p = execmem_vmalloc(range, alloc_size, PAGE_KERNEL, vm_flags);
+   178		if (!p)
+   179			return err;
+   180	
+   181		vm = find_vm_area(p);
+   182		if (!vm)
+   183			goto err_free_mem;
+   184	
+   185		/* fill memory with invalid instructions */
+   186		execmem_invalidate(p, alloc_size, /* writable = */ true);
+   187	
+   188		start = (unsigned long)p;
+   189		end = start + alloc_size;
+   190	
+   191		vunmap_range_noflush(start, end);
+ > 192		flush_tlb_kernel_range(start, end);
+   193	
+   194		/* FIXME: handle direct map alias */
+   195	
+   196		err = vmap_pages_range_noflush(start, end, range->pgprot, vm->pages,
+   197					       PMD_SHIFT);
+   198		if (err)
+   199			goto err_free_mem;
+   200	
+   201		err = execmem_cache_add(p, alloc_size);
+   202		if (err)
+   203			goto err_free_mem;
+   204	
+   205		return 0;
+   206	
+   207	err_free_mem:
+   208		vfree(p);
+   209		return err;
+   210	}
+   211	
 
 -- 
 0-DAY CI Kernel Test Service
