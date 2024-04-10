@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737DE181338
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 20:08:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74098181B97
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 20:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712779713; cv=none; b=UfysJaW+idIxNchfyMWnKlSK+Xsluv3oZjY7wIYW3lOy3nwdVphnxPpUZFQPP6d8zuTM5Jgfek1kc4Ghy1PRXz06KWVonLgjucsNq3NR0Yl4vNX//zq5CGAV/U01S1ysxiwQK76QjJpmgD6/J3VLj5WKn2zvpKqrFi9CHvUIgHA=
+	t=1712781107; cv=none; b=ReIx8XK+akqVf/Y+t9pauZ6UWXIMOp1Z8gCrxy018Xo8gv3snrRp16JsZMGAB4JUNXB4++uZGE+SPEiCsGO8zpQNypH50xPN/rgQlI7dvHfY2qzO2eS/T3pPRe/tueHcsNInV00u1tpbRlRJBwad1tkpzZHZ62Sh1DCypqrDQd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712779713; c=relaxed/simple;
-	bh=sxbG46G8tw2vYGVSXEHYQKof+J6If9suMRxNq9p9onQ=;
+	s=arc-20240116; t=1712781107; c=relaxed/simple;
+	bh=cClPLIVXsAGmZLcFk4h7/qWWMaNF2nfoEuH8U6807Tk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lFh+5MTlW+CF7gwD8ajqDxIdxZlcBTbpQdZTxP60pSeNVCvU9HXTfvSsZL9QsYQz4zhwm0wjBc6InsQzE1N94qnqtiPABWYvafQth3Kn2im6v8OQjCBnOQO02cjUxDz3v5s+eo9AOtU/PiCKBaLu/OtA8RWuS63fBuyM80HJ5JQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N2A7npPJ; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=LxxhrbxyVMvsMqPF6no4SmfH6l2sXZ6vFgUlkK8v0DCrpxo71L/4N+EOSMtI/VOpJXnoa3UH60Dt7VHJjP45NupFvfQXnoLQmSVRiAG6TWbvnZo2yeyWKBcqZ6Bt6LvtBdCJhv4/t0rnrDGNrDWlcB9SqWvyDsGcbLm38hDVOrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j7Drbs9b; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N2A7npPJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j7Drbs9b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712779711; x=1744315711;
+  t=1712781105; x=1744317105;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sxbG46G8tw2vYGVSXEHYQKof+J6If9suMRxNq9p9onQ=;
-  b=N2A7npPJ9AkXCSDjyE+Ycw65rJ3phT7K0fXz5pSAz9WUWJmg1/jOhUpA
-   y5hcYPSyQZihU/WzH0iQlVYsJXLV2ljkPM/VtlnpQW0Tr7WmiCOd/CMmZ
-   cHMmeNXqXl0yuCEFsuKLfnzgbsWlZ9MYE3bjrmJ6Oad6jA797EzGy94w0
-   dD4946D3Kz482j0GzTgJHCRazSTGHBgsUqmmjl4V1wk/QUoOx7xzRtuFq
-   v1jPQMjw437VFqsqaTYvrugbB/sChNZWor8v6Ul72nYGHSEgQRRGwyyAD
-   wwdkwjxW7k/x+eoqJKgp6XBXdkyvmubNjubuiC4FulruhmoJ5q5xG5iTm
+  bh=cClPLIVXsAGmZLcFk4h7/qWWMaNF2nfoEuH8U6807Tk=;
+  b=j7Drbs9bvI6z7FH1UnlGkmD06bDQcBnJ4y0RfbJS7qVMIW1sbIMmIJlH
+   Qz/jht8s9Ipw7kDpTWLS47+SrFbRgoyB9e52heH0V6Drvv6feq1TN7SDS
+   3QXNkI3aJPSL9B/hVf/jI1O9+5hebaUDxPv6u4ed22rjBtKPvNtsQcPp9
+   QbSUP9YYVqKs1swuvi1/stABd269GwmlGhq3d3FWcqmq3GXp0TExj3rwl
+   9OnlZ+qCzvemqoySYL3957i8ECpeaIw2Q1zZKbpbcy/R0e6Uo4jE/yKmy
+   iZoRuQ8+fdLVngAKHu5guwHg9FShyIEqk3xvh/ahexVWbKgTdxJt0wshl
    w==;
-X-CSE-ConnectionGUID: cL1hlvh8SnqjeoqCO4ASeQ==
-X-CSE-MsgGUID: 2sPE4fMnT+eeFx5qJMbYLg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8027640"
+X-CSE-ConnectionGUID: Uv5HojGcTQKkCiO1QVp+ZQ==
+X-CSE-MsgGUID: OlGf2uWETd+lyA+1vs21uA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="25683992"
 X-IronPort-AV: E=Sophos;i="6.07,191,1708416000"; 
-   d="scan'208";a="8027640"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 13:08:29 -0700
-X-CSE-ConnectionGUID: x964TEFXQwKIYbrpQWpUrA==
-X-CSE-MsgGUID: Wnwwme3+SBy54CRfv55LYA==
+   d="scan'208";a="25683992"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 13:31:44 -0700
+X-CSE-ConnectionGUID: TniOPAb3S0mhZPa+NmSGSA==
+X-CSE-MsgGUID: uHOyrYdgRRS6ApbeiocD2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,191,1708416000"; 
-   d="scan'208";a="20728951"
+   d="scan'208";a="51652118"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Apr 2024 13:08:28 -0700
+  by orviesa002.jf.intel.com with ESMTP; 10 Apr 2024 13:31:43 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rueF8-0007kr-2j;
-	Wed, 10 Apr 2024 20:08:26 +0000
-Date: Thu, 11 Apr 2024 04:08:14 +0800
+	id 1ruebc-0007mI-2r;
+	Wed, 10 Apr 2024 20:31:40 +0000
+Date: Thu, 11 Apr 2024 04:31:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
+To: Jens Axboe <axboe@kernel.dk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 23822/30000]
- drivers/gpu/drm/inspur/inspur_cursor.c:54:32: sparse: sparse: cast removes
- address space '__iomem' of expression
-Message-ID: <202404110414.lls2ROdf-lkp@intel.com>
+Subject: [axboe-block:rw_iter 362/367] drivers/sbus/char/flash.c:114:17:
+ error: 'buf' undeclared
+Message-ID: <202404110444.7HNCQfL0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,31 +62,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   f1776d0ca22cf72bfcdc93dced47d9dde9934d97
-commit: b9d65551a3adfa87a7c5d33391187ee60a1b501d [23822/30000] drm: add inspur drm driver support
-config: x86_64-randconfig-r122-20240410 (https://download.01.org/0day-ci/archive/20240411/202404110414.lls2ROdf-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240411/202404110414.lls2ROdf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   aa6c8a72cad54562e99c8a46f4baeaf6ea9409a6
+commit: 5d67f5b9ec2d12a246f28d2a37eb07568e93ee11 [362/367] sbus: flash: convert to read/write iterators
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240411/202404110444.7HNCQfL0-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240411/202404110444.7HNCQfL0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404110414.lls2ROdf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404110444.7HNCQfL0-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/inspur/inspur_cursor.c:54:32: sparse: sparse: cast removes address space '__iomem' of expression
---
->> drivers/gpu/drm/inspur/inspur_drm_drv.c:30:13: sparse: sparse: symbol 'inspur_drm_interrupt' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/__iomem +54 drivers/gpu/drm/inspur/inspur_cursor.c
+   drivers/sbus/char/flash.c: In function 'flash_read':
+>> drivers/sbus/char/flash.c:114:17: error: 'buf' undeclared (first use in this function)
+     114 |                 buf++;
+         |                 ^~~
+   drivers/sbus/char/flash.c:114:17: note: each undeclared identifier is reported only once for each function it appears in
 
-    49	
-    50	#define HW_FLAG_OFFSET 0x01ffff00
-    51	#define HW_FLAG_ENABLE 0x1bd40750
-    52	unsigned char getKVMHWCursorSetting(struct inspur_drm_private *priv)
-    53	{
-  > 54		unsigned int value = *(unsigned int *)(priv->fb_map + HW_FLAG_OFFSET);
+
+vim +/buf +114 drivers/sbus/char/flash.c
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  100  
+5d67f5b9ec2d12 Jens Axboe     2024-04-09  101  static ssize_t flash_read(struct kiocb *iocb, struct iov_iter *to)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  102  {
+5d67f5b9ec2d12 Jens Axboe     2024-04-09  103  	size_t count = iov_iter_count(to);
+5d67f5b9ec2d12 Jens Axboe     2024-04-09  104  	loff_t p = iocb->ki_pos;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  105  	int i;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  106  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  107  	if (count > flash.read_size - p)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  108  		count = flash.read_size - p;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  109  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  110  	for (i = 0; i < count; i++) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  111  		u8 data = upa_readb(flash.read_base + p + i);
+5d67f5b9ec2d12 Jens Axboe     2024-04-09  112  		if (put_iter(data, to))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  113  			return -EFAULT;
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @114  		buf++;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  115  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  116  
+5d67f5b9ec2d12 Jens Axboe     2024-04-09  117  	iocb->ki_pos += count;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  118  	return count;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  119  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  120  
+
+:::::: The code at line 114 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
