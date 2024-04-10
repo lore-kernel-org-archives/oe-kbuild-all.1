@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D474513D28F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 09:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C36C1E893
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 10:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712742817; cv=none; b=BDGfKRBQfM+V/BnO1bzAGsMUxcEwkmkzwX2jej2Hn3Q10SdRQMLXYNMtm3JeDtx3fRlLxijhqZpw7IIBZ/O1GWP1jDjqSRryXTrh1WoQQuGiAbXlZ1bh3vu7NfWyA16iJ/BF4z6pW7gKYkcVC4K4kdya0cVSbJuNwWFNHqH6nMw=
+	t=1712746063; cv=none; b=QXDHPLjk8c3FA9mLhnHWDKFLmjtOGPZE7h855/4Yw3u7sdDwnNPPB+Qa8P0yJfBquRZlZUQdfr0wwXmlvKYaJqR1jRq1wxbbDLJVEnw1b1+gjR8AFzYNVBa8ilB7wraUqKTrLhk7a65LDh4Un7fdPdKECbFevMh6rC9Ani94eCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712742817; c=relaxed/simple;
-	bh=ThxxCYM/dKC+f1lDT+ErfqEni338JkIfC99ADVI+y1s=;
+	s=arc-20240116; t=1712746063; c=relaxed/simple;
+	bh=LSEDY7jl83lbvQv0sne2v5NsfIEZ82E7EHUYccK4lJw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AjKdT74WF5V9CRbG2NtJgiVc0iLgCyGdZljsj18KZ8rQt/lE9ZpH/0oYQxC4V/tVGUQjLBIJLr8TmREk0yul4YcAE+ivzuXSjq+ZOvxeqPD2HbuDXr/xT177TLbZjVK5cIYl5rvy/9TZvQk3JA/v7mHilj9/0BQ3XUM5nV8H7Vg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oHtAL+DP; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=kZWHkV0fYVU+IsYy9u8B2LyPWfeC1U4cOF1I270J2S5UvFf/O2qZo9iafdyY35PgSMXztQGiIzf9WLrfLtaSKxEiaK3awCqz+MZVaUaKJWEPWgP2Ls1bcqNujqhDE166uVnP71QLaBsCT56IRHGktMHQ2AjWfs2OEQuRzwcb/I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mZjiOp/a; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oHtAL+DP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mZjiOp/a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712742814; x=1744278814;
+  t=1712746062; x=1744282062;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ThxxCYM/dKC+f1lDT+ErfqEni338JkIfC99ADVI+y1s=;
-  b=oHtAL+DPcTPlI5L4O6QUhJea9eOiWRBDyyhJnKwp1BjV7hxkQmDl7WG7
-   cG4X8FyKysYS/I0zQPQ4vxK2n8U/0HnKFLIInsxGt7jbm740IgIhCv1Mc
-   cDPgd1YTlhsSsKv13GaNhTvSvSKEwkSeVt4JB6+AXHLZx9fKKezBty67B
-   klxAFkEWLe1sbyHyDdNrTfmmvZVPgMFf3G0/K5/7OBYPghRHfSXF7DMOE
-   3rN/ZMFKwEF2zSDzVH/f/jH8CDvUK+lzNvC/p5ZVHzqbSYFP9JtALDop1
-   +PO1sg21/K7ceozGOogvcoyrJYfaVphhitaPB8PDUZ+i8b6KYBuVCQDMI
+  bh=LSEDY7jl83lbvQv0sne2v5NsfIEZ82E7EHUYccK4lJw=;
+  b=mZjiOp/adMwHQn+y4e7KbuuDA4B3bxqyHL7yi90lFcIBLlVVjg5nUTap
+   L+3WRYUgoI3lnSiLU4Kko5wdDUgRsKmZeFxhDVypZP2fn1qpTtGA/UcGu
+   wJ21mt+9712q1hs+RhpWCRReQKABktRMT+WfRl9sDht2clbNrnqcbShyp
+   mCKyUt/3ecga8ZP7abGh1Z3Z5258pAoAp8OcPSdQl/E4/TIQPQRLGI1M1
+   R65D5+USmHqVXnIK5oJgndUhgg3vLuIh2yaTFSLpMZNSMga1sBoOoqqPR
+   hSKFndJ3m5gAaa5gq+pRmgKaO3uzNnWBfCC18ETsPSoqYP7z3Gdb6D3eo
    g==;
-X-CSE-ConnectionGUID: q+Uk4qsDRLWCHKEIkNdBOg==
-X-CSE-MsgGUID: H37Fas2YT5Or2gkaCE1vJg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="11061697"
+X-CSE-ConnectionGUID: x2CrA0DiT4q0t8by9TEpag==
+X-CSE-MsgGUID: kw7CEHkZReC2lyBAEXFkJg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="7957511"
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="11061697"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 02:53:34 -0700
-X-CSE-ConnectionGUID: eQXulBEYQsWU4ARGgohU+g==
-X-CSE-MsgGUID: LZRP6T7NT1yNHM1SiyHf4A==
+   d="scan'208";a="7957511"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 03:47:41 -0700
+X-CSE-ConnectionGUID: LQz93kGoSFa1YSh3x8yTAg==
+X-CSE-MsgGUID: m/w1r70BRE6OjGG4tTkAAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="20985388"
+   d="scan'208";a="43760545"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Apr 2024 02:53:33 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 10 Apr 2024 03:47:40 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ruUe2-0007BY-1q;
-	Wed, 10 Apr 2024 09:53:30 +0000
-Date: Wed, 10 Apr 2024 17:52:48 +0800
+	id 1ruVUP-0007E6-1B;
+	Wed, 10 Apr 2024 10:47:37 +0000
+Date: Wed, 10 Apr 2024 18:47:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
+To: Jens Axboe <axboe@kernel.dk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:page_counters.1 4/5] include/linux/build_bug.h:78:41:
- error: static assertion failed: "2 * HUGE_MAX_HSTATE >= __MCT_MAX"
-Message-ID: <202404101731.SxbqEUf6-lkp@intel.com>
+Subject: [axboe-block:rw_iter 360/367] drivers/sbus/char/oradax.c:217:33:
+ error: initialization of 'ssize_t (*)(struct kiocb *, struct iov_iter *)'
+ {aka 'long int (*)(struct kiocb *, struct iov_iter *)'} from incompatible
+ pointer type 'ssize_t (*)(struct file *, char *, size_t,  loff_t *)' {ak...
+Message-ID: <202404101801.F0Kpv1kP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,71 +64,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/rgushchin/linux.git page_counters.1
-head:   3495060dfd68a14db35e29e08714cb4d8fd4035f
-commit: d34a387d279e79b7210825fcebe279b2790d36d2 [4/5] mm: memcg: merge multiple page_counters into a single structure
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240410/202404101731.SxbqEUf6-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404101731.SxbqEUf6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   ad69a5a8c930e58537ce092334af08caaa412900
+commit: aacad67149b1cfcbbc59bdf278ba5713ed86e0bb [360/367] sbus: oradax: convert to read/write iterators
+config: sparc64-defconfig (https://download.01.org/0day-ci/archive/20240410/202404101801.F0Kpv1kP-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404101801.F0Kpv1kP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404101731.SxbqEUf6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404101801.F0Kpv1kP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from include/linux/init.h:5,
-                    from include/linux/printk.h:6,
-                    from include/asm-generic/bug.h:22,
-                    from arch/loongarch/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/loongarch/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from include/linux/cgroup.h:12,
-                    from mm/hugetlb_cgroup.c:20:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "2 * HUGE_MAX_HSTATE >= __MCT_MAX"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   mm/hugetlb_cgroup.c:39:1: note: in expansion of macro 'static_assert'
-      39 | static_assert(2 * HUGE_MAX_HSTATE >= __MCT_MAX);
-         | ^~~~~~~~~~~~~
+>> drivers/sbus/char/oradax.c:217:33: error: initialization of 'ssize_t (*)(struct kiocb *, struct iov_iter *)' {aka 'long int (*)(struct kiocb *, struct iov_iter *)'} from incompatible pointer type 'ssize_t (*)(struct file *, char *, size_t,  loff_t *)' {aka 'long int (*)(struct file *, char *, long unsigned int,  long long int *)'} [-Werror=incompatible-pointer-types]
+     217 |         .read_iter      =       dax_read,
+         |                                 ^~~~~~~~
+   drivers/sbus/char/oradax.c:217:33: note: (near initialization for 'dax_fops.read_iter')
+>> drivers/sbus/char/oradax.c:218:33: error: initialization of 'ssize_t (*)(struct kiocb *, struct iov_iter *)' {aka 'long int (*)(struct kiocb *, struct iov_iter *)'} from incompatible pointer type 'ssize_t (*)(struct file *, const char *, size_t,  loff_t *)' {aka 'long int (*)(struct file *, const char *, long unsigned int,  long long int *)'} [-Werror=incompatible-pointer-types]
+     218 |         .write_iter     =       dax_write,
+         |                                 ^~~~~~~~~
+   drivers/sbus/char/oradax.c:218:33: note: (near initialization for 'dax_fops.write_iter')
+>> drivers/sbus/char/oradax.c:544:16: error: conflicting types for 'dax_read'; have 'ssize_t(struct kiocb *, struct iov_iter *)' {aka 'long int(struct kiocb *, struct iov_iter *)'}
+     544 | static ssize_t dax_read(struct kiocb *iocb, struct iov_iter *to)
+         |                ^~~~~~~~
+   drivers/sbus/char/oradax.c:207:16: note: previous declaration of 'dax_read' with type 'ssize_t(struct file *, char *, size_t,  loff_t *)' {aka 'long int(struct file *, char *, long unsigned int,  long long int *)'}
+     207 | static ssize_t dax_read(struct file *filp, char __user *buf,
+         |                ^~~~~~~~
+>> drivers/sbus/char/oradax.c:561:16: error: conflicting types for 'dax_write'; have 'ssize_t(struct kiocb *, struct iov_iter *)' {aka 'long int(struct kiocb *, struct iov_iter *)'}
+     561 | static ssize_t dax_write(struct kiocb *iocb, struct iov_iter *from)
+         |                ^~~~~~~~~
+   drivers/sbus/char/oradax.c:209:16: note: previous declaration of 'dax_write' with type 'ssize_t(struct file *, const char *, size_t,  loff_t *)' {aka 'long int(struct file *, const char *, long unsigned int,  long long int *)'}
+     209 | static ssize_t dax_write(struct file *filp, const char __user *buf,
+         |                ^~~~~~~~~
+   drivers/sbus/char/oradax.c: In function 'dax_write':
+>> drivers/sbus/char/oradax.c:576:42: error: 'buf' undeclared (first use in this function)
+     576 |                 return dax_ccb_exec(ctx, buf, count, ppos); /* CCB EXEC */
+         |                                          ^~~
+   drivers/sbus/char/oradax.c:576:42: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/sbus/char/oradax.c:576:54: error: 'ppos' undeclared (first use in this function)
+     576 |                 return dax_ccb_exec(ctx, buf, count, ppos); /* CCB EXEC */
+         |                                                      ^~~~
+   drivers/sbus/char/oradax.c: At top level:
+>> drivers/sbus/char/oradax.c:207:16: warning: 'dax_read' used but never defined
+     207 | static ssize_t dax_read(struct file *filp, char __user *buf,
+         |                ^~~~~~~~
+>> drivers/sbus/char/oradax.c:209:16: warning: 'dax_write' used but never defined
+     209 | static ssize_t dax_write(struct file *filp, const char __user *buf,
+         |                ^~~~~~~~~
+>> drivers/sbus/char/oradax.c:561:16: warning: 'dax_write' defined but not used [-Wunused-function]
+     561 | static ssize_t dax_write(struct kiocb *iocb, struct iov_iter *from)
+         |                ^~~~~~~~~
+>> drivers/sbus/char/oradax.c:544:16: warning: 'dax_read' defined but not used [-Wunused-function]
+     544 | static ssize_t dax_read(struct kiocb *iocb, struct iov_iter *to)
+         |                ^~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +78 include/linux/build_bug.h
+vim +217 drivers/sbus/char/oradax.c
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   204	
+   205	/* driver public entry points */
+   206	static int dax_open(struct inode *inode, struct file *file);
+ > 207	static ssize_t dax_read(struct file *filp, char __user *buf,
+   208				size_t count, loff_t *ppos);
+ > 209	static ssize_t dax_write(struct file *filp, const char __user *buf,
+   210				 size_t count, loff_t *ppos);
+   211	static int dax_devmap(struct file *f, struct vm_area_struct *vma);
+   212	static int dax_close(struct inode *i, struct file *f);
+   213	
+   214	static const struct file_operations dax_fops = {
+   215		.owner	=	THIS_MODULE,
+   216		.open	=	dax_open,
+ > 217		.read_iter	=	dax_read,
+ > 218		.write_iter	=	dax_write,
+   219		.mmap	=	dax_devmap,
+   220		.release =	dax_close,
+   221	};
+   222	
 
 -- 
 0-DAY CI Kernel Test Service
