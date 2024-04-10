@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BEC820EB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 03:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4284F8828
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 03:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712718814; cv=none; b=IFmcNk/j5LVaVV9wmHctT0o/s+z+kXjaZDwf5A1IrPGkqFUBodKghULG06LHaB+m1gAJV+2MynGzwPqKRqHcG8+3o33FW/O5ExC+DscLnP+5WT4AI1xVGqQbhv9EOeHWRSooFlqRU3arT0vYSKqf29YIrTU2AueoSyuZDa+i7ns=
+	t=1712720735; cv=none; b=hXyctV5sq+8jTa9EyXK+8MVIgDLpUHZbwoBdXRv3HiIx+HPxI6853jovtSY24pGyb2fBmpUScdNS+TDq1xNzEFs5AbqmscoTNP3dHqGRB8wGJ8mUwrJhaiCJbsXx5KgUsqO+2ZSxO+x0mb9Unztn3pzxS5aZlZCVGwBCSuTb448=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712718814; c=relaxed/simple;
-	bh=9RA6W1Gw39D2vy5jO2uCadvE5ng6Huw74ixhK0HzUSw=;
+	s=arc-20240116; t=1712720735; c=relaxed/simple;
+	bh=caL/Xby2kDjetgjZSrex7KZKzQ5p5bYQ+hLkGGn+0xk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fqAQBiDw2KHJd3TYM5OxxHRlGibZ+FHR7/mUTUYn7bni4Cm4NTWagkXhkqtjlXESFI+16ZmFBGO/T7iORBGLK6vNlSeFgnpHix3WEx26FNaYz+KeB/ilHx9nZMskRRPIrMje4UrbDP9h9I+1iTvx3XFclzFIlNWHuxAETLN4nSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GKqTfczg; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=I/Mee7sDj1Grm8hx5Nlz/vo7DrVDJA7qQgfcZk2+ZomtpT6OrnN4Imk6xvt7e5rfgFFA6fhmj/P1ZOZDa6jVZqquVlKAylechLLMbaO0zKL2eCEjdVXe0fnGfjODVbpdcR294DLfOUWctKVSxbOBv1BFqWR+vapRRfPI17FBU6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jJ1/zYxW; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GKqTfczg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jJ1/zYxW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712718812; x=1744254812;
+  t=1712720733; x=1744256733;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9RA6W1Gw39D2vy5jO2uCadvE5ng6Huw74ixhK0HzUSw=;
-  b=GKqTfczg4YX7cZKqSjsQPd87YvSbpt/B4uMAdN/1QFt2tamFKMuB8tEM
-   e3kKc0O/kpVTRcpzvCla5Pyortazs/sOCL567/Xg8pTq9VkHOBEzvdEZM
-   x2rMdRw48Ozhm/4hP+ZG0Nqjn0OmXKFKzhA52iZCXoATPTt0TTNayzNMx
-   0XVCkT1DQgVX905D5/9uCLgDzPC1CCNaKOp3B8bRfpyYiat3XdkPeud+C
-   uG3vw2/woRUrbMZC85D85wpPls0I9j/8lxulO/m/QibLYnYOV9LOor0fY
-   NKlhlsj7UH71SQFGfNU5cZyWH9CswtDRIFrPOUofXKVqf6dTEzqbcJ6a/
+  bh=caL/Xby2kDjetgjZSrex7KZKzQ5p5bYQ+hLkGGn+0xk=;
+  b=jJ1/zYxWcHG1ZEF4Eg3TU6rphyU7u7d8JgkSqJD/xPevhNRMjLQpIuaQ
+   hs7xI1PSF8IE7z/gYitLbthYm0TvmRJMu9A9ll+n1WxizGrCbFQ/pgz/k
+   iQt3HlEKr6O8F+1PVoGxxv3V3/sSr8qbYi1oLNPNTjIEMPFtD9D10g2wy
+   CpdUXl7r9l4bpFd0sVJE4wrknr255NqZvcylFUyetlcsNXF+jT7Y9llS8
+   kpAma88wwJzLdt8mRajZEpCZXwluVK0ZckMahWplycT3R7rekRjsV95kV
+   OEYkU8a4Pu+U/gEKWI+vsIZe741oV/MbDGd/20rYhK2a7wYEz82nwLh95
    Q==;
-X-CSE-ConnectionGUID: JvWO1zgeRJKYLI79hg2OqA==
-X-CSE-MsgGUID: 3P1RoTzmS4SOMChV2UP1SA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="33468226"
+X-CSE-ConnectionGUID: pDrK3gnaQJeJtcwUL7niVg==
+X-CSE-MsgGUID: lumZlu7mSGuyl/CKg41uCg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8240784"
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="33468226"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 20:13:32 -0700
-X-CSE-ConnectionGUID: 0oxekGfWT8u7o6MhXIHJ/Q==
-X-CSE-MsgGUID: gwHg+FsQTOusfAtDKcEJOg==
+   d="scan'208";a="8240784"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 20:45:33 -0700
+X-CSE-ConnectionGUID: WlpWiKPESDS2iX2YGuIFFQ==
+X-CSE-MsgGUID: ug9zodVBQdWyStTvfrRQJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="51390891"
+   d="scan'208";a="57865773"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 09 Apr 2024 20:13:30 -0700
+  by orviesa001.jf.intel.com with ESMTP; 09 Apr 2024 20:45:32 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ruOOu-0006k6-1N;
-	Wed, 10 Apr 2024 03:13:28 +0000
-Date: Wed, 10 Apr 2024 11:12:24 +0800
+	id 1ruOtt-0006lC-0g;
+	Wed, 10 Apr 2024 03:45:29 +0000
+Date: Wed, 10 Apr 2024 11:44:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
+To: Jens Axboe <axboe@kernel.dk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:timestats-hoist 452/457] fs/bcachefs/eytzinger.c:144:12:
- warning: 'do_cmp' defined but not used
-Message-ID: <202404101134.r0fgg3vU-lkp@intel.com>
+Subject: [axboe-block:rw_iter 99/317]
+ drivers/firmware/tegra/bpmp-debugfs.c:380:19: error: implicit declaration of
+ function 'iterdup_user'; did you mean 'vmemdup_user'?
+Message-ID: <202404101128.moxBnVwD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,67 +63,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git timestats-hoist
-head:   ed4cedcef505729c94212031f8ed784a5fd81ac5
-commit: 4cbcf78d9a94eeb22f6ff6a2bae43395edcef509 [452/457] eytzinger: Promote to include/linux/
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20240410/202404101134.r0fgg3vU-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404101134.r0fgg3vU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   055ce0185fada17bfc0c1b6d6f618704293314e7
+commit: 0a91801558f6a97d215ad9f3987285e191699d0b [99/317] firmware: tegra: convert to read/write iterators
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240410/202404101128.moxBnVwD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404101128.moxBnVwD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404101134.r0fgg3vU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404101128.moxBnVwD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/bcachefs/eytzinger.c:144:12: warning: 'do_cmp' defined but not used [-Wunused-function]
-     144 | static int do_cmp(const void *a, const void *b, cmp_r_func_t cmp, const void *priv)
-         |            ^~~~~~
->> fs/bcachefs/eytzinger.c:125:13: warning: 'do_swap' defined but not used [-Wunused-function]
-     125 | static void do_swap(void *a, void *b, size_t size, swap_r_func_t swap_func, const void *priv)
-         |             ^~~~~~~
+   drivers/firmware/tegra/bpmp-debugfs.c: In function 'bpmp_debug_store':
+>> drivers/firmware/tegra/bpmp-debugfs.c:380:19: error: implicit declaration of function 'iterdup_user'; did you mean 'vmemdup_user'? [-Werror=implicit-function-declaration]
+     380 |         databuf = iterdup_user(from count);
+         |                   ^~~~~~~~~~~~
+         |                   vmemdup_user
+>> drivers/firmware/tegra/bpmp-debugfs.c:380:36: error: expected ')' before 'count'
+     380 |         databuf = iterdup_user(from count);
+         |                               ~    ^~~~~~
+         |                                    )
+   drivers/firmware/tegra/bpmp-debugfs.c:380:17: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     380 |         databuf = iterdup_user(from count);
+         |                 ^
+   drivers/firmware/tegra/bpmp-debugfs.c: In function 'debugfs_store':
+>> drivers/firmware/tegra/bpmp-debugfs.c:666:38: error: 'buf' undeclared (first use in this function)
+     666 |         if (copy_from_user(datavirt, buf, count)) {
+         |                                      ^~~
+   drivers/firmware/tegra/bpmp-debugfs.c:666:38: note: each undeclared identifier is reported only once for each function it appears in
+   cc1: some warnings being treated as errors
 
 
-vim +/do_cmp +144 fs/bcachefs/eytzinger.c
+vim +380 drivers/firmware/tegra/bpmp-debugfs.c
 
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  120  
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  121  /*
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  122   * The function pointer is last to make tail calls most efficient if the
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  123   * compiler decides not to inline this function.
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  124   */
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22 @125  static void do_swap(void *a, void *b, size_t size, swap_r_func_t swap_func, const void *priv)
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  126  {
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  127  	if (swap_func == SWAP_WRAPPER) {
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  128  		((const struct wrapper *)priv)->swap(a, b, (int)size);
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  129  		return;
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  130  	}
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  131  
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  132  	if (swap_func == SWAP_WORDS_64)
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  133  		swap_words_64(a, b, size);
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  134  	else if (swap_func == SWAP_WORDS_32)
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  135  		swap_words_32(a, b, size);
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  136  	else if (swap_func == SWAP_BYTES)
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  137  		swap_bytes(a, b, size);
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  138  	else
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  139  		swap_func(a, b, (int)size, priv);
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  140  }
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  141  
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  142  #define _CMP_WRAPPER ((cmp_r_func_t)0L)
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  143  
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22 @144  static int do_cmp(const void *a, const void *b, cmp_r_func_t cmp, const void *priv)
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  145  {
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  146  	if (cmp == _CMP_WRAPPER)
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  147  		return ((const struct wrapper *)priv)->cmp(a, b);
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  148  	return cmp(a, b, priv);
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  149  }
-ca1e02f7e9a1352 Kent Overstreet 2024-03-22  150  
-
-:::::: The code at line 144 was first introduced by commit
-:::::: ca1e02f7e9a1352b3f7b04de821ae74c9e07df74 bcachefs: Etyzinger cleanups
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+   365	
+   366	static ssize_t bpmp_debug_store(struct kiocb *iocb, struct iov_iter *from)
+   367	{
+   368		struct inode *inode = file_inode(iocb->ki_filp);
+   369		struct tegra_bpmp *bpmp = inode->i_private;
+   370		size_t count = iov_iter_count(from);
+   371		char *databuf = NULL;
+   372		char fnamebuf[256];
+   373		const char *filename;
+   374		ssize_t err;
+   375	
+   376		filename = get_filename(bpmp, iocb->ki_filp, fnamebuf, sizeof(fnamebuf));
+   377		if (!filename)
+   378			return -ENOENT;
+   379	
+ > 380		databuf = iterdup_user(from count);
+   381		if (IS_ERR(databuf))
+   382			return PTR_ERR(databuf);
+   383	
+   384		err = mrq_debug_write(bpmp, filename, databuf, count);
+   385		kfree(databuf);
+   386	
+   387		return err ?: count;
+   388	}
+   389	
 
 -- 
 0-DAY CI Kernel Test Service
