@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82DCF19BA6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 09:08:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9921315622E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 09:19:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712740114; cv=none; b=o5SdS0N5D7GyqtEg/lK4tNFNLtZa9qVsNOQmN2oiy9WEfKRqXP/AyhN0OYS9/i2wubPbdD3uX1KC9Q2/Zifyj6282k6+Mb4f25VWR4Lg0n1W/KEVklgPtEfZhKuDHsFfz6LoEwSjeoF8yareUtlwdgvo7sDDMwF0Ef2IM3bwG0U=
+	t=1712740790; cv=none; b=iO+0d76fZ2jw19Qz08BINooBLqoSMotd+LB6U47NartaLSFCyCK90x7BsXOHMR8NiskCDBcGa9tYLx1Eh6i94NEwARBR73ZWXplJnj54tVu/h/87cy/To8dX97I92NasmCw1yKAu7MO04sFQNyfozC3v+mZTP+DP/6O6I9uhk/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712740114; c=relaxed/simple;
-	bh=Mn2Iyb2lU3L4cB0qNgSui+HAe14bSod5YC+fdEgJbzo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YAS4cYtiwsN2Up7xy0n6aqVySTOOuyI7sLyMaALdI5G8yR9VD4uq77NyUk477QG2Rs/x+6tYGM36GcLQP9I0nIp5RANXJtLlIqPIAnogqMDLQiC5oaj+3+VSdBfwMZMnEZuUQSJxrcrbsXPOsK8WmfJu1lcZAGlta4v1DNZ0LI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cQHIFxpx; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1712740790; c=relaxed/simple;
+	bh=opEHOJQennBg2n6ESefu4UyWnIHbNMCaI+CVW0QFi3U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YMLVQX6j6uDXIRenK0QrmnxwZDcH7DLPIfK87iuxaXmg1ndcZCgzz/e7zb0exQcXm4K8iB21wLnoaKGCPHWRvjuTPyLxu+2FEqkkLCd0RqDOZU9RQwiWEoHDMOLgUBPFYaBcsAcfXAHRf9DMIsmVmqbwHr2sZP1Cq3UWm5AKMLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AjXCCsSM; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cQHIFxpx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AjXCCsSM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712740112; x=1744276112;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Mn2Iyb2lU3L4cB0qNgSui+HAe14bSod5YC+fdEgJbzo=;
-  b=cQHIFxpxXv60gP2z6Jg10NigbTV8M7kMzqrv7ehcl2rFqCcu5T2ZVYSi
-   uxKoNCmpCZ0090ZRlip2RX+GkhEbvu0cWT0o+KFHA4qX6LU6iDf0ckIAA
-   JnJ1BJfVQ5LcQCp11hsXBQV3Y+aAdljRh5qVf5yCHcHEfBgD7sNGeSqQ/
-   POOsyIhEDyo6uRvlATMI4DleKcprgFHwr5iHLbUvLGhO6gQSrcXigae48
-   n/N8Ccd49QYxBTNHqAnRkCyO0eUtMwBfPiN3dY3H5+erkBCKdpfMctlQN
-   l8aQiexDGLSlnE9UFgMKhXX1bc1MJMVgQqp1gejeCcUQioe+TozTD7IMy
-   Q==;
-X-CSE-ConnectionGUID: xOPWfH70TfyJyYYJ7Eiu+A==
-X-CSE-MsgGUID: j+nww86kTuuG68F3e57svA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="7948632"
+  t=1712740789; x=1744276789;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=opEHOJQennBg2n6ESefu4UyWnIHbNMCaI+CVW0QFi3U=;
+  b=AjXCCsSMKh41xVHNQ0aclqI4fb3gLGyyHXnlNCKk8rggbUgFj9nlfclL
+   Ic6hgjx5Dv0q+cz7T260XFh6IjteyWOYf6FFUoTyidXP1mtpx0FcEx7mx
+   YUGrmbRwQkxyavPDA0NacE71uAPnMt+uS+DYjoniY2vv77kY9xPjvzzcQ
+   1X4bkGvcK7JRmNa8xVzXp3HlPmSuE/QlqgLWel+kQvJo80AP9RvpoS8bV
+   8kwo8pxSruxCNKaeNfID73IvKujG0aum6ofRVOOFJ4+YmLVM3Lt7t7ZJ8
+   uJnAxKRSKZGKYY8oEDxSQQ7hGcpjdiynIjlx1PqjaUBwGPDSUZOkd9CtB
+   g==;
+X-CSE-ConnectionGUID: r4UpaZntTDKDUJHYvPsVIw==
+X-CSE-MsgGUID: mDP9h6a7R/CWszaGSrnplg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="19479682"
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="7948632"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 02:08:31 -0700
-X-CSE-ConnectionGUID: 4BzNPtgVQVaAFZihaY8ZMQ==
-X-CSE-MsgGUID: xAQnEWRRRD+ZL+Di6MjWOw==
+   d="scan'208";a="19479682"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 02:19:34 -0700
+X-CSE-ConnectionGUID: RWpPj5yWTlG4h6xjC7cSxQ==
+X-CSE-MsgGUID: JMx5S2VOS1KjzaPHU6KUYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="25111954"
+   d="scan'208";a="57937858"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Apr 2024 02:08:31 -0700
+  by orviesa001.jf.intel.com with ESMTP; 10 Apr 2024 02:19:32 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ruTwS-000799-3A;
-	Wed, 10 Apr 2024 09:08:28 +0000
-Date: Wed, 10 Apr 2024 17:08:08 +0800
+	id 1ruU77-00079y-1z;
+	Wed, 10 Apr 2024 09:19:29 +0000
+Date: Wed, 10 Apr 2024 17:18:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 282/367] drivers/parisc/eisa_eeprom.c:35:85:
- error: 'ppos' undeclared
-Message-ID: <202404101748.bz4j7i68-lkp@intel.com>
+To: John Groves <John@groves.net>, Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, John Groves <John@groves.net>,
+	john@jagalactic.com
+Subject: Re: [PATCH 1/1] sget_dev() bug fix: dev_t passed by value but stored
+ via stack address
+Message-ID: <202404101632.62NM3BlE-lkp@intel.com>
+References: <7a37d4832e0c2e7cfe8000b0bf47dcc2c50d78d0.1712704849.git.john@groves.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,58 +66,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <7a37d4832e0c2e7cfe8000b0bf47dcc2c50d78d0.1712704849.git.john@groves.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   ad69a5a8c930e58537ce092334af08caaa412900
-commit: b9873494bb35a6c984117def4aa7397013d66cd6 [282/367] parisc: eisa_eeprom: convert to read/write iterators
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240410/202404101748.bz4j7i68-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404101748.bz4j7i68-lkp@intel.com/reproduce)
+Hi John,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on fec50db7033ea478773b159e0e2efb135270e3b7]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Groves/sget_dev-bug-fix-dev_t-passed-by-value-but-stored-via-stack-address/20240410-073305
+base:   fec50db7033ea478773b159e0e2efb135270e3b7
+patch link:    https://lore.kernel.org/r/7a37d4832e0c2e7cfe8000b0bf47dcc2c50d78d0.1712704849.git.john%40groves.net
+patch subject: [PATCH 1/1] sget_dev() bug fix: dev_t passed by value but stored via stack address
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240410/202404101632.62NM3BlE-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404101632.62NM3BlE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404101748.bz4j7i68-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404101632.62NM3BlE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/parisc/eisa_eeprom.c: In function 'eisa_eeprom_read':
->> drivers/parisc/eisa_eeprom.c:35:85: error: 'ppos' undeclared (first use in this function)
-      35 |         count = iocb->ki_pos + count < HPEE_MAX_LENGTH ? count : HPEE_MAX_LENGTH - *ppos;
-         |                                                                                     ^~~~
-   drivers/parisc/eisa_eeprom.c:35:85: note: each undeclared identifier is reported only once for each function it appears in
+   fs/super.c: In function 'set_bdev_super':
+>> fs/super.c:1311:21: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1311 |         u64 devno = (u64)data;
+         |                     ^
+   fs/super.c: In function 'super_s_dev_test':
+   fs/super.c:1324:21: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1324 |         u64 devno = (u64)fc->sget_key;
+         |                     ^
+   fs/super.c: In function 'sget_dev':
+>> fs/super.c:1354:24: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    1354 |         fc->sget_key = (void *)devno;
+         |                        ^
+   fs/super.c: In function 'mount_bdev':
+   fs/super.c:1654:67: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    1654 |         s = sget(fs_type, test_bdev_super, set_bdev_super, flags, (void *)devno);
+         |                                                                   ^
 
 
-vim +/ppos +35 drivers/parisc/eisa_eeprom.c
+vim +1311 fs/super.c
 
-    24	
-    25	static ssize_t eisa_eeprom_read(struct kiocb *iocb, struct iov_iter *to)
-    26	{
-    27		size_t count = iov_iter_count(to);
-    28		unsigned char *tmp;
-    29		ssize_t ret;
-    30		int i;
-    31		
-    32		if (iocb->ki_pos < 0 || iocb->ki_pos >= HPEE_MAX_LENGTH)
-    33			return 0;
-    34		
-  > 35		count = iocb->ki_pos + count < HPEE_MAX_LENGTH ? count : HPEE_MAX_LENGTH - *ppos;
-    36		tmp = kmalloc(count, GFP_KERNEL);
-    37		if (tmp) {
-    38			for (i = 0; i < count; i++)
-    39				tmp[i] = readb(eisa_eeprom_addr+(*ppos)++);
-    40	
-    41			if (!copy_to_iter_full(tmp, count, to))
-    42				ret = -EFAULT;
-    43			else
-    44				ret = count;
-    45			kfree (tmp);
-    46		} else
-    47			ret = -ENOMEM;
-    48		
-    49		return ret;
-    50	}
-    51	
+  1308	
+  1309	static int set_bdev_super(struct super_block *s, void *data)
+  1310	{
+> 1311		u64 devno = (u64)data;
+  1312	
+  1313		s->s_dev = (dev_t)devno;
+  1314		return 0;
+  1315	}
+  1316	
+  1317	static int super_s_dev_set(struct super_block *s, struct fs_context *fc)
+  1318	{
+  1319		return set_bdev_super(s, fc->sget_key);
+  1320	}
+  1321	
+  1322	static int super_s_dev_test(struct super_block *s, struct fs_context *fc)
+  1323	{
+  1324		u64 devno = (u64)fc->sget_key;
+  1325	
+  1326		return !(s->s_iflags & SB_I_RETIRED) &&
+  1327			s->s_dev == (dev_t)devno;
+  1328	}
+  1329	
+  1330	/**
+  1331	 * sget_dev - Find or create a superblock by device number
+  1332	 * @fc: Filesystem context.
+  1333	 * @dev: device number
+  1334	 *
+  1335	 * Find or create a superblock using the provided device number that
+  1336	 * will be stored in fc->sget_key.
+  1337	 *
+  1338	 * If an extant superblock is matched, then that will be returned with
+  1339	 * an elevated reference count that the caller must transfer or discard.
+  1340	 *
+  1341	 * If no match is made, a new superblock will be allocated and basic
+  1342	 * initialisation will be performed (s_type, s_fs_info, s_id, s_dev will
+  1343	 * be set). The superblock will be published and it will be returned in
+  1344	 * a partially constructed state with SB_BORN and SB_ACTIVE as yet
+  1345	 * unset.
+  1346	 *
+  1347	 * Return: an existing or newly created superblock on success, an error
+  1348	 *         pointer on failure.
+  1349	 */
+  1350	struct super_block *sget_dev(struct fs_context *fc, dev_t dev)
+  1351	{
+  1352		u64 devno = (u64)dev;
+  1353	
+> 1354		fc->sget_key = (void *)devno;
+  1355		return sget_fc(fc, super_s_dev_test, super_s_dev_set);
+  1356	}
+  1357	EXPORT_SYMBOL(sget_dev);
+  1358	
 
 -- 
 0-DAY CI Kernel Test Service
