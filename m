@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3354F159212
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Apr 2024 12:12:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F74E13D606;
+	Wed, 10 Apr 2024 13:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712751127; cv=none; b=bQTYzoJVh9CNV0rdqPWBq297Ks9KQC/NR964PTa5ZAT6Lx280LwPq2xl23l3Re0QhfZWocvvAKgjk8K/gXG1ENrzDBeYGzUR1vx+83BsrkdSqllIGjgj5+/Ep9de+hCj79Bz0gOGKJJaTzqO0m7a1L7FycOcv3m/NI8YIOpiFjs=
+	t=1712754308; cv=none; b=iahPhfc5DYpU5EqTRBVgwgflzod62DggPRnqDC1KDKd90KGxsqtWAGJio2OjpKiB2l7oYygcznkT+DsyrmAG9FVO3Xy9c9ioAbbz2JfAPcSHla102ZLGrjWKFpzxT5Rx+XNZVI4thjREI+MxK5Rwpy3vqR8JId6O+fAdiCmN9PM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712751127; c=relaxed/simple;
-	bh=5YMqMDRaXj4Von9b/H8JmMP7Ll5GImNilbUuPUfK+1A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MNkZsMzU/BIz6Pm/6J00mfwTD8wxTFtMIYk6HIULel0z6o+Do91jp36+xOkTAIF+CAKe9UXROjK8j/Dbs8gDdiEDPbvgOaViKoPbmAhaelJkRiI8Gclv11g6BNeSnGogBRM1HkyidtmXRMQqFnXYOXL5RVaoRiQkGGWaAViTUAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jLzeR86+; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1712754308; c=relaxed/simple;
+	bh=EomByJRkSxkyrdiMojZz40hq1pQuNfsoOeHkHwekn/I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rfne6nQbxvhbYeLraNiyHotXc65vIR5TaZ7Qjr5CA8NKWaLS6fdwaYKA/j6s/oOH8pFvlE53x2JRa0ASYdoFu5I7Z2JHUKbyElOBPr7mKBmH6QoQzpxxLclgQPCWNtkmqE+HGltfA9nlXksGDp6c4GcvKBCjBZcoyWo9XcApgN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KV/bXXLq; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jLzeR86+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KV/bXXLq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712751126; x=1744287126;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5YMqMDRaXj4Von9b/H8JmMP7Ll5GImNilbUuPUfK+1A=;
-  b=jLzeR86+qmtXrrmYQMAOgV3MGmBlvVFYqqcYqpdxsostXD1wffRuDfm7
-   7ROUMaxjHmrNsGWufQAU5ewvZlopZa87kP38ZMCliYSCqT7+S7xEHq0+n
-   jrS4BXNTOv0zKqcZnYlJueFyVS7Bk8wugMnEcHcBpQXnt99mX1HtHvPqo
-   SdMqRBfmKAtKSrJlFSRVacC0V+H6Nhh2ujm604c4ndvVljEMRLTQceBpA
-   Ln+2Qp3T3TWk5GIFypLy6UAmUs5Kw+7KrBOxSiEbXCRQjsauQWZCMLsdU
-   QmCslK/2oS17WbyImYFXoaXUoWBxo7oqXLtqr5Vg75lnyeImhW45VO57w
+  t=1712754307; x=1744290307;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EomByJRkSxkyrdiMojZz40hq1pQuNfsoOeHkHwekn/I=;
+  b=KV/bXXLqAbjUUy6KCtMrsJfFWEWotKbPFrGxW+4iKNRkfvjTG7P6wt7i
+   BALGyAElcf6Ki/mEmIkmockt0EhNqvacxH7l7c1HxSG6RLTiXvZQN66b2
+   rrJ3k7AuWeZcXtTgkds+TwJU6BX9ur4HBXKbgEeTIESB0O5FWqLAbpqcM
+   9s0AG/Vvs3TlKgWYn1IveBik+9oRR/PmX/pbiRL4KN/pjSAbF74SUc85u
+   XrtX8hHEvEqBQeGxC3of4IlJa1fC2zd5zFB524plRQ3hdZXlL7+VHef47
+   uYQy45RidAUZlXeIGrlxIJsYWpoDU8wPM+436y0Zj6TnqAI0qSHydsGp4
    Q==;
-X-CSE-ConnectionGUID: 2nKOIhb6Rv+fOtvVygoXyA==
-X-CSE-MsgGUID: wBN0X52oRL2UgXvLxNcgGw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="19534971"
+X-CSE-ConnectionGUID: L7JWEph8T+2B5Aegs2WqeA==
+X-CSE-MsgGUID: GspxPeDMTuSpzb0jC6iarQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8684440"
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="19534971"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 05:12:06 -0700
-X-CSE-ConnectionGUID: iwxB65u1S9CyRrE0PPz4Tw==
-X-CSE-MsgGUID: gFi+XHuMT+qS3ZM+DXa6Ew==
+   d="scan'208";a="8684440"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 06:05:06 -0700
+X-CSE-ConnectionGUID: MHT3kVS0R/W+bKemJ6j3IQ==
+X-CSE-MsgGUID: BeE3lB7GTammzZeyKwZZ3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="21019113"
+   d="scan'208";a="25328257"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Apr 2024 05:12:03 -0700
+  by orviesa004.jf.intel.com with ESMTP; 10 Apr 2024 06:05:05 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ruWo4-0007O6-2y;
-	Wed, 10 Apr 2024 12:12:00 +0000
-Date: Wed, 10 Apr 2024 20:11:23 +0800
+	id 1ruXdO-0007QW-1p;
+	Wed, 10 Apr 2024 13:05:02 +0000
+Date: Wed, 10 Apr 2024 21:04:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: zijianzhang@bytedance.com, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, edumazet@google.com,
-	willemdebruijn.kernel@gmail.com, davem@davemloft.net,
-	kuba@kernel.org, cong.wang@bytedance.com, xiaochun.lu@bytedance.com,
-	Zijian Zhang <zijianzhang@bytedance.com>
-Subject: Re: [PATCH net-next 1/3] sock: add MSG_ZEROCOPY_UARG
-Message-ID: <202404101954.FBZojOXG-lkp@intel.com>
-References: <20240409205300.1346681-2-zijianzhang@bytedance.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:rw_iter 287/367] drivers/s390/char/hmcdrv_dev.c:73:15:
+ error: use of undeclared identifier 'hmcdrv_dev_read_iter'; did you mean
+ 'hmcdrv_dev_read'?
+Message-ID: <202404102139.GBZ7gNSS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,133 +62,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240409205300.1346681-2-zijianzhang@bytedance.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/zijianzhang-bytedance-com/sock-add-MSG_ZEROCOPY_UARG/20240410-045616
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240409205300.1346681-2-zijianzhang%40bytedance.com
-patch subject: [PATCH net-next 1/3] sock: add MSG_ZEROCOPY_UARG
-config: i386-randconfig-061-20240410 (https://download.01.org/0day-ci/archive/20240410/202404101954.FBZojOXG-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404101954.FBZojOXG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   ad69a5a8c930e58537ce092334af08caaa412900
+commit: 0b4ce834b4399204416ea6f4abcad6da6f28f7f4 [287/367] s390: hmcdrv: convert to read/write iterators
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240410/202404102139.GBZ7gNSS-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404102139.GBZ7gNSS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404101954.FBZojOXG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404102139.GBZ7gNSS-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/core/sock.c:2878:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void * @@
-   net/core/sock.c:2878:37: sparse:     expected void [noderef] __user *to
-   net/core/sock.c:2878:37: sparse:     got void *
-   net/core/sock.c:2393:9: sparse: sparse: context imbalance in 'sk_clone_lock' - wrong count at exit
-   net/core/sock.c:2397:6: sparse: sparse: context imbalance in 'sk_free_unlock_clone' - unexpected unlock
-   net/core/sock.c:4083:13: sparse: sparse: context imbalance in 'proto_seq_start' - wrong count at exit
-   net/core/sock.c:4095:13: sparse: sparse: context imbalance in 'proto_seq_stop' - wrong count at exit
+All errors (new ones prefixed by >>):
 
-vim +2878 net/core/sock.c
+   In file included from drivers/s390/char/hmcdrv_dev.c:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/s390/char/hmcdrv_dev.c:73:15: error: use of undeclared identifier 'hmcdrv_dev_read_iter'; did you mean 'hmcdrv_dev_read'?
+      73 |         .read_iter = hmcdrv_dev_read_iter,
+         |                      ^~~~~~~~~~~~~~~~~~~~
+         |                      hmcdrv_dev_read
+   drivers/s390/char/hmcdrv_dev.c:59:16: note: 'hmcdrv_dev_read' declared here
+      59 | static ssize_t hmcdrv_dev_read(struct file *fp, char __user *ubuf,
+         |                ^
+>> drivers/s390/char/hmcdrv_dev.c:74:16: error: use of undeclared identifier 'hmcdrv_dev_write_iter'; did you mean 'hmcdrv_dev_write'?
+      74 |         .write_iter = hmcdrv_dev_write_iter,
+         |                       ^~~~~~~~~~~~~~~~~~~~~
+         |                       hmcdrv_dev_write
+   drivers/s390/char/hmcdrv_dev.c:61:16: note: 'hmcdrv_dev_write' declared here
+      61 | static ssize_t hmcdrv_dev_write(struct file *fp, const char __user *ubuf,
+         |                ^
+>> drivers/s390/char/hmcdrv_dev.c:73:15: error: incompatible function pointer types initializing 'ssize_t (*)(struct kiocb *, struct iov_iter *)' (aka 'long (*)(struct kiocb *, struct iov_iter *)') with an expression of type 'ssize_t (struct file *, char *, size_t, loff_t *)' (aka 'long (struct file *, char *, unsigned long, long long *)') [-Wincompatible-function-pointer-types]
+      73 |         .read_iter = hmcdrv_dev_read_iter,
+         |                      ^~~~~~~~~~~~~~~~~~~~
+   drivers/s390/char/hmcdrv_dev.c:74:16: error: incompatible function pointer types initializing 'ssize_t (*)(struct kiocb *, struct iov_iter *)' (aka 'long (*)(struct kiocb *, struct iov_iter *)') with an expression of type 'ssize_t (struct file *, const char *, size_t, loff_t *)' (aka 'long (struct file *, const char *, unsigned long, long long *)') [-Wincompatible-function-pointer-types]
+      74 |         .write_iter = hmcdrv_dev_write_iter,
+         |                       ^~~~~~~~~~~~~~~~~~~~~
+   5 warnings and 4 errors generated.
 
-  2807	
-  2808	int __sock_cmsg_send(struct sock *sk, struct cmsghdr *cmsg,
-  2809			     struct sockcm_cookie *sockc)
-  2810	{
-  2811		u32 tsflags;
-  2812	
-  2813		switch (cmsg->cmsg_type) {
-  2814		case SO_MARK:
-  2815			if (!ns_capable(sock_net(sk)->user_ns, CAP_NET_RAW) &&
-  2816			    !ns_capable(sock_net(sk)->user_ns, CAP_NET_ADMIN))
-  2817				return -EPERM;
-  2818			if (cmsg->cmsg_len != CMSG_LEN(sizeof(u32)))
-  2819				return -EINVAL;
-  2820			sockc->mark = *(u32 *)CMSG_DATA(cmsg);
-  2821			break;
-  2822		case SO_TIMESTAMPING_OLD:
-  2823		case SO_TIMESTAMPING_NEW:
-  2824			if (cmsg->cmsg_len != CMSG_LEN(sizeof(u32)))
-  2825				return -EINVAL;
-  2826	
-  2827			tsflags = *(u32 *)CMSG_DATA(cmsg);
-  2828			if (tsflags & ~SOF_TIMESTAMPING_TX_RECORD_MASK)
-  2829				return -EINVAL;
-  2830	
-  2831			sockc->tsflags &= ~SOF_TIMESTAMPING_TX_RECORD_MASK;
-  2832			sockc->tsflags |= tsflags;
-  2833			break;
-  2834		case SCM_TXTIME:
-  2835			if (!sock_flag(sk, SOCK_TXTIME))
-  2836				return -EINVAL;
-  2837			if (cmsg->cmsg_len != CMSG_LEN(sizeof(u64)))
-  2838				return -EINVAL;
-  2839			sockc->transmit_time = get_unaligned((u64 *)CMSG_DATA(cmsg));
-  2840			break;
-  2841		/* SCM_RIGHTS and SCM_CREDENTIALS are semantically in SOL_UNIX. */
-  2842		case SCM_RIGHTS:
-  2843		case SCM_CREDENTIALS:
-  2844			break;
-  2845		case SO_ZEROCOPY_NOTIFICATION:
-  2846			if (sock_flag(sk, SOCK_ZEROCOPY)) {
-  2847				int i = 0;
-  2848				struct tx_usr_zcopy_info sys_zcopy_info;
-  2849				struct tx_msg_zcopy_node *zcopy_node_p, *tmp;
-  2850				struct tx_msg_zcopy_queue *zcopy_queue;
-  2851				struct tx_msg_zcopy_node *zcopy_node_ps[SOCK_USR_ZC_INFO_MAX];
-  2852				unsigned long flags;
-  2853	
-  2854				if (cmsg->cmsg_len != CMSG_LEN(sizeof(void *)))
-  2855					return -EINVAL;
-  2856	
-  2857				if (sk_is_tcp(sk))
-  2858					zcopy_queue = &tcp_sk(sk)->tx_zcopy_queue;
-  2859				else if (sk_is_udp(sk))
-  2860					zcopy_queue = &udp_sk(sk)->tx_zcopy_queue;
-  2861				else
-  2862					return -EINVAL;
-  2863	
-  2864				spin_lock_irqsave(&zcopy_queue->lock, flags);
-  2865				list_for_each_entry_safe(zcopy_node_p, tmp, &zcopy_queue->head, node) {
-  2866					sys_zcopy_info.info[i].lo = zcopy_node_p->info.lo;
-  2867					sys_zcopy_info.info[i].hi = zcopy_node_p->info.hi;
-  2868					sys_zcopy_info.info[i].zerocopy = zcopy_node_p->info.zerocopy;
-  2869					list_del(&zcopy_node_p->node);
-  2870					zcopy_node_ps[i++] = zcopy_node_p;
-  2871					if (i == SOCK_USR_ZC_INFO_MAX)
-  2872						break;
-  2873				}
-  2874				spin_unlock_irqrestore(&zcopy_queue->lock, flags);
-  2875	
-  2876				if (i > 0) {
-  2877					sys_zcopy_info.length = i;
-> 2878					if (unlikely(copy_to_user(*(void **)CMSG_DATA(cmsg),
-  2879								  &sys_zcopy_info,
-  2880								  sizeof(sys_zcopy_info))
-  2881						)) {
-  2882						spin_lock_irqsave(&zcopy_queue->lock, flags);
-  2883						while (i > 0)
-  2884							list_add(&zcopy_node_ps[--i]->node,
-  2885								 &zcopy_queue->head);
-  2886						spin_unlock_irqrestore(&zcopy_queue->lock, flags);
-  2887						return -EFAULT;
-  2888					}
-  2889	
-  2890					while (i > 0)
-  2891						consume_skb(zcopy_node_ps[--i]->skb);
-  2892				}
-  2893			}
-  2894			break;
-  2895		default:
-  2896			return -EINVAL;
-  2897		}
-  2898		return 0;
-  2899	}
-  2900	EXPORT_SYMBOL(__sock_cmsg_send);
-  2901	
+
+vim +73 drivers/s390/char/hmcdrv_dev.c
+
+    55	
+    56	static int hmcdrv_dev_open(struct inode *inode, struct file *fp);
+    57	static int hmcdrv_dev_release(struct inode *inode, struct file *fp);
+    58	static loff_t hmcdrv_dev_seek(struct file *fp, loff_t pos, int whence);
+    59	static ssize_t hmcdrv_dev_read(struct file *fp, char __user *ubuf,
+    60				       size_t len, loff_t *pos);
+    61	static ssize_t hmcdrv_dev_write(struct file *fp, const char __user *ubuf,
+    62					size_t len, loff_t *pos);
+    63	static ssize_t hmcdrv_dev_transfer(char __kernel *cmd, loff_t offset,
+    64					   char __user *buf, size_t len);
+    65	
+    66	/*
+    67	 * device operations
+    68	 */
+    69	static const struct file_operations hmcdrv_dev_fops = {
+    70		.open = hmcdrv_dev_open,
+    71		.llseek = hmcdrv_dev_seek,
+    72		.release = hmcdrv_dev_release,
+  > 73		.read_iter = hmcdrv_dev_read_iter,
+  > 74		.write_iter = hmcdrv_dev_write_iter,
+    75	};
+    76	
 
 -- 
 0-DAY CI Kernel Test Service
