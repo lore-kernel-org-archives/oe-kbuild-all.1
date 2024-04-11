@@ -1,71 +1,64 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08432145B28
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 10:14:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C018145B3E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 10:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712830490; cv=none; b=Jzgm25xG3zhZMWRoxiYO5alTxSLSSCAUeDjAwero71+S4exNn5rveuU7FjsB/BzxUHmARakGFtzaDLGcGloiILvu/Z8UZLtwFEgQw1NxEZzYCH3jPmro2P14GniGrTp28DaSgt6XCop74y57a+zQIdDzWwBdCXBr0RiChzrFC+M=
+	t=1712830541; cv=none; b=L5tRLOe9y+Dl/af/mefRBxmexPfSL5oPAnW9L5pQQgebwoDPwNk+i9o5gLTjlepvSaZmplXaXa+SzEu5bqO4EwjeAjraOIa+nso8QpKb426BhApd7RF4dNx5EBBCMJBBfZvvqjIQ47p3QCjMsgs14wXkXfm/nrSDUwf1kiRrI8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712830490; c=relaxed/simple;
-	bh=Ro4zNuPSWHSKjEXhMBVb7OaDehxO2HvJvxpKYV/yalc=;
+	s=arc-20240116; t=1712830541; c=relaxed/simple;
+	bh=9RsK3hjU+aOXfQuW5yzHUK/QlMsMm4EqKd31lq6j6B4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=mIlX0NbpcYWVYJxfFXWi8W5PYcZo/Y+8i0vTip3PS6zEq1mHQyEUTRA4b6zZBMQ1qkg+BQ66zkjAgd1CDy4eJi+x/gtwrK/2p3xleSLj9YrXOW6Tpbjwl6jzAGC9ckdtq0r61AAM0b7Icn32SeG2zPlkyNw75WbIEUPIwAMOBJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ch4G4BzX; arc=none smtp.client-ip=209.85.218.52
+	 Content-Disposition; b=MIXJAD6q6j845Vi/+jpy05unUMOeqR6+Ys+GoM1VjCzc49H+pgsUQbe70UG6DO38afxCD+Iwz7wh+tYX3LVKXqWdmGkuxjI7mFxdKnCBe1XKZPRj7xY/x54OybRJKSLSt/kg8YGTKsojpFxLVeCczExsntuqUVZsW7qrIA36xJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RsncWAw4; arc=none smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ch4G4BzX"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a51ddc783e3so515027066b.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 03:14:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RsncWAw4"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a5200202c1bso298955666b.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 03:15:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712830487; x=1713435287; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uyqVf+OpAIYpCuv7GCxTIF9Y563uamtHxxOdFear55A=;
-        b=Ch4G4BzX/sUy2Uudpn1JH98D+eokXXSxpy8WFhBc/v4xCAmGMfkz10kU+1Bwj2oYi+
-         C5JfvOeINdh7sksVi5VFKEY1b2YkuR4vWurCHooZl7j3Je6YV7AUPbYAUhsH3w5YdcEb
-         FjLOtCclngpPrlX7vBPo4/fA4ceSFZfuePeuxoPDuRVVXJB1ZVUdJqncs+aFTxeK70/w
-         7O3K5brgwrW0fEO4QjW61g13deryeRpvLQlLg8ME0BC42oe8ahOm5hJZH/C9l6kufPWL
-         jEj7S4P00NNmK3rTFss0xnVDc7lfCW325GZMvCTqq5ZdA3LRnu34Pfp1ssrj9hGlZqCN
-         BBIw==
+        d=linaro.org; s=google; t=1712830538; x=1713435338; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WiVmZ6cq6HixfqxYNA972rbKxcwD9JRiQEpuhMop1E8=;
+        b=RsncWAw4PUO7dLVkI/13TKAx2dgeaXuxN9PdudgqlpZgtpVMp/IPNg0F2fvRaizT66
+         peLwS+TLsCuH9TYXGg5opNz1Xa5mmw4LbNQlb5JxW6WXnA68YL6exzaAvByI3F5U3u5d
+         iVPnBIeNZb6tylcGxkR9p/6dPVeg39rdd3c/l7cD+05XbhT+lCdKa2CxcImBEcd8okVI
+         JaOhMtBOCkpFYk+WipoR3P6ugrtnuiuJaELXpqZl9qwZ/NF34uYUHJgw98RarBgvo1Su
+         1deKsfIlf/Sn6YkRU5oIp/c0i5OlNJUquguk4KLV4jcooRKUXY95U0+OLimlaNtGcMJM
+         JfWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712830487; x=1713435287;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uyqVf+OpAIYpCuv7GCxTIF9Y563uamtHxxOdFear55A=;
-        b=T+X3D2PS4r21C33g5qI5Q73JsB8S75Zgxub1v0vYGOz3g7mP1JOm0mneRMpl41jw5c
-         UjAcOyJxQsbEi5doeW94/IPeOduHJY2CUzeeZYCCh24zIFjnfag7IaM3uf/X+x8SaDRa
-         EBbszFQn+5hGGYkX3thYLUUXzs5cB8BWgEgBBUMC4j1/bOAuc6gCNBQpIkeXm1O3DLPI
-         1Z/8csqlT4zRE1sf/ddc70XJcRqR51WAQzMklKkE1/uc2za+Re4uV6R/1BM469aUTFNQ
-         QHWcXoKg2Z3k09/vfxHSIon6N4KvUKCdqMEmNjMvVqZEL40f2wv8ZVSIAZ98C1TrDnh8
-         nJ/w==
-X-Forwarded-Encrypted: i=1; AJvYcCUflVGeqeoiXVlm1sIpU3t5u5T8LkHPlb18Lnt2Ls4zUqVe1/W0xnLlmfZ+v/qCR3VEIUOi8UL2MSO0heAUVdw4liLHsPEVcm+E1knCAQ==
-X-Gm-Message-State: AOJu0Yw90k2pAbqEh0NsMseRxuvj1V8I4frUKsXGCyI1xsBG+5IOLP3O
-	RqzjbuhZjefUDUOKcG6aKTO7mvlMFI10u47CPryj7k235FSsYaIU1xjZP5qeCMU=
-X-Google-Smtp-Source: AGHT+IHAnUZdwvtVa8ZUuHX83NGxaIWqh40qONfeK3Tt0qZB9/nouy9O2FEbNFtC1J0M+QLiMGWZuw==
-X-Received: by 2002:a17:906:c142:b0:a50:f172:6994 with SMTP id dp2-20020a170906c14200b00a50f1726994mr3789722ejc.73.1712830487188;
-        Thu, 11 Apr 2024 03:14:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712830538; x=1713435338;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WiVmZ6cq6HixfqxYNA972rbKxcwD9JRiQEpuhMop1E8=;
+        b=mml1rq4pmUhS1vTunsFaYW36VYm3pvyCBrWfg2h84ColENE2wMyRFSA/Sxni3Tign+
+         lyor468Cu9vNZ2R4ZLjmp8vfCW01+1phFfb7xn7D+j9832dUt/g8rVdgSUhu+tv397rb
+         uUrI7bs8LL97XhJ01ILXKUZ8d8PqMmp9jr6eo9pUuzpo3me/uA76rwK8YEIBgCTcGJqZ
+         OpkCU1x1H4gbVKiB16imWxNoXAqyLBb8alGE+AWrCnueTflk3m9BYox18klM7zIwIR7R
+         5IahoOnWLP2AOtzI+UkAvIfS/Ufi4I7qaR71YJ308GevD7HePOGAinaiP88obhS3XhuB
+         XUkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUrfqtYX92rkIhqABHKhDfvDQEqYaIpIj3cohJepphF6nTHhHAeu+jMEa8SmnkMPk/pzroIy5x8zs+GC9iAainiuddgdVk8jFVynInLQQ==
+X-Gm-Message-State: AOJu0YxNRrrBOV94ePBVr9LAWt2Y2XGPtD4yr76UPWM73OVKeGQEVjjn
+	qCmcY3qTbhGRL1IVMNbfjNa8fsjFsXV1lbvXbJ8VTVU5wWrceFFE8Ben2O5dTLo=
+X-Google-Smtp-Source: AGHT+IFpTNg5pJuUDJkIczk50XOHfll1lCLgYdqCedfxH2svtnTfZm/iKGHRjoAl16XU8bYTi1cMfA==
+X-Received: by 2002:a17:907:1b1a:b0:a51:abb0:a8a1 with SMTP id mp26-20020a1709071b1a00b00a51abb0a8a1mr5127101ejc.54.1712830537648;
+        Thu, 11 Apr 2024 03:15:37 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id n13-20020a170906088d00b00a52196cce80sm606310eje.121.2024.04.11.03.14.46
+        by smtp.gmail.com with ESMTPSA id jw9-20020a170906e94900b00a52241b823esm354394ejb.109.2024.04.11.03.15.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Apr 2024 03:14:46 -0700 (PDT)
-Date: Thu, 11 Apr 2024 13:14:43 +0300
+        Thu, 11 Apr 2024 03:15:37 -0700 (PDT)
+Date: Thu, 11 Apr 2024 13:15:34 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Thomas Haemmerle <thomas.haemmerle@leica-geosystems.com>,
-	joel@jms.id.au
+To: oe-kbuild@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	bsp-development.geo@leica-geosystems.com,
-	Thomas Haemmerle <thomas.haemmerle@leica-geosystems.com>,
-	Eddie James <eajames@linux.ibm.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] iio: pressure: dps310: introduce consistent error
- handling
-Message-ID: <cbdafb33-fd3b-47ad-a678-83fa92475278@moroto.mountain>
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Vinod Koul <vkoul@kernel.org>
+Subject: [linux-next:master 3454/5042] drivers/dma/fsl-edma-main.c:133
+ fsl_edma_xlate() warn: inconsistent returns '&fsl_edma->fsl_edma_mutex'.
+Message-ID: <425abe00-438e-4736-98f7-89609789b3d4@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,99 +67,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240410103604.992989-3-thomas.haemmerle@leica-geosystems.com>
 
-Hi Thomas,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Haemmerle/iio-pressure-dps310-support-negative-temperature-values/20240410-183937
-base:   2c71fdf02a95b3dd425b42f28fd47fb2b1d22702
-patch link:    https://lore.kernel.org/r/20240410103604.992989-3-thomas.haemmerle%40leica-geosystems.com
-patch subject: [PATCH v2 2/4] iio: pressure: dps310: introduce consistent error handling
-config: i386-randconfig-141-20240411 (https://download.01.org/0day-ci/archive/20240411/202404110708.7BQYVa7Z-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6ebf211bb11dfc004a2ff73a9de5386fa309c430
+commit: 6aa60f79e6794bbbc571ea4e0501b9fcc26026e2 [3454/5042] dmaengine: fsl-edma: add safety check for 'srcid'
+config: i386-randconfig-141-20240411 (https://download.01.org/0day-ci/archive/20240411/202404110915.riwV3ZAC-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202404110708.7BQYVa7Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404110915.riwV3ZAC-lkp@intel.com/
 
 smatch warnings:
-drivers/iio/pressure/dps310.c:497 dps310_read_pres_raw() warn: inconsistent returns '&data->lock'.
-drivers/iio/pressure/dps310.c:541 dps310_read_temp_raw() warn: inconsistent returns '&data->lock'.
+drivers/dma/fsl-edma-main.c:133 fsl_edma_xlate() warn: inconsistent returns '&fsl_edma->fsl_edma_mutex'.
 
-vim +497 drivers/iio/pressure/dps310.c
+vim +133 drivers/dma/fsl-edma-main.c
 
-d711a3c7dc829c Eddie James      2019-05-20  466  static int dps310_read_pres_raw(struct dps310_data *data)
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  467  {
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  468  	int rc;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  469  	int rate;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  470  	int timeout;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  471  	s32 raw;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  472  	u8 val[3];
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  473  
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  474  	if (mutex_lock_interruptible(&data->lock))
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  475  		return -EINTR;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  476  
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  477  	rc = dps310_get_pres_samp_freq(data, &rate);
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  478  	if (rc)
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  479  		return rc;
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   96  static struct dma_chan *fsl_edma_xlate(struct of_phandle_args *dma_spec,
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   97  		struct of_dma *ofdma)
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   98  {
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   99  	struct fsl_edma_engine *fsl_edma = ofdma->of_dma_data;
+178c81e58e9155 drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-21  100  	struct dma_chan *chan, *_chan;
+82d149b86d31e1 drivers/dma/fsl-edma.c      Yuan Yao     2015-10-30  101  	struct fsl_edma_chan *fsl_chan;
+af802728e4ab07 drivers/dma/fsl-edma.c      Robin Gong   2019-06-25  102  	u32 dmamux_nr = fsl_edma->drvdata->dmamuxs;
+af802728e4ab07 drivers/dma/fsl-edma.c      Robin Gong   2019-06-25  103  	unsigned long chans_per_mux = fsl_edma->n_chans / dmamux_nr;
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  104  
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  105  	if (dma_spec->args_count != 2)
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  106  		return NULL;
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  107  
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  108  	mutex_lock(&fsl_edma->fsl_edma_mutex);
+178c81e58e9155 drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-21  109  	list_for_each_entry_safe(chan, _chan, &fsl_edma->dma_dev.channels, device_node) {
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  110  		if (chan->client_count)
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  111  			continue;
+211bfef7c2bc8c drivers/dma/fsl-edma.c      Jingchang Lu 2014-07-01  112  		if ((chan->chan_id / chans_per_mux) == dma_spec->args[0]) {
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  113  			chan = dma_get_slave_channel(chan);
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  114  			if (chan) {
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  115  				chan->device->privatecnt++;
+82d149b86d31e1 drivers/dma/fsl-edma.c      Yuan Yao     2015-10-30  116  				fsl_chan = to_fsl_edma_chan(chan);
+cee8cbfc7be8ff drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  117  				fsl_chan->srcid = dma_spec->args[1];
+6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  118  
+6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  119  				if (!fsl_chan->srcid) {
+6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  120  					dev_err(&fsl_chan->pdev->dev, "Invalidate srcid %d\n",
+6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  121  						fsl_chan->srcid);
 
-goto unlock
+mutex_unlock(&fsl_edma->fsl_edma_mutex); before returning
 
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  480  
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  481  	timeout = DPS310_POLL_TIMEOUT_US(rate);
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  482  
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  483  	/* Poll for sensor readiness; base the timeout upon the sample rate. */
-7b4ab4abcea4c0 Eddie James      2022-09-15  484  	rc = dps310_ready(data, DPS310_PRS_RDY, timeout);
-d711a3c7dc829c Eddie James      2019-05-20  485  	if (rc)
-d711a3c7dc829c Eddie James      2019-05-20  486  		goto done;
-d711a3c7dc829c Eddie James      2019-05-20  487  
-d711a3c7dc829c Eddie James      2019-05-20  488  	rc = regmap_bulk_read(data->regmap, DPS310_PRS_BASE, val, sizeof(val));
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  489  	if (rc < 0)
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  490  		goto done;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  491  
-d711a3c7dc829c Eddie James      2019-05-20  492  	raw = (val[0] << 16) | (val[1] << 8) | val[2];
-d711a3c7dc829c Eddie James      2019-05-20  493  	data->pressure_raw = sign_extend32(raw, 23);
-d711a3c7dc829c Eddie James      2019-05-20  494  
-d711a3c7dc829c Eddie James      2019-05-20  495  done:
-d711a3c7dc829c Eddie James      2019-05-20  496  	mutex_unlock(&data->lock);
-d711a3c7dc829c Eddie James      2019-05-20 @497  	return rc;
-d711a3c7dc829c Eddie James      2019-05-20  498  }
-
-[ snip ]
-
-d711a3c7dc829c Eddie James      2019-05-20  517  static int dps310_read_temp_raw(struct dps310_data *data)
-d711a3c7dc829c Eddie James      2019-05-20  518  {
-d711a3c7dc829c Eddie James      2019-05-20  519  	int rc;
-d711a3c7dc829c Eddie James      2019-05-20  520  	int rate;
-d711a3c7dc829c Eddie James      2019-05-20  521  	int timeout;
-d711a3c7dc829c Eddie James      2019-05-20  522  
-d711a3c7dc829c Eddie James      2019-05-20  523  	if (mutex_lock_interruptible(&data->lock))
-d711a3c7dc829c Eddie James      2019-05-20  524  		return -EINTR;
-d711a3c7dc829c Eddie James      2019-05-20  525  
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  526  	rc = dps310_get_temp_samp_freq(data, &rate);
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  527  	if (rc)
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  528  		return rc;
-
-goto unlock
-
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  529  
-d711a3c7dc829c Eddie James      2019-05-20  530  	timeout = DPS310_POLL_TIMEOUT_US(rate);
-d711a3c7dc829c Eddie James      2019-05-20  531  
-d711a3c7dc829c Eddie James      2019-05-20  532  	/* Poll for sensor readiness; base the timeout upon the sample rate. */
-7b4ab4abcea4c0 Eddie James      2022-09-15  533  	rc = dps310_ready(data, DPS310_TMP_RDY, timeout);
-7b4ab4abcea4c0 Eddie James      2022-09-15  534  	if (rc)
-d711a3c7dc829c Eddie James      2019-05-20  535  		goto done;
-d711a3c7dc829c Eddie James      2019-05-20  536  
-d711a3c7dc829c Eddie James      2019-05-20  537  	rc = dps310_read_temp_ready(data);
-d711a3c7dc829c Eddie James      2019-05-20  538  
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  539  done:
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  540  	mutex_unlock(&data->lock);
-ba6ec48e76bcd4 Joel Stanley     2019-05-20 @541  	return rc;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  542  }
+6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  122  					return NULL;
+6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  123  				}
+6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  124  
+cee8cbfc7be8ff drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  125  				fsl_edma_chan_mux(fsl_chan, fsl_chan->srcid,
+82d149b86d31e1 drivers/dma/fsl-edma.c      Yuan Yao     2015-10-30  126  						true);
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  127  				mutex_unlock(&fsl_edma->fsl_edma_mutex);
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  128  				return chan;
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  129  			}
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  130  		}
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  131  	}
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  132  	mutex_unlock(&fsl_edma->fsl_edma_mutex);
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18 @133  	return NULL;
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  134  }
 
 -- 
 0-DAY CI Kernel Test Service
