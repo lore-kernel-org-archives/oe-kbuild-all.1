@@ -1,192 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B811754B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 20:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584A329416
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 20:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712867016; cv=none; b=EQnGcZdLZ0dTyTPYb3UJJJulymOr3Yp+Q4Kn+weK5vQwHhjzBbQK1ijeJyBH6+0voeZj84tsRNKcUrkSvNQeE5z2DE797ArSu/ZU38pWWANpBLIVhY85AjQeANN9W/CHszUddkei5RrR3RguWtZ3dGU/GG9ECZQYtt37XxRin+Q=
+	t=1712867351; cv=none; b=dm8TRHgvxwFwdg45E9PsBUuF9FAh0lBHCJzdfBbcnJUWJ4YDK8vGxyTo2r4xJV524pQM3S6G5R8lCpInu64zg80gbZRqjLuYgs11xarX3zZrLM+Mjh5/dpOKwM+qPHX4DUGycRpxm8iuRdC0rpSc7ukhB6uLxRrD0RWAf267r7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712867016; c=relaxed/simple;
-	bh=lG+99FMQLohF69XheHkjDJHJ8oouZGTiDY55UKixSxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t2JrHhYIW3sQmilWzT/tjokGWN67YUqb61dgqjlfCtPJvmmnPKxm+6dVZACrgpQDPnKo4m0+SZo/NqUQ/i4dQXvYFiPLqjBSdiFHmEMFp/6xKD1mue4J8PNXW/MJd5pNCdlDXpu2eyzZ/4bzJUn7OwvUKsplAPaO0Qk6rMFlMX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hk3v8+e7; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1712867351; c=relaxed/simple;
+	bh=DMrqrQI2NjmjAwUZ2I5H3Ca73lRjOtEgiyTroHb2v6A=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=MwF83j9XpInCqp4doAWK/RnmT0r/xeveUd3UFjKOa2R9XvYz2PFrlK8qh4J59/u1UWyGpktfXZ9U/tJWrNgPmwIcGgh3DvRExu2jM4qc5xUoaG9Fuv2z9hCGl06etzdmnKCWhAdXv6bRuooN8nEtf7W1onkGMMnXffMUsE9q6+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=1izhEscd; arc=none smtp.client-ip=202.36.163.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hk3v8+e7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712867014; x=1744403014;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lG+99FMQLohF69XheHkjDJHJ8oouZGTiDY55UKixSxw=;
-  b=Hk3v8+e7OQ8gmXVG1WNbeD8JVyMiltwlqc+SOAOWERnrVrRSXdt6uDvy
-   Ppw7jsYlCJNHCxod94nxZFL21Cpqy9NyA11bS2IcsRTsRRLFw8OV9VU4w
-   5Q0jbbhCuLo7hIFqWrg6zSelsXHYuACfrreGcJrNMlxIo/GVo2OLEzVZu
-   Le7VHkvfWeqyvbKr5jsmrm2axfWLDiANHzQJBJ/DqstZ49upyDJM9XqEj
-   M2J4jdVQMj9r/HMtLkWqGbIs5hUduuVozUhqRfn00DJ+wpYT4OcYHHCvL
-   zUAe4aEiQ8z02NkixMyg+cfaXb7XfCdCr6tCdU2IOBm2LTOVmmwpIV3bD
-   Q==;
-X-CSE-ConnectionGUID: sGXj7ATcTbml6m82hxONbw==
-X-CSE-MsgGUID: /ZFog3+zTGKe+ymE9cB84A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8157755"
-X-IronPort-AV: E=Sophos;i="6.07,194,1708416000"; 
-   d="scan'208";a="8157755"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 13:23:32 -0700
-X-CSE-ConnectionGUID: bRg/8lakTUGNHaGnvEAMWQ==
-X-CSE-MsgGUID: Ia0j5BrnROiOXAyv4LrHbw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,194,1708416000"; 
-   d="scan'208";a="25661995"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Apr 2024 13:23:30 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rv0xD-0008xZ-0g;
-	Thu, 11 Apr 2024 20:23:27 +0000
-Date: Fri, 12 Apr 2024 04:23:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2387/7374] kernel/sched/psi.c:387:1: error:
- function definition is not allowed here
-Message-ID: <202404120405.QVyKazJb-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="1izhEscd"
+Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 3C03F2C01D7;
+	Fri, 12 Apr 2024 08:29:03 +1200 (NZST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+	s=mail181024; t=1712867343;
+	bh=DMrqrQI2NjmjAwUZ2I5H3Ca73lRjOtEgiyTroHb2v6A=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=1izhEscdX5oyszzieqI8uefd8eBNtOafZDqGqJ4mEnEYXS2ksl6FDtfF0kvocdgcz
+	 fIwaMZ0vpQ7LDE6QA5P8hvt5nCq2FIg2XS/KRoTerMtd8z2lhiyPNC9hwwSwDzDEl5
+	 z2e5f62hPpDN9rBkPf1XOuBzwrEsMG8yjEL7pp4M0j4BC+sBjSM54O7i75JVmvoyTr
+	 f3Dxx86kDRHIviqKL97zEG1pvIBaFYjSaZ3MF2OcGj6O8phfrmuDtH4KI8FII5DGAb
+	 qcHTgkRy/q5oV+IL1jf/J99vNcUHtwL8NOvzgleHNPHmPWUIfBgRdlirPC1uYd15Mo
+	 6eXsW27P5Tsdg==
+Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
+	id <B6618480f0000>; Fri, 12 Apr 2024 08:29:03 +1200
+Received: from svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) by
+ svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.1544.9; Fri, 12 Apr 2024 08:29:02 +1200
+Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) by
+ svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8:409d:36f5:8899:92e8) with Microsoft
+ SMTP Server (TLS) id 15.0.1497.48; Fri, 12 Apr 2024 08:29:02 +1200
+Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
+ svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
+ 15.02.1544.009; Fri, 12 Apr 2024 08:29:02 +1200
+From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, "kernel
+ test robot" <lkp@intel.com>
+Subject: Re: [char-misc:char-misc-testing 5/20] drivers/uio/uio.c:446:
+ warning: expecting prototype for uio_interrupt(). Prototype was for
+ uio_interrupt_handler() instead
+Thread-Topic: [char-misc:char-misc-testing 5/20] drivers/uio/uio.c:446:
+ warning: expecting prototype for uio_interrupt(). Prototype was for
+ uio_interrupt_handler() instead
+Thread-Index: AQHajCG9L16iUNGMw06UQHlOSVwTubFivFkA
+Date: Thu, 11 Apr 2024 20:29:02 +0000
+Message-ID: <f3f2124e-31b2-4598-b2a6-44480afc33c3@alliedtelesis.co.nz>
+References: <202404112227.mIATKoTb-lkp@intel.com>
+In-Reply-To: <202404112227.mIATKoTb-lkp@intel.com>
+Accept-Language: en-NZ, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3FB14F4B177F794B9FFA396A510E7D54@atlnz.lc>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-SEG-SpamProfiler-Analysis: v=2.4 cv=dY4j3mXe c=1 sm=1 tr=0 ts=6618480f a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=raytVjVEu-sA:10 a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=CDD9DHtbrccDSp1lZM4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=mmqRlSCDY2ywfjPLJ4af:22
+X-SEG-SpamProfiler-Score: 0
 
-Hi Lu,
-
-First bad commit (maybe != root cause):
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   8f7c77eb69ee331fb66fad8eec5ca81b8843eaf3
-commit: 654944510822988390470cbc5b6f914c19dd9b88 [2387/7374] sched/psi: add cpu fine grained stall tracking in pressure.stat
-config: x86_64-randconfig-121-20240412 (https://download.01.org/0day-ci/archive/20240412/202404120405.QVyKazJb-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240412/202404120405.QVyKazJb-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404120405.QVyKazJb-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from kernel/sched/build_utility.c:97:
->> kernel/sched/psi.c:387:1: error: function definition is not allowed here
-     387 | {
-         | ^
-   kernel/sched/psi.c:421:1: error: function definition is not allowed here
-     421 | {
-         | ^
-   kernel/sched/psi.c:449:1: error: function definition is not allowed here
-     449 | {
-         | ^
-   kernel/sched/psi.c:471:1: error: function definition is not allowed here
-     471 | {
-         | ^
-   kernel/sched/psi.c:517:17: error: function definition is not allowed here
-     517 |                                         bool next) {}
-         |                                                    ^
-   kernel/sched/psi.c:523:1: error: function definition is not allowed here
-     523 | {
-         | ^
-   kernel/sched/psi.c:590:1: error: function definition is not allowed here
-     590 | {
-         | ^
-   kernel/sched/psi.c:608:1: error: function definition is not allowed here
-     608 | {
-         | ^
-   kernel/sched/psi.c:635:1: error: function definition is not allowed here
-     635 | {
-         | ^
-   kernel/sched/psi.c:707:1: error: function definition is not allowed here
-     707 | {
-         | ^
-   kernel/sched/psi.c:772:1: error: function definition is not allowed here
-     772 | {
-         | ^
-   kernel/sched/psi.c:808:1: error: function definition is not allowed here
-     808 | {
-         | ^
-   kernel/sched/psi.c:822:1: error: function definition is not allowed here
-     822 | {
-         | ^
-   kernel/sched/psi.c:848:1: error: function definition is not allowed here
-     848 | {
-         | ^
-   kernel/sched/psi.c:932:1: error: function definition is not allowed here
-     932 | {
-         | ^
-   kernel/sched/psi.c:950:1: error: function definition is not allowed here
-     950 | {
-         | ^
-   kernel/sched/psi.c:958:1: error: function definition is not allowed here
-     958 | {
-         | ^
-   kernel/sched/psi.c:993:1: error: function definition is not allowed here
-     993 | {
-         | ^
-   kernel/sched/psi.c:1107:1: error: function definition is not allowed here
-    1107 | {
-         | ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
-
-
-vim +387 kernel/sched/psi.c
-
-a65983d90bfb5e0 Lu Jialin 2024-01-04  383  
-a65983d90bfb5e0 Lu Jialin 2024-01-04  384  static bool test_fine_grained_stat(unsigned int *stat_tasks,
-a65983d90bfb5e0 Lu Jialin 2024-01-04  385  				   unsigned int nr_running,
-a65983d90bfb5e0 Lu Jialin 2024-01-04  386  				   enum psi_stat_states state)
-a65983d90bfb5e0 Lu Jialin 2024-01-04 @387  {
-a65983d90bfb5e0 Lu Jialin 2024-01-04  388  	switch (state) {
-a65983d90bfb5e0 Lu Jialin 2024-01-04  389  	case PSI_MEMCG_RECLAIM_SOME:
-a65983d90bfb5e0 Lu Jialin 2024-01-04  390  		return unlikely(stat_tasks[NR_MEMCG_RECLAIM]);
-a65983d90bfb5e0 Lu Jialin 2024-01-04  391  	case PSI_MEMCG_RECLAIM_FULL:
-a65983d90bfb5e0 Lu Jialin 2024-01-04  392  		return unlikely(stat_tasks[NR_MEMCG_RECLAIM] &&
-a65983d90bfb5e0 Lu Jialin 2024-01-04  393  		       nr_running == stat_tasks[NR_MEMCG_RECLAIM_RUNNING]);
-25d00f6853c3c6c Lu Jialin 2024-01-04  394  	case PSI_GLOBAL_RECLAIM_SOME:
-25d00f6853c3c6c Lu Jialin 2024-01-04  395  		return unlikely(stat_tasks[NR_GLOBAL_RECLAIM]);
-25d00f6853c3c6c Lu Jialin 2024-01-04  396  	case PSI_GLOBAL_RECLAIM_FULL:
-25d00f6853c3c6c Lu Jialin 2024-01-04  397  		return unlikely(stat_tasks[NR_GLOBAL_RECLAIM] &&
-25d00f6853c3c6c Lu Jialin 2024-01-04  398  		       nr_running == stat_tasks[NR_GLOBAL_RECLAIM_RUNNING]);
-25d00f6853c3c6c Lu Jialin 2024-01-04  399  	case PSI_COMPACT_SOME:
-25d00f6853c3c6c Lu Jialin 2024-01-04  400  		return unlikely(stat_tasks[NR_COMPACT]);
-25d00f6853c3c6c Lu Jialin 2024-01-04  401  	case PSI_COMPACT_FULL:
-25d00f6853c3c6c Lu Jialin 2024-01-04  402  		return unlikely(stat_tasks[NR_COMPACT] &&
-25d00f6853c3c6c Lu Jialin 2024-01-04  403  		       nr_running == stat_tasks[NR_COMPACT_RUNNING]);
-25d00f6853c3c6c Lu Jialin 2024-01-04  404  	case PSI_ASYNC_MEMCG_RECLAIM_SOME:
-25d00f6853c3c6c Lu Jialin 2024-01-04  405  		return unlikely(stat_tasks[NR_ASYNC_MEMCG_RECLAIM]);
-25d00f6853c3c6c Lu Jialin 2024-01-04  406  	case PSI_ASYNC_MEMCG_RECLAIM_FULL:
-25d00f6853c3c6c Lu Jialin 2024-01-04  407  		return unlikely(stat_tasks[NR_ASYNC_MEMCG_RECLAIM] &&
-25d00f6853c3c6c Lu Jialin 2024-01-04  408  		      nr_running == stat_tasks[NR_ASYNC_MEMCG_RECLAIM_RUNNING]);
-25d00f6853c3c6c Lu Jialin 2024-01-04  409  	case PSI_SWAP_SOME:
-25d00f6853c3c6c Lu Jialin 2024-01-04  410  		return unlikely(stat_tasks[NR_SWAP]);
-25d00f6853c3c6c Lu Jialin 2024-01-04  411  	case PSI_SWAP_FULL:
-25d00f6853c3c6c Lu Jialin 2024-01-04  412  		return unlikely(stat_tasks[NR_SWAP] &&
-25d00f6853c3c6c Lu Jialin 2024-01-04  413  		       nr_running == stat_tasks[NR_SWAP_RUNNING]);
-a65983d90bfb5e0 Lu Jialin 2024-01-04  414  	default:
-a65983d90bfb5e0 Lu Jialin 2024-01-04  415  		return false;
-a65983d90bfb5e0 Lu Jialin 2024-01-04  416  	}
-a65983d90bfb5e0 Lu Jialin 2024-01-04  417  }
-a65983d90bfb5e0 Lu Jialin 2024-01-04  418  
-
-:::::: The code at line 387 was first introduced by commit
-:::::: a65983d90bfb5e031444fea492b32f931c83ffcf sched/psi: Introduce fine grained stall time collect for cgroup reclaim
-
-:::::: TO: Lu Jialin <lujialin4@huawei.com>
-:::::: CC: yanhaitao <yanhaitao2@huawei.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+SGkgR3JlZywNCg0KT24gMTIvMDQvMjQgMDM6MDQsIGtlcm5lbCB0ZXN0IHJvYm90IHdyb3RlOg0K
+PiB0cmVlOiAgIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0
+L2dyZWdraC9jaGFyLW1pc2MuZ2l0IGNoYXItbWlzYy10ZXN0aW5nDQo+IGhlYWQ6ICAgZGM4MDZi
+ZDQ4YWJjMWI4YTRhZTcyNzA5YTM3ZTY1ZGI0MmEzMjA0OA0KPiBjb21taXQ6IGY4YTI3ZGZhNGI4
+MmQ0NDJhZjFjMDY0NWE1YWNjNzBjYzk3YzY3ZjYgWzUvMjBdIHVpbzogdXNlIHRocmVhZGVkIGlu
+dGVycnVwdHMNCj4gY29uZmlnOiBzaC1kZWZjb25maWcgKGh0dHBzOi8vZG93bmxvYWQuMDEub3Jn
+LzBkYXktY2kvYXJjaGl2ZS8yMDI0MDQxMS8yMDI0MDQxMTIyMjcubUlBVEtvVGItbGtwQGludGVs
+LmNvbS9jb25maWcpDQo+IGNvbXBpbGVyOiBzaDQtbGludXgtZ2NjIChHQ0MpIDEzLjIuMA0KPiBy
+ZXByb2R1Y2UgKHRoaXMgaXMgYSBXPTEgYnVpbGQpOiAoaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcv
+MGRheS1jaS9hcmNoaXZlLzIwMjQwNDExLzIwMjQwNDExMjIyNy5tSUFUS29UYi1sa3BAaW50ZWwu
+Y29tL3JlcHJvZHVjZSkNCj4NCj4gSWYgeW91IGZpeCB0aGUgaXNzdWUgaW4gYSBzZXBhcmF0ZSBw
+YXRjaC9jb21taXQgKGkuZS4gbm90IGp1c3QgYSBuZXcgdmVyc2lvbiBvZg0KPiB0aGUgc2FtZSBw
+YXRjaC9jb21taXQpLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWdzDQo+IHwgUmVwb3J0ZWQtYnk6
+IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPg0KPiB8IENsb3NlczogaHR0cHM6Ly9s
+b3JlLmtlcm5lbC5vcmcvb2Uta2J1aWxkLWFsbC8yMDI0MDQxMTIyMjcubUlBVEtvVGItbGtwQGlu
+dGVsLmNvbS8NCj4NCj4gQWxsIHdhcm5pbmdzIChuZXcgb25lcyBwcmVmaXhlZCBieSA+Pik6DQo+
+DQo+Pj4gZHJpdmVycy91aW8vdWlvLmM6NDQ2OiB3YXJuaW5nOiBleHBlY3RpbmcgcHJvdG90eXBl
+IGZvciB1aW9faW50ZXJydXB0KCkuIFByb3RvdHlwZSB3YXMgZm9yIHVpb19pbnRlcnJ1cHRfaGFu
+ZGxlcigpIGluc3RlYWQNCg0KSSBjYW4gZG8gYSBxdWljayBmaXh1cCBmb3IgdGhhdC4gRG8geW91
+IHdhbnQgaXQgYXMgYSB2MyBvciBhIG5ldyBwYXRjaD8NCg0KPg0KPiB2aW0gKzQ0NiBkcml2ZXJz
+L3Vpby91aW8uYw0KPg0KPiBiZWFmYzU0YzRlMmZiYSBIYW5zIEouIEtvY2ggIDIwMDYtMTItMDcg
+IDQzOQ0KPiBiZWFmYzU0YzRlMmZiYSBIYW5zIEouIEtvY2ggIDIwMDYtMTItMDcgIDQ0MCAgLyoq
+DQo+IGJlYWZjNTRjNGUyZmJhIEhhbnMgSi4gS29jaCAgMjAwNi0xMi0wNyAgNDQxICAgKiB1aW9f
+aW50ZXJydXB0IC0gaGFyZHdhcmUgaW50ZXJydXB0IGhhbmRsZXINCj4gYmVhZmM1NGM0ZTJmYmEg
+SGFucyBKLiBLb2NoICAyMDA2LTEyLTA3ICA0NDIgICAqIEBpcnE6IElSUSBudW1iZXIsIGNhbiBi
+ZSBVSU9fSVJRX0NZQ0xJQyBmb3IgY3ljbGljIHRpbWVyDQo+IGJlYWZjNTRjNGUyZmJhIEhhbnMg
+Si4gS29jaCAgMjAwNi0xMi0wNyAgNDQzICAgKiBAZGV2X2lkOiBQb2ludGVyIHRvIHRoZSBkZXZp
+Y2VzIHVpb19kZXZpY2Ugc3RydWN0dXJlDQo+IGJlYWZjNTRjNGUyZmJhIEhhbnMgSi4gS29jaCAg
+MjAwNi0xMi0wNyAgNDQ0ICAgKi8NCj4gZjhhMjdkZmE0YjgyZDQgQ2hyaXMgUGFja2hhbSAyMDI0
+LTA0LTA5ICA0NDUgIHN0YXRpYyBpcnFyZXR1cm5fdCB1aW9faW50ZXJydXB0X2hhbmRsZXIoaW50
+IGlycSwgdm9pZCAqZGV2X2lkKQ0KPiBiZWFmYzU0YzRlMmZiYSBIYW5zIEouIEtvY2ggIDIwMDYt
+MTItMDcgQDQ0NiAgew0KPiBiZWFmYzU0YzRlMmZiYSBIYW5zIEouIEtvY2ggIDIwMDYtMTItMDcg
+IDQ0NyAgCXN0cnVjdCB1aW9fZGV2aWNlICppZGV2ID0gKHN0cnVjdCB1aW9fZGV2aWNlICopZGV2
+X2lkOw0KPiA1N2M1ZjRkZjBhNWEwZSBYaXVibyBMaSAgICAgIDIwMTgtMDctMDYgIDQ0OCAgCWly
+cXJldHVybl90IHJldDsNCj4gYmVhZmM1NGM0ZTJmYmEgSGFucyBKLiBLb2NoICAyMDA2LTEyLTA3
+ICA0NDkNCj4gNTdjNWY0ZGYwYTVhMGUgWGl1Ym8gTGkgICAgICAyMDE4LTA3LTA2ICA0NTAgIAly
+ZXQgPSBpZGV2LT5pbmZvLT5oYW5kbGVyKGlycSwgaWRldi0+aW5mbyk7DQo+IGJlYWZjNTRjNGUy
+ZmJhIEhhbnMgSi4gS29jaCAgMjAwNi0xMi0wNyAgNDUxICAJaWYgKHJldCA9PSBJUlFfSEFORExF
+RCkNCj4gZjhhMjdkZmE0YjgyZDQgQ2hyaXMgUGFja2hhbSAyMDI0LTA0LTA5ICA0NTIgIAkJcmV0
+ID0gSVJRX1dBS0VfVEhSRUFEOw0KPiBiZWFmYzU0YzRlMmZiYSBIYW5zIEouIEtvY2ggIDIwMDYt
+MTItMDcgIDQ1Mw0KPiBiZWFmYzU0YzRlMmZiYSBIYW5zIEouIEtvY2ggIDIwMDYtMTItMDcgIDQ1
+NCAgCXJldHVybiByZXQ7DQo+IGJlYWZjNTRjNGUyZmJhIEhhbnMgSi4gS29jaCAgMjAwNi0xMi0w
+NyAgNDU1ICB9DQo+IGJlYWZjNTRjNGUyZmJhIEhhbnMgSi4gS29jaCAgMjAwNi0xMi0wNyAgNDU2
+DQo+DQo+IDo6Ojo6OiBUaGUgY29kZSBhdCBsaW5lIDQ0NiB3YXMgZmlyc3QgaW50cm9kdWNlZCBi
+eSBjb21taXQNCj4gOjo6Ojo6IGJlYWZjNTRjNGUyZmJhMjRlMWNhNDVjZGI3Zjc5ZDlhYTgzZTNk
+YjEgVUlPOiBBZGQgdGhlIFVzZXIgSU8gY29yZSBjb2RlDQo+DQo+IDo6Ojo6OiBUTzogSGFucyBK
+LiBLb2NoIDxoamtAbGludXRyb25peC5kZT4NCj4gOjo6Ojo6IENDOiBHcmVnIEtyb2FoLUhhcnRt
+YW4gPGdyZWdraEBzdXNlLmRlPg0KPg==
