@@ -1,180 +1,133 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9443C13DDD6;
-	Thu, 11 Apr 2024 11:11:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8ABC1474BA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 11:13:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712833911; cv=none; b=kBI4wiaZ8WRks2nXT+1Ckh1gjlSBVxg3aTvfFMPigoRNIHEviBB7leEB/a3xDf23Jt5JpvWiv84BOKYpdcXhecPO1FMwni9Pe7lM24m7T5brk3D2GvvRypmzMdQ8HWh4js9HWusZaOmGmYDPNkwxMa5fWyEUorHd2izIkBbAwJ8=
+	t=1712834009; cv=none; b=FGZlMTYkALymcMWMAw9SMreIUxtlbVOZbtS7mPQyteDLohPQ0ZJH7vmHO3DtJMdw7J3kNcgXuUyhY6FadNWkDv+GpVRq8ruGEt/u1W6DqmF05N7F0THamBVq6e3tiL+28anfseKqdhRtRqEck8/u39nmnIuhwQ5LN0Em6ZMlV/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712833911; c=relaxed/simple;
-	bh=NNMOw5K7qDhqQMIweemH0TcaZfDyuDV43zY1PSpfhTg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iQG8LKwDE0GxRkUpthrt56/ZpZErka+CYd7sxHLwQqqG+1vNdPCKCRY17mUBKlhDfxvtjAEMvqy4/JHqy5wIHh/8dcqHzxrqYsD6LQLr4AnpjZxEZcK9ldvCj10T79kTXuSKBB6BcflVe3FCUD+NW0NKgrfZmzBmMK+yb9ooW4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QYJbMn2F; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712834009; c=relaxed/simple;
+	bh=Hc8TDJAJSUkUXX9GrDxV7kpEGHwyKBjYSpZ2z55aDeY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=unCShfdfH/EeS0VcSite+Cyq/E8CsxdGkF4u0QywSXXTCb8f4xBo/vYW+UyTwv20p76ytuchkMM9Lt97Gs46Mwrh4XiQz1toGEhtX0GIbZ/vLt+XCsJVIVEJc0u6IC4Ui7e+7/XWodlFewTH3di+flx7FqO8gKvq+gsSHGwAvMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B+jwbR15; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QYJbMn2F"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-516d727074eso7540142e87.0;
-        Thu, 11 Apr 2024 04:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712833907; x=1713438707; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aVX2Rku0op9HbvUf12NiG6RKbMKdh5Sl/4FiL3iEucI=;
-        b=QYJbMn2F44YNCBxgijngvmOuJjx9XtgvkFVOlbjE0JzFiTEI3ShqCK3jbpxbt0j8aD
-         GSxBe/EsRWVpBilHiJlqI8mnTYsBpxhepi1nYMxHIxujohabYIssTqw0J6YlCfXcMGam
-         G8LqvkFp8cCluOrvwwQ9wbU2l75rUhYW9BVpbAC7O3WEgoC+vZF/K8IKWwNKg58uyH/C
-         hNKXthoEfAF5J59PYy9F2tua6TGnOPS4fEM4VlSbCh2J55+dxNdy6TJj9nUoZ2JpHLjt
-         XZnZvC1ClaV0kXU45IkhGEPbnc/UXOGHqSpHC8jM27gPafRvRKlkR1uwrN/1AXxQungA
-         TYDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712833907; x=1713438707;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aVX2Rku0op9HbvUf12NiG6RKbMKdh5Sl/4FiL3iEucI=;
-        b=Esx23LmZJlckpneIlNZU7rgDCF/BeTV+SK+ZDbOLOFfqQN8IGNzHqwYQuVkNoMMM8R
-         cV6wuZgxFJ2Q9bYHpZRP+MyiAh80e1lFdZrDiKd5hD/3UcZCV7p206NqE7LWnQvxZ6rS
-         5MS3VvAGLBI7tjR4WVc1lO14mJdqFrrmZmkmrNUhbtoLjKxP9IbTffyoQpWTDcV8Yl1T
-         0PQ1zxZH3oY9KCgd65c73P36uuiDcYKdtFjqVzPTk6fanBIoQlfO2pgk9m96cOwNqbrN
-         lPltfhyCGa3TRLBB2baAEntaw/Os4l3/XGhwa9CSMC863KL2THbq1AXUzN9XgVzVTm/V
-         vUzw==
-X-Forwarded-Encrypted: i=1; AJvYcCU4TOiBvesZaIrjcZguloX/TsDGaHODziGW9Xc0eHzrLqL05b6lEcCHG/kLuarRAe2mcX4YULHq/7X4oAzgMEFNNwZk/0J0KzHHoMANmICAgQJIaJh444SXwjGwigp2WEyL7nw=
-X-Gm-Message-State: AOJu0YyxSCXTOO/R6mqHRpnOC/2mdDTPSPv01ek8ETlgxQ9zuS04vDcF
-	ed/DsMXNuM/KN6dIuelfbbhjqBLEP8lDnTEk3VkhjZGIJ7j+vOW4WPRsntL0Ql0SWLEoFFEktIB
-	vSGN4RDc25QNhma+2TgqxbbIlj0s=
-X-Google-Smtp-Source: AGHT+IGRQW+vHNKuaELQHfwWtIpsnvir9wmGHAduR+Bcyc9rEe02Na9Ngx1LWF1ZWrLLoJZ2IA/1qj46i5J2kMIMuGM=
-X-Received: by 2002:a19:8c1e:0:b0:517:5ee6:4f56 with SMTP id
- o30-20020a198c1e000000b005175ee64f56mr3073451lfd.8.1712833907223; Thu, 11 Apr
- 2024 04:11:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B+jwbR15"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712834007; x=1744370007;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Hc8TDJAJSUkUXX9GrDxV7kpEGHwyKBjYSpZ2z55aDeY=;
+  b=B+jwbR15cZYR57i4X0xRob6xXzP8hK+ZkEdH7stq0wLH24uorJ1kuxC+
+   EewKV6OeeRsAwD18hBNyBhxoJ2FGEsk7lMppsd0gpiUPYI/0LO3b1z1jY
+   TlN/LZBYfbhtPhn4iaqxi3FniscR1gk7KcuY6Vz6TfVKKNY8oaREjJItv
+   XKqqIPUt5M8Y8mrPZNg/qQU/rAzJx5mkesli9syMlC8rjmvCEHkCFBBjZ
+   LhSpkzNPkI6TO9MTeFTtQrBD1dXippxVjnaNufS1fhKkbr0fIYOFXtHSi
+   /+UONLDc1GcpO/eRJXYfZGMVHYr1fUguTILGBRdKULXZ7aw2sPVaHQCKd
+   w==;
+X-CSE-ConnectionGUID: qYokQBbzSyutuBjcm7MLqg==
+X-CSE-MsgGUID: rqv9jo6WTY+0hLGXPFhhyA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8796827"
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="8796827"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 04:13:27 -0700
+X-CSE-ConnectionGUID: MBzv4PWeQXe4tAlFalDLkQ==
+X-CSE-MsgGUID: BoBzDVN+Q5O6pkS5ODfJpw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="21304110"
+Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 11 Apr 2024 04:13:25 -0700
+Received: from kbuild by e61807b1d151 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rusMt-0008Xp-00;
+	Thu, 11 Apr 2024 11:13:23 +0000
+Date: Thu, 11 Apr 2024 19:12:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.2.x-imx 16083/18110]
+ drivers/tee/crypto/tee_skcipher.c:466:5: warning: no previous prototype for
+ 'tee_crypt_algapi_init'
+Message-ID: <202404111949.7bOGXiEH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202404111834.XUWxYckr-lkp@intel.com>
-In-Reply-To: <202404111834.XUWxYckr-lkp@intel.com>
-From: Chuanhua Han <chuanhuahan@gmail.com>
-Date: Thu, 11 Apr 2024 19:11:35 +0800
-Message-ID: <CANzGp4+M2LewamPmpdYNng4QOL3=PDHY9APwwexRLAHY0npe8w@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-unstable 360/372] ld.lld: error: duplicate symbol: swap_free_nr
-To: kernel test robot <lkp@intel.com>
-Cc: Chuanhua Han <hanchuanhua@oppo.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Barry Song <v-songbaohua@oppo.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-kernel test robot <lkp@intel.com> =E4=BA=8E2024=E5=B9=B44=E6=9C=8811=E6=97=
-=A5=E5=91=A8=E5=9B=9B 18:32=E5=86=99=E9=81=93=EF=BC=9A
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-un=
-stable
-> head:   de14d5f2a9ff2df737a01575ee95bc5a35f5853d
-> commit: ca23b4d4cae5d32a9d22fb3c39550dcf43df83f9 [360/372] mm: swap: intr=
-oduce swap_free_nr() for batched swap_free()
-> config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240411=
-/202404111834.XUWxYckr-lkp@intel.com/config)
-> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8=
-b3b4a92adee40483c27f26c478a384cd69c6f05)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240411/202404111834.XUWxYckr-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202404111834.XUWxYckr-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> ld.lld: error: duplicate symbol: swap_free_nr
->    >>> defined at main.c
->    >>>            init/main.o:(swap_free_nr) in archive vmlinux.a
->    >>> defined at vsprintf.c
->    >>>            vsprintf.o:(.text+0x1) in archive lib/lib.a
-> --
-> >> ld.lld: error: duplicate symbol: swap_free_nr
->    >>> defined at main.c
->    >>>            init/main.o:(swap_free_nr) in archive vmlinux.a
->    >>> defined at platform.c
->    >>>            drivers/of/platform.o:(.text+0x1) in archive vmlinux.a
-> --
-> >> ld.lld: error: duplicate symbol: swap_free_nr
->    >>> defined at main.c
->    >>>            init/main.o:(swap_free_nr) in archive vmlinux.a
->    >>> defined at bdev.c
->    >>>            block/bdev.o:(.text+0x1) in archive vmlinux.a
-> --
-> >> ld.lld: error: duplicate symbol: swap_free_nr
->    >>> defined at main.c
->    >>>            init/main.o:(swap_free_nr) in archive vmlinux.a
->    >>> defined at commoncap.c
->    >>>            security/commoncap.o:(.text+0x1) in archive vmlinux.a
-> --
-> >> ld.lld: error: duplicate symbol: swap_free_nr
->    >>> defined at main.c
->    >>>            init/main.o:(swap_free_nr) in archive vmlinux.a
->    >>> defined at meminfo.c
->    >>>            fs/proc/meminfo.o:(.text+0x1) in archive vmlinux.a
-> --
-> >> ld.lld: error: duplicate symbol: swap_free_nr
->    >>> defined at main.c
->    >>>            init/main.o:(swap_free_nr) in archive vmlinux.a
->    >>> defined at array.c
->    >>>            fs/proc/array.o:(.text+0x1) in archive vmlinux.a
-> --
-> >> ld.lld: error: duplicate symbol: swap_free_nr
->    >>> defined at main.c
->    >>>            init/main.o:(swap_free_nr) in archive vmlinux.a
->    >>> defined at base.c
->    >>>            fs/proc/base.o:(.text+0x1) in archive vmlinux.a
-> --
-> >> ld.lld: error: duplicate symbol: swap_free_nr
->    >>> defined at main.c
->    >>>            init/main.o:(swap_free_nr) in archive vmlinux.a
->    >>> defined at nommu.c
->    >>>            fs/proc/nommu.o:(.text+0x1) in archive vmlinux.a
-> --
-> >> ld.lld: error: duplicate symbol: swap_free_nr
->    >>> defined at main.c
->    >>>            init/main.o:(swap_free_nr) in archive vmlinux.a
->    >>> defined at buffered-io.c
->    >>>            fs/iomap/buffered-io.o:(.text+0x1) in archive vmlinux.a
-> --
-> >> ld.lld: error: duplicate symbol: swap_free_nr
->    >>> defined at main.c
->    >>>            init/main.o:(swap_free_nr) in archive vmlinux.a
->    >>> defined at drop_caches.c
->    >>>            fs/drop_caches.o:(.text+0x1) in archive vmlinux.a
-> --
-> >> ld.lld: error: duplicate symbol: swap_free_nr
->    >>> defined at main.c
->    >>>            init/main.o:(swap_free_nr) in archive vmlinux.a
->    >>> defined at coredump.c
->    >>>            fs/coredump.o:(.text+0x1) in archive vmlinux.a
-> ..
->
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
+head:   2bfda7392e6621dd9060f87d7f9d601bb1906dbf
+commit: 870b422ad2a9ff02bd142262e4d7845159682c52 [16083/18110] tee: crypto: enable support for skcipher
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240411/202404111949.7bOGXiEH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240411/202404111949.7bOGXiEH-lkp@intel.com/reproduce)
 
-Hi,
-thank you!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404111949.7bOGXiEH-lkp@intel.com/
 
-SeongJae reported this and fixed it with a patch here:
-https://lore.kernel.org/linux-mm/20240410233759.274907-1-sj@kernel.org/
+All warnings (new ones prefixed by >>):
 
-Can you please test it?
-
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+>> drivers/tee/crypto/tee_skcipher.c:466:5: warning: no previous prototype for 'tee_crypt_algapi_init' [-Wmissing-prototypes]
+     466 | int tee_crypt_algapi_init(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/tee/crypto/tee_skcipher.c:493:6: warning: no previous prototype for 'tee_crypt_algapi_exit' [-Wmissing-prototypes]
+     493 | void tee_crypt_algapi_exit(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
 
 
---=20
-Thanks,
-Chuanhua
+vim +/tee_crypt_algapi_init +466 drivers/tee/crypto/tee_skcipher.c
+
+   465	
+ > 466	int tee_crypt_algapi_init(void)
+   467	{
+   468		int i = 0, ret = 0;
+   469		bool registered = false;
+   470	
+   471		for (i = 0; i < ARRAY_SIZE(driver_algs); i++) {
+   472			struct tee_crypt_skcipher_alg *t_alg = driver_algs + i;
+   473	
+   474			tee_crypt_skcipher_alg_init(t_alg);
+   475	
+   476			ret = crypto_register_skcipher(&t_alg->skcipher);
+   477			if (ret) {
+   478				pr_warn("%s alg registration failed\n",
+   479					t_alg->skcipher.base.cra_driver_name);
+   480				continue;
+   481			}
+   482	
+   483			t_alg->registered = true;
+   484			registered = true;
+   485		}
+   486	
+   487		if (registered)
+   488			pr_info("tee_crypt algorithms registered in /proc/crypto\n");
+   489	
+   490		return ret;
+   491	}
+   492	
+ > 493	void tee_crypt_algapi_exit(void)
+   494	{
+   495		int i;
+   496	
+   497		for (i = 0; i < ARRAY_SIZE(driver_algs); i++) {
+   498			struct tee_crypt_skcipher_alg *t_alg = driver_algs + i;
+   499	
+   500			if (t_alg->registered)
+   501				crypto_unregister_skcipher(&t_alg->skcipher);
+   502		}
+   503	}
+   504	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
