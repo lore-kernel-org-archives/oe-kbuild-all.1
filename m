@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E055960DE9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 03:53:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD7913BAEF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 03:53:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712807587; cv=none; b=ocy4vJYPXwqSjSqwQn0MVG5jtsYEXXxK7yQODIhKp69plk72kpOrssu+HKs/VzQRr+IfnEuVH+AJB8kicLCfyh6/+qAb5vAwXLVz1vll2iaB6ynKekWZKM50rA/1mGpEBUitdt06r0nVG+PTykd6Rb7nMFjVQ9SvYiXaHsOmSsU=
+	t=1712807590; cv=none; b=YE5oYPLZjqvnL4IJoMm4yFDy63O7cmFIaec4Z/mRyS7eZvoliSDq0wgsm3T4gazWe7hmOV6CeNWZjXnKq1nwxYWdU+57G3gM3NXZlAMp6umRCXKEnt9OfuUccwT2N2IiUfKgeF+eYSoCYk4m1l5SA8VUPAto9KTtAeJX7ofjSJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712807587; c=relaxed/simple;
-	bh=6TxJ6COfxdu6lKr8ORCAi750A/1Qg9hxe/ieubLa9MU=;
+	s=arc-20240116; t=1712807590; c=relaxed/simple;
+	bh=2xZqF8OoE3700euJk+S3Mbz8hc9VN7V1OMzIuE6hEaQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e9d3doeylboUY8ZYnPNq7TOsNYn/yezjrrUs6TpPKkYwS2P93OPDzvDDK+uVwDSAPni/g/rcCE1Q+Z9S0YJ3WMcODeMsBVoBRZwc904CuYVycmNzEpJIYMV8VfxVzCAiP2Y2rROk8K1ItiL2ZuJ/wUT6LsJRdMfISYqcBVHPLYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m6zBYS/K; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=jmy3TAz/bcpdp+xJkLbDojyjBpOBuX3ymFhkBWHRFgKzZg8oJmocUv4Syz4NlOi71DTjg0iwUtDPB6J9t5naG4bscKApU7peZixznI5OufmOuHbawjQXxbfu+su5t+sIwbqnwhgbQ21rIcSIMOXiZRQryMJSDpZqO3j4E3sBE0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YVbA4eyC; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m6zBYS/K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YVbA4eyC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712807586; x=1744343586;
+  t=1712807588; x=1744343588;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6TxJ6COfxdu6lKr8ORCAi750A/1Qg9hxe/ieubLa9MU=;
-  b=m6zBYS/KqpBp0KNZ+vEFuu7GqX3GKzk8SvVN4+320kzmy45QkyczJQ1Q
-   XoSC671Hdxk3Bq58VkbaNOuJWxZCihLhRb+ygz0kel0ih5q4Q2RF55iEO
-   1jhzQv+gJULlyIsZVaYhmGa997A6STUZz1kDF8QPyUIS47RdeNbTkdx15
-   enWppEL5TeWvAdlvwZ2jMZKKAoVA2R1Pt2kW6VHTUmAtHod3739MiEp/9
-   XWtueoAfZ2fRtZRPW3VscpXtdw4HLfTxrqsTXOtTLD8vhSxhqMEC/3Ywr
-   ia+ZObCpBX6+F+7qDebt4qU0hVh0yCz+6h24yoVAROe4AKQRyJ4fn4WYB
-   g==;
-X-CSE-ConnectionGUID: S+Dl5QLcQxuLThZo8rlSpQ==
-X-CSE-MsgGUID: Wld3zUZVRZ+g7gnzgQB40g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8420892"
+  bh=2xZqF8OoE3700euJk+S3Mbz8hc9VN7V1OMzIuE6hEaQ=;
+  b=YVbA4eyCaQAxDfTfhhQQPGmSM18Uv47fBKa8+3Qi52KL6j2p4/VShWWS
+   +XpmhIsB0/aIYVE6cWR0yNRoFKQ6W1ExtFYFpkDptgrTVeWxw8H3FBcRO
+   OTKvd0k0l8VPE5cjCx8RmBV00SMi2aRmqCjmiFQN/cnHTknMm4/4jZ6sM
+   oAVu2L7JMLUEsLVgHgs/4ucYGgbJbreZCXRaUel/eVPqeiw0J9bBZbX1l
+   z/P2YsDPnLu2AiftbePp38AjKlG1Q6tZvSi5ph+W5J8603uTe5JbWPWc8
+   W0NJuCoeqoCgHn2qBWvQLP4EfSKz6jxBUTq71J7lCbfdVXUO9hNlS2yzL
+   Q==;
+X-CSE-ConnectionGUID: 3JW0di9lRSOfLIbQSGHyYA==
+X-CSE-MsgGUID: r8j9pcBGQm2awgigNlMu+w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8420894"
 X-IronPort-AV: E=Sophos;i="6.07,192,1708416000"; 
-   d="scan'208";a="8420892"
+   d="scan'208";a="8420894"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 20:53:05 -0700
-X-CSE-ConnectionGUID: YUJk/f2wQb2HbdlKltfH6g==
-X-CSE-MsgGUID: l0spxivGRpSWASifAXEwlg==
+X-CSE-ConnectionGUID: IhWL3uuNRMOjxU/HSSu1EA==
+X-CSE-MsgGUID: DmmramplQq+wTiBPb3pbqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,192,1708416000"; 
-   d="scan'208";a="25255331"
+   d="scan'208";a="25255330"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 10 Apr 2024 20:53:04 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rulUj-0008Bi-1m;
+	id 1rulUj-0008Bm-22;
 	Thu, 11 Apr 2024 03:53:01 +0000
-Date: Thu, 11 Apr 2024 11:52:23 +0800
+Date: Thu, 11 Apr 2024 11:52:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
+To: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:clk-reset-stuff 6/6] drivers/reset/reset-mpfs.c:144:19:
- sparse: sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202404111135.TLoWq77k-lkp@intel.com>
+Subject: [rostedt-trace:trace/ring-buffer-prealloc 17/19]
+ kernel/trace/trace.c:7534:37: warning: 'last_boot_fops' defined but not used
+Message-ID: <202404111149.cqSjQFa7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,113 +62,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git clk-reset-stuff
-head:   0dfe04a18b7c2cda3245498035e77d9f9cb33a85
-commit: 0dfe04a18b7c2cda3245498035e77d9f9cb33a85 [6/6] clock, reset: microchip: move all mpfs reset code to the reset subsystem
-config: arm-randconfig-r121-20240411 (https://download.01.org/0day-ci/archive/20240411/202404111135.TLoWq77k-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240411/202404111135.TLoWq77k-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git trace/ring-buffer-prealloc
+head:   26231feef0abf43a00e0ea834d7e0df0c017be2f
+commit: 07bdbc98d5602bb910541fdd75e9756296641e69 [17/19] tracing/ring-buffer: Add last_boot_info file to boot instance
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20240411/202404111149.cqSjQFa7-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240411/202404111149.cqSjQFa7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404111135.TLoWq77k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404111149.cqSjQFa7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/reset/reset-mpfs.c:144:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *base @@     got void *platform_data @@
-   drivers/reset/reset-mpfs.c:144:19: sparse:     expected void [noderef] __iomem *base
-   drivers/reset/reset-mpfs.c:144:19: sparse:     got void *platform_data
->> drivers/reset/reset-mpfs.c:211:33: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *platform_data @@     got void [noderef] __iomem *base @@
-   drivers/reset/reset-mpfs.c:211:33: sparse:     expected void *platform_data
-   drivers/reset/reset-mpfs.c:211:33: sparse:     got void [noderef] __iomem *base
+All warnings (new ones prefixed by >>):
 
-vim +144 drivers/reset/reset-mpfs.c
+   kernel/trace/trace.c: In function 'update_last_data':
+   kernel/trace/trace.c:6046:16: error: 'struct trace_array' has no member named 'text_delta'
+    6046 |         if (!tr->text_delta && !tr->data_delta)
+         |                ^~
+   kernel/trace/trace.c:6046:35: error: 'struct trace_array' has no member named 'data_delta'
+    6046 |         if (!tr->text_delta && !tr->data_delta)
+         |                                   ^~
+   kernel/trace/trace.c:6053:11: error: 'struct trace_array' has no member named 'text_delta'
+    6053 |         tr->text_delta = 0;
+         |           ^~
+   kernel/trace/trace.c:6054:11: error: 'struct trace_array' has no member named 'data_delta'
+    6054 |         tr->data_delta = 0;
+         |           ^~
+   kernel/trace/trace.c: In function 'tracing_last_boot_read':
+   kernel/trace/trace.c:6889:54: error: 'struct trace_array' has no member named 'text_delta'
+    6889 |         seq_buf_printf(&seq, "text delta:\t%ld\n", tr->text_delta);
+         |                                                      ^~
+   kernel/trace/trace.c:6890:54: error: 'struct trace_array' has no member named 'data_delta'
+    6890 |         seq_buf_printf(&seq, "data delta:\t%ld\n", tr->data_delta);
+         |                                                      ^~
+   kernel/trace/trace.c: In function 'tracing_init_tracefs_percpu':
+   kernel/trace/trace.c:8742:15: error: 'struct trace_array' has no member named 'range_addr_start'
+    8742 |         if (tr->range_addr_start)
+         |               ^~
+   kernel/trace/trace.c: In function 'allocate_trace_buffer':
+   kernel/trace/trace.c:9289:15: error: 'struct trace_array' has no member named 'range_addr_start'
+    9289 |         if (tr->range_addr_start && tr->range_addr_size) {
+         |               ^~
+   kernel/trace/trace.c:9289:39: error: 'struct trace_array' has no member named 'range_addr_size'
+    9289 |         if (tr->range_addr_start && tr->range_addr_size) {
+         |                                       ^~
+   In file included from kernel/trace/trace.c:15:
+   kernel/trace/trace.c:9291:57: error: 'struct trace_array' has no member named 'range_addr_start'
+    9291 |                                                       tr->range_addr_start,
+         |                                                         ^~
+   include/linux/ring_buffer.h:119:62: note: in definition of macro 'ring_buffer_alloc_range'
+     119 |         __ring_buffer_alloc_range((size), (flags), (order), (start),    \
+         |                                                              ^~~~~
+   kernel/trace/trace.c:9292:57: error: 'struct trace_array' has no member named 'range_addr_size'
+    9292 |                                                       tr->range_addr_size);
+         |                                                         ^~
+   include/linux/ring_buffer.h:120:36: note: in definition of macro 'ring_buffer_alloc_range'
+     120 |                                   (range_size), &__key);                \
+         |                                    ^~~~~~~~~~
+   kernel/trace/trace.c:9295:48: error: 'struct trace_array' has no member named 'text_delta'
+    9295 |                                             &tr->text_delta, &tr->data_delta);
+         |                                                ^~
+   kernel/trace/trace.c:9295:65: error: 'struct trace_array' has no member named 'data_delta'
+    9295 |                                             &tr->text_delta, &tr->data_delta);
+         |                                                                 ^~
+   kernel/trace/trace.c:9300:19: error: 'struct trace_array' has no member named 'mapped'
+    9300 |                 tr->mapped++;
+         |                   ^~
+   kernel/trace/trace.c: In function 'trace_array_create_systems':
+   kernel/trace/trace.c:9473:11: error: 'struct trace_array' has no member named 'range_addr_start'
+    9473 |         tr->range_addr_start = range_addr_start;
+         |           ^~
+   kernel/trace/trace.c:9474:11: error: 'struct trace_array' has no member named 'range_addr_size'
+    9474 |         tr->range_addr_size = range_addr_size;
+         |           ^~
+   kernel/trace/trace.c: At top level:
+>> kernel/trace/trace.c:7534:37: warning: 'last_boot_fops' defined but not used [-Wunused-const-variable=]
+    7534 | static const struct file_operations last_boot_fops = {
+         |                                     ^~~~~~~~~~~~~~
 
-   132	
-   133	static int mpfs_reset_probe(struct auxiliary_device *adev,
-   134				    const struct auxiliary_device_id *id)
-   135	{
-   136		struct device *dev = &adev->dev;
-   137		struct reset_controller_dev *rcdev;
-   138		struct mpfs_reset *rst;
-   139	
-   140		rst = devm_kzalloc(dev, sizeof(*rst), GFP_KERNEL);
-   141		if (!rst)
-   142			return -ENOMEM;;
-   143	
- > 144		rst->base = adev->dev.platform_data;
-   145	
-   146		rcdev = &rst->rcdev;
-   147		rcdev->dev = dev;
-   148		rcdev->dev->parent = dev->parent;
-   149		rcdev->ops = &mpfs_reset_ops;
-   150		rcdev->of_node = dev->parent->of_node;
-   151		rcdev->of_reset_n_cells = 1;
-   152		rcdev->of_xlate = mpfs_reset_xlate;
-   153		rcdev->nr_resets = MPFS_NUM_RESETS;
-   154	
-   155		return devm_reset_controller_register(dev, rcdev);
-   156	}
-   157	
-   158	static void mpfs_reset_unregister_adev(void *_adev)
-   159	{
-   160		struct auxiliary_device *adev = _adev;
-   161	
-   162		auxiliary_device_delete(adev);
-   163		auxiliary_device_uninit(adev);
-   164	}
-   165	
-   166	static void mpfs_reset_adev_release(struct device *dev)
-   167	{
-   168		struct auxiliary_device *adev = to_auxiliary_dev(dev);
-   169	
-   170		kfree(adev);
-   171	}
-   172	
-   173	static struct auxiliary_device *mpfs_reset_adev_alloc(struct device *clk_dev)
-   174	{
-   175		struct auxiliary_device *adev;
-   176		int ret;
-   177	
-   178		adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-   179		if (!adev)
-   180			return ERR_PTR(-ENOMEM);
-   181	
-   182		adev->name = "reset-mpfs";
-   183		adev->dev.parent = clk_dev;
-   184		adev->dev.release = mpfs_reset_adev_release;
-   185		adev->id = 666u;
-   186	
-   187		ret = auxiliary_device_init(adev);
-   188		if (ret) {
-   189			kfree(adev);
-   190			return ERR_PTR(ret);
-   191		}
-   192	
-   193		return adev;
-   194	}
-   195	
-   196	int mpfs_reset_controller_register(struct device *clk_dev, void __iomem *base)
-   197	{
-   198		struct auxiliary_device *adev;
-   199		int ret;
-   200	
-   201		adev = mpfs_reset_adev_alloc(clk_dev);
-   202		if (IS_ERR(adev))
-   203			return PTR_ERR(adev);
-   204	
-   205		ret = auxiliary_device_add(adev);
-   206		if (ret) {
-   207			auxiliary_device_uninit(adev);
-   208			return ret;
-   209		}
-   210	
- > 211		adev->dev.platform_data = base;
-   212	
-   213		return devm_add_action_or_reset(clk_dev, mpfs_reset_unregister_adev, adev);
-   214	}
-   215	EXPORT_SYMBOL_NS_GPL(mpfs_reset_controller_register, MCHP_CLK_MPFS);
-   216	
+
+vim +/last_boot_fops +7534 kernel/trace/trace.c
+
+  7533	
+> 7534	static const struct file_operations last_boot_fops = {
+  7535		.open		= tracing_open_generic_tr,
+  7536		.read		= tracing_last_boot_read,
+  7537		.llseek		= generic_file_llseek,
+  7538		.release	= tracing_release_generic_tr,
+  7539	};
+  7540	
 
 -- 
 0-DAY CI Kernel Test Service
