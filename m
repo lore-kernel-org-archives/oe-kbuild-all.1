@@ -1,62 +1,71 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4378C145B08
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 10:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08432145B28
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 10:14:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712830423; cv=none; b=EAH5IEKqTzDERLtAs0ilumke8c4s/JtpBtith4n9y9FuV1zf609Nf5UU3V7KzWYZuxcndLjgeCAqlmgBEu3paMq/TtM15oPCqDVp2FcXW7+ReifAgWtwWQjAX9DDMoK5xJdJ/uL+CXuLoQdtq2aqAbQveqQdJWre/nBc69sbC7o=
+	t=1712830490; cv=none; b=Jzgm25xG3zhZMWRoxiYO5alTxSLSSCAUeDjAwero71+S4exNn5rveuU7FjsB/BzxUHmARakGFtzaDLGcGloiILvu/Z8UZLtwFEgQw1NxEZzYCH3jPmro2P14GniGrTp28DaSgt6XCop74y57a+zQIdDzWwBdCXBr0RiChzrFC+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712830423; c=relaxed/simple;
-	bh=MyCZfVQ/GkQz9qu6Qto35uYOC2S7azvjfcNuc7yzAhM=;
+	s=arc-20240116; t=1712830490; c=relaxed/simple;
+	bh=Ro4zNuPSWHSKjEXhMBVb7OaDehxO2HvJvxpKYV/yalc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=COqctBkvQIXnh2It1QLwTAa2HBT1ESuNwwu/5uca4VyArZZX62Z/AY0nN8zsOMiP2QBuuaeT97mq1dfLw8c4oEhzmoFIL5gAtsFTTyi6utuFQRD7AEKWdYVjBvHjiDHw0ESfpxQfNXRp3y2XCV5dUUDNocwJWh96zOc+3vYLKFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hkuuYFIT; arc=none smtp.client-ip=209.85.218.51
+	 Content-Disposition:In-Reply-To; b=mIlX0NbpcYWVYJxfFXWi8W5PYcZo/Y+8i0vTip3PS6zEq1mHQyEUTRA4b6zZBMQ1qkg+BQ66zkjAgd1CDy4eJi+x/gtwrK/2p3xleSLj9YrXOW6Tpbjwl6jzAGC9ckdtq0r61AAM0b7Icn32SeG2zPlkyNw75WbIEUPIwAMOBJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ch4G4BzX; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hkuuYFIT"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a51beae2f13so593339366b.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 03:13:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ch4G4BzX"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a51ddc783e3so515027066b.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 03:14:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712830419; x=1713435219; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=f1p29brlO6Uk/Iprw1meY42OorKRcQ16DQ6T6t8baFI=;
-        b=hkuuYFITMrfcjUcO/Ht7h+P17Xmh3e30O0rd4kgQ2BCwTHyvnE2uAJMJc5pbPe8VAT
-         kf2KJB+HeaFC9W/OkfKiAmvxuaP3WJQVanVXPonFHrbgh1Di0EtCYYg/7tXyCnD49r+o
-         fVl8Da/0ipS9UkaHfxMIcZNHb554uvPTOcB6ohA7rO41Rbvb4pH4YRmIx63Jwy96mVIk
-         Bmau3hcaW+Ju4037CrsWlEfHXk3Lqc5RsQ0Ot2t6K5RAl6wHQeToSAkWC9VVvA43m1fv
-         86dDD2Zcf7ScH0BfwcX2oeWz3p3pCKQdZrsTZ6xN00sS28epNJZavs1YjYbacSr3/JnT
-         eFSA==
+        d=linaro.org; s=google; t=1712830487; x=1713435287; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uyqVf+OpAIYpCuv7GCxTIF9Y563uamtHxxOdFear55A=;
+        b=Ch4G4BzX/sUy2Uudpn1JH98D+eokXXSxpy8WFhBc/v4xCAmGMfkz10kU+1Bwj2oYi+
+         C5JfvOeINdh7sksVi5VFKEY1b2YkuR4vWurCHooZl7j3Je6YV7AUPbYAUhsH3w5YdcEb
+         FjLOtCclngpPrlX7vBPo4/fA4ceSFZfuePeuxoPDuRVVXJB1ZVUdJqncs+aFTxeK70/w
+         7O3K5brgwrW0fEO4QjW61g13deryeRpvLQlLg8ME0BC42oe8ahOm5hJZH/C9l6kufPWL
+         jEj7S4P00NNmK3rTFss0xnVDc7lfCW325GZMvCTqq5ZdA3LRnu34Pfp1ssrj9hGlZqCN
+         BBIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712830419; x=1713435219;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f1p29brlO6Uk/Iprw1meY42OorKRcQ16DQ6T6t8baFI=;
-        b=hlYYywmAAjy+Vsn35qi/XW2ernz5/i/uQhqqzrfcWmSaEDj25elDvRVhtCPMVlWWst
-         A6tAzT/Ia9zgGD6/2clsaszVd+x0Czlx+9IfK14cW8a3x6phAFkmjM2xH/CXSFfcfET4
-         /uW3of9w2vdbtGC79Nce6AB1BlceuT6gwf7DEwtp+Cb1JtMW00o84AHIxE4AImGVTqe6
-         DGHk4ZdsnUdpxtQnKMa/RDnLQIYBzx4sy4tJfxIqO3CIsQVWQZZhTAsS8F9syJ6O0NHE
-         gnPSSC842tVUWALzFxbBYAjL9DBNbnfqPNrv3atEIJfjrvK68R9LiemVfPFhJccfUHtL
-         kfJw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQMtzSGJykFl3dLChgMVKt7hWKnQS2dY9aPO48x3nWeHtRWvEMHz2L9HwEjVBsdxKwkSCLBLIYEFaxvohmzCFCwDOuAP0N7VYHRLoQDQ==
-X-Gm-Message-State: AOJu0YyJr5CFGR+Lb5yFMep+3lB/2bQTYQQEG/z2kROn5htqlxrygkQQ
-	vKg0Sxvx9AZKP3GZGMC8jZjSv/44SOP9hsFDl4HXmuB1jfVXeN1myaH9VekGXfk=
-X-Google-Smtp-Source: AGHT+IHwVbKSqhXJNpF+uiA/1igmE73k7emifJNnoCWPo+IcRZFMBArm3rjE0i00+NknT5bdJC5pcw==
-X-Received: by 2002:a17:906:6716:b0:a51:e8cf:52a6 with SMTP id a22-20020a170906671600b00a51e8cf52a6mr2855538ejp.23.1712830418959;
-        Thu, 11 Apr 2024 03:13:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712830487; x=1713435287;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uyqVf+OpAIYpCuv7GCxTIF9Y563uamtHxxOdFear55A=;
+        b=T+X3D2PS4r21C33g5qI5Q73JsB8S75Zgxub1v0vYGOz3g7mP1JOm0mneRMpl41jw5c
+         UjAcOyJxQsbEi5doeW94/IPeOduHJY2CUzeeZYCCh24zIFjnfag7IaM3uf/X+x8SaDRa
+         EBbszFQn+5hGGYkX3thYLUUXzs5cB8BWgEgBBUMC4j1/bOAuc6gCNBQpIkeXm1O3DLPI
+         1Z/8csqlT4zRE1sf/ddc70XJcRqR51WAQzMklKkE1/uc2za+Re4uV6R/1BM469aUTFNQ
+         QHWcXoKg2Z3k09/vfxHSIon6N4KvUKCdqMEmNjMvVqZEL40f2wv8ZVSIAZ98C1TrDnh8
+         nJ/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUflVGeqeoiXVlm1sIpU3t5u5T8LkHPlb18Lnt2Ls4zUqVe1/W0xnLlmfZ+v/qCR3VEIUOi8UL2MSO0heAUVdw4liLHsPEVcm+E1knCAQ==
+X-Gm-Message-State: AOJu0Yw90k2pAbqEh0NsMseRxuvj1V8I4frUKsXGCyI1xsBG+5IOLP3O
+	RqzjbuhZjefUDUOKcG6aKTO7mvlMFI10u47CPryj7k235FSsYaIU1xjZP5qeCMU=
+X-Google-Smtp-Source: AGHT+IHAnUZdwvtVa8ZUuHX83NGxaIWqh40qONfeK3Tt0qZB9/nouy9O2FEbNFtC1J0M+QLiMGWZuw==
+X-Received: by 2002:a17:906:c142:b0:a50:f172:6994 with SMTP id dp2-20020a170906c14200b00a50f1726994mr3789722ejc.73.1712830487188;
+        Thu, 11 Apr 2024 03:14:47 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id bz2-20020a1709070aa200b00a51a9eccf2asm605439ejc.125.2024.04.11.03.13.37
+        by smtp.gmail.com with ESMTPSA id n13-20020a170906088d00b00a52196cce80sm606310eje.121.2024.04.11.03.14.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Apr 2024 03:13:38 -0700 (PDT)
-Date: Thu, 11 Apr 2024 13:13:33 +0300
+        Thu, 11 Apr 2024 03:14:46 -0700 (PDT)
+Date: Thu, 11 Apr 2024 13:14:43 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [jirislaby:devel 33/40] drivers/tty/mxser.c:513 mxser_set_baud()
- error: uninitialized symbol 'baud'.
-Message-ID: <6af3331c-bb9f-4349-9030-78d07e2f1a6f@moroto.mountain>
+To: oe-kbuild@lists.linux.dev,
+	Thomas Haemmerle <thomas.haemmerle@leica-geosystems.com>,
+	joel@jms.id.au
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	bsp-development.geo@leica-geosystems.com,
+	Thomas Haemmerle <thomas.haemmerle@leica-geosystems.com>,
+	Eddie James <eajames@linux.ibm.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] iio: pressure: dps310: introduce consistent error
+ handling
+Message-ID: <cbdafb33-fd3b-47ad-a678-83fa92475278@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,64 +74,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240410103604.992989-3-thomas.haemmerle@leica-geosystems.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
-head:   a56ff0cb0fd0fd59f4a9a12091951ae80f866abb
-commit: fb7c4d96c47896d2d8db670f34bb961a66ea869a [33/40] mxser: use timeout from uart_port
-config: x86_64-randconfig-161-20240411 (https://download.01.org/0day-ci/archive/20240411/202404110644.9Hya2zB1-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Haemmerle/iio-pressure-dps310-support-negative-temperature-values/20240410-183937
+base:   2c71fdf02a95b3dd425b42f28fd47fb2b1d22702
+patch link:    https://lore.kernel.org/r/20240410103604.992989-3-thomas.haemmerle%40leica-geosystems.com
+patch subject: [PATCH v2 2/4] iio: pressure: dps310: introduce consistent error handling
+config: i386-randconfig-141-20240411 (https://download.01.org/0day-ci/archive/20240411/202404110708.7BQYVa7Z-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202404110644.9Hya2zB1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404110708.7BQYVa7Z-lkp@intel.com/
 
 smatch warnings:
-drivers/tty/mxser.c:513 mxser_set_baud() error: uninitialized symbol 'baud'.
+drivers/iio/pressure/dps310.c:497 dps310_read_pres_raw() warn: inconsistent returns '&data->lock'.
+drivers/iio/pressure/dps310.c:541 dps310_read_temp_raw() warn: inconsistent returns '&data->lock'.
 
-vim +/baud +513 drivers/tty/mxser.c
+vim +497 drivers/iio/pressure/dps310.c
 
-ded0799af88cdc drivers/tty/mxser.c  Jiri Slaby        2021-12-01  490  static int mxser_set_baud(struct mxser_port *info, struct ktermios *termios)
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  491  {
-2a92b0c951630a drivers/tty/mxser.c  Jiri Slaby (SUSE  2023-04-24  492) 	struct uart_port *uport = &info->uport;
-104583b504da8a drivers/tty/mxser.c  Jiri Slaby        2017-09-12  493  	unsigned int quot = 0, baud;
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  494  	unsigned char cval;
-ded0799af88cdc drivers/tty/mxser.c  Jiri Slaby        2021-12-01  495  	speed_t newspd = tty_termios_baud_rate(termios);
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  496  
-928f946426905d drivers/tty/mxser.c  Jiri Slaby        2021-06-18  497  	if (newspd > info->board->max_baud)
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  498  		return -1;
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  499  
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  500  	if (newspd == 134) {
-a6970c39c311f3 drivers/tty/mxser.c  Jiri Slaby        2021-06-18  501  		quot = 2 * MXSER_BAUD_BASE / 269;
-ded0799af88cdc drivers/tty/mxser.c  Jiri Slaby        2021-12-01  502  		tty_termios_encode_baud_rate(termios, 134, 134);
+d711a3c7dc829c Eddie James      2019-05-20  466  static int dps310_read_pres_raw(struct dps310_data *data)
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  467  {
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  468  	int rc;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  469  	int rate;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  470  	int timeout;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  471  	s32 raw;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  472  	u8 val[3];
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  473  
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  474  	if (mutex_lock_interruptible(&data->lock))
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  475  		return -EINTR;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  476  
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  477  	rc = dps310_get_pres_samp_freq(data, &rate);
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  478  	if (rc)
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  479  		return rc;
 
-baud is uninitialized here
+goto unlock
 
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  503  	} else if (newspd) {
-a6970c39c311f3 drivers/tty/mxser.c  Jiri Slaby        2021-06-18  504  		quot = MXSER_BAUD_BASE / newspd;
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  505  		if (quot == 0)
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  506  			quot = 1;
-a6970c39c311f3 drivers/tty/mxser.c  Jiri Slaby        2021-06-18  507  		baud = MXSER_BAUD_BASE / quot;
-ded0799af88cdc drivers/tty/mxser.c  Jiri Slaby        2021-12-01  508  		tty_termios_encode_baud_rate(termios, baud, baud);
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  509  	} else {
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  480  
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  481  	timeout = DPS310_POLL_TIMEOUT_US(rate);
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  482  
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  483  	/* Poll for sensor readiness; base the timeout upon the sample rate. */
+7b4ab4abcea4c0 Eddie James      2022-09-15  484  	rc = dps310_ready(data, DPS310_PRS_RDY, timeout);
+d711a3c7dc829c Eddie James      2019-05-20  485  	if (rc)
+d711a3c7dc829c Eddie James      2019-05-20  486  		goto done;
+d711a3c7dc829c Eddie James      2019-05-20  487  
+d711a3c7dc829c Eddie James      2019-05-20  488  	rc = regmap_bulk_read(data->regmap, DPS310_PRS_BASE, val, sizeof(val));
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  489  	if (rc < 0)
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  490  		goto done;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  491  
+d711a3c7dc829c Eddie James      2019-05-20  492  	raw = (val[0] << 16) | (val[1] << 8) | val[2];
+d711a3c7dc829c Eddie James      2019-05-20  493  	data->pressure_raw = sign_extend32(raw, 23);
+d711a3c7dc829c Eddie James      2019-05-20  494  
+d711a3c7dc829c Eddie James      2019-05-20  495  done:
+d711a3c7dc829c Eddie James      2019-05-20  496  	mutex_unlock(&data->lock);
+d711a3c7dc829c Eddie James      2019-05-20 @497  	return rc;
+d711a3c7dc829c Eddie James      2019-05-20  498  }
 
-baud not initialized here either
+[ snip ]
 
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  510  		quot = 0;
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  511  	}
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  512  
-fb7c4d96c47896 drivers/tty/mxser.c  Jiri Slaby (SUSE  2022-11-15 @513) 	uart_update_timeout(uport, termios->c_cflag, baud);
-                                                                                                                     ^^^^
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  514  
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  515  	if (quot) {
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  516  		info->MCR |= UART_MCR_DTR;
-2a92b0c951630a drivers/tty/mxser.c  Jiri Slaby (SUSE  2023-04-24  517) 		outb(info->MCR, uport->iobase + UART_MCR);
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  518  	} else {
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  519  		info->MCR &= ~UART_MCR_DTR;
-2a92b0c951630a drivers/tty/mxser.c  Jiri Slaby (SUSE  2023-04-24  520) 		outb(info->MCR, uport->iobase + UART_MCR);
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  521  		return 0;
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  522  	}
+d711a3c7dc829c Eddie James      2019-05-20  517  static int dps310_read_temp_raw(struct dps310_data *data)
+d711a3c7dc829c Eddie James      2019-05-20  518  {
+d711a3c7dc829c Eddie James      2019-05-20  519  	int rc;
+d711a3c7dc829c Eddie James      2019-05-20  520  	int rate;
+d711a3c7dc829c Eddie James      2019-05-20  521  	int timeout;
+d711a3c7dc829c Eddie James      2019-05-20  522  
+d711a3c7dc829c Eddie James      2019-05-20  523  	if (mutex_lock_interruptible(&data->lock))
+d711a3c7dc829c Eddie James      2019-05-20  524  		return -EINTR;
+d711a3c7dc829c Eddie James      2019-05-20  525  
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  526  	rc = dps310_get_temp_samp_freq(data, &rate);
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  527  	if (rc)
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  528  		return rc;
+
+goto unlock
+
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  529  
+d711a3c7dc829c Eddie James      2019-05-20  530  	timeout = DPS310_POLL_TIMEOUT_US(rate);
+d711a3c7dc829c Eddie James      2019-05-20  531  
+d711a3c7dc829c Eddie James      2019-05-20  532  	/* Poll for sensor readiness; base the timeout upon the sample rate. */
+7b4ab4abcea4c0 Eddie James      2022-09-15  533  	rc = dps310_ready(data, DPS310_TMP_RDY, timeout);
+7b4ab4abcea4c0 Eddie James      2022-09-15  534  	if (rc)
+d711a3c7dc829c Eddie James      2019-05-20  535  		goto done;
+d711a3c7dc829c Eddie James      2019-05-20  536  
+d711a3c7dc829c Eddie James      2019-05-20  537  	rc = dps310_read_temp_ready(data);
+d711a3c7dc829c Eddie James      2019-05-20  538  
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  539  done:
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  540  	mutex_unlock(&data->lock);
+ba6ec48e76bcd4 Joel Stanley     2019-05-20 @541  	return rc;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  542  }
 
 -- 
 0-DAY CI Kernel Test Service
