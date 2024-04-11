@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EAF414E2DF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 13:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36F714EC4D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 14:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712842776; cv=none; b=mdcV1U22PFcdNF4wL1U7VfedSUrywdmEb+elQVqPgbxtsrf/HcXl9GIVoCixK4lC+EShSWp4wHVAbt8fan6Z/XzTZqz2je9wfSXYFnQHy9Rt2fyPnP12kNyEUgzS/lnFcHpwaeDIu1TdfzTBAJkMfSid7tDrgdtjw1ppY2Ht+jo=
+	t=1712844037; cv=none; b=MKvMBshlIIpFg3RksXdUrdxSpd0pc3Br0Wr2XkM0J1EWQe+d/qeNOJ0diws6CpnDmW3GqVTY/eicc2zK48yFviuAGJNe2c1uSLKHFwQRbXCTOclfr/mgTq5mqCAgHnzis1dBYcX8DaIcUTzFZrJHlaswelpUD2Y5YrbMZXF4+vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712842776; c=relaxed/simple;
-	bh=Eb0PshIN7yN77QJD88FWYfzcEZWo5s4Byld0D8xMIWo=;
+	s=arc-20240116; t=1712844037; c=relaxed/simple;
+	bh=wtoxgvwYkV7Dbw7lm70qfG6vFHI7fzMCqf0BHScSVBY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=faj1BvzIUzVgFKeaEQPrkPyYyblPOfac18K9AR8fGDvXlrUUFJ4wCbeDAn6ME77kIYkrl4P/L4d7wjvREf6tTbOjcjlBcesFMR+F2uolFSQfjAxztG5bALCj3lXFZJs5hOlRzccVywPjzcBCCpa6Z8wH9mH3VMzNz4/ANMfGP70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mPpHUuch; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=LmZwrZSY77XD6yjFnXdc7sOTHtz9eZCPk1o1X6EHuQyv5c+nhpBRDYgl4oYJEjX0gajSCAyoQZfy8IsaOUlE7naDPE+VUI/a5sd7T3Fz+OQpcBfxsXs3eeKsMw4QSJCnTYHUjHflm67Wn4gZzfXA4edqLqdpPYviTfZK8UwIVvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F1qIe33g; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mPpHUuch"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F1qIe33g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712842774; x=1744378774;
+  t=1712844036; x=1744380036;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Eb0PshIN7yN77QJD88FWYfzcEZWo5s4Byld0D8xMIWo=;
-  b=mPpHUucheBRXHYjBkDwIdTFtNn4rgE8R1dVdfqdSCbQ6HyKNbDI1OWnu
-   5VrWYE0OVfDNMwQFJ1IyKfFEOshfPMG7Z/+iqh/IJWpmGBFt4olfLx0hz
-   NJ3JxNSa+vpGAm10jUd5/nu/6NtcHjBzLXIv5q0x1olysA22eTWSRggrf
-   lNXGwyyqYs/MwYPkH0RWt/1kbcVhhtT3vr+QPYQOeJN5qth2GIkkSzXPi
-   NCxa4Ecn0bNZTvxBDUbMbH3lZBe1FaqsyMGs45OexsrZB6UlBLsYcPglj
-   8BKgMI8UzE1f6qasi4gbx+BZ5h6paelm30PjIOMhR8nA0CJz3ZnLqSN5T
-   Q==;
-X-CSE-ConnectionGUID: OzQLyCL4S3WoHBRM2a94BQ==
-X-CSE-MsgGUID: TsdTn1s/Sbm6TfzchnBgJg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="25763373"
+  bh=wtoxgvwYkV7Dbw7lm70qfG6vFHI7fzMCqf0BHScSVBY=;
+  b=F1qIe33g5soNwDhUNpfJRLv6QjSq3hUDndBsq2av0+ahaFJdoJo2VMEX
+   w9MMUSQefk2sKeKKqfrMqIkHEKWz/m4yOzKl7K8w//iiP3CMaC9SXp6Im
+   1X+nFBQe70IM3MAgh74DmLzbhdwzTHVuifnvV5k4wULYtXMY39rzdkIkF
+   /fwax8H71EkS+Wvq0OxZbyn1Tuy3p/7jY0pDpHkEd6o4Yt74NkuBnJvG3
+   H0RxIqTrwsn6t0FWr+/GNUHWj+Z44isq8ehmOyqp41dTzGjonrPddrA5i
+   M7YnLymYxlyBgFN46PQ15YsFHIBrnMFHbhExL/fWt5gTTe+h3RoT7fRya
+   A==;
+X-CSE-ConnectionGUID: 97iwNcI+RTqvziglxe0BPQ==
+X-CSE-MsgGUID: 2JFiSfltQNeCMNK4JtgZUA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="18857028"
 X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
-   d="scan'208";a="25763373"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 06:39:33 -0700
-X-CSE-ConnectionGUID: gZ2P+/yXQvymHGV0wLJGiQ==
-X-CSE-MsgGUID: ASlV58xARz2C3U/8j15Bnw==
+   d="scan'208";a="18857028"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 07:00:34 -0700
+X-CSE-ConnectionGUID: GsHr4epxRf6bXJwGPEeweQ==
+X-CSE-MsgGUID: NXYXBfhiTKeC/zbrh6GX2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
-   d="scan'208";a="21489736"
+   d="scan'208";a="58327721"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 11 Apr 2024 06:39:32 -0700
+  by orviesa001.jf.intel.com with ESMTP; 11 Apr 2024 07:00:33 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ruueH-0008f9-3B;
-	Thu, 11 Apr 2024 13:39:29 +0000
-Date: Thu, 11 Apr 2024 21:39:18 +0800
+	id 1ruuyc-0008fi-1B;
+	Thu, 11 Apr 2024 14:00:30 +0000
+Date: Thu, 11 Apr 2024 22:00:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 320/415] arch/powerpc/kernel/eeh.c:1648:42:
- warning: passing argument 2 of 'simple_copy_from_iter' makes pointer from
- integer without a cast
-Message-ID: <202404112124.5wfSEuZx-lkp@intel.com>
+Subject: [axboe-block:rw_iter 264/415] drivers/watchdog/wdrtas.c:407:
+ warning: Function parameter or struct member 'iocb' not described in
+ 'wdrtas_temp_read'
+Message-ID: <202404112153.mqNJ9gxw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,102 +65,70 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
 head:   2cdbd541e4481cb9cbd08913e0586dc8a2570aec
-commit: 52abe881eae0de6596cb23c29af0a6040c34aa76 [320/415] arch/powerpc: convert to read/write iterators
-config: powerpc64-randconfig-002-20240411 (https://download.01.org/0day-ci/archive/20240411/202404112124.5wfSEuZx-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240411/202404112124.5wfSEuZx-lkp@intel.com/reproduce)
+commit: 06288b00e82efd3da6c84434c0b6d9ba8cb7abe0 [264/415] watchdog: wdrtas: convert to read/write iterators
+config: powerpc-randconfig-003-20240411 (https://download.01.org/0day-ci/archive/20240411/202404112153.mqNJ9gxw-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240411/202404112153.mqNJ9gxw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404112124.5wfSEuZx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404112153.mqNJ9gxw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/powerpc/kernel/eeh.c: In function 'eeh_force_recover_write':
->> arch/powerpc/kernel/eeh.c:1648:42: warning: passing argument 2 of 'simple_copy_from_iter' makes pointer from integer without a cast [-Wint-conversion]
-    1648 |         ret = simple_copy_from_iter(buf, sizeof(buf), &iocb->ki_pos, from);
-         |                                          ^~~~~~~~~~~
-         |                                          |
-         |                                          long unsigned int
-   In file included from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:1114,
-                    from arch/powerpc/include/asm/io.h:24,
-                    from include/linux/io.h:13,
-                    from include/linux/irq.h:20,
-                    from arch/powerpc/include/asm/hardirq.h:6,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/pci.h:38,
-                    from arch/powerpc/kernel/eeh.c:15:
-   include/linux/fs.h:3361:49: note: expected 'loff_t *' {aka 'long long int *'} but argument is of type 'long unsigned int'
-    3361 | ssize_t simple_copy_from_iter(void *to, loff_t *ppos, size_t count,
-         |                                         ~~~~~~~~^~~~
->> arch/powerpc/kernel/eeh.c:1648:55: warning: passing argument 3 of 'simple_copy_from_iter' makes integer from pointer without a cast [-Wint-conversion]
-    1648 |         ret = simple_copy_from_iter(buf, sizeof(buf), &iocb->ki_pos, from);
-         |                                                       ^~~~~~~~~~~~~
-         |                                                       |
-         |                                                       loff_t * {aka long long int *}
-   include/linux/fs.h:3361:62: note: expected 'size_t' {aka 'long unsigned int'} but argument is of type 'loff_t *' {aka 'long long int *'}
-    3361 | ssize_t simple_copy_from_iter(void *to, loff_t *ppos, size_t count,
-         |                                                       ~~~~~~~^~~~~
+>> drivers/watchdog/wdrtas.c:407: warning: Function parameter or struct member 'iocb' not described in 'wdrtas_temp_read'
+>> drivers/watchdog/wdrtas.c:407: warning: Function parameter or struct member 'to' not described in 'wdrtas_temp_read'
+>> drivers/watchdog/wdrtas.c:407: warning: Excess function parameter 'file' description in 'wdrtas_temp_read'
+>> drivers/watchdog/wdrtas.c:407: warning: Excess function parameter 'buf' description in 'wdrtas_temp_read'
+>> drivers/watchdog/wdrtas.c:407: warning: Excess function parameter 'count' description in 'wdrtas_temp_read'
+>> drivers/watchdog/wdrtas.c:407: warning: Excess function parameter 'ppos' description in 'wdrtas_temp_read'
+   drivers/watchdog/wdrtas.c:460: warning: Function parameter or struct member 'this' not described in 'wdrtas_reboot'
+   drivers/watchdog/wdrtas.c:460: warning: Excess function parameter 'nb' description in 'wdrtas_reboot'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
+   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
+   Selected by [y]:
+   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=y] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
 
 
-vim +/simple_copy_from_iter +1648 arch/powerpc/kernel/eeh.c
+vim +407 drivers/watchdog/wdrtas.c
 
-  1635	
-  1636	DEFINE_DEBUGFS_ATTRIBUTE(eeh_enable_dbgfs_ops, eeh_enable_dbgfs_get,
-  1637				 eeh_enable_dbgfs_set, "0x%llx\n");
-  1638	
-  1639	static ssize_t eeh_force_recover_write(struct kiocb *iocb, struct iov_iter *from)
-  1640	{
-  1641		size_t count = iov_iter_count(from);
-  1642		struct pci_controller *hose;
-  1643		uint32_t phbid, pe_no;
-  1644		struct eeh_pe *pe;
-  1645		char buf[20];
-  1646		int ret;
-  1647	
-> 1648		ret = simple_copy_from_iter(buf, sizeof(buf), &iocb->ki_pos, from);
-  1649		if (!ret)
-  1650			return -EFAULT;
-  1651	
-  1652		/*
-  1653		 * When PE is NULL the event is a "special" event. Rather than
-  1654		 * recovering a specific PE it forces the EEH core to scan for failed
-  1655		 * PHBs and recovers each. This needs to be done before any device
-  1656		 * recoveries can occur.
-  1657		 */
-  1658		if (!strncmp(buf, "hwcheck", 7)) {
-  1659			__eeh_send_failure_event(NULL);
-  1660			return count;
-  1661		}
-  1662	
-  1663		ret = sscanf(buf, "%x:%x", &phbid, &pe_no);
-  1664		if (ret != 2)
-  1665			return -EINVAL;
-  1666	
-  1667		hose = pci_find_controller_for_domain(phbid);
-  1668		if (!hose)
-  1669			return -ENODEV;
-  1670	
-  1671		/* Retrieve PE */
-  1672		pe = eeh_pe_get(hose, pe_no);
-  1673		if (!pe)
-  1674			return -ENODEV;
-  1675	
-  1676		/*
-  1677		 * We don't do any state checking here since the detection
-  1678		 * process is async to the recovery process. The recovery
-  1679		 * thread *should* not break even if we schedule a recovery
-  1680		 * from an odd state (e.g. PE removed, or recovery of a
-  1681		 * non-isolated PE)
-  1682		 */
-  1683		__eeh_send_failure_event(pe);
-  1684	
-  1685		return ret < 0 ? ret : count;
-  1686	}
-  1687	
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  392  
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  393  /**
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  394   * wdrtas_temp_read - gives back the temperature in fahrenheit
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  395   * @file: file structure
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  396   * @buf: user buffer
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  397   * @count: number of bytes to be read
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  398   * @ppos: position in file
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  399   *
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  400   * returns always 1 or -EFAULT in case of user space copy failures, <0 on
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  401   * other failures
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  402   *
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  403   * wdrtas_temp_read gives the temperature to the users by copying this
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  404   * value as one byte into the user space buffer. The unit is Fahrenheit...
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  405   */
+06288b00e82efd3 drivers/watchdog/wdrtas.c      Jens Axboe 2024-04-09  406  static ssize_t wdrtas_temp_read(struct kiocb *iocb, struct iov_iter *to)
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23 @407  {
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  408  	int temperature = 0;
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  409  
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  410  	temperature = wdrtas_get_temperature();
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  411  	if (temperature < 0)
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  412  		return temperature;
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  413  
+06288b00e82efd3 drivers/watchdog/wdrtas.c      Jens Axboe 2024-04-09  414  	if (!copy_to_iter_full(&temperature, 1, to))
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  415  		return -EFAULT;
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  416  
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  417  	return 1;
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  418  }
+031f7edecf46d73 drivers/char/watchdog/wdrtas.c Utz Bacher 2005-06-23  419  
+
+:::::: The code at line 407 was first introduced by commit
+:::::: 031f7edecf46d731673a5dd19ecb0de38f1a2219 [PATCH] ppc64: add a watchdog driver for rtas
+
+:::::: TO: Utz Bacher <utz.bacher@de.ibm.com>
+:::::: CC: Paul Mackerras <paulus@samba.org>
 
 -- 
 0-DAY CI Kernel Test Service
