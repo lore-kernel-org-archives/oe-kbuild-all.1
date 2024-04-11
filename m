@@ -1,61 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3EC146006
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 09:26:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7A11448E4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 09:29:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712827582; cv=none; b=rg9aNlTvwC6MYfHNZdF6x//KWq4Iw+01XagmMngzXAHh/7tT5r9FEIBOSTKQ7O9hdoFzlZorrDdIw2Vals5FBQg0r5bLH/SHsnUivtMVP/CfJNA2iTa8Bnd0YPx8w8yKFcKgN7HUa83arjQLBMAyR7zy9NJzc3xPPQ2UtRVMsy8=
+	t=1712827798; cv=none; b=BHy0KHgkFvseQKFadtpdNNAwAts1rOYwllHqN/esqVG/R5iNsyOpK94LeYO4QGmVuLYHymEdP0VSEMVGTKG0rszxobdHmfjH5MGCW8JqEobxt2IjmnxaEDeCPCTuzray6/OI/bch04foKIOGdnmt0aBNEukoBJsovuIWqAX+4D0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712827582; c=relaxed/simple;
-	bh=5HKS9ZyDRF96jCHED9jli33S0JfPFAzWRKeYaAqxQMw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Pi5BHLca/8kOTMmAXjuL+vcz+BMfPgtcxejp+kTnYG2S4pAe2ZecNlx1yM50312Aiz6fqv59IMTBS7X2PbrQxLyVjN8Dx4YyW7pr2XpaWzT0infmyR/uXyT+TddwGPdfa8QneOWN7t0Fq0wtQoI+pio+QsBM1MIqS4Lmd6Z9Ais=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZV1CJgIK; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1712827798; c=relaxed/simple;
+	bh=iBPsU4YOB+B6O16g/mJyI29sgwRInVpxYK8g0YLKgU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WaZbiVWGQle+pGUTYA9D3KDoqTyKPlwsznKrXoYGXzsJVJEsAIpjOxhJsLp88fDfhsoHS/QA8YM2UBt4Rmlw75Xo1aQYB96FwfoN4S7HCWTLdk3dDvYmV9p9iMQ8Wq/hrhZP4OsbmcCQubmJ9XUxJ1nG84q+tFWMmViwtID5wxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BB4/EyvI; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZV1CJgIK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BB4/EyvI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712827581; x=1744363581;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5HKS9ZyDRF96jCHED9jli33S0JfPFAzWRKeYaAqxQMw=;
-  b=ZV1CJgIKQ3faf7NN7/k3wPsq8ZAksLnvw4fOXp5pMdNh4XysYbNqJ8Cv
-   /qQ5naAONeeZ7JD1FREPIXoeSho9wvDBksWuE6T4kJzXPhXwthBz0yI7X
-   dM/hBZVl+1h92cA8wfxA0D03F1xLdiL7eSj7qjdoIuA7wiYb3QzxE9ec6
-   lYyqQXSqSpdG5RVn92dOT1UlQuDIoKBB91ObQFseS/Ztf2+nJd/PIqofx
-   MVaianUcrpLXfnEqyn2RkHTozoctyt4ti72xLwxB6C2Ls0eECCX4uPWC1
-   6/mtbdExIHM10qxFI8xN0jOhabhACGR+xIBKvUeSG7WS46Z9rp9b87qkm
-   g==;
-X-CSE-ConnectionGUID: yAkKUWkWRRefhQwg97FxKQ==
-X-CSE-MsgGUID: Hr+UfIyLRJ2dZmxDRwnKYw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="30709149"
+  t=1712827798; x=1744363798;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iBPsU4YOB+B6O16g/mJyI29sgwRInVpxYK8g0YLKgU4=;
+  b=BB4/EyvI5QUfgbGE+CDs+F8DyxFWXWwpMmTPBHUgQ5FBTtgX1wVTlNpy
+   vS/WPOje+IpguHuQxquFh6VCMd76WVd8HfvdlIPcWh5Rfvpt+s7o9zHL3
+   9SXg9knBGUjH0l5Adw5ARtLmunUiB1Qt/TXHLE2YvY+jsOHkh7O4f6DYt
+   8Q84a33VIU3Gf3DY4jLnjER5jFrwBN8Y7zSXu6++rWT1bBSwwAANcwtpH
+   wtslB3MaCteokVuvDfWrLFeDDNhFOnnEZuZwqieWIg2kfjxnyNtLMTqSU
+   ZhzGmIMQ1vkFOfa+/PjVL9cBsP7jPc8CoxCXmMmZfZLHqbYHdOYwpaNCF
+   Q==;
+X-CSE-ConnectionGUID: 4sYJKFdeTDy9jSDjjZfhbg==
+X-CSE-MsgGUID: 4HpmYoDfTAmQkfXGTalSDQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="30709513"
 X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
-   d="scan'208";a="30709149"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 02:26:20 -0700
-X-CSE-ConnectionGUID: J4HJS6yiRyeg0ib+3Cx0QQ==
-X-CSE-MsgGUID: h34WeCyQSzqUEygSEi5fug==
+   d="scan'208";a="30709513"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 02:29:57 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="915458338"
 X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
-   d="scan'208";a="20745376"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 Apr 2024 02:26:18 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ruqhD-0008Sr-1J;
-	Thu, 11 Apr 2024 09:26:15 +0000
-Date: Thu, 11 Apr 2024 17:25:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chuanhua Han <hanchuanhua@oppo.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
+   d="scan'208";a="915458338"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 02:29:54 -0700
+Received: from andy by smile with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1ruqki-00000003JKS-1XJU;
+	Thu, 11 Apr 2024 12:29:52 +0300
+Date: Thu, 11 Apr 2024 12:29:52 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: kernel test robot <lkp@intel.com>,
+	Alexander Potapenko <glider@google.com>,
+	oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Barry Song <v-songbaohua@oppo.com>
-Subject: [akpm-mm:mm-unstable 360/372] include/linux/swap.h:565:6: warning:
- no previous prototype for 'swap_free_nr'
-Message-ID: <202404111723.YtET6RM5-lkp@intel.com>
+	Yury Norov <yury.norov@gmail.com>
+Subject: Re: [linux-next:master 2203/5042] WARNING: modpost: vmlinux: section
+ mismatch in reference: bitmap_read+0x128 (section: .text.unlikely) ->
+ __setup_str_initcall_blacklist (section: .init.rodata)
+Message-ID: <ZhetkFMCHcXi5wu5@smile.fi.intel.com>
+References: <202404102353.Cv1gUjk3-lkp@intel.com>
+ <Zhav9krPj3qBjpuP@smile.fi.intel.com>
+ <3b30ed42-858e-4f5e-b3a5-2e3e9c92f7e5@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,44 +69,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <3b30ed42-858e-4f5e-b3a5-2e3e9c92f7e5@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   de14d5f2a9ff2df737a01575ee95bc5a35f5853d
-commit: ca23b4d4cae5d32a9d22fb3c39550dcf43df83f9 [360/372] mm: swap: introduce swap_free_nr() for batched swap_free()
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240411/202404111723.YtET6RM5-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240411/202404111723.YtET6RM5-lkp@intel.com/reproduce)
+On Thu, Apr 11, 2024 at 11:08:40AM +0200, Alexander Lobakin wrote:
+> From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Date: Wed, 10 Apr 2024 18:27:50 +0300
+> 
+> > On Wed, Apr 10, 2024 at 11:22:16PM +0800, kernel test robot wrote:
+> >> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> >> head:   6ebf211bb11dfc004a2ff73a9de5386fa309c430
+> >> commit: 991e5583647d33ee3a9c89248974ef98b9f539a8 [2203/5042] lib/test_bitmap: add tests for bitmap_{read,write}()
+> >> config: xtensa-randconfig-r012-20230725 (https://download.01.org/0day-ci/archive/20240410/202404102353.Cv1gUjk3-lkp@intel.com/config)
+> >> compiler: xtensa-linux-gcc (GCC) 13.2.0
+> >> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240410/202404102353.Cv1gUjk3-lkp@intel.com/reproduce)
+> >>
+> >> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> >> the same patch/commit), kindly add following tags
+> >> | Reported-by: kernel test robot <lkp@intel.com>
+> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202404102353.Cv1gUjk3-lkp@intel.com/
+> >>
+> >> All warnings (new ones prefixed by >>, old ones prefixed by <<):
+> >>
+> >> WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+> >>>> WARNING: modpost: vmlinux: section mismatch in reference: bitmap_read+0x128 (section: .text.unlikely) -> __setup_str_initcall_blacklist (section: .init.rodata)
+> >> WARNING: modpost: vmlinux: section mismatch in reference: bitmap_allocate_region+0xb4 (section: .text.unlikely) -> __setup_str_initcall_blacklist (section: .init.rodata)
+> > 
+> > As pointed out earlier, this is unconfirmed bug in GCC (GCC developers
+> > point a finger at kernel code and vice versa). Can you reproduce this
+> > with clang?
+> 
+> I'm unable to reproduce it on clang-trunk (19).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404111723.YtET6RM5-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from mm/filemap.c:23:
->> include/linux/swap.h:565:6: warning: no previous prototype for 'swap_free_nr' [-Wmissing-prototypes]
-     565 | void swap_free_nr(swp_entry_t entry, int nr_pages)
-         |      ^~~~~~~~~~~~
---
-   In file included from mm/slub.c:14:
->> include/linux/swap.h:565:6: warning: no previous prototype for 'swap_free_nr' [-Wmissing-prototypes]
-     565 | void swap_free_nr(swp_entry_t entry, int nr_pages)
-         |      ^~~~~~~~~~~~
-   mm/slub.c: In function 'slab_post_alloc_hook':
-   mm/slub.c:3831:29: warning: variable 'obj_exts' set but not used [-Wunused-but-set-variable]
-    3831 |         struct slabobj_ext *obj_exts;
-         |                             ^~~~~~~~
-
-
-vim +/swap_free_nr +565 include/linux/swap.h
-
-   564	
- > 565	void swap_free_nr(swp_entry_t entry, int nr_pages)
-   566	{
-   567	}
-   568	
+For xtensa? Because it's particular to very that architecture (GCC backend).
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
