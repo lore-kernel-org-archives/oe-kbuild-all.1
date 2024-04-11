@@ -1,59 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165822A1C9;
-	Thu, 11 Apr 2024 04:36:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872C72EAE5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 04:36:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712810170; cv=none; b=mnSCxDARBJOYfEkZFUoSB+0FYvvVLK311u0zrjESTiPpHTTih33lRDhUbzfeEwtpE6shOS+rXQXlqlEEpbQ20+ufbkEfIzd1559avx6GE0ZuMiPfWDfrKh3IylMWwdWYt3+gm6liZ1d19+jm+02GJs+5gLFqBD5SfKKpq5KcTyU=
+	t=1712810171; cv=none; b=G/xjZtnaBYM/w1bcEZ2QPwQzZNKpCw6Katbz+e3vqHozmiN0Eo1x5PRlFmybRKhbn9KUp2/WHLbTcI3jYmj+vvUdtijsLgJh9y9CnixglXqvsUoHtwX9F+VmZdxZtDiWuxqYKYDatj3v53RimYIDeRu3ez1a7CzpyBVHghJZc4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712810170; c=relaxed/simple;
-	bh=xlxwn0mN35IdD+EG7uQmzcH8Y0ITPeI8ezIKPrkUQLg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kvgLQG67+b/BFECNMN9SZXe0GArI+JiWHutzbIoyChZ8Gn/lt6fDflgHE7KnAK9JHI1YSXnJecdKP7mJXteVOgarhSbDYx1slhl7tsE2jGpfd+kZK/BnfLpF4rgNf0x52o95Iy962lXFf4nKn8ALzaMFCIV6S/VBMjBF4bY8PXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cTRe7fUH; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1712810171; c=relaxed/simple;
+	bh=o/+uwXlHAOmhl3WAKzDaiuVdwVeGNqrRyUVMQyyK9YU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NlgbDD4v5qusaZJ4cXdQc1wMNWwFayGwxH0Q+APAifSe3e+3Pl9aNTTfrHGg93ATMeVVLq1UdUAnsZg0AE0nXiFIOSbbRh08Nr2l/YtjVvbpOORqn+/Dae3QRkRyWYb9cIFbnXlrvW+XKKSpUQzyOWlfWOuAEquAoY47YvS99AQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aEyhoaV5; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cTRe7fUH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aEyhoaV5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712810169; x=1744346169;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xlxwn0mN35IdD+EG7uQmzcH8Y0ITPeI8ezIKPrkUQLg=;
-  b=cTRe7fUHG1rDgZqUGVAoW3KqUWAsqV0s5olNy+gz7oapnGw8sohsiplm
-   xxNRahxh1nFwYHaNgLlHtJH92tiukR3sg2fu9NFccgWkjS2FrmMTb/h0T
-   orRGYBCcLWy0mxBrXhb3+NRJeUly/MVGR/PQX5xhLXvlYEX20R9PGvLR+
-   p6+oDG6jy7TJc4+Bb2UUbdfMVU42TlOBcu0FEiThH7Z0PtptvXSDn0mlK
-   w1GZgJe5WSw6CximtSr3Ln+Yxk1M56JX8FQU06tkjz+BpceZthzBrM5AY
-   La/MG5yUZi6SeHfsCbpbA6qqoaagm/CSH52ofdA3VLldYtQ3BBLFnmHtj
+  t=1712810170; x=1744346170;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o/+uwXlHAOmhl3WAKzDaiuVdwVeGNqrRyUVMQyyK9YU=;
+  b=aEyhoaV5Zgty2JpGW8xeaeqR/pYHsGMVxVfcwer5FnNMnwHkqJg2io3A
+   Pmz9GciFyidfAM1eZqn7wq+gOIgD0GJKfyIkZ/WNoHoGsO5lJhL+dW878
+   fZIkjQvAHhEM5RYRJ+kBpC6sRx2fcgeprfairbq6Zg3qqbkOpWiRQPEJq
+   iR3WYakUTR13DKp/Nu2A/5hZ5WuMU4eo0ilmfwLNxXQOf35gBsB01EW7N
+   8SPFK7bwfKOA8tCoeQMCgfKpbKVxipi/XGr/+sJVnm0IkmLxAsVjQhrBd
+   m9RQhK6OLIxb4q74VNP0TmWr/PV4OHdVbownpNsVg4lXFeevRGDpk89DX
    g==;
-X-CSE-ConnectionGUID: p9jxc6iuTHW80q/2JB2smg==
-X-CSE-MsgGUID: xUzESwxjSsiqlnEusp+BhA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="18913195"
+X-CSE-ConnectionGUID: tp9sp9tTRsy2sFMpLfBRBg==
+X-CSE-MsgGUID: Un7NU1lUSoaDdlBZoGJA9g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="18913201"
 X-IronPort-AV: E=Sophos;i="6.07,192,1708416000"; 
-   d="scan'208";a="18913195"
+   d="scan'208";a="18913201"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 21:36:07 -0700
-X-CSE-ConnectionGUID: W/LD+1OhSq6CvUHc/DhRzA==
-X-CSE-MsgGUID: 1YPQ6+YhTDaQ2n+QY0oRoQ==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 21:36:09 -0700
+X-CSE-ConnectionGUID: sDkHX2rWTVew/QfTWLUgGQ==
+X-CSE-MsgGUID: Pce/SbP3T3C4/uW44S2Mtg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,192,1708416000"; 
-   d="scan'208";a="20783080"
+   d="scan'208";a="20783082"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 10 Apr 2024 21:36:06 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rumAN-0008Dm-2H;
+	id 1rumAN-0008Do-2N;
 	Thu, 11 Apr 2024 04:36:03 +0000
-Date: Thu, 11 Apr 2024 12:36:01 +0800
+Date: Thu, 11 Apr 2024 12:36:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [rostedt-trace:trace/ring-buffer-prealloc 17/19]
- kernel/trace/trace.c:6046:11: error: no member named 'text_delta' in 'struct
- trace_array'
-Message-ID: <202404111252.7x2Al4tf-lkp@intel.com>
+To: Jinglin Wen <jinglin.wen@shingroup.cn>, palmer@dabbelt.com
+Cc: oe-kbuild-all@lists.linux.dev, paul.walmsley@sifive.com,
+	aou@eecs.berkeley.edu, gregkh@linuxfoundation.org,
+	atishp@rivosinc.com, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	Jinglin Wen <jinglin.wen@shingroup.cn>
+Subject: Re: [PATCH 1/3] riscv: Support for early console.
+Message-ID: <202404111237.OOIpC9KS-lkp@intel.com>
+References: <20240410063432.23058-2-jinglin.wen@shingroup.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,94 +66,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240410063432.23058-2-jinglin.wen@shingroup.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git trace/ring-buffer-prealloc
-head:   26231feef0abf43a00e0ea834d7e0df0c017be2f
-commit: 07bdbc98d5602bb910541fdd75e9756296641e69 [17/19] tracing/ring-buffer: Add last_boot_info file to boot instance
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240411/202404111252.7x2Al4tf-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240411/202404111252.7x2Al4tf-lkp@intel.com/reproduce)
+Hi Jinglin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus linus/master v6.9-rc3 next-20240410]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jinglin-Wen/riscv-Support-for-early-console/20240410-143840
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20240410063432.23058-2-jinglin.wen%40shingroup.cn
+patch subject: [PATCH 1/3] riscv: Support for early console.
+config: riscv-randconfig-r112-20240411 (https://download.01.org/0day-ci/archive/20240411/202404111237.OOIpC9KS-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
+reproduce: (https://download.01.org/0day-ci/archive/20240411/202404111237.OOIpC9KS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404111252.7x2Al4tf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404111237.OOIpC9KS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/riscv/kernel/early_console.c:13:6: sparse: sparse: symbol 'riscv_early_console_putc' was not declared. Should it be static?
 
->> kernel/trace/trace.c:6046:11: error: no member named 'text_delta' in 'struct trace_array'
-           if (!tr->text_delta && !tr->data_delta)
-                ~~  ^
->> kernel/trace/trace.c:6046:30: error: no member named 'data_delta' in 'struct trace_array'
-           if (!tr->text_delta && !tr->data_delta)
-                                   ~~  ^
-   kernel/trace/trace.c:6053:6: error: no member named 'text_delta' in 'struct trace_array'
-           tr->text_delta = 0;
-           ~~  ^
-   kernel/trace/trace.c:6054:6: error: no member named 'data_delta' in 'struct trace_array'
-           tr->data_delta = 0;
-           ~~  ^
-   kernel/trace/trace.c:6889:49: error: no member named 'text_delta' in 'struct trace_array'
-           seq_buf_printf(&seq, "text delta:\t%ld\n", tr->text_delta);
-                                                      ~~  ^
-   kernel/trace/trace.c:6890:49: error: no member named 'data_delta' in 'struct trace_array'
-           seq_buf_printf(&seq, "data delta:\t%ld\n", tr->data_delta);
-                                                      ~~  ^
-   kernel/trace/trace.c:8742:10: error: no member named 'range_addr_start' in 'struct trace_array'
-           if (tr->range_addr_start)
-               ~~  ^
-   kernel/trace/trace.c:9289:10: error: no member named 'range_addr_start' in 'struct trace_array'
-           if (tr->range_addr_start && tr->range_addr_size) {
-               ~~  ^
-   kernel/trace/trace.c:9289:34: error: no member named 'range_addr_size' in 'struct trace_array'
-           if (tr->range_addr_start && tr->range_addr_size) {
-                                       ~~  ^
-   kernel/trace/trace.c:9291:17: error: no member named 'range_addr_start' in 'struct trace_array'
-                                                         tr->range_addr_start,
-                                                         ~~  ^
-   include/linux/ring_buffer.h:119:55: note: expanded from macro 'ring_buffer_alloc_range'
-           __ring_buffer_alloc_range((size), (flags), (order), (start),    \
-                                                                ^~~~~
-   kernel/trace/trace.c:9292:17: error: no member named 'range_addr_size' in 'struct trace_array'
-                                                         tr->range_addr_size);
-                                                         ~~  ^
-   include/linux/ring_buffer.h:120:8: note: expanded from macro 'ring_buffer_alloc_range'
-                                     (range_size), &__key);                \
-                                      ^~~~~~~~~~
-   kernel/trace/trace.c:9295:15: error: no member named 'text_delta' in 'struct trace_array'
-                                               &tr->text_delta, &tr->data_delta);
-                                                ~~  ^
-   kernel/trace/trace.c:9295:32: error: no member named 'data_delta' in 'struct trace_array'
-                                               &tr->text_delta, &tr->data_delta);
-                                                                 ~~  ^
-   kernel/trace/trace.c:9300:7: error: no member named 'mapped' in 'struct trace_array'
-                   tr->mapped++;
-                   ~~  ^
-   kernel/trace/trace.c:9473:6: error: no member named 'range_addr_start' in 'struct trace_array'
-           tr->range_addr_start = range_addr_start;
-           ~~  ^
-   kernel/trace/trace.c:9474:6: error: no member named 'range_addr_size' in 'struct trace_array'
-           tr->range_addr_size = range_addr_size;
-           ~~  ^
-   16 errors generated.
+vim +/riscv_early_console_putc +13 arch/riscv/kernel/early_console.c
 
-
-vim +6046 kernel/trace/trace.c
-
-  6043	
-  6044	static void update_last_data(struct trace_array *tr)
-  6045	{
-> 6046		if (!tr->text_delta && !tr->data_delta)
-  6047			return;
-  6048	
-  6049		/* Clear old data */
-  6050		tracing_reset_online_cpus(&tr->array_buffer);
-  6051	
-  6052		/* Using current data now */
-  6053		tr->text_delta = 0;
-  6054		tr->data_delta = 0;
-  6055	}
-  6056	
+    11	
+    12	/* interface for early console output characters */
+  > 13	void (*riscv_early_console_putc)(char c);
+    14	
 
 -- 
 0-DAY CI Kernel Test Service
