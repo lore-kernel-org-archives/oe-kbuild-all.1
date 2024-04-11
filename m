@@ -1,101 +1,133 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282F314F65;
-	Thu, 11 Apr 2024 19:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304D714A9F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 19:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712863289; cv=none; b=igwzdrylBjDJw8GM9YasBuE193bVBNjXBmfKD0niPqptU2atJTj7Z3TL+q5W5UvLX4E5tENIFt8AhZPwGkKc06tB/POB7WfZHX6i6ElaBFjXnatLD//bX3iL0uUwwwjdh49BdoFKfe2m4Wz+iFucyANbtADwjodXveSO81/ynBI=
+	t=1712863767; cv=none; b=pFGJl8cf5kvtcUF+RAd30S49v8Biyh7SSPBL8rnw/I6lQyBTLpXH59JJbtL8asilj8TP5zXiPY2l4gRjRuvcacsalk94sdHytBp22pXEkj0KOd7GLEPeKrcNbHYgW6tWypYZhJAHUuHGr1DOQCOltSf2KcfSqV4G2fUkSGZyuUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712863289; c=relaxed/simple;
-	bh=Ik+5avN+F3onRNtV1PB619O8pLeIV7AzjthBG+4V4qg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hupFVnWasve/7JKn8rQ6PdB+KeCvvwXvCVE6Ho5CDccH8gz1DHzBdBDnJEJ8pi+mqiGKv4kvOlQApkErMNtNnK4yDPzP/n2xLFp5Ffrbn3wcFqBdBd6hpy7Is/MdXefNrnLPZhrGaClsys5ZIkyykDr4OeuYyw2iMf/SvmYMJIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IZE3zeIZ; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712863767; c=relaxed/simple;
+	bh=hjJaBZuF6l73K3Hlbm/wyA1NBaZqojp0pznDH38rHgA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AhJR32H6FlYjQ6U+KumoCDxFAtThRkaPGqRxxTfz2mC/pIWnrk2OdHk6hXPa+bXCLvIkxxL85WObDx0XRatVzlCXqJ03vp2U6V1xYKvEP5Izj9c6Njs8Rtr9mpNn5gBMAXVCgd0BwV4Sp/rYGrXJfeOljHX8FG5urlMNiMsomz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ccA72W9t; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IZE3zeIZ"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-434c3d21450so521101cf.0;
-        Thu, 11 Apr 2024 12:21:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712863287; x=1713468087; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UM2zuMgd2tTJ9l2V10ApEN63oRSs92Yz7I6KOrw/UzQ=;
-        b=IZE3zeIZJPnNibj1UXJYjZ1Ka4bKsw29wQkICAfTXPXs+Yj9Pqjuo7xM2ICv4fz9MC
-         NcwYnz4Q51R9FD/+6WKBg8UE41TWmBR4opj5A2UZRH4jv3K/sVh84n179JoSWW6N9FHO
-         f3uK1/AdNaX6p1rbX+rVg0TW5lxS9keTi7sJBe8rdoOnc6PDxscj9KpScoqDqpar4XAq
-         vkYUDeAM3xu4xKoEQzsI34mC9gOJApyekyTWBi0WYzMQrkRL3LMy5F8i33Oo0kSUGCiL
-         A8eQ06L6UU3gOkZCeWb3P5Qf19e/0nhkFJfO41TPUtCVr8j9NdaEUuPjDCeyPDlqIrwU
-         c4Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712863287; x=1713468087;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UM2zuMgd2tTJ9l2V10ApEN63oRSs92Yz7I6KOrw/UzQ=;
-        b=E3GxExR9z8pbWsufKK73aBPHGzfnNTlsGf0GGJPww8MzrceUUQXmg6lcKUXIEu2mai
-         2y9tGg7mRzR6TOKOT+DIN5a1Ttn4DvQ+5gBBxmrifle8c+pwzS/7y5KlITAgM9lk1R27
-         pcqbR8aB+229wPPyMkX+AZdqTL7AvsX5jHmu7ZTh2aHrxZPM7zoC1qAGSxRcoPvza7wK
-         Wa0mq75wQJE+25mp2HG+ATO+ct0T7eTg5fqLWl48GZesX1qhh1OvXA6V0Sm+LtYnDdlx
-         4ZFeZeSripUtktZXad5VCGZsZ6X3+VhgCe2yCdu+aWZSNqkLZ7dWh3oqwj0fw9kC5212
-         H3iA==
-X-Forwarded-Encrypted: i=1; AJvYcCUw3qyWDQQu2oc9Sa7/I50PKfZRv6P+wsozorTH/iyH8XxZBR/iCEOfRZ5awA4vZLZD6zUdnUsB0migCGvqKtslwrGJMBwgox3paRzv1bJaRhRCxPUyfZOP07XGyv9hUOY7+jY=
-X-Gm-Message-State: AOJu0Yz5D9UzceqzWAmuynE5XZWxxdeOapisN9AsGKj/AMeRkKtduNeS
-	pB5i1ebDBQ293KLipuq5MujWG/eHsmzuXqpdOAv0GsBQvlv6Rtt9wZNV2A==
-X-Google-Smtp-Source: AGHT+IGvHxA54aKOClekMdzRkSKoQQavDjhgxAQk3dRTaypFZBWOKdo0kFNXxP05O1GXsQzB8/QW1Q==
-X-Received: by 2002:ac8:67d7:0:b0:436:8736:f0c1 with SMTP id r23-20020ac867d7000000b004368736f0c1mr150864qtp.47.1712863286926;
-        Thu, 11 Apr 2024 12:21:26 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id p26-20020ac8741a000000b0043123c8b6a6sm1274004qtq.4.2024.04.11.12.21.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Apr 2024 12:21:26 -0700 (PDT)
-Message-ID: <a59e2164-7159-445e-9f87-fcf6cb4b57d6@gmail.com>
-Date: Thu, 11 Apr 2024 12:21:22 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ccA72W9t"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712863766; x=1744399766;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hjJaBZuF6l73K3Hlbm/wyA1NBaZqojp0pznDH38rHgA=;
+  b=ccA72W9tle3GGyW0aFU5IkKYzVOkPt8yeAE4JwK6G3j/xLj78oAUEEGM
+   Zag2UqN8AAlZZbV63abChd9SO+69ESVHZqKylVKMQ7JogBeyoW/c1d3ei
+   Kp+JLonDDrCZyqsR52akQ1N4AukWS2ECNBMA/n3JmtlhaXtSO9YRHVuzd
+   LRcuxQHmuQcYMtXCh1W+elassSgzVF8fTSBKjHTpjK4WTOwEFj7S/PPWJ
+   LR1GtbVmtelP0tA8ddO7nLVxzWVQKRSVqG2rZNYTFW6HjcK+Oo9Jc/3sh
+   /Wck/wKc0uKVb2kv/mpuk0UeoszOt56hfzcB/LkjQ3AYVBOyvHxabjToy
+   Q==;
+X-CSE-ConnectionGUID: ANg/jTtCSOWvcwBmAnraaA==
+X-CSE-MsgGUID: x42n+BFbTTWc5rc31GamZw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="19452250"
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="19452250"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 12:29:26 -0700
+X-CSE-ConnectionGUID: XLdN1l/IRyy8FI7DAtpRUg==
+X-CSE-MsgGUID: 9llaWrpBSLmOmfST/u30BQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="25649002"
+Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 11 Apr 2024 12:29:24 -0700
+Received: from kbuild by e61807b1d151 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rv06r-0008vh-31;
+	Thu, 11 Apr 2024 19:29:21 +0000
+Date: Fri, 12 Apr 2024 03:28:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Liu Shixin <liushixin2@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2437/7374] mm/dynamic_pool.c:118:55: sparse:
+ sparse: incorrect type in initializer (different address spaces)
+Message-ID: <202404120329.pEWUfaZU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next:main 26/50] net/ipv4/tcp.c:4673:2: error: call to
- '__compiletime_assert_1030' declared with 'error' attribute: BUILD_BUG_ON
- failed: offsetof(struct tcp_sock, __cacheline_group_end__tcp_sock_write_txrx)
- - offsetofend(struct tcp_sock, __cacheline_group_begin__tcp_sock_...
-Content-Language: en-US
-To: Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>
-Cc: Vladimir Oltean <olteanv@gmail.com>, kernel test robot <lkp@intel.com>,
- llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-References: <202404082207.HCEdQhUO-lkp@intel.com>
- <20240408230632.5ml3amaztr5soyfs@skbuf>
- <CANn89iJ8EcqiF8YCPhDxcp5t79J1RLzTh6GHHgAxbTXbC+etRA@mail.gmail.com>
- <db4d4a48-b581-4060-b611-996543336cd2@gmail.com>
- <CANn89iJMirOe=TqMZ=J8mFLNQLDV=wzL4jOf9==Zkv7L2U5jcQ@mail.gmail.com>
- <20240410183636.202fd78f@kernel.org>
-From: Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20240410183636.202fd78f@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 4/10/24 18:36, Jakub Kicinski wrote:
-> On Wed, 10 Apr 2024 19:33:54 +0200 Eric Dumazet wrote:
->>> Jakub, I do not see a 32-bit build in the various checks being run for a
->>> patch, could you add one, if nothing else a i386 build and a
->>> multi_v7_defconfig build would get us a good build coverage.
->>
->> i386 build was just fine for me.
-> 
-> Yes, we test i386 too, FWIW.
-> 
-> Florian, does arm32 break a lot? I may not be paying sufficient
-> attention. We can add more build tests but the CPU time we have
-> is unfortunately finite :(
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   8f7c77eb69ee331fb66fad8eec5ca81b8843eaf3
+commit: 8822f3476adadcf84c7cb3db0d1a0a39a6fdc398 [2437/7374] mm/dynamic_pool: introduce per-memcg memory pool
+config: arm64-randconfig-r132-20240412 (https://download.01.org/0day-ci/archive/20240412/202404120329.pEWUfaZU-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
+reproduce: (https://download.01.org/0day-ci/archive/20240412/202404120329.pEWUfaZU-lkp@intel.com/reproduce)
 
-Yes, that is why I mentioned multi_v7_defconfig, you an see the build 
-failure with that configuration. Of course Eric fixed it now, thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404120329.pEWUfaZU-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> mm/dynamic_pool.c:118:55: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cgroup_subsys_state *css @@     got struct cgroup_subsys_state [noderef] __rcu * @@
+   mm/dynamic_pool.c:118:55: sparse:     expected struct cgroup_subsys_state *css
+   mm/dynamic_pool.c:118:55: sparse:     got struct cgroup_subsys_state [noderef] __rcu *
+
+vim +118 mm/dynamic_pool.c
+
+   115	
+   116	int dynamic_pool_destroy(struct cgroup *cgrp, bool *clear_css_online)
+   117	{
+ > 118		struct cgroup_subsys_state *css = cgrp->subsys[memory_cgrp_id];
+   119		struct mem_cgroup *memcg = mem_cgroup_from_css(css);
+   120		struct dynamic_pool *dpool;
+   121		int ret = 0;
+   122	
+   123		if (!dpool_enabled || !memcg)
+   124			return 0;
+   125	
+   126		mutex_lock(&dpool_mutex);
+   127		dpool = dpool_get_from_memcg(memcg);
+   128		if (!dpool)
+   129			goto unlock;
+   130	
+   131		if (dpool->memcg != memcg) {
+   132			memcg->dpool = NULL;
+   133			goto put;
+   134		}
+   135	
+   136		/* A offline dpool is not allowed for allocation */
+   137		dpool->online = false;
+   138	
+   139		memcg->dpool = NULL;
+   140	
+   141		/* Release the initial reference count */
+   142		dpool_put(dpool);
+   143	
+   144		/*
+   145		 * Since dpool is destroyed and the memcg will be freed then,
+   146		 * clear CSS_ONLINE immediately to prevent race with create.
+   147		 */
+   148		if (cgrp->self.flags & CSS_ONLINE) {
+   149			cgrp->self.flags &= ~CSS_ONLINE;
+   150			*clear_css_online = true;
+   151		}
+   152	
+   153	put:
+   154		dpool_put(dpool);
+   155	unlock:
+   156		mutex_unlock(&dpool_mutex);
+   157	
+   158		return ret;
+   159	}
+   160	
+
 -- 
-Florian
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
