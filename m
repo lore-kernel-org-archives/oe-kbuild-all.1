@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04162BCE8;
-	Thu, 11 Apr 2024 21:09:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444FD2BD18
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 21:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712869774; cv=none; b=WpE1UH0U6dG/YkJMNvoKrdgZd9tilKynEySrMvLJNMpAQ0WVuArSHU3ALCxlr6Xc4raEi91TU1WTSivATz8jaWteHHEkTJnxYLcB1I5wayX572dVNkTMO+N/DUUohCI7JlWT9voBQSpjmaygp6JVqRFi1eF5Zbyk5ZwY4KapYX4=
+	t=1712869775; cv=none; b=BOZukzgvXPDbSi0gZ1EkmjYuHrsmosdy3CJ2d7KMYkmWqp7122BsVMyFNxMD7wMDqS4NISbJtUqaUEPru8QlWGc6sBSrV9xnZe/30fosYsIKKtBnHEG2zbV0Iqd0Laa9hIXxS0pKqp3qT8IYz2lEmrEXyfW9yvq8ueS5aFJujUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712869774; c=relaxed/simple;
-	bh=LF4XpfoNUs4rgrgDg8WjET4ZLBJiGswBegAapshKlSA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GBjaUV9qccuVhqtjuaXVO04fWBpCmQRFIwu79n8ps6/h2dGyy1xx6szEVNTvRuSwdiuCdiD7NVojWbq5d0QAfHzZRVTqnuXf6yWR21+y9xuCchFjPns4BjmoOEhTgfkSrI8NNH56WmLJvH/YscSja1vMUF09MujP6utROg0EWxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QtDT3j8s; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1712869775; c=relaxed/simple;
+	bh=qwxXwcTr2zHS5bsYfOOF3ptNAFvHZNdpgxP/ZUTYODg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VoXRgRd9/PJytGIzeQoM8D+8pPKEBH76SDK3+gkThGIRtRwdbPBotho4dHdv97jpzmt1WnPyWoulViJDeGKI8tsLVxsNKhRdmYsrhILUCw1efCH10YJ2g9ba4QDGezJOK8lpG5YBb/9F8WXpwBZLZue6+kXgZExoxELFrp1Do+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cfA1DOQG; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QtDT3j8s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfA1DOQG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1712869773; x=1744405773;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LF4XpfoNUs4rgrgDg8WjET4ZLBJiGswBegAapshKlSA=;
-  b=QtDT3j8s81YAw/6lwgPpKWmQ6pQJH2LyDFVyNveNF/4UiO4G/ucbF8v5
-   eJsxGKoQSdPaYFsHqQmB99q/O3zBsn8uPa12MNtEOYE5JAdCIeaioXT3e
-   xdsYQVj9UF5vWzc1wYnq53HzN00JVOC/5qauF4V4VGcCNROa1my/1AeyH
-   GQ3aeg37tRwBw4a4hm7pvH/HXr6Q+ZcVAAyxUIbjy6TnPL0Iae2PSHJ3K
-   UQfGGsDMRrHoDQlEI0vdOqKXHQGT0QiX2IWnmByE9OXiEiqgRDB4j8AF6
-   00KtU2F35Cq9xlytq688LzOkFvp4Ic9wHh0OdhexzM1IETj2tqq+adVNP
-   w==;
-X-CSE-ConnectionGUID: C5V/sZvlSe6qKLMRAmDfCQ==
-X-CSE-MsgGUID: GhThpbHgQw2tPDd2iGq7Lg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="30791676"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qwxXwcTr2zHS5bsYfOOF3ptNAFvHZNdpgxP/ZUTYODg=;
+  b=cfA1DOQGpP9Mv1wEmMIZjWS3vTkfiVevpRDsK6BUl/Ts2q8GvsFzaZXN
+   Y2o6c4N4pG8g6TFuswzfitF9l82yDV53+M8lPp301zO1TU8wXLhfmSaov
+   FwrxQT63JpxsURre2eYZiYyDQAkS7HNTyrA88Ha9uD9Lr6DQP9mV3jVJ0
+   pzQivtIUWiDjrhGK5sut/YcN7k4tyDlRd2zRUCQI2gg4A5wvwYR8HCVEJ
+   wKCTA/0bEXa6m6lGvEic/MNE8E2ARSZDQtPXrtQjvTLJDGwo+ML+5dZfL
+   X4IVKNRs1oS2gmCURugOlMczIai1h4mRmaZaVUMRLptJ+ihHKqvms3yMZ
+   A==;
+X-CSE-ConnectionGUID: VqkTyYi3Tq6MNuyCFFrYMQ==
+X-CSE-MsgGUID: u0btgtyfSx2mhu0MhI/JFA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="12160384"
 X-IronPort-AV: E=Sophos;i="6.07,194,1708416000"; 
-   d="scan'208";a="30791676"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 14:09:32 -0700
-X-CSE-ConnectionGUID: 9GszBZEdQweoOsAaOPrXAA==
-X-CSE-MsgGUID: By4KEyw4SXmebUA1g2eEFQ==
+   d="scan'208";a="12160384"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 14:09:32 -0700
+X-CSE-ConnectionGUID: 1beJnkpnR2+ZDYC+UP97Vg==
+X-CSE-MsgGUID: fr4lI4BfQrmsQTRpExZYfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,194,1708416000"; 
-   d="scan'208";a="20992366"
+   d="scan'208";a="21008544"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 11 Apr 2024 14:09:31 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 11 Apr 2024 14:09:30 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rv1fk-0008z3-0N;
+	id 1rv1fk-0008z8-0Z;
 	Thu, 11 Apr 2024 21:09:28 +0000
-Date: Fri, 12 Apr 2024 05:08:41 +0800
+Date: Fri, 12 Apr 2024 05:08:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alistair Popple <apopple@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 08/10] fs/dax: Properly refcount fs dax pages
-Message-ID: <202404120417.9jDId3hj-lkp@intel.com>
-References: <5cc5a152d2a03e2702be259c81af2bfe424303cd.1712796818.git-series.apopple@nvidia.com>
+To: Inochi Amaoto <inochiama@outlook.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Stephen Boyd <sboyd@kernel.org>
+Subject: [clk:clk-sophgo 2/4] drivers/clk/sophgo/clk-cv1800.c:82:35: sparse:
+ sparse: symbol 'clk_mpll_synthesizer' was not declared. Should it be static?
+Message-ID: <202404120548.y9dZIi0e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,96 +63,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5cc5a152d2a03e2702be259c81af2bfe424303cd.1712796818.git-series.apopple@nvidia.com>
 
-Hi Alistair,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ffc253263a1375a65fa6c9f62a893e9767fbebfa]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Popple/mm-gup-c-Remove-redundant-check-for-PCI-P2PDMA-page/20240411-085933
-base:   ffc253263a1375a65fa6c9f62a893e9767fbebfa
-patch link:    https://lore.kernel.org/r/5cc5a152d2a03e2702be259c81af2bfe424303cd.1712796818.git-series.apopple%40nvidia.com
-patch subject: [RFC 08/10] fs/dax: Properly refcount fs dax pages
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240412/202404120417.9jDId3hj-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240412/202404120417.9jDId3hj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-sophgo
+head:   1cce3e61af6a89aa4b01189257fba73e46244b2d
+commit: 80fd61ec46124eb83b29de3647a565f69979e753 [2/4] clk: sophgo: Add clock support for CV1800 SoC
+config: openrisc-randconfig-r111-20240412 (https://download.01.org/0day-ci/archive/20240412/202404120548.y9dZIi0e-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240412/202404120548.y9dZIi0e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404120417.9jDId3hj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404120548.y9dZIi0e-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clk/sophgo/clk-cv1800.c:82:35: sparse: sparse: symbol 'clk_mpll_synthesizer' was not declared. Should it be static?
+>> drivers/clk/sophgo/clk-cv1800.c:96:35: sparse: sparse: symbol 'clk_tpll_synthesizer' was not declared. Should it be static?
+>> drivers/clk/sophgo/clk-cv1800.c:110:35: sparse: sparse: symbol 'clk_a0pll_synthesizer' was not declared. Should it be static?
+>> drivers/clk/sophgo/clk-cv1800.c:124:35: sparse: sparse: symbol 'clk_disppll_synthesizer' was not declared. Should it be static?
+>> drivers/clk/sophgo/clk-cv1800.c:138:35: sparse: sparse: symbol 'clk_cam0pll_synthesizer' was not declared. Should it be static?
+>> drivers/clk/sophgo/clk-cv1800.c:152:35: sparse: sparse: symbol 'clk_cam1pll_synthesizer' was not declared. Should it be static?
+   drivers/clk/sophgo/clk-cv1800.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-   In file included from fs/dax.c:10:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:10:
-   In file included from include/linux/mm.h:2140:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> fs/dax.c:707:5: warning: no previous prototype for function '__dax_invalidate_entry' [-Wmissing-prototypes]
-     707 | int __dax_invalidate_entry(struct address_space *mapping,
-         |     ^
-   fs/dax.c:707:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     707 | int __dax_invalidate_entry(struct address_space *mapping,
-         | ^
-         | static 
-   6 warnings generated.
+vim +/clk_mpll_synthesizer +82 drivers/clk/sophgo/clk-cv1800.c
 
-
-vim +/__dax_invalidate_entry +707 fs/dax.c
-
-   706	
- > 707	int __dax_invalidate_entry(struct address_space *mapping,
-   708					  pgoff_t index, bool trunc)
-   709	{
-   710		XA_STATE(xas, &mapping->i_pages, index);
-   711		int ret = 0;
-   712		void *entry;
-   713	
-   714		xas_lock_irq(&xas);
-   715		entry = get_unlocked_entry(&xas, 0);
-   716		if (!entry || WARN_ON_ONCE(!xa_is_value(entry)))
-   717			goto out;
-   718		if (!trunc &&
-   719		    (xas_get_mark(&xas, PAGECACHE_TAG_DIRTY) ||
-   720		     xas_get_mark(&xas, PAGECACHE_TAG_TOWRITE)))
-   721			goto out;
-   722		xas_store(&xas, NULL);
-   723		mapping->nrpages -= 1UL << dax_entry_order(entry);
-   724		ret = 1;
-   725	out:
-   726		put_unlocked_entry(&xas, entry, WAKE_ALL);
-   727		xas_unlock_irq(&xas);
-   728		return ret;
-   729	}
-   730	
+    81	
+  > 82	struct cv1800_clk_pll_synthesizer clk_mpll_synthesizer = {
+    83		.en		= CV1800_CLK_BIT(REG_PLL_G6_SSC_SYN_CTRL, 2),
+    84		.clk_half	= CV1800_CLK_BIT(REG_PLL_G6_SSC_SYN_CTRL, 0),
+    85		.ctrl		= REG_MPLL_SSC_SYN_CTRL,
+    86		.set		= REG_MPLL_SSC_SYN_SET,
+    87	};
+    88	static CV1800_FACTIONAL_PLL(clk_mpll, clk_bypass_mipimpll_parents,
+    89				    REG_MPLL_CSR,
+    90				    REG_PLL_G6_CTRL, 0,
+    91				    REG_PLL_G6_STATUS, 0,
+    92				    pll_limits,
+    93				    &clk_mpll_synthesizer,
+    94				    CLK_IS_CRITICAL);
+    95	
+  > 96	struct cv1800_clk_pll_synthesizer clk_tpll_synthesizer = {
+    97		.en		= CV1800_CLK_BIT(REG_PLL_G6_SSC_SYN_CTRL, 3),
+    98		.clk_half	= CV1800_CLK_BIT(REG_PLL_G6_SSC_SYN_CTRL, 0),
+    99		.ctrl		= REG_TPLL_SSC_SYN_CTRL,
+   100		.set		= REG_TPLL_SSC_SYN_SET,
+   101	};
+   102	static CV1800_FACTIONAL_PLL(clk_tpll, clk_bypass_mipimpll_parents,
+   103				    REG_TPLL_CSR,
+   104				    REG_PLL_G6_CTRL, 4,
+   105				    REG_PLL_G6_STATUS, 1,
+   106				    pll_limits,
+   107				    &clk_tpll_synthesizer,
+   108				    CLK_IS_CRITICAL);
+   109	
+ > 110	struct cv1800_clk_pll_synthesizer clk_a0pll_synthesizer = {
+   111		.en		= CV1800_CLK_BIT(REG_PLL_G2_SSC_SYN_CTRL, 2),
+   112		.clk_half	= CV1800_CLK_BIT(REG_PLL_G2_SSC_SYN_CTRL, 0),
+   113		.ctrl		= REG_A0PLL_SSC_SYN_CTRL,
+   114		.set		= REG_A0PLL_SSC_SYN_SET,
+   115	};
+   116	static CV1800_FACTIONAL_PLL(clk_a0pll, clk_bypass_mipimpll_parents,
+   117				    REG_A0PLL_CSR,
+   118				    REG_PLL_G2_CTRL, 4,
+   119				    REG_PLL_G2_STATUS, 1,
+   120				    pll_limits,
+   121				    &clk_a0pll_synthesizer,
+   122				    CLK_IS_CRITICAL);
+   123	
+ > 124	struct cv1800_clk_pll_synthesizer clk_disppll_synthesizer = {
+   125		.en		= CV1800_CLK_BIT(REG_PLL_G2_SSC_SYN_CTRL, 3),
+   126		.clk_half	= CV1800_CLK_BIT(REG_PLL_G2_SSC_SYN_CTRL, 0),
+   127		.ctrl		= REG_DISPPLL_SSC_SYN_CTRL,
+   128		.set		= REG_DISPPLL_SSC_SYN_SET,
+   129	};
+   130	static CV1800_FACTIONAL_PLL(clk_disppll, clk_bypass_mipimpll_parents,
+   131				    REG_DISPPLL_CSR,
+   132				    REG_PLL_G2_CTRL, 8,
+   133				    REG_PLL_G2_STATUS, 2,
+   134				    pll_limits,
+   135				    &clk_disppll_synthesizer,
+   136				    CLK_IS_CRITICAL);
+   137	
+ > 138	struct cv1800_clk_pll_synthesizer clk_cam0pll_synthesizer = {
+   139		.en		= CV1800_CLK_BIT(REG_PLL_G2_SSC_SYN_CTRL, 4),
+   140		.clk_half	= CV1800_CLK_BIT(REG_PLL_G2_SSC_SYN_CTRL, 0),
+   141		.ctrl		= REG_CAM0PLL_SSC_SYN_CTRL,
+   142		.set		= REG_CAM0PLL_SSC_SYN_SET,
+   143	};
+   144	static CV1800_FACTIONAL_PLL(clk_cam0pll, clk_bypass_mipimpll_parents,
+   145				    REG_CAM0PLL_CSR,
+   146				    REG_PLL_G2_CTRL, 12,
+   147				    REG_PLL_G2_STATUS, 3,
+   148				    pll_limits,
+   149				    &clk_cam0pll_synthesizer,
+   150				    CLK_IGNORE_UNUSED);
+   151	
+ > 152	struct cv1800_clk_pll_synthesizer clk_cam1pll_synthesizer = {
+   153		.en		= CV1800_CLK_BIT(REG_PLL_G2_SSC_SYN_CTRL, 5),
+   154		.clk_half	= CV1800_CLK_BIT(REG_PLL_G2_SSC_SYN_CTRL, 0),
+   155		.ctrl		= REG_CAM1PLL_SSC_SYN_CTRL,
+   156		.set		= REG_CAM1PLL_SSC_SYN_SET,
+   157	};
+   158	static CV1800_FACTIONAL_PLL(clk_cam1pll, clk_bypass_mipimpll_parents,
+   159				    REG_CAM1PLL_CSR,
+   160				    REG_PLL_G2_CTRL, 16,
+   161				    REG_PLL_G2_STATUS, 4,
+   162				    pll_limits,
+   163				    &clk_cam1pll_synthesizer,
+   164				    CLK_IS_CRITICAL);
+   165	
 
 -- 
 0-DAY CI Kernel Test Service
