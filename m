@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F0810A11
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 06:54:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4146FB5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 07:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712818453; cv=none; b=EREyk9by5iyKcjA6otC8RBTrzgq/0+sPswPtvdkEmPWKLrtIPye0/avR3sgRXoCEpb4hGP1ZUfywPt4OEJawLjn0MSiD0PYw6Ai2ZOnYi1PhewhE3W8o8dHJfjZCdiiinwKjOUiyZ4xI1AxGdTDQVKPRxU1ZBuZyHD3EMBPm1QQ=
+	t=1712821095; cv=none; b=VxTaD93Ws16R+uW6OMSjhx5fEH9auOnKXAWuDzigTZRpn5Y4VseC/fDZP80Xj3QzQboLeNufd/jSlgH7y1LQy6ulzRoES+I2SE3uFxTs0ewtNHK5NnrW46cLtfQeEWypjuUFoBFREcEB5KRIuRI/Kg2422X/+NuEIi3ZJ+Rl9tU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712818453; c=relaxed/simple;
-	bh=JtdDA4DiM2miWGEPaIiRww6qbrA46xcNczGJgb/Hoh8=;
+	s=arc-20240116; t=1712821095; c=relaxed/simple;
+	bh=L3JoXk4FEl07a0j6E2upwLLCqgoju+2XhzIi3eYOF28=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qkiWtoF/zuAaOCPSJoZd9zCPYbOHehaROG8nn9nPWbXnur1O/UKfmGUVeQzj4Y5e7xz7JWJIJxaF2DeFpdWaHA5VJaiy32mz3Zb6JUfNRwwoPLwh0iQta7aX7xYnEpVllnT3/5+CPVRAdgNKeZtF6y9FzWAummGVw75uu1hO6JI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FrUOojz3; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=PWvduo+DKZ33HxgpP3bEg3hFvw4ITg0RQqyPtlwgzYdCYuV9MSLwjbsBotkqaORXsuzFyWhciyiSZ9eXyYVY6T5qx42LuQTISHON25+cJuTtop6EsKMIbjbkj+taktNYAQHVWsfPjyLEguuOjMzPWR/nQGE2zFbg0x69yN+Y3IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kB3Q3t9I; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FrUOojz3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kB3Q3t9I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712818452; x=1744354452;
+  t=1712821094; x=1744357094;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JtdDA4DiM2miWGEPaIiRww6qbrA46xcNczGJgb/Hoh8=;
-  b=FrUOojz3Hhm/3xmHmIT4KD25BmSF6Fso3c5ZfyR82WnT/NzyrHIdoQ67
-   iDtlh4MehWIAOYvsXBTJy4oG+cy/i+Uqm+6qVpuwPaWnHT/fydRAxKIGU
-   KzVYzH9BI/c8K57C3oR6sgDVpuEt4PtZPqSvOUPJQFgBqT35+5l7bmNFT
-   k/a1WRwms9qWa34eDQhh3y0dJtsfs1wrXO+atWezrA8IRPt/M8BOeFiy3
-   9y9fHERnMkKEdBAVgCBVpFrTQvOOOXj4zsIRIIKb6Nt9+aAYm2veORH43
-   7mTIr5/NOEjOo3iJdliwxmdcibZiXviXlW8QiFIf0Fukxyw3BkUO2UVK3
+  bh=L3JoXk4FEl07a0j6E2upwLLCqgoju+2XhzIi3eYOF28=;
+  b=kB3Q3t9IdzTiPg9y/Od4SWbrtJGHvYqyjb47hkQPo/2MejW+bZ0G9m7C
+   /Ih3woZLZtyGwULQGN3yBCh6VlGYkqyv1LKu6F4GxAzUIRfV+x56xUP5v
+   +jlUpjP7PKdOz3+X8+u6swmImBsdHVDpKecV8Lk18eRbPkVFWNTlMKJ2R
+   Q6dBHtjVpk5SFjX2ufjh5wAy83ZctmFKsinYHdTMoOwqDVov/a25ugWod
+   tnIm9fkhshrIJLZcmVc/AHcFcfOq9IFmReX0+AnaPB5TtNKnaH5woybQe
+   HOnzkFSapgtc9n7CozKZQC7lRBOGPfNGK3+J7ob+XvMq13nkcwe52V27u
    w==;
-X-CSE-ConnectionGUID: LCp5snu8QNOK1WzdOH0M7w==
-X-CSE-MsgGUID: E0E3/TyyQ2q7DuBUHCYyVQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8130724"
+X-CSE-ConnectionGUID: 9ye5WBPaSzqR/BvULXBmDw==
+X-CSE-MsgGUID: 8EKe1SqbSt2jTiShpUi7Jw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="12068053"
 X-IronPort-AV: E=Sophos;i="6.07,192,1708416000"; 
-   d="scan'208";a="8130724"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 23:54:12 -0700
-X-CSE-ConnectionGUID: YwqtGue6Rja7jhH3sF8fKg==
-X-CSE-MsgGUID: h395tqAETgeUfqT2+CkUFw==
+   d="scan'208";a="12068053"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 00:38:13 -0700
+X-CSE-ConnectionGUID: +lrVnIh2TC2MmtVIVpaCBg==
+X-CSE-MsgGUID: WT06LAduRi62xsJwOfPwhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,192,1708416000"; 
-   d="scan'208";a="20811558"
+   d="scan'208";a="25302771"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Apr 2024 23:54:10 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 11 Apr 2024 00:38:13 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ruoJz-0008Jt-33;
-	Thu, 11 Apr 2024 06:54:07 +0000
-Date: Thu, 11 Apr 2024 14:54:07 +0800
+	id 1rup0b-0008Ml-2f;
+	Thu, 11 Apr 2024 07:38:09 +0000
+Date: Thu, 11 Apr 2024 15:38:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
+To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 224/415] drivers/watchdog/eurotechwdt.c:199:
- warning: Function parameter or struct member 'iocb' not described in
- 'eurwdt_write'
-Message-ID: <202404111433.wl4NLc6m-lkp@intel.com>
+Subject: [isilence:zcrx/next 3/5] io_uring/rsrc.c:1008:24: warning: format
+ '%d' expects argument of type 'int', but argument 4 has type
+ '__kernel_size_t' {aka 'long unsigned int'}
+Message-ID: <202404111521.46gpY5cV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,72 +63,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   2cdbd541e4481cb9cbd08913e0586dc8a2570aec
-commit: 3c90dc14ee8baba7b051b809e8369c8328c2a2a9 [224/415] watchdog: eurotechwdt: convert to read/write iterators
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240411/202404111433.wl4NLc6m-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240411/202404111433.wl4NLc6m-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux zcrx/next
+head:   145e80df1ac4e2380f8753660781bdc2c3350206
+commit: 0fe9df64fe2bd74f7b4d92c0c9cfe55dc55e4ff8 [3/5] wip: bnxt
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240411/202404111521.46gpY5cV-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240411/202404111521.46gpY5cV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404111433.wl4NLc6m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404111521.46gpY5cV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/watchdog/eurotechwdt.c:199: warning: Function parameter or struct member 'iocb' not described in 'eurwdt_write'
->> drivers/watchdog/eurotechwdt.c:199: warning: Function parameter or struct member 'from' not described in 'eurwdt_write'
->> drivers/watchdog/eurotechwdt.c:199: warning: Excess function parameter 'file' description in 'eurwdt_write'
->> drivers/watchdog/eurotechwdt.c:199: warning: Excess function parameter 'buf' description in 'eurwdt_write'
->> drivers/watchdog/eurotechwdt.c:199: warning: Excess function parameter 'count' description in 'eurwdt_write'
->> drivers/watchdog/eurotechwdt.c:199: warning: Excess function parameter 'ppos' description in 'eurwdt_write'
+   In file included from include/linux/kernel.h:31,
+                    from io_uring/rsrc.c:2:
+   io_uring/rsrc.c: In function 'io_sqe_buffers_register':
+>> io_uring/rsrc.c:1008:24: warning: format '%d' expects argument of type 'int', but argument 4 has type '__kernel_size_t' {aka 'long unsigned int'} [-Wformat=]
+    1008 |                 printk("----- io_sqe_buffers_register: i=%d, iov_base=%px, iov_len=%d\n", i, iov.iov_base, iov.iov_len);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~
+         |                                                                                                               |
+         |                                                                                                               __kernel_size_t {aka long unsigned int}
+   include/linux/printk.h:429:25: note: in definition of macro 'printk_index_wrap'
+     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   io_uring/rsrc.c:1008:17: note: in expansion of macro 'printk'
+    1008 |                 printk("----- io_sqe_buffers_register: i=%d, iov_base=%px, iov_len=%d\n", i, iov.iov_base, iov.iov_len);
+         |                 ^~~~~~
+   io_uring/rsrc.c:1008:85: note: format string is defined here
+    1008 |                 printk("----- io_sqe_buffers_register: i=%d, iov_base=%px, iov_len=%d\n", i, iov.iov_base, iov.iov_len);
+         |                                                                                    ~^
+         |                                                                                     |
+         |                                                                                     int
+         |                                                                                    %ld
 
 
-vim +199 drivers/watchdog/eurotechwdt.c
+vim +1008 io_uring/rsrc.c
 
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  186  
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  187  /**
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  188   * eurwdt_write:
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  189   * @file: file handle to the watchdog
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  190   * @buf: buffer to write (unused as data does not matter here
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  191   * @count: count of bytes
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  192   * @ppos: pointer to the position to write. No seeks allowed
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  193   *
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  194   * A write to a watchdog device is defined as a keepalive signal. Any
-08a884cf030481 drivers/watchdog/eurotechwdt.c      shaomin Deng   2022-08-08  195   * write of data will do, as we don't define content meaning.
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  196   */
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  197  
-3c90dc14ee8bab drivers/watchdog/eurotechwdt.c      Jens Axboe     2024-04-08  198  static ssize_t eurwdt_write(struct kiocb *iocb, struct iov_iter *from)
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16 @199  {
-3c90dc14ee8bab drivers/watchdog/eurotechwdt.c      Jens Axboe     2024-04-08  200  	size_t count = iov_iter_count(from);
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  201  	if (count) {
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  202  		if (!nowayout) {
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  203  			size_t i;
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  204  
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  205  			eur_expect_close = 0;
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  206  
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  207  			for (i = 0; i != count; i++) {
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  208  				char c;
-3c90dc14ee8bab drivers/watchdog/eurotechwdt.c      Jens Axboe     2024-04-08  209  				if (get_iter(c, from))
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  210  					return -EFAULT;
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  211  				if (c == 'V')
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  212  					eur_expect_close = 42;
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  213  			}
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  214  		}
-89ea2429873e69 drivers/watchdog/eurotechwdt.c      Alan Cox       2008-05-19  215  		spin_lock(&eurwdt_lock);
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  216  		eurwdt_ping();	/* the default timeout */
-89ea2429873e69 drivers/watchdog/eurotechwdt.c      Alan Cox       2008-05-19  217  		spin_unlock(&eurwdt_lock);
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  218  	}
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  219  	return count;
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  220  }
-^1da177e4c3f41 drivers/char/watchdog/eurotechwdt.c Linus Torvalds 2005-04-16  221  
-
-:::::: The code at line 199 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   967	
+   968	int io_sqe_buffers_register(struct io_ring_ctx *ctx, void __user *arg,
+   969				    unsigned int nr_args, u64 __user *tags)
+   970	{
+   971		struct page *last_hpage = NULL;
+   972		struct io_rsrc_data *data;
+   973		int i, ret;
+   974		struct iovec iov;
+   975	
+   976		BUILD_BUG_ON(IORING_MAX_REG_BUFFERS >= (1u << 16));
+   977	
+   978		if (ctx->user_bufs)
+   979			return -EBUSY;
+   980		if (!nr_args || nr_args > IORING_MAX_REG_BUFFERS)
+   981			return -EINVAL;
+   982		ret = io_rsrc_data_alloc(ctx, IORING_RSRC_BUFFER, tags, nr_args, &data);
+   983		if (ret)
+   984			return ret;
+   985		ret = io_buffers_map_alloc(ctx, nr_args);
+   986		if (ret) {
+   987			io_rsrc_data_free(data);
+   988			return ret;
+   989		}
+   990	
+   991		for (i = 0; i < nr_args; i++, ctx->nr_user_bufs++) {
+   992			if (arg) {
+   993				ret = io_copy_iov(ctx, &iov, arg, i);
+   994				if (ret)
+   995					break;
+   996				ret = io_buffer_validate(&iov);
+   997				if (ret)
+   998					break;
+   999			} else {
+  1000				memset(&iov, 0, sizeof(iov));
+  1001			}
+  1002	
+  1003			if (!iov.iov_base && *io_get_tag_slot(data, i)) {
+  1004				ret = -EINVAL;
+  1005				break;
+  1006			}
+  1007	
+> 1008			printk("----- io_sqe_buffers_register: i=%d, iov_base=%px, iov_len=%d\n", i, iov.iov_base, iov.iov_len);
+  1009			ret = io_sqe_buffer_register(ctx, &iov, &ctx->user_bufs[i],
+  1010						     &last_hpage);
+  1011			if (ret)
+  1012				break;
+  1013		}
+  1014	
+  1015		WARN_ON_ONCE(ctx->buf_data);
+  1016	
+  1017		ctx->buf_data = data;
+  1018		if (ret)
+  1019			__io_sqe_buffers_unregister(ctx);
+  1020		return ret;
+  1021	}
+  1022	
 
 -- 
 0-DAY CI Kernel Test Service
