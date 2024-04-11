@@ -1,125 +1,158 @@
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584A329416
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Apr 2024 20:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04162BCE8;
+	Thu, 11 Apr 2024 21:09:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712867351; cv=none; b=dm8TRHgvxwFwdg45E9PsBUuF9FAh0lBHCJzdfBbcnJUWJ4YDK8vGxyTo2r4xJV524pQM3S6G5R8lCpInu64zg80gbZRqjLuYgs11xarX3zZrLM+Mjh5/dpOKwM+qPHX4DUGycRpxm8iuRdC0rpSc7ukhB6uLxRrD0RWAf267r7M=
+	t=1712869774; cv=none; b=WpE1UH0U6dG/YkJMNvoKrdgZd9tilKynEySrMvLJNMpAQ0WVuArSHU3ALCxlr6Xc4raEi91TU1WTSivATz8jaWteHHEkTJnxYLcB1I5wayX572dVNkTMO+N/DUUohCI7JlWT9voBQSpjmaygp6JVqRFi1eF5Zbyk5ZwY4KapYX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712867351; c=relaxed/simple;
-	bh=DMrqrQI2NjmjAwUZ2I5H3Ca73lRjOtEgiyTroHb2v6A=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=MwF83j9XpInCqp4doAWK/RnmT0r/xeveUd3UFjKOa2R9XvYz2PFrlK8qh4J59/u1UWyGpktfXZ9U/tJWrNgPmwIcGgh3DvRExu2jM4qc5xUoaG9Fuv2z9hCGl06etzdmnKCWhAdXv6bRuooN8nEtf7W1onkGMMnXffMUsE9q6+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=1izhEscd; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
+	s=arc-20240116; t=1712869774; c=relaxed/simple;
+	bh=LF4XpfoNUs4rgrgDg8WjET4ZLBJiGswBegAapshKlSA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GBjaUV9qccuVhqtjuaXVO04fWBpCmQRFIwu79n8ps6/h2dGyy1xx6szEVNTvRuSwdiuCdiD7NVojWbq5d0QAfHzZRVTqnuXf6yWR21+y9xuCchFjPns4BjmoOEhTgfkSrI8NNH56WmLJvH/YscSja1vMUF09MujP6utROg0EWxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QtDT3j8s; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="1izhEscd"
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 3C03F2C01D7;
-	Fri, 12 Apr 2024 08:29:03 +1200 (NZST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1712867343;
-	bh=DMrqrQI2NjmjAwUZ2I5H3Ca73lRjOtEgiyTroHb2v6A=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=1izhEscdX5oyszzieqI8uefd8eBNtOafZDqGqJ4mEnEYXS2ksl6FDtfF0kvocdgcz
-	 fIwaMZ0vpQ7LDE6QA5P8hvt5nCq2FIg2XS/KRoTerMtd8z2lhiyPNC9hwwSwDzDEl5
-	 z2e5f62hPpDN9rBkPf1XOuBzwrEsMG8yjEL7pp4M0j4BC+sBjSM54O7i75JVmvoyTr
-	 f3Dxx86kDRHIviqKL97zEG1pvIBaFYjSaZ3MF2OcGj6O8phfrmuDtH4KI8FII5DGAb
-	 qcHTgkRy/q5oV+IL1jf/J99vNcUHtwL8NOvzgleHNPHmPWUIfBgRdlirPC1uYd15Mo
-	 6eXsW27P5Tsdg==
-Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B6618480f0000>; Fri, 12 Apr 2024 08:29:03 +1200
-Received: from svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) by
- svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.1544.9; Fri, 12 Apr 2024 08:29:02 +1200
-Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) by
- svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8:409d:36f5:8899:92e8) with Microsoft
- SMTP Server (TLS) id 15.0.1497.48; Fri, 12 Apr 2024 08:29:02 +1200
-Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
- svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
- 15.02.1544.009; Fri, 12 Apr 2024 08:29:02 +1200
-From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, "kernel
- test robot" <lkp@intel.com>
-Subject: Re: [char-misc:char-misc-testing 5/20] drivers/uio/uio.c:446:
- warning: expecting prototype for uio_interrupt(). Prototype was for
- uio_interrupt_handler() instead
-Thread-Topic: [char-misc:char-misc-testing 5/20] drivers/uio/uio.c:446:
- warning: expecting prototype for uio_interrupt(). Prototype was for
- uio_interrupt_handler() instead
-Thread-Index: AQHajCG9L16iUNGMw06UQHlOSVwTubFivFkA
-Date: Thu, 11 Apr 2024 20:29:02 +0000
-Message-ID: <f3f2124e-31b2-4598-b2a6-44480afc33c3@alliedtelesis.co.nz>
-References: <202404112227.mIATKoTb-lkp@intel.com>
-In-Reply-To: <202404112227.mIATKoTb-lkp@intel.com>
-Accept-Language: en-NZ, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3FB14F4B177F794B9FFA396A510E7D54@atlnz.lc>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QtDT3j8s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712869773; x=1744405773;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LF4XpfoNUs4rgrgDg8WjET4ZLBJiGswBegAapshKlSA=;
+  b=QtDT3j8s81YAw/6lwgPpKWmQ6pQJH2LyDFVyNveNF/4UiO4G/ucbF8v5
+   eJsxGKoQSdPaYFsHqQmB99q/O3zBsn8uPa12MNtEOYE5JAdCIeaioXT3e
+   xdsYQVj9UF5vWzc1wYnq53HzN00JVOC/5qauF4V4VGcCNROa1my/1AeyH
+   GQ3aeg37tRwBw4a4hm7pvH/HXr6Q+ZcVAAyxUIbjy6TnPL0Iae2PSHJ3K
+   UQfGGsDMRrHoDQlEI0vdOqKXHQGT0QiX2IWnmByE9OXiEiqgRDB4j8AF6
+   00KtU2F35Cq9xlytq688LzOkFvp4Ic9wHh0OdhexzM1IETj2tqq+adVNP
+   w==;
+X-CSE-ConnectionGUID: C5V/sZvlSe6qKLMRAmDfCQ==
+X-CSE-MsgGUID: GhThpbHgQw2tPDd2iGq7Lg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="30791676"
+X-IronPort-AV: E=Sophos;i="6.07,194,1708416000"; 
+   d="scan'208";a="30791676"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 14:09:32 -0700
+X-CSE-ConnectionGUID: 9GszBZEdQweoOsAaOPrXAA==
+X-CSE-MsgGUID: By4KEyw4SXmebUA1g2eEFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,194,1708416000"; 
+   d="scan'208";a="20992366"
+Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 11 Apr 2024 14:09:31 -0700
+Received: from kbuild by e61807b1d151 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rv1fk-0008z3-0N;
+	Thu, 11 Apr 2024 21:09:28 +0000
+Date: Fri, 12 Apr 2024 05:08:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 08/10] fs/dax: Properly refcount fs dax pages
+Message-ID: <202404120417.9jDId3hj-lkp@intel.com>
+References: <5cc5a152d2a03e2702be259c81af2bfe424303cd.1712796818.git-series.apopple@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=dY4j3mXe c=1 sm=1 tr=0 ts=6618480f a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=raytVjVEu-sA:10 a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=CDD9DHtbrccDSp1lZM4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=mmqRlSCDY2ywfjPLJ4af:22
-X-SEG-SpamProfiler-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5cc5a152d2a03e2702be259c81af2bfe424303cd.1712796818.git-series.apopple@nvidia.com>
 
-SGkgR3JlZywNCg0KT24gMTIvMDQvMjQgMDM6MDQsIGtlcm5lbCB0ZXN0IHJvYm90IHdyb3RlOg0K
-PiB0cmVlOiAgIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0
-L2dyZWdraC9jaGFyLW1pc2MuZ2l0IGNoYXItbWlzYy10ZXN0aW5nDQo+IGhlYWQ6ICAgZGM4MDZi
-ZDQ4YWJjMWI4YTRhZTcyNzA5YTM3ZTY1ZGI0MmEzMjA0OA0KPiBjb21taXQ6IGY4YTI3ZGZhNGI4
-MmQ0NDJhZjFjMDY0NWE1YWNjNzBjYzk3YzY3ZjYgWzUvMjBdIHVpbzogdXNlIHRocmVhZGVkIGlu
-dGVycnVwdHMNCj4gY29uZmlnOiBzaC1kZWZjb25maWcgKGh0dHBzOi8vZG93bmxvYWQuMDEub3Jn
-LzBkYXktY2kvYXJjaGl2ZS8yMDI0MDQxMS8yMDI0MDQxMTIyMjcubUlBVEtvVGItbGtwQGludGVs
-LmNvbS9jb25maWcpDQo+IGNvbXBpbGVyOiBzaDQtbGludXgtZ2NjIChHQ0MpIDEzLjIuMA0KPiBy
-ZXByb2R1Y2UgKHRoaXMgaXMgYSBXPTEgYnVpbGQpOiAoaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcv
-MGRheS1jaS9hcmNoaXZlLzIwMjQwNDExLzIwMjQwNDExMjIyNy5tSUFUS29UYi1sa3BAaW50ZWwu
-Y29tL3JlcHJvZHVjZSkNCj4NCj4gSWYgeW91IGZpeCB0aGUgaXNzdWUgaW4gYSBzZXBhcmF0ZSBw
-YXRjaC9jb21taXQgKGkuZS4gbm90IGp1c3QgYSBuZXcgdmVyc2lvbiBvZg0KPiB0aGUgc2FtZSBw
-YXRjaC9jb21taXQpLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWdzDQo+IHwgUmVwb3J0ZWQtYnk6
-IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPg0KPiB8IENsb3NlczogaHR0cHM6Ly9s
-b3JlLmtlcm5lbC5vcmcvb2Uta2J1aWxkLWFsbC8yMDI0MDQxMTIyMjcubUlBVEtvVGItbGtwQGlu
-dGVsLmNvbS8NCj4NCj4gQWxsIHdhcm5pbmdzIChuZXcgb25lcyBwcmVmaXhlZCBieSA+Pik6DQo+
-DQo+Pj4gZHJpdmVycy91aW8vdWlvLmM6NDQ2OiB3YXJuaW5nOiBleHBlY3RpbmcgcHJvdG90eXBl
-IGZvciB1aW9faW50ZXJydXB0KCkuIFByb3RvdHlwZSB3YXMgZm9yIHVpb19pbnRlcnJ1cHRfaGFu
-ZGxlcigpIGluc3RlYWQNCg0KSSBjYW4gZG8gYSBxdWljayBmaXh1cCBmb3IgdGhhdC4gRG8geW91
-IHdhbnQgaXQgYXMgYSB2MyBvciBhIG5ldyBwYXRjaD8NCg0KPg0KPiB2aW0gKzQ0NiBkcml2ZXJz
-L3Vpby91aW8uYw0KPg0KPiBiZWFmYzU0YzRlMmZiYSBIYW5zIEouIEtvY2ggIDIwMDYtMTItMDcg
-IDQzOQ0KPiBiZWFmYzU0YzRlMmZiYSBIYW5zIEouIEtvY2ggIDIwMDYtMTItMDcgIDQ0MCAgLyoq
-DQo+IGJlYWZjNTRjNGUyZmJhIEhhbnMgSi4gS29jaCAgMjAwNi0xMi0wNyAgNDQxICAgKiB1aW9f
-aW50ZXJydXB0IC0gaGFyZHdhcmUgaW50ZXJydXB0IGhhbmRsZXINCj4gYmVhZmM1NGM0ZTJmYmEg
-SGFucyBKLiBLb2NoICAyMDA2LTEyLTA3ICA0NDIgICAqIEBpcnE6IElSUSBudW1iZXIsIGNhbiBi
-ZSBVSU9fSVJRX0NZQ0xJQyBmb3IgY3ljbGljIHRpbWVyDQo+IGJlYWZjNTRjNGUyZmJhIEhhbnMg
-Si4gS29jaCAgMjAwNi0xMi0wNyAgNDQzICAgKiBAZGV2X2lkOiBQb2ludGVyIHRvIHRoZSBkZXZp
-Y2VzIHVpb19kZXZpY2Ugc3RydWN0dXJlDQo+IGJlYWZjNTRjNGUyZmJhIEhhbnMgSi4gS29jaCAg
-MjAwNi0xMi0wNyAgNDQ0ICAgKi8NCj4gZjhhMjdkZmE0YjgyZDQgQ2hyaXMgUGFja2hhbSAyMDI0
-LTA0LTA5ICA0NDUgIHN0YXRpYyBpcnFyZXR1cm5fdCB1aW9faW50ZXJydXB0X2hhbmRsZXIoaW50
-IGlycSwgdm9pZCAqZGV2X2lkKQ0KPiBiZWFmYzU0YzRlMmZiYSBIYW5zIEouIEtvY2ggIDIwMDYt
-MTItMDcgQDQ0NiAgew0KPiBiZWFmYzU0YzRlMmZiYSBIYW5zIEouIEtvY2ggIDIwMDYtMTItMDcg
-IDQ0NyAgCXN0cnVjdCB1aW9fZGV2aWNlICppZGV2ID0gKHN0cnVjdCB1aW9fZGV2aWNlICopZGV2
-X2lkOw0KPiA1N2M1ZjRkZjBhNWEwZSBYaXVibyBMaSAgICAgIDIwMTgtMDctMDYgIDQ0OCAgCWly
-cXJldHVybl90IHJldDsNCj4gYmVhZmM1NGM0ZTJmYmEgSGFucyBKLiBLb2NoICAyMDA2LTEyLTA3
-ICA0NDkNCj4gNTdjNWY0ZGYwYTVhMGUgWGl1Ym8gTGkgICAgICAyMDE4LTA3LTA2ICA0NTAgIAly
-ZXQgPSBpZGV2LT5pbmZvLT5oYW5kbGVyKGlycSwgaWRldi0+aW5mbyk7DQo+IGJlYWZjNTRjNGUy
-ZmJhIEhhbnMgSi4gS29jaCAgMjAwNi0xMi0wNyAgNDUxICAJaWYgKHJldCA9PSBJUlFfSEFORExF
-RCkNCj4gZjhhMjdkZmE0YjgyZDQgQ2hyaXMgUGFja2hhbSAyMDI0LTA0LTA5ICA0NTIgIAkJcmV0
-ID0gSVJRX1dBS0VfVEhSRUFEOw0KPiBiZWFmYzU0YzRlMmZiYSBIYW5zIEouIEtvY2ggIDIwMDYt
-MTItMDcgIDQ1Mw0KPiBiZWFmYzU0YzRlMmZiYSBIYW5zIEouIEtvY2ggIDIwMDYtMTItMDcgIDQ1
-NCAgCXJldHVybiByZXQ7DQo+IGJlYWZjNTRjNGUyZmJhIEhhbnMgSi4gS29jaCAgMjAwNi0xMi0w
-NyAgNDU1ICB9DQo+IGJlYWZjNTRjNGUyZmJhIEhhbnMgSi4gS29jaCAgMjAwNi0xMi0wNyAgNDU2
-DQo+DQo+IDo6Ojo6OiBUaGUgY29kZSBhdCBsaW5lIDQ0NiB3YXMgZmlyc3QgaW50cm9kdWNlZCBi
-eSBjb21taXQNCj4gOjo6Ojo6IGJlYWZjNTRjNGUyZmJhMjRlMWNhNDVjZGI3Zjc5ZDlhYTgzZTNk
-YjEgVUlPOiBBZGQgdGhlIFVzZXIgSU8gY29yZSBjb2RlDQo+DQo+IDo6Ojo6OiBUTzogSGFucyBK
-LiBLb2NoIDxoamtAbGludXRyb25peC5kZT4NCj4gOjo6Ojo6IENDOiBHcmVnIEtyb2FoLUhhcnRt
-YW4gPGdyZWdraEBzdXNlLmRlPg0KPg==
+Hi Alistair,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ffc253263a1375a65fa6c9f62a893e9767fbebfa]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Popple/mm-gup-c-Remove-redundant-check-for-PCI-P2PDMA-page/20240411-085933
+base:   ffc253263a1375a65fa6c9f62a893e9767fbebfa
+patch link:    https://lore.kernel.org/r/5cc5a152d2a03e2702be259c81af2bfe424303cd.1712796818.git-series.apopple%40nvidia.com
+patch subject: [RFC 08/10] fs/dax: Properly refcount fs dax pages
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240412/202404120417.9jDId3hj-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240412/202404120417.9jDId3hj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404120417.9jDId3hj-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from fs/dax.c:10:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2140:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> fs/dax.c:707:5: warning: no previous prototype for function '__dax_invalidate_entry' [-Wmissing-prototypes]
+     707 | int __dax_invalidate_entry(struct address_space *mapping,
+         |     ^
+   fs/dax.c:707:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     707 | int __dax_invalidate_entry(struct address_space *mapping,
+         | ^
+         | static 
+   6 warnings generated.
+
+
+vim +/__dax_invalidate_entry +707 fs/dax.c
+
+   706	
+ > 707	int __dax_invalidate_entry(struct address_space *mapping,
+   708					  pgoff_t index, bool trunc)
+   709	{
+   710		XA_STATE(xas, &mapping->i_pages, index);
+   711		int ret = 0;
+   712		void *entry;
+   713	
+   714		xas_lock_irq(&xas);
+   715		entry = get_unlocked_entry(&xas, 0);
+   716		if (!entry || WARN_ON_ONCE(!xa_is_value(entry)))
+   717			goto out;
+   718		if (!trunc &&
+   719		    (xas_get_mark(&xas, PAGECACHE_TAG_DIRTY) ||
+   720		     xas_get_mark(&xas, PAGECACHE_TAG_TOWRITE)))
+   721			goto out;
+   722		xas_store(&xas, NULL);
+   723		mapping->nrpages -= 1UL << dax_entry_order(entry);
+   724		ret = 1;
+   725	out:
+   726		put_unlocked_entry(&xas, entry, WAKE_ALL);
+   727		xas_unlock_irq(&xas);
+   728		return ret;
+   729	}
+   730	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
