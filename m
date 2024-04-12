@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2C3D50F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Apr 2024 12:01:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B26962A02
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Apr 2024 13:08:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712923312; cv=none; b=bdd+QzTGHqk8JNk8ZHE/zYoMgrLoJtgiD/T9+GFNxHi83iV7v71Ks/cwDZnD1IKoYjshLSoyi07nvbr8DLhn0HfSaXi6SMVFkhpVHtHpb8+cLDIFwDr0I15sI+9UNusHXAQmV7XxreDmMotDjuygYe9AtbD7RzN7tG6m5Foa1Zo=
+	t=1712927289; cv=none; b=LBB2Y3BqwjUP63oLiFgzbZtjEVSPMcTeR87kmZYRtuHDhnazW7yCX6NljQCu3Df1gIHN+l07GPXnbKxZd4FuWDRAP7fGEQzd8v8Vnycems6gC0/TKGrrIkP6aQfmsxX5plvJkleVA6GVuM2R05FlnQwwPp5JSM9IE5WrZ6EwGIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712923312; c=relaxed/simple;
-	bh=WqH8iu1DHLDQ7Tgdr95QxniWlncyrPlmDKgHwd6wlYw=;
+	s=arc-20240116; t=1712927289; c=relaxed/simple;
+	bh=Q1Db/ZKdhoYZY4z6pe4loFoumzC09sqIMjzSkx6k370=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aIK8fl6VyRuFmQ9Ufuyp13L9K1gX24CWRDxRCep88ZPFunhPUkLaeqH+Lz4fRYtj39Jz9o0EuX67hhUhK21EOHI8lOQ4d8nrMi6FhE8RgKgIFVY1Srn0y0cn0CCritflDFnQ2u6LDw9w3tSbHNhGxnewC1tZXTKR3wpZUqMvcTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ej+63r8N; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=VRGkeuNHaioUSKYBFiX7QpNnyGqnEKxwjnxzrKVbJN6Kewv3gylly108ud2DRpkM+N2yy+5FeWXLdVZO0rFeZ/wiIcvNgEt8U08c+zNQjMHFFPbgrWYTsOHPR+XgXnXTlROtFfs/gidooE4IU7OtVcmJDoBdF3TeLCwuaVDRgrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VoVb/NS1; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ej+63r8N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VoVb/NS1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712923308; x=1744459308;
+  t=1712927287; x=1744463287;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WqH8iu1DHLDQ7Tgdr95QxniWlncyrPlmDKgHwd6wlYw=;
-  b=ej+63r8NSO3OuPd0rkTCWyVcqSXe4lf0I/Rflo7dF8pLm6lWQCrcvqxw
-   00Hz/0zjAiv1jHp1z4JuheR4EfsmPL1EQJ7Zv3RPFaYgGzt10G8/NSI0q
-   90nlNKfE4BPZUzXkHqTP9L7CrNTlkK8JEpUtAF7qHEruCBSBstkjuY73T
-   yx3+IjdBX1J9u6ZWoXSa/v4x0cj2QtL2SfrfXsJqIantKeRnPvom8kN8c
-   QMi7fCGKmMCjBTkD9t+XLCbfPTsil6h222+B/A1Jm/LVIVr4B9ngZW26K
-   NG3PewI9qPeFKbOzbFsZbbqCyKHq8du2/ClPnyK0xp1okqUyNPhSxj7GC
-   g==;
-X-CSE-ConnectionGUID: KOkM0bqWSM2PXhEofO/f1Q==
-X-CSE-MsgGUID: WJZxuy93SRmeV6qdm7fwOQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="18981958"
+  bh=Q1Db/ZKdhoYZY4z6pe4loFoumzC09sqIMjzSkx6k370=;
+  b=VoVb/NS1mseqbLFZczbgW/RuAgPsa+uBdSoRjm0JVrupz0oeiW3qFSMq
+   AlwLbPzF9DCs4SpzKPhrDBD+MBaW/rq6zx/cVRrY+dK7OMoOfWgIfrgGy
+   FDhkFqxKYF3bCpxs3C6SUxag9zPahtc6i2gL2N79l5KCKgGAMrR/QVApz
+   MjFwNiCvfPNhlrPxmOZ8QTu0sM2VhPfL6kMWxNyVrr05OrVtd6ZMhINN7
+   6KSfDHA+iipgICCmTa3LenN3UNmmeC/zG3V6xERveUHdRDGmjI/hWncEx
+   q+HLn3QcqtG7jx8uHDSw8v6zHFx/amlpRsDFF0yckPrXYrnmWVQk6oJ49
+   w==;
+X-CSE-ConnectionGUID: FCxBgFoLRMqpLW1ouRR0vQ==
+X-CSE-MsgGUID: D7YdrPacQ0mErXYdOLPbFQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8239294"
 X-IronPort-AV: E=Sophos;i="6.07,196,1708416000"; 
-   d="scan'208";a="18981958"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 05:01:47 -0700
-X-CSE-ConnectionGUID: siwhzmogQo6GLMuZM8sWWA==
-X-CSE-MsgGUID: yUnznXBRQ8Cu2w/HWdTwkg==
+   d="scan'208";a="8239294"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 06:08:06 -0700
+X-CSE-ConnectionGUID: N6EQa6+ZS5ePyGkc5Q8A1g==
+X-CSE-MsgGUID: jdRJ4EDWT0ydliAjldhpZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,196,1708416000"; 
-   d="scan'208";a="21299757"
+   d="scan'208";a="25882120"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Apr 2024 05:01:46 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 12 Apr 2024 06:08:05 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rvFbD-0009jV-0o;
-	Fri, 12 Apr 2024 12:01:43 +0000
-Date: Fri, 12 Apr 2024 20:01:23 +0800
+	id 1rvGdP-0009mP-00;
+	Fri, 12 Apr 2024 13:08:03 +0000
+Date: Fri, 12 Apr 2024 21:07:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 149/438]
- drivers/gpu/drm/armada/armada_debugfs.c:67:15: error: implicit declaration
- of function 'strncpy_from_iter'; did you mean 'strncpy_from_user'?
-Message-ID: <202404122009.4aHWcVo2-lkp@intel.com>
+To: Kyle Huey <me@kylehuey.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Ingo Molnar <mingo@kernel.org>
+Subject: [tip:perf/core 10/17] kernel/events/core.c:9634:13: warning:
+ 'perf_event_free_bpf_handler' defined but not used
+Message-ID: <202404122021.kE3qOoZo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,73 +63,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   8e79f6c3d0a118031e843758491803e38794f6e8
-commit: 4e0822889b2a1480f452308832726a528b06365e [149/438] drm: armada: convert to read/write iterators
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240412/202404122009.4aHWcVo2-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240412/202404122009.4aHWcVo2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git perf/core
+head:   93d3fde7fd19c2e2cde7220e7986f9a75e9c5680
+commit: 4c03fe11b96bda60610aca77002e83f37b4a2242 [10/17] perf/bpf: Reorder bpf_overflow_handler() ahead of __perf_event_overflow()
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240412/202404122021.kE3qOoZo-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240412/202404122021.kE3qOoZo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404122009.4aHWcVo2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404122021.kE3qOoZo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/armada/armada_debugfs.c: In function 'armada_debugfs_crtc_reg_write':
->> drivers/gpu/drm/armada/armada_debugfs.c:67:15: error: implicit declaration of function 'strncpy_from_iter'; did you mean 'strncpy_from_user'? [-Werror=implicit-function-declaration]
-      67 |         ret = strncpy_from_iter(from, ptr, len);
-         |               ^~~~~~~~~~~~~~~~~
-         |               strncpy_from_user
->> drivers/gpu/drm/armada/armada_debugfs.c:67:39: error: 'ptr' undeclared (first use in this function)
-      67 |         ret = strncpy_from_iter(from, ptr, len);
-         |                                       ^~~
-   drivers/gpu/drm/armada/armada_debugfs.c:67:39: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/gpu/drm/armada/armada_debugfs.c:77:37: error: 'file' undeclared (first use in this function)
-      77 |         dcrtc = ((struct seq_file *)file->private_data)->private;
-         |                                     ^~~~
-   cc1: some warnings being treated as errors
+>> kernel/events/core.c:9634:13: warning: 'perf_event_free_bpf_handler' defined but not used [-Wunused-function]
+    9634 | static void perf_event_free_bpf_handler(struct perf_event *event)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/events/core.c:9596:12: warning: 'perf_event_set_bpf_handler' defined but not used [-Wunused-function]
+    9596 | static int perf_event_set_bpf_handler(struct perf_event *event,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +67 drivers/gpu/drm/armada/armada_debugfs.c
+vim +/perf_event_free_bpf_handler +9634 kernel/events/core.c
 
-    50	
-    51	static int armada_debugfs_crtc_reg_write(struct kiocb *iocb,
-    52						 struct iov_iter *from)
-    53	{
-    54		size_t len = iov_iter_count(from);
-    55		struct armada_crtc *dcrtc;
-    56		unsigned long reg, mask, val;
-    57		char buf[32];
-    58		int ret;
-    59		u32 v;
-    60	
-    61		if (iocb->ki_pos != 0)
-    62			return 0;
-    63	
-    64		if (len > sizeof(buf) - 1)
-    65			len = sizeof(buf) - 1;
-    66	
-  > 67		ret = strncpy_from_iter(from, ptr, len);
-    68		if (ret < 0)
-    69			return ret;
-    70		buf[len] = '\0';
-    71	
-    72		if (sscanf(buf, "%lx %lx %lx", &reg, &mask, &val) != 3)
-    73			return -EINVAL;
-    74		if (reg < 0x84 || reg > 0x1c4 || reg & 3)
-    75			return -ERANGE;
-    76	
-  > 77		dcrtc = ((struct seq_file *)file->private_data)->private;
-    78		v = readl(dcrtc->base + reg);
-    79		v &= ~mask;
-    80		v |= val & mask;
-    81		writel(v, dcrtc->base + reg);
-    82	
-    83		return len;
-    84	}
-    85	
+  9595	
+> 9596	static int perf_event_set_bpf_handler(struct perf_event *event,
+  9597					      struct bpf_prog *prog,
+  9598					      u64 bpf_cookie)
+  9599	{
+  9600		if (event->overflow_handler_context)
+  9601			/* hw breakpoint or kernel counter */
+  9602			return -EINVAL;
+  9603	
+  9604		if (event->prog)
+  9605			return -EEXIST;
+  9606	
+  9607		if (prog->type != BPF_PROG_TYPE_PERF_EVENT)
+  9608			return -EINVAL;
+  9609	
+  9610		if (event->attr.precise_ip &&
+  9611		    prog->call_get_stack &&
+  9612		    (!(event->attr.sample_type & PERF_SAMPLE_CALLCHAIN) ||
+  9613		     event->attr.exclude_callchain_kernel ||
+  9614		     event->attr.exclude_callchain_user)) {
+  9615			/*
+  9616			 * On perf_event with precise_ip, calling bpf_get_stack()
+  9617			 * may trigger unwinder warnings and occasional crashes.
+  9618			 * bpf_get_[stack|stackid] works around this issue by using
+  9619			 * callchain attached to perf_sample_data. If the
+  9620			 * perf_event does not full (kernel and user) callchain
+  9621			 * attached to perf_sample_data, do not allow attaching BPF
+  9622			 * program that calls bpf_get_[stack|stackid].
+  9623			 */
+  9624			return -EPROTO;
+  9625		}
+  9626	
+  9627		event->prog = prog;
+  9628		event->bpf_cookie = bpf_cookie;
+  9629		event->orig_overflow_handler = READ_ONCE(event->overflow_handler);
+  9630		WRITE_ONCE(event->overflow_handler, bpf_overflow_handler);
+  9631		return 0;
+  9632	}
+  9633	
+> 9634	static void perf_event_free_bpf_handler(struct perf_event *event)
+  9635	{
+  9636		struct bpf_prog *prog = event->prog;
+  9637	
+  9638		if (!prog)
+  9639			return;
+  9640	
+  9641		WRITE_ONCE(event->overflow_handler, event->orig_overflow_handler);
+  9642		event->prog = NULL;
+  9643		bpf_prog_put(prog);
+  9644	}
+  9645	#else
+  9646	static int perf_event_set_bpf_handler(struct perf_event *event,
+  9647					      struct bpf_prog *prog,
+  9648					      u64 bpf_cookie)
+  9649	{
+  9650		return -EOPNOTSUPP;
+  9651	}
+  9652	
 
 -- 
 0-DAY CI Kernel Test Service
