@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2401D1BC4E;
-	Fri, 12 Apr 2024 05:18:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4319B1BC4B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Apr 2024 05:50:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712899115; cv=none; b=t4XRKGJRFbmfAe/lhYLIxu819PbSR9ZL1SOOZcxtYsVqfpQqghrG3k9+b2r9XVGEY6nYx7mql9X6gpgBwea0I7xOqaLv1sIR/sZiMDMIF19sslOiEvrmJbndf7yY16taA8Au6y7dnqVNrxnN1zfKd/eIo52sUlmt2zT76cvD3ao=
+	t=1712901034; cv=none; b=GHRJtran8HufXHkH41Di62060mIX0uaK2zYX9kd3tZNQr4Hcpfi1yexuz7/zuE3sPhmRkxhtznOchM3l8QODCTR1mwfnismbUF3yPhSCHTpilxpseugNCjcyigm5rgcqOsci7eTdsM0HqCh3cxNQkf9bk7nAZj2rhXvlqmA4ygw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712899115; c=relaxed/simple;
-	bh=uwFlHt+PTlQqrCZdxzJ/sKwf6ogszPPv5s8ONO3bywk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sth7ioRfoP7fR44AbtRXUidw2oxpmlP4VKtwV5nZ/0SA0XI7tLwoCpebJfDgSzChezefOYBlWOCYgbxupxS+kqHPVjEtJRZaR9f/5wO34+SfDzfa70WUn9UEcMAPckB7aMrdyO1RkHtfgMqhThkEA+drCjLNLWZzDvM0e0rUdxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SNCvEJlg; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1712901034; c=relaxed/simple;
+	bh=KbAWEwupZdZdgQq+3GgTtL4lPXTBfCQ8shCYXEXB1ks=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=F8o7vOgpmGVdq3gVnyy6y4U0IuFtX3T+1vqdAYEJ/CmSqe389kBP1jXvaQVjM2QV0oJiOCu/OyjyDIqkRy7i1bgA281fZXvGAGOA+1q1lan22Ld9p/bkFIkjlXVfQrEk26R+rKkvjLaW1pNyp5L75FkXm/yqCsJutX4NEP/Ry2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E3RTYHHG; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SNCvEJlg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E3RTYHHG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712899114; x=1744435114;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uwFlHt+PTlQqrCZdxzJ/sKwf6ogszPPv5s8ONO3bywk=;
-  b=SNCvEJlgEqppFzvSzBwyoMrnSB7ia2PINpetDZxKlpr/7mFzjlc0pfL1
-   AqZZvDtcxft7oveGT4uFilCwsWfu0GXRf2DHN9nZ/Lg9pHNG7zUYkVQqu
-   m5LuB1IIgbYthNFrbxlQ9nBTX+DP+I45RjagnV0dUXY/JMhL2vSe808Fm
-   XtuJmDsZr5hmi8wfjkB7+cSe+cqwyncV+Qb1iPSVFPL506hH4foBtikQV
-   8SyUUKDOySaK+xuCFHXTikf9FPoxzVsXme8epdPrcYHDMfoDc17FkheOU
-   z6/hIyp7S7DnZ9a0mwpUjZvutngsESU7Cgy9KJOLX1hCoYySA4/M9kmDy
-   Q==;
-X-CSE-ConnectionGUID: psXmwm+ESu29CU6+hyIKUA==
-X-CSE-MsgGUID: BhInwZsPQs6nRtW9Ol81Nw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8510211"
+  t=1712901034; x=1744437034;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KbAWEwupZdZdgQq+3GgTtL4lPXTBfCQ8shCYXEXB1ks=;
+  b=E3RTYHHGL88uMkV+W2FQbAnix2ZKbo1DBL3//GmkSLXe7jZcwis1P7w8
+   MRwFpVCJz1kuX7WK/Ktq5Kgqmy3op6I0+nkPGNgWl/2U42FAvjyGKEoTw
+   y9O7bN0PIgb1P3us1DEEZh+N7x+b96W3IHmdCLrYFB0P7qNtv6dEVUxPS
+   7UzpIrsGT9rq7zHmGTtLAmyaosNiy2hur7vef27YRxIzIjV0BZ3Zrl7az
+   +Dk6v9XPVsjrHRbWYh+Yxci/Y4XMa7atBMUp79a1U+FlO29ccHvSCZ2Vx
+   ktiluPsGg52SMvB1ELVq3ovWG0BDthd2kq8ayd/FbrqzWd+x2guO8ltsc
+   g==;
+X-CSE-ConnectionGUID: gRV15QC3SSa44j6i8In2zQ==
+X-CSE-MsgGUID: h7VUyFydSguB9uTyiDfRuA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="19495763"
 X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
-   d="scan'208";a="8510211"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 22:18:34 -0700
-X-CSE-ConnectionGUID: ANtLcTM0Q3uJIRQrzST4CA==
-X-CSE-MsgGUID: bA8DNO+FS1yeaDDSQiu1MQ==
+   d="scan'208";a="19495763"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 22:50:33 -0700
+X-CSE-ConnectionGUID: W7y5TuxFT6K/o9+4zPjU1w==
+X-CSE-MsgGUID: wR82tURVT/GAZSNiLX9jdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
-   d="scan'208";a="21558046"
+   d="scan'208";a="25674175"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Apr 2024 22:18:31 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 11 Apr 2024 22:50:31 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rv9Iy-0009PU-1c;
-	Fri, 12 Apr 2024 05:18:28 +0000
-Date: Fri, 12 Apr 2024 13:17:42 +0800
+	id 1rv9nx-0009Qu-0p;
+	Fri, 12 Apr 2024 05:50:29 +0000
+Date: Fri, 12 Apr 2024 13:50:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: parker@finest.io, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
-	linux-pci@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Parker Newman <pnewman@connecttech.com>
-Subject: Re: [PATCH 2/2] serial: exar: adding CTI PCI/PCIe serial port
- support to 8250_exar
-Message-ID: <202404121307.6nkI7fuG-lkp@intel.com>
-References: <9ffdef053f455c87f705dff169346bc10d307787.1712846026.git.pnewman@connecttech.com>
+To: Conor Dooley <conor+lkp@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [conor:clk-reset-stuff 6/6] drivers/reset/reset-mpfs.c:211:33:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202404121335.27aF7jXr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,86 +61,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9ffdef053f455c87f705dff169346bc10d307787.1712846026.git.pnewman@connecttech.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus pci/next pci/for-linus linus/master v6.9-rc3 next-20240411]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/parker-finest-io/serial-exar-add-missing-CTI-Exar-PCI-IDs-to-include-linux-pci_ids-h/20240412-011902
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/9ffdef053f455c87f705dff169346bc10d307787.1712846026.git.pnewman%40connecttech.com
-patch subject: [PATCH 2/2] serial: exar: adding CTI PCI/PCIe serial port support to 8250_exar
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240412/202404121307.6nkI7fuG-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240412/202404121307.6nkI7fuG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git clk-reset-stuff
+head:   d72412f7061d27a8eaf62a6526dda5e4e89a2c19
+commit: d72412f7061d27a8eaf62a6526dda5e4e89a2c19 [6/6] clock, reset: microchip: move all mpfs reset code to the reset subsystem
+config: powerpc-randconfig-r122-20240412 (https://download.01.org/0day-ci/archive/20240412/202404121335.27aF7jXr-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240412/202404121335.27aF7jXr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404121307.6nkI7fuG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404121335.27aF7jXr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/reset/reset-mpfs.c:144:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *base @@     got void *platform_data @@
+   drivers/reset/reset-mpfs.c:144:19: sparse:     expected void [noderef] __iomem *base
+   drivers/reset/reset-mpfs.c:144:19: sparse:     got void *platform_data
+>> drivers/reset/reset-mpfs.c:211:33: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *platform_data @@     got void [noderef] __iomem * @@
+   drivers/reset/reset-mpfs.c:211:33: sparse:     expected void *platform_data
+   drivers/reset/reset-mpfs.c:211:33: sparse:     got void [noderef] __iomem *
 
-   In file included from drivers/tty/serial/8250/8250_exar.c:13:
-   In file included from include/linux/interrupt.h:21:
-   In file included from arch/riscv/include/asm/sections.h:9:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/tty/serial/8250/8250_exar.c:1573:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-    1573 |                 default:
-         |                 ^
-   drivers/tty/serial/8250/8250_exar.c:1573:3: note: insert 'break;' to avoid fall-through
-    1573 |                 default:
-         |                 ^
-         |                 break; 
-   2 warnings generated.
+vim +211 drivers/reset/reset-mpfs.c
 
-
-vim +1573 drivers/tty/serial/8250/8250_exar.c
-
-  1547	
-  1548	static unsigned int exar_get_nr_ports(struct exar8250_board *board,
-  1549						struct pci_dev *pcidev)
-  1550	{
-  1551		unsigned int nr_ports = 0;
-  1552	
-  1553		if (!board || !pcidev)
-  1554			return 0;
-  1555	
-  1556		if (pcidev->vendor == PCI_VENDOR_ID_ACCESSIO) {
-  1557			nr_ports = BIT(((pcidev->device & 0x38) >> 3) - 1);
-  1558		} else if (board->num_ports > 0) {
-  1559			//Check if board struct overrides number of ports
-  1560			nr_ports = board->num_ports;
-  1561		} else if (pcidev->vendor == PCI_VENDOR_ID_EXAR) {
-  1562			//Exar encodes # ports in last nibble of PCI Device ID ex. 0358
-  1563			nr_ports = pcidev->device & 0x0f;
-  1564		} else  if (pcidev->vendor == PCI_VENDOR_ID_CONNECT_TECH) {
-  1565			//Handle CTI FPGA cards
-  1566			switch (pcidev->device) {
-  1567			case PCI_DEVICE_ID_CONNECT_TECH_PCI_XR79X_12_XIG00X:
-  1568			case PCI_DEVICE_ID_CONNECT_TECH_PCI_XR79X_12_XIG01X:
-  1569				nr_ports = 12;
-  1570				break;
-  1571			case PCI_DEVICE_ID_CONNECT_TECH_PCI_XR79X_16:
-  1572				nr_ports = 16;
-> 1573			default:
-  1574				break;
-  1575			}
-  1576		}
-  1577	
-  1578		return nr_ports;
-  1579	}
-  1580	
+   132	
+   133	static int mpfs_reset_probe(struct auxiliary_device *adev,
+   134				    const struct auxiliary_device_id *id)
+   135	{
+   136		struct device *dev = &adev->dev;
+   137		struct reset_controller_dev *rcdev;
+   138		struct mpfs_reset *rst;
+   139	
+   140		rst = devm_kzalloc(dev, sizeof(*rst), GFP_KERNEL);
+   141		if (!rst)
+   142			return -ENOMEM;;
+   143	
+ > 144		rst->base = adev->dev.platform_data;
+   145	
+   146		rcdev = &rst->rcdev;
+   147		rcdev->dev = dev;
+   148		rcdev->dev->parent = dev->parent;
+   149		rcdev->ops = &mpfs_reset_ops;
+   150		rcdev->of_node = dev->parent->of_node;
+   151		rcdev->of_reset_n_cells = 1;
+   152		rcdev->of_xlate = mpfs_reset_xlate;
+   153		rcdev->nr_resets = MPFS_NUM_RESETS;
+   154	
+   155		return devm_reset_controller_register(dev, rcdev);
+   156	}
+   157	
+   158	static void mpfs_reset_unregister_adev(void *_adev)
+   159	{
+   160		struct auxiliary_device *adev = _adev;
+   161	
+   162		auxiliary_device_delete(adev);
+   163		auxiliary_device_uninit(adev);
+   164	}
+   165	
+   166	static void mpfs_reset_adev_release(struct device *dev)
+   167	{
+   168		struct auxiliary_device *adev = to_auxiliary_dev(dev);
+   169	
+   170		kfree(adev);
+   171	}
+   172	
+   173	static struct auxiliary_device *mpfs_reset_adev_alloc(struct device *clk_dev)
+   174	{
+   175		struct auxiliary_device *adev;
+   176		int ret;
+   177	
+   178		adev = kzalloc(sizeof(*adev), GFP_KERNEL);
+   179		if (!adev)
+   180			return ERR_PTR(-ENOMEM);
+   181	
+   182		adev->name = "reset-mpfs";
+   183		adev->dev.parent = clk_dev;
+   184		adev->dev.release = mpfs_reset_adev_release;
+   185		adev->id = 666u;
+   186	
+   187		ret = auxiliary_device_init(adev);
+   188		if (ret) {
+   189			kfree(adev);
+   190			return ERR_PTR(ret);
+   191		}
+   192	
+   193		return adev;
+   194	}
+   195	
+   196	int mpfs_reset_controller_register(struct device *clk_dev, void __iomem *base)
+   197	{
+   198		struct auxiliary_device *adev;
+   199		int ret;
+   200	
+   201		adev = mpfs_reset_adev_alloc(clk_dev);
+   202		if (IS_ERR(adev))
+   203			return PTR_ERR(adev);
+   204	
+   205		ret = auxiliary_device_add(adev);
+   206		if (ret) {
+   207			auxiliary_device_uninit(adev);
+   208			return ret;
+   209		}
+   210	
+ > 211		adev->dev.platform_data = (void __iomem *)base;
+   212	
+   213		return devm_add_action_or_reset(clk_dev, mpfs_reset_unregister_adev, adev);
+   214	}
+   215	EXPORT_SYMBOL_NS_GPL(mpfs_reset_controller_register, MCHP_CLK_MPFS);
+   216	
 
 -- 
 0-DAY CI Kernel Test Service
