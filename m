@@ -1,112 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9171B635
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Apr 2024 00:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BFE4C6C;
+	Fri, 12 Apr 2024 01:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712883545; cv=none; b=s4URFKy1qGHmO2kQzpZmdl2CUHtW3Nu/jo0djecNGXY3b/6NJ8pZIOAYLe7hHfuuCe3sNBqh/OS8O4oIzZg5E5L8wH+zlVT7QBOpVXQjvTqcQWbX60m4+ivUja4lXkL+jkCSKIxzls+S6FqQlAGwso4qIsRGMAj1iFDFgrne3jc=
+	t=1712885828; cv=none; b=F4LHEC7lsfE/6ugd2vOKKPsAAm30sdx35Z0NBdO4yAOZCGnrUUx9T9Zi8hM7Af8kiEjXpsrncYghHbgKjyT5uaUgEe64Zzk+ycCGI0lHXSz0EC9a3rttPhYvVAQtdLjF684Ih+0w6wPxA4FQmQghqB8jQs3nSk1i8ILq/GJSKVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712883545; c=relaxed/simple;
-	bh=SJcWczMdW5Gs49m+jWmTPUzN+zn7zdLBz7pKw4AlNNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HmSLYE9SfTk3msQ/qC3hL5BBTS6rNoznXoH0NU42mBOtpvQjSoNpzeaEn9Hbhf+cKc887xtmF+2x94xbTclvhVG8WJvx9Qnw7h3SvNWQae2O9dL7W31lNsxBTtp1GOzxW9Hn+7FZ5+vGjjDNFk8OmEZS/5pJsRQjnnPFwvUul0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hZ3SmAiQ; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1712885828; c=relaxed/simple;
+	bh=rrwOUlSp5R9FskhZiOgiL4Shh+tlcWPb9/Ndpf1E/1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GkSMqXuuI7zs2ybrlUPkI5Kem3bEkqcXfRNm41CnE0UjyNN5AN99u6Ex1LnKN69N7VKghPYELmbhX2R3k0Ig0+q42vQGIi8Xi3ATI9gu45vHxh9UgyYIUNyc0c9ajsVP5nAOTY/IGt0bh/NBjDSNSotZDAJSV2DhJaAeHyZf/jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rP3jUCpt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hZ3SmAiQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712883543; x=1744419543;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SJcWczMdW5Gs49m+jWmTPUzN+zn7zdLBz7pKw4AlNNI=;
-  b=hZ3SmAiQwn22mlpplMB3y8VOfDWl/UEutrkKztue+bRw4c2MExlBXu3s
-   JqR1ADFmqZ4EW1pyo9DX4v/VAFHhhNRP5tiYs+9IP5MvDQYEVbSBjU9xY
-   30LdahQ7AQ6GZ+R8Np0hD+HB8ufpuRboncjQP745vmd8qLUSMixmEMSR5
-   w6FAhx4S3xYh8xUnKg3jClzzojOFzSmAPHzb7k7oAE71pRSzWp/cEwfSv
-   W2HtkTQuTn+Q4lQ/1n2bazio9qHVy+27vFsP3PETLFPwYEfCqxtOAIAeW
-   Qg7X+P0+V6gkFPhy61jpwInaWAscaHfs5gj+jFsyhh1TvQf9xUH+7fAEr
-   A==;
-X-CSE-ConnectionGUID: rjAO6ecjQM+5WQ0W+kvzyA==
-X-CSE-MsgGUID: cXD6aD3VRpyNtj1s7bKceg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="33724345"
-X-IronPort-AV: E=Sophos;i="6.07,194,1708416000"; 
-   d="scan'208";a="33724345"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 17:59:02 -0700
-X-CSE-ConnectionGUID: SvGUXM1pQPSknYqVnSyb1g==
-X-CSE-MsgGUID: yH1uYasBS5ev1gN7DeKnEg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,194,1708416000"; 
-   d="scan'208";a="25878048"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 11 Apr 2024 17:59:00 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rv5Fp-00099R-1J;
-	Fri, 12 Apr 2024 00:58:57 +0000
-Date: Fri, 12 Apr 2024 08:58:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 4787/4792]
- drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h:35:10: fatal error: reg.h: No such
- file or directory
-Message-ID: <202404120843.kMBsluN5-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rP3jUCpt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78B37C072AA;
+	Fri, 12 Apr 2024 01:37:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712885827;
+	bh=rrwOUlSp5R9FskhZiOgiL4Shh+tlcWPb9/Ndpf1E/1c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rP3jUCpt1pUEYZSrjmOOgLaSEU54tshLM56KRtojwra/If5nehMyZHUMksnudf/TK
+	 cPLZWBCbTts3XpF3/jPvO0ON85DTUDu3GcnTA5mnNXEdGWJi3OWNJfU9stLoGRmNz/
+	 kcjPf/zTNzRaSqgq8rc8unaV/aAI2jAAjyVeDYvaPabJEgo1t5xR8dlkryibKaLTuU
+	 K7WblVqSMyqroHzqjjzOkkqBgTR/2R7KrCzgmza0hXM+jjh2GCF2w2y7iYUGkSfrtH
+	 uI3QHZFIjhVH3kHJKCVOF0fKdIy53KkfBW82ab4De9bFc60VTq9VDZQ5mJcciBApja
+	 tIVjst0akKJzQ==
+Date: Thu, 11 Apr 2024 18:37:06 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Florian Fainelli <f.fainelli@gmail.com>
+Cc: Eric Dumazet <edumazet@google.com>, Vladimir Oltean <olteanv@gmail.com>,
+ kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [net-next:main 26/50] net/ipv4/tcp.c:4673:2: error: call to
+ '__compiletime_assert_1030' declared with 'error' attribute: BUILD_BUG_ON
+ failed: offsetof(struct tcp_sock,
+ __cacheline_group_end__tcp_sock_write_txrx) - offsetofend(struct tcp_sock,
+ __cacheline_group_begin__tcp_sock_...
+Message-ID: <20240411183706.70e5dfcd@kernel.org>
+In-Reply-To: <a59e2164-7159-445e-9f87-fcf6cb4b57d6@gmail.com>
+References: <202404082207.HCEdQhUO-lkp@intel.com>
+	<20240408230632.5ml3amaztr5soyfs@skbuf>
+	<CANn89iJ8EcqiF8YCPhDxcp5t79J1RLzTh6GHHgAxbTXbC+etRA@mail.gmail.com>
+	<db4d4a48-b581-4060-b611-996543336cd2@gmail.com>
+	<CANn89iJMirOe=TqMZ=J8mFLNQLDV=wzL4jOf9==Zkv7L2U5jcQ@mail.gmail.com>
+	<20240410183636.202fd78f@kernel.org>
+	<a59e2164-7159-445e-9f87-fcf6cb4b57d6@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   5a4887e84d1f38cdaa7d82d911ad735fb06009fe
-commit: c783f7daed8739b9497e40656bc220d2d17c9c10 [4787/4792] drivers: add Chengdu BeiZhongWangXin Technology N5/N6 Series Network Card Driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240412/202404120843.kMBsluN5-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240412/202404120843.kMBsluN5-lkp@intel.com/reproduce)
+On Thu, 11 Apr 2024 12:21:22 -0700 Florian Fainelli wrote:
+> > Florian, does arm32 break a lot? I may not be paying sufficient
+> > attention. We can add more build tests but the CPU time we have
+> > is unfortunately finite :(  
+> 
+> Yes, that is why I mentioned multi_v7_defconfig, you an see the build 
+> failure with that configuration. Of course Eric fixed it now, thanks!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404120843.kMBsluN5-lkp@intel.com/
+Would you be willing to type up a bash script along the lines of:
 
-All errors (new ones prefixed by >>):
+https://github.com/linux-netdev/nipa/blob/main/contest/tests/build-doc.sh
 
-   In file included from drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:15:
->> drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h:35:10: fatal error: reg.h: No such file or directory
-      35 | #include "reg.h"
-         |          ^~~~~~~
-   compilation terminated.
---
-   In file included from drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf_main.c:8:
->> drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf.h:41:10: fatal error: reg.h: No such file or directory
-      41 | #include "reg.h"
-         |          ^~~~~~~
-   compilation terminated.
+perhaps some inspiration from:
 
+https://github.com/linux-netdev/nipa/blob/main/tests/patch/build_allmodconfig_warn/build_allmodconfig.sh
 
-vim +35 drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h
-
-    34	
-  > 35	#include "reg.h"
-    36	#include "feature.h"
-    37	#include "txrx.h"
-    38	#include "common.h"
-    39	#include "ne6x_txrx.h"
-    40	#include "ne6x_ethtool.h"
-    41	#include "ne6x_procfs.h"
-    42	#include "ne6x_virtchnl_pf.h"
-    43	#include "version.h"
-    44	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+? (the former runs on the test branches the latter commit by commit)
