@@ -1,132 +1,194 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932CB79FD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Apr 2024 04:53:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47029D2E6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Apr 2024 04:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712897614; cv=none; b=HkLWH/3BPAOVeLMAW1Vn39XJxc4NJvFlLZKnzwt1NT+EJwGBzUm+pcyGdCN0zmI/bBdrj/9AMJXJPR+XOVihjlStQ9DhQNIs5NhHLEHWDCxMcsC9OlOV8BkCYAo3obYSf3b0MqldljlGA4p3zG8KScFQo9IIUFPUeM2XbsGL8qk=
+	t=1712897616; cv=none; b=A5y+6+688LFjPUuHQpIGYLqs0yOUQcC5n4FlVcKrmfRirRKua15o+WB7Yx2rOH9R/D+X697NTaiWrjZvvl/urFDvvchlQr16G+x27yzuzOmT6HMcA+MSePzaYLdgnL1tBVl8WJX+pxDHq7WCJyQ1QACF+N20MVbzXNI8w5VPrPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712897614; c=relaxed/simple;
-	bh=zCnr+1q1U/qlElA2Lk28i9YQMJYY5O+HfAkEoc0YqSg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tkFy4Y0xsXnEL8V5c/B85F88O9KoyhTg7B6MQeAKvc8lMg8V+ZgthFxTG2ekL48nd3k5pXVdNa5Rrfxjt79WsaxkRMm958Qepurmq16VnAzzqSMaOhcbl/NM/BnAn5LZemiHQg8NfxssZGbk9GCRrMc6z2ucdZ9Nc/bv12hA/NA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lhci9/a+; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1712897616; c=relaxed/simple;
+	bh=sdyn/uRXY+ssf49/EVC/KL3oM/BCAvZUHni9W/Btm6I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Rdbl6KmXDU81abVlAb+KAsvgkmqHHESWnFuXrXlk4Mpcwji2PtlYJHxhdYNvPkCLs/SxEgz8PBZBd+6qHhgqpoiGKmcfchXvfIIjrk7NITUt2R5HiBcQOF7WaYf48Q27fZWctDH94iCjjgv7xnHEFqPPXgPJT2g0orIs/34EHKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YXiaZAhG; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lhci9/a+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YXiaZAhG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712897612; x=1744433612;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zCnr+1q1U/qlElA2Lk28i9YQMJYY5O+HfAkEoc0YqSg=;
-  b=lhci9/a+f66NsNHYMkvTcYwdkX5scIyvlBA294pmFvGyzVcX1fp5NANF
-   BqHS2NSIrhpjZGMdGwCBAOmf4KCWv3xsZ4hHSN3sduwNHrlQgMxYYQlWp
-   dfz7ksXYC6tw5tHHAVoeRWl51MA8qyurgzCRgpH1RrXxVuONIBMXx2OQw
-   3BeXJZXzZAM+f4n1+ivWvjO+Wx2+D6o4uTXzjVJrNNj0s6CJ5Eb5b3U22
-   9sDvH9Uvmicb1H+bvuHuvHwErrVEcm9Y6WilyqzuCTOTWs2sBMOreypq9
-   HGcM4Pnq8OPSQMmJQgp4XWAW8FfIQ1QdM6BeHPHxxGw7MPD5pBMHBFE8l
+  t=1712897614; x=1744433614;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=sdyn/uRXY+ssf49/EVC/KL3oM/BCAvZUHni9W/Btm6I=;
+  b=YXiaZAhGx/l8JARh+0fBEsNul0W34xnRiwaMhdTX5rfSMFPpTx0N/42K
+   nZENKaEu19+dRa5MXsuhjljTCcxxxBe1a858fvPxrtMJLyjIgNsqINFjd
+   NIb3eqEnk6hhuYFqDu/ZEw7RvjTnd1FkKsPItrysQybHkZc8UyFAtlu7m
+   3SU19NHSx67uZ9h+8Sd6gzvn+Av0Q8S1TwtCAZcvy7g+cqbMG3yztBpDN
+   jtZNwZ20BIxHhKvYNePfVtocRnYonJaOfYrnQLT4P+Gs2BEWsn545H3Pd
+   VcMCbAFaLdoGXv7kllARitsGvwnIdNRlNPvHh989HydNYisTvgKtkT+vI
    A==;
-X-CSE-ConnectionGUID: gTFyZnMIRFSjHmATMjSpYg==
-X-CSE-MsgGUID: jwbTp2lVSbWZyG4VYwSQaw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="33736937"
+X-CSE-ConnectionGUID: eufAwpxsRjOtNPhDZCEmUg==
+X-CSE-MsgGUID: UvJG48IERLaV1kUZ6wH4bw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="33736943"
 X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
-   d="scan'208";a="33736937"
+   d="scan'208";a="33736943"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 21:53:31 -0700
-X-CSE-ConnectionGUID: yMJ8iJF+QHayfq3I5O+ucQ==
-X-CSE-MsgGUID: F7nYeuayTWeY/2yS5L4L/g==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 21:53:32 -0700
+X-CSE-ConnectionGUID: HzQQoG4dRqmYVnlBJBveYg==
+X-CSE-MsgGUID: m78FamwzRKyWAMqtCfwG+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
-   d="scan'208";a="25781519"
+   d="scan'208";a="25781535"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 11 Apr 2024 21:53:30 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rv8ul-0009Nz-2S;
+	id 1rv8ul-0009Nx-2L;
 	Fri, 12 Apr 2024 04:53:27 +0000
-Date: Fri, 12 Apr 2024 12:53:22 +0800
+Date: Fri, 12 Apr 2024 12:53:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: parker@finest.io, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
-	linux-pci@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Parker Newman <pnewman@connecttech.com>
-Subject: Re: [PATCH 2/2] serial: exar: adding CTI PCI/PCIe serial port
- support to 8250_exar
-Message-ID: <202404121251.hu0SvXG8-lkp@intel.com>
-References: <9ffdef053f455c87f705dff169346bc10d307787.1712846026.git.pnewman@connecttech.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	Robert Hu <robert.hu@intel.com>,
+	Farrah Chen <farrah.chen@intel.com>,
+	Danmei Wei <danmei.wei@intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Subject: [kvm:queue 23/29] kernel/events/uprobes.c:160:35: warning: unused
+ variable 'range'
+Message-ID: <202404121232.XDzoCByZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <9ffdef053f455c87f705dff169346bc10d307787.1712846026.git.pnewman@connecttech.com>
+Content-Transfer-Encoding: 8bit
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus pci/next pci/for-linus linus/master v6.9-rc3 next-20240411]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/parker-finest-io/serial-exar-add-missing-CTI-Exar-PCI-IDs-to-include-linux-pci_ids-h/20240412-011902
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/9ffdef053f455c87f705dff169346bc10d307787.1712846026.git.pnewman%40connecttech.com
-patch subject: [PATCH 2/2] serial: exar: adding CTI PCI/PCIe serial port support to 8250_exar
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240412/202404121251.hu0SvXG8-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240412/202404121251.hu0SvXG8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+head:   415efaaf0d973684af5fa7c9ddccf111485f9f1b
+commit: b06d4c260e93214808f9dd6031226b1b0e2937f1 [23/29] mm: replace set_pte_at_notify() with just set_pte_at()
+config: sparc64-defconfig (https://download.01.org/0day-ci/archive/20240412/202404121232.XDzoCByZ-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240412/202404121232.XDzoCByZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404121251.hu0SvXG8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404121232.XDzoCByZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/tty/serial/8250/8250_exar.c:672: warning: Function parameter or struct member 'eeprom_offset' not described in 'cti_read_osc_freq'
+   kernel/events/uprobes.c: In function '__replace_page':
+   kernel/events/uprobes.c:160:35: error: storage size of 'range' isn't known
+     160 |         struct mmu_notifier_range range;
+         |                                   ^~~~~
+   kernel/events/uprobes.c:162:9: error: implicit declaration of function 'mmu_notifier_range_init' [-Werror=implicit-function-declaration]
+     162 |         mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, addr,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/uprobes.c:162:41: error: 'MMU_NOTIFY_CLEAR' undeclared (first use in this function)
+     162 |         mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, addr,
+         |                                         ^~~~~~~~~~~~~~~~
+   kernel/events/uprobes.c:162:41: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/events/uprobes.c:175:9: error: implicit declaration of function 'mmu_notifier_invalidate_range_start' [-Werror=implicit-function-declaration]
+     175 |         mmu_notifier_invalidate_range_start(&range);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/uprobes.c:208:9: error: implicit declaration of function 'mmu_notifier_invalidate_range_end' [-Werror=implicit-function-declaration]
+     208 |         mmu_notifier_invalidate_range_end(&range);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/events/uprobes.c:160:35: warning: unused variable 'range' [-Wunused-variable]
+     160 |         struct mmu_notifier_range range;
+         |                                   ^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +672 drivers/tty/serial/8250/8250_exar.c
+vim +/range +160 kernel/events/uprobes.c
 
-   661	
-   662	/**
-   663	 * cti_read_osc_freq() - Read the UART oscillator frequency from EEPROM
-   664	 * @priv: Device's private structure
-   665	 *
-   666	 * CTI XR17x15X and XR17V25X cards have the serial boards oscillator frequency
-   667	 * stored in the EEPROM. FPGA and XR17V35X based cards use the PCI/PCIe clock.
-   668	 *
-   669	 * Return: frequency on success, negative error code on failure
-   670	 */
-   671	static int cti_read_osc_freq(struct exar8250 *priv, uint8_t eeprom_offset)
- > 672	{
-   673		int osc_freq;
-   674	
-   675		if (!priv)
-   676			return -EINVAL;
-   677	
-   678		osc_freq = (exar_ee_read(priv, eeprom_offset));
-   679		osc_freq |= (exar_ee_read(priv, (eeprom_offset + 1)) << 16);
-   680	
-   681		//check if EEPROM word was blank
-   682		if ((osc_freq == 0xFFFF) || (osc_freq == 0x0000))
-   683			return -EIO;
-   684	
-   685		pci_dbg(priv->pcidev, "osc_freq from EEPROM %d\n", osc_freq);
-   686	
-   687		return osc_freq;
-   688	}
-   689	
+cb113b47d09818 kernel/events/uprobes.c Oleg Nesterov           2012-07-29  138  
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  139  /**
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  140   * __replace_page - replace page in vma by new page.
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  141   * based on replace_page in mm/ksm.c
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  142   *
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  143   * @vma:      vma that holds the pte pointing to page
+c517ee744b96e4 kernel/events/uprobes.c Oleg Nesterov           2012-07-29  144   * @addr:     address the old @page is mapped at
+fb4fb04ff4dd37 kernel/events/uprobes.c Song Liu                2019-09-23  145   * @old_page: the page we are replacing by new_page
+fb4fb04ff4dd37 kernel/events/uprobes.c Song Liu                2019-09-23  146   * @new_page: the modified page we replace page by
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  147   *
+fb4fb04ff4dd37 kernel/events/uprobes.c Song Liu                2019-09-23  148   * If @new_page is NULL, only unmap @old_page.
+fb4fb04ff4dd37 kernel/events/uprobes.c Song Liu                2019-09-23  149   *
+fb4fb04ff4dd37 kernel/events/uprobes.c Song Liu                2019-09-23  150   * Returns 0 on success, negative error code otherwise.
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  151   */
+c517ee744b96e4 kernel/events/uprobes.c Oleg Nesterov           2012-07-29  152  static int __replace_page(struct vm_area_struct *vma, unsigned long addr,
+bdfaa2eecd5f6c kernel/events/uprobes.c Oleg Nesterov           2016-08-17  153  				struct page *old_page, struct page *new_page)
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  154  {
+5fcd079af9ed4e kernel/events/uprobes.c Matthew Wilcox (Oracle  2022-09-02  155) 	struct folio *old_folio = page_folio(old_page);
+82e66bf76173a1 kernel/events/uprobes.c Matthew Wilcox (Oracle  2022-09-02  156) 	struct folio *new_folio;
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  157  	struct mm_struct *mm = vma->vm_mm;
+5fcd079af9ed4e kernel/events/uprobes.c Matthew Wilcox (Oracle  2022-09-02  158) 	DEFINE_FOLIO_VMA_WALK(pvmw, old_folio, vma, addr, 0);
+9f92448ceeea53 kernel/events/uprobes.c Oleg Nesterov           2012-07-29  159  	int err;
+ac46d4f3c43241 kernel/events/uprobes.c Jérôme Glisse           2018-12-28 @160  	struct mmu_notifier_range range;
+00501b531c4723 kernel/events/uprobes.c Johannes Weiner         2014-08-08  161  
+7d4a8be0c4b2b7 kernel/events/uprobes.c Alistair Popple         2023-01-10  162  	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, addr,
+6f4f13e8d9e27c kernel/events/uprobes.c Jérôme Glisse           2019-05-13  163  				addr + PAGE_SIZE);
+ac46d4f3c43241 kernel/events/uprobes.c Jérôme Glisse           2018-12-28  164  
+fb4fb04ff4dd37 kernel/events/uprobes.c Song Liu                2019-09-23  165  	if (new_page) {
+82e66bf76173a1 kernel/events/uprobes.c Matthew Wilcox (Oracle  2022-09-02  166) 		new_folio = page_folio(new_page);
+82e66bf76173a1 kernel/events/uprobes.c Matthew Wilcox (Oracle  2022-09-02  167) 		err = mem_cgroup_charge(new_folio, vma->vm_mm, GFP_KERNEL);
+00501b531c4723 kernel/events/uprobes.c Johannes Weiner         2014-08-08  168  		if (err)
+00501b531c4723 kernel/events/uprobes.c Johannes Weiner         2014-08-08  169  			return err;
+fb4fb04ff4dd37 kernel/events/uprobes.c Song Liu                2019-09-23  170  	}
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  171  
+5fcd079af9ed4e kernel/events/uprobes.c Matthew Wilcox (Oracle  2022-09-02  172) 	/* For folio_free_swap() below */
+5fcd079af9ed4e kernel/events/uprobes.c Matthew Wilcox (Oracle  2022-09-02  173) 	folio_lock(old_folio);
+9f92448ceeea53 kernel/events/uprobes.c Oleg Nesterov           2012-07-29  174  
+ac46d4f3c43241 kernel/events/uprobes.c Jérôme Glisse           2018-12-28  175  	mmu_notifier_invalidate_range_start(&range);
+9f92448ceeea53 kernel/events/uprobes.c Oleg Nesterov           2012-07-29  176  	err = -EAGAIN;
+9d82c69438d0df kernel/events/uprobes.c Johannes Weiner         2020-06-03  177  	if (!page_vma_mapped_walk(&pvmw))
+9f92448ceeea53 kernel/events/uprobes.c Oleg Nesterov           2012-07-29  178  		goto unlock;
+14fa2daa15887f kernel/events/uprobes.c Kirill A. Shutemov      2017-02-24  179  	VM_BUG_ON_PAGE(addr != pvmw.address, old_page);
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  180  
+fb4fb04ff4dd37 kernel/events/uprobes.c Song Liu                2019-09-23  181  	if (new_page) {
+82e66bf76173a1 kernel/events/uprobes.c Matthew Wilcox (Oracle  2022-09-02  182) 		folio_get(new_folio);
+2853b66b601a26 kernel/events/uprobes.c Matthew Wilcox (Oracle  2023-12-11  183) 		folio_add_new_anon_rmap(new_folio, vma, addr);
+82e66bf76173a1 kernel/events/uprobes.c Matthew Wilcox (Oracle  2022-09-02  184) 		folio_add_lru_vma(new_folio, vma);
+fb4fb04ff4dd37 kernel/events/uprobes.c Song Liu                2019-09-23  185  	} else
+fb4fb04ff4dd37 kernel/events/uprobes.c Song Liu                2019-09-23  186  		/* no new page, just dec_mm_counter for old_page */
+fb4fb04ff4dd37 kernel/events/uprobes.c Song Liu                2019-09-23  187  		dec_mm_counter(mm, MM_ANONPAGES);
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  188  
+5fcd079af9ed4e kernel/events/uprobes.c Matthew Wilcox (Oracle  2022-09-02  189) 	if (!folio_test_anon(old_folio)) {
+6b27cc6c66abf0 kernel/events/uprobes.c Kefeng Wang             2024-01-11  190  		dec_mm_counter(mm, mm_counter_file(old_folio));
+7396fa818d6278 kernel/events/uprobes.c Srikar Dronamraju       2012-04-11  191  		inc_mm_counter(mm, MM_ANONPAGES);
+7396fa818d6278 kernel/events/uprobes.c Srikar Dronamraju       2012-04-11  192  	}
+7396fa818d6278 kernel/events/uprobes.c Srikar Dronamraju       2012-04-11  193  
+c33c794828f212 kernel/events/uprobes.c Ryan Roberts            2023-06-12  194  	flush_cache_page(vma, addr, pte_pfn(ptep_get(pvmw.pte)));
+ec8832d007cb7b kernel/events/uprobes.c Alistair Popple         2023-07-25  195  	ptep_clear_flush(vma, addr, pvmw.pte);
+fb4fb04ff4dd37 kernel/events/uprobes.c Song Liu                2019-09-23  196  	if (new_page)
+b06d4c260e9321 kernel/events/uprobes.c Paolo Bonzini           2024-04-05  197  		set_pte_at(mm, addr, pvmw.pte,
+14fa2daa15887f kernel/events/uprobes.c Kirill A. Shutemov      2017-02-24  198  			   mk_pte(new_page, vma->vm_page_prot));
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  199  
+5cc9695f06b065 kernel/events/uprobes.c David Hildenbrand       2023-12-20  200  	folio_remove_rmap_pte(old_folio, old_page, vma);
+5fcd079af9ed4e kernel/events/uprobes.c Matthew Wilcox (Oracle  2022-09-02  201) 	if (!folio_mapped(old_folio))
+5fcd079af9ed4e kernel/events/uprobes.c Matthew Wilcox (Oracle  2022-09-02  202) 		folio_free_swap(old_folio);
+14fa2daa15887f kernel/events/uprobes.c Kirill A. Shutemov      2017-02-24  203  	page_vma_mapped_walk_done(&pvmw);
+5fcd079af9ed4e kernel/events/uprobes.c Matthew Wilcox (Oracle  2022-09-02  204) 	folio_put(old_folio);
+194f8dcbe9629d kernel/events/uprobes.c Oleg Nesterov           2012-07-29  205  
+9f92448ceeea53 kernel/events/uprobes.c Oleg Nesterov           2012-07-29  206  	err = 0;
+9f92448ceeea53 kernel/events/uprobes.c Oleg Nesterov           2012-07-29  207   unlock:
+ac46d4f3c43241 kernel/events/uprobes.c Jérôme Glisse           2018-12-28  208  	mmu_notifier_invalidate_range_end(&range);
+5fcd079af9ed4e kernel/events/uprobes.c Matthew Wilcox (Oracle  2022-09-02  209) 	folio_unlock(old_folio);
+9f92448ceeea53 kernel/events/uprobes.c Oleg Nesterov           2012-07-29  210  	return err;
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  211  }
+2b144498350860 kernel/uprobes.c        Srikar Dronamraju       2012-02-09  212  
+
+:::::: The code at line 160 was first introduced by commit
+:::::: ac46d4f3c43241ffa23d5bf36153a0830c0e02cc mm/mmu_notifier: use structure for invalidate_range_start/end calls v2
+
+:::::: TO: Jérôme Glisse <jglisse@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
