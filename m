@@ -1,64 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A311F619
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Apr 2024 06:12:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213AE2233B;
+	Fri, 12 Apr 2024 06:12:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712902357; cv=none; b=UK36LOfEa0/HBSqNv8e7Njo4gej/BXKq39ewAPca8cYD+Gc7VWTfssQAvkg153ktYbdUonsW+19Q+DZFkplphQWkBhLOupXEM74zVpy92uKj6CZrRuo0Kl7Oxrq7htJomUfTErFVNSwYKy/uEWtDri/Re+WRrfzVyDW68L458fY=
+	t=1712902358; cv=none; b=lbxQt+4GzWe2tQuDaChTMyNf0t0f3Rk/SkKdKi3HwtL9proSXvkM/jwfh4ULPxgavIm+CzhdHjajU2NNxj0111W64EB3aiwJjxRW9mR7cna5Bg2R7sNGANBRMqAXUsTZWns5PzMRHWVwXSEOM/RpJVawclJmrlac8GA6qP5sI10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712902357; c=relaxed/simple;
-	bh=xWRHVpdbdTmp39ThjwxKNCpHQ0iZavEKQ6v4pQ8vzM4=;
+	s=arc-20240116; t=1712902358; c=relaxed/simple;
+	bh=HKnDL4mU6PaCrVI6/uIADLnz7T0+H4HMxx7R46JqAeA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oprqLpAYtTur1B/FbayU0jMUkNWgZ8H2phDbfJNvxcLf9a2mKHKLALt1HL1dPPWQxitOz8RnbkqYibLWRfrXPMt9PThGYIrG/NTDXeY4WOUI7hQEb8+V9yZC7GO8EtxYBpna84qyLjFoRUqXZtFnZ2RFujSutRiZmlYaxH4bDDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApD0Ge+T; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=iKlbvJlYD0oaMkEQ+1bfegM8plpz105aOzF/t2GFqYzZSXDbm1x4APaOAzsdN40Lk6MmPP+VcWHtAJIBzYhS7Sm+OAYdHGWVj6zjxoFiv/S8P1VhOSdn2Y2ChhpurNEyy1egSPtCD3CYBFiArpUa2qmXpP451DJ3rwX5hfbXZQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FS0piq+N; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApD0Ge+T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FS0piq+N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712902356; x=1744438356;
+  t=1712902358; x=1744438358;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=xWRHVpdbdTmp39ThjwxKNCpHQ0iZavEKQ6v4pQ8vzM4=;
-  b=ApD0Ge+TetbrwiNkzSpb+/LRzO2LIRS3Bg3FYOHpByM6BOKaZ02nu4eH
-   uRGwUUq8M0ud5HNLrB3S3xftc0gTW48PbD+G7YxzrxmJC7SYUWwTBYkfc
-   Dkze66XjB2hbnfHc0hNpShGqqElcUIpQqh0CumjXLmPDihwN2j0mjVRK2
-   F0CfoXE/03HdYEt1L43gHu7BgcXjAm8x+SeYIdK12p9JvI/U0AvSmvOex
-   hXsBrBb81uPYg2zaubH7QApx6hX/yTgZ4+NFVmWrm+zbMaX2/P4TVWcW7
-   1vtmbcJ5+L09LZNfg/rtpGB7jT+ITUIitoMbj2mWYbzAaevZpSYZB3oP8
-   A==;
-X-CSE-ConnectionGUID: hfqy2j9PQHuDyOdA2BtKkg==
-X-CSE-MsgGUID: oLfoSBppQZGwQORYR+Gx5Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8218763"
+  bh=HKnDL4mU6PaCrVI6/uIADLnz7T0+H4HMxx7R46JqAeA=;
+  b=FS0piq+NaA/fO0swX2YPDnHmLy5v0Jh73BCnkYuLHxCICHmZIzJqYiOl
+   k9Nbf3MXTvNX00hFCFM4HS3F/tv8POqAl+WskZTJ7t4WeuTAYgT3aELda
+   y1oDNQ5a2TOZiRktrBMNMCRR3RqP/JcXUX8vaFnFF5R1ud40wPuXcb0vP
+   l/K44mWRHm1Pin82tTrXZq5/FpRCyxoqbrcl3KZ1Q3usAgTGTMf7/ymrA
+   cw+IaqC4XEA/WmPmL+50TyVapyc/iKlLzyYolHsmhdGHB2r3rWR/Epd6U
+   0KmzNQCbv+j1KQ9ZN3eTxhvyfPncjiUMXLg1TqNI8Sxu7SRgoVnF0P8gF
+   Q==;
+X-CSE-ConnectionGUID: RgIKRUefQcigzftdUd5Hlw==
+X-CSE-MsgGUID: AkDUMYwHSai4ObcP0ME/4g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8218770"
 X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
-   d="scan'208";a="8218763"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+   d="scan'208";a="8218770"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 23:12:35 -0700
-X-CSE-ConnectionGUID: DOGdUYjwQ8CM3OL7v0RhHw==
-X-CSE-MsgGUID: OkYfvjxzQGaRwmXCGyHlMQ==
+X-CSE-ConnectionGUID: J3E0xWmqS4+jcBii0xcYaA==
+X-CSE-MsgGUID: M8hWoLp+T4a8dmD2SgqhJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
-   d="scan'208";a="21197074"
+   d="scan'208";a="21104017"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 11 Apr 2024 23:12:31 -0700
+  by orviesa009.jf.intel.com with ESMTP; 11 Apr 2024 23:12:32 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rvA9F-0009Rf-2E;
+	id 1rvA9F-0009Rd-2A;
 	Fri, 12 Apr 2024 06:12:29 +0000
-Date: Fri, 12 Apr 2024 14:12:11 +0800
+Date: Fri, 12 Apr 2024 14:12:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	Robert Hu <robert.hu@intel.com>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kvm@vger.kernel.org, Robert Hu <robert.hu@intel.com>,
 	Farrah Chen <farrah.chen@intel.com>,
 	Danmei Wei <danmei.wei@intel.com>,
 	David Hildenbrand <david@redhat.com>,
 	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Subject: [kvm:queue 23/29] kernel/events/uprobes.c:160:35: error: storage
- size of 'range' isn't known
-Message-ID: <202404121456.kg5QIV3w-lkp@intel.com>
+Subject: [kvm:queue 23/29] kernel/events/uprobes.c:160:28: error: variable
+ has incomplete type 'struct mmu_notifier_range'
+Message-ID: <202404121421.H93Aat0L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,38 +72,62 @@ Content-Transfer-Encoding: 8bit
 tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
 head:   415efaaf0d973684af5fa7c9ddccf111485f9f1b
 commit: b06d4c260e93214808f9dd6031226b1b0e2937f1 [23/29] mm: replace set_pte_at_notify() with just set_pte_at()
-config: sparc64-defconfig (https://download.01.org/0day-ci/archive/20240412/202404121456.kg5QIV3w-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240412/202404121456.kg5QIV3w-lkp@intel.com/reproduce)
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240412/202404121421.H93Aat0L-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240412/202404121421.H93Aat0L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404121456.kg5QIV3w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404121421.H93Aat0L-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/events/uprobes.c: In function '__replace_page':
->> kernel/events/uprobes.c:160:35: error: storage size of 'range' isn't known
+   In file included from kernel/events/uprobes.c:13:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/events/uprobes.c:160:28: error: variable has incomplete type 'struct mmu_notifier_range'
      160 |         struct mmu_notifier_range range;
-         |                                   ^~~~~
->> kernel/events/uprobes.c:162:9: error: implicit declaration of function 'mmu_notifier_range_init' [-Werror=implicit-function-declaration]
+         |                                   ^
+   include/linux/mm.h:2388:8: note: forward declaration of 'struct mmu_notifier_range'
+    2388 | struct mmu_notifier_range;
+         |        ^
+>> kernel/events/uprobes.c:162:2: error: call to undeclared function 'mmu_notifier_range_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      162 |         mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, addr,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
->> kernel/events/uprobes.c:162:41: error: 'MMU_NOTIFY_CLEAR' undeclared (first use in this function)
+         |         ^
+>> kernel/events/uprobes.c:162:34: error: use of undeclared identifier 'MMU_NOTIFY_CLEAR'
      162 |         mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, addr,
-         |                                         ^~~~~~~~~~~~~~~~
-   kernel/events/uprobes.c:162:41: note: each undeclared identifier is reported only once for each function it appears in
->> kernel/events/uprobes.c:175:9: error: implicit declaration of function 'mmu_notifier_invalidate_range_start' [-Werror=implicit-function-declaration]
+         |                                         ^
+>> kernel/events/uprobes.c:175:2: error: call to undeclared function 'mmu_notifier_invalidate_range_start'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      175 |         mmu_notifier_invalidate_range_start(&range);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/events/uprobes.c:208:9: error: implicit declaration of function 'mmu_notifier_invalidate_range_end' [-Werror=implicit-function-declaration]
+         |         ^
+>> kernel/events/uprobes.c:208:2: error: call to undeclared function 'mmu_notifier_invalidate_range_end'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      208 |         mmu_notifier_invalidate_range_end(&range);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/events/uprobes.c:160:35: warning: unused variable 'range' [-Wunused-variable]
-     160 |         struct mmu_notifier_range range;
-         |                                   ^~~~~
-   cc1: some warnings being treated as errors
+         |         ^
+   5 warnings and 5 errors generated.
 
 
 vim +160 kernel/events/uprobes.c
