@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 199373FB1C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Apr 2024 12:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2696205E33
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Apr 2024 12:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713010498; cv=none; b=KirZX7NZ2mo2QEbnYG4jiDkOb4NEqxDhHWxg/Hg1w8MZPKrSeE4Jd0M2A3jaGbhghEns5URcTLxVEprARTIHLL4DCgujn6YOCRjWyIMDrXsBBj+61j6nnvDMJ83COOKqBh/YED+0q3ZWMc3JyYPAGl8VjT8OzezqDbPZJUvMeCI=
+	t=1713011187; cv=none; b=Qs7jyPyDOKXSEeGnkTmT0FA6NbvS9o3XGb7MQGPdRyZVKzNsnhFSx1LLrS0sBg76FSOwwlGycdqhLRWgtQksFl7SjGS0TBS1H7TziJVC9V7ZdIjGxfJr+BEz7K0l3ELRrMDedWFylLAqYZDWpCweKSOxZQA2wD7z1bNh7mSI+TQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713010498; c=relaxed/simple;
-	bh=3oCh9h34q5V87J3zNQBuxrpPp2YPmv6mahgwfmdw0pM=;
+	s=arc-20240116; t=1713011187; c=relaxed/simple;
+	bh=liiTl/uYcv+xQ81pFQZqgKFHwHI01PV6jx0a//5kfbc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VEP5Brtgt+ouPAN0P1w32vFJ5BAwH+lod62lr0d9yJQt+kQUx2zmOP/VGg9wozeqV12+f94AfjiP+j3TJKz+fEHbH/Lc1jX15riobfSP7aGBtGQA21sKRyxYvlK/5xFRXDllJ5Vip0uEUljmxxwrzzZXJrbsW+RKy6keDP+pVTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VzccLGmp; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=PukWhJUV6AnUFOaQhsNSN97AXaXqET6oX/CpObDR1LZqqqN0frWSFZ2K1rPTbW2sI5lqkzFGs7jN7yNtPrHckwn7o8QR9A606V8ojH7awHqs1r9FozwqH0A8T5tpt079XDBCqzZQsdupnZcukOGQvGB+bSDhxO6f8Q319VCZeng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ANjOB1ZL; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VzccLGmp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713010496; x=1744546496;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3oCh9h34q5V87J3zNQBuxrpPp2YPmv6mahgwfmdw0pM=;
-  b=VzccLGmpuRn1CD4oqG2TNSV5S7eNIe/YB7GiC77/9Vc1ShId3WAOkD43
-   G0PVRCqAn7pCqwreDzK8bamQp1y7M8qwGIK57KGGHtyl7K2C9Sp4xd28k
-   0vrZbOSh3r5TAcNMUuOrJY45JmrsE5VH2bYCIMXrqv6/BUMLem8Zg4uyv
-   7E1/K9L6WshoGYiOiPtFnWBiAL9RA0IALMPHARe0W3tNcchaG3MrK1F5n
-   jKEmBmQoSJjkPwnbi9EdNaVXAhw+MmvSngGc8ieu757N0m+mnJZFuQwfx
-   qk28fNgz3PSjzZhJ9I4grv/TfIG0Tgt8J9QCZgHhxZoILwwv4fB+CudjG
-   A==;
-X-CSE-ConnectionGUID: vfhGFhcUQuehYVucir0Zxg==
-X-CSE-MsgGUID: D4Sn9d13Somiug8DypBGBg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11042"; a="30938358"
-X-IronPort-AV: E=Sophos;i="6.07,199,1708416000"; 
-   d="scan'208";a="30938358"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2024 05:14:56 -0700
-X-CSE-ConnectionGUID: Gy+WRNxwR8uC/S4UnkW/hA==
-X-CSE-MsgGUID: uflL5hXNQmWj+2r7uz0/LA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,199,1708416000"; 
-   d="scan'208";a="21495847"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Apr 2024 05:14:54 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rvcHP-0002Uo-2U;
-	Sat, 13 Apr 2024 12:14:49 +0000
-Date: Sat, 13 Apr 2024 20:13:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:timestats-hoist 414/457] fs/iomap/buffered-io.c:402:15:
- sparse: sparse: Using plain integer as NULL pointer
-Message-ID: <202404132008.NdtiWG9k-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ANjOB1ZL"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-56e48d0a632so2826516a12.2
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Apr 2024 05:26:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713011184; x=1713615984; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9oUA1HQK/tMgrO9d5hLI5pXpwB7+wCzCmNrVVWk3rNs=;
+        b=ANjOB1ZLLMiJfT+oqu9aKKqRGsp2AMhkzmi7qGnsL27Q1B+a6lLsRnJ2pv2O+dPfYe
+         EdXQq2eK3ZdPeLvNNr1buAC7W3vcJF2HHBqz0CBWBQqC/58wgK4Yy+Hs3jG6Cs4/0wTE
+         fTrWVxOQP03pNBgw/xhM/+sGY4k1tch11SWq+CDNskCEaQSQe1WjdnupNw5Ce3MaMRJ1
+         klZ+QTYW1ZPuRwQYNLCHMg43U73/CtFXd4cELRcDLoaxG/DIMVB93V5cmrpmWx1tf3Pj
+         ISuKKZZvgMVbNgbTXGXt/iER1HMaDUj/VOXQO65oIwK+oQ1hnzi0g3pTALR+OcJe/v7c
+         kQfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713011184; x=1713615984;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9oUA1HQK/tMgrO9d5hLI5pXpwB7+wCzCmNrVVWk3rNs=;
+        b=jnG9qQ9L3khNx5ARit+KG9pnPqMzotcdbVXsK8PxK9HJ+2fzC/UoD/eIqHlegeOE8I
+         c+MN+5cumfWlimUM6/ZuDj57WLqlhaLaWDBBKLyOo7gkVmpanQ0IzCo+XuCR7dAIXtOr
+         SXUfIOvIGtfkGIrep/wwASDeAs7NMLIGZk5wSzkVS/x2mOZiMnrAiCFFoTNbgb9i6jZw
+         0tfv+9tmi+DmVau1q1TrvoUjvX2JKVm2lWOCoYIXKlZvE2mVW0eZcba0hsTjFXel68/u
+         tOWBAGdPG+wdQ6TECZibmY+GrvpKl2WXfUktovb0TymupvZh5/vU0yJpt47mZAn6/yv+
+         prKw==
+X-Forwarded-Encrypted: i=1; AJvYcCXnsnxyKL68hrjGI/NeUR1t9mTW2lc+0olfJiLxYs+NT1cW10hpBLDRrg4sooAesX+XCniNV34mSUvKorVZ6fJAQrvSgaJD/2s4ZNbNIg==
+X-Gm-Message-State: AOJu0YxRjAeEMqywZnBWsyNGN19FsSntehZ68Q9Rn4ruEbyrWU+YKBHx
+	cezr27jJVecEaKFELeh3BEgz67z7mFIebnmt6eXm1HeNwC2EkNgg+stHbzFJrvI=
+X-Google-Smtp-Source: AGHT+IHKushtdGtjQf4d0ST5FFqp9I19j888c6wnw1YG3WUriTZkUwEwjmFmhGJiTcRMY5bF0i3Wcg==
+X-Received: by 2002:a50:d697:0:b0:568:b95f:5398 with SMTP id r23-20020a50d697000000b00568b95f5398mr4124249edi.38.1713011183428;
+        Sat, 13 Apr 2024 05:26:23 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id u5-20020aa7d985000000b0057000a2cb5bsm1394724eds.18.2024.04.13.05.26.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Apr 2024 05:26:22 -0700 (PDT)
+Date: Sat, 13 Apr 2024 15:26:18 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>
+Subject: [broonie-sound:for-next 12/13] sound/soc/codecs/cs35l41.c:1129
+ cs35l41_dsp_init() warn: missing error code 'ret'
+Message-ID: <5d053b20-f0f4-4326-9096-19802ad5ea20@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,55 +69,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git timestats-hoist
-head:   ed4cedcef505729c94212031f8ed784a5fd81ac5
-commit: f0eab2ef375fb100ef4441c0e275fd7cfaac65a0 [414/457] iomap: integrate fs-verity verification into iomap's read path
-config: hexagon-randconfig-r113-20240413 (https://download.01.org/0day-ci/archive/20240413/202404132008.NdtiWG9k-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
-reproduce: (https://download.01.org/0day-ci/archive/20240413/202404132008.NdtiWG9k-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+head:   47c44619b51cb0367249a1f5c53afd28cfd9dd82
+commit: eefb831d2e4dd58d58002a2ef75ff989e073230d [12/13] ASoC: cs35l41: Update DSP1RX5/6 Sources for DSP config
+config: mips-randconfig-r071-20240413 (https://download.01.org/0day-ci/archive/20240413/202404131743.unitkCiT-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404132008.NdtiWG9k-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202404131743.unitkCiT-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/iomap/buffered-io.c:402:15: sparse: sparse: Using plain integer as NULL pointer
+smatch warnings:
+sound/soc/codecs/cs35l41.c:1129 cs35l41_dsp_init() warn: missing error code 'ret'
 
-vim +402 fs/iomap/buffered-io.c
+vim +/ret +1129 sound/soc/codecs/cs35l41.c
 
-   380	
-   381	static int iomap_fsverity_init_bioset(void)
-   382	{
-   383		struct bio_set *bs, *old;
-   384		int error;
-   385	
-   386		bs = kzalloc(sizeof(*bs), GFP_KERNEL);
-   387		if (!bs)
-   388			return -ENOMEM;
-   389	
-   390		error = bioset_init(bs, IOMAP_POOL_SIZE,
-   391				    offsetof(struct iomap_fsverity_bio, bio),
-   392				    BIOSET_NEED_BVECS);
-   393		if (error) {
-   394			kfree(bs);
-   395			return error;
-   396		}
-   397	
-   398		/*
-   399		 * This has to be atomic as readaheads can race to create the
-   400		 * bioset.  If someone set the pointer before us, we drop ours.
-   401		 */
- > 402		old = cmpxchg(&iomap_fsverity_bioset, NULL, bs);
-   403		if (old) {
-   404			bioset_exit(bs);
-   405			kfree(bs);
-   406		}
-   407	
-   408		return 0;
-   409	}
-   410	
+bae9e13fc55cbc David Rhodes   2021-10-29  1094  static int cs35l41_dsp_init(struct cs35l41_private *cs35l41)
+bae9e13fc55cbc David Rhodes   2021-10-29  1095  {
+bae9e13fc55cbc David Rhodes   2021-10-29  1096  	struct wm_adsp *dsp;
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1097  	uint32_t dsp1rx5_src;
+bae9e13fc55cbc David Rhodes   2021-10-29  1098  	int ret;
+bae9e13fc55cbc David Rhodes   2021-10-29  1099  
+bae9e13fc55cbc David Rhodes   2021-10-29  1100  	dsp = &cs35l41->dsp;
+bae9e13fc55cbc David Rhodes   2021-10-29  1101  	dsp->part = "cs35l41";
+bae9e13fc55cbc David Rhodes   2021-10-29  1102  	dsp->fw = 9; /* 9 is WM_ADSP_FW_SPK_PROT in wm_adsp.c */
+f517ba4924ad02 Charles Keepax 2022-01-07  1103  	dsp->toggle_preload = true;
+0db99577c4cddc Stefan Binding 2022-05-09  1104  
+0db99577c4cddc Stefan Binding 2022-05-09  1105  	cs35l41_configure_cs_dsp(cs35l41->dev, cs35l41->regmap, &dsp->cs_dsp);
+bae9e13fc55cbc David Rhodes   2021-10-29  1106  
+ff8aad072e6388 Stefan Binding 2022-05-09  1107  	ret = cs35l41_write_fs_errata(cs35l41->dev, cs35l41->regmap);
+ff8aad072e6388 Stefan Binding 2022-05-09  1108  	if (ret < 0)
+bae9e13fc55cbc David Rhodes   2021-10-29  1109  		return ret;
+bae9e13fc55cbc David Rhodes   2021-10-29  1110  
+bae9e13fc55cbc David Rhodes   2021-10-29  1111  	ret = wm_halo_init(dsp);
+bae9e13fc55cbc David Rhodes   2021-10-29  1112  	if (ret) {
+bae9e13fc55cbc David Rhodes   2021-10-29  1113  		dev_err(cs35l41->dev, "wm_halo_init failed: %d\n", ret);
+bae9e13fc55cbc David Rhodes   2021-10-29  1114  		return ret;
+bae9e13fc55cbc David Rhodes   2021-10-29  1115  	}
+bae9e13fc55cbc David Rhodes   2021-10-29  1116  
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1117  	switch (cs35l41->hw_cfg.bst_type) {
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1118  	case CS35L41_INT_BOOST:
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1119  	case CS35L41_SHD_BOOST_ACTV:
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1120  		dsp1rx5_src = CS35L41_INPUT_SRC_VPMON;
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1121  		break;
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1122  	case CS35L41_EXT_BOOST:
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1123  	case CS35L41_SHD_BOOST_PASS:
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1124  		dsp1rx5_src = CS35L41_INPUT_SRC_VBSTMON;
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1125  		break;
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1126  	default:
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1127  		dev_err(cs35l41->dev, "wm_halo_init failed - Invalid Boost Type: %d\n",
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1128  			cs35l41->hw_cfg.bst_type);
+eefb831d2e4dd5 Stefan Binding 2024-04-11 @1129  		goto err_dsp;
+
+missing error code?
+
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1130  	}
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1131  
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1132  	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX5_SRC, dsp1rx5_src);
+bae9e13fc55cbc David Rhodes   2021-10-29  1133  	if (ret < 0) {
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1134  		dev_err(cs35l41->dev, "Write DSP1RX5_SRC: %d failed: %d\n", dsp1rx5_src, ret);
+bae9e13fc55cbc David Rhodes   2021-10-29  1135  		goto err_dsp;
+bae9e13fc55cbc David Rhodes   2021-10-29  1136  	}
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1137  	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX6_SRC, CS35L41_INPUT_SRC_VBSTMON);
+bae9e13fc55cbc David Rhodes   2021-10-29  1138  	if (ret < 0) {
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1139  		dev_err(cs35l41->dev, "Write CS35L41_INPUT_SRC_VBSTMON failed: %d\n", ret);
+bae9e13fc55cbc David Rhodes   2021-10-29  1140  		goto err_dsp;
+bae9e13fc55cbc David Rhodes   2021-10-29  1141  	}
+bae9e13fc55cbc David Rhodes   2021-10-29  1142  	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX7_SRC,
+bae9e13fc55cbc David Rhodes   2021-10-29  1143  			   CS35L41_INPUT_SRC_TEMPMON);
+bae9e13fc55cbc David Rhodes   2021-10-29  1144  	if (ret < 0) {
+bae9e13fc55cbc David Rhodes   2021-10-29  1145  		dev_err(cs35l41->dev, "Write INPUT_SRC_TEMPMON failed: %d\n", ret);
+bae9e13fc55cbc David Rhodes   2021-10-29  1146  		goto err_dsp;
+bae9e13fc55cbc David Rhodes   2021-10-29  1147  	}
+bae9e13fc55cbc David Rhodes   2021-10-29  1148  	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX8_SRC,
+bae9e13fc55cbc David Rhodes   2021-10-29  1149  			   CS35L41_INPUT_SRC_RSVD);
+bae9e13fc55cbc David Rhodes   2021-10-29  1150  	if (ret < 0) {
+bae9e13fc55cbc David Rhodes   2021-10-29  1151  		dev_err(cs35l41->dev, "Write INPUT_SRC_RSVD failed: %d\n", ret);
+bae9e13fc55cbc David Rhodes   2021-10-29  1152  		goto err_dsp;
+bae9e13fc55cbc David Rhodes   2021-10-29  1153  	}
+bae9e13fc55cbc David Rhodes   2021-10-29  1154  
+bae9e13fc55cbc David Rhodes   2021-10-29  1155  	return 0;
+bae9e13fc55cbc David Rhodes   2021-10-29  1156  
+bae9e13fc55cbc David Rhodes   2021-10-29  1157  err_dsp:
+bae9e13fc55cbc David Rhodes   2021-10-29  1158  	wm_adsp2_remove(dsp);
+bae9e13fc55cbc David Rhodes   2021-10-29  1159  
+bae9e13fc55cbc David Rhodes   2021-10-29  1160  	return ret;
+bae9e13fc55cbc David Rhodes   2021-10-29  1161  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
