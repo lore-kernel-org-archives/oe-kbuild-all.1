@@ -1,60 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4448BEC7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Apr 2024 19:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2AF956B7B;
+	Sat, 13 Apr 2024 22:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713038341; cv=none; b=pbtJEuQYee3S664XDOGnHDNmsf1pBqeNnxM+eZOb24D2py6XuHbChweRACPjJRhbNA0Xv0fxjbMqWTR643Ho8JcuVq7gTNHf0ZQtaxBo5Zije8mA/oK32eE7LixSqq4hQzHCcnCmlxmkwfBZvK+AE5YUccKHFG4kqvr8STMrIGY=
+	t=1713046270; cv=none; b=EV7uZ5nfQ9ComXlCKLckEDLoUH1wcvI4URMwiLJJZcepK9VrzHKhRJ2Q07pY+5V3mMcCPzbGbMU7MY3pYtI/l/rlnQGHLhJ1ZJ3J/8mUQdX0+TiotyF9SJyVKNhTqIyOS4cKiq1IH7UpT0STDbfw5fWj4o9e1XrMYOKMONeYz6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713038341; c=relaxed/simple;
-	bh=z4f9XMax7qiJPbAN0DfwaAkaD8Bqmy3Q6xV1vldp9w8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ci3v9rSVmmkqb+wLFKd2zroSWfHo9JqxNsv0rzZUP9RGMSeRlsdatXVAPUtWGzLKKlosdBhDkskps26usnHbxrRjIuh8O+LshPr/2u2A77mkvlRV1sPvHZBHNvtmDOVdRQyzp2jfgqtj03be9dDU8a52lSuFtRK1yBo0+vC5qGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EdTkQMw2; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1713046270; c=relaxed/simple;
+	bh=aXOBWMvMO7ho0steJlaL6buOfsyAqhe6GhZwED4vdCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t5ZRDgAiv+UjUm92mLJnEWtZrpyXDXcdZIKivQCj1TVX0h/2YDGu1ijNVpX59SXsaNJ7Way8YDFimAPX/KMntBG+K7fEMac82/Ec5fKKX8BMWROPfB4xFxlcNLtwdLI76myGYRgvcH3se7keVg2k3rn5m8zwq83cffQtliU9LcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cLZcUPp9; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EdTkQMw2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cLZcUPp9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713038340; x=1744574340;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z4f9XMax7qiJPbAN0DfwaAkaD8Bqmy3Q6xV1vldp9w8=;
-  b=EdTkQMw2yk9XESdMMXH1z0ufCAuKgeCwuR2nEo30kJoqoZc9lDwTHW9o
-   Ak/Y2T97hRDIYX/IlKz2OZ+rO0eRfLuNtkgu7dcZjWNxRvyarWUAt7/lU
-   ON6Kkf0eK3V9vWkqLCcJceXBG2nMWzFfMdmq/jlO3mXyinBul7mFhFduq
-   M+LWLVnC4Yl9cku24Dhz/RwZ45ic0OqBeik/OWBw9NPnK9hD+CKYUQWLY
-   I57TXNtZLOX3n5qN3Zye9iZ2YNtYsRny+wtB76noYofdd21S2cCYbN74r
-   NvediB5fRdKg99pDxlGVNXg93+CsFiASie9NjAAx2c2SzLooMiY6VDF8Q
-   A==;
-X-CSE-ConnectionGUID: SbeXiS43Tda1xsBq6YFdRg==
-X-CSE-MsgGUID: KflIXvmuSCSh2iaOpRy6Kg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11043"; a="33860939"
+  t=1713046269; x=1744582269;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aXOBWMvMO7ho0steJlaL6buOfsyAqhe6GhZwED4vdCA=;
+  b=cLZcUPp9qZu9tAeZKrHZcyZZD9dDkO4R8BmzUFv6M2Do1D45luUIsIq6
+   dmbB6kMSS8gRLAonYdLuydEcPZDnkhtOlpXcfB4F8MZbYjLlMMa6TowNi
+   J78SSArev388NEJf6RRU2uB6BAXeeEaJiqnKXzleVqSsw9htaxhrOt86H
+   cd/PuZFhM8TijMCsHxPcIBC64N06wfHYq8pjWDe95HVdvrjJ0v8p4b9OV
+   2pze2teX5PKAbIu+73xTlYnFi447lKGN1r8h2RTENyzpO8Uj4otTHz1RB
+   wHfQtBIglywlE9C4xWCWio0nFGDjitLEXqsH9EZ1PL5SIaWmoJjHTmeZW
+   w==;
+X-CSE-ConnectionGUID: TceIX17YQl+9cUNmdXYsuw==
+X-CSE-MsgGUID: tZqPj7GmT9eOhlahvkPWrA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11043"; a="8649030"
 X-IronPort-AV: E=Sophos;i="6.07,199,1708416000"; 
-   d="scan'208";a="33860939"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2024 12:58:59 -0700
-X-CSE-ConnectionGUID: TemgYw8mT9uXa8BQld3x8Q==
-X-CSE-MsgGUID: Cqt3FnZoQIa4VxtctSVLcQ==
+   d="scan'208";a="8649030"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2024 15:11:08 -0700
+X-CSE-ConnectionGUID: oNYeaU4eRpaX0kmlpzKmrQ==
+X-CSE-MsgGUID: Ogf1VbZmTaGfvNpSHEZ+Yw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,199,1708416000"; 
-   d="scan'208";a="52701580"
+   d="scan'208";a="52503573"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Apr 2024 12:58:57 -0700
+  by orviesa002.jf.intel.com with ESMTP; 13 Apr 2024 15:11:03 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rvjWZ-00031Y-1Y;
-	Sat, 13 Apr 2024 19:58:55 +0000
-Date: Sun, 14 Apr 2024 03:58:06 +0800
+	id 1rvlaO-00034K-0o;
+	Sat, 13 Apr 2024 22:11:00 +0000
+Date: Sun, 14 Apr 2024 06:10:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Inochi Amaoto <inochiama@outlook.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Stephen Boyd <sboyd@kernel.org>
-Subject: [clk:clk-sophgo 2/5] ERROR: modpost: "__divdi3"
- [drivers/clk/sophgo/clk-sophgo-cv1800.ko] undefined!
-Message-ID: <202404140310.QEjZKtTN-lkp@intel.com>
+To: Charlie Jenkins <charlie@rivosinc.com>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Charlie Jenkins <charlie@rivosinc.com>
+Subject: Re: [PATCH 06/19] riscv: Extend cpufeature.c to detect vendor
+ extensions
+Message-ID: <202404140621.x9B02eF8-lkp@intel.com>
+References: <20240411-dev-charlie-support_thead_vector_6_9-v1-6-4af9815ec746@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,125 +79,215 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240411-dev-charlie-support_thead_vector_6_9-v1-6-4af9815ec746@rivosinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-sophgo
-head:   a12069a39b33c3b4c57929f5b42c88da681496ba
-commit: 80fd61ec46124eb83b29de3647a565f69979e753 [2/5] clk: sophgo: Add clock support for CV1800 SoC
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240414/202404140310.QEjZKtTN-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240414/202404140310.QEjZKtTN-lkp@intel.com/reproduce)
+Hi Charlie,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 4cece764965020c22cff7665b18a012006359095]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Charlie-Jenkins/dt-bindings-riscv-Add-vendorid-and-archid/20240412-121709
+base:   4cece764965020c22cff7665b18a012006359095
+patch link:    https://lore.kernel.org/r/20240411-dev-charlie-support_thead_vector_6_9-v1-6-4af9815ec746%40rivosinc.com
+patch subject: [PATCH 06/19] riscv: Extend cpufeature.c to detect vendor extensions
+config: riscv-randconfig-r133-20240413 (https://download.01.org/0day-ci/archive/20240414/202404140621.x9B02eF8-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce: (https://download.01.org/0day-ci/archive/20240414/202404140621.x9B02eF8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404140310.QEjZKtTN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404140621.x9B02eF8-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-pwm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hte/hte-tegra194-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: drivers/parport/parport_amiga: section mismatch in reference: amiga_parallel_driver+0x8 (section: .data) -> amiga_parallel_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82365.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_atari.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_paula.o
-WARNING: modpost: sound/oss/dmasound/dmasound_paula: section mismatch in reference: amiga_audio_driver+0x8 (section: .data) -> amiga_audio_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/sound_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-ab8500-codec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8ulp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/imx-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mtk-adsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8195/snd-sof-mt8195.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8186/snd-sof-mt8186.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
->> ERROR: modpost: "__divdi3" [drivers/clk/sophgo/clk-sophgo-cv1800.ko] undefined!
->> ERROR: modpost: "__umoddi3" [drivers/clk/sophgo/clk-sophgo-cv1800.ko] undefined!
->> ERROR: modpost: "__udivdi3" [drivers/clk/sophgo/clk-sophgo-cv1800.ko] undefined!
->> ERROR: modpost: "__moddi3" [drivers/clk/sophgo/clk-sophgo-cv1800.ko] undefined!
+>> arch/riscv/kernel/cpufeature.c:395:4: error: expected expression
+     395 |                         bool found;
+         |                         ^
+>> arch/riscv/kernel/cpufeature.c:397:4: error: use of undeclared identifier 'found'
+     397 |                         found = get_isa_vendor_ext(vendorid,
+         |                         ^
+   arch/riscv/kernel/cpufeature.c:402:9: error: use of undeclared identifier 'found'
+     402 |                         if (!found) {
+         |                              ^
+   3 errors generated.
+
+
+vim +395 arch/riscv/kernel/cpufeature.c
+
+   370	
+   371	static void __init riscv_parse_isa_string(unsigned long *this_hwcap, struct riscv_isainfo *isainfo,
+   372						struct riscv_isainfo *isavendorinfo, unsigned long vendorid,
+   373						unsigned long *isa2hwcap, const char *isa)
+   374	{
+   375		/*
+   376		 * For all possible cpus, we have already validated in
+   377		 * the boot process that they at least contain "rv" and
+   378		 * whichever of "32"/"64" this kernel supports, and so this
+   379		 * section can be skipped.
+   380		 */
+   381		isa += 4;
+   382	
+   383		while (*isa) {
+   384			const char *ext = isa++;
+   385			const char *ext_end = isa;
+   386			bool ext_long = false, ext_err = false;
+   387			struct riscv_isainfo *selected_isainfo = isainfo;
+   388			const struct riscv_isa_ext_data *selected_riscv_isa_ext = riscv_isa_ext;
+   389			size_t selected_riscv_isa_ext_count = riscv_isa_ext_count;
+   390			unsigned int id_offset = 0;
+   391	
+   392			switch (*ext) {
+   393			case 'x':
+   394			case 'X':
+ > 395				bool found;
+   396	
+ > 397				found = get_isa_vendor_ext(vendorid,
+   398							   &selected_riscv_isa_ext,
+   399							   &selected_riscv_isa_ext_count);
+   400				selected_isainfo = isavendorinfo;
+   401				id_offset = RISCV_ISA_VENDOR_EXT_BASE;
+   402				if (!found) {
+   403					pr_warn("No associated vendor extensions with vendor id: %lx\n",
+   404						vendorid);
+   405					for (; *isa && *isa != '_'; ++isa)
+   406						;
+   407					ext_err = true;
+   408					break;
+   409				}
+   410				fallthrough;
+   411			case 's':
+   412				/*
+   413				 * Workaround for invalid single-letter 's' & 'u' (QEMU).
+   414				 * No need to set the bit in riscv_isa as 's' & 'u' are
+   415				 * not valid ISA extensions. It works unless the first
+   416				 * multi-letter extension in the ISA string begins with
+   417				 * "Su" and is not prefixed with an underscore.
+   418				 */
+   419				if (ext[-1] != '_' && ext[1] == 'u') {
+   420					++isa;
+   421					ext_err = true;
+   422					break;
+   423				}
+   424				fallthrough;
+   425			case 'S':
+   426			case 'z':
+   427			case 'Z':
+   428				/*
+   429				 * Before attempting to parse the extension itself, we find its end.
+   430				 * As multi-letter extensions must be split from other multi-letter
+   431				 * extensions with an "_", the end of a multi-letter extension will
+   432				 * either be the null character or the "_" at the start of the next
+   433				 * multi-letter extension.
+   434				 *
+   435				 * Next, as the extensions version is currently ignored, we
+   436				 * eliminate that portion. This is done by parsing backwards from
+   437				 * the end of the extension, removing any numbers. This may be a
+   438				 * major or minor number however, so the process is repeated if a
+   439				 * minor number was found.
+   440				 *
+   441				 * ext_end is intended to represent the first character *after* the
+   442				 * name portion of an extension, but will be decremented to the last
+   443				 * character itself while eliminating the extensions version number.
+   444				 * A simple re-increment solves this problem.
+   445				 */
+   446				ext_long = true;
+   447				for (; *isa && *isa != '_'; ++isa)
+   448					if (unlikely(!isalnum(*isa)))
+   449						ext_err = true;
+   450	
+   451				ext_end = isa;
+   452				if (unlikely(ext_err))
+   453					break;
+   454	
+   455				if (!isdigit(ext_end[-1]))
+   456					break;
+   457	
+   458				while (isdigit(*--ext_end))
+   459					;
+   460	
+   461				if (tolower(ext_end[0]) != 'p' || !isdigit(ext_end[-1])) {
+   462					++ext_end;
+   463					break;
+   464				}
+   465	
+   466				while (isdigit(*--ext_end))
+   467					;
+   468	
+   469				++ext_end;
+   470				break;
+   471			default:
+   472				/*
+   473				 * Things are a little easier for single-letter extensions, as they
+   474				 * are parsed forwards.
+   475				 *
+   476				 * After checking that our starting position is valid, we need to
+   477				 * ensure that, when isa was incremented at the start of the loop,
+   478				 * that it arrived at the start of the next extension.
+   479				 *
+   480				 * If we are already on a non-digit, there is nothing to do. Either
+   481				 * we have a multi-letter extension's _, or the start of an
+   482				 * extension.
+   483				 *
+   484				 * Otherwise we have found the current extension's major version
+   485				 * number. Parse past it, and a subsequent p/minor version number
+   486				 * if present. The `p` extension must not appear immediately after
+   487				 * a number, so there is no fear of missing it.
+   488				 *
+   489				 */
+   490				if (unlikely(!isalpha(*ext))) {
+   491					ext_err = true;
+   492					break;
+   493				}
+   494	
+   495				if (!isdigit(*isa))
+   496					break;
+   497	
+   498				while (isdigit(*++isa))
+   499					;
+   500	
+   501				if (tolower(*isa) != 'p')
+   502					break;
+   503	
+   504				if (!isdigit(*++isa)) {
+   505					--isa;
+   506					break;
+   507				}
+   508	
+   509				while (isdigit(*++isa))
+   510					;
+   511	
+   512				break;
+   513			}
+   514	
+   515			/*
+   516			 * The parser expects that at the start of an iteration isa points to the
+   517			 * first character of the next extension. As we stop parsing an extension
+   518			 * on meeting a non-alphanumeric character, an extra increment is needed
+   519			 * where the succeeding extension is a multi-letter prefixed with an "_".
+   520			 */
+   521			if (*isa == '_')
+   522				++isa;
+   523	
+   524			if (unlikely(ext_err))
+   525				continue;
+   526			if (!ext_long) {
+   527				int nr = tolower(*ext) - 'a';
+   528	
+   529				if (riscv_isa_extension_check(nr)) {
+   530					*this_hwcap |= isa2hwcap[nr];
+   531					set_bit(nr, isainfo->isa);
+   532				}
+   533			} else {
+   534				for (int i = 0; i < selected_riscv_isa_ext_count; i++)
+   535					match_isa_ext(&selected_riscv_isa_ext[i], ext,
+   536						      ext_end, selected_isainfo,
+   537						      id_offset);
+   538			}
+   539		}
+   540	}
+   541	
 
 -- 
 0-DAY CI Kernel Test Service
