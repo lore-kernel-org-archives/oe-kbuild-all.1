@@ -1,133 +1,133 @@
-Received: from fhigh2-smtp.messagingengine.com (fhigh2-smtp.messagingengine.com [103.168.172.153])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EB113443F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Apr 2024 15:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC632537E6;
+	Sun, 14 Apr 2024 16:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713109639; cv=none; b=GjuUu4pFHtJbv4ZXQOkCA81MKhr/sxRkwcDuM5eEqtHnqwUnF1fObtxfbEt4CbgBGt3ALjYFJHJyUXvjtuXBJ4d9fPy8aSkaUU6B0yCJ/m8t9juWHvPEPVyU73Z4ZgFeWzdiK1BxN9j3MCutuC6jfvHOpgsp2s+wxXVZkza90Ag=
+	t=1713110748; cv=none; b=XQwPuEiBdONhIcAdRyDdCvDhhdY7wynGoC7Q5YIUSWVpeyeQebKbIWgkrjcng+NnjHyPoC7O+OcraUlWy4y3Kh1ecKRMZPBEz4U8p1k3zf1Fv/xBcGr6lfzN6p6a1GUiu26gj9zDeyeFdpCL95867AzV94xp1GS4U5HRm8Fv+nU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713109639; c=relaxed/simple;
-	bh=U1C8+1q10yNUNvXO04ZOHEydz3Duojkc1CTYoiCMBQ4=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=fQNyCiJlHpPLOrsILLv2kpl3eZc5HkATy93X5OaVpqFaocH3I4iyqBT9d6FbKO0NdSkvOe1ssp1XHSZY9yT78w9dQyxPdMEkiMpkv1COkisznEgMRaAVOwlyE3Tcngr8cSFDG8E0CNMIJwB8fQ8/uX0zxvI1l6Ahz2/KXMvn7kY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=g2+L3tmi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mZtT4NSh; arc=none smtp.client-ip=103.168.172.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1713110748; c=relaxed/simple;
+	bh=4VfQoOm2z1dpXaZ7yz33l4o4LbkhvwecxbeEZ3DjSBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hH3In4G3Cg4ye0xq5iuhokV7Vc2jFmwIgnk8nTZfhJfsprRLBuYSkWMwV5BVT9Mr3BHA3tFU7S8V0ALvIfITOJRweaIb6ZtlDz49D2p5+dJQVmJhfqO1wru1dqNNeo4XlCm5Swqd6lHqnJjxupJ8ucsedomj7KZV9jzVlo7w5eE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=43PeKPyu; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="g2+L3tmi";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mZtT4NSh"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 535BC1140131;
-	Sun, 14 Apr 2024 11:47:16 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Sun, 14 Apr 2024 11:47:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1713109636; x=1713196036; bh=ZsnKy0Hy5/
-	oyigT7+5D/hAVNjkgtAKOSPhlZCbe/7So=; b=g2+L3tmiLucjuXmA3+slRiIw0q
-	pMvyPaGpNYJ7Il2/MHPeiuv2qOkmWQklrz5DbuunNpxO+tYd0D1TwBL0aX6i08d9
-	isCdWnt0ubhF3jHLqQhw69LGzIneJt/zyYlZ+C8rxRYMrgkIHGl0IG0AgpBubXdT
-	cCEtC+y+vBy4A+4vxI0o6oG5okwI3hwyFG5MSiavyuF2ZzW/JPaD1PAopOnMG9xa
-	it4zT9b/3Nm+mPg9k6A/mYGhkHSi3gzIZVjBRDzjjBuf9a61ReXRL/waVD5w9nEx
-	pwC0K17DOhxRatEV0FEutIiCfp6enljf5nL+z7CYkBpDg94ndxF6r5vXvLKA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1713109636; x=1713196036; bh=ZsnKy0Hy5/oyigT7+5D/hAVNjkgt
-	AKOSPhlZCbe/7So=; b=mZtT4NSh6wsFW1qR43gqHJdRRKgLhGAO8WZWZclnfKOU
-	dZ6nBNC53yt3+G/TUvx/ckDwp8jeU+l22baidzy+cdjIvZcd8C+fJsc8xYXh7tWt
-	zQu0Zoq15xX6RzjcE4iu8gqPCj9R+SUjEn3a5XwsrazdC/75W05AQGpd1SIbevHs
-	5lC0oxgUICxjTd0ZCr+8yl8OZtAxHliabhyXRqmc8mUhr2Mzu4TFlKRmxN0TwPr2
-	fF8OjL7/56VdhuSLTJKGtSuOZgOPTRnd7AYQ8Iy6BE1xMYiRbYI9tDOxVvOoYEaQ
-	uR6HsghR5dlbOGTWemxAUR6YEnX8co/Co8bbAZ3X8g==
-X-ME-Sender: <xms:g_obZkS-sDw7LJoz0c690X9hfdDjxIscFZPCZHvqr30LHbxbWKj5-A>
-    <xme:g_obZhw32EjqAflVRkieA5zsjf8gNn45salhAWaoXYNrP-94mJkEWV3m0fE_eBd_B
-    3-CUcz3aXNiPtCbr0Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudeiledgleehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvvefutgesth
-    dtredtreertdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnuges
-    rghrnhgusgdruggvqeenucggtffrrghtthgvrhhnpeevhefhffdvfeejtdeufeevteekue
-    elhfeuleejfffhvdfhhfevvdffkedtledvleenucffohhmrghinhepkhgvrhhnvghlrdho
-    rhhgpddtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:g_obZh33wlJEK7yPEXr0Cj27zD0GtmLjlu5C-FOhTx6p-_UhMiLO0w>
-    <xmx:g_obZoCxpqCtMZAAOwdsSgxH8bm_8gxq2cW8khl_jIZ2rqCi4jfuUA>
-    <xmx:g_obZthXtgibrPE4llboM7fWGD1voLd-8cXygbJxi8L0p-zfaBxUpA>
-    <xmx:g_obZkoTllQ8U-q9IGGx9d159ODhpAKyb3zoR43i19QsMiIHFTWY5g>
-    <xmx:hPobZivYrcIoaLNvcJgbo5_3tIdEi-Km3xuDC-4nyJs_2SEWJ58Mb7LO>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id C5F99B6008D; Sun, 14 Apr 2024 11:47:15 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-379-gabd37849b7-fm-20240408.001-gabd37849
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="43PeKPyu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1713110745;
+	bh=4VfQoOm2z1dpXaZ7yz33l4o4LbkhvwecxbeEZ3DjSBo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=43PeKPyuO+6GyOOJk8yDx35K+lXjrPlIsH/IDfYTqZJya7gvdZe9ZlgJbFieo5/Lb
+	 9NmWh0nesAI4OWOkwPm2u6K+sngkLbG/W45IlPKGD0dXSoOPO1YBXV8aS/ptU67mhl
+	 /x+LLVbn6tHKBXWg1nYKtdM7Am+tZmrmjvfqvVATo1U/T9XNYyl+rZqeul1yzCEGYE
+	 9Jkx4/ZnROanm4+3my8zPtISlwoEUwP7+snoxRt3VF1Q87SgrOYlcXP/0by6N6SuLN
+	 9vs+jumZextpTG8y4DKWXvBv80Fp5GThRTf7qIbhLHLlwOog4LRdgBjMrCETrHtFJ9
+	 D+af6Umrql4rw==
+Received: from mercury (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id C65643780BFE;
+	Sun, 14 Apr 2024 16:05:44 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+	id A374110608FB; Sun, 14 Apr 2024 18:05:42 +0200 (CEST)
+Date: Sun, 14 Apr 2024 18:05:42 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Vinod Koul <vkoul@kernel.org>, Kishon <kishon@ti.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Zhang Yubing <yubing.zhang@rock-chips.com>, Frank Wang <frank.wang@rock-chips.com>
+Subject: Re: [phy:next 32/34]
+ drivers/phy/rockchip/phy-rockchip-usbdp.c:1292:6: warning: variable 'ret' is
+ used uninitialized whenever 'if' condition is true
+Message-ID: <x2ons6nqwuj4a56eskuf53n6736cmvjup3lxds7ngpnm6bte25@4tqfnkjg7okh>
+References: <202404141048.qFAYDctQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <ae1e6ebe-be09-46fb-a2aa-4db0eb53f160@app.fastmail.com>
-In-Reply-To: <202404142258.3CWV3f05-lkp@intel.com>
-References: <202404142258.3CWV3f05-lkp@intel.com>
-Date: Sun, 14 Apr 2024 17:46:54 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Thomas Gleixner" <tglx@linutronix.de>
-Subject: Re: arch/alpha/include/asm/page.h:9:25: error: 'CONFIG_PAGE_SHIFT' undeclared;
- did you mean 'CONFIG_HAVE_PCI'?
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="i5qbwyk7b7jvtt6v"
+Content-Disposition: inline
+In-Reply-To: <202404141048.qFAYDctQ-lkp@intel.com>
 
-On Sun, Apr 14, 2024, at 16:52, kernel test robot wrote:
-> tree:   
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
-> master
-> head:   7efd0a74039fb6b584be2cb91c1d0ef0bd796ee1
-> commit: 5394f1e9b687bcf26595cabf83483e568676128d arch: define 
-> CONFIG_PAGE_SIZE_*KB on all architectures
-> date:   6 weeks ago
-> config: alpha-randconfig-r016-20220816 
-> (https://download.01.org/0day-ci/archive/20240414/202404142258.3CWV3f05-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): 
-> (https://download.01.org/0day-ci/archive/20240414/202404142258.3CWV3f05-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202404142258.3CWV3f05-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    In file included from include/linux/thread_info.h:60,
->                     from include/asm-generic/current.h:6,
->                     from ./arch/alpha/include/generated/asm/current.h:1,
->                     from include/linux/sched.h:12,
->                     from arch/alpha/kernel/asm-offsets.c:10:
->    arch/alpha/include/asm/thread_info.h:43: warning: 
-> "current_thread_info" redefined
->       43 | #define current_thread_info()  __current_thread_info
->          | 
->    include/linux/thread_info.h:24: note: this is the location of the 
-> previous definition
->       24 | #define current_thread_info() ((struct thread_info *)current)
->          | 
->    In file included from include/linux/shm.h:6,
->                     from include/linux/sched.h:23:
->    include/asm-generic/getorder.h: In function 'get_order':
->>> arch/alpha/include/asm/page.h:9:25: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_HAVE_PCI'?
->        9 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
->          |                         ^~~~~~~~~~~~~~~~~
 
-I tried reproducing this, but it always works for me here,
-using my own gcc-13.2 build. I tried both the latest linux-next
-and the 5394f1e9b commit.
+--i5qbwyk7b7jvtt6v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    Arnd
+Hello Vinod,
+
+On Sun, Apr 14, 2024 at 10:31:04AM +0800, kernel test robot wrote:
+> >> drivers/phy/rockchip/phy-rockchip-usbdp.c:1292:6: warning: variable 'r=
+et' is used uninitialized whenever '||' condition is true [-Wsometimes-unin=
+itialized]
+>     1292 |         if (!(udphy->mode & UDPHY_MODE_USB) || udphy->hs) {
+>          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[...]
+
+> vim +1292 drivers/phy/rockchip/phy-rockchip-usbdp.c
+>=20
+>   1284=09
+>   1285	static int rk_udphy_usb3_phy_init(struct phy *phy)
+>   1286	{
+>   1287		struct rk_udphy *udphy =3D phy_get_drvdata(phy);
+>   1288		int ret;
+
+I dropped the '=3D 0;' by your request. Based on the upper bug
+report I will just send a patch readding it. Is that fine
+with you?
+
+Greetings,
+
+-- Sebastian
+
+>   1289=09
+>   1290		mutex_lock(&udphy->mutex);
+>   1291		/* DP only or high-speed, disable U3 port */
+> > 1292		if (!(udphy->mode & UDPHY_MODE_USB) || udphy->hs) {
+>   1293			rk_udphy_u3_port_disable(udphy, true);
+>   1294			goto unlock;
+>   1295		}
+>   1296=09
+>   1297		ret =3D rk_udphy_power_on(udphy, UDPHY_MODE_USB);
+>   1298=09
+>   1299	unlock:
+>   1300		mutex_unlock(&udphy->mutex);
+>   1301		return ret;
+>   1302	}
+>   1303=09
+>=20
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+
+--i5qbwyk7b7jvtt6v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmYb/swACgkQ2O7X88g7
++po1nQ//dC11ktvFvoQ++fAGw/OTZZCEaKkteyM9DFQMWv1BwRGIXskaR0nqhxll
+ZwR2Bj1zjAk4JfoABRist6ZrIv1W4laJGnIfmSb3dUxmoqxHQqc/SsulENgKk7+U
+gA+2Ph80peaffe9VZtqG8r2y3VWE0rylROdnFnLWmexkRM3HlsAubbPiHURXVfdi
+OGqmIDpI+F4B3+olBh/8J1Lp9dRi+LieHDOEhh0RvbE1RC7MXYOTwC6XKfa2aesG
+zdn0FHtE84sAUlB5NNheFo7bX6WW+vJwAE/MhDJe8rLjlsJgnjLFO87XCdd2st2p
+tsOu+h1/Yx0dMnN6nSUVrRCMEhy2K6ifp33G+raooe//AL6Xa8UJxS3GpNDq8Gtf
+ZA072IK25d7hpoNIP3ecaZ6QZ37KMCHOg6tiL5+sPRWJGMsNPwygYgvy9mB3RtkL
+yOmEcgSMlhOSTRHTBMRmp/eA6o1R/xGL9CCAf9kBy+2f4A8NF8PRuTvfTbKjCAqO
+O+eurZ54qQalx0Tre8/c4kXKgwyWQDITChwucbjEA70VjCX3+iu64c2e3scsEn5f
+OFAJUPQbePxRBoEewV/tUJ70ayz8FU8PRPkrYrVkMqM0ekx/JCVDj7+a5p6D8No6
+9FjYlgxKmQD3twwzsqiZQc+SxR2D+DYxtYzjOfRc0jcB5fGJKus=
+=75QF
+-----END PGP SIGNATURE-----
+
+--i5qbwyk7b7jvtt6v--
