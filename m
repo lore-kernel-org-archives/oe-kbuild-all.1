@@ -1,59 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D56823B5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Apr 2024 17:40:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B8D8248E;
+	Mon, 15 Apr 2024 18:14:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713202805; cv=none; b=Oex6Zx2HqZ2WqewWZRKdenUWxmZVRkG6YjHWzler1W2EJVVmKSswgnrCBDdkWn2bsUZyAMiOz6yAqjDaRCqaP8CmW2j6taQZpAZOPYKC7p+n5fMp+iXK5oHqqwmTUsGxKaAoRjtpUEra+dLwnpyAI7efPpw5A0+oVhswZu4Bxvs=
+	t=1713204877; cv=none; b=Ia8Yxcfb4SZBOUPe/6RMaAzQftrcw5M6nrRdIcdtj8rAXNyNriic3l0rElSh91ut58qCStoTV4PDDAUuV1VMjaBhthScDkSScsLTixb6ZzrjcXOCt+tAz4Wm7cjmSaJnJyAYKDLINzSOqEG3L38aI3s0B9haom5th/mgGDCDF2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713202805; c=relaxed/simple;
-	bh=9brDYzIaqsYtsH5wcsvPK8aOUxc3LchuZWauGBRjhuY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l1U7GhZ6NZ5cTI2U/gQFe+voKz/DG5d1bE6B8V+qZ79c74KCEnoPZwDrKct8XEvbHiSvGG+Bt/ZgeqVyGOjMxK+uVKn3Ypbxs4TvWO/cuQnHsJCKcu+3Tu1KFzc7QjhkqkA9ynwN31BE1IWW3N2pUUNG1X0tKgTaT4pc4VtJr0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WAPYG6oB; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713204877; c=relaxed/simple;
+	bh=g2Lpo8FKduyQu73LiNi2mlkrNK6J/F4psawHqBenncU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ctZ4rb0N53JinCfRFM79p/F7TXo+7D1wJ2dKpaFPf9IceYkv+l3CWqP4y+fIj+r/m8JBMvyXEzqgSUR3+o4YLLSZlCkT/AGuzokGCOX30x5Fnp5DualsMQl6+uHx6lYo6ZEvhxs3Q2gYH594CB8sJgTGsTsC0GMY+IDZcPLj6mI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kw3L+7A8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WAPYG6oB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713202803; x=1744738803;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9brDYzIaqsYtsH5wcsvPK8aOUxc3LchuZWauGBRjhuY=;
-  b=WAPYG6oBQzdjsBtZx6qjmcVQ3BdS49vR/LhcLVUqpD3UMyXzQzfZgDsg
-   DvH8eZHntnf6RzifRVWo3K2JNbAwhPQoFL1JVxrknCdYfm8YDakPF5gjj
-   cmOEK3Kdyq1T0sqZ6xoHtrYriTYVQTzV3ngovhWRw7iOa/flJIQUsqgRr
-   nQYghKZxkD+w4l9h8FnGsaSm2p1u84G27zeHbg3zZPw/dxMTPwm6RtQLY
-   Tzsi/Rjp1094lhMXWpgmItJxZ+HyJ5xOj3OkMPnH4K6HflJr5aDpwQlyS
-   o+Nbu3hvtDGFP7I5ZIv14wlZbPQJ4SpgpH7qaePkR3eofQ6FbsoGeNQ5p
-   Q==;
-X-CSE-ConnectionGUID: 5jm2HjRATsKwD/ATfJDT6w==
-X-CSE-MsgGUID: BLV9DltETuC51rOZvwDe1Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8441978"
-X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="8441978"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 10:40:03 -0700
-X-CSE-ConnectionGUID: VUZxhcNMSc2bufoId8F+8Q==
-X-CSE-MsgGUID: fbOBHntyQpaysZEUKL2G8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="59427380"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 15 Apr 2024 10:40:02 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rwQJC-0004RI-30;
-	Mon, 15 Apr 2024 17:39:59 +0000
-Date: Tue, 16 Apr 2024 01:39:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.1 29/30]
- drivers/usb/gadget/function/android_f_accessory.c:353:23: sparse: sparse:
- Using plain integer as NULL pointer
-Message-ID: <202404160148.ddwNDc34-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kw3L+7A8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88F3BC113CC;
+	Mon, 15 Apr 2024 18:14:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713204877;
+	bh=g2Lpo8FKduyQu73LiNi2mlkrNK6J/F4psawHqBenncU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kw3L+7A8tCUQ4PitEt6DYpmVWFLBbnnV+XHvdKBDSwsOoIty53YMTQ8enjMSX+Yzv
+	 O8C5XY1bG8kHpwW01eGr2GtwQvOi1Gf3PRkgAVolPNL0VaRacmEiE1nEEPr3N29w9r
+	 Jh4G9OgJjXleXoPMy0ZaCND9eKic08jroalq/ijIDnixIY/r74eSlWhra0BverB/Iw
+	 OS2Z1CeyioCmSdTxJ1NQvFaBQW/Co8ThCIYKyQMs9DheVtuf0TfFemPlVe2cg4arZy
+	 NwJ/0w10NyiveoMqo82CsTH8BF2xMZ9KFrl9ylTa0HJ4z4/w5wz4k22TMssM0fioeY
+	 wjk41jjnig5vw==
+Date: Mon, 15 Apr 2024 11:14:34 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Sami Tolvanen <samitolvanen@google.com>
+Subject: Re: WARNING: modpost: vmlinux: section mismatch in reference:
+ __apply_fineibt+0x566 (section: .text) -> poison_endbr (section: .init.text)
+Message-ID: <20240415181434.GA3926358@dev-arch.thelio-3990X>
+References: <202404151042.vATlNGmU-lkp@intel.com>
+ <202404151010.75DC9B8@keescook>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,47 +46,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202404151010.75DC9B8@keescook>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.1
-head:   bc8dccf0e351f8b1f462250dab685ada42c9463d
-commit: 9b03ed2feb9c4cc3f15d44eda080caabb3a6b843 [29/30] ANDROID: usb: gadget: Add Android Accessory Function
-config: x86_64-randconfig-121-20240416 (https://download.01.org/0day-ci/archive/20240416/202404160148.ddwNDc34-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404160148.ddwNDc34-lkp@intel.com/reproduce)
+On Mon, Apr 15, 2024 at 10:14:03AM -0700, Kees Cook wrote:
+> On Mon, Apr 15, 2024 at 10:15:48AM +0800, kernel test robot wrote:
+> > Hi Peter,
+> > 
+> > FYI, the error/warning still remains.
+> > 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   0bbac3facb5d6cc0171c45c9873a2dc96bea9680
+> > commit: 04505bbbbb15da950ea0239e328a76a3ad2376e0 x86/fineibt: Poison ENDBR at +0
+> > date:   9 months ago
+> > config: x86_64-buildonly-randconfig-001-20240415 (https://download.01.org/0day-ci/archive/20240415/202404151042.vATlNGmU-lkp@intel.com/config)
+> > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240415/202404151042.vATlNGmU-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202404151042.vATlNGmU-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>, old ones prefixed by <<):
+> > 
+> > WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x12e (section: .text) -> text_poke_early (section: .init.text)
+> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x1f2 (section: .text) -> text_poke_early (section: .init.text)
+> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x2e6 (section: .text) -> text_poke_early (section: .init.text)
+> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x381 (section: .text) -> text_poke_early (section: .init.text)
+> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x3a4 (section: .text) -> text_poke_early (section: .init.text)
+> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x44d (section: .text) -> text_poke_early (section: .init.text)
+> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x50d (section: .text) -> text_poke_early (section: .init.text)
+> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x532 (section: .text) -> text_poke_early (section: .init.text)
+> > >> WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x566 (section: .text) -> poison_endbr (section: .init.text)
+> 
+> test_poke_early() already marked __init_or_module, so shouldn't these
+> warnings not happen? (I assume the same is for true poison_endbr)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404160148.ddwNDc34-lkp@intel.com/
+Hmmm, how so? __init_or_module is __init when CONFIG_MODULES is not set
+(which is true for this configuration), which means text_poke_early() is
+__init while __apply_fineibt() is not.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/gadget/function/android_f_accessory.c:353:23: sparse: sparse: Using plain integer as NULL pointer
-   drivers/usb/gadget/function/android_f_accessory.c:786:35: sparse: sparse: Using plain integer as NULL pointer
-   drivers/usb/gadget/function/android_f_accessory.c:798:23: sparse: sparse: Using plain integer as NULL pointer
-   drivers/usb/gadget/function/android_f_accessory.c:840:23: sparse: sparse: Using plain integer as NULL pointer
->> drivers/usb/gadget/function/android_f_accessory.c:1392:6: sparse: sparse: symbol '__acc_req_match' was not declared. Should it be static?
+$ curl -LSs https://download.01.org/0day-ci/archive/20240415/202404151042.vATlNGmU-lkp@intel.com/config | rg CONFIG_MODULES
+CONFIG_MODULES_USE_ELF_RELA=y
+# CONFIG_MODULES is not set
 
-vim +353 drivers/usb/gadget/function/android_f_accessory.c
+Looking further into it though, I think that marking apply_fineibt() and
+__apply_fineibt() as __init_or_module as well would resolve this?
 
-   344	
-   345	/* remove a request from the head of a list */
-   346	static struct usb_request *req_get(struct acc_dev *dev, struct list_head *head)
-   347	{
-   348		unsigned long flags;
-   349		struct usb_request *req;
-   350	
-   351		spin_lock_irqsave(&dev->lock, flags);
-   352		if (list_empty(head)) {
- > 353			req = 0;
-   354		} else {
-   355			req = list_first_entry(head, struct usb_request, list);
-   356			list_del(&req->list);
-   357		}
-   358		spin_unlock_irqrestore(&dev->lock, flags);
-   359		return req;
-   360	}
-   361	
+__apply_fineibt() is called from two places: alternative_instructions()
+(which is __init) and apply_fineibt(). Looking at apply_fineibt(), it is
+only called from module_finalize() in arch/x86/kernel/module.c, which is
+only included when CONFIG_MODULES=y. As a result, __apply_fineibt() is
+only ever called from __init code when CONFIG_MODULES is not set but it
+is called from module code so it should not be discarded with
+CONFIG_MODULES=y, as it currently is.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In other words, the following diff works for me.
+
+Cheers,
+Nathan
+
+diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
+index 45a280f2161c..1f6a29048a95 100644
+--- a/arch/x86/kernel/alternative.c
++++ b/arch/x86/kernel/alternative.c
+@@ -1262,8 +1262,9 @@ static int cfi_rewrite_callers(s32 *start, s32 *end)
+ 	return 0;
+ }
+ 
+-static void __apply_fineibt(s32 *start_retpoline, s32 *end_retpoline,
+-			    s32 *start_cfi, s32 *end_cfi, bool builtin)
++static __init_or_module void __apply_fineibt(s32 *start_retpoline,
++					     s32 *end_retpoline, s32 *start_cfi,
++					     s32 *end_cfi, bool builtin)
+ {
+ 	int ret;
+ 
+@@ -1391,8 +1392,8 @@ static void poison_cfi(void *addr) { }
+ 
+ #endif
+ 
+-void apply_fineibt(s32 *start_retpoline, s32 *end_retpoline,
+-		   s32 *start_cfi, s32 *end_cfi)
++__init_or_module void apply_fineibt(s32 *start_retpoline, s32 *end_retpoline,
++				    s32 *start_cfi, s32 *end_cfi)
+ {
+ 	return __apply_fineibt(start_retpoline, end_retpoline,
+ 			       start_cfi, end_cfi,
