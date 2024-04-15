@@ -1,69 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3485C3BBEB;
-	Mon, 15 Apr 2024 12:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6BF76FE0D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Apr 2024 12:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713183608; cv=none; b=ZvkAmc6b6MbxwYPGXEQP2WEF6fkRBS/Iu7V89jgN4KPAeYw6/COFtmAVNu+bVp9tGGVSDB5YUA99Sl1H2n/QxqyWu7q9hpe8y/ioRWRR73bQft3peuL/TC8KytMV8b7gsIDkLp247D4s7c9wd7XgwEsyU93oCDfbcAHMqZG7EQ0=
+	t=1713184805; cv=none; b=J5J9UO4A6vANxrkopMbiciGDVNaV+WiTod8R9kaIX8ogtck8miWiAnrahozT2ivaaJYG+A59xl931Zsg3GTDFDUVBxKLnVq2Ew2c5IT5rDk6HWxH1jFN/kHfu1y60MqaUVWqW6ZIq4aqSwJcBTOn90HQ3gsIhvCEzPFU35JdzUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713183608; c=relaxed/simple;
-	bh=2d6p0ZMgD+s1w2DpwQ3LkeXSFpyTWnyon6xYuvcCjTA=;
+	s=arc-20240116; t=1713184805; c=relaxed/simple;
+	bh=i8ZEMLdPu4OleHkKNZoj7pwa+x/6c1ERkI6+xBnFCKo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HLhHvIBiGn/KHAthH36dsUfIwRWkuT/XhCUzj01I/h6KZnz0DGVf1AnZ/Wa9dkEMfxJ6GpGnuwkZz/C5PzWgt+BU/7DlQ8ED/ZAWzxP3JO0I+gOBHK5halVNlMl4WLNrp+wNu7E11pgDeqqaxy+d7F7BiZKi57d4OYxvhCZVVIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hWMk9t7Z; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=HSaJiwdPYsyKvEoZeQE9gVBfVNaCVBAkk/cqsPDm1+EfBm342W1tHduQCtSD/7u9XZbpkXYtSEu/iUX28UEpdYjRemYtu88VNwE4OZOqXuquZsLWg7Gp/QW9JzOaRUiJpcmqyCvfNrVouijhevz065+E+JascCc+KgjfivdKc2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3uDBzkV; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hWMk9t7Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3uDBzkV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713183607; x=1744719607;
+  t=1713184804; x=1744720804;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2d6p0ZMgD+s1w2DpwQ3LkeXSFpyTWnyon6xYuvcCjTA=;
-  b=hWMk9t7ZKNthskuLz7DQNAMzDlv2xYeEFa0MpHbWf6M4ckgRFHcyrnL+
-   2L+BFTPyLjslcWdxr8hpfkwZmIN86EBjNqijYeQsL0Xsx1/Mg5f24iV6D
-   +ruEJH/W8ps2dSEbt1gYYO0TQEoqC5pk2acWdGeQsd973McFcESsVwOjM
-   UH5d12jUmgVQSejCRGgI0Wz6vBeB3Hx1znB138DBJEdasj0ZPSN+JwiB5
-   R0KxZJMEkBgRehJwVm63piL8XoaD/aoM6QoH4oqJFv7xLHTpEJddUbkUQ
-   DGEgwB3+syA78HIB0l8iIAhFrK9DDnVfy9N3l5k5vTFW39xyyhNXdLUGx
-   g==;
-X-CSE-ConnectionGUID: NT5NVNiASPS5o4ZImGsj1g==
-X-CSE-MsgGUID: /rgRygQNSjag2Yn4hc1qCw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11044"; a="8440021"
+  bh=i8ZEMLdPu4OleHkKNZoj7pwa+x/6c1ERkI6+xBnFCKo=;
+  b=T3uDBzkVtN+EFAQrs6INA0B5aF4fZnsPtJNFWDnYDJZXXhAlsKF4RKda
+   Mp1c3mcgYYCFrUYV88jYSqDo2TUxGZqDqeYjfeVe84rBE9Ul3cz+O+xRO
+   y7ohH9s8wKP75M8lJ3AwCde419QmcqhjnP4QV59puwonE3wF2YsMpnwWH
+   cIiVxkJ0EfYOy1LcFmLLOsuGRBPvYI8GLqDCocf5cK8NmiCfWnEbnVrou
+   Lh4szC/WCnJ3KcbP7HwtAdAnUuLl+JYmcIV84Gz1UEYOIT2lwgQ/AIC9L
+   kG6C27jLXFGPrUzcERVsPYZV2pR91q+x1bTEQjDEjsZFK+l6qzmKhRZU5
+   Q==;
+X-CSE-ConnectionGUID: blhjjBnUSQiGnSGjjspcSA==
+X-CSE-MsgGUID: seSwVu29Tma55hZNYeWZCQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11044"; a="8790939"
 X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="8440021"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 05:20:06 -0700
-X-CSE-ConnectionGUID: ISsIXDq5T5umuXrLrFCGPg==
-X-CSE-MsgGUID: tH3kMjU/TY25M3rhF1JUtg==
+   d="scan'208";a="8790939"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 05:40:03 -0700
+X-CSE-ConnectionGUID: UNU3rYamS/2RyFq91wno+g==
+X-CSE-MsgGUID: cyRE5pxpSRaNzA/Rf/u63g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="53100893"
+   d="scan'208";a="21896339"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Apr 2024 05:20:02 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 15 Apr 2024 05:40:01 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwLJX-0004AC-0r;
-	Mon, 15 Apr 2024 12:19:59 +0000
-Date: Mon, 15 Apr 2024 20:19:18 +0800
+	id 1rwLct-0004AO-1B;
+	Mon, 15 Apr 2024 12:39:59 +0000
+Date: Mon, 15 Apr 2024 20:39:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heng Qi <hengqi@linux.alibaba.com>, netdev@vger.kernel.org,
-	virtualization@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	Brett Creeley <bcreeley@amd.com>,
-	Ratheesh Kannoth <rkannoth@marvell.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH net-next v7 2/4] ethtool: provide customized dim profile
- management
-Message-ID: <202404152018.KkOQ39NY-lkp@intel.com>
-References: <20240415093638.123962-3-hengqi@linux.alibaba.com>
+To: FUJITA Tomonori <fujita.tomonori@gmail.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrew@lunn.ch
+Subject: Re: [PATCH net-next v1 1/5] net: tn40xx: add pci driver for Tehuti
+ Networks TN40xx chips
+Message-ID: <202404152042.fOlsMNTW-lkp@intel.com>
+References: <20240415104352.4685-2-fujita.tomonori@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,43 +63,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240415093638.123962-3-hengqi@linux.alibaba.com>
+In-Reply-To: <20240415104352.4685-2-fujita.tomonori@gmail.com>
 
-Hi Heng,
+Hi FUJITA,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on 32affa5578f0e6b9abef3623d3976395afbd265c]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/linux-dim-move-useful-macros-to-h-file/20240415-173921
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240415093638.123962-3-hengqi%40linux.alibaba.com
-patch subject: [PATCH net-next v7 2/4] ethtool: provide customized dim profile management
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240415/202404152018.KkOQ39NY-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240415/202404152018.KkOQ39NY-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/FUJITA-Tomonori/net-tn40xx-add-pci-driver-for-Tehuti-Networks-TN40xx-chips/20240415-185416
+base:   32affa5578f0e6b9abef3623d3976395afbd265c
+patch link:    https://lore.kernel.org/r/20240415104352.4685-2-fujita.tomonori%40gmail.com
+patch subject: [PATCH net-next v1 1/5] net: tn40xx: add pci driver for Tehuti Networks TN40xx chips
+reproduce: (https://download.01.org/0day-ci/archive/20240415/202404152042.fOlsMNTW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404152018.KkOQ39NY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404152042.fOlsMNTW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> net/ethtool/coalesce.c:324:32: warning: 'coalesce_set_profile_policy' defined but not used [-Wunused-const-variable=]
-     324 | static const struct nla_policy coalesce_set_profile_policy[] = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/coalesce_set_profile_policy +324 net/ethtool/coalesce.c
-
-   323	
- > 324	static const struct nla_policy coalesce_set_profile_policy[] = {
-   325		[ETHTOOL_A_MODERATION_USEC]	= {.type = NLA_U32},
-   326		[ETHTOOL_A_MODERATION_PKTS]	= {.type = NLA_U32},
-   327		[ETHTOOL_A_MODERATION_COMPS]	= {.type = NLA_U32},
-   328	};
-   329	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.76.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-17/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+>> ./drivers/net/ethernet/tehuti/tn40.h: 10 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 410: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
