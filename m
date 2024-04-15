@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3BB036B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Apr 2024 16:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2350560EF9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Apr 2024 17:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713198839; cv=none; b=HTWizIWidb44zk0TY5DpT//JJBvqQjc26kOoflicmhovL8CHylsVzVP8rCInicex3kAqtTHGKFvuiAHN/gCFL/FbM9q/pnQL5YLEOMl0DEFUhGxtJI6SQMObPRYjgEwNPPHaH3OM5aJ5LbKJw/G5viVsFgGGOHvd3vDqWd1Vaqw=
+	t=1713201246; cv=none; b=Byy3HNu36HJq2XTMUS06x0jAt3uzGtg9Kpoy6Dkh3SM7tSgad6p+Xl1uAz6pOasRXfm5d1ajMG01j5tkWdhKpgQWtXJVcbNjbKp60aqp4YPR2Mb3sI3xi6FH66ImRbXRKFI0QoMLGA/HQbai/m2a7MY68w/UbSBKjX3BDVcSF5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713198839; c=relaxed/simple;
-	bh=/F2F7XCu/y/u3qWAawCMxQby6WVFbEUs/ZuwtccNn3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o3MoB8bXakFPlBEgZKmIw7DTDymtGwCDkGX66kxlHAigh7d9acWBr5KmfTngKSRDPEQZiVxQ1/KyucD49iZ2dSawTJLRv/hs3O3lDn/rQ6Q04qxzJ3mPed/GTnUlx4pPBZ0Y3xvMz6GwG/GHFVQ7CXf3dpuTWSQbrESNiw2+n/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q3bvBCzg; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713201246; c=relaxed/simple;
+	bh=XcuUAmh5zJlhMzspZkNQEeYA/TjKS7buoHnMTlPwaPU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LJb+7jFXGKkmiRg4YK+W4BaANtLaVt5ru/Z0Bujs/YtuxZ4cAsTbVWDDxlcNcapyRPpMScd3NWo/XvRRu48l/hfbFF5qy4enIFweziMRvVNKIVrvCVvTdq7xlFEK3M6qUKzKQc/kgz6g7bNw2D8hB+vhxYXgyZ/50eHOljnKdKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GtHTpXua; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q3bvBCzg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713198837; x=1744734837;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/F2F7XCu/y/u3qWAawCMxQby6WVFbEUs/ZuwtccNn3M=;
-  b=Q3bvBCzg0xWhDXYYcltNueaV0btGAd9A1PSTU9nlgQ3vEtTuHUIHzXAK
-   1MPw00JlEgxGQtR7BegukVBYQEAv3FibLUgj3riqjqhSEalg7Vm6YZTe2
-   s3j+SVRN9XcCaCsIaQtJH13bliIP+hzsH3/bM0OOUrAbNd/laUhQPw6M6
-   2sHWaYHo9uoZvJ8pMvERXbdnONSYE8rfXigbVFmex1YJBlWV+qkv4T5zT
-   SlsGxy4XZYSlusQp7IlDlnYWbtJrvz1EdxmP+uutQUh2F/X8BnjhTPY/b
-   leW3DP+H/Vu8PVKlNK4kStge/JvEdLNZMSAl/oU/Y3bZvdZVvnNWpx5/k
-   w==;
-X-CSE-ConnectionGUID: nQSl50hsTAO9yhVPuvi16A==
-X-CSE-MsgGUID: qLjo1xtkR8yTluyY3wOAGw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="26114668"
-X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="26114668"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 09:33:55 -0700
-X-CSE-ConnectionGUID: hPIHBP9wRyCXhrg0tUie+w==
-X-CSE-MsgGUID: Vg6eii4/SGWBXONe31iscQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="26748964"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 15 Apr 2024 09:33:53 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rwPHB-0004P6-2c;
-	Mon, 15 Apr 2024 16:33:49 +0000
-Date: Tue, 16 Apr 2024 00:33:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 18/98] ld.lld: error: undefined symbol:
- inet_getname
-Message-ID: <202404160032.Ys0QWhwJ-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GtHTpXua"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6ecf05fd12fso3356995b3a.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Apr 2024 10:14:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1713201244; x=1713806044; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qectELHxULGP8f3N10tQDQeblgf58cUTMxAcWlcdZeM=;
+        b=GtHTpXuanLxR0oIhbtBVgf/a2ZoIa9MiHdm3Cy0OX6CSbkT/NzRlsNZipXH3qspREe
+         3lHYglj+mmcxtUVEzrU2cHDjSlfU+0d2NVPW7fW2aR+XbO6ctxT+BOWAaCZiibrY156o
+         qaDU8dIB2bLGWdskg3VA5NBVDF0tDfiaEGNjY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713201244; x=1713806044;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qectELHxULGP8f3N10tQDQeblgf58cUTMxAcWlcdZeM=;
+        b=XM8K5JVP5uJ6a8afx0O86IZcyTKjROg4XdDFuw2HelPDSh6jPYx92lfiEYAEicfbIz
+         2IIphZUQKVaaiwh5hNrlSF6LCWDeNYnRDK87lL4C40wvrmZMwDGqcSQVcaiNFGoy1MJ5
+         qg5/i89BOY6TTHsHp/K1qnHmXyHLjxEqcfMDu4TkWteFWd8Y4vL78YEF6WM2kvXdCM54
+         kREf31cRJyTDYquWneJH4S00RLJn03KYYhQQkTMBfMK6ntK2pLsDiw5dKyFdrrHPwKsW
+         rFfc6uZCG3kshcSedtjE2KNaVTfQI4KHxrHLIdXf1LifyyhMTI9xKzJbkJAPp19dlYZg
+         ++SQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUf6YcYHmaZwrevmtHLd0Ei5J4+LMn/8T9NxAqyq4sZY1ri7RtJFEVeccemLpIMEyWwu7b3rLt2m+YMuXr1BWNksHVLeqAhCRSShENNrw==
+X-Gm-Message-State: AOJu0YwHnvdz8Y+AgU+iISJ9abcNyXDUIIzGrLKL/EioSK0X7AHYwUgJ
+	dbfqTLpMBmpYR7finLHlLt5ccp9ciiixKK2yBKK+wm5ZLYK5bmAZQzxDrHUwmw==
+X-Google-Smtp-Source: AGHT+IFX3lKRFmR1Eb35Honu4cAQuoMyVRDRqy8xmGu11fvvOl8LSiCv122sTz0qgd90NbbzmuNvoA==
+X-Received: by 2002:a05:6a00:4f94:b0:6e6:8df5:f77a with SMTP id ld20-20020a056a004f9400b006e68df5f77amr12937175pfb.31.1713201244424;
+        Mon, 15 Apr 2024 10:14:04 -0700 (PDT)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id c9-20020a056a000ac900b006e647716b6esm7720644pfl.149.2024.04.15.10.14.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Apr 2024 10:14:03 -0700 (PDT)
+Date: Mon, 15 Apr 2024 10:14:03 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Sami Tolvanen <samitolvanen@google.com>
+Subject: Re: WARNING: modpost: vmlinux: section mismatch in reference:
+ __apply_fineibt+0x566 (section: .text) -> poison_endbr (section: .init.text)
+Message-ID: <202404151010.75DC9B8@keescook>
+References: <202404151042.vATlNGmU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,55 +66,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202404151042.vATlNGmU-lkp@intel.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   c4c1ee7e260d136fea1d11049b198c97b26b45db
-commit: 7384d821f268ce4c725e0f6649838794368ca071 [18/98] tkernel: net: add toa support
-config: arm64-randconfig-003-20240415 (https://download.01.org/0day-ci/archive/20240416/202404160032.Ys0QWhwJ-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404160032.Ys0QWhwJ-lkp@intel.com/reproduce)
+On Mon, Apr 15, 2024 at 10:15:48AM +0800, kernel test robot wrote:
+> Hi Peter,
+> 
+> FYI, the error/warning still remains.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   0bbac3facb5d6cc0171c45c9873a2dc96bea9680
+> commit: 04505bbbbb15da950ea0239e328a76a3ad2376e0 x86/fineibt: Poison ENDBR at +0
+> date:   9 months ago
+> config: x86_64-buildonly-randconfig-001-20240415 (https://download.01.org/0day-ci/archive/20240415/202404151042.vATlNGmU-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240415/202404151042.vATlNGmU-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202404151042.vATlNGmU-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+> WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x12e (section: .text) -> text_poke_early (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x1f2 (section: .text) -> text_poke_early (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x2e6 (section: .text) -> text_poke_early (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x381 (section: .text) -> text_poke_early (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x3a4 (section: .text) -> text_poke_early (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x44d (section: .text) -> text_poke_early (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x50d (section: .text) -> text_poke_early (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x532 (section: .text) -> text_poke_early (section: .init.text)
+> >> WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x566 (section: .text) -> poison_endbr (section: .init.text)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404160032.Ys0QWhwJ-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: inet_getname
-   >>> referenced by toa.c
-   >>>               net/toa/toa.o:(inet_getname_toa) in archive vmlinux.a
-   >>> referenced by toa.c
-   >>>               net/toa/toa.o:(toa_exit) in archive vmlinux.a
-   >>> referenced by toa.c
-   >>>               net/toa/toa.o:(toa_exit) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: tcp_v4_syn_recv_sock
-   >>> referenced by toa.c
-   >>>               net/toa/toa.o:(tcp_v4_syn_recv_sock_toa) in archive vmlinux.a
-   >>> referenced by toa.c
-   >>>               net/toa/toa.o:(toa_exit) in archive vmlinux.a
-   >>> referenced by toa.c
-   >>>               net/toa/toa.o:(toa_exit) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: inet_stream_ops
-   >>> referenced by toa.c
-   >>>               net/toa/toa.o:(toa_exit) in archive vmlinux.a
-   >>> referenced by toa.c
-   >>>               net/toa/toa.o:(toa_exit) in archive vmlinux.a
-   >>> referenced by toa.c
-   >>>               net/toa/toa.o:(toa_init) in archive vmlinux.a
-   >>> referenced 1 more times
---
->> ld.lld: error: undefined symbol: ipv4_specific
-   >>> referenced by toa.c
-   >>>               net/toa/toa.o:(toa_exit) in archive vmlinux.a
-   >>> referenced by toa.c
-   >>>               net/toa/toa.o:(toa_exit) in archive vmlinux.a
-   >>> referenced by toa.c
-   >>>               net/toa/toa.o:(toa_init) in archive vmlinux.a
-   >>> referenced 1 more times
+test_poke_early() already marked __init_or_module, so shouldn't these
+warnings not happen? (I assume the same is for true poison_endbr)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kees Cook
