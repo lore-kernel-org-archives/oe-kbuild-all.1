@@ -1,169 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB16B73196
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Apr 2024 13:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CCC1BF2A;
+	Mon, 15 Apr 2024 14:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713189428; cv=none; b=Z0r7zdnAhP42zowpXZ5Lo6Vzg0jQErAbAgQfy15ixlptN1yq6uF2jNYtVoDrlB3cE6LK1lsu+mtQjYdxlbrm6GNiPeWWGodIe9Ln4cznxb4XrnKBdrnbVY6paDZOsw1uj/rfEsgaH3tnw+5hZEZ0u3/T17zXo5Y6yL6MCKBSMAQ=
+	t=1713190199; cv=none; b=uP5ZaM9+wkn6UiG7dmgP2ColnvNSeCZTyoAWo2pRvFy2nTXejseUK8Zjq2kmUrrFTNUzvzUg1OcNHpmeWr7EaphPousnY5CQrgNfWAVuwASeufOEnoW/wGEs/NRZdqEzLlborT5YpXiAU5Soy0pDcMs+gTcRPrPTiSzn12YawfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713189428; c=relaxed/simple;
-	bh=FFFmuk3Sh3rIjA2N2SIYnU2di8Sv7qRk0RmCi36RXX8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vCL4Q5g6d0f/Yu1lnM1EMMOk7foBXiHi+muCwY6x1l6rA/obMI4x5G77/sbEp3Oarsiua/X1IcEz1CH1yhTxSQnJZRK2s2+2p7iQEcrDFkbhAI18FIbwyB99EXx6xSK6KmR+RS8KZv0NAZfDbo7leS5qqYst0z2qRVY5BQ0HZ/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=COmuzEfp; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713190199; c=relaxed/simple;
+	bh=g9TmFsQA8BZhMgljVxSGsYCZtc2xUei9846QT/4hyLs=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=oUxYviSMxow5BRfE/Q1lFOWoKdlIZ6tfV84cDVryecNrzG41Iv0DCQJHlAG06GxmgSjfPi9Mn5xcITQLCSy2eV/os3HL0VI9Z0pVuKSMe/4+5sWR/9L5ZGadVBZTLyGxLGDBI7pIBZQBn2esjk3wRAPXgjZt2DoQl0nC/9qBt24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KNw8+OF0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="COmuzEfp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713189427; x=1744725427;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FFFmuk3Sh3rIjA2N2SIYnU2di8Sv7qRk0RmCi36RXX8=;
-  b=COmuzEfp4RVYN18BF7FPy+b0fnoQYPYfaJ8jCAmRmKPgf5US4qVSdBkm
-   wI21NRHzdfBD/J5PvdHhFQMSmAlLAHAyHzX1nuB+CmSiN3NHA2T7SWvS1
-   dphZM4TVNOWuEZd7eCXeXUjZ4upfnBUABbGKdnimqLMp1BqYbfOsbybl0
-   pPCnDTTMsB9Bpx5eghiqJKpYre1SbZRQ8ukULj+xzu2chA3vu9C+xPFI/
-   0WNRhwm9Hjywacpo52edBmrev6kYEtMeIaHfy150R8w8GpUeu/FWdhg7g
-   Hxd85VVopF2WFkvbPEKMt1XXMk75SYhITA2RU/JfFpvE6pABo9Dmath6V
-   Q==;
-X-CSE-ConnectionGUID: kgUXqtukR/e+9FfGUkbgJQ==
-X-CSE-MsgGUID: aNIEQZdsTxaRzoUKKvJ/IQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="19972044"
-X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="19972044"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 06:57:06 -0700
-X-CSE-ConnectionGUID: 7+1nZ9cnT7+N2KghsnO28Q==
-X-CSE-MsgGUID: T2yAK3UEQfSyJQcpT7LylA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="26485040"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Apr 2024 06:57:03 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rwMpR-0004Cs-0C;
-	Mon, 15 Apr 2024 13:57:01 +0000
-Date: Mon, 15 Apr 2024 21:56:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, sudeep.holla@arm.com,
-	cristian.marussi@arm.com, jassisinghbrar@gmail.com,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, jonathan.cameron@huawei.com
-Subject: Re: [PATCH v4 2/2] mailbox: arm_mhuv3: Add driver
-Message-ID: <202404152144.RtJxmEsQ-lkp@intel.com>
-References: <20240412192801.554464-3-cristian.marussi@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KNw8+OF0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F5DAC113CC;
+	Mon, 15 Apr 2024 14:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713190198;
+	bh=g9TmFsQA8BZhMgljVxSGsYCZtc2xUei9846QT/4hyLs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=KNw8+OF0gzeDHsuCuuKOxBg0oTgLPif0JtuG5ptlPpnJdnWtl/4BjTS09vWsVVETt
+	 KofJZpqeKME6H99NoG/BkJkiAb4YrByWfKtOtjyhUK1KVkU9XIjD7Oeqvi8zW5j/KV
+	 uszEhOoxMfpV67pS+dEyQURfiK4uK2zN4/DFqyXSTyaYUo33IpAlRKYPdiD3eEgdfj
+	 +V5kxYNNGVKvPOs2riVov1d6g+JfqT89scBWdMNANV5YDzTxD7ShYVuEhpNLEONvGS
+	 f8oLvuBenmCFUbz+cchgY3Uk3hGfleG7Ti4BKi5+XUUVXVzdaqihe2V8E7L1OobH8h
+	 PurDwI1WmuEYA==
+Date: Mon, 15 Apr 2024 23:09:54 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Qiang Zhang <qiang4.zhang@intel.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, "Masami Hiramatsu (Google)"
+ <mhiramat@kernel.org>
+Subject: Re: [trace:bootconfig/fixes 4/4] lib/bootconfig.c:911: warning:
+ Function parameter or struct member 'early' not described in '_xbc_exit'
+Message-Id: <20240415230954.2d12f4db697290c3e98d4d16@kernel.org>
+In-Reply-To: <202404150036.kPJ3HEFA-lkp@intel.com>
+References: <202404150036.kPJ3HEFA-lkp@intel.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240412192801.554464-3-cristian.marussi@arm.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Cristian,
+On Mon, 15 Apr 2024 00:26:07 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build errors:
+> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace bootconfig/fixes
+> head:   89f9a1e876b5a7ad884918c03a46831af202c8a0
+> commit: 89f9a1e876b5a7ad884918c03a46831af202c8a0 [4/4] bootconfig: use memblock_free_late to free xbc memory to buddy
+> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240415/202404150036.kPJ3HEFA-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240415/202404150036.kPJ3HEFA-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202404150036.kPJ3HEFA-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> lib/bootconfig.c:911: warning: Function parameter or struct member 'early' not described in '_xbc_exit'
+> >> lib/bootconfig.c:911: warning: expecting prototype for xbc_exit(). Prototype was for _xbc_exit() instead
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on soc/for-next linus/master v6.9-rc4 next-20240415]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Ok, I didn't check the kernel doc part.
+Let me fix this.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/dt-bindings-mailbox-arm-mhuv3-Add-bindings/20240415-094106
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240412192801.554464-3-cristian.marussi%40arm.com
-patch subject: [PATCH v4 2/2] mailbox: arm_mhuv3: Add driver
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240415/202404152144.RtJxmEsQ-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240415/202404152144.RtJxmEsQ-lkp@intel.com/reproduce)
+Thank you,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404152144.RtJxmEsQ-lkp@intel.com/
+> 
+> 
+> vim +911 lib/bootconfig.c
+> 
+> f3668cde856299 Masami Hiramatsu 2021-09-17  902  
+> 76db5a27a827c2 Masami Hiramatsu 2020-01-11  903  /**
+> 115d4d08aeb942 Masami Hiramatsu 2021-09-17  904   * xbc_exit() - Clean up all parsed bootconfig
+> 76db5a27a827c2 Masami Hiramatsu 2020-01-11  905   *
+> 76db5a27a827c2 Masami Hiramatsu 2020-01-11  906   * This clears all data structures of parsed bootconfig on memory.
+> 76db5a27a827c2 Masami Hiramatsu 2020-01-11  907   * If you need to reuse xbc_init() with new boot config, you can
+> 76db5a27a827c2 Masami Hiramatsu 2020-01-11  908   * use this.
+> 76db5a27a827c2 Masami Hiramatsu 2020-01-11  909   */
+> 89f9a1e876b5a7 Qiang Zhang      2024-04-14  910  void __init _xbc_exit(bool early)
+> 76db5a27a827c2 Masami Hiramatsu 2020-01-11 @911  {
+> 89f9a1e876b5a7 Qiang Zhang      2024-04-14  912  	xbc_free_mem(xbc_data, xbc_data_size, early);
+> 76db5a27a827c2 Masami Hiramatsu 2020-01-11  913  	xbc_data = NULL;
+> 76db5a27a827c2 Masami Hiramatsu 2020-01-11  914  	xbc_data_size = 0;
+> 76db5a27a827c2 Masami Hiramatsu 2020-01-11  915  	xbc_node_num = 0;
+> 89f9a1e876b5a7 Qiang Zhang      2024-04-14  916  	xbc_free_mem(xbc_nodes, sizeof(struct xbc_node) * XBC_NODE_MAX, early);
+> a91e4f12ffc42f Masami Hiramatsu 2020-02-07  917  	xbc_nodes = NULL;
+> ead1e19ad905b9 Masami Hiramatsu 2020-09-21  918  	brace_index = 0;
+> 76db5a27a827c2 Masami Hiramatsu 2020-01-11  919  }
+> 76db5a27a827c2 Masami Hiramatsu 2020-01-11  920  
+> 
+> :::::: The code at line 911 was first introduced by commit
+> :::::: 76db5a27a827c2c89e5120a3d486472da847863b bootconfig: Add Extra Boot Config support
+> 
+> :::::: TO: Masami Hiramatsu <mhiramat@kernel.org>
+> :::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-All errors (new ones prefixed by >>):
-
-   drivers/mailbox/arm_mhuv3.c: In function 'mhuv3_mbx_comb_interrupt':
->> drivers/mailbox/arm_mhuv3.c:922:17: error: cleanup argument not a function
-     922 |                 void *data __free(kfree) = NULL;
-         |                 ^~~~
-
-
-vim +922 drivers/mailbox/arm_mhuv3.c
-
-   910	
-   911	static irqreturn_t mhuv3_mbx_comb_interrupt(int irq, void *arg)
-   912	{
-   913		unsigned int i, found = 0;
-   914		struct mhuv3 *mhu = arg;
-   915		struct mbox_chan *chan;
-   916		struct device *dev;
-   917		int ret = IRQ_NONE;
-   918	
-   919		dev = mhu->mbox.dev;
-   920		for (i = 0; i < NUM_EXT; i++) {
-   921			struct mhuv3_mbox_chan_priv *priv;
- > 922			void *data __free(kfree) = NULL;
-   923	
-   924			if (!mhu->ext[i])
-   925				continue;
-   926	
-   927			/* Process any extension which could be source of the IRQ */
-   928			chan = mhu->ext[i]->chan_from_comb_irq_get(mhu);
-   929			if (IS_ERR(chan))
-   930				continue;
-   931	
-   932			found++;
-   933			/* From here on we need to call rx_complete even on error */
-   934			priv = chan->con_priv;
-   935			if (!chan->cl) {
-   936				dev_warn(dev, "RX Data on UNBOUND channel (%u)\n",
-   937					 priv->ch_idx);
-   938				goto rx_ack;
-   939			}
-   940	
-   941			/* Read optional in-band LE data first. */
-   942			if (priv->ops->read_data) {
-   943				data = priv->ops->read_data(mhu, chan);
-   944				if (IS_ERR(data)) {
-   945					dev_err(dev,
-   946						"Failed to read in-band data. err:%ld\n",
-   947						PTR_ERR(no_free_ptr(data)));
-   948					goto rx_ack;
-   949				}
-   950			}
-   951	
-   952			mbox_chan_received_data(chan, data);
-   953			ret = IRQ_HANDLED;
-   954	
-   955			/*
-   956			 * Acknowledge transfer after any possible optional
-   957			 * out-of-band data has also been retrieved via
-   958			 * mbox_chan_received_data().
-   959			 */
-   960	rx_ack:
-   961			if (priv->ops->rx_complete)
-   962				priv->ops->rx_complete(mhu, chan);
-   963		}
-   964	
-   965		if (found == 0)
-   966			dev_warn_once(dev, "Failed to find channel for the RX interrupt\n");
-   967	
-   968		return ret;
-   969	}
-   970	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
