@@ -1,94 +1,164 @@
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 597E543158
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Apr 2024 21:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822BD639
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Apr 2024 01:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713130001; cv=none; b=dOLP0i5nHZ+0f/Gj+DwjhvTpxmnad3ijJmToRBQM4qLFgJwBVb3gp+MY+tLln4oMZw4L59F1BxtsvhmNmoX8+PO1KXuHb/6Fluqjh6hrCKlkw/EkKFjJGteYbfe/V1CeogSMNdEV3MskB7J95ZuHY98QvsAa/xfrYSMwgvc9omM=
+	t=1713142897; cv=none; b=BmWTwbrzXqrohCYrmiyLD4MmdYZc19kWDPquYXydjU2TCO3E4yT5g8TkHAaCRkpDmiK3glfF44tr4P6bMZbMhkxt/I3NttOVhYQIz7R242Oun4Ax8wK33wRV+uPjlto50t/s+h1FkR4wVkP55BgAXn7cEZ0IHIFRd29vHT+6KnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713130001; c=relaxed/simple;
-	bh=xZcTU+wAdpMeGGP4as+e3enar8Ktu5l1+VZyfz6OSTY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=H9SQr5q0ocgIALnWHnFxslAdmfxT/Gek+IehU3B2/6tY79YZt8BmIZqgeCLJSB4ErwdZ0JiHn0pCdlF/3/x+RpL6IPbu8TrIU2KI0jG3tsAIVGfjiAoKXyIH1pu+xrUccBHok1hl/rrw9SGSGvLeQ+C7tDnmypdcwZ++0r5aeLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=fAjBl4Y/; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
+	s=arc-20240116; t=1713142897; c=relaxed/simple;
+	bh=/BGZe4syBNE4+E3IkYQWJye4l4AmdyOnruS8yiIPatQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=agByB9MmqyDEhbXNI4yofVxKEYJj1sIjMFekJWioMG+cU94crser9ZtkbyA6le+0hLgRBY4jIC11Y3aj/CBXwWFNIjvaiq03eVjHPRVIO7QMNZ9Gok7i9TwxQOzUR/NRBzpa48p1VxsM053pSPE/SnY8i90dPQmT5nbIyU8YeHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IHAVcu2t; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="fAjBl4Y/"
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id DCD622C04F7;
-	Mon, 15 Apr 2024 09:26:28 +1200 (NZST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1713129988;
-	bh=xZcTU+wAdpMeGGP4as+e3enar8Ktu5l1+VZyfz6OSTY=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=fAjBl4Y/NkglJA9Oq8NkFm9MQjp7k4zCiAu583GuZlavYYxYeqzKkBBYsy3p5f77P
-	 MiO7eWzvtmObxFXJr+yG5WF3p6a+Hh2UP8A+A31EExWg+OkK9j/S/bzrl8ka8oNuR+
-	 pFAvb5VRVLp3ODZdi0f5vPiAa0OH6B+q9BOsTb90Wp/x47zP+BIlN44HeZRqur2b9x
-	 0lZwG69bNDwr3PdgMly5XPBwSKRUKgC/doUWpSJgBjOxx9wZtQQ7Kiv3lgcUSXSmAY
-	 bcCIx5/YRBhy9Y92oWAZ8k8Z/KC2GIaMP0FOgUmYltnUHFG9Kg4OMVqhYKu/U+i3fJ
-	 HCbjQYn3nHc8g==
-Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B661c4a040000>; Mon, 15 Apr 2024 09:26:28 +1200
-Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8:f753:6de:11c0:a008) by
- svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8:f753:6de:11c0:a008) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 15 Apr 2024 09:26:28 +1200
-Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
- svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
- 15.02.1544.009; Mon, 15 Apr 2024 09:26:28 +1200
-From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, "kernel
- test robot" <lkp@intel.com>
-Subject: Re: [char-misc:char-misc-testing 5/20] drivers/uio/uio.c:446:
- warning: expecting prototype for uio_interrupt(). Prototype was for
- uio_interrupt_handler() instead
-Thread-Topic: [char-misc:char-misc-testing 5/20] drivers/uio/uio.c:446:
- warning: expecting prototype for uio_interrupt(). Prototype was for
- uio_interrupt_handler() instead
-Thread-Index: AQHajCG9L16iUNGMw06UQHlOSVwTubFivFkAgAC+HoCABAjtAA==
-Date: Sun, 14 Apr 2024 21:26:28 +0000
-Message-ID: <00cb4a79-b62c-46b0-bf0e-afec42205c2c@alliedtelesis.co.nz>
-References: <202404112227.mIATKoTb-lkp@intel.com>
- <f3f2124e-31b2-4598-b2a6-44480afc33c3@alliedtelesis.co.nz>
- <2024041202-curve-frozen-7c4a@gregkh>
-In-Reply-To: <2024041202-curve-frozen-7c4a@gregkh>
-Accept-Language: en-NZ, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EFB5502CBB365A46AB3F3C59EFC38230@atlnz.lc>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IHAVcu2t"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713142896; x=1744678896;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/BGZe4syBNE4+E3IkYQWJye4l4AmdyOnruS8yiIPatQ=;
+  b=IHAVcu2tZU6vYB1TgQ6gwLM9I6yhIiya7dJhb8SvWjb2H7iGKEy9xoxG
+   cwW/nbxLjdtQHqE+BO3rU6oSd6lJJeBzz9K1LLe4hr2VsBG7+ca0zmQ7m
+   pevf4zpYi1F8N2Qv8+t5YtVX7ott9w5hwM5nh2vtGkXP9eL/LminFKWJW
+   MCtq2hgK3QsRTAniTV8bMJXBGtMx26W7SCyuSDB4ZHnJO0Zz6W9J8J/E/
+   /1+0GcTBiu5+lCy/SqygBMSF1Q30cJWa9Uw1TSEKBbeDSoId3UNefXDdJ
+   AyZh0bAHk9CjKjfwEaAdJBHKVbIaK//A5zVPw7iMYBqeXLgNi1SqZEEmf
+   w==;
+X-CSE-ConnectionGUID: abJwuGLvSi21PrUuJ73Ahg==
+X-CSE-MsgGUID: hKIpNaYFSGuntMXoHUsVBA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11044"; a="8625785"
+X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
+   d="scan'208";a="8625785"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2024 18:01:35 -0700
+X-CSE-ConnectionGUID: MATkxTJMQ9u3Wq5HlwdHeA==
+X-CSE-MsgGUID: g4Btm49nRpabqthbuygCeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
+   d="scan'208";a="21795150"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 14 Apr 2024 18:01:33 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rwAio-0003tA-1k;
+	Mon, 15 Apr 2024 01:01:22 +0000
+Date: Mon, 15 Apr 2024 09:01:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.9-r4_mt76_self 28/29]
+ drivers/net/wireless/mediatek/mt76/mt7996/init.c:886:5: warning: no previous
+ prototype for 'mt7996_get_chip_sku'
+Message-ID: <202404150849.4uLPfyYj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=dY4j3mXe c=1 sm=1 tr=0 ts=661c4a04 a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=raytVjVEu-sA:10 a=VwQbUJbxAAAA:8 a=tjrs69tOkmSGJKXO0tsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=zgiPjhLxNE0A:10 a=AjGcO6oz07-iQ99wixmX:22
-X-SEG-SpamProfiler-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-DQpPbiAxMi8wNC8yNCAxOTo0OSwgR3JlZyBLcm9haC1IYXJ0bWFuIHdyb3RlOg0KPiBPbiBUaHUs
-IEFwciAxMSwgMjAyNCBhdCAwODoyOTowMlBNICswMDAwLCBDaHJpcyBQYWNraGFtIHdyb3RlOg0K
-Pj4gSGkgR3JlZywNCj4+DQo+PiBPbiAxMi8wNC8yNCAwMzowNCwga2VybmVsIHRlc3Qgcm9ib3Qg
-d3JvdGU6DQo8c25pcD4NCj4+PiBBbGwgd2FybmluZ3MgKG5ldyBvbmVzIHByZWZpeGVkIGJ5ID4+
-KToNCj4+Pg0KPj4+Pj4gZHJpdmVycy91aW8vdWlvLmM6NDQ2OiB3YXJuaW5nOiBleHBlY3Rpbmcg
-cHJvdG90eXBlIGZvciB1aW9faW50ZXJydXB0KCkuIFByb3RvdHlwZSB3YXMgZm9yIHVpb19pbnRl
-cnJ1cHRfaGFuZGxlcigpIGluc3RlYWQNCj4+IEkgY2FuIGRvIGEgcXVpY2sgZml4dXAgZm9yIHRo
-YXQuIERvIHlvdSB3YW50IGl0IGFzIGEgdjMgb3IgYSBuZXcgcGF0Y2g/DQo+IEEgZml4IGZvciBv
-biB0b3AgaXMgZmluZSwgbm8gbmVlZCB0byByZXNwaW4gdGhlIHdob2xlIHNlcmllcyBqdXN0IGZv
-ciBhDQo+IGNvbW1lbnQgZml4LiAgVGhhdCB3YXkgeW91IGNhbiBwcm9wZXJseSBjcmVkaXQgdGhl
-IGtlcm5lbCB0ZXN0IHJvYm90IGFzDQo+IHdlbGwuDQoNClNvcnJ5IGR1ZSB0byBteSBpbXBhdGll
-bmNlIChhbmQgYmVjYXVzZSBJJ20gMTJocnMgb3V0IGZyb20gbW9zdCBvZiB0aGUgDQprZXJuZWwg
-ZGV2ZWxvcGVycykgSSBkaWQgZW5kIHVwIHNlbmRpbmcgYSB2My4NCg0KaHR0cHM6Ly9sb3JlLmtl
-cm5lbC5vcmcvbGttbC8yMDI0MDQxMjA0NTUzNi4xOTA5ODk3LTMtY2hyaXMucGFja2hhbUBhbGxp
-ZWR0ZWxlc2lzLmNvLm56Lw0KDQpJJ2xsIHNlbmQgYW5vdGhlciBwYXRjaCB3aXRoIHRoZSBjb21t
-ZW50IGNoYW5nZXMgYW5kIGtlcm5lbCB0ZXN0IHJvYm90IA0KY3JlZGl0LiBZb3UgY2FuIGNob29z
-ZSB0byBwaWNrIHRoYXQgdXAgb3Igc3dhcCBteSB2MiBmb3IgdGhlIHYzLg0KDQo+DQo+IHRoYW5r
-cywNCj4NCj4gZ3JlZyBrLWg=
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.9-r4_mt76_self
+head:   f8d0547c22785a7073256ecd281b7c7c5bd6ad36
+commit: 5f76f61ef303d7df2b80016e63ec1bdd7efc2b11 [28/29] mt76: try to add the hw detection function from downstream
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240415/202404150849.4uLPfyYj-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240415/202404150849.4uLPfyYj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404150849.4uLPfyYj-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/wireless/mediatek/mt76/mt7996/init.c:886:5: warning: no previous prototype for 'mt7996_get_chip_sku' [-Wmissing-prototypes]
+     886 | int mt7996_get_chip_sku(struct mt7996_dev *dev)
+         |     ^~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/mediatek/mt76/mt7996/init.c: In function 'mt7996_get_chip_sku':
+   drivers/net/wireless/mediatek/mt76/mt7996/init.c:934:17: error: too many arguments to function 'mt7996_mcu_get_eeprom'
+     934 |                 mt7996_mcu_get_eeprom(dev, MT7976C_EFUSE_OFFSET, buf);
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/wireless/mediatek/mt76/mt7996/init.c:11:
+   drivers/net/wireless/mediatek/mt76/mt7996/mt7996.h:500:5: note: declared here
+     500 | int mt7996_mcu_get_eeprom(struct mt7996_dev *dev, u32 offset);
+         |     ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/mt7996_get_chip_sku +886 drivers/net/wireless/mediatek/mt76/mt7996/init.c
+
+   885	
+ > 886	int mt7996_get_chip_sku(struct mt7996_dev *dev)
+   887	{
+   888	#define MT7976C_CHIP_VER	0x8a10
+   889	#define MT7976C_HL_CHIP_VER	0x8b00
+   890	#define MT7976C_PS_CHIP_VER	0x8c10
+   891	#define MT7976C_EFUSE_OFFSET	0x470
+   892	#define MT7976C_EFUSE_VALUE	0xc
+   893		u32 regval, val = mt76_rr(dev, MT_PAD_GPIO);
+   894		u16 adie_chip_id, adie_chip_ver;
+   895		u8 adie_comb, adie_num, adie_idx = 0;
+   896	
+   897		switch (mt76_chip(&dev->mt76)) {
+   898		case 0x7990:
+   899			if (FIELD_GET(MT_PAD_GPIO_2ADIE_TBTC, val)) {
+   900				dev->chip_sku = MT7996_SKU_233;
+   901				dev->fem_type = MT7996_FEM_INT;
+   902				return 0;
+   903			}
+   904	
+   905			adie_comb = FIELD_GET(MT_PAD_GPIO_ADIE_COMB, val);
+   906			if (adie_comb <= 1)
+   907				dev->chip_sku = MT7996_SKU_444;
+   908			else
+   909				dev->chip_sku = MT7996_SKU_404;
+   910			break;
+   911		case 0x7992:
+   912			adie_comb = FIELD_GET(MT_PAD_GPIO_ADIE_COMB_7992, val);
+   913			adie_num = FIELD_GET(MT_PAD_GPIO_ADIE_NUM_7992, val);
+   914			adie_idx = !adie_num;
+   915			if (adie_num)
+   916				dev->chip_sku = MT7992_SKU_23;
+   917			else if (adie_comb)
+   918				dev->chip_sku = MT7992_SKU_44;
+   919			else
+   920				dev->chip_sku = MT7992_SKU_24;
+   921			break;
+   922		default:
+   923			return -EINVAL;
+   924		}
+   925	
+   926		if (test_bit(MT76_STATE_MCU_RUNNING, &dev->mphy.state)) {
+   927			u8 buf[MT7996_EEPROM_BLOCK_SIZE];
+   928			u8 idx = MT7976C_EFUSE_OFFSET % MT7996_EEPROM_BLOCK_SIZE;
+   929			bool is_7976c;
+   930	
+   931			mt7996_mcu_rf_regval(dev, MT_ADIE_CHIP_ID(adie_idx), &regval, false);
+   932			adie_chip_id = FIELD_GET(MT_ADIE_CHIP_ID_MASK, regval);
+   933			adie_chip_ver = FIELD_GET(MT_ADIE_VERSION_MASK, regval);
+   934			mt7996_mcu_get_eeprom(dev, MT7976C_EFUSE_OFFSET, buf);
+   935			is_7976c = (adie_chip_ver == MT7976C_CHIP_VER) ||
+   936				   (adie_chip_ver == MT7976C_HL_CHIP_VER) ||
+   937				   (adie_chip_ver == MT7976C_PS_CHIP_VER) ||
+   938				   (buf[idx] == MT7976C_EFUSE_VALUE);
+   939			if (adie_chip_id == 0x7975 || (adie_chip_id == 0x7976 && is_7976c) ||
+   940			    adie_chip_id == 0x7979)
+   941				dev->fem_type = MT7996_FEM_INT;
+   942			else if (adie_chip_id == 0x7977 && adie_comb == 1)
+   943				dev->fem_type = MT7996_FEM_MIX;
+   944			else
+   945				dev->fem_type = MT7996_FEM_EXT;
+   946		}
+   947	
+   948		return 0;
+   949	}
+   950	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
