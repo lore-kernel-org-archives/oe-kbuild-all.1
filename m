@@ -1,173 +1,209 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C092F41;
-	Mon, 15 Apr 2024 05:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713157861; cv=none; b=EXzC6and0V4Bg6uIWrZE0QAyt+3j3yRACfUo7IYB2ro4RJ5fO6eetzrB3C9uPCzrwy0sTqrbzL+eWvuk1dfTwIYTCFRe9ICP3yG/QgFfiPwnzdgW5/sEMyPuePRkg4V41Z+BlpAoYX6Mf0j56Pbrklu4JjyGW+ndhbWqr6a3N6I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713157861; c=relaxed/simple;
-	bh=xnNTKg9O11qs5df9fpMkowc+911rIlXEZvhJWTm47AQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VWqJ4Jgp2eDYE551dck88v3hZyWX3INoo/qre147aTTu2SJ8mNGPnuzAgv0/3Un8pd1VT8gF4p7SLqKsEbQItKUwAl7n2X6icupI1HnAm4w/XCHdInwFTVWOox5mjtUQPsfe19PbJ2S4qKg9QwdYGv7dTj01ubUp6zbPW0/EJAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E56CVW6e; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2A946AF
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Apr 2024 05:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713157913; cv=fail; b=Kw7uSM2sxv4lf56hbouNdsAhauO7B2uwehwKDfrPO8r9UHAP+x7LJM7XezcsS7mzjBHLR5gtkrhVe7Z7hDJl2ZlL/f5gjDw5AlLCNXUFv/bdrkDPDC1Fg8ulV9wtBapTU1+pppCnW7P80KdIU1et9w2SdgOFUQ/CBq7iQh0r774=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713157913; c=relaxed/simple;
+	bh=YpxoTJC4O9/waB6nit/Auj9/5QSiv0jtws0NQc8ahCs=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=qmX/4voaKCJvUeM36UZzZ6lXvsa68x81a8n8Njz6pGhZ5KgBkU8wnija/oSFxpz+2vzM+sIlV9IG7HAaa0REQ0vKlmUlaS5U/f0j1p6obRSsFcjA0yGCVwqaLvr4FsWZzDxmwALF2eSSn6cyDzWEpKIqST/MyUyo5GSHTZxXulg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qy/ngosV; arc=fail smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E56CVW6e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qy/ngosV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713157860; x=1744693860;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xnNTKg9O11qs5df9fpMkowc+911rIlXEZvhJWTm47AQ=;
-  b=E56CVW6exGc4e1DGV7r1Dt9I3Gg59dTbSzFNL6Ujt1HaWbSF4v3pPqHo
-   HWGK819xyl1sPOOTWUziPlEFv1K02trK10zbt1PKtWte0zE30szkuhGcy
-   cSHk0judzBtgHOn+u7QhOYlMVKLPN2kX2Toj/eJLBtaSm0OY2ZwDWez6L
-   +dM8cl2+6VyhAsO4OGZNK7bnKuRuKbFOw4Z/dgZja/52uLObGkS9gBzFy
-   k6kt8og1cQN4vHXb2j+6u1zkhCOjz+6FkF+9tTCnOgIUaSKY3R0xlhLqq
-   UnAzG7c2FQL1J3uRHKdbOFu/G1t/SeJBPETp0jLw0W5gRFL1yRHIIDQq8
+  t=1713157911; x=1744693911;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YpxoTJC4O9/waB6nit/Auj9/5QSiv0jtws0NQc8ahCs=;
+  b=Qy/ngosVVhI58du/9iewE/N5+C6oLjVBCynU2kLIKhkjUj2c1P89TPOC
+   HdDnadi3t5jcdCSOmC+idPql+4D+0MVt8jbUFoFEvQUsagGip2cCADrt1
+   9eIIY8bQDOvopgRwfU7AI7FT5A0IhFK9VVpXqCinBXtzWcZe3541fV6QX
+   2REe0c4hCGi/MXEhzmhp1I/Y8s4lNm5HXLRvUGKMMtSzjhBrNH7hdEsT0
+   jVjHmKI7H+U7KK6UID1u9ZsjOF4pTMNnw+P2XtRqM/TokOGm4jMPeyBwU
+   bmLDGV+xTX0YC5t8aZITWXpEeteqwfoIuIADK8lc0p030wN1hbH2Rq2xc
    w==;
-X-CSE-ConnectionGUID: l/2igV8cQBKOyPdajTmRMA==
-X-CSE-MsgGUID: xx5jkbFnQ7aA11BcJOWx6A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11044"; a="8387000"
+X-CSE-ConnectionGUID: GnGGcgfmQEGb5D8MyURqDQ==
+X-CSE-MsgGUID: g36GuDioQ3WklD2+GmGJAA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11044"; a="8653091"
 X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
-   d="scan'208";a="8387000"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2024 22:10:56 -0700
-X-CSE-ConnectionGUID: i3cKZkLqRfKTmdq4Yi9KYg==
-X-CSE-MsgGUID: +8G4SjyNQU6aRv9yWPpwKA==
+   d="scan'208";a="8653091"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2024 22:11:50 -0700
+X-CSE-ConnectionGUID: 3Kcazs9zQju7QIsS4x3kJg==
+X-CSE-MsgGUID: y525IvMCSxqyD5SsBJyvew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
-   d="scan'208";a="59240318"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 14 Apr 2024 22:10:55 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rwEcG-0003z8-0X;
-	Mon, 15 Apr 2024 05:10:52 +0000
-Date: Mon, 15 Apr 2024 13:10:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Subject: Re: [PATCH v1 1/2] mmc: sdhci-acpi: Switch to
- SYSTEM_SLEEP_PM_OPS()/RUNTIME_PM_OPS() and pm_ptr()
-Message-ID: <202404151250.mJXR8RpZ-lkp@intel.com>
-References: <20240412184706.366879-3-andriy.shevchenko@linux.intel.com>
+   d="scan'208";a="21719677"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 Apr 2024 22:11:50 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 14 Apr 2024 22:11:50 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 14 Apr 2024 22:11:49 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Sun, 14 Apr 2024 22:11:49 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Sun, 14 Apr 2024 22:11:49 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S6AvybLvYpgUHqPzjoF4TACg6Iio96j8mE4EFLZKrnCPTeHPgSGeY8/v4OSY/vExREBLlBBQm+/tZOav8OQoVFe+v0kIcA3YcRy0T7+VoKSSqkrDZrNd+oAO45NfFS1yBQOFbbOOWOmbBkNwSL5RBrCMmyE4czVkTCv5L/VyN9uYP/87fHSUFVoz8AyZi9bZuhUCcLL4Ff+bTn6Cxhe/nIyuQjeAz2web+JCBg3bkMkKjhMBcQPefNxTsksWKP6lWxVWrEXJ4FlEz8/JLWtirjTnr7THR4HWFwT+v49dTsGafKp0Kiw2QSqf5VjLo+zm0Mh5izGtPp2bdyhgcoMK1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BV1VcBaH6rj3BTFW+TmGENlJYjI9b2h5OdDh6d1I3nw=;
+ b=H+iKmcLYt7fO4VEh9w9zY+P2y0hIjbeWE8oXer41w6gpXoDFFf32kgdnDNpDxt55ID/k61BqyrF0+RKNWcEkQBK7rKAHV0Sqy00h7nzQtq4R6XXVBORGSuOrCE2JWDHrbJk6lDKk1/q4xkSshJvtLWkJVgH2RPnBLvpejNlZQPO9ebB6bwwyyYIN8fBrp0RkkNG09dvQLaYs7z95s4HeBW0b0TCwLb8JJKnQiXl4gVaoKUq/pBcZ06Pxa1Q+G23QjqTTVgWgAxh9JrsYXxDAQHbfMeh9uc8arJaZImCaEFQSHKJibi/XBOOO68XcET9HKIAWWbFjqpbQ3jAXD0ZgMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB8393.namprd11.prod.outlook.com (2603:10b6:806:373::21)
+ by CY5PR11MB6116.namprd11.prod.outlook.com (2603:10b6:930:2b::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.31; Mon, 15 Apr
+ 2024 05:11:46 +0000
+Received: from SA1PR11MB8393.namprd11.prod.outlook.com
+ ([fe80::c0cf:689c:129c:4bcd]) by SA1PR11MB8393.namprd11.prod.outlook.com
+ ([fe80::c0cf:689c:129c:4bcd%6]) with mapi id 15.20.7452.041; Mon, 15 Apr 2024
+ 05:11:46 +0000
+Date: Mon, 15 Apr 2024 13:05:09 +0800
+From: kernel test robot <yujie.liu@intel.com>
+To: <jasperwang@tencent.com>, <kaixuxia@tencent.com>,
+	<frankjpliu@tencent.com>, <kasong@tencent.com>, <sagazchen@tencent.com>,
+	<kernelxing@tencent.com>, <aurelianliu@tencent.com>, <jason.zeng@intel.com>,
+	<wu.zheng@intel.com>, <yingbao.jia@intel.com>, <pei.p.jia@intel.com>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: [opencloudos:next 4787/4792]
+ drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf.h: linux/sctp.h is included
+ more than once.
+Message-ID: <Zhy1hUyEI8jqvSXn@yujie-X299>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SI2P153CA0026.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:190::18) To SA1PR11MB8393.namprd11.prod.outlook.com
+ (2603:10b6:806:373::21)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240412184706.366879-3-andriy.shevchenko@linux.intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB8393:EE_|CY5PR11MB6116:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e55cf4b-74a2-40ac-5e6d-08dc5d0a8c53
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sBduWvUGPQ9DZrByvj/ULRsz6TtwQOEQki2Y873Ivvt9fp0l7rxSW7xlbKEr6mlwSusGSqxNn3lRmmhBSKrWpvGdpifZTHvqbuEfuyo4ZpL0uWdQJL4sfFLQFiOdEywCF5TEjJpxfVAYpp/pQ9ZYCGLwGLiSX/CPWz8PrV383YcSW23FR+3YnyMCwITvYpEDuubPdN2XL+9WSO8XwLh/mOuvGjteSKp74mKsyVEbP/9Xnbpe6mq4xuBYCZ3kHdezQuItJIaz9oVwGOTT49ozx6SBShVFkhyr35gNS57jrfNUGmI3V5tWZfH6Cj4avjgLLPiMjsjpnlJbqC5/KEzHw8F4cRtKfUSVMcbW5/vzLMvuEoNQ2c+mFrtKJnVVAa+4hrbGddqmfwlRZeencos0TmVnw6aJOOscGfKnGa4GInHuXONHdw5d61dKpCov+XnFTbyoNoOubY/JQyGAuZGt9OQctykzxcZZl8iOEGURold7rvMEUZcUCglIlqTpEhYT2hTrKJzUjHEBpTk2hYRecYTetTChKKh8lStC9pCDD6bUHPaAEZ7Umg4orTRyzuP0hMLp/ptUqMI8JIHyepPLdldec9TNTO31V+EMQLYTfd3vFmGwrMmwsI1VoUnbwl+pHoMCjcIZAe9ZpQ+Id7OufQLNHMu9im/KXk80MzYXEwM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8393.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(921011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fTZ8Lg8vlSlh2PqCqw1tjb6EMAQKvL8STZYq+QKKO8TNMs9Jzaaa8OFb4R2H?=
+ =?us-ascii?Q?P4NzOq9lsO5fjIMtwEDkVk34/xU34BwfiKlOteKjXBqUg6cf8GwIQVr/RF92?=
+ =?us-ascii?Q?efZc1F6Zcp2QIF8nnTfWkmYQ0xcI1/TlHaE7xuo4BgPLXM6mqDxehrhSWR/t?=
+ =?us-ascii?Q?PNg5iQusNe/qOi6ZwbPklJg5qJcYPFbTSqQX0wI78r6WQp7MhvW9FVMfHd9I?=
+ =?us-ascii?Q?C8Kbeo4IDan/fx4kjJm4AcAU6GXgtuZXxZavulpETEp97L0U0nz7qsWmh+e1?=
+ =?us-ascii?Q?IkagUTMTwa1mZPM7ssHg3at01ke1BclnwLFOkQrNZe/g8SWmWCVeL8lvz+js?=
+ =?us-ascii?Q?+82XBCWNpl5ZGmf8GOh1frZFWJFuz6Ko7fyBExl5RvSeighZy7qTfQHUiSG7?=
+ =?us-ascii?Q?tPKq9K8wDyZStRWD2qVmiUV0j840N2DRdUM7XBXaUe+EQGA3RJMAnF2M927T?=
+ =?us-ascii?Q?LXJHcAlvQPXXHcoXuRSIa7Rpb7PN+6twi6g3CJ+fwnteh1uGPn6pdQFTmK/G?=
+ =?us-ascii?Q?rTN6XTvnlmd0CfLNttb5gdxZi5c3NQnRGgC0+2Eampzetu8YgHppEHC7gGkd?=
+ =?us-ascii?Q?OkoelTMFIQMVc+BXUKcITcKwMAY94UXFiLbG3JpOe37AeOLUuGm9P5SGZ9iN?=
+ =?us-ascii?Q?Yt25QupAPJvKmrdJ7m2YLZMumEvQxR02RZHdYrTr+v6sU0t8H5zGXGqogh4U?=
+ =?us-ascii?Q?6QotLja5GCFmhi1s1BhwRTBHSU94C4GoTq06rXSI3FCzRsflo/SPwe99gT7w?=
+ =?us-ascii?Q?1NB2bmUtxhbsggybWOTVQ+ThiOevsSm9VKxvUMlneCUh8j32fjmE9OhuY5tR?=
+ =?us-ascii?Q?z+8MGpMYFbvwXrCxpZea+orYzxnm2L0sOk9zJJNi5pfEZuHlIwyLqVjoEX7K?=
+ =?us-ascii?Q?+dImWR9BmcaiX/9X5TAn+rzrPIIYPWlWESNlw0YAyy5WoGCs3WcqyoRDkX/v?=
+ =?us-ascii?Q?nQ5y1elTy7jFh+TOvcWiNt0T1C4Og9ijihH3kQUYgZXUKIB2wegLxwizNmgt?=
+ =?us-ascii?Q?uyWTc5jHCaeswFLBEE9Q5F40+5WOQVYSxd2sSya4wnzDB3CplaBxnrOtnm8u?=
+ =?us-ascii?Q?NcjO4lhDAiYmMdUCi4b2tz/Dwi6WPevznDqNMUnc59FpUuGkpYmBwgAeMMXT?=
+ =?us-ascii?Q?oxqONrCDFS7iqEsK7mOfjORSMaINzlomzr79hLFpy+0Ixafb0nCATTd8QOmf?=
+ =?us-ascii?Q?pqtnSlOnf9HGZZylSdoywto34QKY5xK2sbo4YV4exMaDyMMOLetDvOQV1VLW?=
+ =?us-ascii?Q?aYv5ZxYfqahX+DQ6si+4aq76WVUy/J0Q6Sda+95Hm0uIF9aJVbIcj88OinpX?=
+ =?us-ascii?Q?gLalr00xPriJq2OY9/qfM+ZAIfVjvutKQFil/TcVD7ME/HkTtIhYbyBV/SwR?=
+ =?us-ascii?Q?fQV7LCFd5AZUrNWLmZ9fFrytsKPSsZG4IZwrk8rgpCg5kX2FItiyNauSPD0/?=
+ =?us-ascii?Q?kjCvtH81thhSKCqk4uvfD0J8dAabKMYGJa8VjkXQhAMGMBjyz66UUuJtjCtI?=
+ =?us-ascii?Q?2Ln1cQSdTKJjLc90iqzyxidLYus15tpo54pEmyr64FMOfeSpIU5YcT2pW4Dk?=
+ =?us-ascii?Q?gzSQjw17T0FK+pLxUMlrvw2ajG7EBI6zBPCnucch?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e55cf4b-74a2-40ac-5e6d-08dc5d0a8c53
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8393.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2024 05:11:46.6187
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oE6Ix+vtES7O1sFHHWEs9wjbhlxwpZWLTlgRKW1zTt5Xf6pcr4c/qWlt+C+hUdtOphdwB/bF3adpNn5cm3o69g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6116
+X-OriginatorOrg: intel.com
 
-Hi Andy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.9-rc4 next-20240412]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/mmc-sdhci-acpi-Switch-to-SYSTEM_SLEEP_PM_OPS-RUNTIME_PM_OPS-and-pm_ptr/20240415-093843
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240412184706.366879-3-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 1/2] mmc: sdhci-acpi: Switch to SYSTEM_SLEEP_PM_OPS()/RUNTIME_PM_OPS() and pm_ptr()
-config: i386-randconfig-002-20240415 (https://download.01.org/0day-ci/archive/20240415/202404151250.mJXR8RpZ-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240415/202404151250.mJXR8RpZ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   5a4887e84d1f38cdaa7d82d911ad735fb06009fe
+commit: c783f7daed8739b9497e40656bc220d2d17c9c10 [4787/4792] drivers: add Chengdu BeiZhongWangXin Technology N5/N6 Series Network Card Driver
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404151250.mJXR8RpZ-lkp@intel.com/
+| Reported-by: kernel test robot <yujie.liu@intel.com>
+| Closes: https://lore.kernel.org/r/202404120217.hu9eX7F0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf.h: linux/sctp.h is included more than once.
+--
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c: linux/fs.h is included more than once.
 
->> drivers/mmc/host/sdhci-acpi.c:969:8: error: call to undeclared function 'sdhci_suspend_host'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     969 |         ret = sdhci_suspend_host(host);
-         |               ^
->> drivers/mmc/host/sdhci-acpi.c:983:9: error: call to undeclared function 'sdhci_resume_host'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     983 |         return sdhci_resume_host(c->host);
-         |                ^
-   drivers/mmc/host/sdhci-acpi.c:983:9: note: did you mean 'sdhci_remove_host'?
-   drivers/mmc/host/sdhci.h:771:6: note: 'sdhci_remove_host' declared here
-     771 | void sdhci_remove_host(struct sdhci_host *host, int dead);
-         |      ^
->> drivers/mmc/host/sdhci-acpi.c:995:8: error: call to undeclared function 'sdhci_runtime_suspend_host'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     995 |         ret = sdhci_runtime_suspend_host(host);
-         |               ^
->> drivers/mmc/host/sdhci-acpi.c:1009:9: error: call to undeclared function 'sdhci_runtime_resume_host'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1009 |         return sdhci_runtime_resume_host(c->host, 0);
-         |                ^
-   4 errors generated.
+vim +17 drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf.h
 
-
-vim +/sdhci_suspend_host +969 drivers/mmc/host/sdhci-acpi.c
-
-84d49b3d08a1d3 Hans de Goede 2020-03-16   959  
-c4e050376c69bb Adrian Hunter 2012-11-23   960  static int sdhci_acpi_suspend(struct device *dev)
-c4e050376c69bb Adrian Hunter 2012-11-23   961  {
-c4e050376c69bb Adrian Hunter 2012-11-23   962  	struct sdhci_acpi_host *c = dev_get_drvdata(dev);
-d38dcad4e7b48f Adrian Hunter 2017-03-20   963  	struct sdhci_host *host = c->host;
-84d49b3d08a1d3 Hans de Goede 2020-03-16   964  	int ret;
-c4e050376c69bb Adrian Hunter 2012-11-23   965  
-d38dcad4e7b48f Adrian Hunter 2017-03-20   966  	if (host->tuning_mode != SDHCI_TUNING_MODE_3)
-d38dcad4e7b48f Adrian Hunter 2017-03-20   967  		mmc_retune_needed(host->mmc);
-d38dcad4e7b48f Adrian Hunter 2017-03-20   968  
-84d49b3d08a1d3 Hans de Goede 2020-03-16  @969  	ret = sdhci_suspend_host(host);
-84d49b3d08a1d3 Hans de Goede 2020-03-16   970  	if (ret)
-84d49b3d08a1d3 Hans de Goede 2020-03-16   971  		return ret;
-84d49b3d08a1d3 Hans de Goede 2020-03-16   972  
-84d49b3d08a1d3 Hans de Goede 2020-03-16   973  	sdhci_acpi_reset_signal_voltage_if_needed(dev);
-84d49b3d08a1d3 Hans de Goede 2020-03-16   974  	return 0;
-c4e050376c69bb Adrian Hunter 2012-11-23   975  }
-c4e050376c69bb Adrian Hunter 2012-11-23   976  
-c4e050376c69bb Adrian Hunter 2012-11-23   977  static int sdhci_acpi_resume(struct device *dev)
-c4e050376c69bb Adrian Hunter 2012-11-23   978  {
-c4e050376c69bb Adrian Hunter 2012-11-23   979  	struct sdhci_acpi_host *c = dev_get_drvdata(dev);
-c4e050376c69bb Adrian Hunter 2012-11-23   980  
-6e1c7d6103fe70 Adrian Hunter 2016-04-15   981  	sdhci_acpi_byt_setting(&c->pdev->dev);
-6e1c7d6103fe70 Adrian Hunter 2016-04-15   982  
-c4e050376c69bb Adrian Hunter 2012-11-23  @983  	return sdhci_resume_host(c->host);
-c4e050376c69bb Adrian Hunter 2012-11-23   984  }
-c4e050376c69bb Adrian Hunter 2012-11-23   985  
-c4e050376c69bb Adrian Hunter 2012-11-23   986  static int sdhci_acpi_runtime_suspend(struct device *dev)
-c4e050376c69bb Adrian Hunter 2012-11-23   987  {
-c4e050376c69bb Adrian Hunter 2012-11-23   988  	struct sdhci_acpi_host *c = dev_get_drvdata(dev);
-d38dcad4e7b48f Adrian Hunter 2017-03-20   989  	struct sdhci_host *host = c->host;
-84d49b3d08a1d3 Hans de Goede 2020-03-16   990  	int ret;
-d38dcad4e7b48f Adrian Hunter 2017-03-20   991  
-d38dcad4e7b48f Adrian Hunter 2017-03-20   992  	if (host->tuning_mode != SDHCI_TUNING_MODE_3)
-d38dcad4e7b48f Adrian Hunter 2017-03-20   993  		mmc_retune_needed(host->mmc);
-c4e050376c69bb Adrian Hunter 2012-11-23   994  
-84d49b3d08a1d3 Hans de Goede 2020-03-16  @995  	ret = sdhci_runtime_suspend_host(host);
-84d49b3d08a1d3 Hans de Goede 2020-03-16   996  	if (ret)
-84d49b3d08a1d3 Hans de Goede 2020-03-16   997  		return ret;
-84d49b3d08a1d3 Hans de Goede 2020-03-16   998  
-84d49b3d08a1d3 Hans de Goede 2020-03-16   999  	sdhci_acpi_reset_signal_voltage_if_needed(dev);
-84d49b3d08a1d3 Hans de Goede 2020-03-16  1000  	return 0;
-c4e050376c69bb Adrian Hunter 2012-11-23  1001  }
-c4e050376c69bb Adrian Hunter 2012-11-23  1002  
-c4e050376c69bb Adrian Hunter 2012-11-23  1003  static int sdhci_acpi_runtime_resume(struct device *dev)
-c4e050376c69bb Adrian Hunter 2012-11-23  1004  {
-c4e050376c69bb Adrian Hunter 2012-11-23  1005  	struct sdhci_acpi_host *c = dev_get_drvdata(dev);
-c4e050376c69bb Adrian Hunter 2012-11-23  1006  
-6e1c7d6103fe70 Adrian Hunter 2016-04-15  1007  	sdhci_acpi_byt_setting(&c->pdev->dev);
-6e1c7d6103fe70 Adrian Hunter 2016-04-15  1008  
-c6303c5d52d5ec Baolin Wang   2019-07-25 @1009  	return sdhci_runtime_resume_host(c->host, 0);
-c4e050376c69bb Adrian Hunter 2012-11-23  1010  }
-c4e050376c69bb Adrian Hunter 2012-11-23  1011  
+     6	
+     7	#include <linux/module.h>
+     8	#include <linux/pci.h>
+     9	#include <linux/aer.h>
+    10	#include <linux/netdevice.h>
+    11	#include <linux/vmalloc.h>
+    12	#include <linux/interrupt.h>
+    13	#include <linux/ethtool.h>
+    14	#include <linux/if_vlan.h>
+    15	#include <linux/ip.h>
+    16	#include <linux/tcp.h>
+  > 17	#include <linux/sctp.h>
+    18	#include <linux/ipv6.h>
+    19	#include <linux/kernel.h>
+    20	#include <linux/bitops.h>
+    21	#include <linux/timer.h>
+    22	#include <linux/workqueue.h>
+    23	#include <linux/wait.h>
+    24	#include <linux/delay.h>
+    25	#include <linux/gfp.h>
+    26	#include <linux/skbuff.h>
+    27	#include <linux/dma-mapping.h>
+    28	#include <linux/etherdevice.h>
+    29	#include <linux/socket.h>
+    30	#include <linux/jiffies.h>
+    31	#include <net/ipv6.h>
+    32	#include <net/ip6_checksum.h>
+    33	#include <net/udp.h>
+  > 34	#include <linux/sctp.h>
+    35	#include <linux/pci_hotplug.h>
+    36	#include <net/pkt_cls.h>
+    37	#include <net/tc_act/tc_gact.h>
+    38	#include <net/tc_act/tc_mirred.h>
+    39	#include <linux/bitmap.h>
+    40	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
