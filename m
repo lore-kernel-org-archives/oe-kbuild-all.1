@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3E460EF9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Apr 2024 15:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1DA580BFA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Apr 2024 16:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713194991; cv=none; b=ea/AJYfhSqudqcHRS6tVTpmbRnzdtlonpyGFYxY5P37WJrw6lSzPkduOxJpR7zLvD5A18J3DZ63IJYTmCeYPgkqyH2HAbjr1qqrFjEMOAqZnv1iwfbP+nVSX3qCC3KIpEafy0s+y4myc/TDJvGFP5qYJ2KKuBJ33zmxt9ATvMX0=
+	t=1713197636; cv=none; b=l/A7WwdAh20R4Grq+mVjGSEZPRb/JzJjEiBD3iK1CITIaNil2x7wc7zfV1QJFReJsXvl6ua8Qso147lNgw2sh0XpQh1i7maSUgUNKq2QtyDuC8U5cEvdZn5MSqCiltiAhoCL98soafsdhV/x2HqIh1FgKW612PKs5gEmgD3g6mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713194991; c=relaxed/simple;
-	bh=bCSMn/QioRYUos8u5RIYAgrPC6ZvDwsUnvLNkdIR7Gg=;
+	s=arc-20240116; t=1713197636; c=relaxed/simple;
+	bh=mDDEiJJakgCuydaMbQf6RTTmklMjdznkZEfHqgV/TF4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Bb1J4EBwGX5Dwk3I8y2ITGhFP7SeiaB6RiGaFRI6e2KpMTgxHCt9sh2Jy89JYWRq4cUOJRQWE88+kk4ep2HusttXlrYi5lznx7Jd12dC9eA0WfaS6Y3YzdhH1+xFTB9MorsxGW1g6vNVbI1tK3I1HXcO3qWMjfRzqaY3MLRRwKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DJsJ2jGw; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=lpoicvbP4l6zXhTAXHq4V7Rt/jDTcUq7En0o8+OWwFfLSR36sENKlNRqObXdYtHVfyg9lBIEKaJtaTS2p2eqN2m5XSjOH3hqTe56Wnysa4EVg5Ur7EF1qA958Qb6EoaDlNwj4aV29lhYavAwttibxe491iEcvmNdM0ffaMJwU4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jyKNMwcI; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DJsJ2jGw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jyKNMwcI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713194989; x=1744730989;
+  t=1713197634; x=1744733634;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bCSMn/QioRYUos8u5RIYAgrPC6ZvDwsUnvLNkdIR7Gg=;
-  b=DJsJ2jGwtJatC3fDqOWbOZEhVk6WBCuWrzYGVwKhv7+DQ+kPaUeAjX56
-   xpqbuA3/kElQvYbQMndErTAkhBlQ89TS4fs5HThOotk6NoKD8lb2B6QHd
-   volbo/g0RmSQ69xlXa8Ej+ntYdW87QwsoT7193k728NTHx0g/Zj0IjAWh
-   olPqdzBep9MlRIjugBF2Esh2S7aYJdgTtvH0Nl4x1SeSSO+E/7iDOrUab
-   Wd1AhhIewWNgEWnMF2mLun+8n/Et6ZFxuuTdDZ2TUOJVceUGbLgabvQMi
-   24hKrnORJsFtH+4YTI4sRT1sHxkXxzWvTDiydwsErbH/Cl0r6liPjHrs8
-   A==;
-X-CSE-ConnectionGUID: qCHFAfdgSeWTu9XXmpy/nw==
-X-CSE-MsgGUID: Vcy54VfbRZepA4/tDYoZPg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8758743"
+  bh=mDDEiJJakgCuydaMbQf6RTTmklMjdznkZEfHqgV/TF4=;
+  b=jyKNMwcIHwr7fz69lmaBNky3vr0Vss1GFp1jPFAgQXbuWtaM+serstLK
+   D+kdFNrD63Vq9t1FSiz4wN2shLxVxNlKSgwk9A4KBH6CjcxgybVBnZxhZ
+   lpCVpg6npAjMhvsv/iDPFJTz/s0+K6/AmD+yEqTjIgkl67Cpn2LTaOUYa
+   /eDkiMktcfFYXCMCWG2Tq5GEokM2F7igUGawqChthcsa4DazZibklMblH
+   a9GT6WQ7LIx6V6YvFSGfFEjaYIFPhuiOI6c+qyeJ5OQtf07aEqfajXWpb
+   R0MUg86XOpE+wJpmBc7dTtpAWJ90NEUHYlVSYHxoQYz2Qo+MutaTFXvtP
+   Q==;
+X-CSE-ConnectionGUID: NLa2vq1HRlyL5PqV/Bf7hA==
+X-CSE-MsgGUID: Ja8GiqXuSBuL9poU2WpW3w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8512422"
 X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="8758743"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 08:29:49 -0700
-X-CSE-ConnectionGUID: cc6G1IKPRW6nW4ZA1Xe9mg==
-X-CSE-MsgGUID: YGHCNTieQBWaxmqy2LOrTQ==
+   d="scan'208";a="8512422"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 09:13:54 -0700
+X-CSE-ConnectionGUID: W9Q5L1G/Rai3EQslc1XeLA==
+X-CSE-MsgGUID: gWFElJWdTxW6OPvE4spyFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="26746262"
+   d="scan'208";a="22030937"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 15 Apr 2024 08:29:48 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 15 Apr 2024 09:13:51 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwOHB-0004MA-1U;
-	Mon, 15 Apr 2024 15:29:45 +0000
-Date: Mon, 15 Apr 2024 23:29:19 +0800
+	id 1rwOxp-0004Nw-0N;
+	Mon, 15 Apr 2024 16:13:49 +0000
+Date: Tue, 16 Apr 2024 00:13:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 3/3] error: shadow-call-stack
- sanitizer is not supported for this target
-Message-ID: <202404152307.8mI64aY2-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.4 24/42] security/chromiumos/lsm.c:95:17:
+ error: implicit declaration of function 'report'
+Message-ID: <202404160043.0KPcwzdu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,51 +63,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   3d8a2ab25745bc28cb458746056fb8ed2d81915e
-commit: 5424a7cb43da76865efc5a977b6a0390fd3573cc [3/3] FROMLIST: rust: add flags for shadow call stack sanitizer
-config: arm64-randconfig-002-20240415 (https://download.01.org/0day-ci/archive/20240415/202404152307.8mI64aY2-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240415/202404152307.8mI64aY2-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.4
+head:   158b46ebe0987a43e2aaf5ed61bb18fd7c8f6c96
+commit: 9981e5680b18a511aa4e9fd303c70167b645d116 [24/42] CHROMIUM: security: Add a cmdline opt for overlayfs
+config: x86_64-randconfig-r051-20240406 (https://download.01.org/0day-ci/archive/20240416/202404160043.0KPcwzdu-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404160043.0KPcwzdu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404152307.8mI64aY2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404160043.0KPcwzdu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kernel/asm-offsets.c:12:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2174:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   509 |                            item];
-   |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   516 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-   |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   528 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   537 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   5 warnings generated.
->> error: shadow-call-stack sanitizer is not supported for this target
---
->> error: `-Zsanitizer=kcfi` is incompatible with `-Zsanitizer=shadow-call-stack`
+   security/chromiumos/lsm.c: In function 'chromiumos_security_sb_mount':
+>> security/chromiumos/lsm.c:95:17: error: implicit declaration of function 'report' [-Werror=implicit-function-declaration]
+      95 |                 report("sb_mount", path, "Overlayfs mounts prohibited");
+         |                 ^~~~~~
+   In file included from security/chromiumos/lsm.c:29:
+   security/chromiumos/lsm.c: At top level:
+   include/linux/lsm_hooks.h:2116:39: error: 'struct security_hook_heads' has no member named 'bpf'
+    2116 |         { .head = &security_hook_heads.HEAD, .hook = { .HEAD = HOOK } }
+         |                                       ^
+   security/chromiumos/lsm.c:309:9: note: in expansion of macro 'LSM_HOOK_INIT'
+     309 |         LSM_HOOK_INIT(bpf, chromiumos_bpf),
+         |         ^~~~~~~~~~~~~
+   security/chromiumos/lsm.c:309:23: error: 'union security_list_options' has no member named 'bpf'
+     309 |         LSM_HOOK_INIT(bpf, chromiumos_bpf),
+         |                       ^~~
+   include/linux/lsm_hooks.h:2116:57: note: in definition of macro 'LSM_HOOK_INIT'
+    2116 |         { .head = &security_hook_heads.HEAD, .hook = { .HEAD = HOOK } }
+         |                                                         ^~~~
+   security/chromiumos/lsm.c:309:28: error: initialization of 'int (*)(const struct cred *)' from incompatible pointer type 'int (*)(int,  union bpf_attr *, unsigned int)' [-Werror=incompatible-pointer-types]
+     309 |         LSM_HOOK_INIT(bpf, chromiumos_bpf),
+         |                            ^~~~~~~~~~~~~~
+   include/linux/lsm_hooks.h:2116:64: note: in definition of macro 'LSM_HOOK_INIT'
+    2116 |         { .head = &security_hook_heads.HEAD, .hook = { .HEAD = HOOK } }
+         |                                                                ^~~~
+   security/chromiumos/lsm.c:309:28: note: (near initialization for 'chromiumos_security_hooks[5].hook.binder_set_context_mgr')
+     309 |         LSM_HOOK_INIT(bpf, chromiumos_bpf),
+         |                            ^~~~~~~~~~~~~~
+   include/linux/lsm_hooks.h:2116:64: note: in definition of macro 'LSM_HOOK_INIT'
+    2116 |         { .head = &security_hook_heads.HEAD, .hook = { .HEAD = HOOK } }
+         |                                                                ^~~~
+   cc1: all warnings being treated as errors
+
+
+vim +/report +95 security/chromiumos/lsm.c
+
+    88	
+    89	static int chromiumos_security_sb_mount(const char *dev_name,
+    90						const struct path *path,
+    91						const char *type, unsigned long flags,
+    92						void *data)
+    93	{
+    94		if (!allow_overlayfs && type && !strcmp(type, "overlay")) {
+  > 95			report("sb_mount", path, "Overlayfs mounts prohibited");
+    96			pr_notice("sb_mount dev=%s type=%s flags=%#lx\n",
+    97				  dev_name, type, flags);
+    98			return -EPERM;
+    99		}
+   100	
 
 -- 
 0-DAY CI Kernel Test Service
