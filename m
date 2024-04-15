@@ -1,35 +1,58 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EC3B46424
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Apr 2024 14:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3E460EF9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Apr 2024 15:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713190468; cv=none; b=pmHHORS5rF3oQ3zhbFONgbH6Ob1/6e7mMh/wdn6WkIKlTKzV5NMmCxcBLS9kwe2WhDKFB3MUoGYNbcKSaH9U6snjifeaQLsNBdUe/x/hzfSgL1qoOssyNtT48lhtjh2XBzpzbcfdVedogPr03+17qPx2W3KdHIm4ponnG8+s0M8=
+	t=1713194991; cv=none; b=ea/AJYfhSqudqcHRS6tVTpmbRnzdtlonpyGFYxY5P37WJrw6lSzPkduOxJpR7zLvD5A18J3DZ63IJYTmCeYPgkqyH2HAbjr1qqrFjEMOAqZnv1iwfbP+nVSX3qCC3KIpEafy0s+y4myc/TDJvGFP5qYJ2KKuBJ33zmxt9ATvMX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713190468; c=relaxed/simple;
-	bh=eZg8luTq58ZVQoqw75PKydC8EUf3Bss2NVMPDnoHhZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LReuxVjbox9yIx7vtyUDvi3+GhMZfHlOXPgHrHeWA5BCJF04szH/wfORgyeXbe0I6TkJq03h2DFOatadvbWQI7tuPpAr5LCz0dJjijw6fAypHvTuqmabxqiLwdiTYVh4QCuBS9n64XsebINWZZHuoEe1wTtvKPPbGKRgv2B0Xco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 649992F4;
-	Mon, 15 Apr 2024 07:14:54 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0CDF53F738;
-	Mon, 15 Apr 2024 07:14:23 -0700 (PDT)
-Date: Mon, 15 Apr 2024 15:14:21 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	sudeep.holla@arm.com, jassisinghbrar@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jonathan.cameron@huawei.com
-Subject: Re: [PATCH v4 2/2] mailbox: arm_mhuv3: Add driver
-Message-ID: <Zh02PYSzbNPN_mSj@pluto>
-References: <20240412192801.554464-3-cristian.marussi@arm.com>
- <202404152144.RtJxmEsQ-lkp@intel.com>
+	s=arc-20240116; t=1713194991; c=relaxed/simple;
+	bh=bCSMn/QioRYUos8u5RIYAgrPC6ZvDwsUnvLNkdIR7Gg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Bb1J4EBwGX5Dwk3I8y2ITGhFP7SeiaB6RiGaFRI6e2KpMTgxHCt9sh2Jy89JYWRq4cUOJRQWE88+kk4ep2HusttXlrYi5lznx7Jd12dC9eA0WfaS6Y3YzdhH1+xFTB9MorsxGW1g6vNVbI1tK3I1HXcO3qWMjfRzqaY3MLRRwKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DJsJ2jGw; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DJsJ2jGw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713194989; x=1744730989;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bCSMn/QioRYUos8u5RIYAgrPC6ZvDwsUnvLNkdIR7Gg=;
+  b=DJsJ2jGwtJatC3fDqOWbOZEhVk6WBCuWrzYGVwKhv7+DQ+kPaUeAjX56
+   xpqbuA3/kElQvYbQMndErTAkhBlQ89TS4fs5HThOotk6NoKD8lb2B6QHd
+   volbo/g0RmSQ69xlXa8Ej+ntYdW87QwsoT7193k728NTHx0g/Zj0IjAWh
+   olPqdzBep9MlRIjugBF2Esh2S7aYJdgTtvH0Nl4x1SeSSO+E/7iDOrUab
+   Wd1AhhIewWNgEWnMF2mLun+8n/Et6ZFxuuTdDZ2TUOJVceUGbLgabvQMi
+   24hKrnORJsFtH+4YTI4sRT1sHxkXxzWvTDiydwsErbH/Cl0r6liPjHrs8
+   A==;
+X-CSE-ConnectionGUID: qCHFAfdgSeWTu9XXmpy/nw==
+X-CSE-MsgGUID: Vcy54VfbRZepA4/tDYoZPg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8758743"
+X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
+   d="scan'208";a="8758743"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 08:29:49 -0700
+X-CSE-ConnectionGUID: cc6G1IKPRW6nW4ZA1Xe9mg==
+X-CSE-MsgGUID: YGHCNTieQBWaxmqy2LOrTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
+   d="scan'208";a="26746262"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 15 Apr 2024 08:29:48 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rwOHB-0004MA-1U;
+	Mon, 15 Apr 2024 15:29:45 +0000
+Date: Mon, 15 Apr 2024 23:29:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 3/3] error: shadow-call-stack
+ sanitizer is not supported for this target
+Message-ID: <202404152307.8mI64aY2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -38,113 +61,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202404152144.RtJxmEsQ-lkp@intel.com>
 
-On Mon, Apr 15, 2024 at 09:56:52PM +0800, kernel test robot wrote:
-> Hi Cristian,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on robh/for-next]
-> [also build test ERROR on soc/for-next linus/master v6.9-rc4 next-20240415]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/dt-bindings-mailbox-arm-mhuv3-Add-bindings/20240415-094106
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-> patch link:    https://lore.kernel.org/r/20240412192801.554464-3-cristian.marussi%40arm.com
-> patch subject: [PATCH v4 2/2] mailbox: arm_mhuv3: Add driver
-> config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240415/202404152144.RtJxmEsQ-lkp@intel.com/config)
-> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240415/202404152144.RtJxmEsQ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202404152144.RtJxmEsQ-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/mailbox/arm_mhuv3.c: In function 'mhuv3_mbx_comb_interrupt':
-> >> drivers/mailbox/arm_mhuv3.c:922:17: error: cleanup argument not a function
->      922 |                 void *data __free(kfree) = NULL;
->          |                 ^~~~
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   3d8a2ab25745bc28cb458746056fb8ed2d81915e
+commit: 5424a7cb43da76865efc5a977b6a0390fd3573cc [3/3] FROMLIST: rust: add flags for shadow call stack sanitizer
+config: arm64-randconfig-002-20240415 (https://download.01.org/0day-ci/archive/20240415/202404152307.8mI64aY2-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8b3b4a92adee40483c27f26c478a384cd69c6f05)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240415/202404152307.8mI64aY2-lkp@intel.com/reproduce)
 
-Right, I suppose is missing slab.h to define kfree now that it is using
-cleanup.h.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404152307.8mI64aY2-lkp@intel.com/
 
-I'll fix in V5, after some more possible feedback comes in...
+All errors (new ones prefixed by >>):
 
-Thanks,
-Cristian
+   In file included from arch/arm64/kernel/asm-offsets.c:12:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2174:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   509 |                            item];
+   |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   516 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+   |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   528 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   537 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   5 warnings generated.
+>> error: shadow-call-stack sanitizer is not supported for this target
+--
+>> error: `-Zsanitizer=kcfi` is incompatible with `-Zsanitizer=shadow-call-stack`
 
-> 
-> 
-> vim +922 drivers/mailbox/arm_mhuv3.c
-> 
->    910	
->    911	static irqreturn_t mhuv3_mbx_comb_interrupt(int irq, void *arg)
->    912	{
->    913		unsigned int i, found = 0;
->    914		struct mhuv3 *mhu = arg;
->    915		struct mbox_chan *chan;
->    916		struct device *dev;
->    917		int ret = IRQ_NONE;
->    918	
->    919		dev = mhu->mbox.dev;
->    920		for (i = 0; i < NUM_EXT; i++) {
->    921			struct mhuv3_mbox_chan_priv *priv;
->  > 922			void *data __free(kfree) = NULL;
->    923	
->    924			if (!mhu->ext[i])
->    925				continue;
->    926	
->    927			/* Process any extension which could be source of the IRQ */
->    928			chan = mhu->ext[i]->chan_from_comb_irq_get(mhu);
->    929			if (IS_ERR(chan))
->    930				continue;
->    931	
->    932			found++;
->    933			/* From here on we need to call rx_complete even on error */
->    934			priv = chan->con_priv;
->    935			if (!chan->cl) {
->    936				dev_warn(dev, "RX Data on UNBOUND channel (%u)\n",
->    937					 priv->ch_idx);
->    938				goto rx_ack;
->    939			}
->    940	
->    941			/* Read optional in-band LE data first. */
->    942			if (priv->ops->read_data) {
->    943				data = priv->ops->read_data(mhu, chan);
->    944				if (IS_ERR(data)) {
->    945					dev_err(dev,
->    946						"Failed to read in-band data. err:%ld\n",
->    947						PTR_ERR(no_free_ptr(data)));
->    948					goto rx_ack;
->    949				}
->    950			}
->    951	
->    952			mbox_chan_received_data(chan, data);
->    953			ret = IRQ_HANDLED;
->    954	
->    955			/*
->    956			 * Acknowledge transfer after any possible optional
->    957			 * out-of-band data has also been retrieved via
->    958			 * mbox_chan_received_data().
->    959			 */
->    960	rx_ack:
->    961			if (priv->ops->rx_complete)
->    962				priv->ops->rx_complete(mhu, chan);
->    963		}
->    964	
->    965		if (found == 0)
->    966			dev_warn_once(dev, "Failed to find channel for the RX interrupt\n");
->    967	
->    968		return ret;
->    969	}
->    970	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
