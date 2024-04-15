@@ -1,136 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B8D8248E;
-	Mon, 15 Apr 2024 18:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AC38248E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Apr 2024 18:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713204877; cv=none; b=Ia8Yxcfb4SZBOUPe/6RMaAzQftrcw5M6nrRdIcdtj8rAXNyNriic3l0rElSh91ut58qCStoTV4PDDAUuV1VMjaBhthScDkSScsLTixb6ZzrjcXOCt+tAz4Wm7cjmSaJnJyAYKDLINzSOqEG3L38aI3s0B9haom5th/mgGDCDF2c=
+	t=1713204967; cv=none; b=NcVTYKa2MUlKG+7IsBXQJFyGYqE2NLsMME9f0tlyofJbD+aIDeIxfyJ5k7VvX6eN0ughZkmyclKE6T/db2m3EuDFURZMokQxHgwTpz0vT0vSEdXxq2WWOSFuGyDSppPv6xXApRQEB3qJzRxvn1J6P//zP4vQ6ZqtvrVc71Hgf5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713204877; c=relaxed/simple;
-	bh=g2Lpo8FKduyQu73LiNi2mlkrNK6J/F4psawHqBenncU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ctZ4rb0N53JinCfRFM79p/F7TXo+7D1wJ2dKpaFPf9IceYkv+l3CWqP4y+fIj+r/m8JBMvyXEzqgSUR3+o4YLLSZlCkT/AGuzokGCOX30x5Fnp5DualsMQl6+uHx6lYo6ZEvhxs3Q2gYH594CB8sJgTGsTsC0GMY+IDZcPLj6mI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kw3L+7A8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713204967; c=relaxed/simple;
+	bh=QEpErlo9xJlsHNIC/sV8xlpwo4XX4hAAYcqKNmJc+kg=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=OyXtDWV4jD6mAd98MDLmV6/e81Bo+kPwI4AWkIhjwUN9boFHi3ox82ax8S6otVj6EqgpSbMz01RHSwITIiELNYxNgvyHq3HBnxwAgeAD60ahRysg6n8pXOzylTGQwreiKMvVQd8flTwera1VHBeb4UFLU7zQArLFp/NVn15ntxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=PDrWlKV4; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kw3L+7A8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88F3BC113CC;
-	Mon, 15 Apr 2024 18:14:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713204877;
-	bh=g2Lpo8FKduyQu73LiNi2mlkrNK6J/F4psawHqBenncU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kw3L+7A8tCUQ4PitEt6DYpmVWFLBbnnV+XHvdKBDSwsOoIty53YMTQ8enjMSX+Yzv
-	 O8C5XY1bG8kHpwW01eGr2GtwQvOi1Gf3PRkgAVolPNL0VaRacmEiE1nEEPr3N29w9r
-	 Jh4G9OgJjXleXoPMy0ZaCND9eKic08jroalq/ijIDnixIY/r74eSlWhra0BverB/Iw
-	 OS2Z1CeyioCmSdTxJ1NQvFaBQW/Co8ThCIYKyQMs9DheVtuf0TfFemPlVe2cg4arZy
-	 NwJ/0w10NyiveoMqo82CsTH8BF2xMZ9KFrl9ylTa0HJ4z4/w5wz4k22TMssM0fioeY
-	 wjk41jjnig5vw==
-Date: Mon, 15 Apr 2024 11:14:34 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Kees Cook <keescook@chromium.org>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Sami Tolvanen <samitolvanen@google.com>
-Subject: Re: WARNING: modpost: vmlinux: section mismatch in reference:
- __apply_fineibt+0x566 (section: .text) -> poison_endbr (section: .init.text)
-Message-ID: <20240415181434.GA3926358@dev-arch.thelio-3990X>
-References: <202404151042.vATlNGmU-lkp@intel.com>
- <202404151010.75DC9B8@keescook>
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="PDrWlKV4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9BKQ9z8mQEP4dTi+XlmYAMgvWWj01Dy+ofQP50sVLrA=;
+  b=PDrWlKV4ZuGs5H0nFJLrOimid+aFx1p5ttofBWRTBZcJ8ad230BYASoC
+   IEPNg/xfStSedKPX+jh5OvYBUG1gqYqCV4tci5ZfLYX8nMtzDGyxMm6kq
+   AWkxrl/DPdnW8HWFHPlWZd5LcZ5BBRYQ3+fwG2FwdO5//rKDE9+lCspCy
+   4=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.07,203,1708383600"; 
+   d="scan'208";a="84882604"
+Received: from unknown (HELO hadrien) ([89.207.175.13])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 20:15:53 +0200
+Date: Mon, 15 Apr 2024 20:15:51 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Andrew Davis <afd@ti.com>, Praneeth Bajjuri <praneeth@ti.com>
+cc: nm@ti.com, vigneshr@ti.com, oe-kbuild-all@lists.linux.dev
+Subject: [ti:ti-linux-6.6.y-wip 16/18] drivers/remoteproc/remoteproc_cdev.c:167:6-16:
+ ERROR: reference preceded by free on line 165 (fwd)
+Message-ID: <22bc93ba-e135-119d-8257-739b8c57dc15@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202404151010.75DC9B8@keescook>
+Content-Type: text/plain; charset=US-ASCII
 
-On Mon, Apr 15, 2024 at 10:14:03AM -0700, Kees Cook wrote:
-> On Mon, Apr 15, 2024 at 10:15:48AM +0800, kernel test robot wrote:
-> > Hi Peter,
-> > 
-> > FYI, the error/warning still remains.
-> > 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   0bbac3facb5d6cc0171c45c9873a2dc96bea9680
-> > commit: 04505bbbbb15da950ea0239e328a76a3ad2376e0 x86/fineibt: Poison ENDBR at +0
-> > date:   9 months ago
-> > config: x86_64-buildonly-randconfig-001-20240415 (https://download.01.org/0day-ci/archive/20240415/202404151042.vATlNGmU-lkp@intel.com/config)
-> > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240415/202404151042.vATlNGmU-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202404151042.vATlNGmU-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>, old ones prefixed by <<):
-> > 
-> > WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x12e (section: .text) -> text_poke_early (section: .init.text)
-> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x1f2 (section: .text) -> text_poke_early (section: .init.text)
-> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x2e6 (section: .text) -> text_poke_early (section: .init.text)
-> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x381 (section: .text) -> text_poke_early (section: .init.text)
-> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x3a4 (section: .text) -> text_poke_early (section: .init.text)
-> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x44d (section: .text) -> text_poke_early (section: .init.text)
-> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x50d (section: .text) -> text_poke_early (section: .init.text)
-> > WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x532 (section: .text) -> text_poke_early (section: .init.text)
-> > >> WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x566 (section: .text) -> poison_endbr (section: .init.text)
-> 
-> test_poke_early() already marked __init_or_module, so shouldn't these
-> warnings not happen? (I assume the same is for true poison_endbr)
+Please check lines 165 and 167.
 
-Hmmm, how so? __init_or_module is __init when CONFIG_MODULES is not set
-(which is true for this configuration), which means text_poke_early() is
-__init while __apply_fineibt() is not.
+julia
 
-$ curl -LSs https://download.01.org/0day-ci/archive/20240415/202404151042.vATlNGmU-lkp@intel.com/config | rg CONFIG_MODULES
-CONFIG_MODULES_USE_ELF_RELA=y
-# CONFIG_MODULES is not set
+---------- Forwarded message ----------
+Date: Mon, 15 Apr 2024 01:28:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [ti:ti-linux-6.6.y-wip 16/18]
+    drivers/remoteproc/remoteproc_cdev.c:167:6-16: ERROR: reference preceded by
+    free on line 165
 
-Looking further into it though, I think that marking apply_fineibt() and
-__apply_fineibt() as __init_or_module as well would resolve this?
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: vigneshr@ti.com
+CC: nm@ti.com
+TO: Andrew Davis <afd@ti.com>
+CC: Praneeth Bajjuri <praneeth@ti.com>
 
-__apply_fineibt() is called from two places: alternative_instructions()
-(which is __init) and apply_fineibt(). Looking at apply_fineibt(), it is
-only called from module_finalize() in arch/x86/kernel/module.c, which is
-only included when CONFIG_MODULES=y. As a result, __apply_fineibt() is
-only ever called from __init code when CONFIG_MODULES is not set but it
-is called from module code so it should not be discarded with
-CONFIG_MODULES=y, as it currently is.
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y-wip
+head:   6b3bec4539bd706892be36c3b481b9aa7cbe27a8
+commit: cde91a89becee656867b8c8a86e627241dc91449 [16/18] remoteproc: core: Add DMA-BUF attachment interface to cdev
+:::::: branch date: 3 days ago
+:::::: commit date: 2 weeks ago
+config: x86_64-randconfig-101-20240414 (https://download.01.org/0day-ci/archive/20240415/202404150107.gJtdbKtX-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
-In other words, the following diff works for me.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202404150107.gJtdbKtX-lkp@intel.com/
 
-Cheers,
-Nathan
+cocci warnings: (new ones prefixed by >>)
+>> drivers/remoteproc/remoteproc_cdev.c:167:6-16: ERROR: reference preceded by free on line 165
 
-diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
-index 45a280f2161c..1f6a29048a95 100644
---- a/arch/x86/kernel/alternative.c
-+++ b/arch/x86/kernel/alternative.c
-@@ -1262,8 +1262,9 @@ static int cfi_rewrite_callers(s32 *start, s32 *end)
- 	return 0;
- }
- 
--static void __apply_fineibt(s32 *start_retpoline, s32 *end_retpoline,
--			    s32 *start_cfi, s32 *end_cfi, bool builtin)
-+static __init_or_module void __apply_fineibt(s32 *start_retpoline,
-+					     s32 *end_retpoline, s32 *start_cfi,
-+					     s32 *end_cfi, bool builtin)
- {
- 	int ret;
- 
-@@ -1391,8 +1392,8 @@ static void poison_cfi(void *addr) { }
- 
- #endif
- 
--void apply_fineibt(s32 *start_retpoline, s32 *end_retpoline,
--		   s32 *start_cfi, s32 *end_cfi)
-+__init_or_module void apply_fineibt(s32 *start_retpoline, s32 *end_retpoline,
-+				    s32 *start_cfi, s32 *end_cfi)
- {
- 	return __apply_fineibt(start_retpoline, end_retpoline,
- 			       start_cfi, end_cfi,
+vim +167 drivers/remoteproc/remoteproc_cdev.c
+
+a4dac51a55b795 Andrew Davis    2024-02-21  150
+a4dac51a55b795 Andrew Davis    2024-02-21  151  static int rproc_cdev_release(struct inode *inode, struct file *filp)
+a4dac51a55b795 Andrew Davis    2024-02-21  152  {
+a4dac51a55b795 Andrew Davis    2024-02-21  153  	struct rproc_cdev *rproc_cdev = filp->private_data;
+a4dac51a55b795 Andrew Davis    2024-02-21  154  	struct rproc *rproc = rproc_cdev->rproc;
+6e71d2b2a2b717 Mathieu Poirier 2021-03-12  155  	int ret = 0;
+6e71d2b2a2b717 Mathieu Poirier 2021-03-12  156
+cde91a89becee6 Andrew Davis    2024-02-21  157  	/* Release all buffers attached with this file */
+cde91a89becee6 Andrew Davis    2024-02-21  158  	struct rproc_cdev_attach *attach, *atmp;
+cde91a89becee6 Andrew Davis    2024-02-21  159  	list_for_each_entry_safe(attach, atmp, &rproc_cdev->attachments, node) {
+cde91a89becee6 Andrew Davis    2024-02-21  160  		rproc_detach_dmabuf(rproc, attach->dmabuf);
+cde91a89becee6 Andrew Davis    2024-02-21  161  		dma_buf_put(attach->dmabuf);
+cde91a89becee6 Andrew Davis    2024-02-21  162  		kfree(attach);
+cde91a89becee6 Andrew Davis    2024-02-21  163  	}
+cde91a89becee6 Andrew Davis    2024-02-21  164  	mutex_destroy(&rproc_cdev->mutex);
+cde91a89becee6 Andrew Davis    2024-02-21 @165  	kfree(rproc_cdev);
+cde91a89becee6 Andrew Davis    2024-02-21  166
+a4dac51a55b795 Andrew Davis    2024-02-21 @167  	if (!rproc_cdev->cdev_put_on_release)
+6e71d2b2a2b717 Mathieu Poirier 2021-03-12  168  		return 0;
+4476770881d7ac Siddharth Gupta 2020-07-29  169
+6e71d2b2a2b717 Mathieu Poirier 2021-03-12  170  	if (rproc->state == RPROC_RUNNING)
+4476770881d7ac Siddharth Gupta 2020-07-29  171  		rproc_shutdown(rproc);
+6e71d2b2a2b717 Mathieu Poirier 2021-03-12  172  	else if (rproc->state == RPROC_ATTACHED)
+6e71d2b2a2b717 Mathieu Poirier 2021-03-12  173  		ret = rproc_detach(rproc);
+4476770881d7ac Siddharth Gupta 2020-07-29  174
+6e71d2b2a2b717 Mathieu Poirier 2021-03-12  175  	return ret;
+4476770881d7ac Siddharth Gupta 2020-07-29  176  }
+4476770881d7ac Siddharth Gupta 2020-07-29  177
+
+:::::: The code at line 167 was first introduced by commit
+:::::: a4dac51a55b7950e8e3fdd71db15b8c1686a8a28 remoteproc: core: Make shutdown-on-release per-file handle
+
+:::::: TO: Andrew Davis <afd@ti.com>
+:::::: CC: Praneeth Bajjuri <praneeth@ti.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
