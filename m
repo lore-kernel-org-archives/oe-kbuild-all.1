@@ -1,65 +1,60 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C17FEEAE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 10:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C10128809
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 11:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713263445; cv=none; b=aEHI4OXlYpm3Wu6N4GXC60z6uhXT84JTBuYMBwSzfPVK1hY0aFNOELapdVKV11O1PXSgOQaxCFr1ppdm8usTp6rDDPHjO3i3SgLyK39lBy79Cmbex8mhxy//BoaikuwRaeeK8+TqBM9xvNx7L5DvkBo5be9rL5QYmZqfvVcHtBk=
+	t=1713265958; cv=none; b=l/wMVs7ainj5pdpyVR4sMufrfPuekB/uCpLUu8KPz126c0iQqbWJ5G6kLEjUQQmNw/PxYM/UYgcX0rTWzE2RlfDCY8ZCt9Fmo6kOElEG7tqMDYsIBnQCWrRkvMNAxDX5TC7DLwbHFIhyGEGEVleUPqvKISFomMlbwGHNJ7c1xB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713263445; c=relaxed/simple;
-	bh=Hb4VWuHviVkqjpu2tqxwnE0CvNHLHeTChBD5KU2ZsoQ=;
+	s=arc-20240116; t=1713265958; c=relaxed/simple;
+	bh=HoUrqDwgIuIkQGan7uEa+WSHUD8MFAQZzAtHrk/eG0Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uOpCbsgGTrpXh+26XN6ngDTj9njY4JejXNrcVevwtuT+XkJ7qN9MAQbrjPoBIEMLwGMJ5Cmd4VFOdLDzCjNB28D56nyTM363FTpInvS3xCqCoFLjuCEOj3MU4IZuqeqoo7NKPfU+Bjp/G3gG59Aixtm6QEwsNQQLFHlx5x09NbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=arWEPMr2; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=T4wRGBD+cxFgObnQqz0mLe9JI5EbufH65sWJ/rsXkTX9+dfRvIo3iZQjjQBQQAAsF7DwJq2QwYDK5XwiY9FBK/Crl3sQEdLV+8GHF8vDGYP6KTw88Hlhh8Gq0nrGS8PYGDG972Px5rWNh0F2jjwoM+4RpqUeK/7q7KQbMRviUIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kba/rMC8; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="arWEPMr2"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a54176639ecso201948466b.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 03:30:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713263441; x=1713868241; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OpUv8OKDMoCTJbGOeQ/kgwQ8pTbKhM6e7RKVIafCooI=;
-        b=arWEPMr2XDd2NcYPkusYIhJ+7mNMPP3kRljXwru6+b/QdDDi/a5DXmeakRr/Vm58NI
-         NmNLMrcA4pTvDNta14Lgjd+e99i3Qid6QosRD7avbsi9/MyhkkgopWSPqmDDwnGYc8ly
-         msMkTVwPx7eyo7P9x+Bf1gHF1A7HZWU4jn4qfY/4blPrst9MBy9O9sCSBpgEdK+DzhmF
-         /ICaoVjrIoigQVIbtgOcjccTHU7Dn91FGd99r1qD37Sao3qfpS1n9rh91RxXXIaNuqBc
-         j01Mrfnish69uMR2DCRU6+chs9ETljr/CLMH/FZ3zZ6KC2RZg4AEvav/Fm2fTRZRBuH0
-         rp+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713263441; x=1713868241;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OpUv8OKDMoCTJbGOeQ/kgwQ8pTbKhM6e7RKVIafCooI=;
-        b=FP+e/KYYUEZAbv3EVTX89f3Ln8Fgg+62UorTCaUk0b0caVkboP8whEXkgImaMMBevR
-         ITPtvIJTfNNUZqwhLMrfIp08491WJ6kaPGisS8nP4F88XlKlP3MWWdKCH3JYAQKj20BP
-         48SdVKMJfyjhS06BdOUC95YPSuvFPSU9katopPgg3sUGjwFqROinGymLtJukZycHXZv7
-         8ZWpJ2ldeMKyzginLeeaqNv6cqVTbJJEAy09MnD9k0sAkCNYdbzoGll/V3ivQ59VRfjO
-         hMeYJGHc6wPItUv+7OlH8cnHnlAnxoR41gisNrSyATPqvtfPfhBf4tYkgOIiWedgR07m
-         35hA==
-X-Forwarded-Encrypted: i=1; AJvYcCXeID/9rpC1HYmOa3dOHV21zr6QXB+51Zh/Vk+sZYTkNgscx3zLZB6ty5cacO3SzjL9+k203t0Icg3n7mYRE06/N4OPm2quo+P6TjD6Vg==
-X-Gm-Message-State: AOJu0Yyvo38yyj8xwh029EJHsW00euXnTxSSaeJXGFm2tUUCEUu3IAlt
-	r0bfRiWVxBYH5QGC3IGYz0ffrXBGPY6q4miHalDDqMwROXZWxErIvhvL7ZSWsBI=
-X-Google-Smtp-Source: AGHT+IHwE8eVjAv/wY0YEU/3Y29Ot/WeEq9zUw451nPyDOXitvz8i2SUYtyGocvpNr3+FM7DTXN4ig==
-X-Received: by 2002:a17:906:6b8f:b0:a52:54be:dd8a with SMTP id l15-20020a1709066b8f00b00a5254bedd8amr4331396ejr.15.1713263441187;
-        Tue, 16 Apr 2024 03:30:41 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id bm23-20020a170906c05700b00a52331dc082sm5720006ejb.11.2024.04.16.03.30.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Apr 2024 03:30:40 -0700 (PDT)
-Date: Tue, 16 Apr 2024 13:30:36 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Brian Kim <brian.kim@hardkernel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Dongjin Kim <tobetter@gmail.com>, memeka <mihailescu2m@gmail.com>,
-	Yang Deokgyu <secugyu@gmail.com>
-Subject: [tobetter:odroid-5.15.y 21/204] drivers/char/exynos-gpiomem.c:231
- exynos_gpiomem_probe() error: we previously assumed 'inst' could be null
- (see line 156)
-Message-ID: <fdd23124-4697-4897-9808-bb613792affe@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kba/rMC8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713265957; x=1744801957;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HoUrqDwgIuIkQGan7uEa+WSHUD8MFAQZzAtHrk/eG0Q=;
+  b=Kba/rMC8uAEVheyWcfPoHfiVYZFCGq3fCZd9Qux0FfGi47ZfbfNhjDdC
+   b4y7S9hUAvhMMKnjcpnrGiRd5qqrqMNoYO38qyVBBP+PuTjHY1SJUaMIR
+   oI9ldjiD+Xk2QWV3sv4+i29RMMpRKzk2+joNihR5FB6sUsUhCxxvhGkfF
+   zrwHi5QmM1uhJk6WiuGjeSEkCAtcidzTPdOu67nvlXye7THi0IfT1V4iN
+   Txkw0i3cQIcpNeh5gNsd9s1To3jptZdBp/Xtjbxu5TMtk/FVmt4tjhPmX
+   zPToeQsZoFDgE0+6I5gKquvp/uiXSVGe4Yyy7mTwP7gk+CaFO/Xa+lyqa
+   w==;
+X-CSE-ConnectionGUID: xOICk7fPQ3iubsB9qunzlA==
+X-CSE-MsgGUID: E5riSi1eRi+KKQLe+c6aQA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="12537814"
+X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
+   d="scan'208";a="12537814"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 04:12:19 -0700
+X-CSE-ConnectionGUID: j2luMfHDTwGEjJV0U1vxdw==
+X-CSE-MsgGUID: Y05Fnf+UQJia4h7NVbioqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
+   d="scan'208";a="53409070"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 16 Apr 2024 04:12:18 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rwgjI-0005AS-1o;
+	Tue, 16 Apr 2024 11:12:15 +0000
+Date: Tue, 16 Apr 2024 19:11:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [plbossart-sound:sdw/parse-functions 7/7]
+ drivers/soundwire/slave.c:27:11: error: call to undeclared function
+ 'acpi_evaluate_integer'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202404161916.ybMHqYvk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,123 +64,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/tobetter/linux odroid-5.15.y
-head:   28a16e1ab36472a36cac8b10003b29f322f458ff
-commit: 61f45d975621becb00c0aef303769f10428b9cd8 [21/204] ODROID-XU4: char: exynos: add /dev/gpiomem device for rootless user GPIO access
-config: i386-randconfig-141-20240416 (https://download.01.org/0day-ci/archive/20240416/202404160800.qLr46RNZ-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+tree:   https://github.com/plbossart/sound sdw/parse-functions
+head:   7c1b08b15344b1341755906ec0e96842d322fded
+commit: 7c1b08b15344b1341755906ec0e96842d322fded [7/7] soundwire: parse function type and controls
+config: arm-randconfig-002-20240416 (https://download.01.org/0day-ci/archive/20240416/202404161916.ybMHqYvk-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404161916.ybMHqYvk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202404160800.qLr46RNZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404161916.ybMHqYvk-lkp@intel.com/
 
-smatch warnings:
-drivers/char/exynos-gpiomem.c:231 exynos_gpiomem_probe() error: we previously assumed 'inst' could be null (see line 156)
+All errors (new ones prefixed by >>):
 
-vim +/inst +231 drivers/char/exynos-gpiomem.c
+>> drivers/soundwire/slave.c:27:11: error: call to undeclared function 'acpi_evaluate_integer'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      27 |         status = acpi_evaluate_integer(adev->handle,
+         |                  ^
+   drivers/soundwire/slave.c:27:11: note: did you mean 'acpi_evaluate_object'?
+   include/acpi/acpixf.h:550:8: note: 'acpi_evaluate_object' declared here
+     550 |                             acpi_evaluate_object(acpi_handle object,
+         |                             ^
+   include/acpi/platform/aclinux.h:93:21: note: expanded from macro 'ACPI_EXTERNAL_RETURN_STATUS'
+      93 |         static ACPI_INLINE prototype {return(AE_NOT_CONFIGURED);}
+         |                            ^
+   drivers/soundwire/slave.c:27:37: error: incomplete definition of type 'struct acpi_device'
+      27 |         status = acpi_evaluate_integer(adev->handle,
+         |                                        ~~~~^
+   include/linux/acpi.h:795:8: note: forward declaration of 'struct acpi_device'
+     795 | struct acpi_device;
+         |        ^
+>> drivers/soundwire/slave.c:83:9: error: call to undeclared function 'acpi_dev_for_each_child'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      83 |         return acpi_dev_for_each_child(adev, find_sdca_function, slave);
+         |                ^
+   drivers/soundwire/slave.c:83:9: note: did you mean 'device_for_each_child'?
+   include/linux/device.h:1060:5: note: 'device_for_each_child' declared here
+    1060 | int device_for_each_child(struct device *dev, void *data,
+         |     ^
+   3 errors generated.
 
-61f45d975621be Brian Kim 2017-01-10  145  static int exynos_gpiomem_probe(struct platform_device *pdev)
-61f45d975621be Brian Kim 2017-01-10  146  {
-61f45d975621be Brian Kim 2017-01-10  147  	int err = 0;
-61f45d975621be Brian Kim 2017-01-10  148  	struct device *dev = &pdev->dev;
-61f45d975621be Brian Kim 2017-01-10  149  	struct device_node *np = dev->of_node;
-61f45d975621be Brian Kim 2017-01-10  150  	struct resource *res = NULL;
-61f45d975621be Brian Kim 2017-01-10  151  	int i = 0;
-61f45d975621be Brian Kim 2017-01-10  152  
-61f45d975621be Brian Kim 2017-01-10  153  	/* Allocate buffers and instance data */
-61f45d975621be Brian Kim 2017-01-10  154  	inst = kzalloc(sizeof(struct exynos_gpiomem_instance), GFP_KERNEL);
-61f45d975621be Brian Kim 2017-01-10  155  
-61f45d975621be Brian Kim 2017-01-10 @156  	if (!inst) {
-61f45d975621be Brian Kim 2017-01-10  157  		err = -ENOMEM;
-61f45d975621be Brian Kim 2017-01-10  158  		goto failed_inst_alloc;
-                                                        ^^^^^^^^^^^^^^^^^^^^^^^
-This should just return.  Printing an error for failed allocations is
-against kernel style.
 
-61f45d975621be Brian Kim 2017-01-10  159  	}
-61f45d975621be Brian Kim 2017-01-10  160  
-61f45d975621be Brian Kim 2017-01-10  161  	inst->dev = dev;
-61f45d975621be Brian Kim 2017-01-10  162  
-61f45d975621be Brian Kim 2017-01-10  163  	inst->gpio_area_count = of_property_count_elems_of_size(np, "reg",
-61f45d975621be Brian Kim 2017-01-10  164  				sizeof(u32)) / 2;
-61f45d975621be Brian Kim 2017-01-10  165  
-61f45d975621be Brian Kim 2017-01-10  166  	if (inst->gpio_area_count > 32 || inst->gpio_area_count <= 0) {
-61f45d975621be Brian Kim 2017-01-10  167  		dev_err(inst->dev, "failed to get gpio register area.");
-61f45d975621be Brian Kim 2017-01-10  168  		err = -EINVAL;
-61f45d975621be Brian Kim 2017-01-10  169  		goto failed_inst_alloc;
-61f45d975621be Brian Kim 2017-01-10  170  	}
-61f45d975621be Brian Kim 2017-01-10  171  
-61f45d975621be Brian Kim 2017-01-10  172  	dev_info(inst->dev, "Initialised: GPIO register area is %d",
-61f45d975621be Brian Kim 2017-01-10  173  			inst->gpio_area_count);
-61f45d975621be Brian Kim 2017-01-10  174  
-61f45d975621be Brian Kim 2017-01-10  175  	for (i = 0; i < inst->gpio_area_count; ++i) {
-61f45d975621be Brian Kim 2017-01-10  176  		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
-61f45d975621be Brian Kim 2017-01-10  177  		if (res) {
-61f45d975621be Brian Kim 2017-01-10  178  			inst->gpio_regs_phys[i] = res->start;
-61f45d975621be Brian Kim 2017-01-10  179  		} else {
-61f45d975621be Brian Kim 2017-01-10  180  			dev_err(inst->dev, "failed to get IO resource");
-61f45d975621be Brian Kim 2017-01-10  181  			err = -ENOENT;
-61f45d975621be Brian Kim 2017-01-10  182  			goto failed_get_resource;
-61f45d975621be Brian Kim 2017-01-10  183  		}
-61f45d975621be Brian Kim 2017-01-10  184  	}
-61f45d975621be Brian Kim 2017-01-10  185  
-61f45d975621be Brian Kim 2017-01-10  186  	/* Create character device entries */
-61f45d975621be Brian Kim 2017-01-10  187  	err = alloc_chrdev_region(&exynos_gpiomem_devid,
-61f45d975621be Brian Kim 2017-01-10  188  				  DEVICE_MINOR, 1, DEVICE_NAME);
-61f45d975621be Brian Kim 2017-01-10  189  	if (err != 0) {
-61f45d975621be Brian Kim 2017-01-10  190  		dev_err(inst->dev, "unable to allocate device number");
-61f45d975621be Brian Kim 2017-01-10  191  		goto failed_alloc_chrdev;
-61f45d975621be Brian Kim 2017-01-10  192  	}
-61f45d975621be Brian Kim 2017-01-10  193  	cdev_init(&exynos_gpiomem_cdev, &exynos_gpiomem_fops);
-61f45d975621be Brian Kim 2017-01-10  194  	exynos_gpiomem_cdev.owner = THIS_MODULE;
-61f45d975621be Brian Kim 2017-01-10  195  	err = cdev_add(&exynos_gpiomem_cdev, exynos_gpiomem_devid, 1);
-61f45d975621be Brian Kim 2017-01-10  196  	if (err != 0) {
-61f45d975621be Brian Kim 2017-01-10  197  		dev_err(inst->dev, "unable to register device");
-61f45d975621be Brian Kim 2017-01-10  198  		goto failed_cdev_add;
-61f45d975621be Brian Kim 2017-01-10  199  	}
-61f45d975621be Brian Kim 2017-01-10  200  
-61f45d975621be Brian Kim 2017-01-10  201  	/* Create sysfs entries */
-61f45d975621be Brian Kim 2017-01-10  202  	exynos_gpiomem_class = class_create(THIS_MODULE, DEVICE_NAME);
-61f45d975621be Brian Kim 2017-01-10  203  	err = IS_ERR(exynos_gpiomem_class);
-61f45d975621be Brian Kim 2017-01-10  204  	if (err)
-61f45d975621be Brian Kim 2017-01-10  205  		goto failed_class_create;
-61f45d975621be Brian Kim 2017-01-10  206  
-61f45d975621be Brian Kim 2017-01-10  207  	exynos_gpiomem_dev = device_create(exynos_gpiomem_class, NULL,
-61f45d975621be Brian Kim 2017-01-10  208  					exynos_gpiomem_devid, NULL,
-61f45d975621be Brian Kim 2017-01-10  209  					"gpiomem");
-61f45d975621be Brian Kim 2017-01-10  210  	err = IS_ERR(exynos_gpiomem_dev);
-61f45d975621be Brian Kim 2017-01-10  211  	if (err)
-61f45d975621be Brian Kim 2017-01-10  212  		goto failed_device_create;
-61f45d975621be Brian Kim 2017-01-10  213  
-61f45d975621be Brian Kim 2017-01-10  214  	for (i = 0; i < inst->gpio_area_count; ++i) {
-61f45d975621be Brian Kim 2017-01-10  215  		dev_info(inst->dev, "Initialised: Registers at 0x%08lx",
-61f45d975621be Brian Kim 2017-01-10  216  				inst->gpio_regs_phys[i]);
-61f45d975621be Brian Kim 2017-01-10  217  	}
-61f45d975621be Brian Kim 2017-01-10  218  
-61f45d975621be Brian Kim 2017-01-10  219  	return 0;
-61f45d975621be Brian Kim 2017-01-10  220  
-61f45d975621be Brian Kim 2017-01-10  221  failed_device_create:
-61f45d975621be Brian Kim 2017-01-10  222  	class_destroy(exynos_gpiomem_class);
-61f45d975621be Brian Kim 2017-01-10  223  failed_class_create:
-61f45d975621be Brian Kim 2017-01-10  224  	cdev_del(&exynos_gpiomem_cdev);
-61f45d975621be Brian Kim 2017-01-10  225  failed_cdev_add:
-61f45d975621be Brian Kim 2017-01-10  226  	unregister_chrdev_region(exynos_gpiomem_devid, 1);
-61f45d975621be Brian Kim 2017-01-10  227  failed_alloc_chrdev:
-61f45d975621be Brian Kim 2017-01-10  228  failed_get_resource:
-61f45d975621be Brian Kim 2017-01-10  229  	kfree(inst);
-                                                ^^^^^^^^^^^
-Ugh...  Why didn't it warn about this use after free?
+vim +/acpi_evaluate_integer +27 drivers/soundwire/slave.c
 
-61f45d975621be Brian Kim 2017-01-10  230  failed_inst_alloc:
-61f45d975621be Brian Kim 2017-01-10 @231  	dev_err(inst->dev, "could not load exynos_gpiomem");
-                                                        ^^^^^^^^^
-
-61f45d975621be Brian Kim 2017-01-10  232  	return err;
-61f45d975621be Brian Kim 2017-01-10  233  }
+    10	
+    11	static int find_sdca_function(struct acpi_device *adev, void *data)
+    12	{
+    13		struct fwnode_handle *function = acpi_fwnode_handle(adev);
+    14		struct sdw_slave *slave = data;
+    15		struct fwnode_handle *control5;
+    16		struct fwnode_handle *control6;
+    17		struct fwnode_handle *control7;
+    18		u64 control_list = 0;
+    19		u32 function_topology = 0;
+    20		u32 mfg = 0;
+    21		u32 part = 0;
+    22		acpi_status status;
+    23		u64 addr;
+    24	
+    25		dev_info(&slave->dev, "%s: plb start\n", __func__);
+    26	
+  > 27		status = acpi_evaluate_integer(adev->handle,
+    28					       METHOD_NAME__ADR, NULL, &addr);
+    29	
+    30		if (ACPI_FAILURE(status)) {
+    31			dev_err(&slave->dev, "plb _ADR resolution failed: %x\n",
+    32				status);
+    33			return -ENODEV;
+    34		}
+    35	
+    36		if (!addr) {
+    37			dev_err(&slave->dev, "%s: plb no addr\n", __func__);
+    38			return -ENODEV;
+    39		}
+    40	
+    41		fwnode_property_read_u64(function, "mipi-sdca-control-list",
+    42					&control_list);
+    43		dev_info(&slave->dev, "plb control list  %llx\n", control_list);
+    44	
+    45		dev_info(&slave->dev, "%s: plb control5\n", __func__);
+    46		control5 = fwnode_get_named_child_node(function,
+    47						       "mipi-sdca-control-0x5-subproperties");
+    48		if (!control5) {
+    49			fwnode_property_read_u32(control5, "mipi-sdca-control-dc-value",
+    50						 &function_topology);
+    51			dev_info(&slave->dev, "plb topology %d\n", function_topology);
+    52		}
+    53	
+    54		dev_info(&slave->dev, "%s: plb control6\n", __func__);
+    55		control6 = fwnode_get_named_child_node(function,
+    56						       "mipi-sdca-control-0x6-subproperties");
+    57		if (!control6) {
+    58			fwnode_property_read_u32(control6, "mipi-sdca-control-dc-value",
+    59						 &mfg);
+    60			dev_info(&slave->dev, "plb mfg %x\n", mfg);
+    61		}
+    62	
+    63		dev_info(&slave->dev, "%s: plb control7\n", __func__);
+    64		control7 = fwnode_get_named_child_node(function,
+    65						       "mipi-sdca-control-0x7-subproperties");
+    66		if (!control7) {
+    67			fwnode_property_read_u32(control7, "mipi-sdca-control-dc-value",
+    68						 &part);
+    69			dev_info(&slave->dev, "plb part_id %x\n", part);
+    70		}
+    71	
+    72		dev_info(&slave->dev, "plb Found child device with _ADR: %llx\n", addr);
+    73	
+    74		return 0;
+    75	}
+    76	
+    77	static int sdw_acpi_find_sdca_functions(struct sdw_slave *slave)
+    78	{
+    79		struct acpi_device *adev = to_acpi_device_node(slave->dev.fwnode);
+    80	
+    81		dev_info(&slave->dev, "%s: plb start\n", __func__);
+    82	
+  > 83		return acpi_dev_for_each_child(adev, find_sdca_function, slave);
+    84	}
+    85	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
