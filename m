@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5025138FA6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 21:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657265B201
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 22:36:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713304456; cv=none; b=Ioz6LLCM3b2ZSyUtXkwGokBwiOGd4Mauvs8sKxOlMf4rQv4Afhk1W6xh1CVjoaTI04Ov95sLUztfmFIM4HaBSRPceX5hAo2TkX+b/k5kffmkGDKSuBXvTgXJRLGRAToVQBxckVRkU5gKwxhkY72mJzGhO/EB76Eics+Jij+YaYQ=
+	t=1713306977; cv=none; b=sT6CHqq3j2o7sZ/DVm7xfFcazWW6abb09qYwvOtUscarfjGruX/i6ap2L2VB55RdYn+Hq774QcPvrRg/e83smmH2fX87mrGhrX0uEpYJDKGtgHAdBt75EbKMnHHA4ckJW1Yp+Z0aMX/bliPX107A83ohRuD9mCgBDMZplLeRKX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713304456; c=relaxed/simple;
-	bh=lMXX68PlnrQWtNDaa1qELzE4AUTgOK7Ys/OnwwQPGCA=;
+	s=arc-20240116; t=1713306977; c=relaxed/simple;
+	bh=80huPS2u+bvIGbg9SdqhtVS0GUhaOyoikgzNtDjcvfM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BPWcI9jgeoXrKQ4lfovQrrgOHJS86EEjosAwyahr0xzsQ8A8yPViZuHPEuBYObs9LT2x0Kvwi4QFRcT9AOZl6GKKw9fT6JgEhYHSErkMmZDCLc4wRpOYYEuOs+diU1apAwsI8NWQpUmAxeV4DPiVCKXgcJgRlLvvcZpLMohEJ4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e2QFlG1n; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=S7dxAGpX89F+X8nNDdavnsNjjt1Ka1qGxlnliQ2v9HdHxpoSURDuLTy/yVcZBE0F7RAjYcyLInlVGRvaNivVxxwyx5goxkVdP2TP9wjuMD57hexoDYFiTwPTnRz4h91VW1S+5q+o1vWVOmEZSVC26y56vtIH+fUvWzr9Er59Rnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JOdwG/+W; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e2QFlG1n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JOdwG/+W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713304454; x=1744840454;
+  t=1713306975; x=1744842975;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lMXX68PlnrQWtNDaa1qELzE4AUTgOK7Ys/OnwwQPGCA=;
-  b=e2QFlG1nlCHTm6lxPYY50AcItvOijOe7KUptGxiHt+5tni+c70C+kl+q
-   a8qqSQ6A9b+zNkJ1N2AE2Soqk8tiQ5AKkod4DRkHfkqc5KOKNIBCo4ucr
-   G2yvCY5r1kWZnpD7iJ8vCeBdTfU3xkhqTsQXFGlxpc/G1Vi+xrQP4UJoz
-   b1qrvc+rSSQdYweP6r9XX6u86ZzMTdfWZ8Vgu0Fh/2J62evUZ+TNwP9jJ
-   e8IT0xndYE7WlvAs+ADz+gwMwwrN2SCTlf+mIde6Ye9K7yDPxERbVANrj
-   Sx2jmbDUPfMyeIu3G8dHKE53UwcL1wadhXLEbBzxlvNFwLcMFPHRBGTsi
+  bh=80huPS2u+bvIGbg9SdqhtVS0GUhaOyoikgzNtDjcvfM=;
+  b=JOdwG/+WreSx3zjUqa3a7/RBfmIDxRGgsMHULNL+e+oe636jxpgdJiBE
+   TNEHPXg8PVgQlRYkVTDEUoQjh7p1JIrevDB+slPhAf9mNh+j1upy+tkfS
+   U1x28qMttPAX5o73bhiTQEByuHfD5yyZt/KAoZpai+7IOOCn4DBoNbswM
+   96kBsZrO2QLzUCgv+2bFd7fZ7mmCsdi68LNA+bUZFiAE3UslPtt0tsiOX
+   8F7NDX2+aNcA4CNBfwveiDiqTBp1MTqmGR37+6/XI8FQtcEx26RB2lN4t
+   hef8++vIwIKLI1+ZBjd3CCApgBIqedxD5cmzEDE5BoTeTN+QmB6KIZqfR
    A==;
-X-CSE-ConnectionGUID: 17wZRxpwQc6cWgueqJeo2w==
-X-CSE-MsgGUID: +LW1tpTqQS2O9zIssLImCg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="19377137"
+X-CSE-ConnectionGUID: FZ7mytMWRqapUZ37Ryl+BQ==
+X-CSE-MsgGUID: YIZlHcFnTjWqu8NUzQAEAw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="19335722"
 X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="19377137"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 14:54:13 -0700
-X-CSE-ConnectionGUID: 5a5ai5ohSMmDXKOzNZusnw==
-X-CSE-MsgGUID: 6avd6HSXSl6R2DPtGm8FvA==
+   d="scan'208";a="19335722"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 15:36:14 -0700
+X-CSE-ConnectionGUID: mAEPMFOmSFa3hgkAI6ZfTQ==
+X-CSE-MsgGUID: +0RRJ1DuTlqEbYP/6kMloA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="27196855"
+   d="scan'208";a="22409868"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 16 Apr 2024 14:54:12 -0700
+  by orviesa009.jf.intel.com with ESMTP; 16 Apr 2024 15:36:13 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwqkk-0005m4-09;
-	Tue, 16 Apr 2024 21:54:10 +0000
-Date: Wed, 17 Apr 2024 05:53:16 +0800
+	id 1rwrPP-0005no-02;
+	Tue, 16 Apr 2024 22:36:11 +0000
+Date: Wed, 17 Apr 2024 06:35:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 5790/6520] ERROR: modpost: "page_pool_create"
- [drivers/net/netdevsim/netdevsim.ko] undefined!
-Message-ID: <202404170527.LIAPSyMB-lkp@intel.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alobakin:idpf-libie-new 70/78] include/linux/build_bug.h:78:41:
+ error: static assertion failed: "offsetof(struct idpf_rx_queue,
+ __cacheline_group_end__read_write) - offsetofend(struct idpf_rx_queue,
+ __cacheline_group_begin__read_write) <= ALIGN(128 + sizeof(struct
+ u64_stats_sync), __LI...
+Message-ID: <202404170638.bVMRFLrB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,122 +65,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   66e4190e92ce0e4a50b2f6be0e5f5b2e47e072f4
-commit: 1580cbcbfe770b0a7fb76735c1a601483335c1c2 [5790/6520] net: netdevsim: add some fake page pool use
-config: microblaze-randconfig-r033-20220130 (https://download.01.org/0day-ci/archive/20240417/202404170527.LIAPSyMB-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404170527.LIAPSyMB-lkp@intel.com/reproduce)
+tree:   https://github.com/alobakin/linux idpf-libie-new
+head:   472e6c569d5d5052387f59d31d6fb4d688fa0041
+commit: 24e2a1b3b0f8db3c41c1ae65ee2a6a6e6eb19e76 [70/78] idpf: use generic functions to build xdp_buff and skb
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20240417/202404170638.bVMRFLrB-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404170638.bVMRFLrB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404170527.LIAPSyMB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404170638.bVMRFLrB-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/trace/preemptirq_delay_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp860.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp864.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp869.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp874.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp949.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-3.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-9.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-14.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_script.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_skcipher.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ubsan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_inflate/zlib_inflate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-pcf857x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_base.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/serial_mctrl_gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ttyprintk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap3-rom-rng.o
-WARNING: modpost: drivers/char/hw_random/mxc-rnga: section mismatch in reference: mxc_rnga_driver+0x8 (section: .data) -> mxc_rnga_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/navman.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
-WARNING: modpost: drivers/media/i2c/et8ek8/et8ek8: section mismatch in reference: et8ek8_i2c_driver+0x8 (section: .data) -> et8ek8_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/uvc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/usb/dvb-usb/dvb-usb-dibusb-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/usb/dvb-usb/dvb-usb-dibusb-mc-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_sd8787.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-kbd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-mouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lg-g15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-dj.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-hidpp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ntrig.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-retrode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steelseries.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-uclogic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
->> ERROR: modpost: "page_pool_create" [drivers/net/netdevsim/netdevsim.ko] undefined!
->> ERROR: modpost: "page_pool_alloc_pages" [drivers/net/netdevsim/netdevsim.ko] undefined!
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/timer.h:5,
+                    from include/linux/netdevice.h:24,
+                    from include/trace/events/xdp.h:8,
+                    from include/linux/bpf_trace.h:5,
+                    from include/net/libeth/xdp.h:7,
+                    from drivers/net/ethernet/intel/idpf/xdp.c:4:
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct idpf_rx_queue, __cacheline_group_end__read_write) - offsetofend(struct idpf_rx_queue, __cacheline_group_begin__read_write) <= ALIGN(128 + sizeof(struct u64_stats_sync), __LIBETH_LARGEST_ALIGN)"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   include/net/libeth/cache.h:28:9: note: in expansion of macro 'static_assert'
+      28 |         static_assert(offsetof(type, __cacheline_group_end__##grp) -        \
+         |         ^~~~~~~~~~~~~
+   include/net/libeth/cache.h:36:9: note: in expansion of macro '__libeth_cacheline_group_assert'
+      36 |         __libeth_cacheline_group_assert(type, read_write, rw);              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/idpf/idpf_txrx.h:568:1: note: in expansion of macro '__libeth_cacheline_set_assert'
+     568 | __libeth_cacheline_set_assert(struct idpf_rx_queue,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct idpf_tx_queue, __cacheline_group_end__read_write) - offsetofend(struct idpf_tx_queue, __cacheline_group_begin__read_write) <= ALIGN(96 + __builtin_offsetof(struct idpf_tx_queue, stats) - (__builtin_offsetof(struct idpf_tx_queue, next_to_clean) + sizeof((((struct idpf_tx_queue *)0)->next_to_clean))), __LIBETH_LARGEST_ALIGN)"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   include/net/libeth/cache.h:28:9: note: in expansion of macro 'static_assert'
+      28 |         static_assert(offsetof(type, __cacheline_group_end__##grp) -        \
+         |         ^~~~~~~~~~~~~
+   include/net/libeth/cache.h:36:9: note: in expansion of macro '__libeth_cacheline_group_assert'
+      36 |         __libeth_cacheline_group_assert(type, read_write, rw);              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/idpf/idpf_txrx.h:719:1: note: in expansion of macro '__libeth_cacheline_set_assert'
+     719 | __libeth_cacheline_set_assert(struct idpf_tx_queue, 64,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +78 include/linux/build_bug.h
+
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
