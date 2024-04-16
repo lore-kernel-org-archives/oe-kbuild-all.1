@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE84683CD1;
-	Tue, 16 Apr 2024 09:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D751B127E24
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 10:20:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713259629; cv=none; b=YJ8bTD4PIZjAXZe/Ig7e3ISz7yFzLGYS7aiFeyhYs3gENWFYmOE6YLESCtsm8t0Mx57Lv94ygCVcXsi5SxSmZGV+dqHxGp6FgV61vD/na7fSsWN6zSppAucWvo6ij+/D6YykTHfuBaei1DOjKgs6HZh1DEpL9VvUdbc4FV/yJi0=
+	t=1713262816; cv=none; b=A4PCsVD0J2fojib0SRb2RQICmhwUQwW+W8DFEHGapW7+AfcJRQXiY7VnPf6YlKvYFqWTwbE4/1xFMBCW5NLs6uXZY7u8YD4NwTk9xWlUR1Fa6ZClPhwbrg/Q4JrO11rlSvx6qXfXFoBoUIEjamZTxZwdGJYuS8U7YcJtcyCZgL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713259629; c=relaxed/simple;
-	bh=DaHG80PCJjJ2rsypliyRFGT0fjjFDmlWGvHgopnk08c=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AvtR7An1819dFN1unlU+YHdN49PATZhyHqgc4a7LNrGj7sqpLl7TjPLtT8QQ0xN/9KPPXH1eFChb3Om3a8dhJx3YfaMmCUj7OVhXqJ/QmUMTiup0P7zZAnqSgqrU0ZIA4in0vVXgsq+xafpOahbMGNXWuva02do9RKTvIQSAg+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vwr1gTvc; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1713262816; c=relaxed/simple;
+	bh=rVjTiE0ag4qOF0VHdtrmpErhKeyPjghITNgrognB7dw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bUi5So1FDVDajVW//4z5uaGWzsN2NKr10vcCJ81nrB+OEd6n79A5eZxApLtZcMRjC2GwZTGiFQOULCjaDJ+9QfGgxLAm3Qw0ZpvdST4LkMmMm8TSArW06YacjyX2xFOUmAaqJDSx9BK41IFJQ0Hk4a6s5lndsYN8WJZbpB1ORd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UZ9IIajN; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vwr1gTvc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UZ9IIajN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713259628; x=1744795628;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=DaHG80PCJjJ2rsypliyRFGT0fjjFDmlWGvHgopnk08c=;
-  b=Vwr1gTvcz9nMJe43PruLPDKCenHFD2LxMx4Yp6gOXQnlcOwHPprZih6p
-   hve1GH6zeabhx4y0q9E+r1yFFEvEllRnIXiylxdndW6LmdmG6DLETn5uV
-   mFnF2U1AifchmEmYNKPhna2/OQ971i5yNCW+KGEmjmGPFXZErZYl7DfJd
-   YtFzNRzLGFUfR/CwABI7bRA/PIAFmEbzioqWdGObH5bqJQsDHJYzFsAV9
-   8ilYUZC11v489rwi0XTJsXz3jikDXQhMit7t4fQdWba5GZVl7Aohq5SPt
-   R5XNkIsnOz2tGuYfHGMmKU/RlbvObduae+7rTKZ+0zuTVl5zA1PNDPFUG
+  t=1713262814; x=1744798814;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rVjTiE0ag4qOF0VHdtrmpErhKeyPjghITNgrognB7dw=;
+  b=UZ9IIajNlnOvyA2u5cmeOpNrQ9CM5tRA/VoKdq94H6Jc85x5cEEdpOh0
+   NtXWI9qlvSwEqItdWvro0s6qDYznLF+IqL24zWeWbOeYHN8UQPt/YZ3so
+   A3KtkjLHREGMCaMSvLKY4Fnwix2qJQId8kvoc8OvUHsryu7Wl/LBFATuE
+   N0yMfRMv8ETCd9ileFr3L0YxFAh49ZcHtXtnaIUTZPbURIQV/ptNNUaWN
+   S8h9C61JjOSVuFQFIOBjAE5G0FqVW8Z0/EIkrnh8IXB6hdeLzzCn34Tfu
+   VjRkbAWZvybKBEQnSttUNCP82Qk4c4pKDIfbXPFrvo1imtrgJEqtSklT1
    A==;
-X-CSE-ConnectionGUID: xakCzv1mTKWu5AbCxs41DA==
-X-CSE-MsgGUID: /U5/eFvnT/K8E2nSea2ANA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8547820"
+X-CSE-ConnectionGUID: oYTnuY6mTzm232U1cWMn6A==
+X-CSE-MsgGUID: 0QuakYbnRDy62jEToh6h0w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8817398"
 X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="8547820"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 02:27:07 -0700
-X-CSE-ConnectionGUID: CieXNt1ATX6WVD1Fo0G7gw==
-X-CSE-MsgGUID: y83lTFN6Tr+rlNFyS6fe+g==
+   d="scan'208";a="8817398"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 03:19:59 -0700
+X-CSE-ConnectionGUID: wkmw19S9TeW/EqJ3DC5+tA==
+X-CSE-MsgGUID: l5X5T/ldSGa+Y1D8Ckj8eQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="53180194"
+   d="scan'208";a="22804686"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 16 Apr 2024 02:27:06 -0700
+  by orviesa008.jf.intel.com with ESMTP; 16 Apr 2024 03:19:54 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwf5j-00056W-2B;
-	Tue, 16 Apr 2024 09:27:03 +0000
-Date: Tue, 16 Apr 2024 17:26:11 +0800
+	id 1rwfup-00058c-0H;
+	Tue, 16 Apr 2024 10:19:51 +0000
+Date: Tue, 16 Apr 2024 18:18:43 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [openeuler:OLK-5.10 20605/30000] clang: error: unsupported option
- '-mbig-endian' for target 'x86_64-unknown-linux-gnu'
-Message-ID: <202404161708.BW1kcG3L-lkp@intel.com>
+To: kernel@openeuler.org, Zhao Wenhui <zhaowenhui8@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 22104/22122] fs/proc/array.c:614:2:
+ warning: 'gtime' may be used uninitialized in this function
+Message-ID: <202404161806.OZsKNf49-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,132 +62,260 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-TO: kernel@openeuler.org
-TO: Huaxin Lu <luhuaxin1@huawei.com>
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   f356a9b6bb6b38a5bf43c2a87d88e8218a7da086
-commit: 78568d28ad62c586e32e3989de5354fcb014c09f [20605/30000] scripts: Fix issue of module signing with openssl 3.x
-config: arm64-randconfig-002-20240416 (https://download.01.org/0day-ci/archive/20240416/202404161708.BW1kcG3L-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404161708.BW1kcG3L-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5b8899e6883a3bc8649d051cd90b96f37066e356
+commit: 4f8730514c736b09927b1b9c08ad946b70639545 [22104/22122] fs/proc: do_task_stat: use sig->stats_lock to gather the threads/children stats
+config: x86_64-buildonly-randconfig-005-20240416 (https://download.01.org/0day-ci/archive/20240416/202404161806.OZsKNf49-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404161806.OZsKNf49-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404161708.BW1kcG3L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404161806.OZsKNf49-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
-   /usr/include/openssl/engine.h182 | #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-         |                                                 ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-      62 | #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-         |                                                    ^
-   :478:1: note: 'ENGINE_ctrl_cmd_string' has been explicitly marked deprecated here
-     478 | OSSL_DEPRECATEDIN_3_0
-         | ^
-   /usr/include/openssl/macros.hscripts/extract-cert.c:59:9: warning: 'ERR_get_error_line' is deprecated [-Wdeprecated-declarations]
-      59 |         while (ERR_get_error_line(&file, &line)) {}
-         |                ^
-   /usr/include/openssl/err.h:422:1: note: 'ERR_get_error_line' has been explicitly marked deprecated here
-     422 | OSSL_DEPRECATEDIN_3_0
-         | ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-     182 | #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-         |                                                 ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-      62 | #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-         |                                                    ^
-   :182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-     182 | #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-         |                                                 ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-      62 | #     define OSSL_DEPRECATED(since) __attribute__scripts/extract-cert.c:124:3: warning: 'ENGINE_load_builtin_engines' is deprecated [-Wdeprecated-declarations]
-     124 |                 ENGINE_load_builtin_engines();
-         |                 ^
-   ((/usr/include/openssl/engine.hdeprecated))
-         |                                                    ^
-   :358:1: note: 'ENGINE_load_builtin_engines' has been explicitly marked deprecated here
-     scripts/sign-file.c:153:17: warning: 'ENGINE_load_private_key' is deprecated [-Wdeprecated-declarations]
-     153 |                 private_key = ENGINE_load_private_key(e, private_key_name,
-         |                               ^
-   /usr/include/openssl/engine.h:637:1: note: 'ENGINE_load_private_key' has been explicitly marked deprecated here
-     637 | OSSL_DEPRECATEDIN_3_0
-         | ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-     182 | #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-         |                                                 ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-      62 | #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-         |                                                    ^
-   358 | OSSL_DEPRECATEDIN_3_0 void ENGINE_load_builtin_engines(void);
-         | ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-     182 | #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-         |                                                 ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-      62 | #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-         |                                                    ^
-   scripts/extract-cert.c:126:7: warning: 'ENGINE_by_id' is deprecated [-Wdeprecated-declarations]
-     126 |                 e = ENGINE_by_id("pkcs11");
-         |                     ^
-   /usr/include/openssl/engine.h:336:1: note: 'ENGINE_by_id' has been explicitly marked deprecated here
-     336 | OSSL_DEPRECATEDIN_3_0 ENGINE *ENGINE_by_id(const char *id);
-         | ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-     182 | #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-         |                                                 ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-      62 | #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-         |                                                    ^
-   scripts/extract-cert.c:128:7: warning: 'ENGINE_init' is deprecated [-Wdeprecated-declarations]
-     128 |                 if (ENGINE_init(e))
-         |                     ^
-   /usr/include/openssl/engine.h:620:1: note: 'ENGINE_init' has been explicitly marked deprecated here
-     620 | OSSL_DEPRECATEDIN_3_0 int ENGINE_init(ENGINE *e);
-         | ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-     182 | #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-         |                                                 ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-      62 | #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-         |                                                    ^
-   scripts/extract-cert.c:133:9: warning: 'ENGINE_ctrl_cmd_string' is deprecated [-Wdeprecated-declarations]
-     133 |                         ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0), "Set PKCS#11 PIN");
-         |                              ^
-   /usr/include/openssl/engine.h:478:1: note: 'ENGINE_ctrl_cmd_string' has been explicitly marked deprecated here
-     478 | OSSL_DEPRECATEDIN_3_0
-         | ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-     182 | #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-         |                                                 ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-      62 | #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-         |                                                    ^
-   scripts/extract-cert.c:134:3: warning: 'ENGINE_ctrl_cmd' is deprecated [-Wdeprecated-declarations]
-     134 |                 ENGINE_ctrl_cmd(e, "LOAD_CERT_CTRL", 0, &parms, NULL, 1);
-         |                 ^
-   /usr/include/openssl/engine.h:450:1: note: 'ENGINE_ctrl_cmd' has been explicitly marked deprecated here
-     450 | OSSL_DEPRECATEDIN_3_0 int ENGINE_ctrl_cmd(ENGINE *e, const char *cmd_name,
-         | ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-     182 | #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-         |                                                 ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-      62 | #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-         |                                                    ^
-   7 warnings generated.
-   7 warnings generated.
->> clang: error: unsupported option '-mbig-endian' for target 'x86_64-unknown-linux-gnu'
-   make[2]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-offsets.s] Error 1 shuffle=2425708518
->> clang: error: unsupported option '-mbig-endian' for target 'x86_64-unknown-linux-gnu'
-   make[2]: *** [scripts/Makefile.build:286: scripts/mod/empty.o] Error 1 shuffle=2425708518
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1237: prepare0] Error 2 shuffle=2425708518
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:187: __sub-make] Error 2 shuffle=2425708518
-   make: Target 'prepare' not remade because of errors.
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/sched/signal.h:7,
+                    from include/linux/sched/cputime.h:5,
+                    from fs/proc/array.c:68:
+   include/linux/signal.h: In function 'sigemptyset':
+   include/linux/signal.h:180:22: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     180 |  case 2: set->sig[1] = 0;
+         |          ~~~~~~~~~~~~^~~
+   include/linux/signal.h:181:2: note: here
+     181 |  case 1: set->sig[0] = 0;
+         |  ^~~~
+   fs/proc/array.c: In function 'do_task_stat':
+>> fs/proc/array.c:614:2: warning: 'gtime' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     614 |  seq_put_decimal_ull(m, " ", nsec_to_clock_t(gtime));
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/proc/array.c:567:2: warning: 'maj_flt' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     567 |  seq_put_decimal_ull(m, " ", maj_flt);
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/proc/array.c:565:2: warning: 'min_flt' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     565 |  seq_put_decimal_ull(m, " ", min_flt);
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/gtime +614 fs/proc/array.c
+
+^1da177e4c3f41 Linus Torvalds      2005-04-16  432  
+ee992744ea53db Eric W. Biederman   2008-02-08  433  static int do_task_stat(struct seq_file *m, struct pid_namespace *ns,
+ee992744ea53db Eric W. Biederman   2008-02-08  434  			struct pid *pid, struct task_struct *task, int whole)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  435  {
+b2f73922d11968 Ingo Molnar         2015-09-30  436  	unsigned long vsize, eip, esp, wchan = 0;
+715be1fce0d964 Jan Engelhardt      2012-05-31  437  	int priority, nice;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  438  	int tty_pgrp = -1, tty_nr = 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  439  	sigset_t sigign, sigcatch;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  440  	char state;
+a593d6edeb0a5a Oleg Nesterov       2006-10-02  441  	pid_t ppid = 0, pgid = -1, sid = -1;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  442  	int num_threads = 0;
+f83ce3e6b02d5e Jake Edge           2009-05-04  443  	int permitted;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  444  	struct mm_struct *mm;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  445  	unsigned long long start_time;
+4f8730514c736b Oleg Nesterov       2024-04-13  446  	unsigned long cmin_flt, cmaj_flt, min_flt, maj_flt;
+4f8730514c736b Oleg Nesterov       2024-04-13  447  	u64 cutime, cstime, cgtime, utime, stime, gtime;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  448  	unsigned long rsslim = 0;
+a593d6edeb0a5a Oleg Nesterov       2006-10-02  449  	unsigned long flags;
+08132d3d089b9a Eric W. Biederman   2024-04-13  450  	int exit_code = task->exit_code;
+4f8730514c736b Oleg Nesterov       2024-04-13  451  	struct signal_struct *sig = task->signal;
+4f8730514c736b Oleg Nesterov       2024-04-13  452  	unsigned int seq = 1;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  453  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  454  	state = *get_task_state(task);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  455  	vsize = eip = esp = 0;
+caaee6234d05a5 Jann Horn           2016-01-20  456  	permitted = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS | PTRACE_MODE_NOAUDIT);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  457  	mm = get_task_mm(task);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  458  	if (mm) {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  459  		vsize = task_vsize(mm);
+0a1eb2d474edfe Andy Lutomirski     2016-09-30  460  		/*
+0a1eb2d474edfe Andy Lutomirski     2016-09-30  461  		 * esp and eip are intentionally zeroed out.  There is no
+0a1eb2d474edfe Andy Lutomirski     2016-09-30  462  		 * non-racy way to read them without freezing the task.
+0a1eb2d474edfe Andy Lutomirski     2016-09-30  463  		 * Programs that need reliable values can use ptrace(2).
+fd7d56270b526c John Ogness         2017-09-14  464  		 *
+fd7d56270b526c John Ogness         2017-09-14  465  		 * The only exception is if the task is core dumping because
+fd7d56270b526c John Ogness         2017-09-14  466  		 * a program is not able to use ptrace(2) in that case. It is
+fd7d56270b526c John Ogness         2017-09-14  467  		 * safe because the task has stopped executing permanently.
+0a1eb2d474edfe Andy Lutomirski     2016-09-30  468  		 */
+ef7622dbb87776 John Ogness         2019-07-04  469  		if (permitted && (task->flags & (PF_EXITING|PF_DUMPCORE))) {
+8bb2ee192e482c Alexey Dobriyan     2018-01-18  470  			if (try_get_task_stack(task)) {
+fd7d56270b526c John Ogness         2017-09-14  471  				eip = KSTK_EIP(task);
+fd7d56270b526c John Ogness         2017-09-14  472  				esp = KSTK_ESP(task);
+8bb2ee192e482c Alexey Dobriyan     2018-01-18  473  				put_task_stack(task);
+8bb2ee192e482c Alexey Dobriyan     2018-01-18  474  			}
+fd7d56270b526c John Ogness         2017-09-14  475  		}
+f83ce3e6b02d5e Jake Edge           2009-05-04  476  	}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  477  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  478  	sigemptyset(&sigign);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  479  	sigemptyset(&sigcatch);
+3cfd0885fac78c Alan Cox            2006-09-29  480  
+a593d6edeb0a5a Oleg Nesterov       2006-10-02  481  	if (lock_task_sighand(task, &flags)) {
+915935041281c6 Oleg Nesterov       2006-12-08  482  		if (sig->tty) {
+5d0fdf1e018998 Alan Cox            2008-04-30  483  			struct pid *pgrp = tty_get_pgrp(sig->tty);
+5d0fdf1e018998 Alan Cox            2008-04-30  484  			tty_pgrp = pid_nr_ns(pgrp, ns);
+5d0fdf1e018998 Alan Cox            2008-04-30  485  			put_pid(pgrp);
+915935041281c6 Oleg Nesterov       2006-12-08  486  			tty_nr = new_encode_dev(tty_devnum(sig->tty));
+a593d6edeb0a5a Oleg Nesterov       2006-10-02  487  		}
+a593d6edeb0a5a Oleg Nesterov       2006-10-02  488  
+7e49827cc937a7 Oleg Nesterov       2010-05-26  489  		num_threads = get_nr_threads(task);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  490  		collect_sigign_sigcatch(task, &sigign, &sigcatch);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  491  
+6aa7de059173a9 Mark Rutland        2017-10-23  492  		rsslim = READ_ONCE(sig->rlim[RLIMIT_RSS].rlim_cur);
+a593d6edeb0a5a Oleg Nesterov       2006-10-02  493  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  494  		if (whole) {
+08132d3d089b9a Eric W. Biederman   2024-04-13  495  			if (sig->flags & (SIGNAL_GROUP_EXIT | SIGNAL_STOP_STOPPED))
+08132d3d089b9a Eric W. Biederman   2024-04-13  496  				exit_code = sig->group_exit_code;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  497  		}
+a593d6edeb0a5a Oleg Nesterov       2006-10-02  498  
+b488893a390edf Pavel Emelyanov     2007-10-18  499  		sid = task_session_nr_ns(task, ns);
+a98fdcef941e10 Oleg Nesterov       2008-01-15  500  		ppid = task_tgid_nr_ns(task->real_parent, ns);
+b488893a390edf Pavel Emelyanov     2007-10-18  501  		pgid = task_pgrp_nr_ns(task, ns);
+a593d6edeb0a5a Oleg Nesterov       2006-10-02  502  
+a593d6edeb0a5a Oleg Nesterov       2006-10-02  503  		unlock_task_sighand(task, &flags);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  504  	}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  505  
+f83ce3e6b02d5e Jake Edge           2009-05-04  506  	if (permitted && (!whole || num_threads < 2))
+^1da177e4c3f41 Linus Torvalds      2005-04-16  507  		wchan = get_wchan(task);
+f59c1abf66d159 Oleg Nesterov       2024-04-13  508  
+4f8730514c736b Oleg Nesterov       2024-04-13  509  	do {
+4f8730514c736b Oleg Nesterov       2024-04-13  510  		seq++; /* 2 on the 1st/lockless path, otherwise odd */
+4f8730514c736b Oleg Nesterov       2024-04-13  511  		flags = read_seqbegin_or_lock_irqsave(&sig->stats_lock, &seq);
+4f8730514c736b Oleg Nesterov       2024-04-13  512  
+4f8730514c736b Oleg Nesterov       2024-04-13  513  		cmin_flt = sig->cmin_flt;
+4f8730514c736b Oleg Nesterov       2024-04-13  514  		cmaj_flt = sig->cmaj_flt;
+4f8730514c736b Oleg Nesterov       2024-04-13  515  		cutime = sig->cutime;
+4f8730514c736b Oleg Nesterov       2024-04-13  516  		cstime = sig->cstime;
+4f8730514c736b Oleg Nesterov       2024-04-13  517  		cgtime = sig->cgtime;
+4f8730514c736b Oleg Nesterov       2024-04-13  518  
+4f8730514c736b Oleg Nesterov       2024-04-13  519  		if (whole) {
+4f8730514c736b Oleg Nesterov       2024-04-13  520  			struct task_struct *t;
+4f8730514c736b Oleg Nesterov       2024-04-13  521  
+4f8730514c736b Oleg Nesterov       2024-04-13  522  			min_flt = sig->min_flt;
+4f8730514c736b Oleg Nesterov       2024-04-13  523  			maj_flt = sig->maj_flt;
+4f8730514c736b Oleg Nesterov       2024-04-13  524  			gtime = sig->gtime;
+4f8730514c736b Oleg Nesterov       2024-04-13  525  
+4f8730514c736b Oleg Nesterov       2024-04-13  526  			rcu_read_lock();
+4f8730514c736b Oleg Nesterov       2024-04-13  527  			__for_each_thread(sig, t) {
+4f8730514c736b Oleg Nesterov       2024-04-13  528  				min_flt += t->min_flt;
+4f8730514c736b Oleg Nesterov       2024-04-13  529  				maj_flt += t->maj_flt;
+4f8730514c736b Oleg Nesterov       2024-04-13  530  				gtime += task_gtime(t);
+4f8730514c736b Oleg Nesterov       2024-04-13  531  			}
+4f8730514c736b Oleg Nesterov       2024-04-13  532  			rcu_read_unlock();
+4f8730514c736b Oleg Nesterov       2024-04-13  533  		}
+4f8730514c736b Oleg Nesterov       2024-04-13  534  	} while (need_seqretry(&sig->stats_lock, seq));
+4f8730514c736b Oleg Nesterov       2024-04-13  535  	done_seqretry_irqrestore(&sig->stats_lock, seq, flags);
+4f8730514c736b Oleg Nesterov       2024-04-13  536  
+f59c1abf66d159 Oleg Nesterov       2024-04-13  537  	if (whole) {
+f59c1abf66d159 Oleg Nesterov       2024-04-13  538  		thread_group_cputime_adjusted(task, &utime, &stime);
+f59c1abf66d159 Oleg Nesterov       2024-04-13  539  	} else {
+f59c1abf66d159 Oleg Nesterov       2024-04-13  540  		task_cputime_adjusted(task, &utime, &stime);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  541  		min_flt = task->min_flt;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  542  		maj_flt = task->maj_flt;
+6fac4829ce0ef9 Frederic Weisbecker 2012-11-13  543  		gtime = task_gtime(task);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  544  	}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  545  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  546  	/* scale priority and nice values from timeslices to -20..20 */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  547  	/* to make it look like a "normal" Unix priority/nice value  */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  548  	priority = task_prio(task);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  549  	nice = task_nice(task);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  550  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  551  	/* convert nsec -> ticks */
+57e0be041d9e21 Thomas Gleixner     2014-07-16  552  	start_time = nsec_to_clock_t(task->real_start_time);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  553  
+d0f02231222b31 Andrei Vagin        2018-04-10  554  	seq_put_decimal_ull(m, "", pid_nr_ns(pid, ns));
+d0f02231222b31 Andrei Vagin        2018-04-10  555  	seq_puts(m, " (");
+88b72b31e15f9d Tejun Heo           2018-05-18  556  	proc_task_name(m, task, false);
+d0f02231222b31 Andrei Vagin        2018-04-10  557  	seq_puts(m, ") ");
+d0f02231222b31 Andrei Vagin        2018-04-10  558  	seq_putc(m, state);
+75ba1d07fd6a49 Joe Perches         2016-10-07  559  	seq_put_decimal_ll(m, " ", ppid);
+75ba1d07fd6a49 Joe Perches         2016-10-07  560  	seq_put_decimal_ll(m, " ", pgid);
+75ba1d07fd6a49 Joe Perches         2016-10-07  561  	seq_put_decimal_ll(m, " ", sid);
+75ba1d07fd6a49 Joe Perches         2016-10-07  562  	seq_put_decimal_ll(m, " ", tty_nr);
+75ba1d07fd6a49 Joe Perches         2016-10-07  563  	seq_put_decimal_ll(m, " ", tty_pgrp);
+75ba1d07fd6a49 Joe Perches         2016-10-07  564  	seq_put_decimal_ull(m, " ", task->flags);
+75ba1d07fd6a49 Joe Perches         2016-10-07 @565  	seq_put_decimal_ull(m, " ", min_flt);
+75ba1d07fd6a49 Joe Perches         2016-10-07  566  	seq_put_decimal_ull(m, " ", cmin_flt);
+75ba1d07fd6a49 Joe Perches         2016-10-07 @567  	seq_put_decimal_ull(m, " ", maj_flt);
+75ba1d07fd6a49 Joe Perches         2016-10-07  568  	seq_put_decimal_ull(m, " ", cmaj_flt);
+5613fda9a503cd Frederic Weisbecker 2017-01-31  569  	seq_put_decimal_ull(m, " ", nsec_to_clock_t(utime));
+5613fda9a503cd Frederic Weisbecker 2017-01-31  570  	seq_put_decimal_ull(m, " ", nsec_to_clock_t(stime));
+5613fda9a503cd Frederic Weisbecker 2017-01-31  571  	seq_put_decimal_ll(m, " ", nsec_to_clock_t(cutime));
+5613fda9a503cd Frederic Weisbecker 2017-01-31  572  	seq_put_decimal_ll(m, " ", nsec_to_clock_t(cstime));
+75ba1d07fd6a49 Joe Perches         2016-10-07  573  	seq_put_decimal_ll(m, " ", priority);
+75ba1d07fd6a49 Joe Perches         2016-10-07  574  	seq_put_decimal_ll(m, " ", nice);
+75ba1d07fd6a49 Joe Perches         2016-10-07  575  	seq_put_decimal_ll(m, " ", num_threads);
+75ba1d07fd6a49 Joe Perches         2016-10-07  576  	seq_put_decimal_ull(m, " ", 0);
+75ba1d07fd6a49 Joe Perches         2016-10-07  577  	seq_put_decimal_ull(m, " ", start_time);
+75ba1d07fd6a49 Joe Perches         2016-10-07  578  	seq_put_decimal_ull(m, " ", vsize);
+75ba1d07fd6a49 Joe Perches         2016-10-07  579  	seq_put_decimal_ull(m, " ", mm ? get_mm_rss(mm) : 0);
+75ba1d07fd6a49 Joe Perches         2016-10-07  580  	seq_put_decimal_ull(m, " ", rsslim);
+75ba1d07fd6a49 Joe Perches         2016-10-07  581  	seq_put_decimal_ull(m, " ", mm ? (permitted ? mm->start_code : 1) : 0);
+75ba1d07fd6a49 Joe Perches         2016-10-07  582  	seq_put_decimal_ull(m, " ", mm ? (permitted ? mm->end_code : 1) : 0);
+75ba1d07fd6a49 Joe Perches         2016-10-07  583  	seq_put_decimal_ull(m, " ", (permitted && mm) ? mm->start_stack : 0);
+75ba1d07fd6a49 Joe Perches         2016-10-07  584  	seq_put_decimal_ull(m, " ", esp);
+75ba1d07fd6a49 Joe Perches         2016-10-07  585  	seq_put_decimal_ull(m, " ", eip);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  586  	/* The signal information here is obsolete.
+^1da177e4c3f41 Linus Torvalds      2005-04-16  587  	 * It must be decimal for Linux 2.0 compatibility.
+^1da177e4c3f41 Linus Torvalds      2005-04-16  588  	 * Use /proc/#/status for real-time signals.
+^1da177e4c3f41 Linus Torvalds      2005-04-16  589  	 */
+75ba1d07fd6a49 Joe Perches         2016-10-07  590  	seq_put_decimal_ull(m, " ", task->pending.signal.sig[0] & 0x7fffffffUL);
+75ba1d07fd6a49 Joe Perches         2016-10-07  591  	seq_put_decimal_ull(m, " ", task->blocked.sig[0] & 0x7fffffffUL);
+75ba1d07fd6a49 Joe Perches         2016-10-07  592  	seq_put_decimal_ull(m, " ", sigign.sig[0] & 0x7fffffffUL);
+75ba1d07fd6a49 Joe Perches         2016-10-07  593  	seq_put_decimal_ull(m, " ", sigcatch.sig[0] & 0x7fffffffUL);
+b2f73922d11968 Ingo Molnar         2015-09-30  594  
+b2f73922d11968 Ingo Molnar         2015-09-30  595  	/*
+b2f73922d11968 Ingo Molnar         2015-09-30  596  	 * We used to output the absolute kernel address, but that's an
+b2f73922d11968 Ingo Molnar         2015-09-30  597  	 * information leak - so instead we show a 0/1 flag here, to signal
+b2f73922d11968 Ingo Molnar         2015-09-30  598  	 * to user-space whether there's a wchan field in /proc/PID/wchan.
+b2f73922d11968 Ingo Molnar         2015-09-30  599  	 *
+b2f73922d11968 Ingo Molnar         2015-09-30  600  	 * This works with older implementations of procps as well.
+b2f73922d11968 Ingo Molnar         2015-09-30  601  	 */
+b2f73922d11968 Ingo Molnar         2015-09-30  602  	if (wchan)
+b2f73922d11968 Ingo Molnar         2015-09-30  603  		seq_puts(m, " 1");
+b2f73922d11968 Ingo Molnar         2015-09-30  604  	else
+b2f73922d11968 Ingo Molnar         2015-09-30  605  		seq_puts(m, " 0");
+b2f73922d11968 Ingo Molnar         2015-09-30  606  
+75ba1d07fd6a49 Joe Perches         2016-10-07  607  	seq_put_decimal_ull(m, " ", 0);
+75ba1d07fd6a49 Joe Perches         2016-10-07  608  	seq_put_decimal_ull(m, " ", 0);
+75ba1d07fd6a49 Joe Perches         2016-10-07  609  	seq_put_decimal_ll(m, " ", task->exit_signal);
+75ba1d07fd6a49 Joe Perches         2016-10-07  610  	seq_put_decimal_ll(m, " ", task_cpu(task));
+75ba1d07fd6a49 Joe Perches         2016-10-07  611  	seq_put_decimal_ull(m, " ", task->rt_priority);
+75ba1d07fd6a49 Joe Perches         2016-10-07  612  	seq_put_decimal_ull(m, " ", task->policy);
+75ba1d07fd6a49 Joe Perches         2016-10-07  613  	seq_put_decimal_ull(m, " ", delayacct_blkio_ticks(task));
+16a6d9be90373f Frederic Weisbecker 2017-01-31 @614  	seq_put_decimal_ull(m, " ", nsec_to_clock_t(gtime));
+16a6d9be90373f Frederic Weisbecker 2017-01-31  615  	seq_put_decimal_ll(m, " ", nsec_to_clock_t(cgtime));
+5b172087f99189 Cyrill Gorcunov     2012-05-31  616  
+5b172087f99189 Cyrill Gorcunov     2012-05-31  617  	if (mm && permitted) {
+75ba1d07fd6a49 Joe Perches         2016-10-07  618  		seq_put_decimal_ull(m, " ", mm->start_data);
+75ba1d07fd6a49 Joe Perches         2016-10-07  619  		seq_put_decimal_ull(m, " ", mm->end_data);
+75ba1d07fd6a49 Joe Perches         2016-10-07  620  		seq_put_decimal_ull(m, " ", mm->start_brk);
+75ba1d07fd6a49 Joe Perches         2016-10-07  621  		seq_put_decimal_ull(m, " ", mm->arg_start);
+75ba1d07fd6a49 Joe Perches         2016-10-07  622  		seq_put_decimal_ull(m, " ", mm->arg_end);
+75ba1d07fd6a49 Joe Perches         2016-10-07  623  		seq_put_decimal_ull(m, " ", mm->env_start);
+75ba1d07fd6a49 Joe Perches         2016-10-07  624  		seq_put_decimal_ull(m, " ", mm->env_end);
+5b172087f99189 Cyrill Gorcunov     2012-05-31  625  	} else
+75ba1d07fd6a49 Joe Perches         2016-10-07  626  		seq_puts(m, " 0 0 0 0 0 0 0");
+5b172087f99189 Cyrill Gorcunov     2012-05-31  627  
+5b172087f99189 Cyrill Gorcunov     2012-05-31  628  	if (permitted)
+08132d3d089b9a Eric W. Biederman   2024-04-13  629  		seq_put_decimal_ll(m, " ", exit_code);
+5b172087f99189 Cyrill Gorcunov     2012-05-31  630  	else
+75ba1d07fd6a49 Joe Perches         2016-10-07  631  		seq_puts(m, " 0");
+5b172087f99189 Cyrill Gorcunov     2012-05-31  632  
+bda7bad62bc4c4 KAMEZAWA Hiroyuki   2012-03-23  633  	seq_putc(m, '\n');
+^1da177e4c3f41 Linus Torvalds      2005-04-16  634  	if (mm)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  635  		mmput(mm);
+ee992744ea53db Eric W. Biederman   2008-02-08  636  	return 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  637  }
+^1da177e4c3f41 Linus Torvalds      2005-04-16  638  
+
+:::::: The code at line 614 was first introduced by commit
+:::::: 16a6d9be90373fb0b521850cd0185a4d460dd152 sched/cputime: Convert guest time accounting to nsecs (u64)
+
+:::::: TO: Frederic Weisbecker <fweisbec@gmail.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
