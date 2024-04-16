@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E281946F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 03:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B414037152
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 04:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713239551; cv=none; b=o4c5in8BbBdesQimw8Shr3OePel7I7ZVJnodRoQG2r8gGDhJ8EQgHirFp/nVCLmwetM5fTHYGGqq/NQgd48O4+Lj7w61qbF5k1evx1GNGZcTYoHc+Ow/7MIdxPEHjU27FtL33q+MjVfK5kb8UboIVguMzV3ICdQ/hHi3TX0H9xI=
+	t=1713240270; cv=none; b=isazmWw9doqAcWiFMeatLBJNGfvrgm+IOwdewnBk5K/moQw/VGCh4kU+3OJhbYVplJaeLnAlc2mJKvHKUQ2tHMe59lIkqeU7zuqNV5DKCGz9ydhUjwBNi//4uouI0lP9o0tf6Iq3v9hrbj9Ql8O0/FrEiPqd1/dVgzpLNIVlGps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713239551; c=relaxed/simple;
-	bh=qg4gLAslfDCzn+630PI+lNKsT8lJW6H6bA3IwdOQkQA=;
+	s=arc-20240116; t=1713240270; c=relaxed/simple;
+	bh=m0Ef5QhPebAuatmtKngLkebG3Ap/krNh/aEDaS729X8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z4W0qQp3heat7sBB90RvTl230K2tXgkR89uAl9Km1YRt7ZcuogTx5kmo0i6h1JR8q/2gIu+G+O5oz5imdw3qbAYCitSLgOUkqu5W3UCPlRy4UB2Wk46s6CL8vAY3R4SSz0BqIoYW53SUwEjvLthvejtUfeS4f5DftqPoQsM4DfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T9Es8sAb; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=FXSU2QjItLZHsrAXgPODaWFAoWKFBxat+KmzYHCvZqQ5zgJIKLLiAxh7jLjJAfXnVfLlgyTHm/IAvSBLztxfiADeI1bIssR4IS4yl2YENmrnOQUcOwjpcBCa3bl9RaROl7NrO+t60/re2DHyTlKVO6xRab3dCeEk7uVryS5kOI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FudSJuTA; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T9Es8sAb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FudSJuTA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713239550; x=1744775550;
+  t=1713240269; x=1744776269;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qg4gLAslfDCzn+630PI+lNKsT8lJW6H6bA3IwdOQkQA=;
-  b=T9Es8sAbIiYYlp+95Tzb9DoY5WFFbkn1nOq6pcmhLa4IjHTsj72sq9iv
-   mMUCSeD7NqfvwB9MP4n/Vpw1TSleO96r4Iajr/hHVE4rthYF3OcSjNZIC
-   +HSyWvyAKMv8ggK6qevuGEgFFu+ivyQ8QxP7w+Su10x0ic60U+9+WJP0v
-   qgcFtiDYsI1OJTbqJELUQ5zLqJFPBG/iUVcOV793quQ+vDjgwtNNvuPjT
-   T765hbUSPPaech0dunZyDbO4+dgRN3R2T3eMbmcECI7GpudScc59iStpo
-   aTo6HQzfHWITO5NIXPWrkh5qiiPXylfbfmNT4FEZwRWjavOSIZ7fqakLx
-   w==;
-X-CSE-ConnectionGUID: rtOLf4hlTfajqB8KfAgxIg==
-X-CSE-MsgGUID: VsWTBOavTUSTGIciT/PjVg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8823698"
+  bh=m0Ef5QhPebAuatmtKngLkebG3Ap/krNh/aEDaS729X8=;
+  b=FudSJuTAsxjEac1OSN8CvZ4HXa6aMTlW806E+i+eR0JIdy6q9CT75EqF
+   GIyXvHUZ2DsunAVwxrPGdJdwucrcVAcz+aleqHdPVyH40v3D4GCz+k5cN
+   Anp5CHmzylplh85x/vRUv94IWTDFxBjpnnw2HjxDXMdS5Y00ZUHdlXnGh
+   5CJ4z/p6bAeDgTPtnNaAt7TFFbi1Na4xmyGu0j2sMO+HvuXSkwCjzR0XV
+   rAR0jg5MuwRMN3+qsRIqJCnjvwonN7KV5yJRMQDmMF1H9HYNjwlysCIw2
+   AUwEH2erkeAJGwfhDZnJiM+pyyc6LbQr3Br7TDnblpG11U17WZvX1j4T2
+   A==;
+X-CSE-ConnectionGUID: 4rAuqZiyRp+a0fSInF8Gxw==
+X-CSE-MsgGUID: MSO7jjR/QV+cjojy73T1hw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8519171"
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="8823698"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 20:52:29 -0700
-X-CSE-ConnectionGUID: 38STlW4vSXGeuRQhZ2uxIQ==
-X-CSE-MsgGUID: BL1es1dpTcSd8knpvmvLGw==
+   d="scan'208";a="8519171"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 21:04:28 -0700
+X-CSE-ConnectionGUID: Tn70Iq7vSHW2gB3E4NiLwQ==
+X-CSE-MsgGUID: xtsJ873cTBKG8NHGNNnFIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="26779109"
+   d="scan'208";a="22214638"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Apr 2024 20:52:27 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 15 Apr 2024 21:04:27 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwZrs-0004wB-22;
-	Tue, 16 Apr 2024 03:52:24 +0000
-Date: Tue, 16 Apr 2024 11:51:45 +0800
+	id 1rwa3U-0004wg-2g;
+	Tue, 16 Apr 2024 04:04:24 +0000
+Date: Tue, 16 Apr 2024 12:03:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Meng Wei <wei.meng@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	Chang Ying <ying.chang@intel.com>
-Subject: [intel-lts:4.19/android_s 1905/30000]
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1068:13: sparse: sparse: cast
- removes address space '<asn:1>' of expression
-Message-ID: <202404161113.vsudQgbi-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.1 6086/21662] ERROR: modpost:
+ "fuse_get_bpf_prog" [fs/fuse/fuse.ko] undefined!
+Message-ID: <202404161101.J77YzHFc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,49 +62,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   71b63f21a8292ca960a4c363d69d5e95c0265597
-commit: dcdab0d72b69b6291d08483c0baf62cf92e2a1bc [1905/30000] v4l: subdev: Add [GS]_ROUTING subdev ioctls and operations
-config: sparc-randconfig-r131-20240406 (https://download.01.org/0day-ci/archive/20240416/202404161113.vsudQgbi-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240416/202404161113.vsudQgbi-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.1
+head:   bc8dccf0e351f8b1f462250dab685ada42c9463d
+commit: 57f3ff9648991998d008ecf32f2f9e78a08bfb8b [6086/21662] ANDROID: fuse-bpf v1.1
+config: i386-randconfig-052-20240416 (https://download.01.org/0day-ci/archive/20240416/202404161101.J77YzHFc-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404161101.J77YzHFc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404161113.vsudQgbi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404161101.J77YzHFc-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1068:13: sparse: sparse: cast removes address space '<asn:1>' of expression
->> drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1068:13: sparse: sparse: cast removes address space '<asn:1>' of expression
->> drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1068:13: sparse: sparse: cast removes address space '<asn:1>' of expression
->> drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1068:13: sparse: sparse: cast removes address space '<asn:1>' of expression
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +1068 drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+>> ERROR: modpost: "fuse_get_bpf_prog" [fs/fuse/fuse.ko] undefined!
 
-  1059	
-  1060	static int get_v4l2_subdev_routing(struct v4l2_subdev_routing __user *kp,
-  1061					   struct v4l2_subdev_routing32 __user *up)
-  1062	{
-  1063		compat_caddr_t p;
-  1064		u32 num_routes;
-  1065	
-  1066		if (!access_ok(VERIFY_READ, up, sizeof(*up)) ||
-  1067		    get_user(p, &up->routes) ||
-> 1068		    put_user(compat_ptr(p), &kp->routes) ||
-  1069		    get_user(num_routes, &kp->num_routes) ||
-  1070		    assign_in_user(&kp->num_routes, &up->num_routes) ||
-  1071		    !access_ok(VERIFY_READ, up->reserved, sizeof(*up->reserved)) ||
-  1072		    num_routes > U32_MAX / sizeof(*kp->routes))
-  1073			return -EFAULT;
-  1074	
-  1075		if (!access_ok(VERIFY_READ, compat_ptr(p),
-  1076			       num_routes * (u32)sizeof(*kp->routes)))
-  1077			return -EFAULT;
-  1078	
-  1079		return 0;
-  1080	}
-  1081	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=m] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 -- 
 0-DAY CI Kernel Test Service
