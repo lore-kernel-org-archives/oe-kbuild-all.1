@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9247D129A7B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 12:53:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A99112C476
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 12:53:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713272009; cv=none; b=EeUiJ6CrHh48l+nQ0YOI4DpzoFx7XV9E5JSGNVvmJ/gh/85rCLM2BqIwatLXcvDbuKu0Ns+3STuMxA4E5SjnELWr/aZyq9k5x1aXjJvWnPOQhECC35k4rZezMF12euxNB1/vfhyrGoaQWFu9P3tNRHivZNj1Zbn7jXLKYWjPz0A=
+	t=1713272011; cv=none; b=DM67sP85L675OPd3urYX/sWZXay2SmKv+HFY7261F7s5GiZMa4Zk6aUBm1OL8q10GHEnXoeiWlsPcPB4UXkvoiObIdoEOfd9IbSgotLelAciGrNXm3maaL4y77Dsurk6h44PEiyU1BLzk8kmhIR79HomfzWRyKE4KhHY93X2+7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713272009; c=relaxed/simple;
-	bh=wXDaIPiB/wfBZXjKuFA7MvWN41+cmxsp/+szTRlcC64=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KFcVHDMHMR/5lyGDG1hXF81kbQuS3GxiObX1E6Aysza7rEjIlhrhzs483SbVqEFhvv5RN6jir9wb9VNY2w+C1HQ223NqSBy8+UMJl+1oId8BZUGDcdysrJqgmCpvB4UaNOPZuoSD8mbnNlJ2d+lk+6JFL0huW670qFLOlx8Y0AM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lgFNGP+U; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1713272011; c=relaxed/simple;
+	bh=oUZDtFTiJvy70PE4y1dBgF/R67lGfPneBJ50SXyhBew=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=t7Osu9D7fLlFQ6Nam8M1bTuyolY6i91E+GiORI175iBSPFWvdqSebn/5eVOW0aZK+zyypaIY1wLd1Kt58AYqcQYsPW7C974GxI37oSOgPiM9tFrQaP4RqQ2MaTnYjHJvCVfXQVJY7T45I8EHtGVNxB/T7U2C9oXHuZqfhCqz/cQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FclcK0tV; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lgFNGP+U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FclcK0tV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713272008; x=1744808008;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=wXDaIPiB/wfBZXjKuFA7MvWN41+cmxsp/+szTRlcC64=;
-  b=lgFNGP+Uunzia5KoAAmbte+868JeaRft8mRlBvGVf80e4iaGna6xffAA
-   A7oKeeLW7k4IrpPbsB02qBZjhD1jCHRGVGqEZxvGbOuIiDLNaZVSIQ8SI
-   YBGby4YpF438+Gu9I79mHzsWuhG2SnqB+FQo/NmwP+JBeIfIyxj7jPFMN
-   r4XRR8GHbLjjYZWwaSlyQQYxMlRqtTZI5nidLojmthMfl2EaB4OpB+yVq
-   5ySLMri4Tbj3wyGxqXg5MQOqm2nfWwfjf97ptXe29XVpY3WPTPiuuoCDz
-   Z/xS46zdMLk/dZbmBWDzDPsBC0Lwdd21lJdZ/m1Tor2Sxvcp5Wj9GL5SI
+  t=1713272009; x=1744808009;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oUZDtFTiJvy70PE4y1dBgF/R67lGfPneBJ50SXyhBew=;
+  b=FclcK0tVVBi1qw7BZhbHFxNZHcgBHjkqZvOmZtDJW1G2C6WcXUQbfPnb
+   W7XXs50EDdjasglLB2gqLaMPFu7n6cXL76nVcQq9euaQSx78iBIsXJd72
+   zWVX0WamuG9XFMR2Vz+xCKnFiZnu+zDFCQKud+oE1a7qjBlX39nN/vPYy
+   QlYoJ8RVqzQZbTLeUfVm4ZqMClhNjdWSOXs3wojL/73xtIlftNJDffYtB
+   WsbhJRBG36lLQFyF1Yxry6n2y1LQZB3dflbP7Ut9SD2BC2U/3KNP3eKNo
+   7kkZMtXiOhJWvq4aZ3ZMEYBza24+0mrvn8CbzXHtRBraXYkp5uG5uFQoi
    w==;
-X-CSE-ConnectionGUID: 3XzK74GzTqmzgqiTcveW+Q==
-X-CSE-MsgGUID: KfESde04Sn+ye52pKaDW1w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8817794"
+X-CSE-ConnectionGUID: 3myAl6aTSCOV42lERD9OdQ==
+X-CSE-MsgGUID: rv+EGlSMRAOQ3GWPi+zwzA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8817795"
 X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="8817794"
+   d="scan'208";a="8817795"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 05:53:27 -0700
-X-CSE-ConnectionGUID: huCfCbimS0qfljfNdhcnaQ==
-X-CSE-MsgGUID: fy6TD3x3Rc+zOg94MfD7Ag==
+X-CSE-ConnectionGUID: G3rkTzrJSpW1yJ74fH773A==
+X-CSE-MsgGUID: lsQN5P9FTwCY4Zc43QXlhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="27046533"
+   d="scan'208";a="27046534"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
   by orviesa004.jf.intel.com with ESMTP; 16 Apr 2024 05:53:26 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwiJP-0005HI-2Y
-	for oe-kbuild-all@lists.linux.dev;
+	id 1rwiJP-0005HN-2i;
 	Tue, 16 Apr 2024 12:53:23 +0000
-Date: Tue, 16 Apr 2024 20:53:06 +0800
+Date: Tue, 16 Apr 2024 20:53:04 +0800
 From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, chenxiang <chenxiang66@hisilicon.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: fs/select.c:783: Error: unrecognized opcode `csrs sstatus,t1',
- extension `zicsr' required
-Message-ID: <202404162033.T1OYgmGc-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 7345/7439]
+ arch/arm64/kernel/cpufeature.c:2209:57: error: 'enable_pseudo_nmi'
+ undeclared; did you mean 'enable_percpu_nmi'?
+Message-ID: <202404162024.n82VbpYr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,67 +63,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 6.1/dovetail-xenomai-cve
-head:   ae50ab5b35a1f535d25c6c9576c161702409774a
-commit: 00bf25d693e7f69497cb7f61d46ef99fe295a8a5 y2038: use time32 syscall names on 32-bit
-date:   5 years ago
-config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20240416/202404162033.T1OYgmGc-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404162033.T1OYgmGc-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   ba2303cacfdaf39c19a78290c541499b23712f54
+commit: b8c8255e1d74937638bca666264404952c60395a [7345/7439] arm64: Decouple KVM from CONFIG_ARM64_NMI
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240416/202404162024.n82VbpYr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404162024.n82VbpYr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404162033.T1OYgmGc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404162024.n82VbpYr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/select.c: Assembler messages:
-   fs/select.c:1014: Error: unrecognized opcode `csrs sstatus,a1', extension `zicsr' required
-   fs/select.c:1014: Error: unrecognized opcode `csrc sstatus,a1', extension `zicsr' required
->> fs/select.c:783: Error: unrecognized opcode `csrs sstatus,t1', extension `zicsr' required
->> fs/select.c:783: Error: unrecognized opcode `csrc sstatus,t1', extension `zicsr' required
-   fs/select.c:784: Error: unrecognized opcode `csrs sstatus,t1', extension `zicsr' required
-   fs/select.c:784: Error: unrecognized opcode `csrc sstatus,t1', extension `zicsr' required
-   fs/select.c:803: Error: unrecognized opcode `csrs sstatus,t1', extension `zicsr' required
-   fs/select.c:803: Error: unrecognized opcode `csrc sstatus,t1', extension `zicsr' required
-   fs/select.c:804: Error: unrecognized opcode `csrs sstatus,t1', extension `zicsr' required
-   fs/select.c:804: Error: unrecognized opcode `csrc sstatus,t1', extension `zicsr' required
+   arch/arm64/kernel/cpufeature.c: In function 'use_nmi':
+>> arch/arm64/kernel/cpufeature.c:2209:57: error: 'enable_pseudo_nmi' undeclared (first use in this function); did you mean 'enable_percpu_nmi'?
+    2209 |         else if (IS_ENABLED(CONFIG_ARM64_PSEUDO_NMI) && enable_pseudo_nmi) {
+         |                                                         ^~~~~~~~~~~~~~~~~
+         |                                                         enable_percpu_nmi
+   arch/arm64/kernel/cpufeature.c:2209:57: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +783 fs/select.c
+vim +2209 arch/arm64/kernel/cpufeature.c
 
-9f72949f679df0 David Woodhouse 2006-01-18  767  
-9f72949f679df0 David Woodhouse 2006-01-18  768  /*
-9f72949f679df0 David Woodhouse 2006-01-18  769   * Most architectures can't handle 7-argument syscalls. So we provide a
-9f72949f679df0 David Woodhouse 2006-01-18  770   * 6-argument version where the sixth argument is a pointer to a structure
-9f72949f679df0 David Woodhouse 2006-01-18  771   * which has a pointer to the sigset_t itself followed by a size_t containing
-9f72949f679df0 David Woodhouse 2006-01-18  772   * the sigset size.
-9f72949f679df0 David Woodhouse 2006-01-18  773   */
-d4e82042c4cfa8 Heiko Carstens  2009-01-14  774  SYSCALL_DEFINE6(pselect6, int, n, fd_set __user *, inp, fd_set __user *, outp,
-e024707bccae15 Deepa Dinamani  2018-09-19  775  		fd_set __user *, exp, struct __kernel_timespec __user *, tsp,
-d4e82042c4cfa8 Heiko Carstens  2009-01-14  776  		void __user *, sig)
-9f72949f679df0 David Woodhouse 2006-01-18  777  {
-9f72949f679df0 David Woodhouse 2006-01-18  778  	size_t sigsetsize = 0;
-9f72949f679df0 David Woodhouse 2006-01-18  779  	sigset_t __user *up = NULL;
-9f72949f679df0 David Woodhouse 2006-01-18  780  
-9f72949f679df0 David Woodhouse 2006-01-18  781  	if (sig) {
-96d4f267e40f95 Linus Torvalds  2019-01-03  782  		if (!access_ok(sig, sizeof(void *)+sizeof(size_t))
-e110ab94ebc714 Al Viro         2006-02-01 @783  		    || __get_user(up, (sigset_t __user * __user *)sig)
-9f72949f679df0 David Woodhouse 2006-01-18  784  		    || __get_user(sigsetsize,
-e110ab94ebc714 Al Viro         2006-02-01  785  				(size_t __user *)(sig+sizeof(void *))))
-9f72949f679df0 David Woodhouse 2006-01-18  786  			return -EFAULT;
-9f72949f679df0 David Woodhouse 2006-01-18  787  	}
-9f72949f679df0 David Woodhouse 2006-01-18  788  
-e024707bccae15 Deepa Dinamani  2018-09-19  789  	return do_pselect(n, inp, outp, exp, tsp, up, sigsetsize, PT_TIMESPEC);
-9f72949f679df0 David Woodhouse 2006-01-18  790  }
-9f72949f679df0 David Woodhouse 2006-01-18  791  
-
-:::::: The code at line 783 was first introduced by commit
-:::::: e110ab94ebc714de57f75f0c7c576dde8cf80944 [PATCH] fix __user annotations in fs/select.c
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+  2191	
+  2192	static bool use_nmi(const struct arm64_cpu_capabilities *entry, int scope)
+  2193	{
+  2194		if (!has_cpuid_feature(entry, scope))
+  2195			return false;
+  2196	
+  2197		/*
+  2198		 * NMI support was not enabled in the kernel, but can still be
+  2199		 * used by guests. Let the world know.
+  2200		 *
+  2201		 * Having both real and pseudo NMIs enabled simultaneously is
+  2202		 * likely to cause confusion.  Since pseudo NMIs must be
+  2203		 * enabled with an explicit command line option, if the user
+  2204		 * has set that option on a system with real NMIs for some
+  2205		 * reason assume they know what they're doing.
+  2206		 */
+  2207		if (!IS_ENABLED(CONFIG_ARM64_NMI))
+  2208			pr_info("CONFIG_ARM64_NMI disabled, using NMIs for guests only\n");
+> 2209		else if (IS_ENABLED(CONFIG_ARM64_PSEUDO_NMI) && enable_pseudo_nmi) {
+  2210			pr_info("Pseudo NMI enabled, not using architected NMI\n");
+  2211			return false;
+  2212		}
+  2213	
+  2214		return true;
+  2215	}
+  2216	
 
 -- 
 0-DAY CI Kernel Test Service
