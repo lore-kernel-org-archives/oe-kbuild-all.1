@@ -1,61 +1,69 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A4813A3E8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 23:28:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C0A13AA3E;
+	Tue, 16 Apr 2024 23:28:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713310105; cv=none; b=tS51pXH1e6kEOBT2qzz30t++FF+Z/VgY/LVciCTkQf91c8sx+OVProbUiGuaaybQwdoLPIQ5rK4+uiFs3rUd7H2K0aMRaHlLPag3jh4CNbh1W/ls1k4fjr6Q+YNtILMwhUGOzpC3d9gtE3Dv+Ty1Dy+xln8NWVsfhgLMKzFlnow=
+	t=1713310109; cv=none; b=OFcvLyRVq7euYux0jzQqB5LxMAuucYftWZRT6+2ybIywI4MPM8XSedUOLNNtPIJ1BeNFoSKx9Za8EMdRTRbjGWLH7QJEIUDrNvK7YyQichoJKZFhs3MpMKzM700GRq/vk2AVTglXFoSbmcz5dsqoNTj4+NJQPKoM99L62kgu6Wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713310105; c=relaxed/simple;
-	bh=o/m91AAWooHrvd/CwFAuz1XE0KauQ2Ma+s0g0RAhE5Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TnYeimrbHgn/Tt+StE9/n4yjjX/L9hjgSAHsrsYaOTW5GFt/Nnzupgac4M1Abx9b380J+9cIY0yLtSTylNCzGMgKlMh8czmQq3E92+W71QrERp5UjbaF3G5gMa7XNXqH/53Mq+qLJs6NEDODIYWKLvIPWMjFkcmU1e8MyZr9JTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NPF1lNTl; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1713310109; c=relaxed/simple;
+	bh=RWjT95QphPZ5AOknCIiCxI3mE5E53bV0YbYg4KQf3RQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L16XBF97GHrlQaHQ0wZUp2MzemU939VUotOynTpy4TK/3R6b0u8hPhB1iuRzzRBppsv80WQkTCVrmctItjzEfhhYDQ9vqmMh+3uAqSRGn3R6WhRKza0jxyQXF3Hy/xsFhzRuzKxG1W1CDODAdhnW1DG0N26GtzUV6qF4eGqvz7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mGCk0CcU; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPF1lNTl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mGCk0CcU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713310103; x=1744846103;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o/m91AAWooHrvd/CwFAuz1XE0KauQ2Ma+s0g0RAhE5Q=;
-  b=NPF1lNTlbZdfldP2jSWYHB6az+w+vM3XM6UCpDA6GvzgFT1sVCQkh99X
-   sEMaF8iC/b/0/W8TshYS+Qs12eLBl2X8mCbYGFEV7ej9tWtmNb2L5/Hzw
-   5p2TWQdLhLnV/6NhSoTqwKHSY4IQztkDNLrPn6/Qc99/K0Rz1/SgWTOR9
-   WLOqvkdR5p8VeY6D0QTqDZGREPZ8aUPswVq9E3r8g7tBDFbks/3DRJ3GH
-   ulRYeoScEU4dnNI+1w5c68jG8H5FhpXgy7XQ1JExhcXCgDXTp+xSm3rAg
-   prz87+mf6trOx43lI56AxtLGweJsv2Ab1FD5zAgpMIj1pUbqsn5BbO7u6
-   Q==;
-X-CSE-ConnectionGUID: /4G7MqJ0SQKe66gJZPZ14A==
-X-CSE-MsgGUID: r35JAHqMT1Wehlqn2pUKCg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="26294539"
+  t=1713310108; x=1744846108;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RWjT95QphPZ5AOknCIiCxI3mE5E53bV0YbYg4KQf3RQ=;
+  b=mGCk0CcUYrR4fyB8x5zSWhgnsCarPMZBRR2ezw1jtIRS7SLl7g73JmAA
+   ydDZGCh/mx8QFMZcCQltlE14A+SUmMuPIU5/CNRi1KXPSnd8n1bKQ3wS/
+   dSQ+c7Cg/4sRDPHeUDxsrlKHebCEKMKpc1gRNPkHUXmZevULeO1urhHui
+   E9ahow5iDe2TZrIBc1xS1s4xiZ84/HiiJDN4zhU8Vi4FMWv8WY9erFJZL
+   tkRjJlJh7lnlj/3aHzCo61PbTQ81FKWgqBaOnC0DnrgaHRylFg0Kt+ANG
+   +uEdYkIAjD2ZhZiRhNbuTAnEq4CPXbDF4w+siVx/t0dHuoIcMELhqux7H
+   A==;
+X-CSE-ConnectionGUID: G1PshlKqSI6SW60NAfgILA==
+X-CSE-MsgGUID: lcIvNnl7RQWgI2QtSSGFRQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="26294547"
 X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="26294539"
+   d="scan'208";a="26294547"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 16:28:18 -0700
-X-CSE-ConnectionGUID: mgev37eXQNC2HMZW779Irg==
-X-CSE-MsgGUID: 5qSrHN8eR2e8V4veVIhYZQ==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 16:28:20 -0700
+X-CSE-ConnectionGUID: H/mRELqoQU6ABXfhBxqDvQ==
+X-CSE-MsgGUID: EjFeB3IYQ/2rC9oO8AUjYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="22478446"
+   d="scan'208";a="22478448"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
   by fmviesa008.fm.intel.com with ESMTP; 16 Apr 2024 16:28:16 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwsDm-0005qA-2B;
+	id 1rwsDm-0005qD-2G;
 	Tue, 16 Apr 2024 23:28:14 +0000
-Date: Wed, 17 Apr 2024 07:27:58 +0800
+Date: Wed, 17 Apr 2024 07:27:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Naushir Patuck <naush@raspberrypi.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>, linux-doc@vger.kernel.org
-Subject: [pinchartl:rpi/v6.9/isp/v2 16/24] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/media/uapi/v4l/pixfmt-meta-bcm2835-isp-stats.rst
-Message-ID: <202404170711.8Ri744mI-lkp@intel.com>
+To: Kate Hsuan <hpa@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kate Hsuan <hpa@redhat.com>
+Subject: Re: [PATCH v6 4/5] power: supply: power-supply-leds: Add
+ charging_orange_full_green trigger for RGB LED
+Message-ID: <202404170705.Or8MFKNi-lkp@intel.com>
+References: <20240416053909.256319-5-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,26 +72,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240416053909.256319-5-hpa@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git rpi/v6.9/isp/v2
-head:   5101294c3b11eb468b977df8b494c4cc4264a582
-commit: 3d28ed2a4e36222cb404c08eca65a1cbae14fa50 [16/24] staging: vc04_services: bcm2835-isp: Add a more complex ISP processing component
-reproduce: (https://download.01.org/0day-ci/archive/20240417/202404170711.8Ri744mI-lkp@intel.com/reproduce)
+Hi Kate,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on sre-power-supply/for-next]
+[also build test ERROR on lee-leds/for-leds-next linus/master v6.9-rc4]
+[cannot apply to next-20240416]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kate-Hsuan/platform-x86-android-tablets-other-Add-swnode-for-Xiaomi-pad2-indicator-LED/20240416-134240
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
+patch link:    https://lore.kernel.org/r/20240416053909.256319-5-hpa%40redhat.com
+patch subject: [PATCH v6 4/5] power: supply: power-supply-leds: Add charging_orange_full_green trigger for RGB LED
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240417/202404170705.Or8MFKNi-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404170705.Or8MFKNi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404170711.8Ri744mI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404170705.Or8MFKNi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
-   Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/media/uapi/v4l/pixfmt-meta-bcm2835-isp-stats.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/media/v4l-drivers/bcm2835-isp.rst
-   Using alabaster theme
+>> drivers/power/supply/power_supply_leds.c:42:3: error: implicit declaration of function 'led_mc_trigger_event' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   led_mc_trigger_event(psy->charging_orange_full_green_trig,
+                   ^
+   drivers/power/supply/power_supply_leds.c:42:3: note: did you mean 'led_trigger_event'?
+   include/linux/leds.h:489:6: note: 'led_trigger_event' declared here
+   void led_trigger_event(struct led_trigger *trigger,  enum led_brightness event);
+        ^
+   1 error generated.
+
+
+vim +/led_mc_trigger_event +42 drivers/power/supply/power_supply_leds.c
+
+    21	
+    22	static void power_supply_update_bat_leds(struct power_supply *psy)
+    23	{
+    24		union power_supply_propval status;
+    25		unsigned int intensity_green[3] = {255, 0, 0};
+    26		unsigned int intensity_orange[3] = {128, 0, 255};
+    27		unsigned int intensity_red[3] = {0, 0, 255};
+    28	
+    29		if (power_supply_get_property(psy, POWER_SUPPLY_PROP_STATUS, &status))
+    30			return;
+    31	
+    32		dev_dbg(&psy->dev, "%s %d\n", __func__, status.intval);
+    33	
+    34		switch (status.intval) {
+    35		case POWER_SUPPLY_STATUS_FULL:
+    36			led_trigger_event(psy->charging_full_trig, LED_FULL);
+    37			led_trigger_event(psy->charging_trig, LED_OFF);
+    38			led_trigger_event(psy->full_trig, LED_FULL);
+    39			/* Going from blink to LED on requires a LED_OFF event to stop blink */
+    40			led_trigger_event(psy->charging_blink_full_solid_trig, LED_OFF);
+    41			led_trigger_event(psy->charging_blink_full_solid_trig, LED_FULL);
+  > 42			led_mc_trigger_event(psy->charging_orange_full_green_trig,
+    43					     intensity_green,
+    44					     ARRAY_SIZE(intensity_green),
+    45					     LED_FULL);
+    46			break;
+    47		case POWER_SUPPLY_STATUS_CHARGING:
+    48			led_trigger_event(psy->charging_full_trig, LED_FULL);
+    49			led_trigger_event(psy->charging_trig, LED_FULL);
+    50			led_trigger_event(psy->full_trig, LED_OFF);
+    51			led_trigger_blink(psy->charging_blink_full_solid_trig, 0, 0);
+    52			led_mc_trigger_event(psy->charging_orange_full_green_trig,
+    53					     intensity_orange,
+    54					     ARRAY_SIZE(intensity_orange),
+    55					     LED_FULL);
+    56			break;
+    57		default:
+    58			led_trigger_event(psy->charging_full_trig, LED_OFF);
+    59			led_trigger_event(psy->charging_trig, LED_OFF);
+    60			led_trigger_event(psy->full_trig, LED_OFF);
+    61			led_trigger_event(psy->charging_blink_full_solid_trig,
+    62				LED_OFF);
+    63			led_mc_trigger_event(psy->charging_orange_full_green_trig,
+    64					     intensity_red,
+    65					     ARRAY_SIZE(intensity_red),
+    66					     LED_OFF);
+    67			break;
+    68		}
+    69	}
+    70	
 
 -- 
 0-DAY CI Kernel Test Service
