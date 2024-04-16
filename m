@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE9212BEA9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 12:51:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9247D129A7B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 12:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713271889; cv=none; b=lGnnWejnUaSZy8IHEF33FSHsiQBITTWAkdCwCsmultxOWDN3UlG5gPOn5sNRxDpX14UqFkWjUzzJgUnQW6W2oHQVDI06Tb/wLDFDBHSoosXtmPb9nATLpgz52ivx2/c8k5xdv1MOR1pvzwNYi07FAwlGb9f8RQvPBk1dkTGcIko=
+	t=1713272009; cv=none; b=EeUiJ6CrHh48l+nQ0YOI4DpzoFx7XV9E5JSGNVvmJ/gh/85rCLM2BqIwatLXcvDbuKu0Ns+3STuMxA4E5SjnELWr/aZyq9k5x1aXjJvWnPOQhECC35k4rZezMF12euxNB1/vfhyrGoaQWFu9P3tNRHivZNj1Zbn7jXLKYWjPz0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713271889; c=relaxed/simple;
-	bh=R4kvXZxbAb9RegCPN7hb0WLSSF1EyqCMIjPkIA4XLQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CGb0BFnTCHMkzSah3oHittHEbSZDo2CmxM4D46QgPHIyPy75nZ6l6qaW/9BaDeh+CLPFuQls6bQedIk/qHeukcxvw8G2LiigbiTOBfF35FfIWO9rVbZaZLLsx8sQiWrEEJj+zLhuvpM8rCK56Wr3gD50XfQpNuN6qfu5SY3c4xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K7PXikoF; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1713272009; c=relaxed/simple;
+	bh=wXDaIPiB/wfBZXjKuFA7MvWN41+cmxsp/+szTRlcC64=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KFcVHDMHMR/5lyGDG1hXF81kbQuS3GxiObX1E6Aysza7rEjIlhrhzs483SbVqEFhvv5RN6jir9wb9VNY2w+C1HQ223NqSBy8+UMJl+1oId8BZUGDcdysrJqgmCpvB4UaNOPZuoSD8mbnNlJ2d+lk+6JFL0huW670qFLOlx8Y0AM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lgFNGP+U; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K7PXikoF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lgFNGP+U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713271888; x=1744807888;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R4kvXZxbAb9RegCPN7hb0WLSSF1EyqCMIjPkIA4XLQo=;
-  b=K7PXikoFukk0B7DBLlU2EXmldIJ+jSE0q0eU+DE4Sd/sN8FzhoJEEtpu
-   9u4HBR7oiK0lKLaESfQMlX30DNLBC+IICFH4YOhfySJYufJ57y5aOglcO
-   gNpz19IBPYlvCoB9WVXQJB71CIM+7ze8WJl1Lu9Zh2bZ7Qcocd0HOPLCm
-   KDl/+3YWIgyfcxnffwUb0mhq7O1n0iAmNaZIJNG5RBRTit5rJHEQz08ch
-   l6+E8ONKI3AFDXDk9Nl3nifLOdmkkkqUe9/qvKrpN5vP7Eup0yJ/rM+w4
-   PeduyyCyzEtAXO9+C8zxgV8tIaUc6m5RJzt+kd9fIQncMMqWx9lH0JxS2
+  t=1713272008; x=1744808008;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=wXDaIPiB/wfBZXjKuFA7MvWN41+cmxsp/+szTRlcC64=;
+  b=lgFNGP+Uunzia5KoAAmbte+868JeaRft8mRlBvGVf80e4iaGna6xffAA
+   A7oKeeLW7k4IrpPbsB02qBZjhD1jCHRGVGqEZxvGbOuIiDLNaZVSIQ8SI
+   YBGby4YpF438+Gu9I79mHzsWuhG2SnqB+FQo/NmwP+JBeIfIyxj7jPFMN
+   r4XRR8GHbLjjYZWwaSlyQQYxMlRqtTZI5nidLojmthMfl2EaB4OpB+yVq
+   5ySLMri4Tbj3wyGxqXg5MQOqm2nfWwfjf97ptXe29XVpY3WPTPiuuoCDz
+   Z/xS46zdMLk/dZbmBWDzDPsBC0Lwdd21lJdZ/m1Tor2Sxvcp5Wj9GL5SI
    w==;
-X-CSE-ConnectionGUID: /6MTc+S8SRSNp0VQkVAgJg==
-X-CSE-MsgGUID: FolK7tCwS5eqGZG53cUhUQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="12546670"
+X-CSE-ConnectionGUID: 3XzK74GzTqmzgqiTcveW+Q==
+X-CSE-MsgGUID: KfESde04Sn+ye52pKaDW1w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8817794"
 X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="12546670"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 05:51:28 -0700
-X-CSE-ConnectionGUID: JCeMftdgR/CGZI/6HaH8iw==
-X-CSE-MsgGUID: v44zdE19RIWbKjrPqw7tyg==
+   d="scan'208";a="8817794"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 05:53:27 -0700
+X-CSE-ConnectionGUID: huCfCbimS0qfljfNdhcnaQ==
+X-CSE-MsgGUID: fy6TD3x3Rc+zOg94MfD7Ag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="22732096"
+   d="scan'208";a="27046533"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 16 Apr 2024 05:51:26 -0700
+  by orviesa004.jf.intel.com with ESMTP; 16 Apr 2024 05:53:26 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwiHT-0005HE-2O;
-	Tue, 16 Apr 2024 12:51:23 +0000
-Date: Tue, 16 Apr 2024 20:51:11 +0800
+	id 1rwiJP-0005HI-2Y
+	for oe-kbuild-all@lists.linux.dev;
+	Tue, 16 Apr 2024 12:53:23 +0000
+Date: Tue, 16 Apr 2024 20:53:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:timestats-hoist 455/460]
- mean_and_variance.c:(.text.unlikely.u128_div+0x0): multiple definition of
- `u128_div';
- fs/bcachefs/mean_and_variance.o:mean_and_variance.c:(.text.unlikely.u128_div+0x0):
- first defined here
-Message-ID: <202404162023.ToibQFhz-lkp@intel.com>
+Subject: fs/select.c:783: Error: unrecognized opcode `csrs sstatus,t1',
+ extension `zicsr' required
+Message-ID: <202404162033.T1OYgmGc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,36 +62,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git timestats-hoist
-head:   7c3356f2aba32597d2b4927b2e237bc980fe3a07
-commit: 3332108f6e75ebd618bd1088a45ecb417375195e [455/460] mean and variance: Promote to lib/math
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20240416/202404162023.ToibQFhz-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404162023.ToibQFhz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 6.1/dovetail-xenomai-cve
+head:   ae50ab5b35a1f535d25c6c9576c161702409774a
+commit: 00bf25d693e7f69497cb7f61d46ef99fe295a8a5 y2038: use time32 syscall names on 32-bit
+date:   5 years ago
+config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20240416/202404162033.T1OYgmGc-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404162033.T1OYgmGc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404162023.ToibQFhz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404162033.T1OYgmGc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mips-linux-ld: lib/math/mean_and_variance.o: in function `u128_div':
->> mean_and_variance.c:(.text.unlikely.u128_div+0x0): multiple definition of `u128_div'; fs/bcachefs/mean_and_variance.o:mean_and_variance.c:(.text.unlikely.u128_div+0x0): first defined here
-   mips-linux-ld: lib/math/mean_and_variance.o: in function `mean_and_variance_get_mean':
->> mean_and_variance.c:(.text.mean_and_variance_get_mean+0x0): multiple definition of `mean_and_variance_get_mean'; fs/bcachefs/mean_and_variance.o:mean_and_variance.c:(.text.mean_and_variance_get_mean+0x0): first defined here
-   mips-linux-ld: lib/math/mean_and_variance.o: in function `mean_and_variance_get_variance':
->> mean_and_variance.c:(.text.mean_and_variance_get_variance+0x0): multiple definition of `mean_and_variance_get_variance'; fs/bcachefs/mean_and_variance.o:mean_and_variance.c:(.text.mean_and_variance_get_variance+0x0): first defined here
-   mips-linux-ld: lib/math/mean_and_variance.o: in function `mean_and_variance_get_stddev':
->> mean_and_variance.c:(.text.mean_and_variance_get_stddev+0x0): multiple definition of `mean_and_variance_get_stddev'; fs/bcachefs/mean_and_variance.o:mean_and_variance.c:(.text.mean_and_variance_get_stddev+0x0): first defined here
-   mips-linux-ld: lib/math/mean_and_variance.o: in function `mean_and_variance_weighted_update':
->> mean_and_variance.c:(.text.mean_and_variance_weighted_update+0x0): multiple definition of `mean_and_variance_weighted_update'; fs/bcachefs/mean_and_variance.o:mean_and_variance.c:(.text.mean_and_variance_weighted_update+0x0): first defined here
-   mips-linux-ld: lib/math/mean_and_variance.o: in function `mean_and_variance_weighted_get_mean':
->> mean_and_variance.c:(.text.mean_and_variance_weighted_get_mean+0x0): multiple definition of `mean_and_variance_weighted_get_mean'; fs/bcachefs/mean_and_variance.o:mean_and_variance.c:(.text.mean_and_variance_weighted_get_mean+0x0): first defined here
-   mips-linux-ld: lib/math/mean_and_variance.o: in function `mean_and_variance_weighted_get_variance':
->> mean_and_variance.c:(.text.mean_and_variance_weighted_get_variance+0x0): multiple definition of `mean_and_variance_weighted_get_variance'; fs/bcachefs/mean_and_variance.o:mean_and_variance.c:(.text.mean_and_variance_weighted_get_variance+0x0): first defined here
-   mips-linux-ld: lib/math/mean_and_variance.o: in function `mean_and_variance_weighted_get_stddev':
->> mean_and_variance.c:(.text.mean_and_variance_weighted_get_stddev+0x0): multiple definition of `mean_and_variance_weighted_get_stddev'; fs/bcachefs/mean_and_variance.o:mean_and_variance.c:(.text.mean_and_variance_weighted_get_stddev+0x0): first defined here
+   fs/select.c: Assembler messages:
+   fs/select.c:1014: Error: unrecognized opcode `csrs sstatus,a1', extension `zicsr' required
+   fs/select.c:1014: Error: unrecognized opcode `csrc sstatus,a1', extension `zicsr' required
+>> fs/select.c:783: Error: unrecognized opcode `csrs sstatus,t1', extension `zicsr' required
+>> fs/select.c:783: Error: unrecognized opcode `csrc sstatus,t1', extension `zicsr' required
+   fs/select.c:784: Error: unrecognized opcode `csrs sstatus,t1', extension `zicsr' required
+   fs/select.c:784: Error: unrecognized opcode `csrc sstatus,t1', extension `zicsr' required
+   fs/select.c:803: Error: unrecognized opcode `csrs sstatus,t1', extension `zicsr' required
+   fs/select.c:803: Error: unrecognized opcode `csrc sstatus,t1', extension `zicsr' required
+   fs/select.c:804: Error: unrecognized opcode `csrs sstatus,t1', extension `zicsr' required
+   fs/select.c:804: Error: unrecognized opcode `csrc sstatus,t1', extension `zicsr' required
+
+
+vim +783 fs/select.c
+
+9f72949f679df0 David Woodhouse 2006-01-18  767  
+9f72949f679df0 David Woodhouse 2006-01-18  768  /*
+9f72949f679df0 David Woodhouse 2006-01-18  769   * Most architectures can't handle 7-argument syscalls. So we provide a
+9f72949f679df0 David Woodhouse 2006-01-18  770   * 6-argument version where the sixth argument is a pointer to a structure
+9f72949f679df0 David Woodhouse 2006-01-18  771   * which has a pointer to the sigset_t itself followed by a size_t containing
+9f72949f679df0 David Woodhouse 2006-01-18  772   * the sigset size.
+9f72949f679df0 David Woodhouse 2006-01-18  773   */
+d4e82042c4cfa8 Heiko Carstens  2009-01-14  774  SYSCALL_DEFINE6(pselect6, int, n, fd_set __user *, inp, fd_set __user *, outp,
+e024707bccae15 Deepa Dinamani  2018-09-19  775  		fd_set __user *, exp, struct __kernel_timespec __user *, tsp,
+d4e82042c4cfa8 Heiko Carstens  2009-01-14  776  		void __user *, sig)
+9f72949f679df0 David Woodhouse 2006-01-18  777  {
+9f72949f679df0 David Woodhouse 2006-01-18  778  	size_t sigsetsize = 0;
+9f72949f679df0 David Woodhouse 2006-01-18  779  	sigset_t __user *up = NULL;
+9f72949f679df0 David Woodhouse 2006-01-18  780  
+9f72949f679df0 David Woodhouse 2006-01-18  781  	if (sig) {
+96d4f267e40f95 Linus Torvalds  2019-01-03  782  		if (!access_ok(sig, sizeof(void *)+sizeof(size_t))
+e110ab94ebc714 Al Viro         2006-02-01 @783  		    || __get_user(up, (sigset_t __user * __user *)sig)
+9f72949f679df0 David Woodhouse 2006-01-18  784  		    || __get_user(sigsetsize,
+e110ab94ebc714 Al Viro         2006-02-01  785  				(size_t __user *)(sig+sizeof(void *))))
+9f72949f679df0 David Woodhouse 2006-01-18  786  			return -EFAULT;
+9f72949f679df0 David Woodhouse 2006-01-18  787  	}
+9f72949f679df0 David Woodhouse 2006-01-18  788  
+e024707bccae15 Deepa Dinamani  2018-09-19  789  	return do_pselect(n, inp, outp, exp, tsp, up, sigsetsize, PT_TIMESPEC);
+9f72949f679df0 David Woodhouse 2006-01-18  790  }
+9f72949f679df0 David Woodhouse 2006-01-18  791  
+
+:::::: The code at line 783 was first introduced by commit
+:::::: e110ab94ebc714de57f75f0c7c576dde8cf80944 [PATCH] fix __user annotations in fs/select.c
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
