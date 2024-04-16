@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365A96FC7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 01:52:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4EFE545;
+	Tue, 16 Apr 2024 02:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713232343; cv=none; b=Rb28qvO5ud0eSqSM3uAI7XGc76i4AWaFveXzDQRlKn+xFTXFO1hLR8t46Xdb5qzmYXEHJn4XhIyD0bYLgJpdF//wx5PysVLbipQQ6zZ6NslJmkzyI4A/eP9Ng9Di/QdXj19r3XYp2CKPJYYPl0iPtYbF4m86qPFsUvcmkq9f3HI=
+	t=1713234984; cv=none; b=hR4PcYfdI3s5rGqsck4OZqGMdzrRjmrvW4b3ZK0KQAr/IP78SkAl8h0jCfxOfq4yEXRIVR0HIS0mVsB68TOIJSe35/r5MDBaXIzl9uX1XLDYTRywxqFPRpXivbxawsQt7vEJoymZqi1trtf9iUF/dA9sUI9BPAJm1X6wOuM9b8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713232343; c=relaxed/simple;
-	bh=GlvL6V1VSlfareo7VbX0/euGZXdXlqLfKhxENgFXy7E=;
+	s=arc-20240116; t=1713234984; c=relaxed/simple;
+	bh=oLwzwiqOhSbmW8VELmiWpLJAQiSqvlEmLp+iZ8Pqnmk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Eqvw5q0HC25R2Gz1mUOyOHQq+e8wnWmVGouTh8rBxjrq4Sl2/DNbUgJNMBpF5LThp9Ahs6dgi6p7oai4Cw8xKcm8XrvOJ6SAMyEpbIvX1HRWDwgKLvHHq5zQvfhKVoV1VOgPa4OzFBqJHIH2JmCLjHzp6OWAxJI9iW8h/cT0N4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RrS1Uk4D; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=VanG9mgCFoKG0jXASPAM20BGmcok8TIsOxUcKNWW7x8d8TPbdLlt5dgKpMR4KTVbBKIJ3irq3UsnYhNQBK6T9iPuAc82A+OWjngKqr3T6CD3JJLXfBvtTSup8Q6vcoO+AZtpt7D0B+Ic9hAGN4i2gdr85+hFSGnyFC+tQBnLcCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b5PBI8YA; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RrS1Uk4D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b5PBI8YA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713232341; x=1744768341;
+  t=1713234983; x=1744770983;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GlvL6V1VSlfareo7VbX0/euGZXdXlqLfKhxENgFXy7E=;
-  b=RrS1Uk4DhYfHn4NUr7u1p+hZoBUo8bRxLUsziRBt7HVpEHHdfdNfGlU7
-   LjK+MvJWNqutRQLasq891cLungICClwn/3X2S9PY2Ld1MeXdFQtsYCTw0
-   A3Ldpio0pU//Z6wfihWV+d5vu4F/A/xpXVMuS6irxvT7/Mhq7OEINfMNR
-   GmAS/iRl6HDBGwL2HdjXBEd0xx5vZ1HTOSbxzsHyjyzNQei9XqklQZAGB
-   eDyKTBA2Jo9IW0lYFWydBKP3vSzEtpDoO8ipJz4mHt2krIjBtSfntoovP
-   4hZLd1zDzhtb1PpM6FDt7FvNLgA/qyZza8s2aA5Vm2Vb3CQHaqULXPtx4
-   g==;
-X-CSE-ConnectionGUID: bmAwUvivTHaRJzsMpbDaHg==
-X-CSE-MsgGUID: TaJxmsmISLmYMoGQ7br+DA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="19209229"
+  bh=oLwzwiqOhSbmW8VELmiWpLJAQiSqvlEmLp+iZ8Pqnmk=;
+  b=b5PBI8YA43HAtGfMKLLVUZgZTiiLRoxsOpPDWhV0/bxmeuZG92jbHX3U
+   /r2AAjS7Qm2V2pZ69IoZSx4pL85o/3ydNB6QuxhnSqaP/37QV2+lsr9lR
+   IYL5axd8UtnflZSAvlpVgAQjMrA7UQPVFrU30/exINp+1MJ0iVLPyseoY
+   1tGCszJoqzW5yM/hNWDcAMprKF2Q3ryT7dFjxzuw8MMEqmqVnZEuGQO5f
+   8FT/7UR+C9vLV822pBoNt/V/UnPn2/cqWLkxXyqji/fmpdGyXX6udueo3
+   bisHl3FkC/iDA43Kfo3xEYnLq5/p0NJO22rWJJ8Jai5kTXdkEoJhASUzQ
+   A==;
+X-CSE-ConnectionGUID: kpcsBTk/Sqi4ctDfrDDskw==
+X-CSE-MsgGUID: rDkAjDfZS1KCcINvBpgNHw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="12497573"
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="19209229"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 18:52:20 -0700
-X-CSE-ConnectionGUID: TpPPW4leRwau2RgNA3/R9w==
-X-CSE-MsgGUID: XionoGq8Q7aoE71kp5d29Q==
+   d="scan'208";a="12497573"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 19:36:23 -0700
+X-CSE-ConnectionGUID: So3f+BeCR2CMIDPTIu059A==
+X-CSE-MsgGUID: lJXLzQ6jRFKNcTj5p3p5Sg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="45384721"
+   d="scan'208";a="26776400"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Apr 2024 18:52:19 -0700
+  by orviesa003.jf.intel.com with ESMTP; 15 Apr 2024 19:36:20 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwXzd-0004pc-0s;
-	Tue, 16 Apr 2024 01:52:17 +0000
-Date: Tue, 16 Apr 2024 09:52:00 +0800
+	id 1rwYgE-0004r6-0b;
+	Tue, 16 Apr 2024 02:36:18 +0000
+Date: Tue, 16 Apr 2024 10:35:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 14630/22116]
- drivers/net/xen-netback/interface.c:170:49: sparse: sparse: dubious: !x | !y
-Message-ID: <202404160915.wAO7ibZH-lkp@intel.com>
+To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Subject: [pdx86-platform-drivers-x86:review-hans 40/59]
+ drivers/platform/x86/amd/pmc/mp2_stb.c:94:2: error: call to undeclared
+ function 'writeq'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202404161050.NSNJAxvX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,51 +68,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Juergen,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   b152f5a5ef7efe0b5bf8de2aae6e73a549d0d223
-commit: b8f0cb59f64793764cac8b6db7bee9b6157ceb7e [14630/22116] xen/netback: use lateeoi irq binding
-config: arm64-randconfig-r111-20240331 (https://download.01.org/0day-ci/archive/20240416/202404160915.wAO7ibZH-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240416/202404160915.wAO7ibZH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-hans
+head:   0aae4c44b032b5ede39405dfc62900adc467f362
+commit: 2dc77993cb5eb311d6bb5584d30c3d1d42d9fa4a [40/59] platform/x86/amd/pmc: Add AMD MP2 STB functionality
+config: i386-randconfig-011-20240416 (https://download.01.org/0day-ci/archive/20240416/202404161050.NSNJAxvX-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404161050.NSNJAxvX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404160915.wAO7ibZH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404161050.NSNJAxvX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   /tmp/ccKkN2Zj.s: Assembler messages:
->> /tmp/ccKkN2Zj.s:1072: Error: immediate out of range at operand 3 -- `bic w0,w1,5'
+>> drivers/platform/x86/amd/pmc/mp2_stb.c:94:2: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      94 |         writeq(mp2->dma_addr, mp2->mmio + AMD_C2P_MSG1);
+         |         ^
+   drivers/platform/x86/amd/pmc/mp2_stb.c:267:45: warning: shift count >= width of type [-Wshift-count-overflow]
+     267 |         rc = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+         |                                                    ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
+      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                                      ^ ~~~
+   1 warning and 1 error generated.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/xen-netback/interface.c:170:49: sparse: sparse: dubious: !x | !y
 
-vim +170 drivers/net/xen-netback/interface.c
+vim +/writeq +94 drivers/platform/x86/amd/pmc/mp2_stb.c
 
-   160	
-   161	irqreturn_t xenvif_interrupt(int irq, void *dev_id)
-   162	{
-   163		struct xenvif_queue *queue = dev_id;
-   164		int old;
-   165	
-   166		old = atomic_fetch_or(NETBK_COMMON_EOI, &queue->eoi_pending);
-   167		WARN(old, "Interrupt while EOI pending\n");
-   168	
-   169		/* Use bitwise or as we need to call both functions. */
- > 170		if ((!xenvif_handle_tx_interrupt(queue) |
-   171		     !xenvif_handle_rx_interrupt(queue))) {
-   172			atomic_andnot(NETBK_COMMON_EOI, &queue->eoi_pending);
-   173			xen_irq_lateeoi(irq, XEN_EOI_FLAG_SPURIOUS);
-   174		}
-   175	
-   176		return IRQ_HANDLED;
-   177	}
-   178	
+    84	
+    85	static void amd_mp2_stb_send_cmd(struct amd_mp2_dev *mp2, u8 cmd_id, bool is_dma_used)
+    86	{
+    87		struct mp2_cmd_base cmd_base;
+    88	
+    89		cmd_base.ul = 0;
+    90		cmd_base.field.cmd_id = cmd_id;
+    91		cmd_base.field.intr_disable = 1;
+    92		cmd_base.field.is_dma_used = is_dma_used;
+    93	
+  > 94		writeq(mp2->dma_addr, mp2->mmio + AMD_C2P_MSG1);
+    95		writel(cmd_base.ul, mp2->mmio + AMD_C2P_MSG0);
+    96	}
+    97	
 
 -- 
 0-DAY CI Kernel Test Service
