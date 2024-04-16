@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0BAD156979
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Apr 2024 23:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8631617E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 00:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713224739; cv=none; b=kcXuKiFD2kbbrVbefje4ol2fCuGrxiHUKJEBFLjZxsVmkW3fBGZR7OL757XfaG070sv85Ft0+2l0ArODRBZ/wFhGsg/HW0I1beO29Vm/d0JcYolP5a67VDg0mxErqUqcVl7jNKs8w6dE4scE1jp8dMm8jWfsmkcw0DJm3LoGwU8=
+	t=1713226059; cv=none; b=bMb1KG4myGS3T0ITSLE8L7W3jpbc2A75uKb5kmbFdnIFEIjfXw3Sx08ao4KNFQCsNBRzFJAxr5HUuOEo63L9eyNcEn/+SFG6IgEO7ao5Voo3OwAXi2vb9+ewRALSjOkEq6teBKp3T10ByyV9M/tw4qeROx+jKji2d0GVLgmxh1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713224739; c=relaxed/simple;
-	bh=j8+n/U18YjrHTwa5EWeIKUhqT9a3bzP49oaxVyOcWrA=;
+	s=arc-20240116; t=1713226059; c=relaxed/simple;
+	bh=1JhqrHuoFXbkS14UQC/yxMDZfe1QHhiapywqG6RRkYQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TvTG64nslQfFkhDIIoM8/s7Y4mYCu2x/Oz8+CkJ1B+qCVQH4KsXSdllO2y+WzXuGbYBwKdClFR9W2k5EzkXRzxqNk66LHDTrg6Uon+aP4zg7iMOP2bPUdjtAB3lXHVzLw9UDPu5QdusCjEYZAr9H5JKIaeJlc1EZvVrJZRJTnew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fCLOZa7+; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=q1DC15GXH2LUqBdIB0Pc32PMURk+zYwvZqQmFQR/Ue8GOreZ5B+MA93x0kn0WnEum9Gh9GqWDVaoX9OTvQQbOnqEPi4AQx6qKpZGHYwg60VO/Ll77wMes4N20lA4XEZ1tfAkerVPsRFjTTICr/OF9UF8KI3/fW2b/qu8flP5bbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BBpwkxYy; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fCLOZa7+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BBpwkxYy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713224738; x=1744760738;
+  t=1713226057; x=1744762057;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j8+n/U18YjrHTwa5EWeIKUhqT9a3bzP49oaxVyOcWrA=;
-  b=fCLOZa7+ndHwZKLRxntzZpaIkWc3zYtgc8ZxoB7zc+INKIK369G5m9a7
-   ysLUmEjr4m2bD8ETRa/Z3DRZ2wku0Neb4J2LHrmFpK3aZMYt0fJ/mzX1t
-   R8hse9IK0DO20JqXThxDbHyjcW77ILzT74g4Jzze1WR6LRW31GHSkgH5Y
-   m6T4vh3tNGduatuIg/RVvwhScg3yR/rpYJqNWLQLRIv0yqzzXu2f8GNQi
-   x1TznATWXqFr9R6G/9jcVGRjzcwxWzNHDf8+25YOebSnQUk2DIB29oCv3
-   s9B7NNHsDHXBQVtgYX3qJ5LC5CsTQwV/msuK9V3sCtI5G5cUXvSMQGBWm
+  bh=1JhqrHuoFXbkS14UQC/yxMDZfe1QHhiapywqG6RRkYQ=;
+  b=BBpwkxYyM/DMbdsB3nJZoKo+GTEHek96yM/Y5eFSHUrYz+ZkaGJgvajY
+   aSwV7R/CSWebTAoQVU5vRctNai5vH004VfOhmuwMNsq1OqN6OUqOxGLz/
+   0jMmidsXTNQKV8NxHAizAXLQfe1lK4gQsrYYINGmQoBRpOsQJcEAt16/m
+   lPV5bf5J6lWP7dFL0HNRDbKHa3o+56hXGpe1QGjtcVpHcpdDL2zlLCm24
+   4K16NSpqpbBQLCwFu6B8pgeUOkK0PCNHxSk9iOYCZOB26rK20BgEXNM0R
+   UaYI/6bJmf5Cx7r7g5DtBMIvECAKrIUbzIVfsAauRpSOj2Y8p3uQsVj8P
    A==;
-X-CSE-ConnectionGUID: hNXztsuLTfWSd/kuUlFByA==
-X-CSE-MsgGUID: VLpepqzxTGOBZBbruo/NLA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8860043"
+X-CSE-ConnectionGUID: /3M9S1BjSempIZ8jlKL9YA==
+X-CSE-MsgGUID: Rh0HGU6lTYa/F6Z+UQKk3A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="12421768"
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="8860043"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 16:45:37 -0700
-X-CSE-ConnectionGUID: wD59IYmYQ1GOQTHdk0moDw==
-X-CSE-MsgGUID: iMcphzg8SG6IwfcS3gOgDA==
+   d="scan'208";a="12421768"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 17:07:37 -0700
+X-CSE-ConnectionGUID: OKZJ3R/CTWeq7hIZVhy6wg==
+X-CSE-MsgGUID: g1vUdGEVTpCxJF8N8yin3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="53028665"
+   d="scan'208";a="22158214"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 15 Apr 2024 16:45:36 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 15 Apr 2024 17:07:36 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwW0z-0004jY-2j;
-	Mon, 15 Apr 2024 23:45:33 +0000
-Date: Tue, 16 Apr 2024 07:44:56 +0800
+	id 1rwWMI-0004k0-0H;
+	Tue, 16 Apr 2024 00:07:34 +0000
+Date: Tue, 16 Apr 2024 08:06:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 1/5] mm/pgsize_migration.c:98:
- warning: expecting prototype for What(). Prototype was for
- init_pgsize_migration() instead
-Message-ID: <202404160720.XSWZtpfE-lkp@intel.com>
+Subject: [android-common:android14-5.15 5/5] fs/proc/task_mmu.c:872:43:
+ warning: cast between incompatible function types from 'int (*)(struct
+ seq_file *, void *)' to 'void (*)(struct seq_file *, struct vm_area_struct
+ *)'
+Message-ID: <202404160719.mid1Spn8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,41 +66,58 @@ Content-Disposition: inline
 
 tree:   https://android.googlesource.com/kernel/common android14-5.15
 head:   084d22016ccabe60338ea69b0a1c4c264551bd4c
-commit: 9274c308d8469e26a5f3fb8b598000edcff6b135 [1/5] ANDROID: 16K: Introduce /sys/kernel/mm/pgsize_miration/enabled
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240416/202404160720.XSWZtpfE-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404160720.XSWZtpfE-lkp@intel.com/reproduce)
+commit: 084d22016ccabe60338ea69b0a1c4c264551bd4c [5/5] ANDROID: 16K: Separate padding from ELF LOAD segment mappings
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240416/202404160719.mid1Spn8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404160719.mid1Spn8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404160720.XSWZtpfE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404160719.mid1Spn8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/pgsize_migration.c:98: warning: expecting prototype for What(). Prototype was for init_pgsize_migration() instead
+   fs/proc/task_mmu.c: In function 'show_smap':
+>> fs/proc/task_mmu.c:872:43: warning: cast between incompatible function types from 'int (*)(struct seq_file *, void *)' to 'void (*)(struct seq_file *, struct vm_area_struct *)' [-Wcast-function-type]
+     872 |         show_map_pad_vma(vma, pad_vma, m, (show_pad_vma_fn)show_smap);
+         |                                           ^
 
 
-vim +98 mm/pgsize_migration.c
+vim +872 fs/proc/task_mmu.c
 
-    81	
-    82	/**
-    83	 * What:          /sys/kernel/mm/pgsize_migration/enabled
-    84	 * Date:          April 2024
-    85	 * KernelVersion: v5.4+ (GKI kernels)
-    86	 * Contact:       Kalesh Singh <kaleshsingh@google.com>
-    87	 * Description:   /sys/kernel/mm/pgsize_migration/enabled
-    88	 *                allows for userspace to turn on or off page size
-    89	 *                migration mitigations necessary for app compatibility
-    90	 *                during Android's transition from 4kB to 16kB page size.
-    91	 *                Such mitigations include preserving /proc/<pid>/[s]maps
-    92	 *                output as if there was no segment extension by the
-    93	 *                dynamic loader; and preventing fault around in the padding
-    94	 *                sections of ELF LOAD segment mappings.
-    95	 * Users:         Bionic's dynamic linker
-    96	 */
-    97	static int __init init_pgsize_migration(void)
-  > 98	{
+   845	
+   846	static int show_smap(struct seq_file *m, void *v)
+   847	{
+   848		struct vm_area_struct *pad_vma = get_pad_vma(v);
+   849		struct vm_area_struct *vma = get_data_vma(v);
+   850		struct mem_size_stats mss;
+   851	
+   852		memset(&mss, 0, sizeof(mss));
+   853	
+   854		smap_gather_stats(vma, &mss, 0);
+   855	
+   856		show_map_vma(m, vma);
+   857	
+   858		SEQ_PUT_DEC("Size:           ", vma->vm_end - vma->vm_start);
+   859		SEQ_PUT_DEC(" kB\nKernelPageSize: ", vma_kernel_pagesize(vma));
+   860		SEQ_PUT_DEC(" kB\nMMUPageSize:    ", vma_mmu_pagesize(vma));
+   861		seq_puts(m, " kB\n");
+   862	
+   863		__show_smap(m, &mss, false);
+   864	
+   865		seq_printf(m, "THPeligible:    %d\n",
+   866			   transparent_hugepage_active(vma));
+   867	
+   868		if (arch_pkeys_enabled())
+   869			seq_printf(m, "ProtectionKey:  %8u\n", vma_pkey(vma));
+   870		show_smap_vma_flags(m, vma);
+   871	
+ > 872		show_map_pad_vma(vma, pad_vma, m, (show_pad_vma_fn)show_smap);
+   873	
+   874		return 0;
+   875	}
+   876	
 
 -- 
 0-DAY CI Kernel Test Service
