@@ -1,135 +1,488 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD0C13AA2D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 23:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDB72F50
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 00:00:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713311836; cv=none; b=KTQl1nUNHZ/LM7OsPulUDeWXZ9zCFsRexdOuY79on2quo53kaCORh1jBR/kwqa99gkdyyXplUBbXFSJ6uDx4epCM0hka19VOYBHw94DKeI/1n8TGSRNV8KIiMon5Xsn9QAPdDmqspKh7+z/6KcFrQPzgCuPMuajFLEivrrhF12Q=
+	t=1713312024; cv=none; b=cxWu0dBSpJyAbzEpx5m66X2+sjcHsLzinNEp/W0ixWnq6ml/YyNlkw588o+N+4ujaZDQUpE2DZxbxdsU6YUatS5jAtIlCwRGBRLl1UsOFuJfzJTogW29ZNdeoybnCyOdbXq0iOMUo1x49H6y37kpIGd0gkxho3I+w9b+dt+B/Fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713311836; c=relaxed/simple;
-	bh=WzRXIGLvs1tpmwfTdYiXqT+Xb63ATMlbvNwYZpgiob4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K9XxbYtWEYyL+3F1hzkLopP4jH3zs6WBWO5Q7nzrMg2z1tw2Bo2XdNlJVXIhdnd+/4FxnK+eZsC10gs6smy0UcVQmnENn3Y1N8epbfYFa9yXQz7OyswNlSMRB7iPpbhKqIzhTt1a7EtvkgVEgPFgoypu9WOe8g6wU0FgludgBIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=idz2H9kQ; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1713312024; c=relaxed/simple;
+	bh=iiNW2FbOqP4hVjc6lLtV9mrNg1L9OkjR77eF0lCIsf4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=J56T5Odg3KbhrgCSgjpSiEHCUJwEmB1GDS2SovW93pLFeZnay58qwiV/1xhl2L8exHm/qRbT61qwIFbPTmtHipJK90etjYtoXHo4H7lZtVapDaDw8niVcESzlLT+yt9KQOO300C9vwN6XmJnFjo/RQdAMmEAbTJL8cKo5yEdbvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L7KNwOew; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="idz2H9kQ"
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dcc73148611so5586190276.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 16:57:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1713311834; x=1713916634; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IC8mWV6b6QzlZE6JFnyR9+zfyszn/P9cKrq9cHY85Yc=;
-        b=idz2H9kQHNpTT/4bayHvvcv5Pp7pTxQPGQ+/bI7ybOr+4naIeYd/D+Ov0ceoDacb7X
-         rwLrpvJuWYaaenakWQcsPj0Z6r/DSX2enPqndAs7EDsSaqVYO9ZXnJ4yor21tRjHnkgT
-         wr4KCRFG1S1T6OzWkboNBaW3atoQX+Sn38eQkUDhDT7m7VgjVWfkTgE1ASHrX7jNZNzE
-         IBoJfL90oJ9WFwNTKoTfXLxYCW+T7kRWuBjsWqk2TSl76Si8Ry88s+71msVgRs8TrZQU
-         dGk7DfohdW0QfytVbj6kJ+oA6I8V782AiWjGcMObCkr03cg6hHZksBiUsbLITquvMVwi
-         574A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713311834; x=1713916634;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IC8mWV6b6QzlZE6JFnyR9+zfyszn/P9cKrq9cHY85Yc=;
-        b=NCco/ttaYTP7vmH6VKL69ia3Cvua6fg08ah3X4em4tgvNxRsToUkU6azv+4jSl02Ub
-         I2BjKoVvwy3K6Cvz+PSaOn7i6xo8UJMuC3HKGMpgfwrs5W2tpFulgRPUtUayNTidappp
-         Eg6nWIXESyai8ubcVpTi/UMJJsSTQjLelP2lhFDt0YNpulBcGbFCvQoTzyfaEYLKmePf
-         Z8iPMznK8n7+crIAv2RrQIY7y9m2DJJaTkBagOS79c/ZldX/hRWg/mGNTlCvzEVhQ9GF
-         zdsBpu53cRQmBXTu90/kXTk/6/+0QOg5DxKPxkL+RoY+nW5SUnXFcYODrtchHEduHI48
-         CrPw==
-X-Forwarded-Encrypted: i=1; AJvYcCVeAwRLsuBVuiAgbVP7Cs+871JISABOIeq7ngJdI2vEO+ejBW7ffL8678/8xc/PlnZ1zNXOF+3+46CspYMbNQx+mG/iHLVmBHoJEXPe9g==
-X-Gm-Message-State: AOJu0Yzo4pElep/ubbEG7ZL4T98I4cCVnL+GWHrQBoclLYoyQi6J1rVJ
-	Ig3gZHiQ/KXlRZo0QaFKVCGF+YK0IEd7Kp0+Yq/p8tGtfxJDYqZqDDwuZBOjtwEqLze+FXuxV1Q
-	8445FRl1vVbmLVtfcvRapEZAKavQDeBaGmUGb
-X-Google-Smtp-Source: AGHT+IHMoPAxpjKDVaNQ+EXB0M8jdi1kEZvbp6UZM4KQDz6GqswGDJkg4CfM8mkE05Ermcc37rOU3hCGAd+Av5etk6Q=
-X-Received: by 2002:a25:8b01:0:b0:de0:ed33:da8c with SMTP id
- i1-20020a258b01000000b00de0ed33da8cmr13045167ybl.59.1713311833463; Tue, 16
- Apr 2024 16:57:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L7KNwOew"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713312021; x=1744848021;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iiNW2FbOqP4hVjc6lLtV9mrNg1L9OkjR77eF0lCIsf4=;
+  b=L7KNwOewbtEZhJLKq4GTegTrhmuBarsD3L51SgkjITOa40J9AF6OwrYo
+   M3HQaVYItExp3lCHEdpf6Jv4sbsnJhOPFrvxapnCuGgcVpNpgOIGjfANW
+   /o3eCMOZBrxUjMRcZYyMvRzd5kVIYqr8yNhHRet5JmlGiUjJju3mRjiA/
+   G8M5+ysK+lT/VKQGUYGMR/4TIfebQkTpl1STLz1g8TWc/7BCff3uhb1zs
+   EUTBz3RtSEbcMjFM9eCjMEZ/gtOwaNfeu865h1PB0sDhD0hgQlRewEYYM
+   B+r6kuOVaYopaEHlvj+zyGuPpIEtg9KfVPFF2pacsmiue9CEPUjp0cYjV
+   A==;
+X-CSE-ConnectionGUID: UEsvl5CcRPSER+xgRqsc0A==
+X-CSE-MsgGUID: N7GnavmeTnC1K4aU+P6ASQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="31266526"
+X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
+   d="scan'208";a="31266526"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 17:00:20 -0700
+X-CSE-ConnectionGUID: khXQEHeGQYqMfVhdsz4UgQ==
+X-CSE-MsgGUID: Ugifv0IyShe0DfnhQ1SUPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
+   d="scan'208";a="22506053"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 16 Apr 2024 17:00:17 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rwsil-0005rk-1d;
+	Wed, 17 Apr 2024 00:00:15 +0000
+Date: Wed, 17 Apr 2024 07:59:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ingo Molnar <mingo@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 6458/6520] WARNING: modpost: vmlinux: section
+ mismatch in reference: sched_balance_rq+0x1a4 (section: .text) -> .L443
+ (section: .init.text)
+Message-ID: <202404170753.UoLdbg3s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <6b5281d8-2998-4e66-b65e-45a0e68e5780@moroto.mountain>
-In-Reply-To: <6b5281d8-2998-4e66-b65e-45a0e68e5780@moroto.mountain>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 16 Apr 2024 23:57:01 +0000
-Message-ID: <CAJuCfpE-YoTONXC-SYPfcjiMbfN64s9XScO_v-SAo0brB=6i1A@mail.gmail.com>
-Subject: Re: [linux-next:master 2720/3921] lib/alloc_tag.c:142
- alloc_tag_init() warn: passing zero to 'PTR_ERR'
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kent Overstreet <kent.overstreet@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Apr 5, 2024 at 6:51=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro.=
-org> wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   8568bb2ccc278f344e6ac44af6ed010a90aa88dc
-> commit: 9e2dcefa791e9d14006b360fba3455510fd3325d [2720/3921] lib: add all=
-ocation tagging support for memory allocation profiling
-> config: microblaze-randconfig-r081-20240405 (https://download.01.org/0day=
--ci/archive/20240405/202404051340.7Wo7oiJ5-lkp@intel.com/config)
-> compiler: microblaze-linux-gcc (GCC) 13.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202404051340.7Wo7oiJ5-lkp@intel.com/
->
-> smatch warnings:
-> lib/alloc_tag.c:142 alloc_tag_init() warn: passing zero to 'PTR_ERR'
->
-> vim +/PTR_ERR +142 lib/alloc_tag.c
->
-> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  132  static int __init allo=
-c_tag_init(void)
-> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  133  {
-> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  134       const struct code=
-tag_type_desc desc =3D {
-> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  135               .section =
-       =3D "alloc_tags",
-> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  136               .tag_size=
-       =3D sizeof(struct alloc_tag),
-> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  137               .module_u=
-nload  =3D alloc_tag_module_unload,
-> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  138       };
-> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  139
-> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  140       alloc_tag_cttype =
-=3D codetag_register_type(&desc);
-> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  141       if (IS_ERR_OR_NUL=
-L(alloc_tag_cttype))
->                                                             ^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^
-> This should just be IS_ERR().  I have written a blog that has more
-> details:
->
-> https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and=
--null/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   66e4190e92ce0e4a50b2f6be0e5f5b2e47e072f4
+commit: fb116195b7fa7ee297b61058e4e6dda85709b39d [6458/6520] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+config: riscv-buildonly-randconfig-r003-20220906 (https://download.01.org/0day-ci/archive/20240417/202404170753.UoLdbg3s-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404170753.UoLdbg3s-lkp@intel.com/reproduce)
 
-Sorry for the delay, I somehow missed this report. You are absolutely
-right about the fix. codetag_register_type() never returns NULL, so
-IS_ERR() should be used here. I'll post a fix shortly.
-Thanks,
-Suren.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404170753.UoLdbg3s-lkp@intel.com/
 
->
-> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21 @142               return PT=
-R_ERR(alloc_tag_cttype);
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_create_on_cpu+0xde (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_park+0x40 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_park+0x70 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_park+0xa6 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_park+0x116 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0xa8 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0xfa (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0x13c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0x150 (section: .text) -> .LVL236 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0x1d2 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0x286 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0x2b0 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0x2cc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0x2fc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0x3c8 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0x434 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0x49e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0x50e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0x532 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0x54e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop_put+0x82 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop_put+0xd4 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_destroy_worker+0x30 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_destroy_worker+0x6c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_destroy_worker+0x88 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_destroy_worker+0x92 (section: .text) -> .LVL323 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: get_kthread_comm+0x44 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_kthread_struct+0x42 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_kthread_struct+0x5a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_kthread_struct+0x78 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: free_kthread_struct+0x3c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: free_kthread_struct+0x5c (section: .text) -> .LVL323 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: free_kthread_struct+0x66 (section: .text) -> .LVL323 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_probe_data+0x52 (section: .text) -> .LVL1241 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread+0x7a (section: .text) -> .L410 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread+0xe0 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread+0xf2 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread+0x15c (section: .text) -> .LVL323 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread+0x166 (section: .text) -> .LVL323 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread+0x19a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread+0x1ac (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_set_per_cpu+0x46 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_set_per_cpu+0x7e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthreadd+0x52 (section: .text) -> .L410 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthreadd+0x8c (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthreadd+0x90 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthreadd+0xbe (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthreadd+0x13e (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthreadd+0x1ca (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthreadd+0x1ec (section: .text) -> .LVL1231 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthreadd+0x22e (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthreadd+0x276 (section: .text) -> .LVL323 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthreadd+0x2a4 (section: .text) -> .LVL323 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0x90 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0xfc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0x164 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0x1cc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0x220 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0x28c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0x2f2 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0x35e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0x3a4 (section: .text) -> .LVL603 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0x3cc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0x3f8 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0x444 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0x4ca (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0x50e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_new_namespaces+0x550 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: copy_namespaces+0x116 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: copy_namespaces+0x16a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: copy_namespaces+0x19e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: copy_namespaces+0x1f0 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: copy_namespaces+0x248 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: copy_namespaces+0x4a4 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: free_nsproxy+0xa8 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: free_nsproxy+0xd4 (section: .text) -> .LVL603 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: free_nsproxy+0x124 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: validate_nsset+0xfe (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: validate_nsset+0x150 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: validate_nsset+0x172 (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: validate_nsset+0x272 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: validate_nsset+0x2c0 (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: validate_nsset+0x476 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: validate_nsset+0x4ae (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: validate_nsset+0x4ca (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: validate_nsset+0x4e8 (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: unshare_nsproxy_namespaces+0xc8 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: switch_task_namespaces+0x34 (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: switch_task_namespaces+0xa0 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: switch_task_namespaces+0x106 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_sys_setns+0xf8 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_sys_setns+0x29e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_sys_setns+0x40e (section: .text) -> set_init_arg (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: exec_task_namespaces+0x6a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_notifier_info+0x5e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_notifier_info+0xf2 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: notifier_call_chain+0x162 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: notifier_call_chain+0x1e6 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: notifier_call_chain+0x284 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: notifier_call_chain+0x2a8 (section: .text) -> .L443 (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: srcu_notifier_call_chain+0x2a (section: .text) -> .LVL1117 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: srcu_notifier_call_chain+0x9c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: srcu_notifier_call_chain+0xa8 (section: .text) -> .LVL1117 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: notifier_chain_unregister+0xf4 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: notifier_chain_unregister+0x148 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: notifier_chain_unregister+0x1d8 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: notifier_chain_unregister+0x1fc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: blocking_notifier_chain_unregister+0x3e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: srcu_notifier_chain_unregister+0x3e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: notifier_chain_register+0x64 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: notifier_chain_register+0xde (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: notifier_chain_register+0x1a2 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: notifier_chain_register+0x1fe (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: notifier_chain_register+0x28e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: notifier_chain_register+0x2b4 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __blocking_notifier_chain_register+0x42 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: srcu_notifier_chain_register+0x3e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: put_cred_rcu+0xdc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: put_cred_rcu+0x132 (section: .text) -> .LVL603 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: put_cred_rcu+0x184 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __put_cred+0x3c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __put_cred+0x70 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __put_cred+0x98 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: abort_creds+0x36 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: commit_creds+0x3e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: commit_creds+0x6e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: get_task_cred+0xae (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_kernel_cred+0x2c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_kernel_cred+0x6c (section: .text) -> .LVL1228 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_kernel_cred+0xc2 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_kernel_cred+0x114 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_kernel_cred+0x154 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_kernel_cred+0x1a6 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_kernel_cred+0x1e2 (section: .text) -> early_hostname (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_kernel_cred+0x2d8 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_kernel_cred+0x308 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x8a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0xdc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x11c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x16e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x1ba (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x20c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x258 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x2aa (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x2f6 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x348 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x394 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x3e6 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x40c (section: .text) -> early_hostname (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x47e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x4ae (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x4fc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x52c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x55c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: prepare_creds+0x58c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: cred_alloc_blank+0x48 (section: .text) -> load_ramdisk (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: legacy_pm_power_off+0x12 (section: .text) -> .LVL950 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: legacy_pm_power_off+0x16 (section: .text) -> .LVL950 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: register_reboot_notifier+0x14 (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: register_reboot_notifier+0x1a (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: unregister_reboot_notifier+0x14 (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: unregister_reboot_notifier+0x1a (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: unregister_reboot_notifier+0x1e (section: .text) -> .LBE2455 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: devm_register_reboot_notifier+0x4a (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: devm_register_reboot_notifier+0x50 (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: devm_unregister_reboot_notifier+0x16 (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: devm_unregister_reboot_notifier+0x1a (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: devm_unregister_reboot_notifier+0x1e (section: .text) -> .LBE2455 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: devm_unregister_reboot_notifier+0x44 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_can_power_off+0x3e (section: .text) -> .LVL950 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_can_power_off+0x42 (section: .text) -> .LVL950 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: unregister_sys_off_handler+0x2a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: unregister_sys_off_handler+0x5e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: unregister_sys_off_handler+0xd0 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: unregister_sys_off_handler+0xee (section: .text) -> .LVL323 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: unregister_sys_off_handler+0x124 (section: .text) -> .LBE2455 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: register_sys_off_handler+0x7c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: register_sys_off_handler+0xc8 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: register_sys_off_handler+0xf6 (section: .text) -> .LBE2162 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: register_sys_off_handler+0x1be (section: .text) -> .LVL323 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: register_sys_off_handler+0x24c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: register_sys_off_handler+0x29e (section: .text) -> .LVL323 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: register_sys_off_handler+0x3be (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: register_platform_power_off+0x54 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: devm_register_sys_off_handler+0x5a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_restart_prepare+0x14 (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_restart_prepare+0x1c (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: migrate_to_reboot_cpu+0x8a (section: .text) -> .L410 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_restart+0x14 (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_restart+0x1c (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_halt+0x10 (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_halt+0x18 (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_power_off+0x10 (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_power_off+0x18 (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_power_off+0x64 (section: .text) -> .LVL321 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hw_failure_emergency_poweroff_func+0x12 (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hw_failure_emergency_poweroff_func+0x1a (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hw_failure_emergency_poweroff_func+0x66 (section: .text) -> .LVL321 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: deferred_cad+0x10 (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: deferred_cad+0x18 (section: .text) -> $xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_sys_reboot+0x176 (section: .text) -> .LBE2162 (section: .init.text)
+--
+WARNING: modpost: vmlinux: section mismatch in reference: cpu_local_stat_show+0x46 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_set_cpus_allowed+0x3e (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_set_cpus_allowed+0x42 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_set_cpus_allowed+0x54 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_set_cpus_allowed+0x9e (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_set_cpus_allowed+0xa2 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_set_cpus_allowed+0xb8 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_set_cpus_allowed+0x12e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __balance_callbacks+0x28 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __balance_callbacks+0x32 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __balance_callbacks+0x36 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __balance_callbacks+0x5c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __balance_callbacks+0x9a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __balance_callbacks+0xbe (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __balance_callbacks+0xc2 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __balance_callbacks+0xd2 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __balance_callbacks+0xda (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __balance_callbacks+0xec (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: finish_task_switch.isra.0+0x58 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: finish_task_switch.isra.0+0xbc (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: finish_task_switch.isra.0+0x106 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: finish_task_switch.isra.0+0x124 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: finish_task_switch.isra.0+0x16e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_get+0x1a (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_get+0x1e (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_get+0x42 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_get+0x98 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_get+0xac (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_get+0xf4 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_get+0x10e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_get+0x1a2 (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_get+0x1c2 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_get+0x1dc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: sched_show_task+0x60 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: sched_show_task+0x74 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: sched_show_task+0x94 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: sched_show_task+0xda (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: find_get_task+0x5e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: find_get_task+0x82 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: find_get_task+0xa0 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: find_get_task+0x150 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: select_fallback_rq+0x78 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: select_fallback_rq+0x11a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: select_fallback_rq+0x146 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: select_fallback_rq+0x1ba (section: .text) -> .LBE2193 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: select_fallback_rq+0x260 (section: .text) -> .LBE2193 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: select_task_rq+0x12 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: select_task_rq+0x16 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: select_task_rq+0x34 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: select_task_rq+0xa4 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: select_task_rq+0x116 (section: .text) -> .LBE2193 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: select_task_rq+0x144 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: select_task_rq+0x188 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: tg_set_cfs_bandwidth+0x240 (section: .text) -> .LBE1634 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: tg_set_cfs_bandwidth+0x2ae (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: tg_set_cfs_bandwidth+0x418 (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_mm_cid_migrate_from_try_steal_cid+0x62 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_mm_cid_migrate_from_try_steal_cid+0x76 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_mm_cid_migrate_from_try_steal_cid+0x12a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_mm_cid_migrate_from_try_steal_cid+0x13e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: sched_mm_cid_remote_clear+0x74 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: sched_mm_cid_remote_clear+0x88 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: sched_mm_cid_remote_clear+0x14a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: sched_mm_cid_remote_clear+0x15e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: task_mm_cid_work+0x70 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: task_mm_cid_work+0x84 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: task_mm_cid_work+0xd4 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: task_mm_cid_work+0x124 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: task_mm_cid_work+0x186 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: raw_spin_rq_unlock+0x8 (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __task_rq_lock+0x18 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __task_rq_lock+0x1c (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __task_rq_lock+0x46 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __task_rq_lock+0xac (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __task_rq_lock+0xea (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __task_rq_lock+0xf4 (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __task_rq_lock+0x10e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: task_rq_lock+0x9e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: task_rq_lock+0xde (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: task_rq_lock+0xe8 (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: task_rq_lock+0x110 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: update_rq_clock+0x10 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: update_rq_clock+0x14 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: update_rq_clock+0x30 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: update_rq_clock+0xc6 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: update_rq_clock+0x19c (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: update_rq_clock+0x1a8 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: update_rq_clock+0x1b8 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: update_rq_clock+0x1cc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: update_rq_clock+0x1f4 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: update_rq_clock+0x200 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_user_nice+0x10c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_user_nice+0x14e (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_user_nice+0x1b6 (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_user_nice+0x246 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_sched_yield+0x92 (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: raw_spin_rq_trylock+0x48 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: raw_spin_rq_trylock+0x5a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: raw_spin_rq_trylock+0x96 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: raw_spin_rq_trylock+0xa8 (section: .text) -> .L443 (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: balance_push+0xe (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: balance_push+0x12 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: balance_push+0x2e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: balance_push+0xb2 (section: .text) -> .LBE2193 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: balance_push+0xdc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: balance_push+0xfa (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: balance_push+0x112 (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: balance_push+0x13e (section: .text) -> .LVL1043 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: balance_push+0x160 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: balance_push+0x172 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: balance_push+0x1ba (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: balance_push+0x1fc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: balance_push+0x228 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: balance_push+0x23a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: migrate_disable+0x7e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: migrate_disable+0x90 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: migrate_disable+0xca (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: migrate_disable+0xdc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: double_rq_lock+0xe (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: double_rq_lock+0x12 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: double_rq_lock+0x2e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: double_rq_lock+0xc6 (section: .text) -> .LBE2187 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: double_rq_lock+0xca (section: .text) -> .LBE2187 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: double_rq_lock+0xfc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: double_rq_lock+0x11e (section: .text) -> .LVL1075 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: double_rq_lock+0x122 (section: .text) -> .LVL1075 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: double_rq_lock+0x154 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: double_rq_lock+0x16c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: double_rq_lock+0x184 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_sched_wakeup+0x72 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_sched_wakeup+0xbc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_sched_wakeup+0x10a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_sched_wakeup+0x12a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_sched_waking+0x72 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_sched_waking+0xbc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_sched_waking+0x10a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_sched_waking+0x12a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_pcpu_unset+0xe (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_pcpu_unset+0x12 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_pcpu_unset+0x36 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_pcpu_unset+0xb8 (section: .text) -> .LBE2187 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_pcpu_unset+0xbc (section: .text) -> .LBE2187 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_pcpu_unset+0xee (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_pcpu_unset+0x110 (section: .text) -> .LVL1075 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_pcpu_unset+0x114 (section: .text) -> .LVL1075 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_pcpu_unset+0x144 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_pcpu_unset+0x15c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_pcpu_unset+0x172 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put+0xc (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put+0x10 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put+0x2a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put+0x96 (section: .text) -> .LBE2187 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put+0x9a (section: .text) -> .LBE2187 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put+0xcc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put+0xee (section: .text) -> .LVL1075 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put+0xf2 (section: .text) -> .LVL1075 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put+0x124 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put+0x13c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put+0x154 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kick_process+0x6c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kick_process+0x7e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kick_process+0xe0 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kick_process+0xf2 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put_lazy.isra.0+0x10 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put_lazy.isra.0+0x14 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put_lazy.isra.0+0x3a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put_lazy.isra.0+0x82 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put_lazy.isra.0+0x96 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put_lazy.isra.0+0xfa (section: .text) -> .LBE2187 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put_lazy.isra.0+0xfe (section: .text) -> .LBE2187 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put_lazy.isra.0+0x130 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put_lazy.isra.0+0x152 (section: .text) -> .LVL1075 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put_lazy.isra.0+0x156 (section: .text) -> .LVL1075 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put_lazy.isra.0+0x186 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put_lazy.isra.0+0x19e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mm_cid_put_lazy.isra.0+0x1b4 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x4c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x13a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x16c (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x18a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x24a (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x26a (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x294 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x2b8 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x2ca (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x488 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x4aa (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x572 (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x5bc (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x67e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x69e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x750 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x78e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x79e (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x7d0 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x7de (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x7fe (section: .text) -> .LVL178 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x82e (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x840 (section: .text) -> .L443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x858 (section: .text) -> .LBB1930 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sched_setscheduler+0x85c (section: .text) -> .LBB1930 (section: .init.text)
+..
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
