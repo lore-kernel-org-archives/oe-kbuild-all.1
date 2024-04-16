@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA0512EBCE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 17:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E40134405
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 18:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713290142; cv=none; b=dQ+R4S99UrUCMTAlzm1LwGHadistHF6IsNhja1DSitw3LC2nXU/F1HN2x27Bkuskmd0AZs6yo6ngGvkv021Ve6RU2LlSZQfkVtUNeb8wHWdu5w+lhB0kGUVNJRci4RJCc3faSauc4jWwUiHH1ZV4qmlZBuJk3c2KPRxdgWsOPcM=
+	t=1713290797; cv=none; b=eTpyFVlY5VtZ+bZ+WOePLTHLJR0TsuYvHYJgfkelb4Qx2LYa1X5Xi7JMJ4Rh85eWvkfNE/atQ8qgcMLncu8inWPGLi79FGUDX3+O/tsLzCv1KytKXeJUyKvX9lTXq9DqADORm/6mF+95ypj1f42PK0iR25X1Ohe++VBf6pTo4Nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713290142; c=relaxed/simple;
-	bh=HbKlK9DVNF2+vKf2og9k1dqmrwgf+WLuZniYI39sw/g=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O1F93p21N8C7TbXcGVyNu2StDS43TEATzI46+l574k2Ot0wGn4rkgm50BQShRrexIK4IZNnkagG005w+i8CqSIvpfmpYXXbfPUb+PvEJpdkCaTqNYo8IhBgfCAWWtLCBuCii0pWQv+lO+j8kBKh5hRQ8ak8/Pm5PEGyRmnOtAs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EY5XkLdZ; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1713290797; c=relaxed/simple;
+	bh=pbf+ai+TSwkKZpz8azE9GVVx74Rjc2DZgMBBIO8MbYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=s/LzSQ5PEZcgELg1Ywk9t/OB3HEc8ifxhbvsyZAgIVs4m52pvbuVMM+EKfkwKOG6h/XZ5iAtKbRhid+G6FBFBTCaAbEMpnKOvH74YipHeUeRLY8TXAOUBtZuMgnLBiLZNceoKVF2+Nm3s93Q+apFqGkbcLiyfaBdGtBu6khz1uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UFSh5HL1; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EY5XkLdZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UFSh5HL1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713290141; x=1744826141;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=HbKlK9DVNF2+vKf2og9k1dqmrwgf+WLuZniYI39sw/g=;
-  b=EY5XkLdZ0dUkTtasPeEHuIor9/X3zQAnjHe582To0t7+jaVD/gIo2OH4
-   2OtlGSV3Zs1siPSt5Ph5N1kwVWRyo8dqXHdtUIe9gHAc7bxGS2gx3XKCw
-   l2m50ZHgXrRT4NNljDnvNm5w4vl2h14FVw9HdEEqiv+w+qeDQnlpIZ/aX
-   k7cbr2RfG/3Wxtb1YR8MViu3pI8U0U+W9q/S219vTUrPaDyrwvuEq3CwY
-   depud9m3TmHL3/of744ajpXQ2ZfVGPiqZz55vNucp9PPdDew9DFdjE9lz
-   e8NCkwMO+V5n9JMxTIvpb3ujzaztZY6pWf0zDEkBHI39SgQJCSMiPLqRs
-   w==;
-X-CSE-ConnectionGUID: n8ChlGZlTn6U6hHQFBjB3A==
-X-CSE-MsgGUID: OAEJSeQmRQG0NqiWPY7Otg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8579323"
+  t=1713290796; x=1744826796;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pbf+ai+TSwkKZpz8azE9GVVx74Rjc2DZgMBBIO8MbYs=;
+  b=UFSh5HL1Dj/V3Ddn5Xn4XCQLfYoMcIiHZzf1afgELwfrotKvc0LovZz9
+   JcVcqt8gJqxwlf6L4F9n6cLm11h3AkiViAGzAlDs7Rw89anmpPqHTY2Wb
+   zwiRuOKy3A3JSDmvwNptCB/qrgPA7+eQLtEjHIoLMBNSKTsUD5N+98aVY
+   yyJvf2yu8TaePqgz8iOmlAaf/6MHmpSRbUv7bebl0uPWOVCf9CQbgwsx8
+   fEBadT8mCIKvanxCb2zU0n1fagpTfh6j20SWDelLH5azb8l1mXlQi7GJE
+   AIhGgNy/ivGJ8bFxUz3ncHSwCned1S6QOuOO48ywdidLVlSOL4N41JP5b
+   Q==;
+X-CSE-ConnectionGUID: y5+kI1jBQKGhqXeI/nF52w==
+X-CSE-MsgGUID: Fjd9QD5USp+2uDQC0zClDQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="19307960"
 X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="8579323"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 10:55:25 -0700
-X-CSE-ConnectionGUID: dUOfyF/GR7Kww0+8hevS/g==
-X-CSE-MsgGUID: DYw7xop/Qy6SuzLegTAf3Q==
+   d="scan'208";a="19307960"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 11:06:26 -0700
+X-CSE-ConnectionGUID: j66UwBhdQo2asRWJkDh/OQ==
+X-CSE-MsgGUID: NFvZDtVtTO6Bg786bMvA0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="26905561"
+   d="scan'208";a="53321654"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Apr 2024 10:55:24 -0700
+  by orviesa002.jf.intel.com with ESMTP; 16 Apr 2024 11:06:25 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwn1e-0005cq-0O
-	for oe-kbuild-all@lists.linux.dev;
-	Tue, 16 Apr 2024 17:55:22 +0000
-Date: Wed, 17 Apr 2024 01:55:21 +0800
+	id 1rwnCI-0005d6-0q;
+	Tue, 16 Apr 2024 18:06:22 +0000
+Date: Wed, 17 Apr 2024 02:05:33 +0800
 From: kernel test robot <lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/gpu/drm/drm_atomic_uapi.c:366: Error: unrecognized opcode
- `csrs sstatus,a2', extension `zicsr' required
-Message-ID: <202404170113.aqDwf3Zb-lkp@intel.com>
+Subject: [dhowells-fs:rxrpc-iothread 16/16] net/rxrpc/input.c:814:47:
+ warning: suggest parentheses around '-' inside '<<'
+Message-ID: <202404170101.x6IbB82t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,68 +62,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 6.1/dovetail-xenomai-cve
-head:   ae50ab5b35a1f535d25c6c9576c161702409774a
-commit: b8c7d7bc8386924f57aac0a745ae3240f07b743b drm/atomic: -EACCESS for lease-denied crtc lookup
-date:   5 years ago
-config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20240417/202404170113.aqDwf3Zb-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404170113.aqDwf3Zb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git rxrpc-iothread
+head:   0a6ac49e304f1644db056801640e1976a83a484f
+commit: 0a6ac49e304f1644db056801640e1976a83a484f [16/16] rxrpc: Use the new rxrpc_tx_queue struct to more efficiently process ACKs
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240417/202404170101.x6IbB82t-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404170101.x6IbB82t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404170113.aqDwf3Zb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404170101.x6IbB82t-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/drm_atomic_uapi.c: In function 'complete_signaling':
-   drivers/gpu/drm/drm_atomic_uapi.c:1213:26: warning: variable 'crtc' set but not used [-Wunused-but-set-variable]
-    1213 |         struct drm_crtc *crtc;
-         |                          ^~~~
-   drivers/gpu/drm/drm_atomic_uapi.c: Assembler messages:
->> drivers/gpu/drm/drm_atomic_uapi.c:366: Error: unrecognized opcode `csrs sstatus,a2', extension `zicsr' required
->> drivers/gpu/drm/drm_atomic_uapi.c:366: Error: unrecognized opcode `csrc sstatus,a2', extension `zicsr' required
-   drivers/gpu/drm/drm_atomic_uapi.c:1074: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
-   drivers/gpu/drm/drm_atomic_uapi.c:1074: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
-   drivers/gpu/drm/drm_atomic_uapi.c:1250: Error: unrecognized opcode `csrs sstatus,s6', extension `zicsr' required
-   drivers/gpu/drm/drm_atomic_uapi.c:1250: Error: unrecognized opcode `csrc sstatus,s6', extension `zicsr' required
-   drivers/gpu/drm/drm_atomic_uapi.c:468: Error: unrecognized opcode `csrs sstatus,a3', extension `zicsr' required
-   drivers/gpu/drm/drm_atomic_uapi.c:468: Error: unrecognized opcode `csrc sstatus,a3', extension `zicsr' required
-   drivers/gpu/drm/drm_atomic_uapi.c:1316: Error: unrecognized opcode `csrs sstatus,s3', extension `zicsr' required
-   drivers/gpu/drm/drm_atomic_uapi.c:1316: Error: unrecognized opcode `csrc sstatus,s3', extension `zicsr' required
-   drivers/gpu/drm/drm_atomic_uapi.c:1333: Error: unrecognized opcode `csrs sstatus,s3', extension `zicsr' required
-   drivers/gpu/drm/drm_atomic_uapi.c:1333: Error: unrecognized opcode `csrc sstatus,s3', extension `zicsr' required
-   drivers/gpu/drm/drm_atomic_uapi.c:1346: Error: unrecognized opcode `csrs sstatus,s3', extension `zicsr' required
-   drivers/gpu/drm/drm_atomic_uapi.c:1346: Error: unrecognized opcode `csrc sstatus,s3', extension `zicsr' required
+   net/rxrpc/input.c: In function 'rxrpc_input_soft_acks':
+>> net/rxrpc/input.c:814:47: warning: suggest parentheses around '-' inside '<<' [-Wparentheses]
+     814 |                         rotate_into |= __bit0 << sizeof(rotate_into) * 8 - 1; \
+         |                                               ^~
+   net/rxrpc/input.c:915:17: note: in expansion of macro 'shiftr_adv_rotr'
+     915 |                 shiftr_adv_rotr(acks, extracted);
+         |                 ^~~~~~~~~~~~~~~
 
 
-vim +366 drivers/gpu/drm/drm_atomic_uapi.c
+vim +814 net/rxrpc/input.c
 
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  356  
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  357  static int set_out_fence_for_connector(struct drm_atomic_state *state,
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  358  					struct drm_connector *connector,
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  359  					s32 __user *fence_ptr)
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  360  {
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  361  	unsigned int index = drm_connector_index(connector);
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  362  
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  363  	if (!fence_ptr)
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  364  		return 0;
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  365  
-72fdb40c1a4b48 Daniel Vetter 2018-09-05 @366  	if (put_user(-1, fence_ptr))
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  367  		return -EFAULT;
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  368  
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  369  	state->connectors[index].out_fence_ptr = fence_ptr;
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  370  
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  371  	return 0;
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  372  }
-72fdb40c1a4b48 Daniel Vetter 2018-09-05  373  
-
-:::::: The code at line 366 was first introduced by commit
-:::::: 72fdb40c1a4b48f5fa6f6083ea7419b94639ed57 drm: extract drm_atomic_uapi.c
-
-:::::: TO: Daniel Vetter <daniel.vetter@ffwll.ch>
-:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+   799	
+   800	#ifdef CONFIG_X86
+   801	#define shiftr_adv_rotr(shift_from, rotate_into) ({			\
+   802				asm(" shr%z1 %1\n"				\
+   803				    " inc %0\n"					\
+   804				    " rcr%z2 %2\n"				\
+   805				    : "+d"(shift_from), "+m"(*shift_from), "+rm"(rotate_into) \
+   806				    );						\
+   807			})
+   808	#else
+   809	#define shiftr_adv_rotr(shift_from, rotate_into) ({	\
+   810				typeof(rotate_into) __bit0 = *shift_from & 1;	\
+   811				*shift_from >>= 1;				\
+   812				shift_from++;					\
+   813				rotate_into >>= 1;				\
+ > 814				rotate_into |= __bit0 << sizeof(rotate_into) * 8 - 1; \
+   815			})
+   816	#endif
+   817	
 
 -- 
 0-DAY CI Kernel Test Service
