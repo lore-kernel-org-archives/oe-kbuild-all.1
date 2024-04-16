@@ -1,60 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189061C10
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 00:17:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D750217FF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 00:29:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713226659; cv=none; b=jkWevydZL1il7rdhGpRVGC9zl/ccYZM18exM+EFUo7EUwxsX1WnP3aNXDvCjQhYwEGk7C9uAmzMvc97L1O+73/Vf43lrmrwnHuQedIZXDXxkPoyzLlwhTR/8CoZ5umshS70yWJn/jvZe7d8sATyWR3Ncff6QiXbi22VxTKaw9T4=
+	t=1713227382; cv=none; b=lpItBN6GDEcSrJow8c4ppMJixAbPx4JOdIk4ZeWb9dUpW1c8fXPUs7n2L6/P5wbqgfNmkZvIi8b526uvvRcIaKF7x/M2nZNYUTyoJPwbU+Se205qzQ9bHiv3g+y2RxTnmyTzdIwRlqWdICCQf5IkZxnMO1Vu8pOFtGYCr2BVTNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713226659; c=relaxed/simple;
-	bh=yoCyZU9+iuuiS6aIfT/Au7G0wZ4ky4Nz/fUnFMZUZK8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IXNAQTzQkUSTX70wfeM/EEF5iXL0nehDq5s9oKUYkFBv4jBPttWL0uRLRRePjbaUWyTbHsCkZ22RPGONj7ndygExuVVjUuxre1mvkJ5yw/g/sUeNF+3f7Fbva8NBVaMRGzsMJxOQ9BdfYraEzOf0gdeJFSV3/ZJcbxixJBWnxmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JqjDSLkA; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1713227382; c=relaxed/simple;
+	bh=r4Xgg9PJ2ygJueCCqqp23kLY/mtdj+2eB/Prx/fshvE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dh7+/5pGHz/IzzCrMM2mSD+F0JTRFAtSLyXrSp0NsRzT4WurdOfhAbv38nSB9sk5VLkbJop4S/ouydtfYDe+Uk6TIcd47BHmTnQIImcpf/KYAdwrWxX86bvksUGE/cl1iy0zEL0ODTASccO3q5QXSTMYRDDoryqJP2XT25MYMZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D27xIkT+; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JqjDSLkA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D27xIkT+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713226658; x=1744762658;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yoCyZU9+iuuiS6aIfT/Au7G0wZ4ky4Nz/fUnFMZUZK8=;
-  b=JqjDSLkAx9lV1WJ1ctyf+hA1UTD63Tm1gDAlGKxmA0T7XxCp0FDC7hRv
-   hv9580b5RsbZ1Wdv86Pa99NnF09znJ+cm4XiQlNhwfycduF5eePx7hNV5
-   Orvz0T4UJOFrKOayaw+thVdpGtqRaG7NR/hzO6ftDY5McKwiCmvJYS9yX
-   LQVMX2AM1Q+5sZUO6Zo759frMsFxfARYinfyTz33qkZP4i1YLlUMg1j3G
-   7FISWVm2TEKDUaFjgGxAz6KqQg7EOxci3rTeUYxRmx90LP0bOkwk0oE2E
-   9qNG55fmgcwB7dyRlecQ9ul9a6ZwUfRuRvWtZtaTbkLaK9DfPWFlRC8Y6
-   A==;
-X-CSE-ConnectionGUID: dqWu6kW1RCyccWx0cD+hOA==
-X-CSE-MsgGUID: jDbphiMeQd2ihUPt/tNoeg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="31119901"
+  t=1713227380; x=1744763380;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r4Xgg9PJ2ygJueCCqqp23kLY/mtdj+2eB/Prx/fshvE=;
+  b=D27xIkT+stU5/6iT690yLk2ZFWOhjFIcy4q9qRYcI3ywoxRNCk4BFO2c
+   YlrxZxiSa+AkkZdk5f18N4q2dypBGaYjWQtZBmhgzbJEokcuddbNANVax
+   nnvxGRrRLxbZmWeSlyOfRV5YtKQ0ulDqCiBA+O7C/mp2AbEvuNojdRQ6J
+   f31nIyKi2L+cDw23cbpo9LUl90Aj8N1oMNUwXZiZRlSphDtHlsNh80cZQ
+   761NukQoIOm/6Al2SJEYqFkEa/9wHiUDBOs/dAuNQdWFW4k7Z5i3mqPaQ
+   TN6n6MGMQtCdJHk0ZDdKe69s3Jz5LztQB5OHQQ4Ivcmm1Vx7SUQl4tOqj
+   Q==;
+X-CSE-ConnectionGUID: uoSUvIVEQOmIuFCQLogutw==
+X-CSE-MsgGUID: 9ukHVj2ITyWbUXaVLT89iA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="31123025"
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="31119901"
+   d="scan'208";a="31123025"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 17:17:38 -0700
-X-CSE-ConnectionGUID: 2/1T97d1QtGKni5FeJi9Ug==
-X-CSE-MsgGUID: diceEUzqQlKzDh4dj2yT/A==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 17:29:40 -0700
+X-CSE-ConnectionGUID: etp0n3qPTKWxa0iIpoKo3A==
+X-CSE-MsgGUID: 4H+2/xLkSLuMzij5xQYH3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="26741087"
+   d="scan'208";a="26744858"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Apr 2024 17:17:37 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 15 Apr 2024 17:29:37 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwWVy-0004ke-1M;
-	Tue, 16 Apr 2024 00:17:34 +0000
-Date: Tue, 16 Apr 2024 08:17:00 +0800
+	id 1rwWhb-0004m4-07;
+	Tue, 16 Apr 2024 00:29:35 +0000
+Date: Tue, 16 Apr 2024 08:28:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+	intel-gfx@lists.freedesktop.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 5/5] fs/proc/task_mmu.c:872:36:
- warning: cast from 'int (*)(struct seq_file *, void *)' to 'show_pad_vma_fn'
- (aka 'void (*)(struct seq_file *, struct vm_area_struct *)') converts to
- incompatible function type
-Message-ID: <202404160850.ar5pSy1e-lkp@intel.com>
+Subject: Re: [PATCH 2/8] drm/i915/dpio: Add per-lane PHY TX register
+ definitons for bxt/glk
+Message-ID: <202404160823.pKVHPP3o-lkp@intel.com>
+References: <20240412175818.29217-3-ville.syrjala@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,61 +64,399 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240412175818.29217-3-ville.syrjala@linux.intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   084d22016ccabe60338ea69b0a1c4c264551bd4c
-commit: 084d22016ccabe60338ea69b0a1c4c264551bd4c [5/5] ANDROID: 16K: Separate padding from ELF LOAD segment mappings
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240416/202404160850.ar5pSy1e-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404160850.ar5pSy1e-lkp@intel.com/reproduce)
+Hi Ville,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.9-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-i915-dpio-Clean-up-bxt-glk-PHY-registers/20240415-095059
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20240412175818.29217-3-ville.syrjala%40linux.intel.com
+patch subject: [PATCH 2/8] drm/i915/dpio: Add per-lane PHY TX register definitons for bxt/glk
+config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240416/202404160823.pKVHPP3o-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404160823.pKVHPP3o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404160850.ar5pSy1e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404160823.pKVHPP3o-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/proc/task_mmu.c:872:36: warning: cast from 'int (*)(struct seq_file *, void *)' to 'show_pad_vma_fn' (aka 'void (*)(struct seq_file *, struct vm_area_struct *)') converts to incompatible function type [-Wcast-function-type]
-           show_map_pad_vma(vma, pad_vma, m, (show_pad_vma_fn)show_smap);
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+   In file included from drivers/gpu/drm/i915/display/intel_display_reg_defs.h:9,
+                    from drivers/gpu/drm/i915/display/intel_audio_regs.h:9,
+                    from drivers/gpu/drm/i915/intel_gvt_mmio_table.c:6:
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c: In function 'iterate_bxt_mmio':
+>> drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1158:16: error: implicit declaration of function 'BXT_PORT_TX_DW2_LN0'; did you mean 'BXT_PORT_TX_DW2_LN'? [-Werror=implicit-function-declaration]
+    1158 |         MMIO_D(BXT_PORT_TX_DW2_LN0(DPIO_PHY0, DPIO_CH0));
+         |                ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_reg_defs.h:283:19: note: in definition of macro 'i915_mmio_reg_offset'
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                   ^
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:35:21: note: in expansion of macro 'MMIO_F'
+      35 | #define MMIO_D(reg) MMIO_F(reg, 4)
+         |                     ^~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1158:9: note: in expansion of macro 'MMIO_D'
+    1158 |         MMIO_D(BXT_PORT_TX_DW2_LN0(DPIO_PHY0, DPIO_CH0));
+         |         ^~~~~~
+>> drivers/gpu/drm/i915/i915_reg_defs.h:283:38: error: request for member 'reg' in something not a structure or union
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                                      ^
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:30:42: note: in expansion of macro 'i915_mmio_reg_offset'
+      30 |         ret = iter->handle_mmio_cb(iter, i915_mmio_reg_offset(reg), s); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:35:21: note: in expansion of macro 'MMIO_F'
+      35 | #define MMIO_D(reg) MMIO_F(reg, 4)
+         |                     ^~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1158:9: note: in expansion of macro 'MMIO_D'
+    1158 |         MMIO_D(BXT_PORT_TX_DW2_LN0(DPIO_PHY0, DPIO_CH0));
+         |         ^~~~~~
+>> drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1160:16: error: implicit declaration of function 'BXT_PORT_TX_DW3_LN0'; did you mean 'BXT_PORT_TX_DW3_LN'? [-Werror=implicit-function-declaration]
+    1160 |         MMIO_D(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH0));
+         |                ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_reg_defs.h:283:19: note: in definition of macro 'i915_mmio_reg_offset'
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                   ^
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:35:21: note: in expansion of macro 'MMIO_F'
+      35 | #define MMIO_D(reg) MMIO_F(reg, 4)
+         |                     ^~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1160:9: note: in expansion of macro 'MMIO_D'
+    1160 |         MMIO_D(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH0));
+         |         ^~~~~~
+>> drivers/gpu/drm/i915/i915_reg_defs.h:283:38: error: request for member 'reg' in something not a structure or union
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                                      ^
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:30:42: note: in expansion of macro 'i915_mmio_reg_offset'
+      30 |         ret = iter->handle_mmio_cb(iter, i915_mmio_reg_offset(reg), s); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:35:21: note: in expansion of macro 'MMIO_F'
+      35 | #define MMIO_D(reg) MMIO_F(reg, 4)
+         |                     ^~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1160:9: note: in expansion of macro 'MMIO_D'
+    1160 |         MMIO_D(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH0));
+         |         ^~~~~~
+>> drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1162:16: error: implicit declaration of function 'BXT_PORT_TX_DW4_LN0'; did you mean 'BXT_PORT_TX_DW4_LN'? [-Werror=implicit-function-declaration]
+    1162 |         MMIO_D(BXT_PORT_TX_DW4_LN0(DPIO_PHY0, DPIO_CH0));
+         |                ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_reg_defs.h:283:19: note: in definition of macro 'i915_mmio_reg_offset'
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                   ^
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:35:21: note: in expansion of macro 'MMIO_F'
+      35 | #define MMIO_D(reg) MMIO_F(reg, 4)
+         |                     ^~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1162:9: note: in expansion of macro 'MMIO_D'
+    1162 |         MMIO_D(BXT_PORT_TX_DW4_LN0(DPIO_PHY0, DPIO_CH0));
+         |         ^~~~~~
+>> drivers/gpu/drm/i915/i915_reg_defs.h:283:38: error: request for member 'reg' in something not a structure or union
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                                      ^
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:30:42: note: in expansion of macro 'i915_mmio_reg_offset'
+      30 |         ret = iter->handle_mmio_cb(iter, i915_mmio_reg_offset(reg), s); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:35:21: note: in expansion of macro 'MMIO_F'
+      35 | #define MMIO_D(reg) MMIO_F(reg, 4)
+         |                     ^~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1162:9: note: in expansion of macro 'MMIO_D'
+    1162 |         MMIO_D(BXT_PORT_TX_DW4_LN0(DPIO_PHY0, DPIO_CH0));
+         |         ^~~~~~
+>> drivers/gpu/drm/i915/i915_reg_defs.h:283:38: error: request for member 'reg' in something not a structure or union
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                                      ^
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:30:42: note: in expansion of macro 'i915_mmio_reg_offset'
+      30 |         ret = iter->handle_mmio_cb(iter, i915_mmio_reg_offset(reg), s); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:35:21: note: in expansion of macro 'MMIO_F'
+      35 | #define MMIO_D(reg) MMIO_F(reg, 4)
+         |                     ^~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1183:9: note: in expansion of macro 'MMIO_D'
+    1183 |         MMIO_D(BXT_PORT_TX_DW2_LN0(DPIO_PHY0, DPIO_CH1));
+         |         ^~~~~~
+>> drivers/gpu/drm/i915/i915_reg_defs.h:283:38: error: request for member 'reg' in something not a structure or union
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                                      ^
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:30:42: note: in expansion of macro 'i915_mmio_reg_offset'
+      30 |         ret = iter->handle_mmio_cb(iter, i915_mmio_reg_offset(reg), s); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:35:21: note: in expansion of macro 'MMIO_F'
+      35 | #define MMIO_D(reg) MMIO_F(reg, 4)
+         |                     ^~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1185:9: note: in expansion of macro 'MMIO_D'
+    1185 |         MMIO_D(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH1));
+         |         ^~~~~~
+>> drivers/gpu/drm/i915/i915_reg_defs.h:283:38: error: request for member 'reg' in something not a structure or union
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                                      ^
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:30:42: note: in expansion of macro 'i915_mmio_reg_offset'
+      30 |         ret = iter->handle_mmio_cb(iter, i915_mmio_reg_offset(reg), s); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:35:21: note: in expansion of macro 'MMIO_F'
+      35 | #define MMIO_D(reg) MMIO_F(reg, 4)
+         |                     ^~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1187:9: note: in expansion of macro 'MMIO_D'
+    1187 |         MMIO_D(BXT_PORT_TX_DW4_LN0(DPIO_PHY0, DPIO_CH1));
+         |         ^~~~~~
+>> drivers/gpu/drm/i915/i915_reg_defs.h:283:38: error: request for member 'reg' in something not a structure or union
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                                      ^
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:30:42: note: in expansion of macro 'i915_mmio_reg_offset'
+      30 |         ret = iter->handle_mmio_cb(iter, i915_mmio_reg_offset(reg), s); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:35:21: note: in expansion of macro 'MMIO_F'
+      35 | #define MMIO_D(reg) MMIO_F(reg, 4)
+         |                     ^~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1208:9: note: in expansion of macro 'MMIO_D'
+    1208 |         MMIO_D(BXT_PORT_TX_DW2_LN0(DPIO_PHY1, DPIO_CH0));
+         |         ^~~~~~
+>> drivers/gpu/drm/i915/i915_reg_defs.h:283:38: error: request for member 'reg' in something not a structure or union
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                                      ^
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:30:42: note: in expansion of macro 'i915_mmio_reg_offset'
+      30 |         ret = iter->handle_mmio_cb(iter, i915_mmio_reg_offset(reg), s); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:35:21: note: in expansion of macro 'MMIO_F'
+      35 | #define MMIO_D(reg) MMIO_F(reg, 4)
+         |                     ^~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1210:9: note: in expansion of macro 'MMIO_D'
+    1210 |         MMIO_D(BXT_PORT_TX_DW3_LN0(DPIO_PHY1, DPIO_CH0));
+         |         ^~~~~~
+>> drivers/gpu/drm/i915/i915_reg_defs.h:283:38: error: request for member 'reg' in something not a structure or union
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                                      ^
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:30:42: note: in expansion of macro 'i915_mmio_reg_offset'
+      30 |         ret = iter->handle_mmio_cb(iter, i915_mmio_reg_offset(reg), s); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:35:21: note: in expansion of macro 'MMIO_F'
+      35 | #define MMIO_D(reg) MMIO_F(reg, 4)
+         |                     ^~~~~~
+   drivers/gpu/drm/i915/intel_gvt_mmio_table.c:1212:9: note: in expansion of macro 'MMIO_D'
+    1212 |         MMIO_D(BXT_PORT_TX_DW4_LN0(DPIO_PHY1, DPIO_CH0));
+         |         ^~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/i915/intel_uncore.h:34,
+                    from drivers/gpu/drm/i915/gt/intel_engine_types.h:26,
+                    from drivers/gpu/drm/i915/gt/intel_context_types.h:18,
+                    from drivers/gpu/drm/i915/gem/i915_gem_context_types.h:20,
+                    from drivers/gpu/drm/i915/i915_drv.h:42,
+                    from drivers/gpu/drm/i915/gvt/handlers.c:39:
+   drivers/gpu/drm/i915/gvt/handlers.c: In function 'init_bxt_mmio_info':
+>> drivers/gpu/drm/i915/gvt/handlers.c:2766:17: error: implicit declaration of function 'BXT_PORT_TX_DW3_LN0'; did you mean 'BXT_PORT_TX_DW3_LN'? [-Werror=implicit-function-declaration]
+    2766 |         MMIO_DH(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH0), D_BXT,
+         |                 ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_reg_defs.h:283:19: note: in definition of macro 'i915_mmio_reg_offset'
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                   ^
+   drivers/gpu/drm/i915/gvt/handlers.c:2144:9: note: in expansion of macro 'MMIO_F'
+    2144 |         MMIO_F(reg, 4, 0, 0, 0, d, r, w)
+         |         ^~~~~~
+   drivers/gpu/drm/i915/gvt/handlers.c:2766:9: note: in expansion of macro 'MMIO_DH'
+    2766 |         MMIO_DH(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH0), D_BXT,
+         |         ^~~~~~~
+>> drivers/gpu/drm/i915/i915_reg_defs.h:283:38: error: request for member 'reg' in something not a structure or union
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                                      ^
+   drivers/gpu/drm/i915/gvt/handlers.c:2137:36: note: in expansion of macro 'i915_mmio_reg_offset'
+    2137 |         ret = setup_mmio_info(gvt, i915_mmio_reg_offset(reg), \
+         |                                    ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gvt/handlers.c:2144:9: note: in expansion of macro 'MMIO_F'
+    2144 |         MMIO_F(reg, 4, 0, 0, 0, d, r, w)
+         |         ^~~~~~
+   drivers/gpu/drm/i915/gvt/handlers.c:2766:9: note: in expansion of macro 'MMIO_DH'
+    2766 |         MMIO_DH(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH0), D_BXT,
+         |         ^~~~~~~
+>> drivers/gpu/drm/i915/i915_reg_defs.h:283:38: error: request for member 'reg' in something not a structure or union
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                                      ^
+   drivers/gpu/drm/i915/gvt/handlers.c:2137:36: note: in expansion of macro 'i915_mmio_reg_offset'
+    2137 |         ret = setup_mmio_info(gvt, i915_mmio_reg_offset(reg), \
+         |                                    ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gvt/handlers.c:2144:9: note: in expansion of macro 'MMIO_F'
+    2144 |         MMIO_F(reg, 4, 0, 0, 0, d, r, w)
+         |         ^~~~~~
+   drivers/gpu/drm/i915/gvt/handlers.c:2770:9: note: in expansion of macro 'MMIO_DH'
+    2770 |         MMIO_DH(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH1), D_BXT,
+         |         ^~~~~~~
+>> drivers/gpu/drm/i915/i915_reg_defs.h:283:38: error: request for member 'reg' in something not a structure or union
+     283 |         _Generic((r), i915_reg_t: (r).reg, i915_mcr_reg_t: (r).reg)
+         |                                      ^
+   drivers/gpu/drm/i915/gvt/handlers.c:2137:36: note: in expansion of macro 'i915_mmio_reg_offset'
+    2137 |         ret = setup_mmio_info(gvt, i915_mmio_reg_offset(reg), \
+         |                                    ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gvt/handlers.c:2144:9: note: in expansion of macro 'MMIO_F'
+    2144 |         MMIO_F(reg, 4, 0, 0, 0, d, r, w)
+         |         ^~~~~~
+   drivers/gpu/drm/i915/gvt/handlers.c:2774:9: note: in expansion of macro 'MMIO_DH'
+    2774 |         MMIO_DH(BXT_PORT_TX_DW3_LN0(DPIO_PHY1, DPIO_CH0), D_BXT,
+         |         ^~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +872 fs/proc/task_mmu.c
+vim +1158 drivers/gpu/drm/i915/intel_gvt_mmio_table.c
 
-   845	
-   846	static int show_smap(struct seq_file *m, void *v)
-   847	{
-   848		struct vm_area_struct *pad_vma = get_pad_vma(v);
-   849		struct vm_area_struct *vma = get_data_vma(v);
-   850		struct mem_size_stats mss;
-   851	
-   852		memset(&mss, 0, sizeof(mss));
-   853	
-   854		smap_gather_stats(vma, &mss, 0);
-   855	
-   856		show_map_vma(m, vma);
-   857	
-   858		SEQ_PUT_DEC("Size:           ", vma->vm_end - vma->vm_start);
-   859		SEQ_PUT_DEC(" kB\nKernelPageSize: ", vma_kernel_pagesize(vma));
-   860		SEQ_PUT_DEC(" kB\nMMUPageSize:    ", vma_mmu_pagesize(vma));
-   861		seq_puts(m, " kB\n");
-   862	
-   863		__show_smap(m, &mss, false);
-   864	
-   865		seq_printf(m, "THPeligible:    %d\n",
-   866			   transparent_hugepage_active(vma));
-   867	
-   868		if (arch_pkeys_enabled())
-   869			seq_printf(m, "ProtectionKey:  %8u\n", vma_pkey(vma));
-   870		show_smap_vma_flags(m, vma);
-   871	
- > 872		show_map_pad_vma(vma, pad_vma, m, (show_pad_vma_fn)show_smap);
-   873	
-   874		return 0;
-   875	}
-   876	
+e0f74ed4634d6d Zhi Wang 2022-04-07  1097  
+e0f74ed4634d6d Zhi Wang 2022-04-07  1098  static int iterate_bxt_mmio(struct intel_gvt_mmio_table_iter *iter)
+e0f74ed4634d6d Zhi Wang 2022-04-07  1099  {
+e0f74ed4634d6d Zhi Wang 2022-04-07  1100  	struct drm_i915_private *dev_priv = iter->i915;
+e0f74ed4634d6d Zhi Wang 2022-04-07  1101  
+e0f74ed4634d6d Zhi Wang 2022-04-07  1102  	MMIO_F(_MMIO(0x80000), 0x3000);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1103  	MMIO_D(GEN7_SAMPLER_INSTDONE);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1104  	MMIO_D(GEN7_ROW_INSTDONE);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1105  	MMIO_D(GEN8_FAULT_TLB_DATA0);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1106  	MMIO_D(GEN8_FAULT_TLB_DATA1);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1107  	MMIO_D(ERROR_GEN6);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1108  	MMIO_D(DONE_REG);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1109  	MMIO_D(EIR);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1110  	MMIO_D(PGTBL_ER);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1111  	MMIO_D(_MMIO(0x4194));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1112  	MMIO_D(_MMIO(0x4294));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1113  	MMIO_D(_MMIO(0x4494));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1114  	MMIO_RING_D(RING_PSMI_CTL);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1115  	MMIO_RING_D(RING_DMA_FADD);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1116  	MMIO_RING_D(RING_DMA_FADD_UDW);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1117  	MMIO_RING_D(RING_IPEHR);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1118  	MMIO_RING_D(RING_INSTPS);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1119  	MMIO_RING_D(RING_BBADDR_UDW);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1120  	MMIO_RING_D(RING_BBSTATE);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1121  	MMIO_RING_D(RING_IPEIR);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1122  	MMIO_F(SOFT_SCRATCH(0), 16 * 4);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1123  	MMIO_D(BXT_P_CR_GT_DISP_PWRON);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1124  	MMIO_D(BXT_RP_STATE_CAP);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1125  	MMIO_D(BXT_PHY_CTL_FAMILY(DPIO_PHY0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1126  	MMIO_D(BXT_PHY_CTL_FAMILY(DPIO_PHY1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1127  	MMIO_D(BXT_PHY_CTL(PORT_A));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1128  	MMIO_D(BXT_PHY_CTL(PORT_B));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1129  	MMIO_D(BXT_PHY_CTL(PORT_C));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1130  	MMIO_D(BXT_PORT_PLL_ENABLE(PORT_A));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1131  	MMIO_D(BXT_PORT_PLL_ENABLE(PORT_B));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1132  	MMIO_D(BXT_PORT_PLL_ENABLE(PORT_C));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1133  	MMIO_D(BXT_PORT_CL1CM_DW0(DPIO_PHY0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1134  	MMIO_D(BXT_PORT_CL1CM_DW9(DPIO_PHY0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1135  	MMIO_D(BXT_PORT_CL1CM_DW10(DPIO_PHY0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1136  	MMIO_D(BXT_PORT_CL1CM_DW28(DPIO_PHY0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1137  	MMIO_D(BXT_PORT_CL1CM_DW30(DPIO_PHY0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1138  	MMIO_D(BXT_PORT_CL2CM_DW6(DPIO_PHY0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1139  	MMIO_D(BXT_PORT_REF_DW3(DPIO_PHY0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1140  	MMIO_D(BXT_PORT_REF_DW6(DPIO_PHY0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1141  	MMIO_D(BXT_PORT_REF_DW8(DPIO_PHY0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1142  	MMIO_D(BXT_PORT_CL1CM_DW0(DPIO_PHY1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1143  	MMIO_D(BXT_PORT_CL1CM_DW9(DPIO_PHY1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1144  	MMIO_D(BXT_PORT_CL1CM_DW10(DPIO_PHY1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1145  	MMIO_D(BXT_PORT_CL1CM_DW28(DPIO_PHY1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1146  	MMIO_D(BXT_PORT_CL1CM_DW30(DPIO_PHY1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1147  	MMIO_D(BXT_PORT_CL2CM_DW6(DPIO_PHY1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1148  	MMIO_D(BXT_PORT_REF_DW3(DPIO_PHY1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1149  	MMIO_D(BXT_PORT_REF_DW6(DPIO_PHY1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1150  	MMIO_D(BXT_PORT_REF_DW8(DPIO_PHY1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1151  	MMIO_D(BXT_PORT_PLL_EBB_0(DPIO_PHY0, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1152  	MMIO_D(BXT_PORT_PLL_EBB_4(DPIO_PHY0, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1153  	MMIO_D(BXT_PORT_PCS_DW10_LN01(DPIO_PHY0, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1154  	MMIO_D(BXT_PORT_PCS_DW10_GRP(DPIO_PHY0, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1155  	MMIO_D(BXT_PORT_PCS_DW12_LN01(DPIO_PHY0, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1156  	MMIO_D(BXT_PORT_PCS_DW12_LN23(DPIO_PHY0, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1157  	MMIO_D(BXT_PORT_PCS_DW12_GRP(DPIO_PHY0, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07 @1158  	MMIO_D(BXT_PORT_TX_DW2_LN0(DPIO_PHY0, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1159  	MMIO_D(BXT_PORT_TX_DW2_GRP(DPIO_PHY0, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07 @1160  	MMIO_D(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1161  	MMIO_D(BXT_PORT_TX_DW3_GRP(DPIO_PHY0, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07 @1162  	MMIO_D(BXT_PORT_TX_DW4_LN0(DPIO_PHY0, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1163  	MMIO_D(BXT_PORT_TX_DW4_GRP(DPIO_PHY0, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1164  	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH0, 0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1165  	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH0, 1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1166  	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH0, 2));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1167  	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH0, 3));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1168  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1169  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1170  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 2));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1171  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 3));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1172  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 6));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1173  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 8));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1174  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 9));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1175  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 10));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1176  	MMIO_D(BXT_PORT_PLL_EBB_0(DPIO_PHY0, DPIO_CH1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1177  	MMIO_D(BXT_PORT_PLL_EBB_4(DPIO_PHY0, DPIO_CH1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1178  	MMIO_D(BXT_PORT_PCS_DW10_LN01(DPIO_PHY0, DPIO_CH1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1179  	MMIO_D(BXT_PORT_PCS_DW10_GRP(DPIO_PHY0, DPIO_CH1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1180  	MMIO_D(BXT_PORT_PCS_DW12_LN01(DPIO_PHY0, DPIO_CH1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1181  	MMIO_D(BXT_PORT_PCS_DW12_LN23(DPIO_PHY0, DPIO_CH1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1182  	MMIO_D(BXT_PORT_PCS_DW12_GRP(DPIO_PHY0, DPIO_CH1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1183  	MMIO_D(BXT_PORT_TX_DW2_LN0(DPIO_PHY0, DPIO_CH1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1184  	MMIO_D(BXT_PORT_TX_DW2_GRP(DPIO_PHY0, DPIO_CH1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1185  	MMIO_D(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1186  	MMIO_D(BXT_PORT_TX_DW3_GRP(DPIO_PHY0, DPIO_CH1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1187  	MMIO_D(BXT_PORT_TX_DW4_LN0(DPIO_PHY0, DPIO_CH1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1188  	MMIO_D(BXT_PORT_TX_DW4_GRP(DPIO_PHY0, DPIO_CH1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1189  	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH1, 0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1190  	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH1, 1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1191  	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH1, 2));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1192  	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH1, 3));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1193  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1194  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1195  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 2));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1196  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 3));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1197  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 6));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1198  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 8));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1199  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 9));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1200  	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 10));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1201  	MMIO_D(BXT_PORT_PLL_EBB_0(DPIO_PHY1, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1202  	MMIO_D(BXT_PORT_PLL_EBB_4(DPIO_PHY1, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1203  	MMIO_D(BXT_PORT_PCS_DW10_LN01(DPIO_PHY1, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1204  	MMIO_D(BXT_PORT_PCS_DW10_GRP(DPIO_PHY1, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1205  	MMIO_D(BXT_PORT_PCS_DW12_LN01(DPIO_PHY1, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1206  	MMIO_D(BXT_PORT_PCS_DW12_LN23(DPIO_PHY1, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1207  	MMIO_D(BXT_PORT_PCS_DW12_GRP(DPIO_PHY1, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1208  	MMIO_D(BXT_PORT_TX_DW2_LN0(DPIO_PHY1, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1209  	MMIO_D(BXT_PORT_TX_DW2_GRP(DPIO_PHY1, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1210  	MMIO_D(BXT_PORT_TX_DW3_LN0(DPIO_PHY1, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1211  	MMIO_D(BXT_PORT_TX_DW3_GRP(DPIO_PHY1, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1212  	MMIO_D(BXT_PORT_TX_DW4_LN0(DPIO_PHY1, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1213  	MMIO_D(BXT_PORT_TX_DW4_GRP(DPIO_PHY1, DPIO_CH0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1214  	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY1, DPIO_CH0, 0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1215  	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY1, DPIO_CH0, 1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1216  	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY1, DPIO_CH0, 2));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1217  	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY1, DPIO_CH0, 3));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1218  	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 0));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1219  	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 1));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1220  	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 2));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1221  	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 3));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1222  	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 6));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1223  	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 8));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1224  	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 9));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1225  	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 10));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1226  	MMIO_D(BXT_DE_PLL_CTL);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1227  	MMIO_D(BXT_DE_PLL_ENABLE);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1228  	MMIO_D(BXT_DSI_PLL_CTL);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1229  	MMIO_D(BXT_DSI_PLL_ENABLE);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1230  	MMIO_D(GEN9_CLKGATE_DIS_0);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1231  	MMIO_D(GEN9_CLKGATE_DIS_4);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1232  	MMIO_D(HSW_TVIDEO_DIP_GCP(TRANSCODER_A));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1233  	MMIO_D(HSW_TVIDEO_DIP_GCP(TRANSCODER_B));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1234  	MMIO_D(HSW_TVIDEO_DIP_GCP(TRANSCODER_C));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1235  	MMIO_D(RC6_CTX_BASE);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1236  	MMIO_D(GEN8_PUSHBUS_CONTROL);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1237  	MMIO_D(GEN8_PUSHBUS_ENABLE);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1238  	MMIO_D(GEN8_PUSHBUS_SHIFT);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1239  	MMIO_D(GEN6_GFXPAUSE);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1240  	MMIO_D(GEN8_L3SQCREG1);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1241  	MMIO_D(GEN8_L3CNTLREG);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1242  	MMIO_D(_MMIO(0x20D8));
+e0f74ed4634d6d Zhi Wang 2022-04-07  1243  	MMIO_F(GEN8_RING_CS_GPR(RENDER_RING_BASE, 0), 0x40);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1244  	MMIO_F(GEN8_RING_CS_GPR(GEN6_BSD_RING_BASE, 0), 0x40);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1245  	MMIO_F(GEN8_RING_CS_GPR(BLT_RING_BASE, 0), 0x40);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1246  	MMIO_F(GEN8_RING_CS_GPR(VEBOX_RING_BASE, 0), 0x40);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1247  	MMIO_D(GEN9_CTX_PREEMPT_REG);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1248  	MMIO_D(GEN8_PRIVATE_PAT_LO);
+e0f74ed4634d6d Zhi Wang 2022-04-07  1249  
+e0f74ed4634d6d Zhi Wang 2022-04-07  1250  	return 0;
+e0f74ed4634d6d Zhi Wang 2022-04-07  1251  }
+e0f74ed4634d6d Zhi Wang 2022-04-07  1252  
 
 -- 
 0-DAY CI Kernel Test Service
