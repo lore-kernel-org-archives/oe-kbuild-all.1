@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6605A3D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 00:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DE75227;
+	Tue, 16 Apr 2024 01:42:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713227982; cv=none; b=FyIUHdYVGwxX9qNJA6FVnMpdjMr4VksLZVxIuDxIUyEZwj1aTP3ApTBgRVrlWbI40S/DRwXOvMCNK7ixRyS4vsmr/bSeAoIegjCBit1iPUYv1L8MVEDkFYymsDjTeutvM8OZJaWOqUB1xkcNjGFmnoSPO8nJtU4v/uYphrCVBf0=
+	t=1713231743; cv=none; b=qjkAVwAttNsCMfYOkmy4U+ky8CJLtSAlQfWJAIebKjsJa7o2LUWDGxp8nQSXZaJNxfIdXqsPMZlahPlPzEoJXKEiPjqebIe7QyHY2n/G+ppr6eWEpJHIDQ/BbULvsahbu5JcK6RBemsdA8UoywBFGh5lsLtKofhWKwnbeZKpUC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713227982; c=relaxed/simple;
-	bh=tM3OCE1DZZHveXD2E/m/rUSM/zbMro4dGRHM4XQKcj8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G41JgWiZju8XLyyFlyxuRaHYRo8Kjj/b8kCzo8dkK4Mme6bzYB69pYas6ClsRoRNNRq09ea6ypnFipJJ2jMiJDL+AW1YG5Hed2qhmFYKR1qlKAArjpGIqFteU6qwrngbXWj0UJwf5LMB+IWmlT9mWqK9jkUMwo7cwLu3yUPWktI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BEnz70GU; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1713231743; c=relaxed/simple;
+	bh=8Ph1M2gLwclZUwobrKRtWjpUrWJqo6CN0Wc+gtnA0Uo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OvLyccteiukNGHrkk8sNrGEaIIN7u8csEnwVdaTHMY5zXSi3iXb/3AgQMpYupboxtXAsh1JvLaHZLrWdiF837P/FrSUPoJFjXBSwspVn3omeOGITiSiSysh31HOZP9nWJIjDb4wawjfy/odvvYEjCkDdfYDvR0AgcyicF59zCss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WaoiDdUE; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BEnz70GU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WaoiDdUE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713227980; x=1744763980;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tM3OCE1DZZHveXD2E/m/rUSM/zbMro4dGRHM4XQKcj8=;
-  b=BEnz70GUB8LxIhOCUYF8Rk63XiS3aN/Gf1vCI4tHeXOu6O/Sxqmx2iHp
-   e01sieT14q33SWnwTVWki7w/hHVZBkXHs/T8RC9Kq+IVQ9itx2TM4Zjhn
-   HTqAeumjnWHWUlAZi4ha5ayjPFZefBXln+F8tFxGcW7rtvFjmH1xPuGfC
-   brCio+IfGkQ+CEsinIpeQTpsGBFwOL9Id5bm19bgloofMbcHsYlfKlQAO
-   /E11qm8Ac3lq53J3eXL9FnyoAxSu5wacIoY0NpTPj7zkba3W6sqDx1Oh9
-   X+6dDr/PMe32XP8XkMy9e0X4bAvFXw7mZFM6FWRFtr8r/5u0YI6lqnPMu
-   w==;
-X-CSE-ConnectionGUID: 2LG65zKfTUC0cWFpEl4IKg==
-X-CSE-MsgGUID: 3xidbEU0SkW4w+T8xUDUuw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8808501"
+  t=1713231741; x=1744767741;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8Ph1M2gLwclZUwobrKRtWjpUrWJqo6CN0Wc+gtnA0Uo=;
+  b=WaoiDdUEzJxo2HPRVlIUdDDPpvFZqTxPN3AsR1nmVsUImP0KWpGxpwRv
+   vmX/wcoJIBUTCjQcTQUL2VE0OLLdniCABxCzjJq/81ezncPzdAtixUiHJ
+   n/AeUWv/yzbCp3DcYQ6t1wngKp+3AusU+XcCpIP3J8b5pc1ymEzF+tBUW
+   6u4IEZi06dd0MyyKXTZM4a+in5w1YQUm6Q+qNN9MLCVocYBhjdrfycviF
+   CNFrpMk0NNc5GoR17LnKkqpXhksYHR0w3gsSBG2jtOFaOWPlCb3ajjmJv
+   gEXbEmywxq/XmIKrkUSr75utZDy39Nj49eExkOnUJXI3YRxwHNOqePqw5
+   A==;
+X-CSE-ConnectionGUID: 6D575we+SXy6rkf3bMncAg==
+X-CSE-MsgGUID: j1PKsFl6TsieNDgMIJmKSQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8479713"
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="8808501"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 17:39:39 -0700
-X-CSE-ConnectionGUID: v1N4o0H/QMyv+9BypL7SRQ==
-X-CSE-MsgGUID: Vz7Ett5SQiWOXbt5B5zF+g==
+   d="scan'208";a="8479713"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 18:42:20 -0700
+X-CSE-ConnectionGUID: 4RqMBrBuQ5ewjs+FQopNNw==
+X-CSE-MsgGUID: Sy328VxlTYyHU9qqCH5Ltw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="22671147"
+   d="scan'208";a="22178837"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 15 Apr 2024 17:39:38 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 15 Apr 2024 18:42:19 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwWrH-0004ma-19;
-	Tue, 16 Apr 2024 00:39:35 +0000
-Date: Tue, 16 Apr 2024 08:38:53 +0800
+	id 1rwXpw-0004pC-37;
+	Tue, 16 Apr 2024 01:42:16 +0000
+Date: Tue, 16 Apr 2024 09:41:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: FUJITA Tomonori <fujita.tomonori@gmail.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrew@lunn.ch
-Subject: Re: [PATCH net-next v1 4/5] net: tn40xx: add basic Rx handling
-Message-ID: <202404160840.Me9Gpj7a-lkp@intel.com>
-References: <20240415104352.4685-5-fujita.tomonori@gmail.com>
+To: Julien Panis <jpanis@baylibre.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Jacob Keller <jacob.e.keller@intel.com>
+Subject: [net-next:main 17/18]
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c:478:9: warning: cast to smaller
+ integer type 'enum am65_cpsw_tx_buf_type' from 'void *'
+Message-ID: <202404160955.THhpKGGa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,147 +63,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240415104352.4685-5-fujita.tomonori@gmail.com>
 
-Hi FUJITA,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 32affa5578f0e6b9abef3623d3976395afbd265c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/FUJITA-Tomonori/net-tn40xx-add-pci-driver-for-Tehuti-Networks-TN40xx-chips/20240415-185416
-base:   32affa5578f0e6b9abef3623d3976395afbd265c
-patch link:    https://lore.kernel.org/r/20240415104352.4685-5-fujita.tomonori%40gmail.com
-patch subject: [PATCH net-next v1 4/5] net: tn40xx: add basic Rx handling
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240416/202404160840.Me9Gpj7a-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404160840.Me9Gpj7a-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
+head:   bb72159c0ad193bbaa842e41316f0f6b6972e821
+commit: 8acacc40f7337527ff84cd901ed2ef0a2b95b2b6 [17/18] net: ethernet: ti: am65-cpsw: Add minimal XDP support
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240416/202404160955.THhpKGGa-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404160955.THhpKGGa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404160840.Me9Gpj7a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404160955.THhpKGGa-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/printk.h:566,
-                    from include/asm-generic/bug.h:22,
-                    from ./arch/microblaze/include/generated/asm/bug.h:1,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/linux/sched.h:14,
-                    from include/linux/delay.h:23,
-                    from drivers/net/ethernet/tehuti/tn40.h:8,
-                    from drivers/net/ethernet/tehuti/tn40.c:4:
-   drivers/net/ethernet/tehuti/tn40.c: In function 'bdx_rx_reuse_page':
->> drivers/net/ethernet/tehuti/tn40.c:154:20: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     154 |                    (void *)dm->dma);
-         |                    ^
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:277:9: note: in expansion of macro '_dynamic_func_call'
-     277 |         _dynamic_func_call(fmt, __dynamic_netdev_dbg,           \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/net/net_debug.h:57:9: note: in expansion of macro 'dynamic_netdev_dbg'
-      57 |         dynamic_netdev_dbg(__dev, format, ##args);              \
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/tehuti/tn40.c:153:9: note: in expansion of macro 'netdev_dbg'
-     153 |         netdev_dbg(priv->ndev, "dm size %d off %d dma %p\n", dm->size, dm->off,
-         |         ^~~~~~~~~~
-   drivers/net/ethernet/tehuti/tn40.c:156:67: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     156 |                 netdev_dbg(priv->ndev, "unmap page %p size %d\n", (void *)dm->dma, dm->size);
-         |                                                                   ^
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:277:9: note: in expansion of macro '_dynamic_func_call'
-     277 |         _dynamic_func_call(fmt, __dynamic_netdev_dbg,           \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/net/net_debug.h:57:9: note: in expansion of macro 'dynamic_netdev_dbg'
-      57 |         dynamic_netdev_dbg(__dev, format, ##args);              \
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/tehuti/tn40.c:156:17: note: in expansion of macro 'netdev_dbg'
-     156 |                 netdev_dbg(priv->ndev, "unmap page %p size %d\n", (void *)dm->dma, dm->size);
-         |                 ^~~~~~~~~~
-   drivers/net/ethernet/tehuti/tn40.c: In function 'bdx_rx_alloc_buffers':
-   drivers/net/ethernet/tehuti/tn40.c:324:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     324 |                            (void *)dm->dma);
-         |                            ^
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:277:9: note: in expansion of macro '_dynamic_func_call'
-     277 |         _dynamic_func_call(fmt, __dynamic_netdev_dbg,           \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/net/net_debug.h:57:9: note: in expansion of macro 'dynamic_netdev_dbg'
-      57 |         dynamic_netdev_dbg(__dev, format, ##args);              \
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/tehuti/tn40.c:323:17: note: in expansion of macro 'netdev_dbg'
-     323 |                 netdev_dbg(priv->ndev, "dm size %d off %d dma %p\n", dm->size, dm->off,
-         |                 ^~~~~~~~~~
-   drivers/net/ethernet/tehuti/tn40.c: In function 'bdx_rx_receive':
->> drivers/net/ethernet/tehuti/tn40.c:465:26: warning: variable 'rxf_fifo' set but not used [-Wunused-but-set-variable]
-     465 |         struct rxf_fifo *rxf_fifo;
-         |                          ^~~~~~~~
-   drivers/net/ethernet/tehuti/tn40.c: In function 'bdx_start_xmit':
-   drivers/net/ethernet/tehuti/tn40.c:923:29: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     923 |         txdd->va_lo = (u32)((u64)skb);
-         |                             ^
-   drivers/net/ethernet/tehuti/tn40.c: In function 'bdx_tx_cleanup':
->> drivers/net/ethernet/tehuti/tn40.c:1007:48: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-    1007 |                         netdev_dbg(priv->ndev, "pci_unmap_page 0x%llx len %d\n",
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1008 |                                    db->rptr->addr.dma, db->rptr->len);
-         |                                    ~~~~~~~~~~~~~~~~~~
-         |                                                  |
-         |                                                  dma_addr_t {aka unsigned int}
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:277:9: note: in expansion of macro '_dynamic_func_call'
-     277 |         _dynamic_func_call(fmt, __dynamic_netdev_dbg,           \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/net/net_debug.h:57:9: note: in expansion of macro 'dynamic_netdev_dbg'
-      57 |         dynamic_netdev_dbg(__dev, format, ##args);              \
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/tehuti/tn40.c:1007:25: note: in expansion of macro 'netdev_dbg'
-    1007 |                         netdev_dbg(priv->ndev, "pci_unmap_page 0x%llx len %d\n",
-         |                         ^~~~~~~~~~
-   drivers/net/ethernet/tehuti/tn40.c:1007:69: note: format string is defined here
-    1007 |                         netdev_dbg(priv->ndev, "pci_unmap_page 0x%llx len %d\n",
-         |                                                                  ~~~^
-         |                                                                     |
-         |                                                                     long long unsigned int
-         |                                                                  %x
+   In file included from drivers/net/ethernet/ti/am65-cpsw-nuss.c:8:
+   In file included from include/linux/bpf_trace.h:5:
+   In file included from include/trace/events/xdp.h:8:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm64/include/asm/cacheflush.h:11:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/ti/am65-cpsw-nuss.c:478:9: warning: cast to smaller integer type 'enum am65_cpsw_tx_buf_type' from 'void *' [-Wvoid-pointer-to-enum-cast]
+     478 |         return (enum am65_cpsw_tx_buf_type)k3_cppi_desc_pool_desc_info(tx_chn->desc_pool,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     479 |                                                                        desc_idx);
+         |                                                                        ~~~~~~~~~
+   6 warnings generated.
 
 
-vim +154 drivers/net/ethernet/tehuti/tn40.c
+vim +478 drivers/net/ethernet/ti/am65-cpsw-nuss.c
 
-   150	
-   151	static void bdx_rx_reuse_page(struct bdx_priv *priv, struct rx_map *dm)
-   152	{
-   153		netdev_dbg(priv->ndev, "dm size %d off %d dma %p\n", dm->size, dm->off,
- > 154			   (void *)dm->dma);
-   155		if (dm->off == 0) {
-   156			netdev_dbg(priv->ndev, "unmap page %p size %d\n", (void *)dm->dma, dm->size);
-   157			dma_unmap_page(&priv->pdev->dev, dm->dma, dm->size,
-   158				       DMA_FROM_DEVICE);
-   159		}
-   160	}
-   161	
+   467	
+   468	static enum am65_cpsw_tx_buf_type am65_cpsw_nuss_buf_type(struct am65_cpsw_tx_chn *tx_chn,
+   469								  dma_addr_t desc_dma)
+   470	{
+   471		struct cppi5_host_desc_t *desc_tx;
+   472		int desc_idx;
+   473	
+   474		desc_tx = k3_cppi_desc_pool_dma2virt(tx_chn->desc_pool, desc_dma);
+   475		desc_idx = am65_cpsw_nuss_desc_idx(tx_chn->desc_pool, desc_tx,
+   476						   tx_chn->dsize_log2);
+   477	
+ > 478		return (enum am65_cpsw_tx_buf_type)k3_cppi_desc_pool_desc_info(tx_chn->desc_pool,
+   479									       desc_idx);
+   480	}
+   481	
 
 -- 
 0-DAY CI Kernel Test Service
