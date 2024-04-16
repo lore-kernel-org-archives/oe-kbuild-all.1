@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B414037152
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 04:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FEC37160
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 04:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713240270; cv=none; b=isazmWw9doqAcWiFMeatLBJNGfvrgm+IOwdewnBk5K/moQw/VGCh4kU+3OJhbYVplJaeLnAlc2mJKvHKUQ2tHMe59lIkqeU7zuqNV5DKCGz9ydhUjwBNi//4uouI0lP9o0tf6Iq3v9hrbj9Ql8O0/FrEiPqd1/dVgzpLNIVlGps=
+	t=1713240271; cv=none; b=phwbfjw+peQAW5RQQq8949QITvEPcH7A4tHsyFBvp3DZzmhYdBxvJik68wgjXqrATe8vpYSGkyt2bF2jmbfdXoEtbiE4EzpR52Hn+1Zm2CvCj5UrJIRuiJtYPhb1q8aC1/ZZAzFrKTBzeqYpPYQgZ6cGfK2+JnrlAapAuYVZYQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713240270; c=relaxed/simple;
-	bh=m0Ef5QhPebAuatmtKngLkebG3Ap/krNh/aEDaS729X8=;
+	s=arc-20240116; t=1713240271; c=relaxed/simple;
+	bh=3Tom/UJMbufCe0Y5Eb5CHI6Fy/4w5ltu6bMrK0ZaL2w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FXSU2QjItLZHsrAXgPODaWFAoWKFBxat+KmzYHCvZqQ5zgJIKLLiAxh7jLjJAfXnVfLlgyTHm/IAvSBLztxfiADeI1bIssR4IS4yl2YENmrnOQUcOwjpcBCa3bl9RaROl7NrO+t60/re2DHyTlKVO6xRab3dCeEk7uVryS5kOI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FudSJuTA; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=CZM3SjIRSZh3FV+WRPkwFsV+BHBcBEfoNQQ7vTe+FmB+BMhCxytFCnTpjgRtfHID+f8D3OeCgltHm2g37Lh6heffpsQK7912vEhkgsPZvd60pDGKQ2yolPqHSmgYXSonGQYyMII71FeGJhMHexq/Ecv0aqhCcGRDMmZeLaS4iDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WUyepqfc; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FudSJuTA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WUyepqfc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713240269; x=1744776269;
+  t=1713240270; x=1744776270;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m0Ef5QhPebAuatmtKngLkebG3Ap/krNh/aEDaS729X8=;
-  b=FudSJuTAsxjEac1OSN8CvZ4HXa6aMTlW806E+i+eR0JIdy6q9CT75EqF
-   GIyXvHUZ2DsunAVwxrPGdJdwucrcVAcz+aleqHdPVyH40v3D4GCz+k5cN
-   Anp5CHmzylplh85x/vRUv94IWTDFxBjpnnw2HjxDXMdS5Y00ZUHdlXnGh
-   5CJ4z/p6bAeDgTPtnNaAt7TFFbi1Na4xmyGu0j2sMO+HvuXSkwCjzR0XV
-   rAR0jg5MuwRMN3+qsRIqJCnjvwonN7KV5yJRMQDmMF1H9HYNjwlysCIw2
-   AUwEH2erkeAJGwfhDZnJiM+pyyc6LbQr3Br7TDnblpG11U17WZvX1j4T2
-   A==;
-X-CSE-ConnectionGUID: 4rAuqZiyRp+a0fSInF8Gxw==
-X-CSE-MsgGUID: MSO7jjR/QV+cjojy73T1hw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8519171"
+  bh=3Tom/UJMbufCe0Y5Eb5CHI6Fy/4w5ltu6bMrK0ZaL2w=;
+  b=WUyepqfc35DgYypdCdxn0OJhN3F29i+Y13drJvX52+PAPAaXFk8AMu1M
+   2szLfo5oapNZpdeP1IuhL9Oeu6K+r3QPJW5PVFOc2cpR1vbyaupX3fr3n
+   1wR3fHga8SKop2wSylN6iQUa7wlvID3Qjs6a03mBR64asbXYC+YsWjHXo
+   CrsG6nDYxGxAVD5vKKle8VBu6xSCrfjYhqXhjkaXeBZkPc8vVCKviXtiB
+   QUq2malBEs8g7lFxi0CynXigK+A+0pLftwG4HZZzMtOJ3V7/q6sJF9Y15
+   ZR8UvlD/NkvJ3j9TJtXcbBSjLPnd2oOqv9s4BncVQ8Ue8Td2MtY4JQF1H
+   g==;
+X-CSE-ConnectionGUID: sHYfmt2WTbOU2Mk7okUVzQ==
+X-CSE-MsgGUID: /e55qWpYRfutMEEhd0IV2Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8766468"
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="8519171"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 21:04:28 -0700
-X-CSE-ConnectionGUID: Tn70Iq7vSHW2gB3E4NiLwQ==
-X-CSE-MsgGUID: xtsJ873cTBKG8NHGNNnFIQ==
+   d="scan'208";a="8766468"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 21:04:29 -0700
+X-CSE-ConnectionGUID: avVsWOaKRqOS7nCuZXhS9g==
+X-CSE-MsgGUID: OAOqru5oSSSmt0/+6xLNpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="22214638"
+   d="scan'208";a="59573931"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Apr 2024 21:04:27 -0700
+  by orviesa001.jf.intel.com with ESMTP; 15 Apr 2024 21:04:28 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwa3U-0004wg-2g;
+	id 1rwa3U-0004we-2c;
 	Tue, 16 Apr 2024 04:04:24 +0000
-Date: Tue, 16 Apr 2024 12:03:28 +0800
+Date: Tue, 16 Apr 2024 12:03:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.1 6086/21662] ERROR: modpost:
- "fuse_get_bpf_prog" [fs/fuse/fuse.ko] undefined!
-Message-ID: <202404161101.J77YzHFc-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 15455/22120]
+ drivers/staging/gmjstcm/tcm_tis_spi.c:109:5: sparse: sparse: symbol
+ 'tcm_tis_spi_transfer' was not declared. Should it be static?
+Message-ID: <202404161103.X6fwAkxa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,71 +63,183 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.1
-head:   bc8dccf0e351f8b1f462250dab685ada42c9463d
-commit: 57f3ff9648991998d008ecf32f2f9e78a08bfb8b [6086/21662] ANDROID: fuse-bpf v1.1
-config: i386-randconfig-052-20240416 (https://download.01.org/0day-ci/archive/20240416/202404161101.J77YzHFc-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404161101.J77YzHFc-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   ab90000f05ebb295378878af0ab18daacb6f3ccf
+commit: 5ebbfc8c29eb5eb6dfdab853bdb2a622e0533d7e [15455/22120] staging: TCM: add GMJS(Nationz Tech) TCM driver.
+config: arm64-randconfig-r111-20240331 (https://download.01.org/0day-ci/archive/20240416/202404161103.X6fwAkxa-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240416/202404161103.X6fwAkxa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404161101.J77YzHFc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404161103.X6fwAkxa-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+   drivers/staging/gmjstcm/tcm_tis_spi.c:125:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *static [noderef] [toplevel] <asn:2> gpio1_a5 @@
+   drivers/staging/gmjstcm/tcm_tis_spi.c:125:32: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/staging/gmjstcm/tcm_tis_spi.c:125:32: sparse:     got void *static [noderef] [toplevel] <asn:2> gpio1_a5
+   drivers/staging/gmjstcm/tcm_tis_spi.c:178:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *static [noderef] [toplevel] <asn:2> gpio1_a5 @@
+   drivers/staging/gmjstcm/tcm_tis_spi.c:178:33: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/staging/gmjstcm/tcm_tis_spi.c:178:33: sparse:     got void *static [noderef] [toplevel] <asn:2> gpio1_a5
+>> drivers/staging/gmjstcm/tcm_tis_spi.c:109:5: sparse: sparse: symbol 'tcm_tis_spi_transfer' was not declared. Should it be static?
+   drivers/staging/gmjstcm/tcm_tis_spi.c:710:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *static [noderef] [toplevel] <asn:2> reuse_conf_reg @@     got void [noderef] <asn:2> * @@
+   drivers/staging/gmjstcm/tcm_tis_spi.c:710:32: sparse:     expected void *static [noderef] [toplevel] <asn:2> reuse_conf_reg
+   drivers/staging/gmjstcm/tcm_tis_spi.c:710:32: sparse:     got void [noderef] <asn:2> *
+   drivers/staging/gmjstcm/tcm_tis_spi.c:718:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *static [noderef] [toplevel] <asn:2> gpio1_a5 @@     got void [noderef] <asn:2> * @@
+   drivers/staging/gmjstcm/tcm_tis_spi.c:718:26: sparse:     expected void *static [noderef] [toplevel] <asn:2> gpio1_a5
+   drivers/staging/gmjstcm/tcm_tis_spi.c:718:26: sparse:     got void [noderef] <asn:2> *
+   drivers/staging/gmjstcm/tcm_tis_spi.c:726:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got void *static [noderef] [toplevel] <asn:2> reuse_conf_reg @@
+   drivers/staging/gmjstcm/tcm_tis_spi.c:726:37: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/staging/gmjstcm/tcm_tis_spi.c:726:37: sparse:     got void *static [noderef] [toplevel] <asn:2> reuse_conf_reg
+   drivers/staging/gmjstcm/tcm_tis_spi.c:727:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *static [noderef] [toplevel] <asn:2> reuse_conf_reg @@
+   drivers/staging/gmjstcm/tcm_tis_spi.c:727:33: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/staging/gmjstcm/tcm_tis_spi.c:727:33: sparse:     got void *static [noderef] [toplevel] <asn:2> reuse_conf_reg
+   drivers/staging/gmjstcm/tcm_tis_spi.c:729:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void * @@
+   drivers/staging/gmjstcm/tcm_tis_spi.c:729:42: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/staging/gmjstcm/tcm_tis_spi.c:729:42: sparse:     got void *
+   drivers/staging/gmjstcm/tcm_tis_spi.c:790:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *static [noderef] [toplevel] <asn:2> reuse_conf_reg @@
+   drivers/staging/gmjstcm/tcm_tis_spi.c:790:33: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/staging/gmjstcm/tcm_tis_spi.c:790:33: sparse:     got void *static [noderef] [toplevel] <asn:2> reuse_conf_reg
+   drivers/staging/gmjstcm/tcm_tis_spi.c:792:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *static [noderef] [toplevel] <asn:2> gpio1_a5 @@
+   drivers/staging/gmjstcm/tcm_tis_spi.c:792:33: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/staging/gmjstcm/tcm_tis_spi.c:792:33: sparse:     got void *static [noderef] [toplevel] <asn:2> gpio1_a5
+   drivers/staging/gmjstcm/tcm_tis_spi.c:805:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *static [noderef] [toplevel] <asn:2> reuse_conf_reg @@
+   drivers/staging/gmjstcm/tcm_tis_spi.c:805:33: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/staging/gmjstcm/tcm_tis_spi.c:805:33: sparse:     got void *static [noderef] [toplevel] <asn:2> reuse_conf_reg
+   drivers/staging/gmjstcm/tcm_tis_spi.c:807:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *static [noderef] [toplevel] <asn:2> gpio1_a5 @@
+   drivers/staging/gmjstcm/tcm_tis_spi.c:807:33: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/staging/gmjstcm/tcm_tis_spi.c:807:33: sparse:     got void *static [noderef] [toplevel] <asn:2> gpio1_a5
+>> drivers/staging/gmjstcm/tcm_tis_spi.c:125:32: sparse: sparse: dereference of noderef expression
+>> drivers/staging/gmjstcm/tcm_tis_spi.c:125:32: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:178:33: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:178:33: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:234:13: sparse: sparse: context imbalance in 'cleanup_tis' - wrong count at exit
+   drivers/staging/gmjstcm/tcm_tis_spi.c:711:22: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:719:22: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:726:37: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:726:37: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:727:33: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:726:37: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:727:33: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:729:33: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:729:33: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:789:21: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:790:33: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:791:21: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:792:33: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:804:21: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:805:33: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:806:21: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:807:33: sparse: sparse: dereference of noderef expression
+   drivers/staging/gmjstcm/tcm_tis_spi.c:109:5: warning: no previous prototype for 'tcm_tis_spi_transfer' [-Wmissing-prototypes]
+     109 | int tcm_tis_spi_transfer(struct device *dev, u32 addr, u16 len,
+         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gmjstcm/tcm_tis_spi.c: In function 'recv_data':
+   drivers/staging/gmjstcm/tcm_tis_spi.c:423:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     423 |         int ret;
+         |             ^~~
+   drivers/staging/gmjstcm/tcm_tis_spi.c: At top level:
+   drivers/staging/gmjstcm/tcm_tis_spi.c:817:36: warning: 'tcm_tis_spi_acpi_match' defined but not used [-Wunused-const-variable=]
+     817 | static const struct acpi_device_id tcm_tis_spi_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gmjstcm/tcm_tis_spi.c: In function 'cleanup_tis':
+   drivers/staging/gmjstcm/tcm_tis_spi.c:249:17: warning: 'inten' may be used uninitialized [-Wmaybe-uninitialized]
+     249 |                 tcm_tis_writel(chip->dev, TCM_INT_ENABLE(chip->vendor.locality),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     250 |                                 ~TCM_GLOBAL_INT_ENABLE & inten);
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gmjstcm/tcm_tis_spi.c:237:13: note: 'inten' was declared here
+     237 |         u32 inten;
+         |             ^~~~~
+   drivers/staging/gmjstcm/tcm_tis_spi.c: In function 'tcm_tis_init':
+   drivers/staging/gmjstcm/tcm_tis_spi.c:264:21: warning: 'vendor' may be used uninitialized [-Wmaybe-uninitialized]
+     264 |         if ((vendor & 0xffff) != 0x19f5 && (vendor & 0xffff) != 0x1B4E)
+         |             ~~~~~~~~^~~~~~~~~
+   drivers/staging/gmjstcm/tcm_tis_spi.c:260:13: note: 'vendor' was declared here
+     260 |         u32 vendor, intfcaps;
+         |             ^~~~~~
 
->> ERROR: modpost: "fuse_get_bpf_prog" [fs/fuse/fuse.ko] undefined!
+vim +/tcm_tis_spi_transfer +109 drivers/staging/gmjstcm/tcm_tis_spi.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
-   Depends on [n]: SOUND [=m] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=m] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=m] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=m] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=m] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=m] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   108	
+ > 109	int tcm_tis_spi_transfer(struct device *dev, u32 addr, u16 len,
+   110			u8 *in, const u8 *out)
+   111	{
+   112		struct tcm_tis_spi_phy *phy = dev_get_drvdata(dev);
+   113		int ret = 0;
+   114		struct spi_message m;
+   115		struct spi_transfer spi_xfer;
+   116		u8 transfer_len;
+   117	
+   118		tcm_dbg("TCM-dbg: %s, addr: 0x%x, len: %x, %s\n",
+   119				__func__, addr, len, (in) ? "in" : "out");
+   120	
+   121		spi_bus_lock(phy->spi_device->master);
+   122	
+   123		/* set gpio1_a5 to LOW */
+   124		if (is_ft_all() && (phy->spi_device->chip_select == 0)) {
+ > 125			iowrite32(0x0, gpio1_a5);
+   126		}
+   127	
+   128		while (len) {
+   129			transfer_len = min_t(u16, len, MAX_SPI_FRAMESIZE);
+   130	
+   131			phy->iobuf[0] = (in ? 0x80 : 0) | (transfer_len - 1);
+   132			phy->iobuf[1] = 0xd4;
+   133			phy->iobuf[2] = addr >> 8;
+   134			phy->iobuf[3] = addr;
+   135	
+   136			memset(&spi_xfer, 0, sizeof(spi_xfer));
+   137			spi_xfer.tx_buf = phy->iobuf;
+   138			spi_xfer.rx_buf = phy->iobuf;
+   139			spi_xfer.len = 4;
+   140			spi_xfer.cs_change = 1;
+   141	
+   142			spi_message_init(&m);
+   143			spi_message_add_tail(&spi_xfer, &m);
+   144			ret = spi_sync_locked(phy->spi_device, &m);
+   145			if (ret < 0)
+   146				goto exit;
+   147	
+   148			spi_xfer.cs_change = 0;
+   149			spi_xfer.len = transfer_len;
+   150			spi_xfer.delay_usecs = 5;
+   151	
+   152			if (in) {
+   153				spi_xfer.tx_buf = NULL;
+   154			} else if (out) {
+   155				spi_xfer.rx_buf = NULL;
+   156				memcpy(phy->iobuf, out, transfer_len);
+   157				out += transfer_len;
+   158			}
+   159	
+   160			spi_message_init(&m);
+   161			spi_message_add_tail(&spi_xfer, &m);
+   162			reinit_completion(&phy->ready);
+   163			ret = spi_sync_locked(phy->spi_device, &m);
+   164			if (ret < 0)
+   165				goto exit;
+   166	
+   167			if (in) {
+   168				memcpy(in, phy->iobuf, transfer_len);
+   169				in += transfer_len;
+   170			}
+   171	
+   172			len -= transfer_len;
+   173		}
+   174	
+   175	exit:
+   176		/* set gpio1_a5 to HIGH */
+   177		if (is_ft_all() && (phy->spi_device->chip_select == 0)) {
+   178			iowrite32(0x20, gpio1_a5);
+   179		}
+   180	
+   181		spi_bus_unlock(phy->spi_device->master);
+   182		tcm_dbg("TCM-dbg: ret: %d\n", ret);
+   183		return ret;
+   184	}
+   185	
 
 -- 
 0-DAY CI Kernel Test Service
