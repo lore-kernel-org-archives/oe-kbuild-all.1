@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D751B127E24
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 10:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C17FEEAE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 10:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713262816; cv=none; b=A4PCsVD0J2fojib0SRb2RQICmhwUQwW+W8DFEHGapW7+AfcJRQXiY7VnPf6YlKvYFqWTwbE4/1xFMBCW5NLs6uXZY7u8YD4NwTk9xWlUR1Fa6ZClPhwbrg/Q4JrO11rlSvx6qXfXFoBoUIEjamZTxZwdGJYuS8U7YcJtcyCZgL8=
+	t=1713263445; cv=none; b=aEHI4OXlYpm3Wu6N4GXC60z6uhXT84JTBuYMBwSzfPVK1hY0aFNOELapdVKV11O1PXSgOQaxCFr1ppdm8usTp6rDDPHjO3i3SgLyK39lBy79Cmbex8mhxy//BoaikuwRaeeK8+TqBM9xvNx7L5DvkBo5be9rL5QYmZqfvVcHtBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713262816; c=relaxed/simple;
-	bh=rVjTiE0ag4qOF0VHdtrmpErhKeyPjghITNgrognB7dw=;
+	s=arc-20240116; t=1713263445; c=relaxed/simple;
+	bh=Hb4VWuHviVkqjpu2tqxwnE0CvNHLHeTChBD5KU2ZsoQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bUi5So1FDVDajVW//4z5uaGWzsN2NKr10vcCJ81nrB+OEd6n79A5eZxApLtZcMRjC2GwZTGiFQOULCjaDJ+9QfGgxLAm3Qw0ZpvdST4LkMmMm8TSArW06YacjyX2xFOUmAaqJDSx9BK41IFJQ0Hk4a6s5lndsYN8WJZbpB1ORd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UZ9IIajN; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=uOpCbsgGTrpXh+26XN6ngDTj9njY4JejXNrcVevwtuT+XkJ7qN9MAQbrjPoBIEMLwGMJ5Cmd4VFOdLDzCjNB28D56nyTM363FTpInvS3xCqCoFLjuCEOj3MU4IZuqeqoo7NKPfU+Bjp/G3gG59Aixtm6QEwsNQQLFHlx5x09NbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=arWEPMr2; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UZ9IIajN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713262814; x=1744798814;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rVjTiE0ag4qOF0VHdtrmpErhKeyPjghITNgrognB7dw=;
-  b=UZ9IIajNlnOvyA2u5cmeOpNrQ9CM5tRA/VoKdq94H6Jc85x5cEEdpOh0
-   NtXWI9qlvSwEqItdWvro0s6qDYznLF+IqL24zWeWbOeYHN8UQPt/YZ3so
-   A3KtkjLHREGMCaMSvLKY4Fnwix2qJQId8kvoc8OvUHsryu7Wl/LBFATuE
-   N0yMfRMv8ETCd9ileFr3L0YxFAh49ZcHtXtnaIUTZPbURIQV/ptNNUaWN
-   S8h9C61JjOSVuFQFIOBjAE5G0FqVW8Z0/EIkrnh8IXB6hdeLzzCn34Tfu
-   VjRkbAWZvybKBEQnSttUNCP82Qk4c4pKDIfbXPFrvo1imtrgJEqtSklT1
-   A==;
-X-CSE-ConnectionGUID: oYTnuY6mTzm232U1cWMn6A==
-X-CSE-MsgGUID: 0QuakYbnRDy62jEToh6h0w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8817398"
-X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="8817398"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 03:19:59 -0700
-X-CSE-ConnectionGUID: wkmw19S9TeW/EqJ3DC5+tA==
-X-CSE-MsgGUID: l5X5T/ldSGa+Y1D8Ckj8eQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="22804686"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 16 Apr 2024 03:19:54 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rwfup-00058c-0H;
-	Tue, 16 Apr 2024 10:19:51 +0000
-Date: Tue, 16 Apr 2024 18:18:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhao Wenhui <zhaowenhui8@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 22104/22122] fs/proc/array.c:614:2:
- warning: 'gtime' may be used uninitialized in this function
-Message-ID: <202404161806.OZsKNf49-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="arWEPMr2"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a54176639ecso201948466b.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 03:30:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713263441; x=1713868241; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OpUv8OKDMoCTJbGOeQ/kgwQ8pTbKhM6e7RKVIafCooI=;
+        b=arWEPMr2XDd2NcYPkusYIhJ+7mNMPP3kRljXwru6+b/QdDDi/a5DXmeakRr/Vm58NI
+         NmNLMrcA4pTvDNta14Lgjd+e99i3Qid6QosRD7avbsi9/MyhkkgopWSPqmDDwnGYc8ly
+         msMkTVwPx7eyo7P9x+Bf1gHF1A7HZWU4jn4qfY/4blPrst9MBy9O9sCSBpgEdK+DzhmF
+         /ICaoVjrIoigQVIbtgOcjccTHU7Dn91FGd99r1qD37Sao3qfpS1n9rh91RxXXIaNuqBc
+         j01Mrfnish69uMR2DCRU6+chs9ETljr/CLMH/FZ3zZ6KC2RZg4AEvav/Fm2fTRZRBuH0
+         rp+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713263441; x=1713868241;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OpUv8OKDMoCTJbGOeQ/kgwQ8pTbKhM6e7RKVIafCooI=;
+        b=FP+e/KYYUEZAbv3EVTX89f3Ln8Fgg+62UorTCaUk0b0caVkboP8whEXkgImaMMBevR
+         ITPtvIJTfNNUZqwhLMrfIp08491WJ6kaPGisS8nP4F88XlKlP3MWWdKCH3JYAQKj20BP
+         48SdVKMJfyjhS06BdOUC95YPSuvFPSU9katopPgg3sUGjwFqROinGymLtJukZycHXZv7
+         8ZWpJ2ldeMKyzginLeeaqNv6cqVTbJJEAy09MnD9k0sAkCNYdbzoGll/V3ivQ59VRfjO
+         hMeYJGHc6wPItUv+7OlH8cnHnlAnxoR41gisNrSyATPqvtfPfhBf4tYkgOIiWedgR07m
+         35hA==
+X-Forwarded-Encrypted: i=1; AJvYcCXeID/9rpC1HYmOa3dOHV21zr6QXB+51Zh/Vk+sZYTkNgscx3zLZB6ty5cacO3SzjL9+k203t0Icg3n7mYRE06/N4OPm2quo+P6TjD6Vg==
+X-Gm-Message-State: AOJu0Yyvo38yyj8xwh029EJHsW00euXnTxSSaeJXGFm2tUUCEUu3IAlt
+	r0bfRiWVxBYH5QGC3IGYz0ffrXBGPY6q4miHalDDqMwROXZWxErIvhvL7ZSWsBI=
+X-Google-Smtp-Source: AGHT+IHwE8eVjAv/wY0YEU/3Y29Ot/WeEq9zUw451nPyDOXitvz8i2SUYtyGocvpNr3+FM7DTXN4ig==
+X-Received: by 2002:a17:906:6b8f:b0:a52:54be:dd8a with SMTP id l15-20020a1709066b8f00b00a5254bedd8amr4331396ejr.15.1713263441187;
+        Tue, 16 Apr 2024 03:30:41 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id bm23-20020a170906c05700b00a52331dc082sm5720006ejb.11.2024.04.16.03.30.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Apr 2024 03:30:40 -0700 (PDT)
+Date: Tue, 16 Apr 2024 13:30:36 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Brian Kim <brian.kim@hardkernel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Dongjin Kim <tobetter@gmail.com>, memeka <mihailescu2m@gmail.com>,
+	Yang Deokgyu <secugyu@gmail.com>
+Subject: [tobetter:odroid-5.15.y 21/204] drivers/char/exynos-gpiomem.c:231
+ exynos_gpiomem_probe() error: we previously assumed 'inst' could be null
+ (see line 156)
+Message-ID: <fdd23124-4697-4897-9808-bb613792affe@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,261 +69,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   5b8899e6883a3bc8649d051cd90b96f37066e356
-commit: 4f8730514c736b09927b1b9c08ad946b70639545 [22104/22122] fs/proc: do_task_stat: use sig->stats_lock to gather the threads/children stats
-config: x86_64-buildonly-randconfig-005-20240416 (https://download.01.org/0day-ci/archive/20240416/202404161806.OZsKNf49-lkp@intel.com/config)
+tree:   https://github.com/tobetter/linux odroid-5.15.y
+head:   28a16e1ab36472a36cac8b10003b29f322f458ff
+commit: 61f45d975621becb00c0aef303769f10428b9cd8 [21/204] ODROID-XU4: char: exynos: add /dev/gpiomem device for rootless user GPIO access
+config: i386-randconfig-141-20240416 (https://download.01.org/0day-ci/archive/20240416/202404160800.qLr46RNZ-lkp@intel.com/config)
 compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404161806.OZsKNf49-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404161806.OZsKNf49-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202404160800.qLr46RNZ-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+smatch warnings:
+drivers/char/exynos-gpiomem.c:231 exynos_gpiomem_probe() error: we previously assumed 'inst' could be null (see line 156)
 
-All warnings (new ones prefixed by >>):
+vim +/inst +231 drivers/char/exynos-gpiomem.c
 
-   In file included from include/linux/sched/signal.h:7,
-                    from include/linux/sched/cputime.h:5,
-                    from fs/proc/array.c:68:
-   include/linux/signal.h: In function 'sigemptyset':
-   include/linux/signal.h:180:22: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     180 |  case 2: set->sig[1] = 0;
-         |          ~~~~~~~~~~~~^~~
-   include/linux/signal.h:181:2: note: here
-     181 |  case 1: set->sig[0] = 0;
-         |  ^~~~
-   fs/proc/array.c: In function 'do_task_stat':
->> fs/proc/array.c:614:2: warning: 'gtime' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     614 |  seq_put_decimal_ull(m, " ", nsec_to_clock_t(gtime));
-         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> fs/proc/array.c:567:2: warning: 'maj_flt' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     567 |  seq_put_decimal_ull(m, " ", maj_flt);
-         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> fs/proc/array.c:565:2: warning: 'min_flt' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     565 |  seq_put_decimal_ull(m, " ", min_flt);
-         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+61f45d975621be Brian Kim 2017-01-10  145  static int exynos_gpiomem_probe(struct platform_device *pdev)
+61f45d975621be Brian Kim 2017-01-10  146  {
+61f45d975621be Brian Kim 2017-01-10  147  	int err = 0;
+61f45d975621be Brian Kim 2017-01-10  148  	struct device *dev = &pdev->dev;
+61f45d975621be Brian Kim 2017-01-10  149  	struct device_node *np = dev->of_node;
+61f45d975621be Brian Kim 2017-01-10  150  	struct resource *res = NULL;
+61f45d975621be Brian Kim 2017-01-10  151  	int i = 0;
+61f45d975621be Brian Kim 2017-01-10  152  
+61f45d975621be Brian Kim 2017-01-10  153  	/* Allocate buffers and instance data */
+61f45d975621be Brian Kim 2017-01-10  154  	inst = kzalloc(sizeof(struct exynos_gpiomem_instance), GFP_KERNEL);
+61f45d975621be Brian Kim 2017-01-10  155  
+61f45d975621be Brian Kim 2017-01-10 @156  	if (!inst) {
+61f45d975621be Brian Kim 2017-01-10  157  		err = -ENOMEM;
+61f45d975621be Brian Kim 2017-01-10  158  		goto failed_inst_alloc;
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^
+This should just return.  Printing an error for failed allocations is
+against kernel style.
 
+61f45d975621be Brian Kim 2017-01-10  159  	}
+61f45d975621be Brian Kim 2017-01-10  160  
+61f45d975621be Brian Kim 2017-01-10  161  	inst->dev = dev;
+61f45d975621be Brian Kim 2017-01-10  162  
+61f45d975621be Brian Kim 2017-01-10  163  	inst->gpio_area_count = of_property_count_elems_of_size(np, "reg",
+61f45d975621be Brian Kim 2017-01-10  164  				sizeof(u32)) / 2;
+61f45d975621be Brian Kim 2017-01-10  165  
+61f45d975621be Brian Kim 2017-01-10  166  	if (inst->gpio_area_count > 32 || inst->gpio_area_count <= 0) {
+61f45d975621be Brian Kim 2017-01-10  167  		dev_err(inst->dev, "failed to get gpio register area.");
+61f45d975621be Brian Kim 2017-01-10  168  		err = -EINVAL;
+61f45d975621be Brian Kim 2017-01-10  169  		goto failed_inst_alloc;
+61f45d975621be Brian Kim 2017-01-10  170  	}
+61f45d975621be Brian Kim 2017-01-10  171  
+61f45d975621be Brian Kim 2017-01-10  172  	dev_info(inst->dev, "Initialised: GPIO register area is %d",
+61f45d975621be Brian Kim 2017-01-10  173  			inst->gpio_area_count);
+61f45d975621be Brian Kim 2017-01-10  174  
+61f45d975621be Brian Kim 2017-01-10  175  	for (i = 0; i < inst->gpio_area_count; ++i) {
+61f45d975621be Brian Kim 2017-01-10  176  		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
+61f45d975621be Brian Kim 2017-01-10  177  		if (res) {
+61f45d975621be Brian Kim 2017-01-10  178  			inst->gpio_regs_phys[i] = res->start;
+61f45d975621be Brian Kim 2017-01-10  179  		} else {
+61f45d975621be Brian Kim 2017-01-10  180  			dev_err(inst->dev, "failed to get IO resource");
+61f45d975621be Brian Kim 2017-01-10  181  			err = -ENOENT;
+61f45d975621be Brian Kim 2017-01-10  182  			goto failed_get_resource;
+61f45d975621be Brian Kim 2017-01-10  183  		}
+61f45d975621be Brian Kim 2017-01-10  184  	}
+61f45d975621be Brian Kim 2017-01-10  185  
+61f45d975621be Brian Kim 2017-01-10  186  	/* Create character device entries */
+61f45d975621be Brian Kim 2017-01-10  187  	err = alloc_chrdev_region(&exynos_gpiomem_devid,
+61f45d975621be Brian Kim 2017-01-10  188  				  DEVICE_MINOR, 1, DEVICE_NAME);
+61f45d975621be Brian Kim 2017-01-10  189  	if (err != 0) {
+61f45d975621be Brian Kim 2017-01-10  190  		dev_err(inst->dev, "unable to allocate device number");
+61f45d975621be Brian Kim 2017-01-10  191  		goto failed_alloc_chrdev;
+61f45d975621be Brian Kim 2017-01-10  192  	}
+61f45d975621be Brian Kim 2017-01-10  193  	cdev_init(&exynos_gpiomem_cdev, &exynos_gpiomem_fops);
+61f45d975621be Brian Kim 2017-01-10  194  	exynos_gpiomem_cdev.owner = THIS_MODULE;
+61f45d975621be Brian Kim 2017-01-10  195  	err = cdev_add(&exynos_gpiomem_cdev, exynos_gpiomem_devid, 1);
+61f45d975621be Brian Kim 2017-01-10  196  	if (err != 0) {
+61f45d975621be Brian Kim 2017-01-10  197  		dev_err(inst->dev, "unable to register device");
+61f45d975621be Brian Kim 2017-01-10  198  		goto failed_cdev_add;
+61f45d975621be Brian Kim 2017-01-10  199  	}
+61f45d975621be Brian Kim 2017-01-10  200  
+61f45d975621be Brian Kim 2017-01-10  201  	/* Create sysfs entries */
+61f45d975621be Brian Kim 2017-01-10  202  	exynos_gpiomem_class = class_create(THIS_MODULE, DEVICE_NAME);
+61f45d975621be Brian Kim 2017-01-10  203  	err = IS_ERR(exynos_gpiomem_class);
+61f45d975621be Brian Kim 2017-01-10  204  	if (err)
+61f45d975621be Brian Kim 2017-01-10  205  		goto failed_class_create;
+61f45d975621be Brian Kim 2017-01-10  206  
+61f45d975621be Brian Kim 2017-01-10  207  	exynos_gpiomem_dev = device_create(exynos_gpiomem_class, NULL,
+61f45d975621be Brian Kim 2017-01-10  208  					exynos_gpiomem_devid, NULL,
+61f45d975621be Brian Kim 2017-01-10  209  					"gpiomem");
+61f45d975621be Brian Kim 2017-01-10  210  	err = IS_ERR(exynos_gpiomem_dev);
+61f45d975621be Brian Kim 2017-01-10  211  	if (err)
+61f45d975621be Brian Kim 2017-01-10  212  		goto failed_device_create;
+61f45d975621be Brian Kim 2017-01-10  213  
+61f45d975621be Brian Kim 2017-01-10  214  	for (i = 0; i < inst->gpio_area_count; ++i) {
+61f45d975621be Brian Kim 2017-01-10  215  		dev_info(inst->dev, "Initialised: Registers at 0x%08lx",
+61f45d975621be Brian Kim 2017-01-10  216  				inst->gpio_regs_phys[i]);
+61f45d975621be Brian Kim 2017-01-10  217  	}
+61f45d975621be Brian Kim 2017-01-10  218  
+61f45d975621be Brian Kim 2017-01-10  219  	return 0;
+61f45d975621be Brian Kim 2017-01-10  220  
+61f45d975621be Brian Kim 2017-01-10  221  failed_device_create:
+61f45d975621be Brian Kim 2017-01-10  222  	class_destroy(exynos_gpiomem_class);
+61f45d975621be Brian Kim 2017-01-10  223  failed_class_create:
+61f45d975621be Brian Kim 2017-01-10  224  	cdev_del(&exynos_gpiomem_cdev);
+61f45d975621be Brian Kim 2017-01-10  225  failed_cdev_add:
+61f45d975621be Brian Kim 2017-01-10  226  	unregister_chrdev_region(exynos_gpiomem_devid, 1);
+61f45d975621be Brian Kim 2017-01-10  227  failed_alloc_chrdev:
+61f45d975621be Brian Kim 2017-01-10  228  failed_get_resource:
+61f45d975621be Brian Kim 2017-01-10  229  	kfree(inst);
+                                                ^^^^^^^^^^^
+Ugh...  Why didn't it warn about this use after free?
 
-vim +/gtime +614 fs/proc/array.c
+61f45d975621be Brian Kim 2017-01-10  230  failed_inst_alloc:
+61f45d975621be Brian Kim 2017-01-10 @231  	dev_err(inst->dev, "could not load exynos_gpiomem");
+                                                        ^^^^^^^^^
 
-^1da177e4c3f41 Linus Torvalds      2005-04-16  432  
-ee992744ea53db Eric W. Biederman   2008-02-08  433  static int do_task_stat(struct seq_file *m, struct pid_namespace *ns,
-ee992744ea53db Eric W. Biederman   2008-02-08  434  			struct pid *pid, struct task_struct *task, int whole)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  435  {
-b2f73922d11968 Ingo Molnar         2015-09-30  436  	unsigned long vsize, eip, esp, wchan = 0;
-715be1fce0d964 Jan Engelhardt      2012-05-31  437  	int priority, nice;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  438  	int tty_pgrp = -1, tty_nr = 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  439  	sigset_t sigign, sigcatch;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  440  	char state;
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  441  	pid_t ppid = 0, pgid = -1, sid = -1;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  442  	int num_threads = 0;
-f83ce3e6b02d5e Jake Edge           2009-05-04  443  	int permitted;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  444  	struct mm_struct *mm;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  445  	unsigned long long start_time;
-4f8730514c736b Oleg Nesterov       2024-04-13  446  	unsigned long cmin_flt, cmaj_flt, min_flt, maj_flt;
-4f8730514c736b Oleg Nesterov       2024-04-13  447  	u64 cutime, cstime, cgtime, utime, stime, gtime;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  448  	unsigned long rsslim = 0;
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  449  	unsigned long flags;
-08132d3d089b9a Eric W. Biederman   2024-04-13  450  	int exit_code = task->exit_code;
-4f8730514c736b Oleg Nesterov       2024-04-13  451  	struct signal_struct *sig = task->signal;
-4f8730514c736b Oleg Nesterov       2024-04-13  452  	unsigned int seq = 1;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  453  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  454  	state = *get_task_state(task);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  455  	vsize = eip = esp = 0;
-caaee6234d05a5 Jann Horn           2016-01-20  456  	permitted = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS | PTRACE_MODE_NOAUDIT);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  457  	mm = get_task_mm(task);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  458  	if (mm) {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  459  		vsize = task_vsize(mm);
-0a1eb2d474edfe Andy Lutomirski     2016-09-30  460  		/*
-0a1eb2d474edfe Andy Lutomirski     2016-09-30  461  		 * esp and eip are intentionally zeroed out.  There is no
-0a1eb2d474edfe Andy Lutomirski     2016-09-30  462  		 * non-racy way to read them without freezing the task.
-0a1eb2d474edfe Andy Lutomirski     2016-09-30  463  		 * Programs that need reliable values can use ptrace(2).
-fd7d56270b526c John Ogness         2017-09-14  464  		 *
-fd7d56270b526c John Ogness         2017-09-14  465  		 * The only exception is if the task is core dumping because
-fd7d56270b526c John Ogness         2017-09-14  466  		 * a program is not able to use ptrace(2) in that case. It is
-fd7d56270b526c John Ogness         2017-09-14  467  		 * safe because the task has stopped executing permanently.
-0a1eb2d474edfe Andy Lutomirski     2016-09-30  468  		 */
-ef7622dbb87776 John Ogness         2019-07-04  469  		if (permitted && (task->flags & (PF_EXITING|PF_DUMPCORE))) {
-8bb2ee192e482c Alexey Dobriyan     2018-01-18  470  			if (try_get_task_stack(task)) {
-fd7d56270b526c John Ogness         2017-09-14  471  				eip = KSTK_EIP(task);
-fd7d56270b526c John Ogness         2017-09-14  472  				esp = KSTK_ESP(task);
-8bb2ee192e482c Alexey Dobriyan     2018-01-18  473  				put_task_stack(task);
-8bb2ee192e482c Alexey Dobriyan     2018-01-18  474  			}
-fd7d56270b526c John Ogness         2017-09-14  475  		}
-f83ce3e6b02d5e Jake Edge           2009-05-04  476  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  477  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  478  	sigemptyset(&sigign);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  479  	sigemptyset(&sigcatch);
-3cfd0885fac78c Alan Cox            2006-09-29  480  
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  481  	if (lock_task_sighand(task, &flags)) {
-915935041281c6 Oleg Nesterov       2006-12-08  482  		if (sig->tty) {
-5d0fdf1e018998 Alan Cox            2008-04-30  483  			struct pid *pgrp = tty_get_pgrp(sig->tty);
-5d0fdf1e018998 Alan Cox            2008-04-30  484  			tty_pgrp = pid_nr_ns(pgrp, ns);
-5d0fdf1e018998 Alan Cox            2008-04-30  485  			put_pid(pgrp);
-915935041281c6 Oleg Nesterov       2006-12-08  486  			tty_nr = new_encode_dev(tty_devnum(sig->tty));
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  487  		}
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  488  
-7e49827cc937a7 Oleg Nesterov       2010-05-26  489  		num_threads = get_nr_threads(task);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  490  		collect_sigign_sigcatch(task, &sigign, &sigcatch);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  491  
-6aa7de059173a9 Mark Rutland        2017-10-23  492  		rsslim = READ_ONCE(sig->rlim[RLIMIT_RSS].rlim_cur);
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  493  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  494  		if (whole) {
-08132d3d089b9a Eric W. Biederman   2024-04-13  495  			if (sig->flags & (SIGNAL_GROUP_EXIT | SIGNAL_STOP_STOPPED))
-08132d3d089b9a Eric W. Biederman   2024-04-13  496  				exit_code = sig->group_exit_code;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  497  		}
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  498  
-b488893a390edf Pavel Emelyanov     2007-10-18  499  		sid = task_session_nr_ns(task, ns);
-a98fdcef941e10 Oleg Nesterov       2008-01-15  500  		ppid = task_tgid_nr_ns(task->real_parent, ns);
-b488893a390edf Pavel Emelyanov     2007-10-18  501  		pgid = task_pgrp_nr_ns(task, ns);
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  502  
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  503  		unlock_task_sighand(task, &flags);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  504  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  505  
-f83ce3e6b02d5e Jake Edge           2009-05-04  506  	if (permitted && (!whole || num_threads < 2))
-^1da177e4c3f41 Linus Torvalds      2005-04-16  507  		wchan = get_wchan(task);
-f59c1abf66d159 Oleg Nesterov       2024-04-13  508  
-4f8730514c736b Oleg Nesterov       2024-04-13  509  	do {
-4f8730514c736b Oleg Nesterov       2024-04-13  510  		seq++; /* 2 on the 1st/lockless path, otherwise odd */
-4f8730514c736b Oleg Nesterov       2024-04-13  511  		flags = read_seqbegin_or_lock_irqsave(&sig->stats_lock, &seq);
-4f8730514c736b Oleg Nesterov       2024-04-13  512  
-4f8730514c736b Oleg Nesterov       2024-04-13  513  		cmin_flt = sig->cmin_flt;
-4f8730514c736b Oleg Nesterov       2024-04-13  514  		cmaj_flt = sig->cmaj_flt;
-4f8730514c736b Oleg Nesterov       2024-04-13  515  		cutime = sig->cutime;
-4f8730514c736b Oleg Nesterov       2024-04-13  516  		cstime = sig->cstime;
-4f8730514c736b Oleg Nesterov       2024-04-13  517  		cgtime = sig->cgtime;
-4f8730514c736b Oleg Nesterov       2024-04-13  518  
-4f8730514c736b Oleg Nesterov       2024-04-13  519  		if (whole) {
-4f8730514c736b Oleg Nesterov       2024-04-13  520  			struct task_struct *t;
-4f8730514c736b Oleg Nesterov       2024-04-13  521  
-4f8730514c736b Oleg Nesterov       2024-04-13  522  			min_flt = sig->min_flt;
-4f8730514c736b Oleg Nesterov       2024-04-13  523  			maj_flt = sig->maj_flt;
-4f8730514c736b Oleg Nesterov       2024-04-13  524  			gtime = sig->gtime;
-4f8730514c736b Oleg Nesterov       2024-04-13  525  
-4f8730514c736b Oleg Nesterov       2024-04-13  526  			rcu_read_lock();
-4f8730514c736b Oleg Nesterov       2024-04-13  527  			__for_each_thread(sig, t) {
-4f8730514c736b Oleg Nesterov       2024-04-13  528  				min_flt += t->min_flt;
-4f8730514c736b Oleg Nesterov       2024-04-13  529  				maj_flt += t->maj_flt;
-4f8730514c736b Oleg Nesterov       2024-04-13  530  				gtime += task_gtime(t);
-4f8730514c736b Oleg Nesterov       2024-04-13  531  			}
-4f8730514c736b Oleg Nesterov       2024-04-13  532  			rcu_read_unlock();
-4f8730514c736b Oleg Nesterov       2024-04-13  533  		}
-4f8730514c736b Oleg Nesterov       2024-04-13  534  	} while (need_seqretry(&sig->stats_lock, seq));
-4f8730514c736b Oleg Nesterov       2024-04-13  535  	done_seqretry_irqrestore(&sig->stats_lock, seq, flags);
-4f8730514c736b Oleg Nesterov       2024-04-13  536  
-f59c1abf66d159 Oleg Nesterov       2024-04-13  537  	if (whole) {
-f59c1abf66d159 Oleg Nesterov       2024-04-13  538  		thread_group_cputime_adjusted(task, &utime, &stime);
-f59c1abf66d159 Oleg Nesterov       2024-04-13  539  	} else {
-f59c1abf66d159 Oleg Nesterov       2024-04-13  540  		task_cputime_adjusted(task, &utime, &stime);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  541  		min_flt = task->min_flt;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  542  		maj_flt = task->maj_flt;
-6fac4829ce0ef9 Frederic Weisbecker 2012-11-13  543  		gtime = task_gtime(task);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  544  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  545  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  546  	/* scale priority and nice values from timeslices to -20..20 */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  547  	/* to make it look like a "normal" Unix priority/nice value  */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  548  	priority = task_prio(task);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  549  	nice = task_nice(task);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  550  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  551  	/* convert nsec -> ticks */
-57e0be041d9e21 Thomas Gleixner     2014-07-16  552  	start_time = nsec_to_clock_t(task->real_start_time);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  553  
-d0f02231222b31 Andrei Vagin        2018-04-10  554  	seq_put_decimal_ull(m, "", pid_nr_ns(pid, ns));
-d0f02231222b31 Andrei Vagin        2018-04-10  555  	seq_puts(m, " (");
-88b72b31e15f9d Tejun Heo           2018-05-18  556  	proc_task_name(m, task, false);
-d0f02231222b31 Andrei Vagin        2018-04-10  557  	seq_puts(m, ") ");
-d0f02231222b31 Andrei Vagin        2018-04-10  558  	seq_putc(m, state);
-75ba1d07fd6a49 Joe Perches         2016-10-07  559  	seq_put_decimal_ll(m, " ", ppid);
-75ba1d07fd6a49 Joe Perches         2016-10-07  560  	seq_put_decimal_ll(m, " ", pgid);
-75ba1d07fd6a49 Joe Perches         2016-10-07  561  	seq_put_decimal_ll(m, " ", sid);
-75ba1d07fd6a49 Joe Perches         2016-10-07  562  	seq_put_decimal_ll(m, " ", tty_nr);
-75ba1d07fd6a49 Joe Perches         2016-10-07  563  	seq_put_decimal_ll(m, " ", tty_pgrp);
-75ba1d07fd6a49 Joe Perches         2016-10-07  564  	seq_put_decimal_ull(m, " ", task->flags);
-75ba1d07fd6a49 Joe Perches         2016-10-07 @565  	seq_put_decimal_ull(m, " ", min_flt);
-75ba1d07fd6a49 Joe Perches         2016-10-07  566  	seq_put_decimal_ull(m, " ", cmin_flt);
-75ba1d07fd6a49 Joe Perches         2016-10-07 @567  	seq_put_decimal_ull(m, " ", maj_flt);
-75ba1d07fd6a49 Joe Perches         2016-10-07  568  	seq_put_decimal_ull(m, " ", cmaj_flt);
-5613fda9a503cd Frederic Weisbecker 2017-01-31  569  	seq_put_decimal_ull(m, " ", nsec_to_clock_t(utime));
-5613fda9a503cd Frederic Weisbecker 2017-01-31  570  	seq_put_decimal_ull(m, " ", nsec_to_clock_t(stime));
-5613fda9a503cd Frederic Weisbecker 2017-01-31  571  	seq_put_decimal_ll(m, " ", nsec_to_clock_t(cutime));
-5613fda9a503cd Frederic Weisbecker 2017-01-31  572  	seq_put_decimal_ll(m, " ", nsec_to_clock_t(cstime));
-75ba1d07fd6a49 Joe Perches         2016-10-07  573  	seq_put_decimal_ll(m, " ", priority);
-75ba1d07fd6a49 Joe Perches         2016-10-07  574  	seq_put_decimal_ll(m, " ", nice);
-75ba1d07fd6a49 Joe Perches         2016-10-07  575  	seq_put_decimal_ll(m, " ", num_threads);
-75ba1d07fd6a49 Joe Perches         2016-10-07  576  	seq_put_decimal_ull(m, " ", 0);
-75ba1d07fd6a49 Joe Perches         2016-10-07  577  	seq_put_decimal_ull(m, " ", start_time);
-75ba1d07fd6a49 Joe Perches         2016-10-07  578  	seq_put_decimal_ull(m, " ", vsize);
-75ba1d07fd6a49 Joe Perches         2016-10-07  579  	seq_put_decimal_ull(m, " ", mm ? get_mm_rss(mm) : 0);
-75ba1d07fd6a49 Joe Perches         2016-10-07  580  	seq_put_decimal_ull(m, " ", rsslim);
-75ba1d07fd6a49 Joe Perches         2016-10-07  581  	seq_put_decimal_ull(m, " ", mm ? (permitted ? mm->start_code : 1) : 0);
-75ba1d07fd6a49 Joe Perches         2016-10-07  582  	seq_put_decimal_ull(m, " ", mm ? (permitted ? mm->end_code : 1) : 0);
-75ba1d07fd6a49 Joe Perches         2016-10-07  583  	seq_put_decimal_ull(m, " ", (permitted && mm) ? mm->start_stack : 0);
-75ba1d07fd6a49 Joe Perches         2016-10-07  584  	seq_put_decimal_ull(m, " ", esp);
-75ba1d07fd6a49 Joe Perches         2016-10-07  585  	seq_put_decimal_ull(m, " ", eip);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  586  	/* The signal information here is obsolete.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  587  	 * It must be decimal for Linux 2.0 compatibility.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  588  	 * Use /proc/#/status for real-time signals.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  589  	 */
-75ba1d07fd6a49 Joe Perches         2016-10-07  590  	seq_put_decimal_ull(m, " ", task->pending.signal.sig[0] & 0x7fffffffUL);
-75ba1d07fd6a49 Joe Perches         2016-10-07  591  	seq_put_decimal_ull(m, " ", task->blocked.sig[0] & 0x7fffffffUL);
-75ba1d07fd6a49 Joe Perches         2016-10-07  592  	seq_put_decimal_ull(m, " ", sigign.sig[0] & 0x7fffffffUL);
-75ba1d07fd6a49 Joe Perches         2016-10-07  593  	seq_put_decimal_ull(m, " ", sigcatch.sig[0] & 0x7fffffffUL);
-b2f73922d11968 Ingo Molnar         2015-09-30  594  
-b2f73922d11968 Ingo Molnar         2015-09-30  595  	/*
-b2f73922d11968 Ingo Molnar         2015-09-30  596  	 * We used to output the absolute kernel address, but that's an
-b2f73922d11968 Ingo Molnar         2015-09-30  597  	 * information leak - so instead we show a 0/1 flag here, to signal
-b2f73922d11968 Ingo Molnar         2015-09-30  598  	 * to user-space whether there's a wchan field in /proc/PID/wchan.
-b2f73922d11968 Ingo Molnar         2015-09-30  599  	 *
-b2f73922d11968 Ingo Molnar         2015-09-30  600  	 * This works with older implementations of procps as well.
-b2f73922d11968 Ingo Molnar         2015-09-30  601  	 */
-b2f73922d11968 Ingo Molnar         2015-09-30  602  	if (wchan)
-b2f73922d11968 Ingo Molnar         2015-09-30  603  		seq_puts(m, " 1");
-b2f73922d11968 Ingo Molnar         2015-09-30  604  	else
-b2f73922d11968 Ingo Molnar         2015-09-30  605  		seq_puts(m, " 0");
-b2f73922d11968 Ingo Molnar         2015-09-30  606  
-75ba1d07fd6a49 Joe Perches         2016-10-07  607  	seq_put_decimal_ull(m, " ", 0);
-75ba1d07fd6a49 Joe Perches         2016-10-07  608  	seq_put_decimal_ull(m, " ", 0);
-75ba1d07fd6a49 Joe Perches         2016-10-07  609  	seq_put_decimal_ll(m, " ", task->exit_signal);
-75ba1d07fd6a49 Joe Perches         2016-10-07  610  	seq_put_decimal_ll(m, " ", task_cpu(task));
-75ba1d07fd6a49 Joe Perches         2016-10-07  611  	seq_put_decimal_ull(m, " ", task->rt_priority);
-75ba1d07fd6a49 Joe Perches         2016-10-07  612  	seq_put_decimal_ull(m, " ", task->policy);
-75ba1d07fd6a49 Joe Perches         2016-10-07  613  	seq_put_decimal_ull(m, " ", delayacct_blkio_ticks(task));
-16a6d9be90373f Frederic Weisbecker 2017-01-31 @614  	seq_put_decimal_ull(m, " ", nsec_to_clock_t(gtime));
-16a6d9be90373f Frederic Weisbecker 2017-01-31  615  	seq_put_decimal_ll(m, " ", nsec_to_clock_t(cgtime));
-5b172087f99189 Cyrill Gorcunov     2012-05-31  616  
-5b172087f99189 Cyrill Gorcunov     2012-05-31  617  	if (mm && permitted) {
-75ba1d07fd6a49 Joe Perches         2016-10-07  618  		seq_put_decimal_ull(m, " ", mm->start_data);
-75ba1d07fd6a49 Joe Perches         2016-10-07  619  		seq_put_decimal_ull(m, " ", mm->end_data);
-75ba1d07fd6a49 Joe Perches         2016-10-07  620  		seq_put_decimal_ull(m, " ", mm->start_brk);
-75ba1d07fd6a49 Joe Perches         2016-10-07  621  		seq_put_decimal_ull(m, " ", mm->arg_start);
-75ba1d07fd6a49 Joe Perches         2016-10-07  622  		seq_put_decimal_ull(m, " ", mm->arg_end);
-75ba1d07fd6a49 Joe Perches         2016-10-07  623  		seq_put_decimal_ull(m, " ", mm->env_start);
-75ba1d07fd6a49 Joe Perches         2016-10-07  624  		seq_put_decimal_ull(m, " ", mm->env_end);
-5b172087f99189 Cyrill Gorcunov     2012-05-31  625  	} else
-75ba1d07fd6a49 Joe Perches         2016-10-07  626  		seq_puts(m, " 0 0 0 0 0 0 0");
-5b172087f99189 Cyrill Gorcunov     2012-05-31  627  
-5b172087f99189 Cyrill Gorcunov     2012-05-31  628  	if (permitted)
-08132d3d089b9a Eric W. Biederman   2024-04-13  629  		seq_put_decimal_ll(m, " ", exit_code);
-5b172087f99189 Cyrill Gorcunov     2012-05-31  630  	else
-75ba1d07fd6a49 Joe Perches         2016-10-07  631  		seq_puts(m, " 0");
-5b172087f99189 Cyrill Gorcunov     2012-05-31  632  
-bda7bad62bc4c4 KAMEZAWA Hiroyuki   2012-03-23  633  	seq_putc(m, '\n');
-^1da177e4c3f41 Linus Torvalds      2005-04-16  634  	if (mm)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  635  		mmput(mm);
-ee992744ea53db Eric W. Biederman   2008-02-08  636  	return 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  637  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  638  
-
-:::::: The code at line 614 was first introduced by commit
-:::::: 16a6d9be90373fb0b521850cd0185a4d460dd152 sched/cputime: Convert guest time accounting to nsecs (u64)
-
-:::::: TO: Frederic Weisbecker <fweisbec@gmail.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+61f45d975621be Brian Kim 2017-01-10  232  	return err;
+61f45d975621be Brian Kim 2017-01-10  233  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
