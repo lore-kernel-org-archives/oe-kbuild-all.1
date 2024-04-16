@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B52C6DCE8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 06:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95EF438385
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 07:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713249907; cv=none; b=lmg6dS5aDGOY9rHsnLLUcCxFjPh5D+0621uDGeLkiuCSU+JBKI89Ep+LLsDmwgxfDsqr5mzn+2rDAOp2okngZm9ZH3lFRnjqAkPYFzUMoJqvTMlsQKfcbzpWaKrP5YtiI/VRiztsh2QNOXFcev4CJPm4q7HhA6p8NTofxDvP85Q=
+	t=1713251315; cv=none; b=IGbQTiHrHaPXlK68N8sA7ZkRqWVl5RfY6otyOYDuz3ftTlnSawt86Gh0i4bpqn9CRWkri/kQNCRwOTA/pWTcS9HUgQbvRnRaavw06apMCqtBybpFEfpX9z0Ju5vw1+r+VEQd3ir1Kn3C75CthFQXI0qPh7gRCRz5ZY3g/ZTqpg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713249907; c=relaxed/simple;
-	bh=IRBBeadrWxYP018SjCR7Ht4t/luK1Zg2msuiaVw1oLM=;
+	s=arc-20240116; t=1713251315; c=relaxed/simple;
+	bh=VbtCv9uj29+mVvc8X/WIM1COTuA5NkrVwnb067/u2vo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UljImWsiEGomnGdIq9Oa3UEqkwbikPMAnqC5PMCu0Csx/XYmoeJi16oQBirJJlNml6If9IJIO9Mmnq923surSIiaFik2jkyfLGvp38BPvVrabUf2KwoksufCDHnUBzkVj7v4YHHO+xQdYNCmaZ34PMzijq7TrtjPY8uObsjIjEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KPcqAmr2; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=HMUpQHd30/9U0vjKOnA4a5kIhimOyXsM0nXVPC0abM/XJ5kI1V3IwhqBRNfLIRtpiweYjZgbXkIY0FTRejXOnxOdrrY4+6wnNIWG4gK8vH/zXIenmeby8/79RGqPTO9x0zKfGt91ZAYGxRTVt7dr2gB3yAgxYx3gAQD0dUJ88zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TK755ZVW; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KPcqAmr2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TK755ZVW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713249905; x=1744785905;
+  t=1713251311; x=1744787311;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IRBBeadrWxYP018SjCR7Ht4t/luK1Zg2msuiaVw1oLM=;
-  b=KPcqAmr2/6GIQB6LDvUpSVqJNYbYakSbHjycbF3J0M+dPgvny1H8qn9Q
-   BY2hPab5mheAoU21OqkST8TnOWSnRjRrI2MfPEL9vZCRfnnzg6aOuYYNc
-   lyIVNWj8DL2pbPh8V8p0vNVukOuC/P1qufLu/zEPwvwEBny2v5hDQUHY+
-   YiUVXRHOh9fipgFveyFfY9YAEpryB+OO84TyOrUqQwyhulKBDin5vUWiB
-   47u5HYQac6nktVM8VspgMdFawA69hN4nVV0fN75wRNstMjLplsir5CKps
-   CWNaqkRMsuiOXnMmqrmkjYR0gC6RKBX8CCs7o6iICfSlGq/URATVYgoSk
+  bh=VbtCv9uj29+mVvc8X/WIM1COTuA5NkrVwnb067/u2vo=;
+  b=TK755ZVWKv8RBmspob7Z42eBNT0H6dRVSWsfyaQajqdzMBmmoalKvIaz
+   wRHHT0iOweaR0SBJasvxnRUIaWj16iFBmhfAGpi/x59AOObKLzcLtgi8G
+   c+CIKvJXI+fFyMwQ0+jhkkAMEFLSKmvKrg3822yk1wwW2YAK2sSemoQRI
+   3z1QCDPWFyl9nT8fT4FxOcZjrbm1+HW8Yw5Pou05FsJznVfCRprCtzlaK
+   9PFplno4kurQTCOCwGv/qIBHlGjcKpYRiQZwLHXEi6NDBViws602MYdcP
+   /CMQkFOATV011ZpIbTAtpDU1j+opJpItTZLhqHs2t8Gy/JwAgFoaVC2Ee
    g==;
-X-CSE-ConnectionGUID: qpJEzYZeQ7G7z6ZpV2oZYw==
-X-CSE-MsgGUID: IC4A4k6xTRyNd0MJ/2DWbQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="9223404"
+X-CSE-ConnectionGUID: lnG/fVreSlSEXLlGa+o7MQ==
+X-CSE-MsgGUID: dgJOpZEjSnOCFulHRtW/pQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8799063"
 X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="9223404"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 23:45:02 -0700
-X-CSE-ConnectionGUID: GQvgj2D+TBqh+P/1tZ5lCg==
-X-CSE-MsgGUID: 8O2mBKfnTqefh4p5/kepKw==
+   d="scan'208";a="8799063"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 00:07:04 -0700
+X-CSE-ConnectionGUID: 7cyyEsgKRUqUOYHKWSPOvw==
+X-CSE-MsgGUID: 8+H5/Cw7Q8mEWa8OJ0XDjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="22058398"
+   d="scan'208";a="22578568"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 15 Apr 2024 23:45:01 -0700
+  by orviesa006.jf.intel.com with ESMTP; 16 Apr 2024 00:07:03 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwcYr-00051G-0l;
-	Tue, 16 Apr 2024 06:44:57 +0000
-Date: Tue, 16 Apr 2024 14:44:31 +0800
+	id 1rwcuD-00051k-0s;
+	Tue, 16 Apr 2024 07:07:01 +0000
+Date: Tue, 16 Apr 2024 15:06:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 16561/22120] mm/pin_mem.c:34:14:
- sparse: sparse: symbol 'max_pin_pid_num' was not declared. Should it be
- static?
-Message-ID: <202404161436.ZlpT8TfQ-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2699/7415]
+ drivers/platform/mpam/mpam_devices.c:247:11: error: implicit declaration of
+ function '__acpi_get_mem_attribute' is invalid in C99
+Message-ID: <202404161519.aROKO5WS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,256 +63,154 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   ab90000f05ebb295378878af0ab18daacb6f3ccf
-commit: 1a378b87531ea80e7847bf0105adedff28a73080 [16561/22120] mm: add pin memory method for checkpoint add restore
-config: arm64-randconfig-r111-20240331 (https://download.01.org/0day-ci/archive/20240416/202404161436.ZlpT8TfQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240416/202404161436.ZlpT8TfQ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   e053d517d2275e5ae3f8e80d96fa0bb1727c60a8
+commit: 3e9e723f3bf92a19e5e15dda89bbb136ce463294 [2699/7415] arm_mpam: Add probe/remove for mpam msc driver and kbuild boiler plate
+config: arm64-randconfig-r061-20240416 (https://download.01.org/0day-ci/archive/20240416/202404161519.aROKO5WS-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404161519.aROKO5WS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404161436.ZlpT8TfQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404161519.aROKO5WS-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/pin_mem.c:34:14: sparse: sparse: symbol 'max_pin_pid_num' was not declared. Should it be static?
->> mm/pin_mem.c:35:15: sparse: sparse: symbol 'redirect_space_size' was not declared. Should it be static?
->> mm/pin_mem.c:171:6: sparse: sparse: symbol 'reserve_page_from_buddy' was not declared. Should it be static?
->> mm/pin_mem.c:254:6: sparse: sparse: symbol 'free_user_map_pages' was not declared. Should it be static?
->> mm/pin_mem.c:311:6: sparse: sparse: symbol 'check_redirect_end_valid' was not declared. Should it be static?
->> mm/pin_mem.c:392:5: sparse: sparse: symbol 'calculate_pin_mem_digest' was not declared. Should it be static?
->> mm/pin_mem.c:481:5: sparse: sparse: symbol 'collect_pmd_huge_pages' was not declared. Should it be static?
->> mm/pin_mem.c:544:5: sparse: sparse: symbol 'collect_normal_pages' was not declared. Should it be static?
->> mm/pin_mem.c:610:6: sparse: sparse: symbol 'free_pin_pages' was not declared. Should it be static?
->> mm/pin_mem.c:770:12: sparse: sparse: symbol 'remap_normal_pages' was not declared. Should it be static?
->> mm/pin_mem.c:857:12: sparse: sparse: symbol 'remap_huge_pmd_pages' was not declared. Should it be static?
->> mm/pin_mem.c:844:63: sparse: sparse: not addressable
-   mm/pin_mem.c:846:63: sparse: sparse: not addressable
-   mm/pin_mem.c:848:71: sparse: sparse: not addressable
-   mm/pin_mem.c:851:65: sparse: sparse: not addressable
-   mm/pin_mem.c:171:6: warning: no previous prototype for 'reserve_page_from_buddy' [-Wmissing-prototypes]
-     171 | void reserve_page_from_buddy(unsigned long nr_pages, struct page *page)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   mm/pin_mem.c:254:6: warning: no previous prototype for 'free_user_map_pages' [-Wmissing-prototypes]
-     254 | void free_user_map_pages(unsigned int pid_index, unsigned int entry_index, unsigned int page_index)
-         |      ^~~~~~~~~~~~~~~~~~~
-   mm/pin_mem.c:311:6: warning: no previous prototype for 'check_redirect_end_valid' [-Wmissing-prototypes]
-     311 | bool check_redirect_end_valid(struct redirect_info *redirect_start,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   mm/pin_mem.c:392:5: warning: no previous prototype for 'calculate_pin_mem_digest' [-Wmissing-prototypes]
-     392 | int calculate_pin_mem_digest(struct pin_mem_dump_info *pmdi, char *digest)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   mm/pin_mem.c:481:5: warning: no previous prototype for 'collect_pmd_huge_pages' [-Wmissing-prototypes]
-     481 | int collect_pmd_huge_pages(struct task_struct *task,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   mm/pin_mem.c:544:5: warning: no previous prototype for 'collect_normal_pages' [-Wmissing-prototypes]
-     544 | int collect_normal_pages(struct task_struct *task,
-         |     ^~~~~~~~~~~~~~~~~~~~
-   mm/pin_mem.c: In function 'collect_normal_pages':
-   mm/pin_mem.c:549:26: warning: variable 'nr_pages' set but not used [-Wunused-but-set-variable]
-     549 |         unsigned long i, nr_pages;
-         |                          ^~~~~~~~
-   mm/pin_mem.c: At top level:
-   mm/pin_mem.c:610:6: warning: no previous prototype for 'free_pin_pages' [-Wmissing-prototypes]
-     610 | void free_pin_pages(struct page_map_entry *pme)
-         |      ^~~~~~~~~~~~~~
-   mm/pin_mem.c:770:12: warning: no previous prototype for 'remap_normal_pages' [-Wmissing-prototypes]
-     770 | vm_fault_t remap_normal_pages(struct mm_struct *mm, struct vm_area_struct *vma,
-         |            ^~~~~~~~~~~~~~~~~~
-   mm/pin_mem.c: In function 'get_hugepage_gfpmask':
-   mm/pin_mem.c:844:63: error: lvalue required as unary '&' operand
-     844 |         if (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_DIRECT_FLAG, &transparent_hugepage_flags))
-         |                                                               ^
-   mm/pin_mem.c:846:63: error: lvalue required as unary '&' operand
-     846 |         if (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_KSWAPD_FLAG, &transparent_hugepage_flags))
-         |                                                               ^
-   mm/pin_mem.c:848:71: error: lvalue required as unary '&' operand
-     848 |         if (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_KSWAPD_OR_MADV_FLAG, &transparent_hugepage_flags))
-         |                                                                       ^
-   mm/pin_mem.c:851:65: error: lvalue required as unary '&' operand
-     851 |         if (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_REQ_MADV_FLAG, &transparent_hugepage_flags))
-         |                                                                 ^
-   mm/pin_mem.c: At top level:
-   mm/pin_mem.c:857:12: warning: no previous prototype for 'remap_huge_pmd_pages' [-Wmissing-prototypes]
-     857 | vm_fault_t remap_huge_pmd_pages(struct mm_struct *mm, struct vm_area_struct *vma,
-         |            ^~~~~~~~~~~~~~~~~~~~
+All errors (new ones prefixed by >>):
 
-vim +/max_pin_pid_num +34 mm/pin_mem.c
+   drivers/platform/mpam/mpam_devices.c:212:24: error: no member named 'mon_sel_lock' in 'struct mpam_msc'; did you mean 'part_sel_lock'?
+                   spin_lock_init(&msc->mon_sel_lock);
+                                        ^~~~~~~~~~~~
+                                        part_sel_lock
+   include/linux/spinlock.h:335:38: note: expanded from macro 'spin_lock_init'
+           __raw_spin_lock_init(spinlock_check(lock),              \
+                                               ^
+   drivers/platform/mpam/mpam_internal.h:43:14: note: 'part_sel_lock' declared here
+           spinlock_t              part_sel_lock;
+                                   ^
+>> drivers/platform/mpam/mpam_devices.c:247:11: error: implicit declaration of function '__acpi_get_mem_attribute' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                           prot = __acpi_get_mem_attribute(msc->pcc_chan->shmem_base_addr);
+                                  ^
+   drivers/platform/mpam/mpam_devices.c:247:9: error: assigning to 'pgprot_t' from incompatible type 'int'
+                           prot = __acpi_get_mem_attribute(msc->pcc_chan->shmem_base_addr);
+                                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
 
-    33	
-  > 34	unsigned int max_pin_pid_num __read_mostly;
-  > 35	unsigned long redirect_space_size __read_mostly;
-    36	static unsigned long redirect_space_start;
-    37	static void *pin_mem_pagewalk;
-    38	static unsigned long *pagemap_buffer;
-    39	static int reserve_user_map_pages_fail;
-    40	
-    41	static int __init setup_max_pin_pid_num(char *str)
-    42	{
-    43		int ret;
-    44	
-    45		if (!str)
-    46			return 0;
-    47	
-    48		ret = kstrtouint(str, 10, &max_pin_pid_num);
-    49		if (ret) {
-    50			pr_warn("Unable to parse max pin pid num.\n");
-    51		} else {
-    52			if (max_pin_pid_num > MAX_PIN_PID_NUM) {
-    53				max_pin_pid_num = 0;
-    54				pr_warn("Input max_pin_pid_num is too large.\n");
-    55			}
-    56		}
-    57		return ret;
-    58	}
-    59	early_param("max_pin_pid_num", setup_max_pin_pid_num);
-    60	
-    61	static int __init setup_redirect_space_size(char *str)
-    62	{
-    63		if (!str)
-    64			return 0;
-    65	
-    66		redirect_space_size = memparse(str, NULL);
-    67		if (!redirect_space_size) {
-    68			pr_warn("Unable to parse redirect space size, use the default value.\n");
-    69			redirect_space_size = DEFAULT_REDIRECT_SPACE_SIZE;
-    70		}
-    71		return 0;
-    72	}
-    73	early_param("redirect_space_size", setup_redirect_space_size);
-    74	
-    75	struct page_map_info *create_page_map_info(int pid)
-    76	{
-    77		struct page_map_info *new;
-    78	
-    79		if (!user_space_reserve_start)
-    80			return NULL;
-    81	
-    82		if (pin_pid_num >= max_pin_pid_num) {
-    83			pr_warn("Pin pid num too large than max_pin_pid_num, fail create: %d!", pid);
-    84			return NULL;
-    85		}
-    86		new = (struct page_map_info *)(user_space_reserve_start + pin_pid_num);
-    87		new->pid = pid;
-    88		new->pme = NULL;
-    89		new->entry_num = 0;
-    90		new->pid_reserved = false;
-    91		new->disable_free_page = false;
-    92		(*pin_pid_num_addr)++;
-    93		pin_pid_num++;
-    94		return new;
-    95	}
-    96	EXPORT_SYMBOL_GPL(create_page_map_info);
-    97	
-    98	struct page_map_info *get_page_map_info(int pid)
-    99	{
-   100		int i;
-   101	
-   102		if (!user_space_reserve_start)
-   103			return NULL;
-   104	
-   105		for (i = 0; i < pin_pid_num; i++) {
-   106			if (user_space_reserve_start[i].pid == pid)
-   107				return &(user_space_reserve_start[i]);
-   108		}
-   109		return NULL;
-   110	}
-   111	EXPORT_SYMBOL_GPL(get_page_map_info);
-   112	
-   113	static struct page *find_head_page(struct page *page)
-   114	{
-   115		struct page *p = page;
-   116	
-   117		while (!PageBuddy(p)) {
-   118			if (PageLRU(p))
-   119				return NULL;
-   120			p--;
-   121		}
-   122		return p;
-   123	}
-   124	
-   125	static void spilt_page_area_left(struct zone *zone, struct free_area *area, struct page *page,
-   126		unsigned long size, int order)
-   127	{
-   128		unsigned long cur_size = 1 << order;
-   129		unsigned long total_size = 0;
-   130	
-   131		while (size && cur_size > size) {
-   132			cur_size >>= 1;
-   133			order--;
-   134			area--;
-   135			if (cur_size <= size) {
-   136				list_add(&page[total_size].lru, &area->free_list[MIGRATE_MOVABLE]);
-   137				atomic_set(&(page[total_size]._mapcount), PAGE_BUDDY_MAPCOUNT_VALUE);
-   138				set_page_private(&page[total_size], order);
-   139				set_pageblock_migratetype(&page[total_size], MIGRATE_MOVABLE);
-   140				area->nr_free++;
-   141				total_size += cur_size;
-   142				size -= cur_size;
-   143			}
-   144		}
-   145	}
-   146	
-   147	static void spilt_page_area_right(struct zone *zone, struct free_area *area, struct page *page,
-   148			unsigned long size, int order)
-   149	{
-   150		unsigned long cur_size = 1 << order;
-   151		struct page *right_page, *head_page;
-   152	
-   153		right_page = page + size;
-   154		while (size && cur_size > size) {
-   155			cur_size >>= 1;
-   156			order--;
-   157			area--;
-   158			if (cur_size <= size) {
-   159				head_page = right_page - cur_size;
-   160				list_add(&head_page->lru, &area->free_list[MIGRATE_MOVABLE]);
-   161				atomic_set(&(head_page->_mapcount), PAGE_BUDDY_MAPCOUNT_VALUE);
-   162				set_page_private(head_page, order);
-   163				set_pageblock_migratetype(head_page, MIGRATE_MOVABLE);
-   164				area->nr_free++;
-   165				size -= cur_size;
-   166				right_page = head_page;
-   167			}
-   168		}
-   169	}
+
+vim +/__acpi_get_mem_attribute +247 drivers/platform/mpam/mpam_devices.c
+
    170	
- > 171	void reserve_page_from_buddy(unsigned long nr_pages, struct page *page)
+   171	static int mpam_msc_drv_probe(struct platform_device *pdev)
    172	{
-   173		unsigned int current_order;
-   174		struct page *page_end;
-   175		struct free_area *area;
-   176		struct zone *zone;
-   177		struct page *head_page;
-   178	
-   179		head_page = find_head_page(page);
-   180		if (!head_page) {
-   181			pr_warn("Find page head fail.");
-   182			return;
-   183		}
-   184	
-   185		current_order = head_page->private;
-   186		page_end = head_page + (1 << current_order);
-   187		zone = page_zone(head_page);
-   188		area = &(zone->free_area[current_order]);
-   189		list_del(&head_page->lru);
-   190		atomic_set(&head_page->_mapcount, -1);
-   191		set_page_private(head_page, 0);
-   192		area->nr_free--;
-   193	
-   194		if (head_page != page)
-   195			spilt_page_area_left(zone, area, head_page,
-   196				(unsigned long)(page - head_page), current_order);
-   197		page = page + nr_pages;
-   198		if (page < page_end) {
-   199			spilt_page_area_right(zone, area, page,
-   200				(unsigned long)(page_end - page), current_order);
-   201		} else if (page > page_end) {
-   202			pr_warn("Find page end smaller than page.");
-   203		}
-   204	}
-   205	
+   173		int err;
+   174		pgprot_t prot;
+   175		void * __iomem io;
+   176		struct mpam_msc *msc;
+   177		struct resource *msc_res;
+   178		void *plat_data = pdev->dev.platform_data;
+   179	
+   180		mutex_lock(&mpam_list_lock);
+   181		do {
+   182			msc = devm_kzalloc(&pdev->dev, sizeof(*msc), GFP_KERNEL);
+   183			if (!msc) {
+   184				err = -ENOMEM;
+   185				break;
+   186			}
+   187	
+   188			INIT_LIST_HEAD_RCU(&msc->glbl_list);
+   189			msc->pdev = pdev;
+   190	
+   191			err = device_property_read_u32(&pdev->dev, "arm,not-ready-us",
+   192						       &msc->nrdy_usec);
+   193			if (err) {
+   194				/* This will prevent CSU monitors being usable */
+   195				msc->nrdy_usec = 0;
+   196			}
+   197	
+   198			err = get_msc_affinity(msc);
+   199			if (err)
+   200				break;
+   201			if (cpumask_empty(&msc->accessibility)) {
+   202				pr_err_once("msc:%u is not accessible from any CPU!",
+   203					    msc->id);
+   204				err = -EINVAL;
+   205				break;
+   206			}
+   207	
+   208			mutex_init(&msc->lock);
+   209			msc->id = mpam_num_msc++;
+   210			INIT_LIST_HEAD_RCU(&msc->ris);
+   211			spin_lock_init(&msc->part_sel_lock);
+   212			spin_lock_init(&msc->mon_sel_lock);
+   213	
+   214			if (device_property_read_u32(&pdev->dev, "pcc-channel",
+   215						     &msc->pcc_subspace_id))
+   216				msc->iface = MPAM_IFACE_MMIO;
+   217			else
+   218				msc->iface = MPAM_IFACE_PCC;
+   219	
+   220			if (msc->iface == MPAM_IFACE_MMIO) {
+   221				io = devm_platform_get_and_ioremap_resource(pdev, 0,
+   222									    &msc_res);
+   223				if (IS_ERR(io)) {
+   224					pr_err("Failed to map MSC base address\n");
+   225					devm_kfree(&pdev->dev, msc);
+   226					err = PTR_ERR(io);
+   227					break;
+   228				}
+   229				msc->mapped_hwpage_sz = msc_res->end - msc_res->start;
+   230				msc->mapped_hwpage = io;
+   231			} else if (msc->iface == MPAM_IFACE_PCC) {
+   232				msc->pcc_cl.dev = &pdev->dev;
+   233				msc->pcc_cl.rx_callback = mpam_pcc_rx_callback;
+   234				msc->pcc_cl.tx_block = false;
+   235				msc->pcc_cl.tx_tout = 1000; /* 1s */
+   236				msc->pcc_cl.knows_txdone = false;
+   237	
+   238				msc->pcc_chan = pcc_mbox_request_channel(&msc->pcc_cl,
+   239									 msc->pcc_subspace_id);
+   240				if (IS_ERR(msc->pcc_chan)) {
+   241					pr_err("Failed to request MSC PCC channel\n");
+   242					devm_kfree(&pdev->dev, msc);
+   243					err = PTR_ERR(msc->pcc_chan);
+   244					break;
+   245				}
+   246	
+ > 247				prot = __acpi_get_mem_attribute(msc->pcc_chan->shmem_base_addr);
+   248				io = ioremap_prot(msc->pcc_chan->shmem_base_addr,
+   249						  msc->pcc_chan->shmem_size, pgprot_val(prot));
+   250				if (IS_ERR(io)) {
+   251					pr_err("Failed to map MSC base address\n");
+   252					pcc_mbox_free_channel(msc->pcc_chan);
+   253					devm_kfree(&pdev->dev, msc);
+   254					err = PTR_ERR(io);
+   255					break;
+   256				}
+   257	
+   258				/* TODO: issue a read to update the registers */
+   259	
+   260				msc->mapped_hwpage_sz = msc->pcc_chan->shmem_size;
+   261				msc->mapped_hwpage = io + sizeof(struct acpi_pcct_shared_memory);
+   262			}
+   263	
+   264			list_add_rcu(&msc->glbl_list, &mpam_all_msc);
+   265			platform_set_drvdata(pdev, msc);
+   266		} while (0);
+   267		mutex_unlock(&mpam_list_lock);
+   268	
+   269		if (!err) {
+   270			/* Create RIS entries described by firmware */
+   271			if (!acpi_disabled)
+   272				err = acpi_mpam_parse_resources(msc, plat_data);
+   273			else
+   274				err = mpam_dt_parse_resources(msc, plat_data);
+   275		}
+   276	
+   277		if (!err && fw_num_msc == mpam_num_msc)
+   278			mpam_discovery_complete();
+   279	
+   280		return err;
+   281	}
+   282	
 
 -- 
 0-DAY CI Kernel Test Service
