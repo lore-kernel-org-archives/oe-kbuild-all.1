@@ -1,87 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496FC1E507
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 16:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FD716FF38
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 16:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713371649; cv=none; b=gLffQktCx1SqpPnuIuk8ipfPf7tmMWQEiczwcY5xyVj538GbFmP3dEc2C+iDERIZfK13oC7nUNtqXC+2A+NAMToXlPFSksITdlkeQcERol0cINQgobOTRxw77S9R7dpoPGjTMMsXE7eku9+GKI0gl0vZ944Cu1Bv7ACD2Nw4hrc=
+	t=1713372883; cv=none; b=OqZ0HikjwueF16CuR2fL+h5J+wvdHIw6xOJ3W2hG5VsP3MJSR8BBJfqenybz7rvFe4H8AOThCPZMVVWxeNDy1s1TRrCU0NjFxn7IWKTtW3+As/fUIxTeXl52E3GinMvKwRP6NDZwqRxIVk2q1/+/koJoHrBbaZvI4/55/zD9Mvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713371649; c=relaxed/simple;
-	bh=NCQfeTYwHFXnAjsPXDEExTEbTeX78CyETB6L8qjucdI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IqqeRGZGIVIj/WQ2enPdfCGcM4cpiKKAQeuEdCaCo7GuZaOU43ngYOvILqsaHEOwx4sfCcJK1w37D1q191peBeX8c0vbDhjvsNI5PmgrG90BO33iREoN8Je4wNfCOcQyifiFCNp4iGoAeno2xl7aAWTSocQ0oMycUSEnXxuJbX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HAHB1Ybh; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713372883; c=relaxed/simple;
+	bh=LZiGqLNTdZPpt4FDGqUwUBvpE/yno5luxXGD8zN4nDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=jlpxBMfbGqpS0NH2rzF9Jm0oUArlAvJeTgU16FYj3qCOD4vkdsBm8GTJVrxqkAwIu0uE/49ZWHGU9WusxK7EbvlIA+nMTh8BTLlXqK8DtPh8zrCmyJpBqmF8f7/LcXJstrIXPX9GwNN4Tzyy2FCDuHK9IfvCInP5LqW1EOGqFUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Kjw2DN63; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HAHB1Ybh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713371649; x=1744907649;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NCQfeTYwHFXnAjsPXDEExTEbTeX78CyETB6L8qjucdI=;
-  b=HAHB1YbhBclY740HxZ/faD5YtIGTzifNlsHY6ZfOG8JjohLkrL5snpoe
-   75XZbQi0LoqqPKL4wjpuB5YwVdI6ZcYS0PO3hW4HLXU/XV6c61wA7m0/7
-   j/N92sT+vEoF04+G/frbmFlaz6wRX71ocRPPpLe4xp2qO6VpV2psNDIr1
-   LCxkPLTlC/jZJgo7rfZOC/603QU5r6g2Un7W+m4mhuNEMTVxBtQFJs7CF
-   4f48Zf7/wWeQN5B3533RUEqgEAWDgF5RdYn/YMFHaYwAh0Kv6NUwtN4cb
-   for2w+WOPQ0e1+RqVp+IcYdlznjk0SIk0e0+qQBqCndaHXIT278BF1Rke
-   g==;
-X-CSE-ConnectionGUID: P/SVUxcnSEOqPiBbgZZqnQ==
-X-CSE-MsgGUID: 7Uf1tnDNSM+h93PFDWS9pA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="20022994"
-X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
-   d="scan'208";a="20022994"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 09:34:08 -0700
-X-CSE-ConnectionGUID: 0UNan2+6S7WBILdKCnU7Yw==
-X-CSE-MsgGUID: zgOmh6+FTqSBf/CL6ABrTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
-   d="scan'208";a="22692163"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 17 Apr 2024 09:34:06 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rx8EV-0006nf-3B;
-	Wed, 17 Apr 2024 16:34:03 +0000
-Date: Thu, 18 Apr 2024 00:33:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.2.x-imx 1487/18115] htmldocs: Warning:
- Documentation/devicetree/bindings/display/imx/ldb.txt references a file that
- doesn't exist: Documentation/devicetree/bindings/clock/imx8qm-lpcg.txt
-Message-ID: <202404180032.IQCJ1vuW-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Kjw2DN63"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1713372881;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9pfdSfsDYqErxJUnuf0Vsxrj81l78d6tn6CxKCHFtJU=;
+	b=Kjw2DN63Sv6niAIyQtNtdl5r7G4KC9FzPkOMzEDUu8VZDAORG+og+DNWQGeVGlbydzb8VO
+	mI3MsJ+4pLATMAupXN9XQjlc47HHd2joVUuaKPeEqcRhP6+nqVG8GkqPHm/i48xqi+Rlcf
+	hGywkEf5ZorUK9/Q8xZ5LzVvXdqn+2Y=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-179-2d3X06gaOT-qywohnneCBg-1; Wed, 17 Apr 2024 12:54:40 -0400
+X-MC-Unique: 2d3X06gaOT-qywohnneCBg-1
+Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-61b027fc236so2484297b3.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 09:54:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713372879; x=1713977679;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9pfdSfsDYqErxJUnuf0Vsxrj81l78d6tn6CxKCHFtJU=;
+        b=vQ/kxO2pGLcSJF9yC3GrXlGxI8fGqmtGe5nRYXBVKbhlPPdSNypTyQsXVJXO/jdec3
+         0RMZF4RyxvNMtIM/DKbhxQpZke6Hrnhfa+5YTqeOBsqbYVKD5uDzNnl72/yoFcyTls2m
+         K3a5RoRboM2YHCpssuFd5/pYc8YaKKvMgmynTHpinn8t505WuV//H7A9afekcutmOiKF
+         p7CF1djLxi4W/y6b1Tcpjb9HIA5ihE9Pe9v3YBds3kZxsVX0dfVxN1k86VPG4gRQucgV
+         29Z8vAJmaNBUvpISwfAXo/ppDSbtb0leVVd+jkIRz+IjSU0wzyVIOSvH8+6FRLf7WpxS
+         rNmg==
+X-Gm-Message-State: AOJu0YxGT1P0lY11vMcohG383AmFRiA8/lyeERFJOlUv87LdWacSV40+
+	Sf13wDXsMJ+sNAFbncnPb0EOaNaJFjIEYOv5t9L3TIKuTp6qLmnkMNYDCbnLY8mskcuhaRFBmZ3
+	g/EvnC3XiGehub+u7qGjKH8V7fw/B0HUL0I1ZweiSxdMMB2nFNLp1GozAm0q7fXQ=
+X-Received: by 2002:a0d:d6c8:0:b0:61a:e6c6:12b5 with SMTP id y191-20020a0dd6c8000000b0061ae6c612b5mr6316692ywd.4.1713372879169;
+        Wed, 17 Apr 2024 09:54:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFTmZXNb3HlX8X4x9Oh8ZDAGx60kf6R0AwLQP+t1uo+RSWiX7cFbrL3VDDHGtvShVBwlm+aNg==
+X-Received: by 2002:a0d:d6c8:0:b0:61a:e6c6:12b5 with SMTP id y191-20020a0dd6c8000000b0061ae6c612b5mr6316667ywd.4.1713372878713;
+        Wed, 17 Apr 2024 09:54:38 -0700 (PDT)
+Received: from x1n (pool-99-254-121-117.cpe.net.cable.rogers.com. [99.254.121.117])
+        by smtp.gmail.com with ESMTPSA id i15-20020a0cf10f000000b006a04a3d4fbesm465147qvl.56.2024.04.17.09.54.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Apr 2024 09:54:38 -0700 (PDT)
+Date: Wed, 17 Apr 2024 12:54:36 -0400
+From: Peter Xu <peterx@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [linux-next:master 6398/6705] mm/page_table_check.c:194:1:
+ warning: control reaches end of non-void function
+Message-ID: <Zh_-zHKPMp564sAG@x1n>
+References: <202404171745.Zd13ydca-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <202404171745.Zd13ydca-lkp@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
-head:   de69f223c019fed2a465c014575b3b3d22b4c3fd
-commit: 944162ca37deadfbb41913efa217df224440a82b [1487/18115] dt-bindings: display: imx: ldb: Add i.MXqm LDB compatible string and properties
-reproduce: (https://download.01.org/0day-ci/archive/20240418/202404180032.IQCJ1vuW-lkp@intel.com/reproduce)
+On Wed, Apr 17, 2024 at 06:01:49PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   4eab358930711bbeb85bf5ee267d0d42d3394c2c
+> commit: 62754e4df9e04c4576e989f5ea2b909e824d8164 [6398/6705] mm/page_table_check: support userfault wr-protect entries
+> config: riscv-randconfig-r001-20230105 (https://download.01.org/0day-ci/archive/20240417/202404171745.Zd13ydca-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404171745.Zd13ydca-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202404171745.Zd13ydca-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    mm/page_table_check.c: In function 'swap_cached_writable':
+>    mm/page_table_check.c:192:24: error: 'SWP_DEVICE_EXCLUSIVE_WRITE' undeclared (first use in this function)
+>      192 |         return type == SWP_DEVICE_EXCLUSIVE_WRITE ||
+>          |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>    mm/page_table_check.c:192:24: note: each undeclared identifier is reported only once for each function it appears in
+> >> mm/page_table_check.c:194:1: warning: control reaches end of non-void function [-Wreturn-type]
+>      194 | }
+>          | ^
+> 
+> 
+> vim +194 mm/page_table_check.c
+> 
+>    186	
+>    187	/* Whether the swap entry cached writable information */
+>    188	static inline bool swap_cached_writable(swp_entry_t entry)
+>    189	{
+>    190		unsigned type = swp_type(entry);
+>    191	
+>    192		return type == SWP_DEVICE_EXCLUSIVE_WRITE ||
+>    193		    type == SWP_MIGRATION_WRITE;
+>  > 194	}
+>    195	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404180032.IQCJ1vuW-lkp@intel.com/
+I'll send a v2 of this patch soon to fix all these issues, after I check
+with Pasha on some other changes.
 
-All warnings (new ones prefixed by >>):
-
->> Warning: Documentation/devicetree/bindings/display/imx/ldb.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/imx8qm-lpcg.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mfd/da90*.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mtd/amlogic,meson-nand.txt
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
+Thanks,
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Peter Xu
+
