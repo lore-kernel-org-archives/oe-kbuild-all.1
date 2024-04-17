@@ -1,61 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1115A140381
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 13:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5A113F442
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 13:46:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713361582; cv=none; b=Cq+JnyDpp3+TMlgOpv+oAHqJCzGt9PWXHBldrWH4HPu8ruZhLkyD4Y9VPeXL2C7GfW/U08qbysSDrP2ZmKR+5QKKhJnkv55/IKuNZ0Qj+mF8wy1j48/MWD+w5WF60VlvQfqxUrmDEJjgQgn77d0J6014kQXngDFK5QdGVmW0qn0=
+	t=1713361582; cv=none; b=jJKhQ9zSnigLAK1YTvIPIWGikgHu7FV8oeyjt5xEW8m+HYS4nHWO6VxoqwobUhSDy9CmXfM4NWjNORvL+j4CusbriehOONl+3F7rlFaNtavfPHx/g85e96jBH2HunFv+jAAV6uyB2+dfwPLJV+lqdKu77YkNe0W5MlUqVPO5Z+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1713361582; c=relaxed/simple;
-	bh=6XdZcKvLocCBNz4KGQgKkbZnXgfTKr8yKYEgYdMdnPY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r6RzxfuJ2xdP4FDVx4Y1Ay7B+eS1rwaKgxKgsRvbf7Y/IrGS9xcI41HMmCdUv6p1Ozyj8BSWcTjRgZoOUp3mgLTkdp+79TKXumnDLaQkQo8/iFPXxVh52AzGpjqOLofmYOMBdxQpNcTUE1nZDCkT6CVQrQq4L3XiwjwnMhp+GYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z7RxXB4A; arc=none smtp.client-ip=198.175.65.19
+	bh=6Y3I7dMu0CHkT1MGFZPqzXREn5uyDxUsVpGjUEs2n8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BhG+TOQGq5UxFBRmIPHMJHi2V1ZVEZ/Uf/FuPSxT6bUnysJkQ92fZPy3QDIrMQPhu18MYKKtvpzBL32k0wkYfxM/5yNxu/2s0L2BAp/qqlpLIr2gWQiTAjaV9h6dALT26qUX5UryjLlcjZ0ld8HCMAFiMjxsypAhs1RoTIW3Lyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ah5XqZkw; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z7RxXB4A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ah5XqZkw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713361580; x=1744897580;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6XdZcKvLocCBNz4KGQgKkbZnXgfTKr8yKYEgYdMdnPY=;
-  b=Z7RxXB4AvgbyDeJM7/X2wB0Zwz+DDf0wsNV6kB56rsQoz6zd3sRsTxLB
-   tsSt1DmcP+mpxcPXoANSKxUBHRKsnYAWTcTJl7NyMTnawGvYWO0cjJcC8
-   nZcBInWCBb8RKHWpOmSWck8+Pag+TNRSH752AWr5tl482XPWmmEzea+Za
-   syLSx2wqY+8AEgxkti4u0qRnUfPWxVSKZ7nfYWcPdfhbP7BAfGs3ZHy74
-   mQleypdvKalCCeabusXaz1j5Tw4ZutOzb0fu1sYGhp2M4No4Amjf5235f
-   jL/LmHbcvo1LyJXSOQjvIdWcSeC6zweZe/1cKbDMX6J8OJ8EIcr4NVNdD
-   g==;
-X-CSE-ConnectionGUID: 1z16rpLDQSWSLoF4Ogwkng==
-X-CSE-MsgGUID: xjmHMJR2S4+dYKDBilheJA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8732341"
+  t=1713361581; x=1744897581;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6Y3I7dMu0CHkT1MGFZPqzXREn5uyDxUsVpGjUEs2n8Y=;
+  b=Ah5XqZkwV8DL5ZpkkXi3nQ77bdsAN+AeuTqp81J5TqGyFKy/ewz7sO8F
+   i5bHRzHUnf6wic2dxeNJEcmhxDk3lzZDu58+8CDUU9S/m7m2MpHMVYzqO
+   WP/LDGR3STghTNoCxH1ZpPdzGnuFRA43XbqVqh5UletD4sQ9vNTGmKLew
+   SCq1JYM050cxhtZ22EhGa0r+5oqMoFi+gttxuPJ340Y3EBN/wJf53GBmc
+   bLjqLBx6VfJl+4YQaSzZ97BzlWBzkk/C3XP+BjTWPCUh5ujV//6thj8w2
+   rT6CweoZzwa2cL7FV7WrFXZ1b5613z9gbMvzQ7lo9/Zg6Klvq8J430h5y
+   Q==;
+X-CSE-ConnectionGUID: iUzyGrRjSAyUKG0kRklDNA==
+X-CSE-MsgGUID: hMtvvbF2QW6iYHaI5ek/qg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8777664"
 X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
-   d="scan'208";a="8732341"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 06:46:19 -0700
-X-CSE-ConnectionGUID: NnCck7fkQSaFXhAKlzPpHg==
-X-CSE-MsgGUID: Awiyp1yAS2++goDNXJR/mw==
+   d="scan'208";a="8777664"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 06:46:21 -0700
+X-CSE-ConnectionGUID: xY2rl+WLTr65nyI9RjioFA==
+X-CSE-MsgGUID: BeOiUiAbSqyXW5WcmhAKCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
-   d="scan'208";a="53840612"
+   d="scan'208";a="23221560"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Apr 2024 06:46:18 -0700
+  by orviesa008.jf.intel.com with ESMTP; 17 Apr 2024 06:46:19 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rx5c8-0006dq-0R;
+	id 1rx5c8-0006do-0M;
 	Wed, 17 Apr 2024 13:46:16 +0000
-Date: Wed, 17 Apr 2024 21:45:49 +0800
+Date: Wed, 17 Apr 2024 21:45:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Michal Kubiak <michal.kubiak@intel.com>
-Subject: [alobakin:idpf-libie-new 71/78] include/linux/build_bug.h:78:41:
- error: static assertion failed: "offsetof(struct idpf_tx_queue,
- __cacheline_group_end__read_write) - offsetofend(struct idpf_tx_queue,
- __cacheline_group_begin__read_write) <= ALIGN(4 + (__builtin_offsetof(struct
- idpf_tx_qu...
-Message-ID: <202404172133.N0ecBzAn-lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 9/9] drm/xe: Add a shrinker for xe bos
+Message-ID: <202404172100.qxirErE7-lkp@intel.com>
+References: <20240416100730.6666-10-thomas.hellstrom@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,78 +68,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240416100730.6666-10-thomas.hellstrom@linux.intel.com>
 
-tree:   https://github.com/alobakin/linux idpf-libie-new
-head:   4967113e08d65181db24e0abda80681ed6a18587
-commit: 6aaf730e056ddec06975b940864254ba7e2366bb [71/78] idpf: add support for XDP on Rx
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240417/202404172133.N0ecBzAn-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404172133.N0ecBzAn-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.9-rc4 next-20240417]
+[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Allow-TTM-LRU-list-nodes-of-different-types/20240416-181717
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20240416100730.6666-10-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH v2 9/9] drm/xe: Add a shrinker for xe bos
+config: powerpc-randconfig-001-20240417 (https://download.01.org/0day-ci/archive/20240417/202404172100.qxirErE7-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404172100.qxirErE7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404172133.N0ecBzAn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404172100.qxirErE7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/bits.h:22,
-                    from include/linux/bitops.h:6,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from ./arch/microblaze/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/jiffies.h:7,
-                    from include/net/pkt_sched.h:5,
-                    from drivers/net/ethernet/intel/idpf/idpf.h:12,
-                    from drivers/net/ethernet/intel/idpf/xdp.c:4:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct idpf_tx_queue, __cacheline_group_end__read_write) - offsetofend(struct idpf_tx_queue, __cacheline_group_begin__read_write) <= ALIGN(4 + (__builtin_offsetof(struct idpf_tx_queue, stats) + sizeof((((struct idpf_tx_queue *)0)->stats))) - (__builtin_offsetof(struct idpf_tx_queue, next_to_clean) + sizeof((((struct idpf_tx_queue *)0)->next_to_clean))), __LIBETH_LARGEST_ALIGN)"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   include/net/libeth/cache.h:28:9: note: in expansion of macro 'static_assert'
-      28 |         static_assert(offsetof(type, __cacheline_group_end__##grp) -        \
-         |         ^~~~~~~~~~~~~
-   include/net/libeth/cache.h:36:9: note: in expansion of macro '__libeth_cacheline_group_assert'
-      36 |         __libeth_cacheline_group_assert(type, read_write, rw);              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:719:1: note: in expansion of macro '__libeth_cacheline_set_assert'
-     719 | __libeth_cacheline_set_assert(struct idpf_tx_queue, 64,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/powerpc/include/asm/bug.h:116,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6,
+                    from include/linux/pagemap.h:8,
+                    from include/drm/ttm/ttm_tt.h:30,
+                    from drivers/gpu/drm/xe/xe_bo.h:9,
+                    from drivers/gpu/drm/xe/xe_bo.c:6:
+   drivers/gpu/drm/xe/tests/xe_bo.c: In function 'shrink_test_run_device':
+   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:429:25: note: in definition of macro 'printk_index_wrap'
+     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/kunit/test.h:527:17: note: in expansion of macro 'printk'
+     527 |                 printk(lvl fmt, ##__VA_ARGS__);                         \
+         |                 ^~~~~~
+   include/kunit/test.h:533:9: note: in expansion of macro 'kunit_log'
+     533 |         kunit_log(lvl, test, KUNIT_SUBTEST_INDENT "# %s: " fmt,         \
+         |         ^~~~~~~~~
+   include/kunit/test.h:546:9: note: in expansion of macro 'kunit_printk'
+     546 |         kunit_printk(KERN_INFO, test, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/kunit/test.h:546:22: note: in expansion of macro 'KERN_INFO'
+     546 |         kunit_printk(KERN_INFO, test, fmt, ##__VA_ARGS__)
+         |                      ^~~~~~~~~
+   drivers/gpu/drm/xe/tests/xe_bo.c:381:9: note: in expansion of macro 'kunit_info'
+     381 |         kunit_info(test, "Free ram is %lu bytes. Will allocate twice of that.\n",
+         |         ^~~~~~~~~~
+   In file included from drivers/gpu/drm/xe/tests/xe_bo.c:6,
+                    from drivers/gpu/drm/xe/xe_bo.c:2420:
+>> include/kunit/test.h:50:41: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      50 | #define KUNIT_SUBTEST_INDENT            "    "
+         |                                         ^~~~~~
+   include/kunit/test.h:528:57: note: in definition of macro 'kunit_log'
+     528 |                 kunit_log_append((test_or_suite)->log,  fmt,            \
+         |                                                         ^~~
+   include/kunit/test.h:533:30: note: in expansion of macro 'KUNIT_SUBTEST_INDENT'
+     533 |         kunit_log(lvl, test, KUNIT_SUBTEST_INDENT "# %s: " fmt,         \
+         |                              ^~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:546:9: note: in expansion of macro 'kunit_printk'
+     546 |         kunit_printk(KERN_INFO, test, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~
+   drivers/gpu/drm/xe/tests/xe_bo.c:381:9: note: in expansion of macro 'kunit_info'
+     381 |         kunit_info(test, "Free ram is %lu bytes. Will allocate twice of that.\n",
+         |         ^~~~~~~~~~
 
 
-vim +78 include/linux/build_bug.h
+vim +50 include/kunit/test.h
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+6d2426b2f258da David Gow        2021-06-24  43  
+c3bba690a26432 Alan Maguire     2020-03-26  44  /*
+c3bba690a26432 Alan Maguire     2020-03-26  45   * TAP specifies subtest stream indentation of 4 spaces, 8 spaces for a
+c3bba690a26432 Alan Maguire     2020-03-26  46   * sub-subtest.  See the "Subtests" section in
+c3bba690a26432 Alan Maguire     2020-03-26  47   * https://node-tap.org/tap-protocol/
+c3bba690a26432 Alan Maguire     2020-03-26  48   */
+b1eaa8b2a55c9d Michal Wajdeczko 2023-05-17  49  #define KUNIT_INDENT_LEN		4
+c3bba690a26432 Alan Maguire     2020-03-26 @50  #define KUNIT_SUBTEST_INDENT		"    "
+c3bba690a26432 Alan Maguire     2020-03-26  51  #define KUNIT_SUBSUBTEST_INDENT		"        "
+c3bba690a26432 Alan Maguire     2020-03-26  52  
 
 -- 
 0-DAY CI Kernel Test Service
