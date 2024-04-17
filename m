@@ -1,128 +1,91 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 306BC14884A;
-	Wed, 17 Apr 2024 15:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8B81487D9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 16:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713369163; cv=none; b=p/Sgxl4/G/FvYtDWCqcjpc/g7q4gPSQip56NR+DCQVV/Jl8Q/O/G6zPfug7Ac2B4l8mLXnAAV/lONQZNevyxWhLKr8i5VC9WneEP3FTH1N8yNoJnH2Y22G/FBqaNob2T9lwh3JFXkz37MhWrsROSodgFDWsU0Rh3y8NbUxqEk84=
+	t=1713369651; cv=none; b=S8Px3Q9lxOoe6ohK0sUNIX9MF3s+pIlQPvXxnjPNxU5b22noqmWrf1iBQvOFJ6MpYsBk1OB5Vh/v5wuxCp4ruBW2pO4DeQQazasAJVWfgy8Uo6vCKxxpBqpk5Dj3VcWpd0RfAWqIyHf/VdxtmCu7ZG/03AdYV6v1PmKYC7ezXF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713369163; c=relaxed/simple;
-	bh=kuX3OcKWgILgSLAxfzh2AQyYp1j6PjeGzoP26JTex64=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JguTLacoZQV8Xxv8ucUyetzqoEOfkiom6FNXY/kTtmBv4CANTnsszcBt+6EXqMukUUI8WBh9UC/J7UTsRJt4gorJwpp6bzkO+/2snZc5fKlZSwAFaGfWKREuZC9H1oODaOHF+WJbUfKGXhabRo7TDNxG9DImdorwoXdAsK0HriU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4185B339;
-	Wed, 17 Apr 2024 08:53:07 -0700 (PDT)
-Received: from [10.1.37.181] (XHFQ2J9959.cambridge.arm.com [10.1.37.181])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 670BD3F792;
-	Wed, 17 Apr 2024 08:52:38 -0700 (PDT)
-Message-ID: <28b20153-62d8-40f2-9305-60943696d4a1@arm.com>
-Date: Wed, 17 Apr 2024 16:52:36 +0100
+	s=arc-20240116; t=1713369651; c=relaxed/simple;
+	bh=AY0Rf5NedsnHpAuQ/0qEIf1TPuBCL9DjEEXkDhqlAlk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=moCldvsmXlAv/1Xoh4YjDIQWMBef1v63gpj1jFav2FJpzRlKPXKwnasbuoxC2tcBnp5HHt5svAKc/3kYI9nnrrteyWuL0rbgdPDdu9hFioE7rzJqggLJfKcEHYHu/GjmsuHZxxSWEeBbKTpM7lyJc0O+PEdTYYAOd8YYeC6/6iQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W73CyMZk; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W73CyMZk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713369649; x=1744905649;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AY0Rf5NedsnHpAuQ/0qEIf1TPuBCL9DjEEXkDhqlAlk=;
+  b=W73CyMZkASpHiPcjDdsMh7DaBO0vUJ+P4bgoEd/8TP5i3LXgLOe+65vf
+   A8Z7Z6MnW9ZLcLG2Sy8VkeXK38aJGHx3NViFagcZYrqw9JoHw8/yrOrUJ
+   X8hGaKEsjlXclVjfrObnQRscN9t+7KSbKeVfhj9xKAjp2Ta5C/5SDeo/L
+   /pjyttF4NKd2MbZPVLic+vMS+SuFvfBu0Uo7a2FicSXVtq8OaUZPKm6sF
+   +cxTKTHbSTRvKAHiPuIOEJHtRYkZ9w+Rmo7wnRagGTVresYONEcyFXk/u
+   UVpzcdusGEiycawR7p2DXq8rZ2opFjRLCE6a2s/+ixZvsPIzUwDoerjTx
+   g==;
+X-CSE-ConnectionGUID: PiB/jLgEQceHic9gUFaTKQ==
+X-CSE-MsgGUID: Q16BAjXtRJmRZpimiKHZcw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="19475163"
+X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
+   d="scan'208";a="19475163"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 09:00:48 -0700
+X-CSE-ConnectionGUID: ZtVik2d5ScGsk9MEdlM/Yw==
+X-CSE-MsgGUID: CQDulScqR3up/G2JAicxGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
+   d="scan'208";a="22678964"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 17 Apr 2024 09:00:47 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rx7iG-0006ki-2K;
+	Wed, 17 Apr 2024 16:00:44 +0000
+Date: Thu, 18 Apr 2024 00:00:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.2.x-imx 1165/18115] htmldocs: Warning:
+ Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt references a
+ file that doesn't exist:
+ Documentation/devicetree/bindings/clock/imx8qxp-clock.txt
+Message-ID: <202404172305.rUeJXCmK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: clang: error: unknown argument '-static-libasan'; did you mean
- '-static-libsan'?
-Content-Language: en-GB
-To: Arnd Bergmann <arnd@arndb.de>, kernel test robot <yujie.liu@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, llvm@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>
-References: <202404141807.LgsqXPY5-lkp@intel.com>
- <31b4e05d-62c6-44cd-8038-7ac8d21320c3@arm.com>
- <a5516289-96b6-41f4-8cbb-6c34c7bf7996@app.fastmail.com>
- <1f384d41-4c65-4efb-a171-26b54dacfb30@arm.com>
- <e95bb670-7c20-496f-80e1-8b1891816764@app.fastmail.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <e95bb670-7c20-496f-80e1-8b1891816764@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 17/04/2024 16:23, Arnd Bergmann wrote:
-> On Wed, Apr 17, 2024, at 17:11, Ryan Roberts wrote:
->> On 16/04/2024 15:42, Arnd Bergmann wrote:
->>> On Tue, Apr 16, 2024, at 16:33, Ryan Roberts wrote:
->>>
->>> I'm not entirely sure how much of the Kbuild infrastructure we
->>> can rely on here. If the .config file gets included, this should
->>> work:
->>
->> Thanks for the pointers. Unfortunately neither don't works as we don't have any
->> of the Kbuild infrastructure.
->>
->> I'm not really sure what to do here. The best I've come up with so far is to
->> just remove asan from these binaries. They are pretty simple selftests. I'm not
->> sure its adding a whole lot of value anyway.
->>
->> Does anyone have any advice?
->>
-> 
->>> Alternatively, if the cc-option macro is available, you could
->>> try this one
->>>
->>> CFLAGS += $(call cc-option, -static-libasan) $(call cc-option, -static-libsan) 
-> 
-> I had another look at this and found example code in
-> tools/thermal/tmon/Makefile that you should be able to adapt.
-> Apparently the cc-option macro is not provided by default, but
-> there is a copy you can include:
-> 
-> # We need this for the "cc-option" macro.
-> include ../../build/Build.include
-> WARNFLAGS=-Wall -Wshadow -W -Wformat -Wimplicit-function-declaration -Wimplicit-int
-> override CFLAGS+= $(call cc-option,-O3,-O1) ${WARNFLAGS}
-> # Add "-fstack-protector" only if toolchain supports it.
-> override CFLAGS+= $(call cc-option,-fstack-protector-strong)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
+head:   de69f223c019fed2a465c014575b3b3d22b4c3fd
+commit: d911e8afd451766851d6dd41dc184efdffacde9a [1165/18115] LF-1189-4 dt-bindings: display: fsl-imx-drm: Add LCDIF mux display doc
+reproduce: (https://download.01.org/0day-ci/archive/20240417/202404172305.rUeJXCmK-lkp@intel.com/reproduce)
 
-Ahh thanks! That sorted it:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404172305.rUeJXCmK-lkp@intel.com/
 
-diff --git a/tools/testing/selftests/fchmodat2/Makefile
-b/tools/testing/selftests/fchmodat2/Makefile
-index 71ec34bf1501..a68bb5a00797 100644
---- a/tools/testing/selftests/fchmodat2/Makefile
-+++ b/tools/testing/selftests/fchmodat2/Makefile
-@@ -1,6 +1,9 @@
- # SPDX-License-Identifier: GPL-2.0-or-later
-+# We need this for the "cc-option" macro.
-+include ../../../build/Build.include
+All warnings (new ones prefixed by >>):
 
--CFLAGS += -Wall -O2 -g -fsanitize=address -fsanitize=undefined -static-libasan
-$(KHDR_INCLUDES)
-+CFLAGS += -Wall -O2 -g -fsanitize=address -fsanitize=undefined $(KHDR_INCLUDES)
-+CFLAGS += $(call cc-option, -static-libasan) $(call cc-option, -static-libsan)
- TEST_GEN_PROGS := fchmodat2_test
+   Warning: Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/imx8qxp-lpcg.txt
+   Warning: Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/imx8qxp-lpcg.txt
+   Warning: Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/imx8qxp-lpcg.txt
+>> Warning: Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/imx8qxp-clock.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mfd/da90*.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mtd/amlogic,meson-nand.txt
+   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
 
- include ../lib.mk
-diff --git a/tools/testing/selftests/openat2/Makefile
-b/tools/testing/selftests/openat2/Makefile
-index 254d676a2689..02af9b6ca5eb 100644
---- a/tools/testing/selftests/openat2/Makefile
-+++ b/tools/testing/selftests/openat2/Makefile
-@@ -1,8 +1,11 @@
- # SPDX-License-Identifier: GPL-2.0-or-later
-+# We need this for the "cc-option" macro.
-+include ../../../build/Build.include
-
--CFLAGS += -Wall -O2 -g -fsanitize=address -fsanitize=undefined -static-libasan
-+CFLAGS += -Wall -O2 -g -fsanitize=address -fsanitize=undefined
-+CFLAGS += $(call cc-option, -static-libasan) $(call cc-option, -static-libsan)
- TEST_GEN_PROGS := openat2_test resolve_test rename_attack_test
-
- include ../lib.mk
-
--$(TEST_GEN_PROGS): helpers.c helpers.h
-+$(TEST_GEN_PROGS): helpers.c
-
-
-I'll tidy this up and send it out.
-
-Thanks,
-Ryan
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
