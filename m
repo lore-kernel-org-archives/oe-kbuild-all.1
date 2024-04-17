@@ -1,143 +1,176 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280FD79C0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 00:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD0D184F;
+	Wed, 17 Apr 2024 01:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713314187; cv=none; b=UMIelDWkbKB6mZNCRB7m3Nv9DQSlLOaQ88qNEGzeIJD4XqLIPLnJZPmgOPOg8vI+Sc/ImAEqxZePkghfXwQ/WE8n/IceqVvyWbP38hRbTHTH2q7OTcjFHDxRIQtFkqgvbjQ0hQzKKEZI2RwRZVOvYEgOhosax54xJzcjtM+OyI8=
+	t=1713317126; cv=none; b=Vs5F4nlVZknL0AxNiKFBmYu24CD152M/AIaYXdwFm7L7elMWbEWDj1Xqp2HieitOcAWGAW3mQkakaCwFY2VUSPn9MQbsszKEiAzollY6iTQxWUHEMd85D7PJ7BL7CXe2DGQLUARo2j7DlcuQHjAkQuN8aL/uOWnKgJPFAzqfidg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713314187; c=relaxed/simple;
-	bh=nZFcDUxsywflBa7UwNdu2ilJwX971YfCrzDwbmQT60Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SsDIq7m3NCgizLXtFNuaig5dnxxrpQDRoGBtGejyhb/UTq0qFwaNVjeOvWduFsYOqzuG3WhCdmR6lQPgO0gX/xzon9bgZ29cNASbU57aWjxwdrLYuq2ERqxef9aLx1KE2tZBUZXrNsd4mGcCDBXk2EUa1MJyn84Cx/hrTpxe6jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ku6vnCzV; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1713317126; c=relaxed/simple;
+	bh=SifNgk6MOylzLGjpF5LbD3QpijD39SXzUerpdQvNNWg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nc8+6V6kNfUHHkbBIaw3Uuc3MAv1HpVqvvV97PbtECEEYW4VzBeDnRevPXLebUFPcOnRW15+Wes5ZG2sb+6bbAqnYfDKROLe5TQztXMwcf+HKBlmzM72yd87RA14mLRp0wZv8ZXzHpgQW7i5MMbDf4JvzUauWmsKj7pQz+++49I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A9CXU70o; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ku6vnCzV"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-61874a5b8ecso48345197b3.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 17:36:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1713314185; x=1713918985; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rzuAMB5kZ9cysqwT31amJunolyCfXrs4TaDWxUZblGY=;
-        b=Ku6vnCzV57MxxzUA+6A5UagQYIby+xNNc5/6izyf46iTeWDxOMycr4BiuDaSkUIwYR
-         nfObUb71dNkUxEM+dYp5SipZfjxAWhb9lNfj0I+tYgmO1OeAvcvp1cXyU/YkqZoNb1tB
-         erhxawPRsr6m7NVOitdk1M7qdVjrFYjJbt9AQ2KBosvLGXd7w2ibp0onvdmmyct24BUB
-         YCi0V9Y+Cqi8V4Mhp6VPEVd6rf0i9KM+dcVYmdTh1dIms7xsvRhGTWUU+wW6Jf6tBM6p
-         HrZbVsgcO55z7A/b6Yr9lzApgToUIUsaCrc+ZkZbuKNurXa2gO8hKCdwo1bgTOd4stRm
-         phhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713314185; x=1713918985;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rzuAMB5kZ9cysqwT31amJunolyCfXrs4TaDWxUZblGY=;
-        b=oP3B63jxapI+WYCH/zZ7vOQdYPIvsQKjg4qPJl2MIhuWgOFo/qvHIOAKGpU+UcA2NL
-         a0i8+PdTTCllghUJmZX8xh4On8imO9S9KImnTNxuI4LIrVXtN0CJOKi7kZ5zFBVlcAe+
-         jN5REqWGav7VHoHIZ4jgwuLs412y/ZFob8ATfre/9YyLMcHbWMcZQ+CYPTSfetXgwjDq
-         jY6vSrQye0GqdNbI2xJtqrarTBKUml43a/tqHWd6RWMsyz5YIrcTqi4FG6jIcPxSYUK3
-         iXryQU/43dqms4ck5d1gkRxt6PEDOJ8ogqUv5abkG+4kwoxiOedghbfVQAEJfFGwGWkF
-         tgNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWXWqBeMP9/YCFvB6tupotYe3ojDDtSOyzNo+nC7+lAMW7ULmH+M4Y7PcmRu0z3t0m/CMxhJwqLx/4EyDdnDQSCBpzL0y6/erWqUVIug==
-X-Gm-Message-State: AOJu0YzcVsbcJ7jwggyWlSJ/7r5frj7cQ7TSyOhaAtczKmjTdZroKYtE
-	2r5gYv4Ue1SYhOH3cCDPZ48DMJKybC1/E6rh8nUWOr4AW4Ko6vkHCYFnzlQHzidO+nXS+2NoEhm
-	PJwvRSAYNgNehC95leFxd/dWnF3Xtc+lmihX0
-X-Google-Smtp-Source: AGHT+IHgn07Z06Nwink4x6GpgSvdH2TFVsTS0zKEIHaEjvyb68QnH4/vtJXPZ+SZXScI7OmGqUJnNFUrvaYTXdZz0w0=
-X-Received: by 2002:a25:be8f:0:b0:dc6:23ac:9ef2 with SMTP id
- i15-20020a25be8f000000b00dc623ac9ef2mr13818240ybk.19.1713314184854; Tue, 16
- Apr 2024 17:36:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A9CXU70o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713317124; x=1744853124;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SifNgk6MOylzLGjpF5LbD3QpijD39SXzUerpdQvNNWg=;
+  b=A9CXU70ooITcC/8KDa67Ro9marnEAUvMACuddm8akoCisXsdbeM4Rp6T
+   yxh76chY/QXZpLVopZy8gzVcHJNEYn8TJlKfoS+Baz3N9+LOZvlt1F4gH
+   NEl7U0UuMSFl9xjoKuMOGha+zenxRXfFvqQWFghqUwkB18IIxUKo+bEbB
+   bVRZy4NH7lkQb4rFdATtG3//k0JudajK63FhK4qoAif+9ysBPsHHeZUNp
+   FAa4wExLiasQAK6lsaitP3CMNKw7TeVceauOwCGwfvbaD96tz5f6lrtEU
+   wgk0uQno9XXk3Dy/r9pKXXMPDWUHWItFF/I39PAtIMACvPECK/4ificTO
+   A==;
+X-CSE-ConnectionGUID: nHrwW75+Qoq1SgHuZl8hZA==
+X-CSE-MsgGUID: kXhBgr/eQimQ5qoWgwnH/Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8911581"
+X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
+   d="scan'208";a="8911581"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 18:25:23 -0700
+X-CSE-ConnectionGUID: DQUm0QaISiegqb6Fxi0eqg==
+X-CSE-MsgGUID: OFj1QP6gTmODO7bZAwKFlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
+   d="scan'208";a="22855228"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 16 Apr 2024 18:25:21 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rwu33-0005vs-30;
+	Wed, 17 Apr 2024 01:25:17 +0000
+Date: Wed, 17 Apr 2024 09:24:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geetha sowjanya <gakula@marvell.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kuba@kernel.org,
+	davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
+	sgoutham@marvell.com, gakula@marvell.com, sbhatta@marvell.com,
+	hkelam@marvell.com
+Subject: Re: [net-next PATCH 3/9] octeontx2-pf: Create representor netdev
+Message-ID: <202404170922.RBiIclFT-lkp@intel.com>
+References: <20240416050616.6056-4-gakula@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <6b5281d8-2998-4e66-b65e-45a0e68e5780@moroto.mountain> <CAJuCfpE-YoTONXC-SYPfcjiMbfN64s9XScO_v-SAo0brB=6i1A@mail.gmail.com>
-In-Reply-To: <CAJuCfpE-YoTONXC-SYPfcjiMbfN64s9XScO_v-SAo0brB=6i1A@mail.gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 16 Apr 2024 17:36:13 -0700
-Message-ID: <CAJuCfpH5VfxT+JNK9DmhDwYYiOVCxAuRvPgGnLVRK-=nt6TfuQ@mail.gmail.com>
-Subject: Re: [linux-next:master 2720/3921] lib/alloc_tag.c:142
- alloc_tag_init() warn: passing zero to 'PTR_ERR'
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kent Overstreet <kent.overstreet@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240416050616.6056-4-gakula@marvell.com>
 
-On Tue, Apr 16, 2024 at 4:57=E2=80=AFPM Suren Baghdasaryan <surenb@google.c=
-om> wrote:
->
-> On Fri, Apr 5, 2024 at 6:51=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
-o.org> wrote:
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
-.git master
-> > head:   8568bb2ccc278f344e6ac44af6ed010a90aa88dc
-> > commit: 9e2dcefa791e9d14006b360fba3455510fd3325d [2720/3921] lib: add a=
-llocation tagging support for memory allocation profiling
-> > config: microblaze-randconfig-r081-20240405 (https://download.01.org/0d=
-ay-ci/archive/20240405/202404051340.7Wo7oiJ5-lkp@intel.com/config)
-> > compiler: microblaze-linux-gcc (GCC) 13.2.0
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202404051340.7Wo7oiJ5-lkp@intel.com=
-/
-> >
-> > smatch warnings:
-> > lib/alloc_tag.c:142 alloc_tag_init() warn: passing zero to 'PTR_ERR'
-> >
-> > vim +/PTR_ERR +142 lib/alloc_tag.c
-> >
-> > 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  132  static int __init al=
-loc_tag_init(void)
-> > 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  133  {
-> > 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  134       const struct co=
-detag_type_desc desc =3D {
-> > 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  135               .sectio=
-n        =3D "alloc_tags",
-> > 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  136               .tag_si=
-ze       =3D sizeof(struct alloc_tag),
-> > 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  137               .module=
-_unload  =3D alloc_tag_module_unload,
-> > 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  138       };
-> > 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  139
-> > 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  140       alloc_tag_cttyp=
-e =3D codetag_register_type(&desc);
-> > 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  141       if (IS_ERR_OR_N=
-ULL(alloc_tag_cttype))
-> >                                                             ^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^
-> > This should just be IS_ERR().  I have written a blog that has more
-> > details:
-> >
-> > https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-a=
-nd-null/
->
-> Sorry for the delay, I somehow missed this report. You are absolutely
-> right about the fix. codetag_register_type() never returns NULL, so
-> IS_ERR() should be used here. I'll post a fix shortly.
+Hi Geetha,
 
-Here: https://lore.kernel.org/all/20240417003349.2520094-1-surenb@google.co=
-m/
+kernel test robot noticed the following build warnings:
 
-> Thanks,
-> Suren.
->
-> >
-> > 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21 @142               return =
-PTR_ERR(alloc_tag_cttype);
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> >
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Geetha-sowjanya/octeontx2-pf-Refactoring-RVU-driver/20240416-131052
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240416050616.6056-4-gakula%40marvell.com
+patch subject: [net-next PATCH 3/9] octeontx2-pf: Create representor netdev
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240417/202404170922.RBiIclFT-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404170922.RBiIclFT-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404170922.RBiIclFT-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/ethernet/marvell/octeontx2/nic/rep.c:167:7: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     167 |                 if (register_netdev(ndev)) {
+         |                     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/rep.c:181:9: note: uninitialized use occurs here
+     181 |         return err;
+         |                ^~~
+   drivers/net/ethernet/marvell/octeontx2/nic/rep.c:167:3: note: remove the 'if' if its condition is always false
+     167 |                 if (register_netdev(ndev)) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     168 |                         dev_err(priv->dev, "PFVF reprentator registration failed\n");
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     169 |                         free_netdev(ndev);
+         |                         ~~~~~~~~~~~~~~~~~~
+     170 |                         ndev->netdev_ops = NULL;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~
+     171 |                         goto exit;
+         |                         ~~~~~~~~~~
+     172 |                 }
+         |                 ~
+   drivers/net/ethernet/marvell/octeontx2/nic/rep.c:137:17: note: initialize the variable 'err' to silence this warning
+     137 |         int rep_id, err;
+         |                        ^
+         |                         = 0
+   1 warning generated.
+
+
+vim +167 drivers/net/ethernet/marvell/octeontx2/nic/rep.c
+
+   131	
+   132	int rvu_rep_create(struct otx2_nic *priv)
+   133	{
+   134		int rep_cnt = priv->rep_cnt;
+   135		struct net_device *ndev;
+   136		struct rep_dev *rep;
+   137		int rep_id, err;
+   138		u16 pcifunc;
+   139	
+   140		priv->reps = devm_kcalloc(priv->dev, rep_cnt, sizeof(struct rep_dev), GFP_KERNEL);
+   141		if (!priv->reps)
+   142			return -ENOMEM;
+   143	
+   144		for (rep_id = 0; rep_id < rep_cnt; rep_id++) {
+   145			ndev = alloc_etherdev(sizeof(*rep));
+   146			if (!ndev) {
+   147				dev_err(priv->dev, "PFVF representor:%d creation failed\n", rep_id);
+   148				err = -ENOMEM;
+   149				goto exit;
+   150			}
+   151	
+   152			rep = netdev_priv(ndev);
+   153			priv->reps[rep_id] = rep;
+   154			rep->mdev = priv;
+   155			rep->netdev = ndev;
+   156			rep->rep_id = rep_id;
+   157	
+   158			ndev->min_mtu = OTX2_MIN_MTU;
+   159			ndev->max_mtu = priv->hw.max_mtu;
+   160			pcifunc = priv->rep_pf_map[rep_id];
+   161			rep->pcifunc = pcifunc;
+   162	
+   163			snprintf(ndev->name, sizeof(ndev->name), "r%dp%dv%d", rep_id,
+   164				 rvu_get_pf(pcifunc), (pcifunc & RVU_PFVF_FUNC_MASK));
+   165	
+   166			eth_hw_addr_random(ndev);
+ > 167			if (register_netdev(ndev)) {
+   168				dev_err(priv->dev, "PFVF reprentator registration failed\n");
+   169				free_netdev(ndev);
+   170				ndev->netdev_ops = NULL;
+   171				goto exit;
+   172			}
+   173		}
+   174		err = rvu_rep_napi_init(priv);
+   175		if (err)
+   176			goto exit;
+   177	
+   178		return 0;
+   179	exit:
+   180		rvu_rep_free_netdev(priv);
+   181		return err;
+   182	}
+   183	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
