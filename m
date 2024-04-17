@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39EE751004;
-	Wed, 17 Apr 2024 07:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD6A7C6C0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 08:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713337936; cv=none; b=L/car9dgiAsrd0DCA1E20GwerOskveQ/gKZFlRvaTxjUKWXL2tO2PKuUqFdZIX8gjXSzmw2tQC6gvvSgyT2CEW0nUruYu0DiVB/6fIntHSxm2H1NbmOHU3MHKXf5ALpAmWY+1GuTm3jHR+1eHGREokYSryX2/s/A9/X8raDvXik=
+	t=1713341039; cv=none; b=Zic7RvkIvYdmzShoGO+Fzw+uVTrsfr3EJO7PJMJjvpWDGikm85z/E3e92ICtUmCG+EtXthtPdbyLh686J7/+S8a9Ggy4IIkS5fhikA6Lbw0wHueSQC3vTvTNDrD2GMtbKMfxWKSjXULwYUbuC+4Jt6xlihokoUQo9i3oEwUxHDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713337936; c=relaxed/simple;
-	bh=mNJ0+V/rEFl4zK6xun9tMpK2EYKujFV6o4qxQ7IM45A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gXtjcFf38p0KraFHHHm0THQiuhlqS1fGAa8RcuudiaMn+JNWvg2lFRWmwI8NYkEgqmO4SkOkdC8C8li6PUT/3zWsn/ohxo9mOsBctuecp7tjxkZ1eE23T+yVpz93fDlvWWjjTnjx5bi0C0Xwi6nCnz3MuT3fkhKyQ2VEeurQwVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HI1KyFRY; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1713341039; c=relaxed/simple;
+	bh=U25CbIrq2jWLxU2udGIy5RjYN3IOG0T8/1W7bVg5PdQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NrfVE3RUoEeM/jmOdUQnDzaFko6qnNt5nOJRglzuZ+/qI1UKvkkyJUxx90S7Op6zDiiprDxKmggihGEDPGYRGXEMR1GCXoFp7AS2MY12P142FI+fHeTsy1AfhZ6hNekDewTMK1WIeeStcGQNRlYZn6nUDQ+VM32gE9girbfV3p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ULmEmzro; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HI1KyFRY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ULmEmzro"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713337934; x=1744873934;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mNJ0+V/rEFl4zK6xun9tMpK2EYKujFV6o4qxQ7IM45A=;
-  b=HI1KyFRYCDjolE9rfPt+x6u6qRwk1+3sJPCeZYcMY84ohwuIyj1viL9/
-   oVk4++cOg7J1/s3fmGJKeZRIqZdt+9hfIXrTqKRBSUcFakKJuk3vYkv05
-   c84iifKBsZv2e1VRYbM3QPK8hHFpiFklrC70rZawS+9VO59Q0HfJS6/cC
-   MipQZPXMNOmE9bO+PICTKN9I/6iyppnguWJ2RMVdTvb9TqjdLDFRQqcPv
-   ZbnPxagNtmXCJ2dS3mw7sydj7ijgKfVR0E2AnlgnXF52oqzJgpSpeszAN
-   p/f91kjEjcaT6VfOlu/mbl2Edg74ESc9CQuSiBACfNSewidlMZLbHtr2O
-   A==;
-X-CSE-ConnectionGUID: IvlykuQpQGuxnhZZEzwWiA==
-X-CSE-MsgGUID: SYTTUHU5SgC+8qZXDBdFaQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8674049"
+  t=1713341033; x=1744877033;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=U25CbIrq2jWLxU2udGIy5RjYN3IOG0T8/1W7bVg5PdQ=;
+  b=ULmEmzroq6HX3YV5hBsTFDsM+NpPM1qFhjkaq7NgdvWOcG+TnVVqzv1e
+   OPsra72Knvp9KL9wdFRbDfMkz2ji5DW+fas5lr7DinoJp0Xbs4Of0KAeZ
+   cSKav7MyEHo3r7gc5SI3DudZ2aCGMv8FCOn5eATfeMPEbeoLyF1m1hEC6
+   q0Otb796rWXhJX5tJK73HEP3RtWXkpZjoIyUoJCsk2+x+Dq+RPBxZAVEu
+   bxP1EIvxMekEnQhtHHqrW8AAcyrLiaXamJZSHt4NUSlozo0MUs/HRW3SM
+   3MmGqilWHGJp1x2qCBeab3/bUqwDE/UID13BmDT6G8a0PKmGTq/hDm1BB
+   g==;
+X-CSE-ConnectionGUID: pfAflFD4R8mRGFfKsXdvMw==
+X-CSE-MsgGUID: LiGmRxl+Q/CX33XEKCrbEQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="31300744"
 X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
-   d="scan'208";a="8674049"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 00:12:13 -0700
-X-CSE-ConnectionGUID: alJMcBL7QH68jfeyxhFaLw==
-X-CSE-MsgGUID: mu8xz1X6Q2iJygZgByLnww==
+   d="scan'208";a="31300744"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 01:03:51 -0700
+X-CSE-ConnectionGUID: 5nRE2iQNRemALNiykozjwg==
+X-CSE-MsgGUID: VQmyzcNCShSNIddc8wPEWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
-   d="scan'208";a="22587977"
+   d="scan'208";a="22413256"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Apr 2024 00:12:12 -0700
+  by orviesa010.jf.intel.com with ESMTP; 17 Apr 2024 01:03:49 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwzSg-0006FU-0U;
-	Wed, 17 Apr 2024 07:12:07 +0000
-Date: Wed, 17 Apr 2024 15:11:13 +0800
+	id 1rx0Gc-0006Hc-03;
+	Wed, 17 Apr 2024 08:03:42 +0000
+Date: Wed, 17 Apr 2024 16:03:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heinz Mauelshagen <heinzm@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mike Snitzer <snitzer@kernel.org>
-Subject: [snitzer:dm-buffered 7/17] ERROR: modpost: "async_memcpy"
- [drivers/md/dm-buffered.ko] undefined!
-Message-ID: <202404171529.QX8PhuRT-lkp@intel.com>
+To: Jinglin Wen <jinglin.wen@shingroup.cn>, palmer@dabbelt.com
+Cc: oe-kbuild-all@lists.linux.dev, paul.walmsley@sifive.com,
+	aou@eecs.berkeley.edu, gregkh@linuxfoundation.org,
+	atishp@rivosinc.com, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	Jinglin Wen <jinglin.wen@shingroup.cn>
+Subject: Re: [PATCH 2/3] riscv: SBI as the interface for the early console
+Message-ID: <202404171502.Yz861Nvd-lkp@intel.com>
+References: <20240410063432.23058-3-jinglin.wen@shingroup.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,122 +66,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240410063432.23058-3-jinglin.wen@shingroup.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git dm-buffered
-head:   61809d6beedae322267e76fa83208920524ae660
-commit: 5a10ed77f911ce885efce267e587ffebd49c8f10 [7/17] dm buffered: test target buffering all I/O through dm-bufio
-config: s390-randconfig-002-20240417 (https://download.01.org/0day-ci/archive/20240417/202404171529.QX8PhuRT-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404171529.QX8PhuRT-lkp@intel.com/reproduce)
+Hi Jinglin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tty/tty-testing]
+[also build test ERROR on tty/tty-next tty/tty-linus linus/master v6.9-rc4 next-20240416]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jinglin-Wen/riscv-Support-for-early-console/20240410-143840
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20240410063432.23058-3-jinglin.wen%40shingroup.cn
+patch subject: [PATCH 2/3] riscv: SBI as the interface for the early console
+config: riscv-randconfig-r071-20240417 (https://download.01.org/0day-ci/archive/20240417/202404171502.Yz861Nvd-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404171502.Yz861Nvd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404171529.QX8PhuRT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404171502.Yz861Nvd-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sunxi-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a64-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h616-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-a31-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-h3-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-de2-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/clk-qcom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/lpass-gfm-sm8250.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/videocc-sdm845.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/imx/soc-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/mediatek/mtk-cmdq-helper.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/amlogic/meson-clk-measure.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/tps6286x-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/esp32_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
-WARNING: modpost: drivers/char/hw_random/mxc-rnga: section mismatch in reference: mxc_rnga_driver+0x10 (section: .data) -> mxc_rnga_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/ohci-exynos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/ezusb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-empress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/usb/dvb-usb/dvb-usb-dibusb-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/usb/dvb-usb/dvb-usb-dibusb-mc-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: drivers/mmc/host/davinci_mmc: section mismatch in reference: davinci_mmcsd_driver+0x10 (section: .data) -> davinci_mmcsd_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/renesas_sdhi_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-betopff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-bigbenff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-kbd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-mouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-letsketch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-megaworld.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-retrode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-samsung.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steelseries.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-uclogic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/marvell_cn10k_ddr_pmu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/cxl_pmu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/cio/vfio_ccw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/raw3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/con3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/fs3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/libnvdimm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_btt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_virtio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
->> ERROR: modpost: "async_memcpy" [drivers/md/dm-buffered.ko] undefined!
+   riscv64-linux-ld: arch/riscv/kernel/early_console.o: in function `early_console_init':
+>> arch/riscv/kernel/early_console.c:100:(.init.text+0x18): undefined reference to `hvc_sbi_early_init'
+
+
+vim +100 arch/riscv/kernel/early_console.c
+
+f4e6608ec4adae Jinglin Wen 2024-04-10   87  
+f4e6608ec4adae Jinglin Wen 2024-04-10   88  /*
+f4e6608ec4adae Jinglin Wen 2024-04-10   89   * This is called after sbi_init.
+f4e6608ec4adae Jinglin Wen 2024-04-10   90   */
+f4e6608ec4adae Jinglin Wen 2024-04-10   91  void __init early_console_init(void)
+f4e6608ec4adae Jinglin Wen 2024-04-10   92  {
+f4e6608ec4adae Jinglin Wen 2024-04-10   93  	/*
+f4e6608ec4adae Jinglin Wen 2024-04-10   94  	 * Set riscv_early_console_putc.
+f4e6608ec4adae Jinglin Wen 2024-04-10   95  	 * If there are other output interfaces, you can add corresponding code
+f4e6608ec4adae Jinglin Wen 2024-04-10   96  	 * to initialize riscv_early_console_putc.
+f4e6608ec4adae Jinglin Wen 2024-04-10   97  	 */
+f4e6608ec4adae Jinglin Wen 2024-04-10   98  #if defined(CONFIG_RISCV_EARLY_CONSOLE_SBI)
+f4e6608ec4adae Jinglin Wen 2024-04-10   99  	/* using the sbi */
+f4e6608ec4adae Jinglin Wen 2024-04-10 @100  	hvc_sbi_early_init(&riscv_early_console_putc);
+f4e6608ec4adae Jinglin Wen 2024-04-10  101  #else
+f4e6608ec4adae Jinglin Wen 2024-04-10  102  	/* using other */
+f4e6608ec4adae Jinglin Wen 2024-04-10  103  #endif
+f4e6608ec4adae Jinglin Wen 2024-04-10  104  
+f4e6608ec4adae Jinglin Wen 2024-04-10  105  	console_loglevel = CONSOLE_LOGLEVEL_MOTORMOUTH;
+f4e6608ec4adae Jinglin Wen 2024-04-10  106  	register_early_console();
+f4e6608ec4adae Jinglin Wen 2024-04-10  107  }
+f4e6608ec4adae Jinglin Wen 2024-04-10  108  
 
 -- 
 0-DAY CI Kernel Test Service
