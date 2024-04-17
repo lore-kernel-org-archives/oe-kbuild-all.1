@@ -1,88 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB7E364
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 00:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130B1365
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 00:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713312688; cv=none; b=YoAty8O12uP9EkHYxmskx0EsRkh5clc02FksY2rQ/oQy/hiU6a9r8I4X8AWJ0olyWSlaVl+Jcy7cy0V6wUSrNlWv4KtDgIh8c3OriM+r4dGebPnN6/utGJPw7jqlxigBF2rnWDjLwtvtEkOCZYAIeu/Qlir8yWRGKFv04t5ljbw=
+	t=1713313283; cv=none; b=EJJUw+hj6rn9KI0d5VPMgNQceItiZ+Hn799cY+nwIy489USGibG7AQ8iKnkHTy3GW7Oiz75ET+N35LbOn4AlEf2J7cpYMPFLHbJ0HnwhhzsU+JQG/L7MGzKpDCkg9FS0+NMlBn1qzud9sVm4adgeM2gdMr5QExakJYvzV/UsawA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713312688; c=relaxed/simple;
-	bh=/0bQkhy6R6bkH+wNonZcUTdXypAMTB7A5B/WDE5cx2w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZyXHbLl3IP8y3vhpqRl5N7jYSiVMaAUdmpWNxZsJth/cnRlwFYaG2ylrCtRovsHO62+HbaiNK9P2opuwLfEyCndPlLQnl3QGREc9evVHGRmE6evATpmHuS3nxoAGZWREU2TB+H+HwwKhY4ah0tmz9k7kCgGDxi5C7aPEQvs1Irc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fKlcKsFO; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1713313283; c=relaxed/simple;
+	bh=K2ZFtuGnRYBMp4zqpkPAY0ZwBh7cc4jMlO0Ey57ysoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VIgF4Hmd/cUG3SKNAhVHT+d8W/fC8DCn/b/dp1TdFt8/G4Rn8J7jYa8b2s88sdvYDC7f1cRLEDMq2fhIcde3DohHy2qPWhSf3A0BsbQ2Epjj7mINpdNtirjW0Or70+WviXi+Q2Ard6W1wvC4WGL7u2g4alwjL/Iy3Qe/3HEgTRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HG7ynyAy; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fKlcKsFO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HG7ynyAy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713312686; x=1744848686;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/0bQkhy6R6bkH+wNonZcUTdXypAMTB7A5B/WDE5cx2w=;
-  b=fKlcKsFOM3ZrWZgT7vqpksCXeWBH5Vm+FHKufl8SxtMcx1iE/e5U6sAj
-   JJ6Pw9h4/Dbrpn9QQulbwsYN/JfE6EE6IuWatykTex7NXLU5FtI4br0mr
-   5ZVPiGCIMyksp7Pugd9/hgRAKBeekQ2S18XGLJHsFmwOScetYbO7RMbpv
-   pU38YZin6SGLROuN0y3xSRnDNSdHPf7si8YzDka3pUgIgw1V8ZGIh/WWB
-   I/2vfdg+oNKzulI960zXEDd5GFfGfjC+oQWKxlA5t8aul0wPCYTDgflw9
-   F6a4S9a7UlFoqemsB4J+r4A4UcJt+HBB0Ygf28MBJuG0aDkk7dpJL0mol
-   g==;
-X-CSE-ConnectionGUID: DRayOJ77SUeqWPm6jDUeDQ==
-X-CSE-MsgGUID: JiXQKX8GSrmxAESL45MkSQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="34172015"
+  t=1713313280; x=1744849280;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=K2ZFtuGnRYBMp4zqpkPAY0ZwBh7cc4jMlO0Ey57ysoQ=;
+  b=HG7ynyAyarR3UO12xqt6QvluA+Qgy+rLzgZ+wZXB4kn036MbOgw4/j9w
+   x0d1wxkPJgeIVoWc2ExiUYg01Z2jVW8FOa+txN5KmgIEKRDgJVjRGu91Y
+   MY8UrZoAx4C8zCyb0apj+MmNBFla5wqOEFzNWUDuR1uqN1x4gUOo1YAe0
+   8g63SyeBz8vaHCSfISSLWjj8ZKFHzk0bwoEg51AXaFt0COHE11jmfICPX
+   RqBHzo9tsNxgRJp8qDuTBViGrW5nYoFOzd7pNg/M7qnb5Zg/BiO/6ebvo
+   TJTrfg4gpyimvZr1TX11ze5/pNSbumWHnUYL8H8JX0y1cW/59pJRVeH/Q
+   A==;
+X-CSE-ConnectionGUID: okPttXnsSVOURif5ykZ3cw==
+X-CSE-MsgGUID: W0tSw16kTvqBjcfTAp6ecw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="12625221"
 X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="34172015"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 17:11:25 -0700
-X-CSE-ConnectionGUID: xk91JmxwTACj/hv/y9LImA==
-X-CSE-MsgGUID: 4L3ApJL+QeOYTtVcltyO1g==
+   d="scan'208";a="12625221"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 17:21:20 -0700
+X-CSE-ConnectionGUID: WSAKRmfRSIOZQIgB7anLXA==
+X-CSE-MsgGUID: cxPnTlcoRRqqdgd2jBfXyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="22485084"
+   d="scan'208";a="22495129"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Apr 2024 17:11:18 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 16 Apr 2024 17:21:18 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwstP-0005sO-2j;
-	Wed, 17 Apr 2024 00:11:15 +0000
-Date: Wed, 17 Apr 2024 08:10:20 +0800
+	id 1rwt36-0005si-0M;
+	Wed, 17 Apr 2024 00:21:16 +0000
+Date: Wed, 17 Apr 2024 08:20:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dharma Balasubiramani <dharma.b@microchip.com>,
-	"andrzej . hajda @ intel . com" <andrzej.hajda@intel.com>,
-	"neil . armstrong @ linaro . org" <neil.armstrong@linaro.org>,
-	"rfoss @ kernel . org" <rfoss@kernel.org>,
-	"Laurent . pinchart @ ideasonboard . com" <Laurent.pinchart@ideasonboard.com>,
-	"jonas @ kwiboo . se" <jonas@kwiboo.se>,
-	"jernej . skrabec @ gmail . com" <jernej.skrabec@gmail.com>,
-	"maarten . lankhorst @ linux . intel . com" <maarten.lankhorst@linux.intel.com>,
-	"mripard @ kernel . org" <mripard@kernel.org>,
-	"tzimmermann @ suse . de" <tzimmermann@suse.de>,
-	"airlied @ gmail . com" <airlied@gmail.com>,
-	"daniel @ ffwll . ch" <daniel@ffwll.ch>,
-	"robh+dt @ kernel . org" <robh+dt@kernel.org>,
-	"krzysztof . kozlowski+dt @ linaro . org" <krzysztof.kozlowski+dt@linaro.org>,
-	"conor+dt @ kernel . org" <conor+dt@kernel.org>,
-	"linux @ armlinux . org . uk" <linux@armlinux.org.uk>,
-	"Nicolas . Ferre @ microchip . com" <Nicolas.Ferre@microchip.com>,
-	"alexandre . belloni @ bootlin . com" <alexandre.belloni@bootlin.com>,
-	"claudiu . beznea @ tuxon . dev" <claudiu.beznea@tuxon.dev>,
-	"Manikandan . M @ microchip . com" <Manikandan.M@microchip.com>,
-	"arnd @ arndb . de" <arnd@arndb.de>,
-	"geert+renesas @ glider . be" <geert+renesas@glider.be>,
-	"Jason @ zx2c4 . com" <Jason@zx2c4.com>,
-	"mpe @ ellerman . id . au" <mpe@ellerman.id.au>,
-	"gerg @ linux-m68k . org" <gerg@linux-m68k.org>,
-	"rdunlap @ infradead . org" <rdunlap@infradead.org>,
-	"vbabka @ suse . cz" <vbabka@suse.cz>,
-	"dri-devel @ lists . freedesktop . org" <dri-devel@lists.freedesktop.org>,
-	"devicetree @ vger . kernel . org" <devicetree@vger.kernel.org>,
-	"linux-kernel @ vger . kernel . org" <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 3/4] MAINTAINERS: add SAM9X7 SoC's LVDS controller
-Message-ID: <202404170727.UvHFX4sD-lkp@intel.com>
-References: <20240405043536.274220-4-dharma.b@microchip.com>
+To: Jesper Dangaard Brouer <hawk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
+	Tejun Heo <tj@kernel.org>
+Subject: [tj-cgroup:for-next 7/7] kernel/cgroup/rstat.c:334: warning:
+ Function parameter or struct member 'cgrp' not described in
+ 'cgroup_rstat_flush_release'
+Message-ID: <202404170821.HwZGISTY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -91,37 +63,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240405043536.274220-4-dharma.b@microchip.com>
 
-Hi Dharma,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.9-rc4 next-20240416]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dharma-Balasubiramani/dt-bindings-display-bridge-add-sam9x75-lvds-binding/20240405-123901
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240405043536.274220-4-dharma.b%40microchip.com
-patch subject: [PATCH v5 3/4] MAINTAINERS: add SAM9X7 SoC's LVDS controller
-reproduce: (https://download.01.org/0day-ci/archive/20240417/202404170727.UvHFX4sD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
+head:   fc29e04ae1ad4c99422c0b8ae4b43cfe99c70429
+commit: fc29e04ae1ad4c99422c0b8ae4b43cfe99c70429 [7/7] cgroup/rstat: add cgroup_rstat_lock helpers and tracepoints
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240417/202404170821.HwZGISTY-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404170821.HwZGISTY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404170727.UvHFX4sD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404170821.HwZGISTY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
-   Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/microchip,sam9x7-lvds.yaml
-   Using alabaster theme
+>> kernel/cgroup/rstat.c:334: warning: Function parameter or struct member 'cgrp' not described in 'cgroup_rstat_flush_release'
+
+
+vim +334 kernel/cgroup/rstat.c
+
+6162cef0f741c7 Tejun Heo              2018-04-26  328  
+6162cef0f741c7 Tejun Heo              2018-04-26  329  /**
+6162cef0f741c7 Tejun Heo              2018-04-26  330   * cgroup_rstat_flush_release - release cgroup_rstat_flush_hold()
+6162cef0f741c7 Tejun Heo              2018-04-26  331   */
+fc29e04ae1ad4c Jesper Dangaard Brouer 2024-04-16  332  void cgroup_rstat_flush_release(struct cgroup *cgrp)
+0fa294fb1985c0 Tejun Heo              2018-04-26  333  	__releases(&cgroup_rstat_lock)
+6162cef0f741c7 Tejun Heo              2018-04-26 @334  {
+fc29e04ae1ad4c Jesper Dangaard Brouer 2024-04-16  335  	__cgroup_rstat_unlock(cgrp, -1);
+6162cef0f741c7 Tejun Heo              2018-04-26  336  }
+6162cef0f741c7 Tejun Heo              2018-04-26  337  
+
+:::::: The code at line 334 was first introduced by commit
+:::::: 6162cef0f741c70eb0c7ac7e6142f85808d8abc4 cgroup: Factor out and expose cgroup_rstat_*() interface functions
+
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
