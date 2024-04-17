@@ -1,69 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74FD1851;
-	Wed, 17 Apr 2024 06:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AAB6A025
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 06:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713334670; cv=none; b=I1bP0w1/mZ5SxaxOExuI86vsdH/OTNA63+fIIrruijLgNgXu/4M9+f3zzYqd96BdfxzW3gJ07pTHoikdhl/i+DKcvzmEdkn5rMN+8vU+fJc3YbLmcBvttYdQXtFGOTIo9lY+UwLk3oKfClq0wsawJOu3Zs68LwxVCoCmTIChQfo=
+	t=1713335711; cv=none; b=QK4PNLAXJrwLFuFBI9UADrb4hPmUWQZKu0l6qJtICcEgmDr93liVZBJxSeZZOmwwe0pjsSh0C3pLnmxGyWCRmr+vReor+pSONnNpJPh0dCZE3woJLdilKlSF0OiOOytn5vLELbDBq0a29qGkplQjxyY9YTJmehv7JYhWP/CnY6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713334670; c=relaxed/simple;
-	bh=w42aKlhS0gcP36dJaMyx5AB9fm5TuxlheUjjF+LgHsc=;
+	s=arc-20240116; t=1713335711; c=relaxed/simple;
+	bh=FDaRJJ33qv1xm+S09c0gl/k9+JnmbBPj6CI6UdpRDVI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JEcL3ZvckghlP48UYyHaJiF8PuEAVe70dBTvF8EQ2HznXrxa1QrX6ZGDQdRj8/NeAMkIiG473SCRPE7gcmrObK0yz9xEYP+ATzdvxWB0xwLmKX6LMhbbL54Sh8OqKGo66KmT1jIbYPbUTRn57r4/qP1e1nCz9ZXUUz2qy1jC5+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sh5mrPfe; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=e7GrDzoRVCF7Iv9Y/jvX3QloHGqn5ctEIJs/chui8D66WmWVei3tN2xSvH7r1oHE4VC5WZUMdlwj7lt2eKEM7vfTz2cheVYucIfwTC+/2rux2KL1Xj6bfcdEua/Gu7fNTj5/JI8uU+PPKXXHZRNIP97HGvDKX4l7cs07rCN73oQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wug3+zR+; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sh5mrPfe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713334669; x=1744870669;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=w42aKlhS0gcP36dJaMyx5AB9fm5TuxlheUjjF+LgHsc=;
-  b=Sh5mrPfeCWT32U7qkUmejNiFjdwdHvipftj3wZi+Rbro6WCDE9gXCiHy
-   4hbd8Yc+69zw7pmLOy+kS8Qfho5BvtFfVSYPIGTczfdR/YEPPnZIDY5cL
-   gjFQIrd65Os/Q6AsAFStbOFnvqQvkxU9pUhVrdquUzbd39L3ENrkS8I3y
-   H/cnL1xvkNFQJLmGR7Lor8A/h9DFXMlwpvGa4qIWTf4QiRlx3KQ8kmzQL
-   C/IA8kqLzAGPLzLSmfYxvfyQjta+e5SXMnCWy+1k1RKy3wyXd+KDfioh8
-   GCnPz4FwMGbpGitQ2L5BIyX61RmjdLO9nv0NhAQf4a7rOM9XN57tz4KyD
-   g==;
-X-CSE-ConnectionGUID: gVnAiq6/TbiyjBMu18YUUw==
-X-CSE-MsgGUID: GUp2Y/P2RU+Ug05MWO0SSA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="11750876"
-X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
-   d="scan'208";a="11750876"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 23:17:48 -0700
-X-CSE-ConnectionGUID: imgM1LG1QZyQQQFDxbqDqA==
-X-CSE-MsgGUID: VdZm10H+T8Ok8H03lXuMzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
-   d="scan'208";a="23109144"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 16 Apr 2024 23:17:44 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rwyc2-0006Cc-1J;
-	Wed, 17 Apr 2024 06:17:42 +0000
-Date: Wed, 17 Apr 2024 14:17:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadfed@meta.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Mykola Lysenko <mykolal@fb.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-crypto@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next v9 1/4] bpf: make common crypto API for TC/XDP
- programs
-Message-ID: <202404171409.EgchVGya-lkp@intel.com>
-References: <20240416204004.3942393-2-vadfed@meta.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wug3+zR+"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2d8b4778f5fso37691871fa.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Apr 2024 23:35:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713335706; x=1713940506; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2Xb24KjnVD8H3G5GkJAAV0E3O47INRr7NamuW4Oc84A=;
+        b=wug3+zR+N/M0RqzYe3QaGWk1Eq3L1nTJpsDpltv/YwMKTw7I8uBS2XDlD3BwkfqDtA
+         09BpfYAYLWam/O0cHdsYfMaazQEUkmYMlQ86WD5RcXnj6LB25OC+ZBXzJSHXtL50pcue
+         iZPwy/d9wwwoqAL1miO4JX35elZ5OnERUG/k0iQeAgJDLVTZNxbph+zc9UhIEZnAkG9Y
+         B3u6u2BjVeus1v0/Ark4I10moouokJGNCg1DxL37XfUN0fMCUxSahG8Ig2NwKnP8bA3g
+         XIpQiElSCrBluQjXtWewTMHcTc6xi4aBF0YxABmtE6aceh2b9uFJPAK5vBBZlqjWkLaR
+         SWig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713335706; x=1713940506;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2Xb24KjnVD8H3G5GkJAAV0E3O47INRr7NamuW4Oc84A=;
+        b=kPLBPzrsMsShFpPl8Ozaz18MnPcgB51YTDCsoL98dfW31CfHP6BrNVRlHprvpYOWv1
+         9qQ40Ur0+Ou6A4z4wPbxuA+hxhI2MLpyvL/3lMTLPrITGLB6fBn4n6HQppq8z+rveKlm
+         mPYFfeNJ/AxXAwFrEuDbJOTiDESZjzL+AN9G1j4/hf+i37lsS2DMt3IG/d/+1sZRnZiq
+         FGwyqinqpfuB4VfPAY944szINod1ffr460rY85e6bmMlF6Hw7JFBoeA22Aq03tF9aFi0
+         xOibxUDYCUs7bgt54h5iJdZr2af02s5enBkN+ySaHVgkOaCkNrsDGtvtVJqAoWJ7ygB9
+         y67Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUOVsbVhbqT6A435y9EaMZTk9WV5iWlmPUslgjSnKYmnjHlXlrGmAI57HwZCPSsHLGHLXyrerxvVJsDwHw+qMwqlI22nvGoxSzohZi++g==
+X-Gm-Message-State: AOJu0YwiNvUGI2h4e+pBwlo728SJbFdTZcW+Q2gIwaaOhAcCXYHjqpWw
+	SY8X9E+7B06/9OeUMZZN8tB/BtgCDd4pEwwVCM5ZWcav+YCk8lPide/Be1Fagu4=
+X-Google-Smtp-Source: AGHT+IH65Sawq2nFbVz2eJjUlQ0Y/zsiekJC7R9FVP82pwC7pqNX9qf+KBXaMzJCakWnL8hpm23f9Q==
+X-Received: by 2002:a2e:6e12:0:b0:2d8:3eaf:86d2 with SMTP id j18-20020a2e6e12000000b002d83eaf86d2mr9582302ljc.47.1713335706222;
+        Tue, 16 Apr 2024 23:35:06 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+        by smtp.gmail.com with ESMTPSA id s21-20020a2e83d5000000b002daedd9c696sm336801ljh.53.2024.04.16.23.35.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Apr 2024 23:35:05 -0700 (PDT)
+Date: Wed, 17 Apr 2024 09:35:04 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Dharma Balasubiramani <dharma.b@microchip.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, 
+	daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	conor+dt@kernel.org, linux@armlinux.org.uk, Nicolas.Ferre@microchip.com, 
+	alexandre.belloni@bootlin.com, claudiu.beznea@tuxon.dev, Manikandan.M@microchip.com, 
+	arnd@arndb.de, geert+renesas@glider.be, Jason@zx2c4.com, mpe@ellerman.id.au, 
+	gerg@linux-m68k.org, rdunlap@infradead.org, vbabka@suse.cz, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v6 2/4] drm/bridge: add lvds controller support for sam9x7
+Message-ID: <xbefyxiyiwckjsi5wyqaf5thqgpyyizy7sjojed4yc7bvm46l3@omffdudkxyhl>
+References: <20240417024137.144727-1-dharma.b@microchip.com>
+ <20240417024137.144727-3-dharma.b@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,53 +76,340 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240416204004.3942393-2-vadfed@meta.com>
+In-Reply-To: <20240417024137.144727-3-dharma.b@microchip.com>
 
-Hi Vadim,
+On Wed, Apr 17, 2024 at 08:11:35AM +0530, Dharma Balasubiramani wrote:
+> Add a new LVDS controller driver for sam9x7 which does the following:
+> - Prepares and enables the LVDS Peripheral clock
+> - Defines its connector type as DRM_MODE_CONNECTOR_LVDS and adds itself
+> to the global bridge list.
+> - Identifies its output endpoint as panel and adds it to the encoder
+> display pipeline
+> - Enables the LVDS serializer
+> 
+> Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+> ---
+> Changelog
+> v5 -> v6
+> - No Changes.
+> v4 -> v5
+> - Drop the unused variable 'format'.
+> - Use DRM wrapper for dev_err() to maintain uniformity.
+> - return -ENODEV instead of -EINVAL to maintain consistency with other DRM
+>   bridge drivers.
+> v3 -> v4
+> - No changes.
+> v2 ->v3
+> - Correct Typo error "serializer".
+> - Consolidate get() and prepare() functions and use devm_clk_get_prepared().
+> - Remove unused variable 'ret' in probe().
+> - Use devm_pm_runtime_enable() and drop the mchp_lvds_remove().
+> v1 -> v2
+> - Drop 'res' variable and combine two lines into one.
+> - Handle deferred probe properly, use dev_err_probe().
+> - Don't print anything on deferred probe. Dropped print.
+> - Remove the MODULE_ALIAS and add MODULE_DEVICE_TABLE().
+> - symbol 'mchp_lvds_driver' was not declared. It should be static.
+> ---
+>  drivers/gpu/drm/bridge/Kconfig          |   7 +
+>  drivers/gpu/drm/bridge/Makefile         |   1 +
+>  drivers/gpu/drm/bridge/microchip-lvds.c | 228 ++++++++++++++++++++++++
+>  3 files changed, 236 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/microchip-lvds.c
+> 
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index efd996f6c138..889098e2d65f 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -190,6 +190,13 @@ config DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW
+>  	  to DP++. This is used with the i.MX6 imx-ldb
+>  	  driver. You are likely to say N here.
+>  
+> +config DRM_MICROCHIP_LVDS_SERIALIZER
+> +	tristate "Microchip LVDS serializer support"
+> +	depends on OF
+> +	depends on DRM_ATMEL_HLCDC
+> +	help
+> +	  Support for Microchip's LVDS serializer.
+> +
+>  config DRM_NWL_MIPI_DSI
+>  	tristate "Northwest Logic MIPI DSI Host controller"
+>  	depends on DRM
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> index 017b5832733b..7df87b582dca 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -13,6 +13,7 @@ obj-$(CONFIG_DRM_LONTIUM_LT9611) += lontium-lt9611.o
+>  obj-$(CONFIG_DRM_LONTIUM_LT9611UXC) += lontium-lt9611uxc.o
+>  obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
+>  obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
+> +obj-$(CONFIG_DRM_MICROCHIP_LVDS_SERIALIZER) += microchip-lvds.o
+>  obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
+>  obj-$(CONFIG_DRM_PARADE_PS8622) += parade-ps8622.o
+>  obj-$(CONFIG_DRM_PARADE_PS8640) += parade-ps8640.o
+> diff --git a/drivers/gpu/drm/bridge/microchip-lvds.c b/drivers/gpu/drm/bridge/microchip-lvds.c
+> new file mode 100644
+> index 000000000000..149704f498a6
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/microchip-lvds.c
+> @@ -0,0 +1,228 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2023 Microchip Technology Inc. and its subsidiaries
+> + *
+> + * Author: Manikandan Muralidharan <manikandan.m@microchip.com>
+> + * Author: Dharma Balasubiramani <dharma.b@microchip.com>
+> + *
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/component.h>
+> +#include <linux/delay.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/mfd/syscon.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/pinctrl/devinfo.h>
+> +#include <linux/phy/phy.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/regmap.h>
+> +#include <linux/reset.h>
+> +
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_of.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_probe_helper.h>
+> +#include <drm/drm_simple_kms_helper.h>
+> +
+> +#define LVDS_POLL_TIMEOUT_MS 1000
+> +
+> +/* LVDSC register offsets */
+> +#define LVDSC_CR	0x00
+> +#define LVDSC_CFGR	0x04
+> +#define LVDSC_SR	0x0C
+> +#define LVDSC_WPMR	0xE4
+> +
+> +/* Bitfields in LVDSC_CR (Control Register) */
+> +#define LVDSC_CR_SER_EN	BIT(0)
+> +
+> +/* Bitfields in LVDSC_CFGR (Configuration Register) */
+> +#define LVDSC_CFGR_PIXSIZE_24BITS	0
+> +#define LVDSC_CFGR_DEN_POL_HIGH		0
+> +#define LVDSC_CFGR_DC_UNBALANCED	0
+> +#define LVDSC_CFGR_MAPPING_JEIDA	BIT(6)
+> +
+> +/*Bitfields in LVDSC_SR */
+> +#define LVDSC_SR_CS	BIT(0)
+> +
+> +/* Bitfields in LVDSC_WPMR (Write Protection Mode Register) */
+> +#define LVDSC_WPMR_WPKEY_MASK	GENMASK(31, 8)
+> +#define LVDSC_WPMR_WPKEY_PSSWD	0x4C5644
+> +
+> +struct mchp_lvds {
+> +	struct device *dev;
+> +	void __iomem *regs;
+> +	struct clk *pclk;
+> +	struct drm_panel *panel;
+> +	struct drm_bridge bridge;
+> +	struct drm_bridge *panel_bridge;
+> +};
+> +
+> +static inline struct mchp_lvds *bridge_to_lvds(struct drm_bridge *bridge)
+> +{
+> +	return container_of(bridge, struct mchp_lvds, bridge);
+> +}
+> +
+> +static inline u32 lvds_readl(struct mchp_lvds *lvds, u32 offset)
+> +{
+> +	return readl_relaxed(lvds->regs + offset);
+> +}
+> +
+> +static inline void lvds_writel(struct mchp_lvds *lvds, u32 offset, u32 val)
+> +{
+> +	writel_relaxed(val, lvds->regs + offset);
+> +}
+> +
+> +static void lvds_serialiser_on(struct mchp_lvds *lvds)
+> +{
+> +	unsigned long timeout = jiffies + msecs_to_jiffies(LVDS_POLL_TIMEOUT_MS);
+> +
+> +	/* The LVDSC registers can only be written if WPEN is cleared */
+> +	lvds_writel(lvds, LVDSC_WPMR, (LVDSC_WPMR_WPKEY_PSSWD &
+> +				LVDSC_WPMR_WPKEY_MASK));
+> +
+> +	/* Wait for the status of configuration registers to be changed */
+> +	while (lvds_readl(lvds, LVDSC_SR) & LVDSC_SR_CS) {
+> +		if (time_after(jiffies, timeout)) {
+> +			DRM_DEV_ERROR(lvds->dev, "%s: timeout error\n",
+> +				      __func__);
+> +			return;
+> +		}
+> +		usleep_range(1000, 2000);
+> +	}
+> +
+> +	/* Configure the LVDSC */
+> +	lvds_writel(lvds, LVDSC_CFGR, (LVDSC_CFGR_MAPPING_JEIDA |
+> +				LVDSC_CFGR_DC_UNBALANCED |
+> +				LVDSC_CFGR_DEN_POL_HIGH |
+> +				LVDSC_CFGR_PIXSIZE_24BITS));
+> +
+> +	/* Enable the LVDS serializer */
+> +	lvds_writel(lvds, LVDSC_CR, LVDSC_CR_SER_EN);
+> +}
+> +
+> +static int mchp_lvds_attach(struct drm_bridge *bridge,
+> +			    enum drm_bridge_attach_flags flags)
+> +{
+> +	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
+> +
+> +	bridge->encoder->encoder_type = DRM_MODE_ENCODER_LVDS;
 
-kernel test robot noticed the following build warnings:
+Why do you need to touch encoder_type here? It's not your bridge's
+responsibility.
 
-[auto build test WARNING on bpf-next/master]
+> +
+> +	return drm_bridge_attach(bridge->encoder, lvds->panel_bridge,
+> +				 bridge, flags);
+> +}
+> +
+> +static void mchp_lvds_enable(struct drm_bridge *bridge)
+> +{
+> +	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
+> +	int ret;
+> +
+> +	ret = clk_enable(lvds->pclk);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(lvds->dev, "failed to enable lvds pclk %d\n", ret);
+> +		return;
+> +	}
+> +
+> +	ret = pm_runtime_get_sync(lvds->dev);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(lvds->dev, "failed to get pm runtime: %d\n", ret);
+> +		clk_disable(lvds->pclk);
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bpf-make-common-crypto-API-for-TC-XDP-programs/20240417-044349
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20240416204004.3942393-2-vadfed%40meta.com
-patch subject: [PATCH bpf-next v9 1/4] bpf: make common crypto API for TC/XDP programs
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240417/202404171409.EgchVGya-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404171409.EgchVGya-lkp@intel.com/reproduce)
+This can result in unbalanced clk_disable(), if pm_runtime_get_sync()
+fails. This function calls clk_disable(), but the framework has no way
+to know that .enable() was not successful and calls .disable(), which
+also calls clk_disable().
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404171409.EgchVGya-lkp@intel.com/
+Please consider turning pclk into pm_clk so that its state is managed
+automatically (or at least moving clk_enable/disable into pm_ops).
 
-All warnings (new ones prefixed by >>):
+> +		return;
+> +	}
+> +
+> +	lvds_serialiser_on(lvds);
+> +}
+> +
+> +static void mchp_lvds_disable(struct drm_bridge *bridge)
+> +{
+> +	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
+> +
+> +	pm_runtime_put(lvds->dev);
+> +	clk_disable(lvds->pclk);
+> +}
+> +
+> +static const struct drm_bridge_funcs mchp_lvds_bridge_funcs = {
+> +	.attach = mchp_lvds_attach,
+> +	.enable = mchp_lvds_enable,
+> +	.disable = mchp_lvds_disable,
+> +};
+> +
+> +static int mchp_lvds_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct mchp_lvds *lvds;
+> +	struct device_node *port;
+> +
+> +	if (!dev->of_node)
+> +		return -ENODEV;
+> +
+> +	lvds = devm_kzalloc(&pdev->dev, sizeof(*lvds), GFP_KERNEL);
+> +	if (!lvds)
+> +		return -ENOMEM;
+> +
+> +	lvds->dev = dev;
+> +
+> +	lvds->regs = devm_ioremap_resource(lvds->dev,
+> +			platform_get_resource(pdev, IORESOURCE_MEM, 0));
+> +	if (IS_ERR(lvds->regs))
+> +		return PTR_ERR(lvds->regs);
+> +
+> +	lvds->pclk = devm_clk_get_prepared(lvds->dev, "pclk");
 
->> kernel/bpf/crypto.c:53: warning: Function parameter or struct member 'siv_len' not described in 'bpf_crypto_ctx'
+Why do you need _prepared version?
 
+> +	if (IS_ERR(lvds->pclk))
+> +		return dev_err_probe(lvds->dev, PTR_ERR(lvds->pclk),
+> +				"could not get pclk_lvds prepared\n");
+> +
+> +	port = of_graph_get_remote_node(dev->of_node, 1, 0);
+> +	if (!port) {
+> +		DRM_DEV_ERROR(dev,
+> +			      "can't find port point, please init lvds panel port!\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	lvds->panel = of_drm_find_panel(port);
+> +	of_node_put(port);
+> +
+> +	if (IS_ERR(lvds->panel))
+> +		return -EPROBE_DEFER;
+> +
+> +	lvds->panel_bridge = devm_drm_panel_bridge_add(dev, lvds->panel);
 
-vim +53 kernel/bpf/crypto.c
+Please use instead:
 
-    37	
-    38	/**
-    39	 * struct bpf_crypto_ctx - refcounted BPF crypto context structure
-    40	 * @type:	The pointer to bpf crypto type
-    41	 * @tfm:	The pointer to instance of crypto API struct.
-    42	 * @rcu:	The RCU head used to free the crypto context with RCU safety.
-    43	 * @usage:	Object reference counter. When the refcount goes to 0, the
-    44	 *		memory is released back to the BPF allocator, which provides
-    45	 *		RCU safety.
-    46	 */
-    47	struct bpf_crypto_ctx {
-    48		const struct bpf_crypto_type *type;
-    49		void *tfm;
-    50		u32 siv_len;
-    51		struct rcu_head rcu;
-    52		refcount_t usage;
-  > 53	};
-    54	
+devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
+
+> +
+> +	if (IS_ERR(lvds->panel_bridge))
+> +		return PTR_ERR(lvds->panel_bridge);
+> +
+> +	lvds->bridge.of_node = dev->of_node;
+> +	lvds->bridge.type = DRM_MODE_CONNECTOR_LVDS;
+> +	lvds->bridge.funcs = &mchp_lvds_bridge_funcs;
+> +
+> +	dev_set_drvdata(dev, lvds);
+> +	devm_pm_runtime_enable(dev);
+
+Error check is missing.
+
+> +
+> +	drm_bridge_add(&lvds->bridge);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id mchp_lvds_dt_ids[] = {
+> +	{
+> +		.compatible = "microchip,sam9x75-lvds",
+> +	},
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, mchp_lvds_dt_ids);
+> +
+> +static struct platform_driver mchp_lvds_driver = {
+> +	.probe = mchp_lvds_probe,
+> +	.driver = {
+> +		   .name = "microchip-lvds",
+> +		   .of_match_table = mchp_lvds_dt_ids,
+> +	},
+> +};
+> +module_platform_driver(mchp_lvds_driver);
+> +
+> +MODULE_AUTHOR("Manikandan Muralidharan <manikandan.m@microchip.com>");
+> +MODULE_AUTHOR("Dharma Balasubiramani <dharma.b@microchip.com>");
+> +MODULE_DESCRIPTION("Low Voltage Differential Signaling Controller Driver");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.25.1
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With best wishes
+Dmitry
