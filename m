@@ -1,47 +1,48 @@
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3481579C0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 02:42:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5255680
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 02:43:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713321762; cv=none; b=cyJAzY+81K+B0C+skd5/Eii6QEZ1lYV4JhrVvrXd4TwSDZSNoFgbEjYI5snTXylFhrOUVauJ9nk29BLB+CTUIWkFwmWni/AZhx5XAbvidDZA2jj9eWQHClrrxRwGO3i0gBVBYUR+vCl4djGWtJvyXAUtiffehU5lAMQNrM1zP28=
+	t=1713321785; cv=none; b=oGgyxlBVyAk/jr3wRBrnGSGtQv7vA8TwY3u6Akksltgcoep5Aio6j1ztFrpBwZphB5m8z7kxXjNqAiL4hzOMk7vNPBDbw/bQYK7VyAlrriA9a6cjdnuObXY9TwIWpZ4zS0mX9V4lXilnGb9PHvsZn4PTS/1+lL4otqdohNBh+NE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713321762; c=relaxed/simple;
-	bh=goGGs6Qp9Tc+FkcaAXqOOsCkNMDrE5spBraGeJFsMKc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=um6hcn2x37xffNONGIupk2eE9QxZY/OWiS+ae5kRYLEGVwC37D+9O/3r2uK894u7sLcxC//oPI/ng6ETiw1b+kHbAIPvtjEkmFb5Hz3CFAN5+fPPvd2Kxzez3nF5v3/5eLxgb6YPwkFHHBNMFlPGSfq7QwRqEPAmxSp1WPxvSM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=tvpPRPY1; arc=none smtp.client-ip=68.232.153.233
+	s=arc-20240116; t=1713321785; c=relaxed/simple;
+	bh=po9zb6Qn/5fT2i3jnTl0DLe9EyYWr9PtZv3ZiG+LgXk=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qXUfC+hw0qspf6LYHth/KLepFwVHHxSQnq2Yhh1+Ju5rymph8lspCPKR5S7Vx9NFsV6LeMSageyOkpacsrnTAf9EXloVhE0ZGqcQR6ZyNHEr9AA/84ooV52H9S+7AYiKCu8p8JNHHglN9bJi0yMjyfxLX4nQGxJOp05i1AoIQyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=q+C5sCj2; arc=none smtp.client-ip=68.232.153.233
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="tvpPRPY1"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="q+C5sCj2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1713321761; x=1744857761;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=goGGs6Qp9Tc+FkcaAXqOOsCkNMDrE5spBraGeJFsMKc=;
-  b=tvpPRPY18mO68EGGmJDE4B9b7tXw497JIVWA+eiCwNqgInlvc9IoQSFe
-   qO/oHDimRY/l5FS/qa5wm9u8XwLyzzf8WpZAFRwcZh7+13b7YzsiYbAzp
-   k3X3mjmM2ZvHlEdahL2JKjWMvlxsXEOobVKnJB9PDIk3NJb2xjEn1YMNJ
-   6NKZbTK3nuCjC2+14le+en3jixifX+IwD6HBZLSINsfc70Qp02RpBYXxO
-   9dW9K1NnnwZtFEbPewdL2FDZp4xuxsaPxB9w/vw+DHewLZUM3kvPA+Qvi
-   mIoTEaE30bX15+IIFj1QamDrdC/ItW+rw2Pi3NHyx1+iQQD7juOrKbfvG
-   A==;
-X-CSE-ConnectionGUID: ts5yT8NnQNWB+QLFSWVn+w==
-X-CSE-MsgGUID: c+22nOXKRialMAC1qQZcKw==
+  t=1713321784; x=1744857784;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=po9zb6Qn/5fT2i3jnTl0DLe9EyYWr9PtZv3ZiG+LgXk=;
+  b=q+C5sCj2hOl5nuwL9BCHVSiOPDbhM6BKvGoFWjhVqtwyeHArhSUATzFY
+   4NPmlDyihGveSlMn73DihzUHlMA2mruqpLWNOhPSBWQAbq9p2M619Y03W
+   9baGTHTUEkIkIkeDQkRL2vPjHhwZbc3W0/1cZ8/jZiR8VranWKp1TpOqW
+   WyrxVwyynSbSqaakrOI7lpqKghemUyF8hWjfX18AEjZTYGu/A37krHEMP
+   3dosrq/eMu+/S+L53EVP+fkqg5B6jH6uPXVFyF/ch6yh8FE46vmjxiipY
+   8A+rt85VzTw8T5bQrdIfUE8FDfbMYJAc31ByitpNBDHe5UUFcBqpqTYDB
+   w==;
+X-CSE-ConnectionGUID: lhqfj+ClRBmMsnzlRSNyvA==
+X-CSE-MsgGUID: /4SB2i6AQ1W1hSmKUxDBJw==
 X-IronPort-AV: E=Sophos;i="6.07,207,1708412400"; 
-   d="scan'208";a="21373558"
+   d="scan'208";a="23379754"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 16 Apr 2024 19:42:32 -0700
+  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 16 Apr 2024 19:43:03 -0700
 Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 16 Apr 2024 19:42:08 -0700
+ 15.1.2507.35; Tue, 16 Apr 2024 19:42:54 -0700
 Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Tue, 16 Apr 2024 19:41:58 -0700
+ 15.1.2507.35 via Frontend Transport; Tue, 16 Apr 2024 19:42:43 -0700
 From: Dharma Balasubiramani <dharma.b@microchip.com>
 To: <Dharma.B@microchip.com>, <andrzej.hajda@intel.com>,
 	<neil.armstrong@linaro.org>, <rfoss@kernel.org>,
@@ -57,11 +58,14 @@ To: <Dharma.B@microchip.com>, <andrzej.hajda@intel.com>,
 	<dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>
 CC: <oe-kbuild-all@lists.linux.dev>, Dharma Balasubiramani
-	<dharma.b@microchip.com>
-Subject: [PATCH v6 0/4] LVDS Controller Support for SAM9X75 SoC
-Date: Wed, 17 Apr 2024 08:11:33 +0530
-Message-ID: <20240417024137.144727-1-dharma.b@microchip.com>
+	<dharma.b@microchip.com>, Hari Prasath Gujulan Elango
+	<hari.prasathge@microchip.com>, Nicolas Ferre <nicolas.ferre@microchip.com>
+Subject: [PATCH v6 4/4] ARM: configs: at91: Enable LVDS serializer support
+Date: Wed, 17 Apr 2024 08:11:37 +0530
+Message-ID: <20240417024137.144727-5-dharma.b@microchip.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240417024137.144727-1-dharma.b@microchip.com>
+References: <20240417024137.144727-1-dharma.b@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,32 +75,33 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-This patch series introduces LVDS controller support for the SAM9X75 SoC. The
-LVDS controller is designed to work with Microchip's sam9x7 series
-System-on-Chip (SoC) devices, providing Low Voltage Differential Signaling
-capabilities.
+Enable LVDS serializer support for display pipeline.
 
-Patch series Changelog:
-- Include configs: at91: Enable LVDS serializer
-- include all necessary To/Cc entries.
-The Individual Changelogs are available on the respective patches.
+Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+Acked-by: Hari Prasath Gujulan Elango <hari.prasathge@microchip.com>
+Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+---
+Changelog
+v4 -> v5
+v3 -> v4
+v2 -> v3
+- No Changes.
+---
+ arch/arm/configs/at91_dt_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Dharma Balasubiramani (4):
-  dt-bindings: display: bridge: add sam9x75-lvds binding
-  drm/bridge: add lvds controller support for sam9x7
-  MAINTAINERS: add SAM9X7 SoC's LVDS controller
-  ARM: configs: at91: Enable LVDS serializer support
-
- .../bridge/microchip,sam9x75-lvds.yaml        |  55 +++++
- MAINTAINERS                                   |   8 +
- arch/arm/configs/at91_dt_defconfig            |   1 +
- drivers/gpu/drm/bridge/Kconfig                |   7 +
- drivers/gpu/drm/bridge/Makefile               |   1 +
- drivers/gpu/drm/bridge/microchip-lvds.c       | 228 ++++++++++++++++++
- 6 files changed, 300 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
- create mode 100644 drivers/gpu/drm/bridge/microchip-lvds.c
-
+diff --git a/arch/arm/configs/at91_dt_defconfig b/arch/arm/configs/at91_dt_defconfig
+index 1d53aec4c836..6eabe2313c9a 100644
+--- a/arch/arm/configs/at91_dt_defconfig
++++ b/arch/arm/configs/at91_dt_defconfig
+@@ -143,6 +143,7 @@ CONFIG_VIDEO_OV2640=m
+ CONFIG_VIDEO_OV7740=m
+ CONFIG_DRM=y
+ CONFIG_DRM_ATMEL_HLCDC=y
++CONFIG_DRM_MICROCHIP_LVDS_SERIALIZER=y
+ CONFIG_DRM_PANEL_SIMPLE=y
+ CONFIG_DRM_PANEL_EDP=y
+ CONFIG_FB_ATMEL=y
 -- 
 2.25.1
 
