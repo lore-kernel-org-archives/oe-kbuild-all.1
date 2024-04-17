@@ -1,199 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91EF13C81A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 11:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713352522; cv=fail; b=qP2zp/h5olptAqJ1lT58gjwAjTrtcZ061ZUkUJukEqnUndYaFyvZKWk48Vq5fLqjm+Askp+FxvUq/64InsQ8GZ9tG0UQl2Jgbnxbb11bIZEQINa4V+PsLXiGMR4e7Qii7xngU869BgXFnjJ3Ry5Xm4fuc56H3Scboe1ggsboUK4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713352522; c=relaxed/simple;
-	bh=/B295foRQ8orm+eOcAfijbrLafhBsZvGKTdWcmMkC84=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cnOwDmv4Azi2qDN+XqlgAw3NR5J+ga+jI3FDwn5KgZY6joeogYkMlup3AE+JKFS7A76eyAC4MPAwVPcrLhuW0Bt9UdzSeTXu1yEqy2y1BYe/vcq88j4QAFhNRJonP8vJ1UF/IIMho6g47v+1aMKGkI+XoY9E/g0EFqNeCsIoZDY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X0ViFcA7; arc=fail smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4679713CF94;
+	Wed, 17 Apr 2024 12:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713355928; cv=none; b=j3QhjOofhebhJQxIIL+FtCRpLwBr9eNnI/b7IsVruT8Qrvia0n+h4OlkZMK5rUACafgISC7m5IUjvWBulII7lXg03jEFgDkVzhqtjzXoHHS27AZQ1Qkg9/QHFIqptx67F1Pqn9XdoMGEfx4ibO3HQJX84BtZ5TMNk7wwDccf/Jw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713355928; c=relaxed/simple;
+	bh=HVGM/vNY7PYtVnQmD8jyKDH2p5PHUZUIoVtWDqGoHoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aVrtluOcLbEdTUBVP59c5R8TinDVJAZq7eRBLpO3M3zfCQwDkMj7orCUNtrKoa0EIVoY+CdZ/OAeRJF/5B81EWfcVtYj2+gLzW5PX/JmsKsm9S91CJByjMFV8UgXR4xP1odm+FSfiaiAbUHH7hR9YZHIfWdVDx7+8l9XPHmiUGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U+yxlgJ0; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X0ViFcA7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U+yxlgJ0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713352521; x=1744888521;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=/B295foRQ8orm+eOcAfijbrLafhBsZvGKTdWcmMkC84=;
-  b=X0ViFcA7zHAQAxjAk/oIScFwA05FSX070gGmYZEquHIoGVjUUHLFC+lR
-   FcLQ1pH+2ptmB+M/2CdhVhmiE4NSLZBgjBBwSPslT5GBSKe/Bd21bcsf3
-   mWatlR44h9m+DOl+/FOEjZRyaQj6dDXLeXuRzS5eZf0e9cjjm7Jmjgmne
-   U2UK1MSaiJ7K90xLSBmevSltAxwiFxmx+rWR6i1zJ3lMa8U0USYC6MAj4
-   ul0dM8+MQBT4nHpIitDo4dc8Y+GQwGLVhm++nJMfdBDSudMdVq3a+4C9Q
-   n42McpFGMSsZR7Nj2njSe+dZkpo1fsb5SmkTsU/uNiZ+iInQkzwUjy210
+  t=1713355925; x=1744891925;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HVGM/vNY7PYtVnQmD8jyKDH2p5PHUZUIoVtWDqGoHoM=;
+  b=U+yxlgJ01y0l4ObPuXuc6pM9fYj4J7AzRUDREZJSsK6YtR2ywgINN8Ps
+   FJEYiQPd6YKsAkF2UJ6D1uB5nYmjXJOCI04mbiFW7LhH+luhkZZNiyDy6
+   aNXPiB8o3o1sl3w9wMhfT58rMZ7i5Szp7jGqRZc2FH1JhDzHJd902GpN/
+   CFjZSjewYaaxlSZ88EdGd5K5SIIHkSeMXLFzgPaFjjfwTOlYVvxtSjH4k
+   wmJEbxdn6ZAlCAyLShWi0XXc5JCXdI1Vc/271GbiO3YiwdiXgLsh1hnDM
+   jZmpfBaFfzeYFrdQYu9W2sAh3L1Za5Iv6vo98lJQw/EZ3nM8QOu5Uv0hm
    Q==;
-X-CSE-ConnectionGUID: de2938KcSBeBW5eyY8rziQ==
-X-CSE-MsgGUID: GW3H7isQRESpbA99FamIuw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="20257562"
+X-CSE-ConnectionGUID: tswlDEjfRU6QT/+9EU60XA==
+X-CSE-MsgGUID: VyITAUhlQnuFIoOJeNfS4Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8703150"
 X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
-   d="scan'208";a="20257562"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 04:15:20 -0700
-X-CSE-ConnectionGUID: nFFRJ9ASRUG/L2cRKqVl7g==
-X-CSE-MsgGUID: UikDofdWTqWHi/DDrZHlpg==
+   d="scan'208";a="8703150"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 05:12:04 -0700
+X-CSE-ConnectionGUID: OySB1uXFS5yl/a9deTnjnA==
+X-CSE-MsgGUID: hekhT+lORLWA1dYcWloeRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
-   d="scan'208";a="22651817"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 17 Apr 2024 04:15:19 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 17 Apr 2024 04:15:19 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 17 Apr 2024 04:15:17 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 17 Apr 2024 04:15:17 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 17 Apr 2024 04:15:17 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V7b7nH+1hAG+3rDa51iG0W5D8hF/vAdmlhJk3QVaOVZJm6qodt9NxJdNy19Bw8A/ZcOnr/nSEHuwVLNOg7OpwJ/UXsKId1z6SrLdRAYy1nR86/BPBJj/J6kSIczO73Nd0h4xu++N94BQTswW8JT6VepLwAI0dd6slxiJPKQ0PtnD5s4ipXhJ3Db0gdkRHzenHBR4981h3UW6pHivfssXf/sl4FOam11d0rlwflwtuyL72DrieU5LQ10MsZtWxAQHnZIHF7KAEHYziptJvsayDVvV63+SrePjFpwQ7Qy8EVWXuBnC69TrpjoD1aFs7gsT/jeecQPepfgMqZB1q9OQGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EWvw7x065g1aGjLDu1F5cJq+V2oMcTi+oXedhQHUYkQ=;
- b=QLntx+uzvtoOdPl0BGo5CsY/W0D9cLHjpM+ZYDsZEOZOcJLT1kA/kArkIZQ+K/yk55kmJYOJzhjhrF0ImxfAEmDlHt5OMT+KIjDij9RFukee7K2ey4W4yyJKPKRU2EwVydA97teKEx2NrYnkQslhMcxM0KudyMdyn7d1Sr5MScnxxQKlcUgRF0nlVfjJ+h79o7JNHOUTFe+vtNELN1spOdyEJ+qbpLE9St6NV4S1pDOxDELujlRuuCRZGDeZ13Z8dIwo3ffimj9ApCLiMof6V/FPaBCY+z9K9zCAjor6dm3LF/K7HBYheoHAHEsiEONS00c3IIyP5qWQMJ/yMgWM9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB8718.namprd11.prod.outlook.com (2603:10b6:8:1b9::20)
- by DS0PR11MB7736.namprd11.prod.outlook.com (2603:10b6:8:f1::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.27; Wed, 17 Apr
- 2024 11:15:16 +0000
-Received: from DS0PR11MB8718.namprd11.prod.outlook.com
- ([fe80::654c:d66a:ec8e:45e9]) by DS0PR11MB8718.namprd11.prod.outlook.com
- ([fe80::654c:d66a:ec8e:45e9%6]) with mapi id 15.20.7472.027; Wed, 17 Apr 2024
- 11:15:16 +0000
-Message-ID: <186b252f-e37e-4152-b6c7-6fc3754f3b16@intel.com>
-Date: Wed, 17 Apr 2024 13:15:11 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re:
- drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6193:12:
- warning: stack frame size (3368) exceeds limit (2048) in
- 'dml_core_mode_support'
-To: "Pillai, Aurabindo" <Aurabindo.Pillai@amd.com>, Yujie Liu
-	<yujie.liu@intel.com>
-CC: "Zhuo, Lillian" <Qingqing.Zhuo@amd.com>, kernel test robot
-	<lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
-	<oe-kbuild-all@lists.linux.dev>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "Deucher, Alexander"
-	<Alexander.Deucher@amd.com>, "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
-	"Li, Roman" <Roman.Li@amd.com>
-References: <202311200955.pmjdQEM1-lkp@intel.com>
- <a856cbeb-dd2e-436b-a7f2-74d3493df18e@intel.com>
- <PH7PR12MB583196EB28781C92A00970C1FB462@PH7PR12MB5831.namprd12.prod.outlook.com>
- <CH0PR12MB52845186C7D747A4547DA99A8B462@CH0PR12MB5284.namprd12.prod.outlook.com>
- <ZcL0cH1LZteapnTG@yujie-X299>
- <90138eb3-6203-4b89-b075-d0d6fd5207f7@intel.com>
- <CH0PR12MB5284F7B96B16E8F86E4740CD8B452@CH0PR12MB5284.namprd12.prod.outlook.com>
-From: Alexander Lobakin <aleksander.lobakin@intel.com>
-Content-Language: en-US
-In-Reply-To: <CH0PR12MB5284F7B96B16E8F86E4740CD8B452@CH0PR12MB5284.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MI1P293CA0015.ITAP293.PROD.OUTLOOK.COM
- (2603:10a6:290:2::14) To DS0PR11MB8718.namprd11.prod.outlook.com
- (2603:10b6:8:1b9::20)
+   d="scan'208";a="53553345"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 17 Apr 2024 05:12:03 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rx48u-0006YW-05;
+	Wed, 17 Apr 2024 12:12:00 +0000
+Date: Wed, 17 Apr 2024 20:11:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+Subject: [chao:wip 3/9] fs/f2fs/data.c:2366:10: warning: variable 'index' set
+ but not used
+Message-ID: <202404172031.UJO1tq47-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB8718:EE_|DS0PR11MB7736:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6671f710-0c81-405b-937d-08dc5ecfa88a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iZzCy9YlcI/cv17vLgVYlR6+fm9D9UjcuDAmoKkqlfxOfBoLZzn5sW75NTIebWohG+x/FozTMQMpLvA64rZExQwtN0Ws05FbQmXOlHiRvGSS9ywt1fSQWsacmryYoMHwmJxTWEiMvfc9T0ThHP35f1LcCZ09Ad6N4aWefNfUEVcq2WSLJ743wlXPQg1y6GnXyqcgAJkEAYv+SeiIDgJiVajhbdhV9I3LzFqFWeg/f/eElTNCu39xn6N8+q6OKDEsuZGm+xU66zQzmKD/YbwBREAdcnTE8OG4O+G0P5Th8RinTxnGhBvhsq4lcYtpfRfJattNZYhCeoOaKMhyj6bUXbpP0NyLSSOEVymRZCTziW04DiJt69Cns34hLQpeba6oLDTWuQjnJmD5czI0i+At2P2QM1fkwP7GFxzW5L2PP3zt60+tNp9D8CUp/TV2QRAFL2CpMVmRYdiKyIeRRUiMirYBaB5PKLW0mzZtBOr1vrkIbkbv8WR9S8FFdDc1sH0BNadeN4uTROvHDWqH+kQbHE+3QMxr3daexNX/z2PpNqf2+eGQUhyMrT5B68nJyaxEMGEp60Mi6nFISBwCSHgFpHf4RKLg/kUq/5SsHL5Hws6uZYcqR1wgROevGc1jAxPYdcjh5pEdx8rE00GRQA6mkvrwZnc8zzL+jOhX0kMBXZU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB8718.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S2Y3QVRDMENCai81T0NtOTNCV0wwOVk1c2R0ZVVCT2ZoaklxNkg3VHZCVTRF?=
- =?utf-8?B?bnpQUVNkRjdabVA2UFBkTEl2alhlTlZIQVRFdlZ6ZUZiK3EyRUR5NGJyNUkz?=
- =?utf-8?B?b1RWSVJmbXVGdFlKRWROa2E1bEVlVWJ3bkdUNGR4dXozTFdML2JhUjRHaXc2?=
- =?utf-8?B?UjBkcFZrcHFiUmNHcnIyYUVOTnEvNWQ1UUs4ZHovdEFGY1VBK0VXN003VFRV?=
- =?utf-8?B?VE45VEU1b3gwbkplVEVxNTV0d3h6ak5FTmptcVdlT0pyVVVKdHE4dkFFYmNZ?=
- =?utf-8?B?cmdyT3VYUzZMZjhkU21OOFFyVXRlU2NyUnlBOGppRUxSSXRFcE55L3MvcDBR?=
- =?utf-8?B?TnNwSWIrMDA0QmRCWmk3eUNRbXZ1dllJZ0VyN1FTY1I1eS9ubXJnNFNZT0Ji?=
- =?utf-8?B?NFVxbXdVSU9jaDlRTHJnK1NLZnBwMDZLOG5iMjJrbERWbUFxbE1WamhFWDgy?=
- =?utf-8?B?MnhjUUdTWVBjVmM3Tlk3L09jMUFSWlAzaXhXTGZHOE1CLzBVNFJZK2xhSjhx?=
- =?utf-8?B?WEVUZ200TTVpT2U2ZmZIclh4bktld21vTXBLZ3JFTjluOW5aWTBNZzRyRDVR?=
- =?utf-8?B?dXFBZkF0cTJ5RkFDeFU2N3lDdVkzQU1oVXcvdWxEM3RxMldzNEdlQldVSDVQ?=
- =?utf-8?B?WHlhb2JyMXpLT3NjODZnVlFTK0wyTWdQQmkwQmdkRkFROHlwUHh5RDl1OFlr?=
- =?utf-8?B?MldrSnNJNGFqS2wyd1FyK1RtY05CaDRxS3Q5RGd2WUZlUmZNNzJiSlhldnRj?=
- =?utf-8?B?dThoRUpNTTJtTEhyYWNKNDEvOXpydEptOFJST0VtbkdJVkMvc1VlZHQ3UVdF?=
- =?utf-8?B?UDdWVmhJYWMvb0FYSllvMy81enJoSHlWZmY3T0FISFNGRmNGVHRVRGdrMW4z?=
- =?utf-8?B?dnRKSVVQRTlhNzNVbVNTLzhGMDY3bzkvemlQUkwvMWRkU2IyOW9lN2dGQi91?=
- =?utf-8?B?dHlwV1BQazZRSW5ybmdEd00yNGdySTlOOXkwM0RXSmtiRVd5VWFoUlNxcUtO?=
- =?utf-8?B?TEJLZmRTQlNqc2poVG1yQklqWEJPUGlNU0V5bUUxRElHQ0R6RnFGVWJudzNQ?=
- =?utf-8?B?d1VmYWVDaWdYUjRIdTVYZ3Z0NXlpKzdiVzRRdDZCcmJHd3Y5aW5zOUVtdEtB?=
- =?utf-8?B?SUdJdlJqZ3RqYkd3clpha0xvaWRkdmZXZGF5eFdpdDRqT2J0d001dzdCbWww?=
- =?utf-8?B?b3FiY2x4U3dXUU5JSGtqWlVib1N5Z3NUUUN0NzZxQUlwNGhUZk5ZVmJ2NTla?=
- =?utf-8?B?dHlWY002M3ZzeHJGT1hxM2JxSVVSTVdWcWVVQjhiYVAycFl4bFRqQWZyV2c5?=
- =?utf-8?B?SXVVTnhiaEJKSUVnZ2ZmZ1hxS3Q4NVBxZ00vUDlXVjQ1QS9PMCsyUmpwWTg4?=
- =?utf-8?B?bmREQlpRTVNvTUJXQ2xlN1dZWTQ2NUMzUk5zalV4QnlTVjlSUkZ4SHlXa0t4?=
- =?utf-8?B?S002bXBBMnppelBVM1piTTdpMkhqV1M2bEM2ZVlmQkxGcnY2WWJKVnJYMFJq?=
- =?utf-8?B?VTB0WGducHVnaU43Y2ZNTGNCdGZ4eGlta3JXeWYzci9xS1lpYU5GazVSTkhm?=
- =?utf-8?B?QlYvVWh2ZG5JSmNJQXo3ZTk4Yk5oMHRMWm5MY29Mclg5KzEyOGw0ZklmT1Jr?=
- =?utf-8?B?TE16THU5QUhBM2ZwOUFzMnN6dFRLYTVjYm4vSDcvcTRFU1lKamhXaWFLSE1F?=
- =?utf-8?B?WVlHL2NVVEhCaURuWVczSXZ6bW1oa3VRMVVDdzMzSlpTWWVXWWdlbjdqYWtP?=
- =?utf-8?B?ek9ZVlF3N1liaTBLNFdIWm13cG9Zamo1M2JQditNRWtMZnFmc0tnWUppRGlu?=
- =?utf-8?B?WUxSUmhqejM3STF3eHlQdWZCMXVkakl2dzZuNjg2cTNIS3gwT0xFeUZZdWlR?=
- =?utf-8?B?NXdxV1JYR3hYQ2pOQlFkc2VHY0NUb0c2VjJTY0EzOGNCL3EvSmtRaExSZlpx?=
- =?utf-8?B?elJmU09tOWVhOHJ4eWRndWhYQ1R1YWlzVEtIMm0rUXo1aWk3djR4YjlQVWsw?=
- =?utf-8?B?RDA5MGV2WkVhUVZyREU4V0NPbXFrY0xYUjU1Q1dPQVA5NmdLendEbEdpOHdE?=
- =?utf-8?B?MFlQdDJWZU1oNkUraWo2a1p2Z3lsMUpPTndiVDFVYXVmWEMybjRkUW5JcUdq?=
- =?utf-8?B?NXJCL2RiaUo2cHgyajZhY3hxV3g4WUZZQ3crR2VacGVZTnRaOWFHVGFiYWkv?=
- =?utf-8?B?Y0E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6671f710-0c81-405b-937d-08dc5ecfa88a
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8718.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2024 11:15:16.0710
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: R4rDvF/Nd6cBu2mjWf8WHqtQuECmF3Y9RLrvE3+e7+ky29O8FaqlhlQPfi5nbUKVWJ7VYjS+tlFZjkpEN517QVkH01ARcE9Q/G/3/KGq9/s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7736
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Pillai, Aurabindo <Aurabindo.Pillai@amd.com>
-Date: Wed, 7 Feb 2024 16:09:27 +0000
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git wip
+head:   12f1bfe4b075fdc2ecab72bd06ba826e2d32dd70
+commit: ab8856b2d7aa3c84ec04e0125e6615a2afc11f3b [3/9] f2fs: convert f2fs_mpage_readpages() to use folio
+config: arm-randconfig-003-20240417 (https://download.01.org/0day-ci/archive/20240417/202404172031.UJO1tq47-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404172031.UJO1tq47-lkp@intel.com/reproduce)
 
-> [AMD Official Use Only - General]
-> 
-> 
-> Thank you all,  I'm able to repro the issue and I have a fix. I'll have
-> it run through the internal CI and send it out.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404172031.UJO1tq47-lkp@intel.com/
 
-I'm facing it again on the latest -rc4 and Clang 19 (the latest master Git):
+All warnings (new ones prefixed by >>):
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6710:12:
-warning: stack frame size (2128) exceeds limit (2048) in
-'dml_core_mode_support' [-Wframe-larger-than]
- 6710 | dml_bool_t dml_core_mode_support(struct display_mode_lib_st
-*mode_lib)
-      |            ^
-1 warning generated.
+   In file included from fs/f2fs/data.c:9:
+   In file included from include/linux/f2fs_fs.h:11:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> fs/f2fs/data.c:2366:10: warning: variable 'index' set but not used [-Wunused-but-set-variable]
+    2366 |         pgoff_t index;
+         |                 ^
+   2 warnings generated.
 
-Please fix it once and forever somehow, don't abuse the stack =\
 
-Thanks,
-Olek
+vim +/index +2366 fs/f2fs/data.c
+
+  2340	
+  2341	/*
+  2342	 * This function was originally taken from fs/mpage.c, and customized for f2fs.
+  2343	 * Major change was from block_size == page_size in f2fs by default.
+  2344	 */
+  2345	static int f2fs_mpage_readpages(struct inode *inode,
+  2346			struct readahead_control *rac, struct folio *folio)
+  2347	{
+  2348		struct bio *bio = NULL;
+  2349		sector_t last_block_in_bio = 0;
+  2350		struct f2fs_map_blocks map;
+  2351	#ifdef CONFIG_F2FS_FS_COMPRESSION
+  2352		struct compress_ctx cc = {
+  2353			.inode = inode,
+  2354			.log_cluster_size = F2FS_I(inode)->i_log_cluster_size,
+  2355			.cluster_size = F2FS_I(inode)->i_cluster_size,
+  2356			.cluster_idx = NULL_CLUSTER,
+  2357			.rpages = NULL,
+  2358			.cpages = NULL,
+  2359			.nr_rpages = 0,
+  2360			.nr_cpages = 0,
+  2361		};
+  2362		pgoff_t nc_cluster_idx = NULL_CLUSTER;
+  2363	#endif
+  2364		unsigned nr_pages = rac ? readahead_count(rac) : 1;
+  2365		unsigned max_nr_pages = nr_pages;
+> 2366		pgoff_t index;
+  2367		int ret = 0;
+  2368	
+  2369		map.m_pblk = 0;
+  2370		map.m_lblk = 0;
+  2371		map.m_len = 0;
+  2372		map.m_flags = 0;
+  2373		map.m_next_pgofs = NULL;
+  2374		map.m_next_extent = NULL;
+  2375		map.m_seg_type = NO_CHECK_TYPE;
+  2376		map.m_may_create = false;
+  2377	
+  2378		for (; nr_pages; nr_pages--) {
+  2379			if (rac) {
+  2380				folio = readahead_folio(rac);
+  2381				prefetchw(&folio->flags);
+  2382			}
+  2383	
+  2384			index = folio_index(folio);
+  2385	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
