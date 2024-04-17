@@ -1,116 +1,216 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392FF7D3EF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 08:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4795D8F6;
+	Wed, 17 Apr 2024 08:24:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713341950; cv=none; b=Oo6MviggrOqauqpKpuiMAJzbzjd2xwg83vzjjscTsRVjYRlehueYSa/kHS0Nx8H1l9jmrsLjg05mRlXufBT/KJrJIgAioxruCxpSmB3ZGY9fjgKTL2JB//Y3OIdb4BYP7glTcTIJl0MPZH6ltMF1XiMWinCtE7S187zO9z33fj0=
+	t=1713342247; cv=none; b=ngzl+4IscZifTD9HCIcSe0zO5KBewqTkPTlm/bMDY1xCxQ4M6ddXvJC6/tCLVEmhbWGwUuTNGm1HCA+xk0qC7l5YFeBpZyGhWTk4ljlhp5TSB7tnRxNmkM3S0ITQ3/buztXnajD2tRZGPxmxpYc7OE+OlLhHTdlW+b48n0cYkcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713341950; c=relaxed/simple;
-	bh=vQ0bSBSXVcW7woDznB4l2mZtCtQ6d2dmKIq6OArUyRQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AcY0QiAievZcd3h9BMMHy5gu3ZMWQIVwR6G/rMZzhISypZFVxrH7G5Xg8VcUuywsQhjQhbdqAOandvo1YKI+F6XGLmAhzgI5aJ+1uX07nEnP7dWv/1KVFuvhsdItnilILL6nbbRXeiTJbbmOPX+LZi3ehoTbbBXMV2yXIUjJjHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cx+3nBjX; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713342247; c=relaxed/simple;
+	bh=+D19jfVva7lCBGw1V7Lq4pMmEjyAWlX/ECge230lLMo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OllptWH5p1eM7Q9PmrtprjP6CXZgsbQJ3ji1g+HSX31a/UHC1EO3Wd/sdeKpRSOt83X+x15+6wZI8/V4J4zt1ZHFL90AAkT02QKGSa+12+FGqyvJgkrtpHcIW1KNOx4Fm2uZZuKO8KGQpU/gBRNs7yW/z7qimhYA6lB0cSw4wVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EakDOMID; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cx+3nBjX"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-516d487659bso6384851e87.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 01:19:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713341947; x=1713946747; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3WVqvTWkSJuMK42oCBd4QTeLpoVUswiSt5bNCxSQhCk=;
-        b=Cx+3nBjXM1a2sWZk0rbr94EvVQSID6XHgH63sTv3K5F3YRLBO6CWxzYTtNrDZXzYrt
-         4iOqAfQHr2I0sQw2SEJC9SHH1SputKAcNhwbUTni17ocn7BaILDRiqHFCCGQO5EyzqBT
-         Y+IXBheW9NevKzH20NZZ4Zza+OVwO9QGxa+fVsnri3Pj7aqqHToTTIZ+wVxQarDXS3ho
-         nruvj6VhSfeo4sFCcC/uyzrmLVBQGYmsLOSoV5KegUiYC7dCk5mmBuTetP8LXb9RVhaf
-         RkvaGI2dxxXtuWSesMGx3nqCxeeLse58IKch4zRdXOQY47AyyTGkWS156AtXKMglzyDW
-         hhUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713341947; x=1713946747;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3WVqvTWkSJuMK42oCBd4QTeLpoVUswiSt5bNCxSQhCk=;
-        b=K3HwOcp8xqPR4gFy6GBbhJ5bKk/20OqiUhKDTuQaP94L4JORkxx45bxKSFtNoCE9vL
-         M8mDYx155RqAeJ2wfyM3V5R6rdxWkZJqXFB9CgNl+US5vLCeNdoktcgmymuL7ohTy421
-         vRMvVkpf3rCKwWMcTOGyG7kMf/UP3O3vtbrpqslQA+5fsPPrF6m93lcjKEBDvJyEIibQ
-         /AIiZmR4JQ7mkft0LHip8Qn3ezLxXxiEp3VjOZapGUP30dfcUhMcVD4JDsjwVjE2KjzD
-         BWUeIZYEbFua7p56WIdos6Tqc3m6sZYGwlvL3HUqvxT3YGVaRVkYqIdysztve1IcdOoL
-         zzuw==
-X-Gm-Message-State: AOJu0YxzMdAEqdLmjrv+Xdbxk/2utU+uVGnZlyGDL8tdvHGQJf3bh/+4
-	nWILWZDkIC4JgwWXTTEIrBcX4eLUId2gsVZHnKPtIOWt34aU8Lw/
-X-Google-Smtp-Source: AGHT+IEZH+ylq78IQkJNfP5FDxkXscm3aRgH3ubDyx46wNRqQbkl2T+2tyX+4h0ejdbXrQysINo+Vg==
-X-Received: by 2002:ac2:5106:0:b0:518:8c8c:db33 with SMTP id q6-20020ac25106000000b005188c8cdb33mr8624693lfb.7.1713341946952;
-        Wed, 17 Apr 2024 01:19:06 -0700 (PDT)
-Received: from [10.10.12.27] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id p27-20020ac246db000000b00518948d6910sm1446525lfo.205.2024.04.17.01.19.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Apr 2024 01:19:06 -0700 (PDT)
-Message-ID: <04f71d99-aad2-4e56-8f92-89469c159b48@gmail.com>
-Date: Wed, 17 Apr 2024 10:19:03 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EakDOMID"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713342245; x=1744878245;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+D19jfVva7lCBGw1V7Lq4pMmEjyAWlX/ECge230lLMo=;
+  b=EakDOMIDYoSvo/TV36c+Vo67AeF63LaCR/nPcRJJVnQf6gwwhXn9esTL
+   WQofi+HtIp58CjeCBr850lyuc8JzB5PEMSKMt0Inknfu9EsgnC/y1pkmH
+   FSURkINL2a0B3lD1n6bIkOaKtgPyVTunJTN4AF49OscVRdTrekFd0U7+c
+   P3t7uBV1c+D/qkjpLRxVSjWBFrehLQcxjMbMLN5f5KGMykcLd+bOtUh9B
+   xqDMkrJTUHrWNSi8OAraO0DaQLQ3HklSgIFzBNS48vA08mijv04WTFnsz
+   c4hsBc5vi3i8mHEcTZUj2A+KcJotZb3UWf1hnNbkkn3x1Lxh4VudeatH5
+   A==;
+X-CSE-ConnectionGUID: rFl5p2LhRjiuXNSLhyiT9A==
+X-CSE-MsgGUID: LWQLbQ9PS1Ots55doiOiQg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8648450"
+X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
+   d="scan'208";a="8648450"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 01:24:04 -0700
+X-CSE-ConnectionGUID: YRM1Pbm1RB28W1sMPhdb6A==
+X-CSE-MsgGUID: hrU076SUQsqPZF4K9sl45w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
+   d="scan'208";a="22622126"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 17 Apr 2024 01:23:57 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rx0aA-0006IQ-2k;
+	Wed, 17 Apr 2024 08:23:54 +0000
+Date: Wed, 17 Apr 2024 16:23:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxwell Bland <mbland@motorola.com>, linux-mm@kvack.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Maxwell Bland <mbland@motorola.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+	Brian Cain <bcain@quicinc.com>, Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Sam Creasey <sammy@sammy.net>, Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Stafford Horne <shorne@gmail.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>
+Subject: Re: [PATCH 3/5] mm: add vaddr param to pmd_populate_kernel
+Message-ID: <202404171648.VEQfHAIY-lkp@intel.com>
+References: <20240416122254.868007168-4-mbland@motorola.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/9] dt-bindings: rtc: google,goldfish-rtc: move to
- trivial-rtc
-To: kernel test robot <lkp@intel.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Vladimir Zapolskiy <vz@mleia.com>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20240408-rtc_dtschema-v1-2-c447542fc362@gmail.com>
- <202404170656.LoL9eBYs-lkp@intel.com>
-Content-Language: en-US, de-AT
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <202404170656.LoL9eBYs-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240416122254.868007168-4-mbland@motorola.com>
 
-On 4/17/24 00:45, kernel test robot wrote:
-> Hi Javier,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on fec50db7033ea478773b159e0e2efb135270e3b7]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Carrasco/dt-bindings-rtc-orion-rtc-move-to-trivial-rtc/20240408-235612
-> base:   fec50db7033ea478773b159e0e2efb135270e3b7
-> patch link:    https://lore.kernel.org/r/20240408-rtc_dtschema-v1-2-c447542fc362%40gmail.com
-> patch subject: [PATCH 2/9] dt-bindings: rtc: google,goldfish-rtc: move to trivial-rtc
-> reproduce: (https://download.01.org/0day-ci/archive/20240417/202404170656.LoL9eBYs-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202404170656.LoL9eBYs-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
->    Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
->    Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
->    Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
->>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/rtc/google,goldfish-rtc.txt
->    Using alabaster theme
-> 
+Hi Maxwell,
 
-This issue has already been addressed in v2, which was sent a week ago.
+kernel test robot noticed the following build errors:
 
-Best regards,
-Javier Carrasco
+[auto build test ERROR on 0bbac3facb5d6cc0171c45c9873a2dc96bea9680]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxwell-Bland/mm-allow-arch-refinement-skip-for-vmap-alloc/20240417-032149
+base:   0bbac3facb5d6cc0171c45c9873a2dc96bea9680
+patch link:    https://lore.kernel.org/r/20240416122254.868007168-4-mbland%40motorola.com
+patch subject: [PATCH 3/5] mm: add vaddr param to pmd_populate_kernel
+config: powerpc64-randconfig-003-20240417 (https://download.01.org/0day-ci/archive/20240417/202404171648.VEQfHAIY-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404171648.VEQfHAIY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404171648.VEQfHAIY-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/powerpc/mm/kasan/init_book3s_64.c:19:
+   In file included from include/linux/memblock.h:12:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> arch/powerpc/mm/kasan/init_book3s_64.c:75:9: error: incompatible pointer to integer conversion passing 'void *' to parameter of type 'unsigned long' [-Wint-conversion]
+      75 |                                     vaddr_start + i * PMD_SIZE);
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/book3s/64/pgalloc.h:159:38: note: passing argument to parameter 'vaddr' here
+     159 |                                        pte_t *pte, unsigned long vaddr)
+         |                                                                  ^
+   5 warnings and 1 error generated.
+
+
+vim +75 arch/powerpc/mm/kasan/init_book3s_64.c
+
+    39	
+    40	void __init kasan_init(void)
+    41	{
+    42		/*
+    43		 * We want to do the following things:
+    44		 *  1) Map real memory into the shadow for all physical memblocks
+    45		 *     This takes us from c000... to c008...
+    46		 *  2) Leave a hole over the shadow of vmalloc space. KASAN_VMALLOC
+    47		 *     will manage this for us.
+    48		 *     This takes us from c008... to c00a...
+    49		 *  3) Map the 'early shadow'/zero page over iomap and vmemmap space.
+    50		 *     This takes us up to where we start at c00e...
+    51		 */
+    52	
+    53		void *k_start = kasan_mem_to_shadow((void *)RADIX_VMALLOC_END);
+    54		void *k_end = kasan_mem_to_shadow((void *)RADIX_VMEMMAP_END);
+    55		phys_addr_t start, end;
+    56		u64 i;
+    57		pte_t zero_pte = pfn_pte(virt_to_pfn(kasan_early_shadow_page), PAGE_KERNEL);
+    58		void *vaddr_start = __va(start);
+    59	
+    60		if (!early_radix_enabled()) {
+    61			pr_warn("KASAN not enabled as it requires radix!");
+    62			return;
+    63		}
+    64	
+    65		for_each_mem_range(i, &start, &end)
+    66			kasan_init_phys_region((void *)start, (void *)end);
+    67	
+    68		for (i = 0; i < PTRS_PER_PTE; i++)
+    69			__set_pte_at(&init_mm, (unsigned long)kasan_early_shadow_page,
+    70				     &kasan_early_shadow_pte[i], zero_pte, 0);
+    71	
+    72		for (i = 0; i < PTRS_PER_PMD; i++) {
+    73			pmd_populate_kernel(&init_mm, &kasan_early_shadow_pmd[i],
+    74					    kasan_early_shadow_pte,
+  > 75					    vaddr_start + i * PMD_SIZE);
+    76		}
+    77	
+    78		for (i = 0; i < PTRS_PER_PUD; i++)
+    79			pud_populate(&init_mm, &kasan_early_shadow_pud[i],
+    80				     kasan_early_shadow_pmd);
+    81	
+    82		/* map the early shadow over the iomap and vmemmap space */
+    83		kasan_populate_early_shadow(k_start, k_end);
+    84	
+    85		/* mark early shadow region as RO and wipe it */
+    86		zero_pte = pfn_pte(virt_to_pfn(kasan_early_shadow_page), PAGE_KERNEL_RO);
+    87		for (i = 0; i < PTRS_PER_PTE; i++)
+    88			__set_pte_at(&init_mm, (unsigned long)kasan_early_shadow_page,
+    89				     &kasan_early_shadow_pte[i], zero_pte, 0);
+    90	
+    91		/*
+    92		 * clear_page relies on some cache info that hasn't been set up yet.
+    93		 * It ends up looping ~forever and blows up other data.
+    94		 * Use memset instead.
+    95		 */
+    96		memset(kasan_early_shadow_page, 0, PAGE_SIZE);
+    97	
+    98		static_branch_inc(&powerpc_kasan_enabled_key);
+    99	
+   100		/* Enable error messages */
+   101		init_task.kasan_depth = 0;
+   102		pr_info("KASAN init done\n");
+   103	}
+   104	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
