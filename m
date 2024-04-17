@@ -1,176 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD0D184F;
-	Wed, 17 Apr 2024 01:25:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54CD0566A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 02:42:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713317126; cv=none; b=Vs5F4nlVZknL0AxNiKFBmYu24CD152M/AIaYXdwFm7L7elMWbEWDj1Xqp2HieitOcAWGAW3mQkakaCwFY2VUSPn9MQbsszKEiAzollY6iTQxWUHEMd85D7PJ7BL7CXe2DGQLUARo2j7DlcuQHjAkQuN8aL/uOWnKgJPFAzqfidg=
+	t=1713321760; cv=none; b=HEvEp1CtlExGvn/u9IeEqtvVToRTnNyI619V1WRYg8NYJOid9/zs3dmikvd0/NwQps88HNHrjUeCn4ymv9Y9+qs65HHnHz+oinfBud8vhGWAr49ZmGbXr41kaLpar1sTEszzOszzDWd6e3r7iCZs/o2HR4YSz1rZxK3bki1BqFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713317126; c=relaxed/simple;
-	bh=SifNgk6MOylzLGjpF5LbD3QpijD39SXzUerpdQvNNWg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nc8+6V6kNfUHHkbBIaw3Uuc3MAv1HpVqvvV97PbtECEEYW4VzBeDnRevPXLebUFPcOnRW15+Wes5ZG2sb+6bbAqnYfDKROLe5TQztXMwcf+HKBlmzM72yd87RA14mLRp0wZv8ZXzHpgQW7i5MMbDf4JvzUauWmsKj7pQz+++49I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A9CXU70o; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713321760; c=relaxed/simple;
+	bh=8yajIAMtfrnOR0YPhjzLw1ZaJc0hJ5ZYx12eiEu4sWU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eMW3m4b1DjCDliX74MV142v0k9hc+gVKaPhDxTeGWY7a/4CUkgxyoUkeGBndVslWJ4/2arStnyeTu38ySWDRfnlc30DXd8LIRBoyoNQ/xeWvjZgTEEJDVYO63YcWk424VE3RhcQVJvQbHHOPhLUKeivqkH4ilUQ5dSnWNXiq5o4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=CkPNGCqv; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A9CXU70o"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="CkPNGCqv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713317124; x=1744853124;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SifNgk6MOylzLGjpF5LbD3QpijD39SXzUerpdQvNNWg=;
-  b=A9CXU70ooITcC/8KDa67Ro9marnEAUvMACuddm8akoCisXsdbeM4Rp6T
-   yxh76chY/QXZpLVopZy8gzVcHJNEYn8TJlKfoS+Baz3N9+LOZvlt1F4gH
-   NEl7U0UuMSFl9xjoKuMOGha+zenxRXfFvqQWFghqUwkB18IIxUKo+bEbB
-   bVRZy4NH7lkQb4rFdATtG3//k0JudajK63FhK4qoAif+9ysBPsHHeZUNp
-   FAa4wExLiasQAK6lsaitP3CMNKw7TeVceauOwCGwfvbaD96tz5f6lrtEU
-   wgk0uQno9XXk3Dy/r9pKXXMPDWUHWItFF/I39PAtIMACvPECK/4ificTO
-   A==;
-X-CSE-ConnectionGUID: nHrwW75+Qoq1SgHuZl8hZA==
-X-CSE-MsgGUID: kXhBgr/eQimQ5qoWgwnH/Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8911581"
-X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="8911581"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 18:25:23 -0700
-X-CSE-ConnectionGUID: DQUm0QaISiegqb6Fxi0eqg==
-X-CSE-MsgGUID: OFj1QP6gTmODO7bZAwKFlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="22855228"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 16 Apr 2024 18:25:21 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rwu33-0005vs-30;
-	Wed, 17 Apr 2024 01:25:17 +0000
-Date: Wed, 17 Apr 2024 09:24:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geetha sowjanya <gakula@marvell.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kuba@kernel.org,
-	davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
-	sgoutham@marvell.com, gakula@marvell.com, sbhatta@marvell.com,
-	hkelam@marvell.com
-Subject: Re: [net-next PATCH 3/9] octeontx2-pf: Create representor netdev
-Message-ID: <202404170922.RBiIclFT-lkp@intel.com>
-References: <20240416050616.6056-4-gakula@marvell.com>
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1713321758; x=1744857758;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=8yajIAMtfrnOR0YPhjzLw1ZaJc0hJ5ZYx12eiEu4sWU=;
+  b=CkPNGCqvWmIWVhGBtfJdDD6uAUlz2o3hnRw0FkGtEB9dqZxk1sVSXJkf
+   +rLDAgtF3LZoSi7KcdKsHs3wjxXkvE2zfcW+kyGIVB9dUyxahfYtz1dYu
+   3XLOKkcfzuhkqKTz3TR7bQ3Ei8gov8uccygKOfsJFfEY9kcEcrj+YZwvx
+   2fP2Z8FqGFfp1Aq30hNVcW4/vno4XOr1jxqCHZ1tijloDVHanPRbpWoLX
+   5tl4MV4ve2nAOkH7nm0CfJ9JW6lEqnG/WH1tHnildOc4gOuQEGGFG/TH4
+   Rns76r9cNWRMa5PwftUjTFhWbtFRmA3YBqq8jC9IkfVACjcFkgTMRRJhm
+   g==;
+X-CSE-ConnectionGUID: rOmQUjIYQSOnYHCy61jG5w==
+X-CSE-MsgGUID: 3sG7qdeIQKmvyyvR8cJiww==
+X-IronPort-AV: E=Sophos;i="6.07,207,1708412400"; 
+   d="scan'208";a="21373548"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 16 Apr 2024 19:42:31 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 16 Apr 2024 19:42:20 -0700
+Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Tue, 16 Apr 2024 19:42:09 -0700
+From: Dharma Balasubiramani <dharma.b@microchip.com>
+To: <Dharma.B@microchip.com>, <andrzej.hajda@intel.com>,
+	<neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+	<Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+	<jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+	<mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+	<daniel@ffwll.ch>, <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+	<conor+dt@kernel.org>, <linux@armlinux.org.uk>,
+	<Nicolas.Ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+	<claudiu.beznea@tuxon.dev>, <Manikandan.M@microchip.com>, <arnd@arndb.de>,
+	<geert+renesas@glider.be>, <Jason@zx2c4.com>, <mpe@ellerman.id.au>,
+	<gerg@linux-m68k.org>, <rdunlap@infradead.org>, <vbabka@suse.cz>,
+	<dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, Dharma Balasubiramani
+	<dharma.b@microchip.com>, Rob Herring <robh@kernel.org>
+Subject: [PATCH v6 1/4] dt-bindings: display: bridge: add sam9x75-lvds binding
+Date: Wed, 17 Apr 2024 08:11:34 +0530
+Message-ID: <20240417024137.144727-2-dharma.b@microchip.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240417024137.144727-1-dharma.b@microchip.com>
+References: <20240417024137.144727-1-dharma.b@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240416050616.6056-4-gakula@marvell.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Hi Geetha,
+Add the 'sam9x75-lvds' compatible binding, which describes the Low Voltage
+Differential Signaling (LVDS) Controller found on some Microchip's sam9x7
+series System-on-Chip (SoC) devices. This binding will be used to define
+the properties and configuration for the LVDS Controller in DT.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+Changelog
+v5 -> v6
+- No Changes.
+v4 -> v5
+- No changes.
+v3 -> v4
+- Rephrase the commit subject.
+v2 -> v3
+- No changes.
+v1 -> v2
+- Remove '|' in description, as there is no formatting to preserve.
+- Remove 'gclk' from clock-names as there is only one clock(pclk).
+- Remove the unused headers and include only used ones.
+- Change the compatible name specific to SoC (sam9x75) instead of entire series.
+- Change file name to match the compatible name.
+---
+ .../bridge/microchip,sam9x75-lvds.yaml        | 55 +++++++++++++++++++
+ 1 file changed, 55 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Geetha-sowjanya/octeontx2-pf-Refactoring-RVU-driver/20240416-131052
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240416050616.6056-4-gakula%40marvell.com
-patch subject: [net-next PATCH 3/9] octeontx2-pf: Create representor netdev
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240417/202404170922.RBiIclFT-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404170922.RBiIclFT-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404170922.RBiIclFT-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/net/ethernet/marvell/octeontx2/nic/rep.c:167:7: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     167 |                 if (register_netdev(ndev)) {
-         |                     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/octeontx2/nic/rep.c:181:9: note: uninitialized use occurs here
-     181 |         return err;
-         |                ^~~
-   drivers/net/ethernet/marvell/octeontx2/nic/rep.c:167:3: note: remove the 'if' if its condition is always false
-     167 |                 if (register_netdev(ndev)) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     168 |                         dev_err(priv->dev, "PFVF reprentator registration failed\n");
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     169 |                         free_netdev(ndev);
-         |                         ~~~~~~~~~~~~~~~~~~
-     170 |                         ndev->netdev_ops = NULL;
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~
-     171 |                         goto exit;
-         |                         ~~~~~~~~~~
-     172 |                 }
-         |                 ~
-   drivers/net/ethernet/marvell/octeontx2/nic/rep.c:137:17: note: initialize the variable 'err' to silence this warning
-     137 |         int rep_id, err;
-         |                        ^
-         |                         = 0
-   1 warning generated.
-
-
-vim +167 drivers/net/ethernet/marvell/octeontx2/nic/rep.c
-
-   131	
-   132	int rvu_rep_create(struct otx2_nic *priv)
-   133	{
-   134		int rep_cnt = priv->rep_cnt;
-   135		struct net_device *ndev;
-   136		struct rep_dev *rep;
-   137		int rep_id, err;
-   138		u16 pcifunc;
-   139	
-   140		priv->reps = devm_kcalloc(priv->dev, rep_cnt, sizeof(struct rep_dev), GFP_KERNEL);
-   141		if (!priv->reps)
-   142			return -ENOMEM;
-   143	
-   144		for (rep_id = 0; rep_id < rep_cnt; rep_id++) {
-   145			ndev = alloc_etherdev(sizeof(*rep));
-   146			if (!ndev) {
-   147				dev_err(priv->dev, "PFVF representor:%d creation failed\n", rep_id);
-   148				err = -ENOMEM;
-   149				goto exit;
-   150			}
-   151	
-   152			rep = netdev_priv(ndev);
-   153			priv->reps[rep_id] = rep;
-   154			rep->mdev = priv;
-   155			rep->netdev = ndev;
-   156			rep->rep_id = rep_id;
-   157	
-   158			ndev->min_mtu = OTX2_MIN_MTU;
-   159			ndev->max_mtu = priv->hw.max_mtu;
-   160			pcifunc = priv->rep_pf_map[rep_id];
-   161			rep->pcifunc = pcifunc;
-   162	
-   163			snprintf(ndev->name, sizeof(ndev->name), "r%dp%dv%d", rep_id,
-   164				 rvu_get_pf(pcifunc), (pcifunc & RVU_PFVF_FUNC_MASK));
-   165	
-   166			eth_hw_addr_random(ndev);
- > 167			if (register_netdev(ndev)) {
-   168				dev_err(priv->dev, "PFVF reprentator registration failed\n");
-   169				free_netdev(ndev);
-   170				ndev->netdev_ops = NULL;
-   171				goto exit;
-   172			}
-   173		}
-   174		err = rvu_rep_napi_init(priv);
-   175		if (err)
-   176			goto exit;
-   177	
-   178		return 0;
-   179	exit:
-   180		rvu_rep_free_netdev(priv);
-   181		return err;
-   182	}
-   183	
-
+diff --git a/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml b/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
+new file mode 100644
+index 000000000000..862ef441ac9f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
+@@ -0,0 +1,55 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/microchip,sam9x75-lvds.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Microchip SAM9X75 LVDS Controller
++
++maintainers:
++  - Dharma Balasubiramani <dharma.b@microchip.com>
++
++description:
++  The Low Voltage Differential Signaling Controller (LVDSC) manages data
++  format conversion from the LCD Controller internal DPI bus to OpenLDI
++  LVDS output signals. LVDSC functions include bit mapping, balanced mode
++  management, and serializer.
++
++properties:
++  compatible:
++    const: microchip,sam9x75-lvds
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Peripheral Bus Clock
++
++  clock-names:
++    items:
++      - const: pclk
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/at91.h>
++    lvds-controller@f8060000 {
++      compatible = "microchip,sam9x75-lvds";
++      reg = <0xf8060000 0x100>;
++      interrupts = <56 IRQ_TYPE_LEVEL_HIGH 0>;
++      clocks = <&pmc PMC_TYPE_PERIPHERAL 56>;
++      clock-names = "pclk";
++    };
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
