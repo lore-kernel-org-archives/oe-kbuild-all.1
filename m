@@ -1,156 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0BD313C3D3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 10:59:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CC513BC21;
+	Wed, 17 Apr 2024 10:59:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713351586; cv=none; b=eZsrrKmPXFbfr0UIfShq7CdZ7B9Rw6uCJepSiLWVBVTG6lyYXb+bIpvvj2wv9k9QbtvOKgmdb8M7uSYzde9tPu4qZmxV5i09MmfzWmSoJ9Jp2BBIaAQzWbqhoGWa3pB8O27kbBG2z/SLR5ZLQXBBbrXz2l8ife2eQ4v9hSLegV0=
+	t=1713351590; cv=none; b=EtFyqhLPiVjNTAY78wFP7IG52gitYJeU8YyeDZOoIzr0fwVX0Fz2q3pYbcD0+np/jTkqJr0y4mbCBLLwR7OrLAKfTh/GzRQQg+H1DNpjxQylp/c6kRBYUOMDUMxV1C7IPxcNo94u1JZU/Qa09OhzRu44tYQh7wYRRB3mvuRsHG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713351586; c=relaxed/simple;
-	bh=cmU7FEP7+gAfzRzY/2Uj0ANcSi3jAqVqok2HMkjHbBM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gMOIEG7f7/FRYRVG5Oz0JGUBjUExR5qpTcYwqvOnTHynhymLVolhYrtAh4XxFOtsMQn7wA2ibJNM79n3mNyjiRbXnXF0yxdoxfg+M7dKBPX8jxvs8VoYpriTh5XGRUvwi0soCmzA0RbHz2AJVLuZXufiNHoPQwJoQeyOxJ9c4XY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uq4QSnok; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713351590; c=relaxed/simple;
+	bh=eWLI0pVTmy02PTwoV4UoOrO5hmZkHWORU7qvV72JPzk=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Q8swe2KBob7CHTOhq8bm6o1OEYlF/Mq7PP0X0mq+wKf96NrV1lT75tuFUg7QYozPc2967R7zInPiczW1817glsRYbHLXZSJXPnckFWApEfAcs86qP3JmEwK4JWHlYl1AAI0LW7+VR5sJB2jxVnJlPYKmnIOw1liOhQVlDTGLz+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tYg+1aNQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uq4QSnok"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713351585; x=1744887585;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cmU7FEP7+gAfzRzY/2Uj0ANcSi3jAqVqok2HMkjHbBM=;
-  b=Uq4QSnokd3AgLu3KcZUoLUDqvSNM8ZUzwFCQnZ0almyqpAfNtmHtyi73
-   3GbzUG33cronnuvgy5Xt3PkSRQSaPsQ+1RSFrBVL7yVXn580BNKuljxWk
-   Os8sxjo/Zr1p096lbbmTaq2fklty4qjmPTtwh8lsJ41+w8MRM/GNA6Oja
-   ocTEIM0cwHtz18gy67dutmFHAE55RJG/I/yx1ZGqCCSgxV7U3If4r7EgR
-   LmcHdUXLhFlEpkle023kXPo7LTExfFF2///AbNoNv0hp6hp9dexCA4idb
-   TTI6x8ape8HzNqnphdCs3SAtfkLCRTRq3wYF2lHdLJPhofB7d4+aWBrcc
-   Q==;
-X-CSE-ConnectionGUID: qixbX3skQsiwcDLHnHfG1Q==
-X-CSE-MsgGUID: FXwwNcpEQCy5MhjgSmnkqQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="9386638"
-X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
-   d="scan'208";a="9386638"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 03:59:45 -0700
-X-CSE-ConnectionGUID: oIreVgWaRwGJG3OUgyr3KA==
-X-CSE-MsgGUID: nRymCCveRBqshFKixxFmeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
-   d="scan'208";a="53541746"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 17 Apr 2024 03:59:43 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rx30p-0006Vq-0Z;
-	Wed, 17 Apr 2024 10:59:35 +0000
-Date: Wed, 17 Apr 2024 18:58:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mathias Nyman <mathias.nyman@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, John Youn <John.Youn@synopsys.com>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCH 1/2] usb: xhci-plat: Don't include xhci.h
-Message-ID: <202404171847.XPIgGzM6-lkp@intel.com>
-References: <900465dc09f1c8e12c4df98d625b9985965951a8.1713310411.git.Thinh.Nguyen@synopsys.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tYg+1aNQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2710CC072AA;
+	Wed, 17 Apr 2024 10:59:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713351590;
+	bh=eWLI0pVTmy02PTwoV4UoOrO5hmZkHWORU7qvV72JPzk=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=tYg+1aNQmWOMMDJaF2NefSk6jyMUWzngPZTw42kl3nQfXSXY7fJ7GZ02wY3KJ4RvK
+	 DuEB40MePebRMrKJhF4OiLDAGFlSCMmMmFb/rl9P8lcZnopo7ZhGhSfs5zhWncOlT8
+	 Y1FXYdAcZfzYNphsKy9xXXDpABNQ9IofObzLOj7VpdsPRIrza5oN0rIDKqBLHA3yl4
+	 7o+pnDxim88itC2rwmaVHI2KS8l8ljlyrbvTq38Z0wiTr1Dj+qocz4Rxgb06mkiBdT
+	 U3Lsa/8KK+X8KnadTxoZUwUBq/TqEtTkRtekr1RjnKhYA7AhaBwidG10g4QHeGDBhJ
+	 6cMo2f5u/iZ3A==
+Subject: [PATCH] cgroup/rstat: desc member cgrp in cgroup_rstat_flush_release
+From: Jesper Dangaard Brouer <hawk@kernel.org>
+To: cgroups@vger.kernel.org
+Cc: tj@kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
+ oe-kbuild-all@lists.linux.dev
+Date: Wed, 17 Apr 2024 12:59:46 +0200
+Message-ID: <171335156850.3932572.581386697098608458.stgit@firesoul>
+In-Reply-To: <202404170821.HwZGISTY-lkp@intel.com>
+References: <202404170821.HwZGISTY-lkp@intel.com>
+User-Agent: StGit/1.5
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <900465dc09f1c8e12c4df98d625b9985965951a8.1713310411.git.Thinh.Nguyen@synopsys.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Thinh,
+Recent change to cgroup_rstat_flush_release added a
+parameter cgrp, which is used by tracepoint to correlate
+with other tracepoints that also have this cgrp.
 
-kernel test robot noticed the following build errors:
+The kernel test robot detected kernel doc was missing
+a description of this member.
 
-[auto build test ERROR on 3d122e6d27e417a9fa91181922743df26b2cd679]
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202404170821.HwZGISTY-lkp@intel.com/
+Signed-off-by: Jesper Dangaard Brouer <hawk@kernel.org>
+---
+ kernel/cgroup/rstat.c |    1 +
+ 1 file changed, 1 insertion(+)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thinh-Nguyen/usb-xhci-plat-Don-t-include-xhci-h/20240417-074220
-base:   3d122e6d27e417a9fa91181922743df26b2cd679
-patch link:    https://lore.kernel.org/r/900465dc09f1c8e12c4df98d625b9985965951a8.1713310411.git.Thinh.Nguyen%40synopsys.com
-patch subject: [PATCH 1/2] usb: xhci-plat: Don't include xhci.h
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240417/202404171847.XPIgGzM6-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404171847.XPIgGzM6-lkp@intel.com/reproduce)
+TJ feel free to squash this into other patch
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404171847.XPIgGzM6-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/usb/host/xhci-rzv2m.c: In function 'xhci_rzv2m_init_quirk':
->> drivers/usb/host/xhci-rzv2m.c:21:33: error: invalid use of undefined type 'struct usb_hcd'
-      21 |         struct device *dev = hcd->self.controller;
-         |                                 ^~
->> drivers/usb/host/xhci-rzv2m.c:23:32: error: invalid use of undefined type 'struct device'
-      23 |         rzv2m_usb3drd_reset(dev->parent, true);
-         |                                ^~
-   drivers/usb/host/xhci-rzv2m.c: In function 'xhci_rzv2m_start':
-   drivers/usb/host/xhci-rzv2m.c:32:16: error: invalid use of undefined type 'struct usb_hcd'
-      32 |         if (hcd->regs) {
-         |                ^~
->> drivers/usb/host/xhci-rzv2m.c:34:26: error: implicit declaration of function 'readl' [-Werror=implicit-function-declaration]
-      34 |                 int_en = readl(hcd->regs + RZV2M_USB3_INTEN);
-         |                          ^~~~~
-   drivers/usb/host/xhci-rzv2m.c:34:35: error: invalid use of undefined type 'struct usb_hcd'
-      34 |                 int_en = readl(hcd->regs + RZV2M_USB3_INTEN);
-         |                                   ^~
->> drivers/usb/host/xhci-rzv2m.c:14:33: error: implicit declaration of function 'BIT' [-Werror=implicit-function-declaration]
-      14 | #define RZV2M_USB3_INT_XHC_ENA  BIT(0)
-         |                                 ^~~
-   drivers/usb/host/xhci-rzv2m.c:16:34: note: in expansion of macro 'RZV2M_USB3_INT_XHC_ENA'
-      16 | #define RZV2M_USB3_INT_ENA_VAL  (RZV2M_USB3_INT_XHC_ENA \
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-rzv2m.c:35:27: note: in expansion of macro 'RZV2M_USB3_INT_ENA_VAL'
-      35 |                 int_en |= RZV2M_USB3_INT_ENA_VAL;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/usb/host/xhci-rzv2m.c:36:17: error: implicit declaration of function 'writel' [-Werror=implicit-function-declaration]
-      36 |                 writel(int_en, hcd->regs + RZV2M_USB3_INTEN);
-         |                 ^~~~~~
-   drivers/usb/host/xhci-rzv2m.c:36:35: error: invalid use of undefined type 'struct usb_hcd'
-      36 |                 writel(int_en, hcd->regs + RZV2M_USB3_INTEN);
-         |                                   ^~
-   cc1: some warnings being treated as errors
+diff --git a/kernel/cgroup/rstat.c b/kernel/cgroup/rstat.c
+index 8c71af67b197..4aebf43882e2 100644
+--- a/kernel/cgroup/rstat.c
++++ b/kernel/cgroup/rstat.c
+@@ -384,6 +384,7 @@ int cgroup_rstat_flush_hold(struct cgroup *cgrp)
+ 
+ /**
+  * cgroup_rstat_flush_release - release cgroup_rstat_flush_hold()
++ * @cgrp: cgroup used by tracepoint
+  */
+ void cgroup_rstat_flush_release(struct cgroup *cgrp)
+ 	__releases(&cgroup_rstat_lock)
 
 
-vim +21 drivers/usb/host/xhci-rzv2m.c
-
-c52c9acc415eb6 Biju Das 2023-01-21  13  
-c52c9acc415eb6 Biju Das 2023-01-21 @14  #define RZV2M_USB3_INT_XHC_ENA	BIT(0)
-c52c9acc415eb6 Biju Das 2023-01-21  15  #define RZV2M_USB3_INT_HSE_ENA	BIT(2)
-c52c9acc415eb6 Biju Das 2023-01-21  16  #define RZV2M_USB3_INT_ENA_VAL	(RZV2M_USB3_INT_XHC_ENA \
-c52c9acc415eb6 Biju Das 2023-01-21  17  				 | RZV2M_USB3_INT_HSE_ENA)
-c52c9acc415eb6 Biju Das 2023-01-21  18  
-c52c9acc415eb6 Biju Das 2023-01-21  19  int xhci_rzv2m_init_quirk(struct usb_hcd *hcd)
-c52c9acc415eb6 Biju Das 2023-01-21  20  {
-c52c9acc415eb6 Biju Das 2023-01-21 @21  	struct device *dev = hcd->self.controller;
-c52c9acc415eb6 Biju Das 2023-01-21  22  
-c52c9acc415eb6 Biju Das 2023-01-21 @23  	rzv2m_usb3drd_reset(dev->parent, true);
-c52c9acc415eb6 Biju Das 2023-01-21  24  
-c52c9acc415eb6 Biju Das 2023-01-21  25  	return 0;
-c52c9acc415eb6 Biju Das 2023-01-21  26  }
-c52c9acc415eb6 Biju Das 2023-01-21  27  
-c52c9acc415eb6 Biju Das 2023-01-21  28  void xhci_rzv2m_start(struct usb_hcd *hcd)
-c52c9acc415eb6 Biju Das 2023-01-21  29  {
-c52c9acc415eb6 Biju Das 2023-01-21  30  	u32 int_en;
-c52c9acc415eb6 Biju Das 2023-01-21  31  
-c52c9acc415eb6 Biju Das 2023-01-21  32  	if (hcd->regs) {
-c52c9acc415eb6 Biju Das 2023-01-21  33  		/* Interrupt Enable */
-c52c9acc415eb6 Biju Das 2023-01-21 @34  		int_en = readl(hcd->regs + RZV2M_USB3_INTEN);
-c52c9acc415eb6 Biju Das 2023-01-21  35  		int_en |= RZV2M_USB3_INT_ENA_VAL;
-c52c9acc415eb6 Biju Das 2023-01-21 @36  		writel(int_en, hcd->regs + RZV2M_USB3_INTEN);
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
