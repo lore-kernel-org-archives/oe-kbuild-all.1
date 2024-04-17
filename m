@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44B41327E0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 09:40:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887A1139D01
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 10:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713346804; cv=none; b=YPvVAkRjV/mXYG/WIn2YVNRqOFEc+4lfmXIdzwPe9nS256VkH8pdjOA7Inm2/xmAkkFaflWyF2/z3OXHS4SQMFgnS2C/zck44eAjZQohrCB1K/Xj34mvINX6FeQoVhO3CsRL390yE7Kw3o1QiuYXRIN6dYOZo0E0XKkHhgJ5+P4=
+	t=1713348130; cv=none; b=bPGGPIZXDw0Y5kLkfC8O6wyIIBhXwrQs/cDAvpbCFxhx40aVFCwQUV0ouG/vDZ53rcR4QfGXjbHOCoLXRTJurTNjLqqlqsHNCdc/Fg8g/M6XHBpXiLZEFeceFtKwDDMfQ1RmBLq4ZrLt2/B4BXTvkCUyDSIulKElGlp/vss8WRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713346804; c=relaxed/simple;
-	bh=lY08CLMPEUYJUJ7atl+wF8wqBZlXnL5V9uVroby4BLU=;
+	s=arc-20240116; t=1713348130; c=relaxed/simple;
+	bh=zEXz69KDbxzLQPos8x9p32DewEcR8dMUo33XRNBZzDc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RhBIPvhEDDu7D0mwCbwoyxmNphS5ODaGrYLrADpOW3gJDujrWdBw1+RY34dgBF05K73WHbjul/OxKSZLLliD0m6W/Jmw+iE4cCFvhiwJ1GfjIK7jzjyOB/NmDpxT1JHmRqYw/oMGqmuFsCsKH6FDh8RJgJjZyjZOMaK7OeUfyqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nDSuzX+2; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=SEJa9lzKod1Y67jYaLM/11qIIfamW/5KF/2Cx+Wz4B4NKcbW07yIU1rMl5pX6fo/5gEJLSSMag0YCPcNbZFMIvFC2NZ+KnREVovZDsSIvgy4sFBotr0yyPxo4aJGlZKkEwazb3CQRHoMR52MUpWuXA2mJdzostkuHzTo7rTVFuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FGWvf6Vi; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nDSuzX+2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FGWvf6Vi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713346803; x=1744882803;
+  t=1713348125; x=1744884125;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lY08CLMPEUYJUJ7atl+wF8wqBZlXnL5V9uVroby4BLU=;
-  b=nDSuzX+2mW+CWnMDDKpshlzL4x0yEvqz/TbwkbFwuulkNzd/p6oJH6Q5
-   dFwzrYWsbjsBq78a9VpN8fMXNfR9bfIPW5HbPfm5Tfr1q0pnnPF/0tAyR
-   408qbuhFjpOu8eNnGXXX/hupbVleeq7zPz6nNr6sBzuTMpxWIymnmtxt2
-   6mqmvozIu0AzDl1F/lykfa6kvDe2Psbid3ctSxU++hIQ03V8q4vFhS345
-   XrL/iXpA2T1jJe+5J1F707Rj0yEtvINZidyAE09odCkz7L6fK710WOoAL
-   ooZh5gVpNMdbhu9YHxp+5jYpq/Oq3CeumDKcyi9DJzPc4Sb2/T8VwFU+e
-   A==;
-X-CSE-ConnectionGUID: LpvRtRsnQA64N1OXUnb0fw==
-X-CSE-MsgGUID: HTnhHjaFTNKrl82GPAHcYw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="12666790"
+  bh=zEXz69KDbxzLQPos8x9p32DewEcR8dMUo33XRNBZzDc=;
+  b=FGWvf6VilQy1mfHpN8790h9un+aaaw0W7z37upmR9Vsn+rAtO3PNTnQw
+   r83iPlbVzMIBCEqOfrYWCI4bCWQoRMYkCQZpzIMaB1m0MOyWBWc26cxmv
+   JGaH/PaR2ISgAxl43E6Qz/SFSR0zI2iC4ZML7e0KzuSA3HivPp7IZ4361
+   TjepcMBVvSFA5bXsnKtag/7ZZtnhO7rjUuDHEXhX6xgkPxHrRcpTPeWPG
+   /20iCf2h+hSemf+Vthr9Aawn1yoUDbUhYNlhJP+W/JO+gPwsPAyrWxC/m
+   4XEsIpTm+wueyJQNhpxksl8PBy0p7xlm2MY62/Mvvp9ldapcr+893jGeV
+   w==;
+X-CSE-ConnectionGUID: nKcYen4DQEqgXiJDcKqhgQ==
+X-CSE-MsgGUID: p0sJ2xkgShuVWjXnRQXOGw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8991419"
 X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
-   d="scan'208";a="12666790"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 02:40:03 -0700
-X-CSE-ConnectionGUID: Dp2Nr1FcTeaVCSFbTZ9wOQ==
-X-CSE-MsgGUID: Lb9aR3mOQXiKral1ccl+uA==
+   d="scan'208";a="8991419"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 03:02:03 -0700
+X-CSE-ConnectionGUID: RnrZWO91QFO6elnvFuwNqg==
+X-CSE-MsgGUID: YWfEKCCUTp28/F1dgOUmwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
-   d="scan'208";a="27364545"
+   d="scan'208";a="23171170"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 17 Apr 2024 02:40:01 -0700
+  by orviesa008.jf.intel.com with ESMTP; 17 Apr 2024 03:02:02 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rx1lm-0006Ri-32;
-	Wed, 17 Apr 2024 09:39:58 +0000
-Date: Wed, 17 Apr 2024 17:39:43 +0800
+	id 1rx275-0006SU-11;
+	Wed, 17 Apr 2024 10:01:59 +0000
+Date: Wed, 17 Apr 2024 18:01:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 43/43] drivers/memory/mtk-smi.c:724:40:
- warning: variable 'larb_gen' set but not used
-Message-ID: <202404171708.tbxU09pZ-lkp@intel.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master 6398/6705] mm/page_table_check.c:194:1: warning:
+ control reaches end of non-void function
+Message-ID: <202404171745.Zd13ydca-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,81 +64,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   f3fdafb30fb7daedffbb6a158d007059240ec94c
-commit: f3fdafb30fb7daedffbb6a158d007059240ec94c [43/43] CHROMIUM: memory: mtk-smi: add clamp function to protect ISP SW reset
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240417/202404171708.tbxU09pZ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404171708.tbxU09pZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4eab358930711bbeb85bf5ee267d0d42d3394c2c
+commit: 62754e4df9e04c4576e989f5ea2b909e824d8164 [6398/6705] mm/page_table_check: support userfault wr-protect entries
+config: riscv-randconfig-r001-20230105 (https://download.01.org/0day-ci/archive/20240417/202404171745.Zd13ydca-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404171745.Zd13ydca-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404171708.tbxU09pZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404171745.Zd13ydca-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/memory/mtk-smi.c: In function 'mtk_smi_larb_clamp':
->> drivers/memory/mtk-smi.c:724:40: warning: variable 'larb_gen' set but not used [-Wunused-but-set-variable]
-     724 |         const struct mtk_smi_larb_gen *larb_gen;
-         |                                        ^~~~~~~~
+   mm/page_table_check.c: In function 'swap_cached_writable':
+   mm/page_table_check.c:192:24: error: 'SWP_DEVICE_EXCLUSIVE_WRITE' undeclared (first use in this function)
+     192 |         return type == SWP_DEVICE_EXCLUSIVE_WRITE ||
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_table_check.c:192:24: note: each undeclared identifier is reported only once for each function it appears in
+>> mm/page_table_check.c:194:1: warning: control reaches end of non-void function [-Wreturn-type]
+     194 | }
+         | ^
 
 
-vim +/larb_gen +724 drivers/memory/mtk-smi.c
+vim +194 mm/page_table_check.c
 
-   715	
-   716	/* In order to avoid the abnormal SMI bus status which is generated by the
-   717	 * glitch from the master warm SW reset, parent SMI of SMI larb should be
-   718	 * protected by clamp temporarily.
-   719	 * This solution is required by ISP7.
-   720	 */
-   721	void mtk_smi_larb_clamp(struct device *larbdev, bool on)
-   722	{
-   723		struct mtk_smi_larb *larb = dev_get_drvdata(larbdev);
- > 724		const struct mtk_smi_larb_gen *larb_gen;
-   725		unsigned long flags;
-   726	
-   727		if (!larb)
-   728			return;
-   729	
-   730		spin_lock_irqsave(&smi_prot_lock, flags);
-   731		if (larb->prot_status == SMI_PROT_STA_REFUSE_TO_CHANGE) {
-   732			dev_err(larbdev, "refuse to change protection\n");
-   733			goto clamp_out;
-   734		}
-   735	
-   736		if ((on && (larb->prot_status == SMI_PROT_STA_PROT_ON)) ||
-   737		    (!on && (larb->prot_status == SMI_PROT_STA_PROT_OFF))) {
-   738			dev_warn(larbdev, "ignore duplicate protection(%s)\n",
-   739				 (on) ? "on" : "off");
-   740			goto clamp_out;
-   741		}
-   742	
-   743		larb->prot_status = SMI_PROT_STA_REFUSE_TO_CHANGE;
-   744		spin_unlock_irqrestore(&smi_prot_lock, flags);
-   745	
-   746		larb_gen = larb->larb_gen;
-   747		if (on) {
-   748			/* set protection */
-   749			mtk_smi_larb_sleep_ctrl_enable(larb);
-   750			mtk_smi_larb_clamp_protect(larbdev, true);
-   751	
-   752		} else {
-   753			/* release protection */
-   754			mtk_smi_larb_clamp_protect(larbdev, false);
-   755			mtk_smi_larb_sleep_ctrl_disable(larb);
-   756		}
-   757	
-   758		dev_dbg(larbdev, "is %sprotected\n", (on) ? "" : "un-");
-   759	
-   760		spin_lock_irqsave(&smi_prot_lock, flags);
-   761		larb->prot_status = (on) ? SMI_PROT_STA_PROT_ON :
-   762				    SMI_PROT_STA_PROT_OFF;
-   763	
-   764	clamp_out:
-   765		spin_unlock_irqrestore(&smi_prot_lock, flags);
-   766	}
-   767	
+   186	
+   187	/* Whether the swap entry cached writable information */
+   188	static inline bool swap_cached_writable(swp_entry_t entry)
+   189	{
+   190		unsigned type = swp_type(entry);
+   191	
+   192		return type == SWP_DEVICE_EXCLUSIVE_WRITE ||
+   193		    type == SWP_MIGRATION_WRITE;
+ > 194	}
+   195	
 
 -- 
 0-DAY CI Kernel Test Service
