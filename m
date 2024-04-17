@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130B1365
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 00:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A3C801
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 00:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713313283; cv=none; b=EJJUw+hj6rn9KI0d5VPMgNQceItiZ+Hn799cY+nwIy489USGibG7AQ8iKnkHTy3GW7Oiz75ET+N35LbOn4AlEf2J7cpYMPFLHbJ0HnwhhzsU+JQG/L7MGzKpDCkg9FS0+NMlBn1qzud9sVm4adgeM2gdMr5QExakJYvzV/UsawA=
+	t=1713313944; cv=none; b=ugnNOLcfpQLCr9L72eAX8kzBTQqMPpyWN7Dk5d2JhErVVtBspZsN4vQdFt8wEXNlJugcECekf5bjUdSNqcuwInWMJ4XGRkEZDSzwfl6VCQgfiNXyjF2gRxg3NOMIkIL1dBpIBIdrHeI7rhiAU+uEkAyCZ5q0t/KvpKNLIU2wpTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713313283; c=relaxed/simple;
-	bh=K2ZFtuGnRYBMp4zqpkPAY0ZwBh7cc4jMlO0Ey57ysoQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VIgF4Hmd/cUG3SKNAhVHT+d8W/fC8DCn/b/dp1TdFt8/G4Rn8J7jYa8b2s88sdvYDC7f1cRLEDMq2fhIcde3DohHy2qPWhSf3A0BsbQ2Epjj7mINpdNtirjW0Or70+WviXi+Q2Ard6W1wvC4WGL7u2g4alwjL/Iy3Qe/3HEgTRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HG7ynyAy; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1713313944; c=relaxed/simple;
+	bh=E78q9qxu6fgEi0Hu9VQBbhkJUlwzErCAfnhnu3DfPDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UdnS5SgPe1aVhF8AvpyyrscyVlLuCoH66AWy5gvmS9AiwwHVWDhJg5W2kH0JUf4z0yukhUyF6FArsnFBdTB2vehYV7KNY5D3YpfregHp2sPga3V340RZy6d+8eYdbjizB+payxFFJ4StQWsfPAVZX+UQqAsjS6dTOBVpEw9h/0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f3wo3DsG; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HG7ynyAy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f3wo3DsG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713313280; x=1744849280;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K2ZFtuGnRYBMp4zqpkPAY0ZwBh7cc4jMlO0Ey57ysoQ=;
-  b=HG7ynyAyarR3UO12xqt6QvluA+Qgy+rLzgZ+wZXB4kn036MbOgw4/j9w
-   x0d1wxkPJgeIVoWc2ExiUYg01Z2jVW8FOa+txN5KmgIEKRDgJVjRGu91Y
-   MY8UrZoAx4C8zCyb0apj+MmNBFla5wqOEFzNWUDuR1uqN1x4gUOo1YAe0
-   8g63SyeBz8vaHCSfISSLWjj8ZKFHzk0bwoEg51AXaFt0COHE11jmfICPX
-   RqBHzo9tsNxgRJp8qDuTBViGrW5nYoFOzd7pNg/M7qnb5Zg/BiO/6ebvo
-   TJTrfg4gpyimvZr1TX11ze5/pNSbumWHnUYL8H8JX0y1cW/59pJRVeH/Q
-   A==;
-X-CSE-ConnectionGUID: okPttXnsSVOURif5ykZ3cw==
-X-CSE-MsgGUID: W0tSw16kTvqBjcfTAp6ecw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="12625221"
+  t=1713313942; x=1744849942;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=E78q9qxu6fgEi0Hu9VQBbhkJUlwzErCAfnhnu3DfPDI=;
+  b=f3wo3DsGjlVuWO8cALNtKxbpGb4kNXw06aoTrwbFvkcH/1XJfgnbLCs5
+   R9i9g527k6vCzbCGafLcQYzll8RQucjO6YdI2k8dAPcYui7Hv3BeDmfFM
+   0NE/65lr2p2mVwmdlBtDgUs4F9at+Iu4+aXSmoJ9TxsLUVdKOGXVPc67W
+   9fYb3jYk3CIfJ0ydgbJI8RFPh4A6EMxkqMNCUKXzwBdxn2rOlnyWkIrtT
+   4e/vICBrmGVLnN5etVj+W7qbW6pYt210tE/4OpDriXiNJtLP0sjzUjEgT
+   iFfrj5FMg/ac/9mfHavZg03L4UzSNgtpF599d/Wi1mqiTI+tuoO3uDkQA
+   g==;
+X-CSE-ConnectionGUID: ITrjq7kYTLmGK1yQJ75nLA==
+X-CSE-MsgGUID: WIyo/q+cSvap140yN0qUmQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8667816"
 X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="12625221"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 17:21:20 -0700
-X-CSE-ConnectionGUID: WSAKRmfRSIOZQIgB7anLXA==
-X-CSE-MsgGUID: cxPnTlcoRRqqdgd2jBfXyQ==
+   d="scan'208";a="8667816"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 17:32:21 -0700
+X-CSE-ConnectionGUID: WeG2B2aUQ0CPFsmkwxr/JQ==
+X-CSE-MsgGUID: SD+Q6YlrQGuyEHKcbvUixw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="22495129"
+   d="scan'208";a="23032746"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 16 Apr 2024 17:21:18 -0700
+  by orviesa008.jf.intel.com with ESMTP; 16 Apr 2024 17:32:19 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwt36-0005si-0M;
-	Wed, 17 Apr 2024 00:21:16 +0000
-Date: Wed, 17 Apr 2024 08:20:49 +0800
+	id 1rwtDk-0005tW-1Z;
+	Wed, 17 Apr 2024 00:32:16 +0000
+Date: Wed, 17 Apr 2024 08:31:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jesper Dangaard Brouer <hawk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
-	Tejun Heo <tj@kernel.org>
-Subject: [tj-cgroup:for-next 7/7] kernel/cgroup/rstat.c:334: warning:
- Function parameter or struct member 'cgrp' not described in
- 'cgroup_rstat_flush_release'
-Message-ID: <202404170821.HwZGISTY-lkp@intel.com>
+To: Geetha sowjanya <gakula@marvell.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kuba@kernel.org, davem@davemloft.net,
+	pabeni@redhat.com, edumazet@google.com, sgoutham@marvell.com,
+	gakula@marvell.com, sbhatta@marvell.com, hkelam@marvell.com
+Subject: Re: [net-next PATCH 3/9] octeontx2-pf: Create representor netdev
+Message-ID: <202404170853.i93jboPB-lkp@intel.com>
+References: <20240416050616.6056-4-gakula@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,42 +65,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240416050616.6056-4-gakula@marvell.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
-head:   fc29e04ae1ad4c99422c0b8ae4b43cfe99c70429
-commit: fc29e04ae1ad4c99422c0b8ae4b43cfe99c70429 [7/7] cgroup/rstat: add cgroup_rstat_lock helpers and tracepoints
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240417/202404170821.HwZGISTY-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404170821.HwZGISTY-lkp@intel.com/reproduce)
+Hi Geetha,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Geetha-sowjanya/octeontx2-pf-Refactoring-RVU-driver/20240416-131052
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240416050616.6056-4-gakula%40marvell.com
+patch subject: [net-next PATCH 3/9] octeontx2-pf: Create representor netdev
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240417/202404170853.i93jboPB-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404170853.i93jboPB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404170821.HwZGISTY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404170853.i93jboPB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/cgroup/rstat.c:334: warning: Function parameter or struct member 'cgrp' not described in 'cgroup_rstat_flush_release'
+   drivers/net/ethernet/marvell/octeontx2/nic/rep.c: In function 'rvu_rep_create':
+>> drivers/net/ethernet/marvell/octeontx2/nic/rep.c:163:66: warning: '%d' directive output may be truncated writing between 1 and 4 bytes into a region of size between 1 and 11 [-Wformat-truncation=]
+     163 |                 snprintf(ndev->name, sizeof(ndev->name), "r%dp%dv%d", rep_id,
+         |                                                                  ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/rep.c:163:58: note: directive argument in the range [0, 1023]
+     163 |                 snprintf(ndev->name, sizeof(ndev->name), "r%dp%dv%d", rep_id,
+         |                                                          ^~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/rep.c:163:17: note: 'snprintf' output between 7 and 20 bytes into a destination of size 16
+     163 |                 snprintf(ndev->name, sizeof(ndev->name), "r%dp%dv%d", rep_id,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     164 |                          rvu_get_pf(pcifunc), (pcifunc & RVU_PFVF_FUNC_MASK));
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +334 kernel/cgroup/rstat.c
+vim +163 drivers/net/ethernet/marvell/octeontx2/nic/rep.c
 
-6162cef0f741c7 Tejun Heo              2018-04-26  328  
-6162cef0f741c7 Tejun Heo              2018-04-26  329  /**
-6162cef0f741c7 Tejun Heo              2018-04-26  330   * cgroup_rstat_flush_release - release cgroup_rstat_flush_hold()
-6162cef0f741c7 Tejun Heo              2018-04-26  331   */
-fc29e04ae1ad4c Jesper Dangaard Brouer 2024-04-16  332  void cgroup_rstat_flush_release(struct cgroup *cgrp)
-0fa294fb1985c0 Tejun Heo              2018-04-26  333  	__releases(&cgroup_rstat_lock)
-6162cef0f741c7 Tejun Heo              2018-04-26 @334  {
-fc29e04ae1ad4c Jesper Dangaard Brouer 2024-04-16  335  	__cgroup_rstat_unlock(cgrp, -1);
-6162cef0f741c7 Tejun Heo              2018-04-26  336  }
-6162cef0f741c7 Tejun Heo              2018-04-26  337  
-
-:::::: The code at line 334 was first introduced by commit
-:::::: 6162cef0f741c70eb0c7ac7e6142f85808d8abc4 cgroup: Factor out and expose cgroup_rstat_*() interface functions
-
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Tejun Heo <tj@kernel.org>
+   131	
+   132	int rvu_rep_create(struct otx2_nic *priv)
+   133	{
+   134		int rep_cnt = priv->rep_cnt;
+   135		struct net_device *ndev;
+   136		struct rep_dev *rep;
+   137		int rep_id, err;
+   138		u16 pcifunc;
+   139	
+   140		priv->reps = devm_kcalloc(priv->dev, rep_cnt, sizeof(struct rep_dev), GFP_KERNEL);
+   141		if (!priv->reps)
+   142			return -ENOMEM;
+   143	
+   144		for (rep_id = 0; rep_id < rep_cnt; rep_id++) {
+   145			ndev = alloc_etherdev(sizeof(*rep));
+   146			if (!ndev) {
+   147				dev_err(priv->dev, "PFVF representor:%d creation failed\n", rep_id);
+   148				err = -ENOMEM;
+   149				goto exit;
+   150			}
+   151	
+   152			rep = netdev_priv(ndev);
+   153			priv->reps[rep_id] = rep;
+   154			rep->mdev = priv;
+   155			rep->netdev = ndev;
+   156			rep->rep_id = rep_id;
+   157	
+   158			ndev->min_mtu = OTX2_MIN_MTU;
+   159			ndev->max_mtu = priv->hw.max_mtu;
+   160			pcifunc = priv->rep_pf_map[rep_id];
+   161			rep->pcifunc = pcifunc;
+   162	
+ > 163			snprintf(ndev->name, sizeof(ndev->name), "r%dp%dv%d", rep_id,
+   164				 rvu_get_pf(pcifunc), (pcifunc & RVU_PFVF_FUNC_MASK));
+   165	
+   166			eth_hw_addr_random(ndev);
+   167			if (register_netdev(ndev)) {
+   168				dev_err(priv->dev, "PFVF reprentator registration failed\n");
+   169				free_netdev(ndev);
+   170				ndev->netdev_ops = NULL;
+   171				goto exit;
+   172			}
+   173		}
+   174		err = rvu_rep_napi_init(priv);
+   175		if (err)
+   176			goto exit;
+   177	
+   178		return 0;
+   179	exit:
+   180		rvu_rep_free_netdev(priv);
+   181		return err;
+   182	}
+   183	
 
 -- 
 0-DAY CI Kernel Test Service
