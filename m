@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E872C19D;
-	Wed, 17 Apr 2024 19:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0568222338
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 20:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713383387; cv=none; b=lSFPnf7pLCgRec9Ts45An4EM206lypVPGbrk5Wsy5KOAxxNwOjMEBwTa1AGxr46jZkZH5OMB4A9VdLfU9uA9UKfqlvJ5PV9n85DNUggBIuSu04hrP+sQXLO+TV5j3MzzK9s5irqI19HmGy1XHibR+c5c8dcnFxN1To5YWIoXiX4=
+	t=1713384049; cv=none; b=TB+kZH5cyTSgSU/AvcrBQJGi+1SaKciQKbPBoeA4tCfMS1dHSpeVKmz8C86K+JKNX682oaR737VHzE+tsvT9FWJkVv3xrrvbKgsioKJM3TRu6TExTirLvrFK3pZga7SCkeqVx9Pm9BkihDaU9U/a2t3liYaFLMOstHjxfhPezDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713383387; c=relaxed/simple;
-	bh=S7JlLxeut6x1KWTpxGEHLu6tTGDE+NbAJLWh5S/S8aA=;
+	s=arc-20240116; t=1713384049; c=relaxed/simple;
+	bh=e6C91cTft67/FbhAlfLEQC72tYktK0ATbW2DBERMn7Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sRctczzz4cp459/QmTsTsgCIaTdNFUYshedGXZBO0VL0ojlCpCjJbIqj6x+i6pGSy3+NOxE5j0Y++TuEEq14XJcGJ60wxF6DDP2w5nIAHYtjJMrm+sKUWG9LDsehWT7f8CvR3QITbNo3wdp74Vd6HimBOhuOFJrxG7q8FWCAb80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OjJbvxeD; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZapWJLP8LZX04Razp5Ip0TFdZNGvHsGsjZPOjKYZeUVWOtYBiSaVnGlqzEOVBv/YKrw/IsfssZJix6ZFl8DeOMgoVsqm0FRBlE5p0WjQwy6lHU9WfjbJIn1lCNlnMkJAQ5gBC7oh6MuYh4qAA0V4j+cT+Y4sHieZ6oFZxI97qmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jhNINUWC; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OjJbvxeD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jhNINUWC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713383386; x=1744919386;
+  t=1713384048; x=1744920048;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=S7JlLxeut6x1KWTpxGEHLu6tTGDE+NbAJLWh5S/S8aA=;
-  b=OjJbvxeDEIBLWNSsgNZ8jJU8FNXsLtRoWKXvnbIHlu3iJF87sAq2ZQg1
-   0xjzkmKXWTr8KlsI34VCg+ZoWMNUksPtcCXKirAZHUpkHflleXbVjNaTP
-   1IwgGL9w9gSETI1VuJMlGDVRDczTTM9sG/Cl1sRB4PvB22i/tMIfSa0wY
-   Elbe/vThHPDQG0h4c61tcAWrtUiZhAu9rQWa7wVjKzmh25Q9A0uSYzPCP
-   lXQEmAsPus0HW+/oLEKKjGqEMqv3PlI1an71OJwXxd/mR4n3mUn3Mm+WB
-   XBnD2jLsHqjunGwH04nLIuT62E0WSe4lscNYLoaYPJieNnXKollZux5ml
-   g==;
-X-CSE-ConnectionGUID: qFD+yTCHTeqy+0Fw9KbLdA==
-X-CSE-MsgGUID: cDIfLWWuQCyi0tBWN3hrpA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="9055355"
+  bh=e6C91cTft67/FbhAlfLEQC72tYktK0ATbW2DBERMn7Q=;
+  b=jhNINUWCyAD0ppYdDBXbAneVdzt363gCpaOFR7lsRjDKoQn3k5fIepF7
+   XcTDWM/xaWuTK/K1RvPAk/Iygy0SSoDgK5l8OdQE838NW6UQImMWR4tP1
+   Od1XsuIhuAU7OedXY4/fLxQ0w8/RCz5f6QUtxS08xDqrtnHSLjvRpgMFN
+   qIbPDL8xoSgoo0BukJ8WJVFTuhDiM0NEni65n20D7z44NfGd1AN/TpG1e
+   kbIlt4Crw9G0m2huOiDk/hOjvjXwjQo7hoJXw2fyUhKtoRMi8nM1OUuc4
+   VrsXprg21ajyIcXdi9s/FQ6KVc/50LszcSVTKgThiY93ijiQxY1C7AQFS
+   Q==;
+X-CSE-ConnectionGUID: aAP+U6ksQIyEiD1OqbL/Lw==
+X-CSE-MsgGUID: wFwesS8ITU+6ANl4YxPTLg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="26406482"
 X-IronPort-AV: E=Sophos;i="6.07,210,1708416000"; 
-   d="scan'208";a="9055355"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 12:49:45 -0700
-X-CSE-ConnectionGUID: 5BVBRTY9TROBMxm7LNxmUA==
-X-CSE-MsgGUID: kffHsbaVTrezpol5G+TesQ==
+   d="scan'208";a="26406482"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 13:00:47 -0700
+X-CSE-ConnectionGUID: zCzG8MlISRicFJIAR4yjYQ==
+X-CSE-MsgGUID: xXRngO76ROK4d2lme0iCpA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
-   d="scan'208";a="22774902"
+X-IronPort-AV: E=Sophos;i="6.07,210,1708416000"; 
+   d="scan'208";a="23333554"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Apr 2024 12:49:40 -0700
+  by orviesa008.jf.intel.com with ESMTP; 17 Apr 2024 13:00:46 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rxBHm-0006wO-0I;
-	Wed, 17 Apr 2024 19:49:38 +0000
-Date: Thu, 18 Apr 2024 03:49:36 +0800
+	id 1rxBSV-0006xA-2K;
+	Wed, 17 Apr 2024 20:00:43 +0000
+Date: Thu, 18 Apr 2024 04:00:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kernel_team@skhynix.com, akpm@linux-foundation.org,
-	ying.huang@intel.com, vernhao@tencent.com,
-	mgorman@techsingularity.net, hughd@google.com, willy@infradead.org,
-	david@redhat.com, peterz@infradead.org, luto@kernel.org,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, rjgolo@gmail.com
-Subject: Re: [PATCH v9 7/8] mm: add folio_put_mgen() to deliver migrc's
- generation number to pcp or buddy
-Message-ID: <202404180327.oqZWEtEn-lkp@intel.com>
-References: <20240417071847.29584-8-byungchul@sk.com>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 1/3] virtio_balloon: introduce oom-kill invocations
+Message-ID: <202404180315.uKT3DxQU-lkp@intel.com>
+References: <20240415084113.1203428-2-pizhenwei@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,114 +62,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240417071847.29584-8-byungchul@sk.com>
+In-Reply-To: <20240415084113.1203428-2-pizhenwei@bytedance.com>
 
-Hi Byungchul,
+Hi zhenwei,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 0bbac3facb5d6cc0171c45c9873a2dc96bea9680]
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.9-rc4 next-20240417]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/x86-tlb-add-APIs-manipulating-tlb-batch-s-arch-data/20240417-152211
-base:   0bbac3facb5d6cc0171c45c9873a2dc96bea9680
-patch link:    https://lore.kernel.org/r/20240417071847.29584-8-byungchul%40sk.com
-patch subject: [PATCH v9 7/8] mm: add folio_put_mgen() to deliver migrc's generation number to pcp or buddy
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240418/202404180327.oqZWEtEn-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240418/202404180327.oqZWEtEn-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/zhenwei-pi/virtio_balloon-introduce-oom-kill-invocations/20240415-164401
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240415084113.1203428-2-pizhenwei%40bytedance.com
+patch subject: [RFC 1/3] virtio_balloon: introduce oom-kill invocations
+config: i386-randconfig-014-20240417 (https://download.01.org/0day-ci/archive/20240418/202404180315.uKT3DxQU-lkp@intel.com/config)
+compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240418/202404180315.uKT3DxQU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404180327.oqZWEtEn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404180315.uKT3DxQU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from mm/page_alloc.c:19:
-   In file included from include/linux/mm.h:2230:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/page_alloc.c:44:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/page_alloc.c:2812:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    2812 |         __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   mm/page_alloc.c:2934:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    2934 |                 __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   mm/page_alloc.c:4575:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    4575 |         __count_zid_vm_events(PGALLOC, zone_idx(zone), nr_account);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   In file included from mm/page_alloc.c:58:
->> mm/internal.h:1404:9: error: call to '__compiletime_assert_368' declared with 'error' attribute: BUILD_BUG failed
-    1404 |         return xchg(&current->mgen, 0);
-         |                ^
-   include/linux/atomic/atomic-instrumented.h:4758:2: note: expanded from macro 'xchg'
-    4758 |         raw_xchg(__ai_ptr, __VA_ARGS__); \
-         |         ^
-   include/linux/atomic/atomic-arch-fallback.h:12:18: note: expanded from macro 'raw_xchg'
-      12 | #define raw_xchg arch_xchg
-         |                  ^
-   arch/riscv/include/asm/cmpxchg.h:145:23: note: expanded from macro 'arch_xchg'
-     145 |         (__typeof__(*(ptr))) __arch_xchg((ptr), _x_, sizeof(*(ptr)));   \
-         |                              ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:437:2: note: expanded from macro '_compiletime_assert'
-     437 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:430:4: note: expanded from macro '__compiletime_assert'
-     430 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:124:1: note: expanded from here
-     124 | __compiletime_assert_368
-         | ^
-   In file included from mm/page_alloc.c:58:
->> mm/internal.h:1404:9: error: call to '__compiletime_assert_368' declared with 'error' attribute: BUILD_BUG failed
-   include/linux/atomic/atomic-instrumented.h:4758:2: note: expanded from macro 'xchg'
-    4758 |         raw_xchg(__ai_ptr, __VA_ARGS__); \
-         |         ^
-   include/linux/atomic/atomic-arch-fallback.h:12:18: note: expanded from macro 'raw_xchg'
-      12 | #define raw_xchg arch_xchg
-         |                  ^
-   arch/riscv/include/asm/cmpxchg.h:145:23: note: expanded from macro 'arch_xchg'
-     145 |         (__typeof__(*(ptr))) __arch_xchg((ptr), _x_, sizeof(*(ptr)));   \
-         |                              ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:437:2: note: expanded from macro '_compiletime_assert'
-     437 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:430:4: note: expanded from macro '__compiletime_assert'
-     430 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:124:1: note: expanded from here
-     124 | __compiletime_assert_368
-         | ^
-   6 warnings and 2 errors generated.
+   drivers/virtio/virtio_balloon.c: In function 'update_balloon_stats':
+>> drivers/virtio/virtio_balloon.c:356:39: warning: 'events' is used uninitialized [-Wuninitialized]
+     356 |                                 events[OOM_KILL]);
+         |                                 ~~~~~~^~~~~~~~~~
+   drivers/virtio/virtio_balloon.c:321:23: note: 'events' declared here
+     321 |         unsigned long events[NR_VM_EVENT_ITEMS];
+         |                       ^~~~~~
 
 
-vim +1404 mm/internal.h
+vim +/events +356 drivers/virtio/virtio_balloon.c
 
-  1401	
-  1402	static inline unsigned int hand_over_task_mgen(void)
-  1403	{
-> 1404		return xchg(&current->mgen, 0);
-  1405	}
-  1406	
+   318	
+   319	static unsigned int update_balloon_stats(struct virtio_balloon *vb)
+   320	{
+   321		unsigned long events[NR_VM_EVENT_ITEMS];
+   322		struct sysinfo i;
+   323		unsigned int idx = 0;
+   324		long available;
+   325		unsigned long caches;
+   326	
+   327		all_vm_events(events);
+   328		si_meminfo(&i);
+   329	
+   330		available = si_mem_available();
+   331		caches = global_node_page_state(NR_FILE_PAGES);
+   332	
+   333	#ifdef CONFIG_VM_EVENT_COUNTERS
+   334		update_stat(vb, idx++, VIRTIO_BALLOON_S_SWAP_IN,
+   335					pages_to_bytes(events[PSWPIN]));
+   336		update_stat(vb, idx++, VIRTIO_BALLOON_S_SWAP_OUT,
+   337					pages_to_bytes(events[PSWPOUT]));
+   338		update_stat(vb, idx++, VIRTIO_BALLOON_S_MAJFLT, events[PGMAJFAULT]);
+   339		update_stat(vb, idx++, VIRTIO_BALLOON_S_MINFLT, events[PGFAULT]);
+   340	#ifdef CONFIG_HUGETLB_PAGE
+   341		update_stat(vb, idx++, VIRTIO_BALLOON_S_HTLB_PGALLOC,
+   342			    events[HTLB_BUDDY_PGALLOC]);
+   343		update_stat(vb, idx++, VIRTIO_BALLOON_S_HTLB_PGFAIL,
+   344			    events[HTLB_BUDDY_PGALLOC_FAIL]);
+   345	#endif
+   346	#endif
+   347		update_stat(vb, idx++, VIRTIO_BALLOON_S_MEMFREE,
+   348					pages_to_bytes(i.freeram));
+   349		update_stat(vb, idx++, VIRTIO_BALLOON_S_MEMTOT,
+   350					pages_to_bytes(i.totalram));
+   351		update_stat(vb, idx++, VIRTIO_BALLOON_S_AVAIL,
+   352					pages_to_bytes(available));
+   353		update_stat(vb, idx++, VIRTIO_BALLOON_S_CACHES,
+   354					pages_to_bytes(caches));
+   355		update_stat(vb, idx++, VIRTIO_BALLOON_S_OOM_KILL,
+ > 356					events[OOM_KILL]);
+   357	
+   358		return idx;
+   359	}
+   360	
 
 -- 
 0-DAY CI Kernel Test Service
