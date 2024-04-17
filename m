@@ -1,143 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4679713CF94;
-	Wed, 17 Apr 2024 12:12:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EC4EDC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 12:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713355928; cv=none; b=j3QhjOofhebhJQxIIL+FtCRpLwBr9eNnI/b7IsVruT8Qrvia0n+h4OlkZMK5rUACafgISC7m5IUjvWBulII7lXg03jEFgDkVzhqtjzXoHHS27AZQ1Qkg9/QHFIqptx67F1Pqn9XdoMGEfx4ibO3HQJX84BtZ5TMNk7wwDccf/Jw=
+	t=1713357277; cv=none; b=GxfgwK8v/aGjuJYsuzSCuwgU6dlSxn9dYsLDZW3UUr3ajF+9vtnwwS90mgdpRFLCTfy18uuJASU9NlLpDK1KWDKdrxw5OTm3oyE6h8F+AzPgeVWNMQ9rxBb53BT1Xa+xCjGOor5LFa3+XvmtNwHqwq/grZY2DdvV5TZIeqhPSvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713355928; c=relaxed/simple;
-	bh=HVGM/vNY7PYtVnQmD8jyKDH2p5PHUZUIoVtWDqGoHoM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aVrtluOcLbEdTUBVP59c5R8TinDVJAZq7eRBLpO3M3zfCQwDkMj7orCUNtrKoa0EIVoY+CdZ/OAeRJF/5B81EWfcVtYj2+gLzW5PX/JmsKsm9S91CJByjMFV8UgXR4xP1odm+FSfiaiAbUHH7hR9YZHIfWdVDx7+8l9XPHmiUGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U+yxlgJ0; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713357277; c=relaxed/simple;
+	bh=E5QZtGU4PZm2is2P+MulDOxW3Rpe7EdfaFk+Lnyb7cU=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=jOPXXTMsGF4xslnNo0sXcdLpTdWBFCwcLw3W1S9PO7uhtmJ7KhebeWhgF5DElKsM2h2w8/LsqXCxXSz4kX9m9NDtnF0IQRC4YTbX2OLGU7ToIbdbDsp+Amomub0RwjUPjAhC9dbe1qNrrgxu52T9yhhV3MkdesVDdzGdnahPOYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=dAmwnAxB; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U+yxlgJ0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713355925; x=1744891925;
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="dAmwnAxB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HVGM/vNY7PYtVnQmD8jyKDH2p5PHUZUIoVtWDqGoHoM=;
-  b=U+yxlgJ01y0l4ObPuXuc6pM9fYj4J7AzRUDREZJSsK6YtR2ywgINN8Ps
-   FJEYiQPd6YKsAkF2UJ6D1uB5nYmjXJOCI04mbiFW7LhH+luhkZZNiyDy6
-   aNXPiB8o3o1sl3w9wMhfT58rMZ7i5Szp7jGqRZc2FH1JhDzHJd902GpN/
-   CFjZSjewYaaxlSZ88EdGd5K5SIIHkSeMXLFzgPaFjjfwTOlYVvxtSjH4k
-   wmJEbxdn6ZAlCAyLShWi0XXc5JCXdI1Vc/271GbiO3YiwdiXgLsh1hnDM
-   jZmpfBaFfzeYFrdQYu9W2sAh3L1Za5Iv6vo98lJQw/EZ3nM8QOu5Uv0hm
-   Q==;
-X-CSE-ConnectionGUID: tswlDEjfRU6QT/+9EU60XA==
-X-CSE-MsgGUID: VyITAUhlQnuFIoOJeNfS4Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8703150"
-X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
-   d="scan'208";a="8703150"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 05:12:04 -0700
-X-CSE-ConnectionGUID: OySB1uXFS5yl/a9deTnjnA==
-X-CSE-MsgGUID: hekhT+lORLWA1dYcWloeRg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
-   d="scan'208";a="53553345"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 17 Apr 2024 05:12:03 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rx48u-0006YW-05;
-	Wed, 17 Apr 2024 12:12:00 +0000
-Date: Wed, 17 Apr 2024 20:11:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Subject: [chao:wip 3/9] fs/f2fs/data.c:2366:10: warning: variable 'index' set
- but not used
-Message-ID: <202404172031.UJO1tq47-lkp@intel.com>
+  bh=ysZHud6S4cjBQXKHfG/FeblhiB0ojezj19lZpopi0wI=;
+  b=dAmwnAxBIKyxhRp9PioBKnPY8GhW/Olu4nx1naLHyF35gRSGUfxWFkvL
+   f9Nz6h3AmwCs0LYgFmX8H+1XmVNIA1/FPYYmRjDSbmuAnE1bKJY0MuH6r
+   x05nAocOpO4mO0hchE/anudMyyMlDknxLxefckD2YANaEjSOncapHZ2T0
+   o=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.07,209,1708383600"; 
+   d="scan'208";a="162061165"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 14:34:27 +0200
+Date: Wed, 17 Apr 2024 14:34:27 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Samin Guo <samin.guo@starfivetech.com>, 
+    Hal Feng <hal.feng@starfivetech.com>, Andrew Lunn <andrew@lunn.ch>
+cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: drivers/net/phy/motorcomm.c:885:12-14: WARNING opportunity for min()
+ (fwd)
+Message-ID: <2119db14-c2a-9bd3-eae8-4faa5219dbc3@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git wip
-head:   12f1bfe4b075fdc2ecab72bd06ba826e2d32dd70
-commit: ab8856b2d7aa3c84ec04e0125e6615a2afc11f3b [3/9] f2fs: convert f2fs_mpage_readpages() to use folio
-config: arm-randconfig-003-20240417 (https://download.01.org/0day-ci/archive/20240417/202404172031.UJO1tq47-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404172031.UJO1tq47-lkp@intel.com/reproduce)
+
+
+---------- Forwarded message ----------
+Date: Wed, 17 Apr 2024 20:21:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/net/phy/motorcomm.c:885:12-14: WARNING opportunity for min()
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Samin Guo <samin.guo@starfivetech.com>
+CC: Hal Feng <hal.feng@starfivetech.com>
+CC: Andrew Lunn <andrew@lunn.ch>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   96fca68c4fbf77a8185eb10f7557e23352732ea2
+commit: 7a561e9351ae7e3fb1f08584d40b49c1e55dde60 net: phy: motorcomm: Add pad drive strength cfg support
+date:   9 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 9 months ago
+config: i386-randconfig-053-20240417 (https://download.01.org/0day-ci/archive/20240417/202404172059.wU4sM9Qi-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404172031.UJO1tq47-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202404172059.wU4sM9Qi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/phy/motorcomm.c:885:12-14: WARNING opportunity for min()
 
-   In file included from fs/f2fs/data.c:9:
-   In file included from include/linux/f2fs_fs.h:11:
-   In file included from include/linux/pagemap.h:8:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/f2fs/data.c:2366:10: warning: variable 'index' set but not used [-Wunused-but-set-variable]
-    2366 |         pgoff_t index;
-         |                 ^
-   2 warnings generated.
+vim +885 drivers/net/phy/motorcomm.c
 
-
-vim +/index +2366 fs/f2fs/data.c
-
-  2340	
-  2341	/*
-  2342	 * This function was originally taken from fs/mpage.c, and customized for f2fs.
-  2343	 * Major change was from block_size == page_size in f2fs by default.
-  2344	 */
-  2345	static int f2fs_mpage_readpages(struct inode *inode,
-  2346			struct readahead_control *rac, struct folio *folio)
-  2347	{
-  2348		struct bio *bio = NULL;
-  2349		sector_t last_block_in_bio = 0;
-  2350		struct f2fs_map_blocks map;
-  2351	#ifdef CONFIG_F2FS_FS_COMPRESSION
-  2352		struct compress_ctx cc = {
-  2353			.inode = inode,
-  2354			.log_cluster_size = F2FS_I(inode)->i_log_cluster_size,
-  2355			.cluster_size = F2FS_I(inode)->i_cluster_size,
-  2356			.cluster_idx = NULL_CLUSTER,
-  2357			.rpages = NULL,
-  2358			.cpages = NULL,
-  2359			.nr_rpages = 0,
-  2360			.nr_cpages = 0,
-  2361		};
-  2362		pgoff_t nc_cluster_idx = NULL_CLUSTER;
-  2363	#endif
-  2364		unsigned nr_pages = rac ? readahead_count(rac) : 1;
-  2365		unsigned max_nr_pages = nr_pages;
-> 2366		pgoff_t index;
-  2367		int ret = 0;
-  2368	
-  2369		map.m_pblk = 0;
-  2370		map.m_lblk = 0;
-  2371		map.m_len = 0;
-  2372		map.m_flags = 0;
-  2373		map.m_next_pgofs = NULL;
-  2374		map.m_next_extent = NULL;
-  2375		map.m_seg_type = NO_CHECK_TYPE;
-  2376		map.m_may_create = false;
-  2377	
-  2378		for (; nr_pages; nr_pages--) {
-  2379			if (rac) {
-  2380				folio = readahead_folio(rac);
-  2381				prefetchw(&folio->flags);
-  2382			}
-  2383	
-  2384			index = folio_index(folio);
-  2385	
+7a561e9351ae7e3 Samin Guo 2023-07-20  877
+7a561e9351ae7e3 Samin Guo 2023-07-20  878  static u32 yt8531_get_ldo_vol(struct phy_device *phydev)
+7a561e9351ae7e3 Samin Guo 2023-07-20  879  {
+7a561e9351ae7e3 Samin Guo 2023-07-20  880  	u32 val;
+7a561e9351ae7e3 Samin Guo 2023-07-20  881
+7a561e9351ae7e3 Samin Guo 2023-07-20  882  	val = ytphy_read_ext_with_lock(phydev, YT8521_CHIP_CONFIG_REG);
+7a561e9351ae7e3 Samin Guo 2023-07-20  883  	val = FIELD_GET(YT8531_RGMII_LDO_VOL_MASK, val);
+7a561e9351ae7e3 Samin Guo 2023-07-20  884
+7a561e9351ae7e3 Samin Guo 2023-07-20 @885  	return val <= YT8531_LDO_VOL_1V8 ? val : YT8531_LDO_VOL_1V8;
+7a561e9351ae7e3 Samin Guo 2023-07-20  886  }
+7a561e9351ae7e3 Samin Guo 2023-07-20  887
 
 -- 
 0-DAY CI Kernel Test Service
