@@ -1,96 +1,122 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EC4EDC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 12:34:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3827412C80B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Apr 2024 12:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713357277; cv=none; b=GxfgwK8v/aGjuJYsuzSCuwgU6dlSxn9dYsLDZW3UUr3ajF+9vtnwwS90mgdpRFLCTfy18uuJASU9NlLpDK1KWDKdrxw5OTm3oyE6h8F+AzPgeVWNMQ9rxBb53BT1Xa+xCjGOor5LFa3+XvmtNwHqwq/grZY2DdvV5TZIeqhPSvg=
+	t=1713357740; cv=none; b=bbCvQG/YwhdRmykelXkpszBmb/P9Xyh1BQn1xhtOZfmYf29xbsSy3IA6AFe7N7rLmm5V9Fh3Z2zk0342B6q1I03vaaPLO5krXoe+cGM9GLyqjaDFEOdIj7dtpl/1UP4WMJ6gY4l2HcKuwQ5Kc8DbgG9GteO1ZawVr0jZbjjM42k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713357277; c=relaxed/simple;
-	bh=E5QZtGU4PZm2is2P+MulDOxW3Rpe7EdfaFk+Lnyb7cU=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=jOPXXTMsGF4xslnNo0sXcdLpTdWBFCwcLw3W1S9PO7uhtmJ7KhebeWhgF5DElKsM2h2w8/LsqXCxXSz4kX9m9NDtnF0IQRC4YTbX2OLGU7ToIbdbDsp+Amomub0RwjUPjAhC9dbe1qNrrgxu52T9yhhV3MkdesVDdzGdnahPOYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=dAmwnAxB; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1713357740; c=relaxed/simple;
+	bh=cQ/0FPz7Fn7khjpnU/x3K1CLUw/2ApOerZYJHOB9gW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GLk5uPcUoleeJ3uIx7u3LKUhAXc+4VNWyYQs5OB3Dlc9QWUSgxLPObNjkFKai7v5hUMeORlV/Zfwj2LnsqNq7OcVNAHESB/UWD/6v044NA4BuLpYsVF6hnEUGj+XfusXezp8Yndwb7tjkWPAMDi+ob4GviCa+cCewZ0VRhdOEmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GdTq/NYq; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="dAmwnAxB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GdTq/NYq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713357738; x=1744893738;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ysZHud6S4cjBQXKHfG/FeblhiB0ojezj19lZpopi0wI=;
-  b=dAmwnAxBIKyxhRp9PioBKnPY8GhW/Olu4nx1naLHyF35gRSGUfxWFkvL
-   f9Nz6h3AmwCs0LYgFmX8H+1XmVNIA1/FPYYmRjDSbmuAnE1bKJY0MuH6r
-   x05nAocOpO4mO0hchE/anudMyyMlDknxLxefckD2YANaEjSOncapHZ2T0
-   o=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.07,209,1708383600"; 
-   d="scan'208";a="162061165"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 14:34:27 +0200
-Date: Wed, 17 Apr 2024 14:34:27 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Samin Guo <samin.guo@starfivetech.com>, 
-    Hal Feng <hal.feng@starfivetech.com>, Andrew Lunn <andrew@lunn.ch>
-cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: drivers/net/phy/motorcomm.c:885:12-14: WARNING opportunity for min()
- (fwd)
-Message-ID: <2119db14-c2a-9bd3-eae8-4faa5219dbc3@inria.fr>
+  bh=cQ/0FPz7Fn7khjpnU/x3K1CLUw/2ApOerZYJHOB9gW8=;
+  b=GdTq/NYqK60rdT/4WLacrA2MsWbg4ysOhVPs8+PfMlo/hMxL43cc9sNs
+   w0qPqPndP7p7+WUNoIymz2xddBG/ZVN4hGgTlye8cFPBKDs0YwWO+mJ70
+   R+2hRR+XPBs/b60d1rb1XsxQmS/DR5e/pYMXQt5+JyadYPfHKDdqg6pWJ
+   3xCb2h86jHfwUJbMoz0b58PgV8O7108m/JAcuVGJy7wT2/Ii79ooAg8k/
+   0Lmhf/vICZV0H+bvie3cMz+5P5wbCULk4RMgPYDwJVzA8/wkIjBHGgQLg
+   HWO8wEQI0hniDOgnSnyPVdUE5C3T3cd3Kblp6RPC9d8ZBunTR9VdagZhR
+   Q==;
+X-CSE-ConnectionGUID: ZOGUBMQxSTqLLRlLglJz5Q==
+X-CSE-MsgGUID: wY7Oxx4MTNGshH6JKjhOYQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="19450789"
+X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
+   d="scan'208";a="19450789"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 05:42:17 -0700
+X-CSE-ConnectionGUID: +t5pbQ+8SZ+7GUzzSqvqYQ==
+X-CSE-MsgGUID: cLt4wpGMRaqkSkdS4LjwxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
+   d="scan'208";a="22668851"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 17 Apr 2024 05:42:15 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rx4c9-0006aG-2P;
+	Wed, 17 Apr 2024 12:42:13 +0000
+Date: Wed, 17 Apr 2024 20:41:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:rw_iter 222/226] drivers/hwtracing/intel_th/msu.c:1434:
+ warning: Function parameter or struct member 'to' not described in
+ 'msc_win_to_user_struct'
+Message-ID: <202404172040.hA0I8JYX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-
-
----------- Forwarded message ----------
-Date: Wed, 17 Apr 2024 20:21:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/net/phy/motorcomm.c:885:12-14: WARNING opportunity for min()
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Samin Guo <samin.guo@starfivetech.com>
-CC: Hal Feng <hal.feng@starfivetech.com>
-CC: Andrew Lunn <andrew@lunn.ch>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   96fca68c4fbf77a8185eb10f7557e23352732ea2
-commit: 7a561e9351ae7e3fb1f08584d40b49c1e55dde60 net: phy: motorcomm: Add pad drive strength cfg support
-date:   9 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 9 months ago
-config: i386-randconfig-053-20240417 (https://download.01.org/0day-ci/archive/20240417/202404172059.wU4sM9Qi-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   fe753ea36f846c5a5638f1db502ba023e76132ae
+commit: e95c20aadd66e465c1fb23c890ac43a39612a99c [222/226] intel_th: convert to read/write iterators
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240417/202404172040.hA0I8JYX-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404172040.hA0I8JYX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202404172059.wU4sM9Qi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404172040.hA0I8JYX-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/phy/motorcomm.c:885:12-14: WARNING opportunity for min()
+All warnings (new ones prefixed by >>):
 
-vim +885 drivers/net/phy/motorcomm.c
+   drivers/hwtracing/intel_th/msu.c:77: warning: Function parameter or struct member 'msc' not described in 'msc_window'
+   drivers/hwtracing/intel_th/msu.c:122: warning: bad line: 
+   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'msu_base' not described in 'msc'
+   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'mbuf_priv' not described in 'msc'
+   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'work' not described in 'msc'
+   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'switch_on_unlock' not described in 'msc'
+   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'orig_addr' not described in 'msc'
+   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'orig_sz' not described in 'msc'
+   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'iter_list' not described in 'msc'
+   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'stop_on_full' not described in 'msc'
+   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'do_irq' not described in 'msc'
+   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'multi_is_broken' not described in 'msc'
+   drivers/hwtracing/intel_th/msu.c:1309: warning: Function parameter or struct member 'nr_pages' not described in 'msc_buffer_alloc'
+   drivers/hwtracing/intel_th/msu.c:1309: warning: Function parameter or struct member 'nr_wins' not described in 'msc_buffer_alloc'
+   drivers/hwtracing/intel_th/msu.c:1309: warning: Excess function parameter 'size' description in 'msc_buffer_alloc'
+>> drivers/hwtracing/intel_th/msu.c:1434: warning: Function parameter or struct member 'to' not described in 'msc_win_to_user_struct'
+>> drivers/hwtracing/intel_th/msu.c:1434: warning: Function parameter or struct member 'iocb' not described in 'msc_win_to_user_struct'
+>> drivers/hwtracing/intel_th/msu.c:1434: warning: Excess struct member 'buf' description in 'msc_win_to_user_struct'
+>> drivers/hwtracing/intel_th/msu.c:1434: warning: Excess struct member 'offset' description in 'msc_win_to_user_struct'
 
-7a561e9351ae7e3 Samin Guo 2023-07-20  877
-7a561e9351ae7e3 Samin Guo 2023-07-20  878  static u32 yt8531_get_ldo_vol(struct phy_device *phydev)
-7a561e9351ae7e3 Samin Guo 2023-07-20  879  {
-7a561e9351ae7e3 Samin Guo 2023-07-20  880  	u32 val;
-7a561e9351ae7e3 Samin Guo 2023-07-20  881
-7a561e9351ae7e3 Samin Guo 2023-07-20  882  	val = ytphy_read_ext_with_lock(phydev, YT8521_CHIP_CONFIG_REG);
-7a561e9351ae7e3 Samin Guo 2023-07-20  883  	val = FIELD_GET(YT8531_RGMII_LDO_VOL_MASK, val);
-7a561e9351ae7e3 Samin Guo 2023-07-20  884
-7a561e9351ae7e3 Samin Guo 2023-07-20 @885  	return val <= YT8531_LDO_VOL_1V8 ? val : YT8531_LDO_VOL_1V8;
-7a561e9351ae7e3 Samin Guo 2023-07-20  886  }
-7a561e9351ae7e3 Samin Guo 2023-07-20  887
+
+vim +1434 drivers/hwtracing/intel_th/msu.c
+
+ba82664c134ef7 Alexander Shishkin 2015-09-22  1425  
+ba82664c134ef7 Alexander Shishkin 2015-09-22  1426  /**
+ba82664c134ef7 Alexander Shishkin 2015-09-22  1427   * struct msc_win_to_user_struct - data for copy_to_user() callback
+ba82664c134ef7 Alexander Shishkin 2015-09-22  1428   * @buf:	userspace buffer to copy data to
+ba82664c134ef7 Alexander Shishkin 2015-09-22  1429   * @offset:	running offset
+ba82664c134ef7 Alexander Shishkin 2015-09-22  1430   */
+ba82664c134ef7 Alexander Shishkin 2015-09-22  1431  struct msc_win_to_user_struct {
+e95c20aadd66e4 Jens Axboe         2024-04-08  1432  	struct iov_iter	*to;
+e95c20aadd66e4 Jens Axboe         2024-04-08  1433  	struct kiocb	*iocb;
+ba82664c134ef7 Alexander Shishkin 2015-09-22 @1434  };
+ba82664c134ef7 Alexander Shishkin 2015-09-22  1435  
+
+:::::: The code at line 1434 was first introduced by commit
+:::::: ba82664c134ef7ab97808f09a3c5e894b0a4900d intel_th: Add Memory Storage Unit driver
+
+:::::: TO: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
