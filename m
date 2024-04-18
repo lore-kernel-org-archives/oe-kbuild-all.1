@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CB115F308
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 11:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A70165FBC;
+	Thu, 18 Apr 2024 14:10:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713441477; cv=none; b=rjhk5DXwvAXpHOMkVMOV41kDhxY0+k3BQcCv9i63peOa1sAjsSzr0wb2be77xcj9o73vXW7fH7E77/0CoiRzaoKRRwb6vIkPyJvffPeZzUMHZzeMRHzuOQa0JLrZm6hDfaSG4CgjkE1Kngdgz1VswJ6g8sm62NhsMKRu82mzmTY=
+	t=1713449458; cv=none; b=Y3Gu9YZUUtIwXL6hTyHpNbQ1yBlWJL3iCrr9FS+bUKGvDV/SdPOk+CGcVLOdGURIgEaKC+ehcbQ77sTnZnc7bGHUKfq/vKP2cYu5sFzC+EeZC0+AIvF/QW4PAptxBvX1haAUzj6vJOSyUREb8jKKkWFUTB2ixZdcGdHHhIec2s8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713441477; c=relaxed/simple;
-	bh=EJ+eUdeeBCXzftAQJU57/zkUCCLUBsA/k3v4mshrZgA=;
+	s=arc-20240116; t=1713449458; c=relaxed/simple;
+	bh=+T4Gbz0d0WDWqpCdnwHViVzIhKHhKRV2SeC9eULkFI8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sYHE65jeo76k0FBXd6RDVvexu8m/1SMXq+lWHwmLzMZ2/aKIJl5jUoY4lhfD4euQfzjq/ZiheB4xeISacac4OCWwcAok/vZLsdWIMEUq2LTMk5p7JkXszWjAHH2gLPdBCZa/GzhibcfRujwj4A2ATX0h1/Up/8/clqupIrPLKYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lWQaCZl7; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=tNG3rZovKhnaEF/Vly1fpmScMT7zt0qt18+lxkGv9fi+izaJEyZAZ03HCCc9ihWC2PPjrYsrcJl72iXzGwiyWWoSJOcMAY57n+xBks/86M7+zdakYAcICXxsddcgYf82J8jc9ZJG2gR7k7lKI/UsZvB8/sKsTWi09aO46/cQhEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PIc6TCg3; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lWQaCZl7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PIc6TCg3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713441476; x=1744977476;
+  t=1713449455; x=1744985455;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=EJ+eUdeeBCXzftAQJU57/zkUCCLUBsA/k3v4mshrZgA=;
-  b=lWQaCZl7iycAWX5vCf4g9mXIMsQTdBwlcGin9oD5BlrUf5Wud1J+P0BR
-   70sj8ajQxoO2p/0c9vbAJ8ExKwESMiU3ut/nXa/8DQ3SjzZ4JYm8uGA7A
-   adfi7JPU5WLK1E0T81TnP3YcFfEVv7IWptPcGHe5CcQcp6s3lENIbGto4
-   fsEgqF66vv2DndFcceHyMDKRXyKj5DqREOnTBUGybTE6xbX/oSz/l+8tP
-   7BfIkWLIavL+xB7f81Hp2Gzf0tW5syY5I5Li481W0Yuzu59nDk3j0n7dT
-   LfDurFJ0JCZcDZCtArIxY4icrgGMYKAM4VtotLtfsgD8q0UigHPGJ0Fe/
-   A==;
-X-CSE-ConnectionGUID: MFpKeUfzTrCCFflTxluo/A==
-X-CSE-MsgGUID: sePB+agCSPGATr7LViFM5w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="12767285"
+  bh=+T4Gbz0d0WDWqpCdnwHViVzIhKHhKRV2SeC9eULkFI8=;
+  b=PIc6TCg3kjFDUeEIlpo5c6gF1M9HRWEwWvW2DcGrUECSHmcJTTeyJwXi
+   t3ozW61b8IwvF5Wnv5RXbMGAlB01TzUefxbiWLl5F518b7EeBbTqxk1wy
+   4B3+GQOHfajRI2plQksBnt6ryahthn+wxvfwayYkvfaT3nFjpKROgaD47
+   e9mSFTMvofpTjvj3J3y4aiBuXFFsbD7EvHq7UCTpT4PTGQz6RAsK3qsPZ
+   mxCsDLx7S7nBFhp/qu/HWWzXogL+jd0MxtJ5OMbn4w8kWDtNsdyrkYNg7
+   419nx1R5rqSKuaWrftVm9fOI4cA5VBfdSPKvg72z+2qfJt8YvhPEnVlvQ
+   w==;
+X-CSE-ConnectionGUID: oO5XEIkLTZmxExANmlc8CQ==
+X-CSE-MsgGUID: GRneaRYyTZOvqXEeilwSSQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="26456682"
 X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="12767285"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 04:57:52 -0700
-X-CSE-ConnectionGUID: gOdMdSlySyqCFwAcsFuv1w==
-X-CSE-MsgGUID: DntNxO6tSPCCloBUxJgvLA==
+   d="scan'208";a="26456682"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 07:10:54 -0700
+X-CSE-ConnectionGUID: zcIgliynSJW6Sz2cXS0D+w==
+X-CSE-MsgGUID: jj4Bonx3Tnq9dPuBz/qaOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="27774216"
+   d="scan'208";a="27441373"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 18 Apr 2024 04:57:47 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 18 Apr 2024 07:10:49 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rxQOf-0007Zx-0T;
-	Thu, 18 Apr 2024 11:57:45 +0000
-Date: Thu, 18 Apr 2024 19:57:35 +0800
+	id 1rxSTO-0007mK-2y;
+	Thu, 18 Apr 2024 14:10:46 +0000
+Date: Thu, 18 Apr 2024 22:10:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lorenzo Bianconi <lorenzo@kernel.org>, linux-spi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, broonie@kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, broonie@kernel.org,
 	lorenzo.bianconi83@gmail.com, linux-arm-kernel@lists.infradead.org,
 	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
 	conor+dt@kernel.org, devicetree@vger.kernel.org, nbd@nbd.name,
@@ -58,7 +58,7 @@ Cc: oe-kbuild-all@lists.linux.dev, broonie@kernel.org,
 	will@kernel.org, upstream@airoha.com,
 	angelogioacchino.delregno@collabora.com
 Subject: Re: [PATCH v2 3/3] spi: airoha: add SPI-NAND Flash controller driver
-Message-ID: <202404181933.AfPnhmy7-lkp@intel.com>
+Message-ID: <202404182252.YtOmaTWG-lkp@intel.com>
 References: <25dd4334e3b37eaa628c20265841f251968c2b75.1713335916.git.lorenzo@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -84,26 +84,88 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/dt-bindi
 base:   next-20240416
 patch link:    https://lore.kernel.org/r/25dd4334e3b37eaa628c20265841f251968c2b75.1713335916.git.lorenzo%40kernel.org
 patch subject: [PATCH v2 3/3] spi: airoha: add SPI-NAND Flash controller driver
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240418/202404181933.AfPnhmy7-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240418/202404181933.AfPnhmy7-lkp@intel.com/reproduce)
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240418/202404182252.YtOmaTWG-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240418/202404182252.YtOmaTWG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404181933.AfPnhmy7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404182252.YtOmaTWG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/spi/spi-airoha-snfi.c: In function 'airoha_snand_set_fifo_op':
->> drivers/spi/spi-airoha-snfi.c:233:28: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+   In file included from drivers/spi/spi-airoha-snfi.c:10:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2254:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/spi/spi-airoha-snfi.c:10:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/spi/spi-airoha-snfi.c:10:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/spi/spi-airoha-snfi.c:10:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/spi/spi-airoha-snfi.c:233:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      233 |                            FIELD_PREP(SPI_CTRL_OPFIFO_LEN, op_len) |
-         |                            ^~~~~~~~~~
-   drivers/spi/spi-airoha-snfi.c: In function 'airoha_snand_read_data_from_fifo':
->> drivers/spi/spi-airoha-snfi.c:320:26: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+         |                            ^
+   drivers/spi/spi-airoha-snfi.c:281:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     281 |                                    FIELD_PREP(SPI_CTRL_DFIFO_WDATA, data[i]));
+         |                                    ^
+>> drivers/spi/spi-airoha-snfi.c:320:12: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      320 |                 ptr[i] = FIELD_GET(SPI_CTRL_DFIFO_RDATA, val);
-         |                          ^~~~~~~~~
-   cc1: some warnings being treated as errors
+         |                          ^
+   drivers/spi/spi-airoha-snfi.c:487:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     487 |                 val = FIELD_PREP(SPI_NFI_SPARE_SIZE, 0x1);
+         |                       ^
+   drivers/spi/spi-airoha-snfi.c:507:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     507 |                 val = FIELD_PREP(SPI_NFI_PAGE_SIZE, 0x1);
+         |                       ^
+   drivers/spi/spi-airoha-snfi.c:523:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     523 |         val = FIELD_PREP(SPI_NFI_SEC_NUM, as_ctrl->nfi_cfg.sec_num);
+         |               ^
+   drivers/spi/spi-airoha-snfi.c:694:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     694 |         val = FIELD_PREP(SPI_NFI_READ_DATA_BYTE_NUM, val);
+         |               ^
+   drivers/spi/spi-airoha-snfi.c:819:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     819 |         val = FIELD_PREP(SPI_NFI_PROG_LOAD_BYTE_NUM, val);
+         |               ^
+   drivers/spi/spi-airoha-snfi.c:1034:12: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1034 |         sec_num = FIELD_GET(SPI_NFI_SEC_NUM, val);
+         |                   ^
+   7 warnings and 9 errors generated.
 
 
 vim +/FIELD_PREP +233 drivers/spi/spi-airoha-snfi.c
