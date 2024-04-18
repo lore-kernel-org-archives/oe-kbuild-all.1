@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5DD16F855
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 16:26:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B461635A6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 16:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713457606; cv=none; b=lOUe9NI6BlbuyArsrUdGyaIF5J/hXbHsBZIlM6VTpLodZvjfr7Q/A8OYd3ajMkwtoqoT+paihaCkMoBfw8qUfAZN+wwJC0yjWxLH6ZPLkzJf6EmO5gT1RA5/H3ieH6umtawRXTeHWybEwNt9BnvzJT0v1sEMESN0zgu5NzJyWOQ=
+	t=1713458206; cv=none; b=EeP92h6FO0gJeREkkMEca8MhVyeLKuoFCfUJU85o5EnUhbYtn2MYI6aQGViMcR3wyPATd6LjXXvi+xiie6RBzceMbDLUhbsup7wmRpDH2/n81algra6hYdjdbq2V9fKDl+CgS7AAzs0L5WAig3aO0xxK7qyB2ZYxm7dnqRQ7eDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713457606; c=relaxed/simple;
-	bh=8VjK6lADXvtKaI78zm1opgjP6g6EQGVByW/KR8lVuRg=;
+	s=arc-20240116; t=1713458206; c=relaxed/simple;
+	bh=v6ERhm7klDpfgpOBKjXgd3Jrry8NBBU+VoaTIOphKqY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lEo8zbQhr6sZFXjV59l4E8sYuptTwtc4fdFiRYCC05QEr3CR4vnonzAJb2BySv57GAG74jvF4FZLf/jzRg+aFzKiZpkTsfQDAcLiXH50trsTwn4T5J4mNRfF8A1PY6a3MY+5AhhI9nU9V6MDO9bw2NCOUFqIrHIlXLcU4h5t6Ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJmUS6s+; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=LHU0FI6SNhianU/D5BX2OwqLe5QUjKThkD7w5GLQkBPKMuWh4LuV0gH63sXakc6GN3VDvdmro0ORunYcGgurZTNtP4AZKLObQYU5AT64UwsBb95tzD/rJhZJLjJeAJoW8kAsXGa9EHIdJh9qMC5c5s+Rwdcd7hqUvvZlSMKRCvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QziBJoOZ; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJmUS6s+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QziBJoOZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713457605; x=1744993605;
+  t=1713458205; x=1744994205;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8VjK6lADXvtKaI78zm1opgjP6g6EQGVByW/KR8lVuRg=;
-  b=TJmUS6s+qFa34l0oFcqa2BgtE256S41RSrzNQ3ur6nWfdLRqnIl5+8yH
-   WrjAH2VjbfQgyAcjC12aKddWik8Ue3yqozmR3wgNGdxA16Ro3xAI27sJ1
-   oggbz2rJXSIf3CXSJKVoOBaOe6hxkQl0SEcUc9PiMpU3CFaywtZvAV/C9
-   F6P2RrhFsq5yx4xqzWbAN2j7TJn2imdqehs9er1bjyiu2vNFQo5N88JDR
-   xBoMMNAdSm/lm9p9a8Iqage5D5R7pXVwRSIuHaK3BG59Yr2V7qUvIzczI
-   5hGB1DynpPlZOMwIPnS9KJTTk2hM6TRU1m1zmh0bkrNncM+H0/SwGRWTT
+  bh=v6ERhm7klDpfgpOBKjXgd3Jrry8NBBU+VoaTIOphKqY=;
+  b=QziBJoOZajiDE7MZYrRXnzmBQ6o34bsmleW4hJnsgxmL6jeosgWc7jwf
+   TmceiPpUj/qCxfJ83kSk9CBi8EVPcdHLV3YAqwfwylJO27t5rfM1wvPFK
+   iixIAia+aMpvNyMVVCIBhLL5EFtEsPIB6eQlyI9o5Wl88LWkPWZMnVbX5
+   uS9LVvYOxvI51NEHCgR58N1QcmYd00kF6pSVpCpQoWGyI1g07f5qoPmcR
+   vbrvvFxvNKYyDjHofQ3q9TRYBFFIdQRuwuSnhKODlprxyEQLTg7AX4pdK
+   ZWbRSNevCw0JaCsEtwJm/UNRnqH8ROT9v/r3iF/OkJNi/wkngS9Vb+lyY
    Q==;
-X-CSE-ConnectionGUID: 9C2iEvwRScq4Ct8gKzhsYA==
-X-CSE-MsgGUID: QjDiIae1R+mdvJTUPv0Mdw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="19628574"
+X-CSE-ConnectionGUID: tAp/DpwOT2mmn0CeV15Wvg==
+X-CSE-MsgGUID: yWjxOrfFSimdo8ggi9Q30A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="12808871"
 X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="19628574"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 09:26:44 -0700
-X-CSE-ConnectionGUID: YmO6XOujTu+dZsIRu9E4XA==
-X-CSE-MsgGUID: sSlbBa/rTSiiovVW2OilkA==
+   d="scan'208";a="12808871"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 09:36:45 -0700
+X-CSE-ConnectionGUID: VP4ZTQqcTuCg2XFH/F0sGw==
+X-CSE-MsgGUID: 4sD67ojQQJWfiL5pYCqRqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="23111007"
+   d="scan'208";a="23490468"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 18 Apr 2024 09:26:42 -0700
+  by orviesa006.jf.intel.com with ESMTP; 18 Apr 2024 09:36:43 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rxUau-0008wu-0L;
-	Thu, 18 Apr 2024 16:26:40 +0000
-Date: Fri, 19 Apr 2024 00:25:40 +0800
+	id 1rxUka-0008y2-2U;
+	Thu, 18 Apr 2024 16:36:40 +0000
+Date: Fri, 19 Apr 2024 00:35:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhao Wenhui <zhaowenhui8@huawei.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 22104/22139] fs/proc/array.c:614:9:
- warning: 'gtime' may be used uninitialized
-Message-ID: <202404190005.E7Ruoi45-lkp@intel.com>
+Subject: [sudeep-holla:for-next/ffa/updates 5/6]
+ include/linux/arm_ffa.h:233:13: warning: 'ffa_partition_check_property'
+ defined but not used
+Message-ID: <202404190004.fmNxgxtB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,269 +63,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   cc163ca2127ce6ebda08bc76d555cdabfb19ef65
-commit: 4f8730514c736b09927b1b9c08ad946b70639545 [22104/22139] fs/proc: do_task_stat: use sig->stats_lock to gather the threads/children stats
-config: x86_64-buildonly-randconfig-005-20240418 (https://download.01.org/0day-ci/archive/20240419/202404190005.E7Ruoi45-lkp@intel.com/config)
-compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190005.E7Ruoi45-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git for-next/ffa/updates
+head:   6b5c206a33a5c546478598142d4ff7246de0d18d
+commit: 859286f3b381a6f09b8e634a8438ecf34805dbca [5/6] firmware: arm_ffa: Stash the partition properties for query purposes
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240419/202404190004.fmNxgxtB-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190004.fmNxgxtB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404190005.E7Ruoi45-lkp@intel.com/
-
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404190004.fmNxgxtB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/sched/signal.h:7,
-                    from include/linux/sched/cputime.h:5,
-                    from fs/proc/array.c:68:
-   include/linux/signal.h: In function 'sigemptyset':
-   include/linux/signal.h:180:29: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     180 |         case 2: set->sig[1] = 0;
-         |                 ~~~~~~~~~~~~^~~
-   include/linux/signal.h:181:9: note: here
-     181 |         case 1: set->sig[0] = 0;
-         |         ^~~~
-   fs/proc/array.c: In function 'do_task_stat':
->> fs/proc/array.c:614:9: warning: 'gtime' may be used uninitialized [-Wmaybe-uninitialized]
-     614 |         seq_put_decimal_ull(m, " ", nsec_to_clock_t(gtime));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/proc/array.c:447:51: note: 'gtime' was declared here
-     447 |         u64 cutime, cstime, cgtime, utime, stime, gtime;
-         |                                                   ^~~~~
->> fs/proc/array.c:567:9: warning: 'maj_flt' may be used uninitialized [-Wmaybe-uninitialized]
-     567 |         seq_put_decimal_ull(m, " ", maj_flt);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/proc/array.c:446:52: note: 'maj_flt' was declared here
-     446 |         unsigned long cmin_flt, cmaj_flt, min_flt, maj_flt;
-         |                                                    ^~~~~~~
->> fs/proc/array.c:565:9: warning: 'min_flt' may be used uninitialized [-Wmaybe-uninitialized]
-     565 |         seq_put_decimal_ull(m, " ", min_flt);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/proc/array.c:446:43: note: 'min_flt' was declared here
-     446 |         unsigned long cmin_flt, cmaj_flt, min_flt, maj_flt;
-         |                                           ^~~~~~~
+   In file included from arch/arm64/include/asm/kvm_pkvm.h:9,
+                    from arch/arm64/kvm/hyp/include/nvhe/pkvm.h:10,
+                    from arch/arm64/kvm/hyp/hyp-constants.c:5:
+>> include/linux/arm_ffa.h:233:13: warning: 'ffa_partition_check_property' defined but not used [-Wunused-function]
+     233 | static bool ffa_partition_check_property(struct ffa_device *dev, u32 property)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   arch/arm64/kvm/hyp/nvhe/switch.c:187:43: warning: initialized field overwritten [-Woverride-init]
+     187 |         [ESR_ELx_EC_CP15_32]            = kvm_hyp_handle_cp15_32,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:187:43: note: (near initialization for 'hyp_exit_handlers[3]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:188:43: warning: initialized field overwritten [-Woverride-init]
+     188 |         [ESR_ELx_EC_SYS64]              = kvm_hyp_handle_sysreg,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:188:43: note: (near initialization for 'hyp_exit_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:189:43: warning: initialized field overwritten [-Woverride-init]
+     189 |         [ESR_ELx_EC_SVE]                = kvm_hyp_handle_fpsimd,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:189:43: note: (near initialization for 'hyp_exit_handlers[25]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:190:43: warning: initialized field overwritten [-Woverride-init]
+     190 |         [ESR_ELx_EC_FP_ASIMD]           = kvm_hyp_handle_fpsimd,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:190:43: note: (near initialization for 'hyp_exit_handlers[7]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:191:43: warning: initialized field overwritten [-Woverride-init]
+     191 |         [ESR_ELx_EC_IABT_LOW]           = kvm_hyp_handle_iabt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:191:43: note: (near initialization for 'hyp_exit_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:192:43: warning: initialized field overwritten [-Woverride-init]
+     192 |         [ESR_ELx_EC_DABT_LOW]           = kvm_hyp_handle_dabt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:192:43: note: (near initialization for 'hyp_exit_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:193:43: warning: initialized field overwritten [-Woverride-init]
+     193 |         [ESR_ELx_EC_WATCHPT_LOW]        = kvm_hyp_handle_watchpt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:193:43: note: (near initialization for 'hyp_exit_handlers[52]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:194:43: warning: initialized field overwritten [-Woverride-init]
+     194 |         [ESR_ELx_EC_PAC]                = kvm_hyp_handle_ptrauth,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:194:43: note: (near initialization for 'hyp_exit_handlers[9]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:195:43: warning: initialized field overwritten [-Woverride-init]
+     195 |         [ESR_ELx_EC_MOPS]               = kvm_hyp_handle_mops,
+         |                                           ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:195:43: note: (near initialization for 'hyp_exit_handlers[39]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:200:43: warning: initialized field overwritten [-Woverride-init]
+     200 |         [ESR_ELx_EC_SYS64]              = kvm_handle_pvm_sys64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:200:43: note: (near initialization for 'pvm_exit_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:201:43: warning: initialized field overwritten [-Woverride-init]
+     201 |         [ESR_ELx_EC_SVE]                = kvm_handle_pvm_restricted,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:201:43: note: (near initialization for 'pvm_exit_handlers[25]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:202:43: warning: initialized field overwritten [-Woverride-init]
+     202 |         [ESR_ELx_EC_FP_ASIMD]           = kvm_hyp_handle_fpsimd,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:202:43: note: (near initialization for 'pvm_exit_handlers[7]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:203:43: warning: initialized field overwritten [-Woverride-init]
+     203 |         [ESR_ELx_EC_IABT_LOW]           = kvm_hyp_handle_iabt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:203:43: note: (near initialization for 'pvm_exit_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:204:43: warning: initialized field overwritten [-Woverride-init]
+     204 |         [ESR_ELx_EC_DABT_LOW]           = kvm_hyp_handle_dabt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:204:43: note: (near initialization for 'pvm_exit_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:205:43: warning: initialized field overwritten [-Woverride-init]
+     205 |         [ESR_ELx_EC_WATCHPT_LOW]        = kvm_hyp_handle_watchpt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:205:43: note: (near initialization for 'pvm_exit_handlers[52]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:206:43: warning: initialized field overwritten [-Woverride-init]
+     206 |         [ESR_ELx_EC_PAC]                = kvm_hyp_handle_ptrauth,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:206:43: note: (near initialization for 'pvm_exit_handlers[9]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:207:43: warning: initialized field overwritten [-Woverride-init]
+     207 |         [ESR_ELx_EC_MOPS]               = kvm_hyp_handle_mops,
+         |                                           ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:207:43: note: (near initialization for 'pvm_exit_handlers[39]')
+   In file included from arch/arm64/include/asm/kvm_pkvm.h:9,
+                    from arch/arm64/kvm/hyp/include/nvhe/pkvm.h:10,
+                    from arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:14,
+                    from arch/arm64/kvm/hyp/nvhe/switch.c:30:
+>> include/linux/arm_ffa.h:233:13: warning: 'ffa_partition_check_property' defined but not used [-Wunused-function]
+     233 | static bool ffa_partition_check_property(struct ffa_device *dev, u32 property)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/gtime +614 fs/proc/array.c
+vim +/ffa_partition_check_property +233 include/linux/arm_ffa.h
 
-^1da177e4c3f41 Linus Torvalds      2005-04-16  432  
-ee992744ea53db Eric W. Biederman   2008-02-08  433  static int do_task_stat(struct seq_file *m, struct pid_namespace *ns,
-ee992744ea53db Eric W. Biederman   2008-02-08  434  			struct pid *pid, struct task_struct *task, int whole)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  435  {
-b2f73922d11968 Ingo Molnar         2015-09-30  436  	unsigned long vsize, eip, esp, wchan = 0;
-715be1fce0d964 Jan Engelhardt      2012-05-31  437  	int priority, nice;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  438  	int tty_pgrp = -1, tty_nr = 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  439  	sigset_t sigign, sigcatch;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  440  	char state;
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  441  	pid_t ppid = 0, pgid = -1, sid = -1;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  442  	int num_threads = 0;
-f83ce3e6b02d5e Jake Edge           2009-05-04  443  	int permitted;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  444  	struct mm_struct *mm;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  445  	unsigned long long start_time;
-4f8730514c736b Oleg Nesterov       2024-04-13  446  	unsigned long cmin_flt, cmaj_flt, min_flt, maj_flt;
-4f8730514c736b Oleg Nesterov       2024-04-13  447  	u64 cutime, cstime, cgtime, utime, stime, gtime;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  448  	unsigned long rsslim = 0;
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  449  	unsigned long flags;
-08132d3d089b9a Eric W. Biederman   2024-04-13  450  	int exit_code = task->exit_code;
-4f8730514c736b Oleg Nesterov       2024-04-13  451  	struct signal_struct *sig = task->signal;
-4f8730514c736b Oleg Nesterov       2024-04-13  452  	unsigned int seq = 1;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  453  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  454  	state = *get_task_state(task);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  455  	vsize = eip = esp = 0;
-caaee6234d05a5 Jann Horn           2016-01-20  456  	permitted = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS | PTRACE_MODE_NOAUDIT);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  457  	mm = get_task_mm(task);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  458  	if (mm) {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  459  		vsize = task_vsize(mm);
-0a1eb2d474edfe Andy Lutomirski     2016-09-30  460  		/*
-0a1eb2d474edfe Andy Lutomirski     2016-09-30  461  		 * esp and eip are intentionally zeroed out.  There is no
-0a1eb2d474edfe Andy Lutomirski     2016-09-30  462  		 * non-racy way to read them without freezing the task.
-0a1eb2d474edfe Andy Lutomirski     2016-09-30  463  		 * Programs that need reliable values can use ptrace(2).
-fd7d56270b526c John Ogness         2017-09-14  464  		 *
-fd7d56270b526c John Ogness         2017-09-14  465  		 * The only exception is if the task is core dumping because
-fd7d56270b526c John Ogness         2017-09-14  466  		 * a program is not able to use ptrace(2) in that case. It is
-fd7d56270b526c John Ogness         2017-09-14  467  		 * safe because the task has stopped executing permanently.
-0a1eb2d474edfe Andy Lutomirski     2016-09-30  468  		 */
-ef7622dbb87776 John Ogness         2019-07-04  469  		if (permitted && (task->flags & (PF_EXITING|PF_DUMPCORE))) {
-8bb2ee192e482c Alexey Dobriyan     2018-01-18  470  			if (try_get_task_stack(task)) {
-fd7d56270b526c John Ogness         2017-09-14  471  				eip = KSTK_EIP(task);
-fd7d56270b526c John Ogness         2017-09-14  472  				esp = KSTK_ESP(task);
-8bb2ee192e482c Alexey Dobriyan     2018-01-18  473  				put_task_stack(task);
-8bb2ee192e482c Alexey Dobriyan     2018-01-18  474  			}
-fd7d56270b526c John Ogness         2017-09-14  475  		}
-f83ce3e6b02d5e Jake Edge           2009-05-04  476  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  477  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  478  	sigemptyset(&sigign);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  479  	sigemptyset(&sigcatch);
-3cfd0885fac78c Alan Cox            2006-09-29  480  
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  481  	if (lock_task_sighand(task, &flags)) {
-915935041281c6 Oleg Nesterov       2006-12-08  482  		if (sig->tty) {
-5d0fdf1e018998 Alan Cox            2008-04-30  483  			struct pid *pgrp = tty_get_pgrp(sig->tty);
-5d0fdf1e018998 Alan Cox            2008-04-30  484  			tty_pgrp = pid_nr_ns(pgrp, ns);
-5d0fdf1e018998 Alan Cox            2008-04-30  485  			put_pid(pgrp);
-915935041281c6 Oleg Nesterov       2006-12-08  486  			tty_nr = new_encode_dev(tty_devnum(sig->tty));
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  487  		}
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  488  
-7e49827cc937a7 Oleg Nesterov       2010-05-26  489  		num_threads = get_nr_threads(task);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  490  		collect_sigign_sigcatch(task, &sigign, &sigcatch);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  491  
-6aa7de059173a9 Mark Rutland        2017-10-23  492  		rsslim = READ_ONCE(sig->rlim[RLIMIT_RSS].rlim_cur);
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  493  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  494  		if (whole) {
-08132d3d089b9a Eric W. Biederman   2024-04-13  495  			if (sig->flags & (SIGNAL_GROUP_EXIT | SIGNAL_STOP_STOPPED))
-08132d3d089b9a Eric W. Biederman   2024-04-13  496  				exit_code = sig->group_exit_code;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  497  		}
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  498  
-b488893a390edf Pavel Emelyanov     2007-10-18  499  		sid = task_session_nr_ns(task, ns);
-a98fdcef941e10 Oleg Nesterov       2008-01-15  500  		ppid = task_tgid_nr_ns(task->real_parent, ns);
-b488893a390edf Pavel Emelyanov     2007-10-18  501  		pgid = task_pgrp_nr_ns(task, ns);
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  502  
-a593d6edeb0a5a Oleg Nesterov       2006-10-02  503  		unlock_task_sighand(task, &flags);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  504  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  505  
-f83ce3e6b02d5e Jake Edge           2009-05-04  506  	if (permitted && (!whole || num_threads < 2))
-^1da177e4c3f41 Linus Torvalds      2005-04-16  507  		wchan = get_wchan(task);
-f59c1abf66d159 Oleg Nesterov       2024-04-13  508  
-4f8730514c736b Oleg Nesterov       2024-04-13  509  	do {
-4f8730514c736b Oleg Nesterov       2024-04-13  510  		seq++; /* 2 on the 1st/lockless path, otherwise odd */
-4f8730514c736b Oleg Nesterov       2024-04-13  511  		flags = read_seqbegin_or_lock_irqsave(&sig->stats_lock, &seq);
-4f8730514c736b Oleg Nesterov       2024-04-13  512  
-4f8730514c736b Oleg Nesterov       2024-04-13  513  		cmin_flt = sig->cmin_flt;
-4f8730514c736b Oleg Nesterov       2024-04-13  514  		cmaj_flt = sig->cmaj_flt;
-4f8730514c736b Oleg Nesterov       2024-04-13  515  		cutime = sig->cutime;
-4f8730514c736b Oleg Nesterov       2024-04-13  516  		cstime = sig->cstime;
-4f8730514c736b Oleg Nesterov       2024-04-13  517  		cgtime = sig->cgtime;
-4f8730514c736b Oleg Nesterov       2024-04-13  518  
-4f8730514c736b Oleg Nesterov       2024-04-13  519  		if (whole) {
-4f8730514c736b Oleg Nesterov       2024-04-13  520  			struct task_struct *t;
-4f8730514c736b Oleg Nesterov       2024-04-13  521  
-4f8730514c736b Oleg Nesterov       2024-04-13  522  			min_flt = sig->min_flt;
-4f8730514c736b Oleg Nesterov       2024-04-13  523  			maj_flt = sig->maj_flt;
-4f8730514c736b Oleg Nesterov       2024-04-13  524  			gtime = sig->gtime;
-4f8730514c736b Oleg Nesterov       2024-04-13  525  
-4f8730514c736b Oleg Nesterov       2024-04-13  526  			rcu_read_lock();
-4f8730514c736b Oleg Nesterov       2024-04-13  527  			__for_each_thread(sig, t) {
-4f8730514c736b Oleg Nesterov       2024-04-13  528  				min_flt += t->min_flt;
-4f8730514c736b Oleg Nesterov       2024-04-13  529  				maj_flt += t->maj_flt;
-4f8730514c736b Oleg Nesterov       2024-04-13  530  				gtime += task_gtime(t);
-4f8730514c736b Oleg Nesterov       2024-04-13  531  			}
-4f8730514c736b Oleg Nesterov       2024-04-13  532  			rcu_read_unlock();
-4f8730514c736b Oleg Nesterov       2024-04-13  533  		}
-4f8730514c736b Oleg Nesterov       2024-04-13  534  	} while (need_seqretry(&sig->stats_lock, seq));
-4f8730514c736b Oleg Nesterov       2024-04-13  535  	done_seqretry_irqrestore(&sig->stats_lock, seq, flags);
-4f8730514c736b Oleg Nesterov       2024-04-13  536  
-f59c1abf66d159 Oleg Nesterov       2024-04-13  537  	if (whole) {
-f59c1abf66d159 Oleg Nesterov       2024-04-13  538  		thread_group_cputime_adjusted(task, &utime, &stime);
-f59c1abf66d159 Oleg Nesterov       2024-04-13  539  	} else {
-f59c1abf66d159 Oleg Nesterov       2024-04-13  540  		task_cputime_adjusted(task, &utime, &stime);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  541  		min_flt = task->min_flt;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  542  		maj_flt = task->maj_flt;
-6fac4829ce0ef9 Frederic Weisbecker 2012-11-13  543  		gtime = task_gtime(task);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  544  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  545  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  546  	/* scale priority and nice values from timeslices to -20..20 */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  547  	/* to make it look like a "normal" Unix priority/nice value  */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  548  	priority = task_prio(task);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  549  	nice = task_nice(task);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  550  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  551  	/* convert nsec -> ticks */
-57e0be041d9e21 Thomas Gleixner     2014-07-16  552  	start_time = nsec_to_clock_t(task->real_start_time);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  553  
-d0f02231222b31 Andrei Vagin        2018-04-10  554  	seq_put_decimal_ull(m, "", pid_nr_ns(pid, ns));
-d0f02231222b31 Andrei Vagin        2018-04-10  555  	seq_puts(m, " (");
-88b72b31e15f9d Tejun Heo           2018-05-18  556  	proc_task_name(m, task, false);
-d0f02231222b31 Andrei Vagin        2018-04-10  557  	seq_puts(m, ") ");
-d0f02231222b31 Andrei Vagin        2018-04-10  558  	seq_putc(m, state);
-75ba1d07fd6a49 Joe Perches         2016-10-07  559  	seq_put_decimal_ll(m, " ", ppid);
-75ba1d07fd6a49 Joe Perches         2016-10-07  560  	seq_put_decimal_ll(m, " ", pgid);
-75ba1d07fd6a49 Joe Perches         2016-10-07  561  	seq_put_decimal_ll(m, " ", sid);
-75ba1d07fd6a49 Joe Perches         2016-10-07  562  	seq_put_decimal_ll(m, " ", tty_nr);
-75ba1d07fd6a49 Joe Perches         2016-10-07  563  	seq_put_decimal_ll(m, " ", tty_pgrp);
-75ba1d07fd6a49 Joe Perches         2016-10-07  564  	seq_put_decimal_ull(m, " ", task->flags);
-75ba1d07fd6a49 Joe Perches         2016-10-07 @565  	seq_put_decimal_ull(m, " ", min_flt);
-75ba1d07fd6a49 Joe Perches         2016-10-07  566  	seq_put_decimal_ull(m, " ", cmin_flt);
-75ba1d07fd6a49 Joe Perches         2016-10-07 @567  	seq_put_decimal_ull(m, " ", maj_flt);
-75ba1d07fd6a49 Joe Perches         2016-10-07  568  	seq_put_decimal_ull(m, " ", cmaj_flt);
-5613fda9a503cd Frederic Weisbecker 2017-01-31  569  	seq_put_decimal_ull(m, " ", nsec_to_clock_t(utime));
-5613fda9a503cd Frederic Weisbecker 2017-01-31  570  	seq_put_decimal_ull(m, " ", nsec_to_clock_t(stime));
-5613fda9a503cd Frederic Weisbecker 2017-01-31  571  	seq_put_decimal_ll(m, " ", nsec_to_clock_t(cutime));
-5613fda9a503cd Frederic Weisbecker 2017-01-31  572  	seq_put_decimal_ll(m, " ", nsec_to_clock_t(cstime));
-75ba1d07fd6a49 Joe Perches         2016-10-07  573  	seq_put_decimal_ll(m, " ", priority);
-75ba1d07fd6a49 Joe Perches         2016-10-07  574  	seq_put_decimal_ll(m, " ", nice);
-75ba1d07fd6a49 Joe Perches         2016-10-07  575  	seq_put_decimal_ll(m, " ", num_threads);
-75ba1d07fd6a49 Joe Perches         2016-10-07  576  	seq_put_decimal_ull(m, " ", 0);
-75ba1d07fd6a49 Joe Perches         2016-10-07  577  	seq_put_decimal_ull(m, " ", start_time);
-75ba1d07fd6a49 Joe Perches         2016-10-07  578  	seq_put_decimal_ull(m, " ", vsize);
-75ba1d07fd6a49 Joe Perches         2016-10-07  579  	seq_put_decimal_ull(m, " ", mm ? get_mm_rss(mm) : 0);
-75ba1d07fd6a49 Joe Perches         2016-10-07  580  	seq_put_decimal_ull(m, " ", rsslim);
-75ba1d07fd6a49 Joe Perches         2016-10-07  581  	seq_put_decimal_ull(m, " ", mm ? (permitted ? mm->start_code : 1) : 0);
-75ba1d07fd6a49 Joe Perches         2016-10-07  582  	seq_put_decimal_ull(m, " ", mm ? (permitted ? mm->end_code : 1) : 0);
-75ba1d07fd6a49 Joe Perches         2016-10-07  583  	seq_put_decimal_ull(m, " ", (permitted && mm) ? mm->start_stack : 0);
-75ba1d07fd6a49 Joe Perches         2016-10-07  584  	seq_put_decimal_ull(m, " ", esp);
-75ba1d07fd6a49 Joe Perches         2016-10-07  585  	seq_put_decimal_ull(m, " ", eip);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  586  	/* The signal information here is obsolete.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  587  	 * It must be decimal for Linux 2.0 compatibility.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  588  	 * Use /proc/#/status for real-time signals.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  589  	 */
-75ba1d07fd6a49 Joe Perches         2016-10-07  590  	seq_put_decimal_ull(m, " ", task->pending.signal.sig[0] & 0x7fffffffUL);
-75ba1d07fd6a49 Joe Perches         2016-10-07  591  	seq_put_decimal_ull(m, " ", task->blocked.sig[0] & 0x7fffffffUL);
-75ba1d07fd6a49 Joe Perches         2016-10-07  592  	seq_put_decimal_ull(m, " ", sigign.sig[0] & 0x7fffffffUL);
-75ba1d07fd6a49 Joe Perches         2016-10-07  593  	seq_put_decimal_ull(m, " ", sigcatch.sig[0] & 0x7fffffffUL);
-b2f73922d11968 Ingo Molnar         2015-09-30  594  
-b2f73922d11968 Ingo Molnar         2015-09-30  595  	/*
-b2f73922d11968 Ingo Molnar         2015-09-30  596  	 * We used to output the absolute kernel address, but that's an
-b2f73922d11968 Ingo Molnar         2015-09-30  597  	 * information leak - so instead we show a 0/1 flag here, to signal
-b2f73922d11968 Ingo Molnar         2015-09-30  598  	 * to user-space whether there's a wchan field in /proc/PID/wchan.
-b2f73922d11968 Ingo Molnar         2015-09-30  599  	 *
-b2f73922d11968 Ingo Molnar         2015-09-30  600  	 * This works with older implementations of procps as well.
-b2f73922d11968 Ingo Molnar         2015-09-30  601  	 */
-b2f73922d11968 Ingo Molnar         2015-09-30  602  	if (wchan)
-b2f73922d11968 Ingo Molnar         2015-09-30  603  		seq_puts(m, " 1");
-b2f73922d11968 Ingo Molnar         2015-09-30  604  	else
-b2f73922d11968 Ingo Molnar         2015-09-30  605  		seq_puts(m, " 0");
-b2f73922d11968 Ingo Molnar         2015-09-30  606  
-75ba1d07fd6a49 Joe Perches         2016-10-07  607  	seq_put_decimal_ull(m, " ", 0);
-75ba1d07fd6a49 Joe Perches         2016-10-07  608  	seq_put_decimal_ull(m, " ", 0);
-75ba1d07fd6a49 Joe Perches         2016-10-07  609  	seq_put_decimal_ll(m, " ", task->exit_signal);
-75ba1d07fd6a49 Joe Perches         2016-10-07  610  	seq_put_decimal_ll(m, " ", task_cpu(task));
-75ba1d07fd6a49 Joe Perches         2016-10-07  611  	seq_put_decimal_ull(m, " ", task->rt_priority);
-75ba1d07fd6a49 Joe Perches         2016-10-07  612  	seq_put_decimal_ull(m, " ", task->policy);
-75ba1d07fd6a49 Joe Perches         2016-10-07  613  	seq_put_decimal_ull(m, " ", delayacct_blkio_ticks(task));
-16a6d9be90373f Frederic Weisbecker 2017-01-31 @614  	seq_put_decimal_ull(m, " ", nsec_to_clock_t(gtime));
-16a6d9be90373f Frederic Weisbecker 2017-01-31  615  	seq_put_decimal_ll(m, " ", nsec_to_clock_t(cgtime));
-5b172087f99189 Cyrill Gorcunov     2012-05-31  616  
-5b172087f99189 Cyrill Gorcunov     2012-05-31  617  	if (mm && permitted) {
-75ba1d07fd6a49 Joe Perches         2016-10-07  618  		seq_put_decimal_ull(m, " ", mm->start_data);
-75ba1d07fd6a49 Joe Perches         2016-10-07  619  		seq_put_decimal_ull(m, " ", mm->end_data);
-75ba1d07fd6a49 Joe Perches         2016-10-07  620  		seq_put_decimal_ull(m, " ", mm->start_brk);
-75ba1d07fd6a49 Joe Perches         2016-10-07  621  		seq_put_decimal_ull(m, " ", mm->arg_start);
-75ba1d07fd6a49 Joe Perches         2016-10-07  622  		seq_put_decimal_ull(m, " ", mm->arg_end);
-75ba1d07fd6a49 Joe Perches         2016-10-07  623  		seq_put_decimal_ull(m, " ", mm->env_start);
-75ba1d07fd6a49 Joe Perches         2016-10-07  624  		seq_put_decimal_ull(m, " ", mm->env_end);
-5b172087f99189 Cyrill Gorcunov     2012-05-31  625  	} else
-75ba1d07fd6a49 Joe Perches         2016-10-07  626  		seq_puts(m, " 0 0 0 0 0 0 0");
-5b172087f99189 Cyrill Gorcunov     2012-05-31  627  
-5b172087f99189 Cyrill Gorcunov     2012-05-31  628  	if (permitted)
-08132d3d089b9a Eric W. Biederman   2024-04-13  629  		seq_put_decimal_ll(m, " ", exit_code);
-5b172087f99189 Cyrill Gorcunov     2012-05-31  630  	else
-75ba1d07fd6a49 Joe Perches         2016-10-07  631  		seq_puts(m, " 0");
-5b172087f99189 Cyrill Gorcunov     2012-05-31  632  
-bda7bad62bc4c4 KAMEZAWA Hiroyuki   2012-03-23  633  	seq_putc(m, '\n');
-^1da177e4c3f41 Linus Torvalds      2005-04-16  634  	if (mm)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  635  		mmput(mm);
-ee992744ea53db Eric W. Biederman   2008-02-08  636  	return 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  637  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  638  
-
-:::::: The code at line 614 was first introduced by commit
-:::::: 16a6d9be90373fb0b521850cd0185a4d460dd152 sched/cputime: Convert guest time accounting to nsecs (u64)
-
-:::::: TO: Frederic Weisbecker <fweisbec@gmail.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+   232	
+ > 233	static bool ffa_partition_check_property(struct ffa_device *dev, u32 property)
+   234	{
+   235		return dev->properties & property;
+   236	}
+   237	
 
 -- 
 0-DAY CI Kernel Test Service
