@@ -1,61 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918E1178CEC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 18:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC6415CD47
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 18:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713463916; cv=none; b=J2l5Q5TJ1FAHh8vE1lXqD8vAmCRgRDkLE2PGyRNiQL+fsK0AoOcA4igxBeRD2FiXbo1pNAIXukdjUyoTuo4m+gFOCT6u5p58O+jntjkQXIiCvDeb4iYfWjLTYSMhxvcaCXCq9+TCS1jDYu7K/Ijr+CDsaUUtuCdDnsYFreqCKSg=
+	t=1713464516; cv=none; b=RukkAD6VxZF5zP0MC4fKT5wOx3YVZZ4tLuvffJ1pSMXfwiVmoI9htFaMd1w9+Kb3tmt2lOj+Kls/dNQ7GtUKH6WMQq9zKOkW3MEkPlnKnUS7QwaBUnGeNV26F0E/j3wffvLoXluF4G06/RYG4AFcVqTO/gN+ErcZ82LPemCp3m8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713463916; c=relaxed/simple;
-	bh=hIXLliz24ksmSH05IvozrdF1Bp6QW2Ul9MpKeTGNg2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j06ClSM4aRWe5LkrX7BCiCZZQ6lPTkh70D8+KcO9V/ditfH2J7W4hk2E5a7N2WMDlxE5K1aULakWxHF9huEt4D7mldgtixusziAsrz5PY95Q80Q0kC4kI2vflqIV2ykOwfMftmqh3Y9jNEU5i37xit6dCQ0HOVQnK3KhiL+k9MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=awzd77yu; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1713464516; c=relaxed/simple;
+	bh=76Q4Uz7TXZn7xtFGN4DRXE4m+cPLFVaCk5NMS6tTgQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iW2L+YwyWbL/VLeWNFfODA2dQVFc9xtHq4rCrwTVU+mAhnnooseMoZFiTzNGJfhFTS7O4xLD87UsPyhp1ra08IBqYTqZi/M6OwekaXiMTRAUNk28YPWdsWHOb2i8208pIZGFYUuQBY1A1CRCPMDaTK8rJMMTrmp+8Hi5Aqg63is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h68DfoCL; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="awzd77yu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h68DfoCL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713463913; x=1744999913;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hIXLliz24ksmSH05IvozrdF1Bp6QW2Ul9MpKeTGNg2I=;
-  b=awzd77yu95BbOP7+2c5tJQCE1HoK/MnLfYtWZYcS7GFyPE9eN5/FH2Dm
-   925FNzlEwrYKgBJRywM7DGAZCYmZgSrsSM2/Qbm1hzO3kr+0HMZfqyQsd
-   8fUX25y6ZQLvv54SZdmytBAJnbWmOvsa2ssJmOdNOqdWGEYH3EKczuK/u
-   etoExceMSwMjvldriRWWXtusA3xTxutym0oOYDtodc0mSCsFWLPlme/c7
-   c0RiAlEWiD+84JPsR3YdyZZzdggb6+z0CDCeyAdMyIFa9u8rIJoFhi5lr
-   q2+nX9oNDVowvJ/TY5jrkFmHoLysUSxK+ugLd6P3+XGwQhADBCe7MPp2Z
-   A==;
-X-CSE-ConnectionGUID: LAfEbbGNSe+3IlsY2IdvJQ==
-X-CSE-MsgGUID: 2u2gyAj7SbGlxqrd0ubq/w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="9256794"
+  t=1713464514; x=1745000514;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=76Q4Uz7TXZn7xtFGN4DRXE4m+cPLFVaCk5NMS6tTgQ0=;
+  b=h68DfoCLT53rAqGDxm0GDMcZnc86JISU43IqxGGF5axx2jpIFiIZx4tE
+   /yDiBuu6MapQZf8RnMeT2wu5ha9+0HKpPQcdao6HqfX6WDMByh3n2g5jG
+   aiWNj1dv+ZE0sWWPuctWQGpnmeZ1U68vCo+TF7B/FEaoJJVNJf4iU8fV/
+   Sb0XrILcZzR3TOgX/PrutFBsxAOXLnZBg5WwNdUhfMuos0t1VE99YoXDO
+   0L0DdwDArpsBKGyjx4nnsHsRIHJaez5KXQPQrNkAxipr79boExTTBhA9s
+   BDP/Ah1Z3FoWt2P19ZEtSNgsD+Ceukipo7oFOzI0OR6OcizDrn13MJOYR
+   Q==;
+X-CSE-ConnectionGUID: M+6vO2jyS52i/4AUWYa24g==
+X-CSE-MsgGUID: o0RPh8/2SwO4ZF87Pth8ug==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="8898373"
 X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="9256794"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 11:11:53 -0700
-X-CSE-ConnectionGUID: 1NNwl+WXQKOOisrMVy+1vw==
-X-CSE-MsgGUID: iiO/3l2jTfKaA8wHF4Lzog==
+   d="scan'208";a="8898373"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 11:21:53 -0700
+X-CSE-ConnectionGUID: PaPWmaMoQDOLn9EQ4/K1xw==
+X-CSE-MsgGUID: T4X8YjSiSSqQ9bZJ2iB4LA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="27904958"
+   d="scan'208";a="27531779"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 18 Apr 2024 11:11:49 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 18 Apr 2024 11:21:49 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rxWEc-000958-2Z;
-	Thu, 18 Apr 2024 18:11:46 +0000
-Date: Fri, 19 Apr 2024 02:10:53 +0800
+	id 1rxWOJ-00095s-0c;
+	Thu, 18 Apr 2024 18:21:47 +0000
+Date: Fri, 19 Apr 2024 02:21:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 79/98] kernel/sysctl.c:580:54: sparse: sparse:
- incorrect type in argument 3 (different address spaces)
-Message-ID: <202404190235.b0TftmFJ-lkp@intel.com>
+To: Kairui Song <ryncsn@gmail.com>, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Huang, Ying" <ying.huang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Chris Li <chrisl@kernel.org>,
+	Barry Song <v-songbaohua@oppo.com>,
+	Ryan Roberts <ryan.roberts@arm.com>, Neil Brown <neilb@suse.de>,
+	Minchan Kim <minchan@kernel.org>, Hugh Dickins <hughd@google.com>,
+	David Hildenbrand <david@redhat.com>,
+	Yosry Ahmed <yosryahmed@google.com>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Kairui Song <kasong@tencent.com>
+Subject: Re: [PATCH 8/8] mm/swap: reduce swap cache search space
+Message-ID: <202404190205.WSYYPQvi-lkp@intel.com>
+References: <20240417160842.76665-9-ryncsn@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,67 +72,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240417160842.76665-9-ryncsn@gmail.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   1a77a557522cf821eb3cb19959da7093902866ed
-commit: 8f985ca9fe5f441dfaf6824bc08222f91f34a10c [79/98] pagecachelimit: limit the pagecache ratio of totalram
-config: x86_64-randconfig-122-20240419 (https://download.01.org/0day-ci/archive/20240419/202404190235.b0TftmFJ-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190235.b0TftmFJ-lkp@intel.com/reproduce)
+Hi Kairui,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on ceph-client/testing]
+[also build test ERROR on ceph-client/for-linus trondmy-nfs/linux-next konis-nilfs2/upstream jaegeuk-f2fs/dev-test jaegeuk-f2fs/dev cifs/for-next linus/master v6.9-rc4]
+[cannot apply to akpm-mm/mm-everything next-20240418]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/NFS-remove-nfs_page_lengthg-and-usage-of-page_index/20240418-001343
+base:   https://github.com/ceph/ceph-client.git testing
+patch link:    https://lore.kernel.org/r/20240417160842.76665-9-ryncsn%40gmail.com
+patch subject: [PATCH 8/8] mm/swap: reduce swap cache search space
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240419/202404190205.WSYYPQvi-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190205.WSYYPQvi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404190235.b0TftmFJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404190205.WSYYPQvi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sysctl.c:580:54: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl.c:580:54: sparse:     expected void *
-   kernel/sysctl.c:580:54: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl.c:592:54: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl.c:592:54: sparse:     expected void *
-   kernel/sysctl.c:592:54: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl.c:610:54: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl.c:610:54: sparse:     expected void *
-   kernel/sysctl.c:610:54: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl.c:967:47: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *buffer @@     got void [noderef] __user *buffer @@
-   kernel/sysctl.c:967:47: sparse:     expected void *buffer
-   kernel/sysctl.c:967:47: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl.c:954:5: sparse: sparse: symbol 'proc_dointvec_max_map_count' was not declared. Should it be static?
-   kernel/sysctl.c:1127:45: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *buffer @@     got void [noderef] __user *buffer @@
-   kernel/sysctl.c:1127:45: sparse:     expected void *buffer
-   kernel/sysctl.c:1127:45: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl.c:1885:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/sysctl.c:1885:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/sysctl.c:1885:35: sparse:     got int ( * )( ... )
-   kernel/sysctl.c:2294:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/sysctl.c:2294:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/sysctl.c:2294:35: sparse:     got int ( * )( ... )
-   kernel/sysctl.c:2419:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/sysctl.c:2419:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/sysctl.c:2419:36: sparse:     got int ( * )( ... )
-   kernel/sysctl.c:2428:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/sysctl.c:2428:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/sysctl.c:2428:36: sparse:     got int ( * )( ... )
-   kernel/sysctl.c:2444:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/sysctl.c:2444:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/sysctl.c:2444:36: sparse:     got int ( * )( ... )
-   kernel/sysctl.c:317:66: sparse: sparse: self-comparison always evaluates to false
+All errors (new ones prefixed by >>):
 
-vim +580 kernel/sysctl.c
+   mm/shmem.c: In function 'shmem_replace_folio':
+>> mm/shmem.c:1765:22: error: implicit declaration of function 'swap_cache_index' [-Werror=implicit-function-declaration]
+    1765 |         swap_index = swap_cache_index(entry);
+         |                      ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-   576	
-   577	static int pc_limit_proc_dointvec(struct ctl_table *table, int write,
-   578					  void __user *buffer, size_t *lenp, loff_t *ppos)
-   579	{
- > 580		int ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-   581	
-   582		if (write && !ret)
-   583			ret = setup_pagecache_limit();
-   584	
-   585		return ret;
-   586	}
-   587	
+
+vim +/swap_cache_index +1765 mm/shmem.c
+
+  1753	
+  1754	static int shmem_replace_folio(struct folio **foliop, gfp_t gfp,
+  1755					struct shmem_inode_info *info, pgoff_t index)
+  1756	{
+  1757		struct folio *old, *new;
+  1758		struct address_space *swap_mapping;
+  1759		swp_entry_t entry;
+  1760		pgoff_t swap_index;
+  1761		int error;
+  1762	
+  1763		old = *foliop;
+  1764		entry = old->swap;
+> 1765		swap_index = swap_cache_index(entry);
+  1766		swap_mapping = swap_address_space(entry);
+  1767	
+  1768		/*
+  1769		 * We have arrived here because our zones are constrained, so don't
+  1770		 * limit chance of success by further cpuset and node constraints.
+  1771		 */
+  1772		gfp &= ~GFP_CONSTRAINT_MASK;
+  1773		VM_BUG_ON_FOLIO(folio_test_large(old), old);
+  1774		new = shmem_alloc_folio(gfp, info, index);
+  1775		if (!new)
+  1776			return -ENOMEM;
+  1777	
+  1778		folio_get(new);
+  1779		folio_copy(new, old);
+  1780		flush_dcache_folio(new);
+  1781	
+  1782		__folio_set_locked(new);
+  1783		__folio_set_swapbacked(new);
+  1784		folio_mark_uptodate(new);
+  1785		new->swap = entry;
+  1786		folio_set_swapcache(new);
+  1787	
+  1788		/*
+  1789		 * Our caller will very soon move newpage out of swapcache, but it's
+  1790		 * a nice clean interface for us to replace oldpage by newpage there.
+  1791		 */
+  1792		xa_lock_irq(&swap_mapping->i_pages);
+  1793		error = shmem_replace_entry(swap_mapping, swap_index, old, new);
+  1794		if (!error) {
+  1795			mem_cgroup_migrate(old, new);
+  1796			__lruvec_stat_mod_folio(new, NR_FILE_PAGES, 1);
+  1797			__lruvec_stat_mod_folio(new, NR_SHMEM, 1);
+  1798			__lruvec_stat_mod_folio(old, NR_FILE_PAGES, -1);
+  1799			__lruvec_stat_mod_folio(old, NR_SHMEM, -1);
+  1800		}
+  1801		xa_unlock_irq(&swap_mapping->i_pages);
+  1802	
+  1803		if (unlikely(error)) {
+  1804			/*
+  1805			 * Is this possible?  I think not, now that our callers check
+  1806			 * both PageSwapCache and page_private after getting page lock;
+  1807			 * but be defensive.  Reverse old to newpage for clear and free.
+  1808			 */
+  1809			old = new;
+  1810		} else {
+  1811			folio_add_lru(new);
+  1812			*foliop = new;
+  1813		}
+  1814	
+  1815		folio_clear_swapcache(old);
+  1816		old->private = NULL;
+  1817	
+  1818		folio_unlock(old);
+  1819		folio_put_refs(old, 2);
+  1820		return error;
+  1821	}
+  1822	
 
 -- 
 0-DAY CI Kernel Test Service
