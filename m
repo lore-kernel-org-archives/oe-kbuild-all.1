@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EFD17BB31
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 20:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5740C165FD6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 21:00:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713472158; cv=none; b=YqQkURhUYs7elucPIOoenM3ssHPEGfzeDHTeHT4MzmkggJROh+URqF7Yu51xvjLAWGMtscrx9SB9W42CoUMDXFqCRe5oIshAopmdXE1DZ9mNiGua9c6JBdYRmsfHPYnKFRu31AetLfVlpIDqeqdoXFA6b664qKvVaodA+/dfthw=
+	t=1713474020; cv=none; b=Ahr7rJEv7jPajBiYQ/UtqNeqGyZkrCorijl4oBtHv6echVLl+j0lSnymIzM8mgLmu9SD+PLqJJ/rsr4ww6QuRjZ80Y1/O7vgy6GIuClgPCBevqUTv5aFwK86c387ueZ3/TRRLLPu4JX9C3K2riUVLO2c0P+jTbfWFX9J3pOYE+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713472158; c=relaxed/simple;
-	bh=35UaapfjG69MIPVS+Iqh/dHQ/gy8dW2k70FWNC0jzmE=;
+	s=arc-20240116; t=1713474020; c=relaxed/simple;
+	bh=ZgUWrrCfA/j3QOV4Z69kgHRLJzcC0EDg5XhqjKXakS8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DdFF6UaicZyOJWwyT2glGJVkavnPZW7dLNRLVSF8WS1sFCiklaM8Mfen8lNJcd/uMq1oT9EY7DzfXyTPXxSG5ahyrW0EnIDT2rS8WcxiFTCQS8fZLJVE+2XcTThH1t1va9DUmq3OFx6MjFud+JXwpgeqEQCn31EzzjFABV5/9wY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=is4TppwX; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=a9t/f3dKy6kdiAxOfWrPLztvvMcrLqYdkWHVRse5gW/DnrS/uF6C+zbVRYU2I4Yh3n3LpAJZTKf820RWrlT8FZRPVPLBpXZ1jPzuvMPD6E3nuFBryVXitCswoKfYupxRE+occuPni2pEAHQoH4RTg7C8Aw2mK8WD/QHqHA7TDcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZWSlDIlG; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="is4TppwX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZWSlDIlG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713472157; x=1745008157;
+  t=1713474018; x=1745010018;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=35UaapfjG69MIPVS+Iqh/dHQ/gy8dW2k70FWNC0jzmE=;
-  b=is4TppwXyanUuLrn0Suwhjx/lEaviixCH6t1XTfyMKU1iteoPLnryP7j
-   A3/4AzIlbmvjdB3KBbmBd9zUgFOvYEkO8pePR9qnzqFl/d8H4X9BKH0+q
-   kmh5nKBZhzpv7uHan+oaeIl0slELNdEQ6gsAmb5nM82BArl9klDg61Zi2
-   sIRwUQc1RD0X44+94/ldVkDWOKrYpFd162hPoEPaL9WKJeQiDxN9VQHR9
-   qRxUYpvmFZw4tFUjF+oaTJaJP9Nd2MKp0g9u16f+T8KaBWb+Hlot981DE
-   qXk84brviJFcxaagkjTZlSUq3N3N8zwnDWXadfsFiuGCHYCt0KwvcEiHj
-   A==;
-X-CSE-ConnectionGUID: qn9M4BM9SWa2BJzsLRAv/g==
-X-CSE-MsgGUID: /THysc/hSpCSW8lwkYWGAg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="8909909"
+  bh=ZgUWrrCfA/j3QOV4Z69kgHRLJzcC0EDg5XhqjKXakS8=;
+  b=ZWSlDIlG3wsAq5/M94qwKnuxH6P+GqecWlMWjBGUu9t8cNGhh1rTK3pM
+   k3XGtvh6dXSOHjehZf3hg3e0pWBXxCcDn06Lf59QF2ZeN1mIlnJnaeXrL
+   v+QFyhGIjmlIaI9esW0ID8Hb9LAKB8DzTDKKlFfs/SoyIf5zvqJAFmzFo
+   ytLeMvnN2ihFQFhSXVAjGPgKM2swQ5F4sjZMWY5lJZfF6n2qDaJ9XY0YU
+   +PTjtqigkqtlvG4LItvloVYpOXnINi0l6SEUNoAPTISVi8vvzGsSHjXM/
+   8wIBkB9Ueb5scZUO/7LNab848HO8zuA5K5tyX+zgMY5esZMPIA11quqnG
+   g==;
+X-CSE-ConnectionGUID: +kAUG5VwTGu96T7R339FHQ==
+X-CSE-MsgGUID: r2C03/TkS7ybXOU3WKYLqw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="20476078"
 X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="8909909"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 13:29:16 -0700
-X-CSE-ConnectionGUID: d4wzRfwxTZWgg7HF4J7vcg==
-X-CSE-MsgGUID: /VCmeLD1TjyqFabd/l99Bw==
+   d="scan'208";a="20476078"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 14:00:17 -0700
+X-CSE-ConnectionGUID: hgqBAXbYT0SW+KUmfy1vIg==
+X-CSE-MsgGUID: kkw/yl5XRY6EfLwB0l6/GA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="22967712"
+   d="scan'208";a="23175676"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 18 Apr 2024 13:29:15 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 18 Apr 2024 14:00:16 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rxYNc-0009CS-2c;
-	Thu, 18 Apr 2024 20:29:12 +0000
-Date: Fri, 19 Apr 2024 04:29:06 +0800
+	id 1rxYre-0009EC-0L;
+	Thu, 18 Apr 2024 21:00:14 +0000
+Date: Fri, 19 Apr 2024 05:00:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:sched/dlserver.update_h_nr 1/1] kernel/sched/fair.c:5830:13:
- warning: conflicting types for 'update_h_nr_running'; have 'void(struct
- cfs_rq *, int)'
-Message-ID: <202404190428.SuQhraKV-lkp@intel.com>
+Subject: [freescale-fslc:6.1-2.2.x-imx 4851/18115] clang: warning: argument
+ unused during compilation: '-mtune=cortex-a9'
+Message-ID: <202404190427.284VT3jt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,62 +62,122 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git sched/dlserver.update_h_nr
-head:   4e843586ff1b3b77e5244d0128facac6330490a4
-commit: 4e843586ff1b3b77e5244d0128facac6330490a4 [1/1] Prototype: Update h_nr_running from single place to stop/start dl server
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240419/202404190428.SuQhraKV-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190428.SuQhraKV-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
+head:   de69f223c019fed2a465c014575b3b3d22b4c3fd
+commit: 77225c634e06fdb5ae7fcd3d52cb5dd7d2996acb [4851/18115] Merge branch 'mxc/next' into next
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240419/202404190427.284VT3jt-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190427.284VT3jt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404190428.SuQhraKV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404190427.284VT3jt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/sched/fair.c:633:5: warning: no previous prototype for 'sched_update_scaling' [-Wmissing-prototypes]
-     633 | int sched_update_scaling(void)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'throttle_cfs_rq':
-   kernel/sched/fair.c:5119:17: error: implicit declaration of function 'update_h_nr_running' [-Werror=implicit-function-declaration]
-    5119 |                 update_h_nr_running(qcfs_rq, -1 * task_delta);
-         |                 ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: At top level:
->> kernel/sched/fair.c:5830:13: warning: conflicting types for 'update_h_nr_running'; have 'void(struct cfs_rq *, int)'
-    5830 | static void update_h_nr_running(struct cfs_rq *cfs_rq, int delta)
-         |             ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:5830:13: error: static declaration of 'update_h_nr_running' follows non-static declaration
-   kernel/sched/fair.c:5119:17: note: previous implicit declaration of 'update_h_nr_running' with type 'void(struct cfs_rq *, int)'
-    5119 |                 update_h_nr_running(qcfs_rq, -1 * task_delta);
-         |                 ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +5830 kernel/sched/fair.c
-
-  5829	
-> 5830	static void update_h_nr_running(struct cfs_rq *cfs_rq, int delta)
-  5831	{
-  5832		int old_h_nr_running, new_h_nr_running;
-  5833		bool root = (&rq_of(cfs_rq)->cfs == cfs_rq);
-  5834		
-  5835		if (root) {
-  5836			old_h_nr_running = cfs_rq->h_nr_running;
-  5837		}
-  5838	
-  5839		new_h_nr_running = cfs_rq->h_nr_running + delta;
-  5840		cfs_rq->h_nr_running = new_h_nr_running;
-  5841		
-  5842		if (root && !!old_h_nr_running != !!new_h_nr_running) {
-  5843			if (new_h_nr_running) {
-  5844				dl_server_start(&rq_of(cfs_rq)->fair_server);
-  5845			} else {
-  5846				dl_server_stop(&rq_of(cfs_rq)->fair_server);
-  5847			}
-  5848		}
-  5849	}
-  5850	
+   clang: warning: argument unused during compilation: '-march=armv7-a' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-mtune=cortex-a9' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-mfpu=neon' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-mfloat-abi=softfp' [-Wunused-command-line-argument]
+   sound/soc/fsl/hdmi_pcm.S:46:2: error: unrecognized instruction
+    mov r12, #1
+    ^
+   sound/soc/fsl/hdmi_pcm.S:47:2: error: unrecognized instruction
+    vdup.8 d6, r12
+    ^
+   sound/soc/fsl/hdmi_pcm.S:57:2: error: unrecognized instruction
+    vcnt.8 q1, q0
+    ^
+   sound/soc/fsl/hdmi_pcm.S:58:2: error: unrecognized instruction
+    vpadd.i8 d2, d2, d3
+    ^
+   sound/soc/fsl/hdmi_pcm.S:59:2: error: unrecognized instruction
+    vand d2, d2, d6
+    ^
+   sound/soc/fsl/hdmi_pcm.S:60:2: error: unrecognized instruction
+    vshl.u8 d2, d2, #3
+    ^
+   sound/soc/fsl/hdmi_pcm.S:64:2: error: unrecognized instruction
+    veor d4, d5, d2
+    ^
+   sound/soc/fsl/hdmi_pcm.S:67:2: error: unrecognized instruction
+    vmovl.u8 q2, d4
+    ^
+   sound/soc/fsl/hdmi_pcm.S:68:2: error: unrecognized instruction
+    vzip.16 q0, q2
+    ^
+   sound/soc/fsl/hdmi_pcm.S:69:2: error: unrecognized instruction
+    vshl.u32 q0, q0, #8
+    ^
+   sound/soc/fsl/hdmi_pcm.S:70:2: error: unrecognized instruction
+    vshl.u32 q1, q2, #8
+    ^
+   sound/soc/fsl/hdmi_pcm.S:74:2: error: unrecognized instruction
+    subs r2, r2, #8
+    ^
+   sound/soc/fsl/hdmi_pcm.S:75:2: error: unrecognized instruction
+    bne hdmi_dma_copy_16_neon_lut_start
+    ^
+   sound/soc/fsl/hdmi_pcm.S:77:2: error: unrecognized instruction
+    mov pc, lr
+    ^
+   sound/soc/fsl/hdmi_pcm.S:80:2: error: unrecognized instruction
+    mov r12, #1
+    ^
+   sound/soc/fsl/hdmi_pcm.S:81:2: error: unrecognized instruction
+    vdup.8 d6, r12
+    ^
+   sound/soc/fsl/hdmi_pcm.S:90:2: error: unrecognized instruction
+    vcnt.8 q1, q0
+    ^
+   sound/soc/fsl/hdmi_pcm.S:91:2: error: unrecognized instruction
+    vpadd.i8 d2, d2, d3
+    ^
+   sound/soc/fsl/hdmi_pcm.S:92:2: error: unrecognized instruction
+    vand d2, d2, d6
+    ^
+   sound/soc/fsl/hdmi_pcm.S:94:2: error: unrecognized instruction
+    vshl.u8 d4, d2, #3
+    ^
+   sound/soc/fsl/hdmi_pcm.S:99:2: error: unrecognized instruction
+    vmovl.u8 q2, d4
+    ^
+   sound/soc/fsl/hdmi_pcm.S:100:2: error: unrecognized instruction
+    vzip.16 q0, q2
+    ^
+   sound/soc/fsl/hdmi_pcm.S:101:2: error: unrecognized instruction
+    vshl.u32 q0, q0, #8
+    ^
+   sound/soc/fsl/hdmi_pcm.S:102:2: error: unrecognized instruction
+    vshl.u32 q1, q2, #8
+    ^
+   sound/soc/fsl/hdmi_pcm.S:106:2: error: unrecognized instruction
+    subs r2, r2, #8
+    ^
+   sound/soc/fsl/hdmi_pcm.S:107:2: error: unrecognized instruction
+    bne hdmi_dma_copy_16_neon_fast_start
+    ^
+   sound/soc/fsl/hdmi_pcm.S:109:2: error: unrecognized instruction
+    mov pc, lr
+    ^
+   sound/soc/fsl/hdmi_pcm.S:114:2: error: unrecognized instruction
+    mov r12, #1
+    ^
+   sound/soc/fsl/hdmi_pcm.S:115:2: error: unrecognized instruction
+    vdup.8 d8, r12
+    ^
+   sound/soc/fsl/hdmi_pcm.S:125:2: error: unrecognized instruction
+    vcnt.8 q2, q0
+    ^
+   sound/soc/fsl/hdmi_pcm.S:126:2: error: unrecognized instruction
+    vpadd.i8 d4, d4, d5
+    ^
+   sound/soc/fsl/hdmi_pcm.S:127:2: error: unrecognized instruction
+    vcnt.8 q3, q1
+    ^
+   sound/soc/fsl/hdmi_pcm.S:128:2: error: unrecognized instruction
+    vpadd.i8 d6, d6, d7
 
 -- 
 0-DAY CI Kernel Test Service
