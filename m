@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40AE18131D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 21:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78CE199E9B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 22:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713474680; cv=none; b=iXf+FqIueqr/0UdIltyYxBgq4nucNMVe4YB+pjkk2DJRUiDGD8MuPpzmDOWYC/2fDx+MfI3vxMixfZQS6N5fhME/C5G+SImGgL37prK9l+P/xV2Q+47Uce2M3uMj/pj+5u8zzSqlqSYEMtzN10piBsfP8Kg9uyF2P3OCyAlomX8=
+	t=1713478991; cv=none; b=BEYpvwsSNoFa//eqjOA2G50f1VNuHH2chTn8IAA0Y1suuKpN/zQGkCENN0L16I0cV0tXcjBcjY/92ZR63UfDd6J1k5nb55Q80Z/dIINyvjUG1SeLuFInPbspMLKfrw1TI7i7/2ALTTzo2pzkaBXAIDfDbfN4Nb8xetGhDjQkBZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713474680; c=relaxed/simple;
-	bh=FPbmRcYm91zo84pkJJDgfGb6EdW2Ta2f8oUBP2nH1oQ=;
+	s=arc-20240116; t=1713478991; c=relaxed/simple;
+	bh=hXuhka1BbEl3rO+5Wd+XnMZxdGtnIDm7rvd+c1O1mK4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BuYxKr3xqV2zuTlhaj4pF8xGCj48PIPsNoZZN+9cUAIIWtl33iXyqhoIb8Fj27qz+BlOEDHa5Q/+5sLKzpur1PY0qq4G7JnDl9E35U59c0Hl/9joGuNqudJEonvSbVXUmAekBbUskd0gOLPWxjgNE0ZGX7E5KEDt0Obpt5RLSu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a4ZerWtw; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=WrLRcbQUHqDyd4SlxTeDspZY2TiOWrdqcD76PAXx/gctYHNHgL+PoTOZEOHApnvXdnchp0zkt/lapXIFVmodC1dQKn6g3dbGNxmrqWjcEAzOW/WXtJAXM93MEi+Wo62R8Y4F0y59h+4IxgJ11BrIb+5bC+bF89nBL2pHW3FL9HQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZlwQ8wL; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a4ZerWtw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZlwQ8wL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713474679; x=1745010679;
+  t=1713478989; x=1745014989;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FPbmRcYm91zo84pkJJDgfGb6EdW2Ta2f8oUBP2nH1oQ=;
-  b=a4ZerWtwvqJqz1I7d3hM7yGSs062kpyVfMLoCynEfwZ7IbEWXYf+krVV
-   jPc6LQHSsD/wnZH7vb+L8hNfFL2hOLbEzBqWnB6UkwBo1pUDgV437e6SA
-   IlhzoZAa3nhHNCMB9sETtgYalK1lCH0sJRaWYDz2a+0C/MGNfCaabh1Mc
-   2NLNWvScYGk+HUlOfcrgs9NphuTKCYtblS4EHYPkPsuLrLdyxo/s5LhqH
-   mgrlaXAnmv2jNWkD1wvOwbz0OwBF7JL/fDGb3TTGVjZengXKcGxo/RK/S
-   BwXUCKHs+DoyQTyblPioa/87WjIFA/L8lAzFdH2JLCds/kNZH2KYIo835
-   A==;
-X-CSE-ConnectionGUID: 8fmIipatTSC5r8rd2fcBTQ==
-X-CSE-MsgGUID: p5oP9bGmTZeMbtWioVcwJQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="9178794"
+  bh=hXuhka1BbEl3rO+5Wd+XnMZxdGtnIDm7rvd+c1O1mK4=;
+  b=eZlwQ8wLdhJP5NS1u3Smh2yTDfFU/SWmrpmwpcN9buGNEWA/b7m8Dzo+
+   w2CeK1fI7yomH4KyppeNELxrs8XDnSgWmLYKR9P8vBxQFwkisVf/FcDe+
+   lOCiBf0XtUzzU0UlO7gzsZ8km133euZm+sb2N7YzfredGGrBDlKItLYxv
+   V+NQq6Rhk3rLUQDjAuBK3vDnXk6t66Hx8Ilto/DbcyfZtWTv0huTC/5eL
+   +mXVism2saaJSjqHYDgYBqkTioiLmTs6Da0VQie7lGNvZpQAbHB1zG8aG
+   f1N3Nsvv/1JpUzCZRXbBjB9y5y0S7dPkz3Ssnz1Qn3sv1ChjBZQk4Me4P
+   g==;
+X-CSE-ConnectionGUID: yXdXvCk4Q8SLuKqbWadrIg==
+X-CSE-MsgGUID: 97Jgm7RxRjqHvFZgRARDZg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="8920738"
 X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="9178794"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 14:11:18 -0700
-X-CSE-ConnectionGUID: rQhf7pdGR1e910NLjA87tg==
-X-CSE-MsgGUID: pyGRIGmnRNeI8vT9COHwJQ==
+   d="scan'208";a="8920738"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 15:23:08 -0700
+X-CSE-ConnectionGUID: duTvQtvaSSmUT6ZV02R+yQ==
+X-CSE-MsgGUID: dVG31Ok+Ssy4C93XyofGzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="27954868"
+   d="scan'208";a="23152417"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 18 Apr 2024 14:11:17 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 18 Apr 2024 15:23:07 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rxZ2I-0009FG-2A;
-	Thu, 18 Apr 2024 21:11:14 +0000
-Date: Fri, 19 Apr 2024 05:10:30 +0800
+	id 1rxa9p-0009I0-06;
+	Thu, 18 Apr 2024 22:23:05 +0000
+Date: Fri, 19 Apr 2024 06:22:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:sched/dlserver.update_h_nr 1/1] kernel/sched/fair.c:5119:17:
- error: implicit declaration of function 'update_h_nr_running'
-Message-ID: <202404190525.oKxYBfJV-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.1 27/36]
+ drivers/gpu/drm/display/drm_dp_tunnel.c:1903: warning: Function parameter or
+ member 'max_group_count' not described in 'drm_dp_tunnel_mgr_create'
+Message-ID: <202404190650.FkqSoFCt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,128 +64,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git sched/dlserver.update_h_nr
-head:   4e843586ff1b3b77e5244d0128facac6330490a4
-commit: 4e843586ff1b3b77e5244d0128facac6330490a4 [1/1] Prototype: Update h_nr_running from single place to stop/start dl server
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240419/202404190525.oKxYBfJV-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190525.oKxYBfJV-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   9e7768584e3a268327768165794ff55f7bbb94b4
+commit: 138103e8979187d309ef9bcd5645825ed9170652 [27/36] UPSTREAM: drm/i915/dp: Add support for DP tunnel BW allocation
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240419/202404190650.FkqSoFCt-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190650.FkqSoFCt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404190525.oKxYBfJV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404190650.FkqSoFCt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/sched/fair.c:633:5: warning: no previous prototype for 'sched_update_scaling' [-Wmissing-prototypes]
-     633 | int sched_update_scaling(void)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'throttle_cfs_rq':
->> kernel/sched/fair.c:5119:17: error: implicit declaration of function 'update_h_nr_running' [-Werror=implicit-function-declaration]
-    5119 |                 update_h_nr_running(qcfs_rq, -1 * task_delta);
-         |                 ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: At top level:
-   kernel/sched/fair.c:5830:13: warning: conflicting types for 'update_h_nr_running'; have 'void(struct cfs_rq *, int)'
-    5830 | static void update_h_nr_running(struct cfs_rq *cfs_rq, int delta)
-         |             ^~~~~~~~~~~~~~~~~~~
->> kernel/sched/fair.c:5830:13: error: static declaration of 'update_h_nr_running' follows non-static declaration
-   kernel/sched/fair.c:5119:17: note: previous implicit declaration of 'update_h_nr_running' with type 'void(struct cfs_rq *, int)'
-    5119 |                 update_h_nr_running(qcfs_rq, -1 * task_delta);
-         |                 ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/gpu/drm/display/drm_dp_tunnel.c:447: warning: Function parameter or member 'tunnel' not described in 'drm_dp_tunnel_put'
+>> drivers/gpu/drm/display/drm_dp_tunnel.c:447: warning: Function parameter or member 'tracker' not described in 'drm_dp_tunnel_put'
+   drivers/gpu/drm/display/drm_dp_tunnel.c:1185: warning: expecting prototype for drm_dp_tunnel_atomic_get_allocated_bw(). Prototype was for drm_dp_tunnel_get_allocated_bw() instead
+>> drivers/gpu/drm/display/drm_dp_tunnel.c:1903: warning: Function parameter or member 'max_group_count' not described in 'drm_dp_tunnel_mgr_create'
 
 
-vim +/update_h_nr_running +5119 kernel/sched/fair.c
+vim +1903 drivers/gpu/drm/display/drm_dp_tunnel.c
 
-  5070	
-  5071	static bool throttle_cfs_rq(struct cfs_rq *cfs_rq)
-  5072	{
-  5073		struct rq *rq = rq_of(cfs_rq);
-  5074		struct cfs_bandwidth *cfs_b = tg_cfs_bandwidth(cfs_rq->tg);
-  5075		struct sched_entity *se;
-  5076		long task_delta, idle_task_delta, dequeue = 1;
-  5077	
-  5078		raw_spin_lock(&cfs_b->lock);
-  5079		/* This will start the period timer if necessary */
-  5080		if (__assign_cfs_rq_runtime(cfs_b, cfs_rq, 1)) {
-  5081			/*
-  5082			 * We have raced with bandwidth becoming available, and if we
-  5083			 * actually throttled the timer might not unthrottle us for an
-  5084			 * entire period. We additionally needed to make sure that any
-  5085			 * subsequent check_cfs_rq_runtime calls agree not to throttle
-  5086			 * us, as we may commit to do cfs put_prev+pick_next, so we ask
-  5087			 * for 1ns of runtime rather than just check cfs_b.
-  5088			 */
-  5089			dequeue = 0;
-  5090		} else {
-  5091			list_add_tail_rcu(&cfs_rq->throttled_list,
-  5092					  &cfs_b->throttled_cfs_rq);
-  5093		}
-  5094		raw_spin_unlock(&cfs_b->lock);
-  5095	
-  5096		if (!dequeue)
-  5097			return false;  /* Throttle no longer required. */
-  5098	
-  5099		se = cfs_rq->tg->se[cpu_of(rq_of(cfs_rq))];
-  5100	
-  5101		/* freeze hierarchy runnable averages while throttled */
-  5102		rcu_read_lock();
-  5103		walk_tg_tree_from(cfs_rq->tg, tg_throttle_down, tg_nop, (void *)rq);
-  5104		rcu_read_unlock();
-  5105	
-  5106		task_delta = cfs_rq->h_nr_running;
-  5107		idle_task_delta = cfs_rq->idle_h_nr_running;
-  5108		for_each_sched_entity(se) {
-  5109			struct cfs_rq *qcfs_rq = cfs_rq_of(se);
-  5110			/* throttled entity or throttle-on-deactivate */
-  5111			if (!se->on_rq)
-  5112				goto done;
-  5113	
-  5114			dequeue_entity(qcfs_rq, se, DEQUEUE_SLEEP);
-  5115	
-  5116			if (cfs_rq_is_idle(group_cfs_rq(se)))
-  5117				idle_task_delta = cfs_rq->h_nr_running;
-  5118	
-> 5119			update_h_nr_running(qcfs_rq, -1 * task_delta);
-  5120			qcfs_rq->idle_h_nr_running -= idle_task_delta;
-  5121	
-  5122			if (qcfs_rq->load.weight) {
-  5123				/* Avoid re-evaluating load for this entity: */
-  5124				se = parent_entity(se);
-  5125				break;
-  5126			}
-  5127		}
-  5128	
-  5129		for_each_sched_entity(se) {
-  5130			struct cfs_rq *qcfs_rq = cfs_rq_of(se);
-  5131			/* throttled entity or throttle-on-deactivate */
-  5132			if (!se->on_rq)
-  5133				goto done;
-  5134	
-  5135			update_load_avg(qcfs_rq, se, 0);
-  5136			se_update_runnable(se);
-  5137	
-  5138			if (cfs_rq_is_idle(group_cfs_rq(se)))
-  5139				idle_task_delta = cfs_rq->h_nr_running;
-  5140	
-  5141			update_h_nr_running(qcfs_rq, -1 * task_delta);
-  5142			qcfs_rq->idle_h_nr_running -= idle_task_delta;
-  5143		}
-  5144	
-  5145		/* At this point se is NULL and we are at root level*/
-  5146		sub_nr_running(rq, task_delta);
-  5147	
-  5148	done:
-  5149		/*
-  5150		 * Note: distribution will already see us throttled via the
-  5151		 * throttled-list.  rq->lock protects completion.
-  5152		 */
-  5153		cfs_rq->throttled = 1;
-  5154		cfs_rq->throttled_clock = rq_clock(rq);
-  5155		return true;
-  5156	}
-  5157	
+206294e561174f Imre Deak 2024-02-26  1891  
+206294e561174f Imre Deak 2024-02-26  1892  /**
+206294e561174f Imre Deak 2024-02-26  1893   * drm_dp_tunnel_mgr_create - Create a DP tunnel manager
+206294e561174f Imre Deak 2024-02-26  1894   * @dev: DRM device object
+206294e561174f Imre Deak 2024-02-26  1895   *
+206294e561174f Imre Deak 2024-02-26  1896   * Creates a DP tunnel manager for @dev.
+206294e561174f Imre Deak 2024-02-26  1897   *
+206294e561174f Imre Deak 2024-02-26  1898   * Returns a pointer to the tunnel manager if created successfully or NULL in
+206294e561174f Imre Deak 2024-02-26  1899   * case of an error.
+206294e561174f Imre Deak 2024-02-26  1900   */
+206294e561174f Imre Deak 2024-02-26  1901  struct drm_dp_tunnel_mgr *
+206294e561174f Imre Deak 2024-02-26  1902  drm_dp_tunnel_mgr_create(struct drm_device *dev, int max_group_count)
+206294e561174f Imre Deak 2024-02-26 @1903  {
+206294e561174f Imre Deak 2024-02-26  1904  	struct drm_dp_tunnel_mgr *mgr;
+206294e561174f Imre Deak 2024-02-26  1905  	int i;
+206294e561174f Imre Deak 2024-02-26  1906  
+206294e561174f Imre Deak 2024-02-26  1907  	mgr = kzalloc(sizeof(*mgr), GFP_KERNEL);
+206294e561174f Imre Deak 2024-02-26  1908  	if (!mgr)
+206294e561174f Imre Deak 2024-02-26  1909  		return NULL;
+206294e561174f Imre Deak 2024-02-26  1910  
+206294e561174f Imre Deak 2024-02-26  1911  	mgr->dev = dev;
+206294e561174f Imre Deak 2024-02-26  1912  	init_waitqueue_head(&mgr->bw_req_queue);
+206294e561174f Imre Deak 2024-02-26  1913  
+206294e561174f Imre Deak 2024-02-26  1914  	mgr->groups = kcalloc(max_group_count, sizeof(*mgr->groups), GFP_KERNEL);
+206294e561174f Imre Deak 2024-02-26  1915  	if (!mgr->groups) {
+206294e561174f Imre Deak 2024-02-26  1916  		kfree(mgr);
+206294e561174f Imre Deak 2024-02-26  1917  
+206294e561174f Imre Deak 2024-02-26  1918  		return NULL;
+206294e561174f Imre Deak 2024-02-26  1919  	}
+206294e561174f Imre Deak 2024-02-26  1920  
+
+:::::: The code at line 1903 was first introduced by commit
+:::::: 206294e561174f43d18b50823fc44a474890ff5a UPSTREAM: drm/dp: Add support for DP tunneling
+
+:::::: TO: Imre Deak <imre.deak@intel.com>
+:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
