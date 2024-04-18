@@ -1,39 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D262207A;
-	Thu, 18 Apr 2024 05:42:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE1954BE2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 06:14:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713418960; cv=none; b=fEkqOoOdo9XiqxzD/soCnV6r4J9YBbGhJ+yKt3Evovc3Jmuy1oz5pYHPMHswRxEPbIF3MUx7ICScA6BSuvRIhaLX6OAM4dB/kHbhPTtygQn/tLMmFA2if0xWzWlnd4gzS23BE3rI80/t576qeD+s0QDZQv8Kx1DkAlX606/pxy0=
+	t=1713420853; cv=none; b=TmmAXofxfT2Aq+mvgincN36pSPbfsyo876NdERxGq8JJnNTNMTc5u/+BHkbM02Hu+jGWWxZosVLF/yB/se3T9Fr8zQ2irok+/dJT/t2on570jBHBEWReDyW46/N9eby+HoXCyobhj+x/r5cxv7YA1h26CgHD9sy/Gj+bZ1CTKwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713418960; c=relaxed/simple;
-	bh=YxeBu55FKWBCDcGmYLprM+1TwrDCa2GsynnmzRxvMB0=;
+	s=arc-20240116; t=1713420853; c=relaxed/simple;
+	bh=nBP7IipwE4KR0FuX5N6zhQhnH2sZcTiQNqwb2VIc028=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bFHRWp8mpNdolsozivDKWjTcViWJGn3yp4EnHhDP/UPbEJHYeDVXAZB4/tMddVpQMgJFn4KWyj8xfnW4zgTPgOgCeo+IPilKwE44+eUZBhgtL6JbehkVsgPyn+QFp1b4eKgfntYQsRzUftmqla5UptMRANf5Hm8ZW8kVvoaQfCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pDOhn3tR; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GuvH7eV+MJuWK/Oduzp4r9FbZ/764uh7QMyXHPBYLZeB/TEYk97/IXW+vn8IRBVCz41fVKuNsphlvuih/0qFnQWdzYgy7Hjl5pSwI1tJDEDEWvpAYflDn4e4FxDWQdNrgPj1NNoPCVVbpZCbTU5ezV0jmvSYhgn/Gns6mliZBxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gz5vXu78; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pDOhn3tR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8525C113CC;
-	Thu, 18 Apr 2024 05:42:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1713418959;
-	bh=YxeBu55FKWBCDcGmYLprM+1TwrDCa2GsynnmzRxvMB0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pDOhn3tRmtikJzVGPVu/TKmUosb/PJmkdHIdEkBRQAr+TNKYlDHgh6lqZ15uXtpJO
-	 5pTKs15x9FxaVUTqSECZMnNVoXsx/3cboJ53v1QdEKl3myVVT/hkCo3lHAWnppOUpR
-	 5vH0y883KEaaI9wptVKZDJ9dITNrJmeRJHPJS54Y=
-Date: Thu, 18 Apr 2024 07:42:34 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Parker Newman <parker@finest.io>
-Cc: kernel test robot <lkp@intel.com>, Jiri Slaby <jirislaby@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	Parker Newman <pnewman@connecttech.com>
-Subject: Re: [PATCH v4 6/7] serial: exar: add CTI specific setup code
-Message-ID: <2024041810-regain-handgrip-a942@gregkh>
-References: <ae4a66e7342b686cb8d4b15317585dfb37222cf4.1713382717.git.pnewman@connecttech.com>
- <202404181353.1VIC4cz9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gz5vXu78"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713420851; x=1744956851;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nBP7IipwE4KR0FuX5N6zhQhnH2sZcTiQNqwb2VIc028=;
+  b=gz5vXu78a0+u4KVBTvJPru1W8tBA40/4bSiuhXhpV5pd6/FIwDFM1yL9
+   26Owr4YWqTe8vQTYc5D3FCnid2lTmaW2fC4y8FvlMfGhEwsk0MVQQA+5R
+   qjB+l+C6TrRIrN0O1rtbQSVBq1aTC6nHo/pxWPslmPu4W6sUTch3nnjkI
+   meEPgR8ccUbpbDogduE+xIgAHkkYgnfND0LvVe3Zx788JhvuJsai1oz4j
+   r/hd1uKR4d3yB7ECKAFj7+AelqcbAhSJ/Cb7ucdpkpE+JOMDjw0ehkcvG
+   Fjy9ESjHtASh3CS9RVTUPadysjPiKO0ZWTeWDkY0/pEQ4VOuJ8qAtL7Rc
+   Q==;
+X-CSE-ConnectionGUID: FeYJYxUXQRulCvXX2lyeuw==
+X-CSE-MsgGUID: N+8fGTl+TwKvujRxIKOBjg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="11887198"
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="11887198"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 23:14:10 -0700
+X-CSE-ConnectionGUID: na0IERKYQ8Gwar49+uQ+Bw==
+X-CSE-MsgGUID: rsi9ef0KRcChbywrB13bzA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="22949720"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 17 Apr 2024 23:14:06 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rxL22-0007My-0w;
+	Thu, 18 Apr 2024 06:14:03 +0000
+Date: Thu, 18 Apr 2024 14:13:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kui-Feng Lee <thinker.li@gmail.com>, bpf@vger.kernel.org,
+	ast@kernel.org, martin.lau@linux.dev, song@kernel.org,
+	kernel-team@meta.com, andrii@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, sinquersw@gmail.com, kuifeng@meta.com,
+	Kui-Feng Lee <thinker.li@gmail.com>
+Subject: Re: [PATCH bpf-next 1/2] bpf: enable the "open" operator on a pinned
+ path of a struct_osp link.
+Message-ID: <202404181413.1uMDy1xi-lkp@intel.com>
+References: <20240417002513.1534535-2-thinker.li@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -42,57 +66,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202404181353.1VIC4cz9-lkp@intel.com>
+In-Reply-To: <20240417002513.1534535-2-thinker.li@gmail.com>
 
-On Thu, Apr 18, 2024 at 01:29:14PM +0800, kernel test robot wrote:
-> Hi Parker,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on b86ae40ffcf5a16b9569b1016da4a08c4f352ca2]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Parker-Newman/serial-exar-remove-old-Connect-Tech-setup/20240418-043457
-> base:   b86ae40ffcf5a16b9569b1016da4a08c4f352ca2
-> patch link:    https://lore.kernel.org/r/ae4a66e7342b686cb8d4b15317585dfb37222cf4.1713382717.git.pnewman%40connecttech.com
-> patch subject: [PATCH v4 6/7] serial: exar: add CTI specific setup code
-> config: alpha-defconfig (https://download.01.org/0day-ci/archive/20240418/202404181353.1VIC4cz9-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240418/202404181353.1VIC4cz9-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202404181353.1VIC4cz9-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/tty/serial/8250/8250_exar.c:727: warning: Function parameter or struct member 'pcidev' not described in 'cti_get_port_type_xr17c15x_xr17v25x'
-> >> drivers/tty/serial/8250/8250_exar.c:819: warning: Function parameter or struct member 'pcidev' not described in 'cti_get_port_type_fpga'
-> >> drivers/tty/serial/8250/8250_exar.c:849: warning: Function parameter or struct member 'pcidev' not described in 'cti_get_port_type_xr17v35x'
-> 
-> 
-> vim +727 drivers/tty/serial/8250/8250_exar.c
-> 
->    714	
->    715	/**
->    716	 * cti_get_port_type_xr17c15x_xr17v25x() - Get port type of xr17c15x/xr17v25x
->    717	 * @priv: Device's private structure
->    718	 * @port_num: Port to get type of
->    719	 *
->    720	 * CTI xr17c15x and xr17v25x based cards port types are based on PCI IDs.
->    721	 *
->    722	 * Return: port type on success, CTI_PORT_TYPE_NONE on failure
->    723	 */
->    724	static enum cti_port_type cti_get_port_type_xr17c15x_xr17v25x(struct exar8250 *priv,
->    725								struct pci_dev *pcidev,
->    726								unsigned int port_num)
->  > 727	{
+Hi Kui-Feng,
 
-Parker, no need to resend this, you can send a follow-on patch after
-this to resolve it.  Simplest way is to just not do kernel-doc formats
-for static functions, as it's usually not needed.  Or you can add the
-function parameter, either one will silence the warning.
+kernel test robot noticed the following build errors:
 
-thanks,
+[auto build test ERROR on bpf-next/master]
 
-greg k-h
+url:    https://github.com/intel-lab-lkp/linux/commits/Kui-Feng-Lee/bpf-enable-the-open-operator-on-a-pinned-path-of-a-struct_osp-link/20240417-082736
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20240417002513.1534535-2-thinker.li%40gmail.com
+patch subject: [PATCH bpf-next 1/2] bpf: enable the "open" operator on a pinned path of a struct_osp link.
+config: arm-aspeed_g5_defconfig (https://download.01.org/0day-ci/archive/20240418/202404181413.1uMDy1xi-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240418/202404181413.1uMDy1xi-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404181413.1uMDy1xi-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arm-linux-gnueabi-ld: kernel/bpf/syscall.o: in function `bpf_link_open':
+>> kernel/bpf/syscall.c:3117:(.text+0xb70): undefined reference to `bpffs_struct_ops_link_open'
+
+
+vim +3117 kernel/bpf/syscall.c
+
+  3110	
+  3111	/* Support opening pinned links */
+  3112	static int bpf_link_open(struct inode *inode, struct file *filp)
+  3113	{
+  3114		struct bpf_link *link = inode->i_private;
+  3115	
+  3116		if (link->type == BPF_LINK_TYPE_STRUCT_OPS)
+> 3117			return bpffs_struct_ops_link_open(inode, filp);
+  3118	
+  3119		return -EOPNOTSUPP;
+  3120	}
+  3121	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
