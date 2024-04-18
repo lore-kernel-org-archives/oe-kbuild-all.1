@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF353B18D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 15:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AAAF16F8ED
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 16:05:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713454462; cv=none; b=ulXcxcGOX2ysYr/MW8dwJMRXlAeT7OSwx1sPoRGEzft1CK5+PVPJYxbMXkxblfjSJBgoPQ56BelxDEnx12hmcunDyJwyBIogHta/fRXcX+OH8KQGMH2xPaYUbjep53e6ht23kFZTHr+TJjyRTbNN+wT2nLLM8EnxSXfKnEK7b2c=
+	t=1713456345; cv=none; b=PU4UaR3QI6oOPwvFEQCrHhc6+qHhK+UNCvQmjGdafnlXscp4ZHNUEA9ji8Rm6EKRKyiQTb1xqwhvGQgIC2b1sB/oT+UCzdw7ao8OltkoueG7IEKKls7C58mNyX61XVejRV1/yUKc9VbdkBGwETKux7CJ6hSh7ay17mL0BcyoJUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713454462; c=relaxed/simple;
-	bh=EkbCrMBlpaJ60pXbgylLiOxAX9sM1qfyA1geN5kHz/w=;
+	s=arc-20240116; t=1713456345; c=relaxed/simple;
+	bh=hDevJGI/CphcvnNhm+xQvq6z4yPy1PNBsVAviAQTQPo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P6ptS+cvN7CA4uGJh1t6/W4t89m2+6M6G5JKxNKCEiiq3e5hsOTAvjdm/C8Aj7YXPosUl0RDNbiByUvlBXmlnBPkknrRklmI8YorZjD3F1gLof5Fb9LtH6VvzcsEPCresS7y/Z3+HqbA2/T3QBAkuxiNORrBDTDgomQey17FFtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V1l5M81A; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=oAs7HjoS1Lj9StDGsnCInyvrX5kaClP6HeGlZj27ah/GL1vZn364E2Tq3fO8AzHLZ8VoTpOxNGN0JSVFfhhkkEVfGhx7cIVl+2LIwMFWzKWU81FuKHsEtJa4YOJdYRkn3GBKKoDGHKMq9vykVtHQe60a9Hnw+atAAqM9K/niIGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nzA1bNfA; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V1l5M81A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nzA1bNfA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713454460; x=1744990460;
+  t=1713456342; x=1744992342;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EkbCrMBlpaJ60pXbgylLiOxAX9sM1qfyA1geN5kHz/w=;
-  b=V1l5M81Ani7XlIzsR5zTm4kgG2nykAh/YTyESoM2Joo2ET8oKHIQI+vM
-   V6UPKf1n640vaw6cpaBzCgPewSCEXMXLxzfSVtyA2mgqWUTenHIiE6/bV
-   zIagwIpucaT8IyXFrWOeQUHHllUsnW9+WVOgs1IyGzX9L89Iz1KokfjZF
-   2J3HSC/XASbx9CnC+RnYwMO5HVaoURb0JcMqYiOOH7h4luEdq68hvywUw
-   noaDY8cT1ufNgJG3cawOxaqhBN7Ptb4evtN5wlkOLH/kUtNegDJYXLqH+
-   uCBtBK43lzxYmds9dnEsLlYF/I5U6lpQGnJshDMv7CccCsqS2zEY5H5u3
-   A==;
-X-CSE-ConnectionGUID: 0h1rKOBwTEifnw3hk35row==
-X-CSE-MsgGUID: rlXivCuuTJ24yfjvPh1ozw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="8845071"
+  bh=hDevJGI/CphcvnNhm+xQvq6z4yPy1PNBsVAviAQTQPo=;
+  b=nzA1bNfAoIOSpOc5c1sUEvK0hHvQ9zj6XZKMVd+jraTL9zJP2mFbHMm8
+   6xYB2QucU5FufNRrr6xE2oqLaseOFWGl7v5HS2VzFTcm9hV4NRxWDEjBr
+   Ck4Hr3b6Zamgx+7gG2a3XiE3IUiUKboCx/YkJkBR0bwmVfAs17a3MqRmF
+   yPJCdfjsgv7b5H5MamRTxVUN/6etzclyjd2kgZ0cbq1bsUXNOmAy+MG/6
+   ZyEYFbr9SB/KKt4YuEJmB/HEjHSoOhP/k6bHyTAS0fv0abjTFF73BrDLb
+   z9ao2jm/IUpVMWkF5bLvaGZ89eL+7GrG3OH065dgIHQCo5O/tYrxYM5cc
+   w==;
+X-CSE-ConnectionGUID: MkTdbnCNQiSwsr4c0ZwlcA==
+X-CSE-MsgGUID: yYkdsimqQ2CWSJJI56LqbA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="20160290"
 X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="8845071"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 08:34:19 -0700
-X-CSE-ConnectionGUID: L1KAV5bHRBqRtCq0wDMcJw==
-X-CSE-MsgGUID: 5oZYQ+ElQXCqnuVEkM82Cg==
+   d="scan'208";a="20160290"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 09:05:41 -0700
+X-CSE-ConnectionGUID: M+aIHnlCQxyhjK8Wqnx+zA==
+X-CSE-MsgGUID: wroUWproTMuBKpMX7VbBLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="22997901"
+   d="scan'208";a="60452205"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 18 Apr 2024 08:34:17 -0700
+  by orviesa001.jf.intel.com with ESMTP; 18 Apr 2024 09:05:41 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rxTmA-0008Uw-1Y;
-	Thu, 18 Apr 2024 15:34:14 +0000
-Date: Thu, 18 Apr 2024 23:33:13 +0800
+	id 1rxUGY-0008v2-0K;
+	Thu, 18 Apr 2024 16:05:38 +0000
+Date: Fri, 19 Apr 2024 00:05:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [plbossart-sound:sdw/parse-functions 10/12]
- drivers/soundwire/bus_type.c:108:undefined reference to `sdca_alloc'
-Message-ID: <202404182348.lRlTAIGv-lkp@intel.com>
+Subject: [freescale-fslc:6.1-2.2.x-imx 15894/18115]
+ drivers/mfd/maxim_serdes.c:63:5: warning: no previous prototype for
+ 'maxim_serdes_chain_register_remote'
+Message-ID: <202404182358.z0QHNyfH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,125 +63,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/plbossart/sound sdw/parse-functions
-head:   999b877354e492b6b1c8206962dcf1fd21c09f15
-commit: cd24ac936a37b583771317da3d0865c6857cca92 [10/12] soundwire: add SDCA alloc/parsing
-config: x86_64-randconfig-012-20240418 (https://download.01.org/0day-ci/archive/20240418/202404182348.lRlTAIGv-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240418/202404182348.lRlTAIGv-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
+head:   de69f223c019fed2a465c014575b3b3d22b4c3fd
+commit: 4679c4f90240fab234b9faa70db8ed791ef6e570 [15894/18115] LF-10269-5: mfd: add Maxim SerDes link manager layer
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240418/202404182358.z0QHNyfH-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240418/202404182358.z0QHNyfH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404182348.lRlTAIGv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404182358.z0QHNyfH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `sdw_drv_probe':
->> drivers/soundwire/bus_type.c:108:(.text+0xac21cb): undefined reference to `sdca_alloc'
->> ld: drivers/soundwire/bus_type.c:114:(.text+0xac21dd): undefined reference to `sdca_find_functions'
+>> drivers/mfd/maxim_serdes.c:63:5: warning: no previous prototype for 'maxim_serdes_chain_register_remote' [-Wmissing-prototypes]
+      63 | int maxim_serdes_chain_register_remote(struct device *dev, int link, void (*cb)(void *), void *data)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/mfd/maxim_serdes.c:109:5: warning: no previous prototype for 'maxim_serdes_chain_register_local' [-Wmissing-prototypes]
+     109 | int maxim_serdes_chain_register_local(struct device *dev, int remote_links_used,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/mfd/max96752-core.c:146:5: warning: no previous prototype for 'max96752_set_link_params' [-Wmissing-prototypes]
+     146 | int max96752_set_link_params(struct max96752 *max96752)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +108 drivers/soundwire/bus_type.c
+vim +/maxim_serdes_chain_register_remote +63 drivers/mfd/maxim_serdes.c
 
-    81	
-    82	static int sdw_drv_probe(struct device *dev)
-    83	{
-    84		struct sdw_slave *slave = dev_to_sdw_dev(dev);
-    85		struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
-    86		const struct sdw_device_id *id;
-    87		const char *name;
-    88		int ret;
-    89	
-    90		/*
-    91		 * fw description is mandatory to bind
-    92		 */
-    93		if (!dev->fwnode)
-    94			return -ENODEV;
-    95	
-    96		if (!IS_ENABLED(CONFIG_ACPI) && !dev->of_node)
-    97			return -ENODEV;
-    98	
-    99		id = sdw_get_device_id(slave, drv);
-   100		if (!id)
-   101			return -ENODEV;
+    62	
+  > 63	int maxim_serdes_chain_register_remote(struct device *dev, int link, void (*cb)(void *), void *data)
+    64	{
+    65		struct maxim_serdes_chain *serdes_chain;
+    66		struct device_node *dn;
+    67		int i;
+    68	
+    69		dn = of_node_get(dev->of_node);
+    70	
+    71		while (dn) {
+    72			serdes_chain = maxim_serdes_get_chain(dn);
+    73			if (serdes_chain) {
+    74				of_node_put(dn);
+    75				break;
+    76			}
+    77	
+    78			dn = of_get_next_parent(dn);
+    79		}
+    80	
+    81		if (!dn) {
+    82			dev_err(dev, "could not find the local device of_node in the chains list\n");
+    83			return -ENODEV;
+    84		}
+    85	
+    86		if (link > serdes_chain->remotes_no - 1) {
+    87			dev_err(dev, "invalid remote link id provided\n");
+    88			return -EINVAL;
+    89		}
+    90	
+    91		serdes_chain->remote_late_setup[link].cb = cb;
+    92		serdes_chain->remote_late_setup[link].data = data;
+    93	
+    94		/* let's find out if all remotes registered their late setup routines */
+    95		for (i = 0; i < serdes_chain->remotes_no; i++) {
+    96			if (!serdes_chain->remote_late_setup[i].cb)
+    97				return 0;
+    98		}
+    99	
+   100		/* we're good to go, let's queue the late setup work */
+   101		INIT_WORK(&serdes_chain->late_setup_work, maxim_serdes_worker);
    102	
-   103		/*
-   104		 * the SDCA alloc/parsing is done before the driver probe
-   105		 * so that all the information extracted from firmware is
-   106		 * available.
-   107		 */
- > 108		ret = sdca_alloc(&slave->sdca_context,
-   109				 &slave->dev,
-   110				 slave);
-   111		if (ret < 0)
-   112			return ret;
-   113	
- > 114		sdca_find_functions(slave->sdca_context);
-   115	
-   116		/*
-   117		 * attach to power domain but don't turn on (last arg)
-   118		 */
-   119		ret = dev_pm_domain_attach(dev, false);
-   120		if (ret)
-   121			return ret;
-   122	
-   123		ret = drv->probe(slave, id);
-   124		if (ret) {
-   125			name = drv->name;
-   126			if (!name)
-   127				name = drv->driver.name;
-   128	
-   129			dev_err(dev, "Probe of %s failed: %d\n", name, ret);
-   130			dev_pm_domain_detach(dev, false);
-   131			return ret;
-   132		}
-   133		mutex_lock(&slave->sdw_dev_lock);
-   134	
-   135		/* device is probed so let's read the properties now */
-   136		if (drv->ops && drv->ops->read_prop)
-   137			drv->ops->read_prop(slave);
-   138	
-   139		if (slave->prop.use_domain_irq)
-   140			sdw_irq_create_mapping(slave);
-   141	
-   142		/* init the dynamic sysfs attributes we need */
-   143		ret = sdw_slave_sysfs_dpn_init(slave);
-   144		if (ret < 0)
-   145			dev_warn(dev, "Slave sysfs init failed:%d\n", ret);
-   146	
-   147		/*
-   148		 * Check for valid clk_stop_timeout, use DisCo worst case value of
-   149		 * 300ms
-   150		 *
-   151		 * TODO: check the timeouts and driver removal case
-   152		 */
-   153		if (slave->prop.clk_stop_timeout == 0)
-   154			slave->prop.clk_stop_timeout = 300;
-   155	
-   156		slave->bus->clk_stop_timeout = max_t(u32, slave->bus->clk_stop_timeout,
-   157						     slave->prop.clk_stop_timeout);
-   158	
-   159		slave->probed = true;
-   160	
-   161		/*
-   162		 * if the probe happened after the bus was started, notify the codec driver
-   163		 * of the current hardware status to e.g. start the initialization.
-   164		 * Errors are only logged as warnings to avoid failing the probe.
-   165		 */
-   166		if (drv->ops && drv->ops->update_status) {
-   167			ret = drv->ops->update_status(slave, slave->status);
-   168			if (ret < 0)
-   169				dev_warn(dev, "%s: update_status failed with status %d\n", __func__, ret);
-   170		}
-   171	
-   172		mutex_unlock(&slave->sdw_dev_lock);
-   173	
-   174		dev_dbg(dev, "probe complete\n");
-   175	
-   176		return 0;
-   177	}
-   178	
+   103		queue_work(system_unbound_wq, &serdes_chain->late_setup_work);
+   104	
+   105		return 0;
+   106	};
+   107	EXPORT_SYMBOL(maxim_serdes_chain_register_remote);
+   108	
+ > 109	int maxim_serdes_chain_register_local(struct device *dev, int remote_links_used,
+   110					      void (*cb)(void *), void *data)
+   111	{
+   112		struct maxim_serdes_chain *chain;
+   113		int extra_space;
+   114	
+   115		extra_space = remote_links_used * sizeof(struct maxim_serdes_late_setup);
+   116		chain = devm_kzalloc(dev, sizeof(*chain) + extra_space, GFP_KERNEL);
+   117		if (!chain)
+   118			return -ENOMEM;
+   119	
+   120		chain->local_dev_node = dev->of_node;
+   121		chain->local_late_setup.cb = cb;
+   122		chain->local_late_setup.data = data;
+   123		chain->remotes_no = remote_links_used;
+   124	
+   125		list_add_tail(&chain->entry, &maxim_serdes_chains_list);
+   126	
+   127		return 0;
+   128	}
+   129	EXPORT_SYMBOL(maxim_serdes_chain_register_local);
+   130	
 
 -- 
 0-DAY CI Kernel Test Service
