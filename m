@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0DC4F1EE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 05:30:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4975C54BE4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 05:40:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713418215; cv=none; b=qn9TTcR1eLfl9Dba1PqFt8Nbye0Lm8zDDxjV5HTm3/WwPZZcHWQ4c4jJNB8+n/LCJiwEaPbL5X8M8gmfBxx4MPzinn5FwROoxvIQZa5NaQJdKri2Vkl3HfRQwf/HgTCQYGHf1da2q1iBMQmd6lY+VRAqhplujHMSuzda2vLq1ag=
+	t=1713418820; cv=none; b=Ceq3WeILs4mRQEvif6A21w2oOGF+gVJV3jrmhK2fCUsbUcy6tF7mQ/ThL/csYC1o87cEYhA5D00z97FadxUUNVzX1uvyrSrMzZkffRfZpF0XtUjuwnzsorUVpE49V29uKmchl00ToWzR6qA2Yp3TwWGn/KTlRwhIAHGU9rXM6do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713418215; c=relaxed/simple;
-	bh=NYgj7ZhMx+/Gt3JSoGDcMbiG0lfzlaFzj6mHj8V0D1g=;
+	s=arc-20240116; t=1713418820; c=relaxed/simple;
+	bh=Xn0RVWlvlTOyrRFUOOl8D91VYhROtu1vHRLvJ0eToUg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OgfLlcN1UnwOGuKbHvg2QqwwsYOkiHZbVICGAqddwSqnz0U/cFbFG8aJp/9X67eV1oogC4nobt+TjPRa10z1Z8s85h7QaLvbzj86Hzc+uJGBe9g9h8392R+x78KSXXUPSbGKioUcs/rTJ2KWlIIafTkWK/THZJVxlEtyPU1Yh2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vih8eJP7; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=r8nsHB1G4vL0fJ6BBIQImeaBHmmmNOrki0Ebwo6weUr2mlCdLmpFiIz6XFEu32dsNhT8ixUhK+FmfhsLOk2qzptFvEk5ZNRo9LGQrUN/JdbUOVHTGKX5nDo/ZFcUPjbxgL0fi8XPcTNCGFeXwyqtHp5oAODLS4LuV73hMiHvWaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GvPPjrqf; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vih8eJP7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GvPPjrqf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713418215; x=1744954215;
+  t=1713418819; x=1744954819;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NYgj7ZhMx+/Gt3JSoGDcMbiG0lfzlaFzj6mHj8V0D1g=;
-  b=Vih8eJP7QCIMoF8x0oXcwFXr5Gt+lgbjgddM5ts0kio8P9+6sYMI91JS
-   VHeVyIx/GC8gnPV9nDIDS2VKii3PrFTsOQP35XWPERJ64cxcIsOMz/jNp
-   As8+FVwfYQe7UNsgy9RkxX9Lw6vYKs+CccSKm/2nEL3kx2Hu0t3rVMNnC
-   v/vNtLw/TrcbvldBaB5gVycfuWyvucrb9NRbJ0Je08SPDE5uk/QMiZbi+
-   A9ikkCDxVeJjze3hZZ+dTdmrU+92GBu39lKlaPWaT1/p7VitWeNXS4E//
-   JN2CeOEvECKQU3Fz8vdh2m2fprbvYT7JZ/EV8aT6kxow+/x+852PNIY1D
-   w==;
-X-CSE-ConnectionGUID: hBnPB/2wQs6faGLesHRk7Q==
-X-CSE-MsgGUID: 5oUKBeKYRv+IkNCTHnv68Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="20366897"
+  bh=Xn0RVWlvlTOyrRFUOOl8D91VYhROtu1vHRLvJ0eToUg=;
+  b=GvPPjrqfIRsixVvuzPihn9TyFyZjfaOhvUg6ruG6V+A9SlG89+tyx/55
+   gkbOHZrXFr9AEWGV24ETpy5DIrH5isu2Uc4MT3BigL9iOvvsz0WXgXFPm
+   yLYHk0m2tpxum8UwuiFO6xW0qGqZ5hvbTcGlAXJ1p1s1Iw1KICC4pdiAY
+   lzrS7rigL/ZwhaiVswqI1P5fUQws+4if//7L+1jR+RRMbcdWI/NyavKKm
+   qMQ1gYWwv/8UEQYiFvWT3HnwGrb4T2HPO58Ce3Gr4YOLpqsUF1sbYJfZV
+   zWqQlvPZirK4gNoG7NJbx4ftjJ+MoQHJZmj9vxA4KdZo0pETMPsIQcoTw
+   g==;
+X-CSE-ConnectionGUID: SnotGUiBTpGu5AGuTW67ug==
+X-CSE-MsgGUID: szouaCAPSZS+HReZXIM+7g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="19549962"
 X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="20366897"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 22:30:14 -0700
-X-CSE-ConnectionGUID: yroBPzUYRFSOj2URPkR5yA==
-X-CSE-MsgGUID: JoBGsokrR2qTlTP89CuKvw==
+   d="scan'208";a="19549962"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 22:40:18 -0700
+X-CSE-ConnectionGUID: hqK14G0XTG6g02nkkwNImA==
+X-CSE-MsgGUID: 7ozkoNQSQKWrUEm/U+1dQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="46141496"
+   d="scan'208";a="22958159"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 17 Apr 2024 22:30:11 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 17 Apr 2024 22:40:16 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rxKLZ-0007LU-0x;
-	Thu, 18 Apr 2024 05:30:09 +0000
-Date: Thu, 18 Apr 2024 13:29:14 +0800
+	id 1rxKVI-0007Lu-0q;
+	Thu, 18 Apr 2024 05:40:12 +0000
+Date: Thu, 18 Apr 2024 13:39:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Parker Newman <parker@finest.io>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Parker Newman <pnewman@connecttech.com>
-Subject: Re: [PATCH v4 6/7] serial: exar: add CTI specific setup code
-Message-ID: <202404181353.1VIC4cz9-lkp@intel.com>
-References: <ae4a66e7342b686cb8d4b15317585dfb37222cf4.1713382717.git.pnewman@connecttech.com>
+To: Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	benjamin.mugnier@foss.st.com, mchehab@kernel.org, robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: i2c: Add driver for ST VD56G3 camera sensor
+Message-ID: <202404181322.l6Ajlqbf-lkp@intel.com>
+References: <20240417133453.17406-3-sylvain.petinot@foss.st.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,197 +65,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ae4a66e7342b686cb8d4b15317585dfb37222cf4.1713382717.git.pnewman@connecttech.com>
+In-Reply-To: <20240417133453.17406-3-sylvain.petinot@foss.st.com>
 
-Hi Parker,
+Hi Sylvain,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on b86ae40ffcf5a16b9569b1016da4a08c4f352ca2]
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linus/master v6.9-rc4 next-20240417]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Parker-Newman/serial-exar-remove-old-Connect-Tech-setup/20240418-043457
-base:   b86ae40ffcf5a16b9569b1016da4a08c4f352ca2
-patch link:    https://lore.kernel.org/r/ae4a66e7342b686cb8d4b15317585dfb37222cf4.1713382717.git.pnewman%40connecttech.com
-patch subject: [PATCH v4 6/7] serial: exar: add CTI specific setup code
-config: alpha-defconfig (https://download.01.org/0day-ci/archive/20240418/202404181353.1VIC4cz9-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240418/202404181353.1VIC4cz9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sylvain-Petinot/media-dt-bindings-Add-ST-VD56G3-camera-sensor-binding/20240417-213838
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240417133453.17406-3-sylvain.petinot%40foss.st.com
+patch subject: [PATCH 2/2] media: i2c: Add driver for ST VD56G3 camera sensor
+config: m68k-randconfig-r071-20240418 (https://download.01.org/0day-ci/archive/20240418/202404181322.l6Ajlqbf-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240418/202404181322.l6Ajlqbf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404181353.1VIC4cz9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404181322.l6Ajlqbf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/tty/serial/8250/8250_exar.c:727: warning: Function parameter or struct member 'pcidev' not described in 'cti_get_port_type_xr17c15x_xr17v25x'
->> drivers/tty/serial/8250/8250_exar.c:819: warning: Function parameter or struct member 'pcidev' not described in 'cti_get_port_type_fpga'
->> drivers/tty/serial/8250/8250_exar.c:849: warning: Function parameter or struct member 'pcidev' not described in 'cti_get_port_type_xr17v35x'
+>> drivers/media/i2c/st-vd56g3.c:1164:12: warning: 'vd56g3_runtime_suspend' defined but not used [-Wunused-function]
+    1164 | static int vd56g3_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/i2c/st-vd56g3.c:1142:12: warning: 'vd56g3_runtime_resume' defined but not used [-Wunused-function]
+    1142 | static int vd56g3_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +727 drivers/tty/serial/8250/8250_exar.c
+vim +/vd56g3_runtime_suspend +1164 drivers/media/i2c/st-vd56g3.c
 
-   714	
-   715	/**
-   716	 * cti_get_port_type_xr17c15x_xr17v25x() - Get port type of xr17c15x/xr17v25x
-   717	 * @priv: Device's private structure
-   718	 * @port_num: Port to get type of
-   719	 *
-   720	 * CTI xr17c15x and xr17v25x based cards port types are based on PCI IDs.
-   721	 *
-   722	 * Return: port type on success, CTI_PORT_TYPE_NONE on failure
-   723	 */
-   724	static enum cti_port_type cti_get_port_type_xr17c15x_xr17v25x(struct exar8250 *priv,
-   725								struct pci_dev *pcidev,
-   726								unsigned int port_num)
- > 727	{
-   728		enum cti_port_type port_type;
-   729	
-   730		switch (pcidev->subsystem_device) {
-   731		// RS232 only cards
-   732		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_2_232:
-   733		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_4_232:
-   734		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_8_232:
-   735		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_8_SP_232:
-   736		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_8_SP_232_NS:
-   737		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_8_XPRS_LP_232:
-   738		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_8_XPRS_LP_232_NS:
-   739			port_type = CTI_PORT_TYPE_RS232;
-   740			break;
-   741		// 1x RS232, 1x RS422/RS485
-   742		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_1_1:
-   743			port_type = (port_num == 0) ?
-   744				CTI_PORT_TYPE_RS232 : CTI_PORT_TYPE_RS422_485;
-   745			break;
-   746		// 2x RS232, 2x RS422/RS485
-   747		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_2_2:
-   748			port_type = (port_num < 2) ?
-   749				CTI_PORT_TYPE_RS232 : CTI_PORT_TYPE_RS422_485;
-   750			break;
-   751		// 4x RS232, 4x RS422/RS485
-   752		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_4_4:
-   753		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_4_4_SP:
-   754			port_type = (port_num < 4) ?
-   755				CTI_PORT_TYPE_RS232 : CTI_PORT_TYPE_RS422_485;
-   756			break;
-   757		// RS232/RS422/RS485 HW (jumper) selectable
-   758		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_2:
-   759		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_4:
-   760		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_8:
-   761		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_2_SP_OPTO:
-   762		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_4_SP_OPTO_A:
-   763		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_4_SP_OPTO_B:
-   764		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_2_XPRS:
-   765		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_4_XPRS_A:
-   766		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_4_XPRS_B:
-   767		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_8_XPRS:
-   768		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_16_XPRS_A:
-   769		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_16_XPRS_B:
-   770		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_2_XPRS_OPTO:
-   771		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_4_XPRS_OPTO_A:
-   772		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_4_XPRS_OPTO_B:
-   773		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_8_SP:
-   774		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_2_XP_OPTO_LEFT:
-   775		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_2_XP_OPTO_RIGHT:
-   776		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_4_XP_OPTO:
-   777		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_4_4_XPRS_OPTO:
-   778		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_8_XPRS_LP:
-   779			port_type = CTI_PORT_TYPE_RS232_422_485_HW;
-   780			break;
-   781		// RS422/RS485 HW (jumper) selectable
-   782		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_2_485:
-   783		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_4_485:
-   784		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_8_485:
-   785		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_8_SP_485:
-   786		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_8_XPRS_LP_485:
-   787			port_type = CTI_PORT_TYPE_RS422_485;
-   788			break;
-   789		// 6x RS232, 2x RS422/RS485
-   790		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_6_2_SP:
-   791			port_type = (port_num < 6) ?
-   792				CTI_PORT_TYPE_RS232 : CTI_PORT_TYPE_RS422_485;
-   793			break;
-   794		// 2x RS232, 6x RS422/RS485
-   795		case PCI_SUBDEVICE_ID_CONNECT_TECH_PCI_UART_2_6_SP:
-   796			port_type = (port_num < 2) ?
-   797				CTI_PORT_TYPE_RS232 : CTI_PORT_TYPE_RS422_485;
-   798			break;
-   799		default:
-   800			dev_err(&pcidev->dev, "unknown/unsupported device\n");
-   801			port_type = CTI_PORT_TYPE_NONE;
-   802		}
-   803	
-   804		return port_type;
-   805	}
-   806	
-   807	/**
-   808	 * cti_get_port_type_fpga() - Get the port type of a CTI FPGA card
-   809	 * @priv: Device's private structure
-   810	 * @port_num: Port to get type of
-   811	 *
-   812	 * FPGA based cards port types are based on PCI IDs.
-   813	 *
-   814	 * Return: port type on success, CTI_PORT_TYPE_NONE on failure
-   815	 */
-   816	static enum cti_port_type cti_get_port_type_fpga(struct exar8250 *priv,
-   817							struct pci_dev *pcidev,
-   818							unsigned int port_num)
- > 819	{
-   820		enum cti_port_type port_type;
-   821	
-   822		switch (pcidev->device) {
-   823		case PCI_DEVICE_ID_CONNECT_TECH_PCI_XR79X_12_XIG00X:
-   824		case PCI_DEVICE_ID_CONNECT_TECH_PCI_XR79X_12_XIG01X:
-   825		case PCI_DEVICE_ID_CONNECT_TECH_PCI_XR79X_16:
-   826			port_type = CTI_PORT_TYPE_RS232_422_485_HW;
-   827			break;
-   828		default:
-   829			dev_err(&pcidev->dev, "unknown/unsupported device\n");
-   830			return CTI_PORT_TYPE_NONE;
-   831		}
-   832	
-   833		return port_type;
-   834	}
-   835	
-   836	/**
-   837	 * cti_get_port_type_xr17v35x() - Read port type from the EEPROM
-   838	 * @priv: Device's private structure
-   839	 * @port_num: port offset
-   840	 *
-   841	 * CTI XR17V35X based cards have the port types stored in the EEPROM.
-   842	 * This function reads the port type for a single port.
-   843	 *
-   844	 * Return: port type on success, CTI_PORT_TYPE_NONE on failure
-   845	 */
-   846	static enum cti_port_type cti_get_port_type_xr17v35x(struct exar8250 *priv,
-   847							struct pci_dev *pcidev,
-   848							unsigned int port_num)
- > 849	{
-   850		enum cti_port_type port_type;
-   851		u16 port_flags;
-   852		u8 offset;
-   853	
-   854		offset = CTI_EE_OFF_XR17V35X_PORT_FLAGS + port_num;
-   855		port_flags = exar_ee_read(priv, offset);
-   856	
-   857		port_type = FIELD_GET(CTI_EE_MASK_PORT_FLAGS_TYPE, port_flags);
-   858		if (!CTI_PORT_TYPE_VALID(port_type)) {
-   859			/*
-   860			 * If the port type is missing the card assume it is a
-   861			 * RS232/RS422/RS485 card to be safe.
-   862			 *
-   863			 * There is one known board (BEG013) that only has
-   864			 * 3 of 4 port types written to the EEPROM so this
-   865			 * acts as a work around.
-   866			 */
-   867			dev_warn(&pcidev->dev,
-   868				"failed to get port %d type from EEPROM\n", port_num);
-   869			port_type = CTI_PORT_TYPE_RS232_422_485_HW;
-   870		}
-   871	
-   872		return port_type;
-   873	}
-   874	
+  1141	
+> 1142	static int vd56g3_runtime_resume(struct device *dev)
+  1143	{
+  1144		struct v4l2_subdev *sd = dev_get_drvdata(dev);
+  1145		struct vd56g3 *sensor = to_vd56g3(sd);
+  1146		struct i2c_client *client = sensor->i2c_client;
+  1147		int ret;
+  1148	
+  1149		ret = vd56g3_power_on(sensor);
+  1150		if (ret) {
+  1151			dev_err(&client->dev, "Failed to power on %d", ret);
+  1152			return ret;
+  1153		}
+  1154	
+  1155		ret = vd56g3_boot(sensor);
+  1156		if (ret) {
+  1157			dev_err(&client->dev, "sensor boot failed %d", ret);
+  1158			return ret;
+  1159		}
+  1160	
+  1161		return ret;
+  1162	}
+  1163	
+> 1164	static int vd56g3_runtime_suspend(struct device *dev)
+  1165	{
+  1166		struct v4l2_subdev *sd = dev_get_drvdata(dev);
+  1167		struct vd56g3 *sensor = to_vd56g3(sd);
+  1168	
+  1169		return vd56g3_power_off(sensor);
+  1170	}
+  1171	
 
 -- 
 0-DAY CI Kernel Test Service
