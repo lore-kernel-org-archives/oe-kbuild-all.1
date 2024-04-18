@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B144180A81
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 19:36:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EFD17BB31
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 20:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713468979; cv=none; b=KwZIg1LZckfkJivjLCZF7vAn7fcrC9XNK6c7ukXlV1rugI7ArgXMCisKJBgbUNc3goYSm+tGr/nZ/OO7To19rg59m/FUkx6NwnTWqbwdKBVL/OB6DDD35aNSUleRntLf2tcVoxqP737pTXxVJI254GPhQSIbyBZO76dQLu3FXb0=
+	t=1713472158; cv=none; b=YqQkURhUYs7elucPIOoenM3ssHPEGfzeDHTeHT4MzmkggJROh+URqF7Yu51xvjLAWGMtscrx9SB9W42CoUMDXFqCRe5oIshAopmdXE1DZ9mNiGua9c6JBdYRmsfHPYnKFRu31AetLfVlpIDqeqdoXFA6b664qKvVaodA+/dfthw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713468979; c=relaxed/simple;
-	bh=ciSkl5jjmwVLGNqACw+Y9/FoiKB85ls6a6PyIFwTt5s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oqak3126kmxcZDD2LMzOxC0Alo8GD0FFHWlAGPB9ff31g9yS9qEgFeTpV+VOctMZJ1XaOezTMiwXu42Nmd0KqHB4K81yP9eQ6MNHYxwF0Yh8V0YXj4NloZNvdRhpmbJh2jgeN3KVUqAs3kG/L9oNTMsVazK05HMaE91JQiigL6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XZYxYOdF; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1713472158; c=relaxed/simple;
+	bh=35UaapfjG69MIPVS+Iqh/dHQ/gy8dW2k70FWNC0jzmE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DdFF6UaicZyOJWwyT2glGJVkavnPZW7dLNRLVSF8WS1sFCiklaM8Mfen8lNJcd/uMq1oT9EY7DzfXyTPXxSG5ahyrW0EnIDT2rS8WcxiFTCQS8fZLJVE+2XcTThH1t1va9DUmq3OFx6MjFud+JXwpgeqEQCn31EzzjFABV5/9wY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=is4TppwX; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XZYxYOdF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="is4TppwX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713468978; x=1745004978;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ciSkl5jjmwVLGNqACw+Y9/FoiKB85ls6a6PyIFwTt5s=;
-  b=XZYxYOdFo6EyM9u6AP7w9Q/7ICOS3tGBWZUivjlOLmsRUB5RvrgcPIz8
-   /tAPFAUeeYalcKkJDIkrFFjNZmUO0xaYwXvmXhbMiEW55l1+ESdSEkkYN
-   ebsTmV0dcvtZdNYsiYYxHfDsUfOUm+tghUAv9Pw7QdroSjVUYt0GVVOX+
-   sYzQz7WNV4vFLdImW/1Bdgse0Z0eTHmE5E1hTB+d/GCgcqMs3z9hyO7xU
-   GzRV8Taz6h9tP0SDtxLRMZ2EjqNo0PIq9iuJeIBBdispdqXB2o4z5WN0w
-   UeIDnjVcNqUgWs1FxOKEWCGZAHm2Q3VpaxD8EfqbDL+kq4alrDcbfRXM1
-   g==;
-X-CSE-ConnectionGUID: wDtdtteNSGeXGHgvllPJ+A==
-X-CSE-MsgGUID: /DsE8jC3SJ63Oob5tqnM4A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="26556359"
+  t=1713472157; x=1745008157;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=35UaapfjG69MIPVS+Iqh/dHQ/gy8dW2k70FWNC0jzmE=;
+  b=is4TppwXyanUuLrn0Suwhjx/lEaviixCH6t1XTfyMKU1iteoPLnryP7j
+   A3/4AzIlbmvjdB3KBbmBd9zUgFOvYEkO8pePR9qnzqFl/d8H4X9BKH0+q
+   kmh5nKBZhzpv7uHan+oaeIl0slELNdEQ6gsAmb5nM82BArl9klDg61Zi2
+   sIRwUQc1RD0X44+94/ldVkDWOKrYpFd162hPoEPaL9WKJeQiDxN9VQHR9
+   qRxUYpvmFZw4tFUjF+oaTJaJP9Nd2MKp0g9u16f+T8KaBWb+Hlot981DE
+   qXk84brviJFcxaagkjTZlSUq3N3N8zwnDWXadfsFiuGCHYCt0KwvcEiHj
+   A==;
+X-CSE-ConnectionGUID: qn9M4BM9SWa2BJzsLRAv/g==
+X-CSE-MsgGUID: /THysc/hSpCSW8lwkYWGAg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="8909909"
 X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="26556359"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 12:36:15 -0700
-X-CSE-ConnectionGUID: PuNa+9+fT2miWmb6tlExpA==
-X-CSE-MsgGUID: WnMTpszQTv6wTRC5wFCo6w==
+   d="scan'208";a="8909909"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 13:29:16 -0700
+X-CSE-ConnectionGUID: d4wzRfwxTZWgg7HF4J7vcg==
+X-CSE-MsgGUID: /VCmeLD1TjyqFabd/l99Bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="23532035"
+   d="scan'208";a="22967712"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 18 Apr 2024 12:36:13 -0700
+  by orviesa010.jf.intel.com with ESMTP; 18 Apr 2024 13:29:15 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rxXYI-00099E-1L;
-	Thu, 18 Apr 2024 19:36:10 +0000
-Date: Fri, 19 Apr 2024 03:36:07 +0800
+	id 1rxYNc-0009CS-2c;
+	Thu, 18 Apr 2024 20:29:12 +0000
+Date: Fri, 19 Apr 2024 04:29:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Witold Sadowski <wsadowski@marvell.com>, linux-kernel@vger.kernel.org,
-	linux-spi@vger.kernel.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, broonie@kernel.org, robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	pthombar@cadence.com, Witold Sadowski <wsadowski@marvell.com>
-Subject: Re: [PATCH v3 3/5] spi: cadence: Add Marvell xSPI IP overlay changes
-Message-ID: <202404190319.hTksJJAv-lkp@intel.com>
-References: <20240418011353.1764672-4-wsadowski@marvell.com>
+To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:sched/dlserver.update_h_nr 1/1] kernel/sched/fair.c:5830:13:
+ warning: conflicting types for 'update_h_nr_running'; have 'void(struct
+ cfs_rq *, int)'
+Message-ID: <202404190428.SuQhraKV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,56 +62,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240418011353.1764672-4-wsadowski@marvell.com>
 
-Hi Witold,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.9-rc4]
-[also build test WARNING on linus/master next-20240418]
-[cannot apply to broonie-spi/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Witold-Sadowski/spi-cadence-Ensure-data-lines-set-to-low-during-dummy-cycle-period/20240418-091647
-base:   v6.9-rc4
-patch link:    https://lore.kernel.org/r/20240418011353.1764672-4-wsadowski%40marvell.com
-patch subject: [PATCH v3 3/5] spi: cadence: Add Marvell xSPI IP overlay changes
-config: x86_64-randconfig-122-20240419 (https://download.01.org/0day-ci/archive/20240419/202404190319.hTksJJAv-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190319.hTksJJAv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git sched/dlserver.update_h_nr
+head:   4e843586ff1b3b77e5244d0128facac6330490a4
+commit: 4e843586ff1b3b77e5244d0128facac6330490a4 [1/1] Prototype: Update h_nr_running from single place to stop/start dl server
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240419/202404190428.SuQhraKV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190428.SuQhraKV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404190319.hTksJJAv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404190428.SuQhraKV-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/spi/spi-cadence-xspi.c:288:11: sparse: sparse: symbol 'cdns_mrvl_xspi_clk_div_list' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/cdns_mrvl_xspi_clk_div_list +288 drivers/spi/spi-cadence-xspi.c
+   kernel/sched/fair.c:633:5: warning: no previous prototype for 'sched_update_scaling' [-Wmissing-prototypes]
+     633 | int sched_update_scaling(void)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'throttle_cfs_rq':
+   kernel/sched/fair.c:5119:17: error: implicit declaration of function 'update_h_nr_running' [-Werror=implicit-function-declaration]
+    5119 |                 update_h_nr_running(qcfs_rq, -1 * task_delta);
+         |                 ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: At top level:
+>> kernel/sched/fair.c:5830:13: warning: conflicting types for 'update_h_nr_running'; have 'void(struct cfs_rq *, int)'
+    5830 | static void update_h_nr_running(struct cfs_rq *cfs_rq, int delta)
+         |             ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5830:13: error: static declaration of 'update_h_nr_running' follows non-static declaration
+   kernel/sched/fair.c:5119:17: note: previous implicit declaration of 'update_h_nr_running' with type 'void(struct cfs_rq *, int)'
+    5119 |                 update_h_nr_running(qcfs_rq, -1 * task_delta);
+         |                 ^~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-   287	
- > 288	const int cdns_mrvl_xspi_clk_div_list[] = {
-   289		4,	//0x0 = Divide by 4.   SPI clock is 200 MHz.
-   290		6,	//0x1 = Divide by 6.   SPI clock is 133.33 MHz.
-   291		8,	//0x2 = Divide by 8.   SPI clock is 100 MHz.
-   292		10,	//0x3 = Divide by 10.  SPI clock is 80 MHz.
-   293		12,	//0x4 = Divide by 12.  SPI clock is 66.666 MHz.
-   294		16,	//0x5 = Divide by 16.  SPI clock is 50 MHz.
-   295		18,	//0x6 = Divide by 18.  SPI clock is 44.44 MHz.
-   296		20,	//0x7 = Divide by 20.  SPI clock is 40 MHz.
-   297		24,	//0x8 = Divide by 24.  SPI clock is 33.33 MHz.
-   298		32,	//0x9 = Divide by 32.  SPI clock is 25 MHz.
-   299		40,	//0xA = Divide by 40.  SPI clock is 20 MHz.
-   300		50,	//0xB = Divide by 50.  SPI clock is 16 MHz.
-   301		64,	//0xC = Divide by 64.  SPI clock is 12.5 MHz.
-   302		128,	//0xD = Divide by 128. SPI clock is 6.25 MHz.
-   303		-1	//End of list
-   304	};
-   305	
+
+vim +5830 kernel/sched/fair.c
+
+  5829	
+> 5830	static void update_h_nr_running(struct cfs_rq *cfs_rq, int delta)
+  5831	{
+  5832		int old_h_nr_running, new_h_nr_running;
+  5833		bool root = (&rq_of(cfs_rq)->cfs == cfs_rq);
+  5834		
+  5835		if (root) {
+  5836			old_h_nr_running = cfs_rq->h_nr_running;
+  5837		}
+  5838	
+  5839		new_h_nr_running = cfs_rq->h_nr_running + delta;
+  5840		cfs_rq->h_nr_running = new_h_nr_running;
+  5841		
+  5842		if (root && !!old_h_nr_running != !!new_h_nr_running) {
+  5843			if (new_h_nr_running) {
+  5844				dl_server_start(&rq_of(cfs_rq)->fair_server);
+  5845			} else {
+  5846				dl_server_stop(&rq_of(cfs_rq)->fair_server);
+  5847			}
+  5848		}
+  5849	}
+  5850	
 
 -- 
 0-DAY CI Kernel Test Service
