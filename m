@@ -1,51 +1,65 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565DE15B57F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 10:21:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CB115F308
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Apr 2024 11:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713435696; cv=none; b=f/mFhcnTKE8AAPn7Bim29w6+4n8wRIt4kdATk78Ez/ngDVS1HpEfCsc2mmEJHYscJ8F9FHfWcobQVeAGVPgwP8ljQHsGInRF2J/OQHY1tjCytYU+UjZNGhtw91EY6fyiYIvcZV3wSMhPJvKYHdY8XCLgcfFjcM5fMSc4Wefw7Io=
+	t=1713441477; cv=none; b=rjhk5DXwvAXpHOMkVMOV41kDhxY0+k3BQcCv9i63peOa1sAjsSzr0wb2be77xcj9o73vXW7fH7E77/0CoiRzaoKRRwb6vIkPyJvffPeZzUMHZzeMRHzuOQa0JLrZm6hDfaSG4CgjkE1Kngdgz1VswJ6g8sm62NhsMKRu82mzmTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713435696; c=relaxed/simple;
-	bh=TOSpUGA72OU9RJmhPDExrSo2cVL7EV0N+DAE6SBbewQ=;
+	s=arc-20240116; t=1713441477; c=relaxed/simple;
+	bh=EJ+eUdeeBCXzftAQJU57/zkUCCLUBsA/k3v4mshrZgA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HTOT27KLbMTXe8lW6J88xa1owYXyHuPfgpfhYGjwNQS0LpSgJpKnyHolLxKx9wLyRJ17qMFA04/qPyWcWKC354+beOHW9Uudtc5YRJBvnYkoRq6tmVYSyVEymnYpp2uDquKB5QbmgaDVI56jJjENXQd7BcHDGUeqRyHChdVgZuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=sjSdTXCS; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=sYHE65jeo76k0FBXd6RDVvexu8m/1SMXq+lWHwmLzMZ2/aKIJl5jUoY4lhfD4euQfzjq/ZiheB4xeISacac4OCWwcAok/vZLsdWIMEUq2LTMk5p7JkXszWjAHH2gLPdBCZa/GzhibcfRujwj4A2ATX0h1/Up/8/clqupIrPLKYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lWQaCZl7; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="sjSdTXCS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=KCi8DpwXZzWEaIft2rkA/933ktfGUG6j1vR+eFuI6qA=; b=sjSdTXCSrErUWF9PF33igrLHy2
-	3fmqlR3iRTFclC2KeUGOOdgpMDs9Tu8UqIuHqR9EOGsWytlLmrG28c20cEqd5vYGvuklz48Q/AMc4
-	4pISoX42vHkoFf+YIrtW2RKpAiosPM1puiQQRXgTi4IVEsmK04DxU158L9SsQ/6qMjSCrpEXXacKp
-	J+C/eYicc/uH+QLi7bl425jVjGr6E1l1seO1MDjSu3p73lWLDGqUX0LLYAYryXyejzFQD0vD8zAwE
-	hGNL8SFMpiF0L7ZxA179bZE0IVQSVCscSoVUW+vHWtvwMpLB/82xz2o0RzW/TTV9kx+13/ykvl0mt
-	k191SQ6A==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34466)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rxOtT-0005hk-1m;
-	Thu, 18 Apr 2024 11:21:27 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rxOtT-0006rh-Hh; Thu, 18 Apr 2024 11:21:27 +0100
-Date: Thu, 18 Apr 2024 11:21:27 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: kernel test robot <lkp@intel.com>, Jakub Kicinski <kuba@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [arm:zii 20/80] drivers/net/dsa/xrs700x/xrs700x.c:714:37:
- warning: 'xrs700x_phylink_mac_ops' defined but not used
-Message-ID: <ZiD0J+PJllZD197F@shell.armlinux.org.uk>
-References: <202404180634.GZNTrBPU-lkp@intel.com>
- <ZiDX2jEuwq8n5TTN@shell.armlinux.org.uk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lWQaCZl7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713441476; x=1744977476;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EJ+eUdeeBCXzftAQJU57/zkUCCLUBsA/k3v4mshrZgA=;
+  b=lWQaCZl7iycAWX5vCf4g9mXIMsQTdBwlcGin9oD5BlrUf5Wud1J+P0BR
+   70sj8ajQxoO2p/0c9vbAJ8ExKwESMiU3ut/nXa/8DQ3SjzZ4JYm8uGA7A
+   adfi7JPU5WLK1E0T81TnP3YcFfEVv7IWptPcGHe5CcQcp6s3lENIbGto4
+   fsEgqF66vv2DndFcceHyMDKRXyKj5DqREOnTBUGybTE6xbX/oSz/l+8tP
+   7BfIkWLIavL+xB7f81Hp2Gzf0tW5syY5I5Li481W0Yuzu59nDk3j0n7dT
+   LfDurFJ0JCZcDZCtArIxY4icrgGMYKAM4VtotLtfsgD8q0UigHPGJ0Fe/
+   A==;
+X-CSE-ConnectionGUID: MFpKeUfzTrCCFflTxluo/A==
+X-CSE-MsgGUID: sePB+agCSPGATr7LViFM5w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="12767285"
+X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
+   d="scan'208";a="12767285"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 04:57:52 -0700
+X-CSE-ConnectionGUID: gOdMdSlySyqCFwAcsFuv1w==
+X-CSE-MsgGUID: DntNxO6tSPCCloBUxJgvLA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
+   d="scan'208";a="27774216"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 18 Apr 2024 04:57:47 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rxQOf-0007Zx-0T;
+	Thu, 18 Apr 2024 11:57:45 +0000
+Date: Thu, 18 Apr 2024 19:57:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lorenzo Bianconi <lorenzo@kernel.org>, linux-spi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, broonie@kernel.org,
+	lorenzo.bianconi83@gmail.com, linux-arm-kernel@lists.infradead.org,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org, nbd@nbd.name,
+	john@phrozen.org, dd@embedd.com, catalin.marinas@arm.com,
+	will@kernel.org, upstream@airoha.com,
+	angelogioacchino.delregno@collabora.com
+Subject: Re: [PATCH v2 3/3] spi: airoha: add SPI-NAND Flash controller driver
+Message-ID: <202404181933.AfPnhmy7-lkp@intel.com>
+References: <25dd4334e3b37eaa628c20265841f251968c2b75.1713335916.git.lorenzo@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,38 +68,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZiDX2jEuwq8n5TTN@shell.armlinux.org.uk>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <25dd4334e3b37eaa628c20265841f251968c2b75.1713335916.git.lorenzo@kernel.org>
 
-On Thu, Apr 18, 2024 at 09:20:42AM +0100, Russell King (Oracle) wrote:
-> On Thu, Apr 18, 2024 at 06:26:42AM +0800, kernel test robot wrote:
-> > All warnings (new ones prefixed by >>):
-> > 
-> > >> drivers/net/dsa/xrs700x/xrs700x.c:714:37: warning: 'xrs700x_phylink_mac_ops' defined but not used [-Wunused-const-variable=]
-> >      714 | static const struct phylink_mac_ops xrs700x_phylink_mac_ops = {
-> >          |                                     ^~~~~~~~~~~~~~~~~~~~~~~
-> 
-> My testing did not produce this warning, so I'm guessing that by default
-> the kernel does not build with this warning enabled - which seems to be
-> completely mad. This is not the first time that this has happened... and
-> it will not be the last while the kernel adopts this policy.
-> 
-> Your follow-up email shows that there are other warnings which will be
-> spat out with W=1 which will make spotting one new warning difficult,
-> so this isn't the answer either.
-> 
-> I guess we are now completely reliant on the 0-day robot finding these
-> cases... which sucks.
+Hi Lorenzo,
 
-Double-checking, yes, the build is clean and does not spit out the above
-warning. However, building with W=1 spits out around 5.3k of warnings,
-so needle in a haystack, especially for a subsystem maintainer who may
-have to touch a lot of drivers (like I'm doing.)
+kernel test robot noticed the following build errors:
 
-I guess we just have to accept that mistakes will happen, and there's
-no good way to do a build-test to pick up on this kind of issue, and
-just generate fixes as and when the 0-day kernel builder finds them.
+[auto build test ERROR on next-20240416]
+[cannot apply to broonie-spi/for-next robh/for-next arm/for-next arm/fixes arm64/for-next/core kvmarm/next rockchip/for-next shawnguo/for-next soc/for-next linus/master v6.9-rc4 v6.9-rc3 v6.9-rc2 v6.9-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/dt-bindings-spi-airoha-Add-YAML-schema-for-SNFI-controller/20240417-144847
+base:   next-20240416
+patch link:    https://lore.kernel.org/r/25dd4334e3b37eaa628c20265841f251968c2b75.1713335916.git.lorenzo%40kernel.org
+patch subject: [PATCH v2 3/3] spi: airoha: add SPI-NAND Flash controller driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240418/202404181933.AfPnhmy7-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240418/202404181933.AfPnhmy7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404181933.AfPnhmy7-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/spi/spi-airoha-snfi.c: In function 'airoha_snand_set_fifo_op':
+>> drivers/spi/spi-airoha-snfi.c:233:28: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     233 |                            FIELD_PREP(SPI_CTRL_OPFIFO_LEN, op_len) |
+         |                            ^~~~~~~~~~
+   drivers/spi/spi-airoha-snfi.c: In function 'airoha_snand_read_data_from_fifo':
+>> drivers/spi/spi-airoha-snfi.c:320:26: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     320 |                 ptr[i] = FIELD_GET(SPI_CTRL_DFIFO_RDATA, val);
+         |                          ^~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/FIELD_PREP +233 drivers/spi/spi-airoha-snfi.c
+
+   225	
+   226	static int airoha_snand_set_fifo_op(struct airoha_snand_ctrl *as_ctrl,
+   227					    u8 op_cmd, int op_len)
+   228	{
+   229		int err;
+   230		u32 val;
+   231	
+   232		err = regmap_write(as_ctrl->regmap_ctrl, REG_SPI_CTRL_OPFIFO_WDATA,
+ > 233				   FIELD_PREP(SPI_CTRL_OPFIFO_LEN, op_len) |
+   234				   FIELD_PREP(SPI_CTRL_OPFIFO_OP, op_cmd));
+   235		if (err)
+   236			return err;
+   237	
+   238		err = regmap_read_poll_timeout(as_ctrl->regmap_ctrl,
+   239					       REG_SPI_CTRL_OPFIFO_FULL,
+   240					       val, !(val & SPI_CTRL_OPFIFO_FULL),
+   241					       0, 250 * USEC_PER_MSEC);
+   242		if (err)
+   243			return err;
+   244	
+   245		err = regmap_write(as_ctrl->regmap_ctrl, REG_SPI_CTRL_OPFIFO_WR,
+   246				   SPI_CTRL_OPFIFO_WR);
+   247		if (err)
+   248			return err;
+   249	
+   250		return regmap_read_poll_timeout(as_ctrl->regmap_ctrl,
+   251						REG_SPI_CTRL_OPFIFO_EMPTY,
+   252						val, (val & SPI_CTRL_OPFIFO_EMPTY),
+   253						0, 250 * USEC_PER_MSEC);
+   254	}
+   255	
+   256	static int airoha_snand_set_cs(struct airoha_snand_ctrl *as_ctrl, u8 cs)
+   257	{
+   258		return airoha_snand_set_fifo_op(as_ctrl, cs, sizeof(cs));
+   259	}
+   260	
+   261	static int airoha_snand_write_data_to_fifo(struct airoha_snand_ctrl *as_ctrl,
+   262						   const u8 *data, int len)
+   263	{
+   264		int i;
+   265	
+   266		for (i = 0; i < len; i++) {
+   267			int err;
+   268			u32 val;
+   269	
+   270			/* 1. Wait until dfifo is not full */
+   271			err = regmap_read_poll_timeout(as_ctrl->regmap_ctrl,
+   272						       REG_SPI_CTRL_DFIFO_FULL, val,
+   273						       !(val & SPI_CTRL_DFIFO_FULL),
+   274						       0, 250 * USEC_PER_MSEC);
+   275			if (err)
+   276				return err;
+   277	
+   278			/* 2. Write data to register DFIFO_WDATA */
+   279			err = regmap_write(as_ctrl->regmap_ctrl,
+   280					   REG_SPI_CTRL_DFIFO_WDATA,
+   281					   FIELD_PREP(SPI_CTRL_DFIFO_WDATA, data[i]));
+   282			if (err)
+   283				return err;
+   284	
+   285			/* 3. Wait until dfifo is not full */
+   286			err = regmap_read_poll_timeout(as_ctrl->regmap_ctrl,
+   287						       REG_SPI_CTRL_DFIFO_FULL, val,
+   288						       !(val & SPI_CTRL_DFIFO_FULL),
+   289						       0, 250 * USEC_PER_MSEC);
+   290			if (err)
+   291				return err;
+   292		}
+   293	
+   294		return 0;
+   295	}
+   296	
+   297	static int airoha_snand_read_data_from_fifo(struct airoha_snand_ctrl *as_ctrl,
+   298						    u8 *ptr, int len)
+   299	{
+   300		int i;
+   301	
+   302		for (i = 0; i < len; i++) {
+   303			int err;
+   304			u32 val;
+   305	
+   306			/* 1. wait until dfifo is not empty */
+   307			err = regmap_read_poll_timeout(as_ctrl->regmap_ctrl,
+   308						       REG_SPI_CTRL_DFIFO_EMPTY, val,
+   309						       !(val & SPI_CTRL_DFIFO_EMPTY),
+   310						       0, 250 * USEC_PER_MSEC);
+   311			if (err)
+   312				return err;
+   313	
+   314			/* 2. read from dfifo to register DFIFO_RDATA */
+   315			err = regmap_read(as_ctrl->regmap_ctrl,
+   316					  REG_SPI_CTRL_DFIFO_RDATA, &val);
+   317			if (err)
+   318				return err;
+   319	
+ > 320			ptr[i] = FIELD_GET(SPI_CTRL_DFIFO_RDATA, val);
+   321			/* 3. enable register DFIFO_RD to read next byte */
+   322			err = regmap_write(as_ctrl->regmap_ctrl,
+   323					   REG_SPI_CTRL_DFIFO_RD, SPI_CTRL_DFIFO_RD);
+   324			if (err)
+   325				return err;
+   326		}
+   327	
+   328		return 0;
+   329	}
+   330	
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
