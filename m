@@ -1,125 +1,129 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D070BAD51
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Apr 2024 10:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3C8823AF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Apr 2024 11:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713524194; cv=none; b=qkKcw7votMLJE/L1gYcvSqF/mnyjCrn4uXJdF/XXZzQoNDmb59PrjY3+jZ4zv/PYOa4nnCBGh3WJGb+27NBoGNYVxwAHwmP8WP4bcvaRi6ykrPh4kPEzMGGIuxlQiz1E1ZrEEAgOi/oksWywz7VuIwbYUTH+1+BgffmiUMQs/8E=
+	t=1713527043; cv=none; b=AhGcNx1KvqR3BzagBnDlbFu6uzoyUEOFmZu4P2cKC28qU+bRmdbZC75oGp+CrAyf5GwRBVoWmkZS81tiAfcIv8dV2QKv802jMAzRupIT178/NHYnItu7wULTYzuX/M25JSM2L2onHM+wIXRayu4t6U5wfWk8wx72aUyUr7XaPuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713524194; c=relaxed/simple;
-	bh=k1R4HhbjrnBE8URwPJrQEH6QmypJNAXLsiV1eNfh2YY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WJMQzFsdVEVPE1ngNGjfCtUk+7BQIwmRs7uzLdniLioPqOi73UUNm1xDrQVITyDlDfj7q9GTn4tpQZoUgYM1/zPEgXCy8APJ6OjkG3lnmHsqjuY6Mh6yS/Eo948bth9cdeDdLfht09kxbwHuYpicKYSSE13yJG1nit77vtQPGyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cRUIEXVb; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1713527043; c=relaxed/simple;
+	bh=xf0XakvsGvN7+Qa4npUJSoQzOdXU1KaM5tESEFlJRpU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tsRFVo7eWzQnnMvh4nwXGT2yuiYv7coiQXMkeOiaQ35UEBp5Ho2G1kDncnRjGRSahgCTMmZUCsW8AOfhl4Ovty6bwjo5EiKai0p7rmW4e/RW+8oJJ3tm1OPl4HpAEe7KUmuFFS4aYKuM71uVRLHXuHpGPLd/UbxAiLzDL2rdhVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XMxxyWXm; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cRUIEXVb"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1e2b137d666so15788355ad.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Apr 2024 03:56:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XMxxyWXm"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2a526803fccso1332133a91.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Apr 2024 04:44:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713524192; x=1714128992; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hvo6+G81nw9ZEN9Z1TxfkTOmPJXyU6L0c8InKxZr7m0=;
-        b=cRUIEXVbwFjB/PRIOSVZZQodxgoAMMwySS9Xj5+eCIYoihnCzS5tU1YqpfazKftKJ6
-         X9dLcoQ8/Y7hq4iD3Qy5hnITkktpr6cXZtelZd8SCssmSeFvv65xcmv55cEiL8Um7jPU
-         hHghWuq5Bc/2rDK605lgRpZKeSjz1ePPlA+KetTpo561I0AIoldHdGXF0wOdcqePgSJG
-         lxlPH+/kveGGGxpOWAOxqlNX4K1FPxyEIOORToxM97VGhDA5NEOj2jNVpIGZ2+kN8bI5
-         cYUzTsq/t2mKgNCU0deYrATzqf7cPE5vUJWLbtotb/MKz9OtBFyMdX8QHNF5hVis+LGi
-         pyTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713524192; x=1714128992;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1713527042; x=1714131842; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hvo6+G81nw9ZEN9Z1TxfkTOmPJXyU6L0c8InKxZr7m0=;
-        b=f0V2rjgt9hmyz1NvNcK8UBGSerAr46bMq/u1C4lk0vbqnIyp5p1bPZ0vssMi/k6Rl/
-         S4e21lG9S/XNIZXgscnkhjT/pFQ9jilozgJBXcbb9tudyJ3SFXiC50nsCRon20FQ2jh1
-         NNaHOwaG9HxqcuSGabC2ZRKzIAtTHWd18FeBgyDl0MaYZsinek+fGefPJZjgvzMP7GPb
-         raHnIxvEL2pRF9eA5hS9JC5zCJgW/LtzkmMTzQpoCUS1CGpXQXs53ESoYA8wIt15AXFA
-         bto2I7OQHXudWCVBvxIZupgleLG+rftaImmR66DRDOYmRvsjKZUZRDfM9iw0rtqYMeF+
-         ZI/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUiTlLFMUOkWyiBf5at2GaW2bAT1Fkwr6RkqIye9GifGaMyDpV950RDNplSpCusDgf6xYktVLNkUCD9QV9rbCm+pBTXAE5mGW8Ok2HvHw==
-X-Gm-Message-State: AOJu0Yz/2PqNlDoxEKngencGGnA4KdN+nLIKk6mGhVV4TvWVPmEYRXMY
-	RU0B3Zhh83fnyk0bgpipcXmjrX1chY1eD0Oh5EgOT06cpvoT7bevyn9x08LWnM0=
-X-Google-Smtp-Source: AGHT+IHKr7df38jv5RL2re5Z8lDP2PVXeZil9FeT31rgUpuoUId8sCKBVf+pl+pd/Tt5Tkn/n+5W/A==
-X-Received: by 2002:a17:902:650c:b0:1e4:6519:816d with SMTP id b12-20020a170902650c00b001e46519816dmr1502880plk.48.1713524191976;
-        Fri, 19 Apr 2024 03:56:31 -0700 (PDT)
-Received: from localhost ([122.172.87.52])
-        by smtp.gmail.com with ESMTPSA id j12-20020a17090276cc00b001e41f1dda43sm3059136plt.75.2024.04.19.03.56.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Apr 2024 03:56:31 -0700 (PDT)
-Date: Fri, 19 Apr 2024 16:26:28 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: kernel test robot <lkp@intel.com>,
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>, linux-pm@vger.kernel.org
-Subject: Re: [vireshk-pm:cpufreq/arm/linux-next 6/10]
- drivers/cpufreq/sun50i-cpufreq-nvmem.c:128:44: warning: '%d' directive
- output may be truncated writing between 1 and 10 bytes into a region of size
- 2
-Message-ID: <20240419105628.faaqz2p4qdlfxyre@vireshk-i7>
-References: <202404191715.LDwMm2gP-lkp@intel.com>
- <20240419111345.028ad7ec@donnerap.manchester.arm.com>
+        bh=pvDwn2pX8ZqTMkyCwFFbipgt+oA/bwucP9JR31znzpE=;
+        b=XMxxyWXm3gE1ls8niKXBdMj7gyn1B48X7ZUKQh5hD0MPicgcLiDk9QLmpw4hfbiFxK
+         w95Kwh2Tiu5z48XouQ3FFbdO5+PhMZ2vr/Vdh407QrO3ogxhQD4Schfn0k6owmpC/HX0
+         GOlU+pnolWzTeSz65cGVte8ktkrrvnSeCVxdBvJLYvn/ntIIrmsQhwkD0ssfQDW+JvTn
+         /v1q5oyfwDTahnQ/wWJURH0jIzhdcWJcHWI1MCCnlGIp7ULp4caH/nZjGFHZZMpkGWQH
+         0lHSJBWasNawj8JbiXVEGPxyEclmEWVU5Rh82p+m2FxRgTlyOmx450xqqxR4ezz6FX0b
+         tvZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713527042; x=1714131842;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pvDwn2pX8ZqTMkyCwFFbipgt+oA/bwucP9JR31znzpE=;
+        b=im+dLZ8ZpkBYajEJQeP8p9UxJ7Rtq31ChkLwDZEaW+SECQAf2m/Is1GFabeAZODSFs
+         kB7HFTm+7n2FNurbvoqN51CFJqRGo/gINkPWnsOshNsLXbN6aMlgtvy1ayp/ifjyE8Xr
+         4cb51FJRvjgWBbyG5IpjZWu5sUR8/X0LNo3AVLVC6o+rBXk6sSIVz/uRszfUh02V2yBK
+         q0wA1ZSJIpMErpMkjIAsJIqT43QcWzEhmAXAlZE/0LyMNjC7GuYMgFnjDpRKxRslDYX6
+         GBZTvn+zPd63u2ABD8rTZWYOKYBtLIkqGz4lh/Vnju0jNnePerr4rZi+jStLZtu7Q5Sq
+         miFg==
+X-Forwarded-Encrypted: i=1; AJvYcCUYbLYSIz05b/xDVo2HU3IpulfVnx+8JJUlWoGmBcYub62XeL9AVieJ0RULHeVY/R71Mm3dHUcwD/H98lIXV1g5qHiAmBfL5Ptj11PltQ==
+X-Gm-Message-State: AOJu0YyrvScCRNBRKHjG71iB2QNQgOM62HiXnM1otWfcQ5yJo3ShXPOA
+	OD30Rihmbistc09hgDS1Rk6tuO+ArAJwyoVeFbHscVGn3JWjpCexip4UdY/0EDSR1PDIe1UhJGk
+	BPArCXEpQdxw4aUmWYTCYKk4ahBM=
+X-Google-Smtp-Source: AGHT+IER29uPb481Dz1d3DBvkhLSrTEzkSUGNhTw0UT5y5p+m3n/UECqSkHaBaIGLrOPVVaG9uQmpYulMmM2GVT/xb4=
+X-Received: by 2002:a17:90a:a085:b0:2a0:4495:1f3d with SMTP id
+ r5-20020a17090aa08500b002a044951f3dmr2270252pjp.0.1713527041718; Fri, 19 Apr
+ 2024 04:44:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240419111345.028ad7ec@donnerap.manchester.arm.com>
+References: <202404190103.lLm8LtuP-lkp@intel.com>
+In-Reply-To: <202404190103.lLm8LtuP-lkp@intel.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Fri, 19 Apr 2024 06:43:49 -0500
+Message-ID: <CAHCN7x+Ot=y1bZHGwLLHihNzvwJWzgLu30dG2tSp09smAMV8Eg@mail.gmail.com>
+Subject: Re: [linux-next:master 1892/6937] kismet: WARNING: unmet direct
+ dependencies detected for PHY_FSL_SAMSUNG_HDMI_PHY when selected by DRM_IMX8MP_DW_HDMI_BRIDGE
+To: kernel test robot <lkp@intel.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>, Paul Gazzillo <paul@pgazz.com>, 
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Vinod Koul <vkoul@kernel.org>, 
+	Marco Felsch <m.felsch@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 19-04-24, 11:13, Andre Przywara wrote:
-> So I see the problem: "speed" must fit into one decimal digit. At the
-> moment it's fine, because "speed" is returned by one of the *_efuse_xlate
-> functions. For the H6, the output is masked by 0x7, so can never be larger
-> than that. For the H616, the return value is a constant selected in a
-> switch/case, which is at most "4" at the moment, so it's safe as well.
-> 
-> So is there some established way to communicate this, to appease gcc here?
-> Would explicitly checking for the range and bailing out solve this? Or is
-> the some kind of assert to make gcc happy?
-> Or do we just increase MAX_NAME_LEN?
+On Thu, Apr 18, 2024 at 12:19=E2=80=AFPM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   7b4f2bc91c15fdcf948bb2d9741a9d7d54303f8d
+> commit: 6ad082bee9025fa8e0ef8ee478c5a614b9db9e3d [1892/6937] phy: freesca=
+le: add Samsung HDMI PHY
+> config: arm-kismet-CONFIG_PHY_FSL_SAMSUNG_HDMI_PHY-CONFIG_DRM_IMX8MP_DW_H=
+DMI_BRIDGE-0-0 (https://download.01.org/0day-ci/archive/20240419/2024041901=
+03.lLm8LtuP-lkp@intel.com/config)
+> reproduce: (https://download.01.org/0day-ci/archive/20240419/202404190103=
+.lLm8LtuP-lkp@intel.com/reproduce)
+>
 
-I fixed it like this in the OPP core earlier:
+From what I can tell, it's because CONFIG_PHY_FSL_SAMSUNG_HDMI_PHY
+depends on ARM64, but the driver that selects this doesn't.  Unless
+there is an objection, I'll change the 'select' option to 'imply' as
+there is no build requirement here, but enabling
+CONFIG_DRM_IMX8MP_DW_HDMI_BRIDGE without
+CONFIG_PHY_FSL_SAMSUNG_HDMI_PHY won't function.
 
-diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-index 30e5c337611c..cd50cea16a87 100644
---- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-@@ -19,8 +19,6 @@
- #include <linux/pm_opp.h>
- #include <linux/slab.h>
+I should be able to submit a patch today or tomorrow, unless people
+would prefer something else.
 
--#define MAX_NAME_LEN   7
--
- #define NVMEM_MASK     0x7
- #define NVMEM_SHIFT    5
+adam
 
-@@ -208,7 +206,7 @@ static int sun50i_cpufreq_get_efuse(void)
- static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
- {
-        int *opp_tokens;
--       char name[MAX_NAME_LEN];
-+       char name[] = "speedXXXXXXXXXXX"; /* Integers can take 11 chars max */
-        unsigned int cpu, supported_hw;
-        struct dev_pm_opp_config config = {};
-        int speed;
-@@ -235,7 +233,7 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
-                config.supported_hw_count = 1;
-        }
-
--       snprintf(name, MAX_NAME_LEN, "speed%d", speed);
-+       snprintf(name, sizeof(name), "speed%d", speed);
-        config.prop_name = name;
-
-        for_each_possible_cpu(cpu) {
-
--- 
-viresh
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202404190103.lLm8LtuP-lkp=
+@intel.com/
+>
+> kismet warnings: (new ones prefixed by >>)
+> >> kismet: WARNING: unmet direct dependencies detected for PHY_FSL_SAMSUN=
+G_HDMI_PHY when selected by DRM_IMX8MP_DW_HDMI_BRIDGE
+>    WARNING: unmet direct dependencies detected for SC_GCC_8280XP
+>      Depends on [n]: COMMON_CLK [=3Dy] && COMMON_CLK_QCOM [=3Dy] && (ARM6=
+4 || COMPILE_TEST [=3Dn])
+>      Selected by [y]:
+>      - SC_CAMCC_8280XP [=3Dy] && COMMON_CLK [=3Dy] && COMMON_CLK_QCOM [=
+=3Dy]
+>
+>    WARNING: unmet direct dependencies detected for PHY_FSL_SAMSUNG_HDMI_P=
+HY
+>      Depends on [n]: (ARCH_MXC [=3Dy] && ARM64 || COMPILE_TEST [=3Dn]) &&=
+ OF [=3Dy] && HAS_IOMEM [=3Dy] && COMMON_CLK [=3Dy]
+>      Selected by [y]:
+>      - DRM_IMX8MP_DW_HDMI_BRIDGE [=3Dy] && HAS_IOMEM [=3Dy] && DRM [=3Dy]=
+ && DRM_BRIDGE [=3Dy] && (ARCH_MXC [=3Dy] || COMPILE_TEST [=3Dn]) && OF [=
+=3Dy] && COMMON_CLK [=3Dy]
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
