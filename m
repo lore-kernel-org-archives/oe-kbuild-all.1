@@ -1,96 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367F525740
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Apr 2024 19:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174C813C9B1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Apr 2024 20:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713555748; cv=none; b=Q01aUj+0s8Duv2L+lO/HLqCtgM8XNy8/nwKEHL0yjB5N0rknZkkkOy9rBwbsEpFlX2/9/SZFfuHV4YMLDuqEPjnu2Hk+JO+HilJhmqYs64lanSkYlTtbVeyBteZAG9qo/QGtO30SGDB6dMUYmnebCLW93FMRAJN5HYmm6du1xhg=
+	t=1713556846; cv=none; b=eY6Yv446/VeIFOSc/hhnzeQuBMLhP6OCEHuHxNR/R4aroYrI2phbgCsSBQ7lpeWPlxEQ/N18PTODQ8mEmqU06F9tTg2daZ6Jr4FKWJ+MxzIn3ZhKhG9P89a6jprUzikQM2Zty78nXCyu3QwM+hIjWoPVwT8fO+ILoTNmkFTVOKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713555748; c=relaxed/simple;
-	bh=5uaexajk4wmXLDp2avdcSKylsbH+iQSlgi9gmaOEJys=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HDLuTrSQXZWHSqtBEwV7FcSMU5wJ/TNNrzSL4BALCU4QRGmB5hRglL2M904fRwu3nDFdi1OB/Xw+n5a7CirceP0mY/BSrIiG/Vy4xJFQFubpJ2Y+iW+0dlHv6S5hmJ7/IZIJOLJlC5L3H43l9YQBkDpyv8X84u2ve2Z18Cuvs8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ibsWb4E6; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ibsWb4E6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713555747; x=1745091747;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=5uaexajk4wmXLDp2avdcSKylsbH+iQSlgi9gmaOEJys=;
-  b=ibsWb4E6lq/oFOH3OdUJksni3wyS2PBrsAkkfD1YAqV+IwpU/9SvbI5v
-   7sj1B/OgH5t10u/iIqF1VnyXfSUsjHHYa9TTYHirSO5MKwXhMAo6Wx5n2
-   t4G/fcuZOgrYP7uAieNQjOIIZ0MHhNXaztkAqbcde2K68uDnXzny+F9IY
-   QaFQxx25FNuOSBj5TRtE1T8tMX7pgqgprptdcQHL+XzmGKfG2lqFjIDT4
-   t1wmgrcX7b1hHXJ7AJ/blBjGOoo6R/6BfPvcOr0PfCZpDv53ykjW+5m/5
-   apYtu4dZVp/Ybhbyzb8WjuOvrMtXSk/JapovHKlssNitlHOtLkwG+h5GS
-   w==;
-X-CSE-ConnectionGUID: mGnoPD3dS7qVaKPU41xVeA==
-X-CSE-MsgGUID: XMClYVj1SKi0AUsuOVxqag==
-X-IronPort-AV: E=McAfee;i="6600,9927,11049"; a="19783179"
-X-IronPort-AV: E=Sophos;i="6.07,214,1708416000"; 
-   d="scan'208";a="19783179"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 12:42:26 -0700
-X-CSE-ConnectionGUID: Caxu0hSVQkCJLWcvZL+1+Q==
-X-CSE-MsgGUID: dN0JdCq+RUmaoD+gYGixEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,214,1708416000"; 
-   d="scan'208";a="23491120"
-Received: from ahunter6-mobl1.ger.corp.intel.com (HELO [10.0.2.15]) ([10.252.46.33])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 12:42:24 -0700
-Message-ID: <b6ae1121-a900-499c-85e9-07ce0d6739c4@intel.com>
-Date: Fri, 19 Apr 2024 22:42:18 +0300
+	s=arc-20240116; t=1713556846; c=relaxed/simple;
+	bh=WARJLbLS+b0RckjFb5ncqqF0QnnCov/ywo2QpuhC1wk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t03EfjaZcWr5o27SU8AOZdOBf0BqMVFNruUEe5pIzygHMnAwA/mzrXFDIGr06ylmVheOv2lyo7zKzfrXb3KG3RvccQogyghPEQtqL76iYK2oonksK22pdfAf9wEAqmW7bpqUMwsb/TFUTA6goe742Aa4IRZR9xto439OK9AHvTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rxuPE-0006xs-Nr; Fri, 19 Apr 2024 22:00:20 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rxuPD-00DCw7-N9; Fri, 19 Apr 2024 22:00:19 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rxuPD-004N20-21;
+	Fri, 19 Apr 2024 22:00:19 +0200
+Date: Fri, 19 Apr 2024 22:00:19 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: Russell King <rmk+kernel@armlinux.org.uk>, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>, 
+	kernel@pengutronix.de
+Subject: Re: [PATCH] clk: Provide !COMMON_CLK dummy for
+ devm_clk_rate_exclusive_get()
+Message-ID: <y7i7vwl7h2xop2ifh72vj5brtq7vd7tf72tst7k7r74plguhgn@cqs5fzplfk5i>
+References: <202403270305.ydvX9xq1-lkp@intel.com>
+ <20240327073310.520950-2-u.kleine-koenig@pengutronix.de>
+ <d95554f623f023a2f5499fa2f6f76567.sboyd@kernel.org>
+ <xfaf22rf6gnrxpinkciybsyk4dx2bfqgozv6udwymegtcgd26i@jq5be7fm5lhi>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data23'
- from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data23'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>
-References: <202404190642.z54cLsGE-lkp@intel.com>
-Content-Language: en-US
-From: Adrian Hunter <adrian.hunter@intel.com>
-Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
- Business Identity Code: 0357606 - 4, Domiciled in Helsinki
-In-Reply-To: <202404190642.z54cLsGE-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="teeq72q7xrfgagpx"
+Content-Disposition: inline
+In-Reply-To: <xfaf22rf6gnrxpinkciybsyk4dx2bfqgozv6udwymegtcgd26i@jq5be7fm5lhi>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
-On 19/04/24 01:22, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   2668e3ae2ef36d5e7c52f818ad7d90822c037de4
-> commit: 5284984a4fbacb0883bfebe905902cdda2891a07 bug: Fix no-return-statement warning with !CONFIG_BUG
-> date:   8 days ago
-> config: powerpc-randconfig-r033-20211126 (https://download.01.org/0day-ci/archive/20240419/202404190642.z54cLsGE-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190642.z54cLsGE-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202404190642.z54cLsGE-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data23' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data23'
->    powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data18' from `drivers/cxl/core/port.o' being placed in section `.bss..Lubsan_data18'
->>> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data23' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data23'
->    powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data18' from `drivers/cxl/core/port.o' being placed in section `.bss..Lubsan_data18'
->>> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data23' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data23'
->    powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data18' from `drivers/cxl/core/port.o' being placed in section `.bss..Lubsan_data18'
-> 
 
-The same warnings are visible in v6.8 that does not
-contain commit 5284984a4fbacb0883bfebe905902cdda2891a07
-so this is not due to that commit.
+--teeq72q7xrfgagpx
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hello Stephen,
+
+On Fri, Apr 12, 2024 at 10:49:35PM +0200, Uwe Kleine-K=F6nig wrote:
+> On Thu, Mar 28, 2024 at 03:35:57PM -0700, Stephen Boyd wrote:
+> > Quoting Uwe Kleine-K=F6nig (2024-03-27 00:33:10)
+> > > To be able to compile drivers using devm_clk_rate_exclusive_get() also
+> > > on platforms without the common clk framework, add a dummy
+> > > implementation that does the same as clk_rate_exclusive_get() in that
+> > > case (i.e. nothing).
+> > >=20
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Closes: https://lore.kernel.org/oe-kbuild-all/202403270305.ydvX9xq1-l=
+kp@intel.com/
+> > > Fixes: b0cde62e4c54 ("clk: Add a devm variant of clk_rate_exclusive_g=
+et()")
+> > > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > > ---
+> >=20
+> > Applied to clk-fixes
+>=20
+> I assume that means it will be sent to Linus before 6.9? That would be
+> great because I want to make use of this function in some drivers and
+> the build bots nag about my for-next branch that in some configurations
+> this function is missing.
+
+Gentle ping. I'd like to get the patches I intend to send to Linus for
+v6.10-rc1 into shape. To have these unmodified in my for-next branch for
+some time it would be great to know your plans for the clk-fixes branch.=20
+Alternatively: Can I expect the commit not to be changed any more and
+pull it into my pwm tree?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--teeq72q7xrfgagpx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYizVIACgkQj4D7WH0S
+/k6SMwgAqHTm3+DCvXNfaGEaCzF14/5MgijejoWEJ/t2RGjvSkfA6etr71sI/ACJ
+Kv8TQ3zgf2DVrE/dyyqCoKU9OrJjADD6TV4S9rQ7gtJ1WJ8kYOEoRSlhzuVcDZQ/
+p96q1wUJQuNNnzyzFdCIlcoNAB3JM5KZDZvZFs39FrAOeYJyrqUIheT6OXQzKWJZ
+SODUmTfCWU7UkSHkTxNltRCJSG+LNXT0/KAJBA6PRHHjl/yIs1akB+IGbh/1aXgm
+wh8W5KbBjwwgkxm3+D2YVScpi+trFTuTvbwhUDVXYat/E9eqOkXaz1Qxf87KaC+Z
+B/F8TWsho0WjrDzcgnhNiFav/c2jaw==
+=Qor4
+-----END PGP SIGNATURE-----
+
+--teeq72q7xrfgagpx--
