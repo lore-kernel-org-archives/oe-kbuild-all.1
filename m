@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E7510E3;
-	Fri, 19 Apr 2024 02:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0490A37C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Apr 2024 04:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713495139; cv=none; b=s3CIljND/X6L4ekkzzpd2sh9gstUipfqgK0WI79ltENSrenmfBjLglDazSC2XZm44oWvgZPsvC8f60xhDvmz2Oq4tQLZRMW/2j4+xFdORef1V+SV9muoLnjoSrlMD6E9FXRuyytKMFZHGVoAVDqclbdBTIxZiZXzgjWOHHIwOcQ=
+	t=1713500022; cv=none; b=VXRP+zCuDT+Z7rMeBToSHVHxjE5It2sfyBrCQdr/deV4jVCOtGVByhvj3O4eM1RxsIsmn0HK9YLLrJ2NQnfLqgS/hHPx3TgenW/wEyri8UgAeMZ5KVtwjFcr/j43kW8oj/FwERVyLNF0ptIGfn8qa7EPoJ0jBF67/waLLGN6Wgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713495139; c=relaxed/simple;
-	bh=iYsC5wS5yzouBsYmQHmbqltVIfjZJhkBUK1fRuyWjkA=;
+	s=arc-20240116; t=1713500022; c=relaxed/simple;
+	bh=TA32PedlforxZW44G6UqDua0L+LcChUq7B3MvxKkJEs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OKpRh5wEOeQ3lK5sWxpuGtk/XMgmHE0Ramwb+E36+Tfros6Vk8dSq2hcHdho7vfL1TmcOH+7XfZ/gy0lxAR1jVvFf9Vsh3meEFKdkCOY+zH/thByIc06Jb/vtwzj0YyKQ2Fl4s8ibzMTQISZ8LRcivT88H2QArgEkGg2r9J5z1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JOb7/jE9; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=RSgxaCUu6kIsgsm7tiEvb9MBKwS9gknhbw33LUX+jUQ06zwPZBrn+KWgszDsCw6ywnoZF+6pdmW/cv9Zmy8hmX5ES3b8k/vlXD6cUtX7WLlimYBuIIh0uTde/XHeT0hEpe3FfSlPBZiRIS4YerK/9XnY49q+cwJFdZydix12Gz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O6eQXFEG; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JOb7/jE9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O6eQXFEG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713495137; x=1745031137;
+  t=1713500022; x=1745036022;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iYsC5wS5yzouBsYmQHmbqltVIfjZJhkBUK1fRuyWjkA=;
-  b=JOb7/jE9p+5aJic8yu0msOgDV3QtKRQFaoLOHBVgXSk8g1OFL93YhIcI
-   dTf51Vg5HwY4kAmCGVSEfEHKgbJzQm2tKPMQEL9JEMLE7Zn04nXMdjezl
-   KNkQLolUeHcP2JMdhfdiJTF/wK3zi7B1/xUkjmnLPtGR8YdUogzsK7TBj
-   EqGQLae9RsN1VFgF2gJ5APH10f7OmXaTa2fnmdiDjF1Ks97OCAhxyKInU
-   oteKGtc0jiEBlVK7IQBSiBvmT1SEP2JW87SqtlFo4K6Ou9bjQ05sz7IO6
-   mfk7glE7fqK6Jq7v5TmSjAb28ir2aCG5iRb7UlHODM8vXbI+nofgp0Uta
+  bh=TA32PedlforxZW44G6UqDua0L+LcChUq7B3MvxKkJEs=;
+  b=O6eQXFEGjkg0FXfqnjW65KxA8WjPgzOitYUWt3nNWGBvMrb3FR6f9k4w
+   wnk8/RRJeNOTHAwpTBzQdZFi3WYUbWO9BtX38JCqLFUFy71z60zjna3Bb
+   FIuF1P9/pUjitXxjiKgv+71uwSwnCUv3jH/sfY34g09MLA/NwylPg9Itz
+   7HjPLQ5DawH/Py4aSd0l3goUeYXdA/xArW+FCe/7cxnENmvdFy1qqCVo0
+   mxz8NcqqhK4E+9slAqLaMiggNYpf1r9T9omxMvqfYjrvB3ASmcQsIN30d
+   kkXqYRUYuxREAEWiRbmQXlNmmpCmxRq/cBPnmR+yQFSHkFcFaDpdyo+Eg
    Q==;
-X-CSE-ConnectionGUID: Gt70yqfAR2GCQlLMy8YzNQ==
-X-CSE-MsgGUID: lWa7gWo1RquuhatCNvYmpg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="34477955"
+X-CSE-ConnectionGUID: sB1ZNrbvTdCP6x+Wd8TvIQ==
+X-CSE-MsgGUID: hJI6c9fhQJeJtS7jZC6pRQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="8957681"
 X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="34477955"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 19:52:16 -0700
-X-CSE-ConnectionGUID: yE2zBEJtSLub0L1mAACBig==
-X-CSE-MsgGUID: QxrmNeASSUi/Fy330y+J1Q==
+   d="scan'208";a="8957681"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 21:13:41 -0700
+X-CSE-ConnectionGUID: ylsxuBVpQLCQS7/Mt7FDHQ==
+X-CSE-MsgGUID: 6TFv8j2RQxSuXyFeKw4BKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="54399883"
+   d="scan'208";a="28040601"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Apr 2024 19:52:15 -0700
+  by orviesa004.jf.intel.com with ESMTP; 18 Apr 2024 21:13:40 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rxeMH-0009XI-1g;
-	Fri, 19 Apr 2024 02:52:13 +0000
-Date: Fri, 19 Apr 2024 10:51:00 +0800
+	id 1rxfd2-0009aG-3B;
+	Fri, 19 Apr 2024 04:13:36 +0000
+Date: Fri, 19 Apr 2024 12:13:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:guest-tdx-asm 41/41] arch/x86/hyperv/ivm.c:395:12: error:
- call to undeclared function '__tdx_hypercall'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202404191044.kNOxYlUp-lkp@intel.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vireshk:rust/cpufreq-dt 19/23] error[E0425]: cannot find function
+ `clk_get` in crate `bindings`
+Message-ID: <202404191253.D7xgxABi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,60 +62,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git guest-tdx-asm
-head:   c579a842993d071476b16a8c24221b1ed3387b35
-commit: c579a842993d071476b16a8c24221b1ed3387b35 [41/41] drop unused TDCALL wrappers
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240419/202404191044.kNOxYlUp-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git rust/cpufreq-dt
+head:   42977e2ac9eb340fb6fa39729fd2ed1bda8e5e58
+commit: c3c310c63bd9f70f6c7a84f8612b7322fe2ae017 [19/23] rust: Add bindings for cpufreq framework
+config: x86_64-buildonly-randconfig-001-20240419 (https://download.01.org/0day-ci/archive/20240419/202404191253.D7xgxABi-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404191044.kNOxYlUp-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404191253.D7xgxABi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404191044.kNOxYlUp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404191253.D7xgxABi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/hyperv/ivm.c:395:12: error: call to undeclared function '__tdx_hypercall'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     395 |         u64 ret = __tdx_hypercall(&args);
-         |                   ^
-   arch/x86/hyperv/ivm.c:395:12: note: did you mean 'hv_tdx_hypercall'?
-   include/asm-generic/mshyperv.h:288:5: note: 'hv_tdx_hypercall' declared here
-     288 | u64 hv_tdx_hypercall(u64 control, u64 param1, u64 param2);
-         |     ^
-   arch/x86/hyperv/ivm.c:408:12: error: call to undeclared function '__tdx_hypercall'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     408 |         u64 ret = __tdx_hypercall(&args);
-         |                   ^
-   arch/x86/hyperv/ivm.c:424:8: error: call to undeclared function '__tdx_hypercall'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     424 |         (void)__tdx_hypercall(&args);
-         |               ^
-   3 errors generated.
-
-
-vim +/__tdx_hypercall +395 arch/x86/hyperv/ivm.c
-
-d3a9d7e49d1531 Dexuan Cui 2023-08-24  384  
-b9b4fe3a72b60c Dexuan Cui 2023-08-24  385  #ifdef CONFIG_INTEL_TDX_GUEST
-b9b4fe3a72b60c Dexuan Cui 2023-08-24  386  static void hv_tdx_msr_write(u64 msr, u64 val)
-b9b4fe3a72b60c Dexuan Cui 2023-08-24  387  {
-8a8544bde858e5 Kai Huang  2023-08-15  388  	struct tdx_module_args args = {
-b9b4fe3a72b60c Dexuan Cui 2023-08-24  389  		.r10 = TDX_HYPERCALL_STANDARD,
-b9b4fe3a72b60c Dexuan Cui 2023-08-24  390  		.r11 = EXIT_REASON_MSR_WRITE,
-b9b4fe3a72b60c Dexuan Cui 2023-08-24  391  		.r12 = msr,
-b9b4fe3a72b60c Dexuan Cui 2023-08-24  392  		.r13 = val,
-b9b4fe3a72b60c Dexuan Cui 2023-08-24  393  	};
-b9b4fe3a72b60c Dexuan Cui 2023-08-24  394  
-b9b4fe3a72b60c Dexuan Cui 2023-08-24 @395  	u64 ret = __tdx_hypercall(&args);
-b9b4fe3a72b60c Dexuan Cui 2023-08-24  396  
-b9b4fe3a72b60c Dexuan Cui 2023-08-24  397  	WARN_ONCE(ret, "Failed to emulate MSR write: %lld\n", ret);
-b9b4fe3a72b60c Dexuan Cui 2023-08-24  398  }
-b9b4fe3a72b60c Dexuan Cui 2023-08-24  399  
-
-:::::: The code at line 395 was first introduced by commit
-:::::: b9b4fe3a72b60c8d74a9ffb61aa778f04eaddd87 x86/hyperv: Use TDX GHCI to access some MSRs in a TDX VM with the paravisor
-
-:::::: TO: Dexuan Cui <decui@microsoft.com>
-:::::: CC: Wei Liu <wei.liu@kernel.org>
+>> error[E0425]: cannot find function `clk_get` in crate `bindings`
+   --> rust/kernel/cpufreq.rs:265:23
+   |
+   265 |             bindings::clk_get(dev.raw_device(), con_id)
+   |                       ^^^^^^^ not found in `bindings`
+--
+>> error[E0425]: cannot find function `clk_put` in crate `bindings`
+   --> rust/kernel/cpufreq.rs:278:28
+   |
+   278 |         unsafe { bindings::clk_put(self.0) };
+   |                            ^^^^^^^ not found in `bindings`
 
 -- 
 0-DAY CI Kernel Test Service
