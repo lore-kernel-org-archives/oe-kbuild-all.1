@@ -1,107 +1,130 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D6088121F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Apr 2024 11:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A37AD35;
+	Fri, 19 Apr 2024 12:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713527796; cv=none; b=IYPZIa2ClOxHAZ8eKraNZmmVSShzpZ2wfvyWVJEfE5MTeafH8NYQy5mhgLsTc7zRxngXIG4kKhM6aeeiWUjq0wdor3Z1f7dHfkpSEkgqWlPFZ/WMNRmlxyP751hjEtWXUx2SGK2gY+tMyMXPguOghZOjITYGjwzrVlbM5XKZ8b0=
+	t=1713529255; cv=none; b=Co8ShAb6EnfNXvMPeUsFfDoo9umOUY4S/0zKpMxLMSvaWhWlpQyhaVpnTTLttYs3g4pC6i8ZDwblgYnh/uNqOiXX/ZxNCOAd4eVZJJBjPCp/jA1oyf18/NA8G8WoXFwUy5Fd/86Xor2qEwNecxV4wn+QdfeHtjoIjq22Xu0BCVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713527796; c=relaxed/simple;
-	bh=T3STDVe7xxU2a7JoWtzmlCoWg5g6NQdOyEj8aWsFGW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nGHmFsNUBeLMCzx72NQMyjabecKDJD9g+5EVJT2ibrKn0XzD2rLWNRb4DhHbEldCtoczPNuA0rB5r419dJxMrjfJI4zDziKr+9Fc0QZnrEm/iFPJCFyFoLSxljotgilB6xX81uZD9CoTCWAJ3P6mI4QZQiG4YFq2W25es1RAgD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 19CCF2F;
-	Fri, 19 Apr 2024 04:57:02 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 13DF73F64C;
-	Fri, 19 Apr 2024 04:56:32 -0700 (PDT)
-Date: Fri, 19 Apr 2024 12:56:30 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: kernel test robot <lkp@intel.com>, Brandon Cheo Fusi
- <fusibrandon13@gmail.com>, oe-kbuild-all@lists.linux.dev, Jernej Skrabec
- <jernej.skrabec@gmail.com>, linux-pm@vger.kernel.org
-Subject: Re: [vireshk-pm:cpufreq/arm/linux-next 6/10]
- drivers/cpufreq/sun50i-cpufreq-nvmem.c:128:44: warning: '%d' directive
- output may be truncated writing between 1 and 10 bytes into a region of
- size 2
-Message-ID: <20240419125630.7951b45c@donnerap.manchester.arm.com>
-In-Reply-To: <20240419105628.faaqz2p4qdlfxyre@vireshk-i7>
-References: <202404191715.LDwMm2gP-lkp@intel.com>
-	<20240419111345.028ad7ec@donnerap.manchester.arm.com>
-	<20240419105628.faaqz2p4qdlfxyre@vireshk-i7>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1713529255; c=relaxed/simple;
+	bh=6xBnzCLa//+DsQYGaLlm/n5/5rucgxU+termpR/7ER4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UhYDOaLqusHj4vTILEpj2FH7ZbXuAAfkzfRJ88jRPC2+QJp4svUANitHKbQ28OEM0rirS1/zK2ZfkabZO9qjmIo7PVp3BUWydtXH2ReJVgMGoZaQkoAKuqH6BjuDYn5rpFKNALNVfCK2izz1IK9PimMHoSCw8cFSD0xBvrrViBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fMHs48tP; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fMHs48tP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713529253; x=1745065253;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6xBnzCLa//+DsQYGaLlm/n5/5rucgxU+termpR/7ER4=;
+  b=fMHs48tPqYbAeqP3tBc30njKiJXi+CQzEmHb8bS6fWBj5OWklxMVMKHg
+   eVHYsLnBsCg9k3i6We50HXdGhJ4eJkJ34QSBm2Atp3PWVOrv9ixmJvoh3
+   QSURwE+J+1A78iTIKEL+6BVVhM3bSoOuWMgGja0DVkVcWW2V2Y0VBItRw
+   KBYmurEzY3kKZEgghpqzVjhYdwerbex5vjLX45FeG2lNDbGjrkofDnElp
+   jvuCQZ1FhhA+9MFJqfRWyl1IYXndtQQ9PUZeG5E2es15nwEYEDDnIldJx
+   afSm/O1Vt6fgdfRumznpoy42uu+WdE8t+mtffJjpomfs6JhGSgafP1nr+
+   A==;
+X-CSE-ConnectionGUID: vfAbhNbwTDekFD8Ae+fzQQ==
+X-CSE-MsgGUID: OSNe7zG5SneLJTT2Bv9/AA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="12960600"
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
+   d="scan'208";a="12960600"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 05:20:53 -0700
+X-CSE-ConnectionGUID: JyDrWnyhTIO0aeYfPzatYg==
+X-CSE-MsgGUID: YnbtquaRT36l7s2BlMJS1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
+   d="scan'208";a="23936711"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 19 Apr 2024 05:20:51 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rxnEX-000A1U-1l;
+	Fri, 19 Apr 2024 12:20:49 +0000
+Date: Fri, 19 Apr 2024 20:20:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:bhi-fixes 5/5]
+ ./arch/x86/include/generated/asm/syscalls_64.h:61:24: error: use of
+ undeclared identifier 'sys_exit'
+Message-ID: <202404192055.POZkulIt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 19 Apr 2024 16:26:28 +0530
-Viresh Kumar <viresh.kumar@linaro.org> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git bhi-fixes
+head:   477bedf59d1fe82d8ad1014e8e7f4a50d4e68c1f
+commit: 477bedf59d1fe82d8ad1014e8e7f4a50d4e68c1f [5/5] fix
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20240419/202404192055.POZkulIt-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404192055.POZkulIt-lkp@intel.com/reproduce)
 
-Hi Viresh,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404192055.POZkulIt-lkp@intel.com/
 
-> On 19-04-24, 11:13, Andre Przywara wrote:
-> > So I see the problem: "speed" must fit into one decimal digit. At the
-> > moment it's fine, because "speed" is returned by one of the *_efuse_xlate
-> > functions. For the H6, the output is masked by 0x7, so can never be larger
-> > than that. For the H616, the return value is a constant selected in a
-> > switch/case, which is at most "4" at the moment, so it's safe as well.
-> > 
-> > So is there some established way to communicate this, to appease gcc here?
-> > Would explicitly checking for the range and bailing out solve this? Or is
-> > the some kind of assert to make gcc happy?
-> > Or do we just increase MAX_NAME_LEN?  
-> 
-> I fixed it like this in the OPP core earlier:
+All errors (new ones prefixed by >>):
 
-Ah, yes, thanks, that looks good to me, and indeed fixes the warning.
+   In file included from arch/x86/um/sys_call_table_64.c:22:
+>> ./arch/x86/include/generated/asm/syscalls_64.h:61:20: error: expected parameter declarator
+      61 | __SYSCALL_NORETURN(60, sys_exit)
+         |                    ^
+>> ./arch/x86/include/generated/asm/syscalls_64.h:61:20: error: expected ')'
+   ./arch/x86/include/generated/asm/syscalls_64.h:61:19: note: to match this '('
+      61 | __SYSCALL_NORETURN(60, sys_exit)
+         |                   ^
+>> ./arch/x86/include/generated/asm/syscalls_64.h:61:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      61 | __SYSCALL_NORETURN(60, sys_exit)
+         | ^
+         | int
+>> ./arch/x86/include/generated/asm/syscalls_64.h:61:19: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+      61 | __SYSCALL_NORETURN(60, sys_exit)
+         |                   ^            
+         |                                void
+>> ./arch/x86/include/generated/asm/syscalls_64.h:61:33: error: expected ';' after top level declarator
+      61 | __SYSCALL_NORETURN(60, sys_exit)
+         |                                 ^
+         |                                 ;
+   ./arch/x86/include/generated/asm/syscalls_64.h:232:20: error: expected parameter declarator
+     232 | __SYSCALL_NORETURN(231, sys_exit_group)
+         |                    ^
+   ./arch/x86/include/generated/asm/syscalls_64.h:232:20: error: expected ')'
+   ./arch/x86/include/generated/asm/syscalls_64.h:232:19: note: to match this '('
+     232 | __SYSCALL_NORETURN(231, sys_exit_group)
+         |                   ^
+   ./arch/x86/include/generated/asm/syscalls_64.h:232:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+     232 | __SYSCALL_NORETURN(231, sys_exit_group)
+         | ^
+         | int
+   ./arch/x86/include/generated/asm/syscalls_64.h:232:19: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+     232 | __SYSCALL_NORETURN(231, sys_exit_group)
+         |                   ^                   
+         |                                       void
+   ./arch/x86/include/generated/asm/syscalls_64.h:232:40: error: expected ';' after top level declarator
+     232 | __SYSCALL_NORETURN(231, sys_exit_group)
+         |                                        ^
+         |                                        ;
+   In file included from arch/x86/um/sys_call_table_64.c:30:
+>> ./arch/x86/include/generated/asm/syscalls_64.h:61:24: error: use of undeclared identifier 'sys_exit'
+      61 | __SYSCALL_NORETURN(60, sys_exit)
+         |                        ^
+>> arch/x86/um/sys_call_table_64.c:33:32: error: invalid application of 'sizeof' to an incomplete type 'const sys_call_ptr_t[]' (aka 'long (*const[])(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)')
+      33 | int syscall_table_size = sizeof(sys_call_table);
+         |                                ^~~~~~~~~~~~~~~~
+   12 errors generated.
 
-How are we going to handle this? Do you gonna squash this into the
-respective patch?
-
-Cheers,
-Andre
-
-> 
-> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> index 30e5c337611c..cd50cea16a87 100644
-> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> @@ -19,8 +19,6 @@
->  #include <linux/pm_opp.h>
->  #include <linux/slab.h>
-> 
-> -#define MAX_NAME_LEN   7
-> -
->  #define NVMEM_MASK     0x7
->  #define NVMEM_SHIFT    5
-> 
-> @@ -208,7 +206,7 @@ static int sun50i_cpufreq_get_efuse(void)
->  static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
->  {
->         int *opp_tokens;
-> -       char name[MAX_NAME_LEN];
-> +       char name[] = "speedXXXXXXXXXXX"; /* Integers can take 11 chars max */
->         unsigned int cpu, supported_hw;
->         struct dev_pm_opp_config config = {};
->         int speed;
-> @@ -235,7 +233,7 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
->                 config.supported_hw_count = 1;
->         }
-> 
-> -       snprintf(name, MAX_NAME_LEN, "speed%d", speed);
-> +       snprintf(name, sizeof(name), "speed%d", speed);
->         config.prop_name = name;
-> 
->         for_each_possible_cpu(cpu) {
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
