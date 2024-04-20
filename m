@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A5463E;
-	Sat, 20 Apr 2024 00:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B20205E27
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Apr 2024 01:48:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713573382; cv=none; b=GHSksU1WxMhaVL7YnGcy2Uo+qGT9jZzwCRhCQiMugATf3yilmLJ4U9RwbUdhKnM/73PgNb6rXmWF1aS+qVQhF4PuQvT6NXkG8KiAgI56cPCpNEt5ZzIM2+x8Xu2yX/DFjiQ4uXsYQsmv/LboU7sytNL9DQKQ8lKsY9TpJoKdoPE=
+	t=1713577701; cv=none; b=n6hEqfGDfZuTe8767WacnRUIl7cIF0ijlaQvqy22b1Wh/fRg6ZgJ0FtlPYTDBTRSSPrOIS4qwSpEuU4wSSILaCrJZmWzVdl7pfBgbYnpCz6MN2k90taIu3ZaJB7h1zn/mOuNOoLSASnkAU5kzcUiA38bGJpfFrGURzPk279nvr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713573382; c=relaxed/simple;
-	bh=m51NSbeRW1aR2kCl5AYiN8+JkNorVMGlZphwn7wu5zk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cRuWQhStcMz9X0CJjVCUujZhV//ybKl//c3WrzjzogakCZSOUrKXE9hXNytQ5n8WqOB7AC5lbdvqSP939rmBYo5SbGFm5/KBVYo49CPAB5ham1FJ3fBwWsSyZUakmVzt9QKL3DZz1b6F2SgLrXf8F7gIMSTcwSO2mAS2Bt08tgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UTvej290; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1713577701; c=relaxed/simple;
+	bh=RyQJOZBavdn5gi0uuUDNLV0VigEF1YmDx0Wodv7deZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=djFuHhoNLVJ3QcKM62Uh4NY/Tk64QuPu6Fo+hHRTlwUXKiNduy4+9IE8HidR8u7I/t92MqFhVhitlPuczl3aG0je18yFuznEBOkH9rMECTnOfj2eok08a7w56QIKJSe/qrLHQUoHY2NqTvQh6dFIESHgdShs0M86Knq4TAVuHFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A52TeCqO; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UTvej290"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A52TeCqO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713573380; x=1745109380;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=m51NSbeRW1aR2kCl5AYiN8+JkNorVMGlZphwn7wu5zk=;
-  b=UTvej290sPAPTMBDUhU3SisyxN3D79xuNeDrpM4+B1OAWFBDvA11YpMc
-   6uMhDXckgQNe2KIS4LBB645glsC2Ifc6Ck0TtuOTlHo714y1OuPkiV3J6
-   o1P6mzd/uMeXS2tC9xv+HkJqyOrqPuZRGOEu5FjVG7zmH9W1NuxDAQAHM
-   8TZG+6fs0Yh4gEXoeZELlojJjgoegjUfJFrS30jo3gyfPMJSnDT6SxZnS
-   EdPwqAynv5uOaL+AG/scdUFUB2lYyX1asuPlUfBR1oi2vnoXpi9HLLxgu
-   aHWhjdIoSdaPxDbz1UB33btd9k8mI4iLjsagn94AxUlQSgQYhjPTOACBN
+  t=1713577700; x=1745113700;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RyQJOZBavdn5gi0uuUDNLV0VigEF1YmDx0Wodv7deZg=;
+  b=A52TeCqOI7Pxwykra364+9OrG3FHnQxf9lHu2tVmYnUXZUwhCP3pS8vq
+   2xz6VT2ElLIsheyOzGn5fKo8eQ5iiOHQA1lr1oIqpn6O3uB5yZgvwSa1S
+   RuWeL8r34rQPA3eM37e6yOqcwU5Ge3qutf5reoLWdInxl4L3/RDpR7XmP
+   3gqWqDL2KoC4zI8t3n9+wZoHX1RTiXq1PERDdCO/5MqEWwpMcZUKocO5w
+   1DmZhvAEyuFBrZLjL28dVwKPHPHx5JIXPD7traK1SVZDuIqvG0NoAEYSk
+   zR4rl2+DaQzn7n+qrRJTusyuNQgTRk/MIZkf0R8pHiXRFQIMRGNk/jLRS
    Q==;
-X-CSE-ConnectionGUID: PxEAWOScTUSNE4qUVbNZ+A==
-X-CSE-MsgGUID: LUj3Fk8SSsWx9Hrso219vQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11049"; a="9114262"
+X-CSE-ConnectionGUID: adIHnsgqRpi46HJkD65zXQ==
+X-CSE-MsgGUID: HzTVPRJ0TXCpR0BYPZd7EA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11049"; a="13037701"
 X-IronPort-AV: E=Sophos;i="6.07,215,1708416000"; 
-   d="scan'208";a="9114262"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 17:36:18 -0700
-X-CSE-ConnectionGUID: XKo1LpvoS5KRAz13pVyjZQ==
-X-CSE-MsgGUID: yqADTWoNThajbc9tYTRdaw==
+   d="scan'208";a="13037701"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 18:48:19 -0700
+X-CSE-ConnectionGUID: prpTCoSZROGnGuIDHwrpMA==
+X-CSE-MsgGUID: TtrTVKTBQkKjZrBB7apgzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,215,1708416000"; 
-   d="scan'208";a="23546754"
+   d="scan'208";a="46787214"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 19 Apr 2024 17:36:16 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 19 Apr 2024 18:48:17 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rxyiD-000AbO-0z;
-	Sat, 20 Apr 2024 00:36:13 +0000
-Date: Sat, 20 Apr 2024 08:35:22 +0800
+	id 1rxzpv-000AdB-0L;
+	Sat, 20 Apr 2024 01:48:15 +0000
+Date: Sat, 20 Apr 2024 09:47:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: srinivas.kandagatla@linaro.org, broonie@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, perex@perex.cz,
-	tiwai@suse.com, lgirdwood@gmail.com, alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org, steev@kali.org,
-	jenneron@postmarketos.org,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: Re: [PATCH 3/4] ASoC: qcom: sc8280xp: add Display port Jack
-Message-ID: <202404200850.ZXhk0PO1-lkp@intel.com>
-References: <20240419150140.92527-4-srinivas.kandagatla@linaro.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.2.x-imx 132/18115]
+ sound/soc/fsl/imx-pcm512x.c:189:7: error: incompatible pointer types passing
+ 'unsigned int *' to parameter of type 'uint64_t *' (aka 'unsigned long long
+ *')
+Message-ID: <202404200915.G2VGkS6Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,42 +63,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240419150140.92527-4-srinivas.kandagatla@linaro.org>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v6.9-rc4 next-20240419]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/srinivas-kandagatla-linaro-org/ASoC-qcom-q6dsp-parse-Display-port-tokens/20240419-230514
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240419150140.92527-4-srinivas.kandagatla%40linaro.org
-patch subject: [PATCH 3/4] ASoC: qcom: sc8280xp: add Display port Jack
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240420/202404200850.ZXhk0PO1-lkp@intel.com/config)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
+head:   de69f223c019fed2a465c014575b3b3d22b4c3fd
+commit: a876adc3ae12aec519af4b9cbb6ed25f542f6fb9 [132/18115] MLK-24930-1: sound: soc: fsl: imx pcm512x: iqaudio dac
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240420/202404200915.G2VGkS6Z-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240420/202404200850.ZXhk0PO1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240420/202404200915.G2VGkS6Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404200850.ZXhk0PO1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404200915.G2VGkS6Z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from sound/soc/qcom/sc8280xp.c:7:
-   In file included from include/sound/soc.h:19:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
+   In file included from sound/soc/fsl/imx-pcm512x.c:18:
+   In file included from include/linux/of_gpio.h:14:
+   In file included from include/linux/gpio/driver.h:6:
    In file included from include/linux/irq.h:20:
    In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
+   In file included from arch/hexagon/include/asm/io.h:334:
    include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
      547 |         val = __raw_readb(PCI_IOBASE + addr);
          |                           ~~~~~~~~~~ ^
@@ -111,30 +93,24 @@ All warnings (new ones prefixed by >>):
    include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
       37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
          |                                                   ^
-   In file included from sound/soc/qcom/sc8280xp.c:7:
-   In file included from include/sound/soc.h:19:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
+   In file included from sound/soc/fsl/imx-pcm512x.c:18:
+   In file included from include/linux/of_gpio.h:14:
+   In file included from include/linux/gpio/driver.h:6:
    In file included from include/linux/irq.h:20:
    In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
+   In file included from arch/hexagon/include/asm/io.h:334:
    include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
      573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
          |                                                         ~~~~~~~~~~ ^
    include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
       35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
          |                                                   ^
-   In file included from sound/soc/qcom/sc8280xp.c:7:
-   In file included from include/sound/soc.h:19:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
+   In file included from sound/soc/fsl/imx-pcm512x.c:18:
+   In file included from include/linux/of_gpio.h:14:
+   In file included from include/linux/gpio/driver.h:6:
    In file included from include/linux/irq.h:20:
    In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
+   In file included from arch/hexagon/include/asm/io.h:334:
    include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
      584 |         __raw_writeb(value, PCI_IOBASE + addr);
          |                             ~~~~~~~~~~ ^
@@ -144,64 +120,110 @@ All warnings (new ones prefixed by >>):
    include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
      604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
          |                                                       ~~~~~~~~~~ ^
-   In file included from sound/soc/qcom/sc8280xp.c:7:
-   In file included from include/sound/soc.h:24:
+   In file included from sound/soc/fsl/imx-pcm512x.c:20:
+   In file included from include/sound/soc.h:23:
    In file included from include/sound/pcm.h:15:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+   In file included from include/linux/mm.h:1748:
+   include/linux/vmstat.h:516:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     516 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
          |                               ~~~~~~~~~~~ ^ ~~~
->> sound/soc/qcom/sc8280xp.c:54:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-      54 |         default:
+   sound/soc/fsl/imx-pcm512x.c:140:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+     140 |         default:
          |         ^
-   sound/soc/qcom/sc8280xp.c:54:2: note: insert 'break;' to avoid fall-through
-      54 |         default:
+   sound/soc/fsl/imx-pcm512x.c:140:2: note: insert 'break;' to avoid fall-through
+     140 |         default:
          |         ^
          |         break; 
-   8 warnings generated.
+   sound/soc/fsl/imx-pcm512x.c:189:7: warning: comparison of distinct pointer types ('typeof ((rate)) *' (aka 'unsigned int *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
+     189 |                 if (do_div(rate, 8000)) {
+         |                     ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
+>> sound/soc/fsl/imx-pcm512x.c:189:7: error: incompatible pointer types passing 'unsigned int *' to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
+     189 |                 if (do_div(rate, 8000)) {
+         |                     ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
+     238 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+   include/asm-generic/div64.h:213:38: note: passing argument to parameter 'dividend' here
+     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                                      ^
+   sound/soc/fsl/imx-pcm512x.c:193:5: error: use of undeclared identifier 'PCM512x_SYSCLK_MCLK1'
+     193 |                                 PCM512x_SYSCLK_MCLK1, mclk_freq, SND_SOC_CLOCK_IN);
+         |                                 ^
+   sound/soc/fsl/imx-pcm512x.c:198:5: error: use of undeclared identifier 'PCM512x_SYSCLK_MCLK2'
+     198 |                                 PCM512x_SYSCLK_MCLK2, mclk_freq, SND_SOC_CLOCK_IN);
+         |                                 ^
+   sound/soc/fsl/imx-pcm512x.c:189:7: warning: shift count >= width of type [-Wshift-count-overflow]
+     189 |                 if (do_div(rate, 8000)) {
+         |                     ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^  ~~
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+      77 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   10 warnings and 3 errors generated.
 
 
-vim +54 sound/soc/qcom/sc8280xp.c
+vim +189 sound/soc/fsl/imx-pcm512x.c
 
-295aeea6646ad6 Srinivas Kandagatla 2022-09-16  25  
-295aeea6646ad6 Srinivas Kandagatla 2022-09-16  26  static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
-295aeea6646ad6 Srinivas Kandagatla 2022-09-16  27  {
-295aeea6646ad6 Srinivas Kandagatla 2022-09-16  28  	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
-716d4e5373e9d1 Srinivas Kandagatla 2023-12-04  29  	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-716d4e5373e9d1 Srinivas Kandagatla 2023-12-04  30  	struct snd_soc_card *card = rtd->card;
-8dd5623cc9d92b Srinivas Kandagatla 2024-04-19  31  	struct snd_soc_jack *hdmi_jack  = NULL;
-8dd5623cc9d92b Srinivas Kandagatla 2024-04-19  32  	int hdmi_pcm_id = 0;
-716d4e5373e9d1 Srinivas Kandagatla 2023-12-04  33  
-716d4e5373e9d1 Srinivas Kandagatla 2023-12-04  34  	switch (cpu_dai->id) {
-716d4e5373e9d1 Srinivas Kandagatla 2023-12-04  35  	case WSA_CODEC_DMA_RX_0:
-716d4e5373e9d1 Srinivas Kandagatla 2023-12-04  36  	case WSA_CODEC_DMA_RX_1:
-716d4e5373e9d1 Srinivas Kandagatla 2023-12-04  37  		/*
-c481016bb4f8a9 Johan Hovold        2024-01-22  38  		 * Set limit of -3 dB on Digital Volume and 0 dB on PA Volume
-c481016bb4f8a9 Johan Hovold        2024-01-22  39  		 * to reduce the risk of speaker damage until we have active
-c481016bb4f8a9 Johan Hovold        2024-01-22  40  		 * speaker protection in place.
-716d4e5373e9d1 Srinivas Kandagatla 2023-12-04  41  		 */
-c481016bb4f8a9 Johan Hovold        2024-01-22  42  		snd_soc_limit_volume(card, "WSA_RX0 Digital Volume", 81);
-c481016bb4f8a9 Johan Hovold        2024-01-22  43  		snd_soc_limit_volume(card, "WSA_RX1 Digital Volume", 81);
-c481016bb4f8a9 Johan Hovold        2024-01-22  44  		snd_soc_limit_volume(card, "SpkrLeft PA Volume", 17);
-c481016bb4f8a9 Johan Hovold        2024-01-22  45  		snd_soc_limit_volume(card, "SpkrRight PA Volume", 17);
-716d4e5373e9d1 Srinivas Kandagatla 2023-12-04  46  		break;
-8dd5623cc9d92b Srinivas Kandagatla 2024-04-19  47  	case DISPLAY_PORT_RX_0:
-8dd5623cc9d92b Srinivas Kandagatla 2024-04-19  48  		hdmi_pcm_id = 0;
-8dd5623cc9d92b Srinivas Kandagatla 2024-04-19  49  		hdmi_jack = &data->hdmi_jack[hdmi_pcm_id];
-8dd5623cc9d92b Srinivas Kandagatla 2024-04-19  50  		break;
-8dd5623cc9d92b Srinivas Kandagatla 2024-04-19  51  	case DISPLAY_PORT_RX_1 ... DISPLAY_PORT_RX_7:
-8dd5623cc9d92b Srinivas Kandagatla 2024-04-19  52  		hdmi_pcm_id = cpu_dai->id - DISPLAY_PORT_RX_1 + 1;
-8dd5623cc9d92b Srinivas Kandagatla 2024-04-19  53  		hdmi_jack = &data->hdmi_jack[hdmi_pcm_id];
-716d4e5373e9d1 Srinivas Kandagatla 2023-12-04 @54  	default:
-716d4e5373e9d1 Srinivas Kandagatla 2023-12-04  55  		break;
-716d4e5373e9d1 Srinivas Kandagatla 2023-12-04  56  	}
-295aeea6646ad6 Srinivas Kandagatla 2022-09-16  57  
-8dd5623cc9d92b Srinivas Kandagatla 2024-04-19  58  	if (hdmi_jack)
-8dd5623cc9d92b Srinivas Kandagatla 2024-04-19  59  		return qcom_snd_dp_jack_setup(rtd, hdmi_jack, hdmi_pcm_id);
-8dd5623cc9d92b Srinivas Kandagatla 2024-04-19  60  
-295aeea6646ad6 Srinivas Kandagatla 2022-09-16  61  	return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
-295aeea6646ad6 Srinivas Kandagatla 2022-09-16  62  }
-295aeea6646ad6 Srinivas Kandagatla 2022-09-16  63  
+   171	
+   172	static int imx_pcm512x_hw_params(struct snd_pcm_substream *substream,
+   173					struct snd_pcm_hw_params *params)
+   174	{
+   175		struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
+   176		struct snd_soc_dai *cpu_dai = asoc_rtd_to_cpu(rtd, 0);
+   177		struct snd_soc_dai *codec_dai = asoc_rtd_to_codec(rtd, 0);
+   178		struct snd_soc_component *comp = codec_dai->component;
+   179		struct snd_soc_card *card = rtd->card;
+   180		struct imx_pcm512x_data *data = snd_soc_card_get_drvdata(card);
+   181		unsigned int rate = params_rate(params);
+   182		unsigned int channels = params_channels(params);
+   183		unsigned int width = params_width(params);
+   184		unsigned long mclk_freq;
+   185		int ret, i;
+   186	
+   187		/* set MCLK freq */
+   188		if (data->dac_pluspro && data->dac_sclk) {
+ > 189			if (do_div(rate, 8000)) {
+   190				mclk_freq = DAC_CLK_EXT_44K;
+   191				imx_pcm512x_select_ext_clk(comp, DAC_CLK_EXT_44EN);
+   192				ret = snd_soc_dai_set_sysclk(codec_dai,
+   193					PCM512x_SYSCLK_MCLK1, mclk_freq, SND_SOC_CLOCK_IN);
+   194			} else {
+   195				mclk_freq = DAC_CLK_EXT_48K;
+   196				imx_pcm512x_select_ext_clk(comp, DAC_CLK_EXT_48EN);
+   197				ret = snd_soc_dai_set_sysclk(codec_dai,
+   198					PCM512x_SYSCLK_MCLK2, mclk_freq, SND_SOC_CLOCK_IN);
+   199			}
+   200			if (ret < 0)
+   201				dev_err(card->dev, "failed to set cpu dai mclk rate (%lu): %d\n",
+   202					mclk_freq, ret);
+   203		} else {
+   204			mclk_freq = pcm512x_get_mclk_rate(substream, params);
+   205			ret = snd_soc_dai_set_sysclk(cpu_dai, FSL_SAI_CLK_MAST1,
+   206						     mclk_freq, SND_SOC_CLOCK_OUT);
+   207			if (ret < 0)
+   208				dev_err(card->dev, "failed to set cpu dai mclk1 rate (%lu): %d\n",
+   209					mclk_freq, ret);
+   210		}
+   211	
+   212		for_each_rtd_codec_dais(rtd, i, codec_dai) {
+   213			ret = snd_soc_dai_set_bclk_ratio(codec_dai, (channels * width));
+   214			if (ret) {
+   215				dev_err(card->dev, "failed to set codec dai bclk ratio\n");
+   216				return ret;
+   217			}
+   218		}
+   219	
+   220		dev_dbg(card->dev, "mclk_freq: %lu, bclk ratio: %u\n",
+   221			mclk_freq, (channels * width));
+   222	
+   223		return 0;
+   224	}
+   225	
 
 -- 
 0-DAY CI Kernel Test Service
