@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C2EC127
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Apr 2024 12:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5FBF134DE;
+	Sat, 20 Apr 2024 13:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713615496; cv=none; b=GOxTB3CWthmAJCe3dT4XMvYMgs0F+f+8K6mUiyPCe6Mq5WZ6NOOC3kPM92JzQ3tFf5OQC1yeLNvA1of5cAUlGD5C1U/dArPXkdiFmSdqdt+tlBYEhS1hY5OhBLl49CW5/2VwEKDmYH7mtuKJRYG5Nb6eov2MjN0v53/rfjdp+Y4=
+	t=1713619898; cv=none; b=uOhvdCPUHBtEai/01e5MDVnGpvPvpP9JTVsRqELDf7RWhQvc71/d6SkvZhFqq1h07cG4KKAyjgvJm/QGKttysCA+rPYrnt5zHMKCCIBUuvBU+BgFALMTPgnO/bzY/Jei/MZeCrhdgSfb6SlWq9R1FnlHexiwimpDBo5Uj1G5ik0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713615496; c=relaxed/simple;
-	bh=AyjE8aF4bYtPrnKkPH+ksQeptKNcnSi4Dx+xrjPoYLM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DAyEcQffCS0qGeMgBzdzchQUHrcgu9nWrf4RqLpwUj79Rs3C2j/gXXwoZTBr9ENKu4//CSx5NofKWxj+f2dYSSIYc6VxfbpC8RjEHPfRaVKdZeyWTxNHpCVcM0HmVpmGvA+bvShZTWCkRV+2vmXc0j8ZNv07ev0IFtGNo27W1II=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PyG1D21K; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1713619898; c=relaxed/simple;
+	bh=tmhZtPGAMr8IPvH/Y1+N/5MfnmXVAVT5PIqfKmNr22w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rilm64P8LCAVoGuSx1Udvhdxgj2NGTI8njajSsWtLu00adeoj0QSh5TwXtGtz5sWmRy67qQcHabYH6iBNdqF/5oTmNOmuy2jpA9O+0kisreh+Rn+25rdehzqczvUF/g4f98egwTtrif5V7UxZ3oNxB5kjQvfr8Xrq948+ju+yPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nP6qjt4o; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PyG1D21K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nP6qjt4o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713615495; x=1745151495;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AyjE8aF4bYtPrnKkPH+ksQeptKNcnSi4Dx+xrjPoYLM=;
-  b=PyG1D21Kls5F8bdeptfCTm0doIhb/pLUfzTFr8HH6HWuO2u7ArW2JsZZ
-   xA8hTdBk72mJ1SQcvcu6mu5eytpwnbZM/l/ZZTNAFIjkt0Uf0TY6IpN6z
-   x2F1EH2oJqvxQSZcGEeDEgExeAuWScgQ0JhWNyY6ykeB2YbLOkKFspKvX
-   lbsc+q0OwyERU9BqntxDa29HScga+C1Clroe20TzQy8GDTFGuEj7aoKi+
-   2Sj/CFaxUzeE5hggQDQbSPo979mgLgY1qiUTsM87WbChk/satV0xUIuKT
-   fRhJDeBkkjbGrJjTHjODwdcfX1eL8gHeYypAAdkk8Am6ImSL/BBymdY/A
+  t=1713619896; x=1745155896;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tmhZtPGAMr8IPvH/Y1+N/5MfnmXVAVT5PIqfKmNr22w=;
+  b=nP6qjt4oc2zkASnxsKl89jCkt9veC/9obtnJ5cmNzqV8tEjxrKRMDdh+
+   EutFGIoOJL1XPGfKWkcHynNp+rBC7WYQlHpkexITlrBr5kStziMNaOgtI
+   nJ4u0wuVO4jBTaZllJdNqfYjpLVrtxfvA1GfdyUJ+BPgeNV5akptRrec3
+   7ZfFcLG++jB+yEVBy8hBJy7tmR+I3vJKLfYz1bcq89yDTIfZwysZl5vXF
+   EW+KajGa/JHEOH5C9hhGJLeaH1z4F0+MnXZvgmj4GrcaRC6UtZL8byI33
+   6UTI0bwZbXdPlsspX3rwm6li458PsH/wWeRvLcnU2YJMFwwi9pNmRFgO0
    A==;
-X-CSE-ConnectionGUID: DoxZ8OPmTPKGhYwpHRpdVw==
-X-CSE-MsgGUID: gcwyaYkxSmiMxHoCkJmrGg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11049"; a="19766732"
+X-CSE-ConnectionGUID: 9ZIVA7XwSTu4SURj9zUX7A==
+X-CSE-MsgGUID: k4XRx9o8RrmoqlS22kda+g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11050"; a="34612375"
 X-IronPort-AV: E=Sophos;i="6.07,216,1708416000"; 
-   d="scan'208";a="19766732"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2024 05:18:14 -0700
-X-CSE-ConnectionGUID: AikPl7gMSyqfvvid45i0jA==
-X-CSE-MsgGUID: RyYUOy1NRcmD7y+lqjrYyA==
+   d="scan'208";a="34612375"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2024 06:31:35 -0700
+X-CSE-ConnectionGUID: MTplHLvsSlCZyANNLR9QPg==
+X-CSE-MsgGUID: D3O6Ao35QGaQh/mXOoUBDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,216,1708416000"; 
-   d="scan'208";a="28395652"
+   d="scan'208";a="54520269"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 20 Apr 2024 05:18:13 -0700
+  by orviesa002.jf.intel.com with ESMTP; 20 Apr 2024 06:31:33 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ry9fV-000B3M-1v;
-	Sat, 20 Apr 2024 12:18:09 +0000
-Date: Sat, 20 Apr 2024 20:17:19 +0800
+	id 1ryAoU-000B6e-16;
+	Sat, 20 Apr 2024 13:31:30 +0000
+Date: Sat, 20 Apr 2024 21:30:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.2.x-imx 4851/18115]
- sound/soc/fsl/hdmi_pcm.S:46:2: error: unrecognized instruction
-Message-ID: <202404202011.97L6cBHA-lkp@intel.com>
+To: Xu Lu <luxu.kernel@bytedance.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 2/2] riscv: Use Zawrs to accelerate IPI to idle cpu
+Message-ID: <202404202129.uQmgTDG1-lkp@intel.com>
+References: <20240418114942.52770-3-luxu.kernel@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,194 +62,431 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240418114942.52770-3-luxu.kernel@bytedance.com>
 
-Hi Dong,
+Hi Xu,
 
-First bad commit (maybe != root cause):
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
-head:   de69f223c019fed2a465c014575b3b3d22b4c3fd
-commit: 77225c634e06fdb5ae7fcd3d52cb5dd7d2996acb [4851/18115] Merge branch 'mxc/next' into next
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240420/202404202011.97L6cBHA-lkp@intel.com/config)
+[auto build test ERROR on v6.9-rc2]
+[cannot apply to linus/master v6.9-rc4 v6.9-rc3 next-20240419]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xu-Lu/riscv-process-Introduce-idle-thread-using-Zawrs-extension/20240418-195356
+base:   v6.9-rc2
+patch link:    https://lore.kernel.org/r/20240418114942.52770-3-luxu.kernel%40bytedance.com
+patch subject: [RFC 2/2] riscv: Use Zawrs to accelerate IPI to idle cpu
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240420/202404202129.uQmgTDG1-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240420/202404202011.97L6cBHA-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240420/202404202129.uQmgTDG1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404202011.97L6cBHA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404202129.uQmgTDG1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   clang: warning: argument unused during compilation: '-march=armv7-a' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-mtune=cortex-a9' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-mfpu=neon' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-mfloat-abi=softfp' [-Wunused-command-line-argument]
->> sound/soc/fsl/hdmi_pcm.S:46:2: error: unrecognized instruction
-    mov r12, #1
-    ^
-   sound/soc/fsl/hdmi_pcm.S:47:2: error: unrecognized instruction
-    vdup.8 d6, r12
-    ^
-   sound/soc/fsl/hdmi_pcm.S:57:2: error: unrecognized instruction
-    vcnt.8 q1, q0
-    ^
-   sound/soc/fsl/hdmi_pcm.S:58:2: error: unrecognized instruction
-    vpadd.i8 d2, d2, d3
-    ^
-   sound/soc/fsl/hdmi_pcm.S:59:2: error: unrecognized instruction
-    vand d2, d2, d6
-    ^
-   sound/soc/fsl/hdmi_pcm.S:60:2: error: unrecognized instruction
-    vshl.u8 d2, d2, #3
-    ^
-   sound/soc/fsl/hdmi_pcm.S:64:2: error: unrecognized instruction
-    veor d4, d5, d2
-    ^
-   sound/soc/fsl/hdmi_pcm.S:67:2: error: unrecognized instruction
-    vmovl.u8 q2, d4
-    ^
-   sound/soc/fsl/hdmi_pcm.S:68:2: error: unrecognized instruction
-    vzip.16 q0, q2
-    ^
-   sound/soc/fsl/hdmi_pcm.S:69:2: error: unrecognized instruction
-    vshl.u32 q0, q0, #8
-    ^
-   sound/soc/fsl/hdmi_pcm.S:70:2: error: unrecognized instruction
-    vshl.u32 q1, q2, #8
-    ^
-   sound/soc/fsl/hdmi_pcm.S:74:2: error: unrecognized instruction
-    subs r2, r2, #8
-    ^
-   sound/soc/fsl/hdmi_pcm.S:75:2: error: unrecognized instruction
-    bne hdmi_dma_copy_16_neon_lut_start
-    ^
-   sound/soc/fsl/hdmi_pcm.S:77:2: error: unrecognized instruction
-    mov pc, lr
-    ^
-   sound/soc/fsl/hdmi_pcm.S:80:2: error: unrecognized instruction
-    mov r12, #1
-    ^
-   sound/soc/fsl/hdmi_pcm.S:81:2: error: unrecognized instruction
-    vdup.8 d6, r12
-    ^
-   sound/soc/fsl/hdmi_pcm.S:90:2: error: unrecognized instruction
-    vcnt.8 q1, q0
-    ^
-   sound/soc/fsl/hdmi_pcm.S:91:2: error: unrecognized instruction
-    vpadd.i8 d2, d2, d3
-    ^
-   sound/soc/fsl/hdmi_pcm.S:92:2: error: unrecognized instruction
-    vand d2, d2, d6
-    ^
-   sound/soc/fsl/hdmi_pcm.S:94:2: error: unrecognized instruction
-    vshl.u8 d4, d2, #3
-    ^
-   sound/soc/fsl/hdmi_pcm.S:99:2: error: unrecognized instruction
-    vmovl.u8 q2, d4
-    ^
-   sound/soc/fsl/hdmi_pcm.S:100:2: error: unrecognized instruction
-    vzip.16 q0, q2
-    ^
-   sound/soc/fsl/hdmi_pcm.S:101:2: error: unrecognized instruction
-    vshl.u32 q0, q0, #8
-    ^
-   sound/soc/fsl/hdmi_pcm.S:102:2: error: unrecognized instruction
-    vshl.u32 q1, q2, #8
-    ^
-   sound/soc/fsl/hdmi_pcm.S:106:2: error: unrecognized instruction
-    subs r2, r2, #8
-    ^
-   sound/soc/fsl/hdmi_pcm.S:107:2: error: unrecognized instruction
-    bne hdmi_dma_copy_16_neon_fast_start
-    ^
-   sound/soc/fsl/hdmi_pcm.S:109:2: error: unrecognized instruction
-    mov pc, lr
-    ^
-   sound/soc/fsl/hdmi_pcm.S:114:2: error: unrecognized instruction
-    mov r12, #1
-    ^
-   sound/soc/fsl/hdmi_pcm.S:115:2: error: unrecognized instruction
-    vdup.8 d8, r12
-    ^
-   sound/soc/fsl/hdmi_pcm.S:125:2: error: unrecognized instruction
-    vcnt.8 q2, q0
-    ^
-   sound/soc/fsl/hdmi_pcm.S:126:2: error: unrecognized instruction
-    vpadd.i8 d4, d4, d5
-    ^
-   sound/soc/fsl/hdmi_pcm.S:127:2: error: unrecognized instruction
-    vcnt.8 q3, q1
-    ^
-   sound/soc/fsl/hdmi_pcm.S:128:2: error: unrecognized instruction
-    vpadd.i8 d6, d6, d7
-    ^
-   sound/soc/fsl/hdmi_pcm.S:129:2: error: unrecognized instruction
-    vpadd.i8 d4, d4, d6
+   In file included from drivers/media/platform/mediatek/mdp/mtk_mdp_core.c:11:
+   In file included from include/linux/interrupt.h:21:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mediatek/mdp/mtk_mdp_core.c:23:
+>> drivers/media/platform/mediatek/vpu/mtk_vpu.h:63:2: error: redefinition of enumerator 'IPI_MAX'
+      63 |         IPI_MAX,
+         |         ^
+   arch/riscv/include/asm/smp.h:29:2: note: previous definition is here
+      29 |         IPI_MAX
+         |         ^
+   drivers/media/platform/mediatek/mdp/mtk_mdp_core.c:206:52: warning: implicit conversion from 'unsigned long long' to 'unsigned int' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+     206 |         ret = vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~             ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:77:40: note: expanded from macro 'DMA_BIT_MASK'
+      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                        ^~~~~
+   6 warnings and 1 error generated.
+--
+   In file included from drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c:17:
+   In file included from drivers/media/platform/mediatek/mdp/mtk_mdp_core.h:12:
+   In file included from include/media/v4l2-ctrls.h:14:
+   In file included from include/media/media-request.h:20:
+   In file included from include/media/media-device.h:16:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:21:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c:20:
+>> drivers/media/platform/mediatek/vpu/mtk_vpu.h:63:2: error: redefinition of enumerator 'IPI_MAX'
+      63 |         IPI_MAX,
+         |         ^
+   arch/riscv/include/asm/smp.h:29:2: note: previous definition is here
+      29 |         IPI_MAX
+         |         ^
+   5 warnings and 1 error generated.
+--
+   In file included from drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_intr.c:10:
+   In file included from drivers/media/platform/mediatek/vcodec/common/../decoder/mtk_vcodec_dec_drv.h:10:
+   In file included from drivers/media/platform/mediatek/vcodec/common/../decoder/../common/mtk_vcodec_cmn_drv.h:12:
+   In file included from include/media/v4l2-ctrls.h:14:
+   In file included from include/media/media-request.h:20:
+   In file included from include/media/media-device.h:16:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:21:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_intr.c:10:
+   In file included from drivers/media/platform/mediatek/vcodec/common/../decoder/mtk_vcodec_dec_drv.h:12:
+   In file included from drivers/media/platform/mediatek/vcodec/common/../decoder/../common/mtk_vcodec_fw_priv.h:6:
+   In file included from drivers/media/platform/mediatek/vcodec/common/../decoder/../common/mtk_vcodec_fw.h:9:
+>> drivers/media/platform/mediatek/vcodec/common/../decoder/../common/../../vpu/mtk_vpu.h:63:2: error: redefinition of enumerator 'IPI_MAX'
+      63 |         IPI_MAX,
+         |         ^
+   arch/riscv/include/asm/smp.h:29:2: note: previous definition is here
+      29 |         IPI_MAX
+         |         ^
+   5 warnings and 1 error generated.
+--
+   In file included from drivers/media/platform/mediatek/vpu/mtk_vpu.c:9:
+   In file included from include/linux/interrupt.h:21:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mediatek/vpu/mtk_vpu.c:20:
+>> drivers/media/platform/mediatek/vpu/mtk_vpu.h:63:2: error: redefinition of enumerator 'IPI_MAX'
+      63 |         IPI_MAX,
+         |         ^
+   arch/riscv/include/asm/smp.h:29:2: note: previous definition is here
+      29 |         IPI_MAX
+         |         ^
+>> drivers/media/platform/mediatek/vpu/mtk_vpu.c:299:9: warning: comparison of different enumeration types ('enum ipi_id' and 'enum ipi_message_type') [-Wenum-compare]
+     299 |         if (id < IPI_MAX && handler) {
+         |             ~~ ^ ~~~~~~~
+   drivers/media/platform/mediatek/vpu/mtk_vpu.c:322:31: warning: comparison of different enumeration types ('enum ipi_id' and 'enum ipi_message_type') [-Wenum-compare]
+     322 |         if (id <= IPI_VPU_INIT || id >= IPI_MAX ||
+         |                                   ~~ ^  ~~~~~~~
+   7 warnings and 1 error generated.
+--
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/venc/venc_vp8_if.c:8:
+   In file included from include/linux/interrupt.h:21:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/venc/venc_vp8_if.c:12:
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/venc/../mtk_vcodec_enc_drv.h:12:
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/venc/../../common/mtk_vcodec_fw_priv.h:6:
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/venc/../../common/mtk_vcodec_fw.h:9:
+>> drivers/media/platform/mediatek/vcodec/encoder/venc/../../common/../../vpu/mtk_vpu.h:63:2: error: redefinition of enumerator 'IPI_MAX'
+      63 |         IPI_MAX,
+         |         ^
+   arch/riscv/include/asm/smp.h:29:2: note: previous definition is here
+      29 |         IPI_MAX
+         |         ^
+   5 warnings and 1 error generated.
+--
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c:9:
+   In file included from include/linux/interrupt.h:21:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c:13:
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/venc/../mtk_vcodec_enc_drv.h:12:
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/venc/../../common/mtk_vcodec_fw_priv.h:6:
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/venc/../../common/mtk_vcodec_fw.h:9:
+>> drivers/media/platform/mediatek/vcodec/encoder/venc/../../common/../../vpu/mtk_vpu.h:63:2: error: redefinition of enumerator 'IPI_MAX'
+      63 |         IPI_MAX,
+         |         ^
+   arch/riscv/include/asm/smp.h:29:2: note: previous definition is here
+      29 |         IPI_MAX
+         |         ^
+   drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c:596:29: warning: conditional expression between different enumeration types ('enum scp_ipi_id' and 'enum ipi_id') [-Wenum-compare-conditional]
+     596 |         inst->vpu_inst.id = is_ext ? SCP_IPI_VENC_H264 : IPI_VENC_H264;
+         |                                    ^ ~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~
+   6 warnings and 1 error generated.
+--
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c:9:
+   In file included from include/media/v4l2-mem2mem.h:16:
+   In file included from include/media/videobuf2-v4l2.h:16:
+   In file included from include/media/videobuf2-core.h:18:
+   In file included from include/linux/dma-buf.h:19:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c:13:
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.h:14:
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h:12:
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/../common/mtk_vcodec_fw_priv.h:6:
+   In file included from drivers/media/platform/mediatek/vcodec/encoder/../common/mtk_vcodec_fw.h:9:
+>> drivers/media/platform/mediatek/vcodec/encoder/../common/../../vpu/mtk_vpu.h:63:2: error: redefinition of enumerator 'IPI_MAX'
+      63 |         IPI_MAX,
+         |         ^
+   arch/riscv/include/asm/smp.h:29:2: note: previous definition is here
+      29 |         IPI_MAX
+         |         ^
+   5 warnings and 1 error generated.
+--
+   In file included from drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_if.c:10:
+   In file included from drivers/media/platform/mediatek/vcodec/decoder/vdec/../vdec_drv_if.h:11:
+   In file included from drivers/media/platform/mediatek/vcodec/decoder/vdec/../mtk_vcodec_dec.h:11:
+   In file included from include/media/videobuf2-core.h:18:
+   In file included from include/linux/dma-buf.h:19:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_if.c:10:
+   In file included from drivers/media/platform/mediatek/vcodec/decoder/vdec/../vdec_drv_if.h:11:
+   In file included from drivers/media/platform/mediatek/vcodec/decoder/vdec/../mtk_vcodec_dec.h:14:
+   In file included from drivers/media/platform/mediatek/vcodec/decoder/vdec/../mtk_vcodec_dec_drv.h:12:
+   In file included from drivers/media/platform/mediatek/vcodec/decoder/vdec/../../common/mtk_vcodec_fw_priv.h:6:
+   In file included from drivers/media/platform/mediatek/vcodec/decoder/vdec/../../common/mtk_vcodec_fw.h:9:
+>> drivers/media/platform/mediatek/vcodec/decoder/vdec/../../common/../../vpu/mtk_vpu.h:63:2: error: redefinition of enumerator 'IPI_MAX'
+      63 |         IPI_MAX,
+         |         ^
+   arch/riscv/include/asm/smp.h:29:2: note: previous definition is here
+      29 |         IPI_MAX
+         |         ^
+   5 warnings and 1 error generated.
+..
 
 
-vim +46 sound/soc/fsl/hdmi_pcm.S
+vim +/IPI_MAX +63 drivers/media/platform/mediatek/vpu/mtk_vpu.h
 
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  25  
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  26  
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  27  /**
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  28   * hdmi_dma_copy_16_neon_lut
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  29   * Convert pcm sample to iec sample. Pcm sample is 16 bits.
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  30   * Frame index's between 0 and 47 inclusively. Channel count can be 1, 2, 4, 8.
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  31   * Frame count should be multipliable by 4, and Sample count by 8.
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  32   *
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  33   * C Prototype
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  34   *   void hdmi_dma_copy_16_neon_lut(unsigned short *src, unsigned int *dst,
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  35   *			int samples, unsigned char *lookup_table);
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  36   * Return value
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  37   *   None
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  38   * Parameters
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  39   *   src		Source PCM16 samples
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  40   *   dst		Dest buffer to store pcm with header
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  41   *   samples		Contains sample count (=frame_count * channel_count)
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  42   *   lookup_table	Preconstructed header table. Channels interleaved.
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  43   */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  44  
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  45  hdmi_dma_copy_16_neon_lut:
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27 @46  	mov     r12, #1		/* construct vector(1) */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  47  	vdup.8 d6, r12
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  48  
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  49  hdmi_dma_copy_16_neon_lut_start:
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  50  
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  51  	/* get 8 samples to q0 */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  52  	vld1.16 {d0, d1}, [r0]!	/* TODO: aligned */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  53  
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  54  	/* pld [r1, #(64*4)] */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  55  
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  56  	/* xor every bit */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  57  	vcnt.8     q1, q0	/* count of 1s */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  58  	vpadd.i8 d2, d2, d3	/* only care about the LST in every element */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  59  	vand       d2, d2, d6	/* clear other bits while keep the least bit */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  60  	vshl.u8    d2, d2, #3	/* bit p: d2 = d2 << 3 */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  61  
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  62  	/* get packet header */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  63  	vld1.8       {d5}, [r3]!
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  64  	veor        d4, d5, d2	/* xor bit c */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  65  
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  66  	/* store: (d4 << 16 | q0) << 8 */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  67  	vmovl.u8  q2, d4	/* expand from char to short */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  68  	vzip.16     q0, q2
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  69  	vshl.u32   q0, q0, #8
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  70  	vshl.u32   q1, q2, #8
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  71  	vst1.32     {d0, d1, d2, d3}, [r1]!
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  72  
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  73  	/* decrease sample count */
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  74  	subs  r2, r2, #8
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  75  	bne   hdmi_dma_copy_16_neon_lut_start
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  76  
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  77  	mov pc, lr
-32ecbcfdff46d0 Shengjiu Wang 2014-08-27  78  
-
-:::::: The code at line 46 was first introduced by commit
-:::::: 32ecbcfdff46d0b03744d82aee4a12948226fe37 ASoC: fsl_hdmi: hdmi audio driver for imx6
-
-:::::: TO: Shengjiu Wang <shengjiu.wang@freescale.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  11  
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  12  /**
+0f02beec61875e drivers/media/platform/mtk-vpu/mtk_vpu.h      Hans Verkuil   2021-03-11  13   * DOC: VPU
+0f02beec61875e drivers/media/platform/mtk-vpu/mtk_vpu.h      Hans Verkuil   2021-03-11  14   *
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  15   * VPU (video processor unit) is a tiny processor controlling video hardware
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  16   * related to video codec, scaling and color format converting.
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  17   * VPU interfaces with other blocks by share memory and interrupt.
+0f02beec61875e drivers/media/platform/mtk-vpu/mtk_vpu.h      Hans Verkuil   2021-03-11  18   */
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  19  
+bfb1b99802ef16 drivers/media/platform/mediatek/vpu/mtk_vpu.h Arnd Bergmann  2024-02-24  20  typedef void (*ipi_handler_t) (void *data,
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  21  			       unsigned int len,
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  22  			       void *priv);
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  23  
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  24  /**
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  25   * enum ipi_id - the id of inter-processor interrupt
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  26   *
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  27   * @IPI_VPU_INIT:	 The interrupt from vpu is to notfiy kernel
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  28   *			 VPU initialization completed.
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  29   *			 IPI_VPU_INIT is sent from VPU when firmware is
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  30   *			 loaded. AP doesn't need to send IPI_VPU_INIT
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  31   *			 command to VPU.
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  32   *			 For other IPI below, AP should send the request
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  33   *			 to VPU to trigger the interrupt.
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  34   * @IPI_VDEC_H264:	 The interrupt from vpu is to notify kernel to
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  35   *			 handle H264 vidoe decoder job, and vice versa.
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  36   *			 Decode output format is always MT21 no matter what
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  37   *			 the input format is.
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  38   * @IPI_VDEC_VP8:	 The interrupt from is to notify kernel to
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  39   *			 handle VP8 video decoder job, and vice versa.
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  40   *			 Decode output format is always MT21 no matter what
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  41   *			 the input format is.
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  42   * @IPI_VDEC_VP9:	 The interrupt from vpu is to notify kernel to
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  43   *			 handle VP9 video decoder job, and vice versa.
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  44   *			 Decode output format is always MT21 no matter what
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  45   *			 the input format is.
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  46   * @IPI_VENC_H264:	 The interrupt from vpu is to notify kernel to
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  47   *			 handle H264 video encoder job, and vice versa.
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  48   * @IPI_VENC_VP8:	 The interrupt fro vpu is to notify kernel to
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  49   *			 handle VP8 video encoder job,, and vice versa.
+737ea6cfd22631 drivers/media/platform/mtk-vpu/mtk_vpu.h      Minghsiu Tsai  2016-09-08  50   * @IPI_MDP:		 The interrupt from vpu is to notify kernel to
+737ea6cfd22631 drivers/media/platform/mtk-vpu/mtk_vpu.h      Minghsiu Tsai  2016-09-08  51   *			 handle MDP (Media Data Path) job, and vice versa.
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  52   * @IPI_MAX:		 The maximum IPI number
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  53   */
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  54  
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  55  enum ipi_id {
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  56  	IPI_VPU_INIT = 0,
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  57  	IPI_VDEC_H264,
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  58  	IPI_VDEC_VP8,
+e2818a59f7ca42 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-09-02  59  	IPI_VDEC_VP9,
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  60  	IPI_VENC_H264,
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  61  	IPI_VENC_VP8,
+737ea6cfd22631 drivers/media/platform/mtk-vpu/mtk_vpu.h      Minghsiu Tsai  2016-09-08  62  	IPI_MDP,
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03 @63  	IPI_MAX,
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  64  };
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.h      Andrew-CT Chen 2016-05-03  65  
 
 -- 
 0-DAY CI Kernel Test Service
