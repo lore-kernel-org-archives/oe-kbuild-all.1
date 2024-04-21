@@ -1,47 +1,48 @@
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0B717F5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Apr 2024 01:11:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8581843
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Apr 2024 01:11:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713661916; cv=none; b=kuEWr4xowIv9yJA1mo5OjEIWb2OZbm4KcEZ80yqcsraeMFHa63DJsPA5PstsTZqK0AX5f629JyJtNc5yC/xzq9/PJOow3AVZdR7aNATp4GYyqZSmeEmYtVufVQdWwZeYpEeJryQjzAovyYYLb4zcD7ifQTub9L99iuD0j8/OHRw=
+	t=1713661918; cv=none; b=bgIVA1zJFTFjE8eABh+czkUwCDU7NVnlu+uj4cBVHJxOzipuk8Mm1MVsA9f1TkJyO2Dwjnf2OHAaBYEPqwFf5bS2oW6m8wGBMRdtfBWW8rXqvYGs4T31QLvtN++dts6LjfpNxfhToc20o+zCuinhVa0jqG+ub8Ya3OqlF6W8rm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713661916; c=relaxed/simple;
-	bh=+NHndyStgBNaGg0Gu44NeibBjRQjp+j8aiNKkV+bNiI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MyN7Nr9bK8WSy6LToIaNPJ7jSWwrzQGKVp2piVS3w3guHt8bv7NwmXaOPVtaTZV358T5ia/lIkXPi5UuzuNy2PM4p2Xf3MZR7zddMrLs6AS/N1paJ0isERrQzfhvgj7uH/LhK6b6ffhD6KQGNNiHCrjsvKOfd10veJIxPBZDjA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=Lq1J1tC+; arc=none smtp.client-ip=68.232.153.233
+	s=arc-20240116; t=1713661918; c=relaxed/simple;
+	bh=dbO5rAvrQSJWbWQBjrLFv/aoQtaQpow7bmVOVv2wkmM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ol//aFy8p79kbvTvcLEDa2kymr5z+NosMshVSXCJmspn1wVWgX+z+SQA+nyd05maxiI0CB8LU68WwUo2qoCFZBgYN7T9XiO3AB9zwRo6bYQJ7EjVRRLdjAuZvwb8nmWaMBKZstV+ZttoGt7wEN8cvpdjMShGMtMzS4zPQqBfDTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=XjKZVujE; arc=none smtp.client-ip=68.232.153.233
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Lq1J1tC+"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="XjKZVujE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1713661915; x=1745197915;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=+NHndyStgBNaGg0Gu44NeibBjRQjp+j8aiNKkV+bNiI=;
-  b=Lq1J1tC+LYr8kQtapUDQV6tUZyiQrKvJ+uj6yZ0k9VRsMmB5/z8MdTsb
-   L93zAifgqplgPo6hjwRWnkBTJ9IKehsQnmsr1PV792iybxn0E51EDUeK5
-   1FCBzXDf48LGg5KfZS7/GfS8Yz8K+otVi5qnyQbbV2B66g79BuvTCAigc
-   vHIks2uwU94vtsuk5W2gQ90c6fAATqYlJavl/Ics11gKJOSirjeWCvBWH
-   rYKjg+P6Ztx5Nwlf0Y1wUKbSnS09eGPyKTFt2d2st8+Toiyl5RqW/o91I
-   IRsAiNOg8hPNXAEKnff1acmIhoSU7dKDhkR45diTOIXz8tbYSSo4qbdOx
-   g==;
+  t=1713661917; x=1745197917;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=dbO5rAvrQSJWbWQBjrLFv/aoQtaQpow7bmVOVv2wkmM=;
+  b=XjKZVujEJhhtnlqU4+bWLCq17IDrSnCnljHuKfyKv39fkOS/wfHzdHL7
+   0XoxZBLwvT/Wcg/K1h5v7vclSU2sRGXTyBuMTdinjwfvW8Sr5GgBip/7N
+   bhumifrAVZDjStAiw0FqkaMuOvwtPWMuAIbweDv9kYUIft1t5Vu52WRGu
+   s5p/oqt5MOTIqe8df69qhiOF6ODtLAKhwwtMNbNdeHg9527jqBBXCOMEp
+   lGF+nOVSwqJadUUNWeoTTcrRECEtlkdCbToKbL0RDqazX712y/EFItUgr
+   qu3SJxly25oy56u2in8/dtHJcs+lqxTh8R0pLL2tDljbLA1x2g2VvLjTU
+   A==;
 X-CSE-ConnectionGUID: Z31Mwg63QjairJeGchYeZw==
-X-CSE-MsgGUID: CoUCdzXmTfOWVot30AcwdQ==
+X-CSE-MsgGUID: 9SNeaMcHSHG7FRnrHhMVCw==
 X-IronPort-AV: E=Sophos;i="6.07,217,1708412400"; 
-   d="scan'208";a="24025071"
+   d="scan'208";a="24025073"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
   by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 20 Apr 2024 18:11:54 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sat, 20 Apr 2024 18:11:23 -0700
+ 15.1.2507.35; Sat, 20 Apr 2024 18:11:38 -0700
 Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Sat, 20 Apr 2024 18:11:10 -0700
+ 15.1.2507.35 via Frontend Transport; Sat, 20 Apr 2024 18:11:24 -0700
 From: Dharma Balasubiramani <dharma.b@microchip.com>
 To: "dmitry . baryshkov @ linaro . org" <dmitry.baryshkov@linaro.org>,
 	"andrzej . hajda @ intel . com" <andrzej.hajda@intel.com>, "neil . armstrong
@@ -69,11 +70,14 @@ To: "dmitry . baryshkov @ linaro . org" <dmitry.baryshkov@linaro.org>,
  kernel . org" <linux-kernel@vger.kernel.org>, "oe-kbuild-all @ lists . linux
  . dev" <oe-kbuild-all@lists.linux.dev>, "Hari . PrasathGE @ microchip . com"
 	<Hari.PrasathGE@microchip.com>
-CC: Dharma Balasubiramani <dharma.b@microchip.com>
-Subject: [PATCH v8 0/4] LVDS Controller Support for SAM9X75 SoC
-Date: Sun, 21 Apr 2024 06:40:46 +0530
-Message-ID: <20240421011050.43265-1-dharma.b@microchip.com>
+CC: Dharma Balasubiramani <dharma.b@microchip.com>, Rob Herring
+	<robh@kernel.org>
+Subject: [PATCH v8 1/4] dt-bindings: display: bridge: add sam9x75-lvds binding
+Date: Sun, 21 Apr 2024 06:40:47 +0530
+Message-ID: <20240421011050.43265-2-dharma.b@microchip.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240421011050.43265-1-dharma.b@microchip.com>
+References: <20240421011050.43265-1-dharma.b@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,32 +87,96 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-This patch series introduces LVDS controller support for the SAM9X75 SoC. The
-LVDS controller is designed to work with Microchip's sam9x7 series
-System-on-Chip (SoC) devices, providing Low Voltage Differential Signaling
-capabilities.
+Add the 'sam9x75-lvds' compatible binding, which describes the Low Voltage
+Differential Signaling (LVDS) Controller found on some Microchip's sam9x7
+series System-on-Chip (SoC) devices. This binding will be used to define
+the properties and configuration for the LVDS Controller in DT.
 
-Patch series Changelog:
-- Include configs: at91: Enable LVDS serializer
-- include all necessary To/Cc entries.
-The Individual Changelogs are available on the respective patches.
-
-Dharma Balasubiramani (4):
-  dt-bindings: display: bridge: add sam9x75-lvds binding
-  drm/bridge: add lvds controller support for sam9x7
-  MAINTAINERS: add SAM9X7 SoC's LVDS controller
-  ARM: configs: at91: Enable LVDS serializer support
-
- .../bridge/microchip,sam9x75-lvds.yaml        |  55 +++++
- MAINTAINERS                                   |   8 +
- arch/arm/configs/at91_dt_defconfig            |   1 +
- drivers/gpu/drm/bridge/Kconfig                |   7 +
- drivers/gpu/drm/bridge/Makefile               |   1 +
- drivers/gpu/drm/bridge/microchip-lvds.c       | 229 ++++++++++++++++++
- 6 files changed, 301 insertions(+)
+Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+Changelog
+v7 -> v8
+v6 -> v7
+v5 -> v6
+v4 -> v5
+- No changes.
+v3 -> v4
+- Rephrase the commit subject.
+v2 -> v3
+- No changes.
+v1 -> v2
+- Remove '|' in description, as there is no formatting to preserve.
+- Remove 'gclk' from clock-names as there is only one clock(pclk).
+- Remove the unused headers and include only used ones.
+- Change the compatible name specific to SoC (sam9x75) instead of entire series.
+- Change file name to match the compatible name.
+---
+ .../bridge/microchip,sam9x75-lvds.yaml        | 55 +++++++++++++++++++
+ 1 file changed, 55 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
- create mode 100644 drivers/gpu/drm/bridge/microchip-lvds.c
 
+diff --git a/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml b/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
+new file mode 100644
+index 000000000000..862ef441ac9f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
+@@ -0,0 +1,55 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/microchip,sam9x75-lvds.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Microchip SAM9X75 LVDS Controller
++
++maintainers:
++  - Dharma Balasubiramani <dharma.b@microchip.com>
++
++description:
++  The Low Voltage Differential Signaling Controller (LVDSC) manages data
++  format conversion from the LCD Controller internal DPI bus to OpenLDI
++  LVDS output signals. LVDSC functions include bit mapping, balanced mode
++  management, and serializer.
++
++properties:
++  compatible:
++    const: microchip,sam9x75-lvds
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Peripheral Bus Clock
++
++  clock-names:
++    items:
++      - const: pclk
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/at91.h>
++    lvds-controller@f8060000 {
++      compatible = "microchip,sam9x75-lvds";
++      reg = <0xf8060000 0x100>;
++      interrupts = <56 IRQ_TYPE_LEVEL_HIGH 0>;
++      clocks = <&pmc PMC_TYPE_PERIPHERAL 56>;
++      clock-names = "pclk";
++    };
 -- 
 2.25.1
 
