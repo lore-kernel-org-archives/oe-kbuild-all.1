@@ -1,135 +1,132 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3F54A2D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Apr 2024 01:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108421843
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Apr 2024 02:11:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713661970; cv=none; b=K0DRCLL25wcKJCDskH0mFxMqpcYwR77NQn8ut+L/G2EwaWEgFuhqLa9sw0Gbh/pAujqmNVwzE6/t+l4FJ4qS7G1agEvIyGPyiAFCgSvOwmMb863bN+dAWc2cYfOdPWtkklZ6KwjBvYGWUb+k23icH9+mJFc2kx7sEekEY51Obx8=
+	t=1713665470; cv=none; b=U8P6vrdEgIvVAAUchJmvD/wMgNU/B+Z8/gBbeuos+Owor9oglrzI88hWZXL0nxKFnGxNAs3i1UIL0k0d2y4Kt7R6GJRVHWSt/Zq8AiB2i48jNc/1e9m5ccyxkTP4Tqm3CUmZ91iQL6arHq5zrdSoEGzkJs81Pz559PyIXXMDeQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713661970; c=relaxed/simple;
-	bh=HJRE5CArdkMFr9aQ06IOqLPvns3OjvL4FwJQegGGR6o=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OAganARelT/t05A5k2yK2ksr+/rJYbLvjwBH480mHm9SLFZWKYDL+nUDLLGt18gJ1vePjV4J4aerCCQ4WOLu27yoL7i7Q5YZOnUtvzyF3SYf36KoSlYldTLzKhr7+aqJ7tJlPPl/lOUTcYVR0mDPEHTp+e/gzbU+zbTvXKGSEzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=usqTOzLO; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1713665470; c=relaxed/simple;
+	bh=uaiolg2ALV4zPVXakMs0UT+DQKPnDabpNz6ZiK2G6Ms=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=srS3SgyZI82SkX4737l1O5RF4I/UZqor594q3YT/CQ1BXe0epPv6ZHPOr2FSk68m5OkeoN3+xaXZ0PVCqvKS9oKb+/VXu8zdsbxI23xxBtRYOKZBNidyaAZkEICvlYQ61qs2dNys4qIa34lz9zRHnrxM6nopGoHa4xKa6eWc4fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CaYAJpRt; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="usqTOzLO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CaYAJpRt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1713661969; x=1745197969;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=HJRE5CArdkMFr9aQ06IOqLPvns3OjvL4FwJQegGGR6o=;
-  b=usqTOzLO0zYcFvaexK4NXzGzxLEGtNU2Nrn5vcvSLI73HPsol2lb5ZEw
-   PsR15DfP9qsoNfmNtA+jfIRoZU+R5J55989n1htpQ2TPBboJ3xcPLHycL
-   d7dSUvxWDV6sxgoZVVEhXBUbtV4EIx/6K464ZS44EcVm0vxQS9DqWcO5W
-   /uObX1TNvXZLciclOHEcRRnodLPO1597Rzu9VsPe4cm6VlRItuTRO9L0e
-   YqZgSjyVxFFN0zlQ2KxL6QU8INzmwHGyFBPsEu9gShF0QXYVOdGyjYyw5
-   01B8id14MaaOThXz+1ds64RnTlyJk9KBhd5Xjb7lqACKP0Liok477BWzo
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713665468; x=1745201468;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uaiolg2ALV4zPVXakMs0UT+DQKPnDabpNz6ZiK2G6Ms=;
+  b=CaYAJpRtFnx9HbYJhpFLbcozLUw9j7to7QCc1Tly2XGnhrgOw2GmLBJy
+   u5W7zWgpmofVjg+TR1gBJUYoAFWq6cKmsdowBQjlsUPt4YD+ArAtocEmY
+   EwaUYzPsfqqv56S0+plOutLKPIixBRRdwbpKwY3/zkmnZpifvhge4tSfs
+   VQPETsfHOAv3N2ZrB/KNAJ73KlbCRD1Fnuvc7Qk72xkKd6tuesf6/J0rr
+   MkSAzCE2B6Gw5FKOu2IYxrsVIqpFVbXUp6ORgJva56hH9W+9UeeCpRpmc
+   afWYg0WBioHwQIQgvU69brpopLupS7zlU9QN28pJWlUO3qsPOXEMbNImF
    A==;
-X-CSE-ConnectionGUID: 5asHVSMLSICkgNDWpwS87g==
-X-CSE-MsgGUID: zbiCxfa/RZ+Ga16uFMyNYw==
-X-IronPort-AV: E=Sophos;i="6.07,217,1708412400"; 
-   d="scan'208";a="252795488"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 20 Apr 2024 18:12:48 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sat, 20 Apr 2024 18:12:07 -0700
-Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Sat, 20 Apr 2024 18:11:53 -0700
-From: Dharma Balasubiramani <dharma.b@microchip.com>
-To: "dmitry . baryshkov @ linaro . org" <dmitry.baryshkov@linaro.org>,
-	"andrzej . hajda @ intel . com" <andrzej.hajda@intel.com>, "neil . armstrong
- @ linaro . org" <neil.armstrong@linaro.org>, "rfoss @ kernel . org"
-	<rfoss@kernel.org>, "Laurent . pinchart @ ideasonboard . com"
-	<Laurent.pinchart@ideasonboard.com>, "jonas @ kwiboo . se" <jonas@kwiboo.se>,
-	"jernej . skrabec @ gmail . com" <jernej.skrabec@gmail.com>, "maarten .
- lankhorst @ linux . intel . com" <maarten.lankhorst@linux.intel.com>,
-	"mripard @ kernel . org" <mripard@kernel.org>, "tzimmermann @ suse . de"
-	<tzimmermann@suse.de>, "airlied @ gmail . com" <airlied@gmail.com>, "daniel @
- ffwll . ch" <daniel@ffwll.ch>, "robh+dt @ kernel . org" <robh+dt@kernel.org>,
-	"krzysztof . kozlowski+dt @ linaro . org"
-	<krzysztof.kozlowski+dt@linaro.org>, "conor+dt @ kernel . org"
-	<conor+dt@kernel.org>, "linux @ armlinux . org . uk" <linux@armlinux.org.uk>,
-	"Nicolas . Ferre @ microchip . com" <Nicolas.Ferre@microchip.com>, "alexandre
- . belloni @ bootlin . com" <alexandre.belloni@bootlin.com>, "claudiu . beznea
- @ tuxon . dev" <claudiu.beznea@tuxon.dev>, "Manikandan . M @ microchip . com"
-	<Manikandan.M@microchip.com>, "arnd @ arndb . de" <arnd@arndb.de>,
-	"geert+renesas @ glider . be" <geert+renesas@glider.be>, "Jason @ zx2c4 .
- com" <Jason@zx2c4.com>, "mpe @ ellerman . id . au" <mpe@ellerman.id.au>,
-	"gerg @ linux-m68k . org" <gerg@linux-m68k.org>, "rdunlap @ infradead . org"
-	<rdunlap@infradead.org>, "vbabka @ suse . cz" <vbabka@suse.cz>, "dri-devel @
- lists . freedesktop . org" <dri-devel@lists.freedesktop.org>, "devicetree @
- vger . kernel . org" <devicetree@vger.kernel.org>, "linux-kernel @ vger .
- kernel . org" <linux-kernel@vger.kernel.org>, "oe-kbuild-all @ lists . linux
- . dev" <oe-kbuild-all@lists.linux.dev>, "Hari . PrasathGE @ microchip . com"
-	<Hari.PrasathGE@microchip.com>
-CC: Dharma Balasubiramani <dharma.b@microchip.com>, Nicolas Ferre
-	<nicolas.ferre@microchip.com>
-Subject: [PATCH v8 3/4] MAINTAINERS: add SAM9X7 SoC's LVDS controller
-Date: Sun, 21 Apr 2024 06:40:49 +0530
-Message-ID: <20240421011050.43265-4-dharma.b@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240421011050.43265-1-dharma.b@microchip.com>
-References: <20240421011050.43265-1-dharma.b@microchip.com>
+X-CSE-ConnectionGUID: ujwJVd2tShyUD134duqmdA==
+X-CSE-MsgGUID: Rf/RnXy7Sd+I90NmolnKDw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11050"; a="13012128"
+X-IronPort-AV: E=Sophos;i="6.07,217,1708416000"; 
+   d="scan'208";a="13012128"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2024 19:11:07 -0700
+X-CSE-ConnectionGUID: gMgQTWaWTjSBYorF/d9epg==
+X-CSE-MsgGUID: bh567T4QQkaLJFUKo4WStg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,217,1708416000"; 
+   d="scan'208";a="28201136"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 20 Apr 2024 19:11:06 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ryMfX-000Bd0-2T;
+	Sun, 21 Apr 2024 02:11:03 +0000
+Date: Sun, 21 Apr 2024 10:10:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joel Granados <j.granados@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 7116/7122] init/main.c:613:(.init.text+0x358):
+ relocation truncated to fit: R_RISCV_GPREL_I against symbol `__setup_start'
+ defined in .init.rodata section in .tmp_vmlinux.kallsyms1
+Message-ID: <202404211031.J6l2AfJk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Add the newly added LVDS controller for the SAM9X7 SoC to the existing
-MAINTAINERS entry.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a35e92ef04c07bd473404b9b73d489aea19a60a8
+commit: 603cac6a968ab44e179e820fc0e2ca3ac2e1d829 [7116/7122] Merge branch 'sysctl-next' of git://git.kernel.org/pub/scm/linux/kernel/git/sysctl/sysctl.git
+config: riscv-randconfig-001-20231020 (https://download.01.org/0day-ci/archive/20240421/202404211031.J6l2AfJk-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240421/202404211031.J6l2AfJk-lkp@intel.com/reproduce)
 
-Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
----
-Changelog
-v7 -> v8
-v6 -> v7
-- No changes.
-v5 -> v6
-- Correct the file name sam9x7-lvds.yaml -> sam9x75-lvds.yaml.
-v4 -> v5
-v3 -> v4
-- No changes.
-v2 -> v3
-- Move the entry before "MICROCHIP SAMA5D2-COMPATIBLE ADC DRIVER".
-v1 -> v2
-- No Changes.
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404211031.J6l2AfJk-lkp@intel.com/
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c23fda1aa1f0..e49347eac596 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14563,6 +14563,14 @@ S:	Supported
- F:	Documentation/devicetree/bindings/pwm/atmel,at91sam-pwm.yaml
- F:	drivers/pwm/pwm-atmel.c
- 
-+MICROCHIP SAM9x7-COMPATIBLE LVDS CONTROLLER
-+M:	Manikandan Muralidharan <manikandan.m@microchip.com>
-+M:	Dharma Balasubiramani <dharma.b@microchip.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
-+F:	drivers/gpu/drm/bridge/microchip-lvds.c
-+
- MICROCHIP SAMA5D2-COMPATIBLE ADC DRIVER
- M:	Eugen Hristev <eugen.hristev@microchip.com>
- L:	linux-iio@vger.kernel.org
+All errors (new ones prefixed by >>):
+
+   riscv64-linux-ld: section .data LMA [000000000099b000,0000000001424de7] overlaps section .text LMA [0000000000104040,000000000213c543]
+   riscv64-linux-ld: section .data..percpu LMA [00000000024e2000,00000000026b46e7] overlaps section .rodata LMA [000000000213c580,000000000292d0dd]
+   riscv64-linux-ld: section .rodata VMA [ffffffff8213c580,ffffffff8292d0dd] overlaps section .data VMA [ffffffff82000000,ffffffff82a89de7]
+   init/main.o: in function `rdinit_setup':
+>> init/main.c:613:(.init.text+0x358): relocation truncated to fit: R_RISCV_GPREL_I against symbol `__setup_start' defined in .init.rodata section in .tmp_vmlinux.kallsyms1
+   net/ipv4/ipconfig.o: in function `ic_dhcp_init_options':
+   net/ipv4/ipconfig.c:682:(.init.text+0x9b4): relocation truncated to fit: R_RISCV_GPREL_I against `ic_bootp_cookie'
+   net/sunrpc/auth_gss/gss_krb5_mech.o: in function `gss_krb5_prepare_enctype_priority_list':
+>> net/sunrpc/auth_gss/gss_krb5_mech.c:213:(.text.gss_krb5_prepare_enctype_priority_list+0x9c): relocation truncated to fit: R_RISCV_GPREL_I against `gss_krb5_enctypes.0'
+   lib/maple_tree.o: in function `mas_leaf_max_gap':
+>> lib/maple_tree.c:1512:(.text.mas_leaf_max_gap+0x2b8): relocation truncated to fit: R_RISCV_GPREL_I against `mt_pivots'
+   lib/maple_tree.o: in function `ma_dead_node':
+>> lib/maple_tree.c:560:(.text.mas_data_end+0x110): relocation truncated to fit: R_RISCV_GPREL_I against `mt_pivots'
+   lib/maple_tree.o: in function `mas_extend_spanning_null':
+>> lib/maple_tree.c:3662:(.text.mas_extend_spanning_null+0x69c): relocation truncated to fit: R_RISCV_GPREL_I against `mt_pivots'
+   lib/maple_tree.o: in function `mas_mab_cp':
+>> lib/maple_tree.c:1943:(.text.mas_mab_cp+0x248): relocation truncated to fit: R_RISCV_GPREL_I against `mt_pivots'
+   lib/maple_tree.o: in function `mab_mas_cp':
+>> lib/maple_tree.c:2000:(.text.mab_mas_cp+0x15c): relocation truncated to fit: R_RISCV_GPREL_I against `mt_pivots'
+   lib/maple_tree.o: in function `mas_reuse_node':
+>> lib/maple_tree.c:3416:(.text.mas_reuse_node+0x17c): relocation truncated to fit: R_RISCV_GPREL_I against `mt_slots'
+   lib/maple_tree.o: in function `mt_free_walk':
+>> lib/maple_tree.c:5238:(.text.mt_free_walk+0x15c): relocation truncated to fit: R_RISCV_GPREL_I against `mt_slots'
+   lib/maple_tree.o: in function `mtree_lookup_walk':
+   lib/maple_tree.c:3700:(.text.mtree_lookup_walk+0x94): additional relocation overflows omitted from the output
+
+
+vim +613 init/main.c
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  606  
+ffdfc40976dda1 Olof Johansson 2005-09-06  607  static int __init rdinit_setup(char *str)
+ffdfc40976dda1 Olof Johansson 2005-09-06  608  {
+ffdfc40976dda1 Olof Johansson 2005-09-06  609  	unsigned int i;
+ffdfc40976dda1 Olof Johansson 2005-09-06  610  
+ffdfc40976dda1 Olof Johansson 2005-09-06  611  	ramdisk_execute_command = str;
+ffdfc40976dda1 Olof Johansson 2005-09-06  612  	/* See "auto" comment in init_setup */
+ffdfc40976dda1 Olof Johansson 2005-09-06 @613  	for (i = 1; i < MAX_INIT_ARGS; i++)
+ffdfc40976dda1 Olof Johansson 2005-09-06  614  		argv_init[i] = NULL;
+ffdfc40976dda1 Olof Johansson 2005-09-06  615  	return 1;
+ffdfc40976dda1 Olof Johansson 2005-09-06  616  }
+ffdfc40976dda1 Olof Johansson 2005-09-06  617  __setup("rdinit=", rdinit_setup);
+ffdfc40976dda1 Olof Johansson 2005-09-06  618  
+
+:::::: The code at line 613 was first introduced by commit
+:::::: ffdfc40976dda18d923cd001d44bf0ee55da1af4 [PATCH] Add rdinit parameter to pick early userspace init
+
+:::::: TO: Olof Johansson <olof@lixom.net>
+:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
