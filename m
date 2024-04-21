@@ -1,62 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711331401C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Apr 2024 16:21:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82DCF182B1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Apr 2024 17:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713716488; cv=none; b=IcfkfE3qRBt8yARH/64UieXsz4p72oY8kYeYYTmh/hkMCCx+Fs7QfL48imPNZWeb5ZSYcaCz3FQfvkoK2fHIJem7s5Gl2spGUHaSA01GPPBvLzjWY3XuVV8u4Ojx3QzIKkwQZKg4vUQXrewJb0QOjTLtikovzjE4Xsi166uiPm0=
+	t=1713720271; cv=none; b=XHcIox/mEzEPJfMY7yeGxASCOrp4Wc6HtekWQmcwPuh6038gfOsml06A77n6+ICnRSsAjucFYaS8WAmeKGEDmfKHLfFh8IbdpCsbdCCSSkVrVez94/4TuRHIs+3txpLgYS28LfONoMp+MdiDeN9ffavdRC7bNBqREh6MTpArcL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713716488; c=relaxed/simple;
-	bh=PkOf22Bq8yOf+GTyr5vElszz8aAAQdCOUQcBxvZEdno=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WwXg5l6I0vNSqBq3FYlOLqe80WXIq2mP5T50TeIMsTxXogrlHMgLjYTW7SUEOl249Zx3/IHB11+SUmH1E5LPUd1iQQ6KSKS27TaEGEEABg9mPdjdP3BkfZW5PDq1WbnsOHtbe0s049P9WMT4b8PHpIKA5HA6K/3+O6ZNaQYFCOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lkFqFWnv; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713720271; c=relaxed/simple;
+	bh=yHL0DbIQLkmeGdlCKpk8kjyfuAXLVJzOnT87LUKVr0U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AXidNYAOaLmMBhRJ0FAJ6XDOH2P5q2fCqAxinGlGMq4fGTqiAdWfzAJwCT6BvZE1CB/dYOTEf9SbdIJnHzR0Umhk2I4u8Rt5H3XmHG7ax8TtqdLArbYRHII+bD50khoAdBBuTaQ4niL//GWokk864WIh7kC9+fAVNEH4Tn5qmuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DaIrHnj9; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lkFqFWnv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713716487; x=1745252487;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PkOf22Bq8yOf+GTyr5vElszz8aAAQdCOUQcBxvZEdno=;
-  b=lkFqFWnvOE17dPCqqUwGIail/0Eu7toeV6AkRL3zxt0ddVNXt8ngBnbT
-   Ll591Zg6hqFQw0zcwXezq7cN6F2mC+7nyTka66B6R5BgbOvkWs85Law2m
-   P/M8Zh2LKl5fzmiuJjlWvzXdGAKhQClUc5n8in1u9TupzQHC+rmjqSQr4
-   DJg1l1c0fsG5hIT0GFqhrrQ51SsxaVbuwU/9kRZk66MBFtSWIuVzKTY2d
-   B3s3Nc+abh4VbqMsaf+WXYQf71dZ1M+oU0lTIky13nY1WDuARGUXZ7n3k
-   wxaTH0QdhbB/kikkAfEV80NDhI4cFkGVzvCHSkj49e76EEx3r27Rs+mrV
-   g==;
-X-CSE-ConnectionGUID: GD2aCoRmTmaZMVjAGEPLag==
-X-CSE-MsgGUID: tXlKTTLDQ/Weommg8luZmQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11050"; a="26707704"
-X-IronPort-AV: E=Sophos;i="6.07,218,1708416000"; 
-   d="scan'208";a="26707704"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2024 09:21:27 -0700
-X-CSE-ConnectionGUID: J/Gcep/jSz+iNE2RBqVOKg==
-X-CSE-MsgGUID: 1K6xvJXXSaeFmM4iYVZP9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,218,1708416000"; 
-   d="scan'208";a="24312589"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 21 Apr 2024 09:21:14 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ryZwE-000C1G-1R;
-	Sun, 21 Apr 2024 16:21:10 +0000
-Date: Mon, 22 Apr 2024 00:20:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 86/98] kernel/sched/psi.c:936:11: error: call to
- undeclared function 'cgroup_psi'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202404220030.MxbsuTKP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DaIrHnj9"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-518a56cdbcfso5676626e87.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Apr 2024 10:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713720268; x=1714325068; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qP4QRJgU1BApHuToLH0DTtNB0ZEyDCq59t66ZEJwTQg=;
+        b=DaIrHnj9dTTvBr/2XIkbBGPZuMUE9dMqynMioNF7BNVvs+45WPwZRMnj9MIvFJLE/D
+         hXSfONNzrPZugqffW/10FnzvslZCdnNuYdIt/wpo8hpIqK1LEwEaRaO4yv8v0WItUGOH
+         0wywHv6NDKXlpjdkc7vrnk+jJ5+517OhDCBXrQDrILlcZ97WDqHd4pWt/oDsdfDfLAcW
+         jTzrNHlKpbdISGjopQiJccT+hKAm3Qcxx4ISqUxaKbhkM8qKxq8moyE25icjivc2J5E1
+         Y0qwADxAkJTcC9kpe5oOEmFuCLX5Qz10E1yipH8dZPI+pncs8zYzsafr6Cj/hpZASfqD
+         iMqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713720268; x=1714325068;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qP4QRJgU1BApHuToLH0DTtNB0ZEyDCq59t66ZEJwTQg=;
+        b=ZDYkcsWVXqW8gKJ553/+96Ai1NECpcY/MMawZ839AXolYaLMAFywn4osszaSBKpASw
+         tp6erKi0gMZnp8v7V20SBoZmAPkhq+O6HzdvWdnd4v9ptf3mj+3hgFpZmtUWhhByINpF
+         txepib4UhW4BuODmq4e0jHa6bl2iqkToOcbyFqpPA2CKuf1PVtAQweiOcES8r39Gu40l
+         kdQsEDsr0gzPir0KQ+KCq7X7hf0RSp1tpi49y8cNlXUcC/L8fKCIYrIip9NsEzGfNHdw
+         jIJzien9+E878To4dHW/pUmKuzz8Penc73P/TLnB6jpXTBbAa3CREH3hMY6lh7jX5xMh
+         s34g==
+X-Forwarded-Encrypted: i=1; AJvYcCU3kcpkEZ8hT2ccc7jHSbQfJMU5R2obgyS/VUOHA4WhPvBZbmlbNaZ6Ceq56B5f5i6CxgckhaCxVOXQRnR5yameEJzgpH5SF/DvZ2elIA==
+X-Gm-Message-State: AOJu0Yw25ui8XA7YHAwJACbvcXjutmCJPR8vNibPSw6wzVh7/Ol4ueOi
+	CdhMllAutnCOAZ3gCzLPleyrjWFmbdSu7ksSjmVHH40+w2LW6f/SAawMNRWha3A=
+X-Google-Smtp-Source: AGHT+IFLvHBYF/HR8/m7asEk356ewfwQEIZ3ux1d+BGEv1g/KRonZRM89ywg48Iy/h82lTw96asb1w==
+X-Received: by 2002:a05:6512:370f:b0:518:c8e1:478 with SMTP id z15-20020a056512370f00b00518c8e10478mr5802469lfr.58.1713720267513;
+        Sun, 21 Apr 2024 10:24:27 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::8a5])
+        by smtp.gmail.com with ESMTPSA id u18-20020ac25192000000b00518d5c5740esm1507389lfi.180.2024.04.21.10.24.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Apr 2024 10:24:26 -0700 (PDT)
+Date: Sun, 21 Apr 2024 20:24:25 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Dharma Balasubiramani <dharma.b@microchip.com>
+Cc: "andrzej . hajda @ intel . com" <andrzej.hajda@intel.com>, 
+	"neil . armstrong @ linaro . org" <neil.armstrong@linaro.org>, "rfoss @ kernel . org" <rfoss@kernel.org>, 
+	"Laurent . pinchart @ ideasonboard . com" <Laurent.pinchart@ideasonboard.com>, "jonas @ kwiboo . se" <jonas@kwiboo.se>, 
+	"jernej . skrabec @ gmail . com" <jernej.skrabec@gmail.com>, 
+	"maarten . lankhorst @ linux . intel . com" <maarten.lankhorst@linux.intel.com>, "mripard @ kernel . org" <mripard@kernel.org>, 
+	"tzimmermann @ suse . de" <tzimmermann@suse.de>, "airlied @ gmail . com" <airlied@gmail.com>, 
+	"daniel @ ffwll . ch" <daniel@ffwll.ch>, "robh+dt @ kernel . org" <robh+dt@kernel.org>, 
+	"krzysztof . kozlowski+dt @ linaro . org" <krzysztof.kozlowski+dt@linaro.org>, "conor+dt @ kernel . org" <conor+dt@kernel.org>, 
+	"linux @ armlinux . org . uk" <linux@armlinux.org.uk>, 
+	"Nicolas . Ferre @ microchip . com" <Nicolas.Ferre@microchip.com>, 
+	"alexandre . belloni @ bootlin . com" <alexandre.belloni@bootlin.com>, "claudiu . beznea @ tuxon . dev" <claudiu.beznea@tuxon.dev>, 
+	"Manikandan . M @ microchip . com" <Manikandan.M@microchip.com>, "arnd @ arndb . de" <arnd@arndb.de>, 
+	"geert+renesas @ glider . be" <geert+renesas@glider.be>, "Jason @ zx2c4 . com" <Jason@zx2c4.com>, 
+	"mpe @ ellerman . id . au" <mpe@ellerman.id.au>, "gerg @ linux-m68k . org" <gerg@linux-m68k.org>, 
+	"rdunlap @ infradead . org" <rdunlap@infradead.org>, "vbabka @ suse . cz" <vbabka@suse.cz>, 
+	"dri-devel @ lists . freedesktop . org" <dri-devel@lists.freedesktop.org>, "devicetree @ vger . kernel . org" <devicetree@vger.kernel.org>, 
+	"linux-kernel @ vger . kernel . org" <linux-kernel@vger.kernel.org>, 
+	"oe-kbuild-all @ lists . linux . dev" <oe-kbuild-all@lists.linux.dev>, 
+	"Hari . PrasathGE @ microchip . com" <Hari.PrasathGE@microchip.com>
+Subject: Re: [PATCH v8 2/4] drm/bridge: add lvds controller support for sam9x7
+Message-ID: <2ct5tav52onwd6ceuzqbbam4qsqfvxdjpsrbn72jbsyjtcgtsl@j3d7piqqheel>
+References: <20240421011050.43265-1-dharma.b@microchip.com>
+ <20240421011050.43265-3-dharma.b@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,99 +85,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240421011050.43265-3-dharma.b@microchip.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   14a98183c9e243396a2acd72fcd56ad4230f24ee
-commit: 5ad399e959efe7243d5e3c8afc13d249c607746a [86/98] psi: support cgroup v1 psi accounting
-config: x86_64-buildonly-randconfig-004-20240421 (https://download.01.org/0day-ci/archive/20240422/202404220030.MxbsuTKP-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240422/202404220030.MxbsuTKP-lkp@intel.com/reproduce)
+On Sun, Apr 21, 2024 at 06:40:48AM +0530, Dharma Balasubiramani wrote:
+> Add a new LVDS controller driver for sam9x7 which does the following:
+> - Prepares and enables the LVDS Peripheral clock
+> - Defines its connector type as DRM_MODE_CONNECTOR_LVDS and adds itself
+> to the global bridge list.
+> - Identifies its output endpoint as panel and adds it to the encoder
+> display pipeline
+> - Enables the LVDS serializer
+> 
+> Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+> Acked-by: Hari Prasath Gujulan Elango <hari.prasathge@microchip.com>
+> ---
+> Changelog
+> v7 -> v8
+> - Assign ret variable properly before checking it for err.
+> v6 -> v7
+> - Remove setting encoder type from bridge driver.
+> - Drop clk_disable() from pm_runtime_get_sync() error handling.
+> - Use devm_clk_get() instead of prepared version.
+> - Hence use clk_prepare_enable() and clk_disable_unprepare().
+> - Use devm_drm_of_get_bridge() instead of devm_drm_panel_bridge_add().
+> - Add error check for devm_pm_runtime_enable().
+> - Use dev_err() instead of DRM_DEV_ERROR() as it is deprecated.
+> - Add missing Acked-by tag.
+> v5 -> v6
+> - No Changes.
+> v4 -> v5
+> - Drop the unused variable 'format'.
+> - Use DRM wrapper for dev_err() to maintain uniformity.
+> - return -ENODEV instead of -EINVAL to maintain consistency with other DRM
+>   bridge drivers.
+> v3 -> v4
+> - No changes.
+> v2 ->v3
+> - Correct Typo error "serializer".
+> - Consolidate get() and prepare() functions and use devm_clk_get_prepared().
+> - Remove unused variable 'ret' in probe().
+> - Use devm_pm_runtime_enable() and drop the mchp_lvds_remove().
+> v1 -> v2
+> - Drop 'res' variable and combine two lines into one.
+> - Handle deferred probe properly, use dev_err_probe().
+> - Don't print anything on deferred probe. Dropped print.
+> - Remove the MODULE_ALIAS and add MODULE_DEVICE_TABLE().
+> - symbol 'mchp_lvds_driver' was not declared. It should be static.
+> ---
+>  drivers/gpu/drm/bridge/Kconfig          |   7 +
+>  drivers/gpu/drm/bridge/Makefile         |   1 +
+>  drivers/gpu/drm/bridge/microchip-lvds.c | 229 ++++++++++++++++++++++++
+>  3 files changed, 237 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/microchip-lvds.c
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404220030.MxbsuTKP-lkp@intel.com/
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-All errors (new ones prefixed by >>):
-
-   In file included from kernel/sched/build_utility.c:97:
->> kernel/sched/psi.c:936:11: error: call to undeclared function 'cgroup_psi'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     936 |                 group = cgroup_psi(task_cgroup(task, io_cgrp_subsys.id));
-         |                         ^
->> kernel/sched/psi.c:936:22: error: call to undeclared function 'task_cgroup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     936 |                 group = cgroup_psi(task_cgroup(task, io_cgrp_subsys.id));
-         |                                    ^
-   kernel/sched/psi.c:936:22: note: did you mean 'task_group'?
-   kernel/sched/sched.h:2064:34: note: 'task_group' declared here
-    2064 | static inline struct task_group *task_group(struct task_struct *p)
-         |                                  ^
-   In file included from kernel/sched/build_utility.c:97:
-   kernel/sched/psi.c:936:40: error: use of undeclared identifier 'io_cgrp_subsys'
-     936 |                 group = cgroup_psi(task_cgroup(task, io_cgrp_subsys.id));
-         |                                                      ^
-   kernel/sched/psi.c:943:11: error: call to undeclared function 'cgroup_psi'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     943 |                 group = cgroup_psi(task_cgroup(task, memory_cgrp_subsys.id));
-         |                         ^
-   kernel/sched/psi.c:943:22: error: call to undeclared function 'task_cgroup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     943 |                 group = cgroup_psi(task_cgroup(task, memory_cgrp_subsys.id));
-         |                                    ^
-   kernel/sched/psi.c:943:40: error: use of undeclared identifier 'memory_cgrp_subsys'
-     943 |                 group = cgroup_psi(task_cgroup(task, memory_cgrp_subsys.id));
-         |                                                      ^
-   kernel/sched/psi.c:950:11: error: call to undeclared function 'cgroup_psi'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     950 |                 group = cgroup_psi(task_cgroup(task, cpu_cgrp_subsys.id));
-         |                         ^
-   kernel/sched/psi.c:950:22: error: call to undeclared function 'task_cgroup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     950 |                 group = cgroup_psi(task_cgroup(task, cpu_cgrp_subsys.id));
-         |                                    ^
-   kernel/sched/psi.c:950:40: error: use of undeclared identifier 'cpu_cgrp_subsys'
-     950 |                 group = cgroup_psi(task_cgroup(task, cpu_cgrp_subsys.id));
-         |                                                      ^
-   9 errors generated.
-
-
-vim +/cgroup_psi +936 kernel/sched/psi.c
-
-   918	
-   919	/*
-   920	 * Iteration for cgroup V1, we only have SOME PSI support for each cgroup due
-   921	 * to the nature of splitted resource types of cgroup V1 design will bring
-   922	 * large overhead for FULL PSI tracking (eg. every TSK_RUNNING change need to
-   923	 * iterate through three types of cgroups instead of one). So FULL PSI
-   924	 * required flags are not considered.
-   925	 *
-   926	 * So only TSK_IOWAIT, TSK_MEMSTALL, TSK_RUNNING are tracked individually.
-   927	 * Have to process three flags here one by one. This may have up to 3 times
-   928	 * overhead for batch change but have to live with it.
-   929	 */
-   930	static inline void psi_group_change_legacy(struct task_struct *task, int cpu,
-   931						   u64 now, int clear, int set, bool wake)
-   932	{
-   933		struct psi_group *group;
-   934	
-   935		if ((clear | set) & TSK_IOWAIT) {
- > 936			group = cgroup_psi(task_cgroup(task, io_cgrp_subsys.id));
-   937			do {
-   938				psi_group_change(group, cpu, clear & TSK_IOWAIT, set & TSK_IOWAIT, now, wake);
-   939			} while ((group = group->parent));
-   940		}
-   941	
-   942		if ((clear | set) & TSK_MEMSTALL) {
-   943			group = cgroup_psi(task_cgroup(task, memory_cgrp_subsys.id));
-   944			do {
-   945				psi_group_change(group, cpu, clear & TSK_MEMSTALL, set & TSK_MEMSTALL, now, wake);
-   946			} while ((group = group->parent));
-   947		}
-   948	
-   949		if ((clear | set) & TSK_RUNNING) {
-   950			group = cgroup_psi(task_cgroup(task, cpu_cgrp_subsys.id));
-   951			do {
-   952				psi_group_change(group, cpu, clear & TSK_RUNNING, set & TSK_RUNNING, now, wake);
-   953			} while ((group = group->parent));
-   954		}
-   955	}
-   956	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With best wishes
+Dmitry
