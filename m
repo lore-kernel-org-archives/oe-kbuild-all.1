@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF0313F015
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 18:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F121BC44
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 20:48:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713809800; cv=none; b=ar8X/2l2xDqz569AcTR0mxip0YcuqMXqvnnhI1cRjLcMFWZZX8q9Wx1Cu7x1bRvI6yDHbeg4V1++Mh+l+yAZXj8p77puv3ii27uypwSk3FE7upHil1+DxpVg122Dl3c0vTZtFBffo31NyiToqoW3+qUaCkrGIa0jy8if11YkU8A=
+	t=1713818922; cv=none; b=MHHvVmw1KCMkPC0KS9rgolQQZO0NzP1lvXFRNzaXblBnBAQTgnZgOoPvUSwD41Xda7SoMEuMCLabCmFuS2dkODMJKnDGRELIBvxvHR84kqTD4g0DnsngQ6f3XXviCs19m+j5+HZ0/bdd3YCXiXEAs7GwfSl2+8Z4pGj0b2NcSNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713809800; c=relaxed/simple;
-	bh=I61ioZrcAsISe+kqpyGMjgCEC4ox6UKQUTfR7j6jLK0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mhu9vtghyQdSmigJTSjSDOr8UZSmMYhormjbYB/0Litr/wj5QJ2fVms61wf1uTtsr6hCFm4jJV4u40oGb8j42A1znbeBDzXxbj1qkA1HImsxyOSl91K71tYl+jlAaPYUQ9pmG20z++YtWfhR/0aOUqeh7s1cH8Ixh3v6MvXUhG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ETbDg07j; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1713818922; c=relaxed/simple;
+	bh=as531GnWHAL3nMZ0qIiE8OAXIJgeOiKmA8Z2prwmREk=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hP2ka4Ty2BjYxvRV02D2gh0QS8ifUoODKiCg1SjsyUnssQmdsDvxooNwZzjqffxsWkjTbdNI6wJ6gU/YJkoDBuuDmoIwt1wICpas9in2r0CSnCfwF5Qmc+hI4Ij9Egh0mCrAIXvscN7Z3peeWopmuhwUl8LGj0mLd31MmbWXiuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JjbvR08t; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ETbDg07j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JjbvR08t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713809798; x=1745345798;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I61ioZrcAsISe+kqpyGMjgCEC4ox6UKQUTfR7j6jLK0=;
-  b=ETbDg07jqMjPeQ5rpQvOzCz9gTqcZcv/UFk7Q49G4t/B8Fw7vytGXUaK
-   WdjTWHUTZoYkCVuPWi33VZA0JsL0yNtQr3uhN2e5aPGLKBpi/DlHu5NAI
-   6O5z8VkjJJN0UdJssxjgt/9Aq1eue2j3AHeCqmol6Lz2894TZUmjuPPGU
-   pFiPgKu2Th7juB0ErTiix1funFugRLQUbqybbIy+1RomQrxOeuIu307bl
-   HVuq5JsmGIDHIop5Z+bpORzcoyHKLsO2hv5RWLAyRF7gjqSnesTm63ubl
-   wWJk7zEkLtNSNcva+tWRuv/foucqRTTPByTmh/O1C/TY5bLNczSa86nkh
-   w==;
-X-CSE-ConnectionGUID: PouJC5v8SAmvOiWwKp8Pww==
-X-CSE-MsgGUID: Ws+6BzlSRkqlu8pqvg6LtQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="19972403"
+  t=1713818921; x=1745354921;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=as531GnWHAL3nMZ0qIiE8OAXIJgeOiKmA8Z2prwmREk=;
+  b=JjbvR08t57H+BVuTJomsYGP7lzh0YCx+385agEqdbV7x1Bp74b0m2Pf4
+   DDqLpLhgsmq528EG5U8Xlk3N8NCPtEGI9cL7TZBWherT9xn9HqTV00QSc
+   w6hwBFCC5+PNVw2TZsnemFl1DRU9eTc3qDi22wtOriARJ1YXD5viQ+Jt6
+   V/GJ176FYr8p7YYPfohYVwqCJhnNa+LzbLzKn4BaJA7wt8+bUB6F6sLts
+   ChHqco8/+00B2dBbpy5Y/Fv0EqLDB48ow78U1C9+jFAa5GWU9Asas65lK
+   f/9Ao2nx71XqsGJIe9uNRbtku+ApWwLJC64PSlWB0px8TeRZTXcMQSO9o
+   Q==;
+X-CSE-ConnectionGUID: ezrxAd+CSe+/lvFX4NRuzQ==
+X-CSE-MsgGUID: kD6XoYMvQ3+lCne7Un/UYg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="9920962"
 X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; 
-   d="scan'208";a="19972403"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 11:16:37 -0700
-X-CSE-ConnectionGUID: QRJmCuZASgeqnpSo7KPo2g==
-X-CSE-MsgGUID: wQgAAyK7S3GR4fWq3ccs/g==
+   d="scan'208";a="9920962"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 13:48:40 -0700
+X-CSE-ConnectionGUID: /VdsIdUIR4W07ibbEvxueg==
+X-CSE-MsgGUID: IPR+XLbGRxeTONWOTNb0Cw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; 
-   d="scan'208";a="24149982"
+   d="scan'208";a="24161019"
 Received: from lkp-server01.sh.intel.com (HELO 01437695816f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 22 Apr 2024 11:16:37 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 22 Apr 2024 13:48:39 -0700
 Received: from kbuild by 01437695816f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ryyDS-0000AA-0K;
-	Mon, 22 Apr 2024 18:16:34 +0000
-Date: Tue, 23 Apr 2024 02:15:38 +0800
+	id 1rz0ab-0000Eq-0d
+	for oe-kbuild-all@lists.linux.dev;
+	Mon, 22 Apr 2024 20:48:37 +0000
+Date: Tue, 23 Apr 2024 04:48:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jiantao Xiao <xiaojiantao1@h-partners.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 20368/30000] drivers/ptp/ptp_hisi.c:731:36:
- warning: 'hisi_ptp_acpi_match' defined but not used
-Message-ID: <202404230205.XJi54qVa-lkp@intel.com>
+Subject: [jsarha:topic/cros-sof-v4.19 1947/6555]
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c:684:22: sparse: sparse: symbol
+ 'rcar_du_crtc_mode_valid' was not declared. Should it be static?
+Message-ID: <202404230443.GZIidUCK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,34 +63,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   b05f2de3edcf4fc1b98ced476a06a62b961d3cce
-commit: c64545e1e5fa4e09603149e918f306562a22a60a [20368/30000] net: hns3: add support for Hisilicon ptp sync device
-config: arm64-randconfig-002-20240423 (https://download.01.org/0day-ci/archive/20240423/202404230205.XJi54qVa-lkp@intel.com/config)
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: c244a5049a14aef78319f7cea73b6992f917631b [1947/6555] UPSTREAM: drm: rcar-du: Add interlaced feature flag
+config: arm64-randconfig-r111-20240422 (https://download.01.org/0day-ci/archive/20240423/202404230443.GZIidUCK-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240423/202404230205.XJi54qVa-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20240423/202404230443.GZIidUCK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404230205.XJi54qVa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404230443.GZIidUCK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/rcar-du/rcar_du_crtc.c:684:22: sparse: sparse: symbol 'rcar_du_crtc_mode_valid' was not declared. Should it be static?
+   drivers/gpu/drm/rcar-du/rcar_du_crtc.c:891:12: sparse: sparse: symbol 'rcar_du_crtc_get_crc_sources' was not declared. Should it be static?
+   drivers/gpu/drm/rcar-du/rcar_du_crtc.c:684:22: warning: no previous prototype for 'rcar_du_crtc_mode_valid' [-Wmissing-prototypes]
+     684 | enum drm_mode_status rcar_du_crtc_mode_valid(struct drm_crtc *crtc,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_du_crtc.c:891:20: warning: no previous prototype for 'rcar_du_crtc_get_crc_sources' [-Wmissing-prototypes]
+     891 | const char *const *rcar_du_crtc_get_crc_sources(struct drm_crtc *crtc,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
->> drivers/ptp/ptp_hisi.c:731:36: warning: 'hisi_ptp_acpi_match' defined but not used [-Wunused-const-variable=]
-     731 | static const struct acpi_device_id hisi_ptp_acpi_match[] = {
-         |                                    ^~~~~~~~~~~~~~~~~~~
+vim +/rcar_du_crtc_mode_valid +684 drivers/gpu/drm/rcar-du/rcar_du_crtc.c
 
-
-vim +/hisi_ptp_acpi_match +731 drivers/ptp/ptp_hisi.c
-
-   730	
- > 731	static const struct acpi_device_id hisi_ptp_acpi_match[] = {
-   732		{ "HISI0411", 0 },
-   733		{ }
-   734	};
-   735	MODULE_DEVICE_TABLE(acpi, hisi_ptp_acpi_match);
-   736	
+   683	
+ > 684	enum drm_mode_status rcar_du_crtc_mode_valid(struct drm_crtc *crtc,
+   685					   const struct drm_display_mode *mode)
+   686	{
+   687		struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+   688		struct rcar_du_device *rcdu = rcrtc->group->dev;
+   689		bool interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE;
+   690	
+   691		if (interlaced && !rcar_du_has(rcdu, RCAR_DU_FEATURE_INTERLACED))
+   692			return MODE_NO_INTERLACE;
+   693	
+   694		return MODE_OK;
+   695	}
+   696	
 
 -- 
 0-DAY CI Kernel Test Service
