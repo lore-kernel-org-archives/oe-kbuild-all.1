@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F1B50243
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 08:19:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8CD5025A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 08:19:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713773968; cv=none; b=B3KWnJM9xlpVu5RbUgARDY/ZdSoKMH+0b7NK7aP0x0WOrR/fU5uz2FOlN6MszfQH/vc0OK7aDwCJeg0JznRizVkA3nbMop2KDHyyjWH1yZI3GhD5+XOPHIKwCdhsT46mx6p50H1VqXSIorR5F2qMwHzE5hA1+inwKHAop4Fzk7M=
+	t=1713773970; cv=none; b=GI5OkfzloYH9Bz81V++qpFZlb+PegCtL3DG98SoXyPsa1HyPCyEoq0UoMKdA6J2hpn7lZU3ekLTI70ahumiz+ig73ozk6t+YR74zOS8ihifOPTpLpVm46YgNYemFBDBvEYvmtUUcv/axn6sUA2mFXi6H/3UJy0F2M2N73aOLZuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713773968; c=relaxed/simple;
-	bh=g2oB/gHhEIFPSwPkLXHnDlTkwam5x9Z+pexcSn8Io0E=;
+	s=arc-20240116; t=1713773970; c=relaxed/simple;
+	bh=J2HCi2q3cjpj51zILWszcVP/pc9ie6LJFKsZoo7UZog=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VTeEUxRDLHTPfqQWTIVNtwzMQk+UfixEEqwX4SydL5tdi+mOLoe0RJPRvGNu0jDJgAFw3+Ra7yzbv3nWwH/rnpQU0kq06OSPsNjOqlwmtlc1BBPSql0fKP3xz6rReiJspX1bg9aM1zi+alSB4irAvphziK2kcTnSTUaba4R3F3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CWqIX3rx; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=sYaA7DFvEw3AA6UBX0SWCWUGGy5jUjFeULh7x7g4mW/1PRUgYY955bfn9WkqaWgG2svnIvkG2JE4lIQzMM041rmszxrDCjilGE/GxeVhJTT3rpwsAkQz1ebFc4INT6Zt8NbrL4oxDWqEkZ+vLpdq0m8Xr5ubCQ70KYEh5opRq0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LxO2gIw+; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CWqIX3rx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LxO2gIw+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713773967; x=1745309967;
+  t=1713773969; x=1745309969;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g2oB/gHhEIFPSwPkLXHnDlTkwam5x9Z+pexcSn8Io0E=;
-  b=CWqIX3rxRGS+mFo5S2tTGF0Kz8ebgYsmBzdWOOxj+qTHWa1Cv/U2HBp4
-   nXqXMC2gVE7DU2j6KHhGSEKPCOS/suQ13lyl7vV8upLNtjlSjiBQ7YsaF
-   IaNHLm9/SxXMwjKKYzjFa4FCu2JWey4dysMpMfpuJoxNQdcd/ydt5E9FV
-   QpR5xjGGPuoEDdRmn5kvq+kCARxT9i5dQ7pbnGXC0GU3YSIVmhqJgAOWT
-   ZdH7fPSxrXZiI5YqGuQFPIp+yyv9Z1rxGHKlTKRgN2QupGyHDE3kT0w7V
-   fd16M4mDTj46FCsRskcU6Ag65dwqi3yKEFP4BghAaO4QNj2AQk4S2pJiq
+  bh=J2HCi2q3cjpj51zILWszcVP/pc9ie6LJFKsZoo7UZog=;
+  b=LxO2gIw++5b4NJM2+UIMuyMzoGaqAUnTCnWfCvVB2nkud7c7Oc5E8lCv
+   +K50x7U3fQAdC3Ohv1LiR/T1Wv7flajSvOsZ1YUP/37D2eFg/+xyh5Ovc
+   LOKY4o6rKuGuCVLBTx0CQosKIXp0jlL69Ya9KgljntTTFEvhTJ2h+8UHQ
+   MEEwCegsYDn4+6wGh/3jexTJfiJeiNqIUGntkCT/TtJ2lBlu4eDjPTfBc
+   zcBVkbl39kPhnuKNg5nXFArv4MWVWx7Ch7IYAzXr14v9+pmoC8dgtoofR
+   4BYYNVhByGDEdlsYiBVnEmdyg/p+3WSNrUE5Z8g21NoxOWm8WgJxlF/9I
    w==;
-X-CSE-ConnectionGUID: 9SqqDvzRS5m4Wn78/niYmQ==
-X-CSE-MsgGUID: HBil5ltHTkGP8ZDjBMHPCw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11051"; a="9177543"
+X-CSE-ConnectionGUID: yK8Xo9PTRnSP0raRLewbvQ==
+X-CSE-MsgGUID: A6HoFME7QKaG4Eux+WTNiQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11051"; a="9177544"
 X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
-   d="scan'208";a="9177543"
+   d="scan'208";a="9177544"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 01:19:27 -0700
-X-CSE-ConnectionGUID: cv3QnOaZR8Wrx5aNqKpFGQ==
-X-CSE-MsgGUID: nOOB2KXbQcuq8RT1z/VJvw==
+X-CSE-ConnectionGUID: tMQnlYETS3ORcek8qvoZRA==
+X-CSE-MsgGUID: /8x0C9OoQZmU7YGdeX3E3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
-   d="scan'208";a="47239253"
+   d="scan'208";a="47239254"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
   by fmviesa002.fm.intel.com with ESMTP; 22 Apr 2024 01:19:25 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ryotX-000CP0-0T;
+	id 1ryotX-000CP2-0X;
 	Mon, 22 Apr 2024 08:19:23 +0000
-Date: Mon, 22 Apr 2024 16:18:38 +0800
+Date: Mon, 22 Apr 2024 16:18:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 183/184] fs/bcachefs/fs.c:219:1: warning:
- no return statement in function returning non-void
-Message-ID: <202404221601.RLb8P5Tf-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Michael Shavit <mshavit@google.com>
+Subject: [jgunthorpe:smmuv3_newapi 9/42] arm-smmu-v3-test.c:undefined
+ reference to `arm_smmu_make_sva_cd'
+Message-ID: <202404221610.xfUCOWjE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,34 +62,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   b6c8ce298a81e9cfd9d7ed73d3ccb1e737e4fe07
-commit: 653cfdde6b4749c4162866b8d9cd858ce3a12525 [183/184] bcachefs: Clean up inode alloc
-config: nios2-randconfig-002-20240422 (https://download.01.org/0day-ci/archive/20240422/202404221601.RLb8P5Tf-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240422/202404221601.RLb8P5Tf-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux smmuv3_newapi
+head:   d0dddfdfea6bcfe4c35323fdc7afe4bbb05c34fa
+commit: cb149db3a320fa8dcf65b47f81954287ed5514ae [9/42] iommu/arm-smmu-v3: Add unit tests for arm_smmu_write_entry
+config: arm64-randconfig-r113-20240422 (https://download.01.org/0day-ci/archive/20240422/202404221610.xfUCOWjE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240422/202404221610.xfUCOWjE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404221601.RLb8P5Tf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404221610.xfUCOWjE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/bcachefs/fs.c: In function 'bch2_alloc_inode':
->> fs/bcachefs/fs.c:219:1: warning: no return statement in function returning non-void [-Wreturn-type]
-     219 | }
-         | ^
-
-
-vim +219 fs/bcachefs/fs.c
-
-   215	
-   216	static struct inode *bch2_alloc_inode(struct super_block *sb)
-   217	{
-   218		BUG();
- > 219	}
-   220	
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.o: in function `arm_smmu_test_make_sva_release_cd.constprop.0':
+>> arm-smmu-v3-test.c:(.text+0x160): undefined reference to `arm_smmu_make_sva_cd'
+   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.o: in function `arm_smmu_test_make_sva_cd.constprop.0':
+   arm-smmu-v3-test.c:(.text+0x1f0): undefined reference to `arm_smmu_make_sva_cd'
 
 -- 
 0-DAY CI Kernel Test Service
