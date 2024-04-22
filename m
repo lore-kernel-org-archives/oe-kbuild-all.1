@@ -1,392 +1,99 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFDC150989
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 13:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7638314F9E6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 13:55:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713793829; cv=none; b=SjquDIY9nb8UjWY8AAK8zIwX/OIRaSDBJ+tRjQdDyAIYBREb+6p6WOFNPOGf0QwM/tY14eeBNtV8yJbDfGM5vr9D/pSConaOxks2zKbWoIcx2/gsxIwKA9iGM3h141LP3Kgsw9emI806IYllqrZmhz+BLuPcFU2EZNwFCErKLIs=
+	t=1713794133; cv=none; b=ckJLBLO/eoXkWqRi/Eatq89OsWaZRiNRU/BzEwgJCBDkXxOEKAPnPBlSZXZ/4fu82zG48KuKeWTlsT2WPbzd6k1EXl5QC8pt3wZWMmhRGoqLoQd4ilDjzxSfMY1mwRV8R7dRBcsMC4dqaLwfaQ7rKjMFILfcT4K8YbBPQ2z6heo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713793829; c=relaxed/simple;
-	bh=N1mA+5fsguG+ioRCPboVIPK4PwAC2RoUL3HsSldrYsY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZsXXIMp7k1tRrpDG7jusGfNKahIByEFHP6DzdVy6t0/K0ywEaOKMOdXzg5XHv69Jh7p5DCnJeQ2Vw0Wu76jRvBfvrwfT1edqrglS/F43sAHjJqPWf9C3AZ8M91SndEIj2fxlabGraC06RfVvAcb8LMp0COS6F1VTuMeJ9XMllhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ml/s4HU0; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1713794133; c=relaxed/simple;
+	bh=ZHi78+wfNUu5l3xe0CQLMD8MOwAYfkboGopi6wE0/2M=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mf9b8AV+tmQSTnxMndV74MQYiyP8FIVaMn83TtGO/Y3sQJZYiNbBuPVsDQTBw6mIDozO5wJzaNp6A0imvOGmP5uiDLG5HhHfgTEYwcMjKGQia8kwqthfT/J+hWfHqYHZibz5IIFM5lONpWoHtFtN7jcpiU9AuqwbOkhlbBMzn6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8M560Sm; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ml/s4HU0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713793825;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ePT7cc/aNJu9XoRcC0vjX12uSyiKribwraAl/sl33xA=;
-	b=Ml/s4HU0ZtTK9/xjiT86kF8HsoIRp5WF2QMlYTvAMtu+R1D3q75gLPy0q2kJbMqAChZ2Hz
-	lt9ajiqgNAyVU37GxlVSqR3Q+kr9g/x6Na1cDgr16lwe+Us3Imnx3/UUmKiYCPEcwFWPyV
-	+Squ9/CfzF7y4SK6CgvzH4G2p6QgeJw=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-496-MWTJ-vKkN5a7z0mTrRNIlw-1; Mon, 22 Apr 2024 09:50:24 -0400
-X-MC-Unique: MWTJ-vKkN5a7z0mTrRNIlw-1
-Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-2d865b3b04cso27036661fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 06:50:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713793822; x=1714398622;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ePT7cc/aNJu9XoRcC0vjX12uSyiKribwraAl/sl33xA=;
-        b=powC6GOWFacjf+BlV4BlOY7NyhVcMDfQ/Vhi5EmJB9fBOEx9tJAJ6Y4GOOs6jLlVw3
-         Die/faMtVaBsXn5kaUaveo4oDJyRweC+KAW3Gda068Iz520WLBqHu6DDoqzQCaZTpUgG
-         BrSYxfEOCX3S4gFtTAr/ArvKhj4nQ5d4vMrVb/UvGs1fqR8kDW/ZhGJ2c5P4v2iISMDA
-         dBhzPRIPYhKSFFLKsKxj/SWM1XkTgIcDDRwA6wH7wyLYWsHyGGGfAhICDqq/zh8+z53o
-         0i0JdYtmQ7T/2QjhOcVLrQ4U84M8STooDdjy+IyqEJFfd9kSEob9plyRqLcmq+ACgzYG
-         3D6A==
-X-Forwarded-Encrypted: i=1; AJvYcCUjKUTItGUUDZUgCmDsozx6PLIZHekz8RDw2+FrhsutB88I0if6rrtpX3AXABIhKUJLuCT/COWxOlZDWQztMIDiEDQtCfcpLbeKvrSNxg==
-X-Gm-Message-State: AOJu0YxFKg1+Vq2/kQUF6b0KCl9qa8XfomuimqegWSygybgf3NF2Dlnd
-	jFv2Qjfg2aTFHfRVZjAcPokhwaalEEfZo5fEOQ4uLMl5i7OqmHgr5qiVVdlQlAljWZZcNfdhFV/
-	zbSPMZUQ9aP3Www/xpRR1Z6/4vArCQ8CYet+dd8SesSyIvxU1PL1PIrCsGQVzZ9YY5dlEBnWwnw
-	mycYBoilJ8J8wOupUKMGVUzrFB+LHeKmqTbWnBPDpvv2UKVg==
-X-Received: by 2002:a2e:98ce:0:b0:2db:2385:d02a with SMTP id s14-20020a2e98ce000000b002db2385d02amr2808488ljj.22.1713793822478;
-        Mon, 22 Apr 2024 06:50:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEZYR8Zh/oxxhfcKpxYxLO0px3lM2ejr/cz+74VqOsz3y3mlUkQPIxIIcQ1hd/q6nUrMdg+RsBCDN4mTPvA4N0=
-X-Received: by 2002:a2e:98ce:0:b0:2db:2385:d02a with SMTP id
- s14-20020a2e98ce000000b002db2385d02amr2808480ljj.22.1713793822036; Mon, 22
- Apr 2024 06:50:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8M560Sm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713794131; x=1745330131;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=ZHi78+wfNUu5l3xe0CQLMD8MOwAYfkboGopi6wE0/2M=;
+  b=T8M560SmoXKJz5ZvaVHgISDvbLHg4SU7D1IN1ROI5y/vy+7N97t6O9im
+   d9z/D3IjEuHRqM86HCXP6j82In8yMNCSsKyPwpbu1RFIs29RFU4DJ3XIN
+   Mk+qMI2CFxpet7uzYOvHDOH8/F35Qwiga07Ajp7Wy6MuSYBJp+tW3v6JS
+   vWn+RcJlJNEDUNSprOsCIKaEvVDuCOtwmrjqqdg/7+WhgikLFz0EQHJZy
+   YroKUwoFYYdK4gwRfKKXxT8wnRv0YTUagu9FSz+XJUSiGVXJ04DrObMGG
+   WVApjlb1YUx/GnzhBrFWc0EsPM1yaEbcAObwOXzJ3o2YJKqQZufCQnrSb
+   w==;
+X-CSE-ConnectionGUID: 1CJV0GzQQuinlUJPxI8fPg==
+X-CSE-MsgGUID: T+ISxZQkTXqdK7OHRbIt9Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="34730655"
+X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
+   d="scan'208";a="34730655"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 06:55:30 -0700
+X-CSE-ConnectionGUID: yNm6iYO2TiySasWD7s60Sg==
+X-CSE-MsgGUID: t5+E3HzuSX6uOr8GAPr/Gw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
+   d="scan'208";a="28481302"
+Received: from lkp-server01.sh.intel.com (HELO 01437695816f) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 22 Apr 2024 06:55:30 -0700
+Received: from kbuild by 01437695816f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ryu8m-00001M-0X
+	for oe-kbuild-all@lists.linux.dev;
+	Mon, 22 Apr 2024 13:55:28 +0000
+Date: Mon, 22 Apr 2024 21:54:30 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jsarha:topic/cros-sof-v4.19 1059/6555]
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c:880:12: sparse: sparse: symbol
+ 'rcar_du_crtc_get_crc_sources' was not declared. Should it be static?
+Message-ID: <202404222159.5i8BaB8P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <ea8de937-9252-4ac2-bf9a-815bcc4018e4@moroto.mountain>
-In-Reply-To: <ea8de937-9252-4ac2-bf9a-815bcc4018e4@moroto.mountain>
-From: Alexander Aring <aahringo@redhat.com>
-Date: Mon, 22 Apr 2024 09:50:10 -0400
-Message-ID: <CAK-6q+gJ5Y+G5K=3YXFZdWin5N3rqjjcAiC6sWtwo_bq+VywdQ@mail.gmail.com>
-Subject: Re: [linux-next:master 5836/7122] fs/dlm/lockspace.c:566
- new_lockspace() warn: missing error code 'error'
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, David Teigland <teigland@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: c920b83dfd0cdd3ec642dc7699b9b67ccdc1567e [1059/6555] UPSTREAM: drm/rcar-du/crc: Implement get_crc_sources callback
+config: arm64-randconfig-r111-20240422 (https://download.01.org/0day-ci/archive/20240422/202404222159.5i8BaB8P-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240422/202404222159.5i8BaB8P-lkp@intel.com/reproduce)
 
-On Mon, Apr 22, 2024 at 9:31=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   a35e92ef04c07bd473404b9b73d489aea19a60a8
-> commit: 6c648035cbe75d78836f6d7d2fdd9d996048a66b [5836/7122] dlm: switch =
-to use rhashtable for rsbs
-> config: i386-randconfig-141-20240420 (https://download.01.org/0day-ci/arc=
-hive/20240420/202404200536.jGi6052v-lkp@intel.com/config)
-> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202404200536.jGi6052v-lkp@intel.com/
->
-> New smatch warnings:
-> fs/dlm/lockspace.c:566 new_lockspace() warn: missing error code 'error'
->
-> vim +/error +566 fs/dlm/lockspace.c
->
-> 60f98d1839376d David Teigland       2011-11-02  407  static int new_locks=
-pace(const char *name, const char *cluster,
-> 60f98d1839376d David Teigland       2011-11-02  408                      =
-uint32_t flags, int lvblen,
-> 60f98d1839376d David Teigland       2011-11-02  409                      =
-const struct dlm_lockspace_ops *ops, void *ops_arg,
-> 60f98d1839376d David Teigland       2011-11-02  410                      =
-int *ops_result, dlm_lockspace_t **lockspace)
-> e7fd41792fc0ee David Teigland       2006-01-18  411  {
-> e7fd41792fc0ee David Teigland       2006-01-18  412     struct dlm_ls *ls=
-;
-> 79d72b54483bf8 David Teigland       2007-05-18  413     int do_unreg =3D =
-0;
-> 60f98d1839376d David Teigland       2011-11-02  414     int namelen =3D s=
-trlen(name);
-> 6c648035cbe75d Alexander Aring      2024-04-15  415     int i, error;
-> e7fd41792fc0ee David Teigland       2006-01-18  416
-> 3f0806d2596de0 Tycho Andersen       2018-11-02  417     if (namelen > DLM=
-_LOCKSPACE_LEN || namelen =3D=3D 0)
-> e7fd41792fc0ee David Teigland       2006-01-18  418             return -E=
-INVAL;
-> e7fd41792fc0ee David Teigland       2006-01-18  419
-> b5c9d37c7f6051 Alexander Aring      2022-08-15  420     if (lvblen % 8)
-> e7fd41792fc0ee David Teigland       2006-01-18  421             return -E=
-INVAL;
-> e7fd41792fc0ee David Teigland       2006-01-18  422
-> e7fd41792fc0ee David Teigland       2006-01-18  423     if (!try_module_g=
-et(THIS_MODULE))
-> e7fd41792fc0ee David Teigland       2006-01-18  424             return -E=
-INVAL;
-> e7fd41792fc0ee David Teigland       2006-01-18  425
-> dc68c7ed362a00 David Teigland       2008-08-18  426     if (!dlm_user_dae=
-mon_available()) {
-> 60f98d1839376d David Teigland       2011-11-02  427             log_print=
-("dlm user daemon not available");
-> 60f98d1839376d David Teigland       2011-11-02  428             error =3D=
- -EUNATCH;
-> 60f98d1839376d David Teigland       2011-11-02  429             goto out;
-> 60f98d1839376d David Teigland       2011-11-02  430     }
-> 60f98d1839376d David Teigland       2011-11-02  431
-> 60f98d1839376d David Teigland       2011-11-02  432     if (ops && ops_re=
-sult) {
-> 60f98d1839376d David Teigland       2011-11-02  433             if (!dlm_=
-config.ci_recover_callbacks)
-> 60f98d1839376d David Teigland       2011-11-02  434                     *=
-ops_result =3D -EOPNOTSUPP;
-> 60f98d1839376d David Teigland       2011-11-02  435             else
-> 60f98d1839376d David Teigland       2011-11-02  436                     *=
-ops_result =3D 0;
-> 60f98d1839376d David Teigland       2011-11-02  437     }
-> 60f98d1839376d David Teigland       2011-11-02  438
-> 3b0e761ba83cb0 Zhu Lingshan         2017-07-11  439     if (!cluster)
-> 3b0e761ba83cb0 Zhu Lingshan         2017-07-11  440             log_print=
-("dlm cluster name '%s' is being used without an application provided clust=
-er name",
-> 3b0e761ba83cb0 Zhu Lingshan         2017-07-11  441                      =
- dlm_config.ci_cluster_name);
-> 3b0e761ba83cb0 Zhu Lingshan         2017-07-11  442
-> 60f98d1839376d David Teigland       2011-11-02  443     if (dlm_config.ci=
-_recover_callbacks && cluster &&
-> 60f98d1839376d David Teigland       2011-11-02  444         strncmp(clust=
-er, dlm_config.ci_cluster_name, DLM_LOCKSPACE_LEN)) {
-> 8e1743748b7e96 Gang He              2017-05-18  445             log_print=
-("dlm cluster name '%s' does not match "
-> 8e1743748b7e96 Gang He              2017-05-18  446                      =
- "the application cluster name '%s'",
-> 60f98d1839376d David Teigland       2011-11-02  447                      =
- dlm_config.ci_cluster_name, cluster);
-> 60f98d1839376d David Teigland       2011-11-02  448             error =3D=
- -EBADR;
-> 60f98d1839376d David Teigland       2011-11-02  449             goto out;
-> dc68c7ed362a00 David Teigland       2008-08-18  450     }
-> dc68c7ed362a00 David Teigland       2008-08-18  451
-> 0f8e0d9a317406 David Teigland       2008-08-06  452     error =3D 0;
-> 0f8e0d9a317406 David Teigland       2008-08-06  453
-> 578acf9a87a875 Alexander Aring      2024-04-02  454     spin_lock_bh(&lsl=
-ist_lock);
-> 0f8e0d9a317406 David Teigland       2008-08-06  455     list_for_each_ent=
-ry(ls, &lslist, ls_list) {
-> 0f8e0d9a317406 David Teigland       2008-08-06  456             WARN_ON(l=
-s->ls_create_count <=3D 0);
-> 0f8e0d9a317406 David Teigland       2008-08-06  457             if (ls->l=
-s_namelen !=3D namelen)
-> 0f8e0d9a317406 David Teigland       2008-08-06  458                     c=
-ontinue;
-> 0f8e0d9a317406 David Teigland       2008-08-06  459             if (memcm=
-p(ls->ls_name, name, namelen))
-> 0f8e0d9a317406 David Teigland       2008-08-06  460                     c=
-ontinue;
-> 0f8e0d9a317406 David Teigland       2008-08-06  461             if (flags=
- & DLM_LSFL_NEWEXCL) {
-> 0f8e0d9a317406 David Teigland       2008-08-06  462                     e=
-rror =3D -EEXIST;
-> 0f8e0d9a317406 David Teigland       2008-08-06  463                     b=
-reak;
-> 0f8e0d9a317406 David Teigland       2008-08-06  464             }
-> 0f8e0d9a317406 David Teigland       2008-08-06  465             ls->ls_cr=
-eate_count++;
-> 8511a2728ab82c David Teigland       2009-04-08  466             *lockspac=
-e =3D ls;
-> 8511a2728ab82c David Teigland       2009-04-08  467             error =3D=
- 1;
-> 0f8e0d9a317406 David Teigland       2008-08-06  468             break;
-> e7fd41792fc0ee David Teigland       2006-01-18  469     }
-> 578acf9a87a875 Alexander Aring      2024-04-02  470     spin_unlock_bh(&l=
-slist_lock);
-> 0f8e0d9a317406 David Teigland       2008-08-06  471
-> 0f8e0d9a317406 David Teigland       2008-08-06  472     if (error)
-> 8511a2728ab82c David Teigland       2009-04-08  473             goto out;
-> 0f8e0d9a317406 David Teigland       2008-08-06  474
-> 0f8e0d9a317406 David Teigland       2008-08-06  475     error =3D -ENOMEM=
-;
-> e7fd41792fc0ee David Teigland       2006-01-18  476
-> d96d0f9617793b Paulo Miguel Almeida 2022-10-12  477     ls =3D kzalloc(si=
-zeof(*ls), GFP_NOFS);
-> e7fd41792fc0ee David Teigland       2006-01-18  478     if (!ls)
-> e7fd41792fc0ee David Teigland       2006-01-18  479             goto out;
-> e7fd41792fc0ee David Teigland       2006-01-18  480     memcpy(ls->ls_nam=
-e, name, namelen);
-> e7fd41792fc0ee David Teigland       2006-01-18  481     ls->ls_namelen =
-=3D namelen;
-> e7fd41792fc0ee David Teigland       2006-01-18  482     ls->ls_lvblen =3D=
- lvblen;
-> 3cb5977c5214c2 Alexander Aring      2021-11-02  483     atomic_set(&ls->l=
-s_count, 0);
-> 3cb5977c5214c2 Alexander Aring      2021-11-02  484     init_waitqueue_he=
-ad(&ls->ls_count_wait);
-> e7fd41792fc0ee David Teigland       2006-01-18  485     ls->ls_flags =3D =
-0;
-> c1dcf65ffc5796 David Teigland       2008-08-18  486     ls->ls_scan_time =
-=3D jiffies;
-> e7fd41792fc0ee David Teigland       2006-01-18  487
-> 60f98d1839376d David Teigland       2011-11-02  488     if (ops && dlm_co=
-nfig.ci_recover_callbacks) {
-> 60f98d1839376d David Teigland       2011-11-02  489             ls->ls_op=
-s =3D ops;
-> 60f98d1839376d David Teigland       2011-11-02  490             ls->ls_op=
-s_arg =3D ops_arg;
-> 60f98d1839376d David Teigland       2011-11-02  491     }
-> 60f98d1839376d David Teigland       2011-11-02  492
-> 6b0afc0cc3e9a9 Alexander Aring      2022-06-22  493     /* ls_exflags are=
- forced to match among nodes, and we don't
-> 6b0afc0cc3e9a9 Alexander Aring      2022-06-22  494      * need to requir=
-e all nodes to have some flags set
-> 6b0afc0cc3e9a9 Alexander Aring      2022-06-22  495      */
-> 6b0afc0cc3e9a9 Alexander Aring      2022-06-22  496     ls->ls_exflags =
-=3D (flags & ~(DLM_LSFL_FS | DLM_LSFL_NEWEXCL));
-> fad59c1390045b David Teigland       2007-06-11  497
-> 93a693d19d2a4a Alexander Aring      2024-04-15  498     INIT_LIST_HEAD(&l=
-s->ls_toss);
-> 93a693d19d2a4a Alexander Aring      2024-04-15  499     INIT_LIST_HEAD(&l=
-s->ls_keep);
-> dcdaad05ca1515 Alexander Aring      2024-04-15  500     spin_lock_init(&l=
-s->ls_rsbtbl_lock);
-> e7fd41792fc0ee David Teigland       2006-01-18  501
-> 6c648035cbe75d Alexander Aring      2024-04-15  502     error =3D rhashta=
-ble_init(&ls->ls_rsbtbl, &dlm_rhash_rsb_params);
-> 6c648035cbe75d Alexander Aring      2024-04-15  503     if (error)
-> e7fd41792fc0ee David Teigland       2006-01-18  504             goto out_=
-lsfree;
-> e7fd41792fc0ee David Teigland       2006-01-18  505
-> 05c32f47bfae74 David Teigland       2012-06-14  506     for (i =3D 0; i <=
- DLM_REMOVE_NAMES_MAX; i++) {
-> 05c32f47bfae74 David Teigland       2012-06-14  507             ls->ls_re=
-move_names[i] =3D kzalloc(DLM_RESNAME_MAXLEN+1,
-> 05c32f47bfae74 David Teigland       2012-06-14  508                      =
-                        GFP_KERNEL);
-> 05c32f47bfae74 David Teigland       2012-06-14  509             if (!ls->=
-ls_remove_names[i])
-> 05c32f47bfae74 David Teigland       2012-06-14  510                     g=
-oto out_rsbtbl;
->                                                                         ^=
-^^^^^^^^^^^^^^
-> No error code.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404222159.5i8BaB8P-lkp@intel.com/
 
-yes, later patch removes that allocation.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/rcar-du/rcar_du_crtc.c:880:12: sparse: sparse: symbol 'rcar_du_crtc_get_crc_sources' was not declared. Should it be static?
+   drivers/gpu/drm/rcar-du/rcar_du_crtc.c:880:20: warning: no previous prototype for 'rcar_du_crtc_get_crc_sources' [-Wmissing-prototypes]
+     880 | const char *const *rcar_du_crtc_get_crc_sources(struct drm_crtc *crtc,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-> 05c32f47bfae74 David Teigland       2012-06-14  511     }
-> 05c32f47bfae74 David Teigland       2012-06-14  512
-> 3d6aa675fff9ee David Teigland       2011-07-06  513     idr_init(&ls->ls_=
-lkbidr);
-> 3d6aa675fff9ee David Teigland       2011-07-06  514     spin_lock_init(&l=
-s->ls_lkbidr_spin);
-> e7fd41792fc0ee David Teigland       2006-01-18  515
-> e7fd41792fc0ee David Teigland       2006-01-18  516     INIT_LIST_HEAD(&l=
-s->ls_waiters);
-> 097691dbadcdca Alexander Aring      2024-04-02  517     spin_lock_init(&l=
-s->ls_waiters_lock);
-> ef0c2bb05f40f9 David Teigland       2007-03-28  518     INIT_LIST_HEAD(&l=
-s->ls_orphans);
-> ef0c2bb05f40f9 David Teigland       2007-03-28  519     mutex_init(&ls->l=
-s_orphans_mutex);
-> e7fd41792fc0ee David Teigland       2006-01-18  520
-> 3881ac04ebf942 David Teigland       2011-07-07  521     INIT_LIST_HEAD(&l=
-s->ls_new_rsb);
-> 3881ac04ebf942 David Teigland       2011-07-07  522     spin_lock_init(&l=
-s->ls_new_rsb_spin);
-> 3881ac04ebf942 David Teigland       2011-07-07  523
-> e7fd41792fc0ee David Teigland       2006-01-18  524     INIT_LIST_HEAD(&l=
-s->ls_nodes);
-> e7fd41792fc0ee David Teigland       2006-01-18  525     INIT_LIST_HEAD(&l=
-s->ls_nodes_gone);
-> e7fd41792fc0ee David Teigland       2006-01-18  526     ls->ls_num_nodes =
-=3D 0;
-> e7fd41792fc0ee David Teigland       2006-01-18  527     ls->ls_low_nodeid=
- =3D 0;
-> e7fd41792fc0ee David Teigland       2006-01-18  528     ls->ls_total_weig=
-ht =3D 0;
-> e7fd41792fc0ee David Teigland       2006-01-18  529     ls->ls_node_array=
- =3D NULL;
-> e7fd41792fc0ee David Teigland       2006-01-18  530
-> a7e7ffacad7b9b Alexander Aring      2023-03-06  531     memset(&ls->ls_lo=
-cal_rsb, 0, sizeof(struct dlm_rsb));
-> a7e7ffacad7b9b Alexander Aring      2023-03-06  532     ls->ls_local_rsb.=
-res_ls =3D ls;
-> e7fd41792fc0ee David Teigland       2006-01-18  533
-> 5de6319b183930 David Teigland       2006-07-25  534     ls->ls_debug_rsb_=
-dentry =3D NULL;
-> 5de6319b183930 David Teigland       2006-07-25  535     ls->ls_debug_wait=
-ers_dentry =3D NULL;
-> e7fd41792fc0ee David Teigland       2006-01-18  536
-> e7fd41792fc0ee David Teigland       2006-01-18  537     init_waitqueue_he=
-ad(&ls->ls_uevent_wait);
-> e7fd41792fc0ee David Teigland       2006-01-18  538     ls->ls_uevent_res=
-ult =3D 0;
-> 682bb91b6ba829 Alexander Aring      2022-06-22  539     init_completion(&=
-ls->ls_recovery_done);
-> 682bb91b6ba829 Alexander Aring      2022-06-22  540     ls->ls_recovery_r=
-esult =3D -1;
-> e7fd41792fc0ee David Teigland       2006-01-18  541
-> a4c0352bb1094c Alexander Aring      2022-10-27  542     spin_lock_init(&l=
-s->ls_cb_lock);
-> 23e8e1aaacb10d David Teigland       2011-04-05  543     INIT_LIST_HEAD(&l=
-s->ls_cb_delay);
-> 23e8e1aaacb10d David Teigland       2011-04-05  544
-> e7fd41792fc0ee David Teigland       2006-01-18  545     ls->ls_recoverd_t=
-ask =3D NULL;
-> 901359256b2666 David Teigland       2006-01-20  546     mutex_init(&ls->l=
-s_recoverd_active);
-> e7fd41792fc0ee David Teigland       2006-01-18  547     spin_lock_init(&l=
-s->ls_recover_lock);
-> 98f176fb32f337 David Teigland       2006-11-27  548     spin_lock_init(&l=
-s->ls_rcom_spin);
-> 98f176fb32f337 David Teigland       2006-11-27  549     get_random_bytes(=
-&ls->ls_rcom_seq, sizeof(uint64_t));
-> e7fd41792fc0ee David Teigland       2006-01-18  550     ls->ls_recover_st=
-atus =3D 0;
-> 317dd6ba6ccaa5 Alexander Aring      2023-01-12  551     ls->ls_recover_se=
-q =3D get_random_u64();
-> e7fd41792fc0ee David Teigland       2006-01-18  552     ls->ls_recover_ar=
-gs =3D NULL;
-> e7fd41792fc0ee David Teigland       2006-01-18  553     init_rwsem(&ls->l=
-s_in_recovery);
-> d52c9b8fefa3ed Alexander Aring      2024-04-02  554     rwlock_init(&ls->=
-ls_recv_active);
-> e7fd41792fc0ee David Teigland       2006-01-18  555     INIT_LIST_HEAD(&l=
-s->ls_requestqueue);
-> c288745f1d4a2e Alexander Aring      2024-04-02  556     rwlock_init(&ls->=
-ls_requestqueue_lock);
-> 296d9d1e989083 Alexander Aring      2022-08-15  557     spin_lock_init(&l=
-s->ls_clear_proc_locks);
-> e7fd41792fc0ee David Teigland       2006-01-18  558
-> 489d8e559c6596 Alexander Aring      2021-05-21  559     /* Due backwards =
-compatibility with 3.1 we need to use maximum
-> 489d8e559c6596 Alexander Aring      2021-05-21  560      * possible dlm m=
-essage size to be sure the message will fit and
-> 489d8e559c6596 Alexander Aring      2021-05-21  561      * not having out=
- of bounds issues. However on sending side 3.2
-> 489d8e559c6596 Alexander Aring      2021-05-21  562      * might send les=
-s.
-> 489d8e559c6596 Alexander Aring      2021-05-21  563      */
-> d10a0b88751a09 Alexander Aring      2021-06-02  564     ls->ls_recover_bu=
-f =3D kmalloc(DLM_MAX_SOCKET_BUFSIZE, GFP_NOFS);
-> e7fd41792fc0ee David Teigland       2006-01-18  565     if (!ls->ls_recov=
-er_buf)
-> 05c32f47bfae74 David Teigland       2012-06-14 @566             goto out_=
-lkbidr;
->
-> Here too.
->
+vim +/rcar_du_crtc_get_crc_sources +880 drivers/gpu/drm/rcar-du/rcar_du_crtc.c
 
-This is still in dlm/next and needs an error code, yes.
+   879	
+ > 880	const char *const *rcar_du_crtc_get_crc_sources(struct drm_crtc *crtc,
+   881							size_t *count)
+   882	{
+   883		struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+   884	
+   885		*count = rcrtc->sources_count;
+   886		return rcrtc->sources;
+   887	}
+   888	
 
-Thanks.
-
-- Alex
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
