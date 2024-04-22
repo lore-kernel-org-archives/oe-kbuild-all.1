@@ -1,72 +1,59 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7C02F37
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 03:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DFE17591
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 03:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713756731; cv=none; b=pvjsfZ1UHldida+GaMGPMLS9wSJldkukOqULp0o+R1sHVfY9jb1suXJfu/7tSB7SAhscYpmI3c7KDj6rnGl9IJUechn91XNVsoT7CT3G1RoKnbuGkaYnCDQo6QVsfIJRYxss+E7aZucfh8Lid2fSET5infzcyDqmY+bU6+b96VQ=
+	t=1713758331; cv=none; b=AgIlSrglBVDFEYZngNtxWTuXxGZ05PV2AQFP493m6TsVUWoCHHCk58PETaQsfvATeymhhywaul5CNT90qhqcCeo749GmIVx9HEDSmuAc/abmDR5zSQ67sNs1LYnZZqxma8iiWGO5zQq/TNy5T7595m29oj0h8jfQBKUC9q2Z+Cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713756731; c=relaxed/simple;
-	bh=RusiIAulFcEtDtxzFZ+lmKKT6v1DO/M06FRDfurWsSA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RxVwtMiGfkWYk/xmxhGTueLHaYkG2JLs42qqD6OUf/JqseqmhCVDVyw7OHLjBMZSFPNUsMn5tf04HjhT93y56XrbbFAbM2ES6VFmNUMRH9jNmm/aQlUfWpbBSEayF0fofypglEYce53F3ZsenYGZqwUzgdzbrf47ieKfjKXKB/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TInAlbP/; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1713758331; c=relaxed/simple;
+	bh=mKv3gF66SBz/JuPhITA5Jr59fDeXEpqKR8ucTm2508k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=X0wO2bzy8shoPrcpy6mABDIeXd7rY0NVs1BU667zC0rlC3p/ngLEIxx9xKYWjaOX8RPSUmAweioo3LfaZwBbKgS2DnX4o3a5pU5V60Zy0Cko6na7nb8Ogc8smNYeOuhHgrNud0YoIH6QWAovDITGo+bSFhXTKzavEKcJWf0wVFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZDLpl115; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TInAlbP/"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6ed627829e6so4434326b3a.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Apr 2024 20:32:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713756729; x=1714361529; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ayQSqFKLgMTG3/4LHwIFhlRf2H80k4xhFX/GtydfIr8=;
-        b=TInAlbP/e45gqQw7tBfi67y3rvHJbPmm/0MKJNJO3kPoXjuWA2Dt/oA6Xh3HdcKX2H
-         UjXlCHWEmQH5zxSsUEJNL8gjVcnSDZ/b756brC67h3eUba/BZAudy901z7UHTvi4gfgJ
-         AVMFGzQd/HxwsxnBkpFIRq2NteQl5hekYbUsmGDJdKN3mU/RFuh6Dqx8OWS1Siy3hQ6j
-         mdkseA+blhELPlMyZB+qMoYvp2Hkcqebc/tZBqo8fLGee0QmI4RIgyqlmoio0cUtkDAu
-         WWnPsGZ8gyKrPahVE6NKhhVxt6iwQH40HMlm5ScBMprvbkBvjUJyedtgrDYKZ4HJfbLs
-         a9rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713756729; x=1714361529;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ayQSqFKLgMTG3/4LHwIFhlRf2H80k4xhFX/GtydfIr8=;
-        b=d2WnWy60aSpMGo/BlpnvzOHxOGI0bYQKD15krwmhCUZ9fqSVwUwHtLVZ+mNRhx/UDu
-         rf4oKFSt9hfwA5OuXAI5Q9xId8b0GI8YxUrhC+o0f4NDh3tuPes1uOXWRGUGFwuBBOZk
-         Wne8uCY1C2VKHfJx6XfegPd6Z77HIkV4Y2bUSAlY5fGAIuKXRxYbUASFAwyNJQK9g9/B
-         2gDXMMW2SjQ0IRhKKuuzDACkvw4w5txF9qcyWLkawy+AXUdh5cAzIsbTHO77i3bM0uTe
-         3xfL+alei8Vo4FHIt0wo0yv3NhP423a+J9hNyrV4NG+IJPCrt52Q/61EeW0skg2SZvC6
-         pE7g==
-X-Forwarded-Encrypted: i=1; AJvYcCWcwU4cCIWXLwTIjjqtLVCb8f+aXUFgA6nz2hXp4rDOMb4hm98UsBz1Z5YEfaq9xOl1HvTTC30lHPKlqzvOLeYYGTzMW7nSQ7FmiVgZzA==
-X-Gm-Message-State: AOJu0YwkN+OMkSkfbKjJl6bBt1ieYuRsxKpNDgLxiQrlrlTPh0tEmv3Z
-	IXeiI6dTymFvxNJXDotx9W+armwKlxLv1MGQpseiDhF1eANLJmUqHWU0mlzBfLg=
-X-Google-Smtp-Source: AGHT+IEsPl/aJM3asyJHoY/vAmluEaqy5/to36FYHyzgaZF7710nQQ8lhCmFTSytnV3Mxigh5Nq7Bg==
-X-Received: by 2002:a05:6a00:21cb:b0:6f0:28a4:a6ac with SMTP id t11-20020a056a0021cb00b006f028a4a6acmr11796453pfj.8.1713756728764;
-        Sun, 21 Apr 2024 20:32:08 -0700 (PDT)
-Received: from localhost ([122.172.87.52])
-        by smtp.gmail.com with ESMTPSA id m191-20020a633fc8000000b005f751c18d0esm6624198pga.86.2024.04.21.20.32.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Apr 2024 20:32:08 -0700 (PDT)
-Date: Mon, 22 Apr 2024 09:02:06 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: kernel test robot <lkp@intel.com>,
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>, linux-pm@vger.kernel.org
-Subject: Re: [vireshk-pm:cpufreq/arm/linux-next 6/10]
- drivers/cpufreq/sun50i-cpufreq-nvmem.c:128:44: warning: '%d' directive
- output may be truncated writing between 1 and 10 bytes into a region of size
- 2
-Message-ID: <20240422033206.3bsqlx3pt5xuc4uy@vireshk-i7>
-References: <202404191715.LDwMm2gP-lkp@intel.com>
- <20240419111345.028ad7ec@donnerap.manchester.arm.com>
- <20240419105628.faaqz2p4qdlfxyre@vireshk-i7>
- <20240419125630.7951b45c@donnerap.manchester.arm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZDLpl115"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713758330; x=1745294330;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mKv3gF66SBz/JuPhITA5Jr59fDeXEpqKR8ucTm2508k=;
+  b=ZDLpl115TvwC2TcygmfmI1CU9A77xsGbXKCCj92sd/rLfwJYpYOttExv
+   A8ZSI0DMCe9ucLJxrf8Di+DojL1rQeTLrgY61/E4nVx4X9fl0PJWz1eTd
+   2KMSmVQsMk/b8tUECLFX2KvJgA7zySbiKe5SH0Ru0tzodLDP/9TQzvdsk
+   a5toWsieOgkelzbaBmGdyD1CegTAQh4MqFyUtrcsdrxItJrqnUAFCW9mL
+   n+tauWs6nm4Y4O7MlZPTsfIemIep+BAdbXD7+MjwJKm60MNOM7+FdaV79
+   UjdwExq/6VtC1SZH4VGEQOAYhVsybbQVACOHb5804HHt4NCzlwpHnl0yF
+   A==;
+X-CSE-ConnectionGUID: OctzBl5aRZWz0m9yGtFMgg==
+X-CSE-MsgGUID: NgfS2YNaTRSXFSsCbNx+Yw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11051"; a="9434723"
+X-IronPort-AV: E=Sophos;i="6.07,219,1708416000"; 
+   d="scan'208";a="9434723"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2024 20:58:49 -0700
+X-CSE-ConnectionGUID: TnIZ/X5BS1yZU6IG34soxQ==
+X-CSE-MsgGUID: /i78PRu8SVWIkEUmN5MxhA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,219,1708416000"; 
+   d="scan'208";a="28396738"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 21 Apr 2024 20:58:48 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rykpK-000CIQ-0c;
+	Mon, 22 Apr 2024 03:58:46 +0000
+Date: Mon, 22 Apr 2024 11:57:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.9-netdma 9/36]
+ drivers/pinctrl/mediatek/pinctrl-mtk-common-v2.c:610
+ mtk_pinconf_bias_set_pd() warn: inconsistent indenting
+Message-ID: <202404221148.3x6QuBo9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,16 +62,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240419125630.7951b45c@donnerap.manchester.arm.com>
 
-On 19-04-24, 12:56, Andre Przywara wrote:
-> Ah, yes, thanks, that looks good to me, and indeed fixes the warning.
-> 
-> How are we going to handle this? Do you gonna squash this into the
-> respective patch?
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.9-netdma
+head:   e97002339b4433e39a2d1294ae5dcc2f6e679295
+commit: dcb73c2f8544a27b001945fc6c6412ba2c7155cd [9/36] pinctrl: mediatek: add support for MTK_PULL_PD_TYPE
+config: openrisc-randconfig-r071-20240422 (https://download.01.org/0day-ci/archive/20240422/202404221148.3x6QuBo9-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
 
-This was an existing issue I think and wasn't introduced with your
-patches. And so I have applied a separate patch now.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404221148.3x6QuBo9-lkp@intel.com/
+
+smatch warnings:
+drivers/pinctrl/mediatek/pinctrl-mtk-common-v2.c:610 mtk_pinconf_bias_set_pd() warn: inconsistent indenting
+
+vim +610 drivers/pinctrl/mediatek/pinctrl-mtk-common-v2.c
+
+   603	
+   604	static int mtk_pinconf_bias_set_pd(struct mtk_pinctrl *hw,
+   605					const struct mtk_pin_desc *desc,
+   606					u32 pullup, u32 arg)
+   607	{
+   608	    int err, pd;
+   609	
+ > 610		if (arg == MTK_DISABLE)
+   611			pd = 0;
+   612		else if ((arg == MTK_ENABLE) && pullup)
+   613			pd = 0;
+   614		else if ((arg == MTK_ENABLE) && !pullup)
+   615			pd = 1;
+   616		else {
+   617			err = -EINVAL;
+   618			goto out;
+   619		}
+   620	
+   621		err = mtk_hw_set_value(hw, desc, PINCTRL_PIN_REG_PD, pd);
+   622	
+   623	out:
+   624		return err;
+   625	
 
 -- 
-viresh
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
