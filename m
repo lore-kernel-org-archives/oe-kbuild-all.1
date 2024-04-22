@@ -1,67 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D5F14A0A5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 12:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C64714A0A3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 12:42:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713788504; cv=none; b=E1UmFR/A43fQ6fAJCql0kFI8P3kjZ4MIvhkq0joe9IssBP2qqX6LgbYcJsgUpPP8YA0FCGi8W1h58fc6+xDFYNRDvxe/dW6pnvdUt9SSwCiOS8Q0j3qxQ6aL2lvv5gmUTgnyQH4ksGjyKm3MoB9sTax69pDCMtbudGn2NUbOi70=
+	t=1713789764; cv=none; b=u11+6HgrRKgFjiB0KklVKnK/ihUGbGAZ1HXeqj6lDyHrqG6yLq84oFIw1wsbIKypAEgekOo7j5MnMhkuCFvXosN8n0P2YoaJhU5YsDY6gTsrZ0ymDObuHY3cAVGGhfiJtUPqejGBFzw3C0Oyk9UZ04sTlSZG0JZslk7Ajsq6SrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713788504; c=relaxed/simple;
-	bh=UTkmHZeikRa1ycDagwCQkNkwCuglgm4WeonLx4GtOEw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RMakXbhXmR6/C6i0m33BEFadx4cABu2H6ZccsdvrFupNHCtCbtJKLmcOKNaV9NYKBWol0NV9Vg2VLD8PQOtBW6/J8TExhxWBDntbJ8wsuFEOrlFdGMe9koAziKUXrjbccQME8kbrz+TNrgw7GBK0enSKNetFVNMgIs0Pvo2/NHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jfx/ls+y; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1713789764; c=relaxed/simple;
+	bh=2QZ3LiUjeBRpsq+FhwhD4sEi9wxFIb750QFnRAF7WZI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sO7eDUZaO1os4QqDdZ1JkWhs2/4Z5iMiUIAZ3SaOLkm05uC95Ww2sk5NDUFb3p4N2/sJEPgQ3frKg2ISYK+BZY6uW79UbwQiaGWzYAM23MOnNWKoRgP0EJATudQC6DJTKMCS/hkxVJMTanAXRjuBEmAL40BaMYE1bR2H2NX4mEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HXORh+5T; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jfx/ls+y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HXORh+5T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713788503; x=1745324503;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UTkmHZeikRa1ycDagwCQkNkwCuglgm4WeonLx4GtOEw=;
-  b=Jfx/ls+yJ2UQi0omg79le6KC2X9BDAKSak/DvZiyPFV0fON07NwNKj/g
-   qgmV0SKNNr6LTO6mOI4teVkEE04hYedBQRJ7Nahgc1bd3zbm329NFDaYB
-   Pc7GoZYpCQ4ZMa9biHSZFyMt5K4mbS3IAnKRDAjJLHszq2cDA9sk/RFZk
-   VDrkuXIpiSI1luCgYd3MioDhPKeHtaWUeq/CTbvLSI6PeLcrF9FS+2LvF
-   vVl39aieq4bywS2NjsXvwK4g7Vo09LvQNFiveU6rR6IKLQ4pocSVRxsq9
-   CisZdPlTySxnUdJvX9iiMLX9i4YQtm1P0ddAxOOoVVFvliwCh92HdxBte
+  t=1713789762; x=1745325762;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2QZ3LiUjeBRpsq+FhwhD4sEi9wxFIb750QFnRAF7WZI=;
+  b=HXORh+5To8k2jBDSUmrVAUXJOOhUsYV2ZOYIUv0XousBDnXcHZYcLQ8c
+   f2J5E+tcJNigIkL/EFFfMWY66k6simKQIt/khxnxQvi6WI31x2//ADoFV
+   ZLg67aJRAMNewXE9u8NWKNBxjeUBHttDXfWtTZFXiaSmVKtjxhnszvEZD
+   6X3RT1UNy+3L/fgvxJVeFRh1wMoWfKIH4j672eFvbvTtEMQCed8s0Sc98
+   XvFWcycn94GsI+fa9MPhB3wjKSm9NJZqXDVHW3T9q8Y6kJAJuGwWLa/m8
+   CmPO1VyBAhNBEgVxjwZ/W89Y85QhObMAM0OlnUgkyCZrAuhZ6k8vGwkgH
    w==;
-X-CSE-ConnectionGUID: gfzVwVZ6S9CDTA9OmS4rmA==
-X-CSE-MsgGUID: lzo0uXgURKa31un8rBKuLQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11051"; a="13110021"
+X-CSE-ConnectionGUID: RqN6AsdYSA2oBBiGK+pxFg==
+X-CSE-MsgGUID: KpSfiMsNTSeOrNCetWfYpA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="13111624"
 X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
-   d="scan'208";a="13110021"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 05:21:42 -0700
-X-CSE-ConnectionGUID: M3MyFjZSToWhCUpBOEqfEw==
-X-CSE-MsgGUID: 54UoqB0yTdG9DYu9uyRjRw==
+   d="scan'208";a="13111624"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 05:42:41 -0700
+X-CSE-ConnectionGUID: KfdPw/IjSVCsONCyk0werg==
+X-CSE-MsgGUID: AQ71Iv/fRTyTZt8OGq2vqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
-   d="scan'208";a="61448676"
+   d="scan'208";a="23979522"
 Received: from lkp-server01.sh.intel.com (HELO 69a5ba6c3aa8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 22 Apr 2024 05:21:39 -0700
+  by orviesa009.jf.intel.com with ESMTP; 22 Apr 2024 05:42:39 -0700
 Received: from kbuild by 69a5ba6c3aa8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rysfw-00002m-1H;
-	Mon, 22 Apr 2024 12:21:36 +0000
-Date: Mon, 22 Apr 2024 20:20:38 +0800
+	id 1ryt0G-00002y-1X;
+	Mon, 22 Apr 2024 12:42:36 +0000
+Date: Mon, 22 Apr 2024 20:42:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxime MERE <maxime.mere@foss.st.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Rob Herring <robh@kernel.org>, linux-crypto@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] crypto: stm32/cryp - use dma when possible.
-Message-ID: <202404222021.S9hjJBpb-lkp@intel.com>
-References: <20240418144256.3736800-2-maxime.mere@foss.st.com>
+To: kernel@openeuler.org, Yuntao Liu <liuyuntao12@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2431/7479] include/linux/fortify-string.h:57:33:
+ warning: '__builtin_memcpy' reading between 65 and 536870912 bytes from a
+ region of size 64
+Message-ID: <202404222001.4hDpVvmd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,147 +62,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240418144256.3736800-2-maxime.mere@foss.st.com>
 
-Hi Maxime,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on atorgue-stm32/stm32-next]
-[also build test WARNING on herbert-crypto-2.6/master herbert-cryptodev-2.6/master linus/master v6.9-rc5 next-20240422]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-MERE/crypto-stm32-cryp-use-dma-when-possible/20240418-224748
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-patch link:    https://lore.kernel.org/r/20240418144256.3736800-2-maxime.mere%40foss.st.com
-patch subject: [PATCH 1/3] crypto: stm32/cryp - use dma when possible.
-config: arm-randconfig-r081-20240422 (https://download.01.org/0day-ci/archive/20240422/202404222021.S9hjJBpb-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   e95a0071898084171841e9f3695a02fc5f58fd0f
+commit: f04c0f3eb9b49427c273cd3e4d5a2ff895855b4b [2431/7479] make OPTIMIZE_INLINING config editable
+config: arm64-randconfig-003-20240422 (https://download.01.org/0day-ci/archive/20240422/202404222001.4hDpVvmd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240422/202404222001.4hDpVvmd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404222021.S9hjJBpb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404222001.4hDpVvmd-lkp@intel.com/
 
-smatch warnings:
-drivers/crypto/stm32/stm32-cryp.c:1496 stm32_cryp_truncate_sg() warn: unsigned 'alloc_sg_len' is never less than zero.
-drivers/crypto/stm32/stm32-cryp.c:1580 stm32_cryp_cipher_prepare() warn: unsigned 'cryp->in_sg_len' is never less than zero.
-drivers/crypto/stm32/stm32-cryp.c:1584 stm32_cryp_cipher_prepare() warn: unsigned 'cryp->out_sg_len' is never less than zero.
+All warnings (new ones prefixed by >>):
 
-vim +/alloc_sg_len +1496 drivers/crypto/stm32/stm32-cryp.c
+   In file included from include/linux/string.h:294,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from kernel/padata.c:14:
+   In function 'bitmap_copy',
+       inlined from 'cpumask_copy' at include/linux/cpumask.h:740:2,
+       inlined from '__padata_set_cpumasks' at kernel/padata.c:709:2:
+>> include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' reading between 65 and 536870912 bytes from a region of size 64 [-Wstringop-overread]
+      57 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:648:9: note: in expansion of macro '__underlying_memcpy'
+     648 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:693:26: note: in expansion of macro '__fortify_memcpy_chk'
+     693 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:268:17: note: in expansion of macro 'memcpy'
+     268 |                 memcpy(dst, src, len);
+         |                 ^~~~~~
+   kernel/padata.c: In function '__padata_set_cpumasks':
+   kernel/padata.c:692:48: note: source object 'pcpumask' of size [0, 64]
+     692 |                                  cpumask_var_t pcpumask,
+         |                                  ~~~~~~~~~~~~~~^~~~~~~~
 
-  1481	
-  1482	static int stm32_cryp_truncate_sg(struct scatterlist **new_sg, size_t *new_sg_len,
-  1483					  struct scatterlist *sg, off_t skip, size_t size)
-  1484	{
-  1485		struct scatterlist *cur;
-  1486		size_t alloc_sg_len;
-  1487	
-  1488		*new_sg_len = 0;
-  1489	
-  1490		if (!sg || !size) {
-  1491			*new_sg = NULL;
-  1492			return 0;
-  1493		}
-  1494	
-  1495		alloc_sg_len = sg_nents_for_len(sg, skip + size);
-> 1496		if (alloc_sg_len < 0)
-  1497			return alloc_sg_len;
-  1498	
-  1499		/* We allocate to much sg entry, but it is easier */
-  1500		*new_sg = kmalloc_array(alloc_sg_len, sizeof(struct scatterlist), GFP_KERNEL);
-  1501		if (!*new_sg)
-  1502			return -ENOMEM;
-  1503	
-  1504		sg_init_table(*new_sg, alloc_sg_len);
-  1505	
-  1506		cur = *new_sg;
-  1507		while (sg && size) {
-  1508			unsigned int len = sg->length;
-  1509			unsigned int offset = sg->offset;
-  1510	
-  1511			if (skip > len) {
-  1512				skip -= len;
-  1513				sg = sg_next(sg);
-  1514				continue;
-  1515			}
-  1516	
-  1517			if (skip) {
-  1518				len -= skip;
-  1519				offset += skip;
-  1520				skip = 0;
-  1521			}
-  1522	
-  1523			if (size < len)
-  1524				len = size;
-  1525	
-  1526			if (len > 0) {
-  1527				(*new_sg_len)++;
-  1528				size -= len;
-  1529				sg_set_page(cur, sg_page(sg), len, offset);
-  1530				if (size == 0)
-  1531					sg_mark_end(cur);
-  1532				cur = sg_next(cur);
-  1533			}
-  1534	
-  1535			sg = sg_next(sg);
-  1536		}
-  1537	
-  1538		return 0;
-  1539	}
-  1540	
-  1541	static int stm32_cryp_cipher_prepare(struct stm32_cryp *cryp, struct scatterlist *in_sg,
-  1542					     struct scatterlist *out_sg)
-  1543	{
-  1544		size_t align_size;
-  1545	
-  1546		cryp->dma_mode = stm32_cryp_dma_check(cryp, in_sg, out_sg);
-  1547	
-  1548		scatterwalk_start(&cryp->in_walk, in_sg);
-  1549		scatterwalk_start(&cryp->out_walk, out_sg);
-  1550	
-  1551		if (cryp->dma_mode == NO_DMA) {
-  1552			cryp->flags &= ~FLG_IN_OUT_DMA;
-  1553	
-  1554			if (is_ctr(cryp))
-  1555				memset(cryp->last_ctr, 0, sizeof(cryp->last_ctr));
-  1556	
-  1557		} else if (cryp->dma_mode == DMA_NEED_SG_TRUNC) {
-  1558			int ret;
-  1559	
-  1560			cryp->flags |= FLG_IN_OUT_DMA;
-  1561	
-  1562			align_size = ALIGN_DOWN(cryp->payload_in, cryp->hw_blocksize);
-  1563			ret = stm32_cryp_truncate_sg(&cryp->in_sg, &cryp->in_sg_len, in_sg, 0, align_size);
-  1564			if (ret)
-  1565				return ret;
-  1566	
-  1567			ret = stm32_cryp_truncate_sg(&cryp->out_sg, &cryp->out_sg_len, out_sg, 0,
-  1568						     align_size);
-  1569			if (ret) {
-  1570				kfree(cryp->in_sg);
-  1571				return ret;
-  1572			}
-  1573		} else {
-  1574			cryp->flags |= FLG_IN_OUT_DMA;
-  1575	
-  1576			cryp->in_sg = in_sg;
-  1577			cryp->out_sg = out_sg;
-  1578	
-  1579			cryp->in_sg_len = sg_nents_for_len(cryp->in_sg, cryp->payload_in);
-> 1580			if (cryp->in_sg_len < 0)
-  1581				return cryp->in_sg_len;
-  1582	
-  1583			cryp->out_sg_len = sg_nents_for_len(out_sg, cryp->payload_out);
-> 1584			if (cryp->out_sg_len < 0)
-  1585				return cryp->out_sg_len;
-  1586		}
-  1587	
-  1588		return 0;
-  1589	}
-  1590	
+
+vim +/__builtin_memcpy +57 include/linux/fortify-string.h
+
+78a498c3a227f2 Alexander Potapenko 2022-10-24  46  
+78a498c3a227f2 Alexander Potapenko 2022-10-24  47  #if defined(__SANITIZE_MEMORY__)
+78a498c3a227f2 Alexander Potapenko 2022-10-24  48  /*
+78a498c3a227f2 Alexander Potapenko 2022-10-24  49   * For KMSAN builds all memcpy/memset/memmove calls should be replaced by the
+78a498c3a227f2 Alexander Potapenko 2022-10-24  50   * corresponding __msan_XXX functions.
+78a498c3a227f2 Alexander Potapenko 2022-10-24  51   */
+78a498c3a227f2 Alexander Potapenko 2022-10-24  52  #include <linux/kmsan_string.h>
+78a498c3a227f2 Alexander Potapenko 2022-10-24  53  #define __underlying_memcpy	__msan_memcpy
+78a498c3a227f2 Alexander Potapenko 2022-10-24  54  #define __underlying_memmove	__msan_memmove
+78a498c3a227f2 Alexander Potapenko 2022-10-24  55  #define __underlying_memset	__msan_memset
+78a498c3a227f2 Alexander Potapenko 2022-10-24  56  #else
+a28a6e860c6cf2 Francis Laniel      2021-02-25 @57  #define __underlying_memcpy	__builtin_memcpy
+a28a6e860c6cf2 Francis Laniel      2021-02-25  58  #define __underlying_memmove	__builtin_memmove
+a28a6e860c6cf2 Francis Laniel      2021-02-25  59  #define __underlying_memset	__builtin_memset
+78a498c3a227f2 Alexander Potapenko 2022-10-24  60  #endif
+78a498c3a227f2 Alexander Potapenko 2022-10-24  61  
+
+:::::: The code at line 57 was first introduced by commit
+:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
+
+:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
