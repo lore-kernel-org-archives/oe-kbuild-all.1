@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC01502A8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 15:49:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E9515381C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 16:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713800977; cv=none; b=UIzjcTf38vNbj79+PDkugTmiHOkYf5OxbkqF98cFDIXntn0smvMX9UDOnzDobkYkk/RjUYaGF0tQB02jvonEqUXVt3uSx934a/+mJiQzHn/xp7JZqzED6xQg/am4IoiTAOpltcWjOKiRBSWZvUcnkzeCoBP5fffUpSOUfmVGOkA=
+	t=1713804101; cv=none; b=Qw7ZscadGBPnB8T0fDGbyVagbC34BgdVSGDR3BJgTKmdr9FOhTuopbS5t3deB1NBQCbPAxBURYtDKQoWWhckY+u30rSCO9hHF1eisKL9UTmwF5S+fAy8mkZGeqPTSmHqZu/zf6RaaDRSPnrPSPigiP7yBm89rwjv8evp81hUkbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713800977; c=relaxed/simple;
-	bh=UGdP9yndDLWJNFgF05GdlJ2zTrNSFuS74Jdf85FQw48=;
+	s=arc-20240116; t=1713804101; c=relaxed/simple;
+	bh=KZkDYEg4KKjlYr0tlbhzbAZp5nctiB0sd71x/8WQUMc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LbrSnxu1tj4WjPD65qgtwmkFFK2HMaD7ve1Y0w/sMQvN/VDKz9gcfLjU89xJqtlBgvcKo6C4/8cAyuXQK/T1gQFsm3TN8I3rXPVcFKUyF73DDdPIQ5MniQ9oyfEjtWoE9KTWDmgUIo8owGTo5snRi0GaCXA2K4XQwJEkKr4qMKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SInF0Jpd; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=aNOmYkyA05X4agFHAaC/WqDb8JX7GNH1eO5R2FVj8aS5PQyBYSSOMPMOzqbYT+WfDJqOv6q+lpoUhUNHUNELM2lgp6Fx9SX/Lo/RAt6W1ntu/5E2TENdkWzaZ42qpdJTgy6at2BMOBrM1mqRRB8vUenjgVpVOGxd1JcT8AmYMKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kWH4qzM1; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SInF0Jpd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kWH4qzM1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713800975; x=1745336975;
+  t=1713804100; x=1745340100;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UGdP9yndDLWJNFgF05GdlJ2zTrNSFuS74Jdf85FQw48=;
-  b=SInF0JpdVEN6JKKLIWenYRxwj4WopTpYkzb2IJlGbAyvcAAkIGgdS4gE
-   e6Gqhy36Rt3C4UqeVo3UNsuj0JBLnpcns4DpC0mrWk+edG3y4ZnQuG6I3
-   fzXUDlyiZ8zbFBElQVtCSyYGpKuksXjkB0hXQNrNrlyrDn2+J/zfBRUn5
-   KYyKLkOnHn1DUpIO5udDDcuMlVIX1t0WUidHFbyrKg3R2tj8M8DF6J/ll
-   4UgbGg+I0HuMR+FNz5AVRp136cQWcyydJszpoFQ+fb3O8jMr6tKwugUOu
-   Qyr8cddith2wlXhIW8PahQUmsxRQqJW3A3kfUg3yH2XtKVFDQQJyhGC6k
-   Q==;
-X-CSE-ConnectionGUID: LSDnHYShT0eYqLfvi5ZPXQ==
-X-CSE-MsgGUID: oGioF7bjSR6RH0hQSKmPWQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="13131454"
-X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
-   d="scan'208";a="13131454"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 08:49:34 -0700
-X-CSE-ConnectionGUID: /Pk0u4omQo62QIvNvtouPA==
-X-CSE-MsgGUID: gUdl5ZV+Smu+aXp6rTDk1Q==
+  bh=KZkDYEg4KKjlYr0tlbhzbAZp5nctiB0sd71x/8WQUMc=;
+  b=kWH4qzM19fkborHEW3t3Pg1tF+eebEzuiQqeitZhj7Lmy5znoLWpXck1
+   TvYer6viM4zs6xPAZy5rDS50QXRJN+EqVamDVSz5IdK+ckKQXABa6ABBK
+   fEJuQmlEAtKBgzSdjtVO8qqPxtKQGjL5fsP6zh89kZwVX8+YSfNt3XJ3I
+   DE9f5fH/raQxIXGD03KA5v6Bba45UnI/bZqlf/k0TfT3tgvLpGsz5wm5M
+   61ZU3gXEqfvocDxt+nesm5tVQyRMfNV4MnXqzPfxS48CevYkF1fPPj24Q
+   cOyUX3ioUXcOyrhiZEKEnHPeVANzncsnU+yFkRH6s5/qiMp5GaNctxubI
+   A==;
+X-CSE-ConnectionGUID: Qx4HRN7UQcW7y8VfA5AeLg==
+X-CSE-MsgGUID: hH3Bm7eJQH6KPHNhFP+G+Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="20049028"
+X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; 
+   d="scan'208";a="20049028"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 09:41:39 -0700
+X-CSE-ConnectionGUID: /fSjH+rvQBiIK5aH1MsMgQ==
+X-CSE-MsgGUID: m3hO3r4iRjOrVrvUBDfr6g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
-   d="scan'208";a="23934047"
+X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; 
+   d="scan'208";a="24143773"
 Received: from lkp-server01.sh.intel.com (HELO 01437695816f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 22 Apr 2024 08:49:33 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 22 Apr 2024 09:41:38 -0700
 Received: from kbuild by 01437695816f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ryvv8-00004i-2O;
-	Mon, 22 Apr 2024 15:49:30 +0000
-Date: Mon, 22 Apr 2024 23:49:13 +0800
+	id 1rywjU-00007U-1G;
+	Mon, 22 Apr 2024 16:41:32 +0000
+Date: Tue, 23 Apr 2024 00:41:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Prathamesh Shete <pshete@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [brgl:gpio/for-current 1/1] drivers/gpio/gpio-tegra186.c:189:14:
- warning: 'or' of unmatched not-equal tests is always 1
-Message-ID: <202404222357.2CCvEJdY-lkp@intel.com>
+To: kernel@openeuler.org, Tong Tiangen <tongtiangen@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 7446/7483] ld.lld: error: undefined symbol:
+ __memcpy_mc
+Message-ID: <202404230016.B1zZMDXC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,62 +62,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-current
-head:   62326f7cefc21b4a7e8a1b413bf1e8bc07df1115
-commit: 62326f7cefc21b4a7e8a1b413bf1e8bc07df1115 [1/1] gpio: tegra186: Fix tegra186_gpio_is_accessible() check
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240422/202404222357.2CCvEJdY-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240422/202404222357.2CCvEJdY-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   e95a0071898084171841e9f3695a02fc5f58fd0f
+commit: b991780c836ceb9a479c6c6e385e914b487e353a [7446/7483] arm64: introduce copy_mc_to_kernel() implementation
+config: arm64-randconfig-002-20240422 (https://download.01.org/0day-ci/archive/20240423/202404230016.B1zZMDXC-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240423/202404230016.B1zZMDXC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404222357.2CCvEJdY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404230016.B1zZMDXC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpio/gpio-tegra186.c: In function 'tegra186_gpio_is_accessible':
->> drivers/gpio/gpio-tegra186.c:189:14: warning: 'or' of unmatched not-equal tests is always 1
-     189 |              (value & TEGRA186_GPIO_WRITE_ACCESS)))
-         |              ^
->> drivers/gpio/gpio-tegra186.c:189:14: warning: 'or' of unmatched not-equal tests is always 1
-
-
-vim +/or +189 drivers/gpio/gpio-tegra186.c
-
-   162	
-   163	static inline bool tegra186_gpio_is_accessible(struct tegra_gpio *gpio, unsigned int pin)
-   164	{
-   165		void __iomem *secure;
-   166		u32 value;
-   167	
-   168		secure = tegra186_gpio_get_secure_base(gpio, pin);
-   169	
-   170		if (gpio->soc->has_vm_support) {
-   171			value = readl(secure + TEGRA186_GPIO_VM);
-   172			if ((value & TEGRA186_GPIO_VM_RW_MASK) != TEGRA186_GPIO_VM_RW_MASK)
-   173				return false;
-   174		}
-   175	
-   176		value = __raw_readl(secure + TEGRA186_GPIO_SCR);
-   177	
-   178		/*
-   179		 * When SCR_SEC_[R|W]EN is unset, then we have full read/write access to all the
-   180		 * registers for given GPIO pin.
-   181		 * When SCR_SEC[R|W]EN is set, then there is need to further check the accompanying
-   182		 * SCR_SEC_G1[R|W] bit to determine read/write access to all the registers for given
-   183		 * GPIO pin.
-   184		 */
-   185	
-   186		if (((value & TEGRA186_GPIO_SCR_SEC_REN) == 0 ||
-   187		     (value & TEGRA186_GPIO_READ_ACCESS)) &&
-   188		    ((value & TEGRA186_GPIO_SCR_SEC_WEN) == 0 ||
- > 189		     (value & TEGRA186_GPIO_WRITE_ACCESS)))
-   190			return true;
-   191	
-   192		return false;
-   193	}
-   194	
+>> ld.lld: error: undefined symbol: __memcpy_mc
+   >>> referenced by shadow.c
+   >>>               mm/kasan/shadow.o:(memcpy_mc) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
