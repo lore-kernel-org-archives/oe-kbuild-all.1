@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F121BC44
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 20:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2301B964
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 20:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713818922; cv=none; b=MHHvVmw1KCMkPC0KS9rgolQQZO0NzP1lvXFRNzaXblBnBAQTgnZgOoPvUSwD41Xda7SoMEuMCLabCmFuS2dkODMJKnDGRELIBvxvHR84kqTD4g0DnsngQ6f3XXviCs19m+j5+HZ0/bdd3YCXiXEAs7GwfSl2+8Z4pGj0b2NcSNs=
+	t=1713818985; cv=none; b=OSOp91NzFem3bPyZjbsmabX/Xbk7GhWouH+S4cgiEOgsSMsC4t0a8LTTe0e+KjDkMP+ImOvOPX95j70fAMsubva3iHEnYXc/KmexZbnacAzAlAioik232kYYMU3kstl7adoRZj7ZTaTCY8raPjPlf75zOXQ8Q+rGr61SIxRd0wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713818922; c=relaxed/simple;
-	bh=as531GnWHAL3nMZ0qIiE8OAXIJgeOiKmA8Z2prwmREk=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hP2ka4Ty2BjYxvRV02D2gh0QS8ifUoODKiCg1SjsyUnssQmdsDvxooNwZzjqffxsWkjTbdNI6wJ6gU/YJkoDBuuDmoIwt1wICpas9in2r0CSnCfwF5Qmc+hI4Ij9Egh0mCrAIXvscN7Z3peeWopmuhwUl8LGj0mLd31MmbWXiuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JjbvR08t; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1713818985; c=relaxed/simple;
+	bh=K5g4uqxyfmtAoU4V97Tff54gAC3H2o6AhJkM+JBNC3E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=B/uVamwfgGwzu11myaN+YKW6bHrLMxg0UpVaB/P6NUhqvgkWeqFVvITN8Cqvl8cK5WeWzTID+0SbAv4fhUY5+prDp+RKVqesq+rQohKxFQw/4osjx4DXfl4WF71eodIeuqlvqKGosQI5GAKDE/r0WkK9pBcfz4tzA9SbIZkWMcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SlcbCWLA; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JjbvR08t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SlcbCWLA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713818921; x=1745354921;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=as531GnWHAL3nMZ0qIiE8OAXIJgeOiKmA8Z2prwmREk=;
-  b=JjbvR08t57H+BVuTJomsYGP7lzh0YCx+385agEqdbV7x1Bp74b0m2Pf4
-   DDqLpLhgsmq528EG5U8Xlk3N8NCPtEGI9cL7TZBWherT9xn9HqTV00QSc
-   w6hwBFCC5+PNVw2TZsnemFl1DRU9eTc3qDi22wtOriARJ1YXD5viQ+Jt6
-   V/GJ176FYr8p7YYPfohYVwqCJhnNa+LzbLzKn4BaJA7wt8+bUB6F6sLts
-   ChHqco8/+00B2dBbpy5Y/Fv0EqLDB48ow78U1C9+jFAa5GWU9Asas65lK
-   f/9Ao2nx71XqsGJIe9uNRbtku+ApWwLJC64PSlWB0px8TeRZTXcMQSO9o
-   Q==;
-X-CSE-ConnectionGUID: ezrxAd+CSe+/lvFX4NRuzQ==
-X-CSE-MsgGUID: kD6XoYMvQ3+lCne7Un/UYg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="9920962"
+  t=1713818985; x=1745354985;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=K5g4uqxyfmtAoU4V97Tff54gAC3H2o6AhJkM+JBNC3E=;
+  b=SlcbCWLAr0NobCWb/L+i8hWc8KxwHkzOU1ZVitNKgFcXTTldeiMi9aGl
+   u/b1kTDiyCbcWMAf3l3XZcw1+KwAWpRRsBQwwBc96IhfThvocPzfTSymR
+   KN3SqGoLvQH9zZV27OTcQR6cRqf+wCTbdo1k3m9O2k4YCZwmVRZaBhM8l
+   EVPHiTR2m7bq5Tdr5mnTyIwJI9FZ+Ou6iZ065WAa2sJbyzsdFxaip1W3d
+   RDy3KQuYRv/KA20Bv4PWR90+5uVQLio60sJJeoIs6uWxUt18cOwSkof+P
+   4F7SiDiiUXmACKOPQFAFSeRHEoGJzI4irJhmTEX5RVEtiDcVeOuo6BEnE
+   A==;
+X-CSE-ConnectionGUID: bCh7CpH1S+Saj8Sh6D0VWA==
+X-CSE-MsgGUID: C6DHCXsJTNaVq8GKsLZfhw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="34778705"
 X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; 
-   d="scan'208";a="9920962"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 13:48:40 -0700
-X-CSE-ConnectionGUID: /VdsIdUIR4W07ibbEvxueg==
-X-CSE-MsgGUID: IPR+XLbGRxeTONWOTNb0Cw==
+   d="scan'208";a="34778705"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 13:49:44 -0700
+X-CSE-ConnectionGUID: GioQma9mRMaMChAO6BGO7g==
+X-CSE-MsgGUID: vHMqVCx7RverrsBU9V3E5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; 
-   d="scan'208";a="24161019"
+   d="scan'208";a="24578942"
 Received: from lkp-server01.sh.intel.com (HELO 01437695816f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 22 Apr 2024 13:48:39 -0700
+  by orviesa006.jf.intel.com with ESMTP; 22 Apr 2024 13:49:40 -0700
 Received: from kbuild by 01437695816f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rz0ab-0000Eq-0d
-	for oe-kbuild-all@lists.linux.dev;
-	Mon, 22 Apr 2024 20:48:37 +0000
-Date: Tue, 23 Apr 2024 04:48:36 +0800
+	id 1rz0bZ-0000Eu-0k;
+	Mon, 22 Apr 2024 20:49:37 +0000
+Date: Tue, 23 Apr 2024 04:48:37 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jsarha:topic/cros-sof-v4.19 1947/6555]
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c:684:22: sparse: sparse: symbol
- 'rcar_du_crtc_mode_valid' was not declared. Should it be static?
-Message-ID: <202404230443.GZIidUCK-lkp@intel.com>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, Abel Vesa <abel.vesa@linaro.org>,
+	Peng Fan <peng.fan@nxp.com>, Marc Kleine-Budde <mkl@pengutronix.de>
+Subject: [abelvesa:for-next 1/5]
+ drivers/clk/imx/clk-imx8mp-audiomix.c:363:12: warning:
+ 'clk_imx8mp_audiomix_runtime_resume' defined but not used
+Message-ID: <202404230448.ku2Czmrq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,44 +64,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
-head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
-commit: c244a5049a14aef78319f7cea73b6992f917631b [1947/6555] UPSTREAM: drm: rcar-du: Add interlaced feature flag
-config: arm64-randconfig-r111-20240422 (https://download.01.org/0day-ci/archive/20240423/202404230443.GZIidUCK-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240423/202404230443.GZIidUCK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/abelvesa/linux.git for-next
+head:   5224b189462ff70df328f173b71acfd925092c3c
+commit: 1496dd413b2e0974a040fa93a2ddc51cc9847fd8 [1/5] clk: imx: imx8mp: Add pm_runtime support for power saving
+config: microblaze-randconfig-r071-20240423 (https://download.01.org/0day-ci/archive/20240423/202404230448.ku2Czmrq-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240423/202404230448.ku2Czmrq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404230443.GZIidUCK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404230448.ku2Czmrq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/rcar-du/rcar_du_crtc.c:684:22: sparse: sparse: symbol 'rcar_du_crtc_mode_valid' was not declared. Should it be static?
-   drivers/gpu/drm/rcar-du/rcar_du_crtc.c:891:12: sparse: sparse: symbol 'rcar_du_crtc_get_crc_sources' was not declared. Should it be static?
-   drivers/gpu/drm/rcar-du/rcar_du_crtc.c:684:22: warning: no previous prototype for 'rcar_du_crtc_mode_valid' [-Wmissing-prototypes]
-     684 | enum drm_mode_status rcar_du_crtc_mode_valid(struct drm_crtc *crtc,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/rcar-du/rcar_du_crtc.c:891:20: warning: no previous prototype for 'rcar_du_crtc_get_crc_sources' [-Wmissing-prototypes]
-     891 | const char *const *rcar_du_crtc_get_crc_sources(struct drm_crtc *crtc,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+All warnings (new ones prefixed by >>):
 
-vim +/rcar_du_crtc_mode_valid +684 drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+>> drivers/clk/imx/clk-imx8mp-audiomix.c:363:12: warning: 'clk_imx8mp_audiomix_runtime_resume' defined but not used [-Wunused-function]
+     363 | static int clk_imx8mp_audiomix_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/clk/imx/clk-imx8mp-audiomix.c:356:12: warning: 'clk_imx8mp_audiomix_runtime_suspend' defined but not used [-Wunused-function]
+     356 | static int clk_imx8mp_audiomix_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   683	
- > 684	enum drm_mode_status rcar_du_crtc_mode_valid(struct drm_crtc *crtc,
-   685					   const struct drm_display_mode *mode)
-   686	{
-   687		struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-   688		struct rcar_du_device *rcdu = rcrtc->group->dev;
-   689		bool interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE;
-   690	
-   691		if (interlaced && !rcar_du_has(rcdu, RCAR_DU_FEATURE_INTERLACED))
-   692			return MODE_NO_INTERLACE;
-   693	
-   694		return MODE_OK;
-   695	}
-   696	
+
+vim +/clk_imx8mp_audiomix_runtime_resume +363 drivers/clk/imx/clk-imx8mp-audiomix.c
+
+   355	
+ > 356	static int clk_imx8mp_audiomix_runtime_suspend(struct device *dev)
+   357	{
+   358		clk_imx8mp_audiomix_save_restore(dev, true);
+   359	
+   360		return 0;
+   361	}
+   362	
+ > 363	static int clk_imx8mp_audiomix_runtime_resume(struct device *dev)
+   364	{
+   365		clk_imx8mp_audiomix_save_restore(dev, false);
+   366	
+   367		return 0;
+   368	}
+   369	
 
 -- 
 0-DAY CI Kernel Test Service
