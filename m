@@ -1,222 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8EF1BF33
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 09:16:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713777373; cv=fail; b=IzwJlvMlPrHVe5+Ncr8Y0uRRBv1gofLVCqHmgT351oBStzR3QB1ivfM8e5DQYRNw8pYpmTnRMhecM4H+OKDloxu5sdbdLKdkDhrm8QpQwMYyh0kbKADtP+Qmd8jVGEag1XLkQK7XrFj40oYBkv27hQXuEw/oN3ZkH4htwFN3+GE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713777373; c=relaxed/simple;
-	bh=qm2JS5Vtvf2Ls2+vbfbcnoYWRD+SsMyvNcluxz64UoQ=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=roo1VcxO4bnV6m7J76qZuxi59EVebVATFAquCbK/1lax1TizfKjYbV0Rs9ZPiER729FMXND0zhCcUsIJfTY0Q0RUh1tmeZiMzWRD5w9gJIXLrRkb5iCh19dI5yK030ylTeU7I3T47ahmIrb5DTblXCM+erILupbf+MHVGE37F/s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kaCVNVGq; arc=fail smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8709013C3F4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 10:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713780255; cv=none; b=Zx0MBP2sKXCAGD4h5ZgtBW2b9ymBhgyFLuTrkw/FpThhy215m1ychbLAinFRuB3JQqeFFUwKWTEv2uul8J+xrlT+P7VUU9W8Sj28QZPoZtneL8Rlu/WZ2FySedsF2LpBDzpxwR2IQmlznhnvI4VCx9ABPdM2zaKfQ5Fdv5PV6gs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713780255; c=relaxed/simple;
+	bh=H7FClDmr3ihmGZ0yE2VeH9m8ATAN7/3bwOM5PbqgGjs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=i/zGBtVOzq+tytKMKWxlTtK7VEOyQ5uQzWBl4jAunDinHM843mxnZLFFfr1Nri1flXsQ/DmHUpETQz5O2MBJzDeGs+N1qWAJcwHt8KP4dV7BD8b9ungOv1lQE2wwFnlGSnb2Tn4I/JfNL4SFsJTpD4qVB5NyWiJbaq0ncdp64EY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RXSh/BZP; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kaCVNVGq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RXSh/BZP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713777373; x=1745313373;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=qm2JS5Vtvf2Ls2+vbfbcnoYWRD+SsMyvNcluxz64UoQ=;
-  b=kaCVNVGqs66oqUli95dKBbtUSJ2WErfDN0g9rDnzyy1jJXIZQhFoDFvK
-   uTZmxC046p0MZIfy50eslBevc/dU/7GvA5uO6WJbEmEnXyg7vtMUBzDFA
-   SAVCn+iZtjJ6y5+OyTOGPbJgFsBxZ+/Jg8NwtCr4gGxt+2MFnU84vP0ib
-   /MkDT55+v92zGpvkVVo6/5ie8CYdYQ/S5DemnLpKPn3NkcUd9BVh2w7qH
-   DTCQMcj1tHjOEM0J4Z15WFcMUXuA6gEJB9F7BmR6z9FAWwxnl2ZDU4Pab
-   cw/VGp1ktpXgI5eBDzTbSo37xUVuxHW+SYR0yXClotxgFjoeuetyg7+Gr
-   w==;
-X-CSE-ConnectionGUID: kINpmGV8RgKhqUjfy5u9Dw==
-X-CSE-MsgGUID: YBkM6hXVTKq1OS0EsnLJJg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11051"; a="9222972"
+  t=1713780251; x=1745316251;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=H7FClDmr3ihmGZ0yE2VeH9m8ATAN7/3bwOM5PbqgGjs=;
+  b=RXSh/BZP4rz0kVXMipLPrkglpDVed20eqLyS38rwfv8r0pklzF9NQ0g2
+   w3aPQSe33RTUDM7krvXkR79LX7XpuXnO2inh9NI5ILs9SeitQ2fJfHPxt
+   /RozwgEKUX77JKVfkP5tqSh0y0OBAdy6aFRA+jAzXpFLrSBVphXOH2fXS
+   tfucPbwVNiza75tXoKcHvj7Vak0YXc/Tc2JNj+RDT5W6B7Cl0r5yG2sRn
+   ruoMQo68+qLowkzE6tJGwQnP1av3Q2uk7aKcVguUGWm45KM/nZACrCL2S
+   4bcQVuHvXD5S28zT1st/T1D/UK4ykbXCFLRFWqYJtBPWluofvq/5KaJk3
+   A==;
+X-CSE-ConnectionGUID: gfzWFUdISZWFTaGBW35Trg==
+X-CSE-MsgGUID: FB0PRmCGQ92cK82szaG57Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11051"; a="9420924"
 X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
-   d="scan'208";a="9222972"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 02:16:13 -0700
-X-CSE-ConnectionGUID: XHYp7S1RTKKApWWSXfI8Hg==
-X-CSE-MsgGUID: AG++uJbwQPmRu5+QBa1jfg==
+   d="scan'208";a="9420924"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 03:04:10 -0700
+X-CSE-ConnectionGUID: I2bGFovUQOej/3ATRtcebQ==
+X-CSE-MsgGUID: 0XaWzxJbQdqnOJLy2RwRkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
-   d="scan'208";a="24006739"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 22 Apr 2024 02:16:11 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 22 Apr 2024 02:16:11 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 22 Apr 2024 02:16:10 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 22 Apr 2024 02:16:10 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.41) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 22 Apr 2024 02:16:10 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BOTbdL++me31/ybaI64J3DeysG13zI5JUnYKwrAqwVjEgtgva//U3Jr3dNc/YYq0yOU1EnZCwhQZFQ8UkRLCVoAEYaQWoM/f2HdcUStS1JAb4qn2ihzqnqNmsJzjZ07ZTct9Ri4+0/XGGhc3j3h1RiG1/5z4u1TEqEz5v+JVgA1pKSIcAXoHQ5h1kdlcU7uYHpnIyJkUwjiZyttYPfaPavVBjz7TadxGekybo+FscJyqM8ySAofSsS61X7zUbvpgWgmdLnRbZsqNK9dKY8ZrdPR6rwvwrijpY21JDKxXuHObh69gve4umvnHyERldzhZVQ/kbKLB9aWUu1YBRDK1kQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tRBk19xCcdfuFCiaVSRQMf4FuLdr1xy+cuIAlj51lbE=;
- b=A5Kmndi9HGU67RI+FrfWlE5CTDqVhmaJ2LQuY64eqXMp+E5dKn6kfCQFZ6Y6YnF87vW3nCXfc1F9C2uMBdxNzMdfDJQHsn4pXT6rttvdzTkc3BJ4WZovmMIgJmsL0owtA0S0vILIqK+siPLVM/stUGT854iOOj2wGcgDYETIIX4XV5Bcv+vBnuz3pVIO1XHH6IGzTDBvlIKareF+MOd1AHsRLRqhg2th/AoYxLgWQRHCLv7xYQWFxeEVPaN6AQQjru0OKeEFQV7AANQ+Mx+Hs8YgP+KVOMA5M3VPJx84CJIEfrM8Gyx1BAKazu/VHh8CEgYUiHkNNl0TGnE2zT/XaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB8393.namprd11.prod.outlook.com (2603:10b6:806:373::21)
- by DS7PR11MB7931.namprd11.prod.outlook.com (2603:10b6:8:e5::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.20; Mon, 22 Apr
- 2024 09:16:03 +0000
-Received: from SA1PR11MB8393.namprd11.prod.outlook.com
- ([fe80::c0cf:689c:129c:4bcd]) by SA1PR11MB8393.namprd11.prod.outlook.com
- ([fe80::c0cf:689c:129c:4bcd%6]) with mapi id 15.20.7519.018; Mon, 22 Apr 2024
- 09:16:03 +0000
-Date: Mon, 22 Apr 2024 17:09:31 +0800
-From: Yujie Liu <yujie.liu@intel.com>
-To: Adrian Hunter <adrian.hunter@intel.com>
-CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data23'
- from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data23'
-Message-ID: <ZiYpS07hAGbGUkrU@yujie-X299>
-References: <202404190642.z54cLsGE-lkp@intel.com>
- <b6ae1121-a900-499c-85e9-07ce0d6739c4@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <b6ae1121-a900-499c-85e9-07ce0d6739c4@intel.com>
-X-ClientProxiedBy: SG2PR04CA0184.apcprd04.prod.outlook.com
- (2603:1096:4:14::22) To SA1PR11MB8393.namprd11.prod.outlook.com
- (2603:10b6:806:373::21)
+   d="scan'208";a="24038484"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 22 Apr 2024 03:04:08 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ryqWq-000CTi-33;
+	Mon, 22 Apr 2024 10:04:04 +0000
+Date: Mon, 22 Apr 2024 18:03:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-classmap-fix-7n-69rc5 16/34] alpha-linux-ld:
+ drivers/gpu/drm/display/drm_dp_helper.o:(__dyndbg_classes+0x0): multiple
+ definition of `drm_debug_classes';
+ drivers/gpu/drm/drm_crtc_helper.o:(__dyndbg_classes+0x0): first defined here
+Message-ID: <202404221831.e86o8PAY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB8393:EE_|DS7PR11MB7931:EE_
-X-MS-Office365-Filtering-Correlation-Id: 272c148f-db4b-45f8-20b6-08dc62acd56a
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|366007|1800799015;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?nH1bldq6yR75kv7WWIA0xhVYwudNSAcUdFwOrctIJo6vn9CronIqifI8+lGB?=
- =?us-ascii?Q?P/J0SvgpVdHHfqoQENJNzMW84iCDBFpd9Ph1iy3/U+XFtakpY5dxvRgh9FUS?=
- =?us-ascii?Q?3hUlA0iMikuYa3Df9eVQhOHh4qPG+22a6DUOZmduHp3ZwHgJa79S4xqy46lD?=
- =?us-ascii?Q?qegfRq9zg8PqX0FuqBTyXEzbAglIfdnxbjK6Lqt3UM7yok1C8GSPAqV9JFTH?=
- =?us-ascii?Q?6e1lOK/4TfF9YT7NfwKLkM4Ad+nu9ryY3GeGlHPIqXqrOAH4k3/pKyrs8AQP?=
- =?us-ascii?Q?AIRK/1Nw2EwWdFZ5oLXSt8BpNVL2CbzbzMEBfmiIyaRk7XEWq40EqTVmOsTP?=
- =?us-ascii?Q?uVi7YYEkV3oT6WybUtg8SKMVNiWiYL+C1/crBlRHiWhPoFAppckRyx+5QcUa?=
- =?us-ascii?Q?iYL0wutFdY1TRtlFT3sJtWJI/+8/6Y+yLsrS7quMxPU6+kQ1CcCLigwu1lo6?=
- =?us-ascii?Q?FWPpz0GmxaEkUnK6mTD+8ywdD9FyxRcHHJiNhnB9mGpzNKTly72v/ENqgio/?=
- =?us-ascii?Q?5qjxflkcD1mDlzvhykdANNfC1sgjp1z1CMuaNem19Y0ie5CKS9U4Oul6JLgf?=
- =?us-ascii?Q?ZsjWj+OtrqixvLjblRF/zN7KXQL5SfC85yVp2xuCIeL6eoDzTgbWrWOcVVyv?=
- =?us-ascii?Q?E6f7DE7oqKFkQ65p42QHWFRU6H6o1M9hMAoxs4UdXD8i7g8LO2fOv7GQcIpU?=
- =?us-ascii?Q?sRDviK6K30I1wk3ERD8wmYbG2Aw1nHRufhP+dLYPQRmYMEgDLPEcHythpVZM?=
- =?us-ascii?Q?4zz0VyfTRI5kfhzblE/GCeUaqu9IQ/rpfU/tX1cDN4SFgc0Z8ZlXLip81pcT?=
- =?us-ascii?Q?y2uj8davr2P5aPoNg01WqcbsyTmhrZ+5IeXkQZk3Bujvn/YS24A12xxvpjdP?=
- =?us-ascii?Q?ZwbAp+EPlktxRyvT8cI/lb3uaptdrvuMuM240/FxJqc31EttfHtn2mM8i9BM?=
- =?us-ascii?Q?owvtx0g9TLyYyPHJ/0fZL7hjOTJQChWh9CMWPpsckbrcMaWcmFYjhqh9AH1o?=
- =?us-ascii?Q?i/VCZtorvRIL5zSR+yfdM5zMf+ovSIo1KGZosGps4NeoHrn8ZkX6ZawVTuqB?=
- =?us-ascii?Q?jN+W5wLjfdnGlAyLWe8bPtILEWitNOe0iWzmgtkNgjYKFq5HVlu0ZG1OrUPa?=
- =?us-ascii?Q?xs/7Nw2FvAcMaounKhr72uOhrumd4oisRZCJbJoDL30diAkE8e9QuImcSJY+?=
- =?us-ascii?Q?KF5cSqDPPkOFYujUhJypRfw7/o3n0oh1k3xypVhNW40yUypWRBPORmVvo+8?=
- =?us-ascii?Q?=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8393.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zU8nyMg1cWuFwDP0yPFuPlDy/teX7NEk1Ggkle3gUFqK6/zr7WCi2Vn12EKX?=
- =?us-ascii?Q?bVSlmhVne5bL6JyzkG+w8zT2ORc6EuwX1oRuIoH0tt4r8SpAv1ZZD0T+ure8?=
- =?us-ascii?Q?ko+/kUv86jSUGuufOQH7QdLn+g2mHfb4VcCEfTN9VWPV9DsJvKDykjAFuWfk?=
- =?us-ascii?Q?xjFGGb+LoqHDCHxjlj0FYxFR5/cL9efsTQpxDEec9QbSraOJ+W2hQRmrF3w0?=
- =?us-ascii?Q?29p039MtGPL+1nPSGO3IEvhV8o2WL6kgx9LC7wWKnLMGPjQ6rvTcH5SondIl?=
- =?us-ascii?Q?Ty7S1SJ1kixc81rD8tghBBPLL6RYZ4yaMKInkgVh05LXaztwDnmQcxQWctDU?=
- =?us-ascii?Q?CN+44t7RuUr18ZlhyfMKROdsa79dQr15p9ocakP3Mw+6wgZCjfEXm9CkfspJ?=
- =?us-ascii?Q?DxYc9ASdS4L2W0ZYAVhVOyOjdES7v8soRDNMy1DlodmsS276sPBiloMV9+NG?=
- =?us-ascii?Q?UpjzrO9zOfLmwm6gVj8//vBvHBbTLYcUl663rNEpqDd1xUErZ6h6VOMdqgCU?=
- =?us-ascii?Q?1SxeddmEy5YNZnzh2mOcG8Tkgs6cIAV9jZA7rWL7roDpXkESvv6EHjn/m9hv?=
- =?us-ascii?Q?yHdLXCd9Zw7JKBsbmxhG+j5UlZY9mBEdemHh1DU6EbDvKQLatuTr2rWi34DN?=
- =?us-ascii?Q?mpt2fg1zsQVXsMogi/nPD01jE7yoFFCl1sNC5Ubt+z3ImLfWc55j5x4XztAY?=
- =?us-ascii?Q?852SadIYKaUqWkrkiXNfQ8dviMk4RET3j3O4iS3OAHKjxqsqn098P4SZhSUU?=
- =?us-ascii?Q?acHTswk3xaBaEH++1B5MWNxkrhKmgCqg0AJDD4ifP2qYX9zg/bacPbct0OLY?=
- =?us-ascii?Q?x93S4/oAVj+R/wZU9fjuz4WAl6AvDs0o1zabD0fxpO5OdN2hJtJY78LRweEK?=
- =?us-ascii?Q?EijXKkbpP03t6nAKT9Cj2YPwkLyGe8M3NZ+DqsTiH9/FQjMyTQaeT+heIO7O?=
- =?us-ascii?Q?SsIn7l3aeUUj3QK98xonW/8rRpTWIj8TGUoAqwdlBvuRM7OHlr+mw2nOjutW?=
- =?us-ascii?Q?ESz4CrZ8Zpx8nXR+DTTTBDOq3NJgrxzYxVlnA9mEYKy/LiOXa9Vf738VZTKk?=
- =?us-ascii?Q?CXxsa2P5SPqQ1zRyzY6qy+8O45qqG9cdTCgHP/Kf1lKRlNjdi1TYVJMugFeU?=
- =?us-ascii?Q?3BfWMB/oqOPgaXD0VMcRO9TmuONaUqu85069v08RBG4Ovkl4YFursd0Pw9eQ?=
- =?us-ascii?Q?oRoDfN4rauIXCNaJQsl8jtKQJlmB5za2xUuoSuqOqBkW6xOl2+Z/+nRo2vjg?=
- =?us-ascii?Q?abKxW5oApZU9aWimuJjTrFMj+VrFIw36kVkoZScOEnJhzfQHsTicRbs6pz7f?=
- =?us-ascii?Q?7/pdeBDs8AQoTiNU7eUwjuDXGVI8X3aLKdPi5RTaZG4OOUb64k35sE6ILCwe?=
- =?us-ascii?Q?UcKcx9aWyBtfMD6gI/tYcWtx/UAvISW9KN1/VjBMJFNrYaZjFCCpK6MCdaa1?=
- =?us-ascii?Q?sq76L8A9voqC5kv/hUwF/tLGWqh3cqluGo6nAYhRPLPqXHzQbg4LSnM1i9RI?=
- =?us-ascii?Q?qzD1/9H9ExPbSpcmI/9P0TIM6k/g6OyYHeL7387GPKNAv9zHGZqNmGSn5gzi?=
- =?us-ascii?Q?Rpp/IiTk7THCTCGocfAn96tNFw13UMUJBQQWGvQq?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 272c148f-db4b-45f8-20b6-08dc62acd56a
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8393.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2024 09:16:03.5223
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4qzQxRBTkygO4atWQvRWTqXN8ApQchdmtPh396uzW2ghs9Y3yNrkYu9LXnVV2itjMXBIlC2kjyjf5aL5Xglc2g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7931
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Apr 19, 2024 at 10:42:18PM +0300, Adrian Hunter wrote:
-> On 19/04/24 01:22, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   2668e3ae2ef36d5e7c52f818ad7d90822c037de4
-> > commit: 5284984a4fbacb0883bfebe905902cdda2891a07 bug: Fix no-return-statement warning with !CONFIG_BUG
-> > date:   8 days ago
-> > config: powerpc-randconfig-r033-20211126 (https://download.01.org/0day-ci/archive/20240419/202404190642.z54cLsGE-lkp@intel.com/config)
-> > compiler: powerpc-linux-gcc (GCC) 13.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190642.z54cLsGE-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202404190642.z54cLsGE-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> >>> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data23' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data23'
-> >    powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data18' from `drivers/cxl/core/port.o' being placed in section `.bss..Lubsan_data18'
-> >>> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data23' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data23'
-> >    powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data18' from `drivers/cxl/core/port.o' being placed in section `.bss..Lubsan_data18'
-> >>> powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data23' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data23'
-> >    powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data18' from `drivers/cxl/core/port.o' being placed in section `.bss..Lubsan_data18'
-> > 
-> 
-> The same warnings are visible in v6.8 that does not
-> contain commit 5284984a4fbacb0883bfebe905902cdda2891a07
-> so this is not due to that commit.
+tree:   https://github.com/jimc/linux.git dd-classmap-fix-7n-69rc5
+head:   a99cf394338e133341ee5c78dcbff4ddce86c0b0
+commit: 3de44979ae680fe6f795f6d5bf80648d31576287 [16/34] dyndbg-API: fix DECLARE_DYNDBG_CLASSMAP
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240422/202404221831.e86o8PAY-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240422/202404221831.e86o8PAY-lkp@intel.com/reproduce)
 
-Sorry for this wrong report. The suffix numbers of the bss symbols may
-change on different commits, so the bot wrongly treated them as
-different warnings.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404221831.e86o8PAY-lkp@intel.com/
 
-On commit f87cbcb345d0:
+Note: the jimc/dd-classmap-fix-7n-69rc5 HEAD a99cf394338e133341ee5c78dcbff4ddce86c0b0 builds fine.
+      It only hurts bisectability.
 
-   powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data0' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data0'
-   powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data1' from `drivers/cxl/core/port.o' being placed in section `.bss..Lubsan_data1'
+All errors (new ones prefixed by >>):
 
-On commit 5284984a4fba:
+>> alpha-linux-ld: drivers/gpu/drm/display/drm_dp_helper.o:(__dyndbg_classes+0x0): multiple definition of `drm_debug_classes'; drivers/gpu/drm/drm_crtc_helper.o:(__dyndbg_classes+0x0): first defined here
+>> alpha-linux-ld: drivers/gpu/drm/display/drm_dp_helper.o:(.data+0x320): multiple definition of `drm_debug_classes_classnames'; drivers/gpu/drm/drm_crtc_helper.o:(.data+0xe0): first defined here
+   alpha-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(__dyndbg_classes+0x0): multiple definition of `drm_debug_classes'; drivers/gpu/drm/drm_crtc_helper.o:(__dyndbg_classes+0x0): first defined here
+   alpha-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.data+0x358): multiple definition of `drm_debug_classes_classnames'; drivers/gpu/drm/drm_crtc_helper.o:(.data+0xe0): first defined here
+   alpha-linux-ld: drivers/gpu/drm/nouveau/nouveau_drm.o:(__dyndbg_classes+0x0): multiple definition of `drm_debug_classes'; drivers/gpu/drm/drm_crtc_helper.o:(__dyndbg_classes+0x0): first defined here
+   alpha-linux-ld: drivers/gpu/drm/nouveau/nouveau_drm.o:(.data+0x200): multiple definition of `drm_debug_classes_classnames'; drivers/gpu/drm/drm_crtc_helper.o:(.data+0xe0): first defined here
 
-    powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data23' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data23'
-    powerpc-linux-ld: warning: orphan section `.bss..Lubsan_data18' from `drivers/cxl/core/port.o' being placed in section `.bss..Lubsan_data18'
-
-We will fix the bot so that these warnings are correctly treated as the
-same warnings.
-
-Thanks,
-Yujie
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
