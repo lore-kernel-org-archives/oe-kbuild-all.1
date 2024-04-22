@@ -1,65 +1,57 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0F8746E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 13:56:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBA5152522;
+	Mon, 22 Apr 2024 15:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713794175; cv=none; b=SMBDaZzzrtny38rdqxwJC111goz9Ej8WSvVMpW0k68vQqwQKKxHeadbyuLjhLZx5uCMdfSM1iF+2oIPzy2Iyu12iXFijtUcuMRDme6NacoL3sRMbhhQDjZ9TR4M79tlM9yagLiPXqY5lhS/7IgA42HqSQWgNReFKZtB43mUO0nw=
+	t=1713798458; cv=none; b=lZStGpzPva3pYUVwtAAlfonVZC8aAM2gtFIxnpk68qaHWDNUOmVJIN9+WSy/bJzY5mYWF9nIdKvgwrZkueBr8PgHkne5mupFx+Q4d3/V54TCwkAJ07eMOiOXFOjvHJvqKblv8TZzo/3DzfT6FYbfj6q7rbXlhMI1sR7xTkEd/J0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713794175; c=relaxed/simple;
-	bh=Vh1pj5fhfVrJFFlOR1BGxZnZ069XqIu/DBR6Np5cPlY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NxXRd0FuzzclW/icOSV8yHrfNO+HQgI4I1cAeaG+dRQlkqbB3R+uFxTTNpn483wAK8d3r2Vl+yTOL87QLV5jGKHNYG5QD1sD7BxZeWhX1ghOnOg4K8E40447DdupiNDGyXpCkgEVSHJ8lY4SJdWYl9d1hyaVKKa77CzzljBPFss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kjJAMJoc; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1713798458; c=relaxed/simple;
+	bh=LECIaM91Psb2dm6DqMQro75OTIDA04zgrtVeFPRAHT8=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ENPpl/9tpDX+djUTT5ro+QQKrweMrKYFdfoDkK2l8TNaFVFtSoxZDP6SRuoV8NdfZrFQZUVQwna4+XF8l3b+QkxXrZim7+/igBjHB+IJAUu4BoDY4M8U7nA7ex7IKt06bg4CvOdh8qjDjAEYYZsBkykGBKBZOad3FlgHDfc58tY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iWcVBVLh; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kjJAMJoc"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-571c22d9de4so5867396a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Apr 2024 06:56:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713794172; x=1714398972; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uWYha69U8O0vj1gaHNNHueKVNmokcoK75llxQfmdaFU=;
-        b=kjJAMJocuv5iaE7YkjrUp7HBmTH3Q1u/fU1oHGrq5PUiLhNcNE5SvDZG2/GSnSpP/X
-         xDAnKIdWk78Tu6AYOoPlxnC7chh1lZVw0xN+wY/+PLwAqk+OFLy1UQTLBYvmLMX3WDMO
-         E9rbSX8vUv7ML3qxn+sKrMAMKLl6W/1KqqCrZw8Qa3A9aDpKuhW+4tM3XOHCAezbrkmh
-         pcoXJvm2zuKcveeGmcwab5GDlJjulMaLbNLH+RbtNzrn8hU0QzJeCQK7dKRCMKPuO9In
-         XjnbSIccZYc/aXuBBr7G1XFFtOV6HK8k9EtOncoF1NaGBzqwA7mk0lGv8E9FDlFsS3cz
-         yqJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713794172; x=1714398972;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uWYha69U8O0vj1gaHNNHueKVNmokcoK75llxQfmdaFU=;
-        b=a7LcSj6dNFoqa4u1CpgsCQ5Y8CjvbOuBL+OYyo+g2aS8/2XnHL1ZxaSgDkNqhieiLR
-         JQL1DtplhMxyEJkdQkyJXwhOwVEIBO+4XQT+H0cTVf0kgsyL90EeFAkJXRq8y1J10t74
-         WAnZks9QhhVKJLoaE2+6D468CVpYc3PPvJAAQzz5xkUakEd51QuxzIfAAezAMRRqpPwz
-         nQPbPE7QhQMHS/FZQSGjPokk3p251ZyXnkLk7ZnTaq27pGyJs6XqSCDN1hPWIi5JGsTp
-         QlKT/nOwJ96qdSsmAwK0oefn07gLwW/B8zuY4tNNCxES4KrHqV0jvctx/BcOLD3U7NJj
-         YWGA==
-X-Forwarded-Encrypted: i=1; AJvYcCUDdk4xoQe4BdBVBRn06vyrNnAPqTUxhKb05jNa+bjPlMoOAU9Ea4j/LWjAjxKJEyXanw++ahAjxnLp787NetPPUXnNQVro9vPYEtcI/Q==
-X-Gm-Message-State: AOJu0YwwIYcB6p9vwNWaWpCj9Kmy8bkZkSBgANVI/aba+uJCaa/4rBHu
-	4fRggDRinPCDuIvjndkRjWFuygVnkgsMA+HgRV/Ynf6LcWuAean5g7eC+++MJ/k=
-X-Google-Smtp-Source: AGHT+IGJifIh+wNoeac0bXd193me+njlXrmuO1b5G5i8S69jb0p0pSLBEH0SyMSAwOsssL4wthzOJA==
-X-Received: by 2002:a17:906:2e92:b0:a55:8200:c466 with SMTP id o18-20020a1709062e9200b00a558200c466mr6170835eji.39.1713794172122;
-        Mon, 22 Apr 2024 06:56:12 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id qw17-20020a1709066a1100b00a55adf3e4cesm1951628ejc.15.2024.04.22.06.56.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Apr 2024 06:56:11 -0700 (PDT)
-Date: Mon, 22 Apr 2024 16:56:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Abel Vesa <abel.vesa@linaro.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [linux-next:master 6954/7322] drivers/spmi/spmi-pmic-arb.c:1782
- spmi_pmic_arb_register_buses() error: uninitialized symbol 'ret'.
-Message-ID: <a1b833a4-435a-411d-ba4e-b77f5ba9fd94@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iWcVBVLh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713798455; x=1745334455;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=LECIaM91Psb2dm6DqMQro75OTIDA04zgrtVeFPRAHT8=;
+  b=iWcVBVLhJQ4VKnDi/e9fSHG7gE0ZK7M+CJEE9kaZw+3fcgignaN0K+w7
+   jRIdyGQjon8985cu4waO/AuG2BE3Jg48hp7tpyBAr13TIrXitfqPMUjrc
+   s3cMPs1z1MqLQaYZLHabhkaZBM/h+KpkQaFK6NqYMaK4RxbWOtwEpa445
+   iw/I7CANL4nT74xXX79rzEaC0/rZxKW8m0/Mn6UdexdOjDAWieJhdYKlV
+   +6C4FV3ZyP5dy8TApjTRn+Cmd81GYl8jBhH7pBWvcbKF82/CKziHkBG+H
+   VXUDTNnbwvqe2iQYF3T4UPJrbxreXkL9VGcyZffpRvnVVoWN91JmmoCO0
+   A==;
+X-CSE-ConnectionGUID: Iq4OWtYxTP2MhI5DJtDTsQ==
+X-CSE-MsgGUID: TO/Baj3jQE2fBT7Ma+V4bA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="26857189"
+X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
+   d="scan'208";a="26857189"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 08:07:34 -0700
+X-CSE-ConnectionGUID: GycNDFl9RumH7RszF16mnw==
+X-CSE-MsgGUID: fsvjIUCJTd+rP7rTH1H7RA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
+   d="scan'208";a="61492949"
+Received: from lkp-server01.sh.intel.com (HELO 01437695816f) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 22 Apr 2024 08:07:33 -0700
+Received: from kbuild by 01437695816f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ryvGU-00003c-0b;
+	Mon, 22 Apr 2024 15:07:30 +0000
+Date: Mon, 22 Apr 2024 23:07:05 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: Re: [PATCH v2 3/4] virtio_balloon: introduce memory allocation stall
+ counter
+Message-ID: <202404222241.599OtAGQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,53 +61,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f529a6d274b3b8c75899e949649d231298f30a32
-commit: ee2098c0b512fb80b63119199938ea62a240ebc7 [6954/7322] spmi: pmic-arb: Add multi bus support
-config: openrisc-randconfig-r071-20240422 (https://download.01.org/0day-ci/archive/20240422/202404221945.jickYhnO-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
+In-Reply-To: <20240422074254.1440457-4-pizhenwei@bytedance.com>
+References: <20240422074254.1440457-4-pizhenwei@bytedance.com>
+TO: zhenwei pi <pizhenwei@bytedance.com>
+TO: linux-kernel@vger.kernel.org
+TO: linux-mm@kvack.org
+TO: virtualization@lists.linux.dev
+CC: mst@redhat.com
+CC: david@redhat.com
+CC: jasowang@redhat.com
+CC: xuanzhuo@linux.alibaba.com
+CC: akpm@linux-foundation.org
+CC: zhenwei pi <pizhenwei@bytedance.com>
+
+Hi zhenwei,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.9-rc5 next-20240422]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/zhenwei-pi/virtio_balloon-separate-vm-events-into-a-function/20240422-154406
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240422074254.1440457-4-pizhenwei%40bytedance.com
+patch subject: [PATCH v2 3/4] virtio_balloon: introduce memory allocation stall counter
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240422/202404222241.599OtAGQ-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240422/202404222241.599OtAGQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202404221945.jickYhnO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404222241.599OtAGQ-lkp@intel.com/
 
-New smatch warnings:
-drivers/spmi/spmi-pmic-arb.c:1782 spmi_pmic_arb_register_buses() error: uninitialized symbol 'ret'.
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/spmi/spmi-pmic-arb.c:1724 spmi_pmic_arb_bus_init() warn: unsigned 'irq' is never less than zero.
+   In file included from drivers/virtio/virtio_balloon.c:9:
+   In file included from include/linux/virtio.h:7:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2254:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/virtio/virtio_balloon.c:340:37: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+     340 |                 stall += events[ALLOCSTALL_NORMAL - ZONE_NORMAL + zid];
+         |                                 ~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   2 warnings generated.
 
-vim +/ret +1782 drivers/spmi/spmi-pmic-arb.c
 
-ee2098c0b512fb Abel Vesa 2024-04-17  1762  static int spmi_pmic_arb_register_buses(struct spmi_pmic_arb *pmic_arb,
-ee2098c0b512fb Abel Vesa 2024-04-17  1763  					struct platform_device *pdev)
-ee2098c0b512fb Abel Vesa 2024-04-17  1764  {
-ee2098c0b512fb Abel Vesa 2024-04-17  1765  	struct device *dev = &pdev->dev;
-ee2098c0b512fb Abel Vesa 2024-04-17  1766  	struct device_node *node = dev->of_node;
-ee2098c0b512fb Abel Vesa 2024-04-17  1767  	struct device_node *child;
-ee2098c0b512fb Abel Vesa 2024-04-17  1768  	int ret;
-ee2098c0b512fb Abel Vesa 2024-04-17  1769  
-ee2098c0b512fb Abel Vesa 2024-04-17  1770  	/* legacy mode doesn't provide child node for the bus */
-ee2098c0b512fb Abel Vesa 2024-04-17  1771  	if (of_device_is_compatible(node, "qcom,spmi-pmic-arb"))
-ee2098c0b512fb Abel Vesa 2024-04-17  1772  		return spmi_pmic_arb_bus_init(pdev, node, pmic_arb);
-ee2098c0b512fb Abel Vesa 2024-04-17  1773  
-ee2098c0b512fb Abel Vesa 2024-04-17  1774  	for_each_available_child_of_node(node, child) {
-ee2098c0b512fb Abel Vesa 2024-04-17  1775  		if (of_node_name_eq(child, "spmi")) {
+vim +340 drivers/virtio/virtio_balloon.c
 
-Smatch is complaining that maybe spmi is never found.
-
-ee2098c0b512fb Abel Vesa 2024-04-17  1776  			ret = spmi_pmic_arb_bus_init(pdev, child, pmic_arb);
-ee2098c0b512fb Abel Vesa 2024-04-17  1777  			if (ret)
-ee2098c0b512fb Abel Vesa 2024-04-17  1778  				return ret;
-ee2098c0b512fb Abel Vesa 2024-04-17  1779  		}
-ee2098c0b512fb Abel Vesa 2024-04-17  1780  	}
-ee2098c0b512fb Abel Vesa 2024-04-17  1781  
-ee2098c0b512fb Abel Vesa 2024-04-17 @1782  	return ret;
-ee2098c0b512fb Abel Vesa 2024-04-17  1783  }
+   318	
+   319	/* Return the number of entries filled by vm events */
+   320	static inline unsigned int update_balloon_vm_stats(struct virtio_balloon *vb,
+   321							   unsigned int start)
+   322	{
+   323	#ifdef CONFIG_VM_EVENT_COUNTERS
+   324		unsigned long events[NR_VM_EVENT_ITEMS];
+   325		unsigned int idx = start;
+   326		unsigned int zid;
+   327		unsigned long stall = 0;
+   328	
+   329		all_vm_events(events);
+   330		update_stat(vb, idx++, VIRTIO_BALLOON_S_SWAP_IN,
+   331			    pages_to_bytes(events[PSWPIN]));
+   332		update_stat(vb, idx++, VIRTIO_BALLOON_S_SWAP_OUT,
+   333			    pages_to_bytes(events[PSWPOUT]));
+   334		update_stat(vb, idx++, VIRTIO_BALLOON_S_MAJFLT, events[PGMAJFAULT]);
+   335		update_stat(vb, idx++, VIRTIO_BALLOON_S_MINFLT, events[PGFAULT]);
+   336		update_stat(vb, idx++, VIRTIO_BALLOON_S_OOM_KILL, events[OOM_KILL]);
+   337	
+   338		/* sum all the stall events */
+   339		for (zid = 0; zid < MAX_NR_ZONES; zid++)
+ > 340			stall += events[ALLOCSTALL_NORMAL - ZONE_NORMAL + zid];
+   341	
+   342		update_stat(vb, idx++, VIRTIO_BALLOON_S_ALLOC_STALL, stall);
+   343	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
