@@ -1,114 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF285FB9B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 10:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B74A4691
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 11:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713867280; cv=none; b=HGVvkwMjH2TKagGUxFp+sU4Xd/cfdCzOSnSIJ0w+Wog6now49eS4tUroz08LLAa9D3gxVFS99jig21zbO23Z7A3JiX2y2vcpczoUYGlTOcpaONLp1oJuE0A0BFPhAixphwGTIvM5MMvziQ9s67PYLlFHk87C3PU0CI94ZOuIodA=
+	t=1713870273; cv=none; b=nvu9uNmsdgQwQW2f7iHhj5YAHQRQ6dy7q2UYsBcvaA7CRBrBuki+iJC25T/vNPEGx60P4LCj1BEn//dFHSNfd9iN5bXyDsVkpfBYkjsnuNLK84OMvxrz89aYAHVF6Uj1nhfMf+wERNP7yGVMI6lD9R0mZvYNkScFLYmY+syJkG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713867280; c=relaxed/simple;
-	bh=9oTkPIZwjck344oiw7dBa4T4RJ56uPJf+FXMs7GpLhI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ikdyALyLRsTXjU6iBvW6vN3Iqaa4O9g6zioLBXBdY2ZKsUJSOQRVOR8kHme4+AmOxHzd6UQBXJG9aW6Nt1ae+GqG7WAjf2PZ+xh3SszgdcHNTTEqqtlyInJzUWeIQDTCuVWk+tf2jC5mUCYR1b9GIwF3OXGnd6246dahmCvDNtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h1dmxcZ4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713870273; c=relaxed/simple;
+	bh=rnnuAJQIGmedxs/BY0lD72svitvHvMuUj7T9rqzNvn4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rmJ1zeDqiSc+CGRWMCGA0FTOaCqfCppOOnAxGqdWQZmVg7ABqWXFyKqj1TIDQcdTaYfSbiFrSfVQimB6Yf0nUSgVf7FjZm/j4zzQgwkhFd3MxYzrHNm6BWGZ/IYSAzk10vE1HAy6Qnd33AsRiRzN7COjQ4PstOuY9wphO9tJURg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+YQiS57; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h1dmxcZ4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87B3CC4AF07
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 10:14:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713867279;
-	bh=9oTkPIZwjck344oiw7dBa4T4RJ56uPJf+FXMs7GpLhI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=h1dmxcZ4LR9r3IBJDLOMr/t6MSqQ/jWSx8ahpj+30geXejLAkAMILNXwfh8WYanPb
-	 z6uKRmoDH81NyLXyMcmVgTjrWux6VcBKLkjr/PNpn8yO3c0qoazsKe4GbioIBvGekT
-	 6yozye/E96+wXTkn+oVHzWL8y0PzzcNPEBzb1n+frq38dfXuUl7ttQCwLUKYr0NfaM
-	 OBYebCuruSlg8tqMvd5OfyQCpxLFxVT7a6wU2b+Zlj/NtrGaPnCzK9oWTbmbaAOff8
-	 Z6tdHuVqKmrBKqt/h0sKIMnN9k6/pxyPJPVQpeG8i0U2pQjlnBOzu6cNIDVhDaZyFT
-	 QPHFnoOux684w==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-51abd580902so3675662e87.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 03:14:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUf8IC3Db+ZnGhM/WPjDO+ZGnWw48ju+81zXDRv8+a/8d7RUfxNp9rwKRtRAJIpkPUtvbuQTvUsk/1ltMzx1Dn/s0URb3KOB9FXj1dDQA==
-X-Gm-Message-State: AOJu0YxvE/HD4IEcfX6kuY6oQe9AW8o41XTY6vXNOueSlQ0X8O/1bc9m
-	oz/oxwDwQgSDfn9DMynmgRbl36ChRiRL9xCMLx7unP6HmuP9RYst+3xijp5GenMl02cWBRlfs4V
-	vF5S06n2ta0+a2YHEnOkAAR7IyJU=
-X-Google-Smtp-Source: AGHT+IEd8pym937CDzlNwPyYFBoJqK4ujznW0X9lDe5ok98eTWFzKs5fomV3x+0Y6lFvYO//jH12TGozLn2nyBhT/yw=
-X-Received: by 2002:a19:6908:0:b0:513:ec32:aa88 with SMTP id
- e8-20020a196908000000b00513ec32aa88mr733961lfc.8.1713867278192; Tue, 23 Apr
- 2024 03:14:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+YQiS57"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713870270; x=1745406270;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rnnuAJQIGmedxs/BY0lD72svitvHvMuUj7T9rqzNvn4=;
+  b=i+YQiS57fXqTLQvMyjGwBA0K27QRZomT45XbFYq7yvj8wPO/S1Y15g5k
+   LjPinQr1yiAwytaMdlZ6owPVc8xQA2b66ViUQDHZ4uxsVsrGdl6ZYn7mW
+   quUArLJNQAgUXua7Bjl8DPQL0UsgZk7S6y29t2VNDXZQXK+Zm7PLUGnGL
+   cY+niHw2atJBEyGorG4MB0XFz+XNIt2vnOVOjZEHaevPjlUXNa1uepUfL
+   IWM3TBPT8kwHs6MoOTdafj2nQmxXMJgcP4QVUdQA5AzcOhef6uvI4zIwJ
+   h6jInN/vAWCF+wWpqQl8uOVcqGAtfsZau03zRV2SrC/X+f1+Ra+183wAa
+   A==;
+X-CSE-ConnectionGUID: t+fpPR59S96heW4DvejY+A==
+X-CSE-MsgGUID: Q6fnej4NQqGD6QhSJNWMcw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="34845361"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="34845361"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 04:04:29 -0700
+X-CSE-ConnectionGUID: kixJC7alRsiSiZHN0eD0hw==
+X-CSE-MsgGUID: R5fGWODuTAeEAguOsspQOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="24395253"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 23 Apr 2024 04:04:29 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rzDwo-00008O-13;
+	Tue, 23 Apr 2024 11:04:26 +0000
+Date: Tue, 23 Apr 2024 19:04:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Guenter Roeck <groeck@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jsarha:topic/cros-sof-v4.19 377/6555]
+ drivers/remoteproc/qcom_q6v5_pas.c:246:26: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202404231815.FK1FSzwh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202404231102.r0G0StUJ-lkp@intel.com> <CAMj1kXH+i1mEFsgZnXokbJ5srDbZY50QGGJcf7yr0w2BowJB8g@mail.gmail.com>
-In-Reply-To: <CAMj1kXH+i1mEFsgZnXokbJ5srDbZY50QGGJcf7yr0w2BowJB8g@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 23 Apr 2024 19:14:01 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT03evAPYQ0yuWLv+ne4_d6XvhOesFUMA+S_5SLH0hdUg@mail.gmail.com>
-Message-ID: <CAK7LNAT03evAPYQ0yuWLv+ne4_d6XvhOesFUMA+S_5SLH0hdUg@mail.gmail.com>
-Subject: Re: [masahiroy-kbuild:kbuild 5/7] kernel/kallsyms.c:181:56: warning:
- array subscript is outside array bounds
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Apr 23, 2024 at 3:57=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org> wr=
-ote:
->
-> On Tue, 23 Apr 2024 at 05:50, kernel test robot <lkp@intel.com> wrote:
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux=
--kbuild.git kbuild
-> > head:   8246a1e9b922c0e797ec28d8a602de1384ff8140
-> > commit: 0bdad28369fc5e93de39b5046228ed78e982fc71 [5/7] kallsyms: Avoid =
-weak references for kallsyms symbols
-> > config: i386-randconfig-001-20240423 (https://download.01.org/0day-ci/a=
-rchive/20240423/202404231102.r0G0StUJ-lkp@intel.com/config)
-> > compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20240423/202404231102.r0G0StUJ-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202404231102.r0G0StUJ-l=
-kp@intel.com/
-> >
-> > Note: it may well be a FALSE warning. FWIW you are at least aware of it=
- now.
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> >    kernel/kallsyms.c: In function 'get_symbol_pos':
-> > >> kernel/kallsyms.c:181:56: warning: array subscript is outside array =
-bounds [-Warray-bounds]
-> >       return kallsyms_relative_base + (u32)kallsyms_offsets[idx];
-> >
->
-> OK, so weak definitions result in compiler warnings. I don't know
-> whether C requires weak definitions of array types are always the same
-> size.
->
-> We could work around this by
-> a) emitting the weak definitions into a separate object file, although
-> this may still violate C, and does not hide the issue from LTO
-> b) go back to using PROVIDE() in the linker scripts
->
-> @Masahiro: any preference?
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: 5e19c1b9d22e9030faf1c1416954d3462cc12ea7 [377/6555] FROMGIT: remoteproc: qcom: Rename Hexagon v5 PAS driver
+config: arm64-randconfig-r111-20240422 (https://download.01.org/0day-ci/archive/20240423/202404231815.FK1FSzwh-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240423/202404231815.FK1FSzwh-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404231815.FK1FSzwh-lkp@intel.com/
 
-Then, I am fine with b (i.e. v4) for now.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/remoteproc/qcom_q6v5_pas.c:246:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *mem_region @@     got void [noderef] <asn:2> * @@
+   drivers/remoteproc/qcom_q6v5_pas.c:246:26: sparse:     expected void *mem_region
+   drivers/remoteproc/qcom_q6v5_pas.c:246:26: sparse:     got void [noderef] <asn:2> *
+   In file included from drivers/remoteproc/qcom_q6v5_pas.c:22:
+   include/linux/module.h:140:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'adsp_driver_exit': 'cold' [-Wmissing-attributes]
+     140 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
+         |              ^~~~~~~~~~~~~~
+   include/linux/device.h:1585:1: note: in expansion of macro 'module_exit'
+    1585 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:228:9: note: in expansion of macro 'module_driver'
+     228 |         module_driver(__platform_driver, platform_driver_register, 13-      |         ^~~~~~~~~~~~~
+   drivers/remoteproc/qcom_q6v5_pas.c:372:1: note: in expansion of macro 'module_platform_driver'
+     372 | module_platform_driver(adsp_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from include/linux/of_device.h:5,
+                    from drivers/remoteproc/qcom_q6v5_pas.c:24:
+   drivers/remoteproc/qcom_q6v5_pas.c:372:24: note: 'cleanup_module' target declared here
+     372 | module_platform_driver(adsp_driver);
+         |                        ^~~~~~~~~~~
+   include/linux/device.h:1581:20: note: in definition of macro 'module_driver'
+    1581 | static void __exit __driver##_exit(void) 26-      |                    ^~~~~~~~
+   drivers/remoteproc/qcom_q6v5_pas.c:372:1: note: in expansion of macro 'module_platform_driver'
+     372 | module_platform_driver(adsp_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:134:13: warning: 'init_module' specifies less restrictive attribute than its target 'adsp_driver_init': 'cold' [-Wmissing-attributes]
+     134 |         int init_module(void) __attribute__((alias(#initfn)));
+         |             ^~~~~~~~~~~
+   include/linux/device.h:1580:1: note: in expansion of macro 'module_init'
+    1580 | module_init(__driver##_init); 35-      | ^~~~~~~~~~~
+   include/linux/platform_device.h:228:9: note: in expansion of macro 'module_driver'
+     228 |         module_driver(__platform_driver, platform_driver_register, 38-      |         ^~~~~~~~~~~~~
+   drivers/remoteproc/qcom_q6v5_pas.c:372:1: note: in expansion of macro 'module_platform_driver'
+     372 | module_platform_driver(adsp_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/remoteproc/qcom_q6v5_pas.c:372:24: note: 'init_module' target declared here
+     372 | module_platform_driver(adsp_driver);
+         |                        ^~~~~~~~~~~
+   include/linux/device.h:1576:19: note: in definition of macro 'module_driver'
+    1576 | static int __init __driver##_init(void) 47-      |                   ^~~~~~~~
+   drivers/remoteproc/qcom_q6v5_pas.c:372:1: note: in expansion of macro 'module_platform_driver'
+     372 | module_platform_driver(adsp_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
 
-Maybe, I may want to kill PROVIDE() when I have time.
+vim +246 drivers/remoteproc/qcom_q6v5_pas.c
 
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  227  
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  228  static int adsp_alloc_memory_region(struct qcom_adsp *adsp)
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  229  {
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  230  	struct device_node *node;
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  231  	struct resource r;
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  232  	int ret;
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  233  
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  234  	node = of_parse_phandle(adsp->dev->of_node, "memory-region", 0);
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  235  	if (!node) {
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  236  		dev_err(adsp->dev, "no memory-region specified\n");
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  237  		return -EINVAL;
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  238  	}
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  239  
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  240  	ret = of_address_to_resource(node, 0, &r);
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  241  	if (ret)
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  242  		return ret;
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  243  
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  244  	adsp->mem_phys = adsp->mem_reloc = r.start;
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  245  	adsp->mem_size = resource_size(&r);
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22 @246  	adsp->mem_region = devm_ioremap_wc(adsp->dev, adsp->mem_phys, adsp->mem_size);
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  247  	if (!adsp->mem_region) {
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  248  		dev_err(adsp->dev, "unable to map memory region: %pa+%zx\n",
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  249  			&r.start, adsp->mem_size);
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  250  		return -EBUSY;
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  251  	}
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  252  
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  253  	return 0;
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  254  }
+b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  255  
 
+:::::: The code at line 246 was first introduced by commit
+:::::: b9e718e950c3dfa458bbf9180a8d8691e55413ae remoteproc: Introduce Qualcomm ADSP PIL
 
+:::::: TO: Bjorn Andersson <bjorn.andersson@sonymobile.com>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
---=20
-Best Regards
-Masahiro Yamada
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
