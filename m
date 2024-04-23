@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05BD07E765
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 12:48:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8BF136E01
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 13:40:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713876515; cv=none; b=DP1WvBNy5ofGhIFMZYNFPvy+hsnsaJ4yyreMTpjDK+1/CaxFrCPwqyQ9AExnHOWLq1PVyoIxdqWXHrzCbEe0jBtG3f4IzbSjboS4aqVfo2JZ9o2HN7UnDywb69ISusATjLvT5Zf+EAZ5U5maG6bHB7udK06EwVbDbF+ZCDZvnO0=
+	t=1713879635; cv=none; b=qGtSn95u20POgopo/GO03vpUfUv8HoPGtyVvuCUVnl8yXdcCwTMzcbA2153t7X1zXLQrlVRKdYHyPW150F8t4R6pToTfdixy5CZUDrb1KH6TlaeL/hTCJOdbIHeAz44/crx1/vE1CHe6ruV7GpHzjud64MWBD7dZN83fOwHxuBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713876515; c=relaxed/simple;
-	bh=MQE+2PwVXaGspJViQALvr6MgCMBRo6D/E79239hwQgs=;
+	s=arc-20240116; t=1713879635; c=relaxed/simple;
+	bh=POjHCPvznE1oxaNvbe2aZrgfu9AtZIiNXguD5Qg4ohY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u6uvZ7yhk15ywOpz14Rr7+JYVya6tlkWzS+mc7dB9zjRvCQ7P0mExRh6Dyyy509kkHB16hZDLQ1PsGeoZr7AAjSlhGWlAVWN3pLVm5FCV+kseyE1UIx/iIay/W/Ny6htPcZDZs/lagACM9M65JVqy8XuvbspNYWC2A5AFdqr6MI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3bK0Lx0; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition:In-Reply-To; b=rAkKMsW53p1YgkDShXe5sH8VPiI72I4Pstmrnz0p3m3WDBWh+5MwjODzJ6n8JLsCuokJ+HhAOLzVqzgLE32IFMgHUW6P1hREaeNuLUrPzt9G8F+DQvGeXkhR72efOs0+ekaEpS8iKeGBQbO3ERpgipZPQy7iUrGW/wye39jmyKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h5E6/EoA; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3bK0Lx0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h5E6/EoA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713876513; x=1745412513;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MQE+2PwVXaGspJViQALvr6MgCMBRo6D/E79239hwQgs=;
-  b=I3bK0Lx0/K+soeWZafDKxKdM5NXJZDq+OHdec8Wxzx7Pn6qhMMadqm6Y
-   Ipyo2mH9mp5EN8RgNVZfA94Q6/X0uAckRdtlB9r5x01BQj7VRxnCAuaPE
-   AqvFDZydSAwrmqYzkTPqcjdMcqUMPX68+AlItPlJQ6VZEVVgw2T8myeE6
-   ic52m1al+l2SjOLicC5IlYZHTL0kfaSgJyQULlcX51/AbE/shXmNwAfLr
-   kL6s5+k6X8mI8m9zUXGMlfVSuQuQ0skEdk8ta9c7nTYFZ1MAmTGxy5loM
-   ne+NHk29hY3CeE83WPISB3bKkRqulMdskkLMGNlZB6mHN24Eesi8I7Kdj
-   A==;
-X-CSE-ConnectionGUID: klPlFjniSoGbdrJ4lnTtvA==
-X-CSE-MsgGUID: H484MtujQ9G39sr3ZmL9Og==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="9676743"
+  t=1713879634; x=1745415634;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=POjHCPvznE1oxaNvbe2aZrgfu9AtZIiNXguD5Qg4ohY=;
+  b=h5E6/EoAFWFud7uBIn6gE1pk3k9/spAv0TaVGrrDi0WH4bPuAhS7Z1s9
+   meeCdO/qpCIIpT1NC3L8hfaQhJ3KYvypDuz5ldq3/O28oCzaFIouEcte0
+   tL2EYQM0AbexGQUVdELcGm5+fXfx+z5L4sirH2ipkLTlHOUP4Ad0r1Wbf
+   9ogBQTzUnkWRN6QtiHUd3RbLnkTKmLNT1s65H6ZyunwT7RMsmiTXUMmaN
+   yvYHg/pgQXv5lN2Ob/di2DJQM+KNzU2PS13vtJqkJ2kEDgdFV59j6hr4u
+   1m6yNBSKwPoMhxP0HWMHUoaPZojwokmFqcGAhE5+K1DV/DjReW7loSafc
+   w==;
+X-CSE-ConnectionGUID: wlLP5UCzSg+wndenVe1axA==
+X-CSE-MsgGUID: 1sKWuXqvQAe8lj8GAwb/8g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9327531"
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="9676743"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 05:48:32 -0700
-X-CSE-ConnectionGUID: 3WxueUBWSbeEvKbq3UzpjA==
-X-CSE-MsgGUID: oAJzxsT3Q3i6MtdEy1YqWw==
+   d="scan'208";a="9327531"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 06:40:33 -0700
+X-CSE-ConnectionGUID: YxbcsK/7QYakfF8boYX5pA==
+X-CSE-MsgGUID: pEANNhsmT3iL9Dg4TzjMVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="24865440"
+   d="scan'208";a="24972010"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 23 Apr 2024 05:48:30 -0700
+  by orviesa008.jf.intel.com with ESMTP; 23 Apr 2024 06:40:32 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzFZT-0000BU-37;
-	Tue, 23 Apr 2024 12:48:27 +0000
-Date: Tue, 23 Apr 2024 20:47:58 +0800
+	id 1rzGNp-0000DU-1r;
+	Tue, 23 Apr 2024 13:40:29 +0000
+Date: Tue, 23 Apr 2024 21:40:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [plbossart-sound:sdw/parse-functions 10/15] ld.lld: error: undefined
- symbol: sdca_alloc
-Message-ID: <202404232020.GS36iDN6-lkp@intel.com>
+To: Hagar Hemdan <hagarhem@amazon.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] efi: libstub: only free priv.runtime_map when allocated
+Message-ID: <Zie6PLl0bSO3ZdoY@c8dd4cee2bb9>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,29 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240423133635.19679-1-hagarhem@amazon.com>
 
-tree:   https://github.com/plbossart/sound sdw/parse-functions
-head:   20eb0aa7af2a59e59ec8b609fcffa06c8a464e59
-commit: 628b3c5a642f91b7354cfa7f6398217dde193714 [10/15] soundwire: add SDCA alloc/parsing
-config: x86_64-randconfig-073-20240423 (https://download.01.org/0day-ci/archive/20240423/202404232020.GS36iDN6-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240423/202404232020.GS36iDN6-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404232020.GS36iDN6-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
->> ld.lld: error: undefined symbol: sdca_alloc
-   >>> referenced by bus_type.c:108 (drivers/soundwire/bus_type.c:108)
-   >>>               vmlinux.o:(sdw_drv_probe)
---
->> ld.lld: error: undefined symbol: sdca_find_functions
-   >>> referenced by bus_type.c:114 (drivers/soundwire/bus_type.c:114)
-   >>>               vmlinux.o:(sdw_drv_probe)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] efi: libstub: only free priv.runtime_map when allocated
+Link: https://lore.kernel.org/stable/20240423133635.19679-1-hagarhem%40amazon.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
