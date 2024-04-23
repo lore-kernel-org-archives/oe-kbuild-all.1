@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D84F13D506
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 16:14:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D2A13E020
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 16:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713888880; cv=none; b=g0ZHSTxo864dP0Vm4uUEd87DitGUIRDIOvXnsKdoG2Ee63kPZxM2d3axfK/vASXfCh++Te3mhc9KdwgVvQi0WBR/QjzEOioO6I8W4p0txGDbJvpS0XjQiH06xW1OMj2oE6+6WGj4UewSt6gvnuobyxk42qF/wGks8MFo7tZfGfw=
+	t=1713889540; cv=none; b=aKmwxrOk7GTTpF+q0VNm2yoQLJ73rc3EXs7M39F0nBgaU7ZqVL+mhWFQDHtAzXuJBdZBo3RO3+c+LvoFVSWyucCUkfEAVOGeLBzQ4pwM3sZI1gM7tVEA6Ti6Qin93UDeWNdU9fsbXuBm6EtHlfpp2F5262ebRdGGkCEtMupedXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713888880; c=relaxed/simple;
-	bh=Vv3Pzh/tN2YWuj6VkDSluT/ePBD6u8OspryaSNQWcRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NH9m8myODswTRzcG+cAz1gvrVn6qSa2fASBQZ2gwgE8wYEYOMPU5Xk7zCUjOCqoxy+Xl47E75iBMLxijQUFlcyWVFX3QaaAJKUuUlEvNU6nq3x6/aH1PGLhEW+qIT2U98RMw6JT0Cla8nYA67HDvbxmJX/8GtK3G3s8cinVFZd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FIE8LRDu; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1713889540; c=relaxed/simple;
+	bh=9rPx59ZmZKUBPHzudNnA3aD08LTdkx91EZR02kxoux0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YTxjdy18L0t5Ixwk6E4f3E+gy/zAP3a7Xrag9i9bLOQYml1WtBw9ha+krjEs5LRxOwSrsd2/rFhKxDg3MjdRqGUqLyIT7ddDMZSTOiO4VlUGqR52J74zscYDU4VqTUCWJnc3+UiVn/tQ4os5RHgyfDQk50n809p2V/4mSYIIIlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FHhI8YJp; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FIE8LRDu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FHhI8YJp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713888879; x=1745424879;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Vv3Pzh/tN2YWuj6VkDSluT/ePBD6u8OspryaSNQWcRw=;
-  b=FIE8LRDusZT/64f6dle62V0br9FMckHgrXIHb7Ryhq2nlLPikDrJPTGZ
-   /m/aG6Ln7zyHvMMt25AOov2u9wzKdbWU+JXc5j0XDZNOZkcqL1u5r4i7P
-   xY/G0sXZkCfDozFlSclOwVRMKEy1Ne8yZaEG6ZEvWwfSu/pdiOj7hkvWS
-   GJ+wau+biIbTPJzKqkeZc4v+gcJFATi1xmToWxdC3JnKmhtSE0QyFsKvK
-   b8XpLURI0O22boBOauoVte4YDXCkEhi4Oc/x8KGRU+ygtF7ZMk42KkWLK
-   kfdO3WKmaoH/XsSd/bdkSAbRQ/p8CwtUN44dRZDUZaCtYCcBDOzUqKBSR
-   w==;
-X-CSE-ConnectionGUID: JRSgE3RgSS+GMhZOhO9ucg==
-X-CSE-MsgGUID: iS4ZPRu1TnCTrYtip8hwhA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="31978012"
+  t=1713889538; x=1745425538;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9rPx59ZmZKUBPHzudNnA3aD08LTdkx91EZR02kxoux0=;
+  b=FHhI8YJp/RlL6ns53BRoRMWFAMNLhWkhW0yXkxseBGZhEjXOK5ERSsyq
+   9TTunw9kR9j43JFcDUhkUzL5A/Kupl3kMegHftkdQuh1ybj8jgDlwblDK
+   j04lq5fF10FO+NHWHMROnchl3dlkIunapUPffqOLvJ0KsuW3sCLSYVNOy
+   rnlA/Io5W6YiSCRT8seqbApJM/Qg4FnGCLn5f4C/NByMOPXVs5I53rpET
+   subvv2/DHcVs9Bn158qLqsH6khUjRsFiqaMradvekhtIQjvUM9fkPDstx
+   wosignwY2NtOuPWHAWZ41OavljDI1KJ5ddcwrS+G2N42vMx1AHcKpD0qP
+   A==;
+X-CSE-ConnectionGUID: 2B8Mx98/TmGXcHv2Fp+8Sw==
+X-CSE-MsgGUID: VD0q7GuaSaqIUp0DvWahmw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9335302"
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="31978012"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 09:14:39 -0700
-X-CSE-ConnectionGUID: OyVmfELgT4+8rSOzi26oTg==
-X-CSE-MsgGUID: fz3MNTTYSMOIFOVkv5qZ6g==
+   d="scan'208";a="9335302"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 09:25:37 -0700
+X-CSE-ConnectionGUID: wh6/HtE3S0ChENCiUEoc2g==
+X-CSE-MsgGUID: EbC3mmZaSpCYBZi8YtK9WA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="24414604"
+   d="scan'208";a="55396235"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Apr 2024 09:14:35 -0700
+  by orviesa002.jf.intel.com with ESMTP; 23 Apr 2024 09:25:36 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzImv-0000JI-1k;
-	Tue, 23 Apr 2024 16:14:33 +0000
-Date: Wed, 24 Apr 2024 00:13:39 +0800
+	id 1rzIxZ-0000Jg-2R;
+	Tue, 23 Apr 2024 16:25:33 +0000
+Date: Wed, 24 Apr 2024 00:24:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geetha sowjanya <gakula@marvell.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kuba@kernel.org, davem@davemloft.net,
-	pabeni@redhat.com, edumazet@google.com, sgoutham@marvell.com,
-	gakula@marvell.com, sbhatta@marvell.com, hkelam@marvell.com
-Subject: Re: [net-next PATCH v2 5/9] octeontx2-af: Add packet path between
- representor and VF
-Message-ID: <202404240058.p4HzPiSt-lkp@intel.com>
-References: <20240422095401.14245-6-gakula@marvell.com>
+To: Guenter Roeck <groeck@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jsarha:topic/cros-sof-v4.19 378/6555]
+ drivers/remoteproc/qcom_q6v5_mss.c:1096:27: sparse: sparse: incorrect type
+ in assignment (different address spaces)
+Message-ID: <202404240050.g2a05gBI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,134 +62,136 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240422095401.14245-6-gakula@marvell.com>
 
-Hi Geetha,
+Hi Bjorn,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on next-20240422]
-[also build test WARNING on v6.9-rc5]
-[cannot apply to net-next/main linus/master horms-ipvs/master v6.9-rc5 v6.9-rc4 v6.9-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Geetha-sowjanya/octeontx2-pf-Refactoring-RVU-driver/20240422-175819
-base:   next-20240422
-patch link:    https://lore.kernel.org/r/20240422095401.14245-6-gakula%40marvell.com
-patch subject: [net-next PATCH v2 5/9] octeontx2-af: Add packet path between representor and VF
-config: alpha-randconfig-r122-20240423 (https://download.01.org/0day-ci/archive/20240424/202404240058.p4HzPiSt-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240424/202404240058.p4HzPiSt-lkp@intel.com/reproduce)
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: 781ba8bb996c991ffb5c4c02fae4e172b8711b52 [378/6555] FROMGIT: remoteproc: qcom: Rename Hexagon v5 modem driver
+config: arm64-randconfig-r111-20240422 (https://download.01.org/0day-ci/archive/20240424/202404240050.g2a05gBI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240424/202404240050.g2a05gBI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404240058.p4HzPiSt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404240050.g2a05gBI-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:39:38: sparse: sparse: cast to restricted __be16
->> drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:39:38: sparse: sparse: cast to restricted __be16
->> drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:39:38: sparse: sparse: cast to restricted __be16
->> drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:39:38: sparse: sparse: cast to restricted __be16
->> drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:95:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [assigned] [usertype] vlan_etype @@     got int @@
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:95:31: sparse:     expected restricted __be16 [assigned] [usertype] vlan_etype
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:95:31: sparse:     got int
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:96:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [assigned] [usertype] vlan_etype @@     got int @@
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:96:29: sparse:     expected restricted __be16 [assigned] [usertype] vlan_etype
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:96:29: sparse:     got int
->> drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:97:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [assigned] [usertype] vlan_tci @@     got unsigned short [assigned] [usertype] vlan_tci @@
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:97:29: sparse:     expected restricted __be16 [assigned] [usertype] vlan_tci
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:97:29: sparse:     got unsigned short [assigned] [usertype] vlan_tci
->> drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:98:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [assigned] [usertype] vlan_tci @@     got int @@
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:98:27: sparse:     expected restricted __be16 [assigned] [usertype] vlan_tci
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:98:27: sparse:     got int
+>> drivers/remoteproc/qcom_q6v5_mss.c:1096:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *mba_region @@     got void [noderef] <asn:2> * @@
+   drivers/remoteproc/qcom_q6v5_mss.c:1096:27: sparse:     expected void *mba_region
+   drivers/remoteproc/qcom_q6v5_mss.c:1096:27: sparse:     got void [noderef] <asn:2> *
+>> drivers/remoteproc/qcom_q6v5_mss.c:1114:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *mpss_region @@     got void [noderef] <asn:2> * @@
+   drivers/remoteproc/qcom_q6v5_mss.c:1114:28: sparse:     expected void *mpss_region
+   drivers/remoteproc/qcom_q6v5_mss.c:1114:28: sparse:     got void [noderef] <asn:2> *
+   In file included from drivers/remoteproc/qcom_q6v5_mss.c:24:
+   include/linux/module.h:140:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'q6v5_driver_exit': 'cold' [-Wmissing-attributes]
+     140 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
+         |              ^~~~~~~~~~~~~~
+   include/linux/device.h:1585:1: note: in expansion of macro 'module_exit'
+    1585 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:228:9: note: in expansion of macro 'module_driver'
+     228 |         module_driver(__platform_driver, platform_driver_register, 16-      |         ^~~~~~~~~~~~~
+   drivers/remoteproc/qcom_q6v5_mss.c:1375:1: note: in expansion of macro 'module_platform_driver'
+    1375 | module_platform_driver(q6v5_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/dma-mapping.h:7,
+                    from drivers/remoteproc/qcom_q6v5_mss.c:20:
+   drivers/remoteproc/qcom_q6v5_mss.c:1375:24: note: 'cleanup_module' target declared here
+    1375 | module_platform_driver(q6v5_driver);
+         |                        ^~~~~~~~~~~
+   include/linux/device.h:1581:20: note: in definition of macro 'module_driver'
+    1581 | static void __exit __driver##_exit(void) 27-      |                    ^~~~~~~~
+   drivers/remoteproc/qcom_q6v5_mss.c:1375:1: note: in expansion of macro 'module_platform_driver'
+    1375 | module_platform_driver(q6v5_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:134:13: warning: 'init_module' specifies less restrictive attribute than its target 'q6v5_driver_init': 'cold' [-Wmissing-attributes]
+     134 |         int init_module(void) __attribute__((alias(#initfn)));
+         |             ^~~~~~~~~~~
+   include/linux/device.h:1580:1: note: in expansion of macro 'module_init'
+    1580 | module_init(__driver##_init); 36-      | ^~~~~~~~~~~
+   include/linux/platform_device.h:228:9: note: in expansion of macro 'module_driver'
+     228 |         module_driver(__platform_driver, platform_driver_register, 39-      |         ^~~~~~~~~~~~~
+   drivers/remoteproc/qcom_q6v5_mss.c:1375:1: note: in expansion of macro 'module_platform_driver'
+    1375 | module_platform_driver(q6v5_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/remoteproc/qcom_q6v5_mss.c:1375:24: note: 'init_module' target declared here
+    1375 | module_platform_driver(q6v5_driver);
+         |                        ^~~~~~~~~~~
+   include/linux/device.h:1576:19: note: in definition of macro 'module_driver'
+    1576 | static int __init __driver##_init(void) 48-      |                   ^~~~~~~~
+   drivers/remoteproc/qcom_q6v5_mss.c:1375:1: note: in expansion of macro 'module_platform_driver'
+    1375 | module_platform_driver(q6v5_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/remoteproc/qcom_q6v5_mss.c: In function 'q6v5_mpss_load':
+   drivers/remoteproc/qcom_q6v5_mss.c:741:70: warning: '%02d' directive output may be truncated writing between 2 and 11 bytes into a region of size 3 [-Wformat-truncation=]
+     741 |                         snprintf(seg_name, sizeof(seg_name), "modem.b%02d", i);
+         |                                                                      ^~~~
+   drivers/remoteproc/qcom_q6v5_mss.c:741:62: note: directive argument in the range [-2147483641, 65534]
+     741 |                         snprintf(seg_name, sizeof(seg_name), "modem.b%02d", i);
+         |                                                              ^~~~~~~~~~~~~
+   drivers/remoteproc/qcom_q6v5_mss.c:741:25: note: 'snprintf' output between 10 and 19 bytes into a destination of size 10
+     741 |                         snprintf(seg_name, sizeof(seg_name), "modem.b%02d", i);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +39 drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c
+vim +1096 drivers/remoteproc/qcom_q6v5_mss.c
 
-    25	
-    26	static int rvu_rep_tx_vlan_cfg(struct rvu *rvu,  u16 pcifunc,
-    27				       u16 vlan_tci, int *vidx)
-    28	{
-    29		struct nix_vtag_config_rsp rsp = {};
-    30		struct nix_vtag_config req = {};
-    31		u64 etype = ETH_P_8021Q;
-    32		int err;
-    33	
-    34		/* Insert vlan tag */
-    35		req.hdr.pcifunc = pcifunc;
-    36		req.vtag_size = VTAGSIZE_T4;
-    37		req.cfg_type = 0; /* tx vlan cfg */
-    38		req.tx.cfg_vtag0 = true;
-  > 39		req.tx.vtag0 = etype << 48 | ntohs(vlan_tci);
-    40	
-    41		err = rvu_mbox_handler_nix_vtag_cfg(rvu, &req, &rsp);
-    42		if (err) {
-    43			dev_err(rvu->dev, "Tx vlan config failed\n");
-    44			return err;
-    45		}
-    46		*vidx = rsp.vtag0_idx;
-    47		return 0;
-    48	}
-    49	
-    50	static int rvu_rep_rx_vlan_cfg(struct rvu *rvu, u16 pcifunc)
-    51	{
-    52		struct nix_vtag_config req = {};
-    53		struct nix_vtag_config_rsp rsp;
-    54	
-    55		/* config strip, capture and size */
-    56		req.hdr.pcifunc = pcifunc;
-    57		req.vtag_size = VTAGSIZE_T4;
-    58		req.cfg_type = 1; /* rx vlan cfg */
-    59		req.rx.vtag_type = NIX_AF_LFX_RX_VTAG_TYPE0;
-    60		req.rx.strip_vtag = true;
-    61		req.rx.capture_vtag = false;
-    62	
-    63		return rvu_mbox_handler_nix_vtag_cfg(rvu, &req, &rsp);
-    64	}
-    65	
-    66	static int rvu_rep_install_rx_rule(struct rvu *rvu, u16 pcifunc,
-    67					   u16 entry, bool rte)
-    68	{
-    69		struct npc_install_flow_req req = {};
-    70		struct npc_install_flow_rsp rsp = {};
-    71		struct rvu_pfvf *pfvf;
-    72		u16 vlan_tci, rep_id;
-    73	
-    74		pfvf = rvu_get_pfvf(rvu, pcifunc);
-    75	
-    76		/* To stree the traffic from Representee to Representor */
-    77		rep_id = (u16)rvu_rep_get_vlan_id(rvu, pcifunc);
-    78		if (rte) {
-    79			vlan_tci = rep_id | 0x1ull << 8;
-    80			req.vf = rvu->rep_pcifunc;
-    81			req.op = NIX_RX_ACTIONOP_UCAST;
-    82			req.index = rep_id;
-    83		} else {
-    84			vlan_tci = rep_id;
-    85			req.vf = pcifunc;
-    86			req.op = NIX_RX_ACTION_DEFAULT;
-    87		}
-    88	
-    89		rvu_rep_rx_vlan_cfg(rvu, req.vf);
-    90		req.entry = entry;
-    91		req.hdr.pcifunc = 0; /* AF is requester */
-    92		req.features = BIT_ULL(NPC_OUTER_VID) | BIT_ULL(NPC_VLAN_ETYPE_CTAG);
-    93		req.vtag0_valid = true;
-    94		req.vtag0_type = NIX_AF_LFX_RX_VTAG_TYPE0;
-  > 95		req.packet.vlan_etype = ETH_P_8021Q;
-    96		req.mask.vlan_etype = ETH_P_8021Q;
-  > 97		req.packet.vlan_tci = vlan_tci;
-  > 98		req.mask.vlan_tci = 0xffff;
-    99	
-   100		req.channel = RVU_SWITCH_LBK_CHAN;
-   101		req.chan_mask = 0xffff;
-   102		req.intf = pfvf->nix_rx_intf;
-   103	
-   104		return rvu_mbox_handler_npc_install_flow(rvu, &req, &rsp);
-   105	}
-   106	
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1077  
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1078  static int q6v5_alloc_memory_region(struct q6v5 *qproc)
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1079  {
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1080  	struct device_node *child;
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1081  	struct device_node *node;
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1082  	struct resource r;
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1083  	int ret;
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1084  
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1085  	child = of_get_child_by_name(qproc->dev->of_node, "mba");
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1086  	node = of_parse_phandle(child, "memory-region", 0);
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1087  	ret = of_address_to_resource(node, 0, &r);
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1088  	if (ret) {
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1089  		dev_err(qproc->dev, "unable to resolve mba region\n");
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1090  		return ret;
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1091  	}
+278d744c46fd4f drivers/remoteproc/qcom_q6v5_pil.c Tobias Jordan   2018-02-15  1092  	of_node_put(node);
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1093  
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1094  	qproc->mba_phys = r.start;
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1095  	qproc->mba_size = resource_size(&r);
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20 @1096  	qproc->mba_region = devm_ioremap_wc(qproc->dev, qproc->mba_phys, qproc->mba_size);
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1097  	if (!qproc->mba_region) {
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1098  		dev_err(qproc->dev, "unable to map memory region: %pa+%zx\n",
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1099  			&r.start, qproc->mba_size);
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1100  		return -EBUSY;
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1101  	}
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1102  
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1103  	child = of_get_child_by_name(qproc->dev->of_node, "mpss");
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1104  	node = of_parse_phandle(child, "memory-region", 0);
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1105  	ret = of_address_to_resource(node, 0, &r);
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1106  	if (ret) {
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1107  		dev_err(qproc->dev, "unable to resolve mpss region\n");
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1108  		return ret;
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1109  	}
+278d744c46fd4f drivers/remoteproc/qcom_q6v5_pil.c Tobias Jordan   2018-02-15  1110  	of_node_put(node);
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1111  
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1112  	qproc->mpss_phys = qproc->mpss_reloc = r.start;
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1113  	qproc->mpss_size = resource_size(&r);
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20 @1114  	qproc->mpss_region = devm_ioremap_wc(qproc->dev, qproc->mpss_phys, qproc->mpss_size);
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1115  	if (!qproc->mpss_region) {
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1116  		dev_err(qproc->dev, "unable to map memory region: %pa+%zx\n",
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1117  			&r.start, qproc->mpss_size);
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1118  		return -EBUSY;
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1119  	}
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1120  
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1121  	return 0;
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1122  }
+051fb70fd4ea40 drivers/remoteproc/qcom_q6v5_pil.c Bjorn Andersson 2016-06-20  1123  
+
+:::::: The code at line 1096 was first introduced by commit
+:::::: 051fb70fd4ea40fbc7139186a4890b2fe5cb1e76 remoteproc: qcom: Driver for the self-authenticating Hexagon v5
+
+:::::: TO: Bjorn Andersson <bjorn.andersson@sonymobile.com>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
