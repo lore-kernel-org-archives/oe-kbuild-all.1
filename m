@@ -1,62 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF33D4595D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 23:32:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F6D405FB;
+	Tue, 23 Apr 2024 23:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713915172; cv=none; b=GLLHWwLgjzY/cpshWX8VwxVa5h/5DEueyTgqSzn/h0qcKHSbFQJUdQi09L1naD/ISrVsQa0DsNVWtC7/nD6g0ZCk1L8bgYnk0hULbxwYMij+crW2qtNkFL47dgIJTSVqM0mF++Yzh5rX0fuMQTQ3RBsKVu1KmIXm41DU8PSeeK0=
+	t=1713915777; cv=none; b=IwZqia9h+TAapd+x+HZwiU+XGEHTvDD2lDVEdw3WowsOCZVapfwXof6ZTV9AnZfeBrz641yYd4GcMfv9ft452U7Urxh5MQjylIZiahO28AEP6zDHEt6dxrqa1JuxQNfIvRqieq/WvRNiHo4sBcKlLTaW2O6HhaNlstz+DDqQmwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713915172; c=relaxed/simple;
-	bh=P07uj5H8II0RpUX1IqAVzyt4lIJM0XmMLyglH3SiFis=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cYM6mZN9nni/FKE8Sd5Nk8SWqVQQWqzkMRHIQE3fN2It6poP8FLmnvOXQJgBuNaSe1Gjkx5xVhtuwv/fmo3x2GZ3koR1rI0vq1KoOUmMNFIYaRpQHmdZYscdvHsFi/0euDVdR4tG1Tlv/95d0nLYGcSaezJfybgNz3B6fCMp504=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ON7K5V/t; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1713915777; c=relaxed/simple;
+	bh=m9tt459TrRCOHJGrn4P1GgZPBMmO2y3IZ40ZZj/ilNQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HONcKIQYFJJpBgKZ+Us3CPqoc6houOjgachxRt+05PCdKJRWzgNFFe4r8OzUSUnZ5Yni2efioOgrzwCuHW4X9nuScUXqRj4XM703zR9jVCA/yutjBOu6t1N4H97QBs+QWnsTA+a7aBgqPvnIl+S5fqKB+eHmgc4MrfDWXJ8Uw5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=biKLZnhL; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ON7K5V/t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="biKLZnhL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713915170; x=1745451170;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P07uj5H8II0RpUX1IqAVzyt4lIJM0XmMLyglH3SiFis=;
-  b=ON7K5V/tRw1Yj4hK3ABmOb6xmQqgv6Ce9y0jeFy9XtMqaZUmqGjKO6cF
-   TXrGxOrOtY9zuXbXNLeidO+wZZXQQ/WHJx9nGn/MtnN7xHDrwpU0Wb7AT
-   0+48GGAogHLgqVaOwMzB4AV69qlvrbMZ5rMLGgU4cGhyTBIULad0RZVV2
-   6Rx4R8/faNeQfRxHcag0K1Crk5RvzMXjuQC8gq1vlrIvuMTUGp2edqXBf
-   /PwQ8v9SRozqbMjU/UzImm/HEVTIHJ4Utr9YUMfVGhScLpv9pciXJ81f4
-   crjavW4IDIEVpYfUcCZcdCE7LEBfiQr+Y8Ig/Ory9meA0ky/xpShg3c1Q
-   A==;
-X-CSE-ConnectionGUID: /k1q7sNAQsuyAYHQMAJ0KQ==
-X-CSE-MsgGUID: l4ZmDw58TH2YFtJC0fAs0A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9398427"
+  t=1713915775; x=1745451775;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m9tt459TrRCOHJGrn4P1GgZPBMmO2y3IZ40ZZj/ilNQ=;
+  b=biKLZnhLjTgSOvQyzoVfo0n5w5f6W7dxuCIOLSku8P/1xlV+AATpEpC6
+   eq7AskrcuOYStke6m1PaiR+EAkqUnWn6/kVyH4ZYbGVYo2wtVGyf6ldB3
+   6o6cPWdQ93XWMdEsKQyIfEWUBltRpMjuu4cOT8EgOUp//5dxL+lYEy8BI
+   PmY9pJkABAzxaarFUqky6qqvVjKJBoCprtpnpVsplgI4QL+ZtorHPUvcD
+   nVO53QrtSJFUxMaz30qceuAYJiazgPrXaz+4jP1nTvSJkosSEhFG4NCJu
+   wEvVJbuoEGZZsA7B87tNSBBs2jTYok+95hka61652LMCAxKaSaJkuH+bx
+   Q==;
+X-CSE-ConnectionGUID: crSMmkHBQ7ubDek5+mgYsg==
+X-CSE-MsgGUID: WXZCY6XRTlqXMr8dUcorLg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20930141"
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="9398427"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 16:32:49 -0700
-X-CSE-ConnectionGUID: vo1vGkPdSNerlU8GndZ+XQ==
-X-CSE-MsgGUID: /LA1Q0nLQEeyS32eHZWkEA==
+   d="scan'208";a="20930141"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 16:42:55 -0700
+X-CSE-ConnectionGUID: qeOxCRxLTsyH6lG5wft9+A==
+X-CSE-MsgGUID: 42c/oC0jQS2HyiXajej3Lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="55726273"
+   d="scan'208";a="24526372"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 23 Apr 2024 16:32:48 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 23 Apr 2024 16:42:48 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzPcz-0000d6-1j;
-	Tue, 23 Apr 2024 23:32:45 +0000
-Date: Wed, 24 Apr 2024 07:31:46 +0800
+	id 1rzPmf-0000da-2S;
+	Tue, 23 Apr 2024 23:42:45 +0000
+Date: Wed, 24 Apr 2024 07:42:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Dave Airlie <airlied@redhat.com>
-Subject: [linux-next:master 6727/7876]
- drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu14/smu_v14_0.c:80:52: error: '%s'
- directive output may be truncated writing up to 29 bytes into a region of
- size 23
-Message-ID: <202404240740.I4CcAi2r-lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, linux-amlogic@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Yue Wang <yue.wang@amlogic.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Xiaowei Song <songxiaowei@hisilicon.com>
+Subject: Re: [PATCH v2 2/4] PCI: dwc: Remove unused of_gpio.h
+Message-ID: <202404240725.Jlvuk7P3-lkp@intel.com>
+References: <20240423172208.2723892-3-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,81 +85,171 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240423172208.2723892-3-andriy.shevchenko@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a59668a9397e7245b26e9be85d23f242ff757ae8
-commit: 377b5b397d073c0aae36b833a5bcac0e6f349243 [6727/7876] Merge tag 'amd-drm-next-6.10-2024-04-19' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240424/202404240740.I4CcAi2r-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404240740.I4CcAi2r-lkp@intel.com/reproduce)
+Hi Andy,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus mani-mhi/mhi-next linus/master v6.9-rc5 next-20240423]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/PCI-aardvark-Remove-unused-of_gpio-h/20240424-012448
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20240423172208.2723892-3-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v2 2/4] PCI: dwc: Remove unused of_gpio.h
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240424/202404240725.Jlvuk7P3-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404240725.Jlvuk7P3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404240740.I4CcAi2r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404240725.Jlvuk7P3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu14/smu_v14_0.c: In function 'smu_v14_0_init_microcode':
->> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu14/smu_v14_0.c:80:52: error: '%s' directive output may be truncated writing up to 29 bytes into a region of size 23 [-Werror=format-truncation=]
-      80 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", ucode_prefix);
-         |                                                    ^~       ~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu14/smu_v14_0.c:80:9: note: 'snprintf' output between 12 and 41 bytes into a destination of size 30
-      80 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", ucode_prefix);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   In file included from drivers/pci/controller/dwc/pci-dra7xx.c:12:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/pci/controller/dwc/pci-dra7xx.c:15:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/pci/controller/dwc/pci-dra7xx.c:15:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/pci/controller/dwc/pci-dra7xx.c:15:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/pci/controller/dwc/pci-dra7xx.c:262:2: error: call to undeclared function 'chained_irq_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     262 |         chained_irq_enter(chip, desc);
+         |         ^
+>> drivers/pci/controller/dwc/pci-dra7xx.c:284:2: error: call to undeclared function 'chained_irq_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     284 |         chained_irq_exit(chip, desc);
+         |         ^
+   17 warnings and 2 errors generated.
 
 
-vim +80 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu14/smu_v14_0.c
+vim +/chained_irq_enter +262 drivers/pci/controller/dwc/pci-dra7xx.c
 
-2c79b0bca2bac7 Tim Huang    2024-01-30   63  
-fe6cd9152464ed Kenneth Feng 2023-04-26   64  int smu_v14_0_init_microcode(struct smu_context *smu)
-fe6cd9152464ed Kenneth Feng 2023-04-26   65  {
-fe6cd9152464ed Kenneth Feng 2023-04-26   66  	struct amdgpu_device *adev = smu->adev;
-fe6cd9152464ed Kenneth Feng 2023-04-26   67  	char fw_name[30];
-fa62c03917732e Kenneth Feng 2023-04-26   68  	char ucode_prefix[30];
-fe6cd9152464ed Kenneth Feng 2023-04-26   69  	int err = 0;
-fe6cd9152464ed Kenneth Feng 2023-04-26   70  	const struct smc_firmware_header_v1_0 *hdr;
-fe6cd9152464ed Kenneth Feng 2023-04-26   71  	const struct common_firmware_header *header;
-fe6cd9152464ed Kenneth Feng 2023-04-26   72  	struct amdgpu_firmware_info *ucode = NULL;
-fe6cd9152464ed Kenneth Feng 2023-04-26   73  
-fe6cd9152464ed Kenneth Feng 2023-04-26   74  	/* doesn't need to load smu firmware in IOV mode */
-fe6cd9152464ed Kenneth Feng 2023-04-26   75  	if (amdgpu_sriov_vf(adev))
-fe6cd9152464ed Kenneth Feng 2023-04-26   76  		return 0;
-fe6cd9152464ed Kenneth Feng 2023-04-26   77  
-fe6cd9152464ed Kenneth Feng 2023-04-26   78  	amdgpu_ucode_ip_version_decode(adev, MP1_HWIP, ucode_prefix, sizeof(ucode_prefix));
-fe6cd9152464ed Kenneth Feng 2023-04-26   79  
-fe6cd9152464ed Kenneth Feng 2023-04-26  @80  	snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", ucode_prefix);
-fe6cd9152464ed Kenneth Feng 2023-04-26   81  
-fe6cd9152464ed Kenneth Feng 2023-04-26   82  	err = amdgpu_ucode_request(adev, &adev->pm.fw, fw_name);
-fe6cd9152464ed Kenneth Feng 2023-04-26   83  	if (err)
-fe6cd9152464ed Kenneth Feng 2023-04-26   84  		goto out;
-fe6cd9152464ed Kenneth Feng 2023-04-26   85  
-fe6cd9152464ed Kenneth Feng 2023-04-26   86  	hdr = (const struct smc_firmware_header_v1_0 *) adev->pm.fw->data;
-fe6cd9152464ed Kenneth Feng 2023-04-26   87  	amdgpu_ucode_print_smc_hdr(&hdr->header);
-fe6cd9152464ed Kenneth Feng 2023-04-26   88  	adev->pm.fw_version = le32_to_cpu(hdr->header.ucode_version);
-fe6cd9152464ed Kenneth Feng 2023-04-26   89  
-fe6cd9152464ed Kenneth Feng 2023-04-26   90  	if (adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) {
-fe6cd9152464ed Kenneth Feng 2023-04-26   91  		ucode = &adev->firmware.ucode[AMDGPU_UCODE_ID_SMC];
-fe6cd9152464ed Kenneth Feng 2023-04-26   92  		ucode->ucode_id = AMDGPU_UCODE_ID_SMC;
-fe6cd9152464ed Kenneth Feng 2023-04-26   93  		ucode->fw = adev->pm.fw;
-fe6cd9152464ed Kenneth Feng 2023-04-26   94  		header = (const struct common_firmware_header *)ucode->fw->data;
-fe6cd9152464ed Kenneth Feng 2023-04-26   95  		adev->firmware.fw_size +=
-fe6cd9152464ed Kenneth Feng 2023-04-26   96  			ALIGN(le32_to_cpu(header->ucode_size_bytes), PAGE_SIZE);
-fe6cd9152464ed Kenneth Feng 2023-04-26   97  	}
-fe6cd9152464ed Kenneth Feng 2023-04-26   98  
-fe6cd9152464ed Kenneth Feng 2023-04-26   99  out:
-fe6cd9152464ed Kenneth Feng 2023-04-26  100  	if (err)
-fe6cd9152464ed Kenneth Feng 2023-04-26  101  		amdgpu_ucode_release(&adev->pm.fw);
-fe6cd9152464ed Kenneth Feng 2023-04-26  102  	return err;
-fe6cd9152464ed Kenneth Feng 2023-04-26  103  }
-fe6cd9152464ed Kenneth Feng 2023-04-26  104  
-
-:::::: The code at line 80 was first introduced by commit
-:::::: fe6cd9152464ed086fbeb45b6118ca386ee7aca2 drm/amd/swsmu: add smu14 ip support
-
-:::::: TO: Kenneth Feng <kenneth.feng@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  252  
+9a5595ab21a9d1 drivers/pci/controller/dwc/pci-dra7xx.c Vignesh Raghavendra    2020-03-27  253  static void dra7xx_pcie_msi_irq_handler(struct irq_desc *desc)
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  254  {
+9a5595ab21a9d1 drivers/pci/controller/dwc/pci-dra7xx.c Vignesh Raghavendra    2020-03-27  255  	struct irq_chip *chip = irq_desc_get_chip(desc);
+9a5595ab21a9d1 drivers/pci/controller/dwc/pci-dra7xx.c Vignesh Raghavendra    2020-03-27  256  	struct dra7xx_pcie *dra7xx;
+60b3c27fb9b92b drivers/pci/controller/dwc/pci-dra7xx.c Serge Semin            2022-06-24  257  	struct dw_pcie_rp *pp;
+9a5595ab21a9d1 drivers/pci/controller/dwc/pci-dra7xx.c Vignesh Raghavendra    2020-03-27  258  	struct dw_pcie *pci;
+09b2d20349e37a drivers/pci/dwc/pci-dra7xx.c            Vignesh R              2017-12-29  259  	unsigned long reg;
+d21faba11693c1 drivers/pci/controller/dwc/pci-dra7xx.c Marc Zyngier           2021-08-02  260  	u32 bit;
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  261  
+9a5595ab21a9d1 drivers/pci/controller/dwc/pci-dra7xx.c Vignesh Raghavendra    2020-03-27 @262  	chained_irq_enter(chip, desc);
+9a5595ab21a9d1 drivers/pci/controller/dwc/pci-dra7xx.c Vignesh Raghavendra    2020-03-27  263  
+9a5595ab21a9d1 drivers/pci/controller/dwc/pci-dra7xx.c Vignesh Raghavendra    2020-03-27  264  	pp = irq_desc_get_handler_data(desc);
+9a5595ab21a9d1 drivers/pci/controller/dwc/pci-dra7xx.c Vignesh Raghavendra    2020-03-27  265  	pci = to_dw_pcie_from_pp(pp);
+9a5595ab21a9d1 drivers/pci/controller/dwc/pci-dra7xx.c Vignesh Raghavendra    2020-03-27  266  	dra7xx = to_dra7xx_pcie(pci);
+9a5595ab21a9d1 drivers/pci/controller/dwc/pci-dra7xx.c Vignesh Raghavendra    2020-03-27  267  
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  268  	reg = dra7xx_pcie_readl(dra7xx, PCIECTRL_DRA7XX_CONF_IRQSTATUS_MSI);
+9a5595ab21a9d1 drivers/pci/controller/dwc/pci-dra7xx.c Vignesh Raghavendra    2020-03-27  269  	dra7xx_pcie_writel(dra7xx, PCIECTRL_DRA7XX_CONF_IRQSTATUS_MSI, reg);
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  270  
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  271  	switch (reg) {
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  272  	case MSI:
+9a5595ab21a9d1 drivers/pci/controller/dwc/pci-dra7xx.c Vignesh Raghavendra    2020-03-27  273  		dra7xx_pcie_handle_msi_irq(pp);
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  274  		break;
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  275  	case INTA:
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  276  	case INTB:
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  277  	case INTC:
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  278  	case INTD:
+d21faba11693c1 drivers/pci/controller/dwc/pci-dra7xx.c Marc Zyngier           2021-08-02  279  		for_each_set_bit(bit, &reg, PCI_NUM_INTX)
+d21faba11693c1 drivers/pci/controller/dwc/pci-dra7xx.c Marc Zyngier           2021-08-02  280  			generic_handle_domain_irq(dra7xx->irq_domain, bit);
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  281  		break;
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  282  	}
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  283  
+9a5595ab21a9d1 drivers/pci/controller/dwc/pci-dra7xx.c Vignesh Raghavendra    2020-03-27 @284  	chained_irq_exit(chip, desc);
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  285  }
+47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  286  
 
 -- 
 0-DAY CI Kernel Test Service
