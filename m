@@ -1,126 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D641824A7;
-	Tue, 23 Apr 2024 11:56:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5BB83CD6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 12:22:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713873395; cv=none; b=XDhEefdy+QX0+Di8kRWx0prhdh9a3KC7EUSPKa7/LtQhxNMpv9j8FRMbiS87/hZ+DCCeBtHQGmJNIurzTFZQ/M/rCygQqvJ/MI/1IGf5mExFlALoF1g2owy6NltQQUH4nMLUFFpC9q1AtddtATL+oAsANg2xuJBg8L0xBq9hcAA=
+	t=1713874957; cv=none; b=r3BH+dWnw7cGLiRilgHrRQBGnFpaV+ww3e6+YwXTbzO2ytI1T8fvmtz76htTL3wOpkyiq5Skxb8ZJU+qeuYqNK/Cmstl3cxFd8KlMSPlWCKwXL+u5zQB45nXKo1tAz8FuGSC85CV13F37PLv+esFWUnc/MUzJvOb1Tu11hDWKcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713873395; c=relaxed/simple;
-	bh=p/uf6VYgCKT6JxvSBrFmzJpBlF+YiW1WjAHp1el+N5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a//o84yi0baSr3/iwyCnrM9TZSCJUYXJaL0NXnLlqBlUXKcNLCgJOqOxJHrg9ELjtDQHpoJyPp1/2y4OkNNcm0VZLQDSPkFimfbwrT5E1ia/kLn1HlS3+Np7mieJito5R47feugpDSAbdjuxzVdh14bM5v2g7b++PbrWFtH9GnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l70ZxMLC; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713874957; c=relaxed/simple;
+	bh=D4AqC6DJTjx1Mrko30IB8c2166W8GKAXdoU6m7KLIzg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gRmqSzfR9/7Rgm/h8F3qEzmXjT1RAChQJYsnmRvp/x2hY7qiAdfIXoYB0d0LHEvuT9HeEqBlCftG2DCk8hvK+XvXEUD/VjgQjPFMyN97P+58z+gmsfXibEekqfSoHJvd8ZCnPfBEjNx27Sbo69l3eJOwW5KrfLXB5AREwSwZcMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=jkwfW46h; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=phFlzY3v reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l70ZxMLC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713873394; x=1745409394;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p/uf6VYgCKT6JxvSBrFmzJpBlF+YiW1WjAHp1el+N5I=;
-  b=l70ZxMLCwCNRoVpPZ+6C1OJXBW1NP6oY2Pq1YTRMDENlzci8CzzE9n8N
-   DVB7iUAfVhYTMyBCMcbCRBP2Al10uk6cDKYL+AeT8UXV4Co24b3kVDB9z
-   bCK8HKX8iq0hJVlF5XJ1eR38SbiiZIWFr9i/ySPa4vbcuEec4FcYQsuZr
-   lNMxhmjkoygZdNhANOZj1AgV9LINxiRChBKksICUsmZ0ung2UuyMV8osl
-   zt1BW10YJjFVD0OUqkDGaWHS60qPnNvhz4rNiYVwHGS/+I222MgYruUBU
-   4IemIm7ObGEJNGl1F4AEyGwK4K9F/9ph3Sg0cGbgxTncTduIKHLlPxKUm
-   g==;
-X-CSE-ConnectionGUID: dw50SWbKSLmPyxDlyGumwA==
-X-CSE-MsgGUID: VoM9c3AnR/+KF0hlhsa3tg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="9305409"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="9305409"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 04:56:33 -0700
-X-CSE-ConnectionGUID: hWAL2QWzRY67+bfCqqupIA==
-X-CSE-MsgGUID: nyaBbhdCQVKOIqKg29TI3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="55297699"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 23 Apr 2024 04:56:30 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rzEl9-0000A4-0p;
-	Tue, 23 Apr 2024 11:56:27 +0000
-Date: Tue, 23 Apr 2024 19:56:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadfed@meta.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Mykola Lysenko <mykolal@fb.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-crypto@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next v10 1/4] bpf: make common crypto API for TC/XDP
- programs
-Message-ID: <202404231955.qUkSEasH-lkp@intel.com>
-References: <20240422225024.2847039-2-vadfed@meta.com>
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="jkwfW46h";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="phFlzY3v"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1713874952; x=1745410952;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=E9wZqJ6y59Nv34P4nAdrZa4qU8KTIkboonxhlEkLlm4=;
+  b=jkwfW46hXynd+m468Dt5GRupNVMaEat/ohTFeCY7lc97HzmNa5Tswg3l
+   23OYX7nogk6g+MDSONA5/6N6267g8szR1xkue/xVlJekkf16FDk5B7Akl
+   J8lzLS+ow9W9z0to3iikkPYuZOBlDaJl/2Hw8WAeNGNw/jfQasXFSCY5D
+   dwxOeFdAojFkh7TRX/nLZk0RhwN5C/HR8WOoBdF5bp5b+rKIVz9cLogIZ
+   s/GloV6VbWqP/7ns/NmZpHY3YTEZ7mHL0WmZT+ztoXWlyXj0GnrS0iAXs
+   1w+Gxtf/NwEpbQos8C8fYqDpY6YXugO3LpGGaIt435zi9vfEr2Q9RNL1D
+   A==;
+X-IronPort-AV: E=Sophos;i="6.07,222,1708383600"; 
+   d="scan'208";a="36566806"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 23 Apr 2024 14:22:30 +0200
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DF7DC161401;
+	Tue, 23 Apr 2024 14:22:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1713874946;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=E9wZqJ6y59Nv34P4nAdrZa4qU8KTIkboonxhlEkLlm4=;
+	b=phFlzY3vX0KxxBzY1YCwzf1781fBpiOo7/nO59thPz5hSw7TjG48gdi0bfVEr8OsYWdcEy
+	qyOMHbssLW04suAHEhuI56UV+2lpjH1sruFLm31ZkBp4DFN7eTJ9dUBsHS60ja9ar8/6Oo
+	3yIhJwWLBF06XMa/Sd21JLjzYfWVISG8xbmZGpNY+utA9z6u63zK4EgV2Dj26W6jt2KMOd
+	gSt/w97Z6ibQqYRKz9rUsDToWIhK5AHRtYilzXroHTzQfFxZsxxq9sHeMliXxwlzhaX1wa
+	aw3WvAldXqJDOT/dQIVAlplCcRtbd2B0jtZycn2uog7lfal8R/czQyRfO3IF8w==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: kernel test robot <lkp@intel.com>, Masahiro Yamada <masahiroy@kernel.org>, Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org
+Subject: Re: [masahiroy-kbuild:kbuild 5/7] kernel/kallsyms.c:181:56: warning: array subscript is outside array bounds
+Date: Tue, 23 Apr 2024 14:22:26 +0200
+Message-ID: <1887856.tdWV9SEqCh@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <CAMj1kXH+i1mEFsgZnXokbJ5srDbZY50QGGJcf7yr0w2BowJB8g@mail.gmail.com>
+References: <202404231102.r0G0StUJ-lkp@intel.com> <CAMj1kXH+i1mEFsgZnXokbJ5srDbZY50QGGJcf7yr0w2BowJB8g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240422225024.2847039-2-vadfed@meta.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Vadim,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Am Dienstag, 23. April 2024, 08:57:16 CEST schrieb Ard Biesheuvel:
+> On Tue, 23 Apr 2024 at 05:50, kernel test robot <lkp@intel.com> wrote:
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux=
+=2Dkbuild.git kbuild
+> > head:   8246a1e9b922c0e797ec28d8a602de1384ff8140
+> > commit: 0bdad28369fc5e93de39b5046228ed78e982fc71 [5/7] kallsyms: Avoid =
+weak references for kallsyms symbols
+> > config: i386-randconfig-001-20240423 (https://download.01.org/0day-ci/a=
+rchive/20240423/202404231102.r0G0StUJ-lkp@intel.com/config)
+> > compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20240423/202404231102.r0G0StUJ-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202404231102.r0G0StUJ-l=
+kp@intel.com/
+> >
+> > Note: it may well be a FALSE warning. FWIW you are at least aware of it=
+ now.
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> >    kernel/kallsyms.c: In function 'get_symbol_pos':
+> > >> kernel/kallsyms.c:181:56: warning: array subscript is outside array =
+bounds [-Warray-bounds]
+> >       return kallsyms_relative_base + (u32)kallsyms_offsets[idx];
+> >
+>=20
+> OK, so weak definitions result in compiler warnings. I don't know
+> whether C requires weak definitions of array types are always the same
+> size.
 
-[auto build test WARNING on bpf-next/master]
+It's not just compiler warnings. UBSAN is also triggered by this commit.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bpf-make-common-crypto-API-for-TC-XDP-programs/20240423-070416
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20240422225024.2847039-2-vadfed%40meta.com
-patch subject: [PATCH bpf-next v10 1/4] bpf: make common crypto API for TC/XDP programs
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240423/202404231955.qUkSEasH-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240423/202404231955.qUkSEasH-lkp@intel.com/reproduce)
+> UBSAN: array-index-out-of-bounds in ../kernel/kallsyms.c:181:56
+> index 64143 is out of range for type 'int [1]'
+> CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.9.0-rc5-next-20240423+ #2422 =
+cee92685fac34b7fb981de78571f7250231badab
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404231955.qUkSEasH-lkp@intel.com/
+[1] might also be affected by this as CONFIG_UBSAN_BOUNDS=3Dy is set.
 
-All warnings (new ones prefixed by >>):
+Best regards,
+Alexander
 
->> kernel/bpf/crypto.c:34: warning: Function parameter or struct member 'reserved' not described in 'bpf_crypto_params'
-   kernel/bpf/crypto.c:55: warning: Function parameter or struct member 'siv_len' not described in 'bpf_crypto_ctx'
+[1] https://lore.kernel.org/linux-kbuild/691143b5-4636-4911-9c93-437b95f461=
+57@amd.com/T/#m3e5e9112bac8a56b8a7dfa6a19cbc03dcb43a480
+
+> We could work around this by
+> a) emitting the weak definitions into a separate object file, although
+> this may still violate C, and does not hide the issue from LTO
+> b) go back to using PROVIDE() in the linker scripts
+>=20
+> @Masahiro: any preference?
+>=20
+>=20
 
 
-vim +34 kernel/bpf/crypto.c
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-    17	
-    18	/* BPF crypto initialization parameters struct */
-    19	/**
-    20	 * struct bpf_crypto_params - BPF crypto initialization parameters structure
-    21	 * @type:	The string of crypto operation type.
-    22	 * @algo:	The string of algorithm to initialize.
-    23	 * @key:	The cipher key used to init crypto algorithm.
-    24	 * @key_len:	The length of cipher key.
-    25	 * @authsize:	The length of authentication tag used by algorithm.
-    26	 */
-    27	struct bpf_crypto_params {
-    28		char type[14];
-    29		u8 reserved[2];
-    30		char algo[128];
-    31		u8 key[256];
-    32		u32 key_len;
-    33		u32 authsize;
-  > 34	};
-    35	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
