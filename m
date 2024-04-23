@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B74A4691
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 11:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D641824A7;
+	Tue, 23 Apr 2024 11:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713870273; cv=none; b=nvu9uNmsdgQwQW2f7iHhj5YAHQRQ6dy7q2UYsBcvaA7CRBrBuki+iJC25T/vNPEGx60P4LCj1BEn//dFHSNfd9iN5bXyDsVkpfBYkjsnuNLK84OMvxrz89aYAHVF6Uj1nhfMf+wERNP7yGVMI6lD9R0mZvYNkScFLYmY+syJkG8=
+	t=1713873395; cv=none; b=XDhEefdy+QX0+Di8kRWx0prhdh9a3KC7EUSPKa7/LtQhxNMpv9j8FRMbiS87/hZ+DCCeBtHQGmJNIurzTFZQ/M/rCygQqvJ/MI/1IGf5mExFlALoF1g2owy6NltQQUH4nMLUFFpC9q1AtddtATL+oAsANg2xuJBg8L0xBq9hcAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713870273; c=relaxed/simple;
-	bh=rnnuAJQIGmedxs/BY0lD72svitvHvMuUj7T9rqzNvn4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rmJ1zeDqiSc+CGRWMCGA0FTOaCqfCppOOnAxGqdWQZmVg7ABqWXFyKqj1TIDQcdTaYfSbiFrSfVQimB6Yf0nUSgVf7FjZm/j4zzQgwkhFd3MxYzrHNm6BWGZ/IYSAzk10vE1HAy6Qnd33AsRiRzN7COjQ4PstOuY9wphO9tJURg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+YQiS57; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1713873395; c=relaxed/simple;
+	bh=p/uf6VYgCKT6JxvSBrFmzJpBlF+YiW1WjAHp1el+N5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a//o84yi0baSr3/iwyCnrM9TZSCJUYXJaL0NXnLlqBlUXKcNLCgJOqOxJHrg9ELjtDQHpoJyPp1/2y4OkNNcm0VZLQDSPkFimfbwrT5E1ia/kLn1HlS3+Np7mieJito5R47feugpDSAbdjuxzVdh14bM5v2g7b++PbrWFtH9GnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l70ZxMLC; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+YQiS57"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l70ZxMLC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713870270; x=1745406270;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rnnuAJQIGmedxs/BY0lD72svitvHvMuUj7T9rqzNvn4=;
-  b=i+YQiS57fXqTLQvMyjGwBA0K27QRZomT45XbFYq7yvj8wPO/S1Y15g5k
-   LjPinQr1yiAwytaMdlZ6owPVc8xQA2b66ViUQDHZ4uxsVsrGdl6ZYn7mW
-   quUArLJNQAgUXua7Bjl8DPQL0UsgZk7S6y29t2VNDXZQXK+Zm7PLUGnGL
-   cY+niHw2atJBEyGorG4MB0XFz+XNIt2vnOVOjZEHaevPjlUXNa1uepUfL
-   IWM3TBPT8kwHs6MoOTdafj2nQmxXMJgcP4QVUdQA5AzcOhef6uvI4zIwJ
-   h6jInN/vAWCF+wWpqQl8uOVcqGAtfsZau03zRV2SrC/X+f1+Ra+183wAa
-   A==;
-X-CSE-ConnectionGUID: t+fpPR59S96heW4DvejY+A==
-X-CSE-MsgGUID: Q6fnej4NQqGD6QhSJNWMcw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="34845361"
+  t=1713873394; x=1745409394;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=p/uf6VYgCKT6JxvSBrFmzJpBlF+YiW1WjAHp1el+N5I=;
+  b=l70ZxMLCwCNRoVpPZ+6C1OJXBW1NP6oY2Pq1YTRMDENlzci8CzzE9n8N
+   DVB7iUAfVhYTMyBCMcbCRBP2Al10uk6cDKYL+AeT8UXV4Co24b3kVDB9z
+   bCK8HKX8iq0hJVlF5XJ1eR38SbiiZIWFr9i/ySPa4vbcuEec4FcYQsuZr
+   lNMxhmjkoygZdNhANOZj1AgV9LINxiRChBKksICUsmZ0ung2UuyMV8osl
+   zt1BW10YJjFVD0OUqkDGaWHS60qPnNvhz4rNiYVwHGS/+I222MgYruUBU
+   4IemIm7ObGEJNGl1F4AEyGwK4K9F/9ph3Sg0cGbgxTncTduIKHLlPxKUm
+   g==;
+X-CSE-ConnectionGUID: dw50SWbKSLmPyxDlyGumwA==
+X-CSE-MsgGUID: VoM9c3AnR/+KF0hlhsa3tg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="9305409"
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="34845361"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 04:04:29 -0700
-X-CSE-ConnectionGUID: kixJC7alRsiSiZHN0eD0hw==
-X-CSE-MsgGUID: R5fGWODuTAeEAguOsspQOw==
+   d="scan'208";a="9305409"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 04:56:33 -0700
+X-CSE-ConnectionGUID: hWAL2QWzRY67+bfCqqupIA==
+X-CSE-MsgGUID: nyaBbhdCQVKOIqKg29TI3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="24395253"
+   d="scan'208";a="55297699"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 23 Apr 2024 04:04:29 -0700
+  by orviesa002.jf.intel.com with ESMTP; 23 Apr 2024 04:56:30 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzDwo-00008O-13;
-	Tue, 23 Apr 2024 11:04:26 +0000
-Date: Tue, 23 Apr 2024 19:04:05 +0800
+	id 1rzEl9-0000A4-0p;
+	Tue, 23 Apr 2024 11:56:27 +0000
+Date: Tue, 23 Apr 2024 19:56:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guenter Roeck <groeck@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jsarha:topic/cros-sof-v4.19 377/6555]
- drivers/remoteproc/qcom_q6v5_pas.c:246:26: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202404231815.FK1FSzwh-lkp@intel.com>
+To: Vadim Fedorenko <vadfed@meta.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-crypto@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next v10 1/4] bpf: make common crypto API for TC/XDP
+ programs
+Message-ID: <202404231955.qUkSEasH-lkp@intel.com>
+References: <20240422225024.2847039-2-vadfed@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,103 +72,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240422225024.2847039-2-vadfed@meta.com>
 
-tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
-head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
-commit: 5e19c1b9d22e9030faf1c1416954d3462cc12ea7 [377/6555] FROMGIT: remoteproc: qcom: Rename Hexagon v5 PAS driver
-config: arm64-randconfig-r111-20240422 (https://download.01.org/0day-ci/archive/20240423/202404231815.FK1FSzwh-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240423/202404231815.FK1FSzwh-lkp@intel.com/reproduce)
+Hi Vadim,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bpf-make-common-crypto-API-for-TC-XDP-programs/20240423-070416
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20240422225024.2847039-2-vadfed%40meta.com
+patch subject: [PATCH bpf-next v10 1/4] bpf: make common crypto API for TC/XDP programs
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240423/202404231955.qUkSEasH-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240423/202404231955.qUkSEasH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404231815.FK1FSzwh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404231955.qUkSEasH-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/remoteproc/qcom_q6v5_pas.c:246:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *mem_region @@     got void [noderef] <asn:2> * @@
-   drivers/remoteproc/qcom_q6v5_pas.c:246:26: sparse:     expected void *mem_region
-   drivers/remoteproc/qcom_q6v5_pas.c:246:26: sparse:     got void [noderef] <asn:2> *
-   In file included from drivers/remoteproc/qcom_q6v5_pas.c:22:
-   include/linux/module.h:140:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'adsp_driver_exit': 'cold' [-Wmissing-attributes]
-     140 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
-         |              ^~~~~~~~~~~~~~
-   include/linux/device.h:1585:1: note: in expansion of macro 'module_exit'
-    1585 | module_exit(__driver##_exit);
-         | ^~~~~~~~~~~
-   include/linux/platform_device.h:228:9: note: in expansion of macro 'module_driver'
-     228 |         module_driver(__platform_driver, platform_driver_register, 13-      |         ^~~~~~~~~~~~~
-   drivers/remoteproc/qcom_q6v5_pas.c:372:1: note: in expansion of macro 'module_platform_driver'
-     372 | module_platform_driver(adsp_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from include/linux/of_device.h:5,
-                    from drivers/remoteproc/qcom_q6v5_pas.c:24:
-   drivers/remoteproc/qcom_q6v5_pas.c:372:24: note: 'cleanup_module' target declared here
-     372 | module_platform_driver(adsp_driver);
-         |                        ^~~~~~~~~~~
-   include/linux/device.h:1581:20: note: in definition of macro 'module_driver'
-    1581 | static void __exit __driver##_exit(void) 26-      |                    ^~~~~~~~
-   drivers/remoteproc/qcom_q6v5_pas.c:372:1: note: in expansion of macro 'module_platform_driver'
-     372 | module_platform_driver(adsp_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/module.h:134:13: warning: 'init_module' specifies less restrictive attribute than its target 'adsp_driver_init': 'cold' [-Wmissing-attributes]
-     134 |         int init_module(void) __attribute__((alias(#initfn)));
-         |             ^~~~~~~~~~~
-   include/linux/device.h:1580:1: note: in expansion of macro 'module_init'
-    1580 | module_init(__driver##_init); 35-      | ^~~~~~~~~~~
-   include/linux/platform_device.h:228:9: note: in expansion of macro 'module_driver'
-     228 |         module_driver(__platform_driver, platform_driver_register, 38-      |         ^~~~~~~~~~~~~
-   drivers/remoteproc/qcom_q6v5_pas.c:372:1: note: in expansion of macro 'module_platform_driver'
-     372 | module_platform_driver(adsp_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/remoteproc/qcom_q6v5_pas.c:372:24: note: 'init_module' target declared here
-     372 | module_platform_driver(adsp_driver);
-         |                        ^~~~~~~~~~~
-   include/linux/device.h:1576:19: note: in definition of macro 'module_driver'
-    1576 | static int __init __driver##_init(void) 47-      |                   ^~~~~~~~
-   drivers/remoteproc/qcom_q6v5_pas.c:372:1: note: in expansion of macro 'module_platform_driver'
-     372 | module_platform_driver(adsp_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
+All warnings (new ones prefixed by >>):
 
-vim +246 drivers/remoteproc/qcom_q6v5_pas.c
+>> kernel/bpf/crypto.c:34: warning: Function parameter or struct member 'reserved' not described in 'bpf_crypto_params'
+   kernel/bpf/crypto.c:55: warning: Function parameter or struct member 'siv_len' not described in 'bpf_crypto_ctx'
 
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  227  
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  228  static int adsp_alloc_memory_region(struct qcom_adsp *adsp)
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  229  {
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  230  	struct device_node *node;
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  231  	struct resource r;
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  232  	int ret;
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  233  
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  234  	node = of_parse_phandle(adsp->dev->of_node, "memory-region", 0);
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  235  	if (!node) {
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  236  		dev_err(adsp->dev, "no memory-region specified\n");
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  237  		return -EINVAL;
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  238  	}
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  239  
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  240  	ret = of_address_to_resource(node, 0, &r);
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  241  	if (ret)
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  242  		return ret;
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  243  
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  244  	adsp->mem_phys = adsp->mem_reloc = r.start;
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  245  	adsp->mem_size = resource_size(&r);
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22 @246  	adsp->mem_region = devm_ioremap_wc(adsp->dev, adsp->mem_phys, adsp->mem_size);
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  247  	if (!adsp->mem_region) {
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  248  		dev_err(adsp->dev, "unable to map memory region: %pa+%zx\n",
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  249  			&r.start, adsp->mem_size);
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  250  		return -EBUSY;
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  251  	}
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  252  
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  253  	return 0;
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  254  }
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson 2016-08-22  255  
 
-:::::: The code at line 246 was first introduced by commit
-:::::: b9e718e950c3dfa458bbf9180a8d8691e55413ae remoteproc: Introduce Qualcomm ADSP PIL
+vim +34 kernel/bpf/crypto.c
 
-:::::: TO: Bjorn Andersson <bjorn.andersson@sonymobile.com>
-:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+    17	
+    18	/* BPF crypto initialization parameters struct */
+    19	/**
+    20	 * struct bpf_crypto_params - BPF crypto initialization parameters structure
+    21	 * @type:	The string of crypto operation type.
+    22	 * @algo:	The string of algorithm to initialize.
+    23	 * @key:	The cipher key used to init crypto algorithm.
+    24	 * @key_len:	The length of cipher key.
+    25	 * @authsize:	The length of authentication tag used by algorithm.
+    26	 */
+    27	struct bpf_crypto_params {
+    28		char type[14];
+    29		u8 reserved[2];
+    30		char algo[128];
+    31		u8 key[256];
+    32		u32 key_len;
+    33		u32 authsize;
+  > 34	};
+    35	
 
 -- 
 0-DAY CI Kernel Test Service
