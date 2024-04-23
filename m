@@ -1,66 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3479A1353E0;
-	Tue, 23 Apr 2024 14:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D84F13D506
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 16:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713883298; cv=none; b=LatuFe6+m7BRIN+8mEzgrsQp4C2ENWYwKSwd6J/ZzgSCKKhi0vYiBluiKJmJmEoqU9Kt/gze+3xIdWDhcegzu2g40/IyppIcMl6u28baJq/Iw8BgpV7+9fwz/RFu2phsX7SBQHMoQyc91fUGfPWVzUHOteU+vlRAsYalASvC8ok=
+	t=1713888880; cv=none; b=g0ZHSTxo864dP0Vm4uUEd87DitGUIRDIOvXnsKdoG2Ee63kPZxM2d3axfK/vASXfCh++Te3mhc9KdwgVvQi0WBR/QjzEOioO6I8W4p0txGDbJvpS0XjQiH06xW1OMj2oE6+6WGj4UewSt6gvnuobyxk42qF/wGks8MFo7tZfGfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713883298; c=relaxed/simple;
-	bh=2MFEdQx8PJfmmWmol+/toruOTDUBS8sWIUsI92/p5zU=;
+	s=arc-20240116; t=1713888880; c=relaxed/simple;
+	bh=Vv3Pzh/tN2YWuj6VkDSluT/ePBD6u8OspryaSNQWcRw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cs2k3jPr6CXAcUO8M5/VwVaPEODtycav08mH0yf8WNRWBFsecUo/s+KbhGbMzOsnoqBlGDETbOYmvwn6oPA12tlpWkSCKlUm0pb5mr8Pn+tg5O2OdSUUYFhthLNZ7HwUcrgkaVFH1D8uQ4oOVnxWN7OgLPMUiW25D82VU+ioPio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XKqKEqFF; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=NH9m8myODswTRzcG+cAz1gvrVn6qSa2fASBQZ2gwgE8wYEYOMPU5Xk7zCUjOCqoxy+Xl47E75iBMLxijQUFlcyWVFX3QaaAJKUuUlEvNU6nq3x6/aH1PGLhEW+qIT2U98RMw6JT0Cla8nYA67HDvbxmJX/8GtK3G3s8cinVFZd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FIE8LRDu; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XKqKEqFF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FIE8LRDu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713883296; x=1745419296;
+  t=1713888879; x=1745424879;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2MFEdQx8PJfmmWmol+/toruOTDUBS8sWIUsI92/p5zU=;
-  b=XKqKEqFFvd/fr0R4i9f07EosLJpMQ7rHVGT1J6ZhuQccN6xQhWryAcjG
-   YT20sNHLQzg3/NbqPdgunwBOS0vJmeCMOiEHjIDQkDVmCma4B7dkomrUZ
-   FeqyGrWcTRb7Dlr75R8wyE4dOChayp4t4nnAFIPglmxHXup3mxKGYz7HP
-   hRC3wjEjb5AFOU9TkRBH+ueq+wByxhLyFjNoYk1Cp0fiPIvi4ikT1Bd2a
-   //go2GM5ATDxkHpyTg2C+2E3jA7p2ILQLWIMD4Fa3ROPZLalz5hUbuK31
-   v0qOYCVlHmZZcDbV3nj4YV+qMYM1SwtMQeOx3VcqQFjvuM5bh7xq+IRcg
+  bh=Vv3Pzh/tN2YWuj6VkDSluT/ePBD6u8OspryaSNQWcRw=;
+  b=FIE8LRDusZT/64f6dle62V0br9FMckHgrXIHb7Ryhq2nlLPikDrJPTGZ
+   /m/aG6Ln7zyHvMMt25AOov2u9wzKdbWU+JXc5j0XDZNOZkcqL1u5r4i7P
+   xY/G0sXZkCfDozFlSclOwVRMKEy1Ne8yZaEG6ZEvWwfSu/pdiOj7hkvWS
+   GJ+wau+biIbTPJzKqkeZc4v+gcJFATi1xmToWxdC3JnKmhtSE0QyFsKvK
+   b8XpLURI0O22boBOauoVte4YDXCkEhi4Oc/x8KGRU+ygtF7ZMk42KkWLK
+   kfdO3WKmaoH/XsSd/bdkSAbRQ/p8CwtUN44dRZDUZaCtYCcBDOzUqKBSR
    w==;
-X-CSE-ConnectionGUID: tgEMkzF0R8S49ytQw0tHPw==
-X-CSE-MsgGUID: rv8+OAAISvWEEDwrv7jheA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20871605"
+X-CSE-ConnectionGUID: JRSgE3RgSS+GMhZOhO9ucg==
+X-CSE-MsgGUID: iS4ZPRu1TnCTrYtip8hwhA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="31978012"
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="20871605"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 07:41:36 -0700
-X-CSE-ConnectionGUID: VcsInWyQT7eIjCZmisbxQQ==
-X-CSE-MsgGUID: WUAU15WtSuGKJA5MQLX14A==
+   d="scan'208";a="31978012"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 09:14:39 -0700
+X-CSE-ConnectionGUID: OyVmfELgT4+8rSOzi26oTg==
+X-CSE-MsgGUID: fz3MNTTYSMOIFOVkv5qZ6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="24363957"
+   d="scan'208";a="24414604"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 23 Apr 2024 07:41:33 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 23 Apr 2024 09:14:35 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzHKs-0000Eu-1Q;
-	Tue, 23 Apr 2024 14:41:30 +0000
-Date: Tue, 23 Apr 2024 22:40:38 +0800
+	id 1rzImv-0000JI-1k;
+	Tue, 23 Apr 2024 16:14:33 +0000
+Date: Wed, 24 Apr 2024 00:13:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shakeel Butt <shakeel.butt@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
+To: Geetha sowjanya <gakula@marvell.com>, netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] memcg: reduce memory for the lruvec and memcg stats
-Message-ID: <202404232230.94gQwAI2-lkp@intel.com>
-References: <20240423051826.791934-3-shakeel.butt@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, kuba@kernel.org, davem@davemloft.net,
+	pabeni@redhat.com, edumazet@google.com, sgoutham@marvell.com,
+	gakula@marvell.com, sbhatta@marvell.com, hkelam@marvell.com
+Subject: Re: [net-next PATCH v2 5/9] octeontx2-af: Add packet path between
+ representor and VF
+Message-ID: <202404240058.p4HzPiSt-lkp@intel.com>
+References: <20240422095401.14245-6-gakula@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,116 +66,134 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240423051826.791934-3-shakeel.butt@linux.dev>
+In-Reply-To: <20240422095401.14245-6-gakula@marvell.com>
 
-Hi Shakeel,
+Hi Geetha,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on next-20240422]
-[cannot apply to akpm-mm/mm-everything linus/master v6.9-rc5 v6.9-rc4 v6.9-rc3 v6.9-rc5]
+[auto build test WARNING on next-20240422]
+[also build test WARNING on v6.9-rc5]
+[cannot apply to net-next/main linus/master horms-ipvs/master v6.9-rc5 v6.9-rc4 v6.9-rc3]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shakeel-Butt/mm-rearrange-node_stat_item-to-put-memcg-stats-at-start/20240423-132451
+url:    https://github.com/intel-lab-lkp/linux/commits/Geetha-sowjanya/octeontx2-pf-Refactoring-RVU-driver/20240422-175819
 base:   next-20240422
-patch link:    https://lore.kernel.org/r/20240423051826.791934-3-shakeel.butt%40linux.dev
-patch subject: [PATCH 2/4] memcg: reduce memory for the lruvec and memcg stats
-config: x86_64-buildonly-randconfig-002-20240423 (https://download.01.org/0day-ci/archive/20240423/202404232230.94gQwAI2-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240423/202404232230.94gQwAI2-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20240422095401.14245-6-gakula%40marvell.com
+patch subject: [net-next PATCH v2 5/9] octeontx2-af: Add packet path between representor and VF
+config: alpha-randconfig-r122-20240423 (https://download.01.org/0day-ci/archive/20240424/202404240058.p4HzPiSt-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240424/202404240058.p4HzPiSt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404232230.94gQwAI2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404240058.p4HzPiSt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:39:38: sparse: sparse: cast to restricted __be16
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:39:38: sparse: sparse: cast to restricted __be16
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:39:38: sparse: sparse: cast to restricted __be16
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:39:38: sparse: sparse: cast to restricted __be16
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:95:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [assigned] [usertype] vlan_etype @@     got int @@
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:95:31: sparse:     expected restricted __be16 [assigned] [usertype] vlan_etype
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:95:31: sparse:     got int
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:96:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [assigned] [usertype] vlan_etype @@     got int @@
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:96:29: sparse:     expected restricted __be16 [assigned] [usertype] vlan_etype
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:96:29: sparse:     got int
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:97:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [assigned] [usertype] vlan_tci @@     got unsigned short [assigned] [usertype] vlan_tci @@
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:97:29: sparse:     expected restricted __be16 [assigned] [usertype] vlan_tci
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:97:29: sparse:     got unsigned short [assigned] [usertype] vlan_tci
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:98:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [assigned] [usertype] vlan_tci @@     got int @@
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:98:27: sparse:     expected restricted __be16 [assigned] [usertype] vlan_tci
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c:98:27: sparse:     got int
 
->> mm/memcontrol.c:1651:2: error: call to '__compiletime_assert_963' declared with 'error' attribute: BUILD_BUG_ON failed: ARRAY_SIZE(memory_stats) != MEMCG_NR_STAT - 1
-    1651 |         BUILD_BUG_ON(ARRAY_SIZE(memory_stats) != MEMCG_NR_STAT - 1);
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:460:2: note: expanded from macro 'compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:448:2: note: expanded from macro '_compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:441:4: note: expanded from macro '__compiletime_assert'
-     441 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:40:1: note: expanded from here
-      40 | __compiletime_assert_963
-         | ^
-   1 error generated.
+vim +39 drivers/net/ethernet/marvell/octeontx2/af/rvu_rep.c
 
-
-vim +1651 mm/memcontrol.c
-
-  1645	
-  1646	static void memcg_stat_format(struct mem_cgroup *memcg, struct seq_buf *s)
-  1647	{
-  1648		int i;
-  1649	
-  1650		/* Reduce by 1 for MEMCG_SWAP as that is not exposed in v2. */
-> 1651		BUILD_BUG_ON(ARRAY_SIZE(memory_stats) != MEMCG_NR_STAT - 1);
-  1652	
-  1653		/*
-  1654		 * Provide statistics on the state of the memory subsystem as
-  1655		 * well as cumulative event counters that show past behavior.
-  1656		 *
-  1657		 * This list is ordered following a combination of these gradients:
-  1658		 * 1) generic big picture -> specifics and details
-  1659		 * 2) reflecting userspace activity -> reflecting kernel heuristics
-  1660		 *
-  1661		 * Current memory state:
-  1662		 */
-  1663		mem_cgroup_flush_stats(memcg);
-  1664	
-  1665		for (i = 0; i < ARRAY_SIZE(memory_stats); i++) {
-  1666			u64 size;
-  1667	
-  1668			size = memcg_page_state_output(memcg, memory_stats[i].idx);
-  1669			seq_buf_printf(s, "%s %llu\n", memory_stats[i].name, size);
-  1670	
-  1671			if (unlikely(memory_stats[i].idx == NR_SLAB_UNRECLAIMABLE_B)) {
-  1672				size += memcg_page_state_output(memcg,
-  1673								NR_SLAB_RECLAIMABLE_B);
-  1674				seq_buf_printf(s, "slab %llu\n", size);
-  1675			}
-  1676		}
-  1677	
-  1678		/* Accumulated memory events */
-  1679		seq_buf_printf(s, "pgscan %lu\n",
-  1680			       memcg_events(memcg, PGSCAN_KSWAPD) +
-  1681			       memcg_events(memcg, PGSCAN_DIRECT) +
-  1682			       memcg_events(memcg, PGSCAN_KHUGEPAGED));
-  1683		seq_buf_printf(s, "pgsteal %lu\n",
-  1684			       memcg_events(memcg, PGSTEAL_KSWAPD) +
-  1685			       memcg_events(memcg, PGSTEAL_DIRECT) +
-  1686			       memcg_events(memcg, PGSTEAL_KHUGEPAGED));
-  1687	
-  1688		for (i = 0; i < ARRAY_SIZE(memcg_vm_event_stat); i++) {
-  1689			if (memcg_vm_event_stat[i] == PGPGIN ||
-  1690			    memcg_vm_event_stat[i] == PGPGOUT)
-  1691				continue;
-  1692	
-  1693			seq_buf_printf(s, "%s %lu\n",
-  1694				       vm_event_name(memcg_vm_event_stat[i]),
-  1695				       memcg_events(memcg, memcg_vm_event_stat[i]));
-  1696		}
-  1697	
-  1698		/* The above should easily fit into one page */
-  1699		WARN_ON_ONCE(seq_buf_has_overflowed(s));
-  1700	}
-  1701	
+    25	
+    26	static int rvu_rep_tx_vlan_cfg(struct rvu *rvu,  u16 pcifunc,
+    27				       u16 vlan_tci, int *vidx)
+    28	{
+    29		struct nix_vtag_config_rsp rsp = {};
+    30		struct nix_vtag_config req = {};
+    31		u64 etype = ETH_P_8021Q;
+    32		int err;
+    33	
+    34		/* Insert vlan tag */
+    35		req.hdr.pcifunc = pcifunc;
+    36		req.vtag_size = VTAGSIZE_T4;
+    37		req.cfg_type = 0; /* tx vlan cfg */
+    38		req.tx.cfg_vtag0 = true;
+  > 39		req.tx.vtag0 = etype << 48 | ntohs(vlan_tci);
+    40	
+    41		err = rvu_mbox_handler_nix_vtag_cfg(rvu, &req, &rsp);
+    42		if (err) {
+    43			dev_err(rvu->dev, "Tx vlan config failed\n");
+    44			return err;
+    45		}
+    46		*vidx = rsp.vtag0_idx;
+    47		return 0;
+    48	}
+    49	
+    50	static int rvu_rep_rx_vlan_cfg(struct rvu *rvu, u16 pcifunc)
+    51	{
+    52		struct nix_vtag_config req = {};
+    53		struct nix_vtag_config_rsp rsp;
+    54	
+    55		/* config strip, capture and size */
+    56		req.hdr.pcifunc = pcifunc;
+    57		req.vtag_size = VTAGSIZE_T4;
+    58		req.cfg_type = 1; /* rx vlan cfg */
+    59		req.rx.vtag_type = NIX_AF_LFX_RX_VTAG_TYPE0;
+    60		req.rx.strip_vtag = true;
+    61		req.rx.capture_vtag = false;
+    62	
+    63		return rvu_mbox_handler_nix_vtag_cfg(rvu, &req, &rsp);
+    64	}
+    65	
+    66	static int rvu_rep_install_rx_rule(struct rvu *rvu, u16 pcifunc,
+    67					   u16 entry, bool rte)
+    68	{
+    69		struct npc_install_flow_req req = {};
+    70		struct npc_install_flow_rsp rsp = {};
+    71		struct rvu_pfvf *pfvf;
+    72		u16 vlan_tci, rep_id;
+    73	
+    74		pfvf = rvu_get_pfvf(rvu, pcifunc);
+    75	
+    76		/* To stree the traffic from Representee to Representor */
+    77		rep_id = (u16)rvu_rep_get_vlan_id(rvu, pcifunc);
+    78		if (rte) {
+    79			vlan_tci = rep_id | 0x1ull << 8;
+    80			req.vf = rvu->rep_pcifunc;
+    81			req.op = NIX_RX_ACTIONOP_UCAST;
+    82			req.index = rep_id;
+    83		} else {
+    84			vlan_tci = rep_id;
+    85			req.vf = pcifunc;
+    86			req.op = NIX_RX_ACTION_DEFAULT;
+    87		}
+    88	
+    89		rvu_rep_rx_vlan_cfg(rvu, req.vf);
+    90		req.entry = entry;
+    91		req.hdr.pcifunc = 0; /* AF is requester */
+    92		req.features = BIT_ULL(NPC_OUTER_VID) | BIT_ULL(NPC_VLAN_ETYPE_CTAG);
+    93		req.vtag0_valid = true;
+    94		req.vtag0_type = NIX_AF_LFX_RX_VTAG_TYPE0;
+  > 95		req.packet.vlan_etype = ETH_P_8021Q;
+    96		req.mask.vlan_etype = ETH_P_8021Q;
+  > 97		req.packet.vlan_tci = vlan_tci;
+  > 98		req.mask.vlan_tci = 0xffff;
+    99	
+   100		req.channel = RVU_SWITCH_LBK_CHAN;
+   101		req.chan_mask = 0xffff;
+   102		req.intf = pfvf->nix_rx_intf;
+   103	
+   104		return rvu_mbox_handler_npc_install_flow(rvu, &req, &rsp);
+   105	}
+   106	
 
 -- 
 0-DAY CI Kernel Test Service
