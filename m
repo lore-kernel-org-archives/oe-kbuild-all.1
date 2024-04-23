@@ -1,58 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8BF136E01
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 13:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3479A1353E0;
+	Tue, 23 Apr 2024 14:41:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713879635; cv=none; b=qGtSn95u20POgopo/GO03vpUfUv8HoPGtyVvuCUVnl8yXdcCwTMzcbA2153t7X1zXLQrlVRKdYHyPW150F8t4R6pToTfdixy5CZUDrb1KH6TlaeL/hTCJOdbIHeAz44/crx1/vE1CHe6ruV7GpHzjud64MWBD7dZN83fOwHxuBM=
+	t=1713883298; cv=none; b=LatuFe6+m7BRIN+8mEzgrsQp4C2ENWYwKSwd6J/ZzgSCKKhi0vYiBluiKJmJmEoqU9Kt/gze+3xIdWDhcegzu2g40/IyppIcMl6u28baJq/Iw8BgpV7+9fwz/RFu2phsX7SBQHMoQyc91fUGfPWVzUHOteU+vlRAsYalASvC8ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713879635; c=relaxed/simple;
-	bh=POjHCPvznE1oxaNvbe2aZrgfu9AtZIiNXguD5Qg4ohY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=rAkKMsW53p1YgkDShXe5sH8VPiI72I4Pstmrnz0p3m3WDBWh+5MwjODzJ6n8JLsCuokJ+HhAOLzVqzgLE32IFMgHUW6P1hREaeNuLUrPzt9G8F+DQvGeXkhR72efOs0+ekaEpS8iKeGBQbO3ERpgipZPQy7iUrGW/wye39jmyKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h5E6/EoA; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1713883298; c=relaxed/simple;
+	bh=2MFEdQx8PJfmmWmol+/toruOTDUBS8sWIUsI92/p5zU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cs2k3jPr6CXAcUO8M5/VwVaPEODtycav08mH0yf8WNRWBFsecUo/s+KbhGbMzOsnoqBlGDETbOYmvwn6oPA12tlpWkSCKlUm0pb5mr8Pn+tg5O2OdSUUYFhthLNZ7HwUcrgkaVFH1D8uQ4oOVnxWN7OgLPMUiW25D82VU+ioPio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XKqKEqFF; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h5E6/EoA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XKqKEqFF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713879634; x=1745415634;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=POjHCPvznE1oxaNvbe2aZrgfu9AtZIiNXguD5Qg4ohY=;
-  b=h5E6/EoAFWFud7uBIn6gE1pk3k9/spAv0TaVGrrDi0WH4bPuAhS7Z1s9
-   meeCdO/qpCIIpT1NC3L8hfaQhJ3KYvypDuz5ldq3/O28oCzaFIouEcte0
-   tL2EYQM0AbexGQUVdELcGm5+fXfx+z5L4sirH2ipkLTlHOUP4Ad0r1Wbf
-   9ogBQTzUnkWRN6QtiHUd3RbLnkTKmLNT1s65H6ZyunwT7RMsmiTXUMmaN
-   yvYHg/pgQXv5lN2Ob/di2DJQM+KNzU2PS13vtJqkJ2kEDgdFV59j6hr4u
-   1m6yNBSKwPoMhxP0HWMHUoaPZojwokmFqcGAhE5+K1DV/DjReW7loSafc
+  t=1713883296; x=1745419296;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2MFEdQx8PJfmmWmol+/toruOTDUBS8sWIUsI92/p5zU=;
+  b=XKqKEqFFvd/fr0R4i9f07EosLJpMQ7rHVGT1J6ZhuQccN6xQhWryAcjG
+   YT20sNHLQzg3/NbqPdgunwBOS0vJmeCMOiEHjIDQkDVmCma4B7dkomrUZ
+   FeqyGrWcTRb7Dlr75R8wyE4dOChayp4t4nnAFIPglmxHXup3mxKGYz7HP
+   hRC3wjEjb5AFOU9TkRBH+ueq+wByxhLyFjNoYk1Cp0fiPIvi4ikT1Bd2a
+   //go2GM5ATDxkHpyTg2C+2E3jA7p2ILQLWIMD4Fa3ROPZLalz5hUbuK31
+   v0qOYCVlHmZZcDbV3nj4YV+qMYM1SwtMQeOx3VcqQFjvuM5bh7xq+IRcg
    w==;
-X-CSE-ConnectionGUID: wlLP5UCzSg+wndenVe1axA==
-X-CSE-MsgGUID: 1sKWuXqvQAe8lj8GAwb/8g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9327531"
+X-CSE-ConnectionGUID: tgEMkzF0R8S49ytQw0tHPw==
+X-CSE-MsgGUID: rv8+OAAISvWEEDwrv7jheA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20871605"
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="9327531"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 06:40:33 -0700
-X-CSE-ConnectionGUID: YxbcsK/7QYakfF8boYX5pA==
-X-CSE-MsgGUID: pEANNhsmT3iL9Dg4TzjMVw==
+   d="scan'208";a="20871605"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 07:41:36 -0700
+X-CSE-ConnectionGUID: VcsInWyQT7eIjCZmisbxQQ==
+X-CSE-MsgGUID: WUAU15WtSuGKJA5MQLX14A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="24972010"
+   d="scan'208";a="24363957"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 23 Apr 2024 06:40:32 -0700
+  by orviesa009.jf.intel.com with ESMTP; 23 Apr 2024 07:41:33 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzGNp-0000DU-1r;
-	Tue, 23 Apr 2024 13:40:29 +0000
-Date: Tue, 23 Apr 2024 21:40:12 +0800
+	id 1rzHKs-0000Eu-1Q;
+	Tue, 23 Apr 2024 14:41:30 +0000
+Date: Tue, 23 Apr 2024 22:40:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hagar Hemdan <hagarhem@amazon.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] efi: libstub: only free priv.runtime_map when allocated
-Message-ID: <Zie6PLl0bSO3ZdoY@c8dd4cee2bb9>
+To: Shakeel Butt <shakeel.butt@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] memcg: reduce memory for the lruvec and memcg stats
+Message-ID: <202404232230.94gQwAI2-lkp@intel.com>
+References: <20240423051826.791934-3-shakeel.butt@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +69,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240423133635.19679-1-hagarhem@amazon.com>
+In-Reply-To: <20240423051826.791934-3-shakeel.butt@linux.dev>
 
-Hi,
+Hi Shakeel,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on next-20240422]
+[cannot apply to akpm-mm/mm-everything linus/master v6.9-rc5 v6.9-rc4 v6.9-rc3 v6.9-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Shakeel-Butt/mm-rearrange-node_stat_item-to-put-memcg-stats-at-start/20240423-132451
+base:   next-20240422
+patch link:    https://lore.kernel.org/r/20240423051826.791934-3-shakeel.butt%40linux.dev
+patch subject: [PATCH 2/4] memcg: reduce memory for the lruvec and memcg stats
+config: x86_64-buildonly-randconfig-002-20240423 (https://download.01.org/0day-ci/archive/20240423/202404232230.94gQwAI2-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240423/202404232230.94gQwAI2-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] efi: libstub: only free priv.runtime_map when allocated
-Link: https://lore.kernel.org/stable/20240423133635.19679-1-hagarhem%40amazon.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404232230.94gQwAI2-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> mm/memcontrol.c:1651:2: error: call to '__compiletime_assert_963' declared with 'error' attribute: BUILD_BUG_ON failed: ARRAY_SIZE(memory_stats) != MEMCG_NR_STAT - 1
+    1651 |         BUILD_BUG_ON(ARRAY_SIZE(memory_stats) != MEMCG_NR_STAT - 1);
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:460:2: note: expanded from macro 'compiletime_assert'
+     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:448:2: note: expanded from macro '_compiletime_assert'
+     448 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:441:4: note: expanded from macro '__compiletime_assert'
+     441 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:40:1: note: expanded from here
+      40 | __compiletime_assert_963
+         | ^
+   1 error generated.
+
+
+vim +1651 mm/memcontrol.c
+
+  1645	
+  1646	static void memcg_stat_format(struct mem_cgroup *memcg, struct seq_buf *s)
+  1647	{
+  1648		int i;
+  1649	
+  1650		/* Reduce by 1 for MEMCG_SWAP as that is not exposed in v2. */
+> 1651		BUILD_BUG_ON(ARRAY_SIZE(memory_stats) != MEMCG_NR_STAT - 1);
+  1652	
+  1653		/*
+  1654		 * Provide statistics on the state of the memory subsystem as
+  1655		 * well as cumulative event counters that show past behavior.
+  1656		 *
+  1657		 * This list is ordered following a combination of these gradients:
+  1658		 * 1) generic big picture -> specifics and details
+  1659		 * 2) reflecting userspace activity -> reflecting kernel heuristics
+  1660		 *
+  1661		 * Current memory state:
+  1662		 */
+  1663		mem_cgroup_flush_stats(memcg);
+  1664	
+  1665		for (i = 0; i < ARRAY_SIZE(memory_stats); i++) {
+  1666			u64 size;
+  1667	
+  1668			size = memcg_page_state_output(memcg, memory_stats[i].idx);
+  1669			seq_buf_printf(s, "%s %llu\n", memory_stats[i].name, size);
+  1670	
+  1671			if (unlikely(memory_stats[i].idx == NR_SLAB_UNRECLAIMABLE_B)) {
+  1672				size += memcg_page_state_output(memcg,
+  1673								NR_SLAB_RECLAIMABLE_B);
+  1674				seq_buf_printf(s, "slab %llu\n", size);
+  1675			}
+  1676		}
+  1677	
+  1678		/* Accumulated memory events */
+  1679		seq_buf_printf(s, "pgscan %lu\n",
+  1680			       memcg_events(memcg, PGSCAN_KSWAPD) +
+  1681			       memcg_events(memcg, PGSCAN_DIRECT) +
+  1682			       memcg_events(memcg, PGSCAN_KHUGEPAGED));
+  1683		seq_buf_printf(s, "pgsteal %lu\n",
+  1684			       memcg_events(memcg, PGSTEAL_KSWAPD) +
+  1685			       memcg_events(memcg, PGSTEAL_DIRECT) +
+  1686			       memcg_events(memcg, PGSTEAL_KHUGEPAGED));
+  1687	
+  1688		for (i = 0; i < ARRAY_SIZE(memcg_vm_event_stat); i++) {
+  1689			if (memcg_vm_event_stat[i] == PGPGIN ||
+  1690			    memcg_vm_event_stat[i] == PGPGOUT)
+  1691				continue;
+  1692	
+  1693			seq_buf_printf(s, "%s %lu\n",
+  1694				       vm_event_name(memcg_vm_event_stat[i]),
+  1695				       memcg_events(memcg, memcg_vm_event_stat[i]));
+  1696		}
+  1697	
+  1698		/* The above should easily fit into one page */
+  1699		WARN_ON_ONCE(seq_buf_has_overflowed(s));
+  1700	}
+  1701	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
