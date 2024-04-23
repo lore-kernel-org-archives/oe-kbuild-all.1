@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089D518E1D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 02:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94FC41B952
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 02:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713839515; cv=none; b=qVoY6As/c+p3BiuSYtVRqVqiPb0jux42J1cMlNmOpHgzAA1F+B28wGocLa4TtgavLx+/dBcW8Bn2ZSfEMP2nWdZX04t5lMJG4gm7FewCuwRoR2uGrud8q9mEizPDXmFiBOe3vI2qYsFV3o19MYSnPTWqCz/pKCcKum2ou0d9NiQ=
+	t=1713840836; cv=none; b=aTnAFy5+qEMr0LbSKqYOwAainat3qJ0PaCtPOsb0G2AhwW8JC2MhOBLvLIzhIsz2/q8LYtFlB4wcUbBkpgJ+D/QdrSiejPA1LB27yi5mpLd9YFYnNsxxPX0W0weTBBnJ2y4/3ywBQbCiLascgBEC+KUMxubAAff5rUzJSJd4hlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713839515; c=relaxed/simple;
-	bh=T6qxMYEZzKnFTdCPbvQG64gCnR4r4NrqYc6iJqKOLzg=;
+	s=arc-20240116; t=1713840836; c=relaxed/simple;
+	bh=mq+A6Yb8sVplRvxuERQ/KltlHUkttb3OfeiFlmJGv7A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qNYuw1OYljvFGE6B0a1UR3Ry4Y1WuUbuNnTgww2ZJjIqYTFvnpO3WJ3ZstaYXPBKY3+lvF+9o0V3HQAZgp0Mb3UDZaSOMXdZgU/2kE72onVWxB2dYYi5S0YnNROZX62B7z4Evl+odNAJnwmdDyi3jvxKLv5QS2gFRv7F22Va/dY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FRNmBszR; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=Pdd6QO2nPj0gQtQdm7uG3q4cgzQBu1TXSds/v346FwY76Qv4my6GQjAJK/a7lTmhfl+TUd+yjiCjEYToX+LDt15Wt5pXhG+ke1mDdciQ4a1HSsFkzY/X3RTZm0uOM2T3oe4/fGdqC9dRYLW2En2wJwI4nukrgg4Eqnkiv5IDOGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kT9qrc0a; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FRNmBszR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kT9qrc0a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713839514; x=1745375514;
+  t=1713840835; x=1745376835;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T6qxMYEZzKnFTdCPbvQG64gCnR4r4NrqYc6iJqKOLzg=;
-  b=FRNmBszRVRJFoC4Y0JAI1Qb0p35wa15cMrqQRPFNzXhAgn+IQRMeBbY8
-   C5jshDsIqeA6Novx97W4zOdx5GyS42QaN05cam8I3q8CXu2bVYoxU6T82
-   ID8bARkD92OssL8n6P7cBa/ReGbJiCJ0Kz76d4rQ4pnhH9um5SZxj6SHm
-   cZ/egs+i519SDK7OupjpOF7ulTO/bdXGti3kfJvrXyBNgWIhrk8xh2rle
-   1fx6WlRM1fqb5hei5iw3ijs0Hj3+CgBHWxLBYGevm7YcxpQnnN3XR9I6U
-   Lz8FIPW5m7E/YZbG+YhBcMMt9DvBTLjyT0jJB7cvWiGGObnRLzAzE8+pO
-   Q==;
-X-CSE-ConnectionGUID: /hYWgZcmSUOJxgFgg/JAYg==
-X-CSE-MsgGUID: PnKaKV7hR9u4JFrB7pXykA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="9280998"
+  bh=mq+A6Yb8sVplRvxuERQ/KltlHUkttb3OfeiFlmJGv7A=;
+  b=kT9qrc0as7jw2xMgl8ociQ4iJT9WCPIaHYap2mOGATlN/CjTAJPGqX9A
+   B22dNXHj+anffPrALPltsugbyePuAobUEPhDfVcUgqQStC60v4LkHVoid
+   l4JDOp+deycsPKoCKjQ8HOh1VpRLcg7JD5Tr6zpuWCXCAcrPR5qPZqR7g
+   8ZEpFKV2JnF0iLwyYZ7QtQwsxE/pY80MtFIMKaQ+a3C5mi3/LqBMT6dI6
+   nHjU3i0N397DcjL0CoNUAMd6cNL5GS6p6gef6TX2jCx+CY9TniDGDA+sl
+   BdeFDfMaDlM8j5JfvODCDmKEakV8+nm6Ey0SaQXNLAVPGzI1HicmQjdTc
+   A==;
+X-CSE-ConnectionGUID: g17R9YsIQzu/QtNnQ2ayDw==
+X-CSE-MsgGUID: DEqEX4LCTm+xEYwXKI69BA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="13240962"
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="9280998"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 19:31:53 -0700
-X-CSE-ConnectionGUID: wuUV/NxjRTSZXj8JRql7YQ==
-X-CSE-MsgGUID: hTEMx5BUSa2CLvC2z+F6Tg==
+   d="scan'208";a="13240962"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 19:53:55 -0700
+X-CSE-ConnectionGUID: b9j/fc8pRfCyHFq1Iz+bsw==
+X-CSE-MsgGUID: dysfd3nnRG+6EJyymRAdSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="24822624"
+   d="scan'208";a="61669787"
 Received: from lkp-server01.sh.intel.com (HELO 01437695816f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 22 Apr 2024 19:31:52 -0700
+  by orviesa001.jf.intel.com with ESMTP; 22 Apr 2024 19:53:53 -0700
 Received: from kbuild by 01437695816f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rz5wj-0000Pe-2N;
-	Tue, 23 Apr 2024 02:31:49 +0000
-Date: Tue, 23 Apr 2024 10:31:31 +0800
+	id 1rz6I2-0000QW-0m;
+	Tue, 23 Apr 2024 02:53:50 +0000
+Date: Tue, 23 Apr 2024 10:53:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jianfeng Wang <jianfeng.w.wang@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	Vlastimil Babka <vbabka@suse.cz>
-Subject: [vbabka-slab:slab/for-next 11/12] mm/slub.c:3227:22: warning:
- 'count_partial_free_approx' defined but not used
-Message-ID: <202404231048.ucsxSmAS-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [masahiroy-kbuild:kbuild 5/7] kernel/kallsyms.c:181:56: warning:
+ array subscript [0, 0] is outside array bounds of 'const int[1]'
+Message-ID: <202404231047.eZ27wCnE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,106 +63,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git slab/for-next
-head:   b6f00c4ef02065161c09fdf560e492cfbb1fec0a
-commit: 1c5610f451be71ca2f8b9c6b86ef4712aeed6437 [11/12] slub: introduce count_partial_free_approx()
-config: arc-randconfig-001-20240423 (https://download.01.org/0day-ci/archive/20240423/202404231048.ucsxSmAS-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240423/202404231048.ucsxSmAS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
+head:   8246a1e9b922c0e797ec28d8a602de1384ff8140
+commit: 0bdad28369fc5e93de39b5046228ed78e982fc71 [5/7] kallsyms: Avoid weak references for kallsyms symbols
+config: i386-buildonly-randconfig-003-20240423 (https://download.01.org/0day-ci/archive/20240423/202404231047.eZ27wCnE-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240423/202404231047.eZ27wCnE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404231048.ucsxSmAS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404231047.eZ27wCnE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/arc/include/asm/ptrace.h:11,
-                    from arch/arc/include/asm/bug.h:11,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from mm/slub.c:13:
-   mm/slub.c: In function 'count_partial_free_approx':
-   mm/slub.c:3256:28: error: implicit declaration of function 'node_nr_objs'; did you mean 'node_nr_slabs'? [-Werror=implicit-function-declaration]
-    3256 |                 x = min(x, node_nr_objs(n));
-         |                            ^~~~~~~~~~~~
-   include/linux/compiler.h:284:55: note: in definition of macro '__is_constexpr'
-     284 |         (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
-         |                                                       ^
-   include/linux/minmax.h:85:25: note: in expansion of macro '__careful_cmp'
-      85 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   mm/slub.c:3256:21: note: in expansion of macro 'min'
-    3256 |                 x = min(x, node_nr_objs(n));
-         |                     ^~~
-   In file included from include/linux/init.h:5,
-                    from include/linux/printk.h:6,
-                    from include/asm-generic/bug.h:22,
-                    from arch/arc/include/asm/bug.h:30:
-   include/linux/build_bug.h:78:41: error: static assertion failed: "min(x, node_nr_objs(n)) signedness error, fix types or consider umin() before min_t()"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
-      51 |         static_assert(__types_ok(x, y),                 \
-         |         ^~~~~~~~~~~~~
-   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
-      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
-         |                 ^~~~~~~~~~
-   include/linux/minmax.h:85:25: note: in expansion of macro '__careful_cmp'
-      85 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   mm/slub.c:3256:21: note: in expansion of macro 'min'
-    3256 |                 x = min(x, node_nr_objs(n));
-         |                     ^~~
-   mm/slub.c: At top level:
->> mm/slub.c:3227:22: warning: 'count_partial_free_approx' defined but not used [-Wunused-function]
-    3227 | static unsigned long count_partial_free_approx(struct kmem_cache_node *n)
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   kernel/kallsyms.c: In function 'get_symbol_pos':
+>> kernel/kallsyms.c:181:56: warning: array subscript [0, 0] is outside array bounds of 'const int[1]' [-Warray-bounds]
+     181 |   return kallsyms_relative_base + (u32)kallsyms_offsets[idx];
+         |                                        ~~~~~~~~~~~~~~~~^~~~~
+   kernel/kallsyms.c:48:18: note: while referencing 'kallsyms_offsets'
+      48 | const int __weak kallsyms_offsets[1];
+         |                  ^~~~~~~~~~~~~~~~
 
 
-vim +/count_partial_free_approx +3227 mm/slub.c
+vim +181 kernel/kallsyms.c
 
-  3226	
-> 3227	static unsigned long count_partial_free_approx(struct kmem_cache_node *n)
-  3228	{
-  3229		unsigned long flags;
-  3230		unsigned long x = 0;
-  3231		struct slab *slab;
-  3232	
-  3233		spin_lock_irqsave(&n->list_lock, flags);
-  3234		if (n->nr_partial <= MAX_PARTIAL_TO_SCAN) {
-  3235			list_for_each_entry(slab, &n->partial, slab_list)
-  3236				x += slab->objects - slab->inuse;
-  3237		} else {
-  3238			/*
-  3239			 * For a long list, approximate the total count of objects in
-  3240			 * it to meet the limit on the number of slabs to scan.
-  3241			 * Scan from both the list's head and tail for better accuracy.
-  3242			 */
-  3243			unsigned long scanned = 0;
-  3244	
-  3245			list_for_each_entry(slab, &n->partial, slab_list) {
-  3246				x += slab->objects - slab->inuse;
-  3247				if (++scanned == MAX_PARTIAL_TO_SCAN / 2)
-  3248					break;
-  3249			}
-  3250			list_for_each_entry_reverse(slab, &n->partial, slab_list) {
-  3251				x += slab->objects - slab->inuse;
-  3252				if (++scanned == MAX_PARTIAL_TO_SCAN)
-  3253					break;
-  3254			}
-  3255			x = mult_frac(x, n->nr_partial, scanned);
-  3256			x = min(x, node_nr_objs(n));
-  3257		}
-  3258		spin_unlock_irqrestore(&n->list_lock, flags);
-  3259		return x;
-  3260	}
-  3261	
+^1da177e4c3f415 Linus Torvalds 2005-04-16  173  
+30f3bb09778de64 Zhen Lei       2022-11-15  174  unsigned long kallsyms_sym_address(int idx)
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  175  {
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  176  	if (!IS_ENABLED(CONFIG_KALLSYMS_BASE_RELATIVE))
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  177  		return kallsyms_addresses[idx];
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  178  
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  179  	/* values are unsigned offsets if --absolute-percpu is not in effect */
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  180  	if (!IS_ENABLED(CONFIG_KALLSYMS_ABSOLUTE_PERCPU))
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15 @181  		return kallsyms_relative_base + (u32)kallsyms_offsets[idx];
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  182  
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  183  	/* ...otherwise, positive offsets are absolute values */
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  184  	if (kallsyms_offsets[idx] >= 0)
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  185  		return kallsyms_offsets[idx];
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  186  
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  187  	/* ...and negative offsets are relative to kallsyms_relative_base - 1 */
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  188  	return kallsyms_relative_base - 1 - kallsyms_offsets[idx];
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  189  }
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  190  
+
+:::::: The code at line 181 was first introduced by commit
+:::::: 2213e9a66bb87d8344a1256b4ef568220d9587fb kallsyms: add support for relative offsets in kallsyms address table
+
+:::::: TO: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
