@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94FC41B952
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 02:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61318E57E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 03:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713840836; cv=none; b=aTnAFy5+qEMr0LbSKqYOwAainat3qJ0PaCtPOsb0G2AhwW8JC2MhOBLvLIzhIsz2/q8LYtFlB4wcUbBkpgJ+D/QdrSiejPA1LB27yi5mpLd9YFYnNsxxPX0W0weTBBnJ2y4/3ywBQbCiLascgBEC+KUMxubAAff5rUzJSJd4hlA=
+	t=1713842216; cv=none; b=Et3801mhgrkqCzfT2S0I3EVJn6XDTs5hVNeP+iQ81Jb2oN+JRK2yPcBUDdBd7p/Li1zzNtnCh/VqfsiyHtfEly4IVcP7ICBL5XnHUuDwsZhs813njPArZABFUrtkrMq2HhHV3bdLrQ0Klx87tdsugel1bwSWhAtsbmAytigacZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713840836; c=relaxed/simple;
-	bh=mq+A6Yb8sVplRvxuERQ/KltlHUkttb3OfeiFlmJGv7A=;
+	s=arc-20240116; t=1713842216; c=relaxed/simple;
+	bh=cjZcDfZdB/fwHX+HBIgEjbUnlELNpWQFtHCE86WFlj0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Pdd6QO2nPj0gQtQdm7uG3q4cgzQBu1TXSds/v346FwY76Qv4my6GQjAJK/a7lTmhfl+TUd+yjiCjEYToX+LDt15Wt5pXhG+ke1mDdciQ4a1HSsFkzY/X3RTZm0uOM2T3oe4/fGdqC9dRYLW2En2wJwI4nukrgg4Eqnkiv5IDOGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kT9qrc0a; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=WhmA9jIM0D8XPW6n54b+t227jK5eCBvOe9QdQRG8v0/pIBwmf2zMqz7MPpY3JDVVXMu2LiprkRlcqfnIspea6VEQsW4P+YJjyy2szMjjioBXFORgjJTtTtZyuRWWYIcvJ8AZ2D4CLcbIDdBI8ysuaM3JMjk5OOQNeKzHcHOzWAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=crMqNbpw; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kT9qrc0a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="crMqNbpw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713840835; x=1745376835;
+  t=1713842214; x=1745378214;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mq+A6Yb8sVplRvxuERQ/KltlHUkttb3OfeiFlmJGv7A=;
-  b=kT9qrc0as7jw2xMgl8ociQ4iJT9WCPIaHYap2mOGATlN/CjTAJPGqX9A
-   B22dNXHj+anffPrALPltsugbyePuAobUEPhDfVcUgqQStC60v4LkHVoid
-   l4JDOp+deycsPKoCKjQ8HOh1VpRLcg7JD5Tr6zpuWCXCAcrPR5qPZqR7g
-   8ZEpFKV2JnF0iLwyYZ7QtQwsxE/pY80MtFIMKaQ+a3C5mi3/LqBMT6dI6
-   nHjU3i0N397DcjL0CoNUAMd6cNL5GS6p6gef6TX2jCx+CY9TniDGDA+sl
-   BdeFDfMaDlM8j5JfvODCDmKEakV8+nm6Ey0SaQXNLAVPGzI1HicmQjdTc
-   A==;
-X-CSE-ConnectionGUID: g17R9YsIQzu/QtNnQ2ayDw==
-X-CSE-MsgGUID: DEqEX4LCTm+xEYwXKI69BA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="13240962"
+  bh=cjZcDfZdB/fwHX+HBIgEjbUnlELNpWQFtHCE86WFlj0=;
+  b=crMqNbpwdOpzFG9mQcsVm2utOrekf38d90t4MKXy+sXjNtnnxMeZNIEz
+   C2XmYQTgLtSXkHpd+xLWMQtd7iXgV9jv7jE4HMIgmcluDJKZnv2z+uyLr
+   lMfiLyBZOeaUovFcxPBx9uGS7jllVSYZpXRGDcBUl9VCEVFHLTMKrcZrO
+   f14h5JL8HsT4P8MnZcB96nsy9/bMbeVYeWnG4D5gWHe/E83tpuq99+J4b
+   dAjTIgoqBRRvLaiaLusob8lve5uWNKTt3DA5qAiPP7CYW/YZmcFKcj7WK
+   Lvod1rqXuUoI+dMOVKrk6DIwN3I+pdgEmzeAFkzp9VP7DbXc75g9d5TGw
+   g==;
+X-CSE-ConnectionGUID: 8XLe0bRvS4qwsyy9XeMssg==
+X-CSE-MsgGUID: KdHqMSFvQPWquLR8NIUsPQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="9580228"
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="13240962"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 19:53:55 -0700
-X-CSE-ConnectionGUID: b9j/fc8pRfCyHFq1Iz+bsw==
-X-CSE-MsgGUID: dysfd3nnRG+6EJyymRAdSA==
+   d="scan'208";a="9580228"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 20:16:54 -0700
+X-CSE-ConnectionGUID: ooKXQogPTHGhlXAbQd3Hkg==
+X-CSE-MsgGUID: mcFAzfYdQ5miHrpU2hswpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="61669787"
+   d="scan'208";a="24274795"
 Received: from lkp-server01.sh.intel.com (HELO 01437695816f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 22 Apr 2024 19:53:53 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 22 Apr 2024 20:16:53 -0700
 Received: from kbuild by 01437695816f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rz6I2-0000QW-0m;
-	Tue, 23 Apr 2024 02:53:50 +0000
-Date: Tue, 23 Apr 2024 10:53:42 +0800
+	id 1rz6eI-0000Rc-2r;
+	Tue, 23 Apr 2024 03:16:50 +0000
+Date: Tue, 23 Apr 2024 11:16:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [masahiroy-kbuild:kbuild 5/7] kernel/kallsyms.c:181:56: warning:
- array subscript [0, 0] is outside array bounds of 'const int[1]'
-Message-ID: <202404231047.eZ27wCnE-lkp@intel.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vivek-drm-tip:vfio_dmabuf_v1 7/7]
+ drivers/vfio/pci/dma_buf.c:317:40: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202404231109.7NK4BRAU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,55 +63,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
-head:   8246a1e9b922c0e797ec28d8a602de1384ff8140
-commit: 0bdad28369fc5e93de39b5046228ed78e982fc71 [5/7] kallsyms: Avoid weak references for kallsyms symbols
-config: i386-buildonly-randconfig-003-20240423 (https://download.01.org/0day-ci/archive/20240423/202404231047.eZ27wCnE-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240423/202404231047.eZ27wCnE-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/Vivek/drm-tip.git vfio_dmabuf_v1
+head:   5ef225e951f7d39f11703af6060984e434c6dc4b
+commit: 5ef225e951f7d39f11703af6060984e434c6dc4b [7/7] vfio/pci: Allow MMIO regions to be exported through dma-buf
+config: x86_64-randconfig-123-20240423 (https://download.01.org/0day-ci/archive/20240423/202404231109.7NK4BRAU-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240423/202404231109.7NK4BRAU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404231047.eZ27wCnE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404231109.7NK4BRAU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/vfio/pci/dma_buf.c:317:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file [noderef] __rcu **f @@     got struct file ** @@
+   drivers/vfio/pci/dma_buf.c:317:40: sparse:     expected struct file [noderef] __rcu **f
+   drivers/vfio/pci/dma_buf.c:317:40: sparse:     got struct file **
+   drivers/vfio/pci/dma_buf.c:336:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file [noderef] __rcu **f @@     got struct file ** @@
+   drivers/vfio/pci/dma_buf.c:336:40: sparse:     expected struct file [noderef] __rcu **f
+   drivers/vfio/pci/dma_buf.c:336:40: sparse:     got struct file **
 
-   kernel/kallsyms.c: In function 'get_symbol_pos':
->> kernel/kallsyms.c:181:56: warning: array subscript [0, 0] is outside array bounds of 'const int[1]' [-Warray-bounds]
-     181 |   return kallsyms_relative_base + (u32)kallsyms_offsets[idx];
-         |                                        ~~~~~~~~~~~~~~~~^~~~~
-   kernel/kallsyms.c:48:18: note: while referencing 'kallsyms_offsets'
-      48 | const int __weak kallsyms_offsets[1];
-         |                  ^~~~~~~~~~~~~~~~
+vim +317 drivers/vfio/pci/dma_buf.c
 
-
-vim +181 kernel/kallsyms.c
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  173  
-30f3bb09778de64 Zhen Lei       2022-11-15  174  unsigned long kallsyms_sym_address(int idx)
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  175  {
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  176  	if (!IS_ENABLED(CONFIG_KALLSYMS_BASE_RELATIVE))
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  177  		return kallsyms_addresses[idx];
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  178  
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  179  	/* values are unsigned offsets if --absolute-percpu is not in effect */
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  180  	if (!IS_ENABLED(CONFIG_KALLSYMS_ABSOLUTE_PERCPU))
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15 @181  		return kallsyms_relative_base + (u32)kallsyms_offsets[idx];
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  182  
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  183  	/* ...otherwise, positive offsets are absolute values */
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  184  	if (kallsyms_offsets[idx] >= 0)
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  185  		return kallsyms_offsets[idx];
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  186  
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  187  	/* ...and negative offsets are relative to kallsyms_relative_base - 1 */
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  188  	return kallsyms_relative_base - 1 - kallsyms_offsets[idx];
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  189  }
-2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  190  
-
-:::::: The code at line 181 was first introduced by commit
-:::::: 2213e9a66bb87d8344a1256b4ef568220d9587fb kallsyms: add support for relative offsets in kallsyms address table
-
-:::::: TO: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   308	
+   309	void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
+   310	{
+   311		struct vfio_pci_dma_buf *priv;
+   312		struct vfio_pci_dma_buf *tmp;
+   313	
+   314		lockdep_assert_held_write(&vdev->memory_lock);
+   315	
+   316		list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
+ > 317			if (!get_file_rcu(&priv->dmabuf->file))
+   318				continue;
+   319			if (priv->revoked != revoked) {
+   320				dma_resv_lock(priv->dmabuf->resv, NULL);
+   321				priv->revoked = revoked;
+   322				dma_buf_move_notify(priv->dmabuf);
+   323				dma_resv_unlock(priv->dmabuf->resv);
+   324			}
+   325			dma_buf_put(priv->dmabuf);
+   326		}
+   327	}
+   328	
 
 -- 
 0-DAY CI Kernel Test Service
