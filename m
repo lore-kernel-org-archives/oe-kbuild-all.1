@@ -1,178 +1,325 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811C1154BFC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 05:04:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962FF139CEB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 05:56:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713935056; cv=none; b=ndfK1LXEiBPuFaX3na1LG8PIqpsG4PD40+2qWvUKzZAfmKG/QNkZZ5yKssApOr+DLGZvuM4/GkhCkQALvSJJq7b5LI7ZHcen9rHJJcXU+bIcMPcpzxqKnTwmz2ToRoaukoG0YdInk7nh8t6G6lgQCesmKEVYcKZWkssgc3emTX4=
+	t=1713938166; cv=none; b=fR9zi4StvFkA0aOkJCxk971eeFcCYB0UDeEXtcR1yYT7H2Jogd4wqRTg9Fs7IQgotebEXByj0hdNixD0c6VeK0iDMaukGcLD8uk7QT+puX8xPG4JpPMeivrOC56qZKUJnLD3tyRdNqj1jLEnnnWPlfB3l5t+J78dR9FiLBAQsd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713935056; c=relaxed/simple;
-	bh=w2s6+GD9x0ESMek+h6hNKm6/PRiAeMHcEF/lndj+Gl4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YcPnlc/eJQg82s6zeUqkbwPH3Pxw1ZMjmmnZ/kNS7E1g3Yzk3UNkHEFtTopshlfmqpbX7po0VWsIVgCGEeENpeXn7crCTWCzJgRgSHaERq/cD/Ig+7pv0BtXWlMv72dPrrnwrUliHAIOjVfl7hs74ibRqZC+dd281xrIdNFoRQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UhumiuNE; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1713938166; c=relaxed/simple;
+	bh=MmFvorY7gdBLyILy8HsnyPUc10sAeQ2JHQgtvJRFK64=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KZWhFfn8+BGyMlKfgyVpeOp/MQlv8MSiYYn1n+sSYHBSZ9eTDBSREYhd3eKWwGEcX+VvEO+mGf+LCkjGmc0kttCucE+Bjd8ERTUzzl5JkAzq76LTAIkJ9yOuGZmwsMZ7wtdC6A1O1HhH8tWfWu8Ofc+M4R0KqmlX8FCv5iCtZmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y2lbvw0v; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UhumiuNE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y2lbvw0v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713935055; x=1745471055;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=w2s6+GD9x0ESMek+h6hNKm6/PRiAeMHcEF/lndj+Gl4=;
-  b=UhumiuNEWA+90oXvv6vLgcREwOUDhyO7aCYxYmfdsnLt/uV+vMnuS4VM
-   A/b5JWFJXz/M/FIfzm1hfJvDr7j/6jrINdzldHGFEexfISZrWjVjDDHvQ
-   Nuk9KOl1v268UEzDg4K1NshAvt4E2WiR2ttbGqHPoz+o6vi78kI9/MBJN
-   YbMfWSfRCBWQicQKqpP/P9FFsgEkMfBrfA+PCtlnfhGcv1UpaGCyHQABh
-   JJl0o6d9ZH9kFTVnr1KVdvVPOsgUBWk4UfrfImQSxzsRAVlNHGr5lBdxp
-   srlSzi9vhz0LlqRKK9QC1mrVk9B/fjwNACnI1WMzrLuiTs8zLa7fDnplC
-   A==;
-X-CSE-ConnectionGUID: RXJ6po+FSDCBtzOq2Qxeog==
-X-CSE-MsgGUID: AtuxjnrUSqiESJI8kQmrRQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9398365"
+  t=1713938165; x=1745474165;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=MmFvorY7gdBLyILy8HsnyPUc10sAeQ2JHQgtvJRFK64=;
+  b=Y2lbvw0vrnITP/upmCwy+Feupd8Og5L3KMEvKHHoDFgG4rlC/d4dNJJT
+   DKKgQfrJKuYa7NuDKtn2ZKnVml1QnZNbNskyd10kKYS12DzoUFmDqWS4K
+   MfIVAoangaTuagouYtZmnRu1nAGA+wQ+Xw2x/LFB2+6FXcv2fKekXzTok
+   eMk7SkNQC1JLtUHJ5y1/q5O9OAmIgsa6OFf1a9WvyH5vBDffAqOe7W1uA
+   6ErZXycOAs018eeVvLaD6F/S6f+tOseaK9PTt/xBo+LECYZIDpNnxDQrP
+   46G0IWHhnNv9dMEaxdtESys5J/SYwUy5Ni0IWFFoIEz02mQd7uy4fn+cw
+   Q==;
+X-CSE-ConnectionGUID: t2tpAPpZTCi/381wAYyC9A==
+X-CSE-MsgGUID: JPg1KBjcSLmsO0lkCb1A5Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9711403"
 X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
-   d="scan'208";a="9398365"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 22:03:59 -0700
-X-CSE-ConnectionGUID: +ps7u2rFRuWzagZBEl+dBg==
-X-CSE-MsgGUID: UK52IAAeTiiDvECd1DQR/w==
+   d="scan'208";a="9711403"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 22:56:04 -0700
+X-CSE-ConnectionGUID: IEp0NPycSwC2Q10qHl6C7g==
+X-CSE-MsgGUID: 1qTgJxvsSta4ObBy1k4UNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
-   d="scan'208";a="24625373"
+   d="scan'208";a="55560223"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 23 Apr 2024 22:03:57 -0700
+  by orviesa002.jf.intel.com with ESMTP; 23 Apr 2024 22:55:59 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzUnT-0000si-1c;
-	Wed, 24 Apr 2024 05:03:55 +0000
-Date: Wed, 24 Apr 2024 13:03:07 +0800
+	id 1rzVbo-0000vA-29;
+	Wed, 24 Apr 2024 05:55:56 +0000
+Date: Wed, 24 Apr 2024 13:55:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna Kurapati <quic_kriskura@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Johan Hovold <johan+linaro@kernel.org>
-Subject: [usb:usb-testing 7/12] drivers/usb/dwc3/core.c:1482:69: warning:
- '%d' directive output may be truncated writing between 1 and 11 bytes into a
- region of size 4
-Message-ID: <202404241215.Mib19Cu7-lkp@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Sam Protsenko <semen.protsenko@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Will McVicker <willmcvicker@google.com>,
+	Roy Luo <royluo@google.com>, kernel-team@android.com,
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+Subject: Re: [PATCH 7/7] phy: exynos5-usbdrd: support Exynos USBDRD 3.1 combo
+ phy (HS & SS)
+Message-ID: <202404241343.bJvpqJob-lkp@intel.com>
+References: <20240423-usb-phy-gs101-v1-7-ebdcb3ac174d@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240423-usb-phy-gs101-v1-7-ebdcb3ac174d@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-head:   a160e1202ca318a85c70cf5831f172cc79a24c57
-commit: 846b4bacf2d48212f271fc1ef7488bcdf2c75bcb [7/12] usb: dwc3: core: Refactor PHY logic to support Multiport Controller
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240424/202404241215.Mib19Cu7-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404241215.Mib19Cu7-lkp@intel.com/reproduce)
+Hi André,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on a59668a9397e7245b26e9be85d23f242ff757ae8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Draszik/dt-bindings-phy-samsung-usb3-drd-phy-add-gs101-compatible/20240424-011137
+base:   a59668a9397e7245b26e9be85d23f242ff757ae8
+patch link:    https://lore.kernel.org/r/20240423-usb-phy-gs101-v1-7-ebdcb3ac174d%40linaro.org
+patch subject: [PATCH 7/7] phy: exynos5-usbdrd: support Exynos USBDRD 3.1 combo phy (HS & SS)
+config: arc-randconfig-002-20240424 (https://download.01.org/0day-ci/archive/20240424/202404241343.bJvpqJob-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404241343.bJvpqJob-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404241215.Mib19Cu7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404241343.bJvpqJob-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/usb/dwc3/core.c: In function 'dwc3_core_get_phy':
->> drivers/usb/dwc3/core.c:1482:69: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 4 [-Wformat-truncation=]
-    1482 |                         snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
-         |                                                                     ^~
-   drivers/usb/dwc3/core.c:1482:63: note: directive argument in the range [-2147483641, 254]
-    1482 |                         snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
-         |                                                               ^~~~~~~~~
-   drivers/usb/dwc3/core.c:1482:25: note: 'snprintf' output between 7 and 17 bytes into a destination of size 9
-    1482 |                         snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/dwc3/core.c:1499:68: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 4 [-Wformat-truncation=]
-    1499 |                         snprintf(phy_name, sizeof(phy_name), "usb3-%d", i);
-         |                                                                    ^~
-   drivers/usb/dwc3/core.c:1499:62: note: directive argument in the range [-2147483641, 254]
-    1499 |                         snprintf(phy_name, sizeof(phy_name), "usb3-%d", i);
-         |                                                              ^~~~~~~~~
-   drivers/usb/dwc3/core.c:1499:25: note: 'snprintf' output between 7 and 17 bytes into a destination of size 9
-    1499 |                         snprintf(phy_name, sizeof(phy_name), "usb3-%d", i);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c: In function 'exynos5_usbdrd_usbdp_g2_v4_ctrl_pma_ready':
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:615:16: error: implicit declaration of function 'FIELD_PREP_CONST' [-Werror=implicit-function-declaration]
+     615 |         reg |= FIELD_PREP_CONST(SECPMACTL_PMA_REF_FREQ_SEL, 1);
+         |                ^~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c: In function 'exynos850_usbdrd_utmi_init':
+>> drivers/phy/samsung/phy-exynos5-usbdrd.c:1147:20: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+    1147 |         ss_ports = FIELD_GET(LINKPORT_HOST_NUM_U3, reg);
+         |                    ^~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c: At top level:
+>> drivers/phy/samsung/phy-exynos5-usbdrd.c:302:24: error: initializer element is not constant
+     302 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1411:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PHY'
+    1411 |         PHY_TUNING_ENTRY_PHY(EXYNOS850_DRD_HSPPARACON,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:302:24: note: (near initialization for 'gs101_tunes_utmi_postinit[0].val')
+     302 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1411:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PHY'
+    1411 |         PHY_TUNING_ENTRY_PHY(EXYNOS850_DRD_HSPPARACON,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: error: initializer element is not constant
+     309 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1483:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
+    1483 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_NS_VEC_PS1_N1, -1,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: note: (near initialization for 'gs101_tunes_pipe3_init[3].val')
+     309 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1483:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
+    1483 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_NS_VEC_PS1_N1, -1,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: error: initializer element is not constant
+     309 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1487:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
+    1487 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_NS_VEC_PS2_N0, -1,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: note: (near initialization for 'gs101_tunes_pipe3_init[4].val')
+     309 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1487:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
+    1487 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_NS_VEC_PS2_N0, -1,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: error: initializer element is not constant
+     309 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1493:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
+    1493 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_NS_VEC_PS3_N0, -1,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: note: (near initialization for 'gs101_tunes_pipe3_init[5].val')
+     309 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1493:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
+    1493 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_NS_VEC_PS3_N0, -1,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: error: initializer element is not constant
+     309 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1504:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
+    1504 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_RX_CONTROL_DEBUG,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: note: (near initialization for 'gs101_tunes_pipe3_init[8].val')
+     309 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1504:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
+    1504 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_RX_CONTROL_DEBUG,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: error: initializer element is not constant
+     309 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1514:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
+    1514 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_HS_TX_COEF_MAP_0,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: note: (near initialization for 'gs101_tunes_pipe3_init[9].val')
+     309 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1514:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
+    1514 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_HS_TX_COEF_MAP_0,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: error: initializer element is not constant
+     309 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1521:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
+    1521 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_LOCAL_COEF,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: note: (near initialization for 'gs101_tunes_pipe3_init[10].val')
+     309 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1521:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
+    1521 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_LOCAL_COEF,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: error: initializer element is not constant
+     309 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1527:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
+    1527 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_EBUF_PARAM,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: note: (near initialization for 'gs101_tunes_pipe3_init[12].val')
+     309 |                 .val = (v),             \
+         |                        ^
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:1527:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
+    1527 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_EBUF_PARAM,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1482 drivers/usb/dwc3/core.c
+vim +/FIELD_GET +1147 drivers/phy/samsung/phy-exynos5-usbdrd.c
 
-  1445	
-  1446	static int dwc3_core_get_phy(struct dwc3 *dwc)
-  1447	{
-  1448		struct device		*dev = dwc->dev;
-  1449		struct device_node	*node = dev->of_node;
-  1450		char phy_name[9];
-  1451		int ret;
-  1452		int i;
-  1453	
-  1454		if (node) {
-  1455			dwc->usb2_phy = devm_usb_get_phy_by_phandle(dev, "usb-phy", 0);
-  1456			dwc->usb3_phy = devm_usb_get_phy_by_phandle(dev, "usb-phy", 1);
-  1457		} else {
-  1458			dwc->usb2_phy = devm_usb_get_phy(dev, USB_PHY_TYPE_USB2);
-  1459			dwc->usb3_phy = devm_usb_get_phy(dev, USB_PHY_TYPE_USB3);
-  1460		}
-  1461	
-  1462		if (IS_ERR(dwc->usb2_phy)) {
-  1463			ret = PTR_ERR(dwc->usb2_phy);
-  1464			if (ret == -ENXIO || ret == -ENODEV)
-  1465				dwc->usb2_phy = NULL;
-  1466			else
-  1467				return dev_err_probe(dev, ret, "no usb2 phy configured\n");
-  1468		}
-  1469	
-  1470		if (IS_ERR(dwc->usb3_phy)) {
-  1471			ret = PTR_ERR(dwc->usb3_phy);
-  1472			if (ret == -ENXIO || ret == -ENODEV)
-  1473				dwc->usb3_phy = NULL;
-  1474			else
-  1475				return dev_err_probe(dev, ret, "no usb3 phy configured\n");
-  1476		}
-  1477	
-  1478		for (i = 0; i < dwc->num_usb2_ports; i++) {
-  1479			if (dwc->num_usb2_ports == 1)
-  1480				snprintf(phy_name, sizeof(phy_name), "usb2-phy");
-  1481			else
-> 1482				snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
-  1483	
-  1484			dwc->usb2_generic_phy[i] = devm_phy_get(dev, phy_name);
-  1485			if (IS_ERR(dwc->usb2_generic_phy[i])) {
-  1486				ret = PTR_ERR(dwc->usb2_generic_phy[i]);
-  1487				if (ret == -ENOSYS || ret == -ENODEV)
-  1488					dwc->usb2_generic_phy[i] = NULL;
-  1489				else
-  1490					return dev_err_probe(dev, ret, "failed to lookup phy %s\n",
-  1491								phy_name);
-  1492			}
-  1493		}
-  1494	
-  1495		for (i = 0; i < dwc->num_usb3_ports; i++) {
-  1496			if (dwc->num_usb3_ports == 1)
-  1497				snprintf(phy_name, sizeof(phy_name), "usb3-phy");
-  1498			else
-  1499				snprintf(phy_name, sizeof(phy_name), "usb3-%d", i);
-  1500	
-  1501			dwc->usb3_generic_phy[i] = devm_phy_get(dev, phy_name);
-  1502			if (IS_ERR(dwc->usb3_generic_phy[i])) {
-  1503				ret = PTR_ERR(dwc->usb3_generic_phy[i]);
-  1504				if (ret == -ENOSYS || ret == -ENODEV)
-  1505					dwc->usb3_generic_phy[i] = NULL;
-  1506				else
-  1507					return dev_err_probe(dev, ret, "failed to lookup phy %s\n",
-  1508								phy_name);
-  1509			}
-  1510		}
-  1511	
-  1512		return 0;
-  1513	}
-  1514	
+  1130	
+  1131	static void exynos850_usbdrd_utmi_init(struct exynos5_usbdrd_phy *phy_drd)
+  1132	{
+  1133		void __iomem *regs_base = phy_drd->reg_phy;
+  1134		u32 reg;
+  1135		u32 ss_ports;
+  1136	
+  1137		/*
+  1138		 * Disable HWACG (hardware auto clock gating control). This will force
+  1139		 * QACTIVE signal in Q-Channel interface to HIGH level, to make sure
+  1140		 * the PHY clock is not gated by the hardware.
+  1141		 */
+  1142		reg = readl(regs_base + EXYNOS850_DRD_LINKCTRL);
+  1143		reg |= LINKCTRL_FORCE_QACT;
+  1144		writel(reg, regs_base + EXYNOS850_DRD_LINKCTRL);
+  1145	
+  1146		reg = readl(regs_base + EXYNOS850_DRD_LINKPORT);
+> 1147		ss_ports = FIELD_GET(LINKPORT_HOST_NUM_U3, reg);
+  1148	
+  1149		/* Start PHY Reset (POR=high) */
+  1150		reg = readl(regs_base + EXYNOS850_DRD_CLKRST);
+  1151		if (ss_ports) {
+  1152			reg |= CLKRST_PHY20_SW_POR;
+  1153			reg |= CLKRST_PHY20_SW_POR_SEL;
+  1154			reg |= CLKRST_PHY_RESET_SEL;
+  1155		}
+  1156		reg |= CLKRST_PHY_SW_RST;
+  1157		writel(reg, regs_base + EXYNOS850_DRD_CLKRST);
+  1158	
+  1159		/* Enable UTMI+ */
+  1160		reg = readl(regs_base + EXYNOS850_DRD_UTMI);
+  1161		reg &= ~(UTMI_FORCE_SUSPEND | UTMI_FORCE_SLEEP | UTMI_DP_PULLDOWN |
+  1162			 UTMI_DM_PULLDOWN);
+  1163		writel(reg, regs_base + EXYNOS850_DRD_UTMI);
+  1164	
+  1165		/* Set PHY clock and control HS PHY */
+  1166		reg = readl(regs_base + EXYNOS850_DRD_HSP);
+  1167		reg |= HSP_EN_UTMISUSPEND | HSP_COMMONONN;
+  1168		writel(reg, regs_base + EXYNOS850_DRD_HSP);
+  1169	
+  1170		/* Set VBUS Valid and D+ pull-up control by VBUS pad usage */
+  1171		reg = readl(regs_base + EXYNOS850_DRD_LINKCTRL);
+  1172		reg |= LINKCTRL_BUS_FILTER_BYPASS(0xf);
+  1173		writel(reg, regs_base + EXYNOS850_DRD_LINKCTRL);
+  1174	
+  1175		reg = readl(regs_base + EXYNOS850_DRD_UTMI);
+  1176		reg |= UTMI_FORCE_BVALID | UTMI_FORCE_VBUSVALID;
+  1177		writel(reg, regs_base + EXYNOS850_DRD_UTMI);
+  1178	
+  1179		reg = readl(regs_base + EXYNOS850_DRD_HSP);
+  1180		reg |= HSP_VBUSVLDEXT | HSP_VBUSVLDEXTSEL;
+  1181		writel(reg, regs_base + EXYNOS850_DRD_HSP);
+  1182	
+  1183		reg = readl(regs_base + EXYNOS850_DRD_SSPPLLCTL);
+  1184		reg &= ~SSPPLLCTL_FSEL;
+  1185		switch (phy_drd->extrefclk) {
+  1186		case EXYNOS5_FSEL_50MHZ:
+  1187			reg |= FIELD_PREP_CONST(SSPPLLCTL_FSEL, 7);
+  1188			break;
+  1189		case EXYNOS5_FSEL_26MHZ:
+  1190			reg |= FIELD_PREP_CONST(SSPPLLCTL_FSEL, 6);
+  1191			break;
+  1192		case EXYNOS5_FSEL_24MHZ:
+  1193			reg |= FIELD_PREP_CONST(SSPPLLCTL_FSEL, 2);
+  1194			break;
+  1195		case EXYNOS5_FSEL_20MHZ:
+  1196			reg |= FIELD_PREP_CONST(SSPPLLCTL_FSEL, 1);
+  1197			break;
+  1198		case EXYNOS5_FSEL_19MHZ2:
+  1199			reg |= FIELD_PREP_CONST(SSPPLLCTL_FSEL, 0);
+  1200			break;
+  1201		default:
+  1202			dev_warn(phy_drd->dev, "unsupported ref clk: %#.2x\n",
+  1203				 phy_drd->extrefclk);
+  1204			break;
+  1205		}
+  1206		writel(reg, regs_base + EXYNOS850_DRD_SSPPLLCTL);
+  1207	
+  1208		/* Power up PHY analog blocks */
+  1209		reg = readl(regs_base + EXYNOS850_DRD_HSP_TEST);
+  1210		reg &= ~HSP_TEST_SIDDQ;
+  1211		writel(reg, regs_base + EXYNOS850_DRD_HSP_TEST);
+  1212	
+  1213		/* Finish PHY reset (POR=low) */
+  1214		udelay(10); /* required before doing POR=low */
+  1215		reg = readl(regs_base + EXYNOS850_DRD_CLKRST);
+  1216		if (ss_ports) {
+  1217			reg |= CLKRST_PHY20_SW_POR_SEL;
+  1218			reg &= ~CLKRST_PHY20_SW_POR;
+  1219		}
+  1220		reg &= ~(CLKRST_PHY_SW_RST | CLKRST_PORT_RST);
+  1221		writel(reg, regs_base + EXYNOS850_DRD_CLKRST);
+  1222		udelay(75); /* required after POR=low for guaranteed PHY clock */
+  1223	
+  1224		/* Disable single ended signal out */
+  1225		reg = readl(regs_base + EXYNOS850_DRD_HSP);
+  1226		reg &= ~HSP_FSV_OUT_EN;
+  1227		writel(reg, regs_base + EXYNOS850_DRD_HSP);
+  1228	
+  1229		if (ss_ports)
+  1230			exynos5_usbdrd_usb_v3p1_pipe_override(phy_drd);
+  1231	
+  1232		if (phy_drd->drv_data->phy_tunes)
+  1233			exynos5_usbdrd_apply_phy_tunes(phy_drd,
+  1234						       PTS_UTMI_POSTINIT);
+  1235	}
+  1236	
 
 -- 
 0-DAY CI Kernel Test Service
