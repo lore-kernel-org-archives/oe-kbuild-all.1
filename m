@@ -1,70 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B6015EFCC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 16:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C58516D304
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 17:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713975987; cv=none; b=ubCBDLHbhDvN0ES5gcGmxorP/JgPRsytxv5BmlFq2YUTr0F649b+URk1ExfcZ3pUwbyVD2Jr1d1ArUB0vh7uU2x/TU1+DtLVhz+MtnbaLzK1d9YIEXkpFRzYz/UwqDgpqcj4k4ELBuIdHhWlS/Gz3e3dhgjo5RB27TFemmpGxkE=
+	t=1713980969; cv=none; b=tv+cmgwJEp/b8jGuGCvnJlMKXr1lxS+A74z14O3hKtYlLwbdPfN9OnVu32t9yTnmeeQzYm4sfa56tktrIb/OaW+3p5wvMEzAaAQyS0cdTWe2mitoTlSrt476SqXeAxGrgVu9tMHQgE8p+is9mGwPP+JyY1St5P018uqdKsuZcuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713975987; c=relaxed/simple;
-	bh=I6pFBHrPRU5Z2cCKG3RAl9CQCSHZHcaqr3fqNrtHn48=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oWVg8nFQnYHcHJZQ7uB+WQ5PVW3Kf6X0BbFvNfeGL3g8QOouwswFegggorT4yn86Haw4FQXj6LYggGrMV3b5n+Yv4whUipPyLpxHJ7q/zJgy3y9w7beEXD2FkHwNIHRuZcyghLDILLJ/GWzye79OC51hYZD4lqZWTyXMus9DJi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O97uT/8U; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1713980969; c=relaxed/simple;
+	bh=2NaYTaW37c8MLRY9yrQ327LxNm95bXi+3zkuonEiqwY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aWoaiWygLGngrV2gQlI54z1gwd9kg//cSZmNjzqmCKvGqkI2psSLAfDJHIT1HrOdIhPEgodvj7Wk64cc/h7qqbQXzA1lZhqQsewy7gwTNdwX9nzu2792Aa3pgg9HsItYkT0rp27PVjK6QPZKvFLs2bqdhE0NPz0MRktE+6BQZO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TQHNHbg9; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O97uT/8U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TQHNHbg9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713975985; x=1745511985;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=I6pFBHrPRU5Z2cCKG3RAl9CQCSHZHcaqr3fqNrtHn48=;
-  b=O97uT/8U/pjcbZjI20UnNP2/ngk9bjD9qFbkxKd84zfzwTo3C84/oW1u
-   nCyXeftgiD481phFD5n6x5t/2XK2TrjBegZiYw17FrE5x4FTzVVIwaD6d
-   9OWvYK9PkrcRuu6v2R7Vnv/knoLKMSRaOkVonDWT8KTUDcbXriYtjsT/h
-   qJ6BjqRCo/nkvq7y4KcrLOQ+4OKdlyVTlSdPI9T90oosL66cG91Vhxe68
-   h4s7ueXcm9bb1B+ek/olwv39x+SbNMPrhl8VYp8T8+ugiUu7zol3SCUPH
-   xSA5XLM4MvDBHKnGfyzyE7y6KtHUoiL93zp16yZev+4J21rTEAJ+2emQv
-   g==;
-X-CSE-ConnectionGUID: TPdMEHWBSgGorHzI5nQJvA==
-X-CSE-MsgGUID: kkUZfaexTf6nNSvD4kpEtw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="13456321"
+  t=1713980968; x=1745516968;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2NaYTaW37c8MLRY9yrQ327LxNm95bXi+3zkuonEiqwY=;
+  b=TQHNHbg9OjnweLBSQVeUoi4sKkKqCTsKxJXyLX6AyI2fHkGfegpgiyyT
+   cPaMp5DNIfqCWP1Q1GN74ZFE1BIsh+sMXk3y9cLixmNhDOy1MDQCBAAoQ
+   CvsYE7+kezwb6vhI3uvzJbsj2bzswKCC5aK5pi7XDYGI7HkuRFllDYJNz
+   13bbpmO/PDSAlkesDz4S/rfMCkn5oyXxoAiX22ocqUYSFcnCar+NEwu1c
+   +GGRXYDwqdrGaRTqdLFHyBgml0KHQhewgeiXq17Pm9Wuz1+cjPI90yPja
+   ulnA6h5OUw0ikMQ3Bb04hlYDNGFKHTbSAUjGdu1yavSnCmSRETFOI8E04
+   A==;
+X-CSE-ConnectionGUID: nvhNUJCvRf+MKWcQnkfx+w==
+X-CSE-MsgGUID: ImHGNTyIRkq9KoxYyDeoTQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9496041"
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="13456321"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 09:26:25 -0700
-X-CSE-ConnectionGUID: dZrLZyZVSOqLAc318XUrbQ==
-X-CSE-MsgGUID: jnd5jTFxRmOBEn1dWLhsBw==
+   d="scan'208";a="9496041"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 10:49:27 -0700
+X-CSE-ConnectionGUID: BImF/s8QR+2ABQMxW2lRkg==
+X-CSE-MsgGUID: XCwgnrwISAiDj5LlmyWx3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="24779901"
+   d="scan'208";a="29587851"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Apr 2024 09:26:21 -0700
+  by orviesa004.jf.intel.com with ESMTP; 24 Apr 2024 10:49:25 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzfRr-0001RZ-1g;
-	Wed, 24 Apr 2024 16:26:19 +0000
-Date: Thu, 25 Apr 2024 00:26:10 +0800
+	id 1rzgkF-0001Vu-0p;
+	Wed, 24 Apr 2024 17:49:23 +0000
+Date: Thu, 25 Apr 2024 01:48:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Michal Simek <monstr@monstr.eu>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Ji Sheng Teoh <jisheng.teoh@starfivetech.com>,
-	Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-	linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Eng Lee Teh <englee.teh@starfivetech.com>
-Subject: Re: [PATCH v1 1/2] spi: spi-cadence: Add optional reset control
- support
-Message-ID: <202404250029.8cjM4mtZ-lkp@intel.com>
-References: <20240424051317.2084059-2-jisheng.teoh@starfivetech.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 9662/30000] arch/arm64/mm/quick_kexec.c:21:13:
+ warning: no previous prototype for 'reserve_quick_kexec'
+Message-ID: <202404250122.Ybay1rip-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,189 +61,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240424051317.2084059-2-jisheng.teoh@starfivetech.com>
 
-Hi Ji,
+Hi Kefeng,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on broonie-spi/for-next]
-[also build test ERROR on robh/for-next krzk-dt/for-next linus/master v6.9-rc5 next-20240424]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ji-Sheng-Teoh/spi-spi-cadence-Add-optional-reset-control-support/20240424-131551
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20240424051317.2084059-2-jisheng.teoh%40starfivetech.com
-patch subject: [PATCH v1 1/2] spi: spi-cadence: Add optional reset control support
-config: nios2-randconfig-r081-20240424 (https://download.01.org/0day-ci/archive/20240425/202404250029.8cjM4mtZ-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404250029.8cjM4mtZ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   fca9656c7bff35049038766e63e93888847b5bff
+commit: d61f4ca086e99bb481961b1120e10e7a4296c392 [9662/30000] arm64: quick_kexec: Move to stand-alone file
+config: arm64-randconfig-002-20240425 (https://download.01.org/0day-ci/archive/20240425/202404250122.Ybay1rip-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404250122.Ybay1rip-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404250029.8cjM4mtZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404250122.Ybay1rip-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/spi/spi-cadence.c: In function 'cdns_spi_probe':
->> drivers/spi/spi-cadence.c:593:22: error: implicit declaration of function 'devm_reset_control_get_optional_exclusive' [-Werror=implicit-function-declaration]
-     593 |         xspi->rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/spi/spi-cadence.c:593:20: warning: assignment to 'struct reset_control *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     593 |         xspi->rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
-         |                    ^
->> drivers/spi/spi-cadence.c:600:9: error: implicit declaration of function 'reset_control_assert' [-Werror=implicit-function-declaration]
-     600 |         reset_control_assert(xspi->rstc);
-         |         ^~~~~~~~~~~~~~~~~~~~
->> drivers/spi/spi-cadence.c:601:9: error: implicit declaration of function 'reset_control_deassert' [-Werror=implicit-function-declaration]
-     601 |         reset_control_deassert(xspi->rstc);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> arch/arm64/mm/quick_kexec.c:21:13: warning: no previous prototype for 'reserve_quick_kexec' [-Wmissing-prototypes]
+      21 | void __init reserve_quick_kexec(void)
+         |             ^~~~~~~~~~~~~~~~~~~
+>> arch/arm64/mm/quick_kexec.c:47:13: warning: no previous prototype for 'request_quick_kexec_res' [-Wmissing-prototypes]
+      47 | void __init request_quick_kexec_res(struct resource *res)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/devm_reset_control_get_optional_exclusive +593 drivers/spi/spi-cadence.c
+vim +/reserve_quick_kexec +21 arch/arm64/mm/quick_kexec.c
 
-   550	
-   551	/**
-   552	 * cdns_spi_probe - Probe method for the SPI driver
-   553	 * @pdev:	Pointer to the platform_device structure
-   554	 *
-   555	 * This function initializes the driver data structures and the hardware.
-   556	 *
-   557	 * Return:	0 on success and error value on error
-   558	 */
-   559	static int cdns_spi_probe(struct platform_device *pdev)
-   560	{
-   561		int ret = 0, irq;
-   562		struct spi_controller *ctlr;
-   563		struct cdns_spi *xspi;
-   564		u32 num_cs;
-   565		bool target;
-   566	
-   567		target = of_property_read_bool(pdev->dev.of_node, "spi-slave");
-   568		if (target)
-   569			ctlr = spi_alloc_target(&pdev->dev, sizeof(*xspi));
-   570		else
-   571			ctlr = spi_alloc_host(&pdev->dev, sizeof(*xspi));
-   572	
-   573		if (!ctlr)
-   574			return -ENOMEM;
-   575	
-   576		xspi = spi_controller_get_devdata(ctlr);
-   577		ctlr->dev.of_node = pdev->dev.of_node;
-   578		platform_set_drvdata(pdev, ctlr);
-   579	
-   580		xspi->regs = devm_platform_ioremap_resource(pdev, 0);
-   581		if (IS_ERR(xspi->regs)) {
-   582			ret = PTR_ERR(xspi->regs);
-   583			goto remove_ctlr;
-   584		}
-   585	
-   586		xspi->pclk = devm_clk_get_enabled(&pdev->dev, "pclk");
-   587		if (IS_ERR(xspi->pclk)) {
-   588			dev_err(&pdev->dev, "pclk clock not found.\n");
-   589			ret = PTR_ERR(xspi->pclk);
-   590			goto remove_ctlr;
-   591		}
-   592	
- > 593		xspi->rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
-   594		if (IS_ERR(xspi->rstc)) {
-   595			ret = PTR_ERR(xspi->rstc);
-   596			dev_err(&pdev->dev, "Cannot get SPI reset.\n");
-   597			goto remove_ctlr;
-   598		}
-   599	
- > 600		reset_control_assert(xspi->rstc);
- > 601		reset_control_deassert(xspi->rstc);
-   602	
-   603		if (!spi_controller_is_target(ctlr)) {
-   604			xspi->ref_clk = devm_clk_get_enabled(&pdev->dev, "ref_clk");
-   605			if (IS_ERR(xspi->ref_clk)) {
-   606				dev_err(&pdev->dev, "ref_clk clock not found.\n");
-   607				ret = PTR_ERR(xspi->ref_clk);
-   608				goto remove_ctlr;
-   609			}
-   610	
-   611			pm_runtime_use_autosuspend(&pdev->dev);
-   612			pm_runtime_set_autosuspend_delay(&pdev->dev, SPI_AUTOSUSPEND_TIMEOUT);
-   613			pm_runtime_get_noresume(&pdev->dev);
-   614			pm_runtime_set_active(&pdev->dev);
-   615			pm_runtime_enable(&pdev->dev);
-   616	
-   617			ret = of_property_read_u32(pdev->dev.of_node, "num-cs", &num_cs);
-   618			if (ret < 0)
-   619				ctlr->num_chipselect = CDNS_SPI_DEFAULT_NUM_CS;
-   620			else
-   621				ctlr->num_chipselect = num_cs;
-   622	
-   623			ret = of_property_read_u32(pdev->dev.of_node, "is-decoded-cs",
-   624						   &xspi->is_decoded_cs);
-   625			if (ret < 0)
-   626				xspi->is_decoded_cs = 0;
-   627		}
-   628	
-   629		cdns_spi_detect_fifo_depth(xspi);
-   630	
-   631		/* SPI controller initializations */
-   632		cdns_spi_init_hw(xspi, spi_controller_is_target(ctlr));
-   633	
-   634		irq = platform_get_irq(pdev, 0);
-   635		if (irq < 0) {
-   636			ret = irq;
-   637			goto clk_dis_all;
-   638		}
-   639	
-   640		ret = devm_request_irq(&pdev->dev, irq, cdns_spi_irq,
-   641				       0, pdev->name, ctlr);
-   642		if (ret != 0) {
-   643			ret = -ENXIO;
-   644			dev_err(&pdev->dev, "request_irq failed\n");
-   645			goto clk_dis_all;
-   646		}
-   647	
-   648		ctlr->use_gpio_descriptors = true;
-   649		ctlr->prepare_transfer_hardware = cdns_prepare_transfer_hardware;
-   650		ctlr->prepare_message = cdns_prepare_message;
-   651		ctlr->transfer_one = cdns_transfer_one;
-   652		ctlr->unprepare_transfer_hardware = cdns_unprepare_transfer_hardware;
-   653		ctlr->mode_bits = SPI_CPOL | SPI_CPHA;
-   654		ctlr->bits_per_word_mask = SPI_BPW_MASK(8);
-   655	
-   656		if (!spi_controller_is_target(ctlr)) {
-   657			ctlr->mode_bits |=  SPI_CS_HIGH;
-   658			ctlr->set_cs = cdns_spi_chipselect;
-   659			ctlr->auto_runtime_pm = true;
-   660			xspi->clk_rate = clk_get_rate(xspi->ref_clk);
-   661			/* Set to default valid value */
-   662			ctlr->max_speed_hz = xspi->clk_rate / 4;
-   663			xspi->speed_hz = ctlr->max_speed_hz;
-   664			pm_runtime_mark_last_busy(&pdev->dev);
-   665			pm_runtime_put_autosuspend(&pdev->dev);
-   666		} else {
-   667			ctlr->mode_bits |= SPI_NO_CS;
-   668			ctlr->target_abort = cdns_target_abort;
-   669		}
-   670		ret = spi_register_controller(ctlr);
-   671		if (ret) {
-   672			dev_err(&pdev->dev, "spi_register_controller failed\n");
-   673			goto clk_dis_all;
-   674		}
-   675	
-   676		return ret;
-   677	
-   678	clk_dis_all:
-   679		if (!spi_controller_is_target(ctlr)) {
-   680			pm_runtime_set_suspended(&pdev->dev);
-   681			pm_runtime_disable(&pdev->dev);
-   682		}
-   683	remove_ctlr:
-   684		spi_controller_put(ctlr);
-   685		return ret;
-   686	}
-   687	
+    20	
+  > 21	void __init reserve_quick_kexec(void)
+    22	{
+    23		unsigned long long mem_start, mem_len;
+    24	
+    25		mem_len = quick_kexec_res.end;
+    26		if (mem_len == 0)
+    27			return;
+    28	
+    29		/* Current arm64 boot protocol requires 2MB alignment */
+    30		mem_start = memblock_find_in_range(0, arm64_dma_phys_limit,
+    31				mem_len, SZ_2M);
+    32		if (mem_start == 0) {
+    33			pr_warn("cannot allocate quick kexec mem (size:0x%llx)\n",
+    34				mem_len);
+    35			quick_kexec_res.end = 0;
+    36			return;
+    37		}
+    38	
+    39		memblock_reserve(mem_start, mem_len);
+    40		pr_info("quick kexec mem reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+    41			mem_start, mem_start + mem_len,	mem_len >> 20);
+    42	
+    43		quick_kexec_res.start = mem_start;
+    44		quick_kexec_res.end = mem_start + mem_len - 1;
+    45	}
+    46	
+  > 47	void __init request_quick_kexec_res(struct resource *res)
 
 -- 
 0-DAY CI Kernel Test Service
