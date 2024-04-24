@@ -1,210 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1C62F52;
-	Wed, 24 Apr 2024 12:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604EF15AAB6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 13:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713962060; cv=none; b=Dpt91R99hQSfUSvaBZa1XxNq0k8AC32HK/sZYZxPUqjtkY9blHWxSyWAhMjSp6y0amu33K2MQYAiwWLI3ccSjNx8d0YVyDE7gGdYpgVXoxG5scpSi8SqbdOB0dw6n6bGskhnpb4+UFALjL14Q73hISx+Wk2M11/ZNK6vjSKfqgo=
+	t=1713967098; cv=none; b=f2+xibL/A6KxNzTF4kLLpjjfO3i2HNd497t+HSdJA/1D+T6/4y+iB40KGX7VUPVARWznHCTuoVNBqXWHKfNsuHp+qVpcwrXUPPDWJ24qZHhurFep+lgzaueZRLzo6hc8FFvuJukxk5GtKfPKgcHPpHq8RNyVBbAUfSWDek6S/u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713962060; c=relaxed/simple;
-	bh=RdEzfGHr6mIGf1fmDgMivz/m+lwL7VuuP84qTo4VLCg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n++XyMaNwyqcxWbYPG/NoNTGAHwZBsUtPktLJOmK9gXGfhV3nVm+ijbBsrHp2B7S25j1EXlT8WvdMm63WuKJXyiBtnMEO79R0CYjxGw7jQIBH46kCQ7oSo+W1tu2tqZOroy+xDjavTrtG86Vn62cjgiyPehIgnj+UK97IM4h9xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=anduGsq3; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1713967098; c=relaxed/simple;
+	bh=17FrExctQ66YMh8g9HaZYflyY/8WgwLpLrWyhZHCQQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oQ3mwbftG4yagIysXEOog+MefIYwbbVu4BrBQy4wGYo+dXABqB7ox8cLZr76YLMIq1SK6NTfrG7UoRcnEyF90qAjKjoZdvbm32nmH8cAp7526DH1qHy6Ey6F8edBz6vaMgGI35MEOyil+tJx8vXNLfInd8Wc1ni5G0iHz7WZVuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Anc/h5bg; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="anduGsq3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Anc/h5bg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713962059; x=1745498059;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RdEzfGHr6mIGf1fmDgMivz/m+lwL7VuuP84qTo4VLCg=;
-  b=anduGsq337SRfbmlA2MCkUFDibNWfvsh74GpWW33bXD0uG+vZcDSBilm
-   HiquZ5CzdGe0C/NSxW9rmQ0EZDjTG47ghNHG5BWbYLqsCYQKz2SDD7K6u
-   mnX7Ktk00STFYRIt9iSqAbXm1JWI9ZQnujBZKvKlSHm97xRFNY3gct6Mu
-   2mbqD5uTU6ITio4OQ23zbajPxWOEK3YbrHy0M3Hu1Olc9DfKeTxyVc3Bi
-   0VTiMrzwthYKLUl7CNL+eNZ0EcYh6nwB1S/6B6n4RB9lchWh/28c32AZZ
-   KUSpL5y6FNDryjjF/PjaHRSIAPjnBuhOXdyTIhFlGBm+YN9IjSdRoXH8X
-   g==;
-X-CSE-ConnectionGUID: mwCV49PPQRicZ5UD/p1Fgw==
-X-CSE-MsgGUID: Ly1K3rXJT1OyHaXXHdXT9A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9811285"
+  t=1713967097; x=1745503097;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=17FrExctQ66YMh8g9HaZYflyY/8WgwLpLrWyhZHCQQM=;
+  b=Anc/h5bgMd7Rj5N3sExTWsw1H39lca+xWIreBvi0B0Pg1ojcauF1OrvF
+   4+p8sevHo6wXgo7rHRfEGTVig//p++50CQskw9L6iU5QC9YyQRbtVIgk6
+   vJY2JgWNwW+Vel2oWyFfUVueqBXZjcGIo9mtV4hwCwNvZ2/oO/yScxvD2
+   MzElJy0tIR8dNfx0vAv9riBHNkGWgAvIVxpE1PJPKOCqmcihB/tX9HRzk
+   bT+bVOQoZ4iY21ozagVam0II1RIKAj5lKzkwKVxQGzvk06iYxU8JY2DHA
+   vbHXECktFurgNGWjUOjMjSx+7QM+yPM1fHadhLpFUwJ3pxQt/rzl58wB8
+   A==;
+X-CSE-ConnectionGUID: pBbgFk+eTL2ShKZP/LdpBQ==
+X-CSE-MsgGUID: vo16mUKER/StUihYJUrT5A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="10136832"
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="9811285"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 05:34:18 -0700
-X-CSE-ConnectionGUID: UXB9MMOrRbiJGz+VZuSSzg==
-X-CSE-MsgGUID: /K5OmW/RRKu88J3t3Vt0qw==
+   d="scan'208";a="10136832"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 06:58:16 -0700
+X-CSE-ConnectionGUID: k/1766Q6SBK6DTrTGTjuVw==
+X-CSE-MsgGUID: qD/ADGtkQwKQV6f5sd4yMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="24585850"
+   d="scan'208";a="55918864"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 24 Apr 2024 05:34:12 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 24 Apr 2024 06:58:14 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzbpB-0001Dq-2r;
-	Wed, 24 Apr 2024 12:34:09 +0000
-Date: Wed, 24 Apr 2024 20:34:03 +0800
+	id 1rzd8V-0001IC-2z;
+	Wed, 24 Apr 2024 13:58:11 +0000
+Date: Wed, 24 Apr 2024 21:57:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aren Moynihan <aren@peacevolution.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Aren Moynihan <aren@peacevolution.org>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Ondrej Jirman <megi@xff.cz>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-iio@vger.kernel.org, phone-devel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Willow Barraco <contact@willowbarraco.fr>
-Subject: Re: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and
- power it off during suspend
-Message-ID: <202404242057.PUDY5RB1-lkp@intel.com>
-References: <20240423223309.1468198-4-aren@peacevolution.org>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-snps-arc@lists.infradead.org
+Subject: [linux-next:master 5890/8170] drivers/pci/pci.h:359:23: sparse:
+ sparse: incorrect type in argument 2 (different base types)
+Message-ID: <202404242144.8931hnhx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240423223309.1468198-4-aren@peacevolution.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Aren,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on sunxi/sunxi/for-next robh/for-next linus/master v6.9-rc5 next-20240423]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aren-Moynihan/dt-bindings-iio-light-stk33xx-add-vdd-and-leda-regulators/20240424-064250
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240423223309.1468198-4-aren%40peacevolution.org
-patch subject: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and power it off during suspend
-config: arm64-randconfig-001-20240424 (https://download.01.org/0day-ci/archive/20240424/202404242057.PUDY5RB1-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404242057.PUDY5RB1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   5e4f84f18c4ee9b0ccdc19e39b7de41df21699dd
+commit: 99ce03b849f89ae2a00addf5b5475d2bb81972f6 [5890/8170] ARC: Emulate one-byte cmpxchg
+config: arc-randconfig-r122-20240424 (https://download.01.org/0day-ci/archive/20240424/202404242144.8931hnhx-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240424/202404242144.8931hnhx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404242057.PUDY5RB1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404242144.8931hnhx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/pci/pci-driver.c:520:42: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci-driver.c:520:61: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci-driver.c: note: in included file (through include/linux/pci.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   drivers/pci/pci-driver.c:389:19: sparse: sparse: self-comparison always evaluates to false
+   drivers/pci/pci-driver.c: note: in included file:
+>> drivers/pci/pci.h:359:23: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned long [usertype] old @@     got restricted pci_channel_state_t _o_ @@
+   drivers/pci/pci.h:359:23: sparse:     expected unsigned long [usertype] old
+   drivers/pci/pci.h:359:23: sparse:     got restricted pci_channel_state_t _o_
+>> drivers/pci/pci.h:359:23: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long [usertype] new @@     got restricted pci_channel_state_t _n_ @@
+   drivers/pci/pci.h:359:23: sparse:     expected unsigned long [usertype] new
+   drivers/pci/pci.h:359:23: sparse:     got restricted pci_channel_state_t _n_
+   drivers/pci/pci.h:359:23: sparse: sparse: cast to restricted pci_channel_state_t
+   drivers/pci/pci.h:363:23: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned long [usertype] old @@     got restricted pci_channel_state_t _o_ @@
+   drivers/pci/pci.h:363:23: sparse:     expected unsigned long [usertype] old
+   drivers/pci/pci.h:363:23: sparse:     got restricted pci_channel_state_t _o_
+   drivers/pci/pci.h:363:23: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long [usertype] new @@     got restricted pci_channel_state_t _n_ @@
+   drivers/pci/pci.h:363:23: sparse:     expected unsigned long [usertype] new
+   drivers/pci/pci.h:363:23: sparse:     got restricted pci_channel_state_t _n_
+   drivers/pci/pci.h:363:23: sparse: sparse: cast to restricted pci_channel_state_t
 
-   In file included from drivers/iio/light/stk3310.c:10:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/iio/light/stk3310.c:615:38: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     615 |                 return dev_err_probe(&client->dev, ret, "get regulator vdd failed\n");
-         |                                                    ^~~
-   drivers/iio/light/stk3310.c:594:9: note: initialize the variable 'ret' to silence this warning
-     594 |         int ret;
-         |                ^
-         |                 = 0
-   2 warnings generated.
+vim +359 drivers/pci/pci.h
 
+ac04840350e2c2 Lukas Wunner         2023-03-11  337  
+a6bd101b8f84f9 Keith Busch          2018-09-20  338  /**
+a6bd101b8f84f9 Keith Busch          2018-09-20  339   * pci_dev_set_io_state - Set the new error state if possible.
+a6bd101b8f84f9 Keith Busch          2018-09-20  340   *
+347269c113f10f Krzysztof Wilczyński 2021-07-03  341   * @dev: PCI device to set new error_state
+347269c113f10f Krzysztof Wilczyński 2021-07-03  342   * @new: the state we want dev to be in
+a6bd101b8f84f9 Keith Busch          2018-09-20  343   *
+74ff8864cc842b Lukas Wunner         2023-01-20  344   * If the device is experiencing perm_failure, it has to remain in that state.
+74ff8864cc842b Lukas Wunner         2023-01-20  345   * Any other transition is allowed.
+a6bd101b8f84f9 Keith Busch          2018-09-20  346   *
+a6bd101b8f84f9 Keith Busch          2018-09-20  347   * Returns true if state has been changed to the requested state.
+a6bd101b8f84f9 Keith Busch          2018-09-20  348   */
+a6bd101b8f84f9 Keith Busch          2018-09-20  349  static inline bool pci_dev_set_io_state(struct pci_dev *dev,
+a6bd101b8f84f9 Keith Busch          2018-09-20  350  					pci_channel_state_t new)
+a6bd101b8f84f9 Keith Busch          2018-09-20  351  {
+74ff8864cc842b Lukas Wunner         2023-01-20  352  	pci_channel_state_t old;
+a6bd101b8f84f9 Keith Busch          2018-09-20  353  
+a6bd101b8f84f9 Keith Busch          2018-09-20  354  	switch (new) {
+a6bd101b8f84f9 Keith Busch          2018-09-20  355  	case pci_channel_io_perm_failure:
+74ff8864cc842b Lukas Wunner         2023-01-20  356  		xchg(&dev->error_state, pci_channel_io_perm_failure);
+74ff8864cc842b Lukas Wunner         2023-01-20  357  		return true;
+a6bd101b8f84f9 Keith Busch          2018-09-20  358  	case pci_channel_io_frozen:
+74ff8864cc842b Lukas Wunner         2023-01-20 @359  		old = cmpxchg(&dev->error_state, pci_channel_io_normal,
+74ff8864cc842b Lukas Wunner         2023-01-20  360  			      pci_channel_io_frozen);
+74ff8864cc842b Lukas Wunner         2023-01-20  361  		return old != pci_channel_io_perm_failure;
+a6bd101b8f84f9 Keith Busch          2018-09-20  362  	case pci_channel_io_normal:
+74ff8864cc842b Lukas Wunner         2023-01-20  363  		old = cmpxchg(&dev->error_state, pci_channel_io_frozen,
+74ff8864cc842b Lukas Wunner         2023-01-20  364  			      pci_channel_io_normal);
+74ff8864cc842b Lukas Wunner         2023-01-20  365  		return old != pci_channel_io_perm_failure;
+74ff8864cc842b Lukas Wunner         2023-01-20  366  	default:
+74ff8864cc842b Lukas Wunner         2023-01-20  367  		return false;
+a6bd101b8f84f9 Keith Busch          2018-09-20  368  	}
+a6bd101b8f84f9 Keith Busch          2018-09-20  369  }
+89ee9f7680031d Keith Busch          2017-03-29  370  
 
-vim +/ret +615 drivers/iio/light/stk3310.c
+:::::: The code at line 359 was first introduced by commit
+:::::: 74ff8864cc842be994853095dba6db48e716400a PCI: hotplug: Allow marking devices as disconnected during bind/unbind
 
-   591	
-   592	static int stk3310_probe(struct i2c_client *client)
-   593	{
-   594		int ret;
-   595		struct iio_dev *indio_dev;
-   596		struct stk3310_data *data;
-   597	
-   598		indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
-   599		if (!indio_dev) {
-   600			dev_err(&client->dev, "iio allocation failed!\n");
-   601			return -ENOMEM;
-   602		}
-   603	
-   604		data = iio_priv(indio_dev);
-   605		data->client = client;
-   606		i2c_set_clientdata(client, indio_dev);
-   607	
-   608		device_property_read_u32(&client->dev, "proximity-near-level",
-   609					 &data->ps_near_level);
-   610	
-   611		mutex_init(&data->lock);
-   612	
-   613		data->vdd_reg = devm_regulator_get(&client->dev, "vdd");
-   614		if (IS_ERR(data->vdd_reg))
- > 615			return dev_err_probe(&client->dev, ret, "get regulator vdd failed\n");
-   616	
-   617		ret = stk3310_regmap_init(data);
-   618		if (ret < 0)
-   619			return ret;
-   620	
-   621		indio_dev->info = &stk3310_info;
-   622		indio_dev->name = STK3310_DRIVER_NAME;
-   623		indio_dev->modes = INDIO_DIRECT_MODE;
-   624		indio_dev->channels = stk3310_channels;
-   625		indio_dev->num_channels = ARRAY_SIZE(stk3310_channels);
-   626	
-   627		ret = regulator_enable(data->vdd_reg);
-   628		if (ret)
-   629			return dev_err_probe(&client->dev, ret,
-   630					     "regulator vdd enable failed\n");
-   631	
-   632		/* we need a short delay to allow the chip time to power on */
-   633		fsleep(1000);
-   634	
-   635		ret = stk3310_init(indio_dev);
-   636		if (ret < 0)
-   637			goto err_vdd_disable;
-   638	
-   639		if (client->irq > 0) {
-   640			ret = devm_request_threaded_irq(&client->dev, client->irq,
-   641							stk3310_irq_handler,
-   642							stk3310_irq_event_handler,
-   643							IRQF_TRIGGER_FALLING |
-   644							IRQF_ONESHOT,
-   645							STK3310_EVENT, indio_dev);
-   646			if (ret < 0) {
-   647				dev_err(&client->dev, "request irq %d failed\n",
-   648					client->irq);
-   649				goto err_standby;
-   650			}
-   651		}
-   652	
-   653		ret = iio_device_register(indio_dev);
-   654		if (ret < 0) {
-   655			dev_err(&client->dev, "device_register failed\n");
-   656			goto err_standby;
-   657		}
-   658	
-   659		return 0;
-   660	
-   661	err_standby:
-   662		stk3310_set_state(data, STK3310_STATE_STANDBY);
-   663	err_vdd_disable:
-   664		regulator_disable(data->vdd_reg);
-   665		return ret;
-   666	}
-   667	
+:::::: TO: Lukas Wunner <lukas@wunner.de>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
