@@ -1,325 +1,244 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962FF139CEB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 05:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59748156C76;
+	Wed, 24 Apr 2024 06:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713938166; cv=none; b=fR9zi4StvFkA0aOkJCxk971eeFcCYB0UDeEXtcR1yYT7H2Jogd4wqRTg9Fs7IQgotebEXByj0hdNixD0c6VeK0iDMaukGcLD8uk7QT+puX8xPG4JpPMeivrOC56qZKUJnLD3tyRdNqj1jLEnnnWPlfB3l5t+J78dR9FiLBAQsd4=
+	t=1713940086; cv=none; b=rvo0dCwQJtBgCyjoxoW63z7vt7D2hnfEuRmhAbqgrnvtsXw1V4i1ji+2GsdsveVoCq4bKgj35WqDwNU0NBvOFcpuYKArTVsCerMEwwmfpqx9r0nogkc1VChq9VIL4i5kc1ak6B6vigp1Zfny/vEgFzR2WgEMFaEIGhqEKJp0nJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713938166; c=relaxed/simple;
-	bh=MmFvorY7gdBLyILy8HsnyPUc10sAeQ2JHQgtvJRFK64=;
+	s=arc-20240116; t=1713940086; c=relaxed/simple;
+	bh=A/yU00UYToEMGGAoCjRKkNLmgEdhkdVsgbR/GogUobM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KZWhFfn8+BGyMlKfgyVpeOp/MQlv8MSiYYn1n+sSYHBSZ9eTDBSREYhd3eKWwGEcX+VvEO+mGf+LCkjGmc0kttCucE+Bjd8ERTUzzl5JkAzq76LTAIkJ9yOuGZmwsMZ7wtdC6A1O1HhH8tWfWu8Ofc+M4R0KqmlX8FCv5iCtZmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y2lbvw0v; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=H8X/7hy1wkFekUZmHuOran51iXDQ7CViy+7yFEROBrh2KDDSmwPwvyo8tKBOJuTQmkQL6axP2ei84EWKtLhAc0ZOiOpTciWUWLEMfWCPN8AcBL6WXv0lVa28cG0iaLT6HORcJYmmVPkFTwKovGO5Xqa1tTTuIf5jm+aBCk6xABM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=luZtCrI6; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y2lbvw0v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="luZtCrI6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713938165; x=1745474165;
+  t=1713940085; x=1745476085;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=MmFvorY7gdBLyILy8HsnyPUc10sAeQ2JHQgtvJRFK64=;
-  b=Y2lbvw0vrnITP/upmCwy+Feupd8Og5L3KMEvKHHoDFgG4rlC/d4dNJJT
-   DKKgQfrJKuYa7NuDKtn2ZKnVml1QnZNbNskyd10kKYS12DzoUFmDqWS4K
-   MfIVAoangaTuagouYtZmnRu1nAGA+wQ+Xw2x/LFB2+6FXcv2fKekXzTok
-   eMk7SkNQC1JLtUHJ5y1/q5O9OAmIgsa6OFf1a9WvyH5vBDffAqOe7W1uA
-   6ErZXycOAs018eeVvLaD6F/S6f+tOseaK9PTt/xBo+LECYZIDpNnxDQrP
-   46G0IWHhnNv9dMEaxdtESys5J/SYwUy5Ni0IWFFoIEz02mQd7uy4fn+cw
-   Q==;
-X-CSE-ConnectionGUID: t2tpAPpZTCi/381wAYyC9A==
-X-CSE-MsgGUID: JPg1KBjcSLmsO0lkCb1A5Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9711403"
+   mime-version:in-reply-to;
+  bh=A/yU00UYToEMGGAoCjRKkNLmgEdhkdVsgbR/GogUobM=;
+  b=luZtCrI6NJ4hZoTxyweFuWeoGmj9zIo89mpVjXcs7jQh2OS4iVLFjomw
+   tdC/3pbxr+QHmqIck+/AyKiUBvAAZeWVSBZj09MJ3M9nwgYLz9GsEQAqf
+   0oSLsNrM+6S5m3PUPK7qLBGmugw2aY9ZJZRFqrbRn9mtRbkkQmqtg9KDc
+   oktukNmufnVep9+dAaHIP6KWRRP5+kRLNh3yeM+lxvthq7w4Mg2pti2r5
+   VQudD8G5qA6NlqrHGeQJH3OcwpWV23B2s534ynPOqF2xRobxRxDaPz27M
+   gUFZAwjVOgeRO+OInHqYsb98pfJ6hnBug6l5JZmEmcVdfgJeCM1/gsgY2
+   g==;
+X-CSE-ConnectionGUID: vh/q5lFiStimqTxwmKj9jw==
+X-CSE-MsgGUID: QA/ZaOK0TNSNwLfqvOxhYg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="27009692"
 X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
-   d="scan'208";a="9711403"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 22:56:04 -0700
-X-CSE-ConnectionGUID: IEp0NPycSwC2Q10qHl6C7g==
-X-CSE-MsgGUID: 1qTgJxvsSta4ObBy1k4UNQ==
+   d="scan'208";a="27009692"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 23:28:04 -0700
+X-CSE-ConnectionGUID: AwhU1BzwRhOjwMu5FW138Q==
+X-CSE-MsgGUID: cW/Rgp99T5GE1XfoYNpitQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
-   d="scan'208";a="55560223"
+   d="scan'208";a="29265418"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 23 Apr 2024 22:55:59 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 23 Apr 2024 23:28:00 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzVbo-0000vA-29;
-	Wed, 24 Apr 2024 05:55:56 +0000
-Date: Wed, 24 Apr 2024 13:55:01 +0800
+	id 1rzW6n-0000wm-2Q;
+	Wed, 24 Apr 2024 06:27:57 +0000
+Date: Wed, 24 Apr 2024 14:27:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Sam Protsenko <semen.protsenko@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Will McVicker <willmcvicker@google.com>,
-	Roy Luo <royluo@google.com>, kernel-team@android.com,
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-Subject: Re: [PATCH 7/7] phy: exynos5-usbdrd: support Exynos USBDRD 3.1 combo
- phy (HS & SS)
-Message-ID: <202404241343.bJvpqJob-lkp@intel.com>
-References: <20240423-usb-phy-gs101-v1-7-ebdcb3ac174d@linaro.org>
+To: Joe Damato <jdamato@fastly.com>, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, tariqt@nvidia.com, saeedm@nvidia.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	mkarsten@uwaterloo.ca, gal@nvidia.com, nalramli@fastly.com,
+	Joe Damato <jdamato@fastly.com>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-rdma@vger.kernel.org
+Subject: Re: [PATCH net-next 1/3] net/mlx4: Track RX allocation failures in a
+ stat
+Message-ID: <202404241411.3d5OJHs6-lkp@intel.com>
+References: <20240423194931.97013-2-jdamato@fastly.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240423-usb-phy-gs101-v1-7-ebdcb3ac174d@linaro.org>
+In-Reply-To: <20240423194931.97013-2-jdamato@fastly.com>
 
-Hi André,
+Hi Joe,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on a59668a9397e7245b26e9be85d23f242ff757ae8]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Draszik/dt-bindings-phy-samsung-usb3-drd-phy-add-gs101-compatible/20240424-011137
-base:   a59668a9397e7245b26e9be85d23f242ff757ae8
-patch link:    https://lore.kernel.org/r/20240423-usb-phy-gs101-v1-7-ebdcb3ac174d%40linaro.org
-patch subject: [PATCH 7/7] phy: exynos5-usbdrd: support Exynos USBDRD 3.1 combo phy (HS & SS)
-config: arc-randconfig-002-20240424 (https://download.01.org/0day-ci/archive/20240424/202404241343.bJvpqJob-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404241343.bJvpqJob-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Damato/net-mlx4-Track-RX-allocation-failures-in-a-stat/20240424-035224
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240423194931.97013-2-jdamato%40fastly.com
+patch subject: [PATCH net-next 1/3] net/mlx4: Track RX allocation failures in a stat
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240424/202404241411.3d5OJHs6-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404241411.3d5OJHs6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404241343.bJvpqJob-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404241411.3d5OJHs6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/phy/samsung/phy-exynos5-usbdrd.c: In function 'exynos5_usbdrd_usbdp_g2_v4_ctrl_pma_ready':
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:615:16: error: implicit declaration of function 'FIELD_PREP_CONST' [-Werror=implicit-function-declaration]
-     615 |         reg |= FIELD_PREP_CONST(SECPMACTL_PMA_REF_FREQ_SEL, 1);
-         |                ^~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c: In function 'exynos850_usbdrd_utmi_init':
->> drivers/phy/samsung/phy-exynos5-usbdrd.c:1147:20: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-    1147 |         ss_ports = FIELD_GET(LINKPORT_HOST_NUM_U3, reg);
-         |                    ^~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c: At top level:
->> drivers/phy/samsung/phy-exynos5-usbdrd.c:302:24: error: initializer element is not constant
-     302 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1411:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PHY'
-    1411 |         PHY_TUNING_ENTRY_PHY(EXYNOS850_DRD_HSPPARACON,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:302:24: note: (near initialization for 'gs101_tunes_utmi_postinit[0].val')
-     302 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1411:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PHY'
-    1411 |         PHY_TUNING_ENTRY_PHY(EXYNOS850_DRD_HSPPARACON,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: error: initializer element is not constant
-     309 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1483:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
-    1483 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_NS_VEC_PS1_N1, -1,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: note: (near initialization for 'gs101_tunes_pipe3_init[3].val')
-     309 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1483:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
-    1483 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_NS_VEC_PS1_N1, -1,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: error: initializer element is not constant
-     309 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1487:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
-    1487 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_NS_VEC_PS2_N0, -1,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: note: (near initialization for 'gs101_tunes_pipe3_init[4].val')
-     309 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1487:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
-    1487 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_NS_VEC_PS2_N0, -1,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: error: initializer element is not constant
-     309 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1493:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
-    1493 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_NS_VEC_PS3_N0, -1,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: note: (near initialization for 'gs101_tunes_pipe3_init[5].val')
-     309 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1493:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
-    1493 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_NS_VEC_PS3_N0, -1,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: error: initializer element is not constant
-     309 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1504:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
-    1504 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_RX_CONTROL_DEBUG,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: note: (near initialization for 'gs101_tunes_pipe3_init[8].val')
-     309 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1504:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
-    1504 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_RX_CONTROL_DEBUG,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: error: initializer element is not constant
-     309 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1514:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
-    1514 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_HS_TX_COEF_MAP_0,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: note: (near initialization for 'gs101_tunes_pipe3_init[9].val')
-     309 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1514:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
-    1514 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_HS_TX_COEF_MAP_0,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: error: initializer element is not constant
-     309 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1521:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
-    1521 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_LOCAL_COEF,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: note: (near initialization for 'gs101_tunes_pipe3_init[10].val')
-     309 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1521:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
-    1521 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_LOCAL_COEF,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: error: initializer element is not constant
-     309 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1527:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
-    1527 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_EBUF_PARAM,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:309:24: note: (near initialization for 'gs101_tunes_pipe3_init[12].val')
-     309 |                 .val = (v),             \
-         |                        ^
-   drivers/phy/samsung/phy-exynos5-usbdrd.c:1527:9: note: in expansion of macro 'PHY_TUNING_ENTRY_PCS'
-    1527 |         PHY_TUNING_ENTRY_PCS(EXYNOS9_PCS_EBUF_PARAM,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/mellanox/mlx4/en_port.c:35:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/net/ethernet/mellanox/mlx4/en_port.c:35:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/net/ethernet/mellanox/mlx4/en_port.c:35:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/net/ethernet/mellanox/mlx4/en_port.c:167:3: warning: variable 'dropped' is uninitialized when used here [-Wuninitialized]
+     167 |                 dropped += READ_ONCE(ring->dropped);
+         |                 ^~~~~~~
+   drivers/net/ethernet/mellanox/mlx4/en_port.c:154:39: note: initialize the variable 'dropped' to silence this warning
+     154 |         unsigned long packets, bytes, dropped;
+         |                                              ^
+         |                                               = 0
+   18 warnings generated.
 
 
-vim +/FIELD_GET +1147 drivers/phy/samsung/phy-exynos5-usbdrd.c
+vim +/dropped +167 drivers/net/ethernet/mellanox/mlx4/en_port.c
 
-  1130	
-  1131	static void exynos850_usbdrd_utmi_init(struct exynos5_usbdrd_phy *phy_drd)
-  1132	{
-  1133		void __iomem *regs_base = phy_drd->reg_phy;
-  1134		u32 reg;
-  1135		u32 ss_ports;
-  1136	
-  1137		/*
-  1138		 * Disable HWACG (hardware auto clock gating control). This will force
-  1139		 * QACTIVE signal in Q-Channel interface to HIGH level, to make sure
-  1140		 * the PHY clock is not gated by the hardware.
-  1141		 */
-  1142		reg = readl(regs_base + EXYNOS850_DRD_LINKCTRL);
-  1143		reg |= LINKCTRL_FORCE_QACT;
-  1144		writel(reg, regs_base + EXYNOS850_DRD_LINKCTRL);
-  1145	
-  1146		reg = readl(regs_base + EXYNOS850_DRD_LINKPORT);
-> 1147		ss_ports = FIELD_GET(LINKPORT_HOST_NUM_U3, reg);
-  1148	
-  1149		/* Start PHY Reset (POR=high) */
-  1150		reg = readl(regs_base + EXYNOS850_DRD_CLKRST);
-  1151		if (ss_ports) {
-  1152			reg |= CLKRST_PHY20_SW_POR;
-  1153			reg |= CLKRST_PHY20_SW_POR_SEL;
-  1154			reg |= CLKRST_PHY_RESET_SEL;
-  1155		}
-  1156		reg |= CLKRST_PHY_SW_RST;
-  1157		writel(reg, regs_base + EXYNOS850_DRD_CLKRST);
-  1158	
-  1159		/* Enable UTMI+ */
-  1160		reg = readl(regs_base + EXYNOS850_DRD_UTMI);
-  1161		reg &= ~(UTMI_FORCE_SUSPEND | UTMI_FORCE_SLEEP | UTMI_DP_PULLDOWN |
-  1162			 UTMI_DM_PULLDOWN);
-  1163		writel(reg, regs_base + EXYNOS850_DRD_UTMI);
-  1164	
-  1165		/* Set PHY clock and control HS PHY */
-  1166		reg = readl(regs_base + EXYNOS850_DRD_HSP);
-  1167		reg |= HSP_EN_UTMISUSPEND | HSP_COMMONONN;
-  1168		writel(reg, regs_base + EXYNOS850_DRD_HSP);
-  1169	
-  1170		/* Set VBUS Valid and D+ pull-up control by VBUS pad usage */
-  1171		reg = readl(regs_base + EXYNOS850_DRD_LINKCTRL);
-  1172		reg |= LINKCTRL_BUS_FILTER_BYPASS(0xf);
-  1173		writel(reg, regs_base + EXYNOS850_DRD_LINKCTRL);
-  1174	
-  1175		reg = readl(regs_base + EXYNOS850_DRD_UTMI);
-  1176		reg |= UTMI_FORCE_BVALID | UTMI_FORCE_VBUSVALID;
-  1177		writel(reg, regs_base + EXYNOS850_DRD_UTMI);
-  1178	
-  1179		reg = readl(regs_base + EXYNOS850_DRD_HSP);
-  1180		reg |= HSP_VBUSVLDEXT | HSP_VBUSVLDEXTSEL;
-  1181		writel(reg, regs_base + EXYNOS850_DRD_HSP);
-  1182	
-  1183		reg = readl(regs_base + EXYNOS850_DRD_SSPPLLCTL);
-  1184		reg &= ~SSPPLLCTL_FSEL;
-  1185		switch (phy_drd->extrefclk) {
-  1186		case EXYNOS5_FSEL_50MHZ:
-  1187			reg |= FIELD_PREP_CONST(SSPPLLCTL_FSEL, 7);
-  1188			break;
-  1189		case EXYNOS5_FSEL_26MHZ:
-  1190			reg |= FIELD_PREP_CONST(SSPPLLCTL_FSEL, 6);
-  1191			break;
-  1192		case EXYNOS5_FSEL_24MHZ:
-  1193			reg |= FIELD_PREP_CONST(SSPPLLCTL_FSEL, 2);
-  1194			break;
-  1195		case EXYNOS5_FSEL_20MHZ:
-  1196			reg |= FIELD_PREP_CONST(SSPPLLCTL_FSEL, 1);
-  1197			break;
-  1198		case EXYNOS5_FSEL_19MHZ2:
-  1199			reg |= FIELD_PREP_CONST(SSPPLLCTL_FSEL, 0);
-  1200			break;
-  1201		default:
-  1202			dev_warn(phy_drd->dev, "unsupported ref clk: %#.2x\n",
-  1203				 phy_drd->extrefclk);
-  1204			break;
-  1205		}
-  1206		writel(reg, regs_base + EXYNOS850_DRD_SSPPLLCTL);
-  1207	
-  1208		/* Power up PHY analog blocks */
-  1209		reg = readl(regs_base + EXYNOS850_DRD_HSP_TEST);
-  1210		reg &= ~HSP_TEST_SIDDQ;
-  1211		writel(reg, regs_base + EXYNOS850_DRD_HSP_TEST);
-  1212	
-  1213		/* Finish PHY reset (POR=low) */
-  1214		udelay(10); /* required before doing POR=low */
-  1215		reg = readl(regs_base + EXYNOS850_DRD_CLKRST);
-  1216		if (ss_ports) {
-  1217			reg |= CLKRST_PHY20_SW_POR_SEL;
-  1218			reg &= ~CLKRST_PHY20_SW_POR;
-  1219		}
-  1220		reg &= ~(CLKRST_PHY_SW_RST | CLKRST_PORT_RST);
-  1221		writel(reg, regs_base + EXYNOS850_DRD_CLKRST);
-  1222		udelay(75); /* required after POR=low for guaranteed PHY clock */
-  1223	
-  1224		/* Disable single ended signal out */
-  1225		reg = readl(regs_base + EXYNOS850_DRD_HSP);
-  1226		reg &= ~HSP_FSV_OUT_EN;
-  1227		writel(reg, regs_base + EXYNOS850_DRD_HSP);
-  1228	
-  1229		if (ss_ports)
-  1230			exynos5_usbdrd_usb_v3p1_pipe_override(phy_drd);
-  1231	
-  1232		if (phy_drd->drv_data->phy_tunes)
-  1233			exynos5_usbdrd_apply_phy_tunes(phy_drd,
-  1234						       PTS_UTMI_POSTINIT);
-  1235	}
-  1236	
+   149	
+   150	void mlx4_en_fold_software_stats(struct net_device *dev)
+   151	{
+   152		struct mlx4_en_priv *priv = netdev_priv(dev);
+   153		struct mlx4_en_dev *mdev = priv->mdev;
+   154		unsigned long packets, bytes, dropped;
+   155		int i;
+   156	
+   157		if (!priv->port_up || mlx4_is_master(mdev->dev))
+   158			return;
+   159	
+   160		packets = 0;
+   161		bytes = 0;
+   162		for (i = 0; i < priv->rx_ring_num; i++) {
+   163			const struct mlx4_en_rx_ring *ring = priv->rx_ring[i];
+   164	
+   165			packets += READ_ONCE(ring->packets);
+   166			bytes   += READ_ONCE(ring->bytes);
+ > 167			dropped += READ_ONCE(ring->dropped);
+   168		}
+   169		dev->stats.rx_packets = packets;
+   170		dev->stats.rx_bytes = bytes;
+   171		dev->stats.rx_missed_errors = dropped;
+   172	
+   173		packets = 0;
+   174		bytes = 0;
+   175		for (i = 0; i < priv->tx_ring_num[TX]; i++) {
+   176			const struct mlx4_en_tx_ring *ring = priv->tx_ring[TX][i];
+   177	
+   178			packets += READ_ONCE(ring->packets);
+   179			bytes   += READ_ONCE(ring->bytes);
+   180		}
+   181		dev->stats.tx_packets = packets;
+   182		dev->stats.tx_bytes = bytes;
+   183	}
+   184	
 
 -- 
 0-DAY CI Kernel Test Service
