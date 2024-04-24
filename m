@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5F5171C4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 01:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7CB83A10
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 02:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713923519; cv=none; b=CAcryJheMcEyzZN6MtaZ9eCV4aFvpWNKal/LDaHVouLU3yCQm6Lsi7mvMpU2zDfLLuLiwLuEKPHYpZR7JMHiBIpFRwdnCMNBLYO6c7UBb2Xm4HfV5TGWbiL8QKRAZdwASR2SpMH4MGSKwA8KXONgWtIOeNei4Um8Veoc/b71TLs=
+	t=1713926699; cv=none; b=QbDbiR8MXmOixRb6pRrKZF4ZN2RKAaQOnyrJifVR1WWGZyT8kOx39/wi3qB+Maqs1lurCbkC84oxVvqmyRVQ2oxQYY6mOHKxLcp+islf4j3ssS0F3KnISwvWo/TRpgI2svM33RRAoi7VTvxq+4edgQuldLig3ykm+TwyevMsarQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713923519; c=relaxed/simple;
-	bh=zeeuamTs/vv6J7BdgRRwghET6ADePOZ1mZwb5Xa5qGc=;
+	s=arc-20240116; t=1713926699; c=relaxed/simple;
+	bh=3m0lFz/StfeyX0XKbTZ0N5cOJ08+RiBpCnwIH6PvYwY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VhkMufwCAL2ZL8NZ8SZsYjwGDUobLPjDJ0EhlSKGjoL5qE9A23zlx8EXjdoDKM+tpBnWBnQPAtYR3yLGxdq1VGp8s3m+2tQqNrz/hXGWVRSnl+vRsGxLlrGRR+KWV5MCLNSkwYZ53N9r1/pN8PCk7cJWEeu8zKTBb7cC985/nko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kTYZvPVp; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=irY+Z1iKm+icppW1b/kXpokphZ54OJ/OTWBYaRNCXbQ5Y+FKF2dRMGWNVhh88uRpviJlmGJjiKppBpOLSG+rA4MsqD7yUemj1dsiTzXBmK0QxMAwK8J7KkQeUjKHJQAc/tJiSEUDoEu3vEy1wdJ3fsUax2xMnUshR92MXuGAzrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D1BDnl/F; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kTYZvPVp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D1BDnl/F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713923517; x=1745459517;
+  t=1713926698; x=1745462698;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zeeuamTs/vv6J7BdgRRwghET6ADePOZ1mZwb5Xa5qGc=;
-  b=kTYZvPVpFAJh33Y+TjlmLEE2XiMFCgjvXafJQnSY32piR4OdIWuwc7VH
-   WSMnKZ+E5/LwwFC3ajmqT3N28O3l1jxh9pnxMKACdSH6OtNVSh40IknUs
-   1pKyUgb8rYUc+XifBt9bI3BRiwkZS0m3j/NcaX/bfN7STGVzRxZU/Mx+k
-   inbRAuJSz60JPgXlvsuu8y2DGH8HjrrVf4e0fa41yD3REFYRpdrMTq1fZ
-   98KSy1daSsHcltwM55872oDK7m6JiwfGNPzvKQYiIboikJLeqQEph/23Q
-   Ggh2GeVZse2XpLME5qSetglXU+W2EPCQ708WpakfbZUDn42L5fRsBukIO
-   A==;
-X-CSE-ConnectionGUID: EHUcfsc0QwyOVsBzNcbsVQ==
-X-CSE-MsgGUID: 5dtQyBnlQdajsjXY2p7TBA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20083880"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="20083880"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 18:51:55 -0700
-X-CSE-ConnectionGUID: SaVi/ynjQxyecye6ZvCOGw==
-X-CSE-MsgGUID: 2P9swWWAS4qoZlU1Fjv8iQ==
+  bh=3m0lFz/StfeyX0XKbTZ0N5cOJ08+RiBpCnwIH6PvYwY=;
+  b=D1BDnl/FcmfxQjrzHZasdFNAJmhvO7bL7G4apfC+BkjHe49qG0vOg9r7
+   pdeRhSZSsbAY9l5ethecsRxr6I6ZmZgvJILnq47MDpDaD3efoEp0YPcXk
+   x8UUTK/RhH1u8WQBS7o1Kwje0Ks0MbDeZNfSnqtxW3L0pgGyfvhLIYdLg
+   q5iEaZioMkUMjxoEi9JblITn0jeQA/ASW2o1SyzgLVJ+f2R0brzkc8mcC
+   agoit1OTkkeRzrmzVQICkGjutM6a9Q9xBqOAF3IPMbQQKPAHXGDnXxrq5
+   DJgkubGgllbuqD9D5BDSuZRCQce+Pnc041CYHIDX1JzpGdOidEHbQW6tx
+   w==;
+X-CSE-ConnectionGUID: bWU/FYe9QR2xDVUwAQKCDQ==
+X-CSE-MsgGUID: hFqMkXNAR8OvwPXlMpvaYA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9367632"
+X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
+   d="scan'208";a="9367632"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 19:44:55 -0700
+X-CSE-ConnectionGUID: 5zDz+r9dTC6AHHflbiaRSA==
+X-CSE-MsgGUID: 2i+BVRR1Qpq7+giw8rBPcQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="29194368"
+X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
+   d="scan'208";a="24609175"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 23 Apr 2024 18:51:52 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 23 Apr 2024 19:44:54 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzRna-0000jQ-1A;
-	Wed, 24 Apr 2024 01:51:50 +0000
-Date: Wed, 24 Apr 2024 09:51:38 +0800
+	id 1rzSct-0000mS-2Z;
+	Wed, 24 Apr 2024 02:44:51 +0000
+Date: Wed, 24 Apr 2024 10:44:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: kernel@openeuler.org, Yuchen Tang <tangyuchen5@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mediatek:v6.9-next/soc 17/17]
- drivers/soc/mediatek/mtk-dvfsrc.c:324:5: error: redefinition of
- 'mtk_dvfsrc_send_request'
-Message-ID: <202404240912.B98BoPf9-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2528/7513] fs/proc/etmem_scan.c:737:16: sparse:
+ sparse: cast removes address space '__rcu' of expression
+Message-ID: <202404241001.LouXWxwt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,128 +62,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v6.9-next/soc
-head:   9c2aa575f0f0dfc9163e54727e527c9e0566502d
-commit: 9c2aa575f0f0dfc9163e54727e527c9e0566502d [17/17] soc: mediatek: Add MediaTek DVFS Resource Collector (DVFSRC) driver
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240424/202404240912.B98BoPf9-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404240912.B98BoPf9-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   1bab7be76541fb1208df75a4e4e00beb09be471f
+commit: 5d3b64fd78b80ec49285f2186e7b5ac5850f76e4 [2528/7513] etmem: add etmem scan feature
+config: arm64-randconfig-r131-20240424 (https://download.01.org/0day-ci/archive/20240424/202404241001.LouXWxwt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240424/202404241001.LouXWxwt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404240912.B98BoPf9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404241001.LouXWxwt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/proc/etmem_scan.c:269:18: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *buf @@     got void *buf @@
+   fs/proc/etmem_scan.c:269:18: sparse:     expected void [noderef] __user *buf
+   fs/proc/etmem_scan.c:269:18: sparse:     got void *buf
+>> fs/proc/etmem_scan.c:737:16: sparse: sparse: cast removes address space '__rcu' of expression
+   fs/proc/etmem_scan.c:1361:40: sparse: sparse: incorrect type in assignment (incompatible argument 2 (different address spaces)) @@     expected long ( *extern [addressable] [assigned] [toplevel] read )( ... ) @@     got long ( * )( ... ) @@
+   fs/proc/etmem_scan.c:1361:40: sparse:     expected long ( *extern [addressable] [assigned] [toplevel] read )( ... )
+   fs/proc/etmem_scan.c:1361:40: sparse:     got long ( * )( ... )
+   fs/proc/etmem_scan.c:697:46: sparse: sparse: self-comparison always evaluates to false
+   fs/proc/etmem_scan.c:720:46: sparse: sparse: self-comparison always evaluates to false
 
->> drivers/soc/mediatek/mtk-dvfsrc.c:324:5: error: redefinition of 'mtk_dvfsrc_send_request'
-     324 | int mtk_dvfsrc_send_request(const struct device *dev, u32 cmd, u64 data)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/soc/mediatek/mtk-dvfsrc.c:15:
-   include/linux/soc/mediatek/dvfsrc.h:28:19: note: previous definition of 'mtk_dvfsrc_send_request' with type 'int(const struct device *, u32,  u64)' {aka 'int(const struct device *, unsigned int,  long long unsigned int)'}
-      28 | static inline int mtk_dvfsrc_send_request(const struct device *dev, u32 cmd, u64 data)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/soc/mediatek/mtk-dvfsrc.c:395:5: error: redefinition of 'mtk_dvfsrc_query_info'
-     395 | int mtk_dvfsrc_query_info(const struct device *dev, u32 cmd, int *data)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/soc/mediatek/dvfsrc.h:31:19: note: previous definition of 'mtk_dvfsrc_query_info' with type 'int(const struct device *, u32,  int *)' {aka 'int(const struct device *, unsigned int,  int *)'}
-      31 | static inline int mtk_dvfsrc_query_info(const struct device *dev, u32 cmd, int *data)
-         |                   ^~~~~~~~~~~~~~~~~~~~~
+vim +/__rcu +737 fs/proc/etmem_scan.c
 
-
-vim +/mtk_dvfsrc_send_request +324 drivers/soc/mediatek/mtk-dvfsrc.c
-
-   323	
- > 324	int mtk_dvfsrc_send_request(const struct device *dev, u32 cmd, u64 data)
-   325	{
-   326		struct mtk_dvfsrc *dvfsrc = dev_get_drvdata(dev);
-   327		bool state;
-   328		int ret;
-   329	
-   330		dev_dbg(dvfsrc->dev, "cmd: %d, data: %llu\n", cmd, data);
-   331	
-   332		switch (cmd) {
-   333		case MTK_DVFSRC_CMD_BW:
-   334			dvfsrc->dvd->set_dram_bw(dvfsrc, data);
-   335			return 0;
-   336		case MTK_DVFSRC_CMD_HRT_BW:
-   337			if (dvfsrc->dvd->set_dram_hrt_bw)
-   338				dvfsrc->dvd->set_dram_hrt_bw(dvfsrc, data);
-   339			return 0;
-   340		case MTK_DVFSRC_CMD_PEAK_BW:
-   341			if (dvfsrc->dvd->set_dram_peak_bw)
-   342				dvfsrc->dvd->set_dram_peak_bw(dvfsrc, data);
-   343			return 0;
-   344		case MTK_DVFSRC_CMD_OPP:
-   345			if (!dvfsrc->dvd->set_opp_level)
-   346				return 0;
-   347	
-   348			dvfsrc->dvd->set_opp_level(dvfsrc, data);
-   349			break;
-   350		case MTK_DVFSRC_CMD_VCORE_LEVEL:
-   351			dvfsrc->dvd->set_vcore_level(dvfsrc, data);
-   352			break;
-   353		case MTK_DVFSRC_CMD_VSCP_LEVEL:
-   354			if (!dvfsrc->dvd->set_vscp_level)
-   355				return 0;
-   356	
-   357			dvfsrc->dvd->set_vscp_level(dvfsrc, data);
-   358			break;
-   359		default:
-   360			dev_err(dvfsrc->dev, "unknown command: %d\n", cmd);
-   361			return -EOPNOTSUPP;
-   362		}
-   363	
-   364		/* DVFSRC needs at least 2T(~196ns) to handle a request */
-   365		udelay(STARTUP_TIME_US);
-   366	
-   367		ret = readx_poll_timeout_atomic(dvfsrc_is_idle, dvfsrc, state, state,
-   368						STARTUP_TIME_US, DVFSRC_POLL_TIMEOUT_US);
-   369		if (ret < 0) {
-   370			dev_warn(dvfsrc->dev,
-   371				 "%d: idle timeout, data: %llu, last: %d -> %d\n", cmd, data,
-   372				 dvfsrc->dvd->get_current_level(dvfsrc),
-   373				 dvfsrc->dvd->get_target_level(dvfsrc));
-   374			return ret;
-   375		}
-   376	
-   377		if (cmd == MTK_DVFSRC_CMD_OPP)
-   378			ret = dvfsrc->dvd->wait_for_opp_level(dvfsrc, data);
-   379		else
-   380			ret = dvfsrc->dvd->wait_for_vcore_level(dvfsrc, data);
-   381	
-   382		if (ret < 0) {
-   383			dev_warn(dvfsrc->dev,
-   384				 "%d: wait timeout, data: %llu, last: %d -> %d\n",
-   385				 cmd, data,
-   386				 dvfsrc->dvd->get_current_level(dvfsrc),
-   387				 dvfsrc->dvd->get_target_level(dvfsrc));
-   388			return ret;
-   389		}
-   390	
-   391		return 0;
-   392	}
-   393	EXPORT_SYMBOL(mtk_dvfsrc_send_request);
-   394	
- > 395	int mtk_dvfsrc_query_info(const struct device *dev, u32 cmd, int *data)
-   396	{
-   397		struct mtk_dvfsrc *dvfsrc = dev_get_drvdata(dev);
-   398	
-   399		switch (cmd) {
-   400		case MTK_DVFSRC_CMD_VCORE_LEVEL:
-   401			*data = dvfsrc->dvd->get_vcore_level(dvfsrc);
-   402			break;
-   403		case MTK_DVFSRC_CMD_VSCP_LEVEL:
-   404			*data = dvfsrc->dvd->get_vscp_level(dvfsrc);
-   405			break;
-   406		default:
-   407			return -EOPNOTSUPP;
-   408		}
-   409	
-   410		return 0;
-   411	}
-   412	EXPORT_SYMBOL(mtk_dvfsrc_query_info);
-   413	
+   724	
+   725	static int arm_page_range(struct page_idle_ctrl *pic,
+   726							   unsigned long addr,
+   727							   unsigned long end)
+   728	{
+   729		pgd_t *pgd;
+   730		unsigned long next;
+   731		struct kvm *kvm = pic->kvm;
+   732		int err = 0;
+   733	
+   734		WARN_ON(addr >= end);
+   735	
+   736		read_lock(&pic->kvm->mmu_lock);
+ > 737		pgd = (pgd_t *)kvm->arch.mmu.pgt->pgd + pgd_index(addr) * PTRS_PER_PTE;
+   738		read_unlock(&pic->kvm->mmu_lock);
+   739	
+   740		local_irq_disable();
+   741		do {
+   742			next = pgd_addr_end(addr, end);
+   743			if (!pgd_present(*pgd)) {
+   744				set_restart_gpa(next, "PGD_HOLE");
+   745				continue;
+   746			}
+   747	
+   748			err = arm_p4d_range(pic, pgd, addr, next);
+   749			if (err)
+   750				break;
+   751		} while (pgd++, addr = next, addr != end);
+   752	
+   753		local_irq_enable();
+   754		return err;
+   755	}
+   756	#endif
+   757	
 
 -- 
 0-DAY CI Kernel Test Service
