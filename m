@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431B813B5A6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 06:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477001426F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 07:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713941295; cv=none; b=ow/W4cgLCrbLpqmPUk+zNjLsmqVlPl+4hExTv4ImAq4OkV2sGZr26/SpdIPPEscAfsJ/0BrGBv+7nXPUSIr6ieK4JZFFTHZt2RkfpIK+5n3Mu9T76zoC58rLz2r0ni+VdotnvCBkBtzsamraK+zn+LImlS6rxIk2uEPLVH4My/8=
+	t=1713942605; cv=none; b=ZJMJHML3QNrcTKrgnfqTTqJ8X+mibkhWdGw4VuIfzyHi7gkaOWMPEY11qVIdB+YLvvWHbqJrp+kl9ghUmeNQbihKXW9QiclH4ebFbTD3/5xliCqTji5yAo1zZMGO3BKdlXP/rds+Hx8w0hS9qk4nm0oRe6WDNdiKKVQi4MMXQ5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713941295; c=relaxed/simple;
-	bh=tTpeY1zEGE7cGIX0jyKWMAQuIqoqxTi+vhBhOkcoekg=;
+	s=arc-20240116; t=1713942605; c=relaxed/simple;
+	bh=fCGlu6rreHmugTXqH7AcnubT01QTss/88HJoVzS6v9A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i3FxrXdk/HLeO+OkYEnR+4JpEeMxY6d9VEHRNH8nE4tsnVLdh1/K8kAgjrplkVzKQy46C40KzhouK8qaGrVzCXoOuWheW10CS/1PFtQOI68XIa61b7oUihZW2U53JlVbdjcH3WrzDV2tHxo91F7HSondUdo4q3xZY0xZUJiQkOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSYpHgc/; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=sjgV6aJTcvVBrU4DmtNbd/FW76iUIpaq8yCNTr6q0Jb+Vn5Ad7/idMj82ZhFmtQvcP4hExYIbTdK5sR6CnHnK1RJO/B5jIQT4qE7r3mMGJ2QGMAQGaPUTLDHsXVau4eKX6SXCg1AoW7pNu8maS5IiL2mVGH5CJYsi28soI+EZ/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HOh6D0Yz; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSYpHgc/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HOh6D0Yz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713941295; x=1745477295;
+  t=1713942603; x=1745478603;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tTpeY1zEGE7cGIX0jyKWMAQuIqoqxTi+vhBhOkcoekg=;
-  b=LSYpHgc/muYfjY6n6ENN0/t/6Hns2pUGlu5GDCGzoAAMJPk4RCKhtaP8
-   kfCtXwdTxEA64A7OsGf4qxtObwWCIN52IVK8AmvuW9hBFJ+U8trVkUMXj
-   xi5j/Me/XoM0udTQUbzeAHGTsFHPJitKTwtwt5jbUyv0GFYx99kFuFaCO
-   W5tMeSmvQgt0kw+TJJrYNQt+iZyOxyXQIrCUH606hv6NilxswhJYx55cn
-   g5VSQhOtDNM97WzqCF8YfOPZKqNnBJgqYFMZMKQTB6Z2g5XsZSwGoN+Cw
-   c9KwUpPNuXapysPQFQLs0FX01D5647argpcEQZzEYH5JU9iCUtIwLTsCp
-   Q==;
-X-CSE-ConnectionGUID: NxEbH0cgRHiP4GZI306p5w==
-X-CSE-MsgGUID: M5r+8ThCTnCgqHBR57BpuA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="13345885"
+  bh=fCGlu6rreHmugTXqH7AcnubT01QTss/88HJoVzS6v9A=;
+  b=HOh6D0YzJA+czaV+aQNYVTNkch6tp0cHg9EuTS9IdB1cb5cK8oEnMoDi
+   8GiVVG/U9bocLjtwqggUKV1dt75XJRl5S6W6Pkwnzx/S3vB67y4g24Kp+
+   s01SlqlfT4XadUNuIk6c3sUwrCfGrtDEeR7Knk27N0yeUWNo84lzNhHfm
+   tAQzjxzKrpHbjuZcr2K499l1nE3BSOOSLo12Zwnujtw2VWQBD2scB6oF2
+   tThr5D+D0wI/DLrWWfkNwtKibXv/V3WeSNhvvknZRaeovPswExfaJ42ql
+   VyIB87r1b+Bd4jUpq3mK99oCRk/U1sDO3+btmKr7CULRe8TIeHyfvrINH
+   g==;
+X-CSE-ConnectionGUID: YzMpKh2ETDyJNzZ7pcadfg==
+X-CSE-MsgGUID: sy/IV5Y/SwiDWGDQUA43GQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20172945"
 X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
-   d="scan'208";a="13345885"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 23:48:02 -0700
-X-CSE-ConnectionGUID: loK/IxD4QAGceB9S/lJYyw==
-X-CSE-MsgGUID: PK/46AU7QYOxo84HJ1fxOA==
+   d="scan'208";a="20172945"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 00:10:02 -0700
+X-CSE-ConnectionGUID: uiIpbyUaSVymGOJ+F5o6Eg==
+X-CSE-MsgGUID: d0HeJCiYTQCy+sCKcB8sAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
-   d="scan'208";a="62071130"
+   d="scan'208";a="47878371"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 23 Apr 2024 23:48:01 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 24 Apr 2024 00:10:01 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzWQA-0000xI-06;
-	Wed, 24 Apr 2024 06:47:58 +0000
-Date: Wed, 24 Apr 2024 14:47:54 +0800
+	id 1rzWlS-0000yW-2J;
+	Wed, 24 Apr 2024 07:09:58 +0000
+Date: Wed, 24 Apr 2024 15:09:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [weiny2:cxl-cper-testing 4/6]
- arch/x86/include/asm/atomic.h:23:undefined reference to
- `__tracepoint_cper_cxl_event'
-Message-ID: <202404241438.jL0BDTNb-lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [linux-next:master 6891/7876]
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c:1007:16: sparse: sparse: symbol
+ 'mdp5_plane_formats' was not declared. Should it be static?
+Message-ID: <202404241522.oFguK9g2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,55 +65,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/weiny2/linux-kernel.git cxl-cper-testing
-head:   9b1f33314e8488506dbad63dc1c896386d4803d6
-commit: 2d11892dead2fcc454ceb5779c01584d1bed0c6b [4/6] ras/events: Trace CXL CPER events without CXL stack
-config: x86_64-randconfig-122-20240424 (https://download.01.org/0day-ci/archive/20240424/202404241438.jL0BDTNb-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404241438.jL0BDTNb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a59668a9397e7245b26e9be85d23f242ff757ae8
+commit: 6d602db2dd1cc80dda7b19b5c67e960ee7eb6f81 [6891/7876] drm/msm: add arrays listing formats supported by MDP4/MDP5 hardware
+config: arc-randconfig-r122-20240424 (https://download.01.org/0day-ci/archive/20240424/202404241522.oFguK9g2-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240424/202404241522.oFguK9g2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404241438.jL0BDTNb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404241522.oFguK9g2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c:1007:16: sparse: sparse: symbol 'mdp5_plane_formats' was not declared. Should it be static?
 
-   ld: vmlinux.o: in function `arch_atomic_read':
->> arch/x86/include/asm/atomic.h:23:(.text+0x16b783b): undefined reference to `__tracepoint_cper_cxl_event'
->> ld: arch/x86/include/asm/atomic.h:23:(.text+0x16b785c): undefined reference to `__tracepoint_cper_cxl_event'
-   ld: arch/x86/include/asm/atomic.h:23:(.text+0x16b7867): undefined reference to `__tracepoint_cper_cxl_event'
-   ld: vmlinux.o: in function `trace_cper_cxl_event':
->> include/ras/ras_event.h:429:(.text+0x16b78d6): undefined reference to `__tracepoint_cper_cxl_event'
->> ld: include/ras/ras_event.h:429:(.text+0x16b78f5): undefined reference to `__tracepoint_cper_cxl_event'
->> ld: include/ras/ras_event.h:429:(.text+0x16b7931): undefined reference to `__SCT__tp_func_cper_cxl_event'
-   ld: include/ras/ras_event.h:429:(.text+0x16b79a9): undefined reference to `__tracepoint_cper_cxl_event'
->> ld: vmlinux.o:(.static_call_sites+0x5e84): undefined reference to `__SCK__tp_func_cper_cxl_event'
+vim +/mdp5_plane_formats +1007 drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
 
-
-vim +23 arch/x86/include/asm/atomic.h
-
-5abbbbf0b0cd4a Brian Gerst    2010-01-07  11  
-5abbbbf0b0cd4a Brian Gerst    2010-01-07  12  /*
-5abbbbf0b0cd4a Brian Gerst    2010-01-07  13   * Atomic operations that C can't guarantee us.  Useful for
-5abbbbf0b0cd4a Brian Gerst    2010-01-07  14   * resource counting etc..
-5abbbbf0b0cd4a Brian Gerst    2010-01-07  15   */
-5abbbbf0b0cd4a Brian Gerst    2010-01-07  16  
-8bf705d130396e Dmitry Vyukov  2018-01-29  17  static __always_inline int arch_atomic_read(const atomic_t *v)
-5abbbbf0b0cd4a Brian Gerst    2010-01-07  18  {
-ac605bee0bfab4 Dmitry Vyukov  2018-01-29  19  	/*
-ac605bee0bfab4 Dmitry Vyukov  2018-01-29  20  	 * Note for KASAN: we deliberately don't use READ_ONCE_NOCHECK() here,
-ac605bee0bfab4 Dmitry Vyukov  2018-01-29  21  	 * it's non-inlined function that increases binary size and stack usage.
-ac605bee0bfab4 Dmitry Vyukov  2018-01-29  22  	 */
-37f8173dd84936 Peter Zijlstra 2020-01-24 @23  	return __READ_ONCE((v)->counter);
-5abbbbf0b0cd4a Brian Gerst    2010-01-07  24  }
-5abbbbf0b0cd4a Brian Gerst    2010-01-07  25  
-
-:::::: The code at line 23 was first introduced by commit
-:::::: 37f8173dd84936ea78000ed1cad24f8b18d48ebb locking/atomics: Flip fallbacks and instrumentation
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+  1006	
+> 1007	const uint32_t mdp5_plane_formats[] = {
+  1008		DRM_FORMAT_ARGB8888,
+  1009		DRM_FORMAT_ABGR8888,
+  1010		DRM_FORMAT_RGBA8888,
+  1011		DRM_FORMAT_BGRA8888,
+  1012		DRM_FORMAT_XRGB8888,
+  1013		DRM_FORMAT_XBGR8888,
+  1014		DRM_FORMAT_RGBX8888,
+  1015		DRM_FORMAT_BGRX8888,
+  1016		DRM_FORMAT_RGB888,
+  1017		DRM_FORMAT_BGR888,
+  1018		DRM_FORMAT_RGB565,
+  1019		DRM_FORMAT_BGR565,
+  1020	
+  1021		DRM_FORMAT_NV12,
+  1022		DRM_FORMAT_NV21,
+  1023		DRM_FORMAT_NV16,
+  1024		DRM_FORMAT_NV61,
+  1025		DRM_FORMAT_VYUY,
+  1026		DRM_FORMAT_UYVY,
+  1027		DRM_FORMAT_YUYV,
+  1028		DRM_FORMAT_YVYU,
+  1029		DRM_FORMAT_YUV420,
+  1030		DRM_FORMAT_YVU420,
+  1031	};
+  1032	
 
 -- 
 0-DAY CI Kernel Test Service
