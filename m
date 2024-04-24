@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390ED16D4E4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 17:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843A516F289
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 18:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713980971; cv=none; b=LcOzDTaaBa4cp+NxEm4HtGQlp8RMaCyJSx8L5TaRKG7LHdBgj5dzR/+Y7vHbJ0mW+xwWHtb2D5TZtlMCSvDx36UaT0I8BFbNZIE+iQcWvjhfcf5cMSwYeumavJCI2/TAA/n1PSNrrMCEARNMhCBHnXwcj36HVeyR8jhTvXIbw7I=
+	t=1713982830; cv=none; b=il6DleT6XTtb+qO0QYE5VEy5avGJO3fzpRWgfnMGclMTF50Q03k1AgJRsrp1zCd8/7gfVZ4gftd/9JeCuPtecPr2HThyyNDwhgDFgglXpY0+IGKQaFT1hZtQhBYmbmSz/kkVGnFuQ51Ax5uejcIyCC9VgaL/lH9iYnczEdzOu8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713980971; c=relaxed/simple;
-	bh=WjV+ag8yRY/4W3p7wtF/jX9Hy/KELvVoiUyybGJpgys=;
+	s=arc-20240116; t=1713982830; c=relaxed/simple;
+	bh=kD+rUYoaJXQytWXleLSuNP2lKx78+iZ7ZH1dufBWzww=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D1SPh/HzLDtuWO4HvWaNv7fBQW7SirjVKE25opd/G+eExopXDU1sS8MXcs7yvycPJ4DDjCG900sMN6g23VaAalJdrVe6UeFg3qtNA/eIdhnQAX9Le/y6FOFm9Sb8pp8+jiSyvgfIfQ2v2p3CwAPfm6Vi7qq+WPg/WxUxST0m0HE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CYJWe0aN; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=rCPCbFw2zt5MRni4sOI1RjrsAlOMGAm0bLBwrMuU/ia4MVFnK94L5DE1Aj1ZcruKLO46H09exFCZFMhvdmTCgLFMmeme4tvh41PFVupTFddSWOj+kQxvMVzA80LdexKvPLDDm/mpXbVjsSVVqDVFFIISGiRAy5Ois/78tE1EeUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CrBXdI54; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CYJWe0aN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CrBXdI54"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713980969; x=1745516969;
+  t=1713982829; x=1745518829;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WjV+ag8yRY/4W3p7wtF/jX9Hy/KELvVoiUyybGJpgys=;
-  b=CYJWe0aNYbtLTDzy9MF6aSP33GcNk4TB2HuKxtY2jZkzvFePGt0+M8e4
-   WMkmyuyU9vvqA2QZvm2yZ89fvOBzy6XS6lZbpJQWova3kEBSL1ih3U0qj
-   59O77ivD3kraG8OmLL9fg4b0G0JVCU7oVfmblS7wMKpS69/2q1t1puJGZ
-   SmyrfmDJwsjcWbsznqej83SdB5vlzPn+IldCD5RJYtZ2CMSMoe9ftRDqm
-   TlIaAhkiXFsWv9anF1w3FClM0efZQOpnXjniPgpuI+g98IvO4750QhL1b
-   WvtDjP6Wk+rxdBOVsf1oj22I4m2NFV4lEpqCSUFT7oTvDK/A7KLbtIr+9
-   A==;
-X-CSE-ConnectionGUID: TS6qXEUiRYiNzDv012HD0w==
-X-CSE-MsgGUID: bRXdRhxKS0WBC95GC5zjlg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9496045"
+  bh=kD+rUYoaJXQytWXleLSuNP2lKx78+iZ7ZH1dufBWzww=;
+  b=CrBXdI548RBsI7227bTJyAzAfuQ1dtZUz+uYT4IylU2wC3egkrI4JedS
+   6ZQEQlOcpjaEkXhIwn3Zcx3T3xjVJgfrpr7jZA5z1LyiUtJKwfWcCXfH2
+   DT6cRYIDqkoXkPMYCDmF1KUML1/92W8EMuuMwP9646M2ydvFar53QqFZn
+   7o9DNMZAzah/YVmhGUISq4LUSQ7lxj23g0xSsNUt2vqM83bDEVNd2w+vW
+   2ZUzd3z6QjAhi66vgZxvxh4RKaVlE9NQGXo7njmE6JzmiimLcPiQpg9Wq
+   +lOeHu46DtRgg1yZ/Mnqb77LP/MqIkJDZgZwtqR4dJCRqzrOiVGyhu9H/
+   w==;
+X-CSE-ConnectionGUID: fTsvvfHjRgyE5w/7RzVJUA==
+X-CSE-MsgGUID: c3piQVPZSXmZLVJ6w9naoA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="21044468"
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="9496045"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 10:49:27 -0700
-X-CSE-ConnectionGUID: DYt3RJTSSq6lhk36oqFPaQ==
-X-CSE-MsgGUID: n0WUBgTQQS2UMCydatRzaw==
+   d="scan'208";a="21044468"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 11:20:28 -0700
+X-CSE-ConnectionGUID: fj8wz1nlTkKQwhiEfFIJ4g==
+X-CSE-MsgGUID: GU/l+A0YRxCYE2GQ/wZR+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="29587850"
+   d="scan'208";a="24841419"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 24 Apr 2024 10:49:25 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 24 Apr 2024 11:20:26 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzgkF-0001Vs-0j;
-	Wed, 24 Apr 2024 17:49:23 +0000
-Date: Thu, 25 Apr 2024 01:48:56 +0800
+	id 1rzhEG-0001Xc-0n;
+	Wed, 24 Apr 2024 18:20:24 +0000
+Date: Thu, 25 Apr 2024 02:19:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nuno Sa <nuno.sa@analog.com>
+To: Alex Deucher <alexander.deucher@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Dragos Bogdan <dragos.bogdan@analog.com>
-Subject: [linux-next:master 6544/8170] ERROR: modpost:
- "__spi_register_driver" [drivers/iio/dac/ad9739a.ko] undefined!
-Message-ID: <202404250156.2PQRWmex-lkp@intel.com>
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 8070/8170] powerpc-linux-ld:
+ drivers/gpu/drm/amd/display/dc/dml/dcn401/dcn401_fpu.o uses hard float,
+ arch/powerpc/kernel/udbg.o uses soft float
+Message-ID: <202404250209.hmhCgEgB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,134 +64,126 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Nuno,
-
-First bad commit (maybe != root cause):
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   5e4f84f18c4ee9b0ccdc19e39b7de41df21699dd
-commit: e77603d5468b9093c111a998a86604e21a9e7f48 [6544/8170] iio: dac: support the ad9739a RF DAC
-config: csky-randconfig-002-20240424 (https://download.01.org/0day-ci/archive/20240425/202404250156.2PQRWmex-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404250156.2PQRWmex-lkp@intel.com/reproduce)
+commit: c70ed007e413ac7941cacfdaa4422c7244c4e469 [8070/8170] Merge branch 'drm-next' of https://gitlab.freedesktop.org/agd5f/linux
+config: powerpc-randconfig-r032-20230106 (https://download.01.org/0day-ci/archive/20240425/202404250209.hmhCgEgB-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404250209.hmhCgEgB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404250156.2PQRWmex-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404250209.hmhCgEgB-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7988-apmixed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7988-topckgen.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7988-infracfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-aud.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-ipu1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-ipu_conn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vdo0.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vdo1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vpp0.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vpp1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-apu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-vdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sprd/clk-sprd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/clk-qcom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/imx/soc-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/amlogic/meson-clk-measure.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/ifcvf/ifcvf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/da9121-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_gem_shmem_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
-WARNING: modpost: drivers/mmc/host/davinci_mmc: section mismatch in reference: davinci_mmcsd_driver+0x8 (section: .data) -> davinci_mmcsd_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/renesas_sdhi_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_sd8787.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
->> ERROR: modpost: "spi_write_then_read" [drivers/base/regmap/regmap-spi.ko] undefined!
->> ERROR: modpost: "spi_sync" [drivers/base/regmap/regmap-spi.ko] undefined!
->> ERROR: modpost: "spi_async" [drivers/base/regmap/regmap-spi.ko] undefined!
->> ERROR: modpost: "__spi_register_driver" [drivers/iio/dac/ad9739a.ko] undefined!
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for REGMAP_SPI
-   Depends on [n]: SPI [=n]
-   Selected by [m]:
-   - AD9739A [=m] && IIO [=m] && (SPI [=n] || COMPILE_TEST [=y])
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn32/display_rq_dlg_calc_32.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn32/display_rq_dlg_calc_32.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn321/dcn321_fpu.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn321/dcn321_fpu.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn302/dcn302_fpu.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn302/dcn302_fpu.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn303/dcn303_fpu.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn303/dcn303_fpu.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.o
+>> powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dcn401/dcn401_fpu.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dcn401/dcn401_fpu.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/dsc/rc_calc_fpu.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/dsc/rc_calc_fpu.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calc_math.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calc_math.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calc_auto.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calc_auto.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml2_utils.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml2_utils.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml2_policy.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml2_policy.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml2_mall_phantom.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml2_mall_phantom.o
+   powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml_display_rq_dlg_calc.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml_display_rq_dlg_calc.o
+>> powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_top/dml_top_mcache.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_top/dml_top_mcache.o
+>> powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.o
+>> powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.o
+>> powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.o
+>> powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.o
+>> powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_mcg/dml2_mcg_dcn4.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_mcg/dml2_mcg_dcn4.o
+>> powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.o
+>> powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4.o
+>> powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4_fams2.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4_fams2.o
+>> powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_standalone_libraries/lib_float_math.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_standalone_libraries/lib_float_math.o
+>> powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.o
+>> powerpc-linux-ld: drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_utils.o uses hard float, arch/powerpc/kernel/udbg.o uses soft float
+   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_utils.o
 
 -- 
 0-DAY CI Kernel Test Service
