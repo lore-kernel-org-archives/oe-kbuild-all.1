@@ -1,115 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477001426F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 07:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98626158A3D;
+	Wed, 24 Apr 2024 07:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713942605; cv=none; b=ZJMJHML3QNrcTKrgnfqTTqJ8X+mibkhWdGw4VuIfzyHi7gkaOWMPEY11qVIdB+YLvvWHbqJrp+kl9ghUmeNQbihKXW9QiclH4ebFbTD3/5xliCqTji5yAo1zZMGO3BKdlXP/rds+Hx8w0hS9qk4nm0oRe6WDNdiKKVQi4MMXQ5o=
+	t=1713943281; cv=none; b=IEbhkyFApvBuLBMBvMzdi/vefoAqsWRz/xXKkWzFm2u2rJ6fcaSu1tLO36wgruaLfdz8QWWtE5P4sZVfk/p2IUgNpySA9S386chDAjRNPZj0rnnvgN450o09Qr6t5ZLIsvw3SBFFWb09D/4UeQ4Kf5N/9H6X+lS6BphAky49jHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713942605; c=relaxed/simple;
-	bh=fCGlu6rreHmugTXqH7AcnubT01QTss/88HJoVzS6v9A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sjgV6aJTcvVBrU4DmtNbd/FW76iUIpaq8yCNTr6q0Jb+Vn5Ad7/idMj82ZhFmtQvcP4hExYIbTdK5sR6CnHnK1RJO/B5jIQT4qE7r3mMGJ2QGMAQGaPUTLDHsXVau4eKX6SXCg1AoW7pNu8maS5IiL2mVGH5CJYsi28soI+EZ/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HOh6D0Yz; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713943281; c=relaxed/simple;
+	bh=yo10sCOTCq85cFaAQnC6NyfO+wxyu7SYxXfs03uIpew=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UQgrWaeI2RKRCp+8rJ44J6oNyHq4at8fa+TNFsHRaOcyXUxR9qWaygworKBkEO9AaFzEqZE9D574dOWo4s/PDBAS/DEdhZGN5ob4NBkpl2aEm9uj81QaPPr4T21li7ck5c8H/zRMvN4vlVJttOMmRZYsPHB7SsCbUGV/fwEZ7IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XPLSCmfl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HOh6D0Yz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713942603; x=1745478603;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fCGlu6rreHmugTXqH7AcnubT01QTss/88HJoVzS6v9A=;
-  b=HOh6D0YzJA+czaV+aQNYVTNkch6tp0cHg9EuTS9IdB1cb5cK8oEnMoDi
-   8GiVVG/U9bocLjtwqggUKV1dt75XJRl5S6W6Pkwnzx/S3vB67y4g24Kp+
-   s01SlqlfT4XadUNuIk6c3sUwrCfGrtDEeR7Knk27N0yeUWNo84lzNhHfm
-   tAQzjxzKrpHbjuZcr2K499l1nE3BSOOSLo12Zwnujtw2VWQBD2scB6oF2
-   tThr5D+D0wI/DLrWWfkNwtKibXv/V3WeSNhvvknZRaeovPswExfaJ42ql
-   VyIB87r1b+Bd4jUpq3mK99oCRk/U1sDO3+btmKr7CULRe8TIeHyfvrINH
-   g==;
-X-CSE-ConnectionGUID: YzMpKh2ETDyJNzZ7pcadfg==
-X-CSE-MsgGUID: sy/IV5Y/SwiDWGDQUA43GQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20172945"
-X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
-   d="scan'208";a="20172945"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 00:10:02 -0700
-X-CSE-ConnectionGUID: uiIpbyUaSVymGOJ+F5o6Eg==
-X-CSE-MsgGUID: d0HeJCiYTQCy+sCKcB8sAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
-   d="scan'208";a="47878371"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Apr 2024 00:10:01 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rzWlS-0000yW-2J;
-	Wed, 24 Apr 2024 07:09:58 +0000
-Date: Wed, 24 Apr 2024 15:09:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [linux-next:master 6891/7876]
- drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c:1007:16: sparse: sparse: symbol
- 'mdp5_plane_formats' was not declared. Should it be static?
-Message-ID: <202404241522.oFguK9g2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XPLSCmfl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FF22C2BD11;
+	Wed, 24 Apr 2024 07:21:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713943281;
+	bh=yo10sCOTCq85cFaAQnC6NyfO+wxyu7SYxXfs03uIpew=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=XPLSCmfloq8T/oP3OB8NHhq11ye8mXu1Vifv95c+Af6au1jz/WcK7iAK77M4xVFtn
+	 bLbXg2W1yHbIEh9QMQ7lZQPFDRTMU6qZnSCDbTJXl+Sv6762UlfHQvy9Km7ATe1xgH
+	 Q0pg7lKCNggZ0vPLSgw8958aQlAlIoL/wYU5riZnRm0J910sqGLcnSJdaZn1zjauwS
+	 jWF8E53a6ikKfclAzDNwg8Vf1S1afhKsu51aS+6bt1n2bNPrylJ7z/iGyNUk6+wInH
+	 851a4yq5zB4VFUEgfvOzxphhhLtpQSTP00YEPnxstS3jtFCf8kLukhJxPTh5BTo1hb
+	 gUIdifMrER3ZA==
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-2343ae31a9bso2678771fac.1;
+        Wed, 24 Apr 2024 00:21:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU3UDkuIh226e+mWyNXCYjF26IlaT5j+O39pF9uAeUXoCqAgyOnCH81KtxXNh7IeVz8/U8GFGtgy2O1jfdJ8OGJArUxlo17lAPYaYDXcQ==
+X-Gm-Message-State: AOJu0YyBPbzx7FTB3hcNEAyseOrfpL53WCcZM/AKlKj/lpuN4Z1xlMHK
+	f8co2bJ4gBDrsjcmF/RNIl9k2OOPUY14vln1MtFNKhObyhmGwAx7oJyXYfnjshtiHXNz89ertBw
+	bOrC888axjrKkxSDxAxdGW74t4vw=
+X-Google-Smtp-Source: AGHT+IHW5fgXuqOMVpY2Tx+J8nWc+mX3gSxAg88PIk1pWLvHwBZB7PqIfBqZeeJ36YmWfKZW2d/5zsjWpeSF0EHmNZ8=
+X-Received: by 2002:a05:6871:a9ca:b0:22e:bf56:7dc with SMTP id
+ wp10-20020a056871a9ca00b0022ebf5607dcmr1599885oab.13.1713943280775; Wed, 24
+ Apr 2024 00:21:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <e9ead449-6ea6-4017-b26a-3a80ea6d4018@moroto.mountain>
+In-Reply-To: <e9ead449-6ea6-4017-b26a-3a80ea6d4018@moroto.mountain>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Wed, 24 Apr 2024 16:21:09 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd8=8i+=_Ww9WCN28+9rbLpF__M1F6n_FeavRX2VnKvrBQ@mail.gmail.com>
+Message-ID: <CAKYAXd8=8i+=_Ww9WCN28+9rbLpF__M1F6n_FeavRX2VnKvrBQ@mail.gmail.com>
+Subject: Re: fs/smb/server/smb2pdu.c:1992 smb2_tree_connect() error:
+ uninitialized symbol 'share'.
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Steve French <stfrench@microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a59668a9397e7245b26e9be85d23f242ff757ae8
-commit: 6d602db2dd1cc80dda7b19b5c67e960ee7eb6f81 [6891/7876] drm/msm: add arrays listing formats supported by MDP4/MDP5 hardware
-config: arc-randconfig-r122-20240424 (https://download.01.org/0day-ci/archive/20240424/202404241522.oFguK9g2-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240424/202404241522.oFguK9g2-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404241522.oFguK9g2-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c:1007:16: sparse: sparse: symbol 'mdp5_plane_formats' was not declared. Should it be static?
-
-vim +/mdp5_plane_formats +1007 drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-
-  1006	
-> 1007	const uint32_t mdp5_plane_formats[] = {
-  1008		DRM_FORMAT_ARGB8888,
-  1009		DRM_FORMAT_ABGR8888,
-  1010		DRM_FORMAT_RGBA8888,
-  1011		DRM_FORMAT_BGRA8888,
-  1012		DRM_FORMAT_XRGB8888,
-  1013		DRM_FORMAT_XBGR8888,
-  1014		DRM_FORMAT_RGBX8888,
-  1015		DRM_FORMAT_BGRX8888,
-  1016		DRM_FORMAT_RGB888,
-  1017		DRM_FORMAT_BGR888,
-  1018		DRM_FORMAT_RGB565,
-  1019		DRM_FORMAT_BGR565,
-  1020	
-  1021		DRM_FORMAT_NV12,
-  1022		DRM_FORMAT_NV21,
-  1023		DRM_FORMAT_NV16,
-  1024		DRM_FORMAT_NV61,
-  1025		DRM_FORMAT_VYUY,
-  1026		DRM_FORMAT_UYVY,
-  1027		DRM_FORMAT_YUYV,
-  1028		DRM_FORMAT_YVYU,
-  1029		DRM_FORMAT_YUV420,
-  1030		DRM_FORMAT_YVU420,
-  1031	};
-  1032	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2024=EB=85=84 4=EC=9B=94 24=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 3:28, D=
+an Carpenter <dan.carpenter@linaro.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
+=B1:
+Hi Dan,
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   9d1ddab261f3e2af7c384dc02238784ce0cf9f98
+> commit: e9d8c2f95ab8acaf3f4d4a53682a4afa3c263692 ksmbd: add continuous av=
+ailability share parameter
+> config: x86_64-randconfig-161-20240424 (https://download.01.org/0day-ci/a=
+rchive/20240424/202404241435.Yxr6Wapq-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009=
+708b4367171ccdbf4b5905cb6a803753fe18)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202404241435.Yxr6Wapq-lkp@intel.com/
+>
+> New smatch warnings:
+> fs/smb/server/smb2pdu.c:1992 smb2_tree_connect() error: uninitialized sym=
+bol 'share'.
+I will fix it.
+Thanks for your report.
