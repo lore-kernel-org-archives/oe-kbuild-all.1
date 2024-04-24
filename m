@@ -1,49 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58DB715747D;
-	Wed, 24 Apr 2024 06:41:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431B813B5A6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 06:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713940919; cv=none; b=brSOkcKGuLmVxSA5EIz6Y7aHuVPHzuypb1amYGu/2FcuvxtC8cC7wp2qWXA8xJvjVX10btqvEMdyos2NgiueQIV19Xh7u7nkcgA5pTY+Z6NgXjKtzTR2CkKBq47jKejT6GdXEpE0NnheD6/gY7klQO6+XsSVJGFBtYP96GJIWOk=
+	t=1713941295; cv=none; b=ow/W4cgLCrbLpqmPUk+zNjLsmqVlPl+4hExTv4ImAq4OkV2sGZr26/SpdIPPEscAfsJ/0BrGBv+7nXPUSIr6ieK4JZFFTHZt2RkfpIK+5n3Mu9T76zoC58rLz2r0ni+VdotnvCBkBtzsamraK+zn+LImlS6rxIk2uEPLVH4My/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713940919; c=relaxed/simple;
-	bh=SGrrp8eRm1Ip1OEAU0Cjtn5d1Rb8lMCFrvzKHN0ptvI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qrkLxeMYNCraArqy4N2o/bzxjDyv3Q8bl+ID1QIoDibbMeUTtK1sl3CcFzJUgAYw/iDjB21QIjlLK65Uxhe3hLu9VjypsbUN17ImbaSeXKfnUc4Mrm47ShYXhPzF3ZZaedSAlQqQOe6VH8ojq5uuwZ28BKX6gd5u8afQn4l4VaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QPCNQIaX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713941295; c=relaxed/simple;
+	bh=tTpeY1zEGE7cGIX0jyKWMAQuIqoqxTi+vhBhOkcoekg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=i3FxrXdk/HLeO+OkYEnR+4JpEeMxY6d9VEHRNH8nE4tsnVLdh1/K8kAgjrplkVzKQy46C40KzhouK8qaGrVzCXoOuWheW10CS/1PFtQOI68XIa61b7oUihZW2U53JlVbdjcH3WrzDV2tHxo91F7HSondUdo4q3xZY0xZUJiQkOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSYpHgc/; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QPCNQIaX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF3EEC113CE;
-	Wed, 24 Apr 2024 06:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713940918;
-	bh=SGrrp8eRm1Ip1OEAU0Cjtn5d1Rb8lMCFrvzKHN0ptvI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QPCNQIaX6TMQy+BBIJuymgvH3N5Q0il43+yTa2oE8cszkm1gh/1oDKkXQH+VvY405
-	 JaLp5+PeyRg8TNP0cLn0EieW9K5OsV85Hy8W716KgzfGWfhjLztfJJmzloiRpSMptb
-	 gDfzntRk5gqWEG3CrYESjNtGB//pYx/TUruEFuyiYWbYeVwndIBewJO9ZzmQ3eI3xH
-	 JG943ZUiCxAJQVxLJlM4gvQ18hLfw/gC7ajKs1vUPGrCXNVrazJLLerQY6Gv5Xnmne
-	 Rjg6yA/AEpUb8tc6c2pw/jImqB604scOR2wG0fBFSQWT4ognDIrnntMHF1vCzC1aGZ
-	 k8mxIW8J0z/Xw==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rzWKK-000000008Ft-1fwY;
-	Wed, 24 Apr 2024 08:41:57 +0200
-Date: Wed, 24 Apr 2024 08:41:56 +0200
-From: Johan Hovold <johan@kernel.org>
-To: kernel test robot <lkp@intel.com>,
-	Krishna Kurapati <quic_kriskura@quicinc.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Subject: Re: [usb:usb-testing 7/12] drivers/usb/dwc3/core.c:1482:69: warning:
- '%d' directive output may be truncated writing between 1 and 11 bytes into a
- region of size 4
-Message-ID: <ZiiptMEL2_AdBsJA@hovoldconsulting.com>
-References: <202404241215.Mib19Cu7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSYpHgc/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713941295; x=1745477295;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tTpeY1zEGE7cGIX0jyKWMAQuIqoqxTi+vhBhOkcoekg=;
+  b=LSYpHgc/muYfjY6n6ENN0/t/6Hns2pUGlu5GDCGzoAAMJPk4RCKhtaP8
+   kfCtXwdTxEA64A7OsGf4qxtObwWCIN52IVK8AmvuW9hBFJ+U8trVkUMXj
+   xi5j/Me/XoM0udTQUbzeAHGTsFHPJitKTwtwt5jbUyv0GFYx99kFuFaCO
+   W5tMeSmvQgt0kw+TJJrYNQt+iZyOxyXQIrCUH606hv6NilxswhJYx55cn
+   g5VSQhOtDNM97WzqCF8YfOPZKqNnBJgqYFMZMKQTB6Z2g5XsZSwGoN+Cw
+   c9KwUpPNuXapysPQFQLs0FX01D5647argpcEQZzEYH5JU9iCUtIwLTsCp
+   Q==;
+X-CSE-ConnectionGUID: NxEbH0cgRHiP4GZI306p5w==
+X-CSE-MsgGUID: M5r+8ThCTnCgqHBR57BpuA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="13345885"
+X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
+   d="scan'208";a="13345885"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 23:48:02 -0700
+X-CSE-ConnectionGUID: loK/IxD4QAGceB9S/lJYyw==
+X-CSE-MsgGUID: PK/46AU7QYOxo84HJ1fxOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
+   d="scan'208";a="62071130"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 23 Apr 2024 23:48:01 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rzWQA-0000xI-06;
+	Wed, 24 Apr 2024 06:47:58 +0000
+Date: Wed, 24 Apr 2024 14:47:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ira Weiny <ira.weiny@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [weiny2:cxl-cper-testing 4/6]
+ arch/x86/include/asm/atomic.h:23:undefined reference to
+ `__tracepoint_cper_cxl_event'
+Message-ID: <202404241438.jL0BDTNb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,57 +62,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202404241215.Mib19Cu7-lkp@intel.com>
 
-On Wed, Apr 24, 2024 at 01:03:07PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-> head:   a160e1202ca318a85c70cf5831f172cc79a24c57
-> commit: 846b4bacf2d48212f271fc1ef7488bcdf2c75bcb [7/12] usb: dwc3: core: Refactor PHY logic to support Multiport Controller
-> config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240424/202404241215.Mib19Cu7-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404241215.Mib19Cu7-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202404241215.Mib19Cu7-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/usb/dwc3/core.c: In function 'dwc3_core_get_phy':
-> >> drivers/usb/dwc3/core.c:1482:69: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 4 [-Wformat-truncation=]
->     1482 |                         snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
->          |                                                                     ^~
->    drivers/usb/dwc3/core.c:1482:63: note: directive argument in the range [-2147483641, 254]
->     1482 |                         snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
+tree:   https://github.com/weiny2/linux-kernel.git cxl-cper-testing
+head:   9b1f33314e8488506dbad63dc1c896386d4803d6
+commit: 2d11892dead2fcc454ceb5779c01584d1bed0c6b [4/6] ras/events: Trace CXL CPER events without CXL stack
+config: x86_64-randconfig-122-20240424 (https://download.01.org/0day-ci/archive/20240424/202404241438.jL0BDTNb-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404241438.jL0BDTNb-lkp@intel.com/reproduce)
 
-This version or s390-build of gcc appears to be confused as the
-variable i is clearly in the range [0,254] in these for loops.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404241438.jL0BDTNb-lkp@intel.com/
 
-I also don't see this W=1 warning with my gcc-10 (aarch64).
+All errors (new ones prefixed by >>):
 
-It may be possible to work around this by using u8 type for the iterator
-(and %u in the format), but I'm not sure we should be working around
-compiler bugs like that.
+   ld: vmlinux.o: in function `arch_atomic_read':
+>> arch/x86/include/asm/atomic.h:23:(.text+0x16b783b): undefined reference to `__tracepoint_cper_cxl_event'
+>> ld: arch/x86/include/asm/atomic.h:23:(.text+0x16b785c): undefined reference to `__tracepoint_cper_cxl_event'
+   ld: arch/x86/include/asm/atomic.h:23:(.text+0x16b7867): undefined reference to `__tracepoint_cper_cxl_event'
+   ld: vmlinux.o: in function `trace_cper_cxl_event':
+>> include/ras/ras_event.h:429:(.text+0x16b78d6): undefined reference to `__tracepoint_cper_cxl_event'
+>> ld: include/ras/ras_event.h:429:(.text+0x16b78f5): undefined reference to `__tracepoint_cper_cxl_event'
+>> ld: include/ras/ras_event.h:429:(.text+0x16b7931): undefined reference to `__SCT__tp_func_cper_cxl_event'
+   ld: include/ras/ras_event.h:429:(.text+0x16b79a9): undefined reference to `__tracepoint_cper_cxl_event'
+>> ld: vmlinux.o:(.static_call_sites+0x5e84): undefined reference to `__SCK__tp_func_cper_cxl_event'
 
->          |                                                               ^~~~~~~~~
->    drivers/usb/dwc3/core.c:1482:25: note: 'snprintf' output between 7 and 17 bytes into a destination of size 9
->     1482 |                         snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
->          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
->   1446	static int dwc3_core_get_phy(struct dwc3 *dwc)
->   1447	{
+vim +23 arch/x86/include/asm/atomic.h
 
->   1450		char phy_name[9];
->   1451		int ret;
->   1452		int i;
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  11  
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  12  /*
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  13   * Atomic operations that C can't guarantee us.  Useful for
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  14   * resource counting etc..
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  15   */
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  16  
+8bf705d130396e Dmitry Vyukov  2018-01-29  17  static __always_inline int arch_atomic_read(const atomic_t *v)
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  18  {
+ac605bee0bfab4 Dmitry Vyukov  2018-01-29  19  	/*
+ac605bee0bfab4 Dmitry Vyukov  2018-01-29  20  	 * Note for KASAN: we deliberately don't use READ_ONCE_NOCHECK() here,
+ac605bee0bfab4 Dmitry Vyukov  2018-01-29  21  	 * it's non-inlined function that increases binary size and stack usage.
+ac605bee0bfab4 Dmitry Vyukov  2018-01-29  22  	 */
+37f8173dd84936 Peter Zijlstra 2020-01-24 @23  	return __READ_ONCE((v)->counter);
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  24  }
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  25  
 
->   1478		for (i = 0; i < dwc->num_usb2_ports; i++) {
->   1479			if (dwc->num_usb2_ports == 1)
->   1480				snprintf(phy_name, sizeof(phy_name), "usb2-phy");
->   1481			else
-> > 1482				snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
+:::::: The code at line 23 was first introduced by commit
+:::::: 37f8173dd84936ea78000ed1cad24f8b18d48ebb locking/atomics: Flip fallbacks and instrumentation
 
->   1493		}
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
-Johan
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
