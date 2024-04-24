@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0596316D326
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 15:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5933813DBB2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 15:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713972743; cv=none; b=uFvPfvEFsa1GDowRyElBaFazmCJ9vVIFV4HtrFaIpG2PYrLO6NQ4qJJIcYWUtEB4qp/msJChyigBwZpIBKoLbmrJ5F4hrioOxlvhhUsQsli6G5VSpYL3h7aN6WxSfbiwmFA3aQOVx6VEyJBoEs6BpydXZK6FjGpR5kg+pmZWTYc=
+	t=1713974063; cv=none; b=WkOpPQGjeogrRQymfEvwU9Htk2w0Eh2YVxEo+HP52+gnoTRu0VPoYee7q9BHr0jfcWMCfzTe7TGyzrpVesh52QuqdV1mX92fgZfcbysWCMe6SUeS0I5FTVYMyUEBI/49lfyBqfv6s27FfoKyLhL+WE8mKFaYUZnKGti2DhZ3dyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713972743; c=relaxed/simple;
-	bh=FgltNa9jxIcL2d6tMApss8MmguU86vWLPvl9Evi8QX8=;
+	s=arc-20240116; t=1713974063; c=relaxed/simple;
+	bh=n1wb97nLoYA7rqD7k0TFhR+Y8+SWRi7DBnBht0NYUmc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RdHNE4uCY2WqWOfhlWobsypRgKJ3OY7bkNQdSmPoQOE3r/BiOC0l9JBs8+iERc5tePGeCDm4fi2l/fPOhy29tVJdHCCVrxobAzh+GPJ86wa8NIL+cTK0LkbTqpE4AVzY3/irv7uAolxxD8HoYoaIcHl5335BF2+194i0Q4XHeOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xbsbmr1Z; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=SMlZa3UyGT1SN1zmc9i542pN18826ff4CVO4EjzVf/G6xIk5OtIP/+lAHCeK0gnmX8cwB/LMAQx49oKGD0xMUhnOOELqWG1cJK4rMroPx/C07qieAapbsHiQvXelvh9yFLlODLMfDUMAlzLcxsIzmZXCE/kapU2WbubXgYpZlnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y87IIPvj; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xbsbmr1Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y87IIPvj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713972741; x=1745508741;
+  t=1713974061; x=1745510061;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FgltNa9jxIcL2d6tMApss8MmguU86vWLPvl9Evi8QX8=;
-  b=Xbsbmr1Z+pL94CjEVodqkhNU7T0Zihi74jnCnO7K1VsYsOZiM+u+tolh
-   MHpk7JdUFk91GFdnKDV05bk7NArxViZzfVhROZxxFdPLCb5NitBJpr8bv
-   ZLVSoZs5E28hx6WcTq2qa32zHFUmorL+RIctsaliCqFtF0Nj2Xe5tuofu
-   Z5szGQp9Gu3H8NQnW+fiAoxnciZUqOZtGfguCSvaKZX1CXnZMqHonJjal
-   p54cRPDmRyIXwqndn4Iu2WEckrjRJbbZRB8ZKqGL3UTGdbVq1A9G8iKk1
-   +pmEn3E1xuLcWKMHhvn8lxMOHHL115zcRkoykT0wVs2b1z9ujgsWuL7x0
-   w==;
-X-CSE-ConnectionGUID: FHOTmH8qQlGuDTO4aBcsww==
-X-CSE-MsgGUID: 9omUd6rsSY2faZ10HvwFRg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9777022"
+  bh=n1wb97nLoYA7rqD7k0TFhR+Y8+SWRi7DBnBht0NYUmc=;
+  b=Y87IIPvjZF3Fk0VUP1IXdim6WCo9Ljvzd+UJjoBEtTQkImTG0cwCbeEC
+   BNw4MXvZ0T+Je2SXLlP0kKZ6DsSZxEyccfkeg4loEvy06y0zX3D/xbLJa
+   IWx70QIvNgVtwDv5GhFYHl3MvyWubJ138KOJvPyT74yw1Oh5ZQh4iRkdC
+   fuPv/xrc4lLvwAbnvPfk4yoUThU1JgHAT6PY62DqB/HhCxDRgrY6JF+x9
+   Fqc2wm4xtfir3DuZP5yp5rdfjy5G7ltn27ATcqaG7mEIUjIyTJoz9mrlR
+   bAt3xaO18O2ogOCq8dgiWpnBmz4tJqV3W9gj06NORlAM94wWg6Dsexlv+
+   g==;
+X-CSE-ConnectionGUID: n4MNK8gdQuiy7hZjPEOEfQ==
+X-CSE-MsgGUID: gSLSHoWqS8+RgHC3G3nMiQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="13405000"
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="9777022"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 08:32:20 -0700
-X-CSE-ConnectionGUID: T5tkjJ31S2ayE339y6VvPw==
-X-CSE-MsgGUID: ijNnuVRASbCFDj0SOi35oQ==
+   d="scan'208";a="13405000"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 08:54:20 -0700
+X-CSE-ConnectionGUID: 6MdCXjJ5Qa+y/NqtZ3sOow==
+X-CSE-MsgGUID: dqqz6IWFTrqdJW7DiW0k5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="29551372"
+   d="scan'208";a="25267928"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 24 Apr 2024 08:32:19 -0700
+  by orviesa007.jf.intel.com with ESMTP; 24 Apr 2024 08:54:20 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzebY-0001NI-1c;
-	Wed, 24 Apr 2024 15:32:16 +0000
-Date: Wed, 24 Apr 2024 23:32:09 +0800
+	id 1rzewr-0001OW-13;
+	Wed, 24 Apr 2024 15:54:17 +0000
+Date: Wed, 24 Apr 2024 23:54:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Le Ma <le.ma@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Hawking Zhang <Hawking.Zhang@amd.com>,
-	Lijo Lazar <lijo.lazar@amd.com>
-Subject: [linux-next:master 7871/8170]
- drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:379:52: warning: '%s' directive
- output may be truncated writing up to 29 bytes into a region of size 23
-Message-ID: <202404242330.Fb2cmamD-lkp@intel.com>
+To: Baolu Lu <baolu.lu@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lubaolu-intel-iommu:vtd-update-for-v6.10 19/19]
+ drivers/iommu/intel/iommu.c:4378:1: warning: label 'out_tear_down' defined
+ but not used
+Message-ID: <202404242338.pzb2FOxY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,83 +63,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   5e4f84f18c4ee9b0ccdc19e39b7de41df21699dd
-commit: e88a7abec8376eaf588df9f79f76c170acf0396a [7871/8170] drm/amdgpu: init microcode chip name from ip versions
-config: x86_64-buildonly-randconfig-003-20240424 (https://download.01.org/0day-ci/archive/20240424/202404242330.Fb2cmamD-lkp@intel.com/config)
+tree:   https://github.com/LuBaolu/intel-iommu.git vtd-update-for-v6.10
+head:   5157215b83e7ab5a8457a87584a85f1126c4c4ce
+commit: 5157215b83e7ab5a8457a87584a85f1126c4c4ce [19/19] Merge remote-tracking branch 'joro-iommu-next/next' into iommu-vtd-next-for-v6.10
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240424/202404242338.pzb2FOxY-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404242330.Fb2cmamD-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404242338.pzb2FOxY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404242330.Fb2cmamD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404242338.pzb2FOxY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c: In function 'gfx_v9_4_3_early_init':
->> drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:379:52: warning: '%s' directive output may be truncated writing up to 29 bytes into a region of size 23 [-Wformat-truncation=]
-     379 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc.bin", chip_name);
-         |                                                    ^~
-   ......
-     439 |         r = gfx_v9_4_3_init_rlc_microcode(adev, ucode_prefix);
-         |                                                 ~~~~~~~~~~~~
-   In function 'gfx_v9_4_3_init_rlc_microcode',
-       inlined from 'gfx_v9_4_3_init_microcode' at drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:439:6,
-       inlined from 'gfx_v9_4_3_early_init' at drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:2257:9:
-   drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:379:9: note: 'snprintf' output between 16 and 45 bytes into a destination of size 30
-     379 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc.bin", chip_name);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c: In function 'gfx_v9_4_3_early_init':
-   drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:413:52: warning: '%s' directive output may be truncated writing up to 29 bytes into a region of size 23 [-Wformat-truncation=]
-     413 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mec.bin", chip_name);
-         |                                                    ^~
-   ......
-     443 |         r = gfx_v9_4_3_init_cp_compute_microcode(adev, ucode_prefix);
-         |                                                        ~~~~~~~~~~~~
-   In function 'gfx_v9_4_3_init_cp_compute_microcode',
-       inlined from 'gfx_v9_4_3_init_microcode' at drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:443:6,
-       inlined from 'gfx_v9_4_3_early_init' at drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:2257:9:
-   drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:413:9: note: 'snprintf' output between 16 and 45 bytes into a destination of size 30
-     413 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mec.bin", chip_name);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c: In function 'intel_iommu_remove_dev_pasid':
+>> drivers/iommu/intel/iommu.c:4378:1: warning: label 'out_tear_down' defined but not used [-Wunused-label]
+    4378 | out_tear_down:
+         | ^~~~~~~~~~~~~
 
 
-vim +379 drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
+vim +/out_tear_down +4378 drivers/iommu/intel/iommu.c
 
-86301129698be5 Le Ma 2022-05-24  369  
-86301129698be5 Le Ma 2022-05-24  370  static int gfx_v9_4_3_init_rlc_microcode(struct amdgpu_device *adev,
-86301129698be5 Le Ma 2022-05-24  371  					  const char *chip_name)
-86301129698be5 Le Ma 2022-05-24  372  {
-86301129698be5 Le Ma 2022-05-24  373  	char fw_name[30];
-86301129698be5 Le Ma 2022-05-24  374  	int err;
-86301129698be5 Le Ma 2022-05-24  375  	const struct rlc_firmware_header_v2_0 *rlc_hdr;
-86301129698be5 Le Ma 2022-05-24  376  	uint16_t version_major;
-86301129698be5 Le Ma 2022-05-24  377  	uint16_t version_minor;
-86301129698be5 Le Ma 2022-05-24  378  
-86301129698be5 Le Ma 2022-05-24 @379  	snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc.bin", chip_name);
-86301129698be5 Le Ma 2022-05-24  380  
-86301129698be5 Le Ma 2022-05-24  381  	err = amdgpu_ucode_request(adev, &adev->gfx.rlc_fw, fw_name);
-86301129698be5 Le Ma 2022-05-24  382  	if (err)
-86301129698be5 Le Ma 2022-05-24  383  		goto out;
-86301129698be5 Le Ma 2022-05-24  384  	rlc_hdr = (const struct rlc_firmware_header_v2_0 *)adev->gfx.rlc_fw->data;
-86301129698be5 Le Ma 2022-05-24  385  
-86301129698be5 Le Ma 2022-05-24  386  	version_major = le16_to_cpu(rlc_hdr->header.header_version_major);
-86301129698be5 Le Ma 2022-05-24  387  	version_minor = le16_to_cpu(rlc_hdr->header.header_version_minor);
-86301129698be5 Le Ma 2022-05-24  388  	err = amdgpu_gfx_rlc_init_microcode(adev, version_major, version_minor);
-86301129698be5 Le Ma 2022-05-24  389  out:
-86301129698be5 Le Ma 2022-05-24  390  	if (err)
-86301129698be5 Le Ma 2022-05-24  391  		amdgpu_ucode_release(&adev->gfx.rlc_fw);
-86301129698be5 Le Ma 2022-05-24  392  
-86301129698be5 Le Ma 2022-05-24  393  	return err;
-86301129698be5 Le Ma 2022-05-24  394  }
-86301129698be5 Le Ma 2022-05-24  395  
+933fcd01e97e2b Lu Baolu   2021-02-04  4353  
+d2f85a263883b6 Yi Liu     2024-03-28  4354  static void intel_iommu_remove_dev_pasid(struct device *dev, ioasid_t pasid,
+d2f85a263883b6 Yi Liu     2024-03-28  4355  					 struct iommu_domain *domain)
+eaca8889a1ef50 Lu Baolu   2022-10-31  4356  {
+1903ef8f0d7768 Lu Baolu   2023-12-18  4357  	struct device_domain_info *info = dev_iommu_priv_get(dev);
+d2f85a263883b6 Yi Liu     2024-03-28  4358  	struct dmar_domain *dmar_domain = to_dmar_domain(domain);
+7d0c9da6c15096 Lu Baolu   2023-08-09  4359  	struct dev_pasid_info *curr, *dev_pasid = NULL;
+1903ef8f0d7768 Lu Baolu   2023-12-18  4360  	struct intel_iommu *iommu = info->iommu;
+7d0c9da6c15096 Lu Baolu   2023-08-09  4361  	unsigned long flags;
+eaca8889a1ef50 Lu Baolu   2022-10-31  4362  
+7d0c9da6c15096 Lu Baolu   2023-08-09  4363  	spin_lock_irqsave(&dmar_domain->lock, flags);
+7d0c9da6c15096 Lu Baolu   2023-08-09  4364  	list_for_each_entry(curr, &dmar_domain->dev_pasids, link_domain) {
+7d0c9da6c15096 Lu Baolu   2023-08-09  4365  		if (curr->dev == dev && curr->pasid == pasid) {
+7d0c9da6c15096 Lu Baolu   2023-08-09  4366  			list_del(&curr->link_domain);
+7d0c9da6c15096 Lu Baolu   2023-08-09  4367  			dev_pasid = curr;
+eaca8889a1ef50 Lu Baolu   2022-10-31  4368  			break;
+eaca8889a1ef50 Lu Baolu   2022-10-31  4369  		}
+eaca8889a1ef50 Lu Baolu   2022-10-31  4370  	}
+7d0c9da6c15096 Lu Baolu   2023-08-09  4371  	WARN_ON_ONCE(!dev_pasid);
+7d0c9da6c15096 Lu Baolu   2023-08-09  4372  	spin_unlock_irqrestore(&dmar_domain->lock, flags);
+eaca8889a1ef50 Lu Baolu   2022-10-31  4373  
+da2c55dde1da86 Lu Baolu   2024-04-16  4374  	cache_tag_unassign_domain(dmar_domain, dev, pasid);
+7d0c9da6c15096 Lu Baolu   2023-08-09  4375  	domain_detach_iommu(dmar_domain, iommu);
+d87731f609318a Jingqi Liu 2023-10-16  4376  	intel_iommu_debugfs_remove_dev_pasid(dev_pasid);
+7d0c9da6c15096 Lu Baolu   2023-08-09  4377  	kfree(dev_pasid);
+154786235d0156 Lu Baolu   2023-08-09 @4378  out_tear_down:
+eaca8889a1ef50 Lu Baolu   2022-10-31  4379  	intel_pasid_tear_down_entry(iommu, dev, pasid, false);
+154786235d0156 Lu Baolu   2023-08-09  4380  	intel_drain_pasid_prq(dev, pasid);
+eaca8889a1ef50 Lu Baolu   2022-10-31  4381  }
+eaca8889a1ef50 Lu Baolu   2022-10-31  4382  
 
-:::::: The code at line 379 was first introduced by commit
-:::::: 86301129698be52f8398f92ea8564168f6bfcae1 drm/amdgpu: split gc v9_4_3 functionality from gc v9_0
+:::::: The code at line 4378 was first introduced by commit
+:::::: 154786235d0156ddce9575f13e23f3169e688435 iommu/vt-d: Make prq draining code generic
 
-:::::: TO: Le Ma <le.ma@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+:::::: TO: Lu Baolu <baolu.lu@linux.intel.com>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
