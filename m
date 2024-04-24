@@ -1,182 +1,108 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA73156C76
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 06:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58DB715747D;
+	Wed, 24 Apr 2024 06:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713940103; cv=none; b=nNudAeErO6pPnNHkDL8+ND4D2yjiAvwjY+Noq+IkwDNQ+dmed75Yk88hSWqQ4CrQ3uB1GpeASPc2wYmc8SL9sR9NRm1cvDNKeYkNtcYnP5wKmuk+/YR1kJLPl7oK/hiNLk+pICU+02g+q6oYK0dwOmvZen+orQk8lIhxJI8ZRY0=
+	t=1713940919; cv=none; b=brSOkcKGuLmVxSA5EIz6Y7aHuVPHzuypb1amYGu/2FcuvxtC8cC7wp2qWXA8xJvjVX10btqvEMdyos2NgiueQIV19Xh7u7nkcgA5pTY+Z6NgXjKtzTR2CkKBq47jKejT6GdXEpE0NnheD6/gY7klQO6+XsSVJGFBtYP96GJIWOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713940103; c=relaxed/simple;
-	bh=RjJ/ynGTB0AOtlxqX8QKWNLmIIpoEyLSgAJn+OvJws8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Rd54tlihbjQ3JGXmrJsou6bklB3P9t380luv5tKitlXV40vvuL59COgJfrPfoLn2SMArtzObWvl303kENoBCjxnbJolU6qeUtYe4CPdE6/uwNfNwZTjSOzDy6o4etLjVteudu4I04za/pgRPXGgu5cCqAYZFONlJY7NUqmW7lVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Y2yzMzpR; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1713940919; c=relaxed/simple;
+	bh=SGrrp8eRm1Ip1OEAU0Cjtn5d1Rb8lMCFrvzKHN0ptvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qrkLxeMYNCraArqy4N2o/bzxjDyv3Q8bl+ID1QIoDibbMeUTtK1sl3CcFzJUgAYw/iDjB21QIjlLK65Uxhe3hLu9VjypsbUN17ImbaSeXKfnUc4Mrm47ShYXhPzF3ZZaedSAlQqQOe6VH8ojq5uuwZ28BKX6gd5u8afQn4l4VaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QPCNQIaX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y2yzMzpR"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-34a3e0b31e6so4727001f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Apr 2024 23:28:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713940100; x=1714544900; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DkVAcaBjqkDWZAIL4vc+SZ6sTNCsVsKfK7+mih+QGWU=;
-        b=Y2yzMzpRW+QTX3V4COxaADqkLhp1OwHoa9ss/TUWu9hnJPbtsz6hpTE38rPRK6BWHe
-         KyZ0uokZi9kdRkIe/krH+D366T19yK+Z1CO5+BYxUK2gOtLn6+aP+jWm8wrvwlkpgaOX
-         u4VT5aitPvh+viavYw8XuYKVodSSExaimQO62A+3BMpYxkKRY06VytueWAJbF8y8vuEr
-         K/rhHFkN+ThAfak3hxSXto/USoT2c3e5WsfkCnvKRkzyLkNKrzXvqG4Geqcd2YPCrxRT
-         fXHaYWsTByWAP0y2bF0kN5dC3iB1KDnkwoQ0WjFWYZnSW4VLBhGWcRbBtA19Si69SQEQ
-         PZXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713940100; x=1714544900;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DkVAcaBjqkDWZAIL4vc+SZ6sTNCsVsKfK7+mih+QGWU=;
-        b=YjeNQ5DNi9g7finl9mM2IGext/QlBPP/E2P5EYvwDEUt7r9XMwNvl49DmGzcd95oBR
-         Ct35qg8ib7AzLkdRA4DbcZJAf5HO920nY4JdQNo/9jivyyd2LfSJOWyqPHsFSXimrTmo
-         hsZBjfQT1UtZVWhEBUD/E9WgvBnuYnQhH9qtXOQi4F8ECBJS2IDMZrP2lSYb4Qdd/1tP
-         o65FlqNV7PSgmuidb2VaOmk0Romz96yrak/AcefsrNqZHJ7PaMUXsqqaVSJYtHoPsgRn
-         ULj1+cgGgrXAdyfoOuFVqIUGgHtiayA2zv8m+jow15Y9zLSX7pM4k71TB6vDsI+ztbK3
-         Gmvg==
-X-Forwarded-Encrypted: i=1; AJvYcCXcZEBgbgkYWzXcTZUX6G0JStIQi2oLainAVcpT8vxQ1+pffRAmIBpQ2fsO4Hk4XNonp7xMGyJ3M4LxjeXQDBtHSTSdZtXeeMgLjoGQUw==
-X-Gm-Message-State: AOJu0Yzv6MQSXFC/17YpFHrqcpY4Qr1whfGEJfPRYlfnB374eMO9ZKDJ
-	O/t/ZBrBmHXY+7+9s4rUrTfrEx3ARswJiJkNXmtyDlQIGxvRmJmk1QAJDx4YAII=
-X-Google-Smtp-Source: AGHT+IFG2RK/ltTFm8U7OE3v060eusfCPLzMCGGAoNZGAXimI5J53LJYa0QgynM9AnKLVkklNsCPtw==
-X-Received: by 2002:adf:f351:0:b0:347:a286:c136 with SMTP id e17-20020adff351000000b00347a286c136mr978357wrp.15.1713940099997;
-        Tue, 23 Apr 2024 23:28:19 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id j6-20020adff006000000b00349856b640bsm16304622wro.67.2024.04.23.23.28.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Apr 2024 23:28:19 -0700 (PDT)
-Date: Wed, 24 Apr 2024 09:28:15 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Namjae Jeon <linkinjeon@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Steve French <stfrench@microsoft.com>
-Subject: fs/smb/server/smb2pdu.c:1992 smb2_tree_connect() error:
- uninitialized symbol 'share'.
-Message-ID: <e9ead449-6ea6-4017-b26a-3a80ea6d4018@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QPCNQIaX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF3EEC113CE;
+	Wed, 24 Apr 2024 06:41:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713940918;
+	bh=SGrrp8eRm1Ip1OEAU0Cjtn5d1Rb8lMCFrvzKHN0ptvI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QPCNQIaX6TMQy+BBIJuymgvH3N5Q0il43+yTa2oE8cszkm1gh/1oDKkXQH+VvY405
+	 JaLp5+PeyRg8TNP0cLn0EieW9K5OsV85Hy8W716KgzfGWfhjLztfJJmzloiRpSMptb
+	 gDfzntRk5gqWEG3CrYESjNtGB//pYx/TUruEFuyiYWbYeVwndIBewJO9ZzmQ3eI3xH
+	 JG943ZUiCxAJQVxLJlM4gvQ18hLfw/gC7ajKs1vUPGrCXNVrazJLLerQY6Gv5Xnmne
+	 Rjg6yA/AEpUb8tc6c2pw/jImqB604scOR2wG0fBFSQWT4ognDIrnntMHF1vCzC1aGZ
+	 k8mxIW8J0z/Xw==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1rzWKK-000000008Ft-1fwY;
+	Wed, 24 Apr 2024 08:41:57 +0200
+Date: Wed, 24 Apr 2024 08:41:56 +0200
+From: Johan Hovold <johan@kernel.org>
+To: kernel test robot <lkp@intel.com>,
+	Krishna Kurapati <quic_kriskura@quicinc.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Johan Hovold <johan+linaro@kernel.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Subject: Re: [usb:usb-testing 7/12] drivers/usb/dwc3/core.c:1482:69: warning:
+ '%d' directive output may be truncated writing between 1 and 11 bytes into a
+ region of size 4
+Message-ID: <ZiiptMEL2_AdBsJA@hovoldconsulting.com>
+References: <202404241215.Mib19Cu7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <202404241215.Mib19Cu7-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9d1ddab261f3e2af7c384dc02238784ce0cf9f98
-commit: e9d8c2f95ab8acaf3f4d4a53682a4afa3c263692 ksmbd: add continuous availability share parameter
-config: x86_64-randconfig-161-20240424 (https://download.01.org/0day-ci/archive/20240424/202404241435.Yxr6Wapq-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+On Wed, Apr 24, 2024 at 01:03:07PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> head:   a160e1202ca318a85c70cf5831f172cc79a24c57
+> commit: 846b4bacf2d48212f271fc1ef7488bcdf2c75bcb [7/12] usb: dwc3: core: Refactor PHY logic to support Multiport Controller
+> config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240424/202404241215.Mib19Cu7-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404241215.Mib19Cu7-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202404241215.Mib19Cu7-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers/usb/dwc3/core.c: In function 'dwc3_core_get_phy':
+> >> drivers/usb/dwc3/core.c:1482:69: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 4 [-Wformat-truncation=]
+>     1482 |                         snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
+>          |                                                                     ^~
+>    drivers/usb/dwc3/core.c:1482:63: note: directive argument in the range [-2147483641, 254]
+>     1482 |                         snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202404241435.Yxr6Wapq-lkp@intel.com/
+This version or s390-build of gcc appears to be confused as the
+variable i is clearly in the range [0,254] in these for loops.
 
-New smatch warnings:
-fs/smb/server/smb2pdu.c:1992 smb2_tree_connect() error: uninitialized symbol 'share'.
+I also don't see this W=1 warning with my gcc-10 (aarch64).
 
-vim +/share +1992 fs/smb/server/smb2pdu.c
+It may be possible to work around this by using u8 type for the iterator
+(and %u in the format), but I'm not sure we should be working around
+compiler bugs like that.
 
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1921  int smb2_tree_connect(struct ksmbd_work *work)
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1922  {
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1923  	struct ksmbd_conn *conn = work->conn;
-7b7d709ef7cf28 fs/smb/server/smb2pdu.c Namjae Jeon       2023-06-24  1924  	struct smb2_tree_connect_req *req;
-7b7d709ef7cf28 fs/smb/server/smb2pdu.c Namjae Jeon       2023-06-24  1925  	struct smb2_tree_connect_rsp *rsp;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1926  	struct ksmbd_session *sess = work->sess;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1927  	char *treename = NULL, *name = NULL;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1928  	struct ksmbd_tree_conn_status status;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1929  	struct ksmbd_share_config *share;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1930  	int rc = -EINVAL;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1931  
-7b7d709ef7cf28 fs/smb/server/smb2pdu.c Namjae Jeon       2023-06-24  1932  	WORK_BUFFERS(work, req, rsp);
-7b7d709ef7cf28 fs/smb/server/smb2pdu.c Namjae Jeon       2023-06-24  1933  
-c6cd2e8d2d9aa7 fs/smb/server/smb2pdu.c Namjae Jeon       2024-03-19  1934  	treename = smb_strndup_from_utf16((char *)req + le16_to_cpu(req->PathOffset),
-070fb21e5912b6 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-05-26  1935  					  le16_to_cpu(req->PathLength), true,
-070fb21e5912b6 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-05-26  1936  					  conn->local_nls);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1937  	if (IS_ERR(treename)) {
-bde1694aecdb53 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-06-28  1938  		pr_err("treename is NULL\n");
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1939  		status.ret = KSMBD_TREE_CONN_STATUS_ERROR;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1940  		goto out_err1;
-                                                                                        ^^^^^^^^^^^^^
+>          |                                                               ^~~~~~~~~
+>    drivers/usb/dwc3/core.c:1482:25: note: 'snprintf' output between 7 and 17 bytes into a destination of size 9
+>     1482 |                         snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
+>          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1941  	}
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1942  
-16b5f54e30c1dd fs/ksmbd/smb2pdu.c      Atte Heikkilä     2022-09-15  1943  	name = ksmbd_extract_sharename(conn->um, treename);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1944  	if (IS_ERR(name)) {
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1945  		status.ret = KSMBD_TREE_CONN_STATUS_ERROR;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1946  		goto out_err1;
-                                                                                        ^^^^^^^^^^^^^
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1947  	}
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1948  
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1949  	ksmbd_debug(SMB, "tree connect request for tree %s treename %s\n",
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1950  		    name, treename);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1951  
-af7c39d971e43c fs/ksmbd/smb2pdu.c      Namjae Jeon       2022-07-25  1952  	status = ksmbd_tree_conn_connect(conn, sess, name);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1953  	if (status.ret == KSMBD_TREE_CONN_STATUS_OK)
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1954  		rsp->hdr.Id.SyncId.TreeId = cpu_to_le32(status.tree_conn->id);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1955  	else
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1956  		goto out_err1;
+>   1446	static int dwc3_core_get_phy(struct dwc3 *dwc)
+>   1447	{
 
-share is unitialized
+>   1450		char phy_name[9];
+>   1451		int ret;
+>   1452		int i;
 
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1957  
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1958  	share = status.tree_conn->share_conf;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1959  	if (test_share_config_flag(share, KSMBD_SHARE_FLAG_PIPE)) {
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1960  		ksmbd_debug(SMB, "IPC share path request\n");
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1961  		rsp->ShareType = SMB2_SHARE_TYPE_PIPE;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1962  		rsp->MaximalAccess = FILE_READ_DATA_LE | FILE_READ_EA_LE |
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1963  			FILE_EXECUTE_LE | FILE_READ_ATTRIBUTES_LE |
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1964  			FILE_DELETE_LE | FILE_READ_CONTROL_LE |
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1965  			FILE_WRITE_DAC_LE | FILE_WRITE_OWNER_LE |
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1966  			FILE_SYNCHRONIZE_LE;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1967  	} else {
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1968  		rsp->ShareType = SMB2_SHARE_TYPE_DISK;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1969  		rsp->MaximalAccess = FILE_READ_DATA_LE | FILE_READ_EA_LE |
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1970  			FILE_EXECUTE_LE | FILE_READ_ATTRIBUTES_LE;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1971  		if (test_tree_conn_flag(status.tree_conn,
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1972  					KSMBD_TREE_CONN_FLAG_WRITABLE)) {
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1973  			rsp->MaximalAccess |= FILE_WRITE_DATA_LE |
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1974  				FILE_APPEND_DATA_LE | FILE_WRITE_EA_LE |
-3aefd54da5ec6e fs/cifsd/smb2pdu.c      Wan Jiabing       2021-06-07  1975  				FILE_DELETE_LE | FILE_WRITE_ATTRIBUTES_LE |
-3aefd54da5ec6e fs/cifsd/smb2pdu.c      Wan Jiabing       2021-06-07  1976  				FILE_DELETE_CHILD_LE | FILE_READ_CONTROL_LE |
-3aefd54da5ec6e fs/cifsd/smb2pdu.c      Wan Jiabing       2021-06-07  1977  				FILE_WRITE_DAC_LE | FILE_WRITE_OWNER_LE |
-3aefd54da5ec6e fs/cifsd/smb2pdu.c      Wan Jiabing       2021-06-07  1978  				FILE_SYNCHRONIZE_LE;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1979  		}
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1980  	}
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1981  
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1982  	status.tree_conn->maximal_access = le32_to_cpu(rsp->MaximalAccess);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1983  	if (conn->posix_ext_supported)
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1984  		status.tree_conn->posix_extensions = true;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1985  
-33b235a6e6ebe0 fs/smb/server/smb2pdu.c Namjae Jeon       2023-10-05  1986  	write_lock(&sess->tree_conns_lock);
-33b235a6e6ebe0 fs/smb/server/smb2pdu.c Namjae Jeon       2023-10-05  1987  	status.tree_conn->t_state = TREE_CONNECTED;
-33b235a6e6ebe0 fs/smb/server/smb2pdu.c Namjae Jeon       2023-10-05  1988  	write_unlock(&sess->tree_conns_lock);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1989  	rsp->StructureSize = cpu_to_le16(16);
-cdfb2fef522d0c fs/ksmbd/smb2pdu.c      Marios Makassikis 2022-12-23  1990  out_err1:
-e9d8c2f95ab8ac fs/smb/server/smb2pdu.c Namjae Jeon       2024-04-20  1991  	if (server_conf.flags & KSMBD_GLOBAL_FLAG_DURABLE_HANDLE &&
-e9d8c2f95ab8ac fs/smb/server/smb2pdu.c Namjae Jeon       2024-04-20 @1992  	    test_share_config_flag(share,
-                                                                                                           ^^^^^
+>   1478		for (i = 0; i < dwc->num_usb2_ports; i++) {
+>   1479			if (dwc->num_usb2_ports == 1)
+>   1480				snprintf(phy_name, sizeof(phy_name), "usb2-phy");
+>   1481			else
+> > 1482				snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
 
-e9d8c2f95ab8ac fs/smb/server/smb2pdu.c Namjae Jeon       2024-04-20  1993  				   KSMBD_SHARE_FLAG_CONTINUOUS_AVAILABILITY))
-e9d8c2f95ab8ac fs/smb/server/smb2pdu.c Namjae Jeon       2024-04-20  1994  		rsp->Capabilities = SMB2_SHARE_CAP_CONTINUOUS_AVAILABILITY;
-e9d8c2f95ab8ac fs/smb/server/smb2pdu.c Namjae Jeon       2024-04-20  1995  	else
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1996  		rsp->Capabilities = 0;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1997  	rsp->Reserved = 0;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1998  	/* default manual caching */
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  1999  	rsp->ShareFlags = SMB2_SHAREFLAG_MANUAL_CACHING;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  2000  
+>   1493		}
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Johan
