@@ -1,58 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E354568A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 18:31:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60CC1772F;
+	Wed, 24 Apr 2024 18:41:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713983490; cv=none; b=sGBGbnoUIjRQsxMF8Gj341dah7tJ+2g2lNqxB+P3rSAZJAN2XtL4d9/FJ2NLkrBxGsj0cJrWbsCOWWRr9qZYQE9TkpvFDC6GP3LwtnFyfGTB7shLgH8R80R6eK2AvxZiSXVdemaAGXRZ7gJykr6x3Jy6CLe22rOrwbAe6TILLSo=
+	t=1713984093; cv=none; b=VsMD/vSUc7OpX3EkQxXo3JeJQsrrnKLlsUy2h0kDxQIM3d12v/KeN6E/eNKtkwN8g9QUbX+NfsoeyoEJXSqFe85O27oA6b4NFpdJEdrTxXPu5pr7IZ2wNl8TvyukcbBanc7N8741tgMqWuluOWEsmQK/g1UxW6+c8zBEWvK1UU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713983490; c=relaxed/simple;
-	bh=Y7Pz4QQnOTbpudX/zE6HzzjE7Wljf1jFw+qSidwLqh8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H0eirHleuyjo59N0BzzDqlQk198HYtNEa+MosiWz7N40oi0I42DgNdjdA6KCIybgaZrsozZgJphZeMmS73FI0qCmvjG8MrLeK21cXddrS1q6qhdeMEddOdJdtrIkNwLBlOw08ncWNhuR2TCLCR1/bVIeB3jTUyxQlPtvDkD2jHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hJZeEU8v; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1713984093; c=relaxed/simple;
+	bh=kzZQaB5GtZ+QKzA70o+yGDoOKj7SVZ+KzMiOqdNiaoY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lhuOkVNaZO2rJL1IwHwkoZMiFp14HgEO7AedhpKePcx9YiiTaQgmL+7VxYGPO9XBu4cy5Ycs1I/Fp2I9xQSyX3vYqvZEjjEdqfUST0p43xOyMN4E//L7+ck3lTfMw47gdp4nZaOFUXOgOEcAvxyEgLuFz8BkOO9h9gYd1aWtt5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ILxkC2G3; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hJZeEU8v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ILxkC2G3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713983489; x=1745519489;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y7Pz4QQnOTbpudX/zE6HzzjE7Wljf1jFw+qSidwLqh8=;
-  b=hJZeEU8v1ijCxY/sfQfmxz1WN8D0vbdLTtc7LYHkfT1y/sx0sFfAUkjv
-   LoKtASYr7kSpVFMBqCSzllFBau9Oaht2s40Q3y0Xa3IKXKYX5jw4Mmeio
-   BV4vNttrE/4D86HbD0fVLfn9qqDBbyRQppDR0+WsyUpK0rTOyEjKkdjjW
-   jakCULMqQXmnzlqsyoA0f6MDr6ifbvks0+T1EZRtgfiltcnuz+KXpvlsc
-   BHrpk8LizifYdfAZmcTFk+GnlzKWTEeT6sQTH7g7aDuejaLZh1oplGP41
-   E1BXTJoHNyG6izVSP8LDY66PYIIvNjqnWgaDtUBoBHE8mqu95QrsurOB/
+  t=1713984092; x=1745520092;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kzZQaB5GtZ+QKzA70o+yGDoOKj7SVZ+KzMiOqdNiaoY=;
+  b=ILxkC2G3jeAoOtuo2EYbPqj8LUpguPxQ7q7mS03pZnep+OunkKsY5HVI
+   oi1bkuG26SD7W3RzoYlhVne4kMkd1HMFMyDRU8boHa953WwpnVY6osxka
+   N/tZGZr0Si1aSk7OBrYRXEOUd9n9B3xEPqPFbpYIVIFW+7msXdVuHK4fG
+   l4Yj70LGOVj83IzN88K8jpfQbqTz0Vk88R0nwkwET5H/yFp306ncebnzX
+   nINhSEF4JpOvD2wsSeXW3LHca/qQcOj3Rb7BEmg2eTBmSEOGykV4ukmUW
+   PlAeoxnP1ohTv+kN+HcfGO+xz2SSh88LiaGjffGLuhXNKKPKKriTE41bu
    Q==;
-X-CSE-ConnectionGUID: XkZ47VQpS9+f9vAAkGVbrw==
-X-CSE-MsgGUID: GNm8EH4OS2edb5TEQM4m/A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="13421697"
+X-CSE-ConnectionGUID: V5Q3wX1aRmeAj+ZrNPzcbg==
+X-CSE-MsgGUID: JqEZqgHOTnq2NH0wzGMDKQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="13422972"
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="13421697"
+   d="scan'208";a="13422972"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 11:31:28 -0700
-X-CSE-ConnectionGUID: /x7oUHqCRMC1uvrBE6hXjQ==
-X-CSE-MsgGUID: vNKxOUQKQ/SDkDIHywcPGA==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 11:41:31 -0700
+X-CSE-ConnectionGUID: wqTHl7JJReqs5HYabPqhqA==
+X-CSE-MsgGUID: fxEjS7Z2SPqCu/yhMAcCUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="29591276"
+   d="scan'208";a="29593424"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 24 Apr 2024 11:31:27 -0700
+  by orviesa005.jf.intel.com with ESMTP; 24 Apr 2024 11:41:28 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzhOu-0001Y0-1X;
-	Wed, 24 Apr 2024 18:31:24 +0000
-Date: Thu, 25 Apr 2024 02:30:38 +0800
+	id 1rzhYa-0001YS-2Z;
+	Wed, 24 Apr 2024 18:41:24 +0000
+Date: Thu, 25 Apr 2024 02:40:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 8980/30000] arch/arm64/mm/pmem_reserve.c:13:13:
- warning: no previous prototype for 'setup_reserve_pmem'
-Message-ID: <202404250258.hOXrHVAI-lkp@intel.com>
+To: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Michal Simek <monstr@monstr.eu>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ji Sheng Teoh <jisheng.teoh@starfivetech.com>,
+	Ley Foon Tan <leyfoon.tan@starfivetech.com>,
+	linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Eng Lee Teh <englee.teh@starfivetech.com>
+Subject: Re: [PATCH v1 1/2] spi: spi-cadence: Add optional reset control
+ support
+Message-ID: <202404250235.htdVhIMY-lkp@intel.com>
+References: <20240424051317.2084059-2-jisheng.teoh@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,63 +73,192 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240424051317.2084059-2-jisheng.teoh@starfivetech.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   fca9656c7bff35049038766e63e93888847b5bff
-commit: db4cd75bc674e6f473c0a7303b1744155352882c [8980/30000] arm64: register persistent memory via protected memory
-config: arm64-randconfig-001-20240425 (https://download.01.org/0day-ci/archive/20240425/202404250258.hOXrHVAI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404250258.hOXrHVAI-lkp@intel.com/reproduce)
+Hi Ji,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on broonie-spi/for-next]
+[also build test ERROR on robh/for-next krzk-dt/for-next linus/master v6.9-rc5 next-20240424]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ji-Sheng-Teoh/spi-spi-cadence-Add-optional-reset-control-support/20240424-131551
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20240424051317.2084059-2-jisheng.teoh%40starfivetech.com
+patch subject: [PATCH v1 1/2] spi: spi-cadence: Add optional reset control support
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240425/202404250235.htdVhIMY-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404250235.htdVhIMY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404250258.hOXrHVAI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404250235.htdVhIMY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> arch/arm64/mm/pmem_reserve.c:13:13: warning: no previous prototype for 'setup_reserve_pmem' [-Wmissing-prototypes]
-      13 | void __init setup_reserve_pmem(u64 start, u64 size)
-         |             ^~~~~~~~~~~~~~~~~~
->> arch/arm64/mm/pmem_reserve.c:25:13: warning: no previous prototype for 'request_pmem_res_resource' [-Wmissing-prototypes]
-      25 | void __init request_pmem_res_resource(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/mm/pmem_reserve.c:40:13: warning: no previous prototype for 'reserve_pmem' [-Wmissing-prototypes]
-      40 | void __init reserve_pmem(void)
-         |             ^~~~~~~~~~~~
+>> drivers/spi/spi-cadence.c:593:15: error: implicit declaration of function 'devm_reset_control_get_optional_exclusive' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           xspi->rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
+                        ^
+>> drivers/spi/spi-cadence.c:593:13: warning: incompatible integer to pointer conversion assigning to 'struct reset_control *' from 'int' [-Wint-conversion]
+           xspi->rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
+                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/spi/spi-cadence.c:600:2: error: implicit declaration of function 'reset_control_assert' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           reset_control_assert(xspi->rstc);
+           ^
+>> drivers/spi/spi-cadence.c:601:2: error: implicit declaration of function 'reset_control_deassert' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           reset_control_deassert(xspi->rstc);
+           ^
+   drivers/spi/spi-cadence.c:601:2: note: did you mean 'reset_control_assert'?
+   drivers/spi/spi-cadence.c:600:2: note: 'reset_control_assert' declared here
+           reset_control_assert(xspi->rstc);
+           ^
+   1 warning and 3 errors generated.
 
 
-vim +/setup_reserve_pmem +13 arch/arm64/mm/pmem_reserve.c
+vim +/devm_reset_control_get_optional_exclusive +593 drivers/spi/spi-cadence.c
 
-    12	
-  > 13	void __init setup_reserve_pmem(u64 start, u64 size)
-    14	{
-    15		if (pmem_res_cnt >= MAX_REGIONS) {
-    16			pr_err("protected memory regions above upper limit %d\n", MAX_REGIONS);
-    17			return;
-    18		}
-    19	
-    20		pmem_res[pmem_res_cnt].start = start;
-    21		pmem_res[pmem_res_cnt].end = start + size - 1;
-    22		pmem_res_cnt++;
-    23	}
-    24	
-  > 25	void __init request_pmem_res_resource(void)
-    26	{
-    27		struct resource *res;
-    28		int i;
-    29	
-    30		for (i = 0; i < pmem_res_cnt; i++) {
-    31			res = &pmem_res[i];
-    32			res->name = "Persistent Memory (legacy)";
-    33			res->flags = IORESOURCE_MEM;
-    34			res->desc = IORES_DESC_PERSISTENT_MEMORY_LEGACY;
-    35			if (res->start && res->end)
-    36				request_resource(&iomem_resource, res);
-    37		}
-    38	}
-    39	
-  > 40	void __init reserve_pmem(void)
+   550	
+   551	/**
+   552	 * cdns_spi_probe - Probe method for the SPI driver
+   553	 * @pdev:	Pointer to the platform_device structure
+   554	 *
+   555	 * This function initializes the driver data structures and the hardware.
+   556	 *
+   557	 * Return:	0 on success and error value on error
+   558	 */
+   559	static int cdns_spi_probe(struct platform_device *pdev)
+   560	{
+   561		int ret = 0, irq;
+   562		struct spi_controller *ctlr;
+   563		struct cdns_spi *xspi;
+   564		u32 num_cs;
+   565		bool target;
+   566	
+   567		target = of_property_read_bool(pdev->dev.of_node, "spi-slave");
+   568		if (target)
+   569			ctlr = spi_alloc_target(&pdev->dev, sizeof(*xspi));
+   570		else
+   571			ctlr = spi_alloc_host(&pdev->dev, sizeof(*xspi));
+   572	
+   573		if (!ctlr)
+   574			return -ENOMEM;
+   575	
+   576		xspi = spi_controller_get_devdata(ctlr);
+   577		ctlr->dev.of_node = pdev->dev.of_node;
+   578		platform_set_drvdata(pdev, ctlr);
+   579	
+   580		xspi->regs = devm_platform_ioremap_resource(pdev, 0);
+   581		if (IS_ERR(xspi->regs)) {
+   582			ret = PTR_ERR(xspi->regs);
+   583			goto remove_ctlr;
+   584		}
+   585	
+   586		xspi->pclk = devm_clk_get_enabled(&pdev->dev, "pclk");
+   587		if (IS_ERR(xspi->pclk)) {
+   588			dev_err(&pdev->dev, "pclk clock not found.\n");
+   589			ret = PTR_ERR(xspi->pclk);
+   590			goto remove_ctlr;
+   591		}
+   592	
+ > 593		xspi->rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
+   594		if (IS_ERR(xspi->rstc)) {
+   595			ret = PTR_ERR(xspi->rstc);
+   596			dev_err(&pdev->dev, "Cannot get SPI reset.\n");
+   597			goto remove_ctlr;
+   598		}
+   599	
+ > 600		reset_control_assert(xspi->rstc);
+ > 601		reset_control_deassert(xspi->rstc);
+   602	
+   603		if (!spi_controller_is_target(ctlr)) {
+   604			xspi->ref_clk = devm_clk_get_enabled(&pdev->dev, "ref_clk");
+   605			if (IS_ERR(xspi->ref_clk)) {
+   606				dev_err(&pdev->dev, "ref_clk clock not found.\n");
+   607				ret = PTR_ERR(xspi->ref_clk);
+   608				goto remove_ctlr;
+   609			}
+   610	
+   611			pm_runtime_use_autosuspend(&pdev->dev);
+   612			pm_runtime_set_autosuspend_delay(&pdev->dev, SPI_AUTOSUSPEND_TIMEOUT);
+   613			pm_runtime_get_noresume(&pdev->dev);
+   614			pm_runtime_set_active(&pdev->dev);
+   615			pm_runtime_enable(&pdev->dev);
+   616	
+   617			ret = of_property_read_u32(pdev->dev.of_node, "num-cs", &num_cs);
+   618			if (ret < 0)
+   619				ctlr->num_chipselect = CDNS_SPI_DEFAULT_NUM_CS;
+   620			else
+   621				ctlr->num_chipselect = num_cs;
+   622	
+   623			ret = of_property_read_u32(pdev->dev.of_node, "is-decoded-cs",
+   624						   &xspi->is_decoded_cs);
+   625			if (ret < 0)
+   626				xspi->is_decoded_cs = 0;
+   627		}
+   628	
+   629		cdns_spi_detect_fifo_depth(xspi);
+   630	
+   631		/* SPI controller initializations */
+   632		cdns_spi_init_hw(xspi, spi_controller_is_target(ctlr));
+   633	
+   634		irq = platform_get_irq(pdev, 0);
+   635		if (irq < 0) {
+   636			ret = irq;
+   637			goto clk_dis_all;
+   638		}
+   639	
+   640		ret = devm_request_irq(&pdev->dev, irq, cdns_spi_irq,
+   641				       0, pdev->name, ctlr);
+   642		if (ret != 0) {
+   643			ret = -ENXIO;
+   644			dev_err(&pdev->dev, "request_irq failed\n");
+   645			goto clk_dis_all;
+   646		}
+   647	
+   648		ctlr->use_gpio_descriptors = true;
+   649		ctlr->prepare_transfer_hardware = cdns_prepare_transfer_hardware;
+   650		ctlr->prepare_message = cdns_prepare_message;
+   651		ctlr->transfer_one = cdns_transfer_one;
+   652		ctlr->unprepare_transfer_hardware = cdns_unprepare_transfer_hardware;
+   653		ctlr->mode_bits = SPI_CPOL | SPI_CPHA;
+   654		ctlr->bits_per_word_mask = SPI_BPW_MASK(8);
+   655	
+   656		if (!spi_controller_is_target(ctlr)) {
+   657			ctlr->mode_bits |=  SPI_CS_HIGH;
+   658			ctlr->set_cs = cdns_spi_chipselect;
+   659			ctlr->auto_runtime_pm = true;
+   660			xspi->clk_rate = clk_get_rate(xspi->ref_clk);
+   661			/* Set to default valid value */
+   662			ctlr->max_speed_hz = xspi->clk_rate / 4;
+   663			xspi->speed_hz = ctlr->max_speed_hz;
+   664			pm_runtime_mark_last_busy(&pdev->dev);
+   665			pm_runtime_put_autosuspend(&pdev->dev);
+   666		} else {
+   667			ctlr->mode_bits |= SPI_NO_CS;
+   668			ctlr->target_abort = cdns_target_abort;
+   669		}
+   670		ret = spi_register_controller(ctlr);
+   671		if (ret) {
+   672			dev_err(&pdev->dev, "spi_register_controller failed\n");
+   673			goto clk_dis_all;
+   674		}
+   675	
+   676		return ret;
+   677	
+   678	clk_dis_all:
+   679		if (!spi_controller_is_target(ctlr)) {
+   680			pm_runtime_set_suspended(&pdev->dev);
+   681			pm_runtime_disable(&pdev->dev);
+   682		}
+   683	remove_ctlr:
+   684		spi_controller_put(ctlr);
+   685		return ret;
+   686	}
+   687	
 
 -- 
 0-DAY CI Kernel Test Service
