@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC9E156F5D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 23:22:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E4E16F0C4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 23:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714000959; cv=none; b=jJpM/hkzcIBn1tcGXaouB0UxcQSxAo5IL7ri3wVCpllXEE9aZyvGYZn2cLj3J9zZ0OyfdSmdBo51YGdV0E7YA2uAnUVIevNENn3gscDAcDbUYZTFAnSuV6amEpRl9bDVTctMyQlROzqdvq71GjAVX5K6quFM78c/Kc0C6EBAL9A=
+	t=1714001618; cv=none; b=YcdJqJ1/eembUqmWHngc7h+T7MmaWPgDXf1dDpJ87JzqUMIMK6Wt6SjK4wrOl1ayamDJS7nyezLN+lvoUOwMTDtg/yEX8Fce2R8eN4EbGTOJ4V2/xeuuUKfvaLnhSQiNzzReqSdm68DZg87IhC1FDtJx6g8ZE3mpV8ZPZulKtuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714000959; c=relaxed/simple;
-	bh=Q5D0GlcovYCEkGzpI5doau3iBuWfQWrp9GB4JaXHZz0=;
+	s=arc-20240116; t=1714001618; c=relaxed/simple;
+	bh=BHpfwlEeOE/dJpflIOXBloyigcMQrSdZK4AM65AANPM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pD2uiAE5PgTzsJfpCMaGfoe/zib/wvrZx2mufDrh+oPs7XnJHGkXCwBtHOPTwxqnGwPk6JYxETYKFiOEMKcp96w+qPf8nnz6OURpJIF4TJEKeX0mMx6btvtatAYtcBAM9ByOiUq58RbhERsrKN5Sserlm8aM06SlJ0EWmpGSklA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h+2ubWx2; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=DQ624mJQUh5ndNLFXQZmwidNgB7Ge/eyUKpy5b3ka9UMa+YJtdQ2qjzEpCh/kBtIAghZ/TkyI8gNEVuW8KvM4f0hB4aOt7s1ZXHONU2PYsMrFWLDw1hCoWe1yhgyQHqksXthUW2X19/1R7aDJKoE1sCW2rOIO7u5i1+YoMxD5PE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OIHF4liE; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h+2ubWx2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OIHF4liE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714000957; x=1745536957;
+  t=1714001617; x=1745537617;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Q5D0GlcovYCEkGzpI5doau3iBuWfQWrp9GB4JaXHZz0=;
-  b=h+2ubWx25K6v5WhXL9XaDFX5XErGNfMEuDzupKRjot329WjZgEvYp4GS
-   ZEDmKsu67VQDMKH6h+OmdgaDm/Wo/eC0Uv8mK1joxaTcEZ+prZfAwri9R
-   5ILn0ToJnNqB5EEQBs+yncGMH34IfVpN1Ko2585nr5kIAIGXWUTlpUWrb
-   468xuyRw3z+vzt12ekAFpt+deijSzKEQzHXqsLf5tWGb2vDjyqSwesgk2
-   HAiqsFKQdliMvGAmBSwEU8x/RI9wEQnfonzskEgUXWUxiEg4p8gcGCQn9
-   QyU76a5sZexJBQfzNDgt57JsiMJwBE6iFBMvMUmFEb/l2vBGmFQAR9DAm
-   g==;
-X-CSE-ConnectionGUID: PPPuAd0zTQqLESMUdJ3HEg==
-X-CSE-MsgGUID: wnUlMKchQY+QPAuhDv0p0w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="27176827"
+  bh=BHpfwlEeOE/dJpflIOXBloyigcMQrSdZK4AM65AANPM=;
+  b=OIHF4liEoiGs2NqnvsAMWBgUC5bF5e0kIC9fgE7cBktiCfTvVvkHN/5l
+   gNs58vJwauEfhfJeNGdNPitQc4Ra+N9PpJXdrJUQVLSVsHt+zuYcwa3V0
+   yrP9ixeZRnycuJcCHhJ52KvDHK8YsxSYxrIcpHitgU4nSuFwuC+pZvp8H
+   JTWdnIq0RSnToLdYJEQwwgXnsgptKfh59RRHY7H7DWvaUgmsK0CGrnSVd
+   G7PgSO3jLri3mvegUNa2PTn95gXEkg9/lgI/gWPiNBrBKfBOQ45G4LAYx
+   lCZmBmBby9RByCL6W87MrayDqd3n3Mt5YpvFM0GxcUDDZPKhUBBpKje5t
+   Q==;
+X-CSE-ConnectionGUID: 5SyBE8ZNSh2OpywdZdS/+w==
+X-CSE-MsgGUID: zFaC8xBISDaqMzJxgNeKsg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9589665"
 X-IronPort-AV: E=Sophos;i="6.07,227,1708416000"; 
-   d="scan'208";a="27176827"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 16:22:36 -0700
-X-CSE-ConnectionGUID: 3rNtiLX+Sxu7T6bFFxkoZw==
-X-CSE-MsgGUID: qd+OC7dYSpeeHCT5CYgkzQ==
+   d="scan'208";a="9589665"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 16:33:36 -0700
+X-CSE-ConnectionGUID: nJmoW4fzT8m88sFjf5HMqA==
+X-CSE-MsgGUID: frbfUTPDQRixZPesQrhtSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,227,1708416000"; 
-   d="scan'208";a="56047914"
+   d="scan'208";a="24916323"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 24 Apr 2024 16:22:34 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 24 Apr 2024 16:33:34 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzlwd-0001lM-2O;
-	Wed, 24 Apr 2024 23:22:31 +0000
-Date: Thu, 25 Apr 2024 07:22:20 +0800
+	id 1rzm7I-0001m0-0m;
+	Wed, 24 Apr 2024 23:33:32 +0000
+Date: Thu, 25 Apr 2024 07:32:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vincent Guittot <vincent.guittot@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Ingo Molnar <mingo@kernel.org>,
-	Qais Yousef <qyousef@layalina.io>,
-	Lukasz Luba <lukasz.luba@arm.com>
-Subject: [tip:sched/core 26/27] drivers/base/arch_topology.c:204:17: sparse:
- sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202404250740.VhQQoD7N-lkp@intel.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 13534/30000] ld: fs/proc/base.o:undefined
+ reference to `proc_mm_idle_operations'
+Message-ID: <202404250742.DVzPAKge-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,91 +62,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Vincent,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
-head:   97450eb909658573dcacc1063b06d3d08642c0c1
-commit: d4dbc991714eefcbd8d54a3204bd77a0a52bd32d [26/27] sched/cpufreq: Rename arch_update_thermal_pressure() => arch_update_hw_pressure()
-config: arm64-randconfig-r132-20240425 (https://download.01.org/0day-ci/archive/20240425/202404250740.VhQQoD7N-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240425/202404250740.VhQQoD7N-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   fca9656c7bff35049038766e63e93888847b5bff
+commit: 4232d9005401d839ceeb1a02da34749b6dab1376 [13534/30000] etmem: add CONFIG_ETMEM macro definition for etmem feature
+config: x86_64-randconfig-014-20240425 (https://download.01.org/0day-ci/archive/20240425/202404250742.DVzPAKge-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404250742.DVzPAKge-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404250740.VhQQoD7N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404250742.DVzPAKge-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
->> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
->> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
->> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
->> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
->> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
->> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+All errors (new ones prefixed by >>):
 
-vim +204 drivers/base/arch_topology.c
+   ld: warning: net/bpfilter/bpfilter_umh_blob.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: net/bpfilter/bpfilter_umh_blob.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
+>> ld: fs/proc/base.o:(.rodata+0x18c0): undefined reference to `proc_mm_idle_operations'
+>> ld: fs/proc/base.o:(.rodata+0x18e8): undefined reference to `proc_mm_swap_operations'
+   ld: fs/proc/base.o:(.rodata+0x2420): undefined reference to `proc_mm_idle_operations'
+   ld: fs/proc/base.o:(.rodata+0x2448): undefined reference to `proc_mm_swap_operations'
+   ld: fs/proc/etmem_scan.o: in function `page_scan_entry':
+   fs/proc/etmem_scan.c:1339:(.text+0x189): undefined reference to `proc_page_scan_operations'
+   ld: fs/proc/etmem_scan.c:1339:(.text+0x1b4): undefined reference to `proc_page_scan_operations'
+   ld: fs/proc/etmem_scan.c:1340:(.text+0x1c5): undefined reference to `proc_page_scan_operations'
+   ld: fs/proc/etmem_scan.c:1341:(.text+0x1e4): undefined reference to `proc_page_scan_operations'
+   ld: fs/proc/etmem_scan.c:1340:(.text+0x1f5): undefined reference to `proc_page_scan_operations'
+   ld: fs/proc/etmem_scan.o:fs/proc/etmem_scan.c:1342: more undefined references to `proc_page_scan_operations' follow
 
-   164	
-   165	/**
-   166	 * topology_update_hw_pressure() - Update HW pressure for CPUs
-   167	 * @cpus        : The related CPUs for which capacity has been reduced
-   168	 * @capped_freq : The maximum allowed frequency that CPUs can run at
-   169	 *
-   170	 * Update the value of HW pressure for all @cpus in the mask. The
-   171	 * cpumask should include all (online+offline) affected CPUs, to avoid
-   172	 * operating on stale data when hot-plug is used for some CPUs. The
-   173	 * @capped_freq reflects the currently allowed max CPUs frequency due to
-   174	 * HW capping. It might be also a boost frequency value, which is bigger
-   175	 * than the internal 'capacity_freq_ref' max frequency. In such case the
-   176	 * pressure value should simply be removed, since this is an indication that
-   177	 * there is no HW throttling. The @capped_freq must be provided in kHz.
-   178	 */
-   179	void topology_update_hw_pressure(const struct cpumask *cpus,
-   180					      unsigned long capped_freq)
-   181	{
-   182		unsigned long max_capacity, capacity, hw_pressure;
-   183		u32 max_freq;
-   184		int cpu;
-   185	
-   186		cpu = cpumask_first(cpus);
-   187		max_capacity = arch_scale_cpu_capacity(cpu);
-   188		max_freq = arch_scale_freq_ref(cpu);
-   189	
-   190		/*
-   191		 * Handle properly the boost frequencies, which should simply clean
-   192		 * the HW pressure value.
-   193		 */
-   194		if (max_freq <= capped_freq)
-   195			capacity = max_capacity;
-   196		else
-   197			capacity = mult_frac(max_capacity, capped_freq, max_freq);
-   198	
-   199		hw_pressure = max_capacity - capacity;
-   200	
-   201		trace_hw_pressure_update(cpu, hw_pressure);
-   202	
-   203		for_each_cpu(cpu, cpus)
- > 204			WRITE_ONCE(per_cpu(hw_pressure, cpu), hw_pressure);
-   205	}
-   206	EXPORT_SYMBOL_GPL(topology_update_hw_pressure);
-   207	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PGP_PRELOAD
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
+   Selected by [y]:
+   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
 
 -- 
 0-DAY CI Kernel Test Service
