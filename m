@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A3F4A23
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 00:26:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0007EFC11
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 01:18:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713918412; cv=none; b=X4etUzWTEA/NGj2F6AucT4t0uqv6c9UjFCuu2TKajbGkb9rLmgUuEGvo75w5ZfPlCa0RSgX5Nls1etu+fpJDluetN9Xw1VMUfyx8CtbZgX10K4gA1citcA5Zu91N+qkVo6qEDrmzU4sKVHAE3jTt/fEA2i+vcasME7bpv54JdCQ=
+	t=1713921535; cv=none; b=TdrnmxvB2dA2JW5tEqAfP/qtYnr9Sjl0PsXErwPlLKsnSHBQe5f3sTZX1ZgGiI/Sp296dfKkh5dYYkINITMovNcfN7nnMLzqT5SDPpb/t+8gntB6Cdn5yWcDhPtpxeMwC/NXWvpxfQB+buaoSVL5wJeMcIfcEc1ip29kMn/HY8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713918412; c=relaxed/simple;
-	bh=r/u9HDPDggKAivNCRbPi4avV0+cWabmvtjON6VYt0A4=;
+	s=arc-20240116; t=1713921535; c=relaxed/simple;
+	bh=IvTJ5D1BZfjebKKugZ2HhziZWE9LUQ1pbwpSJGmhLU8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iZXiqJGUU6msAM7wwkl6jCaX3+V6Rw8Qf7fEP8c/MAkXhTx474tqkG1k0tbtLBa7jfpVR2POeeTwKHJf6CDHhZrT6pnIVzxS1GG/IW4Law9ZtjXMiPrLKl/allc1oonRKs4IK1O/LVsOuIK4oornqfRzlRW57uWutf7puZtZnfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=deEQvKtf; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=iiaJC2v70Nv5RYOYdAA9dDUCh2HwFI5CIjRipnrKI735VhYkrmQt6KnG+546NcKl6iwLKuPJGhMTBsU51IymMIVSBNrOIy6zBySoW66JT8kSpPlSXo889+y/z+9fo1Lnxmb0HyKAR1gXQqjfIf8q5pom78CWLEW4peZZWZkJWCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MZhIZcLS; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="deEQvKtf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MZhIZcLS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713918411; x=1745454411;
+  t=1713921534; x=1745457534;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r/u9HDPDggKAivNCRbPi4avV0+cWabmvtjON6VYt0A4=;
-  b=deEQvKtfAsEwljWeTEP6dnWaNlJJ1LGzgwwih0GnUyYJdit9DYlUBb1Z
-   osvnkZTt6Wulr3H3/+0wVpX6Aop9EkrQZG9e6nh60QtuxZA5MciBkc0JV
-   +QpuVqnhTkMYhKM3QkcVJTkgIU+5n/jjS1uA3M9jss48RdXk8ipJJ4v10
-   slvY8tjvwUQ7z5wsp+EieBMMZq5ZTBzjJID9XDiOIfViegkgwhxHqSes+
-   AtPath1ZkXEsgvruQHuyBI9NuxjqCeNxGL7fi9JN89/S3foJKm2AigmDS
-   vySOcHRVHJeeVcispKdCsRS6JGElbujXm6KsigFgwEltd5meQvffIqLk0
-   Q==;
-X-CSE-ConnectionGUID: 1PHgemEnQgmcfz1QyI4twA==
-X-CSE-MsgGUID: amFdjHQHRheqiR6y9MYW8Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20933982"
+  bh=IvTJ5D1BZfjebKKugZ2HhziZWE9LUQ1pbwpSJGmhLU8=;
+  b=MZhIZcLSXxI64XicBmwpfXLzvfv0Aajy7UiXENgSK31PuYzhu0wmLDTF
+   zCFNcpj1VOuRq+CM5NpOTW6VBU66oPk7QbTf9Do4T0JOJTZBfmmayYY/c
+   eemi66/TTR3ce6vWD5qAJ6PATiWE+ISs9SDShOmIZojwbix6V+/DCMKcQ
+   NO7N/YdgCFeOZmgkPU0/c2kc8+yeV47optY36mC2Tt3dBaNUzWXkMJ0So
+   NLdNEkMPCXCBH34C6pc5LspQs8TRdaC/0aQPTj+SZeKO/Zbgq61HLj8nX
+   CT4yw2HSEs4a5jPW32r++EVVx4a/FbAmfr8nSoEQD3R5oaDDgLrmU5HH0
+   g==;
+X-CSE-ConnectionGUID: ndaHXT9QSs29gA4P9sjtDg==
+X-CSE-MsgGUID: U8zeSRJnS62s6Pi2YQ5L6w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20228677"
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="20933982"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 17:26:50 -0700
-X-CSE-ConnectionGUID: 6pIIe63kT3KXG5fTlL/fZg==
-X-CSE-MsgGUID: QH6iwa02T2qW/5Nx++CPLA==
+   d="scan'208";a="20228677"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 18:18:52 -0700
+X-CSE-ConnectionGUID: sB/yoVO0R4+BN/wJLJF8Fw==
+X-CSE-MsgGUID: r6tW/cASStiQgZJoTQj5tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="61988562"
+   d="scan'208";a="24548317"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 23 Apr 2024 17:26:49 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 23 Apr 2024 18:18:50 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzQTG-0000f2-1k;
-	Wed, 24 Apr 2024 00:26:46 +0000
-Date: Wed, 24 Apr 2024 08:25:52 +0800
+	id 1rzRHc-0000i9-0k;
+	Wed, 24 Apr 2024 01:18:48 +0000
+Date: Wed, 24 Apr 2024 09:17:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:qwip 6/6] include/linux/compiler.h:221:52: error: initializer
- element is not constant
-Message-ID: <202404240839.LsKq43DE-lkp@intel.com>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: [linux-next:master 4693/7876]
+ crypto/asymmetric_keys/x509_cert_parser.c:69:9-15: ERROR: allocation
+ function on line 68 returns NULL not ERR_PTR on failure
+Message-ID: <202404240904.Qi3nM37B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,196 +65,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git qwip
-head:   1c9b80c2e5ca502bc305922729b49e156dcdf6da
-commit: 1c9b80c2e5ca502bc305922729b49e156dcdf6da [6/6] wip
-config: i386-randconfig-002-20240424 (https://download.01.org/0day-ci/archive/20240424/202404240839.LsKq43DE-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404240839.LsKq43DE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a59668a9397e7245b26e9be85d23f242ff757ae8
+commit: 5c6ca9d936654a135b459c846885e08966e5e5bf [4693/7876] X.509: Introduce scope-based x509_certificate allocation
+config: sparc-randconfig-r061-20240423 (https://download.01.org/0day-ci/archive/20240424/202404240904.Qi3nM37B-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404240839.LsKq43DE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404240904.Qi3nM37B-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> crypto/asymmetric_keys/x509_cert_parser.c:69:9-15: ERROR: allocation function on line 68 returns NULL not ERR_PTR on failure
 
-   drivers/spi/spi-microchip-core-qspi.c: In function 'mchp_coreqspi_write_read_op':
-   drivers/spi/spi-microchip-core-qspi.c:287:13: error: invalid storage class for function 'mchp_coreqspi_enable_ints'
-     287 | static void mchp_coreqspi_enable_ints(struct mchp_coreqspi *qspi)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:296:13: error: invalid storage class for function 'mchp_coreqspi_disable_ints'
-     296 | static void mchp_coreqspi_disable_ints(struct mchp_coreqspi *qspi)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:301:20: error: invalid storage class for function 'mchp_coreqspi_isr'
-     301 | static irqreturn_t mchp_coreqspi_isr(int irq, void *dev_id)
-         |                    ^~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:330:12: error: invalid storage class for function 'mchp_coreqspi_setup_clock'
-     330 | static int mchp_coreqspi_setup_clock(struct mchp_coreqspi *qspi, struct spi_device *spi)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:362:12: error: invalid storage class for function 'mchp_coreqspi_setup_op'
-     362 | static int mchp_coreqspi_setup_op(struct spi_device *spi_dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:375:20: error: invalid storage class for function 'mchp_coreqspi_config_op'
-     375 | static inline void mchp_coreqspi_config_op(struct mchp_coreqspi *qspi, const struct spi_mem_op *op)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:430:12: error: invalid storage class for function 'mchp_coreqspi_wait_for_ready'
-     430 | static int mchp_coreqspi_wait_for_ready(struct spi_mem *mem)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:449:12: error: invalid storage class for function 'mchp_coreqspi_exec_op'
-     449 | static int mchp_coreqspi_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:519:13: error: invalid storage class for function 'mchp_coreqspi_supports_op'
-     519 | static bool mchp_coreqspi_supports_op(struct spi_mem *mem, const struct spi_mem_op *op)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:546:12: error: invalid storage class for function 'mchp_coreqspi_adjust_op_size'
-     546 | static int mchp_coreqspi_adjust_op_size(struct spi_mem *mem, struct spi_mem_op *op)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:557:27: error: initializer element is not constant
-     557 |         .adjust_op_size = mchp_coreqspi_adjust_op_size,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:557:27: note: (near initialization for 'mchp_coreqspi_mem_ops.adjust_op_size')
-   drivers/spi/spi-microchip-core-qspi.c:558:24: error: initializer element is not constant
-     558 |         .supports_op = mchp_coreqspi_supports_op,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:558:24: note: (near initialization for 'mchp_coreqspi_mem_ops.supports_op')
-   drivers/spi/spi-microchip-core-qspi.c:559:20: error: initializer element is not constant
-     559 |         .exec_op = mchp_coreqspi_exec_op,
-         |                    ^~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:559:20: note: (near initialization for 'mchp_coreqspi_mem_ops.exec_op')
-   drivers/spi/spi-microchip-core-qspi.c:563:13: error: invalid storage class for function 'mchp_coreqspi_activate_cs'
-     563 | static void mchp_coreqspi_activate_cs(struct spi_device *spi)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:569:13: error: invalid storage class for function 'mchp_coreqspi_deactivate_cs'
-     569 | static void mchp_coreqspi_deactivate_cs(struct spi_device *spi)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:575:12: error: invalid storage class for function 'mchp_coreqspi_transfer_one_message'
-     575 | static int mchp_coreqspi_transfer_one_message(struct spi_controller *ctlr,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:704:12: error: invalid storage class for function 'mchp_coreqspi_probe'
-     704 | static int mchp_coreqspi_probe(struct platform_device *pdev)
-         |            ^~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:762:13: error: invalid storage class for function 'mchp_coreqspi_remove'
-     762 | static void mchp_coreqspi_remove(struct platform_device *pdev)
-         |             ^~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:779:18: error: initializer element is not constant
-     779 |         .probe = mchp_coreqspi_probe,
-         |                  ^~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:779:18: note: (near initialization for 'mchp_coreqspi_driver.probe')
-   drivers/spi/spi-microchip-core-qspi.c:784:23: error: initializer element is not constant
-     784 |         .remove_new = mchp_coreqspi_remove,
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:784:23: note: (near initialization for 'mchp_coreqspi_driver.remove_new')
-   In file included from include/linux/device.h:32,
-                    from include/linux/platform_device.h:13,
-                    from drivers/spi/spi-microchip-core-qspi.c:20:
-   drivers/spi/spi-microchip-core-qspi.c:786:24: error: invalid storage class for function 'mchp_coreqspi_driver_init'
-     786 | module_platform_driver(mchp_coreqspi_driver);
-         |                        ^~~~~~~~~~~~~~~~~~~~
-   include/linux/device/driver.h:258:19: note: in definition of macro 'module_driver'
-     258 | static int __init __driver##_init(void) \
-         |                   ^~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:786:1: note: in expansion of macro 'module_platform_driver'
-     786 | module_platform_driver(mchp_coreqspi_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/err.h:5,
-                    from include/linux/clk.h:12,
-                    from drivers/spi/spi-microchip-core-qspi.c:11:
->> include/linux/compiler.h:221:52: error: initializer element is not constant
-     221 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
-         |                                                    ^
-   include/linux/compiler.h:223:9: note: in expansion of macro '___ADDRESSABLE'
-     223 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^~~~~~~~~~~~~~
-   include/linux/init.h:256:9: note: in expansion of macro '__ADDRESSABLE'
-     256 |         __ADDRESSABLE(fn)
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:261:9: note: in expansion of macro '__define_initcall_stub'
-     261 |         __define_initcall_stub(__stub, fn)                      \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:274:9: note: in expansion of macro '____define_initcall'
-     274 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:280:9: note: in expansion of macro '__unique_initcall'
-     280 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:282:35: note: in expansion of macro '___define_initcall'
-     282 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:311:41: note: in expansion of macro '__define_initcall'
-     311 | #define device_initcall(fn)             __define_initcall(fn, 6)
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:316:24: note: in expansion of macro 'device_initcall'
-     316 | #define __initcall(fn) device_initcall(fn)
-         |                        ^~~~~~~~~~~~~~~
-   include/linux/module.h:88:25: note: in expansion of macro '__initcall'
-      88 | #define module_init(x)  __initcall(x);
-         |                         ^~~~~~~~~~
-   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
-     262 | module_init(__driver##_init); \
-         | ^~~~~~~~~~~
-   include/linux/platform_device.h:303:9: note: in expansion of macro 'module_driver'
-     303 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:786:1: note: in expansion of macro 'module_platform_driver'
-     786 | module_platform_driver(mchp_coreqspi_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:786:24: error: invalid storage class for function 'mchp_coreqspi_driver_exit'
-     786 | module_platform_driver(mchp_coreqspi_driver);
-         |                        ^~~~~~~~~~~~~~~~~~~~
-   include/linux/device/driver.h:263:20: note: in definition of macro 'module_driver'
-     263 | static void __exit __driver##_exit(void) \
-         |                    ^~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:786:1: note: in expansion of macro 'module_platform_driver'
-     786 | module_platform_driver(mchp_coreqspi_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/printk.h:6,
-                    from include/linux/kernel.h:31,
-                    from include/linux/clk.h:13:
-   drivers/spi/spi-microchip-core-qspi.c:786:24: error: initializer element is not constant
-     786 | module_platform_driver(mchp_coreqspi_driver);
-         |                        ^~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:319:57: note: in definition of macro '__exitcall'
-     319 |         static exitcall_t __exitcall_##fn __exit_call = fn
-         |                                                         ^~
-   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
-     267 | module_exit(__driver##_exit);
-         | ^~~~~~~~~~~
-   include/linux/platform_device.h:303:9: note: in expansion of macro 'module_driver'
-     303 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:786:1: note: in expansion of macro 'module_platform_driver'
-     786 | module_platform_driver(mchp_coreqspi_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:790:1: error: expected declaration or statement at end of input
-     790 | MODULE_LICENSE("GPL");
-         | ^~~~~~~~~~~~~~
-   drivers/spi/spi-microchip-core-qspi.c:227:13: warning: unused variable 'frames' [-Wunused-variable]
-     227 |         u32 frames, control, data;
-         |             ^~~~~~
+vim +69 crypto/asymmetric_keys/x509_cert_parser.c
 
-
-vim +221 include/linux/compiler.h
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  212  
-7290d58095712a Ard Biesheuvel 2018-08-21  213  /*
-7290d58095712a Ard Biesheuvel 2018-08-21  214   * Force the compiler to emit 'sym' as a symbol, so that we can reference
-7290d58095712a Ard Biesheuvel 2018-08-21  215   * it from inline assembler. Necessary in case 'sym' could be inlined
-7290d58095712a Ard Biesheuvel 2018-08-21  216   * otherwise, or eliminated entirely due to lack of references that are
-7290d58095712a Ard Biesheuvel 2018-08-21  217   * visible to the compiler.
-7290d58095712a Ard Biesheuvel 2018-08-21  218   */
-92efda8eb15295 Sami Tolvanen  2022-09-08  219  #define ___ADDRESSABLE(sym, __attrs) \
-92efda8eb15295 Sami Tolvanen  2022-09-08  220  	static void * __used __attrs \
-ed2f752e0e0a21 Uros Bizjak    2023-10-20 @221  	__UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
-92efda8eb15295 Sami Tolvanen  2022-09-08  222  #define __ADDRESSABLE(sym) \
-92efda8eb15295 Sami Tolvanen  2022-09-08  223  	___ADDRESSABLE(sym, __section(".discard.addressable"))
-7290d58095712a Ard Biesheuvel 2018-08-21  224  
-
-:::::: The code at line 221 was first introduced by commit
-:::::: ed2f752e0e0a21d941ca0ee539ef3d4cd576bc5e x86/percpu: Introduce const-qualified const_pcpu_hot to micro-optimize code generation
-
-:::::: TO: Uros Bizjak <ubizjak@gmail.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+    57	
+    58	/*
+    59	 * Parse an X.509 certificate
+    60	 */
+    61	struct x509_certificate *x509_cert_parse(const void *data, size_t datalen)
+    62	{
+    63		struct x509_certificate *cert __free(x509_free_certificate);
+    64		struct x509_parse_context *ctx __free(kfree) = NULL;
+    65		struct asymmetric_key_id *kid;
+    66		long ret;
+    67	
+  > 68		cert = kzalloc(sizeof(struct x509_certificate), GFP_KERNEL);
+  > 69		assume(!IS_ERR(cert)); /* Avoid gratuitous IS_ERR() check on return */
+    70		if (!cert)
+    71			return ERR_PTR(-ENOMEM);
+    72		cert->pub = kzalloc(sizeof(struct public_key), GFP_KERNEL);
+    73		if (!cert->pub)
+    74			return ERR_PTR(-ENOMEM);
+    75		cert->sig = kzalloc(sizeof(struct public_key_signature), GFP_KERNEL);
+    76		if (!cert->sig)
+    77			return ERR_PTR(-ENOMEM);
+    78		ctx = kzalloc(sizeof(struct x509_parse_context), GFP_KERNEL);
+    79		if (!ctx)
+    80			return ERR_PTR(-ENOMEM);
+    81	
+    82		ctx->cert = cert;
+    83		ctx->data = (unsigned long)data;
+    84	
+    85		/* Attempt to decode the certificate */
+    86		ret = asn1_ber_decoder(&x509_decoder, ctx, data, datalen);
+    87		if (ret < 0)
+    88			return ERR_PTR(ret);
+    89	
+    90		/* Decode the AuthorityKeyIdentifier */
+    91		if (ctx->raw_akid) {
+    92			pr_devel("AKID: %u %*phN\n",
+    93				 ctx->raw_akid_size, ctx->raw_akid_size, ctx->raw_akid);
+    94			ret = asn1_ber_decoder(&x509_akid_decoder, ctx,
+    95					       ctx->raw_akid, ctx->raw_akid_size);
+    96			if (ret < 0) {
+    97				pr_warn("Couldn't decode AuthKeyIdentifier\n");
+    98				return ERR_PTR(ret);
+    99			}
+   100		}
+   101	
+   102		cert->pub->key = kmemdup(ctx->key, ctx->key_size, GFP_KERNEL);
+   103		if (!cert->pub->key)
+   104			return ERR_PTR(-ENOMEM);
+   105	
+   106		cert->pub->keylen = ctx->key_size;
+   107	
+   108		cert->pub->params = kmemdup(ctx->params, ctx->params_size, GFP_KERNEL);
+   109		if (!cert->pub->params)
+   110			return ERR_PTR(-ENOMEM);
+   111	
+   112		cert->pub->paramlen = ctx->params_size;
+   113		cert->pub->algo = ctx->key_algo;
+   114	
+   115		/* Grab the signature bits */
+   116		ret = x509_get_sig_params(cert);
+   117		if (ret < 0)
+   118			return ERR_PTR(ret);
+   119	
+   120		/* Generate cert issuer + serial number key ID */
+   121		kid = asymmetric_key_generate_id(cert->raw_serial,
+   122						 cert->raw_serial_size,
+   123						 cert->raw_issuer,
+   124						 cert->raw_issuer_size);
+   125		if (IS_ERR(kid))
+   126			return ERR_CAST(kid);
+   127		cert->id = kid;
+   128	
+   129		/* Detect self-signed certificates */
+   130		ret = x509_check_for_self_signed(cert);
+   131		if (ret < 0)
+   132			return ERR_PTR(ret);
+   133	
+   134		return_ptr(cert);
+   135	}
+   136	EXPORT_SYMBOL_GPL(x509_cert_parse);
+   137	
 
 -- 
 0-DAY CI Kernel Test Service
