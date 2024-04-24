@@ -1,41 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE2615E5B1;
-	Wed, 24 Apr 2024 14:17:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0F915B99E;
+	Wed, 24 Apr 2024 14:29:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713968266; cv=none; b=mBSaEpEovflSWcSIJVp3sVzBt+Pl9aFuLgUJly1wkREYExKjjdFQtjQYUi99kJXg3F9hyH8LGo0EOFFeYqQ+d79JmT65quNQ2ygYXS/pLzW/yjMMAs8ar8+K3qvR+ZOgaSfz8sJH1limqFlHmBgcdVxAUBVHJk+T/x0kJDly+gA=
+	t=1713968962; cv=none; b=iZnQITWmPwLUVfheyu+p5KEJoXRIQmoai9ggy9gC5Q+1Ck3tlIyfA6p+UVxoqOjIpHgVD3LcpwsA5ymZIqdrT1HP1kglMkWvII1IFexDLcEHhoxkJgt169IMyRXemLcPCJLMI3kZT7fBIGcjwAB5I/GYXAjWpI42vuncz/NPOcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713968266; c=relaxed/simple;
-	bh=hyNzl6UHSzZchf9V7Gzo3JKQ9WWb5GYJYSs/R7191MQ=;
+	s=arc-20240116; t=1713968962; c=relaxed/simple;
+	bh=WnfZajOmHIFhVo2TmxnugInu6gBY+wQy/yoWHmvGXAc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fY9zNL5FMIJs5ACFn4tw1TQcbYzkvBBCnX3UIsex5FZvNK2rlNSvdzteesyzaqSlbpgMzWExwxFpMhFukN4kk9Gr3DdPiv++gLObLCrii/TJb3A82H9dKhxbQgPLA2O3VCdo4tbQrFUlmIFPqZ8Mcu3EXdCtWrnjKlqX7okb7hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N6AdF/aC; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=WH6h3Xx+3XneFR11Cb38d8Gm66OpxTTcwwbPrg08diyYOUdb7bYMisInGzyB0fowrgszDaru46mheXrJjfyJIXCyGgPCfr4sNzoN7Or21ERr/UKnumOei4eHpWXiGqazjDf8dzJYfDC2ormLfPhdsjbuhis9FL3LjWjugvou+Ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fjWge50t; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N6AdF/aC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D148EC2BBFC;
-	Wed, 24 Apr 2024 14:17:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713968265;
-	bh=hyNzl6UHSzZchf9V7Gzo3JKQ9WWb5GYJYSs/R7191MQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N6AdF/aCeqUK+VBjdffOWQqcyN3U73+GM1EOKOkw8bZ4ZBR1/o8ENmj7G6xrH0Sz3
-	 IWhfpKCHEMtgLjIBIm+2xT+8azlEMxDrjeU2mI+rMnKXq3PMl/8mEVeVggKGsAQxJ6
-	 tfloeZFgxZgCtHlcmhqECG03f9A9G/2ZSzPjgA5UM6+pl3s0stJOSVORRTeTme4LTo
-	 7myYTWHjBu56ei5lmkopt+zkCDi/cOt3nbTa3T5FXKqRry8DpztUK6GieY0JSx4aH+
-	 6UAvFgD6utL4pKvQqTSk4QMNoGM96pXw5dChDVORXZtzypKwXKaGmKbBug8WBOpTcW
-	 RV/GsAHSwTT1w==
-Date: Wed, 24 Apr 2024 16:17:41 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 3/3] HID: bpf: lazy load the hid_tail_call entrypoint
-Message-ID: <x7ffovagmqjazr6jhr6urkctcj7ozn6poakvjluorhzuxmyyg2@dxw7ucw3qc6z>
-References: <20240419-hid_bpf_lazy_skel-v1-3-9210bcd4b61c@kernel.org>
- <74d0e9d1-7ac6-4f08-bab6-76c51e69cebf@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fjWge50t"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713968962; x=1745504962;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WnfZajOmHIFhVo2TmxnugInu6gBY+wQy/yoWHmvGXAc=;
+  b=fjWge50tOh7FB7RT6wnhWGYNS2P1Klulq1gRYr8fUQi9KLUh5DUsPG3g
+   W67XM65GL54vpqrpC7F9NjB3/HLMEqmGyXTp4Um78ZhKrQzIezPnH/sxy
+   NAzZvYbE3iIZiNlbmNiETYrvdqxsoA159nw9NKm/bwVNRPPC4cqvu92Tc
+   8m99JQHGWVcx3QKIC0Li7QxvrR8qsEbThQcKxssXkdgbHDEXuCz1j25vD
+   Eu2UDPrkxf5AayEWSL4pho3Zm7ncSCapfrf0fyW7UB3vjSjie+SwHQwzn
+   YWaJ2N8L4gmPMHmKs5BLvIxpgXwDCXUrMZIuMFUbfLu9Y0lyYRUifNn5i
+   Q==;
+X-CSE-ConnectionGUID: yhB+VYauTyqRWg5GgZoKpQ==
+X-CSE-MsgGUID: hFh5pK+VQK65VhAb00cwbQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="27058533"
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
+   d="scan'208";a="27058533"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 07:29:21 -0700
+X-CSE-ConnectionGUID: C88DltovSWq1GS2a3z6jdw==
+X-CSE-MsgGUID: M1TpDd9ySvC4wXOuBMxm9w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
+   d="scan'208";a="29366565"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 07:29:14 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rzdcU-00000000fvA-0mQd;
+	Wed, 24 Apr 2024 17:29:10 +0300
+Date: Wed, 24 Apr 2024 17:29:09 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, linux-amlogic@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Yue Wang <yue.wang@amlogic.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Xiaowei Song <songxiaowei@hisilicon.com>
+Subject: Re: [PATCH v2 2/4] PCI: dwc: Remove unused of_gpio.h
+Message-ID: <ZikXNX_RZJWRso4d@smile.fi.intel.com>
+References: <20240423172208.2723892-3-andriy.shevchenko@linux.intel.com>
+ <202404240649.QgY8lto8-lkp@intel.com>
+ <ZikT0lWPOQD3uuH0@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,131 +87,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <74d0e9d1-7ac6-4f08-bab6-76c51e69cebf@moroto.mountain>
+In-Reply-To: <ZikT0lWPOQD3uuH0@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Apr 23 2024, Dan Carpenter wrote:
-> Hi Benjamin,
+On Wed, Apr 24, 2024 at 05:14:43PM +0300, Andy Shevchenko wrote:
+> On Wed, Apr 24, 2024 at 06:51:05AM +0800, kernel test robot wrote:
+> > Hi Andy,
+> > 
+> > kernel test robot noticed the following build errors:
+> > 
+> > [auto build test ERROR on pci/next]
+> > [also build test ERROR on pci/for-linus mani-mhi/mhi-next linus/master v6.9-rc5 next-20240423]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/PCI-aardvark-Remove-unused-of_gpio-h/20240424-012448
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+> > patch link:    https://lore.kernel.org/r/20240423172208.2723892-3-andriy.shevchenko%40linux.intel.com
+> > patch subject: [PATCH v2 2/4] PCI: dwc: Remove unused of_gpio.h
+> > config: arm-defconfig (https://download.01.org/0day-ci/archive/20240424/202404240649.QgY8lto8-lkp@intel.com/config)
+> > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404240649.QgY8lto8-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202404240649.QgY8lto8-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
 > 
-> kernel test robot noticed the following build warnings:
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Tissoires/HID-bpf-fix-a-comment-in-a-define/20240419-225110
-> base:   b912cf042072e12e93faa874265b30cc0aa521b9
-> patch link:    https://lore.kernel.org/r/20240419-hid_bpf_lazy_skel-v1-3-9210bcd4b61c%40kernel.org
-> patch subject: [PATCH 3/3] HID: bpf: lazy load the hid_tail_call entrypoint
-> config: i386-randconfig-141-20240423 (https://download.01.org/0day-ci/archive/20240423/202404231109.h2IRrMMD-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202404231109.h2IRrMMD-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/hid/bpf/hid_bpf_jmp_table.c:478 __hid_bpf_attach_prog() error: uninitialized symbol 'link'.
-> 
-> vim +/link +478 drivers/hid/bpf/hid_bpf_jmp_table.c
-> 
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  396  noinline int
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  397  __hid_bpf_attach_prog(struct hid_device *hdev, enum hid_bpf_prog_type prog_type,
-> 7cdd2108903a4e3 Benjamin Tissoires 2024-01-24  398  		      int prog_fd, struct bpf_prog *prog, __u32 flags)
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  399  {
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  400  	struct bpf_link_primer link_primer;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  401  	struct hid_bpf_link *link;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  402  	struct hid_bpf_prog_entry *prog_entry;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  403  	int cnt, err = -EINVAL, prog_table_idx = -1;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  404  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  405  	mutex_lock(&hid_bpf_attach_lock);
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  406  
-> 60caa381da7dc38 Benjamin Tissoires 2024-04-19  407  	if (!jmp_table.map) {
-> 60caa381da7dc38 Benjamin Tissoires 2024-04-19  408  		err = hid_bpf_preload_skel();
-> 60caa381da7dc38 Benjamin Tissoires 2024-04-19  409  		WARN_ONCE(err, "error while preloading HID BPF dispatcher: %d", err);
-> 60caa381da7dc38 Benjamin Tissoires 2024-04-19  410  		if (err)
-> 60caa381da7dc38 Benjamin Tissoires 2024-04-19  411  			goto err_unlock;
->                                                                         ^^^^^^^^^^^^^^^^
-> link isn't initialized.
+> Right, I need to add a chained_irq.h which I have in a separate patch for now.
 
-Well spotted! Thanks
-I'll send a v2 soon.
+This is here
+20240423211817.3995488-1-andriy.shevchenko@linux.intel.com
 
-Cheers,
-Benjamin
+Which should be applied before this one.
 
-> 
-> 60caa381da7dc38 Benjamin Tissoires 2024-04-19  412  	}
-> 60caa381da7dc38 Benjamin Tissoires 2024-04-19  413  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  414  	link = kzalloc(sizeof(*link), GFP_USER);
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  415  	if (!link) {
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  416  		err = -ENOMEM;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  417  		goto err_unlock;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  418  	}
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  419  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  420  	bpf_link_init(&link->link, BPF_LINK_TYPE_UNSPEC,
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  421  		      &hid_bpf_link_lops, prog);
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  422  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  423  	/* do not attach too many programs to a given HID device */
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  424  	cnt = hid_bpf_program_count(hdev, NULL, prog_type);
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  425  	if (cnt < 0) {
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  426  		err = cnt;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  427  		goto err_unlock;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  428  	}
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  429  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  430  	if (cnt >= hid_bpf_max_programs(prog_type)) {
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  431  		err = -E2BIG;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  432  		goto err_unlock;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  433  	}
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  434  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  435  	prog_table_idx = hid_bpf_insert_prog(prog_fd, prog);
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  436  	/* if the jmp table is full, abort */
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  437  	if (prog_table_idx < 0) {
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  438  		err = prog_table_idx;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  439  		goto err_unlock;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  440  	}
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  441  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  442  	if (flags & HID_BPF_FLAG_INSERT_HEAD) {
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  443  		/* take the previous prog_entry slot */
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  444  		jmp_table.tail = PREV(jmp_table.tail);
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  445  		prog_entry = &jmp_table.entries[jmp_table.tail];
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  446  	} else {
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  447  		/* take the next prog_entry slot */
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  448  		prog_entry = &jmp_table.entries[jmp_table.head];
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  449  		jmp_table.head = NEXT(jmp_table.head);
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  450  	}
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  451  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  452  	/* we steal the ref here */
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  453  	prog_entry->prog = prog;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  454  	prog_entry->idx = prog_table_idx;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  455  	prog_entry->hdev = hdev;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  456  	prog_entry->type = prog_type;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  457  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  458  	/* finally store the index in the device list */
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  459  	err = hid_bpf_populate_hdev(hdev, prog_type);
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  460  	if (err) {
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  461  		hid_bpf_release_prog_at(prog_table_idx);
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  462  		goto err_unlock;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  463  	}
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  464  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  465  	link->hid_table_index = prog_table_idx;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  466  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  467  	err = bpf_link_prime(&link->link, &link_primer);
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  468  	if (err)
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  469  		goto err_unlock;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  470  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  471  	mutex_unlock(&hid_bpf_attach_lock);
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  472  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  473  	return bpf_link_settle(&link_primer);
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  474  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  475   err_unlock:
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  476  	mutex_unlock(&hid_bpf_attach_lock);
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  477  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13 @478  	kfree(link);
->                                                               ^^^^
-> 
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  479  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  480  	return err;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  481  }
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
