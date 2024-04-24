@@ -1,70 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60CC1772F;
-	Wed, 24 Apr 2024 18:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F71417BB9;
+	Wed, 24 Apr 2024 19:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713984093; cv=none; b=VsMD/vSUc7OpX3EkQxXo3JeJQsrrnKLlsUy2h0kDxQIM3d12v/KeN6E/eNKtkwN8g9QUbX+NfsoeyoEJXSqFe85O27oA6b4NFpdJEdrTxXPu5pr7IZ2wNl8TvyukcbBanc7N8741tgMqWuluOWEsmQK/g1UxW6+c8zBEWvK1UU0=
+	t=1713986613; cv=none; b=r7Q3TJEiHlD0FrGEIR/JBmfC1qGIlenkybWSVxDQvQNQrqTJzhaWEcSDFUMGx6LiBLftdHhi5e1FTbANwV5xnclLfS756bFyPm7u9ZMjVhrZ54KUqq9mD8Vohh42u/+RnVy2d2oD7Wnja0Erobwg8/IcPar/EOEuOATo/4CCavk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713984093; c=relaxed/simple;
-	bh=kzZQaB5GtZ+QKzA70o+yGDoOKj7SVZ+KzMiOqdNiaoY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lhuOkVNaZO2rJL1IwHwkoZMiFp14HgEO7AedhpKePcx9YiiTaQgmL+7VxYGPO9XBu4cy5Ycs1I/Fp2I9xQSyX3vYqvZEjjEdqfUST0p43xOyMN4E//L7+ck3lTfMw47gdp4nZaOFUXOgOEcAvxyEgLuFz8BkOO9h9gYd1aWtt5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ILxkC2G3; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1713986613; c=relaxed/simple;
+	bh=a3S0pRuLWCK4cT6IPeARX7L4MZ/Pic3Y3rETSh9aGH4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OhQ++25GlbvX1ZDkbbGV6SPDPchGZKeGKF7eZm8KdefDaGLMiO9/fSBomJqnmkrmyBHKW4Zj2nlfCoGC/KNsbYO8V4ec8DG/atcw1Gj0SvTDCE9Zq0o/7wx3FbwlyFcexOXbSLt8Vk6ecX8ULIZbGF9f/AQ5jEet4oPb9GLFaes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oe7hZ/44; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ILxkC2G3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oe7hZ/44"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713984092; x=1745520092;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kzZQaB5GtZ+QKzA70o+yGDoOKj7SVZ+KzMiOqdNiaoY=;
-  b=ILxkC2G3jeAoOtuo2EYbPqj8LUpguPxQ7q7mS03pZnep+OunkKsY5HVI
-   oi1bkuG26SD7W3RzoYlhVne4kMkd1HMFMyDRU8boHa953WwpnVY6osxka
-   N/tZGZr0Si1aSk7OBrYRXEOUd9n9B3xEPqPFbpYIVIFW+7msXdVuHK4fG
-   l4Yj70LGOVj83IzN88K8jpfQbqTz0Vk88R0nwkwET5H/yFp306ncebnzX
-   nINhSEF4JpOvD2wsSeXW3LHca/qQcOj3Rb7BEmg2eTBmSEOGykV4ukmUW
-   PlAeoxnP1ohTv+kN+HcfGO+xz2SSh88LiaGjffGLuhXNKKPKKriTE41bu
+  t=1713986611; x=1745522611;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=a3S0pRuLWCK4cT6IPeARX7L4MZ/Pic3Y3rETSh9aGH4=;
+  b=Oe7hZ/44LUovRYyHekCMOq70qppEAB7y+uSHTTkHGQE8CHDjUzCfc7H+
+   dDaZ6BYw3RZ/0w4XSc+pmWYmmfGMesPtDs9xbiA2h/nmNkuGyQQvnQ96a
+   JCn4Vg+Lu0IAFzmDovZ4W9l3W5iCzd17dKSNKfGlR9uvXx80CeoyB9uml
+   QltJhiljM6Cb/Lv0HEeYzKmnasg+TC3fVDBxEoguGihLw0pD8b/p2sm0a
+   i+i4Re2GykicyfZ2Mybi4CmbYWITWuCgshTibqaWUpbpZNDms4ELdzjQt
+   uu+5E8b6+vKsD1qPjcU81PAg8QdTCxM/2p4FSMQFh6toRGGanOBmKHWKU
    Q==;
-X-CSE-ConnectionGUID: V5Q3wX1aRmeAj+ZrNPzcbg==
-X-CSE-MsgGUID: JqEZqgHOTnq2NH0wzGMDKQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="13422972"
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="13422972"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 11:41:31 -0700
-X-CSE-ConnectionGUID: wqTHl7JJReqs5HYabPqhqA==
-X-CSE-MsgGUID: fxEjS7Z2SPqCu/yhMAcCUw==
+X-CSE-ConnectionGUID: rZBxYGE9RVGG75h9Py5NxQ==
+X-CSE-MsgGUID: CSqypGL4TGSY4QB1uAwxPA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9569389"
+X-IronPort-AV: E=Sophos;i="6.07,227,1708416000"; 
+   d="scan'208";a="9569389"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 12:23:30 -0700
+X-CSE-ConnectionGUID: 0hhcslXwSYaFMEwtxsm6rA==
+X-CSE-MsgGUID: PSJZ+t1DRTCOrKA221S2/g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="29593424"
+X-IronPort-AV: E=Sophos;i="6.07,227,1708416000"; 
+   d="scan'208";a="56001562"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 24 Apr 2024 11:41:28 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 24 Apr 2024 12:23:28 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzhYa-0001YS-2Z;
-	Wed, 24 Apr 2024 18:41:24 +0000
-Date: Thu, 25 Apr 2024 02:40:51 +0800
+	id 1rziDG-0001aI-0O;
+	Wed, 24 Apr 2024 19:23:26 +0000
+Date: Thu, 25 Apr 2024 03:23:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Michal Simek <monstr@monstr.eu>
+To: Jianbo Liu <jianbol@nvidia.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ji Sheng Teoh <jisheng.teoh@starfivetech.com>,
-	Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-	linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Eng Lee Teh <englee.teh@starfivetech.com>
-Subject: Re: [PATCH v1 1/2] spi: spi-cadence: Add optional reset control
- support
-Message-ID: <202404250235.htdVhIMY-lkp@intel.com>
-References: <20240424051317.2084059-2-jisheng.teoh@starfivetech.com>
+	Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>
+Subject: [leon-rdma:rdma-next 9/11]
+ drivers/net/ethernet/mellanox/mlx5/core/wc.c:409:23: error: no member named
+ 'parent_mdev' in 'struct mlx5_priv'
+Message-ID: <202404250335.1fx0Fixl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,192 +63,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240424051317.2084059-2-jisheng.teoh@starfivetech.com>
 
-Hi Ji,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on broonie-spi/for-next]
-[also build test ERROR on robh/for-next krzk-dt/for-next linus/master v6.9-rc5 next-20240424]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ji-Sheng-Teoh/spi-spi-cadence-Add-optional-reset-control-support/20240424-131551
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20240424051317.2084059-2-jisheng.teoh%40starfivetech.com
-patch subject: [PATCH v1 1/2] spi: spi-cadence: Add optional reset control support
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240425/202404250235.htdVhIMY-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404250235.htdVhIMY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+head:   b037a9b68f9d91e3dd0fc7dc7ad916ad5a6fa8b2
+commit: 2aefb0d55636a2b5744a6588d9bebcf782d17b28 [9/11] net/mlx5: Reimplement write combining test
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240425/202404250335.1fx0Fixl-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404250335.1fx0Fixl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404250235.htdVhIMY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404250335.1fx0Fixl-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+Note: the leon-rdma/rdma-next HEAD b037a9b68f9d91e3dd0fc7dc7ad916ad5a6fa8b2 builds fine.
+      It only hurts bisectability.
 
->> drivers/spi/spi-cadence.c:593:15: error: implicit declaration of function 'devm_reset_control_get_optional_exclusive' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           xspi->rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
-                        ^
->> drivers/spi/spi-cadence.c:593:13: warning: incompatible integer to pointer conversion assigning to 'struct reset_control *' from 'int' [-Wint-conversion]
-           xspi->rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
-                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/spi/spi-cadence.c:600:2: error: implicit declaration of function 'reset_control_assert' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           reset_control_assert(xspi->rstc);
-           ^
->> drivers/spi/spi-cadence.c:601:2: error: implicit declaration of function 'reset_control_deassert' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           reset_control_deassert(xspi->rstc);
-           ^
-   drivers/spi/spi-cadence.c:601:2: note: did you mean 'reset_control_assert'?
-   drivers/spi/spi-cadence.c:600:2: note: 'reset_control_assert' declared here
-           reset_control_assert(xspi->rstc);
-           ^
-   1 warning and 3 errors generated.
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/net/ethernet/mellanox/mlx5/core/wc.c:4:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/net/ethernet/mellanox/mlx5/core/wc.c:4:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/net/ethernet/mellanox/mlx5/core/wc.c:4:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/mellanox/mlx5/core/wc.c:5:
+   In file included from include/linux/mlx5/transobj.h:36:
+   In file included from include/linux/mlx5/driver.h:38:
+   In file included from include/linux/pci.h:37:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/mellanox/mlx5/core/wc.c:409:23: error: no member named 'parent_mdev' in 'struct mlx5_priv'
+     409 |                 parent = mdev->priv.parent_mdev;
+         |                          ~~~~~~~~~~ ^
+   17 warnings and 1 error generated.
 
 
-vim +/devm_reset_control_get_optional_exclusive +593 drivers/spi/spi-cadence.c
+vim +409 drivers/net/ethernet/mellanox/mlx5/core/wc.c
 
-   550	
-   551	/**
-   552	 * cdns_spi_probe - Probe method for the SPI driver
-   553	 * @pdev:	Pointer to the platform_device structure
-   554	 *
-   555	 * This function initializes the driver data structures and the hardware.
-   556	 *
-   557	 * Return:	0 on success and error value on error
-   558	 */
-   559	static int cdns_spi_probe(struct platform_device *pdev)
-   560	{
-   561		int ret = 0, irq;
-   562		struct spi_controller *ctlr;
-   563		struct cdns_spi *xspi;
-   564		u32 num_cs;
-   565		bool target;
-   566	
-   567		target = of_property_read_bool(pdev->dev.of_node, "spi-slave");
-   568		if (target)
-   569			ctlr = spi_alloc_target(&pdev->dev, sizeof(*xspi));
-   570		else
-   571			ctlr = spi_alloc_host(&pdev->dev, sizeof(*xspi));
-   572	
-   573		if (!ctlr)
-   574			return -ENOMEM;
-   575	
-   576		xspi = spi_controller_get_devdata(ctlr);
-   577		ctlr->dev.of_node = pdev->dev.of_node;
-   578		platform_set_drvdata(pdev, ctlr);
-   579	
-   580		xspi->regs = devm_platform_ioremap_resource(pdev, 0);
-   581		if (IS_ERR(xspi->regs)) {
-   582			ret = PTR_ERR(xspi->regs);
-   583			goto remove_ctlr;
-   584		}
-   585	
-   586		xspi->pclk = devm_clk_get_enabled(&pdev->dev, "pclk");
-   587		if (IS_ERR(xspi->pclk)) {
-   588			dev_err(&pdev->dev, "pclk clock not found.\n");
-   589			ret = PTR_ERR(xspi->pclk);
-   590			goto remove_ctlr;
-   591		}
-   592	
- > 593		xspi->rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
-   594		if (IS_ERR(xspi->rstc)) {
-   595			ret = PTR_ERR(xspi->rstc);
-   596			dev_err(&pdev->dev, "Cannot get SPI reset.\n");
-   597			goto remove_ctlr;
-   598		}
-   599	
- > 600		reset_control_assert(xspi->rstc);
- > 601		reset_control_deassert(xspi->rstc);
-   602	
-   603		if (!spi_controller_is_target(ctlr)) {
-   604			xspi->ref_clk = devm_clk_get_enabled(&pdev->dev, "ref_clk");
-   605			if (IS_ERR(xspi->ref_clk)) {
-   606				dev_err(&pdev->dev, "ref_clk clock not found.\n");
-   607				ret = PTR_ERR(xspi->ref_clk);
-   608				goto remove_ctlr;
-   609			}
-   610	
-   611			pm_runtime_use_autosuspend(&pdev->dev);
-   612			pm_runtime_set_autosuspend_delay(&pdev->dev, SPI_AUTOSUSPEND_TIMEOUT);
-   613			pm_runtime_get_noresume(&pdev->dev);
-   614			pm_runtime_set_active(&pdev->dev);
-   615			pm_runtime_enable(&pdev->dev);
-   616	
-   617			ret = of_property_read_u32(pdev->dev.of_node, "num-cs", &num_cs);
-   618			if (ret < 0)
-   619				ctlr->num_chipselect = CDNS_SPI_DEFAULT_NUM_CS;
-   620			else
-   621				ctlr->num_chipselect = num_cs;
-   622	
-   623			ret = of_property_read_u32(pdev->dev.of_node, "is-decoded-cs",
-   624						   &xspi->is_decoded_cs);
-   625			if (ret < 0)
-   626				xspi->is_decoded_cs = 0;
-   627		}
-   628	
-   629		cdns_spi_detect_fifo_depth(xspi);
-   630	
-   631		/* SPI controller initializations */
-   632		cdns_spi_init_hw(xspi, spi_controller_is_target(ctlr));
-   633	
-   634		irq = platform_get_irq(pdev, 0);
-   635		if (irq < 0) {
-   636			ret = irq;
-   637			goto clk_dis_all;
-   638		}
-   639	
-   640		ret = devm_request_irq(&pdev->dev, irq, cdns_spi_irq,
-   641				       0, pdev->name, ctlr);
-   642		if (ret != 0) {
-   643			ret = -ENXIO;
-   644			dev_err(&pdev->dev, "request_irq failed\n");
-   645			goto clk_dis_all;
-   646		}
-   647	
-   648		ctlr->use_gpio_descriptors = true;
-   649		ctlr->prepare_transfer_hardware = cdns_prepare_transfer_hardware;
-   650		ctlr->prepare_message = cdns_prepare_message;
-   651		ctlr->transfer_one = cdns_transfer_one;
-   652		ctlr->unprepare_transfer_hardware = cdns_unprepare_transfer_hardware;
-   653		ctlr->mode_bits = SPI_CPOL | SPI_CPHA;
-   654		ctlr->bits_per_word_mask = SPI_BPW_MASK(8);
-   655	
-   656		if (!spi_controller_is_target(ctlr)) {
-   657			ctlr->mode_bits |=  SPI_CS_HIGH;
-   658			ctlr->set_cs = cdns_spi_chipselect;
-   659			ctlr->auto_runtime_pm = true;
-   660			xspi->clk_rate = clk_get_rate(xspi->ref_clk);
-   661			/* Set to default valid value */
-   662			ctlr->max_speed_hz = xspi->clk_rate / 4;
-   663			xspi->speed_hz = ctlr->max_speed_hz;
-   664			pm_runtime_mark_last_busy(&pdev->dev);
-   665			pm_runtime_put_autosuspend(&pdev->dev);
-   666		} else {
-   667			ctlr->mode_bits |= SPI_NO_CS;
-   668			ctlr->target_abort = cdns_target_abort;
-   669		}
-   670		ret = spi_register_controller(ctlr);
-   671		if (ret) {
-   672			dev_err(&pdev->dev, "spi_register_controller failed\n");
-   673			goto clk_dis_all;
-   674		}
-   675	
-   676		return ret;
-   677	
-   678	clk_dis_all:
-   679		if (!spi_controller_is_target(ctlr)) {
-   680			pm_runtime_set_suspended(&pdev->dev);
-   681			pm_runtime_disable(&pdev->dev);
-   682		}
-   683	remove_ctlr:
-   684		spi_controller_put(ctlr);
-   685		return ret;
-   686	}
-   687	
+   382	
+   383	bool mlx5_wc_support_get(struct mlx5_core_dev *mdev)
+   384	{
+   385		struct mlx5_core_dev *parent = NULL;
+   386	
+   387		if (!MLX5_CAP_GEN(mdev, bf)) {
+   388			mlx5_core_dbg(mdev, "BlueFlame not supported\n");
+   389			goto out;
+   390		}
+   391	
+   392		if (!MLX5_CAP_GEN(mdev, log_max_sq)) {
+   393			mlx5_core_dbg(mdev, "SQ not supported\n");
+   394			goto out;
+   395		}
+   396	
+   397		if (mdev->wc_state != MLX5_WC_STATE_UNINITIALIZED)
+   398			/* No need to lock anything as we perform WC test only
+   399			 * once for whole device and was already done.
+   400			 */
+   401			goto out;
+   402	
+   403		mutex_lock(&mdev->wc_state_lock);
+   404	
+   405		if (mdev->wc_state != MLX5_WC_STATE_UNINITIALIZED)
+   406			goto unlock;
+   407	
+   408		if (mlx5_core_is_sf(mdev))
+ > 409			parent = mdev->priv.parent_mdev;
 
 -- 
 0-DAY CI Kernel Test Service
