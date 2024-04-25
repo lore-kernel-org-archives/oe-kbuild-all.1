@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0C537140;
-	Thu, 25 Apr 2024 09:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F39A84E19
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 09:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714037457; cv=none; b=eiX2e2z6nRVkBIMf2tWI/iLyVOIkTmA3NyG9kl+6A2AACtDvia8fwSj489unz6QCkRhwdlS50hCFix0oU+qroyPv3Vr9ORXs223+coJgJnUvW3/xsTEm6Helo3/iChHKnU77OTFs7Ql1SQiBZrNqylcLhO87XHrdx0JiQCQF5cs=
+	t=1714038717; cv=none; b=oEszCvLmp6ompO+EtF23HJZx4uYctsCbLG1UlH9+KaUQccRW16XY9hq6CvmS0qow/DwTPR5C4DLeTaClfvP5UtURiHPrSbeEiiDoRfLLftod/dX18bNbal1FReoglmHX7XfDN41E/cUxpToHWXRzyI24VDK9aDKztuxyRq/39Wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714037457; c=relaxed/simple;
-	bh=BidwcMZvw8hOvIN0VNzLTIwSisk6VgByY2ElyypLUNs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RC5JlCwkfWoygg61jYCislNYsfbcDprEQcoANh8tu24NKjgCXjUpBs28TX0g9BPdE+r7xZsgzbGMZjErczTMndH55vbw1+JXPKb9KCK5qWtmStagp80v7WPVU5GmHl/SHywwNBXxUSEhDWfYh+UjV3rKmGytcC9YpPOZHlT8A7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PgXlwjHz; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1714038717; c=relaxed/simple;
+	bh=fD9g4PY4GycsjxVtht7DTMPogo6gMNysEXw1yRFGeZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Tr8U+ORnUynMjLThOgZWEmMgZmI7Bh0M6YLfi3TfE4VKE3ZKh5rIumPqPZy4Y2hyQSvUwSfDNSd1hE/OOwPIEi0hioid2pj7837hIpGls+tQed71zk6R62sfmXj/Xm52LeOEndqfz71fM0DNcVoFhEFROjZ67zj4YdoXCN7dv2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ELuRGk8D; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PgXlwjHz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ELuRGk8D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714037456; x=1745573456;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BidwcMZvw8hOvIN0VNzLTIwSisk6VgByY2ElyypLUNs=;
-  b=PgXlwjHzNZPObJJrN/9XPMFjPZrAf75xUCwX/3f0XKNM79m2OTwKkJLm
-   OzU6oAzoY8B6SdWPKMIrrRLvMUyNLnFu3QG/hev4EfhshiRTUS7mdHzbP
-   DmxQKI2/zUVeo3PQZGysGi7yoJ2FRTAek/Vjcrk9aHEPjTAiItMe1q3iR
-   djM4f1gsBxs2g3QGec4y0xt1BCAqQS4b/BPywfOAQo5tJiFvok8Vr2uML
-   BGa/P7jrqLeQilc+SDG0jVG/XFTY3TiacC904Oo+4RI+DssXrCXF3CtvG
-   ebd9VR2emUq3GyTqRdX2HfAtv9A0gK3/FCx4o3RHvRB34LmeFx3uPCfp8
+  t=1714038715; x=1745574715;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fD9g4PY4GycsjxVtht7DTMPogo6gMNysEXw1yRFGeZM=;
+  b=ELuRGk8D35v2sGuWsvj2+hoyyC/z2F5op0bQ8QkVvlbgZNXhAE8IfPl6
+   2M7pqxVFfGPiwW9Yi0LlrG9qLKnhxtQrxGEvmnicrXRtCuElanivYMVuS
+   lFEUaaFtRQ5wvUyWmD9GzqM+j+akoKV2+hPOw5jyb/45DpY9bi4A6SlNa
+   h8qibKjEFJW0pW6kEBodmUsxvr4lHI5mzMEkUrC6qF/ktmmcIF0pKHeaQ
+   fBVnoGeV2ck1pVeVaAZAefx1Aa2jJBFM8YIeI0/BJUF7EyR1GJ3ByLCja
+   g/c11rObwT0I7WLSjdbYDoLFJPkSzbpUrgz9cUXfa9aNa73n6r6cUDNlU
    w==;
-X-CSE-ConnectionGUID: KiXztGbuQmy6eCn06XiDHA==
-X-CSE-MsgGUID: ZDOZ9ClzRve85jB8ShODHw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="13495976"
-X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
-   d="scan'208";a="13495976"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 02:30:55 -0700
-X-CSE-ConnectionGUID: 6Lpm9UTlRXC1Pzb3vKTFXg==
-X-CSE-MsgGUID: eDqDKVkqQ2CEowjwPnckpQ==
+X-CSE-ConnectionGUID: d1SCcToDRKqMSKCte0iTMA==
+X-CSE-MsgGUID: 9wia26roTderLtOJgwwkLw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9931238"
+X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
+   d="scan'208";a="9931238"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 02:51:55 -0700
+X-CSE-ConnectionGUID: 6U/ieHL4Qjy1IthHiMAnFQ==
+X-CSE-MsgGUID: 1QF0cAuET/WwWUg9lnJmLw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
-   d="scan'208";a="29472185"
+X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
+   d="scan'208";a="24961823"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Apr 2024 02:30:52 -0700
+  by orviesa009.jf.intel.com with ESMTP; 25 Apr 2024 02:51:53 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzvRK-0002Dm-10;
-	Thu, 25 Apr 2024 09:30:50 +0000
-Date: Thu, 25 Apr 2024 17:30:47 +0800
+	id 1rzvle-0002EO-20;
+	Thu, 25 Apr 2024 09:51:50 +0000
+Date: Thu, 25 Apr 2024 17:51:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Felix Fietkau <nbd@nbd.name>, netdev@vger.kernel.org,
-	Eric Dumazet <edumazet@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	willemdebruijn.kernel@gmail.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 4/4] net: add heuristic for enabling TCP
- fraglist GRO
-Message-ID: <202404251744.Tq24y05K-lkp@intel.com>
-References: <20240424180458.56211-5-nbd@nbd.name>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.1 17/30]
+ arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:690:5:
+ warning: no previous prototype for function 'smmu_domain_config_s1'
+Message-ID: <202404251757.dH4iTW6a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,160 +62,224 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240424180458.56211-5-nbd@nbd.name>
 
-Hi Felix,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Felix-Fietkau/net-move-skb_gro_receive_list-from-udp-to-core/20240425-060838
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240424180458.56211-5-nbd%40nbd.name
-patch subject: [PATCH net-next 4/4] net: add heuristic for enabling TCP fraglist GRO
-config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20240425/202404251744.Tq24y05K-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404251744.Tq24y05K-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.1
+head:   fc203c3d8fb45cd037f8eee1f318d8ae07920897
+commit: 38124746c6a5f045d4608b787d00a7853826eca3 [17/30] ANDROID: KVM: arm: smmu-v3: Add stage-1 attach
+config: arm64-randconfig-r064-20240425 (https://download.01.org/0day-ci/archive/20240425/202404251757.dH4iTW6a-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404251757.dH4iTW6a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404251744.Tq24y05K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404251757.dH4iTW6a-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from net/ipv6/tcpv6_offload.c:9:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from net/ipv6/tcpv6_offload.c:9:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from net/ipv6/tcpv6_offload.c:9:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> net/ipv6/tcpv6_offload.c:48:7: error: call to undeclared function '__inet6_lookup_established'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           sk = __inet6_lookup_established(net, net->ipv4.tcp_death_row.hashinfo,
-                ^
-   net/ipv6/tcpv6_offload.c:48:7: note: did you mean '__inet_lookup_established'?
-   include/net/inet_hashtables.h:371:14: note: '__inet_lookup_established' declared here
-   struct sock *__inet_lookup_established(struct net *net,
-                ^
-   net/ipv6/tcpv6_offload.c:48:5: error: incompatible integer to pointer conversion assigning to 'struct sock *' from 'int' [-Wint-conversion]
-           sk = __inet6_lookup_established(net, net->ipv4.tcp_death_row.hashinfo,
-              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   12 warnings and 2 errors generated.
+   In file included from arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:7:
+   In file included from arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm_smmu_v3.h:5:
+   In file included from arch/arm64/include/asm/kvm_asm.h:52:
+   In file included from include/linux/mm.h:2025:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:11:
+   In file included from arch/arm64/kvm/hyp/include/nvhe/iommu.h:9:
+   In file included from include/linux/io-pgtable-arm.h:167:
+   In file included from arch/arm64/kvm/hyp/include/nvhe/memory.h:9:
+   arch/arm64/kvm/hyp/include/nvhe/refcount.h:35:15: error: expected string literal in 'asm'
+      35 |         asm volatile(__LSE_PREAMBLE
+         |                      ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:658:5: warning: no previous prototype for function 'smmu_domain_config_s2' [-Wmissing-prototypes]
+     658 | int smmu_domain_config_s2(struct kvm_hyp_iommu_domain *domain, u64 *ent)
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:658:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     658 | int smmu_domain_config_s2(struct kvm_hyp_iommu_domain *domain, u64 *ent)
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:690:5: warning: no previous prototype for function 'smmu_domain_config_s1' [-Wmissing-prototypes]
+     690 | int smmu_domain_config_s1(struct hyp_arm_smmu_v3_device *smmu,
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:690:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     690 | int smmu_domain_config_s1(struct hyp_arm_smmu_v3_device *smmu,
+         | ^
+         | static 
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:764:5: warning: no previous prototype for function 'smmu_domain_finalise' [-Wmissing-prototypes]
+     764 | int smmu_domain_finalise(struct kvm_hyp_iommu_domain *domain)
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:764:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     764 | int smmu_domain_finalise(struct kvm_hyp_iommu_domain *domain)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:876:5: warning: no previous prototype for function 'smmu_alloc_domain' [-Wmissing-prototypes]
+     876 | int smmu_alloc_domain(struct kvm_hyp_iommu_domain *domain, u32 type)
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:876:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     876 | int smmu_alloc_domain(struct kvm_hyp_iommu_domain *domain, u32 type)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:893:6: warning: no previous prototype for function 'smmu_free_domain' [-Wmissing-prototypes]
+     893 | void smmu_free_domain(struct kvm_hyp_iommu_domain *domain)
+         |      ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:893:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     893 | void smmu_free_domain(struct kvm_hyp_iommu_domain *domain)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:905:6: warning: no previous prototype for function 'smmu_dabt_device' [-Wmissing-prototypes]
+     905 | bool smmu_dabt_device(struct hyp_arm_smmu_v3_device *smmu,
+         |      ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:905:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     905 | bool smmu_dabt_device(struct hyp_arm_smmu_v3_device *smmu,
+         | ^
+         | static 
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:948:6: warning: no previous prototype for function 'smmu_dabt_handler' [-Wmissing-prototypes]
+     948 | bool smmu_dabt_handler(struct kvm_cpu_context *host_ctxt, u64 esr, u64 addr)
+         |      ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:948:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     948 | bool smmu_dabt_handler(struct kvm_cpu_context *host_ctxt, u64 esr, u64 addr)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:960:5: warning: no previous prototype for function 'smmu_suspend' [-Wmissing-prototypes]
+     960 | int smmu_suspend(struct kvm_hyp_iommu *iommu)
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:960:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     960 | int smmu_suspend(struct kvm_hyp_iommu *iommu)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:973:5: warning: no previous prototype for function 'smmu_resume' [-Wmissing-prototypes]
+     973 | int smmu_resume(struct kvm_hyp_iommu *iommu)
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:973:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     973 | int smmu_resume(struct kvm_hyp_iommu *iommu)
+         | ^
+         | static 
+   10 warnings and 1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 
-vim +/__inet6_lookup_established +48 net/ipv6/tcpv6_offload.c
+vim +/smmu_domain_config_s1 +690 arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c
 
-    16	
-    17	static bool tcp6_check_fraglist_gro(struct sk_buff *skb)
-    18	{
-    19		const struct ipv6hdr *hdr = skb_gro_network_header(skb);
-    20		struct net *net = dev_net(skb->dev);
-    21		unsigned int off, hlen, thlen;
-    22		struct tcphdr *th;
-    23		struct sock *sk;
-    24		int iif, sdif;
-    25	
-    26		if (!(skb->dev->features & NETIF_F_GRO_FRAGLIST))
-    27			return false;
-    28	
-    29		inet6_get_iif_sdif(skb, &iif, &sdif);
-    30	
-    31		off = skb_gro_offset(skb);
-    32		hlen = off + sizeof(*th);
-    33		th = skb_gro_header(skb, hlen, off);
-    34		if (unlikely(!th))
-    35			return false;
-    36	
-    37		thlen = th->doff * 4;
-    38		if (thlen < sizeof(*th))
-    39			return false;
-    40	
-    41		hlen = off + thlen;
-    42		if (!skb_gro_may_pull(skb, hlen)) {
-    43			th = skb_gro_header_slow(skb, hlen, off);
-    44			if (unlikely(!th))
-    45				return false;
-    46		}
-    47	
-  > 48		sk = __inet6_lookup_established(net, net->ipv4.tcp_death_row.hashinfo,
-    49						&hdr->saddr, th->source,
-    50						&hdr->daddr, ntohs(th->dest),
-    51						iif, sdif);
-    52		if (!sk)
-    53			return true;
-    54	
-    55		sock_put(sk);
-    56	
-    57		return false;
-    58	}
-    59	
+   689	
+ > 690	int smmu_domain_config_s1(struct hyp_arm_smmu_v3_device *smmu,
+   691				  struct kvm_hyp_iommu_domain *domain,
+   692				  u32 sid, u32 pasid, u32 pasid_bits,
+   693				  u64 *ent, bool *update_ste)
+   694	{
+   695		u64 *cd_table;
+   696		u64 *ste;
+   697		u32 nr_entries;
+   698		u64 val;
+   699		u64 *cd_entry;
+   700		struct io_pgtable_cfg *cfg;
+   701	
+   702		cfg = &domain->pgtable->cfg;
+   703		ste = smmu_get_ste_ptr(smmu, sid);
+   704		val = le64_to_cpu(ste[0]);
+   705	
+   706		/* The host trying to attach stage-1 domain to an already stage-2 attached device. */
+   707		if (FIELD_GET(STRTAB_STE_0_CFG, val) == STRTAB_STE_0_CFG_S2_TRANS)
+   708			return -EBUSY;
+   709	
+   710		cd_table = (u64 *)(FIELD_GET(STRTAB_STE_0_S1CTXPTR_MASK, val) << 6);
+   711		nr_entries = 1 << FIELD_GET(STRTAB_STE_0_S1CDMAX, val);
+   712		*update_ste = false;
+   713		/* This is the first pasid attached to this device. */
+   714		if (!cd_table) {
+   715			cd_table = smmu_alloc_cd(pasid_bits);
+   716			if (!cd_table)
+   717				return -ENOMEM;
+   718			nr_entries = 1 << pasid_bits;
+   719			ent[1] = FIELD_PREP(STRTAB_STE_1_S1DSS, STRTAB_STE_1_S1DSS_SSID0) |
+   720				 FIELD_PREP(STRTAB_STE_1_S1CIR, STRTAB_STE_1_S1C_CACHE_WBRA) |
+   721				 FIELD_PREP(STRTAB_STE_1_S1COR, STRTAB_STE_1_S1C_CACHE_WBRA) |
+   722				 FIELD_PREP(STRTAB_STE_1_S1CSH, ARM_SMMU_SH_ISH);
+   723			ent[0] = ((u64)cd_table & STRTAB_STE_0_S1CTXPTR_MASK) |
+   724				 FIELD_PREP(STRTAB_STE_0_CFG, STRTAB_STE_0_CFG_S1_TRANS) |
+   725				 FIELD_PREP(STRTAB_STE_0_S1CDMAX, pasid_bits) |
+   726				 FIELD_PREP(STRTAB_STE_0_S1FMT, STRTAB_STE_0_S1FMT_LINEAR) |
+   727				 STRTAB_STE_0_V;
+   728			*update_ste = true;
+   729		}
+   730	
+   731		if (pasid >= nr_entries)
+   732			return -E2BIG;
+   733		/* Write CD. */
+   734		cd_entry = smmu_get_cd_ptr(hyp_phys_to_virt((u64)cd_table), pasid);
+   735	
+   736		/* CD already used by another device. */
+   737		if (cd_entry[0])
+   738			return -EBUSY;
+   739	
+   740		cd_entry[1] = cpu_to_le64(cfg->arm_lpae_s1_cfg.ttbr & CTXDESC_CD_1_TTB0_MASK);
+   741		cd_entry[2] = 0;
+   742		cd_entry[3] = cpu_to_le64(cfg->arm_lpae_s1_cfg.mair);
+   743		/* STE is live. */
+   744		if (!(*update_ste))
+   745			smmu_sync_cd(smmu, sid, pasid);
+   746		val =  FIELD_PREP(CTXDESC_CD_0_TCR_T0SZ, cfg->arm_lpae_s1_cfg.tcr.tsz) |
+   747		       FIELD_PREP(CTXDESC_CD_0_TCR_TG0, cfg->arm_lpae_s1_cfg.tcr.tg) |
+   748		       FIELD_PREP(CTXDESC_CD_0_TCR_IRGN0, cfg->arm_lpae_s1_cfg.tcr.irgn) |
+   749		       FIELD_PREP(CTXDESC_CD_0_TCR_ORGN0, cfg->arm_lpae_s1_cfg.tcr.orgn) |
+   750		       FIELD_PREP(CTXDESC_CD_0_TCR_SH0, cfg->arm_lpae_s1_cfg.tcr.sh) |
+   751		       FIELD_PREP(CTXDESC_CD_0_TCR_IPS, cfg->arm_lpae_s1_cfg.tcr.ips) |
+   752		       CTXDESC_CD_0_TCR_EPD1 | CTXDESC_CD_0_AA64 |
+   753		       CTXDESC_CD_0_R | CTXDESC_CD_0_A |
+   754		       CTXDESC_CD_0_ASET |
+   755		       FIELD_PREP(CTXDESC_CD_0_ASID, domain->domain_id) |
+   756		       CTXDESC_CD_0_V;
+   757		WRITE_ONCE(cd_entry[0], cpu_to_le64(val));
+   758		/* STE is live. */
+   759		if (!(*update_ste))
+   760			smmu_sync_cd(smmu, sid, pasid);
+   761		return 0;
+   762	}
+   763	
 
 -- 
 0-DAY CI Kernel Test Service
