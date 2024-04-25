@@ -1,157 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0AD78468
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 03:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04AA2C1A0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 05:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714017225; cv=none; b=pYTAZgQHhwaoVPN+ALrsVtAQlSV1UI5WHktqUSyTAmoCCfhjtIeDPQWVZgFLnIs7uFBnecqORW9AsUBC2CIOSaheBZneNblX+iJ09jZIquoKqvIA4iRRR/hSZbWXZ8Jag7kVNZsY2CvJRxU6B8KIUNav6u5CCNz1N1o3lRbhgMg=
+	t=1714021743; cv=none; b=USNuSnPnuQJnX00lwmpqwGkNBJIt9WJNzPLThCNQxdra4mW/2Ay/6l0xZZEn+GcRH1q1vCb9TzOBd0Xu58q0w4yYJMTTrJTKdT7BrwuTkarcIA1O1gO9q6CLHL2b33rjULRxvtgquAI/j2rtZQIA5qRs6k3fa57BHESAFvJAB04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714017225; c=relaxed/simple;
-	bh=25RXw/eo/CkuKA2H4imIlqbMC8wwPRgOfKy8n2ayxvw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cNhOrVXXmMFJb4jN1t+cSm5iYCLgdS6aP4YmsFaDhEAL2dYn/NOZOdIZ4P7871Zm0RCShEB0T17k1ZHv3bQy/T3A6+3ItE/QAUvd8ieOCtxaMyNKCl3PZhOQGR1ynmLd3NkSk32eNQ5MvZsndMI829/jr7PqfnPVohsm4UzwaUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eoVysmOD; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714021743; c=relaxed/simple;
+	bh=T/x2tq9P8RzTgFKLC98RgRck0SMujfspvjc2OtKPge4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=GZXYI5RtfCX/S6YAS78B2ElEGLAzAeqsGFGiSv6cPC9J2EV1gTBEjhCs5R4hqEPTfNrUVWUFs/JSpTujHM5LQI8ZidtJCpsydRsL160CRPBDK0BkJ94PLFT7+Xhxv9iEYOZ5Vy9dz2u85md52U2gilx4kFVN6mc/7OOufObNAFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=K1FK3eYv; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eoVysmOD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714017224; x=1745553224;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=25RXw/eo/CkuKA2H4imIlqbMC8wwPRgOfKy8n2ayxvw=;
-  b=eoVysmODoVP0mVLODq6Q46dFbHD8D+VLgC5elg7moPT+5ty8ENBQWBhT
-   FahKarTYIvW5POSKMdUKSnCHrf5QaL1M9gjAxVJxGaJbP4kKaKsXtqfWz
-   dRcWMVICUrNHhJYTma4dj6uliILEAI9R18Cb4Zp2W6qKyekPXkKmiQNZU
-   c0wZbuOE5/8/UxivbyJ/0bdYJ04RgcfLjZkzeK09ZlZWiAMUOBjZ6CuXg
-   kTVTmg+l/UZzACuJZ4Q9auTAxXEO5lWqipbW7KSOM9cITjpcfR2q24r43
-   kW8CJwr1X1bsungDx9E/SmO0PmOsJr8AIPYgW2fUqagnzCKA7w6hov+4u
-   w==;
-X-CSE-ConnectionGUID: pX3Q8MSITiyYsQ6rBT8cJA==
-X-CSE-MsgGUID: NXlaTVxdQw+wKlO0taGstw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9549614"
-X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
-   d="scan'208";a="9549614"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 20:53:43 -0700
-X-CSE-ConnectionGUID: knCEb6dOS3WY2qLnlKDR+w==
-X-CSE-MsgGUID: H6trD3CaQ/qCjGE7O8bOkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
-   d="scan'208";a="24807804"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 24 Apr 2024 20:53:42 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rzqB1-0001vI-0g;
-	Thu, 25 Apr 2024 03:53:39 +0000
-Date: Thu, 25 Apr 2024 11:53:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michal Kubiak <michal.kubiak@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alobakin:pr/24 1/2] drivers/net/ethernet/intel/idpf/xdp.c:505:30:
- warning: unused variable 'adapter'
-Message-ID: <202404251116.BtpS3T52-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="K1FK3eYv"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43P3Ep8H028227;
+	Thu, 25 Apr 2024 05:08:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=qcWm7SO9/47Fl/GtQ0hnOz29NXjg6ZkVUwYFel2Wy0o=; b=K1
+	FK3eYvGCmQxTohmemo2bj/XbftY7NndJMx8GJ+c0j4SJ25jOhMCx2DDoxbM9YPzB
+	CMYF2iiLDWdVUfQnGbuBfRMcvfh1iTAyoKdcsmlGSrIvrLBbmKy5RDvvYg79kRDM
+	YV0AfcLK+DXfAhlJMEn8F4rbDgwFQzBCLCwQkczHRZ7B2hDP/eFaQuT3uCssLTjv
+	Fsyxusjrev2iRXMzKtMMQK/NTL5Tq8F3gvA9LiEyzuX9nhkJcUjKp1jUxCxpn+Er
+	jNTyZdklQB0GwT9zlpMnixWDpBil9R0YjrrQJJ5WYOkW9uqyn7YZimVJVUo4LPJq
+	wAn2yoj6cKeNyIFWJSqQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xqenm09r1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 25 Apr 2024 05:08:55 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43P58sYv008865
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 25 Apr 2024 05:08:54 GMT
+Received: from [10.216.33.237] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 24 Apr
+ 2024 22:08:51 -0700
+Message-ID: <d4e11bc4-3561-4e2e-9203-5d794269a225@quicinc.com>
+Date: Thu, 25 Apr 2024 10:38:47 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [usb:usb-testing 7/12] drivers/usb/dwc3/core.c:1482:69: warning:
+ '%d' directive output may be truncated writing between 1 and 11 bytes into a
+ region of size 4
+To: Johan Hovold <johan@kernel.org>, kernel test robot <lkp@intel.com>,
+        Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-usb@vger.kernel.org>,
+        Bjorn
+ Andersson <andersson@kernel.org>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+References: <202404241215.Mib19Cu7-lkp@intel.com>
+ <ZiiptMEL2_AdBsJA@hovoldconsulting.com>
+Content-Language: en-US
+From: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
+In-Reply-To: <ZiiptMEL2_AdBsJA@hovoldconsulting.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: uNznG21Ia6RYXT0hQDMvxj1ahOkA-FjO
+X-Proofpoint-GUID: uNznG21Ia6RYXT0hQDMvxj1ahOkA-FjO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-25_04,2024-04-24_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 bulkscore=0 phishscore=0 priorityscore=1501 spamscore=0
+ mlxscore=0 malwarescore=0 adultscore=0 clxscore=1011 mlxlogscore=999
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404250034
 
-tree:   https://github.com/alobakin/linux pr/24
-head:   3490505e6cff970750961b02b0db545e76ef50a9
-commit: 02c41469746e43eac042300335fdb7db2cf500a3 [1/2] idpf: handle xdp unloading while the driver is being removed
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240425/202404251116.BtpS3T52-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404251116.BtpS3T52-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404251116.BtpS3T52-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/intel/idpf/xdp.c: In function 'idpf_xdp_setup_prog':
->> drivers/net/ethernet/intel/idpf/xdp.c:505:30: warning: unused variable 'adapter' [-Wunused-variable]
-     505 |         struct idpf_adapter *adapter = np->adapter;
-         |                              ^~~~~~~
 
 
-vim +/adapter +505 drivers/net/ethernet/intel/idpf/xdp.c
+On 4/24/2024 12:11 PM, Johan Hovold wrote:
+> On Wed, Apr 24, 2024 at 01:03:07PM +0800, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+>> head:   a160e1202ca318a85c70cf5831f172cc79a24c57
+>> commit: 846b4bacf2d48212f271fc1ef7488bcdf2c75bcb [7/12] usb: dwc3: core: Refactor PHY logic to support Multiport Controller
+>> config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240424/202404241215.Mib19Cu7-lkp@intel.com/config)
+>> compiler: s390-linux-gcc (GCC) 13.2.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404241215.Mib19Cu7-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202404241215.Mib19Cu7-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>     drivers/usb/dwc3/core.c: In function 'dwc3_core_get_phy':
+>>>> drivers/usb/dwc3/core.c:1482:69: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 4 [-Wformat-truncation=]
+>>      1482 |                         snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
+>>           |                                                                     ^~
+>>     drivers/usb/dwc3/core.c:1482:63: note: directive argument in the range [-2147483641, 254]
+>>      1482 |                         snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
+> 
+> This version or s390-build of gcc appears to be confused as the
+> variable i is clearly in the range [0,254] in these for loops.
+> 
+> I also don't see this W=1 warning with my gcc-10 (aarch64).
+> 
+> It may be possible to work around this by using u8 type for the iterator
+> (and %u in the format), but I'm not sure we should be working around
+> compiler bugs like that.
 
-   495	
-   496	/**
-   497	 * idpf_xdp_setup_prog - Add or remove XDP eBPF program
-   498	 * @vport: vport to setup XDP for
-   499	 * @xdp: XDP program and extack
-   500	 */
-   501	static int
-   502	idpf_xdp_setup_prog(struct idpf_vport *vport, struct netdev_bpf *xdp)
-   503	{
-   504		struct idpf_netdev_priv *np = netdev_priv(vport->netdev);
- > 505		struct idpf_adapter *adapter = np->adapter;
-   506		struct bpf_prog *prog = xdp->prog;
-   507		struct xdp_attachment_info *info;
-   508		bool needs_reconfig, vport_is_up;
-   509		u16 idx = vport->idx;
-   510		int err;
-   511	
-   512		vport_is_up = np->state == __IDPF_VPORT_UP;
-   513	
-   514		info = &vport->adapter->vport_config[idx]->user_config.xdp;
-   515		needs_reconfig = !!info->prog != !!prog;
-   516	
-   517		if (vport->netdev->reg_state == NETREG_UNREGISTERING && !prog) {
-   518			libeth_xdp_set_redirect(vport->netdev, prog);
-   519			xdp_attachment_setup(info, xdp);
-   520	
-   521			return 0;
-   522		}
-   523	
-   524		if (!needs_reconfig) {
-   525			idpf_copy_xdp_prog_to_qs(vport, prog);
-   526			xdp_attachment_setup(info, xdp);
-   527	
-   528			return 0;
-   529		}
-   530	
-   531		if (!vport_is_up) {
-   532			idpf_send_delete_queues_msg(vport);
-   533		} else {
-   534			set_bit(IDPF_VPORT_DEL_QUEUES, vport->flags);
-   535			idpf_vport_stop(vport);
-   536		}
-   537	
-   538		idpf_deinit_rss(vport);
-   539		xdp_attachment_setup(info, xdp);
-   540	
-   541		err = idpf_xdp_reconfig_queues(vport);
-   542		if (err) {
-   543			NL_SET_ERR_MSG_MOD(xdp->extack,
-   544					   "Could not reconfigure the queues after XDP setup");
-   545			return err;
-   546		}
-   547	
-   548		libeth_xdp_set_redirect(vport->netdev, prog);
-   549	
-   550		if (vport_is_up) {
-   551			err = idpf_vport_open(vport, false);
-   552			if (err) {
-   553				NL_SET_ERR_MSG_MOD(xdp->extack,
-   554						   "Could not reopen the vport after XDP setup");
-   555				return err;
-   556			}
-   557		}
-   558	
-   559		return 0;
-   560	}
-   561	
+Thanks Johan. i agree it looks like a bogus compiler warning, but I 
+think your suggestion of changing to u8 should work, if only to placate 
+the compiler.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Greg, do you think I should go ahead and update it in v22 or can we 
+ignore this warning ?
+
+> 
+>>           |                                                               ^~~~~~~~~
+>>     drivers/usb/dwc3/core.c:1482:25: note: 'snprintf' output between 7 and 17 bytes into a destination of size 9
+>>      1482 |                         snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
+>>           |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+>>    1446	static int dwc3_core_get_phy(struct dwc3 *dwc)
+>>    1447	{
+> 
+>>    1450		char phy_name[9];
+>>    1451		int ret;
+>>    1452		int i;
+> 
+>>    1478		for (i = 0; i < dwc->num_usb2_ports; i++) {
+>>    1479			if (dwc->num_usb2_ports == 1)
+>>    1480				snprintf(phy_name, sizeof(phy_name), "usb2-phy");
+>>    1481			else
+>>> 1482				snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
+> 
+>>    1493		}
+> 
+> Johan
