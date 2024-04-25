@@ -1,72 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36A512BF28
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 23:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0690F155A55
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 23:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714086627; cv=none; b=bf3Ip7tQjPcPR+q5QJ77DtaFVk2ASwuUwBo1KjFuGduBews5Gfm7VXWT1M8y/3ki23z4ruZf07pX5xFl80K1jZoFqSkad8XxakRf8vTDBike7RLbkqARX5clFLAyBRs+y/HzzVHxktkN+XlRNIUvw+hY5CgCnM6qhksEBNtLtCQ=
+	t=1714087225; cv=none; b=I3bHCj0L3n3VImSlxrfVaW90SvsH750LeG8hQcQ3suYESlr1zBC+yIiCXs04inF+SIw6bAga2/U7a+LDTjb8FRtR8hsreI1FiK8B5xA1wjW97tyACFk3qZbSTKKGe8S+FrSWmnyDlLHat8nnj9kZNHaXmJKH7XEaYbTB+w1oiDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714086627; c=relaxed/simple;
-	bh=iOUr7793PuOMIMhHvUa9WY+EkIduESRkPhsD/HavPVg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DR88Q83YoqWcsjcr+iiQDVmW9ZmHJNg5YmiChWNE3LLrSzqXYSYnjJcwRl8SpMoBTeU3vz9BeDbAiCmUyYKfLVJPQPQwGNY6fJk6vqSu1o7Yxs1x6GRGevOthD3QfCD6etkgPlpQuiUgTeGwyb7GWGgBNLsva33LRjRQZtQzrA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=By83tFtT; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1714087225; c=relaxed/simple;
+	bh=WjlF56RFbDOf+RoflDg7tRDXeNBVD2Pqa7QsXHwguNU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ASvmetOQzbADocrOV+g+m0973htIBJDXCwSWlYBYNWNzIy+8ZlT/YmWoYuyT7lk0Ug3M9sPoXEtSOPzW46eOC6/NmxyafCs6pS3K6H/vuduOZqP4HyxDM2Yw9ZIBLARFv0b/QH0taboUTZ59P9e0ZXhtmfk9Sh29BNikznCuFdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nAx4Qb1x; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="By83tFtT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nAx4Qb1x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714086625; x=1745622625;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iOUr7793PuOMIMhHvUa9WY+EkIduESRkPhsD/HavPVg=;
-  b=By83tFtTxC/9cdD/hBsLBqoYywak2WBGzjq+M6T4wLqX2YAiD9FAoxHK
-   c31QLsfrMNI3E4+9Rh+7gA0ppRJQPmmzTvNDNFntTLyMhknCeOXlaSMkT
-   oRvPYcJ1cuslQ2jqx0S5Qg0Wt9hCfS2/5AojpLsGxsbq5WM6m3Bis5lTg
-   5YXmuU4YZpmRZHNbl8I+OvGibuumCBJD4E1g5PoAVLkAiT+oH/Dv7PMm7
-   bs/kS5KJAyA1zftrgJVUKY8nr8d9AktJiSxl1dgCXhnxSaBjTueze+eJw
-   K5kb0qww0o7D9a5DZYf4p1LCksRo+lQcLXAF0nUtrICYfVMvySW65nC6Z
-   A==;
-X-CSE-ConnectionGUID: jf4gYqHjRDWIGFLwPXxelg==
-X-CSE-MsgGUID: voLSj6KISd2kd6y9zg8vpQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="13598250"
+  t=1714087224; x=1745623224;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WjlF56RFbDOf+RoflDg7tRDXeNBVD2Pqa7QsXHwguNU=;
+  b=nAx4Qb1xQTw2TI2RDW7rvhn84YmQL0d5JzU+ewcrGWDw0kS3nqBZG8ww
+   ivQ+bb8fXDK6TBKvcLAA80/ShdI5K6bvn7a9fE1zNleWf2QbRB3oSL2/1
+   BiU7B38n17s6wV8uJhiMMmPqQ/MmPBP2m7KgtzMry5/yBSsJJKhZsXj+D
+   LpNCE7jeqTRj4NCCdIgPjBQLq0hrT5dcagyfShJMxS0Psueu3bT2+h4vO
+   C7h1vRzm1hv4WXdzmnE2oQYULHSro8dsPqGUbGQ0BI/FVbZTmueUsHRBw
+   hMdZfCI53l57tf7FtEiJYG8GR48krGO6YW2/zlD8lzowqbtA2QxWHUFVb
+   g==;
+X-CSE-ConnectionGUID: f8FqyJjBRcGE3IW/vPAbpA==
+X-CSE-MsgGUID: ZSdaQa5cT6KK3CV/tdBKAA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="9663402"
 X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; 
-   d="scan'208";a="13598250"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 16:10:25 -0700
-X-CSE-ConnectionGUID: yZy6SwXrSaqLR46B6z51Dg==
-X-CSE-MsgGUID: tbxTMqn5TnCuB9K5YcnC7Q==
+   d="scan'208";a="9663402"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 16:20:23 -0700
+X-CSE-ConnectionGUID: WF6yYGYiQj+q4bVAiA936A==
+X-CSE-MsgGUID: YRwjelBWTkajVIHD9jWMEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; 
-   d="scan'208";a="25247701"
+   d="scan'208";a="30043368"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 25 Apr 2024 16:10:20 -0700
+  by orviesa004.jf.intel.com with ESMTP; 25 Apr 2024 16:20:21 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s08EM-000304-1t;
-	Thu, 25 Apr 2024 23:10:18 +0000
-Date: Fri, 26 Apr 2024 07:09:46 +0800
+	id 1s08O2-00030O-2X;
+	Thu, 25 Apr 2024 23:20:18 +0000
+Date: Fri, 26 Apr 2024 07:20:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Tissoires <bentiss@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Mykola Lysenko <mykolal@fb.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Benjamin Tissoires <bentiss@kernel.org>
-Subject: Re: [PATCH 2/3] bpf: do not walk twice the hash map on free
-Message-ID: <202404260653.ULrCGrp2-lkp@intel.com>
-References: <20240425-bpf-next-v1-2-1d8330e6c643@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Lyude Paul <lyude@redhat.com>
+Subject: [drm-misc:for-linux-next 1/2]
+ drivers/gpu/drm/i915/i915_debugfs.c:739:9: error: implicit declaration of
+ function 'debugfs_create_file'; did you mean 'bus_create_file'?
+Message-ID: <202404260726.nyGuvl59-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,57 +64,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240425-bpf-next-v1-2-1d8330e6c643@kernel.org>
 
-Hi Benjamin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 52578f7f53ff8fe3a8f6f3bc8b5956615c07a16e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Tissoires/bpf-do-not-walk-twice-the-map-on-free/20240425-220322
-base:   52578f7f53ff8fe3a8f6f3bc8b5956615c07a16e
-patch link:    https://lore.kernel.org/r/20240425-bpf-next-v1-2-1d8330e6c643%40kernel.org
-patch subject: [PATCH 2/3] bpf: do not walk twice the hash map on free
-config: arc-randconfig-002-20240426 (https://download.01.org/0day-ci/archive/20240426/202404260653.ULrCGrp2-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404260653.ULrCGrp2-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   2bdb481bf7a93c22b9fea8daefa2834aab23a70f
+commit: 33d5ae6cacf46a043578d711ae7239bab55b4455 [1/2] drm/print: drop include debugfs.h and include where needed
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240426/202404260726.nyGuvl59-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404260726.nyGuvl59-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404260653.ULrCGrp2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404260726.nyGuvl59-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> kernel/bpf/hashtab.c:243:13: warning: 'htab_free_prealloced_wq' defined but not used [-Wunused-function]
-     243 | static void htab_free_prealloced_wq(struct bpf_htab *htab)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_debugfs.c: In function 'i915_debugfs_register':
+>> drivers/gpu/drm/i915/i915_debugfs.c:739:9: error: implicit declaration of function 'debugfs_create_file'; did you mean 'bus_create_file'? [-Werror=implicit-function-declaration]
+     739 |         debugfs_create_file("i915_forcewake_user", S_IRUSR, minor->debugfs_root,
+         |         ^~~~~~~~~~~~~~~~~~~
+         |         bus_create_file
+   cc1: some warnings being treated as errors
+--
+   drivers/gpu/drm/i915/i915_debugfs_params.c: In function 'i915_debugfs_create_int':
+>> drivers/gpu/drm/i915/i915_debugfs_params.c:213:16: error: implicit declaration of function 'debugfs_create_file_unsafe'; did you mean 'sysfs_create_file_ns'? [-Werror=implicit-function-declaration]
+     213 |         return debugfs_create_file_unsafe(name, mode, parent, value,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                sysfs_create_file_ns
+>> drivers/gpu/drm/i915/i915_debugfs_params.c:213:16: warning: returning 'int' from a function with return type 'struct dentry *' makes pointer from integer without a cast [-Wint-conversion]
+     213 |         return debugfs_create_file_unsafe(name, mode, parent, value,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     214 |                                           RO(mode) ? &i915_param_int_fops_ro :
+         |                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     215 |                                           &i915_param_int_fops);
+         |                                           ~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_debugfs_params.c: In function 'i915_debugfs_create_uint':
+   drivers/gpu/drm/i915/i915_debugfs_params.c:222:16: warning: returning 'int' from a function with return type 'struct dentry *' makes pointer from integer without a cast [-Wint-conversion]
+     222 |         return debugfs_create_file_unsafe(name, mode, parent, value,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     223 |                                           RO(mode) ? &i915_param_uint_fops_ro :
+         |                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     224 |                                           &i915_param_uint_fops);
+         |                                           ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_debugfs_params.c: In function 'i915_debugfs_create_charp':
+>> drivers/gpu/drm/i915/i915_debugfs_params.c:231:16: error: implicit declaration of function 'debugfs_create_file'; did you mean 'bus_create_file'? [-Werror=implicit-function-declaration]
+     231 |         return debugfs_create_file(name, mode, parent, value,
+         |                ^~~~~~~~~~~~~~~~~~~
+         |                bus_create_file
+   drivers/gpu/drm/i915/i915_debugfs_params.c:231:16: warning: returning 'int' from a function with return type 'struct dentry *' makes pointer from integer without a cast [-Wint-conversion]
+     231 |         return debugfs_create_file(name, mode, parent, value,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     232 |                                    RO(mode) ? &i915_param_charp_fops_ro :
+         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     233 |                                    &i915_param_charp_fops);
+         |                                    ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_debugfs_params.c: In function 'i915_debugfs_params':
+>> drivers/gpu/drm/i915/i915_debugfs_params.c:254:15: error: implicit declaration of function 'debugfs_create_dir'; did you mean 'kernfs_create_dir'? [-Werror=implicit-function-declaration]
+     254 |         dir = debugfs_create_dir("i915_params", minor->debugfs_root);
+         |               ^~~~~~~~~~~~~~~~~~
+         |               kernfs_create_dir
+>> drivers/gpu/drm/i915/i915_debugfs_params.c:254:13: warning: assignment to 'struct dentry *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     254 |         dir = debugfs_create_dir("i915_params", minor->debugfs_root);
+         |             ^
+>> drivers/gpu/drm/i915/i915_debugfs_params.c:240:42: error: 'debugfs_create_bool' undeclared (first use in this function); did you mean 'kernfs_create_root'?
+     240 |                                  bool *: debugfs_create_bool,           \
+         |                                          ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_debugfs_params.c:264:43: note: in expansion of macro '_i915_param_create_file'
+     264 | #define REGISTER(T, x, unused, mode, ...) _i915_param_create_file(dir, #x, mode, &params->x);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_params.h:49:9: note: in expansion of macro 'REGISTER'
+      49 |         param(int, modeset, -1, 0400) \
+         |         ^~~~~
+   drivers/gpu/drm/i915/i915_debugfs_params.c:265:9: note: in expansion of macro 'I915_PARAMS_FOR_EACH'
+     265 |         I915_PARAMS_FOR_EACH(REGISTER);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_debugfs_params.c:240:42: note: each undeclared identifier is reported only once for each function it appears in
+     240 |                                  bool *: debugfs_create_bool,           \
+         |                                          ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_debugfs_params.c:264:43: note: in expansion of macro '_i915_param_create_file'
+     264 | #define REGISTER(T, x, unused, mode, ...) _i915_param_create_file(dir, #x, mode, &params->x);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_params.h:49:9: note: in expansion of macro 'REGISTER'
+      49 |         param(int, modeset, -1, 0400) \
+         |         ^~~~~
+   drivers/gpu/drm/i915/i915_debugfs_params.c:265:9: note: in expansion of macro 'I915_PARAMS_FOR_EACH'
+     265 |         I915_PARAMS_FOR_EACH(REGISTER);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_debugfs_params.c: At top level:
+>> drivers/gpu/drm/i915/i915_debugfs_params.c:228:1: warning: 'i915_debugfs_create_charp' defined but not used [-Wunused-function]
+     228 | i915_debugfs_create_charp(const char *name, umode_t mode,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/i915_debugfs_params.c:219:1: warning: 'i915_debugfs_create_uint' defined but not used [-Wunused-function]
+     219 | i915_debugfs_create_uint(const char *name, umode_t mode,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/i915_debugfs_params.c:210:1: warning: 'i915_debugfs_create_int' defined but not used [-Wunused-function]
+     210 | i915_debugfs_create_int(const char *name, umode_t mode,
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/gpu/drm/i915/i915_gpu_error.c: In function 'i915_gpu_error_debugfs_register':
+>> drivers/gpu/drm/i915/i915_gpu_error.c:2485:9: error: implicit declaration of function 'debugfs_create_file'; did you mean 'bus_create_file'? [-Werror=implicit-function-declaration]
+    2485 |         debugfs_create_file("i915_error_state", 0644, minor->debugfs_root, i915,
+         |         ^~~~~~~~~~~~~~~~~~~
+         |         bus_create_file
+   cc1: some warnings being treated as errors
 
 
-vim +/htab_free_prealloced_wq +243 kernel/bpf/hashtab.c
+vim +739 drivers/gpu/drm/i915/i915_debugfs.c
 
-68134668c17f31 Alexei Starovoitov 2021-07-14  242  
-246331e3f1eac9 Benjamin Tissoires 2024-04-20 @243  static void htab_free_prealloced_wq(struct bpf_htab *htab)
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  244  {
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  245  	u32 num_entries = htab->map.max_entries;
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  246  	int i;
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  247  
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  248  	if (!btf_record_has_field(htab->map.record, BPF_WORKQUEUE))
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  249  		return;
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  250  	if (htab_has_extra_elems(htab))
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  251  		num_entries += num_possible_cpus();
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  252  
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  253  	for (i = 0; i < num_entries; i++) {
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  254  		struct htab_elem *elem;
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  255  
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  256  		elem = get_htab_elem(htab, i);
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  257  		bpf_obj_free_workqueue(htab->map.record,
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  258  				       elem->key + round_up(htab->map.key_size, 8));
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  259  		cond_resched();
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  260  	}
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  261  }
-246331e3f1eac9 Benjamin Tissoires 2024-04-20  262  
+34b9674c786c73 drivers/gpu/drm/i915/i915_debugfs.c     Daniel Vetter      2013-07-04  731  
+f06b2052f74d7b drivers/gpu/drm/i915/i915_debugfs.c     Wambui Karuga      2020-03-10  732  void i915_debugfs_register(struct drm_i915_private *dev_priv)
+2017263e9e7297 drivers/gpu/drm/i915/i915_gem_debugfs.c Ben Gamari         2009-02-17  733  {
+91c8a326a19211 drivers/gpu/drm/i915/i915_debugfs.c     Chris Wilson       2016-07-05  734  	struct drm_minor *minor = dev_priv->drm.primary;
+6cc42152b02b3f drivers/gpu/drm/i915/i915_debugfs.c     Maarten Lankhorst  2018-06-28  735  	int i;
+f3cd474bb235f2 drivers/gpu/drm/i915/i915_debugfs.c     Chris Wilson       2009-10-13  736  
+c43c5a8818d4c3 drivers/gpu/drm/i915/i915_debugfs.c     Jani Nikula        2019-12-05  737  	i915_debugfs_params(dev_priv);
+c43c5a8818d4c3 drivers/gpu/drm/i915/i915_debugfs.c     Jani Nikula        2019-12-05  738  
+0780f3b6f054ec drivers/gpu/drm/i915/i915_debugfs.c     Greg Kroah-Hartman 2019-06-13 @739  	debugfs_create_file("i915_forcewake_user", S_IRUSR, minor->debugfs_root,
+
+:::::: The code at line 739 was first introduced by commit
+:::::: 0780f3b6f054ec6497a1a16edb9bf5832c0b92f4 drm/i915: no need to check return value of debugfs_create functions
+
+:::::: TO: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: CC: Jani Nikula <jani.nikula@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
