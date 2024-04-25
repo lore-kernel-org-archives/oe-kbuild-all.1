@@ -1,179 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D5E1494C9;
-	Thu, 25 Apr 2024 12:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4291494C4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 12:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.255
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714049567; cv=none; b=f1TNpV857qN7q/Vk6vYjzwhw65g4q+xSnLfg47wOawMEHgfUwwJPkhmxhGq5mEoScg5ZCkvc5DBZR0dDoCMKONkb21WUxrxtLhfGU+L1ZSqp84IwqcG9qhZSWw8rn3FP/N2mX3WXiDhN2AbhGQby5PHIytqNKLAg0aPoiMNM5Kw=
+	t=1714049761; cv=none; b=Ni2oOlIyfzR31ycP+QTJndGQ2cIrN2L1m4WXmYZAnfOm8UZfAIFoNxNgVI5rbQsw4g6X9lGjmz0NQM0PT/9WlAxsBcrSGATFLO7x9f0Z2zMmRsOdmGWutSluJ7hAG8w5kxBS7J+fQXcwS5Ixy+Ak5zj/k0CsbhBRf8wlQBhIqJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714049567; c=relaxed/simple;
-	bh=vGTPX1mGMzWhfu2p0ljQzf0CDffi47fwE8WPbIkK/14=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XuWQSZLpelagdYUoReFvntTjgdXrFBgjpe516l9BLsA8PM+7AsmUgyVWCR/1Awzei7pV3XKxg4J6F3j1+MDYcg9CH4kBRkSqKlDVtHwtTaBXe3uzqUjuLeW0IGbRfyWQX2jMp8kAwA7wSiu/wx9Fgq9TUSqPTrAoy2qO7LAc4s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k3KG1MTY; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k3KG1MTY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79A09C113CC;
-	Thu, 25 Apr 2024 12:52:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714049566;
-	bh=vGTPX1mGMzWhfu2p0ljQzf0CDffi47fwE8WPbIkK/14=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k3KG1MTYYSb1+CInsc5Avd7n3qWz0gkAdM3piU+yEMosTNPbY1ktM31vKMvSSPDRM
-	 gxjAFE80HAmyW+GyjpQWyfexMJAgAZ/wwJ0IOtpt5NJNBFFczXptVm7+0NwLwdsJQr
-	 xhYNENSiaFWwA/l7xviDuZ3ot5jeIu9+jpNX8dv95MD5o+un2dvoP8L98ARsW7J8nb
-	 94iVF8WiooatLRDAGw6ar9r/6jF7HScz6yQtbHDSZeLiFwcz2Jt5BvEJ91JxpYHeQ6
-	 L0KJsU47hkK9u27DXtXKO1J1ezn/LzQpR4l7kGpYB4R4V1Qoev/GaOI7XiBsGGGYXA
-	 pF0bLNGJX13VQ==
-Date: Thu, 25 Apr 2024 14:52:42 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 3/3] HID: bpf: lazy load the hid_tail_call entrypoint
-Message-ID: <d2o5su7hxsnn3oarbowljss5fkmj2ttwiq4lf3g2putn7fc4it@uq2dui2tuxjk>
-References: <20240419-hid_bpf_lazy_skel-v1-3-9210bcd4b61c@kernel.org>
- <74d0e9d1-7ac6-4f08-bab6-76c51e69cebf@moroto.mountain>
- <x7ffovagmqjazr6jhr6urkctcj7ozn6poakvjluorhzuxmyyg2@dxw7ucw3qc6z>
+	s=arc-20240116; t=1714049761; c=relaxed/simple;
+	bh=Tzl6rkHXA7oS8wzOZdFnzW8k/tso7PW4qazbSuRNs0s=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=SeV1AFUKKD6wmJ/pLuQsjYXvz02KAc0sY8X6uD/lb5eF+LR0T1ztzSBji9REdDwTLKdnOPvaFIu2dUBBOIRCz7EM98iZf+x4r4KGWfojAZIGNoBoXmeZk+4/cFQRCA5t4d0L02VC8hbatv+NnvT4SaTvfCqIa2Aul9OANiV0PpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.255
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4VQG3g560fz1R5r7;
+	Thu, 25 Apr 2024 20:52:47 +0800 (CST)
+Received: from kwepemm600005.china.huawei.com (unknown [7.193.23.191])
+	by mail.maildlp.com (Postfix) with ESMTPS id A5DEC140258;
+	Thu, 25 Apr 2024 20:55:50 +0800 (CST)
+Received: from [10.67.121.110] (10.67.121.110) by
+ kwepemm600005.china.huawei.com (7.193.23.191) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 25 Apr 2024 20:55:49 +0800
+Subject: Re: [PATCH v5 4/5] hisi_acc_vfio_pci: register debugfs for hisilicon
+ migration driver
+To: kernel test robot <lkp@intel.com>, <alex.williamson@redhat.com>,
+	<jgg@nvidia.com>, <shameerali.kolothum.thodi@huawei.com>,
+	<jonathan.cameron@huawei.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <kvm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linuxarm@openeuler.org>
+References: <20240424085721.12760-5-liulongfang@huawei.com>
+ <202404251733.qOuGkmpU-lkp@intel.com>
+From: liulongfang <liulongfang@huawei.com>
+Message-ID: <daa4f927-3412-2392-f5ca-e27ad550377c@huawei.com>
+Date: Thu, 25 Apr 2024 20:55:49 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <x7ffovagmqjazr6jhr6urkctcj7ozn6poakvjluorhzuxmyyg2@dxw7ucw3qc6z>
+In-Reply-To: <202404251733.qOuGkmpU-lkp@intel.com>
+Content-Type: text/plain; charset="gbk"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemm600005.china.huawei.com (7.193.23.191)
 
-On Apr 24 2024, Benjamin Tissoires wrote:
-> On Apr 23 2024, Dan Carpenter wrote:
-> > Hi Benjamin,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Tissoires/HID-bpf-fix-a-comment-in-a-define/20240419-225110
-> > base:   b912cf042072e12e93faa874265b30cc0aa521b9
-> > patch link:    https://lore.kernel.org/r/20240419-hid_bpf_lazy_skel-v1-3-9210bcd4b61c%40kernel.org
-> > patch subject: [PATCH 3/3] HID: bpf: lazy load the hid_tail_call entrypoint
-> > config: i386-randconfig-141-20240423 (https://download.01.org/0day-ci/archive/20240423/202404231109.h2IRrMMD-lkp@intel.com/config)
-> > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202404231109.h2IRrMMD-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > drivers/hid/bpf/hid_bpf_jmp_table.c:478 __hid_bpf_attach_prog() error: uninitialized symbol 'link'.
-> > 
-> > vim +/link +478 drivers/hid/bpf/hid_bpf_jmp_table.c
-> > 
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  396  noinline int
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  397  __hid_bpf_attach_prog(struct hid_device *hdev, enum hid_bpf_prog_type prog_type,
-> > 7cdd2108903a4e3 Benjamin Tissoires 2024-01-24  398  		      int prog_fd, struct bpf_prog *prog, __u32 flags)
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  399  {
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  400  	struct bpf_link_primer link_primer;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  401  	struct hid_bpf_link *link;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  402  	struct hid_bpf_prog_entry *prog_entry;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  403  	int cnt, err = -EINVAL, prog_table_idx = -1;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  404  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  405  	mutex_lock(&hid_bpf_attach_lock);
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  406  
-> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  407  	if (!jmp_table.map) {
-> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  408  		err = hid_bpf_preload_skel();
-> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  409  		WARN_ONCE(err, "error while preloading HID BPF dispatcher: %d", err);
-> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  410  		if (err)
-> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  411  			goto err_unlock;
-> >                                                                         ^^^^^^^^^^^^^^^^
-> > link isn't initialized.
+On 2024/4/25 17:20, kernel test robot wrote:
+> Hi Longfang,
 > 
-> Well spotted! Thanks
-> I'll send a v2 soon.
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on awilliam-vfio/next]
+> [also build test ERROR on linus/master v6.9-rc5 next-20240424]
+> [cannot apply to awilliam-vfio/for-linus]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Longfang-Liu/hisi_acc_vfio_pci-extract-public-functions-for-container_of/20240424-170806
+> base:   https://github.com/awilliam/linux-vfio.git next
+> patch link:    https://lore.kernel.org/r/20240424085721.12760-5-liulongfang%40huawei.com
+> patch subject: [PATCH v5 4/5] hisi_acc_vfio_pci: register debugfs for hisilicon migration driver
+> config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20240425/202404251733.qOuGkmpU-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404251733.qOuGkmpU-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202404251733.qOuGkmpU-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c: In function 'hisi_acc_vf_debug_cmd':
+>>> drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c:1370:53: error: macro "dev_err" requires 3 arguments, but only 1 given
+>     1370 |         dev_err("mailbox cmd channel state is OK!\n");
+>          |                                                     ^
+>    In file included from include/linux/device.h:15,
+>                     from drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c:6:
+>    include/linux/dev_printk.h:143: note: macro "dev_err" defined here
+>      143 | #define dev_err(dev, fmt, ...) \
+>          | 
+>>> drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c:1370:9: error: 'dev_err' undeclared (first use in this function); did you mean '_dev_err'?
+>     1370 |         dev_err("mailbox cmd channel state is OK!\n");
+>          |         ^~~~~~~
+>          |         _dev_err
+>    drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c:1370:9: note: each undeclared identifier is reported only once for each function it appears in
+> 
+> 
+> vim +/dev_err +1370 drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
+> 
+>   1345	
+>   1346	static int hisi_acc_vf_debug_cmd(struct seq_file *seq, void *data)
+>   1347	{
+>   1348		struct device *vf_dev = seq->private;
+>   1349		struct vfio_pci_core_device *core_device = dev_get_drvdata(vf_dev);
+>   1350		struct vfio_device *vdev = &core_device->vdev;
+>   1351		struct hisi_acc_vf_core_device *hisi_acc_vdev = hisi_acc_get_vf_dev(vdev);
+>   1352		struct hisi_qm *vf_qm = &hisi_acc_vdev->vf_qm;
+>   1353		u64 value;
+>   1354		int ret;
+>   1355	
+>   1356		mutex_lock(&hisi_acc_vdev->enable_mutex);
+>   1357		ret = hisi_acc_vf_debug_check(seq, vdev);
+>   1358		if (ret) {
+>   1359			mutex_unlock(&hisi_acc_vdev->enable_mutex);
+>   1360			return ret;
+>   1361		}
+>   1362	
+>   1363		value = readl(vf_qm->io_base + QM_MB_CMD_SEND_BASE);
+>   1364		if (value == QM_MB_CMD_NOT_READY) {
+>   1365			mutex_unlock(&hisi_acc_vdev->enable_mutex);
+>   1366			dev_err(vf_dev, "mailbox cmd channel not ready!\n");
+>   1367			return -EINVAL;
+>   1368		}
+>   1369		mutex_unlock(&hisi_acc_vdev->enable_mutex);
+>> 1370		dev_err("mailbox cmd channel state is OK!\n");
+>   1371	
+>   1372		return 0;
+>   1373	}
+>   1374	
+>
 
-FWIW, this patch prevents the proper unloading of the HID-BPF programs.
-So not sure we'll want it as such just now.
+OK,
+I'll modify it soon.
 
-Cheers,
-Benjamin
+Thanks.
+Longfang.
 
-> > 
-> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  412  	}
-> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  413  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  414  	link = kzalloc(sizeof(*link), GFP_USER);
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  415  	if (!link) {
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  416  		err = -ENOMEM;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  417  		goto err_unlock;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  418  	}
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  419  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  420  	bpf_link_init(&link->link, BPF_LINK_TYPE_UNSPEC,
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  421  		      &hid_bpf_link_lops, prog);
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  422  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  423  	/* do not attach too many programs to a given HID device */
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  424  	cnt = hid_bpf_program_count(hdev, NULL, prog_type);
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  425  	if (cnt < 0) {
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  426  		err = cnt;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  427  		goto err_unlock;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  428  	}
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  429  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  430  	if (cnt >= hid_bpf_max_programs(prog_type)) {
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  431  		err = -E2BIG;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  432  		goto err_unlock;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  433  	}
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  434  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  435  	prog_table_idx = hid_bpf_insert_prog(prog_fd, prog);
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  436  	/* if the jmp table is full, abort */
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  437  	if (prog_table_idx < 0) {
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  438  		err = prog_table_idx;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  439  		goto err_unlock;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  440  	}
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  441  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  442  	if (flags & HID_BPF_FLAG_INSERT_HEAD) {
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  443  		/* take the previous prog_entry slot */
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  444  		jmp_table.tail = PREV(jmp_table.tail);
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  445  		prog_entry = &jmp_table.entries[jmp_table.tail];
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  446  	} else {
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  447  		/* take the next prog_entry slot */
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  448  		prog_entry = &jmp_table.entries[jmp_table.head];
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  449  		jmp_table.head = NEXT(jmp_table.head);
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  450  	}
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  451  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  452  	/* we steal the ref here */
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  453  	prog_entry->prog = prog;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  454  	prog_entry->idx = prog_table_idx;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  455  	prog_entry->hdev = hdev;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  456  	prog_entry->type = prog_type;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  457  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  458  	/* finally store the index in the device list */
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  459  	err = hid_bpf_populate_hdev(hdev, prog_type);
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  460  	if (err) {
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  461  		hid_bpf_release_prog_at(prog_table_idx);
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  462  		goto err_unlock;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  463  	}
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  464  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  465  	link->hid_table_index = prog_table_idx;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  466  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  467  	err = bpf_link_prime(&link->link, &link_primer);
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  468  	if (err)
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  469  		goto err_unlock;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  470  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  471  	mutex_unlock(&hid_bpf_attach_lock);
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  472  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  473  	return bpf_link_settle(&link_primer);
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  474  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  475   err_unlock:
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  476  	mutex_unlock(&hid_bpf_attach_lock);
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  477  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13 @478  	kfree(link);
-> >                                                               ^^^^
-> > 
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  479  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  480  	return err;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  481  }
-> > 
-> > -- 
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> > 
+
