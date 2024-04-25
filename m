@@ -1,60 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A627214A603
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 14:21:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB88214AD3E;
+	Thu, 25 Apr 2024 15:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714054862; cv=none; b=CeNIPnULD9KRqLyKTHgQO19npOelVb3bKrKbOBjzclhvslLTEmsB+JTm46W6dRaOAniZJoiYum8EadAffyDO7mFF/99ir32DaVNaCRCEVs6AYLR0cfuiz8ybzLywP6PhaNTX30ohM9RxP9QThtmYT7m+XylKVYyNMwQNWujNpCw=
+	t=1714058316; cv=none; b=qhHEUArtY9XoGzcV9K3qH/rut/cuwqEYTnNTHcBI0N+mApu/QcTlkej9qDypEZmqj/biOt0fZ0ccVecp+/nFiIxHJZ04MN3BSfPqMHuFcNBmcoPyS1Kki3+0JBcs9/rcEDSaRq/pp/LT1LTlxoHvRhVzilMt4Ysq35C2juE6JxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714054862; c=relaxed/simple;
-	bh=zmGu/ZotlXhiyZdFMSr7e75pOglni1FzRyrXvjHKmdY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a1EmOR0z71onLdiI2GvJSgcwWmaVj3Mwgp3NJ2tt3ut/DbAq2XKikzhibEmDn+yHV6UY1qR2FIeboN0chO6pNXDVfzKrgVkcK1AeatBhi/XpqJcJPqTfZDp3LMcFt0KpTTxj4Qzf7PdDEoQ3q9O+IaFIdXxSQAl8i1h2kG3poBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I+FLWjVM; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714058316; c=relaxed/simple;
+	bh=u+azLrvnjAk8dt9XuILYtICPR6SZpeYwPh3fdjAcXZ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aR9S4O97B2jh6p4pICLbUAxt97wtj835JsWhBd1EX27XO3cy75ukg0zMuodoQ/X7SP2mp6yu5Heu+3qaBKPJAnvrdIuhtpOVEjndiRqwgCGyC+dBVWThooZH2Z1lfuta3ZxfWtjCOBf61foimvf8dMU/Kjq9NaepOwygSCqXBMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hV3vrwsu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I+FLWjVM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714054860; x=1745590860;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zmGu/ZotlXhiyZdFMSr7e75pOglni1FzRyrXvjHKmdY=;
-  b=I+FLWjVMW3nDejVqI6FByngbbxHk//n/Z4+dNg9ibkP6mEV73J1PGVBh
-   kf4dpmspe90wXX1AOCIS14c3BTs2Y0AcmwE5QZgDp4LqWx2uFmvJX1ESG
-   oinEQzpM0SRFNKUbJYiVA5u2IOZgfb19MjcGx+5GjTOT/PR0BUooCL6So
-   X00lDj416HyKhNRm/iAZEMhW3fv0t1Qd2UDNK6PSIvesBo0Yh773dVM3N
-   dCyjXk4S/Xa3ngFO45GPKCd8ADY1ucIkhXhzMJPIjj7uBSl6A+17oIIpO
-   cdlH6fGXFkq0Y1L6cKgR+dGgnJXn+B6vto1zNPo1fn+iSaBXCceB2AtXU
-   Q==;
-X-CSE-ConnectionGUID: X7sa0kOFSVqHQDCqe26QAg==
-X-CSE-MsgGUID: nTVqO8atSjWPA+Hdpovzcg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="9611896"
-X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
-   d="scan'208";a="9611896"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 07:21:00 -0700
-X-CSE-ConnectionGUID: z/c7F1v6R8Ky7gcI4/1r+Q==
-X-CSE-MsgGUID: JFolp+hhSvm/6WYF3jXX9w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
-   d="scan'208";a="48350365"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Apr 2024 07:20:58 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rzzy4-0002Q8-1v;
-	Thu, 25 Apr 2024 14:20:56 +0000
-Date: Thu, 25 Apr 2024 22:20:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Subject: [linux-next:master 4692/8170] vmlinux.o: warning: objtool:
- x509_cert_parse() falls through to next function x509_key_preparse.cold()
-Message-ID: <202404252210.KJE6Uw1h-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hV3vrwsu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18D62C113CC;
+	Thu, 25 Apr 2024 15:18:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1714058316;
+	bh=u+azLrvnjAk8dt9XuILYtICPR6SZpeYwPh3fdjAcXZ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hV3vrwsu3pKybHtR+YYYIbfrQeXTYU/D7/+76WeTJPghJvoK6XQGjYw0fe3GP9LJd
+	 zgESwtybtd354Wg6JSc/i3qU3LErr9oFKY1Tf3IZLw/0fYy7mBq7HKOHgSEgq6gwNK
+	 AXD4nKtgDZpNqmD3T+G2VzM5ftGvhNq1/o63MVyA=
+Date: Thu, 25 Apr 2024 08:18:28 -0700
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
+Cc: Johan Hovold <johan@kernel.org>, kernel test robot <lkp@intel.com>,
+	oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Johan Hovold <johan+linaro@kernel.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Subject: Re: [usb:usb-testing 7/12] drivers/usb/dwc3/core.c:1482:69: warning:
+ '%d' directive output may be truncated writing between 1 and 11 bytes into a
+ region of size 4
+Message-ID: <2024042510-jazz-send-be09@gregkh>
+References: <202404241215.Mib19Cu7-lkp@intel.com>
+ <ZiiptMEL2_AdBsJA@hovoldconsulting.com>
+ <d4e11bc4-3561-4e2e-9203-5d794269a225@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,23 +46,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <d4e11bc4-3561-4e2e-9203-5d794269a225@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   5e4f84f18c4ee9b0ccdc19e39b7de41df21699dd
-commit: 5c6ca9d936654a135b459c846885e08966e5e5bf [4692/8170] X.509: Introduce scope-based x509_certificate allocation
-config: x86_64-buildonly-randconfig-r005-20220106 (https://download.01.org/0day-ci/archive/20240425/202404252210.KJE6Uw1h-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404252210.KJE6Uw1h-lkp@intel.com/reproduce)
+On Thu, Apr 25, 2024 at 10:38:47AM +0530, Krishna Kurapati PSSNV wrote:
+> 
+> 
+> On 4/24/2024 12:11 PM, Johan Hovold wrote:
+> > On Wed, Apr 24, 2024 at 01:03:07PM +0800, kernel test robot wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> > > head:   a160e1202ca318a85c70cf5831f172cc79a24c57
+> > > commit: 846b4bacf2d48212f271fc1ef7488bcdf2c75bcb [7/12] usb: dwc3: core: Refactor PHY logic to support Multiport Controller
+> > > config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240424/202404241215.Mib19Cu7-lkp@intel.com/config)
+> > > compiler: s390-linux-gcc (GCC) 13.2.0
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404241215.Mib19Cu7-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202404241215.Mib19Cu7-lkp@intel.com/
+> > > 
+> > > All warnings (new ones prefixed by >>):
+> > > 
+> > >     drivers/usb/dwc3/core.c: In function 'dwc3_core_get_phy':
+> > > > > drivers/usb/dwc3/core.c:1482:69: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 4 [-Wformat-truncation=]
+> > >      1482 |                         snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
+> > >           |                                                                     ^~
+> > >     drivers/usb/dwc3/core.c:1482:63: note: directive argument in the range [-2147483641, 254]
+> > >      1482 |                         snprintf(phy_name, sizeof(phy_name),  "usb2-%d", i);
+> > 
+> > This version or s390-build of gcc appears to be confused as the
+> > variable i is clearly in the range [0,254] in these for loops.
+> > 
+> > I also don't see this W=1 warning with my gcc-10 (aarch64).
+> > 
+> > It may be possible to work around this by using u8 type for the iterator
+> > (and %u in the format), but I'm not sure we should be working around
+> > compiler bugs like that.
+> 
+> Thanks Johan. i agree it looks like a bogus compiler warning, but I think
+> your suggestion of changing to u8 should work, if only to placate the
+> compiler.
+> 
+> Greg, do you think I should go ahead and update it in v22 or can we ignore
+> this warning ?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404252210.KJE6Uw1h-lkp@intel.com/
+Please send a follow-on patch to fix this, I'll leave it as-is in my
+tree for now.
 
-All warnings (new ones prefixed by >>):
+thanks,
 
->> vmlinux.o: warning: objtool: x509_cert_parse() falls through to next function x509_key_preparse.cold()
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+greg k-h
