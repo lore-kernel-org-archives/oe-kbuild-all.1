@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215FF39ADD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 20:54:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60875155A5D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 21:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714078460; cv=none; b=sLYeMl5HT9A4Jjt6O8KChszlCds+uxbmzDMaMRbtdyhpiMIDbV1Jcz7xqf2Zxru3hA0el8cKF/8aSTjHM0fI7Px71p1LF++Ga6DjijM/6wTKB5vCW3w9pqAoD+oNRYIDlX05862XFg4WUxygBMdv6A/TgCveJorOL1ZoCTt1lKU=
+	t=1714080920; cv=none; b=npmu7v2ViiPGovJ3szMOaZOzZQZYWB0vUT/ERWa6mBUFxJte+9rcSbNnGMPtl+0zH8jFyhDxaXNzoiC/qVJBXw6bbCqy54c4yyDNZQKBZRGTymaTsA5c4OF+vsPKXivxG9Gvfk06enpFCLhxopD09DZZp7CAPDFbYO9OpPUx7nU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714078460; c=relaxed/simple;
-	bh=dh+kwxnL1E0HxAIhw6rkebLlcj+6O3vkobvzq6QSH5E=;
+	s=arc-20240116; t=1714080920; c=relaxed/simple;
+	bh=9V2QXWPhhXowx0euWho6q5G0NHoHG0l9abH9BBQkLzM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VcGYd3xZd1H3dJhNLWmDVDqaHX8E2tgbiiM32mUjLpeyPH/IDqW7qzHZKFef4kCS7ZvHXmkjBUTDZzniQunlQgQD6eEV1JAeG+zr/Rz0OzpabhrMoEycs6kLB4F94esLAX0lw/WFI4cVQDVPsSjdDMbRIeHLRD1Nmywkv9AsscU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TfAFTr4M; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=l3J1E0ri1gqjDKPFHNFWluZB1GzI5OWnliFKyqMgn0WOlkneCi+B7sf1I31F/B9SCqSYpjYRkZBUt6crV0QdoktHLIeJunnDyi93yZZ+mKjYCt7O+6wjZDodi4g77UI2wxLDGV1vI2tP28FXF0ygCLQJsqI3bi5lBu491YCCJEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fn/zN9fn; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TfAFTr4M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fn/zN9fn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714078460; x=1745614460;
+  t=1714080918; x=1745616918;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dh+kwxnL1E0HxAIhw6rkebLlcj+6O3vkobvzq6QSH5E=;
-  b=TfAFTr4M55e4raj90fmahAzpZVsuxYtU/GVFoBLGQOH/WWXXnfT39G0O
-   jUCUYz7gjg60bRFeiPdzgXzIHUuWbxnuu1/ZlvxoA2ySo3wuXI/ME4I+X
-   XYIaIDWtAvzsST7QRg/Ovo7QkwMH8HkJKLmgYvq/RiHNyGIZzCF2NntyF
-   nbKDHYRsIa6uxRqq2+uzGrJOHZvZzJ+3lvFSfQ2CeMHPlSt9wAJhrCwbX
-   iRyc58qc6CCwhOZupUZS4+OxztSEsmn5tBGlGDfmjGG3ncTAvLMwBMvof
-   xyxgPHwjA5VagNoXQmHTEU0YhW1K91v3Ids5MBwJBnPwRP202TfARh3gv
-   Q==;
-X-CSE-ConnectionGUID: JPCkWTdRQRiswn/s0hUYMg==
-X-CSE-MsgGUID: CG0IU4f6QUeofLav04YttQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="13578853"
+  bh=9V2QXWPhhXowx0euWho6q5G0NHoHG0l9abH9BBQkLzM=;
+  b=Fn/zN9fnpmmwichZEcGc8fu079wsnRSUkHp5GYKuzvMv/H1qni0Gvypc
+   rReJFdFjkd1Hz+H9sxHjIsI+2NsODlGffPJ8hRgFqTjCqi5K11OVyOuEF
+   nxJ8maxtvf8syX+7Zq/dRZvf7UqcQ7SaXNYwPPU3CMRYPJjFHXBp4yuNs
+   IeGoZe+abmlrNBMe9kArhl+E0HipwKeQ3NcHVHV63o3izvlXpnQoYcAh7
+   5m/8cHFmMuo9Stf5ecpAf0I9U/j5KN4bySkJEZgre2A6aS9yMC9mdfC8L
+   O1YpVem45PUUZQ/Q+9ITpphsC9caZXfND0u+R9QJ4VYzZYoZNdLb3/kkI
+   g==;
+X-CSE-ConnectionGUID: djRq4yKiRt26kPNMwanODg==
+X-CSE-MsgGUID: o+RHXkGhTfayTypvj6RBMA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="10017911"
 X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; 
-   d="scan'208";a="13578853"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 13:54:17 -0700
-X-CSE-ConnectionGUID: qReVrwxxTeWnZPCmXWytpA==
-X-CSE-MsgGUID: S+aE3BccSkKxrppAPLvgNQ==
+   d="scan'208";a="10017911"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 14:35:18 -0700
+X-CSE-ConnectionGUID: udJIeTkDTd+UApnn4zsYhA==
+X-CSE-MsgGUID: HBPbtx0mR9+5kBcsnJSf5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; 
-   d="scan'208";a="30005958"
+   d="scan'208";a="25217790"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 25 Apr 2024 13:54:15 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 25 Apr 2024 14:35:17 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s066f-0002rA-0y;
-	Thu, 25 Apr 2024 20:54:13 +0000
-Date: Fri, 26 Apr 2024 04:53:20 +0800
+	id 1s06kM-0002tk-1o;
+	Thu, 25 Apr 2024 21:35:14 +0000
+Date: Fri, 26 Apr 2024 05:34:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Joel Granados <j.granados@samsung.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [joel-granados:jag/sysctl_remset_net 2/9]
- net/mpls/af_mpls.c:2692:25: error: 'tabel_size' undeclared; did you mean
- 'table_size'?
-Message-ID: <202404260412.CpPkSONb-lkp@intel.com>
+ net/mpls/af_mpls.c:2692:18: error: use of undeclared identifier
+ 'tabel_size'; did you mean 'table_size'?
+Message-ID: <202404260545.Yszcsx8x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,26 +66,32 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joel.granados/linux.git jag/sysctl_remset_net
 head:   0601b5211d4d02b83c06047608e6ab7023379071
 commit: f01da46a76f68d2c13bb9d16e00324de5af560c8 [2/9] net: Remove the now superfluous sentinel elements from ctl_table array
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240426/202404260412.CpPkSONb-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404260412.CpPkSONb-lkp@intel.com/reproduce)
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20240426/202404260545.Yszcsx8x-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404260545.Yszcsx8x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404260412.CpPkSONb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404260545.Yszcsx8x-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/mpls/af_mpls.c: In function 'mpls_net_init':
->> net/mpls/af_mpls.c:2692:25: error: 'tabel_size' undeclared (first use in this function); did you mean 'table_size'?
+>> net/mpls/af_mpls.c:2692:18: error: use of undeclared identifier 'tabel_size'; did you mean 'table_size'?
     2692 |         for (i = 0; i < tabel_size; i++)
          |                         ^~~~~~~~~~
          |                         table_size
-   net/mpls/af_mpls.c:2692:25: note: each undeclared identifier is reported only once for each function it appears in
->> net/mpls/af_mpls.c:2676:16: warning: unused variable 'table_size' [-Wunused-variable]
+   net/mpls/af_mpls.c:2676:9: note: 'table_size' declared here
     2676 |         size_t table_size = ARRAY_SIZE(mpls_table);
-         |                ^~~~~~~~~~
+         |                ^
+   net/mpls/af_mpls.c:2696:13: error: use of undeclared identifier 'tabel_size'; did you mean 'table_size'?
+    2696 |                                                tabel_size);
+         |                                                ^~~~~~~~~~
+         |                                                table_size
+   net/mpls/af_mpls.c:2676:9: note: 'table_size' declared here
+    2676 |         size_t table_size = ARRAY_SIZE(mpls_table);
+         |                ^
+   2 errors generated.
 
 
 vim +2692 net/mpls/af_mpls.c
@@ -93,7 +99,7 @@ vim +2692 net/mpls/af_mpls.c
   2673	
   2674	static int mpls_net_init(struct net *net)
   2675	{
-> 2676		size_t table_size = ARRAY_SIZE(mpls_table);
+  2676		size_t table_size = ARRAY_SIZE(mpls_table);
   2677		struct ctl_table *table;
   2678		int i;
   2679	
