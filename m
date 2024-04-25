@@ -1,129 +1,199 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030D56BFA3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 08:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAB92B9C9;
+	Thu, 25 Apr 2024 08:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714034142; cv=none; b=Tl9qU4jxaWd/XdFVbCaYYKLIuN2j6fm9Pzh/gsUqfrtfhBiZT/MUh4L9bl/H+CF9pZ1xV9c8j8kgJOdt3tWARMv86sDOUfh0ISBpLFf5MifU+Kj9JCb5d1DP+5XLepCzTLuI8aKAx/5bu6qAb3SXPvQnY6tNE8eAnyzIqeljG9E=
+	t=1714034335; cv=none; b=bfcNWaANioLD2RCpLbOJynlDMaekrqbj14h0+89GEFF1LfP5ou+vVoYE8hq6DluoHD8GcElkzd5oAvAzzTCrg7V58l/GjoQMe+sjkFDtXSz7UEqGZ/a6aoAGSylC1eCeqyO0lXL/Ga3P9AJhJwVuEttLPMunHY1kgqR18EiV/Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714034142; c=relaxed/simple;
-	bh=fOmvf1OLBwZggp/UVzPO//GW8IXiTz2tl5j3m7q1EAQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nnEP8vGhd/CtfNholm/Cn5baCwHGqQyqy89e2zje8pOIeETWYz1ZlaI67rOjCuF+3oUO2Iq9FaXWawV5gpFvqbt1oxDGjc83nqtB4wMGshHKXzdTlgtZkKzlAe4PCABDg6u8/lMEsn7sW30ehCXGmbV8hZwcJY+m4UIsUNvVX/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UWu8+6tI; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714034335; c=relaxed/simple;
+	bh=4cWhHC2K69/LyOIng4tyPRBTHJ73ToydNnzrJV/cHNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mcjMyduxvhaKG+Qc48OrrkfsVmbnm0YzYVEdVC7TFOjZMmvUL02WQ4zVDwbADkpykmMRcDd/67VS8BalIqbHGKR71ALSZ0Dyei8r/wIM7upQvWivnd3DCfHSJ+p9ehlo4fN8YqOGe/FF3WZSnpw2anEaIrkukDjA42GV0GqgYq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ht3ugEbL; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UWu8+6tI"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-516d3a470d5so821974e87.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 01:35:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714034139; x=1714638939; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2fPG+guHYrC0XiylByyEBdhwd/Ja+cgxjsWJHssyU+s=;
-        b=UWu8+6tIgRKyujEzWpLge5c39zp2vEa7W6UPYf8yXtGoQNh/OWc21XcOpT/nd8F7Ml
-         MfhnW0fSEWRiktKafZtrMSaXbjkceK/DUb0FuU+ZPhyi0liyNlK/w3X2yB5d7zz9ikun
-         w/VhIzj+5En6X+cqMYMYLcwuDoo8lzKFLo9u4nqVujNSMMm7C76ACgCVHE41Y9RLYknj
-         p52C8v7hyx9peKWVNYomgBH7wdWwTMks24f6ebFqKlCONSpbRyMvpmyUttHsHNwOSGpE
-         ImcqFMNuTdRdFkJM3u5e6ojiK5m2PefF2GOSTd3LhfWxQTckAgCAzr9QKzWXdYmtmkuO
-         2bFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714034139; x=1714638939;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2fPG+guHYrC0XiylByyEBdhwd/Ja+cgxjsWJHssyU+s=;
-        b=wv1CtciHUHkcAsLvPJoiOFqCz/kKexWxzW0UhjLoSC3TwjKv1CjXDM84PFESZdRbRW
-         Y7qTju9Wth9RVpDYsmPN6UNVhc2UW2c6qEGSou6m9fesWHe+H9qNlqSdsrjEJXd84n8v
-         xhYxbSoGNWJpYc0gDy+9kKMY71NiXjPZTUer4fzhdgT6QdhoRuIlFlrVHZh91twugH1A
-         X/WUCNhMmhncZmVnN9jdb2LNHKhKEal+C3S3dn5K1lMMd40j5JuCOZ4jAunntHvIL/GT
-         voFjXCuxkuZyDBkrJc7cqEvdT+W8OtXLpCvzpEB8cOBTjPHGl9xITMnQwvVJDb2SoOZD
-         Nb6A==
-X-Forwarded-Encrypted: i=1; AJvYcCV2ee9GjSEF8LN6WZk7x/HbztZ5uzZ4tZ7+sETXoUbr+UZN3NLuGcfLNmVktcSc170NQ3fFf+mi3aqyZ0xu9qH06LEkHMf+08VnljBmcg==
-X-Gm-Message-State: AOJu0YzbQRKCevHq31W4EokImQbkFRF+BfNddgwDsoQM4Y+VsYs8kTu5
-	ciQTjBziCeIXAtCxsXg4KrajEXnuLAFAuuvSJ9nNiSH6gcCh9buYdMLyO3Z5g0mBmH07fVkmRco
-	Vfzg7Imsxd/fvxS05C8KbQh/cfXs=
-X-Google-Smtp-Source: AGHT+IGZCCK8cmvAjI3f1Hg/xKrDPzNR11rdNkvlyvvxLx9aHBggBWicRCe6e95/5v7vA5nD82IzJQZsjFR9Rd5QudM=
-X-Received: by 2002:a19:9157:0:b0:51a:ca75:9ffe with SMTP id
- y23-20020a199157000000b0051aca759ffemr3760402lfj.42.1714034138827; Thu, 25
- Apr 2024 01:35:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ht3ugEbL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714034333; x=1745570333;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4cWhHC2K69/LyOIng4tyPRBTHJ73ToydNnzrJV/cHNM=;
+  b=ht3ugEbL83+2HUGoGDNvPdTb3vqRN8PIUHxqSQsRqwJGKX8W05Pz6NR8
+   RVnctkESnefsuzHLNr8V62Ji5nhINPNGAH8ElsXsvMh18AMIICurOvs5T
+   GTSPPueeSR8nb/U4DKck3D1MlMWKfuoy5CkCOLs8qZZhFIQfTEeAHTYfs
+   pMRlOpX4MpomEmqVXF3atPW/DpykUktmFSCQAQNp9p3wATlnjJfEcDTy0
+   N7RhjZhpl3Qxyn5Wq6i0P9nTJClMz843TaTfTVnG/la72mrbWfXdGI79h
+   TuZsDJ+yBV+D+9iXZIu2ye8KVrGBRNzYSGfBvJTnm2qBGBm0RDwQiEkan
+   w==;
+X-CSE-ConnectionGUID: YqoDYFJvQEym6RcKp2jntA==
+X-CSE-MsgGUID: tMLxxd5ZSpKqfr3XFU6kUw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9818110"
+X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
+   d="scan'208";a="9818110"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 01:38:52 -0700
+X-CSE-ConnectionGUID: ipPeaRSXSFSqArlGn/E90w==
+X-CSE-MsgGUID: AXCehVXGSLu/J6rhULyo4w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
+   d="scan'208";a="24993872"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 25 Apr 2024 01:38:50 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rzucx-0002Ay-2F;
+	Thu, 25 Apr 2024 08:38:47 +0000
+Date: Thu, 25 Apr 2024 16:38:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gary Guo <gary@garyguo.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [nbdd0121:thin-lto 1/1] clang: warning: argument unused during
+ compilation: '-MMD'
+Message-ID: <202404251623.5URkQEYy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202404251450.rttcxC1o-lkp@intel.com>
-In-Reply-To: <202404251450.rttcxC1o-lkp@intel.com>
-From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date: Thu, 25 Apr 2024 17:35:22 +0900
-Message-ID: <CAKFNMonbNQJofL7QjgthShSt9y+BCoZOv+cWstDe5LRpAqsu-w@mail.gmail.com>
-Subject: Re: [konis-nilfs2:for-akpm 4/4] fs/nilfs2/super.c: linux/fs_context.h
- is included more than once.
-To: kernel test robot <yujie.liu@intel.com>
-Cc: Eric Sandeen <sandeen@redhat.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-nilfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Apr 25, 2024 at 3:48=E2=80=AFPM kernel test robot wrote:
->
-> tree:   https://github.com/konis/nilfs2 for-akpm
-> head:   69812977939c7895ede256e122284c19d4d83aef
-> commit: 69812977939c7895ede256e122284c19d4d83aef [4/4] nilfs2: convert to=
- use the new mount API
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009=
-708b4367171ccdbf4b5905cb6a803753fe18)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <yujie.liu@intel.com>
-> | Closes: https://lore.kernel.org/r/202404251450.rttcxC1o-lkp@intel.com/
->
-> includecheck warnings: (new ones prefixed by >>)
-> >> fs/nilfs2/super.c: linux/fs_context.h is included more than once.
+tree:   https://github.com/nbdd0121/linux thin-lto
+head:   b0a98f58bf741dea8f63918b49d7284a8813529a
+commit: b0a98f58bf741dea8f63918b49d7284a8813529a [1/1] WIP
+config: x86_64-buildonly-randconfig-001-20240425 (https://download.01.org/0day-ci/archive/20240425/202404251623.5URkQEYy-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404251623.5URkQEYy-lkp@intel.com/reproduce)
 
-Thank you for the report.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404251623.5URkQEYy-lkp@intel.com/
 
-This patch has just been added to the -mm unstable tree, but I found
-another issue, so I'd like to ask Andrew to remove it once, and will
-resend a revised patch that also includes the fix for this warning.
+All warnings (new ones prefixed by >>):
 
-Regards,
-Ryusuke Konishi
+>> clang: warning: argument unused during compilation: '-MMD' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-MF rust/.bindings.o.d' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I arch/x86/include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./arch/x86/include/generated' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I arch/x86/include/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./arch/x86/include/generated/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I include/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./include/generated/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-include include/linux/compiler-version.h' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-include include/linux/kconfig.h' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-include include/linux/compiler_types.h' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-fmacro-prefix-map==' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I rust' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./rust' [-Wunused-command-line-argument]
+--
+>> clang: warning: argument unused during compilation: '-MMD' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-MF rust/.kernel.o.d' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I arch/x86/include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./arch/x86/include/generated' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I arch/x86/include/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./arch/x86/include/generated/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I include/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./include/generated/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-include include/linux/compiler-version.h' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-include include/linux/kconfig.h' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-include include/linux/compiler_types.h' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-fmacro-prefix-map==' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I rust' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./rust' [-Wunused-command-line-argument]
+--
+>> clang: warning: argument unused during compilation: '-MMD' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-MF rust/.doctests_kernel_generated.o.d' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I arch/x86/include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./arch/x86/include/generated' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I arch/x86/include/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./arch/x86/include/generated/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I include/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./include/generated/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-include include/linux/compiler-version.h' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-include include/linux/kconfig.h' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-include include/linux/compiler_types.h' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-fmacro-prefix-map==' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I rust' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./rust' [-Wunused-command-line-argument]
+--
+>> clang: warning: argument unused during compilation: '-MMD' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-MF samples/rust/.rust_print.o.d' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I arch/x86/include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./arch/x86/include/generated' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I arch/x86/include/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./arch/x86/include/generated/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I include/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./include/generated/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-include include/linux/compiler-version.h' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-include include/linux/kconfig.h' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-include include/linux/compiler_types.h' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-fmacro-prefix-map==' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I samples/rust' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./samples/rust' [-Wunused-command-line-argument]
+--
+>> clang: warning: argument unused during compilation: '-MMD' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-MF samples/rust/.rust_minimal.o.d' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I arch/x86/include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./arch/x86/include/generated' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I arch/x86/include/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./arch/x86/include/generated/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I include/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./include/generated/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-include include/linux/compiler-version.h' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-include include/linux/kconfig.h' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-include include/linux/compiler_types.h' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-fmacro-prefix-map==' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I samples/rust' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./samples/rust' [-Wunused-command-line-argument]
+--
+>> clang: warning: argument unused during compilation: '-MMD' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-MF rust/.bindings.o.d' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I arch/x86/include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./arch/x86/include/generated' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I arch/x86/include/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./arch/x86/include/generated/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I include/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./include/generated/uapi' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-include include/linux/compiler-version.h' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-include include/linux/kconfig.h' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-include include/linux/compiler_types.h' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-fmacro-prefix-map==' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I rust' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./rust' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-MMD' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-MF rust/.kernel.o.d' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I arch/x86/include' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I ./arch/x86/include/generated' [-Wunused-command-line-argument]
+>> clang: warning: argument unused during compilation: '-I include' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-I ./include' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-I arch/x86/include/uapi' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-I ./arch/x86/include/generated/uapi' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-I include/uapi' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-I ./include/generated/uapi' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-include include/linux/compiler-version.h' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-include include/linux/kconfig.h' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-include include/linux/compiler_types.h' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-fmacro-prefix-map==' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-I rust' [-Wunused-command-line-argument]
+   clang: warning: argument unused during compilation: '-I ./rust' [-Wunused-command-line-argument]
 
->
-> vim +32 fs/nilfs2/super.c
->
->   > 32  #include <linux/fs_context.h>
->     33  #include <linux/fs_parser.h>
->     34  #include <linux/crc32.h>
->     35  #include <linux/vfs.h>
->     36  #include <linux/writeback.h>
->     37  #include <linux/seq_file.h>
->     38  #include <linux/mount.h>
->   > 39  #include <linux/fs_context.h>
->     40  #include "nilfs.h"
->     41  #include "export.h"
->     42  #include "mdt.h"
->     43  #include "alloc.h"
->     44  #include "btree.h"
->     45  #include "btnode.h"
->     46  #include "page.h"
->     47  #include "cpfile.h"
->     48  #include "sufile.h" /* nilfs_sufile_resize(), nilfs_sufile_set_al=
-loc_range() */
->     49  #include "ifile.h"
->     50  #include "dat.h"
->     51  #include "segment.h"
->     52  #include "segbuf.h"
->     53
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
