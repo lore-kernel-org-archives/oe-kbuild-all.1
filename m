@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60875155A5D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 21:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5315A0EA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 22:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714080920; cv=none; b=npmu7v2ViiPGovJ3szMOaZOzZQZYWB0vUT/ERWa6mBUFxJte+9rcSbNnGMPtl+0zH8jFyhDxaXNzoiC/qVJBXw6bbCqy54c4yyDNZQKBZRGTymaTsA5c4OF+vsPKXivxG9Gvfk06enpFCLhxopD09DZZp7CAPDFbYO9OpPUx7nU=
+	t=1714084162; cv=none; b=Bu834g2OENyExCV0pX3yZPQ2YP7hbw424pH7zmmO293HT4Qj/5sFOwf03R/PuRagClj0AKQyCz1dUnYc2FITToRj6x3hmDhDq1WVBV1DySEjS0XLAk8FLuz5o5W+rKv5v6tHHGtP24VBfukDq47z1p1g1ZQ4k4Lyzooy/whu+e4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714080920; c=relaxed/simple;
-	bh=9V2QXWPhhXowx0euWho6q5G0NHoHG0l9abH9BBQkLzM=;
+	s=arc-20240116; t=1714084162; c=relaxed/simple;
+	bh=joGhIymXSrCBHKWGfpO+yRLZprwNFCNb4ms5Dh2gHBg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l3J1E0ri1gqjDKPFHNFWluZB1GzI5OWnliFKyqMgn0WOlkneCi+B7sf1I31F/B9SCqSYpjYRkZBUt6crV0QdoktHLIeJunnDyi93yZZ+mKjYCt7O+6wjZDodi4g77UI2wxLDGV1vI2tP28FXF0ygCLQJsqI3bi5lBu491YCCJEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fn/zN9fn; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=rD9SWl/6dognl8nUKM2K97v4XLI0AaCJT5CjU21Or0i+5qwsm+wCeqw1Sfe9d+ROiQ/WHs0Yx4/IM7oqJPE/2fC0J/lj8PEXb4cvXRPSTwByK3Ud5Hl/nG4ruwHfSVsNz3MxmXOhlBrIY24n18epi9LXT+mt1/duWom0DGgv7sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X4b4WdNl; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fn/zN9fn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X4b4WdNl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714080918; x=1745616918;
+  t=1714084161; x=1745620161;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9V2QXWPhhXowx0euWho6q5G0NHoHG0l9abH9BBQkLzM=;
-  b=Fn/zN9fnpmmwichZEcGc8fu079wsnRSUkHp5GYKuzvMv/H1qni0Gvypc
-   rReJFdFjkd1Hz+H9sxHjIsI+2NsODlGffPJ8hRgFqTjCqi5K11OVyOuEF
-   nxJ8maxtvf8syX+7Zq/dRZvf7UqcQ7SaXNYwPPU3CMRYPJjFHXBp4yuNs
-   IeGoZe+abmlrNBMe9kArhl+E0HipwKeQ3NcHVHV63o3izvlXpnQoYcAh7
-   5m/8cHFmMuo9Stf5ecpAf0I9U/j5KN4bySkJEZgre2A6aS9yMC9mdfC8L
-   O1YpVem45PUUZQ/Q+9ITpphsC9caZXfND0u+R9QJ4VYzZYoZNdLb3/kkI
+  bh=joGhIymXSrCBHKWGfpO+yRLZprwNFCNb4ms5Dh2gHBg=;
+  b=X4b4WdNlF6YaHU6XYmzbhNHkqyd1KUVEqbYdvwuNOQDMR3UKNGw6JaWT
+   sJr1WhiV5GdUJy2fHR7x6aMPfF1wfmiE0tK9ZwvVvCfGQVNFog4kYfiEa
+   xV8Om11RMGVD3vd36GG2yAbt48bXknjb5QPUCj/mvI4neWzNvYXWgLGEN
+   vTApyEhWcHzfAoIV4usqwdSql5x7KL9MYewgSr9GshMaI+U1C3aIRmRGZ
+   b38+59BoK1BXCZpsn23gdz1+/EgkhbgcI7xHIYKscEAQfTCCmj0C2l0Jz
+   +NEebF5lBcamt/gm5d6+38lFHvweMMXvnr+gMez04S+kGZTW01cuSPEXB
    g==;
-X-CSE-ConnectionGUID: djRq4yKiRt26kPNMwanODg==
-X-CSE-MsgGUID: o+RHXkGhTfayTypvj6RBMA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="10017911"
+X-CSE-ConnectionGUID: 37pi84PtSUOJmyBJsXHgOQ==
+X-CSE-MsgGUID: NhunHAi/T4+eGDPQZ9G5gg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="13587994"
 X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; 
-   d="scan'208";a="10017911"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 14:35:18 -0700
-X-CSE-ConnectionGUID: udJIeTkDTd+UApnn4zsYhA==
-X-CSE-MsgGUID: HBPbtx0mR9+5kBcsnJSf5w==
+   d="scan'208";a="13587994"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 15:29:20 -0700
+X-CSE-ConnectionGUID: x26ROl4NS5qsvH/5nY2+CA==
+X-CSE-MsgGUID: ZJWKaelKR+CJ+72DD3EMeg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; 
-   d="scan'208";a="25217790"
+   d="scan'208";a="30027455"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 25 Apr 2024 14:35:17 -0700
+  by orviesa005.jf.intel.com with ESMTP; 25 Apr 2024 15:29:19 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s06kM-0002tk-1o;
-	Thu, 25 Apr 2024 21:35:14 +0000
-Date: Fri, 26 Apr 2024 05:34:47 +0800
+	id 1s07ae-0002ww-0p;
+	Thu, 25 Apr 2024 22:29:16 +0000
+Date: Fri, 26 Apr 2024 06:28:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Granados <j.granados@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [joel-granados:jag/sysctl_remset_net 2/9]
- net/mpls/af_mpls.c:2692:18: error: use of undeclared identifier
- 'tabel_size'; did you mean 'table_size'?
-Message-ID: <202404260545.Yszcsx8x-lkp@intel.com>
+To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [drm-misc:for-linux-next 6/6]
+ drivers/gpu/drm/xlnx/zynqmp_disp.c:954: warning: Function parameter or
+ struct member 'media_bus_format' not described in
+ 'zynqmp_disp_layer_find_live_format'
+Message-ID: <202404260616.KFGDpCDN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,71 +65,236 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joel.granados/linux.git jag/sysctl_remset_net
-head:   0601b5211d4d02b83c06047608e6ab7023379071
-commit: f01da46a76f68d2c13bb9d16e00324de5af560c8 [2/9] net: Remove the now superfluous sentinel elements from ctl_table array
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20240426/202404260545.Yszcsx8x-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404260545.Yszcsx8x-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   2bdb481bf7a93c22b9fea8daefa2834aab23a70f
+commit: 1b5151bd3a2e076653a935874b39dd2c3a00452a [6/6] drm: xlnx: zynqmp_dpsub: Set input live format
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240426/202404260616.KFGDpCDN-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404260616.KFGDpCDN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404260545.Yszcsx8x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404260616.KFGDpCDN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/mpls/af_mpls.c:2692:18: error: use of undeclared identifier 'tabel_size'; did you mean 'table_size'?
-    2692 |         for (i = 0; i < tabel_size; i++)
-         |                         ^~~~~~~~~~
-         |                         table_size
-   net/mpls/af_mpls.c:2676:9: note: 'table_size' declared here
-    2676 |         size_t table_size = ARRAY_SIZE(mpls_table);
-         |                ^
-   net/mpls/af_mpls.c:2696:13: error: use of undeclared identifier 'tabel_size'; did you mean 'table_size'?
-    2696 |                                                tabel_size);
-         |                                                ^~~~~~~~~~
-         |                                                table_size
-   net/mpls/af_mpls.c:2676:9: note: 'table_size' declared here
-    2676 |         size_t table_size = ARRAY_SIZE(mpls_table);
-         |                ^
-   2 errors generated.
+   drivers/gpu/drm/xlnx/zynqmp_disp.c:164: warning: Function parameter or struct member 'blend' not described in 'zynqmp_disp'
+   drivers/gpu/drm/xlnx/zynqmp_disp.c:164: warning: Function parameter or struct member 'avbuf' not described in 'zynqmp_disp'
+   drivers/gpu/drm/xlnx/zynqmp_disp.c:164: warning: Function parameter or struct member 'audio' not described in 'zynqmp_disp'
+>> drivers/gpu/drm/xlnx/zynqmp_disp.c:954: warning: Function parameter or struct member 'media_bus_format' not described in 'zynqmp_disp_layer_find_live_format'
+>> drivers/gpu/drm/xlnx/zynqmp_disp.c:954: warning: Excess function parameter 'drm_fmt' description in 'zynqmp_disp_layer_find_live_format'
+>> drivers/gpu/drm/xlnx/zynqmp_disp.c:1129: warning: Function parameter or struct member 'media_bus_format' not described in 'zynqmp_disp_layer_set_live_format'
+   drivers/gpu/drm/xlnx/zynqmp_disp.c:1129: warning: Excess function parameter 'info' description in 'zynqmp_disp_layer_set_live_format'
 
 
-vim +2692 net/mpls/af_mpls.c
+vim +954 drivers/gpu/drm/xlnx/zynqmp_disp.c
 
-  2673	
-  2674	static int mpls_net_init(struct net *net)
-  2675	{
-  2676		size_t table_size = ARRAY_SIZE(mpls_table);
-  2677		struct ctl_table *table;
-  2678		int i;
-  2679	
-  2680		net->mpls.platform_labels = 0;
-  2681		net->mpls.platform_label = NULL;
-  2682		net->mpls.ip_ttl_propagate = 1;
-  2683		net->mpls.default_ttl = 255;
-  2684	
-  2685		table = kmemdup(mpls_table, sizeof(mpls_table), GFP_KERNEL);
-  2686		if (table == NULL)
-  2687			return -ENOMEM;
-  2688	
-  2689		/* Table data contains only offsets relative to the base of
-  2690		 * the mdev at this point, so make them absolute.
-  2691		 */
-> 2692		for (i = 0; i < tabel_size; i++)
-  2693			table[i].data = (char *)net + (uintptr_t)table[i].data;
-  2694	
-  2695		net->mpls.ctl = register_net_sysctl_sz(net, "net/mpls", table,
-  2696						       tabel_size);
-  2697		if (net->mpls.ctl == NULL) {
-  2698			kfree(table);
-  2699			return -ENOMEM;
-  2700		}
-  2701	
-  2702		return 0;
-  2703	}
-  2704	
+   938	
+   939	/**
+   940	 * zynqmp_disp_layer_find_live_format - Find format information for given
+   941	 * media bus format
+   942	 * @layer: The layer
+   943	 * @drm_fmt: Media bus format to search
+   944	 *
+   945	 * Search display subsystem format information corresponding to the given media
+   946	 * bus format @media_bus_format for the @layer, and return a pointer to the
+   947	 * format descriptor.
+   948	 *
+   949	 * Return: A pointer to the format descriptor if found, NULL otherwise
+   950	 */
+   951	static const struct zynqmp_disp_format *
+   952	zynqmp_disp_layer_find_live_format(struct zynqmp_disp_layer *layer,
+   953					   u32 media_bus_format)
+ > 954	{
+   955		unsigned int i;
+   956	
+   957		for (i = 0; i < layer->info->num_formats; i++)
+   958			if (layer->info->formats[i].bus_fmt == media_bus_format)
+   959				return &layer->info->formats[i];
+   960	
+   961		return NULL;
+   962	}
+   963	
+   964	/**
+   965	 * zynqmp_disp_layer_drm_formats - Return the DRM formats supported by the layer
+   966	 * @layer: The layer
+   967	 * @num_formats: Pointer to the returned number of formats
+   968	 *
+   969	 * NOTE: This function doesn't make sense for live video layers and will
+   970	 * always return an empty list in such cases. zynqmp_disp_live_layer_formats()
+   971	 * should be used to query a list of media bus formats supported by the live
+   972	 * video input layer.
+   973	 *
+   974	 * Return: A newly allocated u32 array that stores all the DRM formats
+   975	 * supported by the layer. The number of formats in the array is returned
+   976	 * through the num_formats argument.
+   977	 */
+   978	u32 *zynqmp_disp_layer_drm_formats(struct zynqmp_disp_layer *layer,
+   979					   unsigned int *num_formats)
+   980	{
+   981		unsigned int i;
+   982		u32 *formats;
+   983	
+   984		if (WARN_ON(!layer->mode == ZYNQMP_DPSUB_LAYER_NONLIVE)) {
+   985			*num_formats = 0;
+   986			return NULL;
+   987		}
+   988	
+   989		formats = kcalloc(layer->info->num_formats, sizeof(*formats),
+   990				  GFP_KERNEL);
+   991		if (!formats) {
+   992			*num_formats = 0;
+   993			return NULL;
+   994		}
+   995	
+   996		for (i = 0; i < layer->info->num_formats; ++i)
+   997			formats[i] = layer->info->formats[i].drm_fmt;
+   998	
+   999		*num_formats = layer->info->num_formats;
+  1000		return formats;
+  1001	}
+  1002	
+  1003	/**
+  1004	 * zynqmp_disp_live_layer_formats - Return the media bus formats supported by
+  1005	 * the live video layer
+  1006	 * @layer: The layer
+  1007	 * @num_formats: Pointer to the returned number of formats
+  1008	 *
+  1009	 * NOTE: This function should be used only for live video input layers.
+  1010	 *
+  1011	 * Return: A newly allocated u32 array of media bus formats supported by the
+  1012	 * layer. The number of formats in the array is returned through the
+  1013	 * @num_formats argument.
+  1014	 */
+  1015	u32 *zynqmp_disp_live_layer_formats(struct zynqmp_disp_layer *layer,
+  1016					    unsigned int *num_formats)
+  1017	{
+  1018		unsigned int i;
+  1019		u32 *formats;
+  1020	
+  1021		if (WARN_ON(layer->mode != ZYNQMP_DPSUB_LAYER_LIVE)) {
+  1022			*num_formats = 0;
+  1023			return NULL;
+  1024		}
+  1025	
+  1026		formats = kcalloc(layer->info->num_formats, sizeof(*formats),
+  1027				  GFP_KERNEL);
+  1028		if (!formats) {
+  1029			*num_formats = 0;
+  1030			return NULL;
+  1031		}
+  1032	
+  1033		for (i = 0; i < layer->info->num_formats; ++i)
+  1034			formats[i] = layer->info->formats[i].bus_fmt;
+  1035	
+  1036		*num_formats = layer->info->num_formats;
+  1037		return formats;
+  1038	}
+  1039	
+  1040	/**
+  1041	 * zynqmp_disp_layer_enable - Enable a layer
+  1042	 * @layer: The layer
+  1043	 *
+  1044	 * Enable the @layer in the audio/video buffer manager and the blender. DMA
+  1045	 * channels are started separately by zynqmp_disp_layer_update().
+  1046	 */
+  1047	void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer)
+  1048	{
+  1049		zynqmp_disp_avbuf_enable_video(layer->disp, layer);
+  1050		zynqmp_disp_blend_layer_enable(layer->disp, layer);
+  1051	}
+  1052	
+  1053	/**
+  1054	 * zynqmp_disp_layer_disable - Disable the layer
+  1055	 * @layer: The layer
+  1056	 *
+  1057	 * Disable the layer by stopping its DMA channels and disabling it in the
+  1058	 * audio/video buffer manager and the blender.
+  1059	 */
+  1060	void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer)
+  1061	{
+  1062		unsigned int i;
+  1063	
+  1064		if (layer->mode == ZYNQMP_DPSUB_LAYER_NONLIVE) {
+  1065			for (i = 0; i < layer->drm_fmt->num_planes; i++)
+  1066				dmaengine_terminate_sync(layer->dmas[i].chan);
+  1067		}
+  1068	
+  1069		zynqmp_disp_avbuf_disable_video(layer->disp, layer);
+  1070		zynqmp_disp_blend_layer_disable(layer->disp, layer);
+  1071	}
+  1072	
+  1073	/**
+  1074	 * zynqmp_disp_layer_set_format - Set the layer format
+  1075	 * @layer: The layer
+  1076	 * @info: The format info
+  1077	 *
+  1078	 * NOTE: Use zynqmp_disp_layer_set_live_format() to set media bus format for
+  1079	 * live video layers.
+  1080	 *
+  1081	 * Set the format for @layer to @info. The layer must be disabled.
+  1082	 */
+  1083	void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
+  1084					  const struct drm_format_info *info)
+  1085	{
+  1086		unsigned int i;
+  1087	
+  1088		if (WARN_ON(layer->mode != ZYNQMP_DPSUB_LAYER_NONLIVE))
+  1089			return;
+  1090	
+  1091		layer->disp_fmt = zynqmp_disp_layer_find_format(layer, info->format);
+  1092		if (WARN_ON(!layer->disp_fmt))
+  1093			return;
+  1094		layer->drm_fmt = info;
+  1095	
+  1096		zynqmp_disp_avbuf_set_format(layer->disp, layer, layer->disp_fmt);
+  1097	
+  1098		/*
+  1099		 * Set pconfig for each DMA channel to indicate they're part of a
+  1100		 * video group.
+  1101		 */
+  1102		for (i = 0; i < info->num_planes; i++) {
+  1103			struct zynqmp_disp_layer_dma *dma = &layer->dmas[i];
+  1104			struct xilinx_dpdma_peripheral_config pconfig = {
+  1105				.video_group = true,
+  1106			};
+  1107			struct dma_slave_config config = {
+  1108				.direction = DMA_MEM_TO_DEV,
+  1109				.peripheral_config = &pconfig,
+  1110				.peripheral_size = sizeof(pconfig),
+  1111			};
+  1112	
+  1113			dmaengine_slave_config(dma->chan, &config);
+  1114		}
+  1115	}
+  1116	
+  1117	/**
+  1118	 * zynqmp_disp_layer_set_live_format - Set the live video layer format
+  1119	 * @layer: The layer
+  1120	 * @info: The format info
+  1121	 *
+  1122	 * NOTE: This function should not be used to set format for non-live video
+  1123	 * layer. Use zynqmp_disp_layer_set_format() instead.
+  1124	 *
+  1125	 * Set the display format for the live @layer. The layer must be disabled.
+  1126	 */
+  1127	void zynqmp_disp_layer_set_live_format(struct zynqmp_disp_layer *layer,
+  1128					       u32 media_bus_format)
+> 1129	{
+  1130		if (WARN_ON(layer->mode != ZYNQMP_DPSUB_LAYER_LIVE))
+  1131			return;
+  1132	
+  1133		layer->disp_fmt = zynqmp_disp_layer_find_live_format(layer,
+  1134								     media_bus_format);
+  1135		if (WARN_ON(!layer->disp_fmt))
+  1136			return;
+  1137	
+  1138		zynqmp_disp_avbuf_set_format(layer->disp, layer, layer->disp_fmt);
+  1139	
+  1140		layer->drm_fmt = drm_format_info(layer->disp_fmt->drm_fmt);
+  1141	}
+  1142	
 
 -- 
 0-DAY CI Kernel Test Service
