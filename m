@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0CB3C3C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 02:30:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0AD78468
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 03:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714012247; cv=none; b=KScLMK2BpiJ6KCk8i4UKf19klvf1ivoo+CPe6KBomigJVTbwbLFa+ao+URJnrfftLF1eyJitpSIFqrzgJTxkhtrVCMDC+D6KI1aa67bDLSmXspeITycWjN5XxiMzzxZDLzWKp4HspgiTI4ctQ5db7LaeZ8Q2oPKxqXvVYG4lMqA=
+	t=1714017225; cv=none; b=pYTAZgQHhwaoVPN+ALrsVtAQlSV1UI5WHktqUSyTAmoCCfhjtIeDPQWVZgFLnIs7uFBnecqORW9AsUBC2CIOSaheBZneNblX+iJ09jZIquoKqvIA4iRRR/hSZbWXZ8Jag7kVNZsY2CvJRxU6B8KIUNav6u5CCNz1N1o3lRbhgMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714012247; c=relaxed/simple;
-	bh=68ePL+l7QZGYGuEef0yJprR27NPKdoYCSP7kO/u/64U=;
+	s=arc-20240116; t=1714017225; c=relaxed/simple;
+	bh=25RXw/eo/CkuKA2H4imIlqbMC8wwPRgOfKy8n2ayxvw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OzQP4gBgqSGeMJuOPj83E0g6RWVueXu/JWKktk7pV7bi9baDQxOwJnA0hCC2mBcUAKfXDElD4cx/aUZO/N7w751XUUZ4kwAwbonUpp2Y+RACrjpRIaH/rx8CpL2AyE+ua58xyeWJH4eot/xWr06QDdq1yD5jfgcjUc8UyLXXIXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9YhwMXJ; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=cNhOrVXXmMFJb4jN1t+cSm5iYCLgdS6aP4YmsFaDhEAL2dYn/NOZOdIZ4P7871Zm0RCShEB0T17k1ZHv3bQy/T3A6+3ItE/QAUvd8ieOCtxaMyNKCl3PZhOQGR1ynmLd3NkSk32eNQ5MvZsndMI829/jr7PqfnPVohsm4UzwaUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eoVysmOD; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9YhwMXJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eoVysmOD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714012245; x=1745548245;
+  t=1714017224; x=1745553224;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=68ePL+l7QZGYGuEef0yJprR27NPKdoYCSP7kO/u/64U=;
-  b=f9YhwMXJ0Gg2HfFxMEgYblBQXg7BtsuwlnBIWADJH9VgCIzkjK/CTMjw
-   kb3sP5caM36wnC2zaCZYnjlLDAUIDYs5lC+7+YNlvf6K14lmBXJFg5tWb
-   nDDwEtbT4xkxFsMFqsENJr68+y7/P9BIGCv+LgHHTmXYS7rg0KqZLAnOD
-   JExVM6IwOhuusIwzJN09YIqAPKjQs3g0xFJ4YOjEA2FV/ahAwIpEbrsrc
-   OQjw80RTtHxPz+3Bzz2zfvIKpSQm+WaLHuHlr1WymjZWQdBIbzkc/CjZ6
-   pjG5kzR18GfsIEY4OzN0mjS3saerwH+fGW7keooRE76dAc2XlA2brgkT1
-   Q==;
-X-CSE-ConnectionGUID: oYtzxOXVQ6aHTz3CIEXQfw==
-X-CSE-MsgGUID: uMRjkUc0Rai9lYx4HfNZwA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="27191007"
+  bh=25RXw/eo/CkuKA2H4imIlqbMC8wwPRgOfKy8n2ayxvw=;
+  b=eoVysmODoVP0mVLODq6Q46dFbHD8D+VLgC5elg7moPT+5ty8ENBQWBhT
+   FahKarTYIvW5POSKMdUKSnCHrf5QaL1M9gjAxVJxGaJbP4kKaKsXtqfWz
+   dRcWMVICUrNHhJYTma4dj6uliILEAI9R18Cb4Zp2W6qKyekPXkKmiQNZU
+   c0wZbuOE5/8/UxivbyJ/0bdYJ04RgcfLjZkzeK09ZlZWiAMUOBjZ6CuXg
+   kTVTmg+l/UZzACuJZ4Q9auTAxXEO5lWqipbW7KSOM9cITjpcfR2q24r43
+   kW8CJwr1X1bsungDx9E/SmO0PmOsJr8AIPYgW2fUqagnzCKA7w6hov+4u
+   w==;
+X-CSE-ConnectionGUID: pX3Q8MSITiyYsQ6rBT8cJA==
+X-CSE-MsgGUID: NXlaTVxdQw+wKlO0taGstw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9549614"
 X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
-   d="scan'208";a="27191007"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 19:30:40 -0700
-X-CSE-ConnectionGUID: m9SUGDa3QIOpIhVKgBaYvQ==
-X-CSE-MsgGUID: G96SZV9fRQO0UMd437iOgw==
+   d="scan'208";a="9549614"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 20:53:43 -0700
+X-CSE-ConnectionGUID: knCEb6dOS3WY2qLnlKDR+w==
+X-CSE-MsgGUID: H6trD3CaQ/qCjGE7O8bOkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
-   d="scan'208";a="25001830"
+   d="scan'208";a="24807804"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Apr 2024 19:30:39 -0700
+  by orviesa010.jf.intel.com with ESMTP; 24 Apr 2024 20:53:42 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzosf-0001s2-0p;
-	Thu, 25 Apr 2024 02:30:37 +0000
-Date: Thu, 25 Apr 2024 10:30:18 +0800
+	id 1rzqB1-0001vI-0g;
+	Thu, 25 Apr 2024 03:53:39 +0000
+Date: Thu, 25 Apr 2024 11:53:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [krzk-mem-ctrl:mem-ctrl-next 5/10]
- drivers/memory/tegra/tegra210-emc-cc-r21021.c:136:17: error: called object
- 'udelay' is not a function or function pointer
-Message-ID: <202404251041.06z9G7BF-lkp@intel.com>
+To: Michal Kubiak <michal.kubiak@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alobakin:pr/24 1/2] drivers/net/ethernet/intel/idpf/xdp.c:505:30:
+ warning: unused variable 'adapter'
+Message-ID: <202404251116.BtpS3T52-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,370 +62,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git mem-ctrl-next
-head:   edbf2db5ae95c4d8f189d05e827d9dd3ea75cfbc
-commit: 09dd3744d7c02a3844e8a6c96ab2fb3c1e94de52 [5/10] memory: tegra: Move DQSOSC measurement to common place
-config: alpha-randconfig-r081-20240425 (https://download.01.org/0day-ci/archive/20240425/202404251041.06z9G7BF-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404251041.06z9G7BF-lkp@intel.com/reproduce)
+tree:   https://github.com/alobakin/linux pr/24
+head:   3490505e6cff970750961b02b0db545e76ef50a9
+commit: 02c41469746e43eac042300335fdb7db2cf500a3 [1/2] idpf: handle xdp unloading while the driver is being removed
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240425/202404251116.BtpS3T52-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404251116.BtpS3T52-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404251041.06z9G7BF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404251116.BtpS3T52-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c: In function 'update_clock_tree_delay':
->> drivers/memory/tegra/tegra210-emc-cc-r21021.c:136:17: error: called object 'udelay' is not a function or function pointer
-     136 |                 udelay(udelay);
-         |                 ^~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:126:32: note: declared here
-     126 |         u32 temp[2][2], value, udelay;
-         |                                ^~~~~~
+   drivers/net/ethernet/intel/idpf/xdp.c: In function 'idpf_xdp_setup_prog':
+>> drivers/net/ethernet/intel/idpf/xdp.c:505:30: warning: unused variable 'adapter' [-Wunused-variable]
+     505 |         struct idpf_adapter *adapter = np->adapter;
+         |                              ^~~~~~~
 
 
-vim +/udelay +136 drivers/memory/tegra/tegra210-emc-cc-r21021.c
+vim +/adapter +505 drivers/net/ethernet/intel/idpf/xdp.c
 
-    73	
-    74	/*
-    75	 * The division portion of the average operation.
-    76	 */
-    77	#define __AVERAGE_PTFV(dev)						\
-    78		({ next->ptfv_list[PTFV_DQSOSC_MOVAVG_ ## dev ## _INDEX] =	\
-    79		   next->ptfv_list[PTFV_DQSOSC_MOVAVG_ ## dev ## _INDEX] /	\
-    80		   next->ptfv_list[PTFV_DVFS_SAMPLES_INDEX]; })
-    81	
-    82	/*
-    83	 * Convert val to fixed point and add it to the temporary average.
-    84	 */
-    85	#define __INCREMENT_PTFV(dev, val)					\
-    86		({ next->ptfv_list[PTFV_DQSOSC_MOVAVG_ ## dev ## _INDEX] +=	\
-    87		   ((val) * MOVAVG_PRECISION_FACTOR); })
-    88	
-    89	/*
-    90	 * Convert a moving average back to integral form and return the value.
-    91	 */
-    92	#define __MOVAVG_AC(timing, dev)					\
-    93		((timing)->ptfv_list[PTFV_DQSOSC_MOVAVG_ ## dev ## _INDEX] /	\
-    94		 MOVAVG_PRECISION_FACTOR)
-    95	
-    96	/* Weighted update. */
-    97	#define __WEIGHTED_UPDATE_PTFV(dev, nval)				\
-    98		do {								\
-    99			int w = PTFV_MOVAVG_WEIGHT_INDEX;			\
-   100			int dqs = PTFV_DQSOSC_MOVAVG_ ## dev ## _INDEX;		\
-   101										\
-   102			next->ptfv_list[dqs] =					\
-   103				((nval * MOVAVG_PRECISION_FACTOR) +		\
-   104				 (next->ptfv_list[dqs] *			\
-   105				  next->ptfv_list[w])) /			\
-   106				(next->ptfv_list[w] + 1);			\
-   107										\
-   108			emc_dbg(emc, EMA_UPDATES, "%s: (s=%lu) EMA: %u\n",	\
-   109				__stringify(dev), nval, next->ptfv_list[dqs]);	\
-   110		} while (0)
-   111	
-   112	/* Access a particular average. */
-   113	#define __MOVAVG(timing, dev)                      \
-   114		((timing)->ptfv_list[PTFV_DQSOSC_MOVAVG_ ## dev ## _INDEX])
-   115	
-   116	static u32 update_clock_tree_delay(struct tegra210_emc *emc, int type)
-   117	{
-   118		bool periodic_training_update = type == PERIODIC_TRAINING_UPDATE;
-   119		struct tegra210_emc_timing *last = emc->last;
-   120		struct tegra210_emc_timing *next = emc->next;
-   121		u32 last_timing_rate_mhz = last->rate / 1000;
-   122		u32 next_timing_rate_mhz = next->rate / 1000;
-   123		bool dvfs_update = type == DVFS_UPDATE;
-   124		s32 tdel = 0, tmdel = 0, adel = 0;
-   125		bool dvfs_pt1 = type == DVFS_PT1;
-   126		u32 temp[2][2], value, udelay;
-   127		unsigned long cval = 0;
-   128		unsigned int i;
-   129	
-   130		if (dvfs_pt1 || periodic_training_update) {
-   131			udelay = tegra210_emc_actual_osc_clocks(last->run_clocks);
-   132			udelay *= 1000;
-   133			udelay = 2 + (udelay / last->rate);
-   134	
-   135			tegra210_emc_start_periodic_compensation(emc);
- > 136			udelay(udelay);
-   137		}
-   138	
-   139		/*
-   140		 * Dev0 MSB.
-   141		 */
-   142		if (dvfs_pt1 || periodic_training_update) {
-   143			value = tegra210_emc_mrr_read(emc, 2, 19);
-   144	
-   145			for (i = 0; i < emc->num_channels; i++) {
-   146				temp[i][0] = (value & 0x00ff) << 8;
-   147				temp[i][1] = (value & 0xff00) << 0;
-   148				value >>= 16;
-   149			}
-   150	
-   151			/*
-   152			 * Dev0 LSB.
-   153			 */
-   154			value = tegra210_emc_mrr_read(emc, 2, 18);
-   155	
-   156			for (i = 0; i < emc->num_channels; i++) {
-   157				temp[i][0] |= (value & 0x00ff) >> 0;
-   158				temp[i][1] |= (value & 0xff00) >> 8;
-   159				value >>= 16;
-   160			}
-   161		}
-   162	
-   163		if (dvfs_pt1 || periodic_training_update) {
-   164			cval = tegra210_emc_actual_osc_clocks(last->run_clocks);
-   165			cval *= 1000000;
-   166			cval /= last_timing_rate_mhz * 2 * temp[0][0];
-   167		}
-   168	
-   169		if (dvfs_pt1)
-   170			__INCREMENT_PTFV(C0D0U0, cval);
-   171		else if (dvfs_update)
-   172			__AVERAGE_PTFV(C0D0U0);
-   173		else if (periodic_training_update)
-   174			__WEIGHTED_UPDATE_PTFV(C0D0U0, cval);
-   175	
-   176		if (dvfs_update || periodic_training_update) {
-   177			tdel = next->current_dram_clktree[C0D0U0] -
-   178					__MOVAVG_AC(next, C0D0U0);
-   179			tmdel = (tdel < 0) ? -1 * tdel : tdel;
-   180			adel = tmdel;
-   181	
-   182			if (tmdel * 128 * next_timing_rate_mhz / 1000000 >
-   183			    next->tree_margin)
-   184				next->current_dram_clktree[C0D0U0] =
-   185					__MOVAVG_AC(next, C0D0U0);
-   186		}
-   187	
-   188		if (dvfs_pt1 || periodic_training_update) {
-   189			cval = tegra210_emc_actual_osc_clocks(last->run_clocks);
-   190			cval *= 1000000;
-   191			cval /= last_timing_rate_mhz * 2 * temp[0][1];
-   192		}
-   193	
-   194		if (dvfs_pt1)
-   195			__INCREMENT_PTFV(C0D0U1, cval);
-   196		else if (dvfs_update)
-   197			__AVERAGE_PTFV(C0D0U1);
-   198		else if (periodic_training_update)
-   199			__WEIGHTED_UPDATE_PTFV(C0D0U1, cval);
-   200	
-   201		if (dvfs_update || periodic_training_update) {
-   202			tdel = next->current_dram_clktree[C0D0U1] -
-   203					__MOVAVG_AC(next, C0D0U1);
-   204			tmdel = (tdel < 0) ? -1 * tdel : tdel;
-   205	
-   206			if (tmdel > adel)
-   207				adel = tmdel;
-   208	
-   209			if (tmdel * 128 * next_timing_rate_mhz / 1000000 >
-   210			    next->tree_margin)
-   211				next->current_dram_clktree[C0D0U1] =
-   212					__MOVAVG_AC(next, C0D0U1);
-   213		}
-   214	
-   215		if (emc->num_channels > 1) {
-   216			if (dvfs_pt1 || periodic_training_update) {
-   217				cval = tegra210_emc_actual_osc_clocks(last->run_clocks);
-   218				cval *= 1000000;
-   219				cval /= last_timing_rate_mhz * 2 * temp[1][0];
-   220			}
-   221	
-   222			if (dvfs_pt1)
-   223				__INCREMENT_PTFV(C1D0U0, cval);
-   224			else if (dvfs_update)
-   225				__AVERAGE_PTFV(C1D0U0);
-   226			else if (periodic_training_update)
-   227				__WEIGHTED_UPDATE_PTFV(C1D0U0, cval);
-   228	
-   229			if (dvfs_update || periodic_training_update) {
-   230				tdel = next->current_dram_clktree[C1D0U0] -
-   231						__MOVAVG_AC(next, C1D0U0);
-   232				tmdel = (tdel < 0) ? -1 * tdel : tdel;
-   233	
-   234				if (tmdel > adel)
-   235					adel = tmdel;
-   236	
-   237				if (tmdel * 128 * next_timing_rate_mhz / 1000000 >
-   238				    next->tree_margin)
-   239					next->current_dram_clktree[C1D0U0] =
-   240						__MOVAVG_AC(next, C1D0U0);
-   241			}
-   242	
-   243			if (dvfs_pt1 || periodic_training_update) {
-   244				cval = tegra210_emc_actual_osc_clocks(last->run_clocks);
-   245				cval *= 1000000;
-   246				cval /= last_timing_rate_mhz * 2 * temp[1][1];
-   247			}
-   248	
-   249			if (dvfs_pt1)
-   250				__INCREMENT_PTFV(C1D0U1, cval);
-   251			else if (dvfs_update)
-   252				__AVERAGE_PTFV(C1D0U1);
-   253			else if (periodic_training_update)
-   254				__WEIGHTED_UPDATE_PTFV(C1D0U1, cval);
-   255	
-   256			if (dvfs_update || periodic_training_update) {
-   257				tdel = next->current_dram_clktree[C1D0U1] -
-   258						__MOVAVG_AC(next, C1D0U1);
-   259				tmdel = (tdel < 0) ? -1 * tdel : tdel;
-   260	
-   261				if (tmdel > adel)
-   262					adel = tmdel;
-   263	
-   264				if (tmdel * 128 * next_timing_rate_mhz / 1000000 >
-   265				    next->tree_margin)
-   266					next->current_dram_clktree[C1D0U1] =
-   267						__MOVAVG_AC(next, C1D0U1);
-   268			}
-   269		}
-   270	
-   271		if (emc->num_devices < 2)
-   272			goto done;
-   273	
-   274		/*
-   275		 * Dev1 MSB.
-   276		 */
-   277		if (dvfs_pt1 || periodic_training_update) {
-   278			value = tegra210_emc_mrr_read(emc, 1, 19);
-   279	
-   280			for (i = 0; i < emc->num_channels; i++) {
-   281				temp[i][0] = (value & 0x00ff) << 8;
-   282				temp[i][1] = (value & 0xff00) << 0;
-   283				value >>= 16;
-   284			}
-   285	
-   286			/*
-   287			 * Dev1 LSB.
-   288			 */
-   289			value = tegra210_emc_mrr_read(emc, 1, 18);
-   290	
-   291			for (i = 0; i < emc->num_channels; i++) {
-   292				temp[i][0] |= (value & 0x00ff) >> 0;
-   293				temp[i][1] |= (value & 0xff00) >> 8;
-   294				value >>= 16;
-   295			}
-   296		}
-   297	
-   298		if (dvfs_pt1 || periodic_training_update) {
-   299			cval = tegra210_emc_actual_osc_clocks(last->run_clocks);
-   300			cval *= 1000000;
-   301			cval /= last_timing_rate_mhz * 2 * temp[0][0];
-   302		}
-   303	
-   304		if (dvfs_pt1)
-   305			__INCREMENT_PTFV(C0D1U0, cval);
-   306		else if (dvfs_update)
-   307			__AVERAGE_PTFV(C0D1U0);
-   308		else if (periodic_training_update)
-   309			__WEIGHTED_UPDATE_PTFV(C0D1U0, cval);
-   310	
-   311		if (dvfs_update || periodic_training_update) {
-   312			tdel = next->current_dram_clktree[C0D1U0] -
-   313					__MOVAVG_AC(next, C0D1U0);
-   314			tmdel = (tdel < 0) ? -1 * tdel : tdel;
-   315	
-   316			if (tmdel > adel)
-   317				adel = tmdel;
-   318	
-   319			if (tmdel * 128 * next_timing_rate_mhz / 1000000 >
-   320			    next->tree_margin)
-   321				next->current_dram_clktree[C0D1U0] =
-   322					__MOVAVG_AC(next, C0D1U0);
-   323		}
-   324	
-   325		if (dvfs_pt1 || periodic_training_update) {
-   326			cval = tegra210_emc_actual_osc_clocks(last->run_clocks);
-   327			cval *= 1000000;
-   328			cval /= last_timing_rate_mhz * 2 * temp[0][1];
-   329		}
-   330	
-   331		if (dvfs_pt1)
-   332			__INCREMENT_PTFV(C0D1U1, cval);
-   333		else if (dvfs_update)
-   334			__AVERAGE_PTFV(C0D1U1);
-   335		else if (periodic_training_update)
-   336			__WEIGHTED_UPDATE_PTFV(C0D1U1, cval);
-   337	
-   338		if (dvfs_update || periodic_training_update) {
-   339			tdel = next->current_dram_clktree[C0D1U1] -
-   340					__MOVAVG_AC(next, C0D1U1);
-   341			tmdel = (tdel < 0) ? -1 * tdel : tdel;
-   342	
-   343			if (tmdel > adel)
-   344				adel = tmdel;
-   345	
-   346			if (tmdel * 128 * next_timing_rate_mhz / 1000000 >
-   347			    next->tree_margin)
-   348				next->current_dram_clktree[C0D1U1] =
-   349					__MOVAVG_AC(next, C0D1U1);
-   350		}
-   351	
-   352		if (emc->num_channels > 1) {
-   353			if (dvfs_pt1 || periodic_training_update) {
-   354				cval = tegra210_emc_actual_osc_clocks(last->run_clocks);
-   355				cval *= 1000000;
-   356				cval /= last_timing_rate_mhz * 2 * temp[1][0];
-   357			}
-   358	
-   359			if (dvfs_pt1)
-   360				__INCREMENT_PTFV(C1D1U0, cval);
-   361			else if (dvfs_update)
-   362				__AVERAGE_PTFV(C1D1U0);
-   363			else if (periodic_training_update)
-   364				__WEIGHTED_UPDATE_PTFV(C1D1U0, cval);
-   365	
-   366			if (dvfs_update || periodic_training_update) {
-   367				tdel = next->current_dram_clktree[C1D1U0] -
-   368						__MOVAVG_AC(next, C1D1U0);
-   369				tmdel = (tdel < 0) ? -1 * tdel : tdel;
-   370	
-   371				if (tmdel > adel)
-   372					adel = tmdel;
-   373	
-   374				if (tmdel * 128 * next_timing_rate_mhz / 1000000 >
-   375				    next->tree_margin)
-   376					next->current_dram_clktree[C1D1U0] =
-   377						__MOVAVG_AC(next, C1D1U0);
-   378			}
-   379	
-   380			if (dvfs_pt1 || periodic_training_update) {
-   381				cval = tegra210_emc_actual_osc_clocks(last->run_clocks);
-   382				cval *= 1000000;
-   383				cval /= last_timing_rate_mhz * 2 * temp[1][1];
-   384			}
-   385	
-   386			if (dvfs_pt1)
-   387				__INCREMENT_PTFV(C1D1U1, cval);
-   388			else if (dvfs_update)
-   389				__AVERAGE_PTFV(C1D1U1);
-   390			else if (periodic_training_update)
-   391				__WEIGHTED_UPDATE_PTFV(C1D1U1, cval);
-   392	
-   393			if (dvfs_update || periodic_training_update) {
-   394				tdel = next->current_dram_clktree[C1D1U1] -
-   395						__MOVAVG_AC(next, C1D1U1);
-   396				tmdel = (tdel < 0) ? -1 * tdel : tdel;
-   397	
-   398				if (tmdel > adel)
-   399					adel = tmdel;
-   400	
-   401				if (tmdel * 128 * next_timing_rate_mhz / 1000000 >
-   402				    next->tree_margin)
-   403					next->current_dram_clktree[C1D1U1] =
-   404						__MOVAVG_AC(next, C1D1U1);
-   405			}
-   406		}
-   407	
-   408	done:
-   409		return adel;
-   410	}
-   411	
+   495	
+   496	/**
+   497	 * idpf_xdp_setup_prog - Add or remove XDP eBPF program
+   498	 * @vport: vport to setup XDP for
+   499	 * @xdp: XDP program and extack
+   500	 */
+   501	static int
+   502	idpf_xdp_setup_prog(struct idpf_vport *vport, struct netdev_bpf *xdp)
+   503	{
+   504		struct idpf_netdev_priv *np = netdev_priv(vport->netdev);
+ > 505		struct idpf_adapter *adapter = np->adapter;
+   506		struct bpf_prog *prog = xdp->prog;
+   507		struct xdp_attachment_info *info;
+   508		bool needs_reconfig, vport_is_up;
+   509		u16 idx = vport->idx;
+   510		int err;
+   511	
+   512		vport_is_up = np->state == __IDPF_VPORT_UP;
+   513	
+   514		info = &vport->adapter->vport_config[idx]->user_config.xdp;
+   515		needs_reconfig = !!info->prog != !!prog;
+   516	
+   517		if (vport->netdev->reg_state == NETREG_UNREGISTERING && !prog) {
+   518			libeth_xdp_set_redirect(vport->netdev, prog);
+   519			xdp_attachment_setup(info, xdp);
+   520	
+   521			return 0;
+   522		}
+   523	
+   524		if (!needs_reconfig) {
+   525			idpf_copy_xdp_prog_to_qs(vport, prog);
+   526			xdp_attachment_setup(info, xdp);
+   527	
+   528			return 0;
+   529		}
+   530	
+   531		if (!vport_is_up) {
+   532			idpf_send_delete_queues_msg(vport);
+   533		} else {
+   534			set_bit(IDPF_VPORT_DEL_QUEUES, vport->flags);
+   535			idpf_vport_stop(vport);
+   536		}
+   537	
+   538		idpf_deinit_rss(vport);
+   539		xdp_attachment_setup(info, xdp);
+   540	
+   541		err = idpf_xdp_reconfig_queues(vport);
+   542		if (err) {
+   543			NL_SET_ERR_MSG_MOD(xdp->extack,
+   544					   "Could not reconfigure the queues after XDP setup");
+   545			return err;
+   546		}
+   547	
+   548		libeth_xdp_set_redirect(vport->netdev, prog);
+   549	
+   550		if (vport_is_up) {
+   551			err = idpf_vport_open(vport, false);
+   552			if (err) {
+   553				NL_SET_ERR_MSG_MOD(xdp->extack,
+   554						   "Could not reopen the vport after XDP setup");
+   555				return err;
+   556			}
+   557		}
+   558	
+   559		return 0;
+   560	}
+   561	
 
 -- 
 0-DAY CI Kernel Test Service
