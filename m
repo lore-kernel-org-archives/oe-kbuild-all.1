@@ -1,213 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844D738F83
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 06:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714026619; cv=fail; b=rkxdPjy16GbiYIidzKlHPirZQOF8+7N7fhtVY5sZiVs5bcatxjDqYst4Z+AQVKYQTFq8o7DH3cZtpYf5mqZ+QhvKLwZycOnRdUtP66QOkzxIS5fcrqOwrM5Ftu3gC95rnu69UCoMLKAJ300ahW9bIWXE/C0cpSNm5nmv+UedXnI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714026619; c=relaxed/simple;
-	bh=mwFUNztrh3u07G3rXF1VLcFLMcSh8VqYs7jHQS6Egs8=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=XltgvLfKeLMWP/CvEmhOOsWikDJLGOoeZkooc5axqLjFz0A06i53KpId6uIG8P2IRyni/m9fgj2SZOyZte1DvFVQEQNnCtdKDETlWPRWG7ehKe2VyYBWLqJZXxG/l1pWKHEY02coijAyvHJOcxoHjEHMLZ+m5Y2Nwd9qnmKCI7Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BL3ZOakF; arc=fail smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2476B22EF3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 06:36:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714027006; cv=none; b=o6e/JeKtIzdPIzzIOo5MiVBF2NhFrQAQAwP4h4ymOSWC3XKeSxel+7UTweHQMf+9j8FHdns6EWCvGPpWmk/66WPckMbS8+5qPvndYiXGdmUcuAKRoUBYhiyYkGlIVucD6JAHELUY6eGchuGSY16g8euNMnK2rXg369n2ybV9o7o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714027006; c=relaxed/simple;
+	bh=fXX7PNIq+eqUBp26vAao/Ry5cR8n5yzz3VEhOgtDbKo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FhcBmmzWQmFM4EnpcVzkx5+bLS4yEiOsTyc1HBu2jjYYttACTJV01hNV4NK8Nbdeaw7WMZXfC4nuL/iiuduNt3rXD/4fs45gfWQpSPnKg6rYS8sXXaZYPU2brDvvRvkQSKbHi+1gK12hFfDJLL+girepGFyb3NhmTx8mCSjGgwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hJneGBPw; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BL3ZOakF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714026619; x=1745562619;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mwFUNztrh3u07G3rXF1VLcFLMcSh8VqYs7jHQS6Egs8=;
-  b=BL3ZOakFRdo0jv+5kP6g6mu6bgHWg05Ks84yvLcaHWBnxe2lr2RnlxfO
-   zCtuR7/e0BXE0cm4+43C1CSM2Aoa4Er6z6os9/vPLx3ZalV67LptQMkJi
-   nWr1mObjocycZH/ex/JM3qyaweSMkTp/CQPfWyc1B+LsM1bzVBhVxR2Wr
-   r3tM6Da/5itBUeI4VM7LdFFWZxUsVG0N+xzOb/+bdfuU98SOLfRmQi4ED
-   x7hcK8XvM8xX6ZxjkqYTRhvQ5bI0eL20RY2EZ2TivlVtL3S+8BD/9MTNv
-   GX1pBRJWhu/rkuxWzoMR2fcjGkK/xjiwWatupfHEQ/q7V6yrdxV0jj77C
-   w==;
-X-CSE-ConnectionGUID: Z9gVqOQGT46aIJiqYFAkCA==
-X-CSE-MsgGUID: 4eguiY7STLCf18Ir8TGm8A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9802426"
-X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
-   d="scan'208";a="9802426"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 23:30:18 -0700
-X-CSE-ConnectionGUID: WGZblV4SRveNNgwb/BAytg==
-X-CSE-MsgGUID: rQraELhOT1ier4zkRXjxLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
-   d="scan'208";a="29422861"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 24 Apr 2024 23:30:17 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 24 Apr 2024 23:30:16 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 24 Apr 2024 23:30:16 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 24 Apr 2024 23:30:16 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 24 Apr 2024 23:30:15 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FRNPSQ8NZ+YH7jgXudosqAOatfz/Yxw52LU50OZGDPwVjrMmoIlEBa1g7ajwvwEFNK3zmVJmPhUsGKSLSmF/rcnjnfs52a8emWmlXsXH0DuftOZwNiktp6Qe+MjxFeh4cHQ5i2aVlhxrveiqq/dUtsZZSH1wQs2SM7VLfuSSiqCbGsy0I4mbCzjhDRT+nQ6L9Np1Bc6vky/4Q7rUpoJnPHehCD2wDetYHGMVnOrY+hOOA/LEqP84J1vm6euoU6Y+dDKpmC/d/wEH8C5pOUXtZVkUIfigEAJKATdXIkKkJ+YL2ksua6g3eFAWjM9xbHeoeIr23PqkgoDjZ1LYpOS3EA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M2W+1uopRfuqxRhrIdwNExS1E8eWA8csItKusCGaaeA=;
- b=Mu3b36pqSI4c0M8T1K91TdX1PGhbrZ24IDK98/6samZzI/4XvtWqtw0JK+m/AKZchs3rGax/sRS9aagVxxE+YJbMLfQBAkf7DdPlRFu6Nza8QarOy1++u1Dp8eQ1UQF4tumCTe2cO8jJQbRKDzI4+J1FiKAGlPKjZVBvBX5zCtVQ1lFgBK1IecG+la5OAAteuIKsV0alrQL6rZym929D5lAUFpsVvrXclmbz/wbfhh9IoQsDIAfubHgCJJJ2QTh1r3pT/xMzEJO4cE45rLo+pnzXIPP9Tzme453ihckDNozRn+xeurKhouSe8H2DwFvSyjrB9qg6r/nsb57Zw4GBcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB8393.namprd11.prod.outlook.com (2603:10b6:806:373::21)
- by SJ1PR11MB6204.namprd11.prod.outlook.com (2603:10b6:a03:459::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.24; Thu, 25 Apr
- 2024 06:30:14 +0000
-Received: from SA1PR11MB8393.namprd11.prod.outlook.com
- ([fe80::c0cf:689c:129c:4bcd]) by SA1PR11MB8393.namprd11.prod.outlook.com
- ([fe80::c0cf:689c:129c:4bcd%6]) with mapi id 15.20.7519.021; Thu, 25 Apr 2024
- 06:30:14 +0000
-Date: Thu, 25 Apr 2024 14:23:42 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Aurabindo Pillai <aurabindo.pillai@amd.com>
-CC: <oe-kbuild-all@lists.linux.dev>, Linux Infrastructure
-	<z1.linuxinfra@amd.com>
-Subject: [agd5f:amd-staging-drm-next 2014/2033]
- drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c:
- dcn401/dcn401_clk_mgr.h is included more than once.
-Message-ID: <202404241420.gx1LAd2A-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR03CA0095.apcprd03.prod.outlook.com
- (2603:1096:4:7c::23) To SA1PR11MB8393.namprd11.prod.outlook.com
- (2603:10b6:806:373::21)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hJneGBPw"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5d4d15ec7c5so511703a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Apr 2024 23:36:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714027003; x=1714631803; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8/CVMgQfWxFUq1jS+amCjYb3SFmeSwZaVXuqq9MhTDg=;
+        b=hJneGBPw+ne6uHhGth/ObAoDzA3rd18txRXbvt78L7CyoHZpv4An43E0I5neK1VBEi
+         MBzUV1VYEAKnNQ8naGDZGae5SIOrSzPagtAA7CAZKe1/nJ4GljW4kkT4BQOjqM0sNw74
+         isPD65IzC5xmbSiECqtJ2wqINxGTqH1uBfs0a4sdsRuNFIKBJZGWs/ID99UI/f0iSkSi
+         tnHzV09WUpJX2nMvHAWs0oCSb74ASlg/+qycX7+d/VsJpZEi/5ND682Sfjrkw2vhVx34
+         X6Y0Fxq632eANGiyloMrKF7jYgbPs5MwSzXPEZFJmLFkbTwmxOaA3eEFw2patXfzXd8/
+         67tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714027003; x=1714631803;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8/CVMgQfWxFUq1jS+amCjYb3SFmeSwZaVXuqq9MhTDg=;
+        b=Lk+4SUwB2rnWSZfc4BpCUlhfQS7BWBMITeLB14I3BAehE1CbMM5J7U+1mX3jbE/ARy
+         GRdzXnZABdlVGmoy/DAxGNIIHMytEFd1whqPmXL6cDRlwDYiyJFWYI0U3D+2Qk2dAZfk
+         xDGGLG4EpiWgInf2lEcSgQd6M2fBF82zAeC9oVqK9tidQlzVNSsY3N6m7qIpJELWZ10I
+         0KDDX17lCMZ3getehapZOEJWq2RHpjiqfCHkSj4gCt/G+JR2Tu/C3LZBoBW9vI85Icb6
+         LwBqbdgh7pFX8kUTMAkFqczE0/C2DUnJw2T9ADZhptxfxUXdCnxphIjB96Jk81dok7/G
+         JX0Q==
+X-Gm-Message-State: AOJu0YyGRkCZHI8e/8zBwPA8tS+Yj8Ai3mWwxfuyqUD19vJPhLMHyu5I
+	nEZfjYWkhZo8E7OEXDmGSZpgTMKz557dCKlEfQOlORF6OXqs/hFIgjc7msfk/0JN8iRd3ugxLx5
+	c4kIPaQ9o88N/O+DqlKeShgjHNO79jN3aaSvzSw==
+X-Google-Smtp-Source: AGHT+IHyqZEcfsfPUmwPYTICqPTYsja7jffEAzz+Mo8AnWurcRqCd7FU3lPpsWSsWQ9HOzxVDXNmlkUL/ok4odKJ8/s=
+X-Received: by 2002:a17:90a:fa06:b0:2ac:d9f:de9b with SMTP id
+ cm6-20020a17090afa0600b002ac0d9fde9bmr5162954pjb.45.1714027003235; Wed, 24
+ Apr 2024 23:36:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB8393:EE_|SJ1PR11MB6204:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b71e0a6-be19-42cc-033c-08dc64f12a65
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?eM2Rs6h4z7IqAksBiHAmL+dx5Cdb3yn7LUF+WsL2uXKk4AUCNyGk2MRU4xI+?=
- =?us-ascii?Q?4aOsfAhHDtaiguKeNyqWYZ9pz5i0xnVsqjOfXsJN4Phc0a8kjjHu6mAt4MVm?=
- =?us-ascii?Q?Y1yL0q8cQexadJRdW/pHDhey0y3sNxoGKw9hcq/jOEo/xM//dNWSBZgb6wGt?=
- =?us-ascii?Q?/9WClhlwnksuJNnukXx/V8jLHdaDzPL7yXpAX6vHyiQZA9OUg9AOWSsnKOQZ?=
- =?us-ascii?Q?+ziMBg+f9ow389po8eZ1mKiGSB9h9f45CCw+BJxAIXqZdpgGQejPLT/M5V2i?=
- =?us-ascii?Q?R49RN6lbcRIi+/E0xSmxiAtdJ0OdXt3ol1KG1xmlVPUrprfJUd+JefcKsRgo?=
- =?us-ascii?Q?Xt+ge/b4qPf3l5jh73BpyIY8GtPDYk4L1TvJIZqeV1xUULRb1kD81umj1ksN?=
- =?us-ascii?Q?2n3/sKTnN+HcG8a0zPrzqGEtc2YIH6LrqxdWWqsVnyQVwk2Zmi/4T7n5dORf?=
- =?us-ascii?Q?25/2KX50Wnwtkg03JvqZwoCzQLTsJo7wmNLTEzTVKZr9/Wc1moEZvqCPNdUi?=
- =?us-ascii?Q?9WxLPrO3tOtwubCV9pYT4ADRMMHThKlsqUWMBp5Ma/55jcfG1K7iQiNqlaTi?=
- =?us-ascii?Q?nyUa9W2qjvMtOA5AXNZH/VRZSLJVVqip7/XettGtEvkm3ZiMs1OzzOmdeI1x?=
- =?us-ascii?Q?Lpje7li/3L0Wn9v/zDoBkgQ8skYarKo2Yb0ASeT2Cn4QwrSBOjMeEa1R3oSs?=
- =?us-ascii?Q?BQS1NJwhFWkw9cl/ZIdOj9HaAsRiEjB1Ad4t9hhatfywYSpYQNU9g5cpz906?=
- =?us-ascii?Q?U4zwXaTPoAfz0UqrJNJjBIbP8D1ogDEtN83yr1oMAX3pPRDktOY8vsWtCHWp?=
- =?us-ascii?Q?4txiZbEP5tLxPbhRsTGOdh4CwAJ4NdlhaFUQCqHcE7XlCcx3U0K5Cdz0kh81?=
- =?us-ascii?Q?3e+w8bfOqGVcDHBomDiY2VvYUeyyf6DZZpKz+YtBYhfM6GLQFhYfzdsz/p/m?=
- =?us-ascii?Q?wjlsB6MeJcbx3apsIVaOdoosfYXQuREJoavm4JHwmtOm5BgkzQ5+hbXEkgbT?=
- =?us-ascii?Q?npf6tAVzMVZPzkoqsyJbIE1U6xvs+k+O7gXDG1fDWbmrWI3o8v/03T/nhNdy?=
- =?us-ascii?Q?8y7IefjywzY5xvsfYzFTIea+hGzpak89iy0fecD3wbnnGX7QdHNlKAJPxztN?=
- =?us-ascii?Q?2hqBhs5SqyaIyz2ySxzzWNizCvcX1azGv6IFM8eUQDm7AAoOd5AQtyil8RuX?=
- =?us-ascii?Q?Ha7K08WcyiCfc6yQNryo13BcOGqVbhde6aqdpC7nh4ZxgsLcfnVHBPnnCOI?=
- =?us-ascii?Q?=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8393.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3qTeRg2NgOycx5+rtUo1Zi7o7b45nEjrYvisEwpoN9z/8PGLo1RwMvmW/LpK?=
- =?us-ascii?Q?SetMvZyv0Y55BMGVHPpohVzFuNtzaGaF0NXf/H71KNAI2OJZXNK9X/hFtbvw?=
- =?us-ascii?Q?gZ5MYObveZv12TmuqqPjrWNClj8T6XIrgs99weu+gemVkCU68UTcTNdY65Qj?=
- =?us-ascii?Q?ATLSMfsBq8JnGHJM9U1ihwqz+jVN66VfvrdgaxC4yinvEOMy5SslG79nrinm?=
- =?us-ascii?Q?k+jFqqnK9f94JLwG+fWZNQWApBVOm2k+HF1cGXdkek2d8u8q1lsa3iQuLlHp?=
- =?us-ascii?Q?smj1Vzc3dS7mWphi5b0jJyNaps149VXBpF3bf07hStN4lkjX9ISMZPwgFIwG?=
- =?us-ascii?Q?FzmkvwPlV2ZsVHF+B9x/QvoR/x89JV6v5YMI6jZyzxeDTbCEzn9zs6MzFFAx?=
- =?us-ascii?Q?KwokHOaqW7FjTMOhNl5QKDqs9EUSEfq6hB7yukvic4jUyLB9U78yNtjicXNr?=
- =?us-ascii?Q?usY3wnKXTzo/z9R7luIFn7Et4w+lWeUGpl42Ya3AsYiC80Aif/8rP+Ytff7w?=
- =?us-ascii?Q?aTxBPO/d9G6D0AxFUM7KfKhHf+9rim8zr9e0fzgUHfiqBckZh4WGY7g2ETW8?=
- =?us-ascii?Q?QRD6rOmRJLcj+ZAXN0tjAdfn4AdcXoZjY2TwN2uM/m1dTs5DM9cJ7Di4n4Ar?=
- =?us-ascii?Q?KVAP1po6/uvm/KeJkdsxkN6fmm0pXaON7/uIKZXO8VZlpKfS35wHOuKKD2H9?=
- =?us-ascii?Q?iAiGygN62whKPh6z8uoSIgkhM9mnhTcPssn5qIWZDpn64Z7AQsseF+ilz85b?=
- =?us-ascii?Q?Py78ffshJcpceqSMo3NZukWDp4ipy0f3yw7FWxHgYEsb3qhtBAvPV8DbA0bL?=
- =?us-ascii?Q?2IWqByPxlD9QWqqdObgpSBvdZXcQwkkspHvESxI78Rh81rLlf4aEnPUDuP1l?=
- =?us-ascii?Q?U5TY37vPo+hM6NOFhRLVJONPdXBcWGH7FomKQrHQtfIWWSleOEGIp1a8IsK4?=
- =?us-ascii?Q?UzO4NF/2Z9XLB4KKItvEo5N5PVHf/FNRVmfafIiWnAqDMhsaJTr3bdsjg/kn?=
- =?us-ascii?Q?y5b9HBg5CGNvK6lxVm4AF3gvWj89o4ibM46ZlOmKZBxAEWFVomcDg5ZOXm2J?=
- =?us-ascii?Q?IIDqVpxC76zezmo79vZKGBwBwtDdnNOmOzP0a7u3wYz8uQqcBkSep7RgJZO0?=
- =?us-ascii?Q?VBHFHDvnWqqcGmt4xj0TwCeWs3eYPYd9LdTXdYv7q7WT27gTRBbcIKnS8O2o?=
- =?us-ascii?Q?zUNdHBLnxH7Y0+XVse07oIlRX1SrnkbQOjuTM/oDOEXxW8YwFVgo5TwMqYQF?=
- =?us-ascii?Q?XhyIyyV52kBzpDtdNeJ7H7lIdvELEmPLdRa7/uf3fDLy0MoACxczmj85Toxa?=
- =?us-ascii?Q?noeAQC/VfdOjEN9E+HGXO8T/yBRlZJ5vs2RTpXMVYjO9lXeL2zpPsWtKLL5z?=
- =?us-ascii?Q?Jwf0tW9j8mlzkg0Lo3ZySgpBwddhQ4IO9PdDoZ2R9lZd2z/sRdZ6YbC54Cc/?=
- =?us-ascii?Q?e6+GB7qUg2VUKkzCe4MHDRv5ZUcX78kw0LpI3w3eDPCA6YYmV1dAGhlE8+M/?=
- =?us-ascii?Q?fTONOHYESn6ZGSS9SQeCMpbHJTXbVTt3icTfbpHTLQVgZ0YKxYdgX8s3nWq/?=
- =?us-ascii?Q?FnIi7dPYgim0Z14vFtxnsRRj/5BOOTXQohUEcZ6P?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b71e0a6-be19-42cc-033c-08dc64f12a65
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8393.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2024 06:30:14.1516
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WVtmdpzzuzhQw0Eh0ypr7wgdULOZJs1DG1poJ8tZIUTHkxERmTaCucgLJHiQsV1bJFpaZ4fvIfR+pDkDc+uP2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6204
-X-OriginatorOrg: intel.com
+References: <202404250740.VhQQoD7N-lkp@intel.com>
+In-Reply-To: <202404250740.VhQQoD7N-lkp@intel.com>
+From: Vincent Guittot <vincent.guittot@linaro.org>
+Date: Thu, 25 Apr 2024 08:36:31 +0200
+Message-ID: <CAKfTPtBmhCFWmeb7oaM3t3WMb0_RUwY32gzgVzyruYaP9VpfUA@mail.gmail.com>
+Subject: Re: [tip:sched/core 26/27] drivers/base/arch_topology.c:204:17:
+ sparse: sparse: incorrect type in initializer (different address spaces)
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	x86@kernel.org, Ingo Molnar <mingo@kernel.org>, Qais Yousef <qyousef@layalina.io>, 
+	Lukasz Luba <lukasz.luba@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
-head:   5550c5defbdf958f2df459be74f87afa9eb0bdde
-commit: 96c23c8cb3fb82f50d75df0dca6ace9788bb7eb7 [2014/2033] drm/amd/display: Add new DCN401 sources
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202404241420.gx1LAd2A-lkp@intel.com/
+On Thu, 25 Apr 2024 at 01:22, kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Vincent,
+>
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
+> head:   97450eb909658573dcacc1063b06d3d08642c0c1
+> commit: d4dbc991714eefcbd8d54a3204bd77a0a52bd32d [26/27] sched/cpufreq: Rename arch_update_thermal_pressure() => arch_update_hw_pressure()
 
-includecheck warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c: dcn401/dcn401_clk_mgr.h is included more than once.
+I'm going to look at this more deeply but this patch only rename
+"thermal_pressure" by "hw_pressure" so unless I miss a renaming, this
+should not trigger anything new.
 
-vim +12 drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c
-
-     4	
-     5	#include "dccg.h"
-     6	#include "clk_mgr_internal.h"
-     7	#include "dcn401/dcn401_clk_mgr_smu_msg.h"
-     8	#include "dcn20/dcn20_clk_mgr.h"
-     9	#include "dce100/dce_clk_mgr.h"
-    10	#include "dcn31/dcn31_clk_mgr.h"
-    11	#include "dcn32/dcn32_clk_mgr.h"
-  > 12	#include "dcn401/dcn401_clk_mgr.h"
-    13	#include "reg_helper.h"
-    14	#include "core_types.h"
-    15	#include "dm_helpers.h"
-    16	#include "link.h"
-    17	#include "atomfirmware.h"
-    18	
-    19	#include "dcn401_smu14_driver_if.h"
-    20	
-    21	#include "dcn/dcn_4_1_0_offset.h"
-    22	#include "dcn/dcn_4_1_0_sh_mask.h"
-    23	
-  > 24	#include "dcn401/dcn401_clk_mgr.h"
-    25	#include "dml/dcn401/dcn401_fpu.h"
-    26	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+> config: arm64-randconfig-r132-20240425 (https://download.01.org/0day-ci/archive/20240425/202404250740.VhQQoD7N-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 13.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20240425/202404250740.VhQQoD7N-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202404250740.VhQQoD7N-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
+>    drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+>    drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+> >> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
+>    drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+>    drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+> >> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
+>    drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+>    drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+> >> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
+>    drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+>    drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+> >> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
+>    drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+>    drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+> >> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
+>    drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+>    drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+> >> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
+>    drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+>    drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+>
+> vim +204 drivers/base/arch_topology.c
+>
+>    164
+>    165  /**
+>    166   * topology_update_hw_pressure() - Update HW pressure for CPUs
+>    167   * @cpus        : The related CPUs for which capacity has been reduced
+>    168   * @capped_freq : The maximum allowed frequency that CPUs can run at
+>    169   *
+>    170   * Update the value of HW pressure for all @cpus in the mask. The
+>    171   * cpumask should include all (online+offline) affected CPUs, to avoid
+>    172   * operating on stale data when hot-plug is used for some CPUs. The
+>    173   * @capped_freq reflects the currently allowed max CPUs frequency due to
+>    174   * HW capping. It might be also a boost frequency value, which is bigger
+>    175   * than the internal 'capacity_freq_ref' max frequency. In such case the
+>    176   * pressure value should simply be removed, since this is an indication that
+>    177   * there is no HW throttling. The @capped_freq must be provided in kHz.
+>    178   */
+>    179  void topology_update_hw_pressure(const struct cpumask *cpus,
+>    180                                        unsigned long capped_freq)
+>    181  {
+>    182          unsigned long max_capacity, capacity, hw_pressure;
+>    183          u32 max_freq;
+>    184          int cpu;
+>    185
+>    186          cpu = cpumask_first(cpus);
+>    187          max_capacity = arch_scale_cpu_capacity(cpu);
+>    188          max_freq = arch_scale_freq_ref(cpu);
+>    189
+>    190          /*
+>    191           * Handle properly the boost frequencies, which should simply clean
+>    192           * the HW pressure value.
+>    193           */
+>    194          if (max_freq <= capped_freq)
+>    195                  capacity = max_capacity;
+>    196          else
+>    197                  capacity = mult_frac(max_capacity, capped_freq, max_freq);
+>    198
+>    199          hw_pressure = max_capacity - capacity;
+>    200
+>    201          trace_hw_pressure_update(cpu, hw_pressure);
+>    202
+>    203          for_each_cpu(cpu, cpus)
+>  > 204                  WRITE_ONCE(per_cpu(hw_pressure, cpu), hw_pressure);
+>    205  }
+>    206  EXPORT_SYMBOL_GPL(topology_update_hw_pressure);
+>    207
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
