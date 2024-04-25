@@ -1,73 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5653514F118
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 18:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EFC614B077;
+	Thu, 25 Apr 2024 18:16:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714068379; cv=none; b=Z9mXZd8OYd9gb6wlXLcQBNnZ00XOoIiL4nRiROERSn5cL3vBKRkg/dJ0+TwOls8yeNIuqpG/XBkSDD/zQo1fV7KxecU/oaQ/9l5YqPwlyFwVZOaVt6R8C0ojxb+/azzFepbqzbeEp39DqTvJ5P4kn6hP/aeecLZ8DnyZULIgyIw=
+	t=1714068999; cv=none; b=QuKy9+Xjpn49IJSliX3pHhvUrTCl6N9t6AneO9YnxCtLdz1WIHo4KFLJjZOKCPSx5Xt31RDp/m9mqTn479W5+yYZQd78QFCk8doqLvnGeUZg7JBaV1tMaZC2uDj+IhY5AsHKLfOXKQQ8f+hRpy5atTZ5G3UBFcEIeMEYmw1TtfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714068379; c=relaxed/simple;
-	bh=BDad7BMP0Go/r5l+KQ6WZzGzf90LuHfz7J8+KLDA4ZY=;
+	s=arc-20240116; t=1714068999; c=relaxed/simple;
+	bh=osvQDcfth2oHBETtvgsqxTXc9soDQsyNFetTLK7ImU8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q8vGkdVyt/67uw1jtipkMVexLlaGu6TYNJ56VKgeoeYRpfWuMb4Jw6sXXgL5oOcoh6WnZpTG9nJWw5A/97kHlniP5BXbWz2uSnNzswugJy4O82rDwHpaLQAWi5v+IYcvXgDe0BXfPltquxnvFaVtEkoMLbhHqqhdv9idC5bm99k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LIY81YGx; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LIY81YGx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714068377; x=1745604377;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BDad7BMP0Go/r5l+KQ6WZzGzf90LuHfz7J8+KLDA4ZY=;
-  b=LIY81YGxOPyRqy6SM3nJA0RBvadfAFH4U4tU5Bt4p1LS+k4DyvjH8tOx
-   afusgvxlqCd0vT2JrcGCbBb9TjbzHlosOpmx6WUe/ZzSQF1vZTYM7h1wY
-   tUJLuZ3/0qgLBwmhsxfmXRse8h4JWaxv95sigWCR/VsyqB+MuOuW7d14R
-   k5ZIogF80d2QoyrQWERPMvD6mqd2QdnmMeNZiQ+wmJy/x+6tS6jge8X6J
-   e3T/bex9MXW+bcTx02PiVrs+0MK8PFCrhGFvWDCpQ31MypR8bdT/AdWnZ
-   0Pj9Lq/6p4NRqY7A8/Bnzr9RE+Y9shW8Y80t2QY6Dmio7JuRnQECl2OV5
-   Q==;
-X-CSE-ConnectionGUID: IPiXeqidRHSVW1xQG5JoKg==
-X-CSE-MsgGUID: 83KodNITTGeJsoDMbSthUQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="12713744"
-X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; 
-   d="scan'208";a="12713744"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 11:06:16 -0700
-X-CSE-ConnectionGUID: AlN4B2RPSmC8whK7zIIljQ==
-X-CSE-MsgGUID: /2TQMtoURYSy30O74AOM1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; 
-   d="scan'208";a="29798118"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Apr 2024 11:06:11 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s03U0-0002hs-2B;
-	Thu, 25 Apr 2024 18:06:08 +0000
-Date: Fri, 26 Apr 2024 02:05:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sky Huang <SkyLake.Huang@mediatek.com>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Qingfang Deng <dqfext@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Steven Liu <Steven.Liu@mediatek.com>,
-	"SkyLake.Huang" <skylake.huang@mediatek.com>
-Subject: Re: [PATCH 2/3] net: phy: mediatek: Add mtk phy lib for token ring
- access & LED/other manipulations
-Message-ID: <202404260115.HS8G6ns3-lkp@intel.com>
-References: <20240425023325.15586-3-SkyLake.Huang@mediatek.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cy7ywjmE0hG0diZeEiyD9gaEx//+N6b2v+4yVi+CyOeuHzMAsh8gxpNms4e/1jAZ/dwD+XRmm6pe6eAgZ6JkkTfRJsDyU8baX/bX08A9fQv+NbPoufcmr8BjZi90SevX+apijqu58mF4SqM25LPhqWY9QsJLUIuQ4dVzOXJVTlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41D731007;
+	Thu, 25 Apr 2024 11:17:04 -0700 (PDT)
+Received: from NH27D9T0LF (unknown [10.57.56.86])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 336303F793;
+	Thu, 25 Apr 2024 11:16:32 -0700 (PDT)
+Date: Thu, 25 Apr 2024 20:16:28 +0200
+From: Emanuele Rocca <emanuele.rocca@arm.com>
+To: Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc: kernel test robot <lkp@intel.com>, Steven Price <steven.price@arm.com>,
+	kvm@vger.kernel.org, kvmarm@lists.linux.dev, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
+	James Morse <james.morse@arm.com>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Joey Gouly <joey.gouly@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	Christoffer Dall <christoffer.dall@arm.com>,
+	Fuad Tabba <tabba@google.com>, linux-coco@lists.linux.dev,
+	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>
+Subject: Re: [PATCH v2 09/14] arm64: Enable memory encrypt for Realms
+Message-ID: <Ziqd_OHm8_rQNuxV@NH27D9T0LF>
+References: <20240412084213.1733764-10-steven.price@arm.com>
+ <202404151003.vkNApJiS-lkp@intel.com>
+ <f11e6d5d-d2b9-400e-96c3-5d1ded827720@arm.com>
+ <5bba262f-6d30-417b-8a6f-fc03b86c47bd@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,70 +49,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240425023325.15586-3-SkyLake.Huang@mediatek.com>
+In-Reply-To: <5bba262f-6d30-417b-8a6f-fc03b86c47bd@arm.com>
 
-Hi Sky,
+Hi,
 
-kernel test robot noticed the following build warnings:
+On 2024-04-25 05:29, Suzuki K Poulose wrote:
+> Emmanuele reports that these need to be exported as well, something
+> like:
+> 
+> 
+> diff --git a/arch/arm64/mm/pageattr.c b/arch/arm64/mm/pageattr.c
+> index 229b6d9990f5..de3843ce2aea 100644
+> --- a/arch/arm64/mm/pageattr.c
+> +++ b/arch/arm64/mm/pageattr.c
+> @@ -228,11 +228,13 @@ int set_memory_encrypted(unsigned long addr, int
+> numpages)
+>  {
+>         return __set_memory_encrypted(addr, numpages, true);
+>  }
+> +EXPORT_SYMBOL_GPL(set_memory_encrypted);
+> 
+>  int set_memory_decrypted(unsigned long addr, int numpages)
+>  {
+>         return __set_memory_encrypted(addr, numpages, false);
+>  }
+> +EXPORT_SYMBOL_GPL(set_memory_decrypted);
+> 
+>  #ifdef CONFIG_DEBUG_PAGEALLOC
+>  void __kernel_map_pages(struct page *page, int numpages, int enable
 
-[auto build test WARNING on next-20240424]
-[cannot apply to net-next/main net/main linus/master v6.9-rc5 v6.9-rc4 v6.9-rc3 v6.9-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Indeed, without exporting the symbols I was getting this build failure:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sky-Huang/net-phy-mediatek-Re-organize-MediaTek-ethernet-phy-drivers/20240425-103608
-base:   next-20240424
-patch link:    https://lore.kernel.org/r/20240425023325.15586-3-SkyLake.Huang%40mediatek.com
-patch subject: [PATCH 2/3] net: phy: mediatek: Add mtk phy lib for token ring access & LED/other manipulations
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20240426/202404260115.HS8G6ns3-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404260115.HS8G6ns3-lkp@intel.com/reproduce)
+ ERROR: modpost: "set_memory_encrypted" [drivers/hv/hv_vmbus.ko] undefined!
+ ERROR: modpost: "set_memory_decrypted" [drivers/hv/hv_vmbus.ko] undefined!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404260115.HS8G6ns3-lkp@intel.com/
+I can now build 6.9-rc1 w/ CCA guest patches if I apply Suzuki's
+changes:
 
-All warnings (new ones prefixed by >>):
+1) move set_memory_encrypted/decrypted from asm/mem_encrypt.h to
+   asm/set_memory.h
+2) export both symbols in mm/pageattr.c
 
->> drivers/net/phy/mediatek/mtk-phy-lib.c:51:13: warning: 'tr_write' defined but not used [-Wunused-function]
-      51 | static void tr_write(struct phy_device *phydev, u8 ch_addr, u8 node_addr, u8 data_addr, u32 tr_data)
-         |             ^~~~~~~~
->> drivers/net/phy/mediatek/mtk-phy-lib.c:33:13: warning: 'tr_read' defined but not used [-Wunused-function]
-      33 | static void tr_read(struct phy_device *phydev, u8 ch_addr, u8 node_addr, u8 data_addr,
-         |             ^~~~~~~
+See diff below.
 
+Thanks,
+  Emanuele
 
-vim +/tr_write +51 drivers/net/phy/mediatek/mtk-phy-lib.c
+diff --git a/arch/arm64/include/asm/mem_encrypt.h b/arch/arm64/include/asm/mem_encrypt.h
+index 7381f9585321..e47265cd180a 100644
+--- a/arch/arm64/include/asm/mem_encrypt.h
++++ b/arch/arm64/include/asm/mem_encrypt.h
+@@ -14,6 +14,4 @@ static inline bool force_dma_unencrypted(struct device *dev)
+        return is_realm_world();
+ }
 
-    32	
-  > 33	static void tr_read(struct phy_device *phydev, u8 ch_addr, u8 node_addr, u8 data_addr,
-    34			    u16 *tr_high, u16 *tr_low)
-    35	{
-    36		phy_select_page(phydev, MTK_PHY_PAGE_EXTENDED_52B5);
-    37		__tr_read(phydev, ch_addr, node_addr, data_addr, tr_high, tr_low);
-    38		phy_restore_page(phydev, MTK_PHY_PAGE_STANDARD, 0);
-    39	}
-    40	
-    41	static void __tr_write(struct phy_device *phydev, u8 ch_addr, u8 node_addr, u8 data_addr,
-    42			       u32 tr_data)
-    43	{
-    44		__phy_write(phydev, 0x11, tr_data & 0xffff);
-    45		__phy_write(phydev, 0x12, tr_data >> 16);
-    46		dev_dbg(&phydev->mdio.dev, "tr_high write: 0x%x, tr_low write: 0x%x\n",
-    47			tr_data >> 16, tr_data & 0xffff);
-    48		tr_access(phydev, false, ch_addr, node_addr, data_addr);
-    49	}
-    50	
-  > 51	static void tr_write(struct phy_device *phydev, u8 ch_addr, u8 node_addr, u8 data_addr, u32 tr_data)
-    52	{
-    53		phy_select_page(phydev, MTK_PHY_PAGE_EXTENDED_52B5);
-    54		__tr_write(phydev, ch_addr, node_addr, data_addr, tr_data);
-    55		phy_restore_page(phydev, MTK_PHY_PAGE_STANDARD, 0);
-    56	}
-    57	
+-int set_memory_encrypted(unsigned long addr, int numpages);
+-int set_memory_decrypted(unsigned long addr, int numpages);
+ #endif
+diff --git a/arch/arm64/include/asm/set_memory.h b/arch/arm64/include/asm/set_memory.h
+index 0f740b781187..9561b90fb43c 100644
+--- a/arch/arm64/include/asm/set_memory.h
++++ b/arch/arm64/include/asm/set_memory.h
+@@ -14,4 +14,6 @@ int set_direct_map_invalid_noflush(struct page *page);
+ int set_direct_map_default_noflush(struct page *page);
+ bool kernel_page_present(struct page *page);
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
++int set_memory_encrypted(unsigned long addr, int numpages);
++int set_memory_decrypted(unsigned long addr, int numpages);
+ #endif /* _ASM_ARM64_SET_MEMORY_H */
+diff --git a/arch/arm64/mm/pageattr.c b/arch/arm64/mm/pageattr.c
+index 229b6d9990f5..de3843ce2aea 100644
+--- a/arch/arm64/mm/pageattr.c
++++ b/arch/arm64/mm/pageattr.c
+@@ -228,11 +228,13 @@ int set_memory_encrypted(unsigned long addr, int numpages)
+ {
+        return __set_memory_encrypted(addr, numpages, true);
+ }
++EXPORT_SYMBOL_GPL(set_memory_encrypted);
+
+ int set_memory_decrypted(unsigned long addr, int numpages)
+ {
+        return __set_memory_encrypted(addr, numpages, false);
+ }
++EXPORT_SYMBOL_GPL(set_memory_decrypted);
+
+ #ifdef CONFIG_DEBUG_PAGEALLOC
+ void __kernel_map_pages(struct page *page, int numpages, int enable)
