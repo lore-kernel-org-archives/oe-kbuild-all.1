@@ -1,256 +1,109 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F0984DE9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 11:14:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838C685261
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 11:23:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714043651; cv=none; b=F5uwo5Woa62O/qf8VhHLq0NlmclVEM0OpCsJBOy/K8XivBrptQootEiGU5jlmImBu3AWTJoXc+MAorefhmREOfWpxwOQ03jTsE64arQloRmguVcFMH8Che5GPRNHyG2uRdWsVvzOKhwD1R2DU3Hg6fytSzwX3m2XOvdkIf4Z6zw=
+	t=1714044238; cv=none; b=jncvNpbGP1kTHoYCsEiHeXPElwO4Av8XZDcNnLO5hPZRIDl64M3d2dGmqWd1LYwylcBr3e3RljFgQMsTkNftn62tHaWM/v1OCp9X0nHnEnCo1G+g1VM16Id8yBOPaPcVKd68ckAOSnO/4tQp2s9F4Scf5XT9Kj0tckxGjfN08zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714043651; c=relaxed/simple;
-	bh=kTOzGcQ5aQEn7UrM3I498Fj5MNDc/QUMR/VfveDFqhc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XxUsA2PaF/XE1qiTmGJyZ6t3234QQSURLhrE20zTfwJbGlyszTl0p7I85g33Nw+D3nCH3MriG7KNQ6muhc+tlyTARWPB9ETyfsirHg6/IejMDQ9En7eY292uHUChd05CJe7ujDO/lu5J4WEo2OXiEimcW0A3dStaY7IPGHBhpNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WYdBP9Er; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1714044238; c=relaxed/simple;
+	bh=vBQxAqzjRg7h6Gmwu2q7ve2gc+CDOH7N8Cvs/UkMjYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C3WhNylK3yS12iWtJZ2lzP55qiNuMUpA0mqlpTwRc4cYbbocfMnFr68TbIYG3AME+F5ucZ486j+bN2Lb6tv06w2jGtdQqld2fMr1Yx0n9Dpaik4CaDCFiCBi2CRhI+nKpkgK0u2ivix+r6hhRWviAy6FrbN8vSSV9VUZ5bGY4R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=alStFddd; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WYdBP9Er"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2a564ca6f67so794789a91.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 04:14:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714043649; x=1714648449; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qiX9sIJ5oSEZCY3qAk0BfXb+wEMv1W08zEvS0llOwRo=;
-        b=WYdBP9ErLfUr+XgLbmwrAVSODLXBj9tO8KoOU9YvD+861IhkqmFz339KHUsC3uRU1a
-         plwoVRprPxsoHKlfc9YFU6fgec//hxkjZQVvWYGn1rZBgesNTbfWKHYIaiAjXx7DsCQ4
-         lOxmUINr0Sny+8ITDSv+1Km+2xCOo7UpjfWgrRTb3yodmx+83uj6hjvR2WbC2gYV0N/s
-         wVB7cbtqeErjyF4oBeqLpqiyA/I9VblOpaDQ1OtP7DfalKl1jlEeGbpEw5xGqQz2N0ke
-         XEF02lOCXKlsEXu21p1IIP8k4eMPb/wwCAX+EY7SzqPPxsg0Ok/nNQov1l/Sj8DOFqKq
-         QB9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714043649; x=1714648449;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qiX9sIJ5oSEZCY3qAk0BfXb+wEMv1W08zEvS0llOwRo=;
-        b=ewFWIlBjDN41gtUsdQENNdJaQuFqL3eKrjheNR3e3k4N21/STzIIYfsthe8gwq//24
-         /yOjD1YhDBk3pNYo79Z42+QTBIR0IPUAaky3gd6kJvvui5/9XuwALNXqnTmKXoMg7ljm
-         qLkWlZPI+GQqVt/Fw3nol+ifWd/TLwDTYr1eppcASwydjZM2EXsB6y/179aGm7SJI5Ci
-         a7qUhNvmWr3VWryZ/qsM+67VjvZsC7sC4K8Wytq1JiYcFXOhRB4eRb1/bobxcuoMivgc
-         8jsFukrB5d2InLfu/Ini0BuDyYiDeDtgQh9Ufx8rb1WBa6wyEEX3MBKA/V2BC5rqlw54
-         eE0g==
-X-Forwarded-Encrypted: i=1; AJvYcCXL49PXId+hK25LFL2MrrH/UMQ3P6ce6QrRRs34jpJ9a7GiT+IcqZy2ZamXYoROfLooGCkjdN3LRci9n4vGTh3xX0NwisquBBkezfoGEw==
-X-Gm-Message-State: AOJu0Yzq82tOPhDcEcUFsKpmDMWpvCcUzEV6xzCfJyOsvfO09MzaNv87
-	ZBbfR4VLyjWBRPk0Y5JmX5MxzuzRJbEEjww+fdUkBGz3qbOzaZ1+/Vu+pUfeRYGnt25UiwY4cuW
-	y6diuK/a/wfh6gRglaL29dX3b/Gmr+QR7d6MSgA==
-X-Google-Smtp-Source: AGHT+IGHzu3G8yxQ/p0gaXugnk9sL7Q64CgkJgXhRT1vcq50gLYObcdKyQYNwCmp/Ac0GVHu0oU0kDhVwQiwEXkaGuQ=
-X-Received: by 2002:a17:90a:7e8d:b0:2af:2dce:707c with SMTP id
- j13-20020a17090a7e8d00b002af2dce707cmr5138352pjl.35.1714043649477; Thu, 25
- Apr 2024 04:14:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="alStFddd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714044236; x=1745580236;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vBQxAqzjRg7h6Gmwu2q7ve2gc+CDOH7N8Cvs/UkMjYs=;
+  b=alStFddd2nA1ZMqch1tnsOVt4WzaFzAObyrq9TN7YZDFED3s9lS3JTAT
+   STV1VxxE82e1l+t/fBH8jIMxO+sJAutGfvZ0C7fUtwmn1m+4KPXnESR5G
+   C2D70uVQyrHocolE+wnWzX9HOdVzb87VxW6iQFg5wZ+Pnd05zEOez1G8k
+   6AMmFwaWLWpBKVbX/LtcQm94t9c3LY9YjSxDw7uI/TVOHt01Kq/HJOqw4
+   diRWlgbpiLciBe6JJ/WTmRlBBnDf4Ysgf7P0fWglcDR4fs5U9HV92bRhN
+   wUDRJOkIbxV++u1nrHQG7wwdWEXTTJgytc5K5FXpuYO4bXN1jVnbVCj8i
+   A==;
+X-CSE-ConnectionGUID: 0pPgyZT0TF6zGHAQqdMD7g==
+X-CSE-MsgGUID: 8bJ4WZ50RLeNUyrMCwx4Qw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9589622"
+X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
+   d="scan'208";a="9589622"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 04:23:55 -0700
+X-CSE-ConnectionGUID: Y8l6kl9CR2ad4Xi0PBxH8g==
+X-CSE-MsgGUID: GV/R29FuRuqRcbr0JNAtcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
+   d="scan'208";a="48303006"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 25 Apr 2024 04:23:55 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rzxCi-0002IO-23;
+	Thu, 25 Apr 2024 11:23:52 +0000
+Date: Thu, 25 Apr 2024 19:23:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 9/10] crypto/fips140-module.c:46:11:
+ sparse: sparse: symbol '__initcall_start_marker' was not declared. Should it
+ be static?
+Message-ID: <202404251918.dRQcw18e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202404250740.VhQQoD7N-lkp@intel.com> <CAKfTPtBmhCFWmeb7oaM3t3WMb0_RUwY32gzgVzyruYaP9VpfUA@mail.gmail.com>
- <Zio1gGgpl0FJ4qPg@yujie-X299>
-In-Reply-To: <Zio1gGgpl0FJ4qPg@yujie-X299>
-From: Vincent Guittot <vincent.guittot@linaro.org>
-Date: Thu, 25 Apr 2024 13:13:57 +0200
-Message-ID: <CAKfTPtB6vnf+KU5CyPaTZS+kvCeLjUGH9RqNrOUM7epbnOWzew@mail.gmail.com>
-Subject: Re: [tip:sched/core 26/27] drivers/base/arch_topology.c:204:17:
- sparse: sparse: incorrect type in initializer (different address spaces)
-To: Yujie Liu <yujie.liu@intel.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, x86@kernel.org, Ingo Molnar <mingo@kernel.org>, 
-	Qais Yousef <qyousef@layalina.io>, Lukasz Luba <lukasz.luba@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Yujie,
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   c61278bb705a1891885b578a71656264da61be5b
+commit: c6d5a767217ce93403528e99f1a1eb401a26eeb3 [9/10] ANDROID: fips140: add kernel crypto module
+config: arm64-randconfig-r112-20240425 (https://download.01.org/0day-ci/archive/20240425/202404251918.dRQcw18e-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce: (https://download.01.org/0day-ci/archive/20240425/202404251918.dRQcw18e-lkp@intel.com/reproduce)
 
-On Thu, 25 Apr 2024 at 12:57, Yujie Liu <yujie.liu@intel.com> wrote:
->
-> Hi Vincent,
->
-> On Thu, Apr 25, 2024 at 08:36:31AM +0200, Vincent Guittot wrote:
-> > Hi,
-> >
-> > On Thu, 25 Apr 2024 at 01:22, kernel test robot <lkp@intel.com> wrote:
-> > >
-> > > Hi Vincent,
-> > >
-> > > FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-> > >
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
-> > > head:   97450eb909658573dcacc1063b06d3d08642c0c1
-> > > commit: d4dbc991714eefcbd8d54a3204bd77a0a52bd32d [26/27] sched/cpufreq: Rename arch_update_thermal_pressure() => arch_update_hw_pressure()
-> >
-> > I'm going to look at this more deeply but this patch only rename
-> > "thermal_pressure" by "hw_pressure" so unless I miss a renaming, this
-> > should not trigger anything new.
->
-> Before renaming, there is a global "thermal_pressure", and a local
-> "th_pressure" inside topology_update_thermal_pressure function. They
-> live together peacefully since they have different names.
->
-> DEFINE_PER_CPU(unsigned long, thermal_pressure);
->                               ^____
->
-> void topology_update_thermal_pressure(const struct cpumask *cpus,
->                                       unsigned long capped_freq)
-> {
->         unsigned long max_capacity, capacity, th_pressure;
->                                               ^____
-> ...
->         for_each_cpu(cpu, cpus)
->                 WRITE_ONCE(per_cpu(thermal_pressure, cpu), th_pressure);
->                                    ^____                   ^____
-> }
->
-> After renaming, the global and local variables are both given the same
-> name "hw_pressure", so the local one shadows the global one, causing
-> this sparse warning.
->
-> DEFINE_PER_CPU(unsigned long, hw_pressure);
->                               ^___
->
-> void topology_update_hw_pressure(const struct cpumask *cpus,
->                                       unsigned long capped_freq)
-> {
->         unsigned long max_capacity, capacity, hw_pressure;
->                                               ^___
-> ...
->         for_each_cpu(cpu, cpus)
->                 WRITE_ONCE(per_cpu(hw_pressure, cpu), hw_pressure);
->                                    ^____              ^____
-> }
->
->
-> We can give them different names as before to fix this warning:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404251918.dRQcw18e-lkp@intel.com/
 
-Yes, that's what I noticed as well. I sent the fix here:
-https://lore.kernel.org/lkml/20240425073709.379016-1-vincent.guittot@linaro.org/
+sparse warnings: (new ones prefixed by >>)
+>> crypto/fips140-module.c:46:11: sparse: sparse: symbol '__initcall_start_marker' was not declared. Should it be static?
+>> crypto/fips140-module.c:47:11: sparse: sparse: symbol '__initcall_end_marker' was not declared. Should it be static?
+>> crypto/fips140-module.c:62:10: sparse: sparse: symbol '__text_start' was not declared. Should it be static?
+>> crypto/fips140-module.c:63:10: sparse: sparse: symbol '__rodata_start' was not declared. Should it be static?
 
->
-> ---------------------------------------------------------------
->
-> diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
-> index 0248912ff6875..c66d070207a0e 100644
-> --- a/drivers/base/arch_topology.c
-> +++ b/drivers/base/arch_topology.c
-> @@ -179,7 +179,7 @@ DEFINE_PER_CPU(unsigned long, hw_pressure);
->  void topology_update_hw_pressure(const struct cpumask *cpus,
->                                       unsigned long capped_freq)
->  {
-> -       unsigned long max_capacity, capacity, hw_pressure;
-> +       unsigned long max_capacity, capacity, pressure;
->         u32 max_freq;
->         int cpu;
->
-> @@ -196,12 +196,12 @@ void topology_update_hw_pressure(const struct cpumask *cpus,
->         else
->                 capacity = mult_frac(max_capacity, capped_freq, max_freq);
->
-> -       hw_pressure = max_capacity - capacity;
-> +       pressure = max_capacity - capacity;
->
-> -       trace_hw_pressure_update(cpu, hw_pressure);
-> +       trace_hw_pressure_update(cpu, pressure);
->
->         for_each_cpu(cpu, cpus)
-> -               WRITE_ONCE(per_cpu(hw_pressure, cpu), hw_pressure);
-> +               WRITE_ONCE(per_cpu(hw_pressure, cpu), pressure);
->  }
->  EXPORT_SYMBOL_GPL(topology_update_hw_pressure);
->
-> --
->
-> Thanks,
-> Yujie
->
-> > > config: arm64-randconfig-r132-20240425 (https://download.01.org/0day-ci/archive/20240425/202404250740.VhQQoD7N-lkp@intel.com/config)
-> > > compiler: aarch64-linux-gcc (GCC) 13.2.0
-> > > reproduce: (https://download.01.org/0day-ci/archive/20240425/202404250740.VhQQoD7N-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202404250740.VhQQoD7N-lkp@intel.com/
-> > >
-> > > sparse warnings: (new ones prefixed by >>)
-> > > >> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-> > >    drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-> > >    drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
-> > > >> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-> > >    drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-> > >    drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
-> > > >> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-> > >    drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-> > >    drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
-> > > >> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-> > >    drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-> > >    drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
-> > > >> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-> > >    drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-> > >    drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
-> > > >> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-> > >    drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-> > >    drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
-> > > >> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-> > >    drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-> > >    drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
-> > >
-> > > vim +204 drivers/base/arch_topology.c
-> > >
-> > >    164
-> > >    165  /**
-> > >    166   * topology_update_hw_pressure() - Update HW pressure for CPUs
-> > >    167   * @cpus        : The related CPUs for which capacity has been reduced
-> > >    168   * @capped_freq : The maximum allowed frequency that CPUs can run at
-> > >    169   *
-> > >    170   * Update the value of HW pressure for all @cpus in the mask. The
-> > >    171   * cpumask should include all (online+offline) affected CPUs, to avoid
-> > >    172   * operating on stale data when hot-plug is used for some CPUs. The
-> > >    173   * @capped_freq reflects the currently allowed max CPUs frequency due to
-> > >    174   * HW capping. It might be also a boost frequency value, which is bigger
-> > >    175   * than the internal 'capacity_freq_ref' max frequency. In such case the
-> > >    176   * pressure value should simply be removed, since this is an indication that
-> > >    177   * there is no HW throttling. The @capped_freq must be provided in kHz.
-> > >    178   */
-> > >    179  void topology_update_hw_pressure(const struct cpumask *cpus,
-> > >    180                                        unsigned long capped_freq)
-> > >    181  {
-> > >    182          unsigned long max_capacity, capacity, hw_pressure;
-> > >    183          u32 max_freq;
-> > >    184          int cpu;
-> > >    185
-> > >    186          cpu = cpumask_first(cpus);
-> > >    187          max_capacity = arch_scale_cpu_capacity(cpu);
-> > >    188          max_freq = arch_scale_freq_ref(cpu);
-> > >    189
-> > >    190          /*
-> > >    191           * Handle properly the boost frequencies, which should simply clean
-> > >    192           * the HW pressure value.
-> > >    193           */
-> > >    194          if (max_freq <= capped_freq)
-> > >    195                  capacity = max_capacity;
-> > >    196          else
-> > >    197                  capacity = mult_frac(max_capacity, capped_freq, max_freq);
-> > >    198
-> > >    199          hw_pressure = max_capacity - capacity;
-> > >    200
-> > >    201          trace_hw_pressure_update(cpu, hw_pressure);
-> > >    202
-> > >    203          for_each_cpu(cpu, cpus)
-> > >  > 204                  WRITE_ONCE(per_cpu(hw_pressure, cpu), hw_pressure);
-> > >    205  }
-> > >    206  EXPORT_SYMBOL_GPL(topology_update_hw_pressure);
-> > >    207
-> > >
-> > > --
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests/wiki
-> >
+vim +/__initcall_start_marker +46 crypto/fips140-module.c
+
+    45	
+  > 46	const u32 __initcall_start_marker __section(".initcalls._start");
+  > 47	const u32 __initcall_end_marker __section(".initcalls._end");
+    48	
+    49	const u8 __fips140_text_start __section(".text.._start");
+    50	const u8 __fips140_text_end __section(".text.._end");
+    51	
+    52	const u8 __fips140_rodata_start __section(".rodata.._start");
+    53	const u8 __fips140_rodata_end __section(".rodata.._end");
+    54	
+    55	/*
+    56	 * We need this little detour to prevent Clang from detecting out of bounds
+    57	 * accesses to __fips140_text_start and __fips140_rodata_start, which only exist
+    58	 * to delineate the section, and so their sizes are not relevant to us.
+    59	 */
+    60	const u32 *__initcall_start = &__initcall_start_marker;
+    61	
+  > 62	const u8 *__text_start = &__fips140_text_start;
+  > 63	const u8 *__rodata_start = &__fips140_rodata_start;
+    64	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
