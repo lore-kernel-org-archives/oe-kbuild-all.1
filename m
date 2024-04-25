@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67FB157467;
-	Wed, 24 Apr 2024 23:33:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DA17483
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 02:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714001619; cv=none; b=MCzVjkQens6/dWvDKqY7YlfC2xcT07ALX2qtGXIq6y+/E/w0Q8+yG+gS64Pid9p2VSlbZtzXYgps0Oig8+Y7uZilYua183cN1RAmvOgzMDFuOnvn6H7X+xamWh0aKdTp8p97txa64wYaID2fugVlqGoCGUxElgTkmqECJd9PB10=
+	t=1714010801; cv=none; b=M0SUshRsCUsPimIvZCXgMY9gvee7pM313JSGN5hz4t13yUoH0cZeuOUmF58CqCSeTmgxgSKAbuLcmShj+znPtchj6OThsbREGBFjqMov/E+srJcansNMm01hRkLKuoz1l79BTYBFtd97nK/mcLosKS7n2WwakPTzffrvdDRwpnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714001619; c=relaxed/simple;
-	bh=RIgE5n3pL6jeQnQkBJoRkDShHjgY8jnKMIghJf4yJ2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=euFkU1pikNmEWFnxtW7s5MTbhLBBbTcyS7spOcbsM2olbOdo+3oD5w/6Zd9Gr/TeBZRYuqQXSYLtLKvquq2V6Kt2PLBfkiFlKSTseJlBTv4YfkYBEvx1phvJsSf59WZ8n7xqJ00rhE5QWwyfm30uVKH6m30GS/jmAXB7/NEzG4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nUkFi/JU; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1714010801; c=relaxed/simple;
+	bh=IkALqTp5LM0QtRjWzTxVNV3/BojtSDj4pSC08ZJFOMU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oAMt5oStStFlMKrkkmfs86baNJoaY7PSRprMBZRQLVEiOExzt9dq3J4+LSHJLq0MqJyC8eNO4hRfTN3XZw7iKtaIUuf7NVzM2BT1GfMDT3jrwBAV6Nu/6DbF4Sezlr2CTOjRXJbX7k/aRrPJIrwCioCN7d4vuLWUjbEUMCTZz2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fkjqn4r/; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nUkFi/JU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fkjqn4r/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714001618; x=1745537618;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RIgE5n3pL6jeQnQkBJoRkDShHjgY8jnKMIghJf4yJ2s=;
-  b=nUkFi/JUqd5/lhtVtjLzNNRvAoG+uVUwZG/SNhQ2JpYy9E0qG3L8Dy+D
-   7CJSTxz/75+AlMe5aFlPhciXij8cSRjRgwmzUf2wfKwOBLG00E+yo9Ehm
-   aJX0mUDIihqPkZfSzukYVg/Pfgv6nDilOQGh0U4T2nEELWOzJpjQSyfPl
-   7iVQOcAwsxT9rz81x3zO5Ve4lD7W2vBWyMB77F+0yz+1Bob6UpuUoRTi3
-   W7DsPAKHHkLJISgMoe5VOxoLgaYNUU/tFwJjQQ+dOAxSAkUZxyEQRMj9S
-   Wi6gUryWCBYQYWHudxhKulF2yzG89e9tuYpv/X4+j/qtvHjg6TCt/C0bG
-   Q==;
-X-CSE-ConnectionGUID: 3fb+gtnGRUa5f1YvdAim2g==
-X-CSE-MsgGUID: NhXUPsEUQcmUjFZDHSOiqA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9589672"
-X-IronPort-AV: E=Sophos;i="6.07,227,1708416000"; 
-   d="scan'208";a="9589672"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 16:33:37 -0700
-X-CSE-ConnectionGUID: 4g0UrdBoQrilGb7Ep/RgRw==
-X-CSE-MsgGUID: K1w0tqhpQZ+bEtHASv2FDw==
+  t=1714010800; x=1745546800;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IkALqTp5LM0QtRjWzTxVNV3/BojtSDj4pSC08ZJFOMU=;
+  b=Fkjqn4r/umW941RZEVO6BRkgOjJ3cpRgPhTw9TVEkdZukC+345blUhE+
+   Cs9CzdSRQVQESeXTbAmPcIx6O+oE+uYWFPn+2I8sWu2fTz346l5NIjm6i
+   skgYj7Wv+SqIMyrNi+zT7wKdkkE+Y8FkYPIHXM0VhaEPdwvKN0nyCefH9
+   Z3aVBQhjv5T25Me8T1OKDYxuQaRxrTFC8kJjQLJQ3nke/phOxAq1Ef8RI
+   dNxaUv+m+Mr1AYGHuV6Dem+2cGLyE7akzAyrOQ7mOopU1UdNYwPqpMllN
+   Av71opwsvl22E5RuoCtV8fSdc8Up4R+3/fqCMikyv/arQKQss0MQbpifJ
+   A==;
+X-CSE-ConnectionGUID: VshNJGjQTcOnBAjOxSYEUw==
+X-CSE-MsgGUID: 3VU1cPgzSwmSwDrvFQ8X3g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="32164410"
+X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
+   d="scan'208";a="32164410"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 19:06:39 -0700
+X-CSE-ConnectionGUID: o8jGWDkVQb6OLGb+oU9LxQ==
+X-CSE-MsgGUID: VRPSpaFaRgKxvGdDb2sptg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,227,1708416000"; 
-   d="scan'208";a="24916325"
+X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
+   d="scan'208";a="29528386"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Apr 2024 16:33:35 -0700
+  by orviesa003.jf.intel.com with ESMTP; 24 Apr 2024 19:06:38 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzm7I-0001m2-0t;
-	Wed, 24 Apr 2024 23:33:32 +0000
-Date: Thu, 25 Apr 2024 07:32:49 +0800
+	id 1rzoVP-0001qp-2P;
+	Thu, 25 Apr 2024 02:06:35 +0000
+Date: Thu, 25 Apr 2024 10:06:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Longfang Liu <liulongfang@huawei.com>, alex.williamson@redhat.com,
-	jgg@nvidia.com, shameerali.kolothum.thodi@huawei.com,
-	jonathan.cameron@huawei.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linuxarm@openeuler.org, liulongfang@huawei.com
-Subject: Re: [PATCH v5 4/5] hisi_acc_vfio_pci: register debugfs for hisilicon
- migration driver
-Message-ID: <202404250711.4mzD3Fe0-lkp@intel.com>
-References: <20240424085721.12760-5-liulongfang@huawei.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 13535/30000] mm/vmscan.c:3467:undefined
+ reference to `kernel_swap_enabled'
+Message-ID: <202404250936.oh8T8o87-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,114 +61,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240424085721.12760-5-liulongfang@huawei.com>
 
-Hi Longfang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on awilliam-vfio/next]
-[also build test ERROR on linus/master v6.9-rc5 next-20240424]
-[cannot apply to awilliam-vfio/for-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Longfang-Liu/hisi_acc_vfio_pci-extract-public-functions-for-container_of/20240424-170806
-base:   https://github.com/awilliam/linux-vfio.git next
-patch link:    https://lore.kernel.org/r/20240424085721.12760-5-liulongfang%40huawei.com
-patch subject: [PATCH v5 4/5] hisi_acc_vfio_pci: register debugfs for hisilicon migration driver
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240425/202404250711.4mzD3Fe0-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404250711.4mzD3Fe0-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   d25aa47f7625457e7ace24ad08e3450ee083e07a
+commit: 79c68ab3280fab8ace1b10bf8eadce508ee89c3c [13535/30000] etmem: add original kernel swap enabled options
+config: x86_64-randconfig-014-20240425 (https://download.01.org/0day-ci/archive/20240425/202404250936.oh8T8o87-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404250936.oh8T8o87-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404250711.4mzD3Fe0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404250936.oh8T8o87-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c:9:
-   In file included from include/linux/hisi_acc_qm.h:10:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:21:
-   In file included from arch/riscv/include/asm/sections.h:9:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c:1370:46: error: too few arguments provided to function-like macro invocation
-    1370 |         dev_err("mailbox cmd channel state is OK!\n");
-         |                                                     ^
-   include/linux/dev_printk.h:143:9: note: macro 'dev_err' defined here
-     143 | #define dev_err(dev, fmt, ...) \
-         |         ^
->> drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c:1370:2: error: use of undeclared identifier 'dev_err'; did you mean '_dev_err'?
-    1370 |         dev_err("mailbox cmd channel state is OK!\n");
-         |         ^~~~~~~
-         |         _dev_err
-   include/linux/dev_printk.h:50:6: note: '_dev_err' declared here
-      50 | void _dev_err(const struct device *dev, const char *fmt, ...);
-         |      ^
->> drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c:1370:2: warning: expression result unused [-Wunused-value]
-    1370 |         dev_err("mailbox cmd channel state is OK!\n");
-         |         ^~~~~~~
-   6 warnings and 2 errors generated.
+   ld: warning: net/bpfilter/bpfilter_umh_blob.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: net/bpfilter/bpfilter_umh_blob.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
+   ld: mm/vmscan.o: in function `kernel_swap_check':
+>> mm/vmscan.c:3467:(.text+0x2961f): undefined reference to `kernel_swap_enabled'
+>> ld: mm/vmscan.c:3467:(.text+0x2d6fc): undefined reference to `kernel_swap_enabled'
+   ld: fs/proc/base.o:(.rodata+0x18c0): undefined reference to `proc_mm_idle_operations'
+   ld: fs/proc/base.o:(.rodata+0x18e8): undefined reference to `proc_mm_swap_operations'
+   ld: fs/proc/base.o:(.rodata+0x2420): undefined reference to `proc_mm_idle_operations'
+   ld: fs/proc/base.o:(.rodata+0x2448): undefined reference to `proc_mm_swap_operations'
+   ld: fs/proc/etmem_scan.o: in function `page_scan_entry':
+   fs/proc/etmem_scan.c:1339:(.text+0x189): undefined reference to `proc_page_scan_operations'
+   ld: fs/proc/etmem_scan.c:1339:(.text+0x1b4): undefined reference to `proc_page_scan_operations'
+   ld: fs/proc/etmem_scan.c:1340:(.text+0x1c5): undefined reference to `proc_page_scan_operations'
+   ld: fs/proc/etmem_scan.c:1341:(.text+0x1e4): undefined reference to `proc_page_scan_operations'
+   ld: fs/proc/etmem_scan.c:1340:(.text+0x1f5): undefined reference to `proc_page_scan_operations'
+   ld: fs/proc/etmem_scan.o:fs/proc/etmem_scan.c:1342: more undefined references to `proc_page_scan_operations' follow
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PGP_PRELOAD
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
+   Selected by [y]:
+   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
 
 
-vim +1370 drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
+vim +3467 mm/vmscan.c
 
-  1345	
-  1346	static int hisi_acc_vf_debug_cmd(struct seq_file *seq, void *data)
-  1347	{
-  1348		struct device *vf_dev = seq->private;
-  1349		struct vfio_pci_core_device *core_device = dev_get_drvdata(vf_dev);
-  1350		struct vfio_device *vdev = &core_device->vdev;
-  1351		struct hisi_acc_vf_core_device *hisi_acc_vdev = hisi_acc_get_vf_dev(vdev);
-  1352		struct hisi_qm *vf_qm = &hisi_acc_vdev->vf_qm;
-  1353		u64 value;
-  1354		int ret;
-  1355	
-  1356		mutex_lock(&hisi_acc_vdev->enable_mutex);
-  1357		ret = hisi_acc_vf_debug_check(seq, vdev);
-  1358		if (ret) {
-  1359			mutex_unlock(&hisi_acc_vdev->enable_mutex);
-  1360			return ret;
-  1361		}
-  1362	
-  1363		value = readl(vf_qm->io_base + QM_MB_CMD_SEND_BASE);
-  1364		if (value == QM_MB_CMD_NOT_READY) {
-  1365			mutex_unlock(&hisi_acc_vdev->enable_mutex);
-  1366			dev_err(vf_dev, "mailbox cmd channel not ready!\n");
-  1367			return -EINVAL;
-  1368		}
-  1369		mutex_unlock(&hisi_acc_vdev->enable_mutex);
-> 1370		dev_err("mailbox cmd channel state is OK!\n");
-  1371	
-  1372		return 0;
-  1373	}
-  1374	
+  3459	
+  3460	#ifdef CONFIG_ETMEM
+  3461	/*
+  3462	 * Check if original kernel swap is enabled
+  3463	 * turn off kernel swap,but leave page cache reclaim on
+  3464	 */
+  3465	static inline void kernel_swap_check(struct scan_control *sc)
+  3466	{
+> 3467		if (sc != NULL && !kernel_swap_enabled())
+  3468			sc->may_swap = 0;
+  3469	}
+  3470	#endif
+  3471	
 
 -- 
 0-DAY CI Kernel Test Service
