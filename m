@@ -1,46 +1,59 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EFC614B077;
-	Thu, 25 Apr 2024 18:16:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094CE39AFD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Apr 2024 18:58:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714068999; cv=none; b=QuKy9+Xjpn49IJSliX3pHhvUrTCl6N9t6AneO9YnxCtLdz1WIHo4KFLJjZOKCPSx5Xt31RDp/m9mqTn479W5+yYZQd78QFCk8doqLvnGeUZg7JBaV1tMaZC2uDj+IhY5AsHKLfOXKQQ8f+hRpy5atTZ5G3UBFcEIeMEYmw1TtfY=
+	t=1714071497; cv=none; b=i9oI/nIjH+V2+dGJH33rNkg3yv84MiX0R5YGDgaIhw2h3cn4FcoDbx52bxUGnqTPKWIVbgbQ/O0B2WjUNpwu5QzDiFRT++RaKP09QYNfrthKoe7ts/o5aCyC21IZbrlG9b9KMINAgpnDE15vVfeZ5bf/PdIKuNNY9P+/662QYdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714068999; c=relaxed/simple;
-	bh=osvQDcfth2oHBETtvgsqxTXc9soDQsyNFetTLK7ImU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cy7ywjmE0hG0diZeEiyD9gaEx//+N6b2v+4yVi+CyOeuHzMAsh8gxpNms4e/1jAZ/dwD+XRmm6pe6eAgZ6JkkTfRJsDyU8baX/bX08A9fQv+NbPoufcmr8BjZi90SevX+apijqu58mF4SqM25LPhqWY9QsJLUIuQ4dVzOXJVTlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41D731007;
-	Thu, 25 Apr 2024 11:17:04 -0700 (PDT)
-Received: from NH27D9T0LF (unknown [10.57.56.86])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 336303F793;
-	Thu, 25 Apr 2024 11:16:32 -0700 (PDT)
-Date: Thu, 25 Apr 2024 20:16:28 +0200
-From: Emanuele Rocca <emanuele.rocca@arm.com>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc: kernel test robot <lkp@intel.com>, Steven Price <steven.price@arm.com>,
-	kvm@vger.kernel.org, kvmarm@lists.linux.dev, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
-	James Morse <james.morse@arm.com>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Joey Gouly <joey.gouly@arm.com>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	Christoffer Dall <christoffer.dall@arm.com>,
-	Fuad Tabba <tabba@google.com>, linux-coco@lists.linux.dev,
-	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>
-Subject: Re: [PATCH v2 09/14] arm64: Enable memory encrypt for Realms
-Message-ID: <Ziqd_OHm8_rQNuxV@NH27D9T0LF>
-References: <20240412084213.1733764-10-steven.price@arm.com>
- <202404151003.vkNApJiS-lkp@intel.com>
- <f11e6d5d-d2b9-400e-96c3-5d1ded827720@arm.com>
- <5bba262f-6d30-417b-8a6f-fc03b86c47bd@arm.com>
+	s=arc-20240116; t=1714071497; c=relaxed/simple;
+	bh=M5s9gs+Sw3xbt8BJ171Mpd1/64chkwF32mrYHAAIAVY=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Yc+kLfcllfJ0dXr1qMN7ncTGaph9ulQoyNYwGjSZZDaU233Q31ckGqYtUDohR15549pZJVsJ/Ex0LfE8NH+4p3Ptr01nRXe8Z7IVW3eOO39zX86saO4oPTYVDXbtUmiO9IQUl6JUagcMFqzWfG3+Wy0+GlM5FZuFunBc5U7RSSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bYfutPF3; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bYfutPF3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714071495; x=1745607495;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=M5s9gs+Sw3xbt8BJ171Mpd1/64chkwF32mrYHAAIAVY=;
+  b=bYfutPF3rnJeGydaTdu2yOtJOEp4x3d074v6Mvqm9eBRw6onZSExxJp2
+   UKGdiG+5+zzZz6W2HK0FLgl9xAudzz4rKehATEn1W/HSArHF3bY4InL5r
+   7YA7Acx2HwQeL7i7P4oFKNYr5PCNBoOMe1jxWMFV2WwK9HezUq3nvVY7f
+   Mm3J7DqwCSpomu3oEHiMYoGNyHZi56kxz/uHoyXla9T3aFVLxtdSnRdWV
+   ctCv32tnHYX5zdU6KCh8IZHYZPqE+y5WkR0T8TWpeCxQWYGM022lT3PHE
+   ngJnlKZ8+LzXtdJFUl59wMWtY40F81XpARDYhjSp9AQet17HGOOQ7UCrU
+   g==;
+X-CSE-ConnectionGUID: aDq5JL4DR/ON+PaaEf0thA==
+X-CSE-MsgGUID: zLyYoQkNSSSgPwk1ydbeYQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="13570959"
+X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; 
+   d="scan'208";a="13570959"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 11:58:13 -0700
+X-CSE-ConnectionGUID: X5NFX8lsSTyz/CgEu1xsVQ==
+X-CSE-MsgGUID: 5jDZgTLnQGK8EnFP26B/DQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; 
+   d="scan'208";a="25667577"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 25 Apr 2024 11:58:13 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s04IM-0002k4-01;
+	Thu, 25 Apr 2024 18:58:10 +0000
+Date: Fri, 26 Apr 2024 02:58:02 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Udit Kumar <u-kumar1@ti.com>, Benoit Parrot <bparrot@ti.com>
+Subject: [ti:ti-linux-6.1.y-wip 19/22] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/media/i2c/ov1063x.yaml
+Message-ID: <202404260200.e56QAplk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,89 +62,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5bba262f-6d30-417b-8a6f-fc03b86c47bd@arm.com>
 
-Hi,
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.1.y-wip
+head:   2e423244f8c09173a344e7069f0fe2bdf26cccee
+commit: 1d2f40c03c3b1d45809a245d79913b28c613f297 [19/22] dt-bindings: media: Document OmniVision OV1063x driver
+reproduce: (https://download.01.org/0day-ci/archive/20240426/202404260200.e56QAplk-lkp@intel.com/reproduce)
 
-On 2024-04-25 05:29, Suzuki K Poulose wrote:
-> Emmanuele reports that these need to be exported as well, something
-> like:
-> 
-> 
-> diff --git a/arch/arm64/mm/pageattr.c b/arch/arm64/mm/pageattr.c
-> index 229b6d9990f5..de3843ce2aea 100644
-> --- a/arch/arm64/mm/pageattr.c
-> +++ b/arch/arm64/mm/pageattr.c
-> @@ -228,11 +228,13 @@ int set_memory_encrypted(unsigned long addr, int
-> numpages)
->  {
->         return __set_memory_encrypted(addr, numpages, true);
->  }
-> +EXPORT_SYMBOL_GPL(set_memory_encrypted);
-> 
->  int set_memory_decrypted(unsigned long addr, int numpages)
->  {
->         return __set_memory_encrypted(addr, numpages, false);
->  }
-> +EXPORT_SYMBOL_GPL(set_memory_decrypted);
-> 
->  #ifdef CONFIG_DEBUG_PAGEALLOC
->  void __kernel_map_pages(struct page *page, int numpages, int enable
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404260200.e56QAplk-lkp@intel.com/
 
-Indeed, without exporting the symbols I was getting this build failure:
+All warnings (new ones prefixed by >>):
 
- ERROR: modpost: "set_memory_encrypted" [drivers/hv/hv_vmbus.ko] undefined!
- ERROR: modpost: "set_memory_decrypted" [drivers/hv/hv_vmbus.ko] undefined!
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mfd/da90*.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mtd/amlogic,meson-nand.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/i2c/ov1063x.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/cnm,wave5.yaml
+   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
+   Using sphinx_rtd_theme theme
 
-I can now build 6.9-rc1 w/ CCA guest patches if I apply Suzuki's
-changes:
-
-1) move set_memory_encrypted/decrypted from asm/mem_encrypt.h to
-   asm/set_memory.h
-2) export both symbols in mm/pageattr.c
-
-See diff below.
-
-Thanks,
-  Emanuele
-
-diff --git a/arch/arm64/include/asm/mem_encrypt.h b/arch/arm64/include/asm/mem_encrypt.h
-index 7381f9585321..e47265cd180a 100644
---- a/arch/arm64/include/asm/mem_encrypt.h
-+++ b/arch/arm64/include/asm/mem_encrypt.h
-@@ -14,6 +14,4 @@ static inline bool force_dma_unencrypted(struct device *dev)
-        return is_realm_world();
- }
-
--int set_memory_encrypted(unsigned long addr, int numpages);
--int set_memory_decrypted(unsigned long addr, int numpages);
- #endif
-diff --git a/arch/arm64/include/asm/set_memory.h b/arch/arm64/include/asm/set_memory.h
-index 0f740b781187..9561b90fb43c 100644
---- a/arch/arm64/include/asm/set_memory.h
-+++ b/arch/arm64/include/asm/set_memory.h
-@@ -14,4 +14,6 @@ int set_direct_map_invalid_noflush(struct page *page);
- int set_direct_map_default_noflush(struct page *page);
- bool kernel_page_present(struct page *page);
-
-+int set_memory_encrypted(unsigned long addr, int numpages);
-+int set_memory_decrypted(unsigned long addr, int numpages);
- #endif /* _ASM_ARM64_SET_MEMORY_H */
-diff --git a/arch/arm64/mm/pageattr.c b/arch/arm64/mm/pageattr.c
-index 229b6d9990f5..de3843ce2aea 100644
---- a/arch/arm64/mm/pageattr.c
-+++ b/arch/arm64/mm/pageattr.c
-@@ -228,11 +228,13 @@ int set_memory_encrypted(unsigned long addr, int numpages)
- {
-        return __set_memory_encrypted(addr, numpages, true);
- }
-+EXPORT_SYMBOL_GPL(set_memory_encrypted);
-
- int set_memory_decrypted(unsigned long addr, int numpages)
- {
-        return __set_memory_encrypted(addr, numpages, false);
- }
-+EXPORT_SYMBOL_GPL(set_memory_decrypted);
-
- #ifdef CONFIG_DEBUG_PAGEALLOC
- void __kernel_map_pages(struct page *page, int numpages, int enable)
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
