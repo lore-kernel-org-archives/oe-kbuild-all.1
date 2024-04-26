@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066BB15253B;
-	Fri, 26 Apr 2024 14:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B618C148FE1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Apr 2024 15:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714141559; cv=none; b=GhKzOi2O6np5Bw2cubboJ9RO0xnYNHFzeYXXkABb06kpEvvIx4Bi7f0tBhLowtjQRL6yjHyoQuftuMfmqgeqHHbptOFzhuDlAbWbo6rwjbzi8lRzQ8OogR/cYgxEhKZF952yGYJWovHqlMv+wNhQcyobFf4uNQJloNfgDq1tAPM=
+	t=1714147138; cv=none; b=n73luAmRZ0BLaagWAMwtwrn94DNINzFOK1jPFCMaHVpDuPvHtdD3RzYPtGVrPnFkGpMQ6BRGAIqZmQwj3cFX+9DaV400UnEBa6lNETq7lNPbP8YU0+yEN8ipaEF3p9L+/9SMV/oBSO1n2XcSO2Jb1YnP//8Tuy9bybUFu13e6Sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714141559; c=relaxed/simple;
-	bh=FOxXbY04/XnrCXMqvWb1uftEXqf7Fy5BxGfZ+arTFXk=;
+	s=arc-20240116; t=1714147138; c=relaxed/simple;
+	bh=viMajpwghsUekXGs/LhZvwBTTEfMgD8weQ4fAWMJB84=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rpBhTCZPno1MSITV4XscI5sPJlOiSUmbBUKVUbgjpUpW9YzMZS3LL2CFXUoHtZRHfqLi3/zo6FxkGuBYDTxRPSIbc+lyIATE0a2YkhC6+w7JZ//tca/N/qJMKVVTvNXahIS0IyhqSg117tpLmV2G4zBsKrLfpAW+4pjjrLste8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JyrxxOZ+; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=kfC5PInujk9q0cqmQrXFVeASpXQb9tBjUsVCPMAY+ZDfTH2BLxH9yO4HSw4yahqY66E4C5aXCOszYwDZ9gifa5jtWIWLJk4of64y+FkUwGTa+uD8vHgJtyvNYGP7NRyVYqFDapc2GqqHYni49swA3Jk9fDsZa8ZTUNZdnPO/wN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PUwkNPnv; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JyrxxOZ+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PUwkNPnv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714141557; x=1745677557;
+  t=1714147137; x=1745683137;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FOxXbY04/XnrCXMqvWb1uftEXqf7Fy5BxGfZ+arTFXk=;
-  b=JyrxxOZ+Eq7u7IlqMZe1XZDoLB9Twtdp7/pxti2egsZTuLBwybQDef7+
-   jSr3scclNI96xSiQ4MuAX6DrCJQJmYPtYxpGVpRLot9DbFDFuKjFkPJhy
-   tl4Cz6knCp6cFG4k5+5t7rpeCPsqimHQ3vBEBwyVXY5y0QJ+TE9ANzphN
-   2uBYbkPG1dNbjQzokmOb6bmYWOedrwxAggVi/JqKyFUk6/hBVNHjKgB4H
-   3GkBYuDN9PM4TEhjICuAP8aF4k9jJ4krXas/tX3XX3eC7RTwHINt+tDln
-   0Fqk/LmRZs7Dsb+lX5NKgjgC2wrKJCJUUaQR6rJmVO9czo59ghU2ftXqz
-   g==;
-X-CSE-ConnectionGUID: Mqm/FB+CSv2ySxr4a+YotQ==
-X-CSE-MsgGUID: 0NJ/v+XZQ/GDR6C/ILi15g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="27333069"
-X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="27333069"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 07:25:54 -0700
-X-CSE-ConnectionGUID: KaZEcMiAQRK2yurP5QfyJw==
-X-CSE-MsgGUID: WdR0UyhOQay6S4gFyvWuuQ==
+  bh=viMajpwghsUekXGs/LhZvwBTTEfMgD8weQ4fAWMJB84=;
+  b=PUwkNPnvBOwtVixuBmGVnnTaNInvp70A1pcsygiDUnHicwVE6rcxcr4y
+   UpZdHAbBFvV7UX9BNcTIhalYEHTiVxjn0AbRfHD12B37hOBrk2DUa/E3i
+   haXz64QbG0R7vLAPHOn31sDi0mKt5mUQSUvEBbA38j4ML8bhE3h/b9FAF
+   zSWK3I8KBVlxyH+7ig+vfNV27W/IIqiyWnpSuG64yiqbA2/Rdq3bYIHnn
+   5vviWU+1v/WPTeMKg3uIl7iHB06HFnEQr0BA5zMewzHxp/rHLtvto1Gdg
+   ZXL9UZXLFAnLglEG1RQRr+JzhJQF6dYI5Bmc4kNk1g3H07l35hH8W2Mrq
+   w==;
+X-CSE-ConnectionGUID: c7BgHQXxRPuYjbO3s1JL2g==
+X-CSE-MsgGUID: MagdBSZHSMyS14MIM4nfSQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="10008720"
+X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
+   d="scan'208";a="10008720"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:58:57 -0700
+X-CSE-ConnectionGUID: qsEcWlxsRWC3iEc5MSnD4g==
+X-CSE-MsgGUID: 2B+4rX8ZRl+DA3uuFGS4Tg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="25313701"
+X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
+   d="scan'208";a="25463418"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 26 Apr 2024 07:25:52 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 26 Apr 2024 08:58:54 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0MWL-0003o8-1h;
-	Fri, 26 Apr 2024 14:25:49 +0000
-Date: Fri, 26 Apr 2024 22:24:52 +0800
+	id 1s0NyO-0003tD-2m;
+	Fri, 26 Apr 2024 15:58:52 +0000
+Date: Fri, 26 Apr 2024 23:58:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Liam Howlett <liam.howlett@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>
-Subject: lib/maple_tree.c:336:20: error: unused function 'mte_has_null'
-Message-ID: <202404262254.lEmMOMMd-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 39/245] mm/page_alloc.c:594:56: error:
+ 'MIGRATE_CMA' undeclared; did you mean 'MIGRATE_SYNC'?
+Message-ID: <202404262308.CqJlAyWj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,41 +62,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c942a0cd3603e34dd2d7237e064d9318cb7f9654
-commit: 6e7ba8b5e2380f941dda8a1025d70c5ce5b38982 maple_tree: mte_set_full() and mte_clear_full() clang-analyzer clean up
-date:   1 year, 5 months ago
-config: x86_64-sof-customedconfig-amd-defconfig (https://download.01.org/0day-ci/archive/20240426/202404262254.lEmMOMMd-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404262254.lEmMOMMd-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   3a483dde38073d7097405656305f05dcc5175b3a
+commit: 634c33ee9d167bb46f3472c1cc2db5ce2f5a6408 [39/245] ANDROID: mm: add cma pcp list
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240426/202404262308.CqJlAyWj-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404262308.CqJlAyWj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404262254.lEmMOMMd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404262308.CqJlAyWj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   lib/maple_tree.c:326:21: error: unused function 'mte_set_full' [-Werror,-Wunused-function]
-     326 | static inline void *mte_set_full(const struct maple_enode *node)
-         |                     ^~~~~~~~~~~~
-   lib/maple_tree.c:331:21: error: unused function 'mte_clear_full' [-Werror,-Wunused-function]
-     331 | static inline void *mte_clear_full(const struct maple_enode *node)
-         |                     ^~~~~~~~~~~~~~
->> lib/maple_tree.c:336:20: error: unused function 'mte_has_null' [-Werror,-Wunused-function]
-     336 | static inline bool mte_has_null(const struct maple_enode *node)
-         |                    ^~~~~~~~~~~~
-   3 errors generated.
+   In file included from include/linux/init.h:5,
+                    from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:22,
+                    from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6,
+                    from mm/page_alloc.c:19:
+   mm/page_alloc.c: In function 'order_to_pindex':
+>> mm/page_alloc.c:594:56: error: 'MIGRATE_CMA' undeclared (first use in this function); did you mean 'MIGRATE_SYNC'?
+     594 |         VM_BUG_ON(!cma_has_pcplist() && migratetype == MIGRATE_CMA);
+         |                                                        ^~~~~~~~~~~
+   include/linux/build_bug.h:30:63: note: in definition of macro 'BUILD_BUG_ON_INVALID'
+      30 | #define BUILD_BUG_ON_INVALID(e) ((void)(sizeof((__force long)(e))))
+         |                                                               ^
+   mm/page_alloc.c:594:9: note: in expansion of macro 'VM_BUG_ON'
+     594 |         VM_BUG_ON(!cma_has_pcplist() && migratetype == MIGRATE_CMA);
+         |         ^~~~~~~~~
+   mm/page_alloc.c:594:56: note: each undeclared identifier is reported only once for each function it appears in
+     594 |         VM_BUG_ON(!cma_has_pcplist() && migratetype == MIGRATE_CMA);
+         |                                                        ^~~~~~~~~~~
+   include/linux/build_bug.h:30:63: note: in definition of macro 'BUILD_BUG_ON_INVALID'
+      30 | #define BUILD_BUG_ON_INVALID(e) ((void)(sizeof((__force long)(e))))
+         |                                                               ^
+   mm/page_alloc.c:594:9: note: in expansion of macro 'VM_BUG_ON'
+     594 |         VM_BUG_ON(!cma_has_pcplist() && migratetype == MIGRATE_CMA);
+         |         ^~~~~~~~~
+   mm/page_alloc.c: In function 'free_unref_page':
+   mm/page_alloc.c:2513:58: error: 'MIGRATE_CMA' undeclared (first use in this function); did you mean 'MIGRATE_SYNC'?
+    2513 |                 if (!cma_has_pcplist() || migratetype != MIGRATE_CMA)
+         |                                                          ^~~~~~~~~~~
+         |                                                          MIGRATE_SYNC
+   mm/page_alloc.c: In function 'free_unref_page_list':
+   mm/page_alloc.c:2601:66: error: 'MIGRATE_CMA' undeclared (first use in this function); did you mean 'MIGRATE_SYNC'?
+    2601 |                         if (!cma_has_pcplist() || migratetype != MIGRATE_CMA)
+         |                                                                  ^~~~~~~~~~~
+         |                                                                  MIGRATE_SYNC
 
 
-vim +/mte_has_null +336 lib/maple_tree.c
+vim +594 mm/page_alloc.c
 
-   335	
- > 336	static inline bool mte_has_null(const struct maple_enode *node)
-   337	{
-   338		return (unsigned long)node & MAPLE_ENODE_NULL;
-   339	}
-   340	
+   586	
+   587	static inline unsigned int order_to_pindex(int migratetype, int order)
+   588	{
+   589		/*
+   590		 * We shouldn't get here for MIGRATE_CMA if those pages don't
+   591		 * have their own pcp list. For instance, free_unref_page() sets
+   592		 * pcpmigratetype to MIGRATE_MOVABLE.
+   593		 */
+ > 594		VM_BUG_ON(!cma_has_pcplist() && migratetype == MIGRATE_CMA);
+   595	
 
 -- 
 0-DAY CI Kernel Test Service
