@@ -1,192 +1,106 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F02820313
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Apr 2024 06:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31DDD210FF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Apr 2024 07:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714113005; cv=none; b=j/ecfZ0kIUrCaTinBqT6mFSuTKgmNnbikItgL/mRlaDUfFRY5Ioq03uaV6l2LZ/dNcc4L9JSCotzIUvCfxi5k96kbaLo5Vufv/sKvihXr1T+JWqZsSo5DLc7uuqUke9Q0wfV5r4aozqjl4XEsEW9eSualGxhpQcg2RmXTf9IBTw=
+	t=1714115681; cv=none; b=gzTkEHu2hFT/9ulCpP8fQRyxNSRssGKq6HRhRof2g0Y87muChZ9a+yeDHbeQo35Dy8S5HStoRiCSHCcaOhtNlY6+OtmWS5TI/I/lPK/RFBziUl/97B8knYOrMzoT+iOl31m+PMrA2y3SV3qyQyHmO5FKAfgHBHLPFUJKU4luR9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714113005; c=relaxed/simple;
-	bh=4MBJDq7xh8KVFF8rJ9dAGwfAvNPp5DQ6BvyZBjgMRVk=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=kJ/Bv3qgJjqIXwQwcyoysMoakDemRio1Lb7Mm52tHh9vpknDvVUjoxkhw1gp/SLmRLE707HELdEPTq6cs1hO96qUmwz/RwHtow55EyBkO3hb9MUgjE38MpjJpNluqrhRKIS3MPKn4wsRGTTVtGjTM8WHoSoCH6Ow1d+niiTEVZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=QxpEysCn; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1714115681; c=relaxed/simple;
+	bh=3Y7oKfbtDcdHdFHBW+lYWQMsn88Dq7wMGL8hz7U6kvg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=S6JEsgIJuWSIQHKoqQoT2fB3/WKz8uZfvDHML92cGy1/5fqBJ6CekRLZ2g57TjeUjkC3T+hkoiYpgbQP5K6mYwlJnWvjba6mqYqKIl4foUPJLGQBoqN8fYbi6NuWAKIYLMG86XVusw/JTnYNQgNVL7hQU72sSV4ZnbXjMeZNjfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RmjEiODd; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="QxpEysCn"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43Q5H4XE023039;
-	Fri, 26 Apr 2024 06:29:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=mDlcWK1a2zODr0FhRKh0nn8zrpsPBX6nIzk2EeTf87g=;
- b=QxpEysCn5/dFT7KjmR/8Y7gv51YPE7aE4AxkDmNb2Bz39hZNKEzE+JXR6AnhVxwlw4/X
- 6m7n7094yPWVV3U35vOf1/f/KXps9IKYC2L6zEusuYlQyJjr+MN7C9eEmqeu6NvKYRaK
- v4mkLHop5ABsR6Jy7cjzr4msb5LzSsk9ai6JmaVWW+QfE6wr6L4GTL0Mf72rsP7/fqQO
- FMKJNIdBn16TiQKfcGF2YkEliaTlVTeiDEQHDng7k/OtJBY0XU6cR1UpsRNCknHki8hA
- Ns5fXmheR5czlYWjGCn2AIfYyB91yRxFQFLRuV93hGFDgcuhjEfoqa2F6n/0LCdfh7MT bQ== 
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xr5yxg5s2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Apr 2024 06:29:53 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 43Q3huwr005736;
-	Fri, 26 Apr 2024 06:29:52 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3xmx3cvy0f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Apr 2024 06:29:52 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 43Q6TmDj51708262
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 26 Apr 2024 06:29:50 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BB71B20043;
-	Fri, 26 Apr 2024 06:29:48 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A7C162004B;
-	Fri, 26 Apr 2024 06:29:46 +0000 (GMT)
-Received: from [9.43.111.8] (unknown [9.43.111.8])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 26 Apr 2024 06:29:46 +0000 (GMT)
-Message-ID: <9c14d5bc-ffb2-4ddd-a5f1-5d419e88b187@linux.ibm.com>
-Date: Fri, 26 Apr 2024 11:59:45 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 7646/8170] arch/powerpc/kexec/crash.c:488:2-8:
- WARNING: NULL check before some freeing functions is not needed.
-To: kernel test robot <lkp@intel.com>, Michael Ellerman <mpe@ellerman.id.au>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>
-References: <202404261048.skfV5DDB-lkp@intel.com>
-Content-Language: en-US
-From: Sourabh Jain <sourabhjain@linux.ibm.com>
-In-Reply-To: <202404261048.skfV5DDB-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: _xj613nCTZOGl2BuS2utqVC2nOeX7RZk
-X-Proofpoint-GUID: _xj613nCTZOGl2BuS2utqVC2nOeX7RZk
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RmjEiODd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714115679; x=1745651679;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3Y7oKfbtDcdHdFHBW+lYWQMsn88Dq7wMGL8hz7U6kvg=;
+  b=RmjEiODd9taRBVVgWw9/QGchFKk3KJot7evL5i0r7/+fuPyoVCSmoETL
+   9rUyrvwClDGREbpqY8p3x9OZ2s93zKYXTAfD/JQW3inpNLqV56f+7cSVS
+   E3zDj2CqGOJx85TN0aA6RatgdlPVHTau7s/oINNgXQCRCu9JYlcQKaqIx
+   h1qLScgB+YCZnjlfJrXmjqh94ntonWIYd3j3CMQgpxUSKZYkuz+d/kgzn
+   6N7AGzHrA3la9O5lLug/aasOw56fwCqKCLbtPvYZAnFnrukhEsmt/D6zU
+   hUdaF7VMup3LtFqLTXsMqMDBLyicabsKjLxe4GPuxMq7zX8Mu+v+5qwOf
+   g==;
+X-CSE-ConnectionGUID: iA22I7cPTJGzbwA0CZ2JoA==
+X-CSE-MsgGUID: Rx7PpbExRtKOV1NEHY8vWg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="10057057"
+X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; 
+   d="scan'208";a="10057057"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 00:14:38 -0700
+X-CSE-ConnectionGUID: lgDapl34TfO2+BDN918yXQ==
+X-CSE-MsgGUID: P7iGHZlnQ2eFIdEFxspsbQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; 
+   d="scan'208";a="48577203"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 26 Apr 2024 00:14:37 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s0Fn1-0003Nu-0D;
+	Fri, 26 Apr 2024 07:14:35 +0000
+Date: Fri, 26 Apr 2024 15:13:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 21/48] drivers/hid/hid-himax.c:1706:
+ warning: expecting prototype for himax_mcu_resned_cmd_func(). Prototype was
+ for himax_mcu_resend_cmd_func() instead
+Message-ID: <202404261511.pnm2O4NU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-26_06,2024-04-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- lowpriorityscore=0 impostorscore=0 adultscore=0 mlxlogscore=999 mlxscore=0
- phishscore=0 priorityscore=1501 malwarescore=0 spamscore=0 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2404010000 definitions=main-2404260038
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello Michael and Stephen,
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   baf623b47c0e8c5913b25cea2f1d75cc09b001cb
+commit: 4e458c7ec64884693625db54d6eee71cf2976971 [21/48] CHROMIUM: HID: hid-himax: Add power check function
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240426/202404261511.pnm2O4NU-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404261511.pnm2O4NU-lkp@intel.com/reproduce)
 
-I fixed the below build warning in v19:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404261511.pnm2O4NU-lkp@intel.com/
 
-v19 patch series link: 
-https://lore.kernel.org/all/20240426060728.559753-1-sourabhjain@linux.ibm.com/
+All warnings (new ones prefixed by >>):
 
-Only 6/6 patch has been adjusted; all other patches remain unchanged.
-
-Please consider the updated patch series. Apologies for inconvenience.
-
-Thanks,
-Sourabh Jain
+>> drivers/hid/hid-himax.c:1706: warning: expecting prototype for himax_mcu_resned_cmd_func(). Prototype was for himax_mcu_resend_cmd_func() instead
 
 
-On 26/04/24 07:57, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   5e4f84f18c4ee9b0ccdc19e39b7de41df21699dd
-> commit: 849599b702ef8977fcd5b2f27c61ef773c42bb88 [7646/8170] powerpc/crash: add crash memory hotplug support
-> config: powerpc-randconfig-r061-20240426 (https://download.01.org/0day-ci/archive/20240426/202404261048.skfV5DDB-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 13.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202404261048.skfV5DDB-lkp@intel.com/
->
-> cocci warnings: (new ones prefixed by >>)
->>> arch/powerpc/kexec/crash.c:488:2-8: WARNING: NULL check before some freeing functions is not needed.
-> vim +488 arch/powerpc/kexec/crash.c
->
->     418	
->     419	/**
->     420	 * update_crash_elfcorehdr() - Recreate the elfcorehdr and replace it with old
->     421	 *			       elfcorehdr in the kexec segment array.
->     422	 * @image: the active struct kimage
->     423	 * @mn: struct memory_notify data handler
->     424	 */
->     425	static void update_crash_elfcorehdr(struct kimage *image, struct memory_notify *mn)
->     426	{
->     427		int ret;
->     428		struct crash_mem *cmem = NULL;
->     429		struct kexec_segment *ksegment;
->     430		void *ptr, *mem, *elfbuf = NULL;
->     431		unsigned long elfsz, memsz, base_addr, size;
->     432	
->     433		ksegment = &image->segment[image->elfcorehdr_index];
->     434		mem = (void *) ksegment->mem;
->     435		memsz = ksegment->memsz;
->     436	
->     437		ret = get_crash_memory_ranges(&cmem);
->     438		if (ret) {
->     439			pr_err("Failed to get crash mem range\n");
->     440			return;
->     441		}
->     442	
->     443		/*
->     444		 * The hot unplugged memory is part of crash memory ranges,
->     445		 * remove it here.
->     446		 */
->     447		if (image->hp_action == KEXEC_CRASH_HP_REMOVE_MEMORY) {
->     448			base_addr = PFN_PHYS(mn->start_pfn);
->     449			size = mn->nr_pages * PAGE_SIZE;
->     450			ret = remove_mem_range(&cmem, base_addr, size);
->     451			if (ret) {
->     452				pr_err("Failed to remove hot-unplugged memory from crash memory ranges\n");
->     453				goto out;
->     454			}
->     455		}
->     456	
->     457		ret = crash_prepare_elf64_headers(cmem, false, &elfbuf, &elfsz);
->     458		if (ret) {
->     459			pr_err("Failed to prepare elf header\n");
->     460			goto out;
->     461		}
->     462	
->     463		/*
->     464		 * It is unlikely that kernel hit this because elfcorehdr kexec
->     465		 * segment (memsz) is built with addition space to accommodate growing
->     466		 * number of crash memory ranges while loading the kdump kernel. It is
->     467		 * Just to avoid any unforeseen case.
->     468		 */
->     469		if (elfsz > memsz) {
->     470			pr_err("Updated crash elfcorehdr elfsz %lu > memsz %lu", elfsz, memsz);
->     471			goto out;
->     472		}
->     473	
->     474		ptr = __va(mem);
->     475		if (ptr) {
->     476			/* Temporarily invalidate the crash image while it is replaced */
->     477			xchg(&kexec_crash_image, NULL);
->     478	
->     479			/* Replace the old elfcorehdr with newly prepared elfcorehdr */
->     480			memcpy((void *)ptr, elfbuf, elfsz);
->     481	
->     482			/* The crash image is now valid once again */
->     483			xchg(&kexec_crash_image, image);
->     484		}
->     485	out:
->     486		kvfree(cmem);
->     487		if (elfbuf)
->   > 488			kvfree(elfbuf);
->     489	}
->     490	
+vim +1706 drivers/hid/hid-himax.c
+
+  1693	
+  1694	/**
+  1695	 * himax_mcu_resned_cmd_func() - Resend command collection
+  1696	 * @ts: Himax touch screen data
+  1697	 *
+  1698	 * This function is used to collect commands that need to be resent to TPIC after
+  1699	 * firmware restore. Usually we put system configuration status FW need to know
+  1700	 * after FW restore from system resume, firmware update or esd recovery. Currently,
+  1701	 * we put cable status here.
+  1702	 *
+  1703	 * return: 0 on success, negative error code on failure
+  1704	 */
+  1705	static int himax_mcu_resend_cmd_func(struct himax_ts_data *ts)
+> 1706	{
+  1707		return himax_cable_detect_func(ts, true);
+  1708	}
+  1709	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
