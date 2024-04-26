@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904EB1849;
-	Fri, 26 Apr 2024 01:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396C21860
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Apr 2024 02:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714093530; cv=none; b=rIH2A3xm7fhDK1389DaAIgJp/SYkSc3lsSwm9QJocXPeUqbdV0fSGxzyweokWHiMlzVOO6mLV53p2gPnqOhZGERb9R7Lq3hEetTINpUiJ+AaBo3P1TeEwKfcJaYNjovgXeZ8at6fTgfGZp/9Q2vYVJ++iAhE0Inp2DseE0u06uI=
+	t=1714098537; cv=none; b=CsDnosktJsGYKLez0Oy2hLW916zf3fqYY7GeQWyHf3pUCVPSRqm4t3wOex5RmZ2FapilUu/YkaHRmhtsqKOgv9yT4YR2SwRzj2Xe4ZuexwwxyQIbfTDcz7fcUG1blvrh+aougxCMNnvzFqTw25CL/oT+0ZSOMWBlOyrzhI5RJ58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714093530; c=relaxed/simple;
-	bh=c+cgKyGnQqEca+cm0wY3QHCRChbiAHCpDcUpHTGNnwI=;
+	s=arc-20240116; t=1714098537; c=relaxed/simple;
+	bh=LZl27n06NKRILSusKBlQy3VJGqe2IeAoo9nGPcS7h3w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VW/iow8qzdSqFKbaQK6doRm3rYA8H9v18CK+zAlns/B8tUqPNI0FKciUSvwRi8/6XVKSFObnC1Ym4N7IXcJRXgIOcLsfxoPHbpmXkImNyfuuEzw/XACU8Fbk/Vibb3l1CGCpXqz+Ccsn0atRGu+5L4QewW84XF2tj/IijzTC728=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M7eAzX9v; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=bc8wHbJ7uxE5yh+gAcC0XdptImrI6jJm0fuQKap3SmKgK8hK+jTtkRyErDITvt/aGDQ/VKVkYp6YKo6Jtjnmb3wdsfaTdsFI0Mr1+jxO4VjW93CWeQO28n1lJ2fos6gpikiHc9jqgZsWfPEjqwTJg7GqK14TRAAh7GKpUyBS1pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dcPHeSRG; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M7eAzX9v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dcPHeSRG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714093528; x=1745629528;
+  t=1714098536; x=1745634536;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c+cgKyGnQqEca+cm0wY3QHCRChbiAHCpDcUpHTGNnwI=;
-  b=M7eAzX9vjCSV8sPZGoXg9hQiQw/vY/mtuCt6ZdLbkqWDa9iXE8qG93lT
-   2E9dBXWp1DDXFG3WuSctao14nfiR750HB5eskATkoYj2Cu/34G9rtTSss
-   LsQ85XZp0f0w3Y6tUpgMeifueFX7j2g8lWmWFYCNSbnc3dB21YnKaZCH4
-   s3GQXHjzY3yEd0xF8K0qDqoJ4j9gHK0/7EDT5pC6dZeugkhZ+MR1DCZYU
-   Paq1/rcwhFyC4tFB7F38etGIWhNMy0NDcvkBaA53mVYXIdOHNrEXEH5i7
-   uot3DoiVYAHuaAAJojK4ODb1yslbrSVbdPt+C0Md9zeDeFV7KH2QvadRF
+  bh=LZl27n06NKRILSusKBlQy3VJGqe2IeAoo9nGPcS7h3w=;
+  b=dcPHeSRG6OZKYUBtfuaxALVYmaG+uCeUVDAsua4PygAIt7iUDbFux0s5
+   eXBwGRvdoglkeOc0mcX1hsfVrK3nqVUN5JDzxKKKF+EOv1uAYtZ2HYuRH
+   eUo1Kl46bjnWDxIoDJ+9d4tfvuwj4l9XkJ8BYzSN/dNH5BIpGTH27331S
+   PcTwPpVJge/Q/+npEcsk1He8Pc7OTcYKD6/IQ8/cH0oMsF885JwOkzRGZ
+   jyimfGs1tZy7Z86U4doCVRPkTo1baTlCWW5El/2SEs5jvW7BA+MVZ0t3t
+   g7lFISydP4DP7DMLKx1ZQI242KdDSbQ2Ag11P7K8igzSppTw6kL0Turaw
    Q==;
-X-CSE-ConnectionGUID: Oz2jGG/EQgCBPER6W42+Hw==
-X-CSE-MsgGUID: NuF1t9UWTcucN0+mL1kiKw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="9686826"
+X-CSE-ConnectionGUID: ss6AHJ3jRDa5dwHy0ZgvYQ==
+X-CSE-MsgGUID: 24/tP04rR2+z4yvMhFFxQA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="9658972"
 X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; 
-   d="scan'208";a="9686826"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 18:05:27 -0700
-X-CSE-ConnectionGUID: pyaqkzkaQ2ybTC9mNQX9Vg==
-X-CSE-MsgGUID: JpZDsBSpSRSqUvn9PsQp9Q==
+   d="scan'208";a="9658972"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 19:28:28 -0700
+X-CSE-ConnectionGUID: L5yUacLnS66Kn47v9K+1Hw==
+X-CSE-MsgGUID: Buks9uPERr2/JSzrKbFVKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; 
-   d="scan'208";a="25271844"
+   d="scan'208";a="25276470"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 25 Apr 2024 18:05:24 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 25 Apr 2024 19:28:27 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0A1i-000366-0V;
-	Fri, 26 Apr 2024 01:05:22 +0000
-Date: Fri, 26 Apr 2024 09:04:28 +0800
+	id 1s0BK4-0003Ag-25;
+	Fri, 26 Apr 2024 02:28:24 +0000
+Date: Fri, 26 Apr 2024 10:27:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [drm-misc:for-linux-next 4/6]
- drivers/gpu/drm/xlnx/zynqmp_disp.c:949:14: error: logical not is only
- applied to the left hand side of this comparison
-Message-ID: <202404260946.4oZXvHD2-lkp@intel.com>
+To: Sourabh Jain <sourabhjain@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: [linux-next:master 7646/8170] arch/powerpc/kexec/crash.c:488:2-8:
+ WARNING: NULL check before some freeing functions is not needed.
+Message-ID: <202404261048.skfV5DDB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,164 +64,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
-head:   2bdb481bf7a93c22b9fea8daefa2834aab23a70f
-commit: b0f0469ab662159f182f5af292b71cc5d42468a8 [4/6] drm: xlnx: zynqmp_dpsub: Anounce supported input formats
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240426/202404260946.4oZXvHD2-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404260946.4oZXvHD2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   5e4f84f18c4ee9b0ccdc19e39b7de41df21699dd
+commit: 849599b702ef8977fcd5b2f27c61ef773c42bb88 [7646/8170] powerpc/crash: add crash memory hotplug support
+config: powerpc-randconfig-r061-20240426 (https://download.01.org/0day-ci/archive/20240426/202404261048.skfV5DDB-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404260946.4oZXvHD2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404261048.skfV5DDB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> arch/powerpc/kexec/crash.c:488:2-8: WARNING: NULL check before some freeing functions is not needed.
 
-   In file included from drivers/gpu/drm/xlnx/zynqmp_disp.c:15:
-   In file included from include/drm/drm_plane.h:33:
-   In file included from include/drm/drm_util.h:36:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/xlnx/zynqmp_disp.c:19:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/gpu/drm/xlnx/zynqmp_disp.c:19:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/gpu/drm/xlnx/zynqmp_disp.c:19:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/gpu/drm/xlnx/zynqmp_disp.c:949:14: error: logical not is only applied to the left hand side of this comparison [-Werror,-Wlogical-not-parentheses]
-     949 |         if (WARN_ON(!layer->mode == ZYNQMP_DPSUB_LAYER_NONLIVE)) {
-         |                     ^            ~~
-   arch/s390/include/asm/bug.h:54:25: note: expanded from macro 'WARN_ON'
-      54 |         int __ret_warn_on = !!(x);                      \
-         |                                ^
-   drivers/gpu/drm/xlnx/zynqmp_disp.c:949:14: note: add parentheses after the '!' to evaluate the comparison first
-   drivers/gpu/drm/xlnx/zynqmp_disp.c:949:14: note: add parentheses around left hand side expression to silence this warning
-   18 errors generated.
+vim +488 arch/powerpc/kexec/crash.c
 
-
-vim +949 drivers/gpu/drm/xlnx/zynqmp_disp.c
-
-   928	
-   929	/**
-   930	 * zynqmp_disp_layer_drm_formats - Return the DRM formats supported by the layer
-   931	 * @layer: The layer
-   932	 * @num_formats: Pointer to the returned number of formats
-   933	 *
-   934	 * NOTE: This function doesn't make sense for live video layers and will
-   935	 * always return an empty list in such cases. zynqmp_disp_live_layer_formats()
-   936	 * should be used to query a list of media bus formats supported by the live
-   937	 * video input layer.
-   938	 *
-   939	 * Return: A newly allocated u32 array that stores all the DRM formats
-   940	 * supported by the layer. The number of formats in the array is returned
-   941	 * through the num_formats argument.
-   942	 */
-   943	u32 *zynqmp_disp_layer_drm_formats(struct zynqmp_disp_layer *layer,
-   944					   unsigned int *num_formats)
-   945	{
-   946		unsigned int i;
-   947		u32 *formats;
-   948	
- > 949		if (WARN_ON(!layer->mode == ZYNQMP_DPSUB_LAYER_NONLIVE)) {
-   950			*num_formats = 0;
-   951			return NULL;
-   952		}
-   953	
-   954		formats = kcalloc(layer->info->num_formats, sizeof(*formats),
-   955				  GFP_KERNEL);
-   956		if (!formats) {
-   957			*num_formats = 0;
-   958			return NULL;
-   959		}
-   960	
-   961		for (i = 0; i < layer->info->num_formats; ++i)
-   962			formats[i] = layer->info->formats[i].drm_fmt;
-   963	
-   964		*num_formats = layer->info->num_formats;
-   965		return formats;
-   966	}
-   967	
+   418	
+   419	/**
+   420	 * update_crash_elfcorehdr() - Recreate the elfcorehdr and replace it with old
+   421	 *			       elfcorehdr in the kexec segment array.
+   422	 * @image: the active struct kimage
+   423	 * @mn: struct memory_notify data handler
+   424	 */
+   425	static void update_crash_elfcorehdr(struct kimage *image, struct memory_notify *mn)
+   426	{
+   427		int ret;
+   428		struct crash_mem *cmem = NULL;
+   429		struct kexec_segment *ksegment;
+   430		void *ptr, *mem, *elfbuf = NULL;
+   431		unsigned long elfsz, memsz, base_addr, size;
+   432	
+   433		ksegment = &image->segment[image->elfcorehdr_index];
+   434		mem = (void *) ksegment->mem;
+   435		memsz = ksegment->memsz;
+   436	
+   437		ret = get_crash_memory_ranges(&cmem);
+   438		if (ret) {
+   439			pr_err("Failed to get crash mem range\n");
+   440			return;
+   441		}
+   442	
+   443		/*
+   444		 * The hot unplugged memory is part of crash memory ranges,
+   445		 * remove it here.
+   446		 */
+   447		if (image->hp_action == KEXEC_CRASH_HP_REMOVE_MEMORY) {
+   448			base_addr = PFN_PHYS(mn->start_pfn);
+   449			size = mn->nr_pages * PAGE_SIZE;
+   450			ret = remove_mem_range(&cmem, base_addr, size);
+   451			if (ret) {
+   452				pr_err("Failed to remove hot-unplugged memory from crash memory ranges\n");
+   453				goto out;
+   454			}
+   455		}
+   456	
+   457		ret = crash_prepare_elf64_headers(cmem, false, &elfbuf, &elfsz);
+   458		if (ret) {
+   459			pr_err("Failed to prepare elf header\n");
+   460			goto out;
+   461		}
+   462	
+   463		/*
+   464		 * It is unlikely that kernel hit this because elfcorehdr kexec
+   465		 * segment (memsz) is built with addition space to accommodate growing
+   466		 * number of crash memory ranges while loading the kdump kernel. It is
+   467		 * Just to avoid any unforeseen case.
+   468		 */
+   469		if (elfsz > memsz) {
+   470			pr_err("Updated crash elfcorehdr elfsz %lu > memsz %lu", elfsz, memsz);
+   471			goto out;
+   472		}
+   473	
+   474		ptr = __va(mem);
+   475		if (ptr) {
+   476			/* Temporarily invalidate the crash image while it is replaced */
+   477			xchg(&kexec_crash_image, NULL);
+   478	
+   479			/* Replace the old elfcorehdr with newly prepared elfcorehdr */
+   480			memcpy((void *)ptr, elfbuf, elfsz);
+   481	
+   482			/* The crash image is now valid once again */
+   483			xchg(&kexec_crash_image, image);
+   484		}
+   485	out:
+   486		kvfree(cmem);
+   487		if (elfbuf)
+ > 488			kvfree(elfbuf);
+   489	}
+   490	
 
 -- 
 0-DAY CI Kernel Test Service
