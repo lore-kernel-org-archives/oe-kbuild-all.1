@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F704BA45
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Apr 2024 19:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FED2C1BA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Apr 2024 20:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714159570; cv=none; b=DgweYYjFSCVyKbcZRaUTr5vTMx40ql5AjuC9p0aIey8bvOZjSq8UXCctccFomZ1xG8mEucxDg7Y66qXKOqdzcnqSVN1fUM01j++Z43stZgXhnQNdORcx0TkgumAeWOo1fTGaqrwzuB8U9d+o+TUGuOIBeerw2kJ4IJrzXG0+l1c=
+	t=1714165091; cv=none; b=Z03q0GOK517QeMpFZO9l9al832fuHJbc7JosFQ8ArErzKcUm0y71O1iFC8wRqsm+oDyjWNkoVy9K6d59MgQp4Qi5IsFX7eqJ9lDSege+zMPoJEGt9MfnTsvoIKOUELYOrvwUE4eSGR6R9XYS00pzbNyiM6KPKtONEQ7Qp6fvZnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714159570; c=relaxed/simple;
-	bh=KgeCy5sXzQqsEPrFkjedF+Aa937qamfaCTMgOebhLi4=;
+	s=arc-20240116; t=1714165091; c=relaxed/simple;
+	bh=KVOQ02abJ3MHUyyNiCCxgTaXVdv6RxB2Wo2VC6ctygU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RIDV5C3dBvKFMuwJe5pPKQQczL4Ag3w5PNuCAXj4CMRBXDxtnbnFJ9fUTjEvkGPuU6e9UJOb0XFVeOuBRwAjtotEUgUd6fRCWivaL9fVw4Ap1zBqD7fA6Ok2AD9gb9Agtobi/R1n4dSv+7aSZMZMJdkDoGhe44pSByJrRMBxNGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WTzRA2vv; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=oFg98W1veIF+nhDLrcNPkw5lNhDj+KyuFE/2iHW2zADluN1TgIAEqTm4M1YSlptmhP2W1NWDh2U13gejnjtG3mVp3x0neGWOL2qcVNpuAVKFT/+W2g8Y8HHgNyWOdIkk8j7Tmu1liap33TPVt7xWnegvKv4yCr5LgY2M4PRU3r4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d5MHRK97; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WTzRA2vv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d5MHRK97"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714159568; x=1745695568;
+  t=1714165089; x=1745701089;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KgeCy5sXzQqsEPrFkjedF+Aa937qamfaCTMgOebhLi4=;
-  b=WTzRA2vvc9eN66R5NeMdUDfFRKIzJmEeQTf974DDmYea/1pQ5hzvvE/Y
-   35mBKHTlMTqELohV6iOtvLF/eZcVK4NbL2l0QcsO0nVlfg6GvIgm0JTTG
-   r0Jcjxy2EIUjYLTlPJNvg88Qhf9AClyJsKO8jrFWdwRHL+PwI9XM/k2Ww
-   PDcUKQZXeh/cvqI1+ghbwW6RInPKlYq5xuay01vG+e3m/LCNu1pjQEh3v
-   P7HsbzF0IArL/vLyvhd8MbMLTHviFTxUnv+tbc7My/XoIZ/DGCMOiJsCB
-   zXjC1lOGAupbxBx+cNVsoM68IXVNoen7Q0IOirhe81NZu5cppc8d+60Vz
+  bh=KVOQ02abJ3MHUyyNiCCxgTaXVdv6RxB2Wo2VC6ctygU=;
+  b=d5MHRK97AJ4U6dCgeaBzvXd8V5YT4d9apLbJxTeZjgNqJMwvE/uoaBKw
+   bBTdTOAJf4pc843ViXaTtQhjm77+8MvINEHD+WD4tSXH7NgSQcAHSZ/ZY
+   +IrL4cK4T1Oh++/EjczklF1e0YHHmRqPenuht6z0UPZN3RhfWChnKtZS4
+   3csO81Y43qGmHX7TYUNqjk2zfpNSdamPD/qFptJG9vl0wryeDcbkpwvmU
+   KBymDSw/LwMsVG17h5yh3a4wGYfx1z18mfHzc8rfhAnELlbzdl9JCEBPq
+   hjH6Q6QAx6wUNMdF1a6Mwn5gtH+YgyiBhKaqKiVYKLY0IvKQrbkGlKhLu
    w==;
-X-CSE-ConnectionGUID: Q1xN07jBTba2ngmDEae76Q==
-X-CSE-MsgGUID: dj6iz0WlQ2O5IZXoZAiIRg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="20592569"
+X-CSE-ConnectionGUID: 0WmBkX8OThWGSL/JZTyivA==
+X-CSE-MsgGUID: ioeyRdhUSQqdmGHlc5HGQQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="21061654"
 X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
-   d="scan'208";a="20592569"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 12:26:07 -0700
-X-CSE-ConnectionGUID: vMXTY8y/RH65MTQdNf4/ig==
-X-CSE-MsgGUID: uiHCJPttTp6k4n6kjArFmg==
+   d="scan'208";a="21061654"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 13:58:09 -0700
+X-CSE-ConnectionGUID: MBrIqCV/R7CWQtQmEj/Uqw==
+X-CSE-MsgGUID: i7WhqWefS6iR6XpDT/7qZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
-   d="scan'208";a="25913388"
+   d="scan'208";a="25599511"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Apr 2024 12:26:06 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 26 Apr 2024 13:58:08 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0RCt-0004As-1X;
-	Fri, 26 Apr 2024 19:26:03 +0000
-Date: Sat, 27 Apr 2024 03:25:20 +0800
+	id 1s0Sdy-0004Fu-0U;
+	Fri, 26 Apr 2024 20:58:06 +0000
+Date: Sat, 27 Apr 2024 04:57:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 31/33]
- drivers/md/dm-verity-chromeos.c:177:47: sparse: sparse: incorrect type in
- argument 4 (different base types)
-Message-ID: <202404270341.0o1zTCme-lkp@intel.com>
+Subject: [freescale-fslc:6.6-1.0.x-imx 3066/11728] versioncheck:
+ ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_pm_driver.c: 2835: need
+ linux/version.h
+Message-ID: <202404270402.aevPxIZJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,156 +63,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   32b84185bd19d2bd0070fd34152e0e1f20e2e160
-commit: 3817c02346151b4e6796a6c4b212209e4a429c1d [31/33] CHROMIUM: dm-verity: Remove REQ_PREFLUSH during REQ_OP_READ
-config: arm-randconfig-r121-20240426 (https://download.01.org/0day-ci/archive/20240427/202404270341.0o1zTCme-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce: (https://download.01.org/0day-ci/archive/20240427/202404270341.0o1zTCme-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
+head:   37770f55ac9c4f6cd958eb5544939207eed8478f
+commit: 2526990f17d5ceac745910b95b83973586a6a455 [3066/11728] MGS-7263 VX504X08X-SW-99002-r31p0-01eac0
+reproduce: (https://download.01.org/0day-ci/archive/20240427/202404270402.aevPxIZJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404270341.0o1zTCme-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404270402.aevPxIZJ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/md/dm-verity-chromeos.c:67:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted blk_opf_t [usertype] bi_opf @@     got unsigned int @@
-   drivers/md/dm-verity-chromeos.c:67:21: sparse:     expected restricted blk_opf_t [usertype] bi_opf
-   drivers/md/dm-verity-chromeos.c:67:21: sparse:     got unsigned int
-   drivers/md/dm-verity-chromeos.c:176:47: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int op @@     got restricted blk_opf_t @@
-   drivers/md/dm-verity-chromeos.c:176:47: sparse:     expected unsigned int op
-   drivers/md/dm-verity-chromeos.c:176:47: sparse:     got restricted blk_opf_t
->> drivers/md/dm-verity-chromeos.c:177:47: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned int op_flags @@     got restricted blk_opf_t [usertype] @@
-   drivers/md/dm-verity-chromeos.c:177:47: sparse:     expected unsigned int op_flags
-   drivers/md/dm-verity-chromeos.c:177:47: sparse:     got restricted blk_opf_t [usertype]
-   drivers/md/dm-verity-chromeos.c:217:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int op @@     got restricted blk_opf_t @@
-   drivers/md/dm-verity-chromeos.c:217:58: sparse:     expected unsigned int op
-   drivers/md/dm-verity-chromeos.c:217:58: sparse:     got restricted blk_opf_t
-   drivers/md/dm-verity-chromeos.c:218:56: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned int op_flags @@     got restricted blk_opf_t @@
-   drivers/md/dm-verity-chromeos.c:218:56: sparse:     expected unsigned int op_flags
-   drivers/md/dm-verity-chromeos.c:218:56: sparse:     got restricted blk_opf_t
-
-vim +177 drivers/md/dm-verity-chromeos.c
-
-   123	
-   124	/*
-   125	 * Invalidate the kernel which corresponds to the root block device.
-   126	 *
-   127	 * This function stamps DMVERROR on the beginning of the kernel partition.
-   128	 *
-   129	 * The kernel_guid commandline parameter is used to find the kernel partition
-   130	 *  number.
-   131	 * If that fails, the kernel partition is found by subtracting 1 from
-   132	 *  the root partition.
-   133	 * The DMVERROR string is stamped over only the CHROMEOS string at the
-   134	 *  beginning of the kernel blob, leaving the rest of it intact.
-   135	 */
-   136	static int chromeos_invalidate_kernel_bio(struct block_device *root_bdev)
-   137	{
-   138		int ret = 0;
-   139		struct block_device *bdev;
-   140		struct bio *bio;
-   141		struct page *page;
-   142		dev_t devt;
-   143		blk_mode_t dev_mode;
-   144	
-   145		devt = get_boot_dev();
-   146		if (!devt) {
-   147			devt = get_boot_dev_from_root_dev(root_bdev);
-   148			if (!devt)
-   149				return -EINVAL;
-   150		}
-   151	
-   152		/* First we open the device for reading. */
-   153		dev_mode = BLK_OPEN_READ | BLK_OPEN_EXCL;
-   154		bdev = blkdev_get_by_dev(devt, dev_mode,
-   155					 chromeos_invalidate_kernel_bio, NULL);
-   156		if (IS_ERR(bdev)) {
-   157			DMERR("invalidate_kernel: could not open device for reading");
-   158			dev_mode = 0;
-   159			ret = -1;
-   160			goto failed_to_read;
-   161		}
-   162	
-   163		bio = bio_alloc(NULL, 1, 0, GFP_NOIO);
-   164		if (!bio) {
-   165			ret = -1;
-   166			goto failed_bio_alloc;
-   167		}
-   168	
-   169		page = alloc_page(GFP_NOIO);
-   170		if (!page) {
-   171			ret = -ENOMEM;
-   172			goto failed_to_alloc_page;
-   173		}
-   174	
-   175		if (chromeos_invalidate_kernel_submit(bio, bdev,
-   176						      REQ_OP_READ,
- > 177						      REQ_SYNC,
-   178						      page)) {
-   179			ret = -1;
-   180			goto failed_to_submit_read;
-   181		}
-   182	
-   183		/* We have a page. Let's make sure it looks right. */
-   184		if (memcmp("CHROMEOS", page_address(page), 8)) {
-   185			DMERR("invalidate_kernel called on non-kernel partition");
-   186			ret = -EINVAL;
-   187			goto invalid_header;
-   188		} else {
-   189			DMERR("invalidate_kernel: found CHROMEOS kernel partition");
-   190		}
-   191	
-   192		/* Stamp it and rewrite */
-   193		memcpy(page_address(page), DMVERROR, strlen(DMVERROR));
-   194	
-   195		/* The block dev was being changed on read. Let's reopen here. */
-   196		blkdev_put(bdev, chromeos_invalidate_kernel_bio);
-   197		dev_mode = BLK_OPEN_WRITE | BLK_OPEN_EXCL;
-   198		bdev = blkdev_get_by_dev(devt, dev_mode,
-   199					 chromeos_invalidate_kernel_bio, NULL);
-   200		if (IS_ERR(bdev)) {
-   201			DMERR("invalidate_kernel: could not open device for writing");
-   202			dev_mode = 0;
-   203			ret = -1;
-   204			goto failed_to_write;
-   205		}
-   206	
-   207		/* We re-use the same bio to do the write after the read. Need to reset
-   208		 * it to initialize bio->bi_remaining.
-   209		 */
-   210		bio_reset(bio, NULL, 0);
-   211	
-   212		/*
-   213		 * Request write operation with REQ_FUA flag to ensure that I/O
-   214		 * completion for the write is signaled only after the data has been
-   215		 * committed to non-volatile storage.
-   216		 */
-   217		if (chromeos_invalidate_kernel_submit(bio, bdev, REQ_OP_WRITE,
-   218						      REQ_SYNC | REQ_FUA, page)) {
-   219			ret = -1;
-   220			goto failed_to_submit_write;
-   221		}
-   222	
-   223		DMERR("invalidate_kernel: completed.");
-   224		ret = 0;
-   225	failed_to_submit_write:
-   226	failed_to_write:
-   227	invalid_header:
-   228		__free_page(page);
-   229	failed_to_submit_read:
-   230		/* Technically, we'll leak a page with the pending bio, but
-   231		 *  we're about to panic so it's safer to do the panic() we expect.
-   232		 */
-   233	failed_to_alloc_page:
-   234		bio_put(bio);
-   235	failed_bio_alloc:
-   236		if (dev_mode)
-   237			blkdev_put(bdev, chromeos_invalidate_kernel_bio);
-   238	failed_to_read:
-   239		return ret;
-   240	}
-   241	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.71.1-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+>> ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_pm_driver.c: 2835: need linux/version.h
+>> ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_pm_policy.c: 418: need linux/version.h
+>> ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_time.c: 113: need linux/version.h
+   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf.c: 2924: need linux/version.h
+   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_csg_debugfs.c: 558: need linux/version.h
+>> ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_firmware.c: 2324: need linux/version.h
+>> ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_firmware_no_mali.c: 1344: need linux/version.h
+>> ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_kcpu.c: 2260: need linux/version.h
+   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_kcpu.h: 356: need linux/version.h
+   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_kcpu_debugfs.c: 197: need linux/version.h
+>> ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_reset_gpu.c: 629: need linux/version.h
+   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_tl_reader.c: 538: need linux/version.h
+   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_trace_buffer.c: 688: need linux/version.h
+   ./drivers/gpu/arm/midgard/ipa/mali_kbase_ipa.c: 767: need linux/version.h
+   ./drivers/gpu/arm/midgard/ipa/mali_kbase_ipa_debugfs.c: 322: need linux/version.h
+   ./drivers/gpu/arm/midgard/jm/mali_kbase_jm_defs.h: 854: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase.h: 639: need linux/version.h
+>> ./drivers/gpu/arm/midgard/mali_kbase_bits.h: 31: need linux/version.h
+>> ./drivers/gpu/arm/midgard/mali_kbase_debug_job_fault.c: 574: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_defs.h: 1908: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_dma_fence.c: 472: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_dma_fence.h: 143: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_dvfs_debugfs.c: 98: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_fence.c: 153: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_fence.h: 283: need linux/version.h
+>> ./drivers/gpu/arm/midgard/mali_kbase_fence_ops.c: 83: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_gpuprops.c: 861: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_jd_debugfs.c: 248: need linux/version.h
+>> ./drivers/gpu/arm/midgard/mali_kbase_mem_linux.h: 474: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_mem_pool.c: 29 linux/version.h not needed.
+   ./drivers/gpu/arm/midgard/mali_kbase_mem_pool_debugfs.c: 190: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_mem_profile_debugfs.c: 135: need linux/version.h
+   ./drivers/gpu/arm/midgard/mali_kbase_sync.h: 231: need linux/version.h
+>> ./drivers/gpu/arm/midgard/mali_kbase_sync_android.c: 35 linux/version.h not needed.
+   ./drivers/gpu/arm/midgard/mali_kbase_utility.h: 52: need linux/version.h
+>> ./drivers/gpu/arm/midgard/mali_malisw.h: 29 linux/version.h not needed.
+   ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware_func.c: 7136: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c: 5738: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 4957: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/inc/gc_hal_drm.h: 209: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 618: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 495: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1187: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 544: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 984: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 669: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 253: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 175: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debugfs.h: 104: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 3177: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1375: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 153: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7407: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_parameter.h: 480: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 374: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 145: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/default/gc_hal_kernel_platform_default.c: 1058: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 2118: need linux/version.h
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./include/linux/priority_control_manager.h: 27 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
