@@ -1,60 +1,75 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396C21860
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Apr 2024 02:28:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A661860
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Apr 2024 02:28:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714098537; cv=none; b=CsDnosktJsGYKLez0Oy2hLW916zf3fqYY7GeQWyHf3pUCVPSRqm4t3wOex5RmZ2FapilUu/YkaHRmhtsqKOgv9yT4YR2SwRzj2Xe4ZuexwwxyQIbfTDcz7fcUG1blvrh+aougxCMNnvzFqTw25CL/oT+0ZSOMWBlOyrzhI5RJ58=
+	t=1714098539; cv=none; b=kmSkj+dePFl4V2etubw0w6iorZ987ORNQaFdj2gSLb4vbbeI5OC+VWhc35anlSjDDNpuP8/5x5QqJQilUrhXXM8tXx3QJPpbJqcY5Ob0gWgQlGKA6GI3sa8OBpnndSfaNhHH5eGCXvKsbbyJCuRxFj8d1fIEgnMaf4cLoM099g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714098537; c=relaxed/simple;
-	bh=LZl27n06NKRILSusKBlQy3VJGqe2IeAoo9nGPcS7h3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bc8wHbJ7uxE5yh+gAcC0XdptImrI6jJm0fuQKap3SmKgK8hK+jTtkRyErDITvt/aGDQ/VKVkYp6YKo6Jtjnmb3wdsfaTdsFI0Mr1+jxO4VjW93CWeQO28n1lJ2fos6gpikiHc9jqgZsWfPEjqwTJg7GqK14TRAAh7GKpUyBS1pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dcPHeSRG; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1714098539; c=relaxed/simple;
+	bh=a7GCnBwqMy29DV7yfejurYzqI+BjrI2g+dPqUPElVxY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oQc5XP8uPSdrdp9P55NfF1YOINGHQ9Pc0pdhvMhfASXYz46TLjVqhU8Ecf31RtmrFKVesVLOGMzynlTJUZFhrb207MSmw36VihLjlTet0loZqc6LS1XUuIaO8wGRWCNgJERgbTHsIHm6D4C1DWsgCi4XVgUVsyJaOxaUT6kp6to=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kw/cpDiL; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dcPHeSRG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kw/cpDiL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714098536; x=1745634536;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LZl27n06NKRILSusKBlQy3VJGqe2IeAoo9nGPcS7h3w=;
-  b=dcPHeSRG6OZKYUBtfuaxALVYmaG+uCeUVDAsua4PygAIt7iUDbFux0s5
-   eXBwGRvdoglkeOc0mcX1hsfVrK3nqVUN5JDzxKKKF+EOv1uAYtZ2HYuRH
-   eUo1Kl46bjnWDxIoDJ+9d4tfvuwj4l9XkJ8BYzSN/dNH5BIpGTH27331S
-   PcTwPpVJge/Q/+npEcsk1He8Pc7OTcYKD6/IQ8/cH0oMsF885JwOkzRGZ
-   jyimfGs1tZy7Z86U4doCVRPkTo1baTlCWW5El/2SEs5jvW7BA+MVZ0t3t
-   g7lFISydP4DP7DMLKx1ZQI242KdDSbQ2Ag11P7K8igzSppTw6kL0Turaw
-   Q==;
-X-CSE-ConnectionGUID: ss6AHJ3jRDa5dwHy0ZgvYQ==
-X-CSE-MsgGUID: 24/tP04rR2+z4yvMhFFxQA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="9658972"
+  t=1714098538; x=1745634538;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=a7GCnBwqMy29DV7yfejurYzqI+BjrI2g+dPqUPElVxY=;
+  b=Kw/cpDiLx/t2TBgKj2EeOEq5Zd7TZtnqpmk43w1NbPYU2TFBXeCLpdKH
+   ISUKRzxgNTyShM5LO8gNDnD+mgfBDDOH2L7v/+qwGWasI5b1SegNvYH00
+   QD9n80mh/zb8YVdbNBxn/4J38Rb55v0RrD4ncA5fTty1J+BnEuoD0/vtP
+   CFiDPVqpKHUNn/kKHVNhsihT4yKTaQidoP81FBKslt3/l51oaX7Da3hx2
+   nIKAoJSlPS2anTR4DNS7A2UPyKsVu4RXz0VG2P6ZYXacsMo4q9oPx2ssh
+   o3qDANUIGBTrGH64gSwkQLY2wNzHORnj2hpO3PVv2WJcu414x49z0p/8T
+   w==;
+X-CSE-ConnectionGUID: 9F3+/HgISSWzFlBUvjLr+A==
+X-CSE-MsgGUID: KZ59zfAGTAGfVk3yzh8j6w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="9658980"
 X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; 
-   d="scan'208";a="9658972"
+   d="scan'208";a="9658980"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 19:28:28 -0700
-X-CSE-ConnectionGUID: L5yUacLnS66Kn47v9K+1Hw==
-X-CSE-MsgGUID: Buks9uPERr2/JSzrKbFVKA==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 19:28:31 -0700
+X-CSE-ConnectionGUID: Muomi0QGS/GUkiANgz9eDA==
+X-CSE-MsgGUID: i31M9VSMRcKlVW3m4otSoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; 
-   d="scan'208";a="25276470"
+   d="scan'208";a="25276471"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 25 Apr 2024 19:28:27 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0BK4-0003Ag-25;
+	id 1s0BK4-0003Ai-29;
 	Fri, 26 Apr 2024 02:28:24 +0000
 Date: Fri, 26 Apr 2024 10:27:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sourabh Jain <sourabhjain@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: [linux-next:master 7646/8170] arch/powerpc/kexec/crash.c:488:2-8:
- WARNING: NULL check before some freeing functions is not needed.
-Message-ID: <202404261048.skfV5DDB-lkp@intel.com>
+To: Sky Huang <SkyLake.Huang@mediatek.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Qingfang Deng <dqfext@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Steven Liu <Steven.Liu@mediatek.com>,
+	"SkyLake.Huang" <skylake.huang@mediatek.com>
+Subject: Re: [PATCH 1/3] net: phy: mediatek: Re-organize MediaTek ethernet
+ phy drivers
+Message-ID: <202404261047.Dx118RCc-lkp@intel.com>
+References: <20240425023325.15586-2-SkyLake.Huang@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,96 +78,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240425023325.15586-2-SkyLake.Huang@mediatek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   5e4f84f18c4ee9b0ccdc19e39b7de41df21699dd
-commit: 849599b702ef8977fcd5b2f27c61ef773c42bb88 [7646/8170] powerpc/crash: add crash memory hotplug support
-config: powerpc-randconfig-r061-20240426 (https://download.01.org/0day-ci/archive/20240426/202404261048.skfV5DDB-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
+Hi Sky,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20240424]
+[cannot apply to net-next/main net/main linus/master v6.9-rc5 v6.9-rc4 v6.9-rc3 v6.9-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sky-Huang/net-phy-mediatek-Re-organize-MediaTek-ethernet-phy-drivers/20240425-103608
+base:   next-20240424
+patch link:    https://lore.kernel.org/r/20240425023325.15586-2-SkyLake.Huang%40mediatek.com
+patch subject: [PATCH 1/3] net: phy: mediatek: Re-organize MediaTek ethernet phy drivers
+config: i386-kismet-CONFIG_NVMEM_MTK_EFUSE-CONFIG_MEDIATEK_GE_SOC_PHY-0-0 (https://download.01.org/0day-ci/archive/20240426/202404261047.Dx118RCc-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240426/202404261047.Dx118RCc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404261048.skfV5DDB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404261047.Dx118RCc-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/powerpc/kexec/crash.c:488:2-8: WARNING: NULL check before some freeing functions is not needed.
-
-vim +488 arch/powerpc/kexec/crash.c
-
-   418	
-   419	/**
-   420	 * update_crash_elfcorehdr() - Recreate the elfcorehdr and replace it with old
-   421	 *			       elfcorehdr in the kexec segment array.
-   422	 * @image: the active struct kimage
-   423	 * @mn: struct memory_notify data handler
-   424	 */
-   425	static void update_crash_elfcorehdr(struct kimage *image, struct memory_notify *mn)
-   426	{
-   427		int ret;
-   428		struct crash_mem *cmem = NULL;
-   429		struct kexec_segment *ksegment;
-   430		void *ptr, *mem, *elfbuf = NULL;
-   431		unsigned long elfsz, memsz, base_addr, size;
-   432	
-   433		ksegment = &image->segment[image->elfcorehdr_index];
-   434		mem = (void *) ksegment->mem;
-   435		memsz = ksegment->memsz;
-   436	
-   437		ret = get_crash_memory_ranges(&cmem);
-   438		if (ret) {
-   439			pr_err("Failed to get crash mem range\n");
-   440			return;
-   441		}
-   442	
-   443		/*
-   444		 * The hot unplugged memory is part of crash memory ranges,
-   445		 * remove it here.
-   446		 */
-   447		if (image->hp_action == KEXEC_CRASH_HP_REMOVE_MEMORY) {
-   448			base_addr = PFN_PHYS(mn->start_pfn);
-   449			size = mn->nr_pages * PAGE_SIZE;
-   450			ret = remove_mem_range(&cmem, base_addr, size);
-   451			if (ret) {
-   452				pr_err("Failed to remove hot-unplugged memory from crash memory ranges\n");
-   453				goto out;
-   454			}
-   455		}
-   456	
-   457		ret = crash_prepare_elf64_headers(cmem, false, &elfbuf, &elfsz);
-   458		if (ret) {
-   459			pr_err("Failed to prepare elf header\n");
-   460			goto out;
-   461		}
-   462	
-   463		/*
-   464		 * It is unlikely that kernel hit this because elfcorehdr kexec
-   465		 * segment (memsz) is built with addition space to accommodate growing
-   466		 * number of crash memory ranges while loading the kdump kernel. It is
-   467		 * Just to avoid any unforeseen case.
-   468		 */
-   469		if (elfsz > memsz) {
-   470			pr_err("Updated crash elfcorehdr elfsz %lu > memsz %lu", elfsz, memsz);
-   471			goto out;
-   472		}
-   473	
-   474		ptr = __va(mem);
-   475		if (ptr) {
-   476			/* Temporarily invalidate the crash image while it is replaced */
-   477			xchg(&kexec_crash_image, NULL);
-   478	
-   479			/* Replace the old elfcorehdr with newly prepared elfcorehdr */
-   480			memcpy((void *)ptr, elfbuf, elfsz);
-   481	
-   482			/* The crash image is now valid once again */
-   483			xchg(&kexec_crash_image, image);
-   484		}
-   485	out:
-   486		kvfree(cmem);
-   487		if (elfbuf)
- > 488			kvfree(elfbuf);
-   489	}
-   490	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for NVMEM_MTK_EFUSE when selected by MEDIATEK_GE_SOC_PHY
+   WARNING: unmet direct dependencies detected for NVMEM_MTK_EFUSE
+     Depends on [n]: NVMEM [=n] && (ARCH_MEDIATEK || COMPILE_TEST [=y]) && HAS_IOMEM [=y]
+     Selected by [y]:
+     - MEDIATEK_GE_SOC_PHY [=y] && NETDEVICES [=y] && PHYLIB [=y] && (ARM64 && ARCH_MEDIATEK || COMPILE_TEST [=y])
 
 -- 
 0-DAY CI Kernel Test Service
