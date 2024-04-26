@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8616214264F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Apr 2024 10:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B334813FD6F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Apr 2024 10:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714126428; cv=none; b=lNu35fZcpysHTCn+N0hrbkLaMw1XXvGJBBoaXjM9KAyY3Z33rdZuy4wrxte+otGJrpJwSOEmBfxT1Ap6ZF517bsRz2RnFJqy0iaGDhs6ULlCjLNxP2aBr5BEPlpTbjeHUQbD4dMM8t5/nKy66bMft9Qkt31xd+iXIcmmPdSykNU=
+	t=1714127089; cv=none; b=rakpuTEJrDaXeqGuvma61n2PIQr2yTAdbbA+I5ueUWJpV3EP1usBo/l+YwW4Kf6731DSZUHAI/7WenxCACeatv/YcZn2dvlP4MMdLoX+67nZjMBU4aBx6X8CcNl1DA2MeUfWUchckJ5nIe8YWLoRKiXw3ipYLiNmCW4cdi/6Ses=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714126428; c=relaxed/simple;
-	bh=Ofm+LsuIBids+0dBhnDJ4MxonCHSamVU17HIAWPGfQk=;
+	s=arc-20240116; t=1714127089; c=relaxed/simple;
+	bh=mWpj8k4SBbNDC/pKx9uwTeUPaJQ/tHNsASWd6FTkf+g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qtCM9Gf+jOYsMI8XiEWOAwh866DCHG8pLVq9dzse5xEA7KYUi6UlfzmDlOBel5IGLeuuinfI8D6Vz13giEXbLfxAj6vl0s8nFZ8fpBYcuimh3Q+IHNZKaP5cOYNyfoRt2Hg/WJ5NdJqDwmui52YIfNQ3acRfXdy7DLxrYbrX/o0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UbFhsB/I; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=UpKJcJvg+qQnU+Jw+ykzM8fIElA4rrPwFav4V8Ma9WIe02ExPVPKP50v/9rsJVeePvaigBmQKm8VlbAAFSktYGtunnEGBUDSUYe0fXeALtLWv1/7F/fHfV9Z65mg3XwJuKtO9XII1IBZCXz+fMAjHQiqfxNTP+X+EdbgkGqoZWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C3AernpZ; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UbFhsB/I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C3AernpZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714126426; x=1745662426;
+  t=1714127087; x=1745663087;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ofm+LsuIBids+0dBhnDJ4MxonCHSamVU17HIAWPGfQk=;
-  b=UbFhsB/IpPTtyN600WO9G0GOlVsuwMaVnt2lbCqm6MhPnT8O06VxxvVw
-   P8WQ3iKJVkQTV4cgBrLKv8k7TxnLcikqWuVYoTWbloPZ0G99awa1BAO6s
-   kUHAlPLKbRDH2pwUIHVcX9NWUU/A4Pwk9ClNt4St392x5WhikOPqsUfhO
-   jpQBplKVZHlLWXlzp4JZ+1BF4A/x9qkLtUvAKWQtn6bRS/XDle12zslfH
-   Iwu3JYp4/Nt5vr2qspbWUZbfihih008wp43OsPWkWmeIMX5nbrsUhhQ0u
-   rqynlavB/+6rR6T0h60JX8b2OGv4lyWfLuoxKn9PO7OCv0WoaNePmEZEV
-   Q==;
-X-CSE-ConnectionGUID: U1QHiui1ScyIHMYuLEt77Q==
-X-CSE-MsgGUID: Saf2j+WcQpe1QMwGhllE2Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="13689838"
+  bh=mWpj8k4SBbNDC/pKx9uwTeUPaJQ/tHNsASWd6FTkf+g=;
+  b=C3AernpZoD0lwiNgUDVmri8gAOJ/mbjrJGTXv5I+fnEcWDlT5XyCD2rq
+   Pa/fNXoydjrsrqlnyEHUtPeO1YKMSbVmSXz5cimagCt6ummBNSs6+G4z7
+   uCxs4gCqvOlawR+NvxBCEK6G6sSunzM1QYIsI/q8CImzoH6utnojmcoZU
+   yTc5nD8j3tgpMk4NE2zfhlhQ3m+S8jgXBjdC64E1hb9FL034HwvAirtBd
+   HwqM/lmWTVc5/mkbiqxEvKlYJ+aHj6ovXZmWpaZqCeTZtApPrD75CzZz0
+   ITfaFExoMG+D6fe3ON8gqUWKkPynEo5Dzek9R5Y/bKUeOKosLUljr9BfL
+   g==;
+X-CSE-ConnectionGUID: AhEglHvbSXSRMLUk4TY6Fg==
+X-CSE-MsgGUID: +4GuPURuTqCMjiC6eXwZXQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="35245075"
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="13689838"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 03:13:46 -0700
-X-CSE-ConnectionGUID: 3XUNaR/9QEicC78ow1FtnA==
-X-CSE-MsgGUID: tV6BYjUqQOO18VA5TFQojQ==
+   d="scan'208";a="35245075"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 03:24:46 -0700
+X-CSE-ConnectionGUID: W6siUojPQD24DnFjHPaiSg==
+X-CSE-MsgGUID: Pnwu3+hCSdWkJdQkFTOi8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="56544157"
+   d="scan'208";a="30180920"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Apr 2024 03:13:44 -0700
+  by orviesa005.jf.intel.com with ESMTP; 26 Apr 2024 03:24:45 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0IaM-0003aK-1P;
-	Fri, 26 Apr 2024 10:13:42 +0000
-Date: Fri, 26 Apr 2024 18:13:14 +0800
+	id 1s0Il0-0003as-26;
+	Fri, 26 Apr 2024 10:24:42 +0000
+Date: Fri, 26 Apr 2024 18:24:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vincent Whitchurch <vincent.whitchurch@axis.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>
-Subject: pcap-dbus.o:undefined reference to `dbus_message_demarshal'
-Message-ID: <202404261846.Z4FJcMbf-lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: [linusw-gpio:b4/spitz 4/4] include/linux/spi/pxa2xx_spi.h:53:52:
+ warning: 'struct property_entry' declared inside parameter list will not be
+ visible outside of this definition or declaration
+Message-ID: <202404261804.6lkYMrCw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,58 +63,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Vincent,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c942a0cd3603e34dd2d7237e064d9318cb7f9654
-commit: 10f4c9b9a33b7df000f74fa0d896351fb1a61e6a x86/asm: Fix build of UML with KASAN
-date:   7 months ago
-config: um-randconfig-001-20240426 (https://download.01.org/0day-ci/archive/20240426/202404261846.Z4FJcMbf-lkp@intel.com/config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404261846.Z4FJcMbf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git b4/spitz
+head:   40c9c2538a37054ef2a1c56f3a41e64ba82cd6aa
+commit: 40c9c2538a37054ef2a1c56f3a41e64ba82cd6aa [4/4] ARM: spitz: Use software nodes for the ADS7846 touchscreen
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240426/202404261804.6lkYMrCw-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404261804.6lkYMrCw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404261846.Z4FJcMbf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404261804.6lkYMrCw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_write':
->> pcap-dbus.o:(.text+0x2488f): undefined reference to `dbus_message_demarshal'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x248a5): undefined reference to `dbus_connection_send'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x248ae): undefined reference to `dbus_connection_flush'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x248b6): undefined reference to `dbus_message_unref'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x24904): undefined reference to `dbus_error_free'
-   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_read':
->> pcap-dbus.o:(.text+0x24950): undefined reference to `dbus_connection_pop_message'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x24972): undefined reference to `dbus_connection_pop_message'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x24988): undefined reference to `dbus_connection_read_write'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x249f2): undefined reference to `dbus_message_is_signal'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x24a0e): undefined reference to `dbus_message_marshal'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x24a76): undefined reference to `dbus_free'
-   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_cleanup':
->> pcap-dbus.o:(.text+0x24adc): undefined reference to `dbus_connection_unref'
-   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_activate':
->> pcap-dbus.o:(.text+0x24b86): undefined reference to `dbus_connection_open'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x24b9e): undefined reference to `dbus_bus_register'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x24c8c): undefined reference to `dbus_bus_add_match'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x24c94): undefined reference to `dbus_error_is_set'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x24cdb): undefined reference to `dbus_bus_get'
-   /usr/bin/ld: pcap-dbus.o:(.text+0x24d0c): undefined reference to `dbus_error_free'
-   /usr/bin/ld: pcap-dbus.o:(.text+0x24d1d): undefined reference to `dbus_bus_add_match'
-   /usr/bin/ld: pcap-dbus.o:(.text+0x24d25): undefined reference to `dbus_error_is_set'
-   /usr/bin/ld: pcap-dbus.o:(.text+0x24d5e): undefined reference to `dbus_error_free'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x24d6a): undefined reference to `dbus_connection_unref'
-   /usr/bin/ld: pcap-dbus.o:(.text+0x24d96): undefined reference to `dbus_bus_get'
-   /usr/bin/ld: pcap-dbus.o:(.text+0x24dd2): undefined reference to `dbus_error_free'
->> /usr/bin/ld: pcap-dbus.o:(.text+0x24de5): undefined reference to `dbus_connection_set_max_received_size'
-   /usr/bin/ld: pcap-dbus.o:(.text+0x24df6): undefined reference to `dbus_connection_unref'
-   /usr/bin/ld: pcap-dbus.o:(.text+0x24e6c): undefined reference to `dbus_error_free'
-   /usr/bin/ld: pcap-dbus.o:(.text+0x24eaa): undefined reference to `dbus_error_free'
-   collect2: error: ld returned 1 exit status
+   In file included from drivers/spi/spi-pxa2xx-dma.c:15:
+>> include/linux/spi/pxa2xx_spi.h:53:52: warning: 'struct property_entry' declared inside parameter list will not be visible outside of this definition or declaration
+      53 | void pxa2xx_set_spi_node(unsigned id, const struct property_entry *props);
+         |                                                    ^~~~~~~~~~~~~~
+
+
+vim +53 include/linux/spi/pxa2xx_spi.h
+
+    51	
+    52	extern void pxa2xx_set_spi_info(unsigned id, struct pxa2xx_spi_controller *info);
+  > 53	void pxa2xx_set_spi_node(unsigned id, const struct property_entry *props);
+    54	
 
 -- 
 0-DAY CI Kernel Test Service
