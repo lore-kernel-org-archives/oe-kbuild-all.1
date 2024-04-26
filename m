@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B44415AAA1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Apr 2024 17:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175C514535A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Apr 2024 17:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714151524; cv=none; b=WQ69+SL8RdwBtUSg17qfJIw6KxBZbGQqTvhl3ybsNOesvyFfiOqhkgHxXhEwBqIAccKC1wunzZZ2N0TcozHEHp3y4ww3KXqLzdEKDfQWOoQX5d9FC7tR6sXVdpQerETeJBc3LdfB4jCkNpaVQvgFOfMPf9n5Sj/TSYHyel0z5O0=
+	t=1714152125; cv=none; b=acuTpfiUoi4YeApQvBLlMu/nLFhTD2RwyIuwFJcfU8z6/JRqZ9TSFpeQAehl9e1NHJOzHJOLPb8N7ZCyq+LD5XGMAk4m1HWunnvHGrjcjAvGf1ALQ9Xv1jg0GGuTSpecMSrJwU2wLrr1bZcDlaJcsEm9O8Qz7FLMcJ/DWQ11NS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714151524; c=relaxed/simple;
-	bh=3Pd/l/+E5Qm5+7Ld6em+fLyRN0LjhCMbADm7ZQPuL/w=;
+	s=arc-20240116; t=1714152125; c=relaxed/simple;
+	bh=fyoktN6KqEt7ftr53DivUHO3EKF04qnlJO+UG7POtbo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UZR2XZSWOhZoPfuHu3d04oA0tNlL2GrFpVmvDcsXWpBEmZtYiBh1RzpkNHBGSWXRCUH4s2FL71JMiT5+Nb3Cg/hmtxSRCpi50fXw5t8dYX/3YxCuL5cXM7gZa0HB8Hx5/rp2SA4KmXOoD4oJjcxZJC0hYQXQ8UnNZlJv+yYo7jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Aimx6+oy; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=LPrYZPk/3akynKZQA8pzuskP4gFa/iyymEi9PBidqzyLmlSHUBycUgt3Sfum6Kjpq2q4O0O2982Or/xkP+w2zWnE2VENOJa3mbvScuGqkdFhO6gSMxzSZISnm/LAAW2WYwN9iNRcX9fmJNX/8x0F3aECWSDJV7YsIVovnMIFDps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ToMAoQs1; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Aimx6+oy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ToMAoQs1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714151523; x=1745687523;
+  t=1714152123; x=1745688123;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3Pd/l/+E5Qm5+7Ld6em+fLyRN0LjhCMbADm7ZQPuL/w=;
-  b=Aimx6+oyKaGXNgbP6MLWPdeq2SqpHqletsPKK6mX263eVGvtOOhtOg5x
-   ppZhHaJCiL7T5huoV7t4wwjH+MNs4ENue8FtPvDMk/43ceNDfYyaLnPWH
-   rPO6AXdTW0JOkcSvM1Yxf0DGog57xaj95tx4N2k5/6kvzLcG+NoMJbapU
-   bBzMMsp6qguJgWO4eDbha8LiWgF0IN7spNXqm9FHgAOYPbQfrLwEjE8+h
-   +1edD8iJ1hCux8O6lMQ5QqNrbrNq4Zid1ykIkPAl0TEFs2DmUl+ksIP1S
-   6uLdKd+QunSUEfXk2rltbCaZGJCrCx9juOTL+3vHW2Cs7tVkVEqStLV2u
-   Q==;
-X-CSE-ConnectionGUID: SoaQDWmiSAGXA07WaZXxYA==
-X-CSE-MsgGUID: 4gFqfe3OThO/oFuGBjlTRw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="20449275"
+  bh=fyoktN6KqEt7ftr53DivUHO3EKF04qnlJO+UG7POtbo=;
+  b=ToMAoQs1ErV3af3KWVZ9xBP9yzaSqiLZMmnzvGLJaYU8qmxk5oBBSWvP
+   8RikqNLLh1gNFSVi/oZI79I83JOJDHo244D5eGatPfizV6GG3lumIwAg+
+   +YvHP6Qu9rFbGN+3MpDB3FyxUln+A+wKppfjixZtL+KvnLh7AIm7k0x69
+   ClCUdTfoVxRssH7ikQQWRPR60XTID9prpeK1wnN3L0fmdmkoGeAKnl/uG
+   wh1AklU/pSlmO0d/gwdcpxDqhUskU79/aBbII1drs4q1hxDoNoEuKopD5
+   +lugTuqgic68Nt9/6e5Af1c30LM1NO6rWCRgBEmIH3Gog/WdbPWKoikmB
+   g==;
+X-CSE-ConnectionGUID: bhWKoyYOSYm1GW2raRkdHw==
+X-CSE-MsgGUID: Z6L7ceGVTWmDHMHQ6CahGQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="9758960"
 X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
-   d="scan'208";a="20449275"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 10:12:02 -0700
-X-CSE-ConnectionGUID: 7A0i5Nk8R1SFT6S1ocLM+Q==
-X-CSE-MsgGUID: YZxipWCARm25Dx49Iw6AIg==
+   d="scan'208";a="9758960"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 10:22:02 -0700
+X-CSE-ConnectionGUID: Cu5HZw5MRp2JlojxpSkmFw==
+X-CSE-MsgGUID: WpRYIaXSRtK8aqqkde4zxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
-   d="scan'208";a="25451311"
+   d="scan'208";a="25443202"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Apr 2024 10:12:00 -0700
+  by orviesa009.jf.intel.com with ESMTP; 26 Apr 2024 10:22:01 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0P77-0003zy-2O;
-	Fri, 26 Apr 2024 17:11:57 +0000
-Date: Sat, 27 Apr 2024 01:11:10 +0800
+	id 1s0PGo-00040Q-1q;
+	Fri, 26 Apr 2024 17:21:58 +0000
+Date: Sat, 27 Apr 2024 01:21:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: drivers/pci/controller/dwc/pcie-designware.c:898:50: error: '%d'
- directive output may be truncated writing between 1 and 11 bytes into a
- region of size 3
-Message-ID: <202404270143.m5ItVzEF-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:5.15-2.2.x-imx 28551/29910]
+ drivers/clk/imx/clk-imx8mp.c:413:27: warning: 'imx8mp_media_disp2_pix_sels'
+ defined but not used
+Message-ID: <202404270116.MsJ2RN1C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,72 +63,137 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Serge,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c942a0cd3603e34dd2d7237e064d9318cb7f9654
-commit: 939fbcd568fd294034c96edc92ff5b9de1a5fce8 PCI: dwc: Add Root Port and Endpoint controller eDMA engine support
-date:   1 year, 2 months ago
-config: x86_64-sof-customedconfig-bpf-defconfig (https://download.01.org/0day-ci/archive/20240427/202404270143.m5ItVzEF-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404270143.m5ItVzEF-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   ebcdbe7ec49f9c3405ee4b89e7ec279e313026f3
+commit: 2e381d381b97b3bd1b65e173d165d3347707cd4c [28551/29910] clk: imx8mp: Add DISP2 pixel clock
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240427/202404270116.MsJ2RN1C-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404270116.MsJ2RN1C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404270143.m5ItVzEF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404270116.MsJ2RN1C-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/pci/controller/dwc/pcie-designware.c: In function 'dw_pcie_edma_detect':
->> drivers/pci/controller/dwc/pcie-designware.c:898:50: error: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 3 [-Werror=format-truncation=]
-     898 |                 snprintf(name, sizeof(name), "dma%d", pci->edma.nr_irqs);
-         |                                                  ^~
-   In function 'dw_pcie_edma_irq_verify',
-       inlined from 'dw_pcie_edma_detect' at drivers/pci/controller/dwc/pcie-designware.c:949:8:
-   drivers/pci/controller/dwc/pcie-designware.c:898:46: note: directive argument in the range [-2147483648, 15]
-     898 |                 snprintf(name, sizeof(name), "dma%d", pci->edma.nr_irqs);
-         |                                              ^~~~~~~
-   drivers/pci/controller/dwc/pcie-designware.c:898:17: note: 'snprintf' output between 5 and 15 bytes into a destination of size 6
-     898 |                 snprintf(name, sizeof(name), "dma%d", pci->edma.nr_irqs);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   drivers/clk/imx/clk-imx8mp.c: In function 'imx8mp_clocks_probe':
+   drivers/clk/imx/clk-imx8mp.c:972:13: error: 'IMX8MP_CLK_USB_SUSP' undeclared (first use in this function); did you mean 'IMX8MP_CLK_USB_ROOT'?
+     972 |         hws[IMX8MP_CLK_USB_SUSP] = imx_clk_hw_gate2_shared2("usb_suspend_clk", "osc_32k", ccm_base + 0x44d0, 0, &share_count_usb);
+         |             ^~~~~~~~~~~~~~~~~~~
+         |             IMX8MP_CLK_USB_ROOT
+   drivers/clk/imx/clk-imx8mp.c:972:13: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/clk/imx/clk-imx8mp.c: At top level:
+>> drivers/clk/imx/clk-imx8mp.c:413:27: warning: 'imx8mp_media_disp2_pix_sels' defined but not used [-Wunused-const-variable=]
+     413 | static const char * const imx8mp_media_disp2_pix_sels[] = {"osc_24m", "video_pll1_out", "audio_pll2_out",
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +898 drivers/pci/controller/dwc/pcie-designware.c
+vim +/imx8mp_media_disp2_pix_sels +413 drivers/clk/imx/clk-imx8mp.c
 
-   878	
-   879	static int dw_pcie_edma_irq_verify(struct dw_pcie *pci)
-   880	{
-   881		struct platform_device *pdev = to_platform_device(pci->dev);
-   882		u16 ch_cnt = pci->edma.ll_wr_cnt + pci->edma.ll_rd_cnt;
-   883		char name[6];
-   884		int ret;
-   885	
-   886		if (pci->edma.nr_irqs == 1)
-   887			return 0;
-   888		else if (pci->edma.nr_irqs > 1)
-   889			return pci->edma.nr_irqs != ch_cnt ? -EINVAL : 0;
-   890	
-   891		ret = platform_get_irq_byname_optional(pdev, "dma");
-   892		if (ret > 0) {
-   893			pci->edma.nr_irqs = 1;
-   894			return 0;
-   895		}
-   896	
-   897		for (; pci->edma.nr_irqs < ch_cnt; pci->edma.nr_irqs++) {
- > 898			snprintf(name, sizeof(name), "dma%d", pci->edma.nr_irqs);
-   899	
-   900			ret = platform_get_irq_byname_optional(pdev, name);
-   901			if (ret <= 0)
-   902				return -EINVAL;
-   903		}
-   904	
-   905		return 0;
-   906	}
-   907	
+7ab227210110a4 Peng Fan    2020-02-19  320  
+9c140d9926761b Anson Huang 2020-01-08  321  static const char * const imx8mp_m7_sels[] = {"osc_24m", "sys_pll2_200m", "sys_pll2_250m",
+9c140d9926761b Anson Huang 2020-01-08  322  					      "vpu_pll_out", "sys_pll1_800m", "audio_pll1_out",
+9c140d9926761b Anson Huang 2020-01-08  323  					      "video_pll1_out", "sys_pll3_out", };
+9c140d9926761b Anson Huang 2020-01-08  324  
+9c140d9926761b Anson Huang 2020-01-08  325  static const char * const imx8mp_ml_sels[] = {"osc_24m", "gpu_pll_out", "sys_pll1_800m",
+9c140d9926761b Anson Huang 2020-01-08  326  					      "sys_pll3_out", "sys_pll2_1000m", "audio_pll1_out",
+9c140d9926761b Anson Huang 2020-01-08  327  					      "video_pll1_out", "audio_pll2_out", };
+9c140d9926761b Anson Huang 2020-01-08  328  
+9c140d9926761b Anson Huang 2020-01-08  329  static const char * const imx8mp_gpu3d_core_sels[] = {"osc_24m", "gpu_pll_out", "sys_pll1_800m",
+9c140d9926761b Anson Huang 2020-01-08  330  						      "sys_pll3_out", "sys_pll2_1000m", "audio_pll1_out",
+9c140d9926761b Anson Huang 2020-01-08  331  						      "video_pll1_out", "audio_pll2_out", };
+9c140d9926761b Anson Huang 2020-01-08  332  
+9c140d9926761b Anson Huang 2020-01-08  333  static const char * const imx8mp_gpu3d_shader_sels[] = {"osc_24m", "gpu_pll_out", "sys_pll1_800m",
+9c140d9926761b Anson Huang 2020-01-08  334  							"sys_pll3_out", "sys_pll2_1000m", "audio_pll1_out",
+9c140d9926761b Anson Huang 2020-01-08  335  							"video_pll1_out", "audio_pll2_out", };
+9c140d9926761b Anson Huang 2020-01-08  336  
+9c140d9926761b Anson Huang 2020-01-08  337  static const char * const imx8mp_gpu2d_sels[] = {"osc_24m", "gpu_pll_out", "sys_pll1_800m",
+9c140d9926761b Anson Huang 2020-01-08  338  						 "sys_pll3_out", "sys_pll2_1000m", "audio_pll1_out",
+9c140d9926761b Anson Huang 2020-01-08  339  						 "video_pll1_out", "audio_pll2_out", };
+9c140d9926761b Anson Huang 2020-01-08  340  
+9c140d9926761b Anson Huang 2020-01-08  341  static const char * const imx8mp_audio_axi_sels[] = {"osc_24m", "gpu_pll_out", "sys_pll1_800m",
+9c140d9926761b Anson Huang 2020-01-08  342  						     "sys_pll3_out", "sys_pll2_1000m", "audio_pll1_out",
+9c140d9926761b Anson Huang 2020-01-08  343  						     "video_pll1_out", "audio_pll2_out", };
+9c140d9926761b Anson Huang 2020-01-08  344  
+9c140d9926761b Anson Huang 2020-01-08  345  static const char * const imx8mp_hsio_axi_sels[] = {"osc_24m", "sys_pll2_500m", "sys_pll1_800m",
+9c140d9926761b Anson Huang 2020-01-08  346  						    "sys_pll2_100m", "sys_pll2_200m", "clk_ext2",
+9c140d9926761b Anson Huang 2020-01-08  347  						    "clk_ext4", "audio_pll2_out", };
+9c140d9926761b Anson Huang 2020-01-08  348  
+9c140d9926761b Anson Huang 2020-01-08  349  static const char * const imx8mp_media_isp_sels[] = {"osc_24m", "sys_pll2_1000m", "sys_pll1_800m",
+9c140d9926761b Anson Huang 2020-01-08  350  						     "sys_pll3_out", "sys_pll1_400m", "audio_pll2_out",
+9c140d9926761b Anson Huang 2020-01-08  351  						     "clk_ext1", "sys_pll2_500m", };
+9c140d9926761b Anson Huang 2020-01-08  352  
+9c140d9926761b Anson Huang 2020-01-08  353  static const char * const imx8mp_main_axi_sels[] = {"osc_24m", "sys_pll2_333m", "sys_pll1_800m",
+9c140d9926761b Anson Huang 2020-01-08  354  						    "sys_pll2_250m", "sys_pll2_1000m", "audio_pll1_out",
+9c140d9926761b Anson Huang 2020-01-08  355  						    "video_pll1_out", "sys_pll1_100m",};
+9c140d9926761b Anson Huang 2020-01-08  356  
+9c140d9926761b Anson Huang 2020-01-08  357  static const char * const imx8mp_enet_axi_sels[] = {"osc_24m", "sys_pll1_266m", "sys_pll1_800m",
+9c140d9926761b Anson Huang 2020-01-08  358  						    "sys_pll2_250m", "sys_pll2_200m", "audio_pll1_out",
+9c140d9926761b Anson Huang 2020-01-08  359  						    "video_pll1_out", "sys_pll3_out", };
+9c140d9926761b Anson Huang 2020-01-08  360  
+9c140d9926761b Anson Huang 2020-01-08  361  static const char * const imx8mp_nand_usdhc_sels[] = {"osc_24m", "sys_pll1_266m", "sys_pll1_800m",
+9c140d9926761b Anson Huang 2020-01-08  362  						      "sys_pll2_200m", "sys_pll1_133m", "sys_pll3_out",
+9c140d9926761b Anson Huang 2020-01-08  363  						      "sys_pll2_250m", "audio_pll1_out", };
+9c140d9926761b Anson Huang 2020-01-08  364  
+9c140d9926761b Anson Huang 2020-01-08  365  static const char * const imx8mp_vpu_bus_sels[] = {"osc_24m", "sys_pll1_800m", "vpu_pll_out",
+9c140d9926761b Anson Huang 2020-01-08  366  						   "audio_pll2_out", "sys_pll3_out", "sys_pll2_1000m",
+9c140d9926761b Anson Huang 2020-01-08  367  						   "sys_pll2_200m", "sys_pll1_100m", };
+9c140d9926761b Anson Huang 2020-01-08  368  
+9c140d9926761b Anson Huang 2020-01-08  369  static const char * const imx8mp_media_axi_sels[] = {"osc_24m", "sys_pll2_1000m", "sys_pll1_800m",
+9c140d9926761b Anson Huang 2020-01-08  370  						     "sys_pll3_out", "sys_pll1_40m", "audio_pll2_out",
+9c140d9926761b Anson Huang 2020-01-08  371  						     "clk_ext1", "sys_pll2_500m", };
+9c140d9926761b Anson Huang 2020-01-08  372  
+9c140d9926761b Anson Huang 2020-01-08  373  static const char * const imx8mp_media_apb_sels[] = {"osc_24m", "sys_pll2_125m", "sys_pll1_800m",
+9c140d9926761b Anson Huang 2020-01-08  374  						     "sys_pll3_out", "sys_pll1_40m", "audio_pll2_out",
+9c140d9926761b Anson Huang 2020-01-08  375  						     "clk_ext1", "sys_pll1_133m", };
+9c140d9926761b Anson Huang 2020-01-08  376  
+9c140d9926761b Anson Huang 2020-01-08  377  static const char * const imx8mp_gpu_axi_sels[] = {"osc_24m", "sys_pll1_800m", "gpu_pll_out",
+9c140d9926761b Anson Huang 2020-01-08  378  						   "sys_pll3_out", "sys_pll2_1000m", "audio_pll1_out",
+9c140d9926761b Anson Huang 2020-01-08  379  						   "video_pll1_out", "audio_pll2_out", };
+9c140d9926761b Anson Huang 2020-01-08  380  
+9c140d9926761b Anson Huang 2020-01-08  381  static const char * const imx8mp_gpu_ahb_sels[] = {"osc_24m", "sys_pll1_800m", "gpu_pll_out",
+9c140d9926761b Anson Huang 2020-01-08  382  						   "sys_pll3_out", "sys_pll2_1000m", "audio_pll1_out",
+9c140d9926761b Anson Huang 2020-01-08  383  						   "video_pll1_out", "audio_pll2_out", };
+9c140d9926761b Anson Huang 2020-01-08  384  
+9c140d9926761b Anson Huang 2020-01-08  385  static const char * const imx8mp_noc_sels[] = {"osc_24m", "sys_pll1_800m", "sys_pll3_out",
+9c140d9926761b Anson Huang 2020-01-08  386  					       "sys_pll2_1000m", "sys_pll2_500m", "audio_pll1_out",
+9c140d9926761b Anson Huang 2020-01-08  387  					       "video_pll1_out", "audio_pll2_out", };
+9c140d9926761b Anson Huang 2020-01-08  388  
+9c140d9926761b Anson Huang 2020-01-08  389  static const char * const imx8mp_noc_io_sels[] = {"osc_24m", "sys_pll1_800m", "sys_pll3_out",
+9c140d9926761b Anson Huang 2020-01-08  390  						  "sys_pll2_1000m", "sys_pll2_500m", "audio_pll1_out",
+9c140d9926761b Anson Huang 2020-01-08  391  						  "video_pll1_out", "audio_pll2_out", };
+9c140d9926761b Anson Huang 2020-01-08  392  
+9c140d9926761b Anson Huang 2020-01-08  393  static const char * const imx8mp_ml_axi_sels[] = {"osc_24m", "sys_pll1_800m", "gpu_pll_out",
+9c140d9926761b Anson Huang 2020-01-08  394  						  "sys_pll3_out", "sys_pll2_1000m", "audio_pll1_out",
+9c140d9926761b Anson Huang 2020-01-08  395  						  "video_pll1_out", "audio_pll2_out", };
+9c140d9926761b Anson Huang 2020-01-08  396  
+9c140d9926761b Anson Huang 2020-01-08  397  static const char * const imx8mp_ml_ahb_sels[] = {"osc_24m", "sys_pll1_800m", "gpu_pll_out",
+9c140d9926761b Anson Huang 2020-01-08  398  						  "sys_pll3_out", "sys_pll2_1000m", "audio_pll1_out",
+9c140d9926761b Anson Huang 2020-01-08  399  						  "video_pll1_out", "audio_pll2_out", };
+9c140d9926761b Anson Huang 2020-01-08  400  
+9c140d9926761b Anson Huang 2020-01-08  401  static const char * const imx8mp_ahb_sels[] = {"osc_24m", "sys_pll1_133m", "sys_pll1_800m",
+9c140d9926761b Anson Huang 2020-01-08  402  					       "sys_pll1_400m", "sys_pll2_125m", "sys_pll3_out",
+9c140d9926761b Anson Huang 2020-01-08  403  					       "audio_pll1_out", "video_pll1_out", };
+9c140d9926761b Anson Huang 2020-01-08  404  
+9c140d9926761b Anson Huang 2020-01-08  405  static const char * const imx8mp_audio_ahb_sels[] = {"osc_24m", "sys_pll2_500m", "sys_pll1_800m",
+9c140d9926761b Anson Huang 2020-01-08  406  						     "sys_pll2_1000m", "sys_pll2_166m", "sys_pll3_out",
+9c140d9926761b Anson Huang 2020-01-08  407  						     "audio_pll1_out", "video_pll1_out", };
+9c140d9926761b Anson Huang 2020-01-08  408  
+9c140d9926761b Anson Huang 2020-01-08  409  static const char * const imx8mp_mipi_dsi_esc_rx_sels[] = {"osc_24m", "sys_pll2_100m", "sys_pll1_80m",
+9c140d9926761b Anson Huang 2020-01-08  410  							   "sys_pll1_800m", "sys_pll2_1000m",
+9c140d9926761b Anson Huang 2020-01-08  411  							   "sys_pll3_out", "clk_ext3", "audio_pll2_out", };
+9c140d9926761b Anson Huang 2020-01-08  412  
+1cd6b5552d3f67 Liu Ying    2019-10-16 @413  static const char * const imx8mp_media_disp2_pix_sels[] = {"osc_24m", "video_pll1_out", "audio_pll2_out",
+1cd6b5552d3f67 Liu Ying    2019-10-16  414  							   "audio_pll1_out", "sys_pll1_800m", "sys_pll2_1000m",
+1cd6b5552d3f67 Liu Ying    2019-10-16  415  							   "sys_pll3_out", "clk_ext4", };
+1cd6b5552d3f67 Liu Ying    2019-10-16  416  
+
+:::::: The code at line 413 was first introduced by commit
+:::::: 1cd6b5552d3f6706ed84289fb8a3d527c18b5bab MLK-23252-1 clk: imx8mp: Add DISP2 pixel clock
+
+:::::: TO: Liu Ying <victor.liu@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
