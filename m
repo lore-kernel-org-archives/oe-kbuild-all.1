@@ -1,65 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7601144D1A;
-	Fri, 26 Apr 2024 10:58:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A564E147C61
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Apr 2024 13:10:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714129133; cv=none; b=GufEk602ImhUaCxoCj8Ll4cHsJ/I3duiZvzGNyKGgOWWl+ZCU2lfIhpM1RPteb4Vn/BHDBfgkS5O5K+SVjrGhj3Hm0lygds1fnOBCeVJQ13PbHh2+7APP+ruNLlGVW3ndus7jmRgl5FmuMfrkhx4OOj7krSzwFA+eAxh8voQURo=
+	t=1714137057; cv=none; b=mdoBaaWwCu9JZ2IVpd/Grp2Y6AEjKPscMW9UApzy4XmkKXFlwa19IgbTLysG6s0aBmPh96n30qU/60R25iVM9dejI+4BnITxGKLA3gFblJVkPQwICco0/ADbrbcLjFZl49unN+zlNeRgwcmGOCA/5B2H+1IEKo53Wm34XdwaQqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714129133; c=relaxed/simple;
-	bh=huF0ExFgsepJp65/LgFBeJslQGlknYDeyxkOEhJEQXQ=;
+	s=arc-20240116; t=1714137057; c=relaxed/simple;
+	bh=F8Bo2pBp4CBzrWEGtBurDTewnj7beNkSoEBY6dW1Z5Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AibkduKa2ClykPlBhftGM6jpMxaoOka/mxSRSeNNavwS6ejSk66et7G/w4CffEgAl3ToYosJZame6JTjw/1ZOD6MXj0ZZ3daZj1yHD8ebG7Yy+eMIhVU1Fxugl7+4b8hYgMdwDONb6HWPPhndGo9rFtSQpmzHaiRT1oOQpPQatY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UIRiVGIv; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=DI4r4DkG8oG9heWBT2gzy/IPxFIYstIFZM3WEgt9WihS6u7tDlW/jSwVZ5B7R8oYX2O/0IG3YSz6Qtx0i7RE+IQfOBFBkMoDEBzCjEIfp1XjAS7tACe1vBmeQBMOOyi+U5SJyxJysl2T8WJpqD7rL0cYYbHKG1oKttraTmO9h8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OiFyMw+o; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UIRiVGIv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OiFyMw+o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714129131; x=1745665131;
+  t=1714137055; x=1745673055;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=huF0ExFgsepJp65/LgFBeJslQGlknYDeyxkOEhJEQXQ=;
-  b=UIRiVGIvCpQL+kD5F1ou0JjKXW47KjsIpsNy1Bpy+ldjkeIoPDHeTQjt
-   5aPXrq8S524116UZHjkt6MUlpLtVC+iD4khnzixWIDlEzIft7cRtA8wqp
-   e11I3/Ud4455ypvPJdBP55yeeVUgZdPeNh6hlbAgFOMEWNpj79Gj5veRU
-   EH5oeh2TQ/akEUpZG4b1nyN9K7xKaX4brUMF9SwYreBpBgOa0xNNMGH5z
-   3TLveURpBE0+Aelf0yJcZdhSMq4Suc5SpD7KRwUEJiMuzZyHmmxgboRyT
-   GSYsbUbZGD0IcNYV4tAmD5sEkH6Dy0kjl32+lYyezFaqAPWTqy79O4u7y
-   w==;
-X-CSE-ConnectionGUID: qx4FqXVMRxOuq6w41IFAwg==
-X-CSE-MsgGUID: WXUZvcQ+ToCcWmrJd0+7rA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="10392663"
+  bh=F8Bo2pBp4CBzrWEGtBurDTewnj7beNkSoEBY6dW1Z5Q=;
+  b=OiFyMw+oWx/YJHP3KGjM3a9lEDl/ORwWondLFVnN4l9o+kIoDfkJAFcg
+   V4UV+a7BHmewYurml6KiPGOOTta/MqHp+TxaLRsn58VGJngHwboOvWCl8
+   NQKt/AUq02/K1nCh2BlJYsEtcsZJyJa9Wi3X9PHzop0mbros9F5opReel
+   9u1YD64GuHoJmaUC0cQWv9REriI3CP/g+wdFZtBrUy1aPj+P2VNXcb5nQ
+   2qrp3N71p6jJnQm9HBbs3gIw5KnqkJj+JENQx5iWOXS/qlNiEcOOZw1uB
+   64yycT/aIcMtkSCXtcTwYfQBt9Tk0qP87TX8UngsmeMGRVIDFqJrquSqJ
+   Q==;
+X-CSE-ConnectionGUID: dZT/j+T2SKCqyBZGo6BAaQ==
+X-CSE-MsgGUID: mJbZZZuiSWS32vmreo/iLw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="32369083"
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="10392663"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 03:58:50 -0700
-X-CSE-ConnectionGUID: sXGMn23tQF2eCCFEw7Rqhw==
-X-CSE-MsgGUID: zKSID86WTWqpID8gkQOvfw==
+   d="scan'208";a="32369083"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 06:10:54 -0700
+X-CSE-ConnectionGUID: I91opZe0QOCYr6k80Mwxlg==
+X-CSE-MsgGUID: 7AYKl2cjT4Kk9lDltl+iZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="62863083"
+   d="scan'208";a="29863132"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 26 Apr 2024 03:58:46 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 Apr 2024 06:10:49 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0JHv-0003ck-2K;
-	Fri, 26 Apr 2024 10:58:43 +0000
-Date: Fri, 26 Apr 2024 18:57:50 +0800
+	id 1s0LLj-0003jK-0O;
+	Fri, 26 Apr 2024 13:10:47 +0000
+Date: Fri, 26 Apr 2024 21:10:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk,
-	martin.petersen@oracle.com, kbusch@kernel.org, hch@lst.de,
-	brauner@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	asml.silence@gmail.com, dw@davidwei.uk, io-uring@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH 10/10] nvme: add separate handling for user integrity
- buffer
-Message-ID: <202404261859.n3J0awuF-lkp@intel.com>
-References: <20240425183943.6319-11-joshi.k@samsung.com>
+To: Coiby Xu <coxu@redhat.com>, kexec@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Ondrej Kozina <okozina@redhat.com>,
+	Milan Broz <gmazyland@gmail.com>,
+	Thomas Staudt <tstaudt@de.ibm.com>,
+	Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+	Kairui Song <ryncsn@gmail.com>, dm-devel@redhat.com,
+	Jan Pazdziora <jpazdziora@redhat.com>,
+	Pingfan Liu <kernelfans@gmail.com>, Baoquan He <bhe@redhat.com>,
+	Dave Young <dyoung@redhat.com>, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Dave Hansen <dave.hansen@intel.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Vivek Goyal <vgoyal@redhat.com>, Kees Cook <keescook@chromium.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	"(open list:KERNEL HARDENING (not covered by other areas):Keyword:b__counted_byb)" <linux-hardening@vger.kernel.org>
+Subject: Re: [PATCH v3 2/7] crash_dump: make dm crypt keys persist for the
+ kdump kernel
+Message-ID: <202404262003.qsWvGwZU-lkp@intel.com>
+References: <20240425100434.198925-3-coxu@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,108 +75,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240425183943.6319-11-joshi.k@samsung.com>
+In-Reply-To: <20240425100434.198925-3-coxu@redhat.com>
 
-Hi Kanchan,
+Hi Coiby,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 24c3fc5c75c5b9d471783b4a4958748243828613]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.9-rc5 next-20240426]
+[cannot apply to tip/x86/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kanchan-Joshi/block-set-bip_vcnt-correctly/20240426-024916
-base:   24c3fc5c75c5b9d471783b4a4958748243828613
-patch link:    https://lore.kernel.org/r/20240425183943.6319-11-joshi.k%40samsung.com
-patch subject: [PATCH 10/10] nvme: add separate handling for user integrity buffer
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240426/202404261859.n3J0awuF-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404261859.n3J0awuF-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Coiby-Xu/kexec_file-allow-to-place-kexec_buf-randomly/20240425-180836
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240425100434.198925-3-coxu%40redhat.com
+patch subject: [PATCH v3 2/7] crash_dump: make dm crypt keys persist for the kdump kernel
+config: x86_64-randconfig-r113-20240426 (https://download.01.org/0day-ci/archive/20240426/202404262003.qsWvGwZU-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404262003.qsWvGwZU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404261859.n3J0awuF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404262003.qsWvGwZU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/crash_dump_dm_crypt.c:31:3: sparse: sparse: symbol 'keys_header' was not declared. Should it be static?
 
->> drivers/nvme/host/core.c:1014:31: error: member reference base type 'void' is not a structure or union
-    1014 |                         if (bio_integrity(req->bio)->bip_flags &
-         |                             ~~~~~~~~~~~~~~~~~~~~~~~^ ~~~~~~~~~
-   1 error generated.
+vim +/keys_header +31 kernel/crash_dump_dm_crypt.c
 
-
-vim +/void +1014 drivers/nvme/host/core.c
-
-   971	
-   972	static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
-   973			struct request *req, struct nvme_command *cmnd,
-   974			enum nvme_opcode op)
-   975	{
-   976		u16 control = 0;
-   977		u32 dsmgmt = 0;
-   978	
-   979		if (req->cmd_flags & REQ_FUA)
-   980			control |= NVME_RW_FUA;
-   981		if (req->cmd_flags & (REQ_FAILFAST_DEV | REQ_RAHEAD))
-   982			control |= NVME_RW_LR;
-   983	
-   984		if (req->cmd_flags & REQ_RAHEAD)
-   985			dsmgmt |= NVME_RW_DSM_FREQ_PREFETCH;
-   986	
-   987		cmnd->rw.opcode = op;
-   988		cmnd->rw.flags = 0;
-   989		cmnd->rw.nsid = cpu_to_le32(ns->head->ns_id);
-   990		cmnd->rw.cdw2 = 0;
-   991		cmnd->rw.cdw3 = 0;
-   992		cmnd->rw.metadata = 0;
-   993		cmnd->rw.slba =
-   994			cpu_to_le64(nvme_sect_to_lba(ns->head, blk_rq_pos(req)));
-   995		cmnd->rw.length =
-   996			cpu_to_le16((blk_rq_bytes(req) >> ns->head->lba_shift) - 1);
-   997		cmnd->rw.reftag = 0;
-   998		cmnd->rw.apptag = 0;
-   999		cmnd->rw.appmask = 0;
-  1000	
-  1001		if (ns->head->ms) {
-  1002			/*
-  1003			 * If formated with metadata, the block layer always provides a
-  1004			 * metadata buffer if CONFIG_BLK_DEV_INTEGRITY is enabled.  Else
-  1005			 * we enable the PRACT bit for protection information or set the
-  1006			 * namespace capacity to zero to prevent any I/O.
-  1007			 */
-  1008			if (!blk_integrity_rq(req)) {
-  1009				if (WARN_ON_ONCE(!nvme_ns_has_pi(ns->head)))
-  1010					return BLK_STS_NOTSUPP;
-  1011				control |= NVME_RW_PRINFO_PRACT;
-  1012			} else {
-  1013				/* process user-created integrity */
-> 1014				if (bio_integrity(req->bio)->bip_flags &
-  1015						BIP_INTEGRITY_USER) {
-  1016					nvme_setup_user_integrity(ns, req, cmnd,
-  1017								  &control);
-  1018					goto out;
-  1019				}
-  1020			}
-  1021	
-  1022			switch (ns->head->pi_type) {
-  1023			case NVME_NS_DPS_PI_TYPE3:
-  1024				control |= NVME_RW_PRINFO_PRCHK_GUARD;
-  1025				break;
-  1026			case NVME_NS_DPS_PI_TYPE1:
-  1027			case NVME_NS_DPS_PI_TYPE2:
-  1028				control |= NVME_RW_PRINFO_PRCHK_GUARD |
-  1029						NVME_RW_PRINFO_PRCHK_REF;
-  1030				if (op == nvme_cmd_zone_append)
-  1031					control |= NVME_RW_APPEND_PIREMAP;
-  1032				nvme_set_ref_tag(ns, cmnd, req);
-  1033				break;
-  1034			}
-  1035		}
-  1036	out:
-  1037		cmnd->rw.control = cpu_to_le16(control);
-  1038		cmnd->rw.dsmgmt = cpu_to_le32(dsmgmt);
-  1039		return 0;
-  1040	}
-  1041	
+    27	
+    28	struct keys_header {
+    29		unsigned int key_count;
+    30		struct dm_crypt_key keys[] __counted_by(key_count);
+  > 31	} *keys_header;
+    32	
 
 -- 
 0-DAY CI Kernel Test Service
