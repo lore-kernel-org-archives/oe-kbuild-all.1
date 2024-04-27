@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9277C1DFD2;
-	Sat, 27 Apr 2024 12:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A634D5AC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Apr 2024 13:45:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714220617; cv=none; b=sIz4wsmconKmrQEIAaeInAxaLilMnbX8De7fdEJGfLuvNlXqiGiJL/95Yt/Tia1JxerRsgh2Txfbq2gEXbNQkgbITb60JID8HCRaqnUlOieukqXtRdlePZMX8vdQt2txmDd6DqiYCsPHM3O2GkT8Ydj/f5NlsQmIp3hVfkqpU7E=
+	t=1714225540; cv=none; b=iSErAEMOmg1WpEdVX+XjKZSK1Qy5sH3MgGPBjhoQlvDSE1BTrR5QNuZ3VxINwioqkZY2HNpdqPApp+jCkG8gkSnskwUS2siZ/ODTceXQlZSvoT6QGr/LoTiJ3mXSww4QwnlNlfXxJEpH7VL/Yi6midPtSxBtT9A0vaCyvGcJYeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714220617; c=relaxed/simple;
-	bh=zrBOzM1NNEumGcrqIdS5fhfRYb5DhMIPnzVbf/lwLAo=;
+	s=arc-20240116; t=1714225540; c=relaxed/simple;
+	bh=Y5OXf4xW6VFpbKw9Z1EFvvig8FOdM1hzOlS7nlfW2/w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Es952Czwj+nfFVzS2M2/7xmB8GZYFEHt+8t+t4QbbjCiTrV9q1p0Ot9xTRRcLtqb/JL3joo0V5vLJYMFuh1y3EZ8EOUYLMgpeMcvOxgl2iJh9e8tXhTd0WDd46RZeAv00df+6RXu1AKEG3Sc7brSPjquAQ4jDE5MDsDIEygpndw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W1fwZgLv; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=loVzNmfzNDQuTw4pnpMv3s0rnYmCVHPFyJRWAbXjMF1SjYBIV+PemQ46l5IV6qM3kIZxd8OLiwHc0fKnjhawvyhHewfcnaqfpLvcmYBKhWV3sxe6ilNOobgFx1DgxRMGba9jPCv0moT0O49sq5JzErb7MxMn+IqU6seQ8GkDlDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CCGfmIR2; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W1fwZgLv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CCGfmIR2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714220615; x=1745756615;
+  t=1714225538; x=1745761538;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zrBOzM1NNEumGcrqIdS5fhfRYb5DhMIPnzVbf/lwLAo=;
-  b=W1fwZgLv6oOyuo50gZAujcOLrJFTXYQUIgSHDwAwqjXHHoNe47p6Q+RG
-   rdUnFf4/CKi5c/u3zXmeh5hCkz7bMlqMAcnFIT4s5T8biwAWt3opfmeNN
-   giiwiDYIYUgYXUGAGZvgP6KO6yKpWA647xpng/mz8loTBqlQ4dkjYfMn1
-   4U5RJE1r7KdXLLaF9xjVTZHUWxtAXNsW1FcViGlQZSC/GZ2R4ey4K11KB
-   oiaKfIg1QbEJVflAF1KIhpy8yK/PycaPN8DXdM5mFh0wlchhzzrL6hQzL
-   GFutgeQoPpRCPTUkSgsweMIg3Iig5vaC4cQwGKm+I5+CyUHa+4WnY7nia
-   A==;
-X-CSE-ConnectionGUID: 3NwA8bNTQUCdy6jmTJrDQw==
-X-CSE-MsgGUID: dW3Fyl04QVCEYPWOGKN75A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="27400283"
+  bh=Y5OXf4xW6VFpbKw9Z1EFvvig8FOdM1hzOlS7nlfW2/w=;
+  b=CCGfmIR2F06DRQlzJ8xk2EHrCynBWjeysFkJ0Dt03D8cv4X8iaZEv203
+   /iGeQaPe1hhctT/fwnSaf8HxCuC1kLJnIwMp2tM/tSAyJLE6q1vXxHNi2
+   oX6nkguBfmXxgwUrJ/h4rq543p1AnOA2TAQsDSg8JVnaSlSigoCxhguTj
+   zdtoSR/X8umWVnBpmrBWl+LpLTWi7vWojG+Rtz5hmEHXyhIAdSnCpZlx5
+   ny5dTv6Fh5g92nlml6JiB9ZHUwENIzfpJzASymocbnMpKCqlI27DWOde7
+   rccz1+Mj9Wty5PDWeRoZJRtAQh74w+TKpux2rK+Szh+5vNUMgthrO9fJi
+   Q==;
+X-CSE-ConnectionGUID: X2LRkK1zTyOXRh8wdPdLVw==
+X-CSE-MsgGUID: bCY8k769Qky1VdgNE0hi1Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="10112148"
 X-IronPort-AV: E=Sophos;i="6.07,235,1708416000"; 
-   d="scan'208";a="27400283"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2024 05:23:35 -0700
-X-CSE-ConnectionGUID: vlP4aEErSFmW4D4BKS4OPQ==
-X-CSE-MsgGUID: qGwOeUGwS72nWiPiBxVNjg==
+   d="scan'208";a="10112148"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2024 06:45:37 -0700
+X-CSE-ConnectionGUID: CoSm9jyhQZywWL8PJtYbfw==
+X-CSE-MsgGUID: ZKMxMle+TXmSmb7iMYIgRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,235,1708416000"; 
-   d="scan'208";a="26171424"
+   d="scan'208";a="30136021"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 27 Apr 2024 05:23:33 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 27 Apr 2024 06:45:36 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0h5W-0004yQ-2G;
-	Sat, 27 Apr 2024 12:23:30 +0000
-Date: Sat, 27 Apr 2024 20:23:02 +0800
+	id 1s0iMw-00053K-09;
+	Sat, 27 Apr 2024 13:45:34 +0000
+Date: Sat, 27 Apr 2024 21:45:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:uprobes_cow 2/3]
- arch/arm/probes/uprobes/core.c:29:5: error: conflicting types for 'set_swbp'
-Message-ID: <202404272026.UsFT9Wl5-lkp@intel.com>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [l1k:thunderbolt_associate_v1 3/4] drivers/thunderbolt/pci.c:108:44:
+ error: call to undeclared function 'tb_is_pci_adapter'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202404272144.7J66c21W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,48 +63,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/davidhildenbrand/linux uprobes_cow
-head:   42ab6aaef9cde61b0c00b5aafe291bda60e362e7
-commit: 204060681d67b845d95d19d8964b62381a46d6a9 [2/3] kernel/events/uprobes: pass VMA to set_swbp(), set_orig_insn() and uprobe_write_opcode()
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240427/202404272026.UsFT9Wl5-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404272026.UsFT9Wl5-lkp@intel.com/reproduce)
+tree:   https://github.com/l1k/linux thunderbolt_associate_v1
+head:   d02e8bddd00b2f29505e20a45417c494103dfc1d
+commit: 4c5808109d8418b445ae3b90b409dba5d2a0f17d [3/4] thunderbolt: Associate PCI devices with PCIe Adapters
+config: powerpc-randconfig-003-20240427 (https://download.01.org/0day-ci/archive/20240427/202404272144.7J66c21W-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404272144.7J66c21W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404272026.UsFT9Wl5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404272144.7J66c21W-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/arm/probes/uprobes/core.c:29:50: warning: declaration of 'struct vma_area_struct' will not be visible outside of this function [-Wvisibility]
-   int set_swbp(struct arch_uprobe *auprobe, struct vma_area_struct *vma,
-                                                    ^
->> arch/arm/probes/uprobes/core.c:29:5: error: conflicting types for 'set_swbp'
-   int set_swbp(struct arch_uprobe *auprobe, struct vma_area_struct *vma,
-       ^
-   include/linux/uprobes.h:106:12: note: previous declaration is here
-   extern int set_swbp(struct arch_uprobe *aup, struct vm_area_struct *vma, unsigned long vaddr);
-              ^
->> arch/arm/probes/uprobes/core.c:32:38: error: incompatible pointer types passing 'struct vma_area_struct *' to parameter of type 'struct vm_area_struct *' [-Werror,-Wincompatible-pointer-types]
-           return uprobe_write_opcode(auprobe, vma, vaddr,
-                                               ^~~
-   include/linux/uprobes.h:112:84: note: passing argument to parameter 'vma' here
-   extern int uprobe_write_opcode(struct arch_uprobe *auprobe, struct vm_area_struct *vma, unsigned long vaddr, uprobe_opcode_t);
-                                                                                      ^
-   1 warning and 2 errors generated.
+   In file included from drivers/thunderbolt/pci.c:16:
+   drivers/thunderbolt/tb.h:48:35: error: use of undeclared identifier 'MAX_GROUPS'
+           struct tb_bandwidth_group groups[MAX_GROUPS];
+                                            ^
+   drivers/thunderbolt/tb.h:48:28: error: field has incomplete type 'struct tb_bandwidth_group'
+           struct tb_bandwidth_group groups[MAX_GROUPS];
+                                     ^
+   drivers/thunderbolt/tb.h:48:9: note: forward declaration of 'struct tb_bandwidth_group'
+           struct tb_bandwidth_group groups[MAX_GROUPS];
+                  ^
+>> drivers/thunderbolt/pci.c:108:44: error: call to undeclared function 'tb_is_pci_adapter'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                action != BUS_NOTIFY_DEL_DEVICE) || !tb_is_pci_adapter(pdev))
+                                                     ^
+   3 errors generated.
 
 
-vim +/set_swbp +29 arch/arm/probes/uprobes/core.c
+vim +/tb_is_pci_adapter +108 drivers/thunderbolt/pci.c
 
-    28	
-  > 29	int set_swbp(struct arch_uprobe *auprobe, struct vma_area_struct *vma,
-    30		     unsigned long vaddr)
-    31	{
-  > 32		return uprobe_write_opcode(auprobe, vma, vaddr,
-    33			   __opcode_to_mem_arm(auprobe->bpinsn));
-    34	}
-    35	
+    87	
+    88	/**
+    89	 * tb_pci_notifier_call() - Thunderbolt PCI bus notifier
+    90	 * @nb: Notifier block embedded in struct tb_cm
+    91	 * @action: Notifier action
+    92	 * @data: PCI device
+    93	 *
+    94	 * On addition of PCI device @data, associate it with a PCIe adapter in the
+    95	 * Thunderbolt domain by storing a pointer to the PCI device in struct tb_port.
+    96	 * On deletion, reset the pointer to %NULL.
+    97	 */
+    98	int tb_pci_notifier_call(struct notifier_block *nb, unsigned long action,
+    99				 void *data)
+   100	{
+   101		struct tb_cm *tcm = container_of(nb, struct tb_cm, pci_notifier);
+   102		struct tb *tb = tb_from_priv(tcm);
+   103		struct device *dev = data;
+   104		struct pci_dev *pdev = to_pci_dev(dev);
+   105		struct tb_port *port;
+   106	
+   107		if ((action != BUS_NOTIFY_ADD_DEVICE &&
+ > 108		     action != BUS_NOTIFY_DEL_DEVICE) || !tb_is_pci_adapter(pdev))
+   109			return NOTIFY_DONE;
+   110	
+   111		mutex_lock(&tb->lock);
+   112		port = tb_pci_find_port(tb, pdev);
+   113		if (!port)
+   114			goto out;
+   115	
+   116		switch (action) {
+   117		case BUS_NOTIFY_ADD_DEVICE:
+   118			port->pdev = pdev;
+   119			tb_port_dbg(port, "associated with %s\n", pci_name(pdev));
+   120			break;
+   121		case BUS_NOTIFY_DEL_DEVICE:
+   122			port->pdev = NULL;
+   123			tb_port_dbg(port, "no longer associated with %s\n",
+   124				    pci_name(pdev));
+   125			break;
+   126		}
+   127	out:
+   128		mutex_unlock(&tb->lock);
+   129		return NOTIFY_DONE;
+   130	}
+   131	
 
 -- 
 0-DAY CI Kernel Test Service
