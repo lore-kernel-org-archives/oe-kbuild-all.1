@@ -1,123 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF23376E1;
-	Sat, 27 Apr 2024 02:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A472E852
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Apr 2024 02:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714185868; cv=none; b=KTKeREXPqmsTKRvBo+paEcwgzs171GPyJd16g/sOMFb94oQ1qtlzbXTcYqQL7jpZ8wsV3mYarfG4zpaBJAMpaALxPrvBB4d3NcyS6U7NfkAYHAJVGYlnGmKsAD8XSn1tGj6YrtfAwsmIZtibruZwnn7QfDF7+RT9VmMJ1VUDIxo=
+	t=1714186526; cv=none; b=XCAUkHT+KXhIIovFhsdubNWNYDuENuN+tcY0BDRaJqXLceHGVjkXtfLCdc2NbpOu8sa15NdFYnFs2K94ehMx+mcyllCd6/dBuzai7cJJGJKkR+NZDqEuhuzK+i3NMuWB+NAmZO6PYs8gH1SzVd3hL4t7QeioJNQx+3inVVD5VfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714185868; c=relaxed/simple;
-	bh=qkrYL1LnJX01BbmP4vKe9fzC867vlBxEr4GWvPFQafk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lOaK/AGwLR+VNsPHBNhOViNWfGBc8aI3bEmmqBeFsRw4sys4lc/oeCxifwDifh33jGFgWlQSXqEdGm8xXI3fLCmHFAxTHPbXhjH+TpJhxNj++qPnkVybtw0udRm5GWEpde6YR8hkL3zOnnnRJRfNguDi26wyGPTpTpi1ZLqOmSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ANoO81yk; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1714186526; c=relaxed/simple;
+	bh=XsM6XYeT/mY8RQBR8S4RkZtSULcwgfVuKiwm4Xz0MR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=l2Zj/tEkPr2xQs+ULE8Siuexlr3YWbDjHnbRDbbJpgM3xUXb+v7w86ElC9K1uzW6yl3K8PqrNqSKeIfCRrKD96S4//ysVGPbTaTbTy7CYtRv+/nphv3mKsAJyHg+PToZA08kIEYfQeajQOFr3QGnIqelldLlh46ivwOjhzWYKdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iCTbnO4E; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ANoO81yk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iCTbnO4E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714185865; x=1745721865;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=qkrYL1LnJX01BbmP4vKe9fzC867vlBxEr4GWvPFQafk=;
-  b=ANoO81ykJUVbWQH1VDDFEEPQPzaAsHegDobPkvmh8LX2NVvT34f4PBvc
-   0JSRMUkrsB6eQQiqw7Sxbgxgy5zSseR4/qxUSheXUoi8FPueRXoo3PEVE
-   4OCe8DGkFX2+DjUePmY2ncJeWi7/28qqyCIHGGXABvc6+nDTQKlgS8jUH
-   oPbIlm8RUJVZdSps3mUP4CDueidNS4nKbvDVcM3gTCi/duK4swilQkspr
-   Vd2VVNNIu+0W3r4K4GKycVRhcX2Dle/Rk0nEKvoCP7CjzQK/GdUuCBwv3
-   zSJHBiHy2/qMR/FOoTY3roE3sc9y8EWwDsfyzlfz+V/PA3sSUymGbDiCn
-   A==;
-X-CSE-ConnectionGUID: ikVKoqW0QW+a7ELNh9w2tg==
-X-CSE-MsgGUID: Wh6CldQhSG2fAAzgR3SWbg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="20618537"
+  t=1714186524; x=1745722524;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XsM6XYeT/mY8RQBR8S4RkZtSULcwgfVuKiwm4Xz0MR4=;
+  b=iCTbnO4Ew4rbLe2aGosqL6ky73WZZRPr5K0SrAXUoF9lRtHTzSe/btDP
+   MvhfaeEUN86oY/jiGfYSzY62TDlAopejjoSxT3egwZia0V0C/wJZklUjH
+   Xrznn4JhXBUXBEuQ9/8qEONo+1QwgB4ThrvuKFRgnispiZN0EWnWKho0b
+   n4x1YkQ1TyxeviMSQT4mjN41s1pSnWAFEh2PBFXhgqXuF23EEehswY889
+   7lNLdDBMVwzjiL5g9K9eLkVidbeF8fqECYyFQTxk68ZohV+93AQPOK+AB
+   gWZnoGe7WM5TvAKd/N1hGJPAy8UxeCXXlOrU5fu+rfnN6uTlHRwkpwj5A
+   Q==;
+X-CSE-ConnectionGUID: MYtYPBk2RumllwCsw++vqQ==
+X-CSE-MsgGUID: IdEMLGYVQ2WPpzf9/yabLg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="10054332"
 X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="20618537"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 19:44:24 -0700
-X-CSE-ConnectionGUID: wrHFTpiOR2i91sUQ1VZIJA==
-X-CSE-MsgGUID: E5sNqbW6QeifjYxcNCZZEA==
+   d="scan'208";a="10054332"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 19:55:24 -0700
+X-CSE-ConnectionGUID: gB0wTtKhRhywyQjubJlreg==
+X-CSE-MsgGUID: 9otBMarUSSC8USWSmL4g/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="25565554"
+   d="scan'208";a="30246288"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Apr 2024 19:44:22 -0700
+  by orviesa003.jf.intel.com with ESMTP; 26 Apr 2024 19:55:22 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0Y31-0004b4-0x;
-	Sat, 27 Apr 2024 02:44:19 +0000
-Date: Sat, 27 Apr 2024 10:43:30 +0800
+	id 1s0YDf-0004bG-1I;
+	Sat, 27 Apr 2024 02:55:19 +0000
+Date: Sat, 27 Apr 2024 10:55:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ramona Gradinariu <ramona.bolboaca13@gmail.com>,
-	linux-kernel@vger.kernel.org, jic23@kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	robh@kernel.org, nuno.sa@analog.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ramona Gradinariu <ramona.bolboaca13@gmail.com>
-Subject: Re: [PATCH 3/7] iio: imu: adis16475: Re-define ADIS16475_DATA
-Message-ID: <202404271034.fsyc7qe2-lkp@intel.com>
-References: <20240426135339.185602-4-ramona.bolboaca13@gmail.com>
+To: Timur Tabi <ttabi@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Danilo Krummrich <dakr@redhat.com>
+Subject: [drm-misc:for-linux-next 1/1]
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1117: warning: cannot
+ understand function prototype: 'struct registry_list_entry '
+Message-ID: <202404271044.gYbO4F1B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240426135339.185602-4-ramona.bolboaca13@gmail.com>
 
-Hi Ramona,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.9-rc5 next-20240426]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Gradinariu/dt-bindings-iio-imu-Add-ADIS16501-compatibles/20240426-215728
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240426135339.185602-4-ramona.bolboaca13%40gmail.com
-patch subject: [PATCH 3/7] iio: imu: adis16475: Re-define ADIS16475_DATA
-config: arm-randconfig-004-20240427 (https://download.01.org/0day-ci/archive/20240427/202404271034.fsyc7qe2-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271034.fsyc7qe2-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   61ba791c4a7a09a370c45b70a81b8c7d4cf6b2ae
+commit: b58a0bc904ffa091fc020f7fd00e91808fec820e [1/1] nouveau: add command-line GSP-RM registry support
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240427/202404271044.gYbO4F1B-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271044.gYbO4F1B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404271034.fsyc7qe2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404271044.gYbO4F1B-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/iio/imu/adis16475.c:16:
-   In file included from include/linux/iio/imu/adis.h:12:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/iio/imu/adis16475.c:734:34: warning: unused variable 'adis1650x_timeouts' [-Wunused-const-variable]
-     734 | static const struct adis_timeout adis1650x_timeouts = {
-         |                                  ^~~~~~~~~~~~~~~~~~
-   2 warnings generated.
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1117: warning: cannot understand function prototype: 'struct registry_list_entry '
+   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1320: warning: cannot understand function prototype: 'const struct nv_gsp_registry_entries r535_registry_entries[] = '
 
 
-vim +/adis1650x_timeouts +734 drivers/iio/imu/adis16475.c
+vim +1117 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
 
-fff7352bf7a3ce Nuno Sá 2020-04-13  733  
-fff7352bf7a3ce Nuno Sá 2020-04-13 @734  static const struct adis_timeout adis1650x_timeouts = {
-fff7352bf7a3ce Nuno Sá 2020-04-13  735  	.reset_ms = 260,
-fff7352bf7a3ce Nuno Sá 2020-04-13  736  	.sw_reset_ms = 260,
-fff7352bf7a3ce Nuno Sá 2020-04-13  737  	.self_test_ms = 30,
-fff7352bf7a3ce Nuno Sá 2020-04-13  738  };
-fff7352bf7a3ce Nuno Sá 2020-04-13  739  
+  1093	
+  1094	/**
+  1095	 * registry_list_entry - linked list member for a registry key/value
+  1096	 * @head: list_head struct
+  1097	 * @type: dword, binary, or string
+  1098	 * @klen: the length of name of the key
+  1099	 * @vlen: the length of the value
+  1100	 * @key: the key name
+  1101	 * @dword: the data, if REGISTRY_TABLE_ENTRY_TYPE_DWORD
+  1102	 * @binary: the data, if TYPE_BINARY or TYPE_STRING
+  1103	 *
+  1104	 * Every registry key/value is represented internally by this struct.
+  1105	 *
+  1106	 * Type DWORD is a simple 32-bit unsigned integer, and its value is stored in
+  1107	 * @dword.
+  1108	 *
+  1109	 * Types BINARY and STRING are variable-length binary blobs.  The only real
+  1110	 * difference between BINARY and STRING is that STRING is null-terminated and
+  1111	 * is expected to contain only printable characters.
+  1112	 *
+  1113	 * Note: it is technically possible to have multiple keys with the same name
+  1114	 * but different types, but this is not useful since GSP-RM expects keys to
+  1115	 * have only one specific type.
+  1116	 */
+> 1117	struct registry_list_entry {
+  1118		struct list_head head;
+  1119		enum registry_type type;
+  1120		size_t klen;
+  1121		char key[REGISTRY_MAX_KEY_LENGTH];
+  1122		size_t vlen;
+  1123		u32 dword;			/* TYPE_DWORD */
+  1124		u8 binary[] __counted_by(vlen);	/* TYPE_BINARY or TYPE_STRING */
+  1125	};
+  1126	
 
 -- 
 0-DAY CI Kernel Test Service
