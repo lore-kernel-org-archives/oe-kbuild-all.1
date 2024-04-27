@@ -1,69 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79EC381CC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Apr 2024 03:57:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7528B3BBEC;
+	Sat, 27 Apr 2024 04:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714190248; cv=none; b=P9NUpzfCOJwpMujb2kFjTzFBsQJoILgukK8j936G1XUsS98CDZXirrmjVbsn3lqhcGPg5Oc+fPKwNHPiMWSstGlFL3cdpv2dEPkYxbkRdps0hHbbKdksdrqTCXRECPRV0z2ZceP/OjxjDdBAvbx/NcNzYj5mHoGc/ZYkKWvkTHk=
+	t=1714191508; cv=none; b=P2Wmqsk/1WTMGGXscAVgfUvJ6VVIHIJagYid0Rwoe/sJKOw2xCDA3FZ1DUuGc4aGpY5FrAy3+NVWbRdcCdfrqvW2S1UwMjQnGGxg6puZprtobxhJfPihb2KM096JDMlzokUOnfqIK6lGmAZrngaL+/b2FO3Dwej5yOwG6elU1t4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714190248; c=relaxed/simple;
-	bh=YRmiWQP+/17pF8L5yQ2vm+Ph+FwmOORL/xrdcXpC2N4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m69De4juSAIiAlTlmGRno8OVvEso3Qfyp81Vh522DpllimUw9cpBxCp7a3tC7Kylc05Muvdjymqg0nJnIoNVWD3XDJt8BGdx/KyxhEskwhf5/4cS3q4/SAPRwvk5p3RWGiS8/SZQquExVxlWyZ50yB5///vAGxH29ffbdmhSWOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ObCQPW+o; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1714191508; c=relaxed/simple;
+	bh=9/tn2G0UzT+pos5SSWjCh/ekHpy90xZIn8Ntu6sbS2s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BrXAog/IWibWMCsYkaNh8oFU/T8qr8aKxlfoKGG1IBUhuQHdxdI/jLSnbhKhtRVMHUiFCW122205VYO9If5wYgYn9PoG3p/kLTxh2a81cJHHwdMk6u0vDP4Gl18ea4Pu6CSpgU8bGz8ArOTxa9gSOUcGQKeAL3QAhtqU++j0+W0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ki+H4DIV; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ObCQPW+o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ki+H4DIV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714190247; x=1745726247;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YRmiWQP+/17pF8L5yQ2vm+Ph+FwmOORL/xrdcXpC2N4=;
-  b=ObCQPW+olc7vLbZwMTKGo3cOgGkdCwD6ZCM2+Hs1YXP9cmOMUdUuW/JF
-   KEc6JqH2RfR3ALjzFuId3kz48/HJviiGLDIm+1G0HeqUEec29CVZ8CqWa
-   zXEOmg3NKw5GRoB/nUapS2o+rlo6KdA5fe6fCWRVwEAbvEt5BkISc8Mf9
-   Gs++/kmZaoczEioJcLB2wKU3+K+AwAQLjfeRNmyjvAotroONfSbodIZy/
-   qptGB1snpcngyvRqlZ2hAL53zX7vX5arya0Spse/h1RWsVL/GmSrcDVCt
-   e0VeKH4GKff0NCEMamifWXZvI1/98gunbHkq7B2YfHEOBbKU72xxPNSS5
-   g==;
-X-CSE-ConnectionGUID: VNkOc2S7Tx6ZXgj8eqLpXA==
-X-CSE-MsgGUID: S8eBwOkYThes1TjccF7sFA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="13710110"
+  t=1714191505; x=1745727505;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9/tn2G0UzT+pos5SSWjCh/ekHpy90xZIn8Ntu6sbS2s=;
+  b=ki+H4DIVa2J6dsCD2hg/9lNhCgG+1OhwtyCTunosJNNrdQjh+Zo/QS8y
+   qD+3Y8Oku8dc+of9I7F6bhye+DQCn0MaGwQ8+q7oAo1Jf26Y86PaAuOzw
+   QJl4mS+ZnhX3ou9dZB2kUNgZn38P5RBaj1TeO8VJ2mbAs+/zgq0tcztS9
+   DvDEgdWUuMSzbNWWvL6nylO6zTxfZejMrDOuzXol9fv7EvUV9DkjThECy
+   abWg4QYcdOhWD/8KnxVerrmEF1dlh44qBCcYUV/1aHwcclkU4L6laBO6a
+   BLXO/Ky80d1NxAmPwyMk8SYQhwK8vshcB+RS3Hx9qTnlD42ud8vsJPY+o
+   Q==;
+X-CSE-ConnectionGUID: mcZ2ZhNJTGKW/IV28kldjQ==
+X-CSE-MsgGUID: QTjTo2EjS2KwnRDVVVRJ2w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="21082793"
 X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="13710110"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 20:57:27 -0700
-X-CSE-ConnectionGUID: 0Z5giV09RvC17vyIh9sDqg==
-X-CSE-MsgGUID: nwPfgNo2QHST82wEqoGweQ==
+   d="scan'208";a="21082793"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 21:18:25 -0700
+X-CSE-ConnectionGUID: U6L3KslTQ0WicT3QfkDltA==
+X-CSE-MsgGUID: I4Vi0DFhSweW+/+y4ch40g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="30408687"
+   d="scan'208";a="26012762"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 26 Apr 2024 20:57:22 -0700
+  by orviesa006.jf.intel.com with ESMTP; 26 Apr 2024 21:18:23 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0ZBg-0004dd-24;
-	Sat, 27 Apr 2024 03:57:20 +0000
-Date: Sat, 27 Apr 2024 11:57:15 +0800
+	id 1s0ZW0-0004eI-31;
+	Sat, 27 Apr 2024 04:18:20 +0000
+Date: Sat, 27 Apr 2024 12:17:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	willy@infradead.org, David Hildenbrand <david@redhat.com>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Oscar Salvador <osalvador@suse.de>, Zi Yan <ziy@nvidia.com>,
-	Hugh Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Vishal Moola <vishal.moola@gmail.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v2 01/10] mm: memory_hotplug: check hwpoisoned page
- firstly in do_migrate_range()
-Message-ID: <202404271110.2fxPtHNB-lkp@intel.com>
-References: <20240425084028.3888403-2-wangkefeng.wang@huawei.com>
+To: Timur Tabi <ttabi@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>
+Subject: [drm-misc:for-linux-next 1/1]
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1267:3: warning: label at end
+ of compound statement is a C23 extension
+Message-ID: <202404271259.rahBUb02-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,72 +63,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240425084028.3888403-2-wangkefeng.wang@huawei.com>
 
-Hi Kefeng,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-memory_hotplug-check-hwpoisoned-page-firstly-in-do_migrate_range/20240425-164317
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240425084028.3888403-2-wangkefeng.wang%40huawei.com
-patch subject: [PATCH v2 01/10] mm: memory_hotplug: check hwpoisoned page firstly in do_migrate_range()
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240427/202404271110.2fxPtHNB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271110.2fxPtHNB-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   61ba791c4a7a09a370c45b70a81b8c7d4cf6b2ae
+commit: b58a0bc904ffa091fc020f7fd00e91808fec820e [1/1] nouveau: add command-line GSP-RM registry support
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240427/202404271259.rahBUb02-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271259.rahBUb02-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404271110.2fxPtHNB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404271259.rahBUb02-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/memory_hotplug.c: In function 'isolate_and_unmap_hwposion_folio':
-   mm/memory_hotplug.c:1786:27: error: implicit declaration of function 'hugetlb_page_mapping_lock_write'; did you mean 'hugetlb_folio_mapping_lock_write'? [-Werror=implicit-function-declaration]
-    1786 |                 mapping = hugetlb_page_mapping_lock_write(&folio->page);
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                           hugetlb_folio_mapping_lock_write
->> mm/memory_hotplug.c:1786:25: warning: assignment to 'struct address_space *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1786 |                 mapping = hugetlb_page_mapping_lock_write(&folio->page);
-         |                         ^
-   cc1: some warnings being treated as errors
+   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:22:
+   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:8:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:21:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1267:3: warning: label at end of compound statement is a C23 extension [-Wc23-extensions]
+    1267 |                 }
+         |                 ^
+   2 warnings generated.
 
 
-vim +1786 mm/memory_hotplug.c
+vim +1267 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
 
-  1774	
-  1775	static bool isolate_and_unmap_hwposion_folio(struct folio *folio)
-  1776	{
-  1777		if (WARN_ON(folio_test_lru(folio)))
-  1778			folio_isolate_lru(folio);
-  1779	
-  1780		if (!folio_mapped(folio))
-  1781			return true;
-  1782	
-  1783		if (folio_test_hugetlb(folio) && !folio_test_anon(folio)) {
-  1784			struct address_space *mapping;
-  1785	
-> 1786			mapping = hugetlb_page_mapping_lock_write(&folio->page);
-  1787			if (mapping) {
-  1788				/*
-  1789				 * In shared mappings, try_to_unmap could potentially
-  1790				 * call huge_pmd_unshare.  Because of this, take
-  1791				 * semaphore in write mode here and set TTU_RMAP_LOCKED
-  1792				 * to let lower levels know we have taken the lock.
-  1793				 */
-  1794				try_to_unmap(folio, TTU_IGNORE_MLOCK | TTU_RMAP_LOCKED);
-  1795				i_mmap_unlock_write(mapping);
-  1796			}
-  1797		} else {
-  1798			try_to_unmap(folio, TTU_IGNORE_MLOCK);
-  1799		}
-  1800	
-  1801		return folio_mapped(folio);
-  1802	}
-  1803	
+  1199	
+  1200	/**
+  1201	 * build_registry -- create the registry RPC data
+  1202	 * @gsp: gsp pointer
+  1203	 * @registry: pointer to the RPC payload to fill
+  1204	 *
+  1205	 * After all registry key/value pairs have been added, call this function to
+  1206	 * build the RPC.
+  1207	 *
+  1208	 * The registry RPC looks like this:
+  1209	 *
+  1210	 * +-----------------+
+  1211	 * |NvU32 size;      |
+  1212	 * |NvU32 numEntries;|
+  1213	 * +-----------------+
+  1214	 * +----------------------------------------+
+  1215	 * |PACKED_REGISTRY_ENTRY                   |
+  1216	 * +----------------------------------------+
+  1217	 * |Null-terminated key (string) for entry 0|
+  1218	 * +----------------------------------------+
+  1219	 * |Binary/string data value for entry 0    | (only if necessary)
+  1220	 * +----------------------------------------+
+  1221	 *
+  1222	 * +----------------------------------------+
+  1223	 * |PACKED_REGISTRY_ENTRY                   |
+  1224	 * +----------------------------------------+
+  1225	 * |Null-terminated key (string) for entry 1|
+  1226	 * +----------------------------------------+
+  1227	 * |Binary/string data value for entry 1    | (only if necessary)
+  1228	 * +----------------------------------------+
+  1229	 * ... (and so on, one copy for each entry)
+  1230	 *
+  1231	 *
+  1232	 * The 'data' field of an entry is either a 32-bit integer (for type DWORD)
+  1233	 * or an offset into the PACKED_REGISTRY_TABLE (for types BINARY and STRING).
+  1234	 *
+  1235	 * All memory allocated by add_registry() is released.
+  1236	 */
+  1237	static void build_registry(struct nvkm_gsp *gsp, PACKED_REGISTRY_TABLE *registry)
+  1238	{
+  1239		struct registry_list_entry *reg, *n;
+  1240		size_t str_offset;
+  1241		unsigned int i = 0;
+  1242	
+  1243		registry->numEntries = list_count_nodes(&gsp->registry_list);
+  1244		str_offset = struct_size(registry, entries, registry->numEntries);
+  1245	
+  1246		list_for_each_entry_safe(reg, n, &gsp->registry_list, head) {
+  1247			registry->entries[i].type = reg->type;
+  1248			registry->entries[i].length = reg->vlen;
+  1249	
+  1250			/* Append the key name to the table */
+  1251			registry->entries[i].nameOffset = str_offset;
+  1252			memcpy((void *)registry + str_offset, reg->key, reg->klen);
+  1253			str_offset += reg->klen;
+  1254	
+  1255			switch (reg->type) {
+  1256			case REGISTRY_TABLE_ENTRY_TYPE_DWORD:
+  1257				registry->entries[i].data = reg->dword;
+  1258				break;
+  1259			case REGISTRY_TABLE_ENTRY_TYPE_BINARY:
+  1260			case REGISTRY_TABLE_ENTRY_TYPE_STRING:
+  1261				/* If the type is binary or string, also append the value */
+  1262				memcpy((void *)registry + str_offset, reg->binary, reg->vlen);
+  1263				registry->entries[i].data = str_offset;
+  1264				str_offset += reg->vlen;
+  1265				break;
+  1266			default:
+> 1267			}
+  1268	
+  1269			i++;
+  1270			list_del(&reg->head);
+  1271			kfree(reg);
+  1272		}
+  1273	
+  1274		/* Double-check that we calculated the sizes correctly */
+  1275		WARN_ON(gsp->registry_rpc_size != str_offset);
+  1276	
+  1277		registry->size = gsp->registry_rpc_size;
+  1278	}
+  1279	
 
 -- 
 0-DAY CI Kernel Test Service
