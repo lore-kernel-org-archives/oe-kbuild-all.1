@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C444F894
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Apr 2024 14:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0AC53AC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Apr 2024 15:39:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714228061; cv=none; b=MDcQufiJZeXgRAxLeYDGJ5rwnJRTLtL07drMlZenTxTbtyJu2LH7Lym5h14H0Y0idecRKt/9my3rIoFca4HnBCi1liKpVjbDc9hwtTgPwKY6ZcbQYhHpFgYFapl6xZawz26+Dpg92iLoNiSlczj30Rs6Sc16WOoISvB+8MAIOqM=
+	t=1714232384; cv=none; b=R625mh+aNpHp4TeiuwHVmCa0iEqedW5Qc3JKeThRfHZSWh9c6EmT7bcX7Ywu32m2knsk9q1TNJunBS/WNLGtKorM5YgpQPgjO5dOZbjxlDSXsbKxIGTTqYgQR7FoAlGgNnDc10FkblDboXo90QtZGaB2hP/bEY25T0ZSYDiUnG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714228061; c=relaxed/simple;
-	bh=UdN7tYBLqLqENAi0WQZ9U01CIf2+q6eWAF1S7NZy2kc=;
+	s=arc-20240116; t=1714232384; c=relaxed/simple;
+	bh=sk1hwDryXERc2waBSsp+w0w5LefhxPg1Mhh35egxCM0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ckKxy1gEN9pNKMbnsWIgKe886ey06GMzLsRi4uhoUgGPIbpiTmPfYo5SnVWoPsrmPR8K8uUhOZ9DenDn5u74JZLXurpdNBf4yLT+4GzdyC9jlTy3K/OCFTrpXvBl7dm1pZVHpsNaMkJ9znJ5II0PtMTy6/mQXmdDelcjbRr9qCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HtEvqwor; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=QiH/gd3U1thR9mLiL9d5VHbizXUS2Foi10PbqDMxNsiPE96bRV9IaKpAUWt/GhuPWi2H4w2eXw0RrjmAxDxt3/EPB7ltKnKteNCZCLYFHITyNDc5/aC3vkxtNl3jaSAgZseUzl+6KeCDnQ8EPvFM4vsLo3aHLjsrcV6KnDFsJDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LF1xxm/p; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HtEvqwor"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LF1xxm/p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714228059; x=1745764059;
+  t=1714232383; x=1745768383;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UdN7tYBLqLqENAi0WQZ9U01CIf2+q6eWAF1S7NZy2kc=;
-  b=HtEvqwormv1k8kfqLBdV1vxq9lgbsJkWznDwRsnhBqyr8u4WB2rz9Jgm
-   xCTB3Of/QJPYrWf2AdP6OKnQOYKPyLEywKMyc+19cce40s0TLqSIrA6O0
-   gbzxyq2JJ6csdhDtvAYiTabEXbEsXpr1eB1EVV1TjpdSuQKT6ZKElL20P
-   oHcubBNcFjmD23tOlsHIfQOwgcDWOtHL8Ssu11KVl+e8oGnOL3IUOPm2T
-   +v7bWbOe+DH8U7XB0CCRjpgv3bREpk6nMf8q5Mj+dkg+va7wLf/qFs+fI
-   CxUnBiESnBL2cPGwpmXdHIn18C65AMaKjn21f92Amrr0gbJR2o5oIBeCE
-   w==;
-X-CSE-ConnectionGUID: 2Mr8dUiXQvCHxM15RdbIDg==
-X-CSE-MsgGUID: hUeLdeiRSgmkdnYMO90bcA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="9812016"
+  bh=sk1hwDryXERc2waBSsp+w0w5LefhxPg1Mhh35egxCM0=;
+  b=LF1xxm/pCo5wgzcowXE+1SRilzflzj9CBs+8oLPeVCCr5IkRnt770ZEP
+   tdZ7qiBY0wgpW7CPleLP04Z3kC700VFWd9CXhs0Sv37UtkIDmpnd5Fvdj
+   lBUziu14cZjQUkJ16l/OhZaxK1bBMncFAKKiiojhzAvHnpFB68BE1f2b4
+   PPQqVRvNuaMIBL4QYhNKZbGpxeYbzP/DxvtSRjVVL2kaWsy4qwhins4pV
+   3zpWDRYIb5bWZSgRebFkvQlzWQ9hbBXjBXqHTWqNOg+mIbA5MXBbZ/Zkb
+   IMCnzEYake8terR/gFJU921qSIcdWWbS1QtaOqr5No8cGfOFkqE6mzk2n
+   Q==;
+X-CSE-ConnectionGUID: 4PKS+nYxQsCS0rwmbBQCyw==
+X-CSE-MsgGUID: UysGLb1tTsSwQHpg3Mzvyw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="10486593"
 X-IronPort-AV: E=Sophos;i="6.07,235,1708416000"; 
-   d="scan'208";a="9812016"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2024 07:27:39 -0700
-X-CSE-ConnectionGUID: eQ6VYpPiRm63958xogu/zQ==
-X-CSE-MsgGUID: 7Pqwwnh1TxWEPkeoE07ShA==
+   d="scan'208";a="10486593"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2024 08:39:42 -0700
+X-CSE-ConnectionGUID: UsKvS3ckQ2Ss16bidOqwDA==
+X-CSE-MsgGUID: ojA/nVD1Q0anywi/tlOJWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,235,1708416000"; 
-   d="scan'208";a="56599894"
+   d="scan'208";a="30154622"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Apr 2024 07:27:38 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 27 Apr 2024 08:39:41 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0j1b-00056G-1s;
-	Sat, 27 Apr 2024 14:27:35 +0000
-Date: Sat, 27 Apr 2024 22:27:17 +0800
+	id 1s0k9K-0005D8-2s;
+	Sat, 27 Apr 2024 15:39:38 +0000
+Date: Sat, 27 Apr 2024 23:39:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: Steev Klimaszewski <steev@kali.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [steev:lenovo-x13s-linux-6.8.y 102/104]
- drivers/soc/qcom/qcom_pd_mapper.c:78:25: warning: assignment to 'struct
- qcom_pdm_service *' from 'int' makes pointer from integer without a cast
-Message-ID: <202404272236.4AFSN5vc-lkp@intel.com>
+Subject: [steev:lenovo-x13s-linux-6.8.y 91/104]
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c:242:8: error: no member named
+ 'port_stop' in 'struct pmic_typec'
+Message-ID: <202404272337.ed2aS91T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,183 +65,219 @@ Content-Disposition: inline
 
 tree:   https://github.com/steev/linux lenovo-x13s-linux-6.8.y
 head:   0bde7107456c88f5ccc83c66d7638f1bf02fa8a1
-commit: 368e8c6cdf78e4d1e4eff7f1341108aaeb28cfd1 [102/104] soc: qcom: add pd-mapper implementation
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240427/202404272236.4AFSN5vc-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404272236.4AFSN5vc-lkp@intel.com/reproduce)
+commit: 73754ea4756c40950cfbdfc032c41b547d13bafc [91/104] usb: typec: qcom-pmic: fix use-after-free on late probe errors
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240427/202404272337.ed2aS91T-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404272337.ed2aS91T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404272236.4AFSN5vc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404272337.ed2aS91T-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/soc/qcom/qcom_pd_mapper.c: In function 'qcom_pdm_add_service_domain':
-   drivers/soc/qcom/qcom_pd_mapper.c:78:27: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
-      78 |                 service = kzalloc(sizeof(*service), GFP_KERNEL);
-         |                           ^~~~~~~
->> drivers/soc/qcom/qcom_pd_mapper.c:78:25: warning: assignment to 'struct qcom_pdm_service *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      78 |                 service = kzalloc(sizeof(*service), GFP_KERNEL);
-         |                         ^
->> drivers/soc/qcom/qcom_pd_mapper.c:88:16: warning: assignment to 'struct qcom_pdm_domain *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      88 |         domain = kzalloc(sizeof(*domain), GFP_KERNEL);
-         |                ^
-   drivers/soc/qcom/qcom_pd_mapper.c:92:25: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
-      92 |                         kfree(service);
-         |                         ^~~~~
-         |                         kvfree
-   drivers/soc/qcom/qcom_pd_mapper.c: In function 'qcom_pdm_get_domain_list':
->> drivers/soc/qcom/qcom_pd_mapper.c:150:52: warning: initialization of 'struct servreg_get_domain_list_resp *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     150 |         struct servreg_get_domain_list_resp *rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
-         |                                                    ^~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c:10:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c:14:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c:14:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c:14:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c:242:8: error: no member named 'port_stop' in 'struct pmic_typec'
+     242 |         tcpm->port_stop(tcpm);
+         |         ~~~~  ^
+   17 warnings and 1 error generated.
 
 
-vim +78 drivers/soc/qcom/qcom_pd_mapper.c
+vim +242 drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
 
-    63	
-    64	static int qcom_pdm_add_service_domain(const char *service_name,
-    65					       const char *domain_name,
-    66					       u32 instance_id)
-    67	{
-    68		struct qcom_pdm_service *service;
-    69		struct qcom_pdm_domain *domain;
-    70	
-    71		service = qcom_pdm_find(service_name);
-    72		if (service) {
-    73			list_for_each_entry(domain, &service->domains, list) {
-    74				if (!strcmp(domain->name, domain_name))
-    75					return -EBUSY;
-    76			}
-    77		} else {
-  > 78			service = kzalloc(sizeof(*service), GFP_KERNEL);
-    79			if (!service)
-    80				return -ENOMEM;
-    81	
-    82			INIT_LIST_HEAD(&service->domains);
-    83			service->name = service_name;
-    84	
-    85			list_add_tail(&service->list, &qcom_pdm_services);
-    86		}
-    87	
-  > 88		domain = kzalloc(sizeof(*domain), GFP_KERNEL);
-    89		if (!domain) {
-    90			if (list_empty(&service->domains)) {
-    91				list_del(&service->list);
-    92				kfree(service);
-    93			}
-    94	
-    95			return -ENOMEM;
-    96		}
-    97	
-    98		domain->name = domain_name;
-    99		domain->instance_id = instance_id;
-   100		list_add_tail(&domain->list, &service->domains);
-   101	
-   102		return 0;
-   103	}
-   104	
-   105	static int qcom_pdm_add_domain(const struct qcom_pdm_domain_data *data)
-   106	{
-   107		int ret;
-   108		int i;
-   109	
-   110		ret = qcom_pdm_add_service_domain(TMS_SERVREG_SERVICE,
-   111						  data->domain,
-   112						  data->instance_id);
-   113		if (ret)
-   114			return ret;
-   115	
-   116		for (i = 0; data->services[i]; i++) {
-   117			ret = qcom_pdm_add_service_domain(data->services[i],
-   118							  data->domain,
-   119							  data->instance_id);
-   120			if (ret)
-   121				return ret;
-   122		}
-   123	
-   124		return 0;
-   125	
-   126	}
-   127	
-   128	static void qcom_pdm_free_domains(void)
-   129	{
-   130		struct qcom_pdm_service *service, *tservice;
-   131		struct qcom_pdm_domain *domain, *tdomain;
-   132	
-   133		list_for_each_entry_safe(service, tservice, &qcom_pdm_services, list) {
-   134			list_for_each_entry_safe(domain, tdomain, &service->domains, list) {
-   135				list_del(&domain->list);
-   136				kfree(domain);
-   137			}
-   138	
-   139			list_del(&service->list);
-   140			kfree(service);
-   141		}
-   142	}
-   143	
-   144	static void qcom_pdm_get_domain_list(struct qmi_handle *qmi,
-   145					     struct sockaddr_qrtr *sq,
-   146					     struct qmi_txn *txn,
-   147					     const void *decoded)
-   148	{
-   149		const struct servreg_get_domain_list_req *req = decoded;
- > 150		struct servreg_get_domain_list_resp *rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
-   151		struct qcom_pdm_service *service;
-   152		u32 offset;
-   153		int ret;
-   154	
-   155		offset = req->domain_offset_valid ? req->domain_offset : 0;
-   156	
-   157		rsp->resp.result = QMI_RESULT_SUCCESS_V01;
-   158		rsp->resp.error = QMI_ERR_NONE_V01;
-   159	
-   160		rsp->db_rev_count_valid = true;
-   161		rsp->db_rev_count = 1;
+   151	
+   152	static int qcom_pmic_typec_probe(struct platform_device *pdev)
+   153	{
+   154		struct pmic_typec *tcpm;
+   155		struct device *dev = &pdev->dev;
+   156		struct device_node *np = dev->of_node;
+   157		const struct pmic_typec_resources *res;
+   158		struct regmap *regmap;
+   159		struct device *bridge_dev;
+   160		u32 base[2];
+   161		int ret;
    162	
-   163		rsp->total_domains_valid = true;
-   164		rsp->total_domains = 0;
-   165	
-   166		mutex_lock(&qcom_pdm_mutex);
-   167	
-   168		service = qcom_pdm_find(req->service_name);
-   169		if (service) {
-   170			struct qcom_pdm_domain *domain;
-   171	
-   172			rsp->domain_list_valid = true;
-   173			rsp->domain_list_len = 0;
-   174	
-   175			list_for_each_entry(domain, &service->domains, list) {
-   176				u32 i = rsp->total_domains++;
-   177	
-   178				if (i >= offset && i < SERVREG_DOMAIN_LIST_LENGTH) {
-   179					u32 j = rsp->domain_list_len++;
-   180	
-   181					strscpy(rsp->domain_list[j].name, domain->name,
-   182						sizeof(rsp->domain_list[i].name));
-   183					rsp->domain_list[j].instance = domain->instance_id;
-   184	
-   185					pr_debug("PDM: found %s / %d\n", domain->name,
-   186						 domain->instance_id);
-   187				}
-   188			}
-   189		}
-   190	
-   191		pr_debug("PDM: service '%s' offset %d returning %d domains (of %d)\n", req->service_name,
-   192			 req->domain_offset_valid ? req->domain_offset : -1, rsp->domain_list_len, rsp->total_domains);
+   163		res = of_device_get_match_data(dev);
+   164		if (!res)
+   165			return -ENODEV;
+   166	
+   167		tcpm = devm_kzalloc(dev, sizeof(*tcpm), GFP_KERNEL);
+   168		if (!tcpm)
+   169			return -ENOMEM;
+   170	
+   171		tcpm->dev = dev;
+   172		tcpm->tcpc.init = qcom_pmic_typec_init;
+   173		tcpm->tcpc.get_vbus = qcom_pmic_typec_get_vbus;
+   174		tcpm->tcpc.set_vbus = qcom_pmic_typec_set_vbus;
+   175		tcpm->tcpc.set_cc = qcom_pmic_typec_set_cc;
+   176		tcpm->tcpc.get_cc = qcom_pmic_typec_get_cc;
+   177		tcpm->tcpc.set_polarity = qcom_pmic_typec_set_polarity;
+   178		tcpm->tcpc.set_vconn = qcom_pmic_typec_set_vconn;
+   179		tcpm->tcpc.start_toggling = qcom_pmic_typec_start_toggling;
+   180		tcpm->tcpc.set_pd_rx = qcom_pmic_typec_set_pd_rx;
+   181		tcpm->tcpc.set_roles = qcom_pmic_typec_set_roles;
+   182		tcpm->tcpc.pd_transmit = qcom_pmic_typec_pd_transmit;
+   183	
+   184		regmap = dev_get_regmap(dev->parent, NULL);
+   185		if (!regmap) {
+   186			dev_err(dev, "Failed to get regmap\n");
+   187			return -ENODEV;
+   188		}
+   189	
+   190		ret = of_property_read_u32_array(np, "reg", base, 2);
+   191		if (ret)
+   192			return ret;
    193	
-   194		ret = qmi_send_response(qmi, sq, txn, SERVREG_GET_DOMAIN_LIST_REQ,
-   195					SERVREG_GET_DOMAIN_LIST_RESP_MAX_LEN,
-   196					servreg_get_domain_list_resp_ei, rsp);
-   197		if (ret)
-   198			pr_err("Error sending servreg response: %d\n", ret);
-   199	
-   200		mutex_unlock(&qcom_pdm_mutex);
+   194		tcpm->pmic_typec_port = qcom_pmic_typec_port_alloc(dev);
+   195		if (IS_ERR(tcpm->pmic_typec_port))
+   196			return PTR_ERR(tcpm->pmic_typec_port);
+   197	
+   198		tcpm->pmic_typec_pdphy = qcom_pmic_typec_pdphy_alloc(dev);
+   199		if (IS_ERR(tcpm->pmic_typec_pdphy))
+   200			return PTR_ERR(tcpm->pmic_typec_pdphy);
    201	
-   202		kfree(rsp);
-   203	}
-   204	
+   202		ret = qcom_pmic_typec_port_probe(pdev, tcpm->pmic_typec_port,
+   203						 res->port_res, regmap, base[0]);
+   204		if (ret)
+   205			return ret;
+   206	
+   207		ret = qcom_pmic_typec_pdphy_probe(pdev, tcpm->pmic_typec_pdphy,
+   208						  res->pdphy_res, regmap, base[1]);
+   209		if (ret)
+   210			return ret;
+   211	
+   212		mutex_init(&tcpm->lock);
+   213		platform_set_drvdata(pdev, tcpm);
+   214	
+   215		tcpm->tcpc.fwnode = device_get_named_child_node(tcpm->dev, "connector");
+   216		if (!tcpm->tcpc.fwnode)
+   217			return -EINVAL;
+   218	
+   219		bridge_dev = drm_dp_hpd_bridge_register(tcpm->dev, to_of_node(tcpm->tcpc.fwnode));
+   220		if (IS_ERR(bridge_dev))
+   221			return PTR_ERR(bridge_dev);
+   222	
+   223		tcpm->tcpm_port = tcpm_register_port(tcpm->dev, &tcpm->tcpc);
+   224		if (IS_ERR(tcpm->tcpm_port)) {
+   225			ret = PTR_ERR(tcpm->tcpm_port);
+   226			goto fwnode_remove;
+   227		}
+   228	
+   229		ret = qcom_pmic_typec_port_start(tcpm->pmic_typec_port,
+   230						 tcpm->tcpm_port);
+   231		if (ret)
+   232			goto port_unregister;
+   233	
+   234		ret = qcom_pmic_typec_pdphy_start(tcpm->pmic_typec_pdphy,
+   235						  tcpm->tcpm_port);
+   236		if (ret)
+   237			goto port_stop;
+   238	
+   239		return 0;
+   240	
+   241	port_stop:
+ > 242		tcpm->port_stop(tcpm);
+   243	port_unregister:
+   244		tcpm_unregister_port(tcpm->tcpm_port);
+   245	fwnode_remove:
+   246		fwnode_remove_software_node(tcpm->tcpc.fwnode);
+   247	
+   248		return ret;
+   249	}
+   250	
 
 -- 
 0-DAY CI Kernel Test Service
