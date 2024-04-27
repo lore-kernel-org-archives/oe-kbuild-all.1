@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7528B3BBEC;
-	Sat, 27 Apr 2024 04:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20073C062;
+	Sat, 27 Apr 2024 04:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714191508; cv=none; b=P2Wmqsk/1WTMGGXscAVgfUvJ6VVIHIJagYid0Rwoe/sJKOw2xCDA3FZ1DUuGc4aGpY5FrAy3+NVWbRdcCdfrqvW2S1UwMjQnGGxg6puZprtobxhJfPihb2KM096JDMlzokUOnfqIK6lGmAZrngaL+/b2FO3Dwej5yOwG6elU1t4=
+	t=1714192108; cv=none; b=V701o+XlQlWEt1GoxfySKN5lWd3CE99ZYbCtsSuK3pX4zYmxpweos9040LyGftZgmJgf9TJmGs9CBAo70o+n3fXME2V//ghBqLltAp6NA64XmbpMN3PMlVTzs6cIStEJ2J4/aAqzX8Y9Ub7ytSxC1HnITpazwFnYRvufwhLPJNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714191508; c=relaxed/simple;
-	bh=9/tn2G0UzT+pos5SSWjCh/ekHpy90xZIn8Ntu6sbS2s=;
+	s=arc-20240116; t=1714192108; c=relaxed/simple;
+	bh=TwmBAIgx1d69s5D9g55JjJWgfN8jIQXYktribH0icS0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BrXAog/IWibWMCsYkaNh8oFU/T8qr8aKxlfoKGG1IBUhuQHdxdI/jLSnbhKhtRVMHUiFCW122205VYO9If5wYgYn9PoG3p/kLTxh2a81cJHHwdMk6u0vDP4Gl18ea4Pu6CSpgU8bGz8ArOTxa9gSOUcGQKeAL3QAhtqU++j0+W0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ki+H4DIV; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=ODPfEIgE/fLvZdbzFJKryVClxo9kYnzizfw12Ocyz17lAFiXPrYEnybA/go0gY7cCt+XUC6gzkEKCazynwD5CKFCxMfoWCjcS/qR1cGNRbvR1ljsLfkwPN/LcAbud2WzC9TnbRwp5VnYCt/xXfzjj/iL5ZhcoCe1By/nHR43PPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E8BS1RA5; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ki+H4DIV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E8BS1RA5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714191505; x=1745727505;
+  t=1714192105; x=1745728105;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9/tn2G0UzT+pos5SSWjCh/ekHpy90xZIn8Ntu6sbS2s=;
-  b=ki+H4DIVa2J6dsCD2hg/9lNhCgG+1OhwtyCTunosJNNrdQjh+Zo/QS8y
-   qD+3Y8Oku8dc+of9I7F6bhye+DQCn0MaGwQ8+q7oAo1Jf26Y86PaAuOzw
-   QJl4mS+ZnhX3ou9dZB2kUNgZn38P5RBaj1TeO8VJ2mbAs+/zgq0tcztS9
-   DvDEgdWUuMSzbNWWvL6nylO6zTxfZejMrDOuzXol9fv7EvUV9DkjThECy
-   abWg4QYcdOhWD/8KnxVerrmEF1dlh44qBCcYUV/1aHwcclkU4L6laBO6a
-   BLXO/Ky80d1NxAmPwyMk8SYQhwK8vshcB+RS3Hx9qTnlD42ud8vsJPY+o
-   Q==;
-X-CSE-ConnectionGUID: mcZ2ZhNJTGKW/IV28kldjQ==
-X-CSE-MsgGUID: QTjTo2EjS2KwnRDVVVRJ2w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="21082793"
+  bh=TwmBAIgx1d69s5D9g55JjJWgfN8jIQXYktribH0icS0=;
+  b=E8BS1RA5PL3asEZ2xS4NDSBZkD1iWYs/qygFOur04iQs4R73nDn2lc94
+   TPZg72if9rrDt8zRSGVTqJqOiGIDooz/pyq2b1eyZ7/d/4ewJs1lvgLtr
+   FiijQccdEW3br1Oj6LFqyIFaoK6cqd4OobqXxc3h1Nr8Ck186nq+r+oUR
+   SXAakyujRlYVxL0P2hjt3M0g4e2ErAZS1su61Un8O0sireJkjTxMPxAyl
+   13txrUp3s5qU3JxXzvwEdfntYVteMvLWdzEiAlOIwYkDahQBXY2HyDS4h
+   D6AlU7tw3PPhAaGi2Rir6wyJy0PKdyJinNlKhG+DW8xIu2r7aPHL4yNY9
+   w==;
+X-CSE-ConnectionGUID: fc8T7vytRYW0IAlCBOSpVg==
+X-CSE-MsgGUID: ffLgTz2TQTCNJOEoY9DgGQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="9861521"
 X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="21082793"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 21:18:25 -0700
-X-CSE-ConnectionGUID: U6L3KslTQ0WicT3QfkDltA==
-X-CSE-MsgGUID: I4Vi0DFhSweW+/+y4ch40g==
+   d="scan'208";a="9861521"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 21:28:25 -0700
+X-CSE-ConnectionGUID: JHTyLJMQQeGbaE11OOgrtw==
+X-CSE-MsgGUID: dc8xYRhqQ4unqIe5VFJBJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="26012762"
+   d="scan'208";a="25690117"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Apr 2024 21:18:23 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 26 Apr 2024 21:28:23 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0ZW0-0004eI-31;
-	Sat, 27 Apr 2024 04:18:20 +0000
-Date: Sat, 27 Apr 2024 12:17:57 +0800
+	id 1s0Zfh-0004ec-0G;
+	Sat, 27 Apr 2024 04:28:21 +0000
+Date: Sat, 27 Apr 2024 12:28:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Timur Tabi <ttabi@nvidia.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>
 Subject: [drm-misc:for-linux-next 1/1]
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1267:3: warning: label at end
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1267:3: error: label at end
  of compound statement is a C23 extension
-Message-ID: <202404271259.rahBUb02-lkp@intel.com>
+Message-ID: <202404271259.VQcFccxo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,16 +67,16 @@ Content-Disposition: inline
 tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
 head:   61ba791c4a7a09a370c45b70a81b8c7d4cf6b2ae
 commit: b58a0bc904ffa091fc020f7fd00e91808fec820e [1/1] nouveau: add command-line GSP-RM registry support
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240427/202404271259.rahBUb02-lkp@intel.com/config)
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240427/202404271259.VQcFccxo-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271259.rahBUb02-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271259.VQcFccxo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404271259.rahBUb02-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404271259.VQcFccxo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
    In file included from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:22:
    In file included from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h:4:
@@ -87,16 +87,40 @@ All warnings (new ones prefixed by >>):
    In file included from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4:
    In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:8:
    In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:21:
-   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:24:
    In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
      522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
          |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1267:3: warning: label at end of compound statement is a C23 extension [-Wc23-extensions]
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1267:3: error: label at end of compound statement is a C23 extension [-Werror,-Wc23-extensions]
     1267 |                 }
          |                 ^
-   2 warnings generated.
+   6 errors generated.
 
 
 vim +1267 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
