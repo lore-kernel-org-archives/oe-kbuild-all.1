@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9928428DB7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Apr 2024 00:48:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE44A2AF0E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Apr 2024 00:48:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714178901; cv=none; b=hHuo2vRMCKrI//+psQCSadwpK4WPkkGZIo6XUP/BOOr0ZAwmrM0gzYPJKKIbr9BH72NYKU8YqW2mLWMz+kE24NqVGeHLTVVJxmiPt/4Gm2ojRDKWdaPIwUXLSzzt0sLIaQfNjmLZi7xt9F6lCYmi3JHffTTnDUbBOOIn5JffRbY=
+	t=1714178908; cv=none; b=cU6bT7EboSvQrpGf9uK31tYNyxL4vkPEyJSVcJquJkUpybc3SqDfUabwM2Rczx+rtX5ohicCIalTdhutAnGj4l2lm4DojZ5cn1UDilil+/NKiYtK+kcAAfv1RdCO5FHFCJYiiu9XCJ1pEi9ZCjT/tVjRmxE4V0Ukrz0Vg031ihs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714178901; c=relaxed/simple;
-	bh=Vw+9kVzLRPvBOVSFh2BsFKDJz866VRztJd4t7jYNlf0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W0M0yMJGI4Ryc8CBscIoBXwNQY/dZrxFD95CyeybrlVjyVDvOB2hdJG7uOd5L4/0jkloWpiTLjcEWFHcJ0zEXM6dkiXkBksDmegxKDQ6yrejnw/ss2x/g6cEi2THX5qaltF0Bm63fyeYzv+1PTh2OCBty69pIuWVn2iTaFOnoCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iEW+y4W8; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714178908; c=relaxed/simple;
+	bh=3DoHkcFrZxq/oxwazgLJQ9FAi0JsjmlVOJQftXbK1l4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lmh0/7U+0Fcr0okStHX3lbYePWUEuvfGydbrN0eIO+4kqzcb3Uq/uxzzhkibBJzjgyyIS0M+fHiTu50jXpwOU78GtBcCVhBJDNPMUw0hyuj/2Sskr+KR859xy/Dn1mF/zfQb2PHMrdU6sqz1Sw23drj0DUTImxQ8PqSW1eZ8md4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K1OkbMlv; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iEW+y4W8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714178899; x=1745714899;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vw+9kVzLRPvBOVSFh2BsFKDJz866VRztJd4t7jYNlf0=;
-  b=iEW+y4W8xj54GRdn9Isj70vewnCzxGXJYyD1MWzXPj0dcPxdEKrc5LdA
-   iHdXU75BL+4dETlAP2l4GRWfrJf+b2b9Z1I/+jhIdWEiIftK1VPppcIeP
-   nVaml+YjylWoL9nwR8HPzhADhw4bOQ1kZhsji747nAtxgCs5mhdt6HYqK
-   3raLp0rCpwMVifxOi1JhK6IcA+sG02PVovkGE6nsvI2E4c8AqMf0STqvD
-   e5Y+pb8g1O7vW2kusjFe9oyma7j26ID/hjkqdcftTOaLzMhi17qEoH6hY
-   JY3/spRPxwiAeWi2XmJzjt3LhvIZHSzN/N+hapRGXmzCF2ojKnZhvT2nX
-   g==;
-X-CSE-ConnectionGUID: ZzWWyFL3TPOUnufz0tBVpA==
-X-CSE-MsgGUID: +CCAA5FORjCLOqjBSk6WZg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="13760603"
-X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="13760603"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 17:48:18 -0700
-X-CSE-ConnectionGUID: z0yCBauGRlCxsni/co14Rg==
-X-CSE-MsgGUID: Fzm95TdDT1ui73bJu7DC3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="30391338"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 26 Apr 2024 17:48:17 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s0WEg-0004Uq-2B;
-	Sat, 27 Apr 2024 00:48:14 +0000
-Date: Sat, 27 Apr 2024 08:48:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-1.0.x-imx 3082/11728] versioncheck:
- ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_kcpu_fence_debugfs.c: 22
- linux/version.h not needed.
-Message-ID: <202404270814.q9Co68eX-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1OkbMlv"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6f0b9f943cbso2452852b3a.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Apr 2024 17:48:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714178905; x=1714783705; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cKKd9sKYJWC0wyeRV8sxb6q86huil1JBNBWihL++Vtk=;
+        b=K1OkbMlvlnPTgFP9KwadiJmjYE4z0ABqKwNAiBPCLnR4VhOYr5caG+lUcfgzPlRzel
+         zRXU7jeW04O5gBCGFJCBsf9g3Mni9177G9F9/gtMu2ppQLuqjdXgb+nVH+z6WfcfZdhD
+         eqYzuF9Qu4cnVLDkQQem9nEOd39DstHFWdBhf4sPXm93bYF2u8M9QO0wHCRpbP2tUx5D
+         6XRpxFKur1BNBX9QIDshGnJwVgEtPcjgkguAwod+8C3Uvdg+n19tVKTS9WpPv0W47ehM
+         e6Aa/FN0sIWMmUHRPyuiPskvhrHKoWY9cvDakJMKLAgs+7IozJ6CoXs8Qt0qC5S4s7G8
+         kwEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714178905; x=1714783705;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cKKd9sKYJWC0wyeRV8sxb6q86huil1JBNBWihL++Vtk=;
+        b=Asw1HTY6eGEXVNkb3RfisSUmO8sc/RAPgYuLw48zwn4MeR7uvV8uzMwLwP09jA+n/H
+         Dy4AHBx5xFpA18N++4OEiewO91wW7/hJEV/R2ZZYGGcakYLKkIqEj7zif0FTxfsnGw80
+         UpGHhCDhZuno2mmMU3kZabgPIbyIbtMXSwSbr30AZ2eSDP279OiYjcR9agFjLz6B62Hy
+         kje4BTBgjMzU2/icdDVwBaKxJkncvVRjNHQxuH+vYHm98i60KfWFfGKPQWLfXUS2NFYE
+         NEQAtSuBkwlWexcm2k3jj9Hq+dHWKQKFEKDx8Un2rcp0n4ew99RznZW7mQAlidlqNDHj
+         bJZA==
+X-Gm-Message-State: AOJu0Ywzp0H35HSa2AE9iudGLFv+qUZnlqdPf4sgTav0L92WafUNMhrC
+	Qdbfdivm7XNdRlRfGij0a/0ram8Lc3dY33jGbgfTjRtn6EHyrdgS35yqXw==
+X-Google-Smtp-Source: AGHT+IHh8KV8lWWiNkepeZstUFeJpWIOyz/HhVEmqOPw1T3OVc97c3GtfJEhHwW702qpqayhACCW6A==
+X-Received: by 2002:a05:6a21:1706:b0:1a7:a72c:6f4 with SMTP id nv6-20020a056a21170600b001a7a72c06f4mr5235535pzb.41.1714178904659;
+        Fri, 26 Apr 2024 17:48:24 -0700 (PDT)
+Received: from rigel (14-200-166-65.static.tpgi.com.au. [14.200.166.65])
+        by smtp.gmail.com with ESMTPSA id x14-20020a63db4e000000b005f750f36968sm15229752pgi.42.2024.04.26.17.48.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Apr 2024 17:48:24 -0700 (PDT)
+Date: Sat, 27 Apr 2024 08:48:19 +0800
+From: Kent Gibson <warthog618@gmail.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: Re: WARNING: modpost: vmlinux: section mismatch in reference:
+ ip_md_tunnel_xmit+0x9e (section: .text) -> .LBB102 (section: .init.text)
+Message-ID: <20240427004819.GA24436@rigel>
+References: <202404270534.8VgyE2XE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,97 +67,449 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202404270534.8VgyE2XE-lkp@intel.com>
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
-head:   37770f55ac9c4f6cd958eb5544939207eed8478f
-commit: 46a597e7387fabf796a7fcdb4b930fb936abd8c4 [3082/11728] MGS-7263 VX504X08X-SW-99002-r44p0-01eac0
-reproduce: (https://download.01.org/0day-ci/archive/20240427/202404270814.q9Co68eX-lkp@intel.com/reproduce)
+On Sat, Apr 27, 2024 at 05:29:42AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   3022bf37da50ce0ee3ba443ec5f86fa8c28aacd0
+> commit: 83092341e15d0dfee1caa8dc502f66c815ccd78a gpio: cdev: fix missed label sanitizing in debounce_setup()
+> date:   3 weeks ago
+> config: riscv-randconfig-r021-20230409 (https://download.01.org/0day-ci/archive/20240427/202404270534.8VgyE2XE-lkp@intel.com/config)
+> compiler: riscv32-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404270534.8VgyE2XE-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202404270534.8VgyE2XE-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>, old ones prefixed by <<):
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404270814.q9Co68eX-lkp@intel.com/
+Bart,
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.71.1-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
-   ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_model_error_generator.c: 183: need linux/version.h
-   ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_pm_driver.c: 3454: need linux/version.h
-   ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_pm_policy.c: 426: need linux/version.h
-   ./drivers/gpu/arm/midgard/backend/gpu/mali_kbase_time.c: 362: need linux/version.h
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_firmware.c: 3196: need linux/version.h
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_firmware_no_mali.c: 1672: need linux/version.h
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_kcpu.c: 2838: need linux/version.h
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_kcpu.h: 420: need linux/version.h
->> ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_kcpu_fence_debugfs.c: 22 linux/version.h not needed.
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_reset_gpu.c: 640: need linux/version.h
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_sync_debugfs.c: 876: need linux/version.h
-   ./drivers/gpu/arm/midgard/csf/mali_kbase_csf_tiler_heap_reclaim.c: 371: need linux/version.h
-   ./drivers/gpu/arm/midgard/ipa/mali_kbase_ipa.c: 778: need linux/version.h
-   ./drivers/gpu/arm/midgard/jm/mali_kbase_jm_defs.h: 880: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase.h: 869: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_bits.h: 31: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_debug_job_fault.c: 573: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_defs.h: 2161: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_fence.c: 61: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_fence.h: 259: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_fence_ops.c: 111: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_gpuprops.c: 888: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_gwt.c: 275: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_kinstr_jm.h: 69 linux/version.h not needed.
-   ./drivers/gpu/arm/midgard/mali_kbase_kinstr_prfcnt.c: 2024: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_mem.h: 2601: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_mem_linux.h: 533: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_mem_migrate.c: 712: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_mem_migrate.h: 118: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_sync.h: 216: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_sync_android.c: 35 linux/version.h not needed.
-   ./drivers/gpu/arm/midgard/mali_kbase_utility.h: 52: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_kbase_vinstr.c: 1136: need linux/version.h
-   ./drivers/gpu/arm/midgard/mali_malisw.h: 29 linux/version.h not needed.
-   ./drivers/gpu/arm/midgard/thirdparty/mali_kbase_mmap.c: 419: need linux/version.h
-   ./drivers/gpu/arm/midgard/tl/mali_kbase_timeline_io.c: 465: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware_func.c: 7136: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c: 5738: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 4957: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/inc/gc_hal_drm.h: 209: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 618: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 495: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1187: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 544: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 984: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 669: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 253: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 175: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debugfs.h: 104: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 3177: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1375: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 153: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7407: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_parameter.h: 480: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 374: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 145: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/default/gc_hal_kernel_platform_default.c: 1058: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 2118: need linux/version.h
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./include/linux/priority_control_manager.h: 27 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+does this make any sense to you, cos I'm not seeing any connection
+between that commit and these warnings?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Kent.
+
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_fib_nhc+0x120 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_nexthop_info+0xf8 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_nexthop_info+0x1c0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_check_nh_v4_gw+0x35c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_check_nh_v4_gw+0x400 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_detect_death+0x6e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_detect_death+0x12e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_select_default+0x170 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_select_default+0x234 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_select_default+0x44a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_select_default+0x50a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_select_default+0x5fe (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_select_default+0x6ba (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_nlmsg_size+0x6a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_nlmsg_size+0x1aa (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_nlmsg_size+0x27e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_nlmsg_size+0x37e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_dump_info+0x84 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_dump_info+0x30a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_dump_info+0x3b4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_dump_info+0x49c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_dump_info+0x556 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_sync_down_dev+0x180 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_sync_up+0x21e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_trie_get_first+0x40 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_find_node+0x64 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_trie_seq_show+0x58 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_alias_hw_flags_set+0xca (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_trie_get_next+0x6c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_trie_get_next+0x18e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_trie_seq_next+0x88 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: leaf_walk_rcu+0x160 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: leaf_walk_rcu+0x270 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: leaf_walk_rcu+0x378 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_route_seq_start+0x8a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_route_seq_show+0x18e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_route_seq_show+0x252 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_route_seq_show+0x38a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_route_seq_show+0x44e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_lookup_good_nhc+0x5c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_get_nhc_lookup+0x4c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_get_nhc_lookup+0xe6 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_get_nhc_lookup+0x1ac (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_table_lookup+0x92 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_table_lookup+0x238 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_table_lookup+0x390 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_table_lookup+0x48c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_table_lookup+0x6b8 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_table_lookup+0x76a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_table_lookup+0x8b0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_table_lookup+0x994 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib_table_lookup+0xbd0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: inet_frag_kill+0x14a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: inet_frag_kill+0x200 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __rhashtable_lookup.isra.0+0x68 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __rhashtable_lookup.isra.0+0x136 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __rhashtable_lookup.isra.0+0x28c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ping_v4_sendmsg+0x2c6 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: iptunnel_xmit+0x148 (section: .text) -> .L0  (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: skb_tunnel_check_pmtu+0xaa (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: gre_gso_segment+0x19a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: gre_gso_segment+0x1e8 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_for_each_fib6_nh+0x5e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_for_each_fib6_nh+0xf2 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_for_each_fib6_nh+0x1cc (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: remove_nexthop_group.isra.0+0x40 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_bucket_set_hw_flags+0xcc (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_bucket_set_hw_flags+0x166 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_res_grp_activity_update+0x112 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_res_grp_activity_update+0x19c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_select_path_hthr+0x104 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_select_path_hthr+0x1fa (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_select_path_hthr+0x2dc (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_select_path_hthr+0x38a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_select_path_hthr+0x4aa (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_select_path_hthr+0x5be (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_select_path_hthr+0x69a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_select_path+0x40 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_select_path+0xf4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nexthop_select_path+0x194 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __call_nexthop_res_bucket_notifiers+0x114 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __call_nexthop_res_bucket_notifiers+0x18c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_lookup+0x38e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_delete_nets+0x134 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_encap_setup+0xd4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_uninit+0x7e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_dellink+0x82 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_changelink+0x90 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_newlink+0x98 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_init_net+0x8a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_init_net+0x25a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_ctl+0x8c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tnl_update_pmtu+0xd8 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tnl_update_pmtu+0x160 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tnl_update_pmtu+0x1d2 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tnl_update_pmtu+0x248 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tnl_update_pmtu+0x362 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tnl_update_pmtu+0x3da (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tnl_update_pmtu+0x44c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tnl_update_pmtu+0x4f2 (section: .text) -> .LBB102 (section: .init.text)
+> >> WARNING: modpost: vmlinux: section mismatch in reference: ip_md_tunnel_xmit+0x9e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_md_tunnel_xmit+0x12e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_md_tunnel_xmit+0x3a0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_md_tunnel_xmit+0x502 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_xmit+0x1d4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_xmit+0x24a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_xmit+0x2c8 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_xmit+0x39c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_xmit+0x430 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_xmit+0x58a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_xmit+0x866 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_xmit+0xb34 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_tunnel_xmit+0xe9a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipip_err+0x8a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipip_tunnel_rcv+0x80 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: gue_gro_complete+0xc4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fou_gro_complete+0x64 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: net_generic+0x70 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fou_gro_receive+0x70 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: gue_gro_receive+0x3ce (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fou_nl_del_doit+0xee (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fou_nl_get_doit+0x8c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fou_nl_get_dumpit+0x82 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: bpf_skb_set_fou_encap+0x4e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: bpf_skb_set_fou_encap+0xd2 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: bpf_skb_get_fou_encap+0x4a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: bpf_skb_get_fou_encap+0xca (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: net_generic+0x70 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: vti4_err+0x92 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: vti_xmit+0x38 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: vti_xmit+0x33e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: vti_xmit+0x49c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: vti_xmit+0x4ea (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: vti_xmit+0x638 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ah_output_done+0x2e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: esp_find_tcp_sk+0x3a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: esp_output_tcp_encap_cb+0x2a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: esp_output+0xcc (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: esp_output_done+0x112 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tunnel4_err+0x34 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tunnel4_err+0xd0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tunnel64_err+0x34 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tunnel64_err+0xd0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tunnelmpls4_err+0x34 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tunnelmpls4_err+0xd0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tunnel4_rcv_cb+0x66 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tunnel4_rcv_cb+0x11a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tunnel64_rcv+0x7c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tunnel64_rcv+0x10e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tunnelmpls4_rcv+0x78 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tunnelmpls4_rcv+0x10a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tunnel4_rcv+0x78 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tunnel4_rcv+0x10a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_route_me_harder+0x8a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_route_me_harder+0x2aa (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_route_me_harder+0x2fe (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_route_me_harder+0x39e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip_route_me_harder+0x44c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nf_tproxy_laddr4+0x42 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nf_tproxy_laddr4+0xba (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nf_tproxy_laddr4+0x162 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nf_send_reset+0xb0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nf_send_reset+0x148 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nf_send_reset+0x18e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nf_send_reset+0x21c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: nf_send_reset+0x2ca (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: inet_diag_lock_handler+0xae (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: inet_diag_dump_one_icsk+0xca (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_diag_get_aux+0x8a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_diag_get_aux_size+0xd2 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: sk_psock_get+0x68 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: sk_psock_get+0x68 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_rcv_encap_finish+0x28 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_rcv_encap_finish2+0x28 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_gro_udp_encap_rcv+0xec (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_transport_finish+0x1c6 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_transport_finish+0x2d2 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __xfrm4_output+0x32 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __xfrm4_output+0x92 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_output+0x40 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_output+0x10e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_ipcomp_err+0x34 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_ipcomp_err+0xd0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_ah_err+0x34 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_ah_err+0xd0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_esp_err+0x34 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_esp_err+0xd0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_rcv_cb+0x6c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_rcv_cb+0x10e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_rcv_encap+0xa4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_rcv_encap+0x13c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_rcv_encap+0x1de (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_ipcomp_rcv+0x34 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_ipcomp_rcv+0xd4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_ah_rcv+0x34 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_ah_rcv+0xd4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_esp_rcv+0x34 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: xfrm4_esp_rcv+0xd4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: sk_psock_get+0x68 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tls_get_info+0xb2 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: sk_psock_get+0x68 (section: .text) -> .LBB102 (section: .init.text)
+> --
+> WARNING: modpost: vmlinux: section mismatch in reference: __ip6_rt_update_pmtu+0x35c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_sk_update_pmtu+0x12c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_do_redirect+0x128 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_do_redirect+0x346 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_route_dev_notify+0xb4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_route_dev_notify+0x20c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_route_dev_notify+0x364 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __find_rr_leaf+0x12a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __find_rr_leaf+0x1d4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __find_rr_leaf+0x294 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __find_rr_leaf+0x33e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __find_rr_leaf+0x45e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_select+0x46 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_select+0xfc (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_select+0x24e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_device_match+0xda (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_device_match+0x186 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_device_match+0x240 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_device_match+0x2ea (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_device_match+0x3e6 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_device_match+0x49c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_device_match+0x5c8 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_device_match+0x692 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_device_match+0x73e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_device_match+0x7f8 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_device_match+0x8a2 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_fill_node.isra.0+0x29c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_fill_node.isra.0+0x34a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_fill_node.isra.0+0x6d0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_fill_node.isra.0+0x77a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: inet6_rtm_getroute+0x4c4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_route_del+0xec (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_route_del+0x510 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib6_select_path+0xf2 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib6_select_path+0x1de (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib6_select_path+0x296 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib6_select_path+0x344 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_pol_route_lookup+0xc0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_pol_route+0x5a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_route_check_nh+0x266 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_route_input+0xec (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_route_input+0x172 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_route_input+0x362 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_blackhole_route+0xec (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_sk_dst_store_flow+0x132 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_sk_dst_store_flow+0x1c4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_mtu_from_fib6+0xa2 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: icmp6_dst_alloc+0x72 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib6_nh_init+0x11e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib6_nh_init+0x546 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_route_info_create+0x5a0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6_route_info_create+0x64e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __rt6_purge_dflt_routers+0x8a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __rt6_purge_dflt_routers+0x19e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __rt6_purge_dflt_routers+0x24c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __rt6_purge_dflt_routers+0x336 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __rt6_purge_dflt_routers+0x48e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_get_dflt_router+0x10a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_get_dflt_router+0x21e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_multipath_rebalance+0xc2 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_multipath_rebalance+0x1ba (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib6_node_lookup_1+0x8e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib6_node_lookup_1+0x108 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib6_node_lookup_1+0x1c8 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: fib6_node_lookup_1+0x2fa (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_route_native_seq_show+0x7c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_route_native_seq_show+0x12a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_route_seq_next+0x70 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: do_ipv6_getsockopt+0x616 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: do_ipv6_getsockopt+0xb34 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: do_ipv6_getsockopt+0xd96 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: dst_output+0x30 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_error_report+0x28 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_allow_add+0x40 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: pndisc_constructor+0x7a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: pndisc_destructor+0x72 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_send_skb+0x46 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_send_skb+0x256 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_send_skb+0x408 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_send_skb+0x5ba (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_send_skb+0x6bc (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_constructor+0x7a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_ifinfo_sysctl_change+0x270 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_recv_na+0x82 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_recv_na+0x35a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_recv_rs+0x86 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_router_discovery+0xc0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_send_unsol_na+0x6e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_netdev_event+0xc2 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_netdev_event+0x2ba (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_recv_ns+0x33a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_send_redirect+0x28e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_rcv+0x4c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: udp6_sk_rx_dst_set+0x9e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: udp6_sk_rx_dst_set+0x124 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: udp6_lib_lookup2+0x12a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: udpv6_recvmsg+0x30c (section: .text) -> .LBE101 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: udpv6_queue_rcv_one_skb+0x182 (section: .text) -> .LBE101 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: udpv6_queue_rcv_one_skb+0x2f0 (section: .text) -> .LBE101 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: udp_v6_send_skb+0x12c (section: .text) -> .LBB102 (section: .init.text)
+> >> WARNING: modpost: vmlinux: section mismatch in reference: udpv6_sendmsg+0x85a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __udp6_lib_err+0x1ae (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __udp6_lib_rcv+0x35e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __udp6_lib_rcv+0x3ba (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __udp6_lib_rcv+0x778 (section: .text) -> .LBE101 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: udp_v6_early_demux+0x262 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: udp_v6_early_demux+0x2fc (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: dst_output+0x30 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rawv6_send_hdrinc+0x2c4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rawv6_send_hdrinc+0x4e2 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rawv6_send_hdrinc+0x5e4 (section: .text) -> .LBB102 (section: .init.text)
+> >> WARNING: modpost: vmlinux: section mismatch in reference: rawv6_sendmsg+0x5bc (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_raw_deliver+0x258 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: icmp6_dev+0x54 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: icmp6_send+0x98c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: icmpv6_echo_reply+0x114 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: icmpv6_echo_reply+0x1f2 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: icmpv6_echo_reply+0x578 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: icmpv6_notify+0x164 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: icmpv6_notify+0x252 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: icmpv6_rcv+0x4a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: dst_output+0x30 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mcf_get_next+0x34 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mcf_get_next+0xca (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mcf_get_next+0x150 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mcf_get_next+0x220 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mcf_get_next+0x2b8 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mcf_get_next+0x34c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mc_get_next+0x36 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mc_get_next+0xc0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mc_get_next+0x190 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mc_get_next+0x22a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mc_seq_start+0xbe (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mc_seq_start+0x144 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __mld_report_work+0x11e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mcf_seq_next+0x92 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mcf_seq_next+0x118 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mcf_seq_next+0x1a0 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mcf_seq_start+0xe8 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mcf_seq_start+0x16e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_mcf_seq_start+0x1f6 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: mld_sendpack+0xbe (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: mld_sendpack+0x364 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: mld_sendpack+0x466 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_send+0x120 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_send+0x33e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_send+0x5f8 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_send+0x73c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_send+0x83e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_mc_netdev_event+0x44 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __mld_query_work+0x140 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __ipv6_dev_mc_inc+0xc8 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: inet6_mc_check+0xce (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: inet6_mc_check+0x186 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: inet6_mc_check+0x24a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_sock_mc_drop+0x1a8 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: __ipv6_sock_mc_close+0x12c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_dev_mc_dec+0x9c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_chk_mcast_addr+0x82 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_chk_mcast_addr+0x112 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_chk_mcast_addr+0x1ca (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_chk_mcast_addr+0x28c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_chk_mcast_addr+0x34c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_event_query+0x40 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_event_report+0x40 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6frag_expire_frag_queue+0xec (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ip6frag_expire_frag_queue+0x278 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_frag_rcv+0x48 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_frag_rcv+0x9c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_frag_rcv+0x298 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_frag_rcv+0x50a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_frag_rcv+0x800 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_frag_rcv+0x996 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_frag_rcv+0xb34 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_get_cookie+0x82 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: rt6_get_cookie+0x108 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: inet6_sk_rx_dst_set+0x2e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_conn_request+0x5a (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_send_synack+0x2a2 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_send_response+0x88 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_syn_recv_sock+0x10e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_syn_recv_sock+0x438 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_syn_recv_sock+0x794 (section: .text) -> .L123 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_send_reset+0x98 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_send_reset+0xee (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_do_rcv+0xd6 (section: .text) -> .L123 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_do_rcv+0x3e4 (section: .text) -> .L123 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_do_rcv+0x564 (section: .text) -> .L123 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_rcv+0x3d6 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_err+0x108 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_err+0x33c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_early_demux+0x1bc (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: tcp_v6_early_demux+0x266 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_hop_ioam+0x54 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_hop_ioam+0x170 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_destopt_rcv+0x52 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_destopt_rcv+0xc4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_rpl_srh_rcv+0x5e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_rpl_srh_rcv+0x78c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_rpl_srh_rcv+0xa3e (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_rpl_srh_rcv+0xa92 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_rpl_srh_rcv+0xade (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_rpl_srh_rcv+0xcdc (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_srh_rcv+0x5c (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_srh_rcv+0x4ea (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_srh_rcv+0x792 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_srh_rcv+0x7e6 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_srh_rcv+0x832 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_srh_rcv+0xa10 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_rthdr_rcv+0x60 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_rthdr_rcv+0x7c4 (section: .text) -> .LBB102 (section: .init.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_rthdr_rcv+0xace (section: .text) -> .LBB102 (section: .init.text)
+> ..
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
