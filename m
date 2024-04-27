@@ -1,59 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB6B36AF2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Apr 2024 02:23:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12A538DF2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Apr 2024 02:23:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714184604; cv=none; b=B/BMyqOfNVWbsE4bRnSykqnzm46uD4yFE6lnj/pkMd+DO4ipbEyknZEjJWWMWu9fAEn/L8nHQbvo0wP32ufGcJRRN8h9hoF8G6cgQUFJKfT6Xf6Y6dcC/RJVQnRlir8Z1OiCf9uZYUwyuKcW7ucBjysI/Z5huh3gkBg050Ii/UI=
+	t=1714184606; cv=none; b=qdNDEi8rpyaw6z5SGE/fs2KlMmxXID0cY9TlMpFhj+XMSEwcczN5cGPr1E12J0aEJRqShwJvQ/YIXeqnDPD7ax6BKj5Kx+3L2HYblJOTV8bKSiKhkQrdpUK6K5wVyhxc19tFqamNZDqxPQ6nRPyY3H70/6/cxNkc4AolSZlMC4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714184604; c=relaxed/simple;
-	bh=Y/8tSQa4L8fQScZYJUn2+w4XsikGAwkznsWC/inr/3c=;
+	s=arc-20240116; t=1714184606; c=relaxed/simple;
+	bh=s4O1cD6ur+TJfx2wOiGM9x5omp0EZuXF5lklgnxS554=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O4z7ZlTM/iW+ACPeBZConm7UtmS7w2L8dv0BEqGPW+5lbbTRfZwnSfccchf+JMcbeMB8/48j6wnvHBBFts6ANcinnIXRoV8/T/tD84dd/N5bIPArhvBRiihA5B5dw0fTXWh08Vu0Ed1v2a2Em1suLBALjfpWRlbN6wPh6G3SnxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VjCShcWc; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=tgI/6Zg3mAkALAZ5nMRynn2xycYoVjaIblfKjVYr+S7rSFa1fdSd9h3bH4+quj4kFeR1tZDGO3KlVA9WeVcXHUx9MAfEpCLDNApKf2TtTT5C2OXXFQhvS1zxWRXqUE+I6HRj7864ozHnqfK4VLf/O63XbOOdvzEjXKboB4jagsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f8VGhg0a; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VjCShcWc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f8VGhg0a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714184602; x=1745720602;
+  t=1714184603; x=1745720603;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y/8tSQa4L8fQScZYJUn2+w4XsikGAwkznsWC/inr/3c=;
-  b=VjCShcWcXtii8udg5ar/VJjSRTbxrGvh5WLnRaEnprkURIZD/N+ba3pS
-   vZUvz7HUQP/kCiyrsPA3uaCFHTAV2nUeWHqGG5Qk+NePK3vUS5HdpQb0H
-   h3VX70RUniR6Z5qFjAEXM++Hf4wEhAdGNzz3gL6k1xbZ4Nh3NJFF3nqXY
-   Rm0BY73X36zroGnGR/f3493p+GvWjSMHjHmYsKE+2Y4jp1WyotTlE5wqE
-   vJnxebmLU+FCsr5p6PwRmzigQFjfVXoOxS0uHse5ngJeB2jJzyfhe9gEt
-   SFgj531NTeyHjlc9e22m1FBOScgnd4kvmc6XXxLMFPhd05uANGOb8UCqr
-   g==;
-X-CSE-ConnectionGUID: 9DMMu9tGTG+hR54K0J9rwg==
-X-CSE-MsgGUID: /seXx/WcTn6A+2OadYHE7A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="10096608"
+  bh=s4O1cD6ur+TJfx2wOiGM9x5omp0EZuXF5lklgnxS554=;
+  b=f8VGhg0aJv/qjnqaW0WMQnxJKvMgc/c5BIQONWNriXVmX0mAZ+/zmhBz
+   GYKvqXhc54QgzCRuTXp5Kf+9w1WXQmu5vx4rOz0NvuogRKnj+6xJH3zde
+   3nPKmq6eWeW6NwRb/9YcFOs4g5/LQetYbTABD93dIWPR3oh8l8qA7iW6+
+   Njd2vXbp5SbqN74255Q2bF4n4uNCGSXqOrdFKoa4V16h19OQqQSx3xD55
+   +m/3nxfaEpPTbjxO03in+M6RSEkvUmgCFUUAE9lcff38Y7z2bUTlt46k0
+   hZTRjQ3SAnPRVnn/xntP2ZeAvN8sFumm/IcFnVH4X4SYWdb6r/PXnhMTW
+   A==;
+X-CSE-ConnectionGUID: WWV8ZSwiQzGhlAuN1fOCXw==
+X-CSE-MsgGUID: U5v53hGZQ3Cryg49uBU3og==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="10096610"
 X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="10096608"
+   d="scan'208";a="10096610"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 19:23:22 -0700
-X-CSE-ConnectionGUID: TEIu0DSTTHykNW7cACihyA==
-X-CSE-MsgGUID: DMpEaZHNRzuyl86p92Pg1A==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 19:23:23 -0700
+X-CSE-ConnectionGUID: i4J2JETuRNmiy5ZLEwkQhQ==
+X-CSE-MsgGUID: XjFfGcXoQm6YIfJYzfc2Gw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="30242472"
+   d="scan'208";a="30242470"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 26 Apr 2024 19:23:21 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0Xig-0004Zk-22;
+	id 1s0Xig-0004Zi-1s;
 	Sat, 27 Apr 2024 02:23:18 +0000
-Date: Sat, 27 Apr 2024 10:22:53 +0800
+Date: Sat, 27 Apr 2024 10:22:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 16156/29910]
- drivers/soc/imx/imx93-blk-ctrl.c:234:21: error: use of undeclared identifier
- 'SZ_4K'
-Message-ID: <202404271044.0mQkXcG1-lkp@intel.com>
+To: Perry Yuan <perry.yuan@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>, Li Meng <li.meng@amd.com>,
+	"Gautham R. Shenoy" <gautham.shenoy@amd.com>
+Subject: [rafael-pm:bleeding-edge 180/186]
+ drivers/cpufreq/amd-pstate.c:828:47: warning: variable
+ 'lowest_nonlinear_freq' set but not used
+Message-ID: <202404271038.em6nJjzy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,140 +66,184 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Peng,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   ebcdbe7ec49f9c3405ee4b89e7ec279e313026f3
-commit: 1c3dd14276374d48bfd2a6d41c712cd0bb04163b [16156/29910] LF-6899 soc: imx: imx93-blk-ctrl: restrict register range with access table
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240427/202404271044.0mQkXcG1-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271044.0mQkXcG1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   d9e98e7641ce1ef34d0c33dae1f27611bd1cbcf9
+commit: 5547c0ebfc2efdab6ee93a7fd4d9c411ad87013e [180/186] cpufreq: amd-pstate: Unify computation of {max,min,nominal,lowest_nonlinear}_freq
+config: i386-buildonly-randconfig-002-20240427 (https://download.01.org/0day-ci/archive/20240427/202404271038.em6nJjzy-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271038.em6nJjzy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404271044.0mQkXcG1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404271038.em6nJjzy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/soc/imx/imx93-blk-ctrl.c:234:21: error: use of undeclared identifier 'SZ_4K'
-     234 |                 .max_register   = SZ_4K,
-         |                                   ^
-   1 error generated.
+   drivers/cpufreq/amd-pstate.c: In function 'amd_pstate_cpu_init':
+>> drivers/cpufreq/amd-pstate.c:828:47: warning: variable 'lowest_nonlinear_freq' set but not used [-Wunused-but-set-variable]
+     828 |         int min_freq, max_freq, nominal_freq, lowest_nonlinear_freq, ret;
+         |                                               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/cpufreq/amd-pstate.c:828:33: warning: variable 'nominal_freq' set but not used [-Wunused-but-set-variable]
+     828 |         int min_freq, max_freq, nominal_freq, lowest_nonlinear_freq, ret;
+         |                                 ^~~~~~~~~~~~
+   drivers/cpufreq/amd-pstate.c: In function 'amd_pstate_epp_cpu_init':
+   drivers/cpufreq/amd-pstate.c:1287:47: warning: variable 'lowest_nonlinear_freq' set but not used [-Wunused-but-set-variable]
+    1287 |         int min_freq, max_freq, nominal_freq, lowest_nonlinear_freq, ret;
+         |                                               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/cpufreq/amd-pstate.c:1287:33: warning: variable 'nominal_freq' set but not used [-Wunused-but-set-variable]
+    1287 |         int min_freq, max_freq, nominal_freq, lowest_nonlinear_freq, ret;
+         |                                 ^~~~~~~~~~~~
+--
+>> drivers/cpufreq/amd-pstate.c:791: warning: Function parameter or struct member 'cpudata' not described in 'amd_pstate_init_freq'
 
 
-vim +/SZ_4K +234 drivers/soc/imx/imx93-blk-ctrl.c
+vim +/lowest_nonlinear_freq +828 drivers/cpufreq/amd-pstate.c
 
-   218	
-   219	static int imx93_blk_ctrl_probe(struct platform_device *pdev)
-   220	{
-   221		struct device *dev = &pdev->dev;
-   222		const struct imx93_blk_ctrl_data *bc_data = of_device_get_match_data(dev);
-   223		const struct imx93_blk_ctrl_domain_data *bus = bc_data->bus;
-   224		struct imx93_blk_ctrl *bc;
-   225		void __iomem *base;
-   226		int i, ret;
-   227	
-   228		struct regmap_config regmap_config = {
-   229			.reg_bits	= 32,
-   230			.val_bits	= 32,
-   231			.reg_stride	= 4,
-   232			.rd_table	= bus->reg_access_table,
-   233			.wr_table	= bus->reg_access_table,
- > 234			.max_register   = SZ_4K,
-   235		};
-   236	
-   237		bc = devm_kzalloc(dev, sizeof(*bc), GFP_KERNEL);
-   238		if (!bc)
-   239			return -ENOMEM;
-   240	
-   241		bc->dev = dev;
-   242	
-   243		base = devm_platform_ioremap_resource(pdev, 0);
-   244		if (IS_ERR(base))
-   245			return PTR_ERR(base);
-   246	
-   247		bc->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);
-   248		if (IS_ERR(bc->regmap))
-   249			return dev_err_probe(dev, PTR_ERR(bc->regmap),
-   250					     "failed to init regmap\n");
-   251	
-   252		bc->domains = devm_kcalloc(dev, bc_data->num_domains + 1,
-   253					   sizeof(struct imx93_blk_ctrl_domain),
-   254					   GFP_KERNEL);
-   255		if (!bc->domains)
-   256			return -ENOMEM;
-   257	
-   258		bc->onecell_data.num_domains = bc_data->num_domains;
-   259		bc->onecell_data.xlate = imx93_blk_ctrl_xlate;
-   260		bc->onecell_data.domains =
-   261			devm_kcalloc(dev, bc_data->num_domains,
-   262				     sizeof(struct generic_pm_domain *), GFP_KERNEL);
-   263		if (!bc->onecell_data.domains)
-   264			return -ENOMEM;
-   265	
-   266		for (i = 0; i < bus->num_clks; i++)
-   267			bc->clks[i].id = bus->clk_names[i];
-   268		bc->num_clks = bus->num_clks;
-   269	
-   270		ret = devm_clk_bulk_get(dev, bc->num_clks, bc->clks);
-   271		if (ret) {
-   272			dev_err_probe(dev, ret, "failed to get bus clock\n");
-   273			return ret;
-   274		}
-   275	
-   276		for (i = 0; i < bc_data->num_domains; i++) {
-   277			const struct imx93_blk_ctrl_domain_data *data = &bc_data->domains[i];
-   278			struct imx93_blk_ctrl_domain *domain = &bc->domains[i];
-   279			int j;
-   280	
-   281			domain->data = data;
-   282	
-   283			for (j = 0; j < data->num_clks; j++)
-   284				domain->clks[j].id = data->clk_names[j];
-   285	
-   286			ret = devm_clk_bulk_get(dev, data->num_clks, domain->clks);
-   287			if (ret) {
-   288				dev_err_probe(dev, ret, "failed to get clock\n");
-   289				goto cleanup_pds;
-   290			}
-   291	
-   292			domain->genpd.name = data->name;
-   293			domain->genpd.power_on = imx93_blk_ctrl_power_on;
-   294			domain->genpd.power_off = imx93_blk_ctrl_power_off;
-   295			domain->bc = bc;
-   296	
-   297			ret = pm_genpd_init(&domain->genpd, NULL, true);
-   298			if (ret) {
-   299				dev_err_probe(dev, ret, "failed to init power domain\n");
-   300				goto cleanup_pds;
-   301			}
-   302	
-   303			bc->onecell_data.domains[i] = &domain->genpd;
-   304		}
-   305	
-   306		pm_runtime_enable(dev);
-   307	
-   308		ret = of_genpd_add_provider_onecell(dev->of_node, &bc->onecell_data);
-   309		if (ret) {
-   310			dev_err_probe(dev, ret, "failed to add power domain provider\n");
-   311			goto cleanup_pds;
-   312		}
-   313	
-   314	
-   315		dev_set_drvdata(dev, bc);
-   316	
-   317		return 0;
-   318	
-   319	cleanup_pds:
-   320		for (i--; i >= 0; i--)
-   321			pm_genpd_remove(&bc->domains[i].genpd);
-   322	
-   323		return ret;
-   324	}
-   325	
+e571a5e2068ef5 Meng Li    2024-01-19  778  
+5547c0ebfc2efd Perry Yuan 2024-04-25  779  /**
+5547c0ebfc2efd Perry Yuan 2024-04-25  780   * amd_pstate_init_freq: Initialize the max_freq, min_freq,
+5547c0ebfc2efd Perry Yuan 2024-04-25  781   *                       nominal_freq and lowest_nonlinear_freq for
+5547c0ebfc2efd Perry Yuan 2024-04-25  782   *                       the @cpudata object.
+5547c0ebfc2efd Perry Yuan 2024-04-25  783   *
+5547c0ebfc2efd Perry Yuan 2024-04-25  784   *  Requires: highest_perf, lowest_perf, nominal_perf and
+5547c0ebfc2efd Perry Yuan 2024-04-25  785   *            lowest_nonlinear_perf members of @cpudata to be
+5547c0ebfc2efd Perry Yuan 2024-04-25  786   *            initialized.
+5547c0ebfc2efd Perry Yuan 2024-04-25  787   *
+5547c0ebfc2efd Perry Yuan 2024-04-25  788   *  Returns 0 on success, non-zero value on failure.
+5547c0ebfc2efd Perry Yuan 2024-04-25  789   */
+5547c0ebfc2efd Perry Yuan 2024-04-25  790  static int amd_pstate_init_freq(struct amd_cpudata *cpudata)
+5547c0ebfc2efd Perry Yuan 2024-04-25 @791  {
+5547c0ebfc2efd Perry Yuan 2024-04-25  792  	int ret;
+5547c0ebfc2efd Perry Yuan 2024-04-25  793  	u32 min_freq;
+5547c0ebfc2efd Perry Yuan 2024-04-25  794  	u32 highest_perf, max_freq;
+5547c0ebfc2efd Perry Yuan 2024-04-25  795  	u32 nominal_perf, nominal_freq;
+5547c0ebfc2efd Perry Yuan 2024-04-25  796  	u32 lowest_nonlinear_perf, lowest_nonlinear_freq;
+5547c0ebfc2efd Perry Yuan 2024-04-25  797  	u32 boost_ratio, lowest_nonlinear_ratio;
+5547c0ebfc2efd Perry Yuan 2024-04-25  798  	struct cppc_perf_caps cppc_perf;
+5547c0ebfc2efd Perry Yuan 2024-04-25  799  
+5547c0ebfc2efd Perry Yuan 2024-04-25  800  
+5547c0ebfc2efd Perry Yuan 2024-04-25  801  	ret = cppc_get_perf_caps(cpudata->cpu, &cppc_perf);
+5547c0ebfc2efd Perry Yuan 2024-04-25  802  	if (ret)
+5547c0ebfc2efd Perry Yuan 2024-04-25  803  		return ret;
+5547c0ebfc2efd Perry Yuan 2024-04-25  804  
+5547c0ebfc2efd Perry Yuan 2024-04-25  805  	min_freq = cppc_perf.lowest_freq * 1000;
+5547c0ebfc2efd Perry Yuan 2024-04-25  806  	nominal_freq = cppc_perf.nominal_freq;
+5547c0ebfc2efd Perry Yuan 2024-04-25  807  	nominal_perf = READ_ONCE(cpudata->nominal_perf);
+5547c0ebfc2efd Perry Yuan 2024-04-25  808  
+5547c0ebfc2efd Perry Yuan 2024-04-25  809  	highest_perf = READ_ONCE(cpudata->highest_perf);
+5547c0ebfc2efd Perry Yuan 2024-04-25  810  	boost_ratio = div_u64(highest_perf << SCHED_CAPACITY_SHIFT, nominal_perf);
+5547c0ebfc2efd Perry Yuan 2024-04-25  811  	max_freq = (nominal_freq * boost_ratio >> SCHED_CAPACITY_SHIFT) * 1000;
+5547c0ebfc2efd Perry Yuan 2024-04-25  812  
+5547c0ebfc2efd Perry Yuan 2024-04-25  813  	lowest_nonlinear_perf = READ_ONCE(cpudata->lowest_nonlinear_perf);
+5547c0ebfc2efd Perry Yuan 2024-04-25  814  	lowest_nonlinear_ratio = div_u64(lowest_nonlinear_perf << SCHED_CAPACITY_SHIFT,
+5547c0ebfc2efd Perry Yuan 2024-04-25  815  					 nominal_perf);
+5547c0ebfc2efd Perry Yuan 2024-04-25  816  	lowest_nonlinear_freq = (nominal_freq * lowest_nonlinear_ratio >> SCHED_CAPACITY_SHIFT) * 1000;
+5547c0ebfc2efd Perry Yuan 2024-04-25  817  
+5547c0ebfc2efd Perry Yuan 2024-04-25  818  	WRITE_ONCE(cpudata->min_freq, min_freq);
+5547c0ebfc2efd Perry Yuan 2024-04-25  819  	WRITE_ONCE(cpudata->lowest_nonlinear_freq, lowest_nonlinear_freq);
+5547c0ebfc2efd Perry Yuan 2024-04-25  820  	WRITE_ONCE(cpudata->nominal_freq, nominal_freq);
+5547c0ebfc2efd Perry Yuan 2024-04-25  821  	WRITE_ONCE(cpudata->max_freq, max_freq);
+5547c0ebfc2efd Perry Yuan 2024-04-25  822  
+5547c0ebfc2efd Perry Yuan 2024-04-25  823  	return 0;
+5547c0ebfc2efd Perry Yuan 2024-04-25  824  }
+5547c0ebfc2efd Perry Yuan 2024-04-25  825  
+ec437d71db77a1 Huang Rui  2021-12-24  826  static int amd_pstate_cpu_init(struct cpufreq_policy *policy)
+ec437d71db77a1 Huang Rui  2021-12-24  827  {
+ec437d71db77a1 Huang Rui  2021-12-24 @828  	int min_freq, max_freq, nominal_freq, lowest_nonlinear_freq, ret;
+ec437d71db77a1 Huang Rui  2021-12-24  829  	struct device *dev;
+ec437d71db77a1 Huang Rui  2021-12-24  830  	struct amd_cpudata *cpudata;
+ec437d71db77a1 Huang Rui  2021-12-24  831  
+919f4557696939 Wyes Karny 2022-11-17  832  	/*
+919f4557696939 Wyes Karny 2022-11-17  833  	 * Resetting PERF_CTL_MSR will put the CPU in P0 frequency,
+919f4557696939 Wyes Karny 2022-11-17  834  	 * which is ideal for initialization process.
+919f4557696939 Wyes Karny 2022-11-17  835  	 */
+919f4557696939 Wyes Karny 2022-11-17  836  	amd_perf_ctl_reset(policy->cpu);
+ec437d71db77a1 Huang Rui  2021-12-24  837  	dev = get_cpu_device(policy->cpu);
+ec437d71db77a1 Huang Rui  2021-12-24  838  	if (!dev)
+ec437d71db77a1 Huang Rui  2021-12-24  839  		return -ENODEV;
+ec437d71db77a1 Huang Rui  2021-12-24  840  
+ec437d71db77a1 Huang Rui  2021-12-24  841  	cpudata = kzalloc(sizeof(*cpudata), GFP_KERNEL);
+ec437d71db77a1 Huang Rui  2021-12-24  842  	if (!cpudata)
+ec437d71db77a1 Huang Rui  2021-12-24  843  		return -ENOMEM;
+ec437d71db77a1 Huang Rui  2021-12-24  844  
+ec437d71db77a1 Huang Rui  2021-12-24  845  	cpudata->cpu = policy->cpu;
+ec437d71db77a1 Huang Rui  2021-12-24  846  
+f3a052391822b7 Meng Li    2024-01-19  847  	amd_pstate_init_prefcore(cpudata);
+f3a052391822b7 Meng Li    2024-01-19  848  
+ec437d71db77a1 Huang Rui  2021-12-24  849  	ret = amd_pstate_init_perf(cpudata);
+ec437d71db77a1 Huang Rui  2021-12-24  850  	if (ret)
+41271016dfa4a0 Huang Rui  2021-12-24  851  		goto free_cpudata1;
+ec437d71db77a1 Huang Rui  2021-12-24  852  
+5547c0ebfc2efd Perry Yuan 2024-04-25  853  	ret = amd_pstate_init_freq(cpudata);
+5547c0ebfc2efd Perry Yuan 2024-04-25  854  	if (ret)
+5547c0ebfc2efd Perry Yuan 2024-04-25  855  		goto free_cpudata1;
+5547c0ebfc2efd Perry Yuan 2024-04-25  856  
+ec437d71db77a1 Huang Rui  2021-12-24  857  	min_freq = amd_get_min_freq(cpudata);
+ec437d71db77a1 Huang Rui  2021-12-24  858  	max_freq = amd_get_max_freq(cpudata);
+ec437d71db77a1 Huang Rui  2021-12-24  859  	nominal_freq = amd_get_nominal_freq(cpudata);
+ec437d71db77a1 Huang Rui  2021-12-24  860  	lowest_nonlinear_freq = amd_get_lowest_nonlinear_freq(cpudata);
+ec437d71db77a1 Huang Rui  2021-12-24  861  
+ec437d71db77a1 Huang Rui  2021-12-24  862  	if (min_freq < 0 || max_freq < 0 || min_freq > max_freq) {
+ec437d71db77a1 Huang Rui  2021-12-24  863  		dev_err(dev, "min_freq(%d) or max_freq(%d) value is incorrect\n",
+ec437d71db77a1 Huang Rui  2021-12-24  864  			min_freq, max_freq);
+ec437d71db77a1 Huang Rui  2021-12-24  865  		ret = -EINVAL;
+41271016dfa4a0 Huang Rui  2021-12-24  866  		goto free_cpudata1;
+ec437d71db77a1 Huang Rui  2021-12-24  867  	}
+ec437d71db77a1 Huang Rui  2021-12-24  868  
+ec437d71db77a1 Huang Rui  2021-12-24  869  	policy->cpuinfo.transition_latency = AMD_PSTATE_TRANSITION_LATENCY;
+ec437d71db77a1 Huang Rui  2021-12-24  870  	policy->transition_delay_us = AMD_PSTATE_TRANSITION_DELAY;
+ec437d71db77a1 Huang Rui  2021-12-24  871  
+ec437d71db77a1 Huang Rui  2021-12-24  872  	policy->min = min_freq;
+ec437d71db77a1 Huang Rui  2021-12-24  873  	policy->max = max_freq;
+ec437d71db77a1 Huang Rui  2021-12-24  874  
+ec437d71db77a1 Huang Rui  2021-12-24  875  	policy->cpuinfo.min_freq = min_freq;
+ec437d71db77a1 Huang Rui  2021-12-24  876  	policy->cpuinfo.max_freq = max_freq;
+ec437d71db77a1 Huang Rui  2021-12-24  877  
+ec437d71db77a1 Huang Rui  2021-12-24  878  	/* It will be updated by governor */
+ec437d71db77a1 Huang Rui  2021-12-24  879  	policy->cur = policy->cpuinfo.min_freq;
+ec437d71db77a1 Huang Rui  2021-12-24  880  
+e059c184da47e9 Huang Rui  2021-12-24  881  	if (boot_cpu_has(X86_FEATURE_CPPC))
+1d215f0319c206 Huang Rui  2021-12-24  882  		policy->fast_switch_possible = true;
+1d215f0319c206 Huang Rui  2021-12-24  883  
+41271016dfa4a0 Huang Rui  2021-12-24  884  	ret = freq_qos_add_request(&policy->constraints, &cpudata->req[0],
+41271016dfa4a0 Huang Rui  2021-12-24  885  				   FREQ_QOS_MIN, policy->cpuinfo.min_freq);
+41271016dfa4a0 Huang Rui  2021-12-24  886  	if (ret < 0) {
+41271016dfa4a0 Huang Rui  2021-12-24  887  		dev_err(dev, "Failed to add min-freq constraint (%d)\n", ret);
+41271016dfa4a0 Huang Rui  2021-12-24  888  		goto free_cpudata1;
+41271016dfa4a0 Huang Rui  2021-12-24  889  	}
+41271016dfa4a0 Huang Rui  2021-12-24  890  
+41271016dfa4a0 Huang Rui  2021-12-24  891  	ret = freq_qos_add_request(&policy->constraints, &cpudata->req[1],
+41271016dfa4a0 Huang Rui  2021-12-24  892  				   FREQ_QOS_MAX, policy->cpuinfo.max_freq);
+41271016dfa4a0 Huang Rui  2021-12-24  893  	if (ret < 0) {
+41271016dfa4a0 Huang Rui  2021-12-24  894  		dev_err(dev, "Failed to add max-freq constraint (%d)\n", ret);
+41271016dfa4a0 Huang Rui  2021-12-24  895  		goto free_cpudata2;
+41271016dfa4a0 Huang Rui  2021-12-24  896  	}
+41271016dfa4a0 Huang Rui  2021-12-24  897  
+febab20caebac9 Wyes Karny 2023-11-17  898  	cpudata->max_limit_freq = max_freq;
+febab20caebac9 Wyes Karny 2023-11-17  899  	cpudata->min_limit_freq = min_freq;
+ec437d71db77a1 Huang Rui  2021-12-24  900  
+ec437d71db77a1 Huang Rui  2021-12-24  901  	policy->driver_data = cpudata;
+ec437d71db77a1 Huang Rui  2021-12-24  902  
+41271016dfa4a0 Huang Rui  2021-12-24  903  	amd_pstate_boost_init(cpudata);
+abd61c08ef349a Perry Yuan 2023-01-31  904  	if (!current_pstate_driver->adjust_perf)
+abd61c08ef349a Perry Yuan 2023-01-31  905  		current_pstate_driver->adjust_perf = amd_pstate_adjust_perf;
+41271016dfa4a0 Huang Rui  2021-12-24  906  
+ec437d71db77a1 Huang Rui  2021-12-24  907  	return 0;
+ec437d71db77a1 Huang Rui  2021-12-24  908  
+41271016dfa4a0 Huang Rui  2021-12-24  909  free_cpudata2:
+41271016dfa4a0 Huang Rui  2021-12-24  910  	freq_qos_remove_request(&cpudata->req[0]);
+41271016dfa4a0 Huang Rui  2021-12-24  911  free_cpudata1:
+ec437d71db77a1 Huang Rui  2021-12-24  912  	kfree(cpudata);
+ec437d71db77a1 Huang Rui  2021-12-24  913  	return ret;
+ec437d71db77a1 Huang Rui  2021-12-24  914  }
+ec437d71db77a1 Huang Rui  2021-12-24  915  
+
+:::::: The code at line 828 was first introduced by commit
+:::::: ec437d71db77a181227bf6d0ac9d4a80e58ecf0f cpufreq: amd-pstate: Introduce a new AMD P-State driver to support future processors
+
+:::::: TO: Huang Rui <ray.huang@amd.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
