@@ -1,65 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A973BB50
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Apr 2024 03:06:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632563D966;
+	Sat, 27 Apr 2024 03:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714187187; cv=none; b=oocmovlDT8BdCYfKxumAZ/zg/An/dKx5gnVBOPB74gL0MPTrKQ0CTOLFi4nMXL1A2JGQHF3K0TqDbmaQoH71wlufS3zxlH9wprUwPB5xLsJ7qUnP1XJ9L68lW3VClpMEsrhj40+45CdABctfROJANm9QJ+Q4uI2H+ojxMgcVb8E=
+	t=1714188446; cv=none; b=tiDpek3bJIAm+4+GOFWovYTgSNJGAFjWxsb+pn+y83f0HMUUxDHP8Ie8QA46pWczyVGI2a7uUTHrnk8BpBqUE/09LP2syn74oZAWJjpYRZPvyQml0ocgD3UkSFEdRgwJ2pyGy0wcf7ux4lv+VhyyvDbd6Es1IaonLY96rcBm88Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714187187; c=relaxed/simple;
-	bh=5s9RUz2MFkTGAYQJ26h2TnEAa/zhOjqbrB7VANRk3lA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WFf38HoqiG/8TJ1uwegBCsyWMH3un5EQlWeC8Kk4Nt2EysAXN/XycCIfEiEaaxgEyfNZh3hUtcnQE3sagGtNhBwcEdF9sx1FgDKw2jkHatXCneeufhYU6He+R41iD/3wQqPXBBUmNpQHnIdrzTNcq0vXpHRL49dFyO3xpb+9DGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SSv8HwzL; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1714188446; c=relaxed/simple;
+	bh=bwY3Npzz2Gej71CBmwPkAL8Kw3nLv5f+pJV4aekd1zU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dHgp4lm0HDD5iP+/bWb0Guj21cBCdtkpam/qNW793hwozoq96MdhiYXSIG+fggETanuzXk67bsqrDKQO78u/1iWGQApgOqgEf+fCzzHm3XkD7+Ew3SGwmJ5GVZyeBu883IX9yDYB0fjZlmLTvHm7WONucXvkPv4gHNEd5VJIWes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cMTHwVaQ; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SSv8HwzL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cMTHwVaQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714187185; x=1745723185;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5s9RUz2MFkTGAYQJ26h2TnEAa/zhOjqbrB7VANRk3lA=;
-  b=SSv8HwzLvFuZLHaplno6KDuXk542fxOtj4tbNISshFgycwsJDGLgf4ux
-   2XbWZXxbDryD/JWjT+kQ5RgNZUwSgCVxGMjTZUrSCMk9pe8UD5Pp3NlUL
-   pJrXEQZ0w5s5bvdbGywZBpz+7e6XuVoj41iT7Anllu/XVAnm4HDJd9g+s
-   uFsuWETMfXqoJ0b7aICIXsx7ExjWrQNa+Xx5wDaE8nOT+G8VoWnsyoRwv
-   8e1KkILRrieLhaGN3iZfV0RBxjQV2jMfHreWtocuNjc8YV9mcAcKTJCyh
-   InOhG6Mx8iLcACKjeFV9LDXGsDIENs0HL7761v0nHELt4VjqM9nfzIX+E
-   Q==;
-X-CSE-ConnectionGUID: +OyOosjWSiG8WOfUV/hbpg==
-X-CSE-MsgGUID: GcD4v373QuiFnK25loXnOQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="10468293"
+  t=1714188444; x=1745724444;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bwY3Npzz2Gej71CBmwPkAL8Kw3nLv5f+pJV4aekd1zU=;
+  b=cMTHwVaQ9L3vbBITarulJ+MVVYKyU0wMOoPZtZlpDdlySlW7JAwZMq0i
+   yHnq1aDlR2xUDu50ZmzFar14Jw8ss6JlPKCn6liUIwT+EvDgL++uup0Du
+   faniUZDoy3WwCTbxckI74wvWVUlolbdEogKA3EmYVS3zWpUIpkZNsFdm3
+   n0HyNpgu+pEo3f+zSkNrwBhmMmitCN5SQ4UjKEPyrkE94xsRpSWSv5UFV
+   xVpaCL6RnaGIk91ET+bAmLx1UhzdVXXHYDxMt6/rf4m+bFpUCVYA4hA/F
+   0fBGd3654HZOqrM2GKZNCSlkOTwGb0hO8/hMXKakQkLrg8ub3xp3vMczw
+   w==;
+X-CSE-ConnectionGUID: 3IbyAGH2Q9OlmheGdR04fA==
+X-CSE-MsgGUID: qPgf43k8SGaeRws+lycy7g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="13723660"
 X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="10468293"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 20:06:24 -0700
-X-CSE-ConnectionGUID: MynFAFYcTw6hsFAehSytYg==
-X-CSE-MsgGUID: nka30g3MRzqwzZjNc2Gf2A==
+   d="scan'208";a="13723660"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 20:27:24 -0700
+X-CSE-ConnectionGUID: lZc3D/6sQ0avYueMOyLW1g==
+X-CSE-MsgGUID: CDHgIDkfSUOttRYC4EKJ/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="56778167"
+   d="scan'208";a="25592948"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Apr 2024 20:06:21 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 26 Apr 2024 20:27:22 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0YOJ-0004ba-1x;
-	Sat, 27 Apr 2024 03:06:19 +0000
-Date: Sat, 27 Apr 2024 11:05:34 +0800
+	id 1s0Yid-0004bu-2R;
+	Sat, 27 Apr 2024 03:27:19 +0000
+Date: Sat, 27 Apr 2024 11:26:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ramona Gradinariu <ramona.bolboaca13@gmail.com>,
-	linux-kernel@vger.kernel.org, jic23@kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	robh@kernel.org, nuno.sa@analog.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Ramona Gradinariu <ramona.bolboaca13@gmail.com>
-Subject: Re: [PATCH 4/7] iio: imu: adis_buffer: Add buffer setup API with
- buffer attributes
-Message-ID: <202404271027.ySHRhuOH-lkp@intel.com>
-References: <20240426135339.185602-5-ramona.bolboaca13@gmail.com>
+To: Timur Tabi <ttabi@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>
+Subject: [drm-misc:for-linux-next 1/1]
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1266:11: error: label at end
+ of compound statement: expected statement
+Message-ID: <202404271146.n4lVV4tO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,80 +63,111 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240426135339.185602-5-ramona.bolboaca13@gmail.com>
 
-Hi Ramona,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on linus/master v6.9-rc5 next-20240426]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Gradinariu/dt-bindings-iio-imu-Add-ADIS16501-compatibles/20240426-215728
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240426135339.185602-5-ramona.bolboaca13%40gmail.com
-patch subject: [PATCH 4/7] iio: imu: adis_buffer: Add buffer setup API with buffer attributes
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240427/202404271027.ySHRhuOH-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271027.ySHRhuOH-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   61ba791c4a7a09a370c45b70a81b8c7d4cf6b2ae
+commit: b58a0bc904ffa091fc020f7fd00e91808fec820e [1/1] nouveau: add command-line GSP-RM registry support
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240427/202404271146.n4lVV4tO-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271146.n4lVV4tO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404271027.ySHRhuOH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404271146.n4lVV4tO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/iio/imu/adis_buffer.c: In function 'devm_adis_setup_buffer_and_trigger_with_attrs':
->> drivers/iio/imu/adis_buffer.c:207:51: error: passing argument 7 of 'devm_iio_triggered_buffer_setup_ext' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     207 |                                                   buffer_attrs);
-         |                                                   ^~~~~~~~~~~~
-         |                                                   |
-         |                                                   const struct attribute **
-   In file included from drivers/iio/imu/adis_buffer.c:19:
-   include/linux/iio/triggered_buffer.h:31:69: note: expected 'const struct iio_dev_attr **' but argument is of type 'const struct attribute **'
-      31 |                                         const struct iio_dev_attr **buffer_attrs);
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1266:11: error: label at end of compound statement: expected statement
+                   default:
+                           ^
+                            ;
+   1 error generated.
 
 
-vim +/devm_iio_triggered_buffer_setup_ext +207 drivers/iio/imu/adis_buffer.c
+vim +1266 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
 
-   176	
-   177	/**
-   178	 * devm_adis_setup_buffer_and_trigger_with_attrs() - Sets up buffer and trigger
-   179	 * for the managed adis device with buffer attributes.
-   180	 * @adis: The adis device
-   181	 * @indio_dev: The IIO device
-   182	 * @trigger_handler: Trigger handler: should handle the buffer readings.
-   183	 * @ops: Optional buffer setup functions, may be NULL.
-   184	 * @buffer_attrs: Extra buffer attributes.
-   185	 *
-   186	 * Returns 0 on success, a negative error code otherwise.
-   187	 *
-   188	 * This function sets up the buffer (with buffer setup functions and extra
-   189	 * buffer attributes) and trigger for a adis devices with buffer attributes.
-   190	 */
-   191	int
-   192	devm_adis_setup_buffer_and_trigger_with_attrs(struct adis *adis, struct iio_dev *indio_dev,
-   193						      irq_handler_t trigger_handler,
-   194						      const struct iio_buffer_setup_ops *ops,
-   195						      const struct attribute **buffer_attrs)
-   196	{
-   197		int ret;
-   198	
-   199		if (!trigger_handler)
-   200			trigger_handler = adis_trigger_handler;
-   201	
-   202		ret = devm_iio_triggered_buffer_setup_ext(&adis->spi->dev, indio_dev,
-   203							  &iio_pollfunc_store_time,
-   204							  trigger_handler,
-   205							  IIO_BUFFER_DIRECTION_IN,
-   206							  ops,
- > 207							  buffer_attrs);
+  1199	
+  1200	/**
+  1201	 * build_registry -- create the registry RPC data
+  1202	 * @gsp: gsp pointer
+  1203	 * @registry: pointer to the RPC payload to fill
+  1204	 *
+  1205	 * After all registry key/value pairs have been added, call this function to
+  1206	 * build the RPC.
+  1207	 *
+  1208	 * The registry RPC looks like this:
+  1209	 *
+  1210	 * +-----------------+
+  1211	 * |NvU32 size;      |
+  1212	 * |NvU32 numEntries;|
+  1213	 * +-----------------+
+  1214	 * +----------------------------------------+
+  1215	 * |PACKED_REGISTRY_ENTRY                   |
+  1216	 * +----------------------------------------+
+  1217	 * |Null-terminated key (string) for entry 0|
+  1218	 * +----------------------------------------+
+  1219	 * |Binary/string data value for entry 0    | (only if necessary)
+  1220	 * +----------------------------------------+
+  1221	 *
+  1222	 * +----------------------------------------+
+  1223	 * |PACKED_REGISTRY_ENTRY                   |
+  1224	 * +----------------------------------------+
+  1225	 * |Null-terminated key (string) for entry 1|
+  1226	 * +----------------------------------------+
+  1227	 * |Binary/string data value for entry 1    | (only if necessary)
+  1228	 * +----------------------------------------+
+  1229	 * ... (and so on, one copy for each entry)
+  1230	 *
+  1231	 *
+  1232	 * The 'data' field of an entry is either a 32-bit integer (for type DWORD)
+  1233	 * or an offset into the PACKED_REGISTRY_TABLE (for types BINARY and STRING).
+  1234	 *
+  1235	 * All memory allocated by add_registry() is released.
+  1236	 */
+  1237	static void build_registry(struct nvkm_gsp *gsp, PACKED_REGISTRY_TABLE *registry)
+  1238	{
+  1239		struct registry_list_entry *reg, *n;
+  1240		size_t str_offset;
+  1241		unsigned int i = 0;
+  1242	
+  1243		registry->numEntries = list_count_nodes(&gsp->registry_list);
+  1244		str_offset = struct_size(registry, entries, registry->numEntries);
+  1245	
+  1246		list_for_each_entry_safe(reg, n, &gsp->registry_list, head) {
+  1247			registry->entries[i].type = reg->type;
+  1248			registry->entries[i].length = reg->vlen;
+  1249	
+  1250			/* Append the key name to the table */
+  1251			registry->entries[i].nameOffset = str_offset;
+  1252			memcpy((void *)registry + str_offset, reg->key, reg->klen);
+  1253			str_offset += reg->klen;
+  1254	
+  1255			switch (reg->type) {
+  1256			case REGISTRY_TABLE_ENTRY_TYPE_DWORD:
+  1257				registry->entries[i].data = reg->dword;
+  1258				break;
+  1259			case REGISTRY_TABLE_ENTRY_TYPE_BINARY:
+  1260			case REGISTRY_TABLE_ENTRY_TYPE_STRING:
+  1261				/* If the type is binary or string, also append the value */
+  1262				memcpy((void *)registry + str_offset, reg->binary, reg->vlen);
+  1263				registry->entries[i].data = str_offset;
+  1264				str_offset += reg->vlen;
+  1265				break;
+> 1266			default:
+  1267			}
+  1268	
+  1269			i++;
+  1270			list_del(&reg->head);
+  1271			kfree(reg);
+  1272		}
+  1273	
+  1274		/* Double-check that we calculated the sizes correctly */
+  1275		WARN_ON(gsp->registry_rpc_size != str_offset);
+  1276	
+  1277		registry->size = gsp->registry_rpc_size;
+  1278	}
+  1279	
 
 -- 
 0-DAY CI Kernel Test Service
