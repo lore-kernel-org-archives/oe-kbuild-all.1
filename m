@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632563D966;
-	Sat, 27 Apr 2024 03:27:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBBC3BBED
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Apr 2024 03:47:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714188446; cv=none; b=tiDpek3bJIAm+4+GOFWovYTgSNJGAFjWxsb+pn+y83f0HMUUxDHP8Ie8QA46pWczyVGI2a7uUTHrnk8BpBqUE/09LP2syn74oZAWJjpYRZPvyQml0ocgD3UkSFEdRgwJ2pyGy0wcf7ux4lv+VhyyvDbd6Es1IaonLY96rcBm88Q=
+	t=1714189647; cv=none; b=teicFvQ8JqIuq6/C1OEmcgSdQV4aDbZXo0mFuXAofFMDwGW0Ul3UmZ3DLKM4Ioxos+3NqceXosnRG8x9Ie/sd5XsRYhlAzhQHhem3WzCd7K6WNft4GPf55M2PS6E80xY0/N/eocI+P6NJ0ZQ9lyxhH9cSGERkZu2XMCVbpJzWlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714188446; c=relaxed/simple;
-	bh=bwY3Npzz2Gej71CBmwPkAL8Kw3nLv5f+pJV4aekd1zU=;
+	s=arc-20240116; t=1714189647; c=relaxed/simple;
+	bh=Hci8UxeEl1DmkB61E3Z5Yin1Hdth1d+hleZAKN2chrw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dHgp4lm0HDD5iP+/bWb0Guj21cBCdtkpam/qNW793hwozoq96MdhiYXSIG+fggETanuzXk67bsqrDKQO78u/1iWGQApgOqgEf+fCzzHm3XkD7+Ew3SGwmJ5GVZyeBu883IX9yDYB0fjZlmLTvHm7WONucXvkPv4gHNEd5VJIWes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cMTHwVaQ; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=I2ifN1P3yWhvQ7dzS4AZNY2UCwQ/3HcyROV4YAFQkGepqxYHf0ZYDWtxIiSQFP79EnrPp+tY15npwsgLrduG1w6l6qAPbkYGv+BWBacviJM9MPVO/3nlaQppdgsPu8HPRMzyzhw7Pv0l3w5pq69kJWy0InQNzrgGj0Br+7JwcWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EYPzr60M; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cMTHwVaQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EYPzr60M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714188444; x=1745724444;
+  t=1714189645; x=1745725645;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bwY3Npzz2Gej71CBmwPkAL8Kw3nLv5f+pJV4aekd1zU=;
-  b=cMTHwVaQ9L3vbBITarulJ+MVVYKyU0wMOoPZtZlpDdlySlW7JAwZMq0i
-   yHnq1aDlR2xUDu50ZmzFar14Jw8ss6JlPKCn6liUIwT+EvDgL++uup0Du
-   faniUZDoy3WwCTbxckI74wvWVUlolbdEogKA3EmYVS3zWpUIpkZNsFdm3
-   n0HyNpgu+pEo3f+zSkNrwBhmMmitCN5SQ4UjKEPyrkE94xsRpSWSv5UFV
-   xVpaCL6RnaGIk91ET+bAmLx1UhzdVXXHYDxMt6/rf4m+bFpUCVYA4hA/F
-   0fBGd3654HZOqrM2GKZNCSlkOTwGb0hO8/hMXKakQkLrg8ub3xp3vMczw
-   w==;
-X-CSE-ConnectionGUID: 3IbyAGH2Q9OlmheGdR04fA==
-X-CSE-MsgGUID: qPgf43k8SGaeRws+lycy7g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="13723660"
+  bh=Hci8UxeEl1DmkB61E3Z5Yin1Hdth1d+hleZAKN2chrw=;
+  b=EYPzr60MEc3hTXaXXjoYJn+Zoym1BxHy00f4w/OyjzxnTmt+mAwISJoR
+   RLq1fOJgsrvSra9sRg2wy/b+Ni8syZ1E5Uf8PYNX60cDFVIp1zw5ozh8k
+   6wBMQT6bo+x24k8q+YBvmnukTK+cR3ffwliMl+kHodhs37775tWg7Ltaa
+   ePhztoCm2nE6Dpai+ytjKJfCfDOCuaJG19s6Yu4EXw/7H3KqODvf99Qqe
+   GV5M0SKR3GC8Rj9RxviYQ4LQteZRw7eizXUMpLMLjqhJQ7nuNOFexXZfR
+   uGtFofybL9LfpeIo3uMnxwjLzMItQRDuEUZ2dDC5VNIvthOfatxbiPFjx
+   Q==;
+X-CSE-ConnectionGUID: KUWVcOFsS/edoW19MOMp5Q==
+X-CSE-MsgGUID: Sl13LvM3QOyqWsHDHNlFgA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="20545859"
 X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="13723660"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 20:27:24 -0700
-X-CSE-ConnectionGUID: lZc3D/6sQ0avYueMOyLW1g==
-X-CSE-MsgGUID: CDHgIDkfSUOttRYC4EKJ/w==
+   d="scan'208";a="20545859"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 20:47:25 -0700
+X-CSE-ConnectionGUID: 5T5vv9OpSs2omrdmY/ShbQ==
+X-CSE-MsgGUID: FufmCqDuSHO0QVfWQUyB1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="25592948"
+   d="scan'208";a="25684067"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Apr 2024 20:27:22 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 26 Apr 2024 20:47:24 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0Yid-0004bu-2R;
-	Sat, 27 Apr 2024 03:27:19 +0000
-Date: Sat, 27 Apr 2024 11:26:20 +0800
+	id 1s0Z20-0004d0-0j;
+	Sat, 27 Apr 2024 03:47:20 +0000
+Date: Sat, 27 Apr 2024 11:46:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Timur Tabi <ttabi@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>
-Subject: [drm-misc:for-linux-next 1/1]
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1266:11: error: label at end
- of compound statement: expected statement
-Message-ID: <202404271146.n4lVV4tO-lkp@intel.com>
+To: Perry Yuan <perry.yuan@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	linux-doc@vger.kernel.org
+Subject: [rafael-pm:bleeding-edge 183/186] drivers/cpufreq/amd-pstate.c:760:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202404271148.HK9yHBlB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,110 +68,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
-head:   61ba791c4a7a09a370c45b70a81b8c7d4cf6b2ae
-commit: b58a0bc904ffa091fc020f7fd00e91808fec820e [1/1] nouveau: add command-line GSP-RM registry support
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240427/202404271146.n4lVV4tO-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271146.n4lVV4tO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   d9e98e7641ce1ef34d0c33dae1f27611bd1cbcf9
+commit: 069a2bb8c48c43176f2f0e6cae5efe2f39f6bdf2 [183/186] cpufreq: amd-pstate: get transition delay and latency value from ACPI tables
+config: i386-buildonly-randconfig-002-20240427 (https://download.01.org/0day-ci/archive/20240427/202404271148.HK9yHBlB-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271148.HK9yHBlB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404271146.n4lVV4tO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404271148.HK9yHBlB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1266:11: error: label at end of compound statement: expected statement
-                   default:
-                           ^
-                            ;
-   1 error generated.
+>> drivers/cpufreq/amd-pstate.c:760: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Get pstate transition delay time from ACPI tables that firmware set
+   drivers/cpufreq/amd-pstate.c:775: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Get pstate transition latency value from ACPI tables that firmware
+   drivers/cpufreq/amd-pstate.c:801: warning: Function parameter or struct member 'cpudata' not described in 'amd_pstate_init_freq'
 
 
-vim +1266 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+vim +760 drivers/cpufreq/amd-pstate.c
 
-  1199	
-  1200	/**
-  1201	 * build_registry -- create the registry RPC data
-  1202	 * @gsp: gsp pointer
-  1203	 * @registry: pointer to the RPC payload to fill
-  1204	 *
-  1205	 * After all registry key/value pairs have been added, call this function to
-  1206	 * build the RPC.
-  1207	 *
-  1208	 * The registry RPC looks like this:
-  1209	 *
-  1210	 * +-----------------+
-  1211	 * |NvU32 size;      |
-  1212	 * |NvU32 numEntries;|
-  1213	 * +-----------------+
-  1214	 * +----------------------------------------+
-  1215	 * |PACKED_REGISTRY_ENTRY                   |
-  1216	 * +----------------------------------------+
-  1217	 * |Null-terminated key (string) for entry 0|
-  1218	 * +----------------------------------------+
-  1219	 * |Binary/string data value for entry 0    | (only if necessary)
-  1220	 * +----------------------------------------+
-  1221	 *
-  1222	 * +----------------------------------------+
-  1223	 * |PACKED_REGISTRY_ENTRY                   |
-  1224	 * +----------------------------------------+
-  1225	 * |Null-terminated key (string) for entry 1|
-  1226	 * +----------------------------------------+
-  1227	 * |Binary/string data value for entry 1    | (only if necessary)
-  1228	 * +----------------------------------------+
-  1229	 * ... (and so on, one copy for each entry)
-  1230	 *
-  1231	 *
-  1232	 * The 'data' field of an entry is either a 32-bit integer (for type DWORD)
-  1233	 * or an offset into the PACKED_REGISTRY_TABLE (for types BINARY and STRING).
-  1234	 *
-  1235	 * All memory allocated by add_registry() is released.
-  1236	 */
-  1237	static void build_registry(struct nvkm_gsp *gsp, PACKED_REGISTRY_TABLE *registry)
-  1238	{
-  1239		struct registry_list_entry *reg, *n;
-  1240		size_t str_offset;
-  1241		unsigned int i = 0;
-  1242	
-  1243		registry->numEntries = list_count_nodes(&gsp->registry_list);
-  1244		str_offset = struct_size(registry, entries, registry->numEntries);
-  1245	
-  1246		list_for_each_entry_safe(reg, n, &gsp->registry_list, head) {
-  1247			registry->entries[i].type = reg->type;
-  1248			registry->entries[i].length = reg->vlen;
-  1249	
-  1250			/* Append the key name to the table */
-  1251			registry->entries[i].nameOffset = str_offset;
-  1252			memcpy((void *)registry + str_offset, reg->key, reg->klen);
-  1253			str_offset += reg->klen;
-  1254	
-  1255			switch (reg->type) {
-  1256			case REGISTRY_TABLE_ENTRY_TYPE_DWORD:
-  1257				registry->entries[i].data = reg->dword;
-  1258				break;
-  1259			case REGISTRY_TABLE_ENTRY_TYPE_BINARY:
-  1260			case REGISTRY_TABLE_ENTRY_TYPE_STRING:
-  1261				/* If the type is binary or string, also append the value */
-  1262				memcpy((void *)registry + str_offset, reg->binary, reg->vlen);
-  1263				registry->entries[i].data = str_offset;
-  1264				str_offset += reg->vlen;
-  1265				break;
-> 1266			default:
-  1267			}
-  1268	
-  1269			i++;
-  1270			list_del(&reg->head);
-  1271			kfree(reg);
-  1272		}
-  1273	
-  1274		/* Double-check that we calculated the sizes correctly */
-  1275		WARN_ON(gsp->registry_rpc_size != str_offset);
-  1276	
-  1277		registry->size = gsp->registry_rpc_size;
-  1278	}
-  1279	
+   758	
+   759	/**
+ > 760	 * Get pstate transition delay time from ACPI tables that firmware set
+   761	 * instead of using hardcode value directly.
+   762	 */
+   763	static u32 amd_pstate_get_transition_delay_us(unsigned int cpu)
+   764	{
+   765		u32 transition_delay_ns;
+   766	
+   767		transition_delay_ns = cppc_get_transition_latency(cpu);
+   768		if (transition_delay_ns == CPUFREQ_ETERNAL)
+   769			return AMD_PSTATE_TRANSITION_DELAY;
+   770	
+   771		return transition_delay_ns / NSEC_PER_USEC;
+   772	}
+   773	
 
 -- 
 0-DAY CI Kernel Test Service
