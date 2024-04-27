@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C9F28F4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Apr 2024 19:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC3D3D3AC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Apr 2024 19:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714246674; cv=none; b=E2i2doU/f6v7i05GdUZmiZTIPu3zwJC0tfYgpDgKnhBsq44amMciuV9B/dhDBKnW4Kl6DJNe/nxO0oP608lLUOGiU4Q2IbT7sD0RkjEVMSfzOTN6sekRuzLSJPB24dqhXFBwNa7BCnKkcgo1B2ZmeQhV2d48MkI7ZG9G4E2kIhQ=
+	t=1714246734; cv=none; b=OJZNaRztpR76XgCqwrqpeEwa2CymNcPsSwQw03xdmwLkECvx4pR1gY4hMGnRplZIIufzALHjKM+SO2cv6B9cQL4xLugGZTLKclUexyyZw22IA6G4lxkJYfqLva3yJ4eCI3wLze2K433zFhekQ337M5qQ5caGmxtxCF1TFsMzslU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714246674; c=relaxed/simple;
-	bh=sStTVzZoTFHbd/ls6SX/4Kmr4TgoXVjxlBJWMkYQI38=;
+	s=arc-20240116; t=1714246734; c=relaxed/simple;
+	bh=P/sL2nF7Z9xmlV0kAu7qvhcfVM6+dD99BbljgkRniZ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OGS4uvlLYlSMsL4zmdQ7Ro3t6aX5L3Dj5V9HWvqis8UZTu/yVaFfZeHPgI9ABnz2rAwHNb/6d/amiW8Y53ShQ6pYdxMglPenyc7bwGyldV/N8/06r9W/v2031+P29G05w8VyMA27U2GgffVtK1Kv1MBeT2/UcKWYpIp8+N87bQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cVLS8Rl3; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=tiljcl3Ghjlognta4+pD0YOjbPHzmGpp5uqWZXZQs2X/SbjryYAyTcPuKC3/rVtem7XVCMFcS1fNf8SZDfz0KomRUl32jbYkXA8Jn6fnRC+oYAJLt8fLmlRtyGZXE/ryJNPyoG0YrLHAFSBxTetub9jP95jDZuF26tcWOifF+WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y2ycn5yI; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cVLS8Rl3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y2ycn5yI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714246672; x=1745782672;
+  t=1714246732; x=1745782732;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sStTVzZoTFHbd/ls6SX/4Kmr4TgoXVjxlBJWMkYQI38=;
-  b=cVLS8Rl33TXEYc8/vhKFPo0gtzOyt3C6hEzwpl9zyIm9tdOSNIIOmcoe
-   PZFh8U4gjiWDUtxJsgVmHVLKfKCOuH4Q95ZEaJhHQCMONQ1deflatMYwb
-   458+EM6YYK1233Lu7+uME8EUJ/tXN8hYhs1hK/5rNxbuK9PCTwpvscn3T
-   sdsiJ8pispTUPOZqxgLYMkmNKf2/X4A3eQU0CBaBSiWU47m3TK+gSPyeL
-   GGhaDeVpkcZxNUsAEioMQi04YyGr0pToujJwo6igpzLUzg1ZZ2oZBUwU4
-   9wpBh8f1yQ1ykTdZ4/Ma3/2nl8j8LSJRqEXNk6wpL0l6FLaQjsjk4/O3z
-   g==;
-X-CSE-ConnectionGUID: 2aUyTlKsRpyA/7FwKoXr5A==
-X-CSE-MsgGUID: esAZ0u6nSrCr9Amki9/Sxg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="35348351"
+  bh=P/sL2nF7Z9xmlV0kAu7qvhcfVM6+dD99BbljgkRniZ0=;
+  b=Y2ycn5yI41YxTlfi8mAGsf6xPVkRuNqZgc4mBJbUZmPapUip6Y44eouA
+   31hKh5JHAgYMamE9od1Qz6GOfdo66YkfsdGD/UQO7MvlVA0m8k0kT1CWG
+   n4IMnzqXho35UjPFuFp3OkPksWPHu3PTcjVj6jClFuuSeI6jL9flwd4TH
+   33wIQbORGhJeT9Cw47pa7KSn3NHLHZLnOmdVnOK/4pFClHL72/SLMOaxx
+   VJYNaitvaPi2aDQBdStisXxBkbViPv/iUW6FtP8hJe+xRuHqe4Cph2P/D
+   KjEbPBcM51HvE208VKBNWmfZg+dS7JGl+iTDElecE5uwCs5lXBHmgCu5J
+   w==;
+X-CSE-ConnectionGUID: TBPajxJjQ9uQJg1QBeZ9BQ==
+X-CSE-MsgGUID: krbHGzCbTAiVTqM9qx8X7A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="9807763"
 X-IronPort-AV: E=Sophos;i="6.07,236,1708416000"; 
-   d="scan'208";a="35348351"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2024 12:37:51 -0700
-X-CSE-ConnectionGUID: 0VwDU/9qSB2bxdxvGXELBQ==
-X-CSE-MsgGUID: AIRQhQl4QiSITCSi0MIaAg==
+   d="scan'208";a="9807763"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2024 12:38:51 -0700
+X-CSE-ConnectionGUID: CaTtUN/NSmmKKLleDSXw5Q==
+X-CSE-MsgGUID: YsegK8AjS4WrpwOkaI7nJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,236,1708416000"; 
-   d="scan'208";a="30535707"
+   d="scan'208";a="25797079"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 27 Apr 2024 12:37:49 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 27 Apr 2024 12:38:50 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0nrn-0005Qw-2G;
-	Sat, 27 Apr 2024 19:37:47 +0000
-Date: Sun, 28 Apr 2024 03:37:46 +0800
+	id 1s0nsl-0005R2-2O;
+	Sat, 27 Apr 2024 19:38:47 +0000
+Date: Sun, 28 Apr 2024 03:37:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 136/153]
- drivers/usb/typec/ucsi/cros_ec_ucsi.c:127:24: sparse: sparse: symbol
- 'cros_ucsi_ops' was not declared. Should it be static?
-Message-ID: <202404280306.To66RR4B-lkp@intel.com>
+To: Harsha Harsha <harsha.harsha@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS 986/991]
+ drivers/firmware/xilinx/zynqmp.c:510:16: warning: unused variable 'api_id'
+Message-ID: <202404280350.II89P3j6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,32 +63,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   7ec7b4b9d284b739801688bc0d8d02ead80edc06
-commit: c4305a040e64e8f28aef41db921b3de50d62e902 [136/153] CHROMIUM: usb: typec: Implement UCSI driver for ChromeOS
-config: x86_64-randconfig-122-20240428 (https://download.01.org/0day-ci/archive/20240428/202404280306.To66RR4B-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240428/202404280306.To66RR4B-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS
+head:   08ceadacc1da15a77045dee6654f9cd906906271
+commit: fc84226b26fa1b852ada58d04401d9660725549b [986/991] firmware: xilinx: Fix feature check for crypto drivers
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240428/202404280350.II89P3j6-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240428/202404280350.II89P3j6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404280306.To66RR4B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404280350.II89P3j6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/typec/ucsi/cros_ec_ucsi.c:127:24: sparse: sparse: symbol 'cros_ucsi_ops' was not declared. Should it be static?
-   drivers/usb/typec/ucsi/cros_ec_ucsi.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +/cros_ucsi_ops +127 drivers/usb/typec/ucsi/cros_ec_ucsi.c
+   drivers/firmware/xilinx/zynqmp.c: In function 'xlnx_get_crypto_dev_data':
+>> drivers/firmware/xilinx/zynqmp.c:510:16: warning: unused variable 'api_id' [-Wunused-variable]
+     510 |         u32 v, api_id;
+         |                ^~~~~~
 
-   126	
- > 127	struct ucsi_operations cros_ucsi_ops = {
-   128		.read = cros_ucsi_read,
-   129		.async_write = cros_ucsi_async_write,
-   130		.sync_write = cros_ucsi_sync_write,
-   131	};
-   132	
+
+vim +/api_id +510 drivers/firmware/xilinx/zynqmp.c
+
+03ffa9af3a5ff88 Dhaval Shah    2023-07-31  500  
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  501  /**
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  502   * xlnx_get_crypto_dev_data() - Get crypto dev data of platform
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  503   * @feature_map:	List of available feature map of all platform
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  504   *
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  505   * Return: Returns crypto dev data, either address crypto dev or ERR PTR
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  506   */
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  507  void *xlnx_get_crypto_dev_data(struct xlnx_feature *feature_map)
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  508  {
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  509  	struct xlnx_feature *feature;
+32cc91c6435a6e8 Dhaval Shah    2023-12-08 @510  	u32 v, api_id;
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  511  	int ret;
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  512  
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  513  	ret = zynqmp_pm_get_api_version(&v);
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  514  	if (ret)
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  515  		return ERR_PTR(ret);
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  516  
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  517  	feature = feature_map;
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  518  	for (; feature->family; feature++) {
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  519  		if (feature->family == pm_family_code &&
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  520  		    (feature->subfamily == ALL_SUB_FAMILY_CODE ||
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  521  		     feature->subfamily == pm_sub_family_code)) {
+116c4543d61c2f1 Mounika Botcha 2024-03-12  522  			if (feature->family == ZYNQMP_FAMILY_CODE ||
+116c4543d61c2f1 Mounika Botcha 2024-03-12  523  			    feature->family == VERSAL_FAMILY_CODE) {
+fc84226b26fa1b8 Harsha Harsha  2024-04-19  524  				ret = zynqmp_pm_feature(feature->feature_id);
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  525  				if (ret < 0)
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  526  					return ERR_PTR(ret);
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  527  			} else {
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  528  				return ERR_PTR(-ENODEV);
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  529  			}
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  530  
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  531  			return feature->data;
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  532  		}
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  533  	}
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  534  	return ERR_PTR(-ENODEV);
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  535  }
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  536  EXPORT_SYMBOL_GPL(xlnx_get_crypto_dev_data);
+32cc91c6435a6e8 Dhaval Shah    2023-12-08  537  
+
+:::::: The code at line 510 was first introduced by commit
+:::::: 32cc91c6435a6e8fbe03b9542ff79f8ad27b37ca firmware: xilinx: get platform information
+
+:::::: TO: Dhaval Shah <dhaval.r.shah@amd.com>
+:::::: CC: Michal Simek <michal.simek@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
