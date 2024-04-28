@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1698428FF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Apr 2024 12:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56AFE6CDA9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Apr 2024 13:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714307797; cv=none; b=YDPSZNJvW2sW+ydXrBU7M7hJLgBCUrm/aLh+Ym/C7jxx46tXMc7sufBSQzjbp9wfdiWsaVXPANVsW7dn1W7S9fyyzHe5PRS3OehfN3a/ZI7KtChBUAOOrcX8GtaSaM+YNGdLCg7KFz6IuTHT++ihU3mcDjNA+pVcmGBnpFfY1Z4=
+	t=1714312118; cv=none; b=gLVdOKqR++HTcyGfzPXhr6NNIp0pc5bf1ftianV2yzxtBzV7cobeLCMqTA0z59iJB1sb8gzpSI/Wp30UcJmjoJed93KnRaDoPfcl6TNGYQns4bGiWxWlM+4NrejFv3NKbMNyoJ4AqSlGF/V66DJOK8RNhAwb/V9OUJQkg8SJybE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714307797; c=relaxed/simple;
-	bh=V5NS7HI+EVHD6fkbWy3azlpBgYKOs8knpNf+mi4aB6Y=;
+	s=arc-20240116; t=1714312118; c=relaxed/simple;
+	bh=2vzOgWdpemXZFfbho6PoJYdknO/wne/lOiVFZHgVHlA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HsVIpKtYB1l46T+j2xNviHvGNbNjjwnKhGgpipHC2o6fnIBr9jeKlid0HImtfRNydhan0FpH+Ew16/9QeC0Hw6kyQ5W21WBGyLM7FbezPDknR9bYFdfEpT/oWjdF/CFxUu83mPiC9MDOZi+urrRiUEvZFXCQX3IvDcWQwdCI2o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D9U3fRsT; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=XLKiN+aE1OWrMis9VDtEwcWuXn+h5bAskKQXxz6dsruSfmvW4S/M5yB6kl60ZVUugi+Bofp9QRKSxQxTTeWbHxOPHvn7+TziEYYH4IORorTfZhfwB7wnx4oUsPaVT5CRItLsNvTy0TysAyeT2Im9bqpzUlQDQUQHfpHhuPGPT5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gHcfkTvh; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D9U3fRsT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gHcfkTvh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714307795; x=1745843795;
+  t=1714312115; x=1745848115;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=V5NS7HI+EVHD6fkbWy3azlpBgYKOs8knpNf+mi4aB6Y=;
-  b=D9U3fRsTa4jZLeK1qd/uLuzcC4xu1J3At3sIyu8K6CENiIOIkXD/+ybu
-   dkGUAll/GnJwEKpaXChthAJYefeczdqCKFXtOmL48VJ0IJThShBTGlEWc
-   iK0DQrFaA6ZRDELfuA2MHKqEzrfAMclDHT1wQSln8u+x/gYjoohgXyWLZ
-   jsYgWAHYpb6MzBiIj0xI7wBrefJ2wPBIqgb8RYDcMKx8nc649vpZaqQE2
-   48JFfs3ZHh0HmoqM3fEx0xC7ZyA/nLdVq2O6LmI/yqWZfimaU7IEjwIyu
-   q+XTahSCiCLD+7ozenSh6GTJF5V5bWwS3gMHL36hX5j10zL+LhpVnLY/+
-   Q==;
-X-CSE-ConnectionGUID: PV9Nr3UpQUGP3+ThuOpHNQ==
-X-CSE-MsgGUID: ZX3c/DHzTLSZBFtanxjP2g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="27501113"
+  bh=2vzOgWdpemXZFfbho6PoJYdknO/wne/lOiVFZHgVHlA=;
+  b=gHcfkTvh3hxVJQsOtNctpEv8kXCjeYZJ9+oRhlAD711bnQJ/I45QpXIZ
+   Lm4Q5TQmxrf934Dmlja6rDWsDYjthlVYbeANrl403/241raDRyhSM8SLg
+   lDbBkOyCnzzBVXimajBna1e6zHPAFbgE/Q6VzxYhNMhm7Ke5CBnLRqVPD
+   ju9bIT9QS/Ubz2CnarTqq4jnYPpVXlYcoSeq1XI3ApT+hRqUyTIfZzdZG
+   lB1ppthWLm0E2s98fHleg5sVjZR1Qqbw+HCfMNCjG0F+w6Wp1Jyf+cLuO
+   TkWUvRBBFfqNVo5vl6kTVM0Mv7bpBnP1ncNe1Z3xslhuG7w963K8Az2L3
+   g==;
+X-CSE-ConnectionGUID: fD3Z/wTTRI6UlYcGdU8GrQ==
+X-CSE-MsgGUID: CzTJF7ERRYSEO/H0vpniXQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="9815667"
 X-IronPort-AV: E=Sophos;i="6.07,237,1708416000"; 
-   d="scan'208";a="27501113"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 05:36:34 -0700
-X-CSE-ConnectionGUID: oRVEP+o7TjGKqOGhjLbLoA==
-X-CSE-MsgGUID: tKDI6wC4QL6JhQ2cGwi88g==
+   d="scan'208";a="9815667"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 06:48:34 -0700
+X-CSE-ConnectionGUID: HccF2XY7S+KJxRCyG21H6Q==
+X-CSE-MsgGUID: YBoh+wOjS62kyPSNf+OGpw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,237,1708416000"; 
-   d="scan'208";a="25861250"
+   d="scan'208";a="25950891"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 28 Apr 2024 05:36:32 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 28 Apr 2024 06:48:33 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s13ld-0006Ms-3C;
-	Sun, 28 Apr 2024 12:36:29 +0000
-Date: Sun, 28 Apr 2024 20:35:30 +0800
+	id 1s14tL-0006Og-0F;
+	Sun, 28 Apr 2024 13:48:31 +0000
+Date: Sun, 28 Apr 2024 21:48:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Shuai Wu <wushuai51@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 7603/7617]
- drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:10:
- warning: the current #pragma pack alignment value is modified in the
- included file
-Message-ID: <202404282049.k0qBLpt4-lkp@intel.com>
+Subject: [android-common:android15-6.6 11561/11584]
+ include/trace/stages/init.h:2:23: warning: 'str__sd__trace_system_name'
+ defined but not used
+Message-ID: <202404282157.jWpEaUvh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,377 +63,138 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   914551aad506a7dbdf214c9f49956ed47b8769b5
-commit: 5bc8dbb5fdf565625b2eea4080dbd70bade992b8 [7603/7617] infiniband/hw/hiroce3: Add Huawei Intelligent Network Card RDMA Driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240428/202404282049.k0qBLpt4-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240428/202404282049.k0qBLpt4-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   e1c0fd4e4964db2eb14c56a62e1a9cdb9d67445e
+commit: a1149b5511f3af6d42d2da9ea2c92615f1e38d33 [11561/11584] ANDROID: sd: Add vendor hooks
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240428/202404282157.jWpEaUvh-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240428/202404282157.jWpEaUvh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404282049.k0qBLpt4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404282157.jWpEaUvh-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_common.c:8:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
->> drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:9:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       9 | #include "roce_ccf_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_ccf_format.h:720:9: note: previous '#pragma pack' directive that modifies alignment is here
-     720 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_common.c:8:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:15:
->> drivers/infiniband/hw/hiroce3/include/rdma/roce_dif_format.h:9:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       9 | #include "roce_verbs_mr_attr.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_mr_attr.h:328:9: note: previous '#pragma pack' directive that modifies alignment is here
-     328 | #pragma pack()
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_common.c:8:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:15:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-      15 | #include "roce_dif_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_mr_attr.h:328:9: note: previous '#pragma pack' directive that modifies alignment is here
-     328 | #pragma pack()
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_common.c:8:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
->> drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       8 | #include "rdma_ext_ctx_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:377:9: note: previous '#pragma pack' directive that modifies alignment is here
-     377 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_common.c:8:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
->> drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       7 | #include "rdma_context_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:5179:9: note: previous '#pragma pack' directive that modifies alignment is here
-    5179 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_common.c:8:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:8:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       8 | #include "roce_verbs_pub.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_pub.h:223:9: note: previous '#pragma pack' directive that modifies alignment is here
-     223 | #pragma pack()
-         |         ^
-   6 warnings generated.
---
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_create.c:4:
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq.h:13:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
->> drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:9:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       9 | #include "roce_ccf_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_ccf_format.h:720:9: note: previous '#pragma pack' directive that modifies alignment is here
-     720 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_create.c:4:
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq.h:13:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:15:
->> drivers/infiniband/hw/hiroce3/include/rdma/roce_dif_format.h:9:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       9 | #include "roce_verbs_mr_attr.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_mr_attr.h:328:9: note: previous '#pragma pack' directive that modifies alignment is here
-     328 | #pragma pack()
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_create.c:4:
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq.h:13:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:15:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-      15 | #include "roce_dif_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_mr_attr.h:328:9: note: previous '#pragma pack' directive that modifies alignment is here
-     328 | #pragma pack()
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_create.c:4:
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq.h:13:
->> drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       8 | #include "rdma_ext_ctx_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:377:9: note: previous '#pragma pack' directive that modifies alignment is here
-     377 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_create.c:4:
->> drivers/infiniband/hw/hiroce3/cq/roce_cq.h:13:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-      13 | #include "rdma_context_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:5179:9: note: previous '#pragma pack' directive that modifies alignment is here
-    5179 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_create.c:4:
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq.h:15:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:8:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       8 | #include "roce_verbs_pub.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_pub.h:223:9: note: previous '#pragma pack' directive that modifies alignment is here
-     223 | #pragma pack()
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_create.c:4:
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq.h:15:
->> drivers/infiniband/hw/hiroce3/roce.h:30:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-      30 | #include "roce_verbs_cmd.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_pub.h:223:9: note: previous '#pragma pack' directive that modifies alignment is here
-     223 | #pragma pack()
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_create.c:4:
-   drivers/infiniband/hw/hiroce3/cq/roce_cq.h:15:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-      15 | #include "roce.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_attr.h:411:9: note: previous '#pragma pack' directive that modifies alignment is here
-     411 | #pragma pack()
-         |         ^
-   8 warnings generated.
---
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_destroy.c:8:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
->> drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:9:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       9 | #include "roce_ccf_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_ccf_format.h:720:9: note: previous '#pragma pack' directive that modifies alignment is here
-     720 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_destroy.c:8:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:15:
->> drivers/infiniband/hw/hiroce3/include/rdma/roce_dif_format.h:9:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       9 | #include "roce_verbs_mr_attr.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_mr_attr.h:328:9: note: previous '#pragma pack' directive that modifies alignment is here
-     328 | #pragma pack()
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_destroy.c:8:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:15:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-      15 | #include "roce_dif_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_mr_attr.h:328:9: note: previous '#pragma pack' directive that modifies alignment is here
-     328 | #pragma pack()
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_destroy.c:8:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
->> drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       8 | #include "rdma_ext_ctx_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:377:9: note: previous '#pragma pack' directive that modifies alignment is here
-     377 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_destroy.c:8:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
->> drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       7 | #include "rdma_context_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:5179:9: note: previous '#pragma pack' directive that modifies alignment is here
-    5179 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/cq/roce_cq_destroy.c:8:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:8:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       8 | #include "roce_verbs_pub.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_pub.h:223:9: note: previous '#pragma pack' directive that modifies alignment is here
-     223 | #pragma pack()
-         |         ^
->> drivers/infiniband/hw/hiroce3/cq/roce_cq_destroy.c:63:5: warning: no previous prototype for function 'roce3_cq_hw2sw' [-Wmissing-prototypes]
-      63 | int roce3_cq_hw2sw(struct roce3_device *rdev, struct roce3_cq *cq)
-         |     ^
-   drivers/infiniband/hw/hiroce3/cq/roce_cq_destroy.c:63:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      63 | int roce3_cq_hw2sw(struct roce3_device *rdev, struct roce3_cq *cq)
-         | ^
-         | static 
-   7 warnings generated.
---
-   In file included from drivers/infiniband/hw/hiroce3/roce_main.c:26:
-   In file included from drivers/infiniband/hw/hiroce3/roce_event.h:20:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
->> drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:9:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       9 | #include "roce_ccf_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_ccf_format.h:720:9: note: previous '#pragma pack' directive that modifies alignment is here
-     720 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/roce_main.c:26:
-   In file included from drivers/infiniband/hw/hiroce3/roce_event.h:20:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:15:
->> drivers/infiniband/hw/hiroce3/include/rdma/roce_dif_format.h:9:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       9 | #include "roce_verbs_mr_attr.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_mr_attr.h:328:9: note: previous '#pragma pack' directive that modifies alignment is here
-     328 | #pragma pack()
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/roce_main.c:26:
-   In file included from drivers/infiniband/hw/hiroce3/roce_event.h:20:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:15:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-      15 | #include "roce_dif_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_mr_attr.h:328:9: note: previous '#pragma pack' directive that modifies alignment is here
-     328 | #pragma pack()
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/roce_main.c:26:
-   In file included from drivers/infiniband/hw/hiroce3/roce_event.h:20:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
->> drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       8 | #include "rdma_ext_ctx_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:377:9: note: previous '#pragma pack' directive that modifies alignment is here
-     377 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/roce_main.c:26:
-   In file included from drivers/infiniband/hw/hiroce3/roce_event.h:20:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
->> drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       7 | #include "rdma_context_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:5179:9: note: previous '#pragma pack' directive that modifies alignment is here
-    5179 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/roce_main.c:26:
-   In file included from drivers/infiniband/hw/hiroce3/roce_event.h:20:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:8:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       8 | #include "roce_verbs_pub.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_pub.h:223:9: note: previous '#pragma pack' directive that modifies alignment is here
-     223 | #pragma pack()
-         |         ^
->> drivers/infiniband/hw/hiroce3/roce_main.c:1256:6: warning: no previous prototype for function 'roce3_need_proc_link_event' [-Wmissing-prototypes]
-    1256 | bool roce3_need_proc_link_event(void *hwdev)
-         |      ^
-   drivers/infiniband/hw/hiroce3/roce_main.c:1256:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1256 | bool roce3_need_proc_link_event(void *hwdev)
-         | ^
-         | static 
->> drivers/infiniband/hw/hiroce3/roce_main.c:1296:6: warning: no previous prototype for function 'roce3_need_proc_bond_event' [-Wmissing-prototypes]
-    1296 | bool roce3_need_proc_bond_event(void *hwdev)
-         |      ^
-   drivers/infiniband/hw/hiroce3/roce_main.c:1296:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1296 | bool roce3_need_proc_bond_event(void *hwdev)
-         | ^
-         | static 
->> drivers/infiniband/hw/hiroce3/roce_main.c:1401:6: warning: no previous prototype for function 'roce3_event' [-Wmissing-prototypes]
-    1401 | void roce3_event(struct hinic3_lld_dev *lld_dev, void *uld_dev, struct hinic3_event_info *event)
-         |      ^
-   drivers/infiniband/hw/hiroce3/roce_main.c:1401:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1401 | void roce3_event(struct hinic3_lld_dev *lld_dev, void *uld_dev, struct hinic3_event_info *event)
-         | ^
-         | static 
-   9 warnings generated.
---
-   In file included from drivers/infiniband/hw/hiroce3/mr/roce_mr.c:4:
-   In file included from drivers/infiniband/hw/hiroce3/mr/roce_mr.h:15:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
->> drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:9:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       9 | #include "roce_ccf_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_ccf_format.h:720:9: note: previous '#pragma pack' directive that modifies alignment is here
-     720 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/mr/roce_mr.c:4:
-   In file included from drivers/infiniband/hw/hiroce3/mr/roce_mr.h:15:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:15:
->> drivers/infiniband/hw/hiroce3/include/rdma/roce_dif_format.h:9:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       9 | #include "roce_verbs_mr_attr.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_mr_attr.h:328:9: note: previous '#pragma pack' directive that modifies alignment is here
-     328 | #pragma pack()
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/mr/roce_mr.c:4:
-   In file included from drivers/infiniband/hw/hiroce3/mr/roce_mr.h:15:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:15:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-      15 | #include "roce_dif_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_mr_attr.h:328:9: note: previous '#pragma pack' directive that modifies alignment is here
-     328 | #pragma pack()
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/mr/roce_mr.c:4:
-   In file included from drivers/infiniband/hw/hiroce3/mr/roce_mr.h:15:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   In file included from drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:
->> drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:8:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       8 | #include "rdma_ext_ctx_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_ext_ctx_format.h:377:9: note: previous '#pragma pack' directive that modifies alignment is here
-     377 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/mr/roce_mr.c:4:
-   In file included from drivers/infiniband/hw/hiroce3/mr/roce_mr.h:15:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
->> drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:7:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       7 | #include "rdma_context_format.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h:5179:9: note: previous '#pragma pack' directive that modifies alignment is here
-    5179 | #pragma pack(0)
-         |         ^
-   In file included from drivers/infiniband/hw/hiroce3/mr/roce_mr.c:4:
-   In file included from drivers/infiniband/hw/hiroce3/mr/roce_mr.h:15:
-   In file included from drivers/infiniband/hw/hiroce3/roce.h:30:
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_cmd.h:8:10: warning: the current #pragma pack alignment value is modified in the included file [-Wpragma-pack]
-       8 | #include "roce_verbs_pub.h"
-         |          ^
-   drivers/infiniband/hw/hiroce3/include/rdma/roce_verbs_pub.h:223:9: note: previous '#pragma pack' directive that modifies alignment is here
-     223 | #pragma pack()
-         |         ^
->> drivers/infiniband/hw/hiroce3/mr/roce_mr.c:914:5: warning: no previous prototype for function 'roce3_check_mr_status' [-Wmissing-prototypes]
-     914 | int roce3_check_mr_status(struct ib_mr *ibmr, u32 check_mask, struct ib_mr_status *mr_status)
-         |     ^
-   drivers/infiniband/hw/hiroce3/mr/roce_mr.c:914:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     914 | int roce3_check_mr_status(struct ib_mr *ibmr, u32 check_mask, struct ib_mr_status *mr_status)
-         | ^
-         | static 
-   7 warnings generated.
-..
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sd.h:32,
+                    from drivers/android/vendor_hooks.c:65:
+>> include/trace/stages/init.h:2:23: warning: 'str__sd__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/compaction.h:20,
+                    from drivers/android/vendor_hooks.c:64:
+   include/trace/stages/init.h:2:23: warning: 'str__compaction__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/dmabuf.h:20,
+                    from drivers/android/vendor_hooks.c:63:
+   include/trace/stages/init.h:2:23: warning: 'str__dmabuf__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/logbuf.h:25,
+                    from drivers/android/vendor_hooks.c:62:
+   include/trace/stages/init.h:2:23: warning: 'str__logbuf__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/signal.h:19,
+                    from drivers/android/vendor_hooks.c:61:
+   include/trace/stages/init.h:2:23: warning: 'str__signal__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/gzvm.h:16,
+                    from drivers/android/vendor_hooks.c:60:
+   include/trace/stages/init.h:2:23: warning: 'str__gzvm__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
 
 
-vim +8 drivers/infiniband/hw/hiroce3/include/rdma/rdma_context_format.h
+vim +/str__sd__trace_system_name +2 include/trace/stages/init.h
 
-     6	
-     7	#include "roce_hmm_context.h"
-   > 8	#include "rdma_ext_ctx_format.h"
-     9	
-    10	
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
