@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507F2AD5D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Apr 2024 21:41:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6BD33C8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Apr 2024 21:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714340515; cv=none; b=AUdzEUmClryLYebEdZ4TuxewN7uFDGO7uPOvN6JDTNkbmDpiiZULspU95wEmP01xY7C5EvKc6ub0rzDyuR0mYHtEWiO4vDpk1LafD9U78r/x5UAwYTuqBIwEmdh+kKiqQ8rqAAecHH5aW1s9secpeTeigJv1lUaBgnhyUtEMT/4=
+	t=1714340578; cv=none; b=hxdKp4FuDLVRfHxZXjgqKg0ZyvggWqNdXElMr7wPVY1J6/OhHRJeHurctEqUFM+5V+lZ6kAoK3I4NeR70R61+4iolN/Y6HxRODElouhrxCYt1eBMBRJWRmJeAu2yPHCu8XqkQwd3WFIv74w4T902Wlc0SX/lulr0Q+rHQ+CpTqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714340515; c=relaxed/simple;
-	bh=1fOn/wQQOinF2nzqDMpP0fWE4xtQ5ydUo22GvfCp0VA=;
+	s=arc-20240116; t=1714340578; c=relaxed/simple;
+	bh=uaPCDs77+kHfdLIu41wEQEPMlURH8ZCJpdTN8aS9Rg8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fi4aCiO9oelWAlqo8U4VmnzcBc2ejoMWtphYcl2Xjb160N5oktIbHXmT9/DS7SpzWijcYGtc0UrqZAEZm9xTuO3Lzfn+5O/tc74TicJAxoFHEDQBYvYdiJgEz2uG++V6vey6vkc4rwvRqwq45yU6JGcRTIdbydMs/jXH/SISKg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OSztrjXy; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=gH7igxIgNYhK3FG6q2vXoE7SKpfMA1HALnSqW+NImAlXXb+wCAbmRv2co+itA3LsGXUZalnhqrdt8lvYG/yUvNXjGfoLOLhA5q8HBq6DhWLpjFEi7aoezGp+EvGVZAIYwzF7AupyEU2z0giLnJ0fN5MPwOJLTIXZEd6lEyS/OY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BgVXAMJt; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OSztrjXy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BgVXAMJt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714340514; x=1745876514;
+  t=1714340575; x=1745876575;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1fOn/wQQOinF2nzqDMpP0fWE4xtQ5ydUo22GvfCp0VA=;
-  b=OSztrjXyTuxh3H2CuD0E2Un/Ojb83TeEwneQ2R2LCvwlHQKUazlRC9wL
-   W4iunr20zWOZUdSTvU9iyQqmrnfvVnHqzT4enGulUd6op1ef36qyn9x2f
-   62YEG9t2Rtwsdc/zAPNVmNaCTB2tkcCOq4XqRDwrEOLM1ikNzKNGtg6T3
-   c2el0IIALEIywS7+RtxAbTjziKkxRkTvXH5xEQGYnMWfHDNjBRS22v7Ia
-   tAV1eZZ5kMGHF3JDxwvo8bkNxnSGMeT54OCU9KyenWop5edLy2osmzSb0
-   vLoAkirekm7c8cD/32gYYaOGRSN5fCs0MA1j/4ffbOEGRQZbd8OdMe7FF
-   w==;
-X-CSE-ConnectionGUID: Mt3X9yOgRqe76zy+Pe8uYA==
-X-CSE-MsgGUID: VsNjwcAXTiSolyMBl6aSTw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="21406403"
+  bh=uaPCDs77+kHfdLIu41wEQEPMlURH8ZCJpdTN8aS9Rg8=;
+  b=BgVXAMJtWXaPTdz15tJEzahA4jSg14j/ioDFXwsjw1ZoJoKDmzFVc/J4
+   S5WcmDHehxYTOAALTW5qH972uisSVrWtj5G+UELrdSm5PtFASATZzX5rT
+   gJvklSNPFYbQpEckXxrJKkU5xwRZ3Cwvk66I7DkBRSxOvisEcEd6WpxWm
+   GwwJTSTcS2EIK2eAIB37k9XNC1gKWlGWDGb8UeSwsJazAH7MLSF1AZKgb
+   9JR4XfOHcMXtHIdVnsO+ar6YJPpwp6B/FOLCmYdciWp7cAEPosEyBT3XW
+   fB8ayXortl/UVMj5J4jcvkazQFYqgFwwUIsJN91tnT5R7pScUTKomN81M
+   Q==;
+X-CSE-ConnectionGUID: YaO5/4JFS0m4bP10c86xDg==
+X-CSE-MsgGUID: DGSUEiEeRE2qqYgPecWjFg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="21410785"
 X-IronPort-AV: E=Sophos;i="6.07,238,1708416000"; 
-   d="scan'208";a="21406403"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 14:41:53 -0700
-X-CSE-ConnectionGUID: lG6h8NT5T7yZ50PEVP5m5A==
-X-CSE-MsgGUID: NCrZH/UKSnO+w8PFd4mHtg==
+   d="scan'208";a="21410785"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 14:42:54 -0700
+X-CSE-ConnectionGUID: OQLGs7g0Tp+n9fFKWIyhsQ==
+X-CSE-MsgGUID: NoYrhZfzRpm7g+yRsseAOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,238,1708416000"; 
-   d="scan'208";a="26441180"
+   d="scan'208";a="25944742"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 28 Apr 2024 14:41:51 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 28 Apr 2024 14:42:53 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1CHM-0006l8-1L;
-	Sun, 28 Apr 2024 21:41:48 +0000
-Date: Mon, 29 Apr 2024 05:41:43 +0800
+	id 1s1CIM-0006lC-2G;
+	Sun, 28 Apr 2024 21:42:50 +0000
+Date: Mon, 29 Apr 2024 05:42:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nick Terrell <terrelln@meta.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 8878/8890]
- include/asm-generic/io.h:1184:(.text+0x2c36): dangerous relocation: windowed
- longcall crosses 1GB boundary; return may fail: (.xiptext+0x14c8)
-Message-ID: <202404290508.KXWwv1Xb-lkp@intel.com>
+To: kernel@openeuler.org, xiaohuihui-bzwx-kj <xiaohuihui@bzwx-kj.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 7604/7619]
+ drivers/net/ethernet/bzwx/nce/comm/txrx.c:555:6: warning: no previous
+ prototype for function 'ne6x_alloc_rx_buffers'
+Message-ID: <202404290504.ddwqObly-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,198 +63,435 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bb7a2467e6beef44a80a17d45ebf2931e7631083
-commit: f2542a582d5a5d11b801373c5beba08e64daee4c [8878/8890] Merge branch 'zstd-next' of https://github.com/terrelln/linux.git
-config: xtensa-randconfig-r032-20211011 (https://download.01.org/0day-ci/archive/20240429/202404290508.KXWwv1Xb-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240429/202404290508.KXWwv1Xb-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   f120c2ab14341c60bcc055c700c0a29dce5837ac
+commit: 6da1ac3422090c928e2aa5ea5538884a316d3d4e [7604/7619] drivers: fix compiling problem in bzwx N5/N6 series NIC drivers
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240429/202404290504.ddwqObly-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240429/202404290504.ddwqObly-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404290508.KXWwv1Xb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404290504.ddwqObly-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/mtd/chips/cfi_util.o:drivers/mtd/chips/cfi_util.c:287:(.xiptext+0x16): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   drivers/mtd/chips/cfi_util.o: in function `cfi_qry_mode_off':
-   drivers/mtd/chips/cfi_util.c:288:(.xiptext+0x2e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:289:(.xiptext+0x44): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:293:(.xiptext+0x82): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:221:(.xiptext+0xca): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   drivers/mtd/chips/cfi_util.o: in function `cfi_qry_present':
-   drivers/mtd/chips/cfi_util.c:221:(.xiptext+0xde): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_util.c:226:(.xiptext+0xee): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_util.c:226:(.xiptext+0xfe): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_util.o: in function `cfi_qry_present':
-   include/asm-generic/io.h:133:(.xiptext+0x1ba): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text.unlikely+0x10)
-   drivers/mtd/chips/cfi_util.o: in function `cfi_qry_present':
-   drivers/mtd/chips/cfi_util.c:244:(.xiptext+0x246): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   drivers/mtd/chips/cfi_util.c:249:(.xiptext+0x25e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:249:(.xiptext+0x273): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.o: in function `cfi_qry_mode_on':
-   drivers/mtd/chips/cfi_util.c:250:(.xiptext+0x2a3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:251:(.xiptext+0x2b8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:252:(.xiptext+0x2cf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:257:(.xiptext+0x308): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:258:(.xiptext+0x31e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:259:(.xiptext+0x34e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:263:(.xiptext+0x364): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:264:(.xiptext+0x37a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:267:(.xiptext+0x390): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:269:(.xiptext+0x3c0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:270:(.xiptext+0x3d6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:271:(.xiptext+0x3ec): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:271:(.xiptext+0x402): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_util.c:278:(.xiptext+0x45e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   drivers/mtd/chips/cfi_util.c:282:(.xiptext+0x496): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   drivers/mtd/chips/cfi_util.c:299:(.xiptext+0x4aa): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __kmalloc_noprof
-   drivers/mtd/chips/cfi_util.o: in function `cfi_read_pri':
-   drivers/mtd/chips/cfi_util.c:309:(.xiptext+0x4ea): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_off
-   drivers/mtd/chips/cfi_util.c:312:(.xiptext+0x526): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x4fc)
-   drivers/mtd/chips/cfi_util.o: in function `cfi_read_pri':
-   include/linux/mtd/cfi.h:313:(.xiptext+0x5ba): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x4fc)
-   include/linux/mtd/cfi.h:319:(.xiptext+0x5c0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_on
-   drivers/mtd/chips/cfi_cmdset_0020.o: in function `cfi_staa_setup':
-   drivers/mtd/chips/cfi_cmdset_0020.c:241:(.text+0x88f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_read_pri
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `kmalloc_array_noprof':
-   include/linux/slab.h:695:(.text+0x4fe): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_read_pri
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `fwh_xxlock_oneblock':
-   drivers/mtd/chips/fwh_lock.h:77:(.text+0x2a0e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x14c8)
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `cfi_intelext_read':
-   drivers/mtd/chips/cfi_cmdset_0001.c:1556:(.text+0x2b37): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x14c8)
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `cfi_intelext_read':
->> include/asm-generic/io.h:1184:(.text+0x2c36): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x14c8)
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `cfi_intelext_destroy':
-   drivers/mtd/chips/cfi_cmdset_0001.c:2687:(.text+0x316a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x1988)
-   drivers/mtd/chips/cfi_cmdset_0001.o:drivers/mtd/chips/cfi_cmdset_0001.c:1134:(.xiptext+0x2a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `xip_enable':
-   drivers/mtd/chips/cfi_cmdset_0001.c:1136:(.xiptext+0x4b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `xip_enable':
-   include/asm-generic/io.h:168:(.xiptext+0xae): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text.unlikely+0x60)
-   include/asm-generic/io.h:133:(.xiptext+0x126): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text.unlikely+0x3c)
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `xip_enable':
-   include/linux/mtd/map.h:397:(.xiptext+0x12c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_on
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `xip_enable':
-   drivers/mtd/chips/cfi_cmdset_0001.c:1143:(.xiptext+0x14a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_getlockstatus_oneblock':
-   include/linux/mtd/map.h:395:(.xiptext+0x1c7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_off
-   include/linux/mtd/map.h:398:(.xiptext+0x1de): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   include/linux/mtd/map.h:415:(.xiptext+0x242): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text.unlikely+0x60)
-   include/linux/mtd/map.h:395:(.xiptext+0x2e6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text.unlikely+0x3c)
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_getlockstatus_oneblock':
-   drivers/mtd/chips/cfi_cmdset_0001.c:2104:(.xiptext+0x37e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   drivers/mtd/chips/cfi_cmdset_0001.c:2104:(.xiptext+0x39c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `xip_wait_for_operation':
-   drivers/mtd/chips/cfi_cmdset_0001.c:1170:(.xiptext+0x447): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.c:1176:(.xiptext+0x4c2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `xip_wait_for_operation':
-   include/linux/mtd/map.h:394:(.xiptext+0x67f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text.unlikely+0x3c)
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `xip_wait_for_operation':
-   include/asm-generic/io.h:133:(.xiptext+0x6e2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   include/asm-generic/io.h:133:(.xiptext+0x706): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `xip_wait_for_operation':
-   drivers/mtd/chips/cfi_cmdset_0001.c:1215:(.xiptext+0x78c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `xip_wait_for_operation':
-   include/linux/mtd/map.h:415:(.xiptext+0x85a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text.unlikely+0x3c)
-   include/linux/mtd/map.h:415:(.xiptext+0x866): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_on
-   include/linux/mtd/map.h:417:(.xiptext+0x87b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   include/linux/mtd/map.h:417:(.xiptext+0x881): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __cond_resched
-   include/linux/mtd/map.h:417:(.xiptext+0x88b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock_nested
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `xip_wait_for_operation':
-   include/asm-generic/io.h:133:(.xiptext+0x8e3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: add_wait_queue
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `xip_wait_for_operation':
-   include/linux/mtd/map.h:397:(.xiptext+0x8eb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   include/linux/mtd/map.h:397:(.xiptext+0x8f1): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: schedule
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `xip_wait_for_operation':
-   drivers/mtd/chips/cfi_cmdset_0001.c:1224:(.xiptext+0x8fc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: remove_wait_queue
-   drivers/mtd/chips/cfi_cmdset_0001.c:1237:(.xiptext+0x906): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock_nested
-   drivers/mtd/chips/cfi_cmdset_0001.c:1236:(.xiptext+0x92f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_off
-   drivers/mtd/chips/cfi_cmdset_0001.c:1246:(.xiptext+0x956): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.c:1246:(.xiptext+0x9d2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `xip_wait_for_operation':
-   include/linux/mtd/map.h:418:(.xiptext+0xa4a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text.unlikely+0x60)
-   include/linux/mtd/map.h:417:(.xiptext+0xade): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text.unlikely+0x3c)
-   include/linux/mtd/map.h:397:(.xiptext+0xb6a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `xip_wait_for_operation':
-   drivers/mtd/chips/cfi_cmdset_0001.c:1263:(.xiptext+0xb88): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock_nested
-   drivers/mtd/chips/cfi_cmdset_0001.c:1264:(.xiptext+0xb97): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x21e4)
-   drivers/mtd/chips/cfi_cmdset_0001.c:1266:(.xiptext+0xbae): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0001.c:2123:(.xiptext+0xc3b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text.unlikely+0x3c)
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_xxlock_oneblock':
-   drivers/mtd/chips/cfi_cmdset_0001.c:2131:(.xiptext+0xc56): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_off
-   drivers/mtd/chips/cfi_cmdset_0001.c:2131:(.xiptext+0xc6e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_xxlock_oneblock':
-   include/linux/mtd/map.h:393:(.xiptext+0xcde): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   include/linux/mtd/map.h:413:(.xiptext+0xd5e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   include/linux/mtd/map.h:415:(.xiptext+0xd83): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_xxlock_oneblock':
-   include/asm-generic/io.h:159:(.xiptext+0xd8c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: panic
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_xxlock_oneblock':
-   include/linux/mtd/map.h:413:(.xiptext+0xde7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text.unlikely+0x60)
-   include/linux/mtd/map.h:417:(.xiptext+0xe28): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_xxlock_oneblock':
-   drivers/mtd/chips/cfi_cmdset_0001.c:2145:(.xiptext+0xe36): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x1334)
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_xxlock_oneblock':
-   include/linux/mtd/map.h:413:(.xiptext+0xe4e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   include/linux/mtd/map.h:415:(.xiptext+0xe8e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x1954)
-   include/linux/mtd/map.h:415:(.xiptext+0xe96): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_xxlock_oneblock':
-   drivers/mtd/chips/cfi_cmdset_0001.c:2165:(.xiptext+0xeee): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   drivers/mtd/chips/cfi_cmdset_0001.c:2167:(.xiptext+0xf0e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock_nested
-   drivers/mtd/chips/cfi_cmdset_0001.c:2167:(.xiptext+0xf1c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x21e4)
-   drivers/mtd/chips/cfi_cmdset_0001.c:2170:(.xiptext+0xf36): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0001.c:1954:(.xiptext+0xfee): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_off
-   drivers/mtd/chips/cfi_cmdset_0001.c:1954:(.xiptext+0x1003): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_erase_oneblock':
-   drivers/mtd/chips/cfi_cmdset_0001.c:1954:(.xiptext+0x1066): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.c:1970:(.xiptext+0x10c7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.c:1129:(.xiptext+0x115c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.c:1975:(.xiptext+0x116a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x1334)
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_erase_oneblock':
-   include/asm-generic/io.h:151:(.xiptext+0x1182): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_erase_oneblock':
-   include/linux/mtd/map.h:415:(.xiptext+0x119c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   include/linux/mtd/map.h:416:(.xiptext+0x1257): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text.unlikely+0x3c)
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_erase_oneblock':
-   include/asm-generic/io.h:160:(.xiptext+0x1263): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_erase_oneblock':
-   include/linux/mtd/map.h:427:(.xiptext+0x1284): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_merge_status
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_erase_oneblock':
-   drivers/mtd/chips/cfi_cmdset_0001.c:1980:(.xiptext+0x1292): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_erase_oneblock':
-   include/linux/mtd/map.h:414:(.xiptext+0x1314): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_erase_oneblock':
+   In file included from drivers/net/ethernet/bzwx/nce/comm/txrx.c:4:
+   In file included from drivers/net/ethernet/bzwx/nce/comm/txrx.h:10:
+   In file included from include/linux/pci.h:1663:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2204:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/bzwx/nce/comm/txrx.c:555:6: warning: no previous prototype for function 'ne6x_alloc_rx_buffers' [-Wmissing-prototypes]
+     555 | bool ne6x_alloc_rx_buffers(struct ne6x_ring *rx_ring, u16 cleaned_count)
+         |      ^
+   drivers/net/ethernet/bzwx/nce/comm/txrx.c:555:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     555 | bool ne6x_alloc_rx_buffers(struct ne6x_ring *rx_ring, u16 cleaned_count)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/comm/txrx.c:1122:6: warning: no previous prototype for function 'ne6x_unmap_and_free_tx_resource' [-Wmissing-prototypes]
+    1122 | void ne6x_unmap_and_free_tx_resource(struct ne6x_ring *ring,
+         |      ^
+   drivers/net/ethernet/bzwx/nce/comm/txrx.c:1122:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1122 | void ne6x_unmap_and_free_tx_resource(struct ne6x_ring *ring,
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/comm/txrx.c:1147:5: warning: no previous prototype for function 'ne6x_fill_jumbo_sgl' [-Wmissing-prototypes]
+    1147 | int ne6x_fill_jumbo_sgl(struct ne6x_ring *tx_ring, struct sk_buff *skb)
+         |     ^
+   drivers/net/ethernet/bzwx/nce/comm/txrx.c:1147:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1147 | int ne6x_fill_jumbo_sgl(struct ne6x_ring *tx_ring, struct sk_buff *skb)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/comm/txrx.c:1247:6: warning: no previous prototype for function 'ne6x_fill_tx_desc' [-Wmissing-prototypes]
+    1247 | void ne6x_fill_tx_desc(struct ne6x_tx_desc *tx_desc, u8 vp, dma_addr_t tag_dma,
+         |      ^
+   drivers/net/ethernet/bzwx/nce/comm/txrx.c:1247:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1247 | void ne6x_fill_tx_desc(struct ne6x_tx_desc *tx_desc, u8 vp, dma_addr_t tag_dma,
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/comm/txrx.c:1266:6: warning: no previous prototype for function 'ne6x_fill_tx_priv_tag' [-Wmissing-prototypes]
+    1266 | void ne6x_fill_tx_priv_tag(struct ne6x_ring *tx_ring, struct ne6x_tx_tag *tx_tag,
+         |      ^
+   drivers/net/ethernet/bzwx/nce/comm/txrx.c:1266:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1266 | void ne6x_fill_tx_priv_tag(struct ne6x_ring *tx_ring, struct ne6x_tx_tag *tx_tag,
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/comm/txrx.c:1281:6: warning: no previous prototype for function 'ne6x_xmit_jumbo' [-Wmissing-prototypes]
+    1281 | void ne6x_xmit_jumbo(struct ne6x_ring *tx_ring, struct ne6x_tx_buf *first,
+         |      ^
+   drivers/net/ethernet/bzwx/nce/comm/txrx.c:1281:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1281 | void ne6x_xmit_jumbo(struct ne6x_ring *tx_ring, struct ne6x_tx_buf *first,
+         | ^
+         | static 
+   drivers/net/ethernet/bzwx/nce/comm/txrx.c:1378:33: warning: variable 'first_desc' set but not used [-Wunused-but-set-variable]
+    1378 |         struct ne6x_tx_desc *tx_desc, *first_desc;
+         |                                        ^
+   drivers/net/ethernet/bzwx/nce/comm/txrx.c:1387:9: warning: variable 'mss' set but not used [-Wunused-but-set-variable]
+    1387 |         __le64 mss = 0;
+         |                ^
+>> drivers/net/ethernet/bzwx/nce/comm/txrx.c:1373:6: warning: no previous prototype for function 'ne6x_xmit_simple' [-Wmissing-prototypes]
+    1373 | void ne6x_xmit_simple(struct ne6x_ring *tx_ring, struct ne6x_tx_buf *first,
+         |      ^
+   drivers/net/ethernet/bzwx/nce/comm/txrx.c:1373:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1373 | void ne6x_xmit_simple(struct ne6x_ring *tx_ring, struct ne6x_tx_buf *first,
+         | ^
+         | static 
+   drivers/net/ethernet/bzwx/nce/comm/txrx.c:150:28: warning: unused function 'ne6x_txd_use_count' [-Wunused-function]
+     150 | static inline unsigned int ne6x_txd_use_count(unsigned int size)
+         |                            ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/bzwx/nce/comm/txrx.c:156:20: warning: unused function 'ne6x_chk_linearize' [-Wunused-function]
+     156 | static inline bool ne6x_chk_linearize(struct sk_buff *skb, int count)
+         |                    ^~~~~~~~~~~~~~~~~~
+   16 warnings generated.
+--
+   In file included from drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:4:
+   In file included from include/net/gre.h:5:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm64/include/asm/cacheflush.h:11:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2204:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:68:5: warning: no previous prototype for function 'ne6x_hw_init' [-Wmissing-prototypes]
+      68 | int ne6x_hw_init(struct ne6x_hw *hw)
+         |     ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:68:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      68 | int ne6x_hw_init(struct ne6x_hw *hw)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:92:5: warning: no previous prototype for function 'ne6x_aq_get_phy_capabilities' [-Wmissing-prototypes]
+      92 | int ne6x_aq_get_phy_capabilities(struct ne6x_adapter *adpt, bool is_up, bool get_hw_stats)
+         |     ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:92:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      92 | int ne6x_aq_get_phy_capabilities(struct ne6x_adapter *adpt, bool is_up, bool get_hw_stats)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:144:5: warning: no previous prototype for function 'ne6x_aq_get_vf_link_status' [-Wmissing-prototypes]
+     144 | int ne6x_aq_get_vf_link_status(struct ne6x_adapter *adpt, bool is_up)
+         |     ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:144:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     144 | int ne6x_aq_get_vf_link_status(struct ne6x_adapter *adpt, bool is_up)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:216:6: warning: no previous prototype for function 'ne6x_print_link_message' [-Wmissing-prototypes]
+     216 | void ne6x_print_link_message(struct ne6x_adapter *adpt, bool isup)
+         |      ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:216:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     216 | void ne6x_print_link_message(struct ne6x_adapter *adpt, bool isup)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:497:5: warning: no previous prototype for function 'ne6x_pf_init' [-Wmissing-prototypes]
+     497 | int ne6x_pf_init(struct ne6x_pf *pf)
+         |     ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:497:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     497 | int ne6x_pf_init(struct ne6x_pf *pf)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:740:6: warning: no previous prototype for function 'ne6x_clean_tx_ring' [-Wmissing-prototypes]
+     740 | void ne6x_clean_tx_ring(struct ne6x_ring *tx_ring)
+         |      ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:740:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     740 | void ne6x_clean_tx_ring(struct ne6x_ring *tx_ring)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:770:6: warning: no previous prototype for function 'ne6x_clean_rx_ring' [-Wmissing-prototypes]
+     770 | void ne6x_clean_rx_ring(struct ne6x_ring *rx_ring)
+         |      ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:770:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     770 | void ne6x_clean_rx_ring(struct ne6x_ring *rx_ring)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:852:6: warning: no previous prototype for function 'ne6x_free_rx_resources' [-Wmissing-prototypes]
+     852 | void ne6x_free_rx_resources(struct ne6x_ring *rx_ring)
+         |      ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:852:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     852 | void ne6x_free_rx_resources(struct ne6x_ring *rx_ring)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:877:6: warning: no previous prototype for function 'ne6x_free_tx_resources' [-Wmissing-prototypes]
+     877 | void ne6x_free_tx_resources(struct ne6x_ring *tx_ring)
+         |      ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:877:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     877 | void ne6x_free_tx_resources(struct ne6x_ring *tx_ring)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:889:6: warning: no previous prototype for function 'ne6x_free_cq_resources' [-Wmissing-prototypes]
+     889 | void ne6x_free_cq_resources(struct ne6x_ring *cq_ring)
+         |      ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:889:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     889 | void ne6x_free_cq_resources(struct ne6x_ring *cq_ring)
+         | ^
+         | static 
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:1243:28: warning: variable 'ons' set but not used [-Wunused-but-set-variable]
+    1243 |         struct rtnl_link_stats64 *ons;
+         |                                   ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:1245:25: warning: variable 'oes' set but not used [-Wunused-but-set-variable]
+    1245 |         struct ne6x_eth_stats *oes;
+         |                                ^
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:1254:6: warning: variable 'tx_linearize' set but not used [-Wunused-but-set-variable]
+    1254 |         u64 tx_linearize;
+         |             ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:1255:6: warning: variable 'tx_force_wb' set but not used [-Wunused-but-set-variable]
+    1255 |         u64 tx_force_wb;
+         |             ^
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:1852:5: warning: no previous prototype for function 'ne6x_link_speed_to_rate' [-Wmissing-prototypes]
+    1852 | int ne6x_link_speed_to_rate(int link_speed)
+         |     ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:1852:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1852 | int ne6x_link_speed_to_rate(int link_speed)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:2063:5: warning: no previous prototype for function 'ne6x_set_vf_port_vlan' [-Wmissing-prototypes]
+    2063 | int ne6x_set_vf_port_vlan(struct net_device *netdev, int vf_id, u16 vlan_id,
+         |     ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:2063:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2063 | int ne6x_set_vf_port_vlan(struct net_device *netdev, int vf_id, u16 vlan_id,
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:2703:6: warning: no previous prototype for function 'ne6x_adjust_adpt_port_max_queue' [-Wmissing-prototypes]
+    2703 | void ne6x_adjust_adpt_port_max_queue(struct ne6x_pf *pf)
+         |      ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:2703:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2703 | void ne6x_adjust_adpt_port_max_queue(struct ne6x_pf *pf)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:2924:5: warning: no previous prototype for function 'ne6x_adpt_release' [-Wmissing-prototypes]
+    2924 | int ne6x_adpt_release(struct ne6x_adapter *adpt)
+         |     ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:2924:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2924 | int ne6x_adpt_release(struct ne6x_adapter *adpt)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:3082:12: warning: no previous prototype for function 'ne6x_init_module' [-Wmissing-prototypes]
+    3082 | int __init ne6x_init_module(void)
+         |            ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:3082:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3082 | int __init ne6x_init_module(void)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:3103:13: warning: no previous prototype for function 'ne6x_exit_module' [-Wmissing-prototypes]
+    3103 | void __exit ne6x_exit_module(void)
+         |             ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c:3103:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3103 | void __exit ne6x_exit_module(void)
+         | ^
+         | static 
+   25 warnings generated.
+--
+   In file included from drivers/net/ethernet/bzwx/nce/ne6x/ne6x_procfs.c:6:
+   In file included from drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h:10:
+   In file included from include/linux/pci.h:1663:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2204:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_procfs.c:66:9: warning: no previous prototype for function 'ne6x_proc_i2c_read' [-Wmissing-prototypes]
+      66 | ssize_t ne6x_proc_i2c_read(struct file *filp, char __user *buf, size_t count, loff_t *ppos)
+         |         ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_procfs.c:66:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      66 | ssize_t ne6x_proc_i2c_read(struct file *filp, char __user *buf, size_t count, loff_t *ppos)
+         | ^
+         | static 
+   6 warnings generated.
+--
+   In file included from drivers/net/ethernet/bzwx/nce/ne6x/ne6x_interrupt.c:4:
+   In file included from drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h:10:
+   In file included from include/linux/pci.h:1663:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2204:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_interrupt.c:258:5: warning: no previous prototype for function 'ne6x_adpt_request_irq_msix' [-Wmissing-prototypes]
+     258 | int ne6x_adpt_request_irq_msix(struct ne6x_adapter *adpt, char *basename)
+         |     ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_interrupt.c:258:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     258 | int ne6x_adpt_request_irq_msix(struct ne6x_adapter *adpt, char *basename)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_interrupt.c:340:5: warning: no previous prototype for function 'ne6x_adpt_request_irq_intx' [-Wmissing-prototypes]
+     340 | int ne6x_adpt_request_irq_intx(struct ne6x_adapter *adpt, char *basename)
+         |     ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_interrupt.c:340:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     340 | int ne6x_adpt_request_irq_intx(struct ne6x_adapter *adpt, char *basename)
+         | ^
+         | static 
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_interrupt.c:607:13: warning: no previous prototype for function 'ne6x_msix_clean_vf_mbx' [-Wmissing-prototypes]
+     607 | irqreturn_t ne6x_msix_clean_vf_mbx(int irq, void *data)
+         |             ^
+   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_interrupt.c:607:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     607 | irqreturn_t ne6x_msix_clean_vf_mbx(int irq, void *data)
+         | ^
+         | static 
+   8 warnings generated.
+..
 
 
-vim +1184 include/asm-generic/io.h
+vim +/ne6x_alloc_rx_buffers +555 drivers/net/ethernet/bzwx/nce/comm/txrx.c
 
-cd24834130ac65 Jan Glauber     2012-11-29  1169  
-cd24834130ac65 Jan Glauber     2012-11-29  1170  #ifndef memcpy_fromio
-9216efafc52ff9 Thierry Reding  2014-10-01  1171  #define memcpy_fromio memcpy_fromio
-c2327da06b33d8 Andy Shevchenko 2017-06-30  1172  /**
-c2327da06b33d8 Andy Shevchenko 2017-06-30  1173   * memcpy_fromio	Copy a block of data from I/O memory
-c2327da06b33d8 Andy Shevchenko 2017-06-30  1174   * @dst:		The (RAM) destination for the copy
-c2327da06b33d8 Andy Shevchenko 2017-06-30  1175   * @src:		The (I/O memory) source for the data
-c2327da06b33d8 Andy Shevchenko 2017-06-30  1176   * @count:		The number of bytes to copy
-c2327da06b33d8 Andy Shevchenko 2017-06-30  1177   *
-c2327da06b33d8 Andy Shevchenko 2017-06-30  1178   * Copy a block of data from I/O memory.
-c2327da06b33d8 Andy Shevchenko 2017-06-30  1179   */
-9216efafc52ff9 Thierry Reding  2014-10-01  1180  static inline void memcpy_fromio(void *buffer,
-9216efafc52ff9 Thierry Reding  2014-10-01  1181  				 const volatile void __iomem *addr,
-9216efafc52ff9 Thierry Reding  2014-10-01  1182  				 size_t size)
-9216efafc52ff9 Thierry Reding  2014-10-01  1183  {
-9216efafc52ff9 Thierry Reding  2014-10-01 @1184  	memcpy(buffer, __io_virt(addr), size);
-9216efafc52ff9 Thierry Reding  2014-10-01  1185  }
-cd24834130ac65 Jan Glauber     2012-11-29  1186  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  1187  
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  554  
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11 @555  bool ne6x_alloc_rx_buffers(struct ne6x_ring *rx_ring, u16 cleaned_count)
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  556  {
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  557  	u16 ntu = rx_ring->next_to_use;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  558  	union ne6x_rx_desc *rx_desc;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  559  	struct ne6x_rx_buf *bi;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  560  
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  561  	/* do nothing if no valid netdev defined */
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  562  	if (!rx_ring->netdev || !cleaned_count)
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  563  		return false;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  564  
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  565  	rx_desc = NE6X_RX_DESC(rx_ring, ntu);
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  566  	bi = &rx_ring->rx_buf[ntu];
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  567  
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  568  	do {
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  569  		if (!ne6x_alloc_mapped_page(rx_ring, bi))
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  570  			goto no_buffers;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  571  
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  572  		/* sync the buffer for use by the device */
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  573  		dma_sync_single_range_for_device(rx_ring->dev, bi->dma, bi->page_offset,
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  574  						 rx_ring->rx_buf_len, DMA_FROM_DEVICE);
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  575  
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  576  		/* Refresh the desc even if buffer_addrs didn't change
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  577  		 * because each write-back erases this info.
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  578  		 */
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  579  		rx_desc->wb.u.val = 0;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  580  		rx_desc->w.buffer_mop_addr = cpu_to_le64(bi->dma + bi->page_offset);
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  581  		rx_desc->w.buffer_sop_addr = 0;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  582  		rx_desc->w.mop_mem_len = rx_ring->rx_buf_len;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  583  		rx_desc->wb.pkt_len = 0;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  584  		rx_desc->w.vp = rx_ring->reg_idx;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  585  
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  586  		rx_desc++;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  587  		bi++;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  588  		ntu++;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  589  		if (unlikely(ntu == rx_ring->count)) {
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  590  			rx_desc = NE6X_RX_DESC(rx_ring, 0);
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  591  			bi = rx_ring->rx_buf;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  592  			ntu = 0;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  593  		}
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  594  
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  595  		/* clear the status bits for the next_to_use descriptor */
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  596  		rx_desc->wb.u.val = 0;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  597  
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  598  		cleaned_count--;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  599  	} while (cleaned_count);
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  600  
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  601  	if (rx_ring->next_to_use != ntu)
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  602  		ne6x_release_rx_desc(rx_ring, ntu);
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  603  
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  604  	return false;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  605  
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  606  no_buffers:
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  607  	if (rx_ring->next_to_use != ntu)
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  608  		ne6x_release_rx_desc(rx_ring, ntu);
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  609  
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  610  	/* make sure to come back via polling to try again after
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  611  	 * allocation failure
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  612  	 */
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  613  	return true;
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  614  }
+08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  615  
 
-:::::: The code at line 1184 was first introduced by commit
-:::::: 9216efafc52ff99e9351ef60de5fcafc2bc8adb6 asm-generic/io.h: Reconcile I/O accessor overrides
+:::::: The code at line 555 was first introduced by commit
+:::::: 08f4280700700faaa2393cbf9a402d4f51d3a8a8 drivers: add Chengdu BeiZhongWangXin Technology N5/N6 Series Network Card Driver
 
-:::::: TO: Thierry Reding <treding@nvidia.com>
-:::::: CC: Thierry Reding <treding@nvidia.com>
+:::::: TO: xiaohuihui-bzwx-kj <xiaohuihui@bzwx-kj.com>
+:::::: CC: xiaohuihui-bzwx-kj <xiaohuihui@bzwx-kj.com>
 
 -- 
 0-DAY CI Kernel Test Service
