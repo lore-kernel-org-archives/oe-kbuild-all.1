@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1B14F8A3;
-	Sun, 28 Apr 2024 07:35:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16551EED0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Apr 2024 07:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714289723; cv=none; b=SiBvojKOzwEqE+A7bU1V9Z5ILoNvW9ZW0X+p72ei/7YwR6NK8K/bUZMRszTD1+R+5BE5/z3hN1QbdntH/yI/CfUZ74vl16qVk6s7GYLgUUKOuQYv3vUGcrzjH3TEbxAAZtJAyOHcgu7PzjmDZbzPUPz+BEgNRloVRMApP0UGKtw=
+	t=1714290985; cv=none; b=EyYoKGiaRgjXz+yybxFvM7gl2RFc+bMHo5Nqc0xuqF0VM2fd/EzmsHm3sutwH1z5Yf9vVYYLop3QTa7EausNV+2RkYuLxk662Q3Je0dSMRdRkekkv4Foi7gtg0GCaBv0Nt6mQMUu3vw8gZzL8WHB1IO2whXDPrBEb8QaOtdTwaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714289723; c=relaxed/simple;
-	bh=JEAGslmRpPNmj8VFaV2pga/EQ6hYflqk+2sNK1+XWDo=;
+	s=arc-20240116; t=1714290985; c=relaxed/simple;
+	bh=pm4l6JFtJBslej9SFvFMETFwGFTlod1+mSafV/e2xfs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nKyZyIOxCe5sP6DwvYzGiq3GqZOiEExz/AP/5tLaqpVHVCtHmuvZ7IOoNwqI+o90CdTBnDtj+Zhrzvnzybs/SfYbuBO1mNLSTdWVfiUTzh+5MF6U+wXsPRX3F+/f/sbOXsM1FcScXzaAAk1QraSraOQkkp+Spmg5Kp+fqu1QNLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=euPcGjhK; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=kWN7NHZWeimv0u5zR3/Qdv+xbRp6obS2jpIoPdtTw+cDs+GodpAuZlVRx33LRKqzn3UWSMGVkEc9c0FsY93GjOHful0JV+8I1FXLoHaSQIFijCEoSPG1r8bZSSz0pyWRla4KugWiYsU6GPxsVQS4WpbzjaaOcprppEm3eYH0BSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8vlAqcC; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="euPcGjhK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8vlAqcC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714289722; x=1745825722;
+  t=1714290983; x=1745826983;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JEAGslmRpPNmj8VFaV2pga/EQ6hYflqk+2sNK1+XWDo=;
-  b=euPcGjhKSUfdTx65bO+rbviv0nBzDmKAqIg9jI0Y/YmkV57ibWk1paQ4
-   pfJE2+xXICXwJmylIN/khZk/QI8fc5Ol796cNtDmnXoT5vI5Z+iPf2s04
-   2V+H3MKI287w+POvl4eY4z5ss5ucz9YLm/GWRMKIBML4C2b+rTRDVKyLq
-   PaCUpwvAVoo6FmbL/Eh08cRqBVQom9Vl/+vgn0w2UUXJBncU43r7atFe6
-   CWZoujepofOEmEF2f1YlFpMLbyelX4w1FpK1dBwskLfUYyODH7pPJHKPy
-   EIC2O7Mc/v2ZdH/yZWcGo3yCQxfxoJ7AfAvOxwSkCFkCBSiZV46D19HXM
+  bh=pm4l6JFtJBslej9SFvFMETFwGFTlod1+mSafV/e2xfs=;
+  b=D8vlAqcCM5hS1WXEpR6BmUFGjotW7gDQDdsX3MnlKfCYFPamNGr3OybU
+   Jda5msMzRUsIvKv/GN1CLkhq4kD0oksX45s8NnRpTRhQb5jRMX8Qe8IPv
+   tCRBMiIrtwiAPBB1i6uYxt84N1GG5KqjdlcPqSSkgJwZcb0mS5JkqpqAX
+   CtS0xJpJi3pTnDl7z03bRJv0d9XqnISV5lJ5zULq0DN5QPPK6xOhqj0vS
+   LjbGRgd9eXlb5z04tkCEahVZdBxm0lGPYAiv0i2zwU7zykJMA+/+pgeVG
+   Gh+GlVcgVebFjo88oBYmED7/EsEcOPF0HQJTFcWQzywntVLQxvdbYvV+w
    w==;
-X-CSE-ConnectionGUID: 4xjqxlIXRoO3l4wgmzjL3w==
-X-CSE-MsgGUID: GqwONI1dQyiEGgmvBAcmxg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="10190671"
+X-CSE-ConnectionGUID: oBs6feMQRd2Fgdsisiq0kw==
+X-CSE-MsgGUID: 1Xr1tpLuRfqbGhMcra5iOQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="13765038"
 X-IronPort-AV: E=Sophos;i="6.07,237,1708416000"; 
-   d="scan'208";a="10190671"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 00:35:21 -0700
-X-CSE-ConnectionGUID: uuutTXgERnKf68QLsuWXyA==
-X-CSE-MsgGUID: /Emj/o2LSHuKaLl1+ayOVw==
+   d="scan'208";a="13765038"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 00:56:22 -0700
+X-CSE-ConnectionGUID: WhFjgzIfTs6GDPegxbHilA==
+X-CSE-MsgGUID: NmSHtK0+RW++P2GDAnUtkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,237,1708416000"; 
-   d="scan'208";a="49048113"
+   d="scan'208";a="30625179"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Apr 2024 00:35:20 -0700
+  by orviesa005.jf.intel.com with ESMTP; 28 Apr 2024 00:56:20 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0z49-0005yA-1f;
-	Sun, 28 Apr 2024 07:35:17 +0000
-Date: Sun, 28 Apr 2024 15:34:44 +0800
+	id 1s0zOU-0005za-0Y;
+	Sun, 28 Apr 2024 07:56:18 +0000
+Date: Sun, 28 Apr 2024 15:55:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-gpio@vger.kernel.org
-Subject: [linusw-gpio:b4/spitz 4/4] include/linux/spi/pxa2xx_spi.h:53:52:
- warning: declaration of 'struct property_entry' will not be visible outside
- of this function
-Message-ID: <202404281554.eIxXrnLs-lkp@intel.com>
+To: Andrew Davis <afd@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>
+Subject: [ti:ti-linux-6.6.y-wip 16/18] remoteproc_core.c:undefined reference
+ to `dma_buf_unmap_attachment'
+Message-ID: <202404281527.XCTroHBJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,40 +63,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git b4/spitz
-head:   40c9c2538a37054ef2a1c56f3a41e64ba82cd6aa
-commit: 40c9c2538a37054ef2a1c56f3a41e64ba82cd6aa [4/4] ARM: spitz: Use software nodes for the ADS7846 touchscreen
-config: arm-randconfig-003-20240428 (https://download.01.org/0day-ci/archive/20240428/202404281554.eIxXrnLs-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240428/202404281554.eIxXrnLs-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y-wip
+head:   05cbc220aa99152ad80a750e73f08c0d96ec4ded
+commit: cde91a89becee656867b8c8a86e627241dc91449 [16/18] remoteproc: core: Add DMA-BUF attachment interface to cdev
+config: xtensa-randconfig-001-20240428 (https://download.01.org/0day-ci/archive/20240428/202404281527.XCTroHBJ-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240428/202404281527.XCTroHBJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404281554.eIxXrnLs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404281527.XCTroHBJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/spi/spi-pxa2xx-dma.c:10:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/spi/spi-pxa2xx-dma.c:15:
->> include/linux/spi/pxa2xx_spi.h:53:52: warning: declaration of 'struct property_entry' will not be visible outside of this function [-Wvisibility]
-      53 | void pxa2xx_set_spi_node(unsigned id, const struct property_entry *props);
-         |                                                    ^
-   2 warnings generated.
-
-
-vim +53 include/linux/spi/pxa2xx_spi.h
-
-    51	
-    52	extern void pxa2xx_set_spi_info(unsigned id, struct pxa2xx_spi_controller *info);
-  > 53	void pxa2xx_set_spi_node(unsigned id, const struct property_entry *props);
-    54	
+   xtensa-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `devm_rproc_alloc':
+>> remoteproc_core.c:(.text+0x122c): undefined reference to `dma_buf_unmap_attachment'
+   xtensa-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `rproc_release_dmabuf.isra.0':
+   remoteproc_core.c:(.text+0x1288): undefined reference to `dma_buf_unmap_attachment'
+   xtensa-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `devm_rproc_alloc':
+>> remoteproc_core.c:(.text+0x1238): undefined reference to `dma_buf_detach'
+   xtensa-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `rproc_release_dmabuf.isra.0':
+   remoteproc_core.c:(.text+0x12a6): undefined reference to `dma_buf_detach'
+   xtensa-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `rproc_handle_trace':
+>> remoteproc_core.c:(.text+0x2a18): undefined reference to `dma_buf_attach'
+   xtensa-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `rproc_attach_dmabuf':
+   remoteproc_core.c:(.text+0x2acf): undefined reference to `dma_buf_attach'
+   xtensa-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `rproc_handle_trace':
+>> remoteproc_core.c:(.text+0x2a28): undefined reference to `dma_buf_map_attachment'
+   xtensa-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `rproc_attach_dmabuf':
+   remoteproc_core.c:(.text+0x2aff): undefined reference to `dma_buf_map_attachment'
+   xtensa-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `rproc_handle_trace':
+   remoteproc_core.c:(.text+0x2a44): undefined reference to `dma_buf_unmap_attachment'
+   xtensa-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `rproc_attach_dmabuf':
+   remoteproc_core.c:(.text+0x2b52): undefined reference to `dma_buf_unmap_attachment'
+   xtensa-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `rproc_handle_trace':
+   remoteproc_core.c:(.text+0x2a68): undefined reference to `dma_buf_detach'
+   xtensa-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `rproc_attach_dmabuf':
+   remoteproc_core.c:(.text+0x2be6): undefined reference to `dma_buf_detach'
 
 -- 
 0-DAY CI Kernel Test Service
