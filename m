@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D85818
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Apr 2024 01:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46664A59
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Apr 2024 01:46:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714266844; cv=none; b=AdaSHR4mk4GI73xXvi/6vQ/90ZgXHNkcURHLEOcjiXhNcK8A0YyJf3yiyoyQd7dz/9hZDzNbUplzki37WvZ75pdYHJdQ7zh11FYlEb8V2wGW/9J+U9IKZRolGbIasp1UwDcTTrCr5p5or+Wo4et+I8X+IuDaaCK3KqJOKfb/QHM=
+	t=1714268766; cv=none; b=abfynvwEgV78qr3Dghx7Rsq0ftRUWwR76VpzM1ohT0p9lZHweFH9iAVriG+DwAbigSMpw6O/rdIFoH+/XMZoCqdKldi3Z0qqGB8mz1lQG5qodxw1vF7unbJ0Jse6O5sSUV/t2Qpxgqm3VUihkpwLZDCdZpeZJ6HQpnbDSed9jME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714266844; c=relaxed/simple;
-	bh=lgU83yottyBuU6b8nHTkHYSuVM+7zy7L9f7faTu6AsQ=;
+	s=arc-20240116; t=1714268766; c=relaxed/simple;
+	bh=uWKcfr0oFMMEdzOepRUws5WisVttwCJTwcIHpatZVTY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NkwUQCpg2125ZM5VUqta578gElbNMsPT9IkeL5KBBbrPBiVEAMLpSG8uWEICHPYro2R2itmtA6+rdJbLjq3qV/6QqXARczBM2kwy4KW5aKoW++hNXxrqIYp40W5Ae2k4Z9OMhWG2GTH8FlvT1M0zaylIjzYnm00usrp8chzXumU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jYHrB5aq; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=mGUFwGIugFM2ARmx5d4OphSm+kgZiiSE/rAYlK341Jgfolf/Fsxs6AOIqEi6AiFzoTZhvoBvNNzzhsMw5R/7kpWi/lTkt8oDphSxnHIB96og2WGg8wt1hUvoLVp/sIz2pFKTGqbnORTjmQo4vgJm2kV3sG/hne23FaHz4BnamiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SbChZfNp; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jYHrB5aq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SbChZfNp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714266842; x=1745802842;
+  t=1714268763; x=1745804763;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lgU83yottyBuU6b8nHTkHYSuVM+7zy7L9f7faTu6AsQ=;
-  b=jYHrB5aqQLrMCeQlFeaw5WS04+D3fwdlVMdUzhP/tbJhed+9cz/jDQm6
-   Mpq7rUEbEJ3frmAwURrzkM3/JgHW535CVGbRG62/ggeGpahypgUipWv8V
-   c89KTxcLOxI5bZAKxGs5vWqcJyT4+RLaY3xl/wp2kGwDkdbQDdSwhAHsW
-   jNY9XFmgHMmDfoUSdfWjNfLRCssLTqzC7966U0NCqzOp1vVKptcKgctQX
-   Y77I9clYev09fV6dYWOL8ot9aqwDjVFJ9Yn5j9JTLDwIs5xREYYt+fFEr
-   E8WVIwleeVn/LTe3Itv78ZP1qlzvnQ1OJ0SGWNz/d7G2/1xmLqzOZDwdw
-   A==;
-X-CSE-ConnectionGUID: 4Aem+oODSYa1NLHYUXm5/g==
-X-CSE-MsgGUID: GxWsD/qyTUqLVWKjRKarfg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="20650532"
+  bh=uWKcfr0oFMMEdzOepRUws5WisVttwCJTwcIHpatZVTY=;
+  b=SbChZfNpq/y4Om46WiiSO9DIRhnLkCTcfBamNJ28vPxa12Pc4rw07ox2
+   YVHEzEfdQTnnHsPomIY9ENTkO8AUp8vZTKKSPWZvc8sFdIab27moKPm+G
+   rdMsBTCe7ltjkPObSj5aPQQBPYs7AiVbbqEtTm62MR5BC/5FPm7BmpOdA
+   sOA6O/zmYDjSc02OYgeOZOtojIsXCsVWgOv3/7VFuODaJqdsrffMoGmaL
+   n5qeeBti7SVyKwAmaVUNeM6vKcafSnOAYb2ur2Hk+5ac9qlTGZgD4+LCL
+   AX1cDZz62TSmMfW6cmsDSAIVEWy65ckBfj4u7fOSsts0GeKUY/btWBxL6
+   Q==;
+X-CSE-ConnectionGUID: EuZ/kyLeTRqB4wnp7tlk2A==
+X-CSE-MsgGUID: Uun2MEVjQtuApcYap+ZFIQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="21374804"
 X-IronPort-AV: E=Sophos;i="6.07,236,1708416000"; 
-   d="scan'208";a="20650532"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2024 18:14:01 -0700
-X-CSE-ConnectionGUID: /GVzDROQT5m50vBm+MAYFg==
-X-CSE-MsgGUID: IXBnvJU4Q5ytIedEcNKjSA==
+   d="scan'208";a="21374804"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2024 18:46:02 -0700
+X-CSE-ConnectionGUID: epnPooDNRvOWjiWwJvCzyQ==
+X-CSE-MsgGUID: /gVSpGo3TK268zw8zIF0jA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,236,1708416000"; 
-   d="scan'208";a="26184468"
+   d="scan'208";a="26277208"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 27 Apr 2024 18:14:00 -0700
+  by orviesa007.jf.intel.com with ESMTP; 27 Apr 2024 18:46:02 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s0t78-0005hL-0I;
-	Sun, 28 Apr 2024 01:13:58 +0000
-Date: Sun, 28 Apr 2024 09:13:12 +0800
+	id 1s0tc6-0005i7-2v;
+	Sun, 28 Apr 2024 01:45:58 +0000
+Date: Sun, 28 Apr 2024 09:45:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-1.0.x-imx 3860/11728]
- sound/soc/fsl/fsl-asoc-card.c:171:40: warning: unused variable
- 'audio_map_esai'
-Message-ID: <202404280912.woQqKK64-lkp@intel.com>
+Subject: [freescale-fslc:6.6-1.0.x-imx 3505/11728]
+ drivers/pinctrl/devicetree.c:201:6: warning: variable 'index' set but not
+ used
+Message-ID: <202404280905.RCuGmtS8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,36 +65,51 @@ Content-Disposition: inline
 
 tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
 head:   37770f55ac9c4f6cd958eb5544939207eed8478f
-commit: 0eeef8490e3bdaa062e9b42b802e102f6d3463da [3860/11728] LF-2511-3: ASoC: fsl-asoc-card: Merge some features to this common driver
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240428/202404280912.woQqKK64-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240428/202404280912.woQqKK64-lkp@intel.com/reproduce)
+commit: 26bccb9f27ca09e8c00172691a23151779342d8a [3505/11728] MLK-11749: pinctrl: support pinctrl setting assertion via gpios
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240428/202404280905.RCuGmtS8-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240428/202404280905.RCuGmtS8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404280912.woQqKK64-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404280905.RCuGmtS8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> sound/soc/fsl/fsl-asoc-card.c:171:40: warning: unused variable 'audio_map_esai' [-Wunused-const-variable]
-   static const struct snd_soc_dapm_route audio_map_esai[] = {
-                                          ^
+>> drivers/pinctrl/devicetree.c:201:6: warning: variable 'index' set but not used [-Wunused-but-set-variable]
+     201 |         int index = 0;
+         |             ^
    1 warning generated.
 
 
-vim +/audio_map_esai +171 sound/soc/fsl/fsl-asoc-card.c
+vim +/index +201 drivers/pinctrl/devicetree.c
 
-   170	
- > 171	static const struct snd_soc_dapm_route audio_map_esai[] = {
-   172		{"Playback",  NULL, "CPU-Playback"},/* dai route for be and fe */
-   173		{"CPU-Capture",  NULL, "Capture"},
-   174		{"CPU-Playback",  NULL, "CLIENT0-Playback"},
-   175		{"CLIENT0-Capture",  NULL, "CPU-Capture"},
-   176		{"CPU-Playback",  NULL, "CLIENT1-Playback"},
-   177		{"CLIENT1-Capture",  NULL, "CPU-Capture"},
-   178	};
-   179	
+   196	
+   197	static int dt_gpio_assert_pinctrl(struct pinctrl *p)
+   198	{
+   199		struct device_node *np = p->dev->of_node;
+   200		struct gpio_desc *gpio;
+ > 201		int index = 0;
+   202		int ret;
+   203	
+   204		if (!of_find_property(np, "pinctrl-assert-gpios", NULL))
+   205			return 0; /* Missing the property, so nothing to be done */
+   206	
+   207		for (;; index++) {
+   208			gpio = devm_gpiod_get_optional(p->dev, "pinctrl-assert",
+   209						       GPIOD_OUT_HIGH);
+   210			ret = PTR_ERR(gpio);
+   211			if (ret < 0) {
+   212				if (PTR_ERR(gpio) == -EPROBE_DEFER)
+   213					return -EPROBE_DEFER;
+   214	 			break; /* End of the phandle list */
+   215	 		}
+   216		}
+   217	
+   218		return 0;
+   219	}
+   220	
 
 -- 
 0-DAY CI Kernel Test Service
