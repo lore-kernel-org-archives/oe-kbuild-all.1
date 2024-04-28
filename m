@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE4659165
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Apr 2024 17:51:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D4B73171
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Apr 2024 17:51:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714326702; cv=none; b=k3JTFKHMGMqIB8YKttiHdJzvWfrsLVS7b1unv2gSMDDmnWGaip6gTCKPwLUuVzZvu7sn2Jg3JTwCd73dsX02eFlyw0gue2sWkGO8QKI88YvfXd7QadnkBVA2btH4EM3uRsp9njGSY95/AC1eDz4ecmPWk8eeatrQSID/WR7UKnY=
+	t=1714326704; cv=none; b=G8pDWZo82/EzjBJrTKGG93nKsRFB43PbTxNmt+cdnZvG41xH8VaRBN4Mcj7aE/Zg+IvnI5zltdwg8Kyj1Z4ECLE+5Fmk4yYAtZ628WVnMkiBkAtmmhndMXKRm/d+Wxgnoqqa+yZG5sqjECXOOvqGfpC/P17HoEgD5gxYKotGJUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714326702; c=relaxed/simple;
-	bh=/Wea1HGo6XXDncGFB6rpk8Xl5gVB7BWy5oLpcsUHNas=;
+	s=arc-20240116; t=1714326704; c=relaxed/simple;
+	bh=FLmIkKPk5hzJ3j8hz7j/pysR/T6hNmRWH4uuIatUx2I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o4SsgIqpDy+XlXP8uOmBQzC5x/tJ9u/l5TIIJTqvvy5svFvB64af8+cLqoo1c9gfx4W2epBpHYov9SjnufvEPD67IIh6Q40d6KamHHXXsK6foOskOooowafsp1XXdbBwh44ViERh5CxFKqjsUeP60KmGB7oCcyhF2HmwvywuTg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jbiTNdaY; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=qrP24UhvFsDVtiOhYmDOFj3NUUJDL6LcxoCQT3h/xUdgERlqINAskB4KAGX4Oljvv43eZTcBpqcby+foA7RXlRbbEN6nrPmCf/H2ruXMkxrqbjfu5jwvyN5Uyl3B0+BzGfmtKDevkjKIy+senprxl1yWsupIXe1i7jUfGczIRiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f7wFLULX; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jbiTNdaY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f7wFLULX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714326700; x=1745862700;
+  t=1714326702; x=1745862702;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/Wea1HGo6XXDncGFB6rpk8Xl5gVB7BWy5oLpcsUHNas=;
-  b=jbiTNdaYs2JGolFsNCrGxdVQheKzYfUtBhbtvH3qfNnMAoiuOlgSfiwe
-   ccwkL9EMKsZjbZWp0HNJ9h5kM1V1woeT1YZ2lqFMWfeT/GcM+TGkIAtcM
-   vexEg3/RCIqM06p2IQYUS9TcPjXIdh8AFDP5J9fQAzgvAGgqR6HZfRlZ2
-   SoV7n3oSs71ui4zSyFIQu73qIr3dLMaGTL7Qv3YT9BfNFoJ//X/DprYFr
-   cpWmD7OuibQghI0NwbRfkNOrekq+Bik1nt9NQ28uZ8opxP8xq23OzFqgQ
-   wiN9owch5Uo/h/rhTXO45/Tmm6TqzSvsOMipVe0rPIq96+ZfV0M6WObSr
+  bh=FLmIkKPk5hzJ3j8hz7j/pysR/T6hNmRWH4uuIatUx2I=;
+  b=f7wFLULXhEUavYxj8Otrm7bJEdW8tkfs2YMhs9iWvuoAVMmQ1Zql8+pM
+   XnRCVysu+bNk8zlRRpIEQ3h13M/wKFzj4jbrZ3a2qFyE+6vvSQQ5bq+n8
+   lWXjr7zcdyJBJh2KzF+KuitYndJfR2xJBptfPYpjLKYOLVRBHzGr/Jlei
+   AFi6oMLy12KG+DNhl+1x2YkD5ikfIHFMMO8T4mabVrJ47R8K5uqPq+amq
+   7/9ZBYwGXOetwvjRMM243nnXjzQx8/aCghzg1Zx7fLkUt0vKH0ps4bp0b
+   nUdE8dBvPLUC5jpq7Oab2/wcHMhmB1ALEAQhI3yibXE0GFEJkIQ6L7OgL
    w==;
-X-CSE-ConnectionGUID: yJUNlKvPSeuk3tleDpqGfg==
-X-CSE-MsgGUID: KBlrc3SYRSq59vTzO4Izyw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="20678840"
+X-CSE-ConnectionGUID: HU7Kj8wIRlyrs/l3iXtOrg==
+X-CSE-MsgGUID: zPJSoq4ZSX2UBA0fP0qUmg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="20678841"
 X-IronPort-AV: E=Sophos;i="6.07,237,1708416000"; 
-   d="scan'208";a="20678840"
+   d="scan'208";a="20678841"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 10:51:40 -0700
-X-CSE-ConnectionGUID: sAyaD4Z3R+KQTpv3xnVv3Q==
-X-CSE-MsgGUID: Qfre2LrtS96WWVJiFHbjeg==
+X-CSE-ConnectionGUID: MIAFMMW1Qh2bUH7qJH5RwQ==
+X-CSE-MsgGUID: h0sDPPVNQXeOWEZMgZSbkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,237,1708416000"; 
-   d="scan'208";a="25877186"
+   d="scan'208";a="25877187"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 28 Apr 2024 10:51:39 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s18gb-0006XC-09;
+	id 1s18gb-0006XI-0N;
 	Sun, 28 Apr 2024 17:51:37 +0000
-Date: Mon, 29 Apr 2024 01:50:42 +0800
+Date: Mon, 29 Apr 2024 01:50:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Yunsheng Lin <linyunsheng@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-1.0.x-imx 2754/11728] cc1: warning:
- security/keys/../../drivers/crypto/caam/: No such file or directory
-Message-ID: <202404290105.k6I74Yw2-lkp@intel.com>
+Subject: [linyunsheng:page_frag_cache_v3 14/16] net/sched/em_meta.c:593:50:
+ warning: passing argument 1 of 'page_frag_cache_page_offset' discards
+ 'const' qualifier from pointer target type
+Message-ID: <202404290155.OnljDQEa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,26 +63,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
-head:   37770f55ac9c4f6cd958eb5544939207eed8478f
-commit: 6ba5bd5e536d9474e43b6eb0f203e78472aaa642 [2754/11728] security/keys/secure_key: Adds the secure key support based on CAAM.
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240429/202404290105.k6I74Yw2-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240429/202404290105.k6I74Yw2-lkp@intel.com/reproduce)
+tree:   https://github.com/gestionlin/linux.git page_frag_cache_v3
+head:   245e8a4d98fee0307884585dbeb3dbb7ee1bf8fa
+commit: 49d60804ba15895c09e4b47eb20fdc8b56ed6878 [14/16] net: replace page_frag with page_frag_cache
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240429/202404290155.OnljDQEa-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240429/202404290155.OnljDQEa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404290105.k6I74Yw2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404290155.OnljDQEa-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> cc1: warning: security/keys/../../drivers/crypto/caam/: No such file or directory [-Wmissing-include-dirs]
-   In file included from security/keys/securekey_desc.c:8:
-   security/keys/securekey_desc.h:9:10: fatal error: compat.h: No such file or directory
-       9 | #include "compat.h"
-         |          ^~~~~~~~~~
-   compilation terminated.
+   net/sched/em_meta.c: In function 'meta_int_sk_sendmsg_off':
+>> net/sched/em_meta.c:593:50: warning: passing argument 1 of 'page_frag_cache_page_offset' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     593 |         dst->value = page_frag_cache_page_offset(&sk->sk_frag);
+         |                                                  ^~~~~~~~~~~~
+   In file included from include/linux/skbuff.h:34,
+                    from net/sched/em_meta.c:64:
+   include/linux/page_frag_cache.h:41:80: note: expected 'struct page_frag_cache *' but argument is of type 'const struct page_frag_cache *'
+      41 | static inline unsigned int page_frag_cache_page_offset(struct page_frag_cache *nc)
+         |                                                        ~~~~~~~~~~~~~~~~~~~~~~~~^~
+
+
+vim +593 net/sched/em_meta.c
+
+   584	
+   585	META_COLLECTOR(int_sk_sendmsg_off)
+   586	{
+   587		const struct sock *sk = skb_to_full_sk(skb);
+   588	
+   589		if (!sk) {
+   590			*err = -1;
+   591			return;
+   592		}
+ > 593		dst->value = page_frag_cache_page_offset(&sk->sk_frag);
+   594	}
+   595	
 
 -- 
 0-DAY CI Kernel Test Service
