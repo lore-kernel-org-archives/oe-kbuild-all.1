@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D4B73171
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Apr 2024 17:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6971E6A8CA
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Apr 2024 18:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714326704; cv=none; b=G8pDWZo82/EzjBJrTKGG93nKsRFB43PbTxNmt+cdnZvG41xH8VaRBN4Mcj7aE/Zg+IvnI5zltdwg8Kyj1Z4ECLE+5Fmk4yYAtZ628WVnMkiBkAtmmhndMXKRm/d+Wxgnoqqa+yZG5sqjECXOOvqGfpC/P17HoEgD5gxYKotGJUE=
+	t=1714327903; cv=none; b=bKZAaD3t40X0kvmf3troPS59ygjm9VmyQ7JT6NU6urUIbc9EhPLQmIN596gVJ6iNHjMDgrN8EJ51OEL47ML3L/3gXDxbDOYaoUlWIyWt1vHSoK5ACtxzqvMn0DSHR7ViG4+VEkxE5e0d4D/Zv4So4Zvj0VHYwB+cet1LUxDpNws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714326704; c=relaxed/simple;
-	bh=FLmIkKPk5hzJ3j8hz7j/pysR/T6hNmRWH4uuIatUx2I=;
+	s=arc-20240116; t=1714327903; c=relaxed/simple;
+	bh=AgXPqGSokvjG4SdxwLXUzaequJHonFj6SYwimqWc6Dk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qrP24UhvFsDVtiOhYmDOFj3NUUJDL6LcxoCQT3h/xUdgERlqINAskB4KAGX4Oljvv43eZTcBpqcby+foA7RXlRbbEN6nrPmCf/H2ruXMkxrqbjfu5jwvyN5Uyl3B0+BzGfmtKDevkjKIy+senprxl1yWsupIXe1i7jUfGczIRiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f7wFLULX; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=gxGGQkLWfF1u4f1Bg7INtmQa0amUK8hh0sykv8YOJc8389Nt1of7cO6NSnc+HVQNENUJ/2WoOIEs3ZSsuPElhviQyfn1bWpnbIR1i2I8ezcm7EgekYrCB4BcrOreNzKIcXIES9ByBUPH/lm9ScIlGvrmCtkygXO7deHKjLLbD6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GpZf1s4j; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f7wFLULX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GpZf1s4j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714326702; x=1745862702;
+  t=1714327902; x=1745863902;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FLmIkKPk5hzJ3j8hz7j/pysR/T6hNmRWH4uuIatUx2I=;
-  b=f7wFLULXhEUavYxj8Otrm7bJEdW8tkfs2YMhs9iWvuoAVMmQ1Zql8+pM
-   XnRCVysu+bNk8zlRRpIEQ3h13M/wKFzj4jbrZ3a2qFyE+6vvSQQ5bq+n8
-   lWXjr7zcdyJBJh2KzF+KuitYndJfR2xJBptfPYpjLKYOLVRBHzGr/Jlei
-   AFi6oMLy12KG+DNhl+1x2YkD5ikfIHFMMO8T4mabVrJ47R8K5uqPq+amq
-   7/9ZBYwGXOetwvjRMM243nnXjzQx8/aCghzg1Zx7fLkUt0vKH0ps4bp0b
-   nUdE8dBvPLUC5jpq7Oab2/wcHMhmB1ALEAQhI3yibXE0GFEJkIQ6L7OgL
-   w==;
-X-CSE-ConnectionGUID: HU7Kj8wIRlyrs/l3iXtOrg==
-X-CSE-MsgGUID: zPJSoq4ZSX2UBA0fP0qUmg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="20678841"
+  bh=AgXPqGSokvjG4SdxwLXUzaequJHonFj6SYwimqWc6Dk=;
+  b=GpZf1s4jsjDBUUHT2gZcHIUoebOYPUl95AzkdzzTJjOT726kOvL+tXsp
+   xXvu37vAYeHLzA8omCqYD4ISkQXaTGpGrxt1vdezE4ajWp6jie7i0wQKW
+   EsAfajqJwYGtF4+q7m4DGk9GNhu52pyZwY8OTbpc93PrAIfBPxcUHL11U
+   +imrSKSIS42NTD5tBMtfvVF8ee5Po45hOZaM7Tmu8Am6eW7zlpwh+igSg
+   iB5NmNiddiqF/weFxh5V1l9ybgE6cilNQZpMzvKzbXeC5LvU1pBtogB2H
+   T4CuGY3JE/KL0IUio9FQQ7WrP32jGtstrhXw1OX0ZpSQ4BQAk+pFjwLw8
+   Q==;
+X-CSE-ConnectionGUID: ASPQgUT9TryoM5wl4tsYsA==
+X-CSE-MsgGUID: PgBJtxJ9Rq22ZsEk0dqT6w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="20544753"
 X-IronPort-AV: E=Sophos;i="6.07,237,1708416000"; 
-   d="scan'208";a="20678841"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 10:51:40 -0700
-X-CSE-ConnectionGUID: MIAFMMW1Qh2bUH7qJH5RwQ==
-X-CSE-MsgGUID: h0sDPPVNQXeOWEZMgZSbkA==
+   d="scan'208";a="20544753"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 11:11:41 -0700
+X-CSE-ConnectionGUID: FWnZIU0rQ7+Is6yLFMAnvg==
+X-CSE-MsgGUID: GSkpJ5lhQ9S8lw13exvjWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,237,1708416000"; 
-   d="scan'208";a="25877187"
+   d="scan'208";a="26313812"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 28 Apr 2024 10:51:39 -0700
+  by orviesa006.jf.intel.com with ESMTP; 28 Apr 2024 11:11:39 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s18gb-0006XI-0N;
-	Sun, 28 Apr 2024 17:51:37 +0000
-Date: Mon, 29 Apr 2024 01:50:41 +0800
+	id 1s18zx-0006Xe-0y;
+	Sun, 28 Apr 2024 18:11:37 +0000
+Date: Mon, 29 Apr 2024 02:11:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yunsheng Lin <linyunsheng@huawei.com>
+To: kernel@openeuler.org, Zhang Yi <yi.zhang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linyunsheng:page_frag_cache_v3 14/16] net/sched/em_meta.c:593:50:
- warning: passing argument 1 of 'page_frag_cache_page_offset' discards
- 'const' qualifier from pointer target type
-Message-ID: <202404290155.OnljDQEa-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 7592/7622] fs/ext4/inode.c:3585:24: sparse:
+ sparse: symbol 'ext4_iomap_buffered_read_ops' was not declared. Should it be
+ static?
+Message-ID: <202404290230.zdcvkbB5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,45 +63,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/gestionlin/linux.git page_frag_cache_v3
-head:   245e8a4d98fee0307884585dbeb3dbb7ee1bf8fa
-commit: 49d60804ba15895c09e4b47eb20fdc8b56ed6878 [14/16] net: replace page_frag with page_frag_cache
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240429/202404290155.OnljDQEa-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240429/202404290155.OnljDQEa-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   f120c2ab14341c60bcc055c700c0a29dce5837ac
+commit: a38e9381cf2ba6f3300c716b1cff4551bec0fbdf [7592/7622] ext4: implement buffered read iomap path
+config: x86_64-randconfig-121-20240429 (https://download.01.org/0day-ci/archive/20240429/202404290230.zdcvkbB5-lkp@intel.com/config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240429/202404290230.zdcvkbB5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404290155.OnljDQEa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404290230.zdcvkbB5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/ext4/inode.c:3585:24: sparse: sparse: symbol 'ext4_iomap_buffered_read_ops' was not declared. Should it be static?
 
-   net/sched/em_meta.c: In function 'meta_int_sk_sendmsg_off':
->> net/sched/em_meta.c:593:50: warning: passing argument 1 of 'page_frag_cache_page_offset' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     593 |         dst->value = page_frag_cache_page_offset(&sk->sk_frag);
-         |                                                  ^~~~~~~~~~~~
-   In file included from include/linux/skbuff.h:34,
-                    from net/sched/em_meta.c:64:
-   include/linux/page_frag_cache.h:41:80: note: expected 'struct page_frag_cache *' but argument is of type 'const struct page_frag_cache *'
-      41 | static inline unsigned int page_frag_cache_page_offset(struct page_frag_cache *nc)
-         |                                                        ~~~~~~~~~~~~~~~~~~~~~~~~^~
+vim +/ext4_iomap_buffered_read_ops +3585 fs/ext4/inode.c
 
-
-vim +593 net/sched/em_meta.c
-
-   584	
-   585	META_COLLECTOR(int_sk_sendmsg_off)
-   586	{
-   587		const struct sock *sk = skb_to_full_sk(skb);
-   588	
-   589		if (!sk) {
-   590			*err = -1;
-   591			return;
-   592		}
- > 593		dst->value = page_frag_cache_page_offset(&sk->sk_frag);
-   594	}
-   595	
+  3584	
+> 3585	const struct iomap_ops ext4_iomap_buffered_read_ops = {
+  3586		.iomap_begin = ext4_iomap_buffered_io_begin,
+  3587	};
+  3588	
 
 -- 
 0-DAY CI Kernel Test Service
