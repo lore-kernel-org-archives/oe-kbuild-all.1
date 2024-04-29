@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0ED335DB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Apr 2024 22:58:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2D317B503
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Apr 2024 23:31:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714431487; cv=none; b=T6tDNpkOhQ4GE0vVKgA3EryOpnqfXmtsbVuR4lyn8epqR1OPqqCDnVAB921ApUCroa8lPUclnLLIsLOUCq0AoAen6cqGWu2WDxBwCk/F8CV3eCpa3Ql+QtJRDsDqn66/cYXpp/3wmu1hT+VHzOFuGTcm2sEBFmyBOwtxCdCeWlM=
+	t=1714433501; cv=none; b=cKMk18wguhQJz64fS3Ws+sQzywgi7VetX6fpO/RF3YPZ//rcScm+lJru8YwGY+MPPVHfP07E9HKrDUbpkp9N7i+wytDXitAYCXFlgrZ7V7TlETW2EKpncS1e/anQDqJ4T6ipzkW0C74ZFDiqBXDTi4AlQVpHWKA6Lg1DJ1Mdx44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714431487; c=relaxed/simple;
-	bh=C2fhwAUmK+pmBV+RrP0pzk3vLUs4aj1AeMUYNkaapss=;
+	s=arc-20240116; t=1714433501; c=relaxed/simple;
+	bh=RYmZMVsgkRF6fQMtSTSI9Fyn0R9nuXVEuHVFzJ6xgt4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dJXImf9G8xLCuT6iFOfoVwCNhlmbWz/gdN8qBqv6wupzzMGwjHr9LXvwXFxd6kid4sMpks4SJWC+/FAp6+FKokruav3+NKrewR9f73YevdFj1KU96JjcwTmYDRVLcpVw+2nmECCqcVMs5HroXkJN37dUB+gC5gkL5CyyNv9tc1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bIpMuFnL; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=BAfSjDBhxwLMnJGw8OWK2vp8CkLLcF0i1PdgkQknGCM1ktuc5d0ieOBh7PL70XaSNaQEdQuB/vSox+h++LAVcszbb4NR1iwV4k5fUXKZClStoSoziTrzZvwphfXyTOcQDkOeAcAT+XCUsmk7bNB27lBEQsBnjTG++parwduf5Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y8vhwxos; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bIpMuFnL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y8vhwxos"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714431486; x=1745967486;
+  t=1714433500; x=1745969500;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C2fhwAUmK+pmBV+RrP0pzk3vLUs4aj1AeMUYNkaapss=;
-  b=bIpMuFnLkunie7GfT+PII8k2+OwCq4b60ollvNv8Eg5B/zjl5rOe0JIu
-   LN62tgoOiPpngDBKLl3OAGT3aUIauE6mVy4TsI4MmJHAYJclNI5Vw/HcK
-   S5E4L279umQXcV0PwWNfmWa6Vl5meJMu3dHV3hYBGMq4ys0F32aZtG4vK
-   n+YW8Ro6B186hEulABRGnxV+gFhR4Lln2wB1MoIPLruUgHmqbcTsVD5Ta
-   vgH76XGwGuqA32JVfq7W6VvsJAZ+ibrM44N6GicuOtLeOu3JH2ZRe1Is5
-   dHbrPkyw09oMS9wT7nG0HwsyVX6+6T8sftP9hiWJnf+scwN62h7b6EyS5
-   w==;
-X-CSE-ConnectionGUID: wZe+ATZySmWdqVrIa7KNtw==
-X-CSE-MsgGUID: sFAMyYloQHCOQJDKBO6vCw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="20733118"
+  bh=RYmZMVsgkRF6fQMtSTSI9Fyn0R9nuXVEuHVFzJ6xgt4=;
+  b=Y8vhwxosveCUGsQUXW/MzmCNopUdEuSEuNuKvQAfEpI9+irAKVX5U+tB
+   jk/ArfuxsibbUbWPSzNh+uouwAYd101/sfErBsgZ1Uppy7O1/F6UIrK/H
+   MmbFnOZFfxoauUWaVRlvV7ycyPgWetaWEB2dhAf1HQB5+jusP6eVlLoS/
+   Mfs4vQ4y8IvejOkdnmHoVx7uZSLCYdETQ9KtwGMrOlqe0WgVLWI9+CfsC
+   6+qBNwD+Xb89/9HHf+Cie5DuZ4M9+a/qaWJRxUOsgJKzxF4I8w9Z56JFA
+   qu+kDW3O3mgSqSibkUAwsQA+h+OrpywpQxz9QnFUVXRePGOQc+c1NaujD
+   Q==;
+X-CSE-ConnectionGUID: fkLmTdOzRcqTyiw+1uOaWA==
+X-CSE-MsgGUID: aTX1JSSfRY+Hqzxj3hoC6Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10241998"
 X-IronPort-AV: E=Sophos;i="6.07,240,1708416000"; 
-   d="scan'208";a="20733118"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 15:58:03 -0700
-X-CSE-ConnectionGUID: 5YG4ZHgmTqOlHYHtRpFdnw==
-X-CSE-MsgGUID: DtUur0inStisT3ykqkO6cA==
+   d="scan'208";a="10241998"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 16:31:39 -0700
+X-CSE-ConnectionGUID: YWKN4lnjSieRS7m1ZS8HBg==
+X-CSE-MsgGUID: +atg2V0jTG2InM4iIsXRmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,240,1708416000"; 
-   d="scan'208";a="30707938"
+   d="scan'208";a="63742613"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Apr 2024 15:58:02 -0700
+  by orviesa001.jf.intel.com with ESMTP; 29 Apr 2024 16:31:38 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1Zwe-0007V4-03;
-	Mon, 29 Apr 2024 22:58:00 +0000
-Date: Tue, 30 Apr 2024 06:57:32 +0800
+	id 1s1aT9-0007WN-1Q;
+	Mon, 29 Apr 2024 23:31:35 +0000
+Date: Tue, 30 Apr 2024 07:29:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-1.0.x-imx 3680/11728]
- drivers/ata/libata-pmp.c:381:17: error: too few arguments to function
- 'kernel_thread'
-Message-ID: <202404300601.s7978v1b-lkp@intel.com>
+To: Jean Delvare <jdelvare@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, Michael Kelley <mhklinux@outlook.com>
+Subject: [jdelvare-staging:dmi-for-next 2/2]
+ drivers/firmware/dmi_scan.c:111:5: warning: format specifies type 'long' but
+ the argument has type 'int'
+Message-ID: <202404300723.xL4Fxpjn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,149 +63,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
-head:   37770f55ac9c4f6cd958eb5544939207eed8478f
-commit: 98e404ea2707414a2890234862238b42cb05bb88 [3680/11728] LF-5606: libata: pmp: workaround for ERR051238 for imx sata
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240430/202404300601.s7978v1b-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404300601.s7978v1b-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jdelvare/staging.git dmi-for-next
+head:   868577e6bfe18fb7afe030c15febe63885b5743b
+commit: 868577e6bfe18fb7afe030c15febe63885b5743b [2/2] firmware: dmi: Stop decoding on broken entry
+config: i386-randconfig-061-20240430 (https://download.01.org/0day-ci/archive/20240430/202404300723.xL4Fxpjn-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404300723.xL4Fxpjn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404300601.s7978v1b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404300723.xL4Fxpjn-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/sched.h:10,
-                    from include/linux/delay.h:23,
-                    from include/linux/libata.h:13,
-                    from drivers/ata/libata-pmp.c:11:
-   drivers/ata/libata-pmp.c: In function 'sata_pmp_configure':
->> include/uapi/linux/sched.h:14:25: warning: passing argument 3 of 'kernel_thread' makes pointer from integer without a cast [-Wint-conversion]
-      14 | #define CLONE_SIGHAND   0x00000800      /* set if signal handlers and blocked signals shared */
-   drivers/ata/libata-pmp.c:381:50: note: in expansion of macro 'CLONE_SIGHAND'
-     381 |                 kernel_thread(poll_thread, NULL, CLONE_SIGHAND | SIGCHLD);
-         |                                                  ^~~~~~~~~~~~~
-   In file included from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:1075,
-                    from include/linux/scatterlist.h:8,
-                    from include/linux/dma-mapping.h:11,
-                    from include/linux/libata.h:16:
-   include/linux/sched/task.h:99:70: note: expected 'const char *' but argument is of type 'int'
-      99 | extern pid_t kernel_thread(int (*fn)(void *), void *arg, const char *name,
-         |                                                          ~~~~~~~~~~~~^~~~
->> drivers/ata/libata-pmp.c:381:17: error: too few arguments to function 'kernel_thread'
-     381 |                 kernel_thread(poll_thread, NULL, CLONE_SIGHAND | SIGCHLD);
-         |                 ^~~~~~~~~~~~~
-   include/linux/sched/task.h:99:14: note: declared here
-      99 | extern pid_t kernel_thread(int (*fn)(void *), void *arg, const char *name,
-         |              ^~~~~~~~~~~~~
+>> drivers/firmware/dmi_scan.c:111:5: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
+     110 |                                 "Corrupted DMI table, offset %ld (only %d entries processed)\n",
+         |                                                              ~~~
+         |                                                              %d
+     111 |                                 data - buf, i);
+         |                                 ^~~~~~~~~~
+   include/linux/printk.h:508:37: note: expanded from macro 'pr_warn'
+     508 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                                    ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+     455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/kernel_thread +381 drivers/ata/libata-pmp.c
+vim +111 drivers/firmware/dmi_scan.c
 
-   298	
-   299	#define PMP_GSCR_SII_POL 129
-   300	static int sata_pmp_configure(struct ata_device *dev, int print_info)
-   301	{
-   302		struct ata_port *ap = dev->link->ap;
-   303		u32 *gscr = dev->gscr;
-   304		u16 vendor = sata_pmp_gscr_vendor(gscr);
-   305		u16 devid = sata_pmp_gscr_devid(gscr);
-   306		unsigned int err_mask = 0;
-   307		const char *reason;
-   308		int nr_ports, rc;
-   309	
-   310		nr_ports = sata_pmp_gscr_ports(gscr);
-   311	
-   312		if (nr_ports <= 0 || nr_ports > SATA_PMP_MAX_PORTS) {
-   313			rc = -EINVAL;
-   314			reason = "invalid nr_ports";
-   315			goto fail;
-   316		}
-   317	
-   318		if ((ap->flags & ATA_FLAG_AN) &&
-   319		    (gscr[SATA_PMP_GSCR_FEAT] & SATA_PMP_FEAT_NOTIFY))
-   320			dev->flags |= ATA_DFLAG_AN;
-   321	
-   322		/* monitor SERR_PHYRDY_CHG on fan-out ports */
-   323		err_mask = sata_pmp_write(dev->link, SATA_PMP_GSCR_ERROR_EN,
-   324					  SERR_PHYRDY_CHG);
-   325		if (err_mask) {
-   326			rc = -EIO;
-   327			reason = "failed to write GSCR_ERROR_EN";
-   328			goto fail;
-   329		}
-   330	
-   331		/* Disable sending Early R_OK.
-   332		 * With "cached read" HDD testing and multiple ports busy on a SATA
-   333		 * host controller, 3x26 PMP will very rarely drop a deferred
-   334		 * R_OK that was intended for the host. Symptom will be all
-   335		 * 5 drives under test will timeout, get reset, and recover.
-   336		 */
-   337		if (vendor == 0x1095 && (devid == 0x3726 || devid == 0x3826)) {
-   338			u32 reg;
-   339	
-   340			err_mask = sata_pmp_read(&ap->link, PMP_GSCR_SII_POL, &reg);
-   341			if (err_mask) {
-   342				rc = -EIO;
-   343				reason = "failed to read Sil3x26 Private Register";
-   344				goto fail;
-   345			}
-   346			reg &= ~0x1;
-   347			err_mask = sata_pmp_write(&ap->link, PMP_GSCR_SII_POL, reg);
-   348			if (err_mask) {
-   349				rc = -EIO;
-   350				reason = "failed to write Sil3x26 Private Register";
-   351				goto fail;
-   352			}
-   353		}
-   354	
-   355		if (print_info) {
-   356			ata_dev_info(dev, "Port Multiplier %s, "
-   357				     "0x%04x:0x%04x r%d, %d ports, feat 0x%x/0x%x\n",
-   358				     sata_pmp_spec_rev_str(gscr), vendor, devid,
-   359				     sata_pmp_gscr_rev(gscr),
-   360				     nr_ports, gscr[SATA_PMP_GSCR_FEAT_EN],
-   361				     gscr[SATA_PMP_GSCR_FEAT]);
-   362	
-   363			if (!(dev->flags & ATA_DFLAG_AN))
-   364				ata_dev_info(dev,
-   365					"Asynchronous notification not supported, "
-   366					"hotplug won't work on fan-out ports. Use warm-plug instead.\n");
-   367		}
-   368	
-   369	#ifdef CONFIG_AHCI_IMX_PMP
-   370		/* create a polling thread for hotplug */
-   371		if (hpriv.poll_thread_created) {
-   372			mutex_lock(&(hpriv.mutex));
-   373			hpriv.ap = ap;
-   374			hpriv.port_mmio = ahci_port_base(ap);
-   375			mutex_unlock(&(hpriv.mutex));
-   376		} else {
-   377			mutex_init(&(hpriv.mutex));
-   378			hpriv.ap = ap;
-   379			hpriv.port_mmio = ahci_port_base(ap);
-   380			ata_port_info(ap, "i.MX8QM PMP SNotification polling thread created.\n");
- > 381			kernel_thread(poll_thread, NULL, CLONE_SIGHAND | SIGCHLD);
-   382			hpriv.poll_thread_created = true;
-   383		}
-   384	#endif
-   385	
-   386		return 0;
-   387	
-   388	 fail:
-   389		ata_dev_err(dev,
-   390			    "failed to configure Port Multiplier (%s, Emask=0x%x)\n",
-   391			    reason, err_mask);
-   392		return rc;
-   393	}
-   394	
+    82	
+    83	/*
+    84	 *	We have to be cautious here. We have seen BIOSes with DMI pointers
+    85	 *	pointing to completely the wrong place for example
+    86	 */
+    87	static void dmi_decode_table(u8 *buf,
+    88				     void (*decode)(const struct dmi_header *, void *),
+    89				     void *private_data)
+    90	{
+    91		u8 *data = buf;
+    92		int i = 0;
+    93	
+    94		/*
+    95		 * Stop when we have seen all the items the table claimed to have
+    96		 * (SMBIOS < 3.0 only) OR we reach an end-of-table marker (SMBIOS
+    97		 * >= 3.0 only) OR we run off the end of the table (should never
+    98		 * happen but sometimes does on bogus implementations.)
+    99		 */
+   100		while ((!dmi_num || i < dmi_num) &&
+   101		       (data - buf + sizeof(struct dmi_header)) <= dmi_len) {
+   102			const struct dmi_header *dm = (const struct dmi_header *)data;
+   103	
+   104			/*
+   105			 * If a short entry is found (less than 4 bytes), not only it
+   106			 * is invalid, but we cannot reliably locate the next entry.
+   107			 */
+   108			if (dm->length < sizeof(struct dmi_header)) {
+   109				pr_warn(FW_BUG
+   110					"Corrupted DMI table, offset %ld (only %d entries processed)\n",
+ > 111					data - buf, i);
+   112				break;
+   113			}
+   114	
+   115			/*
+   116			 *  We want to know the total length (formatted area and
+   117			 *  strings) before decoding to make sure we won't run off the
+   118			 *  table in dmi_decode or dmi_string
+   119			 */
+   120			data += dm->length;
+   121			while ((data - buf < dmi_len - 1) && (data[0] || data[1]))
+   122				data++;
+   123			if (data - buf < dmi_len - 1)
+   124				decode(dm, private_data);
+   125	
+   126			data += 2;
+   127			i++;
+   128	
+   129			/*
+   130			 * 7.45 End-of-Table (Type 127) [SMBIOS reference spec v3.0.0]
+   131			 * For tables behind a 64-bit entry point, we have no item
+   132			 * count and no exact table length, so stop on end-of-table
+   133			 * marker. For tables behind a 32-bit entry point, we have
+   134			 * seen OEM structures behind the end-of-table marker on
+   135			 * some systems, so don't trust it.
+   136			 */
+   137			if (!dmi_num && dm->type == DMI_ENTRY_END_OF_TABLE)
+   138				break;
+   139		}
+   140	
+   141		/* Trim DMI table length if needed */
+   142		if (dmi_len > data - buf)
+   143			dmi_len = data - buf;
+   144	}
+   145	
 
 -- 
 0-DAY CI Kernel Test Service
