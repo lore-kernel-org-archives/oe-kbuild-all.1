@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F9D12B73
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Apr 2024 19:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E590213AA5D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Apr 2024 21:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714418349; cv=none; b=cENzjXqXui8nsuqZe4CC0WUSG1f/BrIeWafJMNaaN6UCUvraIMSHOXNigBi9unyUd0m12B/6fn7vaoCNUxBsvj3uC+PfxlnUuBV6L9NgwWDprQ9dJkiamaiiaiuynvGbcGsi+CxWrhkpy4pKVAdrYDsdwUaClOSHdiL2tF66v24=
+	t=1714425183; cv=none; b=i1HJUFtHclkTXEYVhQ9taA9s0cO3bZ7ZmWMschDuB2od9Mlh88CTFZgSrCm9+MgAf0A5gl3YWE6vgdPbwLnyEyKGJ7pMWk50Ii5X1DuR0tuLtXPbf83lTPZx1s6O/AawBBSy7jetYXWnHT6mHG6M5tBeULIv/RhO0IreK2b+Kto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714418349; c=relaxed/simple;
-	bh=/Tb039jr8aDO9PFI2AaXXfoNocSWVHPGFZbldxF8is4=;
+	s=arc-20240116; t=1714425183; c=relaxed/simple;
+	bh=wvJvn2RqXHt5KKSA+LcbgUhwmtPqAFiBePS6s+K7WZs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ie1nCVOnIFWdMTxippk5S2cNPsEMOW7gRJt3pz2iHkfT0T9VZRTFS6RQgdFl4/CTaZT3yoQdt0HHYQS1ke1NV1GZ6603UrAIN/Ul/fvzxGN0T329N6OGmLX2RjOHYlTK6QtTa09wbii05+hypGk7w2Io5GOQwgi+eQZH8AdkDpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n9pfq/WX; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=cLIct7Z84/uWn13+aFzMaQuxi5392AQnanPeS7F3OWRuaWliVYlrpFegEflikGlrnO6sQM4p5HjlZk80aY8hrnZP349WlrgTQXuXESWoATna8+h5DcbZFR0DL4yMh5q6uzt7LYZoNwE0zav+QV3a0CFnjEfWEhc6PczB/boarEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RyiXz+MS; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n9pfq/WX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RyiXz+MS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714418347; x=1745954347;
+  t=1714425181; x=1745961181;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/Tb039jr8aDO9PFI2AaXXfoNocSWVHPGFZbldxF8is4=;
-  b=n9pfq/WX8fKFpIuEwVEk1Gt9KVJuP+BbfScico4wck7yIRL/d64gE3eM
-   +aTJP2dd6IpsxaAcWV+KgynCK/GuR1AKpb+d8vylD9iPM7/YHlDDwmHVR
-   HD2CEVa8syOqUNJ9Nfnoimjt1xQo9KsjpPIQIJlmv+gyCGIQ2aczwJTCU
-   FDQdGg+FMxtvFbpiAm9OS8FA0uQtGR7eLzOtZBdsne9uMC9YXeDZ4ROdc
-   Dkl+7LDWiH55Z0L1idadYTAA5aJXZnxSUxeEb1A8XxSz/XiYQ11c2aJe6
-   vloOQ/rg4kzViNqDiTvmoZXUcgJ38tY8Dym6IsAXMc2WTJMXfUUQuxceV
-   Q==;
-X-CSE-ConnectionGUID: sDEH9reETJyje4yp6HPxZQ==
-X-CSE-MsgGUID: nz/2CRU2QBKN9u8bNms5ew==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="20783730"
+  bh=wvJvn2RqXHt5KKSA+LcbgUhwmtPqAFiBePS6s+K7WZs=;
+  b=RyiXz+MSqwSR7QTJvpfQpRuyD8fVu6QMIfCK0GeqlT5PFs7dr0xjBaqi
+   W/gdjw8wQER+0UWJqBD+irfbJl1WnrY8JWQAATsZ3WZEnaA8pOEaO/6Tx
+   s2iMn1ZvKukEQW/zu6rZr+SjH2ZMMlWRy0tnpuaOQmmEnUbyVCQBkJ2K+
+   7DUTmeAGXkaWOhltL/JzGmGoJmhA4U7E94Ne+5Wbm7ZcRYnh2qV9CKpvc
+   S3USzoaZ2GLLxpS1JZxpPtvoOLv545PPdU4bIAOTBnJv8IURAk65qa6IW
+   /mtwcs/FxLuBq19UaK+sHQWBTWZ74Oc3BeEweX7fM3fAOmXb16BekVBXu
+   w==;
+X-CSE-ConnectionGUID: A1uZShmNTlKm9ksndskiJA==
+X-CSE-MsgGUID: wDFRyylWRlq95Q6+WJAojA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10030295"
 X-IronPort-AV: E=Sophos;i="6.07,240,1708416000"; 
-   d="scan'208";a="20783730"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 12:18:57 -0700
-X-CSE-ConnectionGUID: T6oQCfE4Tlm+xiIMLp4MQQ==
-X-CSE-MsgGUID: Ge6ISWG+Q+uiRnz3Wvpncw==
+   d="scan'208";a="10030295"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 14:13:01 -0700
+X-CSE-ConnectionGUID: VdKjnFBiQT64CvZz7lscgw==
+X-CSE-MsgGUID: 2GoUOzOVQW6miaU/7ZuXRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,240,1708416000"; 
-   d="scan'208";a="26080549"
+   d="scan'208";a="26857205"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 29 Apr 2024 12:18:56 -0700
+  by orviesa008.jf.intel.com with ESMTP; 29 Apr 2024 14:12:59 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1WWb-0007O4-2M;
-	Mon, 29 Apr 2024 19:18:53 +0000
-Date: Tue, 30 Apr 2024 03:18:30 +0800
+	id 1s1YIz-0007Qs-0K;
+	Mon, 29 Apr 2024 21:12:57 +0000
+Date: Tue, 30 Apr 2024 05:12:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 3533/29983]
- drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5714:19: warning: variable
- 'coreList' set but not used
-Message-ID: <202404300339.HgbCZhUb-lkp@intel.com>
+Subject: [android-common:android15-6.6 262/11597]
+ net/core/net-procfs.c:305:undefined reference to `wext_proc_exit'
+Message-ID: <202404300504.75zzyezZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,165 +62,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   5134e031114e613cb04858e248af5e65fe1e112f
-commit: c8e5adb6a3946c83c3cdcdeea528e4a0d42f901c [3533/29983] LF-4373-2 [#ccc] fix 6qp opencl cts kernel panic
-config: arm64-randconfig-003-20240429 (https://download.01.org/0day-ci/archive/20240430/202404300339.HgbCZhUb-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404300339.HgbCZhUb-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   65994b8c0220790d4b5b5aaf9d47ccf9bd42a473
+commit: 8a167346a33aa28c6e422739e69abc87f57f81bc [262/11597] ANDROID: net: enable wireless core features with GKI_LEGACY_WEXT_ALLCONFIG
+config: x86_64-randconfig-103-20240430 (https://download.01.org/0day-ci/archive/20240430/202404300504.75zzyezZ-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404300504.75zzyezZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404300339.HgbCZhUb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404300504.75zzyezZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:166:1: warning: no previous prototype for function '_ClearPendingIntr' [-Wmissing-prototypes]
-     166 | _ClearPendingIntr(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:165:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     165 | gceSTATUS
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:208:1: warning: no previous prototype for function '_MonitorTimerFunction' [-Wmissing-prototypes]
-     208 | _MonitorTimerFunction(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:207:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     207 | void
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:391:1: warning: no previous prototype for function '_DumpDriverConfigure' [-Wmissing-prototypes]
-     391 | _DumpDriverConfigure(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:390:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     390 | void
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:406:1: warning: no previous prototype for function '_DumpState' [-Wmissing-prototypes]
-     406 | _DumpState(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:405:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     405 | void
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:458:1: warning: no previous prototype for function '_SetRecovery' [-Wmissing-prototypes]
-     458 | _SetRecovery(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:457:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     457 | gceSTATUS
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:1489:1: warning: no previous prototype for function '_AllocateLinearMemory' [-Wmissing-prototypes]
-    1489 | _AllocateLinearMemory(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:1488:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1488 | gceSTATUS
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:1612:1: warning: no previous prototype for function '_ReleaseVideoMemory' [-Wmissing-prototypes]
-    1612 | _ReleaseVideoMemory(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:1611:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1611 | gceSTATUS
-         | ^
-         | static 
-   In file included from drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:2127:
-   In file included from include/linux/dma-buf.h:19:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1601:
-   include/linux/vmstat.h:450:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     450 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:2130:1: warning: no previous prototype for function '_SetVidMemMetadata' [-Wmissing-prototypes]
-    2130 | _SetVidMemMetadata(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:2129:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2129 | gceSTATUS
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:2302:1: warning: no previous prototype for function 'gckKERNEL_ConfigPowerManagement' [-Wmissing-prototypes]
-    2302 | gckKERNEL_ConfigPowerManagement(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:2301:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2301 | gceSTATUS
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5246:1: warning: no previous prototype for function '_ListDel' [-Wmissing-prototypes]
-    5246 | _ListDel(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5245:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    5245 | void
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5630:1: warning: no previous prototype for function 'gckDEVICE_ChipInfo' [-Wmissing-prototypes]
-    5630 | gckDEVICE_ChipInfo(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5629:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    5629 | gceSTATUS
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5652:1: warning: no previous prototype for function 'gckDEVICE_Version' [-Wmissing-prototypes]
-    5652 | gckDEVICE_Version(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5651:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    5651 | gceSTATUS
-         | ^
-         | static 
->> drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5714:19: warning: variable 'coreList' set but not used [-Wunused-but-set-variable]
-    5714 |     gcsCORE_LIST *coreList;
-         |                   ^
-   14 warnings generated.
+   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   ld: net/socket.o: in function `sock_ioctl':
+   net/socket.c:1110:(.text+0x611c): undefined reference to `wext_handle_ioctl'
+   ld: net/socket.o: in function `compat_sock_ioctl':
+   net/socket.c:3478:(.text+0x6a36): undefined reference to `compat_wext_handle_ioctl'
+   ld: net/core/net-procfs.o: in function `dev_proc_net_exit':
+>> net/core/net-procfs.c:305:(.text+0x6ad): undefined reference to `wext_proc_exit'
+   ld: net/core/net-procfs.o: in function `dev_proc_net_init':
+>> net/core/net-procfs.c:289:(.text+0x83d): undefined reference to `wext_proc_init'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 
-vim +/coreList +5714 drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c
+vim +305 net/core/net-procfs.c
 
-3dcab85234f3a47 Xianzhong 2019-01-29  5703  
-3dcab85234f3a47 Xianzhong 2019-01-29  5704  static gceSTATUS
-3dcab85234f3a47 Xianzhong 2019-01-29  5705  gckDEVICE_SetTimeOut(
-3dcab85234f3a47 Xianzhong 2019-01-29  5706      IN gckDEVICE Device,
-3dcab85234f3a47 Xianzhong 2019-01-29  5707      IN gcsHAL_INTERFACE_PTR Interface
-3dcab85234f3a47 Xianzhong 2019-01-29  5708      )
-3dcab85234f3a47 Xianzhong 2019-01-29  5709  {
-3dcab85234f3a47 Xianzhong 2019-01-29  5710  #if gcdGPU_TIMEOUT
-3dcab85234f3a47 Xianzhong 2019-01-29  5711      gckKERNEL kernel;
-3dcab85234f3a47 Xianzhong 2019-01-29  5712      gctUINT i;
-3dcab85234f3a47 Xianzhong 2019-01-29  5713      gceHARDWARE_TYPE type = Interface->hardwareType;
-3dcab85234f3a47 Xianzhong 2019-01-29 @5714      gcsCORE_LIST *coreList;
-5e8b5d1ec54ff5b Xianzhong 2019-10-18  5715      gctUINT32 processID = 0;
-a612476cb33f7f3 Ella Feng 2019-12-05  5716      gcsCORE_INFO *info = Device->coreInfoArray;
-a612476cb33f7f3 Ella Feng 2019-12-05  5717  
-a612476cb33f7f3 Ella Feng 2019-12-05  5718      coreList = &Device->map[type];
-5e8b5d1ec54ff5b Xianzhong 2019-10-18  5719  
-5e8b5d1ec54ff5b Xianzhong 2019-10-18  5720      /* Get the current process ID. */
-5e8b5d1ec54ff5b Xianzhong 2019-10-18  5721      gckOS_GetProcessID(&processID);
-3dcab85234f3a47 Xianzhong 2019-01-29  5722  
-a612476cb33f7f3 Ella Feng 2019-12-05  5723      for (i = 0; i < Device->coreNum; i++)
-a612476cb33f7f3 Ella Feng 2019-12-05  5724      {
-a612476cb33f7f3 Ella Feng 2019-12-05  5725          if (type == gcvHARDWARE_3D || type == gcvHARDWARE_3D2D || type == gcvHARDWARE_VIP)
-a612476cb33f7f3 Ella Feng 2019-12-05  5726          {
-a612476cb33f7f3 Ella Feng 2019-12-05  5727              kernel = info[i].kernel;
-a612476cb33f7f3 Ella Feng 2019-12-05  5728          }
-a612476cb33f7f3 Ella Feng 2019-12-05  5729          else
-3dcab85234f3a47 Xianzhong 2019-01-29  5730          {
-c8e5adb6a3946c8 Xianzhong 2021-09-23  5731              continue;
-a612476cb33f7f3 Ella Feng 2019-12-05  5732          }
-3dcab85234f3a47 Xianzhong 2019-01-29  5733  
-3dcab85234f3a47 Xianzhong 2019-01-29  5734          kernel->timeOut = Interface->u.SetTimeOut.timeOut;
-5e8b5d1ec54ff5b Xianzhong 2019-10-18  5735  
-5e8b5d1ec54ff5b Xianzhong 2019-10-18  5736          kernel->timeoutPID = processID;
-3dcab85234f3a47 Xianzhong 2019-01-29  5737      }
-3dcab85234f3a47 Xianzhong 2019-01-29  5738  #endif
-3dcab85234f3a47 Xianzhong 2019-01-29  5739  
-3dcab85234f3a47 Xianzhong 2019-01-29  5740      return gcvSTATUS_OK;
-3dcab85234f3a47 Xianzhong 2019-01-29  5741  }
-3dcab85234f3a47 Xianzhong 2019-01-29  5742  
+900ff8c6321418 Cong Wang         2013-02-18  274  
+900ff8c6321418 Cong Wang         2013-02-18  275  static int __net_init dev_proc_net_init(struct net *net)
+900ff8c6321418 Cong Wang         2013-02-18  276  {
+900ff8c6321418 Cong Wang         2013-02-18  277  	int rc = -ENOMEM;
+900ff8c6321418 Cong Wang         2013-02-18  278  
+c3506372277779 Christoph Hellwig 2018-04-10  279  	if (!proc_create_net("dev", 0444, net->proc_net, &dev_seq_ops,
+c3506372277779 Christoph Hellwig 2018-04-10  280  			sizeof(struct seq_net_private)))
+900ff8c6321418 Cong Wang         2013-02-18  281  		goto out;
+fddda2b7b52118 Christoph Hellwig 2018-04-13  282  	if (!proc_create_seq("softnet_stat", 0444, net->proc_net,
+fddda2b7b52118 Christoph Hellwig 2018-04-13  283  			 &softnet_seq_ops))
+900ff8c6321418 Cong Wang         2013-02-18  284  		goto out_dev;
+c3506372277779 Christoph Hellwig 2018-04-10  285  	if (!proc_create_net("ptype", 0444, net->proc_net, &ptype_seq_ops,
+c3506372277779 Christoph Hellwig 2018-04-10  286  			sizeof(struct seq_net_private)))
+900ff8c6321418 Cong Wang         2013-02-18  287  		goto out_softnet;
+900ff8c6321418 Cong Wang         2013-02-18  288  
+900ff8c6321418 Cong Wang         2013-02-18 @289  	if (wext_proc_init(net))
+900ff8c6321418 Cong Wang         2013-02-18  290  		goto out_ptype;
+900ff8c6321418 Cong Wang         2013-02-18  291  	rc = 0;
+900ff8c6321418 Cong Wang         2013-02-18  292  out:
+900ff8c6321418 Cong Wang         2013-02-18  293  	return rc;
+900ff8c6321418 Cong Wang         2013-02-18  294  out_ptype:
+900ff8c6321418 Cong Wang         2013-02-18  295  	remove_proc_entry("ptype", net->proc_net);
+900ff8c6321418 Cong Wang         2013-02-18  296  out_softnet:
+900ff8c6321418 Cong Wang         2013-02-18  297  	remove_proc_entry("softnet_stat", net->proc_net);
+900ff8c6321418 Cong Wang         2013-02-18  298  out_dev:
+900ff8c6321418 Cong Wang         2013-02-18  299  	remove_proc_entry("dev", net->proc_net);
+900ff8c6321418 Cong Wang         2013-02-18  300  	goto out;
+900ff8c6321418 Cong Wang         2013-02-18  301  }
+900ff8c6321418 Cong Wang         2013-02-18  302  
+900ff8c6321418 Cong Wang         2013-02-18  303  static void __net_exit dev_proc_net_exit(struct net *net)
+900ff8c6321418 Cong Wang         2013-02-18  304  {
+900ff8c6321418 Cong Wang         2013-02-18 @305  	wext_proc_exit(net);
+900ff8c6321418 Cong Wang         2013-02-18  306  
+900ff8c6321418 Cong Wang         2013-02-18  307  	remove_proc_entry("ptype", net->proc_net);
+900ff8c6321418 Cong Wang         2013-02-18  308  	remove_proc_entry("softnet_stat", net->proc_net);
+900ff8c6321418 Cong Wang         2013-02-18  309  	remove_proc_entry("dev", net->proc_net);
+900ff8c6321418 Cong Wang         2013-02-18  310  }
+900ff8c6321418 Cong Wang         2013-02-18  311  
 
-:::::: The code at line 5714 was first introduced by commit
-:::::: 3dcab85234f3a4768e11d0fa9b18cfc9145c1131 MGS-4530-1 add 6.2.4.p4 gpu driver for L4.19
+:::::: The code at line 305 was first introduced by commit
+:::::: 900ff8c6321418dafa03c22e215cb9646a2541b9 net: move procfs code to net/core/net-procfs.c
 
-:::::: TO: Xianzhong <xianzhong.li@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+:::::: TO: Cong Wang <xiyou.wangcong@gmail.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
