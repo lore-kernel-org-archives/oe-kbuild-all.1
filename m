@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1C6376F1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Apr 2024 09:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C42848E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Apr 2024 10:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714384120; cv=none; b=QAxE60hgKp7yQeoIah9MtybypQzdtyxCWPI8aARugEWcP1AbJY3DgNtUNT6vChn1GL7+RZouN9+brtbd/lTdh5bVy9GpwKZ7utBbdWPdT6Dyx80EsN1hA90Mdra7YygeeLAFnKYhxzo9G4eKcuzlGYS6eG0hEQQSRnKoxIeg348=
+	t=1714386643; cv=none; b=unzShBOmnOiq4nqZtKY/JdVsJ/oab3Esmu3oGN25cI03mrlw30QVl+ZBGaLaLtzh9IoyG66X4tTukMTw47aSLBBHb3Mn8XgfOUGAtlH1lCprEaXtCnIhhCeSCHrG9BzHeNeeTRN27AxeG938d85yxcM8sim2McTCNzplhxU4Wa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714384120; c=relaxed/simple;
-	bh=SHOTpd3mJ76G3MeNlIkybFk2cSyd79lNzUK89faXY0Q=;
+	s=arc-20240116; t=1714386643; c=relaxed/simple;
+	bh=fUKZ0gUAIoGgJVUdSZ8KUz9shqg+rNKn0PtLBKluMz4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Hj4bUq/zH2e75zlbdOcAwDyzI2RbUSTPXZPq598fXrindUW9jlgm1y68oMUhuTagEEQnHRORMeTRsejr2uwBVqlSkeCkkbRYGnMZLQxRfI69KIfuCuoJylzM2f8R2KXGbO4x/UG8CYQYdtOfbUNaRX5p8ythDmdsx0DBpAS6Wqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BffKQCsr; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=hHile9t7z33NyKiRP52UTuofZxYYNoa+UPCWEvt30qRSOCr6YyiHCOYOOzlSQuDU9AJP+jY819bXXEagz3Wke8rtQmcgkGemscmd3vI3kHLSqieF5hDh2pMRBOmNjQt2pTnczBtmfRV8RSYY5Begd9wTyetcmVlSg45kj2AiIQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nhGqSycK; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BffKQCsr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nhGqSycK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714384119; x=1745920119;
+  t=1714386641; x=1745922641;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SHOTpd3mJ76G3MeNlIkybFk2cSyd79lNzUK89faXY0Q=;
-  b=BffKQCsrmfBnH3fSAnLmLa80T7pJQOKvzSHvt+SRDRVzZJFVKznTOIUE
-   WqL8gepkT6oHFPtCB0WySg4Qv+lpGRA2uylYhAKlP5FX0FICoZP+gkApu
-   8HdeKr6kmcgiKNpyx3Rgyt+dRPCna/w+dG9agAPA8vp09mB+vrW9bUJH1
-   Pi3eu4HX5sBdYyWEvM9TAyMSYc9PoYsSZJsqcSUJCzD3yW73BSVtq5DYy
-   raHXfHw8iKB/+EEs7JB3669XVmlB8yG0RG40BLFLeEdmqHhX77qPLfvkJ
-   Qsg3BgDF53q8md6w59x0c9SzAkQNW+Oyb35Mo2eifzJoUvaBaGreSr5Qg
-   g==;
-X-CSE-ConnectionGUID: O//ztkcFTXiPi1q0Obpl3A==
-X-CSE-MsgGUID: fwflFdRTSFKEbGYq4UdVVw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="13866262"
+  bh=fUKZ0gUAIoGgJVUdSZ8KUz9shqg+rNKn0PtLBKluMz4=;
+  b=nhGqSycKlwFFjI5raSaV8ZoV7nYIexFoP4IOax7vT6z1vTPXpkSc/PdN
+   BfuDemyxKFSOkEwsNrdiCFfGqWdgwdtKEQNohE6+YCu4B0KIOY8r/vbWM
+   /zDUzfZuRbi11bxXN0dC6hkZ2f98Ic7nNNHdAlwAKQPa6j+m32kgJiO2Y
+   4vR+4wXvQ7DGcu36P6r+kgJLYqVfqLdBjsovGUGxsGH4DwgEned2jP+Si
+   aA4U5z9kn8BJDeHdIX3Yg4TGoT4RfZzAhe2Zgdl3n0Xsa33FNB/HAxi4z
+   Oh5FJrOugIMHBjvStngutVJYnt5Ldd7BTNDDyywuy//x2X29Z6anS0y7H
+   w==;
+X-CSE-ConnectionGUID: ytDKIUdkSvuWwkSZ1tWqjA==
+X-CSE-MsgGUID: 9xkHgX+kRJCx4CtJfYgzug==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="12974792"
 X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
-   d="scan'208";a="13866262"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 02:48:39 -0700
-X-CSE-ConnectionGUID: ZTUWOCQJQmGkn0EQFzSTPA==
-X-CSE-MsgGUID: v9u6DkWWSyuldxc+p2LC2g==
+   d="scan'208";a="12974792"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 03:30:39 -0700
+X-CSE-ConnectionGUID: f3F6ax+pTl+HTch8oQkk+A==
+X-CSE-MsgGUID: Gv9+2kznQu6fGQYMHiShcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
-   d="scan'208";a="26066361"
+   d="scan'208";a="26694585"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 29 Apr 2024 02:48:37 -0700
+  by orviesa008.jf.intel.com with ESMTP; 29 Apr 2024 03:30:38 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1Ncg-00076E-0d;
-	Mon, 29 Apr 2024 09:48:34 +0000
-Date: Mon, 29 Apr 2024 17:47:54 +0800
+	id 1s1OHL-00077a-29;
+	Mon, 29 Apr 2024 10:30:35 +0000
+Date: Mon, 29 Apr 2024 18:30:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 3225/29983]
- drivers/gpio/gpio-scu.c:99:11: error: 'struct gpio_chip' has no member named
- 'of_node'
-Message-ID: <202404291717.Sp3gkRKd-lkp@intel.com>
+Subject: [freescale-fslc:5.15-2.2.x-imx 9857/29983]
+ drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c:716:15: error: redefinition of
+ 'up' as different kind of symbol
+Message-ID: <202404291827.3LjNIxnJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,67 +63,162 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Shenwei,
-
-FYI, the error/warning still remains.
-
 tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
 head:   5134e031114e613cb04858e248af5e65fe1e112f
-commit: cdb7bf80f99743df8c3375d3191d3b96661c4b65 [3225/29983] MLK-25166-1 gpio: gpio-scu: gpio driver over scu fw misc api
-config: parisc-randconfig-001-20240429 (https://download.01.org/0day-ci/archive/20240429/202404291717.Sp3gkRKd-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240429/202404291717.Sp3gkRKd-lkp@intel.com/reproduce)
+commit: e5f6c88bebcc7392ffecb160ade7d87b0164e8c1 [9857/29983] MA-20005-12 hantro_vc8000e: Fix build error exposed by -Wunused-variable
+config: arm64-randconfig-001-20240429 (https://download.01.org/0day-ci/archive/20240429/202404291827.3LjNIxnJ-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240429/202404291827.3LjNIxnJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404291717.Sp3gkRKd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404291827.3LjNIxnJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpio/gpio-scu.c: In function 'imx_scu_gpio_probe':
->> drivers/gpio/gpio-scu.c:99:11: error: 'struct gpio_chip' has no member named 'of_node'
-      99 |         gc->of_node = np;
-         |           ^~
+   In file included from drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c:29:
+   In file included from include/linux/mm.h:1608:
+   include/linux/vmstat.h:436:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     436 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     437 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:443:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     443 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     444 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:450:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     450 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:455:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     455 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     456 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c:369:6: warning: variable 'core_num' set but not used [-Wunused-but-set-variable]
+     369 |         u32 core_num = 0;
+         |             ^
+>> drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c:716:15: error: redefinition of 'up' as different kind of symbol
+     716 |         void __user *up = compat_ptr(arg);
+         |                      ^
+   include/linux/semaphore.h:43:13: note: previous definition is here
+      43 | extern void up(struct semaphore *sem);
+         |             ^
+>> drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c:716:31: error: use of undeclared identifier 'arg'
+     716 |         void __user *up = compat_ptr(arg);
+         |                                      ^
+>> drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c:718:2: error: expected identifier or '('
+     718 |         switch (_IOC_NR(cmd)) {
+         |         ^
+   drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c:798:2: error: expected identifier or '('
+     798 |         return 0;
+         |         ^
+>> drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c:799:1: error: extraneous closing brace ('}')
+     799 | }
+         | ^
+   5 warnings and 5 errors generated.
 
 
-vim +99 drivers/gpio/gpio-scu.c
+vim +/up +716 drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c
 
-    80	
-    81	static int imx_scu_gpio_probe(struct platform_device *pdev)
-    82	{
-    83		struct device *dev = &pdev->dev;
-    84		struct device_node *np = dev->of_node;
-    85		struct imxscfw *port;
-    86		struct gpio_chip *gc;
-    87		int ret;
-    88	
-    89		port = devm_kzalloc(&pdev->dev, sizeof(*port), GFP_KERNEL);
-    90		if (!port)
-    91			return -ENOMEM;
-    92	
-    93		ret = imx_scu_get_handle(&port->handle);
-    94		if (ret)
-    95			return ret;
-    96	
-    97		mutex_init(&port->lock);
-    98		gc = &port->chip;
-  > 99		gc->of_node = np;
-   100		gc->parent = dev;
-   101		gc->label = "imx-scu-gpio";
-   102		gc->ngpio = PIN_NUMBER;
-   103		gc->base = of_alias_get_id(np, "gpio") * 32;
-   104	
-   105		gc->get = imxscfw_get;
-   106		gc->set = imxscfw_set;
-   107	
-   108		platform_set_drvdata(pdev, port);
-   109	
-   110		ret = devm_gpiochip_add_data(dev, gc, port);
-   111	
-   112		return ret;
-   113	}
-   114	
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  711  
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  712  union {
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  713  	unsigned long kux;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  714  	unsigned int kui;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  715  } karg;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07 @716  	void __user *up = compat_ptr(arg);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  717  
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07 @718  	switch (_IOC_NR(cmd)) {
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  719  	case _IOC_NR(HX280ENC_IOCGHWOFFSET): {
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  720  		err = get_user(karg.kux, (s32 __user *)up);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  721  		if (err)
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  722  			return err;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  723  		HX280ENC_IOCTL32(err, filp, cmd, (unsigned long)&karg);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  724  		err = put_user(((s32)karg.kux), (s32 __user *)up);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  725  		break;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  726  	}
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  727  	case _IOC_NR(HX280ENC_IOCGHWIOSIZE): {
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  728  		err = get_user(karg.kui, (s32 __user *)up);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  729  		if (err)
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  730  			return err;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  731  		HX280ENC_IOCTL32(err, filp, cmd, (unsigned long)&karg);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  732  		err = put_user(((s32)karg.kui), (s32 __user *)up);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  733  		break;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  734  	}
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  735  	case _IOC_NR(HX280ENC_IOCGSRAMOFFSET): {
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  736  		err = get_user(karg.kux, (s32 __user *)up);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  737  		if (err)
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  738  			return err;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  739  		HX280ENC_IOCTL32(err, filp, cmd, (unsigned long)&karg);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  740  		err = put_user(((s32)karg.kux), (s32 __user *)up);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  741  		break;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  742  	}
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  743  	case _IOC_NR(HX280ENC_IOCGSRAMEIOSIZE):{
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  744  		err = get_user(karg.kui, (s32 __user *)up);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  745  		if (err)
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  746  			return err;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  747  		HX280ENC_IOCTL32(err, filp, cmd, (unsigned long)&karg);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  748  		err = put_user(((s32)karg.kui), (s32 __user *)up);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  749  		break;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  750  	}
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  751  	case _IOC_NR(HX280ENC_IOCG_CORE_NUM): {
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  752  		err = get_user(karg.kui, (s32 __user *)up);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  753  		if (err)
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  754  			return err;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  755  		HX280ENC_IOCTL32(err, filp, cmd, (unsigned long)&karg);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  756  		err = put_user(((s32)karg.kui), (s32 __user *)up);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  757  		break;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  758  	}
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  759  	case _IOC_NR(HX280ENC_IOCH_ENC_RESERVE): {
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  760  		err = get_user(karg.kui, (s32 __user *)up);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  761  		if (err)
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  762  			return err;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  763  		HX280ENC_IOCTL32(err, filp, cmd, (unsigned long)&karg);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  764  		err = put_user(((s32)karg.kui), (s32 __user *)up);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  765  		break;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  766  	}
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  767  	case _IOC_NR(HX280ENC_IOCH_ENC_RELEASE): {
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  768  		err = get_user(karg.kui, (s32 __user *)up);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  769  		if (err)
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  770  			return err;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  771  		HX280ENC_IOCTL32(err, filp, cmd, (unsigned long)&karg);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  772  		break;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  773  	}
+5c99e084992745 drivers/mxc/hantro_vc8000e/hx280enc.c         Zhou Peng   2020-03-11  774  	case _IOC_NR(HX280ENC_IOCG_EN_CORE): {
+5c99e084992745 drivers/mxc/hantro_vc8000e/hx280enc.c         Zhou Peng   2020-03-11  775  		err = get_user(karg.kui, (s32 __user *)up);
+5c99e084992745 drivers/mxc/hantro_vc8000e/hx280enc.c         Zhou Peng   2020-03-11  776  		if (err)
+5c99e084992745 drivers/mxc/hantro_vc8000e/hx280enc.c         Zhou Peng   2020-03-11  777  			return err;
+5c99e084992745 drivers/mxc/hantro_vc8000e/hx280enc.c         Zhou Peng   2020-03-11  778  		HX280ENC_IOCTL32(err, filp, cmd, (unsigned long)&karg);
+5c99e084992745 drivers/mxc/hantro_vc8000e/hx280enc.c         Zhou Peng   2020-03-11  779  		break;
+5c99e084992745 drivers/mxc/hantro_vc8000e/hx280enc.c         Zhou Peng   2020-03-11  780  	}
+5c99e084992745 drivers/mxc/hantro_vc8000e/hx280enc.c         Zhou Peng   2020-03-11  781  
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  782  	case _IOC_NR(HX280ENC_IOCG_CORE_WAIT): {
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  783  		HX280ENC_IOCTL32(err, filp, cmd, (unsigned long)up);
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  784  		break;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  785  	}
+74964174821803 drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c Shijie Qin  2021-09-15  786  
+74964174821803 drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c Shijie Qin  2021-09-15  787  	case _IOC_NR(HX280ENC_IOC_WRITE_REGS): {
+74964174821803 drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c Shijie Qin  2021-09-15  788  		HX280ENC_IOCTL32(err, filp, cmd, (unsigned long)up);
+74964174821803 drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c Shijie Qin  2021-09-15  789  		break;
+74964174821803 drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c Shijie Qin  2021-09-15  790  	}
+74964174821803 drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c Shijie Qin  2021-09-15  791  
+74964174821803 drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c Shijie Qin  2021-09-15  792  	case _IOC_NR(HX280ENC_IOC_READ_REGS): {
+74964174821803 drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c Shijie Qin  2021-09-15  793  		HX280ENC_IOCTL32(err, filp, cmd, (unsigned long)up);
+74964174821803 drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c Shijie Qin  2021-09-15  794  		break;
+74964174821803 drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c Shijie Qin  2021-09-15  795  	}
+74964174821803 drivers/mxc/hantro_vc8000e/hx280enc_vc8000e.c Shijie Qin  2021-09-15  796  
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  797  	}
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  798  	return 0;
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07 @799  }
+633d2300b1721e drivers/mxc/hantro_vc8000e/hx280enc.c         xiahong.bao 2020-01-07  800  
+
+:::::: The code at line 716 was first introduced by commit
+:::::: 633d2300b1721e58582981ce7643fada28693f48 MA-16211: imx8mp: vpu: Implement hantro vc8000e ioctl32
+
+:::::: TO: xiahong.bao <xiahong.bao@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
