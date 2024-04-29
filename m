@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7A573535
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Apr 2024 16:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7681F83CB0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Apr 2024 16:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714407349; cv=none; b=BabGoWK1bpywm3FHXHBBFXsdTe7WsfoLT+hFX4fHzbOKL5pC2kDZn1rsD/KPTUSmpldA80XFiZJmWvty5GMqcxsQh7Qk5TsiUsd6vPUI1isGefzlG4Ql3Efb06AJ4WhH1WsEvRKqvrKdnQeEaOzo/2NaPeGUrEMzEWKbZ2D0AIk=
+	t=1714408070; cv=none; b=Ndr0m5tK7AAk3lExB7xqBo90e1Pydw4bxxS7x7ol2LyxBuZjKfiglgYtpj7jVrpLpcfM5RHKH3Gsh2GumCrJsiGpAdeLtmyE3Y4E3HjscnGUPssy2orEuvj6rRGgiLcQUrD3S26vxb4/xcjpT0Wd6F9V/saDeWdhA6Sb0mbCwI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714407349; c=relaxed/simple;
-	bh=Wyg4/nTc3xrLXkjBi02tFsbr/dCkep+/pLRP6xVlT4w=;
+	s=arc-20240116; t=1714408070; c=relaxed/simple;
+	bh=AHDP1USbHZSXo0J8r7QxOjUfp96xwhrv4lYjuIR/wEU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tUJag+VOz4UkXShKYbw79/EFw5TY4KLwEfG1H5Qs6kg/RhU/ffG7/UF+pjK6U9SyB0GecrQZzndc9/l5fOVn4LSdDN7knnJlhfX7ogHYycDsrcEXrGavKzucJ3B5xxbSQeeUHQuG/W9f8BH5d36sNZHLLpfXpKlWaDvmeIi/hyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XRuv6tu8; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=icakiDMgbHvwO0zqOZdjeYWG4ZAl2f7WQzgw84atUb7KcA/hMOLTiysVpwUOEqeOkGwistO6SZIU12hUQ4X1YJJ8WS7ZrxTzVpL2TRX4aRP2n+5ixueCgWSgY1EGhqoJGjDe5OC7uKj0MpkgwUG0tDViaCuEi7olaQ+xWGVV8xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=njGLx6In; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XRuv6tu8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="njGLx6In"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714407347; x=1745943347;
+  t=1714408069; x=1745944069;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Wyg4/nTc3xrLXkjBi02tFsbr/dCkep+/pLRP6xVlT4w=;
-  b=XRuv6tu8OHIUg3xKUCyATsku3jZTe3YIVW0u12G5hW/Xg586eAfBpoF1
-   N4nLadCwRNJwMyQY+qyc85YZ0FYe2XjlROPJuFMl6I0OBrJjcd14pFHgJ
-   giYFt6BAJLJACSvgFzPByU6rshHOXYXu/ke21+nPl2pEPUWlldqiBaDT+
-   cFTOGSSSE4UlaNuqgxKsJcqL5sPg9wsMRqfWb/l3XmFOpW0iSVRyvrB0u
-   L6CJkAEUt2RW6/zQJUHusco7G9eXPvCawJgC7Ypl5isvDTZ2rsPGCJu92
-   bczNoytI8W9ZiHR5aBCBHeB//aMPQh05kr74VU9LamVQsaOFwINsYsQCA
-   A==;
-X-CSE-ConnectionGUID: /pbo/euJSJSqewerlGXuFw==
-X-CSE-MsgGUID: c14aqCmSTymmQVN4ep2M8A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="21229258"
+  bh=AHDP1USbHZSXo0J8r7QxOjUfp96xwhrv4lYjuIR/wEU=;
+  b=njGLx6InvbE2Dx8cyCAMyJ74Jq7Ft0nsqmbxan4rSt769tqaFMTQctkL
+   gkzdVDzg50USKEIAHyWE4S8onoJfrdVVmUFzyoEGrFMnhPJEocHMG1sLJ
+   js0F1RhBtlNKvEOsgtmCuJ8EltvGxtVeipxNh1YvKyYPpXzXOJWjjiDCD
+   cC+XAv8R/Fm9T3Xi6CQuYndfkY5UNzcN6Kp5MGTXcerrhlJxZDouXZ+cc
+   5+n/HIMJtPNdOm5GJTxjVpZxqaTbt7h2KvTWnToIGkBHgzSnt3YY5jus0
+   xAMn+g2d2pvU5Mdj6gSiK6FZTw8PZQvowDQaM5jjJ+I6p/DtnmUzJQN6h
+   g==;
+X-CSE-ConnectionGUID: hBZB7aFxSQakRclpqHwttw==
+X-CSE-MsgGUID: rSENBxHpR0SupCPrOIy7Fg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="20694803"
 X-IronPort-AV: E=Sophos;i="6.07,240,1708416000"; 
-   d="scan'208";a="21229258"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 09:15:47 -0700
-X-CSE-ConnectionGUID: 2aoDgUZ3RFiZN1rBAO4JGg==
-X-CSE-MsgGUID: O2dgjXZETp6IArWCDZ3cLQ==
+   d="scan'208";a="20694803"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 09:27:48 -0700
+X-CSE-ConnectionGUID: mHVUqSyCSaiPo6LmaGfa/w==
+X-CSE-MsgGUID: er8epJL3SlWLE+1+oR7vyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,240,1708416000"; 
-   d="scan'208";a="30978332"
+   d="scan'208";a="30604124"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 29 Apr 2024 09:15:46 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 29 Apr 2024 09:27:46 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1TfL-0007Hs-0o;
-	Mon, 29 Apr 2024 16:15:43 +0000
-Date: Tue, 30 Apr 2024 00:14:44 +0800
+	id 1s1Tqy-0007Iu-2O;
+	Mon, 29 Apr 2024 16:27:44 +0000
+Date: Tue, 30 Apr 2024 00:27:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 3513/29983]
- drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:166:1: warning: no previous
- prototype for function '_ClearPendingIntr'
-Message-ID: <202404300041.TNpgWsXg-lkp@intel.com>
+Subject: [freescale-fslc:6.6-1.0.x-imx 3946/11728]
+ drivers/crypto/caam/sm_test.c:505:6: warning: no previous prototype for
+ function 'caam_sm_example_shutdown'
+Message-ID: <202404300037.iHLnuiqB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,161 +63,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   5134e031114e613cb04858e248af5e65fe1e112f
-commit: fbd36e3778470a8c7bd0cf8ba0ecb4369451dbc7 [3513/29983] MGS-6351 [#ccc] 0090-CL368499-KERNEL-SPACE-234062-add-a-function-of-recvo
-config: arm64-randconfig-003-20240429 (https://download.01.org/0day-ci/archive/20240430/202404300041.TNpgWsXg-lkp@intel.com/config)
+tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
+head:   37770f55ac9c4f6cd958eb5544939207eed8478f
+commit: 7cab0da0e45916b37265ebeca4d2a393e044fb2b [3946/11728] MLKU-25-3 crypto: caam - add Secure Memory support
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240430/202404300037.iHLnuiqB-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404300041.TNpgWsXg-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404300037.iHLnuiqB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404300041.TNpgWsXg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404300037.iHLnuiqB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:166:1: warning: no previous prototype for function '_ClearPendingIntr' [-Wmissing-prototypes]
-     166 | _ClearPendingIntr(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:165:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     165 | gceSTATUS
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:208:1: warning: no previous prototype for function '_MonitorTimerFunction' [-Wmissing-prototypes]
-     208 | _MonitorTimerFunction(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:207:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     207 | void
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:391:1: warning: no previous prototype for function '_DumpDriverConfigure' [-Wmissing-prototypes]
-     391 | _DumpDriverConfigure(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:390:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     390 | void
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:406:1: warning: no previous prototype for function '_DumpState' [-Wmissing-prototypes]
-     406 | _DumpState(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:405:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     405 | void
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:458:1: warning: no previous prototype for function '_SetRecovery' [-Wmissing-prototypes]
-     458 | _SetRecovery(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:457:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     457 | gceSTATUS
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:1489:1: warning: no previous prototype for function '_AllocateLinearMemory' [-Wmissing-prototypes]
-    1489 | _AllocateLinearMemory(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:1488:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1488 | gceSTATUS
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:1612:1: warning: no previous prototype for function '_ReleaseVideoMemory' [-Wmissing-prototypes]
-    1612 | _ReleaseVideoMemory(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:1611:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1611 | gceSTATUS
-         | ^
-         | static 
-   In file included from drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:2127:
-   In file included from include/linux/dma-buf.h:19:
+   In file included from drivers/crypto/caam/sm_test.c:26:
+   In file included from drivers/crypto/caam/compat.h:18:
+   In file included from include/linux/dma-mapping.h:11:
    In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1601:
-   include/linux/vmstat.h:450:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     450 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+   In file included from include/linux/mm.h:2168:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
          |                               ~~~~~~~~~~~ ^ ~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:2130:1: warning: no previous prototype for function '_SetVidMemMetadata' [-Wmissing-prototypes]
-    2130 | _SetVidMemMetadata(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:2129:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2129 | gceSTATUS
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:2302:1: warning: no previous prototype for function 'gckKERNEL_ConfigPowerManagement' [-Wmissing-prototypes]
-    2302 | gckKERNEL_ConfigPowerManagement(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:2301:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2301 | gceSTATUS
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5243:1: warning: no previous prototype for function '_ListDel' [-Wmissing-prototypes]
-    5243 | _ListDel(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5242:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    5242 | void
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/crypto/caam/sm_test.c:505:6: warning: no previous prototype for function 'caam_sm_example_shutdown' [-Wmissing-prototypes]
+     505 | void caam_sm_example_shutdown(void)
+         |      ^
+   drivers/crypto/caam/sm_test.c:505:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     505 | void caam_sm_example_shutdown(void)
          | ^
          | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5627:1: warning: no previous prototype for function 'gckDEVICE_ChipInfo' [-Wmissing-prototypes]
-    5627 | gckDEVICE_ChipInfo(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5626:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    5626 | gceSTATUS
-         | ^
-         | static 
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5649:1: warning: no previous prototype for function 'gckDEVICE_Version' [-Wmissing-prototypes]
-    5649 | gckDEVICE_Version(
-         | ^
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5648:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    5648 | gceSTATUS
-         | ^
-         | static 
-   13 warnings generated.
+   6 warnings generated.
 
 
-vim +/_ClearPendingIntr +166 drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c
+vim +/caam_sm_example_shutdown +505 drivers/crypto/caam/sm_test.c
 
-   162	
-   163	#if gcdGPU_TIMEOUT && gcdINTERRUPT_STATISTIC
-   164	#if gcdENABLE_RECOVERY_ALL_CORES
-   165	gceSTATUS
- > 166	_ClearPendingIntr(
-   167	    IN gckKERNEL Kernel
-   168	    )
-   169	{
-   170	    gceSTATUS status;
-   171	    gckEVENT eventObj;
-   172	    gctUINT32 i = 0;
-   173	    gcmkHEADER_ARG("Kernel=%p", Kernel);
-   174	
-   175	    /* Validate the arguemnts. */
-   176	    gcmkVERIFY_OBJECT(Kernel, gcvOBJ_KERNEL);
-   177	
-   178	    /* Grab gckEVENT object. */
-   179	    eventObj = Kernel->eventObj;
-   180	    gcmkVERIFY_OBJECT(eventObj, gcvOBJ_EVENT);
-   181	
-   182	    gckOS_AcquireMutex(Kernel->os, Kernel->device->commitMutex, gcdRECOVERY_FORCE_TIMEOUT);
-   183	
-   184	    gcmkONERROR(gckOS_AtomSetMask(eventObj->pending, 0x1FFFFFFF));
-   185	
-   186	    gcmkONERROR(gckEVENT_Notify(eventObj, 1, gcvNULL));
-   187	
-   188	    for(i = 0; i < gcdCOMMAND_QUEUES; i++)
-   189	    {
-   190	        gckOS_Signal(Kernel->command->os, Kernel->command->queues[i].signal, gcvTRUE);
-   191	    }
-   192	
-   193	    gcmkVERIFY_OK(gckOS_ReleaseMutex(Kernel->os, Kernel->device->commitMutex));
-   194	
-   195	    gcmkONERROR(gckCOMMAND_Stop(Kernel->command));
-   196	
-   197	    /* Success. */
-   198	    gcmkFOOTER_NO();
-   199	    return gcvSTATUS_OK;
-   200	OnError:
-   201	    /* Return the status. */
-   202	    gcmkFOOTER();
-   203	    return status;
-   204	}
-   205	#endif
-   206	
+   504	
+ > 505	void caam_sm_example_shutdown(void)
+   506	{
+   507		/* unused in present version */
+   508		struct device_node *dev_node;
+   509		struct platform_device *pdev;
+   510	
+   511		/*
+   512		 * Do of_find_compatible_node() then of_find_device_by_node()
+   513		 * once a functional device tree is available
+   514		 */
+   515		dev_node = of_find_compatible_node(NULL, NULL, "fsl,sec-v4.0");
+   516		if (!dev_node) {
+   517			dev_node = of_find_compatible_node(NULL, NULL, "fsl,sec4.0");
+   518			if (!dev_node)
+   519				return;
+   520		}
+   521	
+   522		pdev = of_find_device_by_node(dev_node);
+   523		if (!pdev)
+   524			return;
+   525	
+   526		of_node_get(dev_node);
+   527	
 
 -- 
 0-DAY CI Kernel Test Service
