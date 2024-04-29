@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56311E4A4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Apr 2024 11:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3083F9C2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Apr 2024 12:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714389824; cv=none; b=nrlU8N5L/j6ubitXyN+w3wx6DY5lWnSCzaLTGr8A7yNvOqx12pCawY54cNeMDfFYFi9/hhdih2BWpWjj9uDyKIbVUBeFRmJj+HpInj01kdFv2iQxI28dgnpy7SKXb02+EJ1JMYty/Hhc1rhbbCI2L11vuHBHkHPkGmqzK122zWM=
+	t=1714393604; cv=none; b=mzcngI8S9zgUETnu/laiyi2VIkTOmuj0Rz6DIvQ/RCv0OvEbkUMZS96SOZohhJ7i67cPZvE3UU0+6X+JHpo22s5R7tuVailKuTvL1wmiwowrCEV3UBBBbF7cIGRJIXB6DyG+sOA8o4UGpkjNG3D4osgybFa4F1P9oXUjb1sC8EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714389824; c=relaxed/simple;
-	bh=+kbKdZq90Dj8TMFcScdIErMoneyjyGxR3ZZL//Z3KAQ=;
+	s=arc-20240116; t=1714393604; c=relaxed/simple;
+	bh=KxVwuW48O/742YTkU/Clt5HxxTZ7swe+AjK3stereG8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JJwIQLJyRtGepAusLiwOfk5xnpigaz/ESfr7riKMnQS8bfYfVUFaS+kzwycCk2YNgQ8mHnTcDOiqq0ohfXS9M6mFw+8E3NAC/nmM6af0cAdWM4y55FwbZNso0xUzLGUeSNV7upRar9PkH8XY+UVewaapxEh9RonvyoMhZJHGYUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kBr7k1z4; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=cyq1kgXnGU8ComuJQXNd3oheaP1scA8y9Bs8/Ps8OeEppPGfVtwXDUTu+fbJ0/CBU3KUER+H22HKgrBSCSsOpjUXv6+y30QRiSpiinViF97mJ8MAY9Dew7HQfSVCPVgMj8imXQB2nHsIXnirx3xnNKLpXGNemeYHuDmfsL0kNzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RNqUdoCJ; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kBr7k1z4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RNqUdoCJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714389823; x=1745925823;
+  t=1714393602; x=1745929602;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+kbKdZq90Dj8TMFcScdIErMoneyjyGxR3ZZL//Z3KAQ=;
-  b=kBr7k1z44ZT/7FTcj344SUZSrno+Jk2wBA6JkLOgMTjdtmAGA8HAn4Mc
-   OzpcalxA28dziy6ZwBSRwzfIynpaOJ3C+fAz3eyzWFvfaZ4aNtukR2UvP
-   nefi6CwGCYvP5t4GH4ZYDS4rL3ZUh5YWBxX/BMvQUIpScE9f1X9P+AI29
-   tnCVs3c1/XcO8YB10ff14BxQwp3ewUpW8rS6RBP1Yd1yGjmTTSuk9kYIH
-   oIk5mKqFECwtbclTobDcVpecKg3SOu70+esHvRubZkBEsFGfCRU5VNnM4
-   opPCKDNhzP9n0d3X5XoNo++Z2URxtW6YHrpV4w0BCNFfh6O+/BfwfyVpe
-   A==;
-X-CSE-ConnectionGUID: VpTxsFiASt6i3cILeBNPGg==
-X-CSE-MsgGUID: jdMQ6GyxR+Wwlq93zGSgLA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="10204999"
+  bh=KxVwuW48O/742YTkU/Clt5HxxTZ7swe+AjK3stereG8=;
+  b=RNqUdoCJGaFXp8m8FX4XkMwNocU/+YHsN1pvN/c03WHMfrwwn+DYSPnE
+   IjFWdiJanKIEylIqYcgNKOiTH7Ljy0YZzg7/m71CeaalEhIXqJvPsX9rG
+   GU2uPM+H+j9MH9/f/TamIVSVxJ1XjqnwnjONbyrpI2IEgryr65za1VzhU
+   bWpYJNT+qm2wjX9NdDu5TStaz5kQ4dhdyhI3MFYp4u2mrnnxx+BTBmTSm
+   Abeh6U3BNODLdiFvoKGzjyACbBZ1zZjTFNWq+CGRbdGd9O+vLVQIzP+8n
+   7XUkXDiAke88r4E1OnFEoFk14MRAxBTnFcU8LqQ9dMqF3KogDV/MpYi1v
+   w==;
+X-CSE-ConnectionGUID: n6v6SSp0TXukW0L9iQjbtg==
+X-CSE-MsgGUID: NVQonUNDQ5OC+gUlxHrjdQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="10268588"
 X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
-   d="scan'208";a="10204999"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 04:23:42 -0700
-X-CSE-ConnectionGUID: KcyXjd9ESBe8E/b82FTphA==
-X-CSE-MsgGUID: sdW0+S4tTY2igZj16ktFtQ==
+   d="scan'208";a="10268588"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 05:26:41 -0700
+X-CSE-ConnectionGUID: QBys7yKESm2gLYAs9X/BXA==
+X-CSE-MsgGUID: p2HBgeZ1TyGtQ3NS9HT6HA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
-   d="scan'208";a="30765142"
+   d="scan'208";a="30894735"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 29 Apr 2024 04:23:39 -0700
+  by orviesa005.jf.intel.com with ESMTP; 29 Apr 2024 05:26:40 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1P6e-000794-2M;
-	Mon, 29 Apr 2024 11:23:36 +0000
-Date: Mon, 29 Apr 2024 19:22:47 +0800
+	id 1s1Q5d-0007AY-24;
+	Mon, 29 Apr 2024 12:26:37 +0000
+Date: Mon, 29 Apr 2024 20:25:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 6476/6485]
- drivers/crypto/ccp/hygon/csv-dev.c:32:6: warning: no previous prototype for
- 'csv_update_api_version'
-Message-ID: <202404291931.AJfvOC5E-lkp@intel.com>
+Subject: [freescale-fslc:6.6-1.0.x-imx 5880/11728]
+ drivers/clk/imx/imx95-blk-ctrl.c:328:25: error: use of undeclared identifier
+ 'imx95_blk_ctrl_match'; did you mean 'imx95_bc_of_match'?
+Message-ID: <202404292035.CVGj6A6v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,44 +63,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   45b5b15bb932275755ab22d7b335eaab37cd60f5
-commit: 09b3268eecd23214c4399153584862a2e1a9cdef [6476/6485] crypto: ccp: Print Hygon CSV API version when CSV support is detected
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240429/202404291931.AJfvOC5E-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240429/202404291931.AJfvOC5E-lkp@intel.com/reproduce)
+Hi Dong,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
+head:   37770f55ac9c4f6cd958eb5544939207eed8478f
+commit: b2ce3f7fa3779b1409e6083db48f7cc95a273654 [5880/11728] Merge branch 'dts/next' into next
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240429/202404292035.CVGj6A6v-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240429/202404292035.CVGj6A6v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404291931.AJfvOC5E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404292035.CVGj6A6v-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/crypto/ccp/hygon/csv-dev.c:32:6: warning: no previous prototype for 'csv_update_api_version' [-Wmissing-prototypes]
-      32 | void csv_update_api_version(struct sev_user_data_status *status)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/ccp/hygon/csv-dev.c:40:5: warning: no previous prototype for 'csv_cmd_buffer_len' [-Wmissing-prototypes]
-      40 | int csv_cmd_buffer_len(int cmd)
-         |     ^~~~~~~~~~~~~~~~~~
+   In file included from drivers/clk/imx/imx95-blk-ctrl.c:12:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/clk/imx/imx95-blk-ctrl.c:12:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/clk/imx/imx95-blk-ctrl.c:12:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/clk/imx/imx95-blk-ctrl.c:328:25: error: use of undeclared identifier 'imx95_blk_ctrl_match'; did you mean 'imx95_bc_of_match'?
+     328 | MODULE_DEVICE_TABLE(of, imx95_blk_ctrl_match);
+         |                         ^~~~~~~~~~~~~~~~~~~~
+         |                         imx95_bc_of_match
+   include/linux/module.h:244:15: note: expanded from macro 'MODULE_DEVICE_TABLE'
+     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         |               ^
+   drivers/clk/imx/imx95-blk-ctrl.c:319:34: note: 'imx95_bc_of_match' declared here
+     319 | static const struct of_device_id imx95_bc_of_match[] = {
+         |                                  ^
+   6 warnings and 1 error generated.
 
 
-vim +/csv_update_api_version +32 drivers/crypto/ccp/hygon/csv-dev.c
+vim +328 drivers/clk/imx/imx95-blk-ctrl.c
 
-    26	
-    27	/*
-    28	 * csv_update_api_version used to update the api version of HYGON CSV
-    29	 * firmwareat driver side.
-    30	 * Currently, we only need to update @hygon_csv_build.
-    31	 */
-  > 32	void csv_update_api_version(struct sev_user_data_status *status)
-    33	{
-    34		if (status) {
-    35			hygon_csv_build = (status->flags >> 9) |
-    36					   ((u32)status->build << 23);
-    37		}
-    38	}
-    39	
+387c5cea9cf94e Peng Fan 2023-09-18  318  
+387c5cea9cf94e Peng Fan 2023-09-18  319  static const struct of_device_id imx95_bc_of_match[] = {
+387c5cea9cf94e Peng Fan 2023-09-18  320  	{ .compatible = "fsl,imx95-vpumix-blk-ctrl", .data = &vpublk_dev_data },
+387c5cea9cf94e Peng Fan 2023-09-18  321  	{ .compatible = "fsl,imx95-cameramix-csr", .data = &camblk_dev_data },
+387c5cea9cf94e Peng Fan 2023-09-18  322  	{ .compatible = "fsl,imx95-display-master-csr", },
+387c5cea9cf94e Peng Fan 2023-09-18  323  	{ .compatible = "fsl,imx95-dispmix-lvds-csr", .data = &lvds_csr_dev_data },
+387c5cea9cf94e Peng Fan 2023-09-18  324  	{ .compatible = "fsl,imx95-dispmix-csr", .data = &dispmix_csr_dev_data },
+387c5cea9cf94e Peng Fan 2023-09-18  325  	{ .compatible = "fsl,imx95-netcmix-blk-ctrl", },
+387c5cea9cf94e Peng Fan 2023-09-18  326  	{ /* Sentinel */ },
+387c5cea9cf94e Peng Fan 2023-09-18  327  };
+387c5cea9cf94e Peng Fan 2023-09-18 @328  MODULE_DEVICE_TABLE(of, imx95_blk_ctrl_match);
+387c5cea9cf94e Peng Fan 2023-09-18  329  
+
+:::::: The code at line 328 was first introduced by commit
+:::::: 387c5cea9cf94eb645f2e433404f023b24dfd509 LF-10523-12 clk: imx: add i.MX95 blk ctrl clk driver
+
+:::::: TO: Peng Fan <peng.fan@nxp.com>
+:::::: CC: Peng Fan <peng.fan@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
