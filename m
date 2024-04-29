@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663288F6E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Apr 2024 04:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69E3DF5C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Apr 2024 06:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714364848; cv=none; b=RoQdNMVRA1DdmF1Fn8/z/ULz21h2LFFTagf4tHD79r5FZ9LNxLg1aDCr8Ltfi12PhHUOg6Mz/B3CwCj/CaZIVZO/Mj+LE50jxS43VekZg13AMfIBly3j4QuxIYSUgVvoWir55kT/bdZqljqb/4UJ9qs/+S5VGWX/VLGg1rbsk8w=
+	t=1714370491; cv=none; b=SCEQ7T2KSzLp7bMExW9wnF26C8dTuOQOKot1Eb4LjEorxH+TZI1yiaI9Q2Osn5gdAicJ2SyDKEL3XrqV7Js6Mak+qige+J06Cv+ISa3VlZ5sLGKzCYRUn9uSjrpyBZqakzO+ilRFEuenH+w4wcOWdHajz9h1uOM+dR6l+1bAVHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714364848; c=relaxed/simple;
-	bh=EGdGZcnsuJW5OOq/KzdWCZF6WxcK6oCNQb5zQpmiI1Y=;
+	s=arc-20240116; t=1714370491; c=relaxed/simple;
+	bh=FkzgdxYHrYdpBAdRzFyyAOCm0p/0OTNOMCvKhuGWrQE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lbDJ8ywwD1ewZy2e7jJLNruujTJRrtDJd6tuudCIjLvS628BO8Polr3nDBIPQq5g7bvVZjfzMpADKLevlRaL/e1eLolNfCuXGroXZJmNAKifF4tRT1rQxtyW9IUkyBYVMDzXJOEwXCYBlgmyCyenzGomI7j5hCD/U/xY3lVMHXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NX0MdlCy; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=RXB+sJSkywQvHZfxuaXZWwERHUua64Nz6ID6h+Rjcv11hmKPDkqSQrT8acPMBT6G4mMz0PQodQDSrMcESs5e9wpUEf5yGX2XuH6dIRZpC777lQKpwbizNfwRLqNqbLrhziov7Jp5wJJ1yt6pE/cetJGDNcFSGiXfsuAuxQeqyaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/a5flGZ; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NX0MdlCy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/a5flGZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714364846; x=1745900846;
+  t=1714370488; x=1745906488;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EGdGZcnsuJW5OOq/KzdWCZF6WxcK6oCNQb5zQpmiI1Y=;
-  b=NX0MdlCyPN7FclRmhWt5QP2H8ComNqd9padfTReHlS3acar5gClViOut
-   QP6OzfmXY9DwadDGb0zoBrXgf92CM8Q3K2ye/6v1ioYrJBLcxqDoSuSgT
-   mD1LWepm+oDHgoUPa0Q0ttoE4EioR4RCYRaNha3+kRWXyXLL8R+C+8/f2
-   nHWk1ZpAWMRgaZLsKYng9K6n73mm4sxq6UoMuVwP/cZeLwmjAgzf0oXEm
-   QJR8MSwa92431S6rgiC11N05ekP1Ty5rZ6AO8HmhfJ+K+5S3UXMH05OVz
-   4kv0qJ9fZGma+p5Rh3VhvZtlVwatmtIkHcYPZDq+cOrWEuptYYFte0fI7
-   Q==;
-X-CSE-ConnectionGUID: B4Bu8fxrSBK3XYA3lgDHng==
-X-CSE-MsgGUID: 2GHGxICyT7CfKELiKrisGw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="10179956"
+  bh=FkzgdxYHrYdpBAdRzFyyAOCm0p/0OTNOMCvKhuGWrQE=;
+  b=f/a5flGZTKzcr/Fzr1CohbepIOhF/kUmR9naJE/g30Gwzs1s2iXER03d
+   +Hs1zljZt7Ox2iMq1xHWiX3vcud9dOmNqPfW8AoY/jBaAn6uxRDT/U9jY
+   Aez9rTh55QkKZNY8EEgvBWpqXUk4V5nsfwD6GDTPIjZaMNHegMhe62LgE
+   XYV1maGHzjxgvNo1l5mL4Be5sO3psMmVzMrqsd1/36dCB7IqSZdd8qmMj
+   c5lZui/fwuS5wA39+XASQtMKBib2KTYsKMFCo9D5kHri0PU7mlIwP44h8
+   bFDjOW5/2cMQqo01NZs35lju1CXPrxz4mXAJd19j6WIiOOZCglNY71jTp
+   g==;
+X-CSE-ConnectionGUID: lvNM2jfhRb2EjXWDwhZJlg==
+X-CSE-MsgGUID: QoA87AivTR6Wc5esuDh8BA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="13793914"
 X-IronPort-AV: E=Sophos;i="6.07,238,1708416000"; 
-   d="scan'208";a="10179956"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 21:27:25 -0700
-X-CSE-ConnectionGUID: KMrZ84MlTZObfOcKvHoGbg==
-X-CSE-MsgGUID: UuMcVWEaSeinxdpTBcrezA==
+   d="scan'208";a="13793914"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 23:01:28 -0700
+X-CSE-ConnectionGUID: 284ySl9JSKyxb0okM+GPLA==
+X-CSE-MsgGUID: 6ZsLLFHNTgy9bBxMrDaVsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,238,1708416000"; 
-   d="scan'208";a="30807852"
+   d="scan'208";a="26638879"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 28 Apr 2024 21:27:25 -0700
+  by orviesa008.jf.intel.com with ESMTP; 28 Apr 2024 23:01:27 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1Ibq-0006wg-2S;
-	Mon, 29 Apr 2024 04:27:22 +0000
-Date: Mon, 29 Apr 2024 12:26:29 +0800
+	id 1s1K4q-0006zC-2A;
+	Mon, 29 Apr 2024 06:01:24 +0000
+Date: Mon, 29 Apr 2024 14:01:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:clocks 15/18] arch/x86/kvm/x86.c:2521:13: warning:
- 'kvm_use_master_clock' defined but not used
-Message-ID: <202404291211.NcBsuP0Q-lkp@intel.com>
+To: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Cc: oe-kbuild-all@lists.linux.dev, linux1394-devel@lists.sourceforge.net
+Subject: [ieee1394-linux1394:topic/tracepoints-async-request-response 16/19]
+ drivers/firewire/core-transaction.c:177:47: warning: cast from pointer to
+ integer of different size
+Message-ID: <202404291342.gvZ9s00l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,49 +63,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/dwmw2/linux clocks
-head:   9b3418ddb073f505731f36864180ae4661d91b91
-commit: 9b561076f0af69cf41125c6b85f3dbbf6a6d1f45 [15/18] KVM: x86: Factor out kvm_use_master_clock()
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240429/202404291211.NcBsuP0Q-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240429/202404291211.NcBsuP0Q-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ieee1394/linux1394.git topic/tracepoints-async-request-response
+head:   973721534ecdb2a088f602d6f3aac52966e1849b
+commit: 5aa49e400d57a9e36f4c0c02961cfe86f71248ee [16/19] firewire: core: add tracepoints events for asynchronous outbound request
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240429/202404291342.gvZ9s00l-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240429/202404291342.gvZ9s00l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404291211.NcBsuP0Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404291342.gvZ9s00l-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kvm/x86.c:2521:13: warning: 'kvm_use_master_clock' defined but not used [-Wunused-function]
-    2521 | static bool kvm_use_master_clock(struct kvm *kvm)
-         |             ^~~~~~~~~~~~~~~~~~~~
+   drivers/firewire/core-transaction.c: In function 'transmit_complete_callback':
+>> drivers/firewire/core-transaction.c:177:47: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     177 |         trace_async_request_outbound_complete((u64)t, status, packet->speed, packet->generation,
+         |                                               ^
+   drivers/firewire/core-transaction.c: In function '__fw_send_request':
+   drivers/firewire/core-transaction.c:401:47: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     401 |         trace_async_request_outbound_initiate((u64)t, speed, generation, t->packet.header, payload,
+         |                                               ^
 
 
-vim +/kvm_use_master_clock +2521 arch/x86/kvm/x86.c
+vim +177 drivers/firewire/core-transaction.c
 
-  2520	
-> 2521	static bool kvm_use_master_clock(struct kvm *kvm)
-  2522	{
-  2523		struct kvm_arch *ka = &kvm->arch;
-  2524	
-  2525		/*
-  2526		 * The 'old kvmclock' check is a workaround (from 2015) for a
-  2527		 * SUSE 2.6.16 kernel that didn't boot if the system_time in
-  2528		 * its kvmclock was too far behind the current time. So the
-  2529		 * mode of just setting the reference point and allowing time
-  2530		 * to proceed linearly from there makes it fail to boot.
-  2531		 * Despite that being kind of the *point* of the way the clock
-  2532		 * is exposed to the guest. By coincidence, the offending
-  2533		 * kernels used the old MSR_KVM_SYSTEM_TIME, which was moved
-  2534		 * only because it resided in the wrong number range. So the
-  2535		 * workaround is activated for *all* guests using the old MSR.
-  2536		 */
-  2537		return ka->all_vcpus_matched_tsc &&
-  2538			!ka->backwards_tsc_observed &&
-  2539			!ka->boot_vcpu_runs_old_kvmclock;
-  2540	}
-  2541	
+   170	
+   171	static void transmit_complete_callback(struct fw_packet *packet,
+   172					       struct fw_card *card, int status)
+   173	{
+   174		struct fw_transaction *t =
+   175		    container_of(packet, struct fw_transaction, packet);
+   176	
+ > 177		trace_async_request_outbound_complete((u64)t, status, packet->speed, packet->generation,
+   178						      packet->timestamp);
+   179	
+   180		switch (status) {
+   181		case ACK_COMPLETE:
+   182			close_transaction(t, card, RCODE_COMPLETE, packet->timestamp);
+   183			break;
+   184		case ACK_PENDING:
+   185		{
+   186			t->split_timeout_cycle =
+   187				compute_split_timeout_timestamp(card, packet->timestamp) & 0xffff;
+   188			start_split_transaction_timeout(t, card);
+   189			break;
+   190		}
+   191		case ACK_BUSY_X:
+   192		case ACK_BUSY_A:
+   193		case ACK_BUSY_B:
+   194			close_transaction(t, card, RCODE_BUSY, packet->timestamp);
+   195			break;
+   196		case ACK_DATA_ERROR:
+   197			close_transaction(t, card, RCODE_DATA_ERROR, packet->timestamp);
+   198			break;
+   199		case ACK_TYPE_ERROR:
+   200			close_transaction(t, card, RCODE_TYPE_ERROR, packet->timestamp);
+   201			break;
+   202		default:
+   203			/*
+   204			 * In this case the ack is really a juju specific
+   205			 * rcode, so just forward that to the callback.
+   206			 */
+   207			close_transaction(t, card, status, packet->timestamp);
+   208			break;
+   209		}
+   210	}
+   211	
 
 -- 
 0-DAY CI Kernel Test Service
