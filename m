@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649F1762DA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Apr 2024 14:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27837E0F2;
+	Mon, 29 Apr 2024 14:38:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714399605; cv=none; b=smEz2Bx9Fi2qUwh5o5VV5Zw9fBR9bxJh8SJIf+dreGI9Eke+45f+5PICcS5HNoexODSE5fQ+99rnp7H3g/+q6vyjidBkXXrkY4Zn0Q2cbBEE7/WEeXifIvQn79Ph9xkSzYzfke2ybu6st7r4ciuRmgHpxnijgSrPw2JIiOEhoqA=
+	t=1714401527; cv=none; b=WeLf5UejRN/w7Y0j9gQemoOhyG6FgBgZIs5n2KpMFVEV/hXC03Gnb9dvpJ6mwNcq80GDfcMJ9NKGCyU9Z6HS0JMf/4aA2XIoMfw0eYj8WLMJ01kGNF4EQsaokNvc/3fAVXy0rjpA9Ru9P1zzlJcmqkiBualw++mIEEmx3fbTkeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714399605; c=relaxed/simple;
-	bh=5X8EzvcYWSilIpNF7h02l5HzidjzT5Hx5rumVT2QzzQ=;
+	s=arc-20240116; t=1714401527; c=relaxed/simple;
+	bh=dGXL8ZLg5Uf/FL7djdodZYI/pjGESx0EpYiXOyZkV68=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jFjmRx8QgF2xkThcJy/1ALqLwR19Usj7LyqN41tWrNtg3rW7snWMQtQ5dFUmRWORSnIt7rWvCTyRzKBSrUTcl3c8mj/Kq7v/yP9ESN1kxwVgRWseSalcpAYosjiN4YYOq7eXTIijo4OLAC6iwKcjo6vlYHM1B30b5QcsaPQAn3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OLuCbrfm; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=T6XRy1OEpG2wgbKL1d0hFe+4BlErO5D/o00zopCl6iUSVNhKw56tcuTB/6Vxbx3Q0Jy8bEoccqyWiwN6QVTK+1K9A50fQ6WMHN2hWTszAXmZZ4BIiEP66njoovWUUeoAv0hnMiz5ziJWoVlntOZi+MkrhV1DB7IwdttGjPAh2yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LQQSIfUD; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OLuCbrfm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LQQSIfUD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714399603; x=1745935603;
+  t=1714401524; x=1745937524;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5X8EzvcYWSilIpNF7h02l5HzidjzT5Hx5rumVT2QzzQ=;
-  b=OLuCbrfml0iDLLMFqH1Kmbu1fp/TM2QW/uuoM3YGWBfU3r5R1gRFVDbG
-   gklS6wfhQ1OCOwfJzNxJ44S+ngUsuy6ff6j0cuRnEX4rTrAUF47mCn1jC
-   zvwPRiXs31GM62OxEj/n9muhvw4xvyFCBql1BZPBj+48o7PXffbAtDJvn
-   g1G8w4itAiCYZhMxFZ9o4SD34H/sHzREcHYuGxf0KLyvaQHIDSnVhKOxX
-   ckYBwT0t7Ecle8Ffl2YTwWniQ703Z9Eaz8LbcdTaUBvMFKISf08uyCKZW
-   i5fWdT71K3zuDYHqgK6QH2O88fvp4Ptj8SxusUmecsCdDzcccDrZPhAev
-   w==;
-X-CSE-ConnectionGUID: +Ocp1aTGT1eVYXivdm4uCw==
-X-CSE-MsgGUID: Yoa9th04QqOWdOUnElZiwA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="21475995"
+  bh=dGXL8ZLg5Uf/FL7djdodZYI/pjGESx0EpYiXOyZkV68=;
+  b=LQQSIfUDLRbdDfclkDh8HHgxPNW9gGYC5zChDgXK1hB9PCoCQ3i5Y921
+   4NyfdgiGabIs0/V7m1YZ6YkOEwXmurWzrIO+3XDajGCFkcrMAkeDHHoIb
+   7dICjExoBx+t77lX6cY/KOskvTsabNdm++k9abn/ndIxJ9JdfmveKEVr9
+   POweO1S1GTUMzsZTffwEvcKvQ6zPuvU32Ht31legNvHgctDZ1SkUULjp5
+   rJk88aGf70/UY+fUffow/L03cTxt9127elZBk16L3KZOtDxzYno6gMROx
+   pJBmbj0JPxzgccR3PGpAj4HfGIViY7xA+LUporfIEIRMzaiZ2idgXvE38
+   A==;
+X-CSE-ConnectionGUID: 2SwYqrV1T2yY2wlgKSh93Q==
+X-CSE-MsgGUID: SIZTNlc1QVCrFEibFkWoFw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="27514975"
 X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
-   d="scan'208";a="21475995"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP; 29 Apr 2024 07:06:42 -0700
-X-CSE-ConnectionGUID: gjGEOVCKTN2vo1qM6v+4hQ==
-X-CSE-MsgGUID: IdIbETMYSiOQJrCCYK/hDA==
+   d="scan'208";a="27514975"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 07:38:44 -0700
+X-CSE-ConnectionGUID: 1RkGDJJ/SByNa9p3XxY19Q==
+X-CSE-MsgGUID: kgP2k0B1SdK2f6jEzcjBfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
-   d="scan'208";a="26107386"
+   d="scan'208";a="25999389"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 29 Apr 2024 07:06:42 -0700
+  by orviesa010.jf.intel.com with ESMTP; 29 Apr 2024 07:38:43 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1ReR-0007DW-1k;
-	Mon, 29 Apr 2024 14:06:39 +0000
-Date: Mon, 29 Apr 2024 22:05:54 +0800
+	id 1s1S9Q-0007Ey-0y;
+	Mon, 29 Apr 2024 14:38:40 +0000
+Date: Mon, 29 Apr 2024 22:38:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 3984/29983]
- drivers/phy/phy-mixel-lvds-combo.c:34: warning: "SS" redefined
-Message-ID: <202404292235.Km6iMNiZ-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: [sailus-media-tree:ipu6 40/50]
+ drivers/media/v4l2-core/v4l2-common.c:512:9: error: implicit declaration of
+ function 'v4l2_subdev_call_op' is invalid in C99
+Message-ID: <202404292239.nNxjfKs4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,56 +64,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Liu,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   5134e031114e613cb04858e248af5e65fe1e112f
-commit: 27e9b835ef416f1f11f2944be449bda6577585a7 [3984/29983] phy: Add Mixel LVDS combo PHY support
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240429/202404292235.Km6iMNiZ-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240429/202404292235.Km6iMNiZ-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git ipu6
+head:   308898eb3af1c6530b122a01a5c4b38931717e70
+commit: 68213f72d8c806ff6968fb30c4bf61fd1257c4a3 [40/50] media: v4l: Support obtaining link frequency via get_mbus_config
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240429/202404292239.nNxjfKs4-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240429/202404292239.nNxjfKs4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404292235.Km6iMNiZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404292239.nNxjfKs4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/phy/phy-mixel-lvds-combo.c:34: warning: "SS" redefined
-      34 | #define SS              0x20
-         | 
-   In file included from arch/x86/include/uapi/asm/ptrace.h:6,
-                    from arch/x86/include/asm/ptrace.h:7,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from arch/x86/include/asm/cpufeature.h:5,
-                    from arch/x86/include/asm/thread_info.h:53,
-                    from include/linux/thread_info.h:60,
-                    from arch/x86/include/asm/preempt.h:7,
-                    from include/linux/preempt.h:78,
-                    from include/linux/smp.h:110,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/mutex.h:17,
-                    from include/linux/notifier.h:14,
-                    from include/linux/clk.h:14,
-                    from drivers/phy/phy-mixel-lvds-combo.c:15:
-   arch/x86/include/uapi/asm/ptrace-abi.h:23: note: this is the location of the previous definition
-      23 | #define SS   16
-         | 
+>> drivers/media/v4l2-core/v4l2-common.c:512:9: error: implicit declaration of function 'v4l2_subdev_call_op' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   ret = v4l2_subdev_call_op(sd, pad, get_mbus_config,
+                         ^
+   drivers/media/v4l2-core/v4l2-common.c:512:9: note: did you mean 'v4l2_subdev_cleanup'?
+   include/media/v4l2-subdev.h:1320:6: note: 'v4l2_subdev_cleanup' declared here
+   void v4l2_subdev_cleanup(struct v4l2_subdev *sd);
+        ^
+   drivers/media/v4l2-core/v4l2-common.c:512:33: error: use of undeclared identifier 'pad'
+                   ret = v4l2_subdev_call_op(sd, pad, get_mbus_config,
+                                                 ^
+   drivers/media/v4l2-core/v4l2-common.c:512:38: error: use of undeclared identifier 'get_mbus_config'
+                   ret = v4l2_subdev_call_op(sd, pad, get_mbus_config,
+                                                      ^
+   drivers/media/v4l2-core/v4l2-common.c:522:19: error: use of undeclared identifier 'v4l2_get_link_freq'; did you mean '__v4l2_get_link_freq'?
+   EXPORT_SYMBOL_GPL(v4l2_get_link_freq);
+                     ^~~~~~~~~~~~~~~~~~
+                     __v4l2_get_link_freq
+   include/linux/export.h:69:48: note: expanded from macro 'EXPORT_SYMBOL_GPL'
+   #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+                                                          ^
+   include/linux/export.h:65:54: note: expanded from macro '_EXPORT_SYMBOL'
+   #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+                                                           ^
+   include/linux/export.h:56:16: note: expanded from macro '__EXPORT_SYMBOL'
+           extern typeof(sym) sym;                                 \
+                         ^
+   drivers/media/v4l2-core/v4l2-common.c:467:5: note: '__v4l2_get_link_freq' declared here
+   s64 __v4l2_get_link_freq(struct v4l2_subdev *sd,
+       ^
+   4 errors generated.
 
 
-vim +/SS +34 drivers/phy/phy-mixel-lvds-combo.c
+vim +/v4l2_subdev_call_op +512 drivers/media/v4l2-core/v4l2-common.c
 
-    33	
-  > 34	#define SS		0x20
-    35	#define CH_HSYNC_M(id)	BIT(0 + ((id) * 2))
-    36	#define CH_VSYNC_M(id)	BIT(1 + ((id) * 2))
-    37	#define CH_PHSYNC(id)	BIT(0 + ((id) * 2))
-    38	#define CH_PVSYNC(id)	BIT(1 + ((id) * 2))
-    39	
+   466	
+   467	s64 __v4l2_get_link_freq(struct v4l2_subdev *sd,
+   468				 struct v4l2_ctrl_handler *handler, unsigned int mul,
+   469				 unsigned int div)
+   470	{
+   471		struct v4l2_ctrl *ctrl;
+   472		s64 freq;
+   473	
+   474		if (!handler && sd)
+   475			handler = sd->ctrl_handler;
+   476	
+   477		ctrl = v4l2_ctrl_find(handler, V4L2_CID_LINK_FREQ);
+   478		if (ctrl) {
+   479			struct v4l2_querymenu qm = { .id = V4L2_CID_LINK_FREQ };
+   480			int ret;
+   481	
+   482			if (ctrl->type == V4L2_CTRL_TYPE_INTEGER64)
+   483				return v4l2_ctrl_g_ctrl_int64(ctrl);
+   484	
+   485			qm.index = v4l2_ctrl_g_ctrl(ctrl);
+   486	
+   487			ret = v4l2_querymenu(handler, &qm);
+   488			if (ret)
+   489				return -ENOENT;
+   490	
+   491			freq = qm.value;
+   492		} else {
+   493			if (!mul || !div)
+   494				return -ENOENT;
+   495	
+   496			ctrl = v4l2_ctrl_find(handler, V4L2_CID_PIXEL_RATE);
+   497			if (!ctrl)
+   498				return -ENOENT;
+   499	
+   500			freq = div_u64(v4l2_ctrl_g_ctrl_int64(ctrl) * mul, div);
+   501	
+   502			pr_warn("%s: Link frequency estimated using pixel rate: result might be inaccurate\n",
+   503				__func__);
+   504			pr_warn("%s: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver\n",
+   505				__func__);
+   506		}
+   507	
+   508		if (freq <= 0 && sd) {
+   509			struct v4l2_mbus_config mbus_config = {};
+   510			int ret;
+   511	
+ > 512			ret = v4l2_subdev_call_op(sd, pad, get_mbus_config,
+   513						  &mbus_config);
+   514			if (ret < 0)
+   515				return ret;
+   516	
+   517			return mbus_config.link_freq;
+   518		}
+   519	
+   520		return freq > 0 ? freq : -EINVAL;
+   521	}
+   522	EXPORT_SYMBOL_GPL(v4l2_get_link_freq);
+   523	
 
 -- 
 0-DAY CI Kernel Test Service
