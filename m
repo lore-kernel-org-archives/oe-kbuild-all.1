@@ -1,60 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2F617F5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 01:42:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6AD63B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 02:35:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714441326; cv=none; b=qQaU/XkC2bWeWoUXFIvf0BNOoQ357zQ231maMw57wR0gWB5PqgQPp7xoFhMgvJs7ZtGex1KcPwCK7AzXiWRYosOmB6NaKJnZUj1XOLxxS2YYatihXCWw6JpXlSuu9+lvWPFsozHWtzOGhXADa9LqqXvsqUGnfQ/PtMG6YVBYsw0=
+	t=1714444507; cv=none; b=FckEeVhUejMMJdaf2p001pRixq5AGhU4rYvEAFLe+zqr9gtuddRMc07UDsG7By/AHXNomlteWq4ZzdXM5cN27yLT+GR5yf6reeFxfJ7p49isCnWzpQCO5DjdK7Sz5HtwfyT3yVBvTUxFlyBoyZZSWkXpktDIuCKABPWjPRYgWa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714441326; c=relaxed/simple;
-	bh=5XoiHpSMYh2/uBEkMR7qjxCtCALdCO7yqmhoIHn7TC4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CgtTLve0oxjMnx5nLBpzWk2uPTXwtEmDlCFAtZeRuyKckJu94d7fcJ7DDKDWE1DFKlB3CCrxkxfiZTfJyz+nK1GDTXZDA79hGhaXh5pwA4tF24+vwCcf71lqRic94B5hrOZIZNrgc4mSx34c/SxD5OIoHR+VUkvzc2rG5RPXDFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nAF/HbZh; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1714444507; c=relaxed/simple;
+	bh=mBW04Q10joVZ1ZQMyWnTefjJ26duJvYfVCzyImQtuCg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kxQFfuo6djJ/UG5/d0NgwoDWF4/tRjVpHVSURnEpO309SyjwdmODGvUdBft/T1a2IYmucMnZ4gAgv0A8sQBSHA3OvYGyWyujkJtV7tq/2F7fEDj2hDkQvIm7ZyVM0saFYIOUepc9HEmeceknmyQTF4C+w+P/5u0YPwccGQf4moA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H2FaKOQz; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nAF/HbZh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H2FaKOQz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714441323; x=1745977323;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5XoiHpSMYh2/uBEkMR7qjxCtCALdCO7yqmhoIHn7TC4=;
-  b=nAF/HbZhGkTvUW4JE/L0qK8rZvkQjUfeo+Sf/Bd6tKrUklN9NW6q86/j
-   Y2WG+QMQ7DNrF4Z9oUxUOyY5hfL+pAM6vCDCpisLKC3Qx7n1DOSSC6c5o
-   K4dxzAdp2DWAqXt6ndDvvaRfHkXp97DGLk/jf13/eNSzcrcLcIP1g4tEF
-   Go32+JCy9+u/ZPssoCtAv08fTxAwcd3PaMvGrvOKI2bzgmUIE6H+9Le2H
-   xSwFk6s7syUgfHuA8GeMMn1QIbrsnwn8ZBhkKs0gPcKvZ62rwTihcgKOq
-   goCMUIvo5AjqzvrRUE/eYdw2bNf9aybQZGm0qj8z72na2J6SyUYFJX2lh
-   A==;
-X-CSE-ConnectionGUID: ZFOuGIKFS3iyodmOzFE2Zg==
-X-CSE-MsgGUID: gUf8U0k+R2S/LaCc3PbSEg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10294639"
+  t=1714444505; x=1745980505;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mBW04Q10joVZ1ZQMyWnTefjJ26duJvYfVCzyImQtuCg=;
+  b=H2FaKOQz5YeaE2DBPDnqfWenWe6pBhdfQDnhcu+51D3rbvtSsZrsmjhl
+   fWGMMR6/dmElyjBdLJ+znSRsgp6CSrhr8Dgcb9LX5C3tVeCTBo2Y0t251
+   niKbJwPxbBuHcGrRQrU0JgAd1F3hGmg4+cgaKurSmh2LUv4DQEi+G0LeS
+   +JRU1uH4ow4B9H7NoPQ8zb4YlbNSICT9ccwwFLwtSw+R9LS/ZTSUuV7GN
+   In5T4vC02Jae8Msjegoz9dKENTKQepL8mjeVMoDgl64Im1bPW+ldAFVzI
+   U0sCmG+myuaT/VtzS0gN68B4TQJJTqsa2X2ZLvqXRTitOeEVLxIL7apJ4
+   Q==;
+X-CSE-ConnectionGUID: dzc9cO9iT7W8TRFCrw6s9A==
+X-CSE-MsgGUID: 9TJ2SQb5TOGVPfeFy0nMww==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="21279193"
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="10294639"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 18:42:02 -0700
-X-CSE-ConnectionGUID: Yfo6QYM4S7Cv/awlpz6EIA==
-X-CSE-MsgGUID: Ik8NyoYoSIaCz/+IqPSdwg==
+   d="scan'208";a="21279193"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 19:35:05 -0700
+X-CSE-ConnectionGUID: D0PpkDjPSAaWH09WHdchXg==
+X-CSE-MsgGUID: O77IF/3oRzKaWpgL7k7Ugg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="30749717"
+   d="scan'208";a="31001051"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Apr 2024 18:42:00 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 Apr 2024 19:35:01 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1cVK-0007bk-11;
-	Tue, 30 Apr 2024 01:41:58 +0000
-Date: Tue, 30 Apr 2024 09:41:32 +0800
+	id 1s1dKd-0007dQ-1U;
+	Tue, 30 Apr 2024 02:34:59 +0000
+Date: Tue, 30 Apr 2024 10:33:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>, Phil Auld <pauld@redhat.com>
-Subject: kernel/sched/isolation.c:143 housekeeping_setup() warn: always true
- condition '(first_cpu >= 0) => (0-u32max >= 0)'
-Message-ID: <202404300915.WNvfwBz3-lkp@intel.com>
+To: Florian Fainelli <florian.fainelli@broadcom.com>,
+	netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2 2/2] net: dsa: Remove adjust_link paths
+Message-ID: <202404301046.whP44a3U-lkp@intel.com>
+References: <20240429165405.2298962-3-florian.fainelli@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,104 +68,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240429165405.2298962-3-florian.fainelli@broadcom.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   98369dccd2f8e16bf4c6621053af7aa4821dcf8e
-commit: 257bf89d84121280904800acd25cc2c444c717ae sched/isolation: Fix boot crash when maxcpus < first housekeeping CPU
-date:   2 days ago
-config: xtensa-randconfig-r081-20240429 (https://download.01.org/0day-ci/archive/20240430/202404300915.WNvfwBz3-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
+Hi Florian,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Fainelli/net-dsa-Remove-fixed_link_update-member/20240430-005631
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240429165405.2298962-3-florian.fainelli%40broadcom.com
+patch subject: [PATCH net-next v2 2/2] net: dsa: Remove adjust_link paths
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240430/202404301046.whP44a3U-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404301046.whP44a3U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404300915.WNvfwBz3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404301046.whP44a3U-lkp@intel.com/
 
-New smatch warnings:
-kernel/sched/isolation.c:143 housekeeping_setup() warn: always true condition '(first_cpu >= 0) => (0-u32max >= 0)'
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-arch/xtensa/include/asm/thread_info.h:97 current_thread_info() warn: inconsistent indenting
+   net/dsa/port.c: In function 'dsa_port_phylink_mac_link_down':
+>> net/dsa/port.c:1603:17: error: 'phydev' undeclared (first use in this function)
+    1603 |                 phydev = dp->user->phydev;
+         |                 ^~~~~~
+   net/dsa/port.c:1603:17: note: each undeclared identifier is reported only once for each function it appears in
 
-vim +143 kernel/sched/isolation.c
 
-   117	
-   118	static int __init housekeeping_setup(char *str, unsigned long flags)
-   119	{
-   120		cpumask_var_t non_housekeeping_mask, housekeeping_staging;
-   121		unsigned int first_cpu;
-   122		int err = 0;
-   123	
-   124		if ((flags & HK_FLAG_TICK) && !(housekeeping.flags & HK_FLAG_TICK)) {
-   125			if (!IS_ENABLED(CONFIG_NO_HZ_FULL)) {
-   126				pr_warn("Housekeeping: nohz unsupported."
-   127					" Build with CONFIG_NO_HZ_FULL\n");
-   128				return 0;
-   129			}
-   130		}
-   131	
-   132		alloc_bootmem_cpumask_var(&non_housekeeping_mask);
-   133		if (cpulist_parse(str, non_housekeeping_mask) < 0) {
-   134			pr_warn("Housekeeping: nohz_full= or isolcpus= incorrect CPU range\n");
-   135			goto free_non_housekeeping_mask;
-   136		}
-   137	
-   138		alloc_bootmem_cpumask_var(&housekeeping_staging);
-   139		cpumask_andnot(housekeeping_staging,
-   140			       cpu_possible_mask, non_housekeeping_mask);
-   141	
-   142		first_cpu = cpumask_first_and(cpu_present_mask, housekeeping_staging);
- > 143		if (first_cpu >= nr_cpu_ids || first_cpu >= setup_max_cpus) {
-   144			__cpumask_set_cpu(smp_processor_id(), housekeeping_staging);
-   145			__cpumask_clear_cpu(smp_processor_id(), non_housekeeping_mask);
-   146			if (!housekeeping.flags) {
-   147				pr_warn("Housekeeping: must include one present CPU, "
-   148					"using boot CPU:%d\n", smp_processor_id());
-   149			}
-   150		}
-   151	
-   152		if (cpumask_empty(non_housekeeping_mask))
-   153			goto free_housekeeping_staging;
-   154	
-   155		if (!housekeeping.flags) {
-   156			/* First setup call ("nohz_full=" or "isolcpus=") */
-   157			enum hk_type type;
-   158	
-   159			for_each_set_bit(type, &flags, HK_TYPE_MAX)
-   160				housekeeping_setup_type(type, housekeeping_staging);
-   161		} else {
-   162			/* Second setup call ("nohz_full=" after "isolcpus=" or the reverse) */
-   163			enum hk_type type;
-   164			unsigned long iter_flags = flags & housekeeping.flags;
-   165	
-   166			for_each_set_bit(type, &iter_flags, HK_TYPE_MAX) {
-   167				if (!cpumask_equal(housekeeping_staging,
-   168						   housekeeping.cpumasks[type])) {
-   169					pr_warn("Housekeeping: nohz_full= must match isolcpus=\n");
-   170					goto free_housekeeping_staging;
-   171				}
-   172			}
-   173	
-   174			iter_flags = flags & ~housekeeping.flags;
-   175	
-   176			for_each_set_bit(type, &iter_flags, HK_TYPE_MAX)
-   177				housekeeping_setup_type(type, housekeeping_staging);
-   178		}
-   179	
-   180		if ((flags & HK_FLAG_TICK) && !(housekeeping.flags & HK_FLAG_TICK))
-   181			tick_nohz_full_setup(non_housekeeping_mask);
-   182	
-   183		housekeeping.flags |= flags;
-   184		err = 1;
-   185	
-   186	free_housekeeping_staging:
-   187		free_bootmem_cpumask_var(housekeeping_staging);
-   188	free_non_housekeeping_mask:
-   189		free_bootmem_cpumask_var(non_housekeeping_mask);
-   190	
-   191		return err;
-   192	}
-   193	
+vim +/phydev +1603 net/dsa/port.c
+
+dd805cf3e80e03 Russell King (Oracle  2023-05-25  1594) 
+8ae674964e67eb Florian Fainelli      2019-12-16  1595  static void dsa_port_phylink_mac_link_down(struct phylink_config *config,
+77373d49de22e8 Ioana Ciornei         2019-05-28  1596  					   unsigned int mode,
+77373d49de22e8 Ioana Ciornei         2019-05-28  1597  					   phy_interface_t interface)
+77373d49de22e8 Ioana Ciornei         2019-05-28  1598  {
+dd0c9855b41310 Russell King (Oracle  2024-04-10  1599) 	struct dsa_port *dp = dsa_phylink_to_port(config);
+77373d49de22e8 Ioana Ciornei         2019-05-28  1600  	struct dsa_switch *ds = dp->ds;
+77373d49de22e8 Ioana Ciornei         2019-05-28  1601  
+57d77986e74287 Vladimir Oltean       2021-10-20  1602  	if (dsa_port_is_user(dp))
+6ca80638b90cec Florian Fainelli      2023-10-23 @1603  		phydev = dp->user->phydev;
+0e27921816ad99 Ioana Ciornei         2019-05-28  1604  
+e9829e26ff2c61 Florian Fainelli      2024-04-29  1605  	if (!ds->ops->phylink_mac_link_down)
+77373d49de22e8 Ioana Ciornei         2019-05-28  1606  		return;
+77373d49de22e8 Ioana Ciornei         2019-05-28  1607  
+77373d49de22e8 Ioana Ciornei         2019-05-28  1608  	ds->ops->phylink_mac_link_down(ds, dp->index, mode, interface);
+77373d49de22e8 Ioana Ciornei         2019-05-28  1609  }
+77373d49de22e8 Ioana Ciornei         2019-05-28  1610  
 
 -- 
 0-DAY CI Kernel Test Service
