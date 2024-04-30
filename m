@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76970195
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 00:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC929161
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 00:13:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714435315; cv=none; b=qPRG4e99xjX244jjTkdbxkWLr2zALSahEQrRpWJCxi/S++iLaDiiYk0wCob8UNKlADtvRyhsyvOkv18CsG+UUig2QZUZu2frkGMAPgEcMVzXpp00xecWAOepwsHJp3zH4Fen5ZITTI1kg3UvqEPKSq/oRC6MJEp5abtULnsbwgM=
+	t=1714436024; cv=none; b=jb3sxAHrJjX8omMfQmfM6M+yiF6rIEGiDBa3Stt9rj2PohyXwmbYzVQiyTc0p/e87nn4pyR1WPW/vcogefQR4jioNknScRJVMU0m+C/fHUMGBGpP8TMEpriB16iJeGgs+JyeeLrO2rIV0AIOsdfGhaCjLpn9rbiEg1xYg8JVQns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714435315; c=relaxed/simple;
-	bh=seAOCUgY1mY4wPnFcCDsVjjkZ5xgCiglp4GCC+6Flko=;
+	s=arc-20240116; t=1714436024; c=relaxed/simple;
+	bh=+nyCaz+7sDXImmpxE1pF4YF22Qbj5cgKKTeJx3huGts=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aRXDfqvD6MpgDdQI8FZV59bfpaWhWEywAiejHsLnHGClu1xMZtALXZkOCMZQnAxbYo7bVbvCz2g835x24NqKxHNva/Z6gkCnsu2mQ8OXr240mCk9/zSPW1ZkVZkf4R5iZdTZ6Tfuheg5NLsw2LzjVqhycrcH7CxPWK3BIKpXN1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iKkUZ+KL; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=QPh9EJPattzpXiqAuwDWu6GZ2CtPO8NQdFLNAD0ItOiQUXwLzmmEeaYVw+JwONdt3tGmo6BFHO5+7OVTG2DsM8VubN/k3p0mU8sfKcXR0+hXH8aMhFHXetIBvRpyTpR5TTJZqwGpdcSaepTbH9rGLuzfjcJn3trjLBUsfgDLS14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rbkn/GvE; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iKkUZ+KL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rbkn/GvE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714435314; x=1745971314;
+  t=1714436023; x=1745972023;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=seAOCUgY1mY4wPnFcCDsVjjkZ5xgCiglp4GCC+6Flko=;
-  b=iKkUZ+KL6guaTzihwVSY5VHF4doJx8y1qaC3D6PuQWGaBDcpFuJSqURH
-   S1YcKeuhe8Da67ZfPhE92XbI3dnms7aDzCh8PM2veBQSjafixEQgjuF4I
-   HVcZBu+9eBnTjJKU3aYqA4GVgR2OW5JYjeuSCSA+EFI3YMFzAyQOgDS7F
-   e5/3WO0owGNuy0LrWuKFwPTpLzrn0pW8ipDhOK3xXnytrbDYLKmgKJAcO
-   PSU8Rv0dcx98YOGJQvZ/VLNHLpBVpIqW1l/BadAqcODy9JMIfFNwJz061
-   cggQ9EgIGFhF+qr3vT+h7skcPG7sjiHASYxxtY5gqkstDxO7J3xL2G6wl
+  bh=+nyCaz+7sDXImmpxE1pF4YF22Qbj5cgKKTeJx3huGts=;
+  b=Rbkn/GvESjLGZ7vcrCZFOxe9JZNl3LjuUVbWffEfusMHY4X6AmnArndF
+   ShYqLkqLUfCuxQzRJn1JSA0lHaI+35I5oW3YuPpwFSTHDw3/Ykdnkto9p
+   ELrRDfZVpvo9weZOB//5+opVMvtPtUyhqYt0FBpxA1r+REUVXBCLtl9SY
+   ihXmXqIrFVAiEIQ80rQ4lLWJIkbPQkdhrlz2qZX6L8ouR3DB6Wqw7Q6p3
+   /F/UevPWhrvgk7Rsw4kWPovosy7d+9Sg7dDF/1Cx+wXJY4HcKoEb26nzD
+   ndYlGMC+j1/oWqCEHCF6LQ+tbbXKGdK+458eegY9+xDBPeUj1cV18N57f
    Q==;
-X-CSE-ConnectionGUID: WAI6sSozRPCqMBXJJligCQ==
-X-CSE-MsgGUID: YGJN/PIzSeyaBOYjfuY1AA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="9950928"
+X-CSE-ConnectionGUID: WOFS19AWR4uJFXahr/GRRA==
+X-CSE-MsgGUID: In3cyAKLSYyuKIHaVms2UQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="13911445"
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="9950928"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 17:01:42 -0700
-X-CSE-ConnectionGUID: Uk7eDBizRIS3W6I5EyAw3A==
-X-CSE-MsgGUID: D216KeWrRV+ruLBZCZBWkg==
+   d="scan'208";a="13911445"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 17:13:42 -0700
+X-CSE-ConnectionGUID: 9XBldMITR6Gkp7ndRGDIiQ==
+X-CSE-MsgGUID: ZQY3+bFlS7+ZbDGC8qp68Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,240,1708416000"; 
-   d="scan'208";a="30743824"
+X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
+   d="scan'208";a="30729098"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 29 Apr 2024 17:01:40 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 29 Apr 2024 17:13:41 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1awE-0007XY-1f;
-	Tue, 30 Apr 2024 00:01:38 +0000
-Date: Tue, 30 Apr 2024 08:01:02 +0800
+	id 1s1b7q-0007Xy-2v;
+	Tue, 30 Apr 2024 00:13:38 +0000
+Date: Tue, 30 Apr 2024 08:13:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-shrink-4 29/51] include/linux/dynamic_debug.h:149:37:
- error: use of undeclared identifier 'num_descs'
-Message-ID: <202404300711.jrd863kI-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2552/7643] kernel/sched/fair.c:314:15: error: use
+ of undeclared identifier 'hundred_thousand'
+Message-ID: <202404300812.EAGGykdR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,85 +62,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jimc/linux.git dd-shrink-4
-head:   f1c64c4dbbe66a7e523d8b2d545e4727ba2103ba
-commit: 3fff32e8e9eed3fb002a4c40fa24ece10ec52e44 [29/51] dyndbg: add __counted_by annotations
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240430/202404300711.jrd863kI-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404300711.jrd863kI-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   3fd472966bcc21f40dc20bb47c7ad18392fbec05
+commit: f7c232d3e20a69b46e53da221ba3cbac0fa68a0d [2552/7643] smart_grid: introduce smart_grid_strategy_ctrl sysctl
+config: x86_64-randconfig-r123-20240430 (https://download.01.org/0day-ci/archive/20240430/202404300812.EAGGykdR-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404300812.EAGGykdR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404300711.jrd863kI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404300812.EAGGykdR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/riscv/kernel/asm-offsets.c:10:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from arch/riscv/kernel/asm-offsets.c:12:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:23:
-   In file included from include/linux/writeback.h:13:
-   In file included from include/linux/blk_types.h:11:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:30:
->> include/linux/dynamic_debug.h:149:37: error: use of undeclared identifier 'num_descs'
-     149 |         struct _ddebug *descs __counted_by(num_descs);
-         |                                            ^
->> include/linux/dynamic_debug.h:150:48: error: use of undeclared identifier 'num_classes'
-     150 |         struct ddebug_class_map *classes __counted_by(num_classes);
-         |                                                       ^
->> include/linux/dynamic_debug.h:151:53: error: use of undeclared identifier 'num_class_users'
-     151 |         struct ddebug_class_user *class_users __counted_by(num_class_users);
-         |                                                            ^
-   1 warning and 3 errors generated.
-   make[3]: *** [scripts/Makefile.build:117: arch/riscv/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1197: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> kernel/sched/fair.c:314:15: error: use of undeclared identifier 'hundred_thousand'
+     314 |                 .extra2         = &hundred_thousand,
+         |                                    ^
+>> kernel/sched/fair.c:322:2: error: invalid application of 'sizeof' to an incomplete type 'struct ctl_table[]'
+     322 |         register_sysctl_init("kernel", sched_fair_sysctls);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sysctl.h:241:46: note: expanded from macro 'register_sysctl_init'
+     241 |         __register_sysctl_init(path, table, #table, ARRAY_SIZE(table))
+         |                                                     ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:57:32: note: expanded from macro 'ARRAY_SIZE'
+      57 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+   kernel/sched/fair.c:7104:6: warning: no previous prototype for function 'free_affinity_domains' [-Wmissing-prototypes]
+    7104 | void free_affinity_domains(struct affinity_domain *ad)
+         |      ^
+   kernel/sched/fair.c:7104:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7104 | void free_affinity_domains(struct affinity_domain *ad)
+         | ^
+         | static 
+   1 warning and 2 errors generated.
 
 
-vim +/num_descs +149 include/linux/dynamic_debug.h
+vim +/hundred_thousand +314 kernel/sched/fair.c
 
-   128	
-   129	/**
-   130	 * DYNDBG_CLASSMAP_USE - refer to a classmap, DEFINEd elsewhere.
-   131	 * @_var: name of the exported classmap var
-   132	 *
-   133	 * This registers a module's use of another module's classmap defn, so
-   134	 * dyndbg can authorize "class DRM_CORE ..." >control commands upon
-   135	 * this module.
-   136	 */
-   137	#define DYNDBG_CLASSMAP_USE(_var)					\
-   138		DYNDBG_CLASSMAP_USE_(_var, __UNIQUE_ID(ddebug_class_user))
-   139	#define DYNDBG_CLASSMAP_USE_(_var, _uname)				\
-   140		extern struct ddebug_class_map _var;				\
-   141		static struct ddebug_class_user __aligned(8) __used		\
-   142		__section("__dyndbg_class_users") _uname = {			\
-   143			.user_mod_name = KBUILD_MODNAME,			\
-   144			.map = &(_var),						\
-   145		}
-   146	
-   147	/* encapsulate linker provided built-in (or module) dyndbg data */
-   148	struct _ddebug_info {
- > 149		struct _ddebug *descs __counted_by(num_descs);
- > 150		struct ddebug_class_map *classes __counted_by(num_classes);
- > 151		struct ddebug_class_user *class_users __counted_by(num_class_users);
-   152		unsigned int num_descs;
-   153		unsigned int num_classes;
-   154		unsigned int num_class_users;
-   155	};
-   156	
+   216	
+   217	#ifdef CONFIG_SYSCTL
+   218	static struct ctl_table sched_fair_sysctls[] = {
+   219		{
+   220			.procname       = "sched_child_runs_first",
+   221			.data           = &sysctl_sched_child_runs_first,
+   222			.maxlen         = sizeof(unsigned int),
+   223			.mode           = 0644,
+   224			.proc_handler   = proc_dointvec,
+   225		},
+   226	#ifdef CONFIG_CFS_BANDWIDTH
+   227		{
+   228			.procname       = "sched_cfs_bandwidth_slice_us",
+   229			.data           = &sysctl_sched_cfs_bandwidth_slice,
+   230			.maxlen         = sizeof(unsigned int),
+   231			.mode           = 0644,
+   232			.proc_handler   = proc_dointvec_minmax,
+   233			.extra1         = SYSCTL_ONE,
+   234		},
+   235	#endif
+   236	#ifdef CONFIG_NUMA_BALANCING
+   237		{
+   238			.procname	= "numa_balancing_promote_rate_limit_MBps",
+   239			.data		= &sysctl_numa_balancing_promote_rate_limit,
+   240			.maxlen		= sizeof(unsigned int),
+   241			.mode		= 0644,
+   242			.proc_handler	= proc_dointvec_minmax,
+   243			.extra1		= SYSCTL_ZERO,
+   244		},
+   245	#endif /* CONFIG_NUMA_BALANCING */
+   246	#ifdef CONFIG_QOS_SCHED
+   247		{
+   248			.procname	= "qos_overload_detect_period_ms",
+   249			.data		= &sysctl_overload_detect_period,
+   250			.maxlen		= sizeof(unsigned int),
+   251			.mode		= 0644,
+   252			.proc_handler	= proc_dointvec_minmax,
+   253			.extra1		= SYSCTL_ONE_HUNDRED,
+   254			.extra2		= &hundred_thousand,
+   255		},
+   256		{
+   257			.procname	= "qos_offline_wait_interval_ms",
+   258			.data		= &sysctl_offline_wait_interval,
+   259			.maxlen		= sizeof(unsigned int),
+   260			.mode		= 0644,
+   261			.proc_handler	= proc_dointvec_minmax,
+   262			.extra1		= SYSCTL_ONE_HUNDRED,
+   263			.extra2		= &one_thousand,
+   264		},
+   265	#endif
+   266	#ifdef CONFIG_QOS_SCHED_DYNAMIC_AFFINITY
+   267		{
+   268			.procname       = "sched_util_low_pct",
+   269			.data           = &sysctl_sched_util_low_pct,
+   270			.maxlen         = sizeof(sysctl_sched_util_low_pct),
+   271			.mode           = 0644,
+   272			.proc_handler   = proc_dointvec_minmax,
+   273			.extra1         = SYSCTL_ZERO,
+   274			.extra2		= SYSCTL_ONE_HUNDRED,
+   275		},
+   276	#endif
+   277	#ifdef CONFIG_QOS_SCHED_PRIO_LB
+   278		{
+   279			.procname	= "sched_prio_load_balance_enabled",
+   280			.data		= &sysctl_sched_prio_load_balance_enabled,
+   281			.maxlen		= sizeof(unsigned int),
+   282			.mode		= 0644,
+   283			.proc_handler	= proc_dointvec_minmax,
+   284			.extra1		= SYSCTL_ZERO,
+   285			.extra2		= SYSCTL_ONE,
+   286		},
+   287	#endif
+   288	#ifdef CONFIG_QOS_SCHED_MULTILEVEL
+   289		{
+   290			.procname	= "qos_level_weights",
+   291			.data		= &sysctl_qos_level_weights,
+   292			.maxlen		= 5*sizeof(int),
+   293			.mode		= 0644,
+   294			.proc_handler	= proc_dointvec,
+   295		},
+   296	#endif
+   297	#ifdef CONFIG_QOS_SCHED_SMART_GRID
+   298		{
+   299			.procname	= "smart_grid_strategy_ctrl",
+   300			.data		= &sysctl_smart_grid_strategy_ctrl,
+   301			.maxlen		= sizeof(unsigned int),
+   302			.mode		= 0644,
+   303			.proc_handler   = proc_dointvec_minmax,
+   304			.extra1         = SYSCTL_ZERO,
+   305			.extra2		= SYSCTL_ONE,
+   306		},
+   307		{
+   308			.procname	= "affinity_adjust_delay_ms",
+   309			.data		= &sysctl_affinity_adjust_delay_ms,
+   310			.maxlen		= sizeof(unsigned int),
+   311			.mode		= 0644,
+   312			.proc_handler   = proc_dointvec_minmax,
+   313			.extra1         = SYSCTL_ZERO,
+ > 314			.extra2		= &hundred_thousand,
+   315		},
+   316	#endif
+   317		{}
+   318	};
+   319	
+   320	static int __init sched_fair_sysctl_init(void)
+   321	{
+ > 322		register_sysctl_init("kernel", sched_fair_sysctls);
+   323		return 0;
+   324	}
+   325	late_initcall(sched_fair_sysctl_init);
+   326	#endif
+   327	
 
 -- 
 0-DAY CI Kernel Test Service
