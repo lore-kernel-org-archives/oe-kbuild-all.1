@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0770F2C184
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 07:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AA433C0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 07:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714461983; cv=none; b=un4eJYuk4p2gpzVsEDu52Pre0I/DmlqZc6YZTqbewZOnWVTSg8oLrMnmaGPyf6Ru/zzH9H4Ll3PFM+pKgX4ApG4bsPW5cCKzr8Ote01aSd9k6EYO7B0ZLL08q5rihfkPbMsAtjc5exM4psLChfO0lFgdNIrX/0knTV5swLfG8Ok=
+	t=1714462203; cv=none; b=q+PaJLCEMI5ZgntoOZ9nyoG1di35SF9Gao6b5yqIUtPNAqX//lvJyEEasdZB7BNVFguVASQrQ1BgXlA6mES1Fx/bw9QnyMqnsy0rMGWELeGKIdBz7Xhe5KXPq8yMioaS14XGP2I0h2pzAtjtgS4QVVPya4tuBcaNY+Ma7SKNjdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714461983; c=relaxed/simple;
-	bh=wlrbFvEbeDXVRodcyYD0oBOmJhnuRmuDynM3TRgHbKM=;
+	s=arc-20240116; t=1714462203; c=relaxed/simple;
+	bh=vPRzrz4KHaiKE/Ee8BHlhjHFLIdji5EOgwc/kZSc/PM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XhplUL/o0Uwb4ePbpZ4uFIIsrins9CUqvlWWurMXg/p1bVzFkA70c0uYgZ+2lv8k29n0yc9LsMsdr/Pke0pK+df0N65t0gA+cbdLqLea34f9gpMajb3gsDTTukkkfEVmgnWIeDnH3kkpl0lPlnbULT1wkBlS+CB+6P6xMFiiOyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJBY3wWu; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=QHSaO5yvYKwgFJ61F4n4e9kwpRY7TriS03PvoJwwO4bapKGkAHhY5gNNLNMUMP2QTKJHBwggScWNAwlN6rINEgE6RA3KB0Unzuxea17i6LtLJ8AWXucmk40oAWe+YAWtl/6Zfn+nr2qKthpP04K5st8EyRKm0UqptIbmwmc1nG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ok7Eclk8; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJBY3wWu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714461981; x=1745997981;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wlrbFvEbeDXVRodcyYD0oBOmJhnuRmuDynM3TRgHbKM=;
-  b=fJBY3wWu1hp5pzjo4NO1T1kkSs2UvmQVgJUhTvk6/550zhM6omdfnGUK
-   nd6N+RrtsHMeHpQwtdPlKATAPnRTr7J7GjTo9Lmpxr6iVErEnv78Utp3J
-   cFaiqlvLXGX9byiqYSmAZZ1MaGuZdS8YJvAOGq9V9qTKRD3wN02LrNbJO
-   an0QBuoz6jGy8AzKrhjPQq0gxZCW0HEORJaJnOZs1ygHlhsnoXYppVUVr
-   mFt2GXXD3c1b4DJ3QZJ+Ke7mZfJOFJ1agVLcQGgD/F5scRyTb3Zp1P9by
-   B2EgLyBNZe5XdfJHoPwYL3j8D6GfoVSb7BeOANo0k+E4aVLhzVBZLEFYR
-   A==;
-X-CSE-ConnectionGUID: gZGGysHLQAqQ/RlqF62nVA==
-X-CSE-MsgGUID: 9mFrhg+nRSu+6gh2t5HCww==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10371335"
-X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="10371335"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 00:26:19 -0700
-X-CSE-ConnectionGUID: uzcNJ2j2QnyAzqoTzIl9vg==
-X-CSE-MsgGUID: E/DQSNcQRWGjVAFITpy19w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="30847461"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 30 Apr 2024 00:26:17 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s1hsV-0007sY-0J;
-	Tue, 30 Apr 2024 07:26:15 +0000
-Date: Tue, 30 Apr 2024 15:25:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Liu Shixin <liushixin2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 7192/7643] mm/page_alloc.c:4110:9: error: call to
- undeclared function 'dynamic_pool_should_alloc'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202404301532.nTD4ftcZ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ok7Eclk8"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5708d8beec6so6622208a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 00:30:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714462200; x=1715067000; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4O72YgIq0VJOrYsc+awiottllT2PSmLYAMhVusgwnMs=;
+        b=ok7Eclk8CyuOd0rcgoZEOSD3PVY+ommRmEorOaJMnvKBB87JG68y6g6pDNliIRppe7
+         oCZgodrU4TAqScPYCssdSHc0qJPIDLA9aK2+rSJQ9w8tXFbvpBoWC8BFEPYhxP3J6yYo
+         qRW1a68R0Bty65SseYJDnXbpxYzCMuwBRL83d08NREWm5xR7W+Of5MXDur+cZQErBB4e
+         LoqX+FDogIdqB6Rvebl0OagSVc/uSPU8d/Ll0aSwmYt6GBJwk7fDONEnxhnbXDh6ZKcO
+         2CPSZN1jfP0ZVWGyETRMoXQsjUfE0zlS6/oiaGu81CWTkJ4YhC4e94hiyRMiLyM/tLJA
+         7KiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714462200; x=1715067000;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4O72YgIq0VJOrYsc+awiottllT2PSmLYAMhVusgwnMs=;
+        b=IeD7R/uMiVGHwyYmAnYXoAubuK1vlN4D7y7nW2JF2lzF2gOoDdgUgPUul/M9m/Af2o
+         kcufN1rd8Sl4jrXq3eVwCLtls+8erx9XsW6I+nIuED2ESrsLJntwEd4uES37o5uLfoN2
+         vc71pvOECfYh9Wb2H6tOeta2/TK9Nkv2k95rI3O+l81yuWrq91cDjP3K3Dn1cI8mJQge
+         NZQ5qXwavE2+++Ax4h+fKmy2fny32amlGsmhMXyFTMbGBDEeWvLW6qCOB735CH3tpOej
+         Zp25PQsBbHY39C11npVXN/8SXx0UIWhH0BOrTqk3Mw85yz5LSaVRmqvcdUfnapfa1N/L
+         WVRA==
+X-Forwarded-Encrypted: i=1; AJvYcCXG3quIYyImWEc9xqh9PhfYLiFb+dFqmm33wz+H4BRKZdDZLGPE/2IqDw0l3wr72gR5vcBmJm3Fxce+xtoT0mcEXeYo9UbvtN8CDrRIJg==
+X-Gm-Message-State: AOJu0YwaTA3ip5q+omb/T0yXKVCPYFERf9RNYNp0ZqdmqSZKQqm1vr/F
+	bu+JnyLjFdnxqZdjTwOwfNGqob8Nquq/LO2hp/GWa347Lvz5lATLttRAWU+Dv5Y=
+X-Google-Smtp-Source: AGHT+IEiwkwI3NRc3OGLDX431vIDn+YQEzn0uQmqy6DusWwU7/vYvKI5bJ51fYj0kVF837wMag1+uw==
+X-Received: by 2002:a17:906:aed2:b0:a58:a2f9:d795 with SMTP id me18-20020a170906aed200b00a58a2f9d795mr12458252ejb.59.1714462199832;
+        Tue, 30 Apr 2024 00:29:59 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id s19-20020a170906a19300b00a590f9c1f91sm1066066ejy.197.2024.04.30.00.29.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Apr 2024 00:29:59 -0700 (PDT)
+Date: Tue, 30 Apr 2024 10:29:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Adrian Moreno <amorenoz@redhat.com>,
+	netdev@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, aconole@redhat.com,
+	echaudro@redhat.com, horms@kernel.org, i.maximets@ovn.org,
+	Adrian Moreno <amorenoz@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Pravin B Shelar <pshelar@ovn.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	linux-kernel@vger.kernel.org, dev@openvswitch.org
+Subject: Re: [PATCH net-next 6/8] net:openvswitch: add psample support
+Message-ID: <29e82a41-5e10-4135-9928-468e5d3abf39@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,85 +73,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240424135109.3524355-7-amorenoz@redhat.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   3fd472966bcc21f40dc20bb47c7ad18392fbec05
-commit: fd855715f24e3eeadaa56de5fde21c55a14aeea0 [7192/7643] mm/mem_reliable: Fallback to dpool if reliable memory is not enough
-config: arm64-randconfig-r053-20240430 (https://download.01.org/0day-ci/archive/20240430/202404301532.nTD4ftcZ-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404301532.nTD4ftcZ-lkp@intel.com/reproduce)
+Hi Adrian,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Moreno/net-netlink-export-genl-private-pointer-getters/20240424-215821
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240424135109.3524355-7-amorenoz%40redhat.com
+patch subject: [PATCH net-next 6/8] net:openvswitch: add psample support
+config: i386-randconfig-141-20240430 (https://download.01.org/0day-ci/archive/20240430/202404300611.kJOZL2KI-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404301532.nTD4ftcZ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202404300611.kJOZL2KI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+net/openvswitch/actions.c:1097 sample() error: uninitialized symbol 'ret'.
 
-   In file included from mm/page_alloc.c:19:
-   In file included from include/linux/mm.h:2204:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/page_alloc.c:43:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/page_alloc.c:2769:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    2769 |         __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   mm/page_alloc.c:2886:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    2886 |                 __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
->> mm/page_alloc.c:4110:9: error: call to undeclared function 'dynamic_pool_should_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4110 |         return dynamic_pool_should_alloc(gfp_mask & ~GFP_RELIABLE, order);
-         |                ^
-   mm/page_alloc.c:4596:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    4596 |         __count_zid_vm_events(PGALLOC, zone_idx(zone), nr_account);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   6 warnings and 1 error generated.
+vim +/ret +1097 net/openvswitch/actions.c
 
+ccb1352e76cff0 Jesse Gross        2011-10-25  1061  static int sample(struct datapath *dp, struct sk_buff *skb,
+ccea74457bbdaf Neil McKee         2015-05-26  1062  		  struct sw_flow_key *key, const struct nlattr *attr,
+798c166173ffb5 andy zhou          2017-03-20  1063  		  bool last)
+ccb1352e76cff0 Jesse Gross        2011-10-25  1064  {
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1065  	const struct sample_arg *arg;
+798c166173ffb5 andy zhou          2017-03-20  1066  	struct nlattr *sample_arg;
+798c166173ffb5 andy zhou          2017-03-20  1067  	int rem = nla_len(attr);
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1068  	struct nlattr *actions;
+bef7f7567a104a andy zhou          2017-03-20  1069  	bool clone_flow_key;
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1070  	int ret;
+ccb1352e76cff0 Jesse Gross        2011-10-25  1071  
+798c166173ffb5 andy zhou          2017-03-20  1072  	/* The first action is always 'OVS_SAMPLE_ATTR_ARG'. */
+798c166173ffb5 andy zhou          2017-03-20  1073  	sample_arg = nla_data(attr);
+798c166173ffb5 andy zhou          2017-03-20  1074  	arg = nla_data(sample_arg);
+798c166173ffb5 andy zhou          2017-03-20  1075  	actions = nla_next(sample_arg, &rem);
+e05176a3283822 Wenyu Zhang        2015-08-05  1076  
+798c166173ffb5 andy zhou          2017-03-20  1077  	if ((arg->probability != U32_MAX) &&
+a251c17aa558d8 Jason A. Donenfeld 2022-10-05  1078  	    (!arg->probability || get_random_u32() > arg->probability)) {
+798c166173ffb5 andy zhou          2017-03-20  1079  		if (last)
+9d802da40b7c82 Adrian Moreno      2023-08-11  1080  			ovs_kfree_skb_reason(skb, OVS_DROP_LAST_ACTION);
+ccb1352e76cff0 Jesse Gross        2011-10-25  1081  		return 0;
+ccb1352e76cff0 Jesse Gross        2011-10-25  1082  	}
+651887b0c22cff Simon Horman       2014-07-21  1083  
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1084  	if (arg->flags & OVS_SAMPLE_ARG_FLAG_PSAMPLE) {
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1085  		ret = ovs_psample_packet(dp, key, arg, skb);
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1086  		if (ret)
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1087  			return ret;
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1088  	}
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1089  
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1090  	if (nla_ok(actions, rem)) {
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1091  		clone_flow_key = !(arg->flags & OVS_SAMPLE_ARG_FLAG_EXEC);
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1092  		ret = clone_execute(dp, skb, key, 0, actions, rem, last,
+bef7f7567a104a andy zhou          2017-03-20  1093  				    clone_flow_key);
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1094  	} else if (last) {
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1095  		ovs_kfree_skb_reason(skb, OVS_DROP_LAST_ACTION);
 
-vim +/dynamic_pool_should_alloc +4110 mm/page_alloc.c
+ret is uninitialized on this last path.
 
-  4101	
-  4102	static inline bool mem_reliable_fallback_dpool(gfp_t gfp_mask, unsigned int order)
-  4103	{
-  4104		if (!reliable_allow_fb_enabled())
-  4105			return false;
-  4106	
-  4107		if (!(gfp_mask & GFP_RELIABLE))
-  4108			return false;
-  4109	
-> 4110		return dynamic_pool_should_alloc(gfp_mask & ~GFP_RELIABLE, order);
-  4111	}
-  4112	#else
-  4113	static inline struct zone *mem_reliable_fallback_zone(gfp_t gfp_mask,
-  4114							      struct alloc_context *ac)
-  4115	{
-  4116		return NULL;
-  4117	}
-  4118	static inline void mem_reliable_fallback_slowpath(gfp_t gfp_mask,
-  4119							  struct alloc_context *ac) {}
-  4120	static inline bool mem_reliable_fallback_dpool(gfp_t gfp_mask, unsigned int order)
-  4121	{
-  4122		return false;
-  4123	}
-  4124	#endif
-  4125	
+ccc0b9e4657efd Adrian Moreno      2024-04-24  1096  	}
+ccc0b9e4657efd Adrian Moreno      2024-04-24 @1097  	return ret;
+971427f353f3c4 Andy Zhou          2014-09-15  1098  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
