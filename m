@@ -1,120 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B654EC2ED
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 05:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3435AF9D6;
+	Tue, 30 Apr 2024 06:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714456755; cv=none; b=kmt/dVWbyfDuzceE2ZSZqSvCiFn26AVZPTegzZHMRJ2PETV0wOej/VzCf6oefjoPmPCeqZC2Vu4P8Mjab00+VRzWyG5hIuoIqFGbxIgcFjF+iS9E4jP5JUNxVjVNj4AqFYoJED96/QhtIsU7hh6uKpF+2Oy6q7sytfVmwx6bLTE=
+	t=1714457068; cv=none; b=WlfWj5v9wDrTxi2zDU0wbWwZ7tdpIa+9Ik+nVpxZzJuIb3DzlSZfIsnr4yFhBI+SIWTvk2ZzjvhbZ1/4KhvpljbLsiLZrla0Wb94iTGC+R0+KbQz5oYcRv0zZKfk68nu54smnzjsOy0B8vZ62VrSc1affVAqF2sgfWOmsFzVoSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714456755; c=relaxed/simple;
-	bh=XbTi6cEH2o1RjLu42OsAPeRKoQL+u/DDLPRzm4EgYwM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Kaf+Wim8Atv4tG9j/bkzS5rI3SVESrBmGkqTnQ+k0u0KGt122dy6VoabgsPWZYk7teZLNlVQS5WYln5baeRt9sjkX3zC8hbCCpINKJsQA7PluIzlWkwub+2kuDHlC2jsNGhkAGNjimEDku5KzwHJS56R+qkKrOAlRCwtoV8yAdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hNyy96Ks; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714457068; c=relaxed/simple;
+	bh=IDBpX/Sk8DJAELnbvEHHvPY0x6mf14x2QXjb0/ZYPUQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gw+aAlCXQyHTK5Sv49GydwDgccNRm6KKdvK7XVM1c7wSJpxLfCHZhNZxQxln/EGM8Gcah6UZnupo3ekMaqDb8813VTaegRHb44oKANfeQr4fiAuOeawuYCAN2Wq48rHu+PxwjQdsRrYOfBdVEmwPHyFDVFLgXxXqSBHdKEq4g/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oGBcnTBb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hNyy96Ks"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714456753; x=1745992753;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XbTi6cEH2o1RjLu42OsAPeRKoQL+u/DDLPRzm4EgYwM=;
-  b=hNyy96KsHYtvb19s/BvT54eBOMmzliDzufuhzgBBbQZ114PIqQhaU5wZ
-   yfSyl/tyBnhDuk3yf779EK/Uig2QVFmydh+wsWaXvQoqYT+inNoDDHIax
-   CaMkun1dtvwNtrCpypqEWG8RjGHCcD4bONGghhoPRuLEOp43Cps4m/oAi
-   g6b4mH1pDW61MOQoaBYnJ4ZVe678t0yoJ+s+MKMfFeneTT+c0nhhu+rVV
-   aArqtb5yri6i2C2Z8vd0cEl/pWNRkUV2o/bmynKk+DKKX9zZVRYAgc9cA
-   21OH9VE1CVOZ+3zdCuO2YZ/CkjBSbF9Xh2/wSsUI4WwPyRMh62MmwJaAU
-   w==;
-X-CSE-ConnectionGUID: nqHHOThkQqiYIDrjrrAnRA==
-X-CSE-MsgGUID: bqygaZnQSp66EQbN2ZbiBg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10363259"
-X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="10363259"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 22:59:13 -0700
-X-CSE-ConnectionGUID: 1BXd8/NWQ+qa7gsUxUwbVw==
-X-CSE-MsgGUID: JWJ7LVXaR/KkeFgft+ogLw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="26338468"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 29 Apr 2024 22:59:12 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s1gWD-0007ng-1o;
-	Tue, 30 Apr 2024 05:59:09 +0000
-Date: Tue, 30 Apr 2024 13:58:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:purgatory-cleanup 10/10] riscv64-linux-ld: warning: orphan
- section `.text.verify_sha256_digest' from `arch/riscv/purgatory/purgatory.o'
- being placed in section `.text.verify_sha256_digest'
-Message-ID: <202404301323.HTcO423l-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oGBcnTBb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27807C2BBFC;
+	Tue, 30 Apr 2024 06:04:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714457068;
+	bh=IDBpX/Sk8DJAELnbvEHHvPY0x6mf14x2QXjb0/ZYPUQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oGBcnTBbeAff23+4eIfgcluZaPFvolQl3SL6KA7Fd09MYxCLAGlg9kGBVj8cp3AUs
+	 y/HjB1Vra0UAK6umlCZ0DADm49wJvi4bm4W57vv3M26oaBdQRq8w78CvsFvErP5aOo
+	 2bBcAmjqG2UHqp6uxmDyHBsikzIrpCMMu70XvgeyAd2aLRJtOsCII3vWlXbWa2GqNL
+	 Y2iQSakRN+sbQKE9ePIx8e0Ht5KGBwgRVbhLZHlF5V0SMuJsrdnMPAxBuIcPL5NgyL
+	 1YIGSOHETTIenIVMh2a6fWbzK5quZwny3zv+IvysFHY6Khy4LRBq1O1H+hJJR8NC5V
+	 5JiGBmDKotLgg==
+Message-ID: <15d45445-e664-40bc-b5b8-285df53167b5@kernel.org>
+Date: Tue, 30 Apr 2024 08:04:22 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [pinctrl-samsung:pinctrl-next 3/3]
+ drivers/pinctrl/samsung/pinctrl-samsung.c:633:35: warning: variable 'drvdata'
+ set but not used
+To: kernel test robot <lkp@intel.com>,
+ =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+References: <202404300825.6lxLwvUY-lkp@intel.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <202404300825.6lxLwvUY-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git purgatory-cleanup
-head:   f932918ce54607563ecc0558f6c14383564891f6
-commit: f932918ce54607563ecc0558f6c14383564891f6 [10/10] Switch risc-v to PIE purgatory
-config: riscv-randconfig-001-20240430 (https://download.01.org/0day-ci/archive/20240430/202404301323.HTcO423l-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404301323.HTcO423l-lkp@intel.com/reproduce)
+On 30/04/2024 02:58, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinctrl/samsung.git pinctrl-next
+> head:   f9c74474797351c60e009ebc59a798fcfd93ee57
+> commit: f9c74474797351c60e009ebc59a798fcfd93ee57 [3/3] pinctrl: samsung: support a bus clock
+> config: arm-defconfig (https://download.01.org/0day-ci/archive/20240430/202404300825.6lxLwvUY-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404300825.6lxLwvUY-lkp@intel.com/reproduce)
+> 
+I sent a patch to fix it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404301323.HTcO423l-lkp@intel.com/
+Guys, are your development trees tested by LKP?
 
-All warnings (new ones prefixed by >>):
+Best regards,
+Krzysztof
 
->> riscv64-linux-ld: warning: orphan section `.text.verify_sha256_digest' from `arch/riscv/purgatory/purgatory.o' being placed in section `.text.verify_sha256_digest'
->> riscv64-linux-ld: warning: orphan section `.text.purgatory' from `arch/riscv/purgatory/purgatory.o' being placed in section `.text.purgatory'
->> riscv64-linux-ld: warning: orphan section `.text.sha256_transform' from `arch/riscv/purgatory/sha256.o' being placed in section `.text.sha256_transform'
->> riscv64-linux-ld: warning: orphan section `.text.sha256_transform_blocks' from `arch/riscv/purgatory/sha256.o' being placed in section `.text.sha256_transform_blocks'
->> riscv64-linux-ld: warning: orphan section `.text.sha256_update' from `arch/riscv/purgatory/sha256.o' being placed in section `.text.sha256_update'
->> riscv64-linux-ld: warning: orphan section `.text.sha256_final' from `arch/riscv/purgatory/sha256.o' being placed in section `.text.sha256_final'
->> riscv64-linux-ld: warning: orphan section `.text.sha224_final' from `arch/riscv/purgatory/sha256.o' being placed in section `.text.sha224_final'
->> riscv64-linux-ld: warning: orphan section `.text.sha256' from `arch/riscv/purgatory/sha256.o' being placed in section `.text.sha256'
->> riscv64-linux-ld: warning: orphan section `.text.strncasecmp' from `arch/riscv/purgatory/string.o' being placed in section `.text.strncasecmp'
->> riscv64-linux-ld: warning: orphan section `.text.strcasecmp' from `arch/riscv/purgatory/string.o' being placed in section `.text.strcasecmp'
->> riscv64-linux-ld: warning: orphan section `.text.strcpy' from `arch/riscv/purgatory/string.o' being placed in section `.text.strcpy'
->> riscv64-linux-ld: warning: orphan section `.text.strncpy' from `arch/riscv/purgatory/string.o' being placed in section `.text.strncpy'
-   riscv64-linux-ld: warning: orphan section `.text.strscpy' from `arch/riscv/purgatory/string.o' being placed in section `.text.strscpy'
->> riscv64-linux-ld: warning: orphan section `.text.stpcpy' from `arch/riscv/purgatory/string.o' being placed in section `.text.stpcpy'
->> riscv64-linux-ld: warning: orphan section `.text.strcat' from `arch/riscv/purgatory/string.o' being placed in section `.text.strcat'
->> riscv64-linux-ld: warning: orphan section `.text.strncat' from `arch/riscv/purgatory/string.o' being placed in section `.text.strncat'
->> riscv64-linux-ld: warning: orphan section `.text.strlcat' from `arch/riscv/purgatory/string.o' being placed in section `.text.strlcat'
->> riscv64-linux-ld: warning: orphan section `.text.strchr' from `arch/riscv/purgatory/string.o' being placed in section `.text.strchr'
->> riscv64-linux-ld: warning: orphan section `.text.strchrnul' from `arch/riscv/purgatory/string.o' being placed in section `.text.strchrnul'
->> riscv64-linux-ld: warning: orphan section `.text.strnchrnul' from `arch/riscv/purgatory/string.o' being placed in section `.text.strnchrnul'
->> riscv64-linux-ld: warning: orphan section `.text.strrchr' from `arch/riscv/purgatory/string.o' being placed in section `.text.strrchr'
-   riscv64-linux-ld: warning: orphan section `.text.strnchr' from `arch/riscv/purgatory/string.o' being placed in section `.text.strnchr'
-   riscv64-linux-ld: warning: orphan section `.text.strnlen' from `arch/riscv/purgatory/string.o' being placed in section `.text.strnlen'
-   riscv64-linux-ld: warning: orphan section `.text.strspn' from `arch/riscv/purgatory/string.o' being placed in section `.text.strspn'
-   riscv64-linux-ld: warning: orphan section `.text.strcspn' from `arch/riscv/purgatory/string.o' being placed in section `.text.strcspn'
-   riscv64-linux-ld: warning: orphan section `.text.strpbrk' from `arch/riscv/purgatory/string.o' being placed in section `.text.strpbrk'
-   riscv64-linux-ld: warning: orphan section `.text.strsep' from `arch/riscv/purgatory/string.o' being placed in section `.text.strsep'
-   riscv64-linux-ld: warning: orphan section `.text.memset16' from `arch/riscv/purgatory/string.o' being placed in section `.text.memset16'
-   riscv64-linux-ld: warning: orphan section `.text.memset32' from `arch/riscv/purgatory/string.o' being placed in section `.text.memset32'
-   riscv64-linux-ld: warning: orphan section `.text.memset64' from `arch/riscv/purgatory/string.o' being placed in section `.text.memset64'
-   riscv64-linux-ld: warning: orphan section `.text.memcmp' from `arch/riscv/purgatory/string.o' being placed in section `.text.memcmp'
-   riscv64-linux-ld: warning: orphan section `.text.bcmp' from `arch/riscv/purgatory/string.o' being placed in section `.text.bcmp'
-   riscv64-linux-ld: warning: orphan section `.text.memscan' from `arch/riscv/purgatory/string.o' being placed in section `.text.memscan'
-   riscv64-linux-ld: warning: orphan section `.text.strstr' from `arch/riscv/purgatory/string.o' being placed in section `.text.strstr'
-   riscv64-linux-ld: warning: orphan section `.text.strnstr' from `arch/riscv/purgatory/string.o' being placed in section `.text.strnstr'
-   riscv64-linux-ld: warning: orphan section `.text.memchr' from `arch/riscv/purgatory/string.o' being placed in section `.text.memchr'
-   riscv64-linux-ld: warning: orphan section `.text.memchr_inv' from `arch/riscv/purgatory/string.o' being placed in section `.text.memchr_inv'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
