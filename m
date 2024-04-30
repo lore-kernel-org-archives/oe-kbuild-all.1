@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869533BB2E;
-	Tue, 30 Apr 2024 22:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A73686126
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 23:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714517465; cv=none; b=DSVIcXfiwD3LXiaS73IrIrdB3jvw5dTeBG06oduNb2RDG79SxszEEyKOCgRGDy3guzGcHqVfmtETwnmpLz2MZ9dhkakpz/UnKi+mI68RfthBqeijvY0YszgwfV3nlZKB9N2tocPhBM+jzxfiWtO3Zl1B2SAeoEe8upeRwSY1v6A=
+	t=1714518782; cv=none; b=q+d1/zU/VetGXgo5pEa0J0Voszp3/hCpzzKRkSEJDll3bJ9gdgz0S/y3au242tAsfbgnOdkQOEhnO9VW1/7spuEn1Nkmq8sfyGGQWGQdu9oQ/J3Gkftsbk7T+G+1yubY3n+Cf+ZdG/hVE53TgwZi064UBW+idEbp6C+/ratuq7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714517465; c=relaxed/simple;
-	bh=WI6e855Kc92SAi9gqKtnj+EkJ3KnHR+2fh4AgnRu2iY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mHgasdatG6v4keGFl/d8hbCPUqsE8gFj8maJJxm284+lvMMm6c/RpZ16Ne6tyr+3ASCoEHe645pAebR7UP5K0LnRYLbSK5FwqSEqA6/PsWyuRVrdGV+vEFFJTTNBHL6LsullFmOOIdqyGQxSAojoHBUWhQeSvZGadYcC2zH+BPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TMALhvsN; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1714518782; c=relaxed/simple;
+	bh=9aLMGWlJ3KH73jGrTb0xEXNt+MnIVirER/Y+9TvPXfc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JLLCJa3/vmnK4FhSq47wH0GBCg/13fCygj6BakEne0JrTjGjkgiM3pLDAoXys9FfOwG0ys+xTCT9DqlwXsMKMiCoJxE35vJS+LNVU7sja22cZlR0QmTc/QIBORXMNNs+HpYKk4uqjEQCc2pGicFGIQLFoS0W2jfxnAQfHDPPmx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MYUVXr8b; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TMALhvsN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MYUVXr8b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714517464; x=1746053464;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WI6e855Kc92SAi9gqKtnj+EkJ3KnHR+2fh4AgnRu2iY=;
-  b=TMALhvsNrlcfD/nXj/0eRkh/hpa9ZVPa/4lvho5AIqQNsJRtHow1Reea
-   1ebhd5GUHXWiKy2Fl6uTAensmZ0i9VJ7ueso1Ee4r2g1wmMigMmR3UsAG
-   tOdx5YAe8fGin6DV3sGVtVNUnebcLXC3O57zV19kSkQ9xqowXChtGkpGn
-   gWSCLRrLymH52dlUO/ZBA+dLx4tfVGIwdm/UiAmJ0/02M/0onYFkLE+dX
-   28ds5jwbj3B1O/geKn1sCuuOTPIWrxDbzxovLeID81mmxYT15SLHBZBL8
-   gOACxzLnvtcTiYK1Xvv/xUSDQKjElo1ebhiCDo/AlQfl0P2BoJrMLNzH4
-   g==;
-X-CSE-ConnectionGUID: cIQstBxkRYGTxhZSyDirlg==
-X-CSE-MsgGUID: gA/JjUWgSga7DgfhasP9Ig==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10790880"
+  t=1714518780; x=1746054780;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9aLMGWlJ3KH73jGrTb0xEXNt+MnIVirER/Y+9TvPXfc=;
+  b=MYUVXr8bb9HlJ9B4wetLZl7C6ytri16gUXR6gKFR/8uuT/wKjQSE8dZl
+   v90x5EGpJ/kd2acteWV9fQpq5eNeLQfFFSIeZ892saZ3AgCYdCpEL2BzX
+   qrEdsY3k/SD3wr1N/C8hMFfdgpo1Ab36dl/UJv0+C/GQFKHAVM0SFN1Hn
+   IrRaoNOswbxeV3di/5CAuW7v0BU8g2WLQJy2R5nfaHK+s80J8gvHCNFAO
+   6Gzkx+zDf0Gr1s2W6wzqR4lfGI4et5DgT5JvlzXnLS4ySplAMqXGI294K
+   tjXuLQT/k+dGGMo0rj9dwrEqFluwvktUChaeoXIAhIgEoiVIBDQTTfF+D
+   w==;
+X-CSE-ConnectionGUID: N8FPml1RQci0+7QoAc0Omw==
+X-CSE-MsgGUID: prC+EDaFQLGenuT/86s3DA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10373923"
 X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; 
-   d="scan'208";a="10790880"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 15:51:02 -0700
-X-CSE-ConnectionGUID: FZkSokSlRC6f+NGqNm3JLw==
-X-CSE-MsgGUID: qu5447TjTguXRIksIdWSjw==
+   d="scan'208";a="10373923"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 16:12:59 -0700
+X-CSE-ConnectionGUID: FmHFoyAOQOSdDFvg4DjAog==
+X-CSE-MsgGUID: +hjdNW6EQnK5Ep20jyw0Og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; 
-   d="scan'208";a="64102738"
+   d="scan'208";a="27233252"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 Apr 2024 15:50:59 -0700
+  by orviesa008.jf.intel.com with ESMTP; 30 Apr 2024 16:12:58 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1wJM-0008fJ-0R;
-	Tue, 30 Apr 2024 22:50:56 +0000
-Date: Wed, 1 May 2024 06:50:26 +0800
+	id 1s1wee-0008fp-1C;
+	Tue, 30 Apr 2024 23:12:56 +0000
+Date: Wed, 1 May 2024 07:12:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Weishi Li <liweishi@kylinos.cn>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, airlied@redhat.com,
-	daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
-	gurchetansingh@chromium.org, kraxel@redhat.com,
-	linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, olvaffe@gmail.com, tzimmermann@suse.de,
-	virtualization@lists.linux.dev
-Subject: Re: [PATCH] [PATCH RESEND] drm/virtio: fix memory leak of vbuf
-Message-ID: <202405010653.utlwekew-lkp@intel.com>
-References: <20240429030541.56702-1-liweishi@kylinos.cn>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.6-1.0.x-imx 5950/11730]
+ drivers/firmware/imx/sm-misc.c:17:5: warning: no previous prototype for
+ function 'scmi_imx_misc_ctrl_set'
+Message-ID: <202405010700.Zzw9Rpgb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,161 +62,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240429030541.56702-1-liweishi@kylinos.cn>
 
-Hi Weishi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.9-rc6 next-20240430]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Weishi-Li/drm-virtio-fix-memory-leak-of-vbuf/20240430-132447
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240429030541.56702-1-liweishi%40kylinos.cn
-patch subject: [PATCH] [PATCH RESEND] drm/virtio: fix memory leak of vbuf
-config: hexagon-randconfig-001-20240501 (https://download.01.org/0day-ci/archive/20240501/202405010653.utlwekew-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405010653.utlwekew-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
+head:   776652a165f5bbf30c68a5f6213d75b02e8df11c
+commit: d482cb8ff9593b82d549bcebb1fa406494ab96f9 [5950/11730] LF-10712-2 firmware: imx: add i.MX SM MISC driver
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240501/202405010700.Zzw9Rpgb-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405010700.Zzw9Rpgb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405010653.utlwekew-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405010700.Zzw9Rpgb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/virtio/virtgpu_vq.c:29:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
+   In file included from drivers/firmware/imx/sm-misc.c:11:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
    include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
    include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
    include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/gpu/drm/virtio/virtgpu_vq.c:29:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/firmware/imx/sm-misc.c:11:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
    include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
    include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/gpu/drm/virtio/virtgpu_vq.c:29:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/firmware/imx/sm-misc.c:11:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
    include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
    include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
    include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:474:2: error: expected expression
-           else if (ret < 0) {
-           ^
->> drivers/gpu/drm/virtio/virtgpu_vq.c:503:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:523:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:534:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:556:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:580:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:604:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:635:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:654:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:683:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:704:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:729:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:741:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:767:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:790:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:815:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:889:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:919:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:936:1: error: function definition is not allowed here
-   {
-   ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   6 warnings and 20 errors generated.
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/firmware/imx/sm-misc.c:11:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:20:
+   In file included from include/linux/mm.h:2168:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/firmware/imx/sm-misc.c:17:5: warning: no previous prototype for function 'scmi_imx_misc_ctrl_set' [-Wmissing-prototypes]
+      17 | int scmi_imx_misc_ctrl_set(u32 id, u32 val)
+         |     ^
+   drivers/firmware/imx/sm-misc.c:17:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      17 | int scmi_imx_misc_ctrl_set(u32 id, u32 val)
+         | ^
+         | static 
+>> drivers/firmware/imx/sm-misc.c:26:5: warning: no previous prototype for function 'scmi_imx_misc_ctrl_get' [-Wmissing-prototypes]
+      26 | int scmi_imx_misc_ctrl_get(u32 id, u32 *num, u32 *val)
+         |     ^
+   drivers/firmware/imx/sm-misc.c:26:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      26 | int scmi_imx_misc_ctrl_get(u32 id, u32 *num, u32 *val)
+         | ^
+         | static 
+   9 warnings generated.
 
 
-vim +503 drivers/gpu/drm/virtio/virtgpu_vq.c
+vim +/scmi_imx_misc_ctrl_set +17 drivers/firmware/imx/sm-misc.c
 
-dc5698e80cf724 Dave Airlie      2013-09-09  492  
-dc5698e80cf724 Dave Airlie      2013-09-09  493  /* just create gem objects for userspace and long lived objects,
-5d883850dc23a5 Rodrigo Siqueira 2018-02-22  494   * just use dma_alloced pages for the queue objects?
-5d883850dc23a5 Rodrigo Siqueira 2018-02-22  495   */
-dc5698e80cf724 Dave Airlie      2013-09-09  496  
-dc5698e80cf724 Dave Airlie      2013-09-09  497  /* create a basic resource */
-dc5698e80cf724 Dave Airlie      2013-09-09  498  void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
-23c897d72ca806 Gerd Hoffmann    2018-10-19  499  				    struct virtio_gpu_object *bo,
-530b28426a94b8 Gerd Hoffmann    2019-03-18  500  				    struct virtio_gpu_object_params *params,
-e2324300f427ff Gerd Hoffmann    2019-08-29  501  				    struct virtio_gpu_object_array *objs,
-530b28426a94b8 Gerd Hoffmann    2019-03-18  502  				    struct virtio_gpu_fence *fence)
-dc5698e80cf724 Dave Airlie      2013-09-09 @503  {
-dc5698e80cf724 Dave Airlie      2013-09-09  504  	struct virtio_gpu_resource_create_2d *cmd_p;
-dc5698e80cf724 Dave Airlie      2013-09-09  505  	struct virtio_gpu_vbuffer *vbuf;
-dc5698e80cf724 Dave Airlie      2013-09-09  506  
-dc5698e80cf724 Dave Airlie      2013-09-09  507  	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
-dc5698e80cf724 Dave Airlie      2013-09-09  508  	memset(cmd_p, 0, sizeof(*cmd_p));
-e2324300f427ff Gerd Hoffmann    2019-08-29  509  	vbuf->objs = objs;
-dc5698e80cf724 Dave Airlie      2013-09-09  510  
-dc5698e80cf724 Dave Airlie      2013-09-09  511  	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_CREATE_2D);
-724cfdfd667a28 Gerd Hoffmann    2018-10-19  512  	cmd_p->resource_id = cpu_to_le32(bo->hw_res_handle);
-f9659329f222a6 Gerd Hoffmann    2019-03-18  513  	cmd_p->format = cpu_to_le32(params->format);
-f9659329f222a6 Gerd Hoffmann    2019-03-18  514  	cmd_p->width = cpu_to_le32(params->width);
-f9659329f222a6 Gerd Hoffmann    2019-03-18  515  	cmd_p->height = cpu_to_le32(params->height);
-dc5698e80cf724 Dave Airlie      2013-09-09  516  
-e19d341174b679 Chia-I Wu        2020-02-05  517  	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
-23c897d72ca806 Gerd Hoffmann    2018-10-19  518  	bo->created = true;
-dc5698e80cf724 Dave Airlie      2013-09-09  519  }
-dc5698e80cf724 Dave Airlie      2013-09-09  520  
+  > 11	#include <linux/suspend.h>
+    12	
+    13	static const struct scmi_imx_misc_proto_ops *imx_misc_ctrl_ops;
+    14	static struct scmi_protocol_handle *ph;
+    15	struct notifier_block scmi_imx_misc_ctrl_nb;
+    16	
+  > 17	int scmi_imx_misc_ctrl_set(u32 id, u32 val)
+    18	{
+    19		if (!ph)
+    20			return -EPROBE_DEFER;
+    21	
+    22		return imx_misc_ctrl_ops->misc_ctrl_set(ph, id, 1, &val);
+    23	};
+    24	EXPORT_SYMBOL(scmi_imx_misc_ctrl_set);
+    25	
+  > 26	int scmi_imx_misc_ctrl_get(u32 id, u32 *num, u32 *val)
+    27	{
+    28		if (!ph)
+    29			return -EPROBE_DEFER;
+    30	
+    31		return imx_misc_ctrl_ops->misc_ctrl_get(ph, id, num, val);
+    32	}
+    33	EXPORT_SYMBOL(scmi_imx_misc_ctrl_get);
+    34	
 
 -- 
 0-DAY CI Kernel Test Service
