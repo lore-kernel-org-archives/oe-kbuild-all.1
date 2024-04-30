@@ -1,103 +1,116 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1F914AB7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 07:55:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCCA205E2E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 09:00:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714463707; cv=none; b=m8swwnLSsAuY+UhzURx6O8kXGFXa2JSFvDWcArynlJMkx6AyT301CEnXhCgdUbgRH/SfTvJP58FijoykxGLqkU7L13s3fe95ZepFRYp/3oxiXnxC8HjZCSEdrC66lOMM7pojhFCd72HKeQpPEzYHxwmkBhSn6fJnDq7hb9Vp9Ak=
+	t=1714467647; cv=none; b=r7sI+W7ojrn00fZcslEFtT2nqIR+ULg5u967TQMpf0P8e1ImfnqhQETq7Kv7tyCylffuFFJH1S0c29GSscRt52gEM0GfRJk23v+a8VVom2/VSfcPQqLBo6bRTclZ/1kC/QTWnMb+0h/U4NOV7s0OVXDza/hDO+pxQXg4iLX83js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714463707; c=relaxed/simple;
-	bh=QyO7UPtlHnW+b6HUplDf5qADygYlgox3avpwPbUW9Vk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RsbMyLqCl33nvjjQGlC4yImb4XoAVMhkggxn0qRtnZsJsQiAPJuzvI0AnCkZq6uAsfSA5/t7ozMO6h+lrnpGRUIsykGAfxo7smfjCJXlPEuI2GVPTl+MACfNqs0O3SY9NXGWC+o6AHSFOg/mx4/b8OnppgdyUYUXsSfcWVsocTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BTCPzA9d; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1714467647; c=relaxed/simple;
+	bh=3vRBqP8VpZM8cAKU/Oa9w0EQQKpZQz47V92hiizlLVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SJnLf89b6KXMJi4x5NRMIRHauCdkWW/T3RnlHVQxVRyIhWW+fRJi+zIc+lNW0xxvR2RDe1PKls8MU4aHg9R+/BbJfv1kYZ0gqp1OFsZrhAPhbZ7+VSXlW0YhuHnOi0R5j2HyhzliTZY4lAKmrTld8ZqcCfa7jSz6pXlQyoHWTF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mvXINk5S; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BTCPzA9d"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-41ba0bb5837so26539895e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 00:55:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714463705; x=1715068505; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=QyO7UPtlHnW+b6HUplDf5qADygYlgox3avpwPbUW9Vk=;
-        b=BTCPzA9dmR94shD+LqCl7jQPzIPkEXTu3vZ7MpRx+40xU1kDoEUQzhAMPburau6i0R
-         J8cTBuw9WeCjhWg6K7LH21zXNJXzBVIZQVwoYmF01BGnCIE0rMzmuEbRbWQ1+GNmPQof
-         uA7spT2s6cVzdoWDpWd3x8+A8ZN00N0Z44rI2yTKg1SuC2LS98csPnW+ExzM4O1hJAJR
-         ymSpig9AfOa522gBdakUXxb56lodM2xWBl/X0Kpv13sWuUIr7t9bVcXfB9cRXpzSt8SW
-         aKjMJRM2Kf1yetHf9IKCsUg1mmEB2u7yR5wiKF6bZWMfJjP2C5NHpqkpF+2/ww8RuoUn
-         91ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714463705; x=1715068505;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QyO7UPtlHnW+b6HUplDf5qADygYlgox3avpwPbUW9Vk=;
-        b=R0zu+CyeOzhgqTaGttA/nFi7X8swmmiUJv/fYQ3u95+xpaa5oFiKbz3ID4HHqltwaw
-         N5/HroWAByx/ldewsOwUxuv2NSdWlNsDUUGRCet0Sgoxe0fKnDgQp+nBb2JT7lzDGqz5
-         vsSImUllAOqNjMWKvJte4BXPUeo8cmXSpUKcLsoynK8P2VeZtJP77EamV6FQ9/6+sheO
-         BqV0nNW2FMnRHh+/UoQ196zEx32jlXRQAXKVG+0h0GQ+fspQJQywcRv1dPa/ZP4oJ3rm
-         pLfFZxyvwpdc3tuQRHgUvNs4rnyUt9VlWQnREUvQrEPDjJ/XiQj0QKTxhx8hCtS7IUPP
-         JJzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLb9rFt3IfBA2n45X7oH/O/6cHm0KB6rS5xPZ8vExKYgnzg65ZOXQfhcPd+p44Qage3rBkJz1u7m7TCCOJROre392o5Tu3Wi1Vh/+67A==
-X-Gm-Message-State: AOJu0Yx13ar1e2JI7vk+O1f6C2auoX4O3ets0Ds809TYn9yE1O3ud/Ct
-	V+iiJGdcMyIv7anSRBrL/1ZhZWZG8mQF3IFM1BRK8abLprW8mY9GQE9tHBGXj74=
-X-Google-Smtp-Source: AGHT+IGSpoSFry4pE9uTsBILC16+fvaWelBfo7+NUhx4fBoQwfBtL8sXcmlBE2+RGEF1JtBrChz21Q==
-X-Received: by 2002:a05:600c:46ce:b0:41c:2313:da92 with SMTP id q14-20020a05600c46ce00b0041c2313da92mr4603745wmo.4.1714463704670;
-        Tue, 30 Apr 2024 00:55:04 -0700 (PDT)
-Received: from [10.1.1.109] ([80.111.64.44])
-        by smtp.gmail.com with ESMTPSA id f17-20020a05600c4e9100b004182b87aaacsm44080968wmq.14.2024.04.30.00.55.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Apr 2024 00:55:04 -0700 (PDT)
-Message-ID: <4f163ad7ea0d65d14da6431cf6c1056b8e525dff.camel@linaro.org>
-Subject: Re: [pinctrl-samsung:pinctrl-next 3/3]
- drivers/pinctrl/samsung/pinctrl-samsung.c:633:35: warning: variable
- 'drvdata' set but not used
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>, kernel test robot
- <lkp@intel.com>,  Peter Griffin <peter.griffin@linaro.org>, Tudor Ambarus
- <tudor.ambarus@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Date: Tue, 30 Apr 2024 08:55:03 +0100
-In-Reply-To: <15d45445-e664-40bc-b5b8-285df53167b5@kernel.org>
-References: <202404300825.6lxLwvUY-lkp@intel.com>
-	 <15d45445-e664-40bc-b5b8-285df53167b5@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3-1 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mvXINk5S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714467646; x=1746003646;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3vRBqP8VpZM8cAKU/Oa9w0EQQKpZQz47V92hiizlLVg=;
+  b=mvXINk5SV7GdOzAxxbz5hBKNhsdlpl5WnclvexyAMfxYxgCt0LNAJk9M
+   2UHd2P9FiwpXtreCEkpG/vZoXZUquepd8DGFAB4T5DAs8aGaabl5KcLe2
+   +7vbCenM7YBQT175evvZYCjWuJEnigyF3ovSL22UiFX+hv5/EHRf4BwtW
+   bFCIHPZnN3tn11Jwt8HuwHIlrlXnAjaBpR26A/vGHYghOZI229WkeA3hK
+   sZiIIeT8G5EJo3UXuzjvaatkihFx+KdR0DhUq6HtDGo9JbC6TFlLGwGs+
+   WL1vt6HfH7LZk1A7rDABEgDogbf3epB5bg5Oo8k2yaZGjNA+TrFOPluu3
+   A==;
+X-CSE-ConnectionGUID: nClTwtoSQSul0fL+2XAu8w==
+X-CSE-MsgGUID: vnnbUtXuR2mib4DWAncD6Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10381706"
+X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
+   d="scan'208";a="10381706"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 02:00:22 -0700
+X-CSE-ConnectionGUID: xHPTeobGQtO+7l//4ZZL8w==
+X-CSE-MsgGUID: JmZsYxAjSoe133oa9ev/mA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
+   d="scan'208";a="26331922"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 30 Apr 2024 02:00:21 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s1jLX-0007xn-2D;
+	Tue, 30 Apr 2024 09:00:19 +0000
+Date: Tue, 30 Apr 2024 16:59:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.6-1.0.x-imx 5948/11728]
+ drivers/firmware/imx/sm-bbm.c:122:5: warning: no previous prototype for
+ 'scmi_imx_bbm_pwrkey_event'
+Message-ID: <202404301640.dWDkfv9r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 2024-04-30 at 08:04 +0200, Krzysztof Kozlowski wrote:
-> On 30/04/2024 02:58, kernel test robot wrote:
-> > tree:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/pinct=
-rl/samsung.git=C2=A0pinctrl-next
-> > head:=C2=A0=C2=A0 f9c74474797351c60e009ebc59a798fcfd93ee57
-> > commit: f9c74474797351c60e009ebc59a798fcfd93ee57 [3/3] pinctrl: samsung=
-: support a bus clock
-> > config: arm-defconfig (https://download.01.org/0day-ci/archive/20240430=
-/202404300825.6lxLwvUY-lkp@intel.com/config)
-> > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.gi=
-t=C2=A0f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20240430/202404300825.6lxLwvUY-lkp@intel.com/reproduce)
-> >=20
-> I sent a patch to fix it.
+tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
+head:   37770f55ac9c4f6cd958eb5544939207eed8478f
+commit: bd493ca3f0194d0b2b41e5b3b03f35ce6f4d792d [5948/11728] LF-10711-7 firmware: imx: sm-bbm: support pwrkey
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240430/202404301640.dWDkfv9r-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404301640.dWDkfv9r-lkp@intel.com/reproduce)
 
-Thank you Krzysztof.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404301640.dWDkfv9r-lkp@intel.com/
 
-> Guys, are your development trees tested by LKP?
+All warnings (new ones prefixed by >>):
 
-Unfortunately not at this stage, no. We'll look into it.
+>> drivers/firmware/imx/sm-bbm.c:122:5: warning: no previous prototype for 'scmi_imx_bbm_pwrkey_event' [-Wmissing-prototypes]
+     122 | int scmi_imx_bbm_pwrkey_event(struct scmi_imx_bbm *bbnsm)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Cheers,
-Andre'
+vim +/scmi_imx_bbm_pwrkey_event +122 drivers/firmware/imx/sm-bbm.c
 
+   121	
+ > 122	int scmi_imx_bbm_pwrkey_event(struct scmi_imx_bbm *bbnsm)
+   123	{
+   124		struct input_dev *input = bbnsm->input;
+   125	
+   126		schedule_delayed_work(&bbnsm->check_work, msecs_to_jiffies(DEBOUNCE_TIME));
+   127	
+   128		/*
+   129		 * Directly report key event after resume to make no key press
+   130		 * event is missed.
+   131		 */
+   132		if (bbnsm->suspended) {
+   133			bbnsm->keystate = 1;
+   134			input_event(input, EV_KEY, bbnsm->keycode, 1);
+   135			input_sync(input);
+   136		}
+   137	
+   138		return 0;
+   139	}
+   140	static void scmi_imx_bbm_pwrkey_act(void *pdata)
+   141	{
+   142		struct scmi_imx_bbm *bbnsm = pdata;
+   143	
+   144		cancel_delayed_work_sync(&bbnsm->check_work);
+   145	}
+   146	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
