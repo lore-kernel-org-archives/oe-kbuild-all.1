@@ -1,61 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6F2172BD4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 14:01:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FA0174ED4;
+	Tue, 30 Apr 2024 14:22:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714485674; cv=none; b=lhH1fRHRXyMYV63Jwa4ICzWd9/OkjFKxhvmZYdwQRKhHUpKLK66OgxynlDkQy0bc3A1vOBKJLsNXYChoY6fpEd13BdpjnUP0LQvZgg0eq1AdzMRZA1Mt7ikqvmr4EdtV0PlHzdUXaz3xXgyR/77aL2xPwB6s313P7J9u8g5dNOQ=
+	t=1714486965; cv=none; b=ZiqabdAMCkwdYfpAtc3O7QitFu7vi6NdRRrHl6K6hopeHQcw4JDiA9nRFEwBYeuyWbQmb+O9L/6IiF36F21bxKVOY/qtK7AaRRsBeH1So3bSxgCgJ29+goGAwCbTMLA+I51lVkHGAOQI2cAC+JKp4s+FYit/FVA7XG7m2SVvyYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714485674; c=relaxed/simple;
-	bh=eRs0L7ZAubuQzJX6/wz3doHU4QIqlJv2glQxRWHroLw=;
+	s=arc-20240116; t=1714486965; c=relaxed/simple;
+	bh=NSkv3w+kzdI+qxClVfzji2TfL1j3isYzoKWfULHWh6A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IctHWKeZFNxW2Gznzhv3Md1M0kVthxbh9Gffx9Ut+496nhCLa3vSXhzkwLKdPaDNppK4BqJvK4SCBN04ZJQZJat3YkxW/Rd98I7NYfAuDxO2/C3JSaOOvc04HM6Y5xe6C+oSXu7OLYGgfCHRV3HUpDBEddycHJ1+jfmR+lmS5YU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2c6qqtP; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=aCpSDyzrKD8zqYcmp/WVs92Yn55XcxqaevSUZhyqD9XHyo8+zjNCqCvdj7JHiU6dZygBNTjh6xuCN9Is/f9YIwR7Z17GJRCZSbMhjKLiE9SBArpZF0Lv2XwIkTyaS3W7pVlhEW4S/WCBQfdjtFQd0JvKJO9mH4jcz+LRMkFNGWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i2dQJZsW; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2c6qqtP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i2dQJZsW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714485672; x=1746021672;
+  t=1714486963; x=1746022963;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=eRs0L7ZAubuQzJX6/wz3doHU4QIqlJv2glQxRWHroLw=;
-  b=m2c6qqtP6ZhSyU61oy+QeHraqwcpeZx4eSdeX+ajSyw3mXEj3OXGYQ9B
-   MO9Blf5pMGGdX4XM8nja68hMBRguKWS2UlJB7SBa0YFrRElsVy8IXAFIO
-   19PrgK8ANcQXMH3mK0FbzpshNkSlMTc2VXLoJet+37AieB4DS/Xv4LEUT
-   3iV858DWh1Urpam53trcu3pgnF/yYZV22mFS/t/wxt/5RZ2yDik8+fzNG
-   052DeQJ4fYDhGsu/ZYplgPcWPxfTz2hDuWv+wHQZk9Ua3lC/xh4lheJ0Y
-   zOg2SHlUJy6uiEb8qEphQpboc44zRYU77udsJKcCHEj+ntJmOklw5+waB
-   g==;
-X-CSE-ConnectionGUID: Amyw9OFgTBenLLciNMrCoA==
-X-CSE-MsgGUID: PA+CP8ygSvy2I1ndHZeDLw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10354941"
+  bh=NSkv3w+kzdI+qxClVfzji2TfL1j3isYzoKWfULHWh6A=;
+  b=i2dQJZsWJ3xx45pC2FSVJ+U5cICbnUFIgS40mXBEgCD6uaD0JorBj+od
+   YIoo0kv2siOvCZi44Sqonfetw/OBauJedaAT4yOdzvMiWj1e0UoPT3mkx
+   o2g6taefoXcM6BtEVtbR54+VUdlBcmYwGHdrJhxxGW5rFKhIAES4l4A89
+   o7AdMv2BuuPlei8RKFqA+7lfQGiPxHCEnYIOsqEZ9zotcL+dEWbsozx/i
+   J2RF6/N3qRlXrfgzXnMoUnK7csMBVewbcPE+X8I6uKL/Q8c+xLcPoZQdj
+   UTRmPBZfM9AxjE/RsazJWegMe4lKcizyjkpAy9W9B7mPOFX7+ieO7aOIE
+   Q==;
+X-CSE-ConnectionGUID: S2zA0w4jSmKtpJRZBHbEZQ==
+X-CSE-MsgGUID: aVpxf8+gS6K6LIRYhX7+1Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10358697"
 X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="10354941"
+   d="scan'208";a="10358697"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 07:01:11 -0700
-X-CSE-ConnectionGUID: 4Abq3tc3R9i6+anKPkzuYw==
-X-CSE-MsgGUID: ULqEoewVSwKC+4qQTJ9nww==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 07:22:41 -0700
+X-CSE-ConnectionGUID: Ei1AZGKzQUqrUK8xpg6NzQ==
+X-CSE-MsgGUID: VqEpa3rOT2ODvWurHcL2GQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="57647349"
+   d="scan'208";a="57657112"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Apr 2024 07:01:10 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 Apr 2024 07:22:38 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1o2d-0008Br-0P;
-	Tue, 30 Apr 2024 14:01:07 +0000
-Date: Tue, 30 Apr 2024 22:00:15 +0800
+	id 1s1oNQ-0008Cd-04;
+	Tue, 30 Apr 2024 14:22:36 +0000
+Date: Tue, 30 Apr 2024 22:22:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Vamsi Attunuru <vattunuru@marvell.com>, arnd@arndb.de,
 	gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, vattunuru@marvell.com,
-	jerinj@marvell.com, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	vattunuru@marvell.com, jerinj@marvell.com,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v6 1/1] misc: mrvl-cn10k-dpi: add Octeon CN10K DPI
  administrative driver
-Message-ID: <202404302147.7X1w59Jg-lkp@intel.com>
+Message-ID: <202404302217.urdwvcqg-lkp@intel.com>
 References: <20240429055027.2162310-1-vattunuru@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -81,72 +82,126 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Vamsi-Attunuru/misc-mrvl-
 base:   char-misc/char-misc-testing
 patch link:    https://lore.kernel.org/r/20240429055027.2162310-1-vattunuru%40marvell.com
 patch subject: [PATCH v6 1/1] misc: mrvl-cn10k-dpi: add Octeon CN10K DPI administrative driver
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20240430/202404302147.7X1w59Jg-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404302147.7X1w59Jg-lkp@intel.com/reproduce)
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20240430/202404302217.urdwvcqg-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404302217.urdwvcqg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404302147.7X1w59Jg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404302217.urdwvcqg-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/misc/mrvl_cn10k_dpi.c: In function 'dpi_reg_write':
->> drivers/misc/mrvl_cn10k_dpi.c:202:9: error: implicit declaration of function 'writeq'; did you mean 'writeb'? [-Werror=implicit-function-declaration]
-     202 |         writeq(val, dpi->reg_base + offset);
-         |         ^~~~~~
-         |         writeb
-   drivers/misc/mrvl_cn10k_dpi.c: In function 'dpi_reg_read':
->> drivers/misc/mrvl_cn10k_dpi.c:207:16: error: implicit declaration of function 'readq'; did you mean 'readb'? [-Werror=implicit-function-declaration]
-     207 |         return readq(dpi->reg_base + offset);
-         |                ^~~~~
-         |                readb
-   drivers/misc/mrvl_cn10k_dpi.c: In function 'dpi_free_irq_vectors':
->> drivers/misc/mrvl_cn10k_dpi.c:453:9: error: implicit declaration of function 'pci_free_irq_vectors'; did you mean 'dpi_free_irq_vectors'? [-Werror=implicit-function-declaration]
+   In file included from drivers/misc/mrvl_cn10k_dpi.c:12:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/misc/mrvl_cn10k_dpi.c:12:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/misc/mrvl_cn10k_dpi.c:12:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from drivers/misc/mrvl_cn10k_dpi.c:12:
+   In file included from include/linux/pci.h:2693:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/misc/mrvl_cn10k_dpi.c:453:2: error: call to undeclared function 'pci_free_irq_vectors'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      453 |         pci_free_irq_vectors((struct pci_dev *)pdev);
-         |         ^~~~~~~~~~~~~~~~~~~~
+         |         ^
+   drivers/misc/mrvl_cn10k_dpi.c:453:2: note: did you mean 'dpi_free_irq_vectors'?
+   drivers/misc/mrvl_cn10k_dpi.c:451:13: note: 'dpi_free_irq_vectors' declared here
+     451 | static void dpi_free_irq_vectors(void *pdev)
+         |             ^
+     452 | {
+     453 |         pci_free_irq_vectors((struct pci_dev *)pdev);
+         |         ~~~~~~~~~~~~~~~~~~~~
          |         dpi_free_irq_vectors
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/compat.h:9,
-                    from drivers/misc/mrvl_cn10k_dpi.c:8:
-   drivers/misc/mrvl_cn10k_dpi.c: In function 'dpi_remove':
-   include/linux/stddef.h:8:14: error: called object is not a function or function pointer
-       8 | #define NULL ((void *)0)
-         |              ^
-   include/linux/pci.h:2445:41: note: in expansion of macro 'NULL'
-    2445 | #define pci_sriov_configure_simple      NULL
-         |                                         ^~~~
-   drivers/misc/mrvl_cn10k_dpi.c:661:9: note: in expansion of macro 'pci_sriov_configure_simple'
+>> drivers/misc/mrvl_cn10k_dpi.c:661:28: error: called object type 'void *' is not a function or function pointer
      661 |         pci_sriov_configure_simple(pdev, 0);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/mrvl_cn10k_dpi.c: At top level:
->> drivers/misc/mrvl_cn10k_dpi.c:681:1: warning: data definition has no type or storage class
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+>> drivers/misc/mrvl_cn10k_dpi.c:681:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
      681 | module_pci_driver(dpi_driver);
-         | ^~~~~~~~~~~~~~~~~
->> drivers/misc/mrvl_cn10k_dpi.c:681:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Werror=implicit-int]
->> drivers/misc/mrvl_cn10k_dpi.c:681:1: warning: parameter names (without types) in function declaration
->> drivers/misc/mrvl_cn10k_dpi.c:673:26: warning: 'dpi_driver' defined but not used [-Wunused-variable]
-     673 | static struct pci_driver dpi_driver = {
-         |                          ^~~~~~~~~~
-   cc1: some warnings being treated as errors
+         | ^
+         | int
+>> drivers/misc/mrvl_cn10k_dpi.c:681:19: error: a parameter list without types is only allowed in a function definition
+     681 | module_pci_driver(dpi_driver);
+         |                   ^
+   13 warnings and 4 errors generated.
 
 
-vim +202 drivers/misc/mrvl_cn10k_dpi.c
+vim +/pci_free_irq_vectors +453 drivers/misc/mrvl_cn10k_dpi.c
 
-   199	
-   200	static inline void dpi_reg_write(struct dpipf *dpi, u64 offset, u64 val)
-   201	{
- > 202		writeq(val, dpi->reg_base + offset);
-   203	}
-   204	
-   205	static inline u64 dpi_reg_read(struct dpipf *dpi, u64 offset)
-   206	{
- > 207		return readq(dpi->reg_base + offset);
-   208	}
-   209	
+   450	
+   451	static void dpi_free_irq_vectors(void *pdev)
+   452	{
+ > 453		pci_free_irq_vectors((struct pci_dev *)pdev);
+   454	}
+   455	
 
 -- 
 0-DAY CI Kernel Test Service
