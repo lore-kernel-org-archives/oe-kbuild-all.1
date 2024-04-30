@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47201A0AED
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 20:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48B81A38EB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 21:34:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714509718; cv=none; b=qjWLUyr6G/l+lA7dKpr9rJ3/5Zvd+zknH24rt6L8htX1w9ogDXrZU5vCnD3S6OQZVqPAN63tcprB8WxxNuxfbHxCes7aJzl3ITh9NL76Db/0oX2v4RcQk1QPbzH2xr2ITh49jBN5vnPw2QAeqGhYusbo3u8RtGtnbNQUYjLMHjg=
+	t=1714512900; cv=none; b=XX8qB9B67xk4USSqCrvzQGRuHuppcX1QBxC78hGQyFZXZzefSDMnmGc+27TIzB/VFEtfgNQIm+bl0G24GaIP4ooILSVC5Ymnu5DVrCmJiIIgkkQ4JpKiHwjjYJ08npiuMSAFmrrIdi3Pd82eY5k65SOVP6dudyml1K4CIRhvkHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714509718; c=relaxed/simple;
-	bh=6KkGmVGtEf1S9YCVVMjzBf8rNFUKRe7dKZ6pSfJJJPA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GHeg6oD+XDaME2rjVeAyJXbM9oPCqIDIgo1PzuTsSafgL9GELQPXuERkdpdj7FOoKzfjBPxKa9PmZrKuiKN4I2ptcFgnlz+9/05Z8/5g9MWug5c7XT88CCaQjvPgxPlfkqYcXjYmzMVbPQiLMLUuUnSgWs6sWg8PcihN5q8MDnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TcvAmx6W; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1714512900; c=relaxed/simple;
+	bh=QCbmr+lea7JohD5arKYuAsoMfSOZKUF4GYy4v8bxg+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oB3k1JR3Zqyk5iB/Z4ketpKnr8Fsf6+qvjCxQ7nXHX3abYHssNxbtwR+xE7i7Fz3r6W1EkIXkFTHWlOW+ErweNCunBdT5t/OPUKrveVNE64WOcJSMW7Qnu55NoyyNpfOobYJvIHOQGTJZavpQJj7kRnBELgSKI7PziVA3BuHLr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KMKYQRde; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TcvAmx6W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KMKYQRde"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714509715; x=1746045715;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6KkGmVGtEf1S9YCVVMjzBf8rNFUKRe7dKZ6pSfJJJPA=;
-  b=TcvAmx6WNQ62iIW1awqRuWh2evjBN4FhHCtAUM8I2ocpn9DtkzIayz7u
-   V9Q/eAyECf8UonqpFHHS8OlZ9mM/zzUmbqoYHDxD8UrknC6sFxwSjwVcZ
-   zzdBx47k0Czh/IVye/u5nuQgQUEtLXG4kCRG9RCIYDbfT+AfU7WbOgI/B
-   pvU/RXTmYOwPxblNg4Q5SY3OMown6kIxnNltL4xzg5QI+KRIbCsFGxy4N
-   v+EL+9uDgQKmi9hoWnKQtWlXTCYv6ykS7NCYJX/tK+mKGA9ZqcJqJf1ir
-   sfGM91D0suE7VdTSMlooGMiwqu3EuABZwoz9JnIty2ODsbdsEnEalKHXL
-   g==;
-X-CSE-ConnectionGUID: qoIbXGRMSbaz/K/oVotzCQ==
-X-CSE-MsgGUID: KHxEAASOTiS9HAf/QAguqg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10088134"
+  t=1714512899; x=1746048899;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QCbmr+lea7JohD5arKYuAsoMfSOZKUF4GYy4v8bxg+o=;
+  b=KMKYQRdeL/Zdxa5jQ5nTgED0Xad8htVgCsTWoDzr6jLDp05ZlCshufy2
+   kdoDsd68sGfd+BGKtqa/4aywhDBkXFSPhlIeU7Pv8NTQH29iZUoWxAFgn
+   5+C1/aXFveSGKNB/TozaRIXQtjwaLjHGID30/Toh7OfwoxvB7dmg2U47J
+   o+2n+g/2KEkBTkofeH3xRX19dUQAfktaTyeodVhLAaTes9buqblfE9ym2
+   eapwwlALKfDXsBKaDF039/M2HmiyBa5e+PSHv+GFsCK5Zcb2iwZ4Z8/MK
+   dS7f7uHjsm87+bbH9y12343zJdhCSnNLifFYJGLhPUbJ7GZQbmjQO9qjY
+   w==;
+X-CSE-ConnectionGUID: ootO8i71Svyg0swVXxxeFg==
+X-CSE-MsgGUID: m9uTxAqkTkOm6uHEIHxLPQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="21661720"
 X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; 
-   d="scan'208";a="10088134"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 13:41:54 -0700
-X-CSE-ConnectionGUID: DoNSVnHNR7qo3OlcPeksNA==
-X-CSE-MsgGUID: eTAAwBdGTzW6SRtK8slPDQ==
+   d="scan'208";a="21661720"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 14:34:58 -0700
+X-CSE-ConnectionGUID: dP/hpbQ6SyuB/XB5hQcc1g==
+X-CSE-MsgGUID: TSuEnKLJT962Uzj9hsXgvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; 
-   d="scan'208";a="31060846"
+   d="scan'208";a="64081351"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 30 Apr 2024 13:41:52 -0700
+  by orviesa001.jf.intel.com with ESMTP; 30 Apr 2024 14:34:57 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1uIQ-0008WV-2e;
-	Tue, 30 Apr 2024 20:41:50 +0000
-Date: Wed, 1 May 2024 04:41:12 +0800
+	id 1s1v7m-0008ch-1U;
+	Tue, 30 Apr 2024 21:34:54 +0000
+Date: Wed, 1 May 2024 05:34:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dimitri Fedrau <dima.fedrau@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Dimitri Fedrau <dima.fedrau@gmail.com>,
-	Andrew Hepp <andrew.hepp@ahepp.dev>,
-	Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] iio: temperature: mcp9600: add threshold events
- support
-Message-ID: <202405010420.2KNGPYh5-lkp@intel.com>
-References: <20240430120535.46097-6-dima.fedrau@gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.6-1.0.x-imx 7426/11730]
+ drivers/phy/freescale/phy-fsl-imx8mq-usb.c:244:17: warning: suggest braces
+ around empty body in an 'else' statement
+Message-ID: <202405010551.53snU35k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,100 +62,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240430120535.46097-6-dima.fedrau@gmail.com>
 
-Hi Dimitri,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on linus/master v6.9-rc6 next-20240430]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dimitri-Fedrau/iio-temperature-mcp9600-set-channel2-member/20240430-200914
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240430120535.46097-6-dima.fedrau%40gmail.com
-patch subject: [PATCH 5/5] iio: temperature: mcp9600: add threshold events support
-config: i386-buildonly-randconfig-005-20240501 (https://download.01.org/0day-ci/archive/20240501/202405010420.2KNGPYh5-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405010420.2KNGPYh5-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
+head:   776652a165f5bbf30c68a5f6213d75b02e8df11c
+commit: 5a913c7fc95dc38aafbde9277ca8255219902275 [7426/11730] LF-10993-5 phy: freescale: imx8mq-usb: add tca function driver for imx95
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240501/202405010551.53snU35k-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405010551.53snU35k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405010420.2KNGPYh5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405010551.53snU35k-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/iio/temperature/mcp9600.c: In function 'mcp9600_probe_alerts':
->> drivers/iio/temperature/mcp9600.c:407:28: error: implicit declaration of function 'irq_get_trigger_type' [-Werror=implicit-function-declaration]
-     407 |                 irq_type = irq_get_trigger_type(irq);
-         |                            ^~~~~~~~~~~~~~~~~~~~
->> drivers/iio/temperature/mcp9600.c:408:33: error: 'IRQ_TYPE_EDGE_RISING' undeclared (first use in this function)
-     408 |                 if (irq_type == IRQ_TYPE_EDGE_RISING)
-         |                                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/iio/temperature/mcp9600.c:408:33: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+   drivers/phy/freescale/phy-fsl-imx8mq-usb.c: In function 'tca_blk_orientation_set':
+>> drivers/phy/freescale/phy-fsl-imx8mq-usb.c:244:17: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
+     244 |                 ;
+         |                 ^
 
 
-vim +/irq_get_trigger_type +407 drivers/iio/temperature/mcp9600.c
+vim +/else +244 drivers/phy/freescale/phy-fsl-imx8mq-usb.c
 
-   382	
-   383	static int mcp9600_probe_alerts(struct iio_dev *indio_dev)
-   384	{
-   385		struct mcp9600_data *data = iio_priv(indio_dev);
-   386		struct i2c_client *client = data->client;
-   387		struct device *dev = &client->dev;
-   388		struct fwnode_handle *fwnode = dev_fwnode(dev);
-   389		unsigned int irq_type;
-   390		int ret, irq, i;
-   391		u8 val;
-   392	
-   393		/*
-   394		 * alert1: hot junction, rising temperature
-   395		 * alert2: hot junction, falling temperature
-   396		 * alert3: cold junction, rising temperature
-   397		 * alert4: cold junction, falling temperature
-   398		 */
-   399		for (i = 0; i < MCP9600_ALERT_COUNT; i++) {
-   400			data->irq[i] = 0;
-   401			mutex_init(&data->lock[i]);
-   402			irq = fwnode_irq_get_byname(fwnode, mcp9600_alert_name[i]);
-   403			if (irq <= 0)
-   404				continue;
-   405	
-   406			val = 0;
- > 407			irq_type = irq_get_trigger_type(irq);
- > 408			if (irq_type == IRQ_TYPE_EDGE_RISING)
-   409				val |= MCP9600_ALERT_CFG_ACTIVE_HIGH;
-   410	
-   411			if (i == MCP9600_ALERT2 || i == MCP9600_ALERT4)
-   412				val |= MCP9600_ALERT_CFG_FALLING;
-   413	
-   414			if (i == MCP9600_ALERT3 || i == MCP9600_ALERT4)
-   415				val |= MCP9600_ALERT_CFG_COLD_JUNCTION;
-   416	
-   417			ret = i2c_smbus_write_byte_data(client,
-   418							MCP9600_ALERT_CFG(i + 1),
-   419							val);
-   420			if (ret < 0)
-   421				return ret;
-   422	
-   423			ret = devm_request_threaded_irq(dev, irq, NULL,
-   424							mcp9600_alert_handler,
-   425							IRQF_ONESHOT, "mcp9600",
-   426							indio_dev);
-   427			if (ret)
-   428				return ret;
-   429	
-   430			data->irq[i] = irq;
-   431		}
-   432	
-   433		return 0;
-   434	}
-   435	
+   224	
+   225	static void tca_blk_orientation_set(struct tca_blk *tca,
+   226					enum typec_orientation orientation)
+   227	{
+   228		u32 val;
+   229	
+   230		mutex_lock(&tca->mutex);
+   231	
+   232		/* Disable TCA module */
+   233		val = readl(tca->base + TCA_SYSMODE_CFG);
+   234		val |= TCA_SYSMODE_TCPC_DISABLE;
+   235		writel(val, tca->base + TCA_SYSMODE_CFG);
+   236	
+   237		tca->orientation = orientation;
+   238	
+   239		if (orientation == TYPEC_ORIENTATION_REVERSE)
+   240			val |= TCA_SYSMODE_TCPC_FLIP;
+   241		else if (orientation == TYPEC_ORIENTATION_NORMAL)
+   242			val &= ~TCA_SYSMODE_TCPC_FLIP;
+   243		else	/* TYPEC_ORIENTATION_NONE */
+ > 244			;
+   245	
+   246		/* Enable TCA module */
+   247		writel(val, tca->base + TCA_SYSMODE_CFG);
+   248		val &= ~TCA_SYSMODE_TCPC_DISABLE;
+   249		writel(val, tca->base + TCA_SYSMODE_CFG);
+   250	
+   251		mutex_unlock(&tca->mutex);
+   252	}
+   253	
 
 -- 
 0-DAY CI Kernel Test Service
