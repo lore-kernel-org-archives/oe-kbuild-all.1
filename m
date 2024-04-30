@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63750623
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 00:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D68736C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 00:22:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714436503; cv=none; b=LAGYIbmha0fUfKZEgjG/cEOLLffe3YwVx5TE68UgPZq7b1UbCUO5aycAnc73oEU1wZdA9Aw/rEDDCRQBdjRnbO9tUTFD7mq/N7kugwPd7Iyu/uE+gpkMcnmk3hzPNEC8TnIwcDhcaWpQ4sV8hR575+u+fKXETv/hYEfHRbDV9Jw=
+	t=1714436537; cv=none; b=QLyPeghWlA7baH5jnc32nkFB1Qsc4kpGuioLKzNt/DFBJ+PlSWrMnWOoaVNaBUqyi8kR8Yi7Y99YefwH+GidulzbxUAwXky0gtwSEAxjowLt93y0kodWVOtEfLUTiJFgcTbd8brafCBGJkW3D9eTzTQ2E6lrAAsCZLg6AdG2Bzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714436503; c=relaxed/simple;
-	bh=QVjKT0HFddN+JY3U4YmXN18n5w/xJsXO/5LsYUGoGBk=;
+	s=arc-20240116; t=1714436537; c=relaxed/simple;
+	bh=Y4POAu62YfYnWwWGQvxx3BP1z5ymhvFkHDZmXfln3G0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ia/k4r57Y8Tcdx47xPeGBJ3By3UFaEa8y3JJdWd/l9OF6rmr+iaXTuruowNhjXcwlgnGB+rIrtzDhzbv4rKyiPqKCO9KBobb+/JD+33xZ75R85OukAYxSM446elzZWZbtE792iaWTwsDyi5KZSVtht6CiOMn5BNRJfl+iVH4BVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P+X/CDZv; arc=none smtp.client-ip=198.175.65.20
+	 In-Reply-To:Content-Type; b=Fk6h1cWf90WAo08IyTifE+F7aWKNW0f4P1su2yDKSTTfnmb7E6KC3/+hpJRisms1O9QN/sijhXg9eFUEuxS3YnT2gz+7vzUVD6raVe6dRR2A1bqjw8r0XaWcXY5XxuGZK2GA6/fUCfYOY5U0+pDmei7l6QWWZgbCXxcGdxseP7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J/hUhqvz; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P+X/CDZv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J/hUhqvz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714436502; x=1745972502;
+  t=1714436536; x=1745972536;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=QVjKT0HFddN+JY3U4YmXN18n5w/xJsXO/5LsYUGoGBk=;
-  b=P+X/CDZvn1qi9ierENAHiIDsQy3qMrnvjLi2upBp5Fy4cXNmcexIYJDj
-   Xh9p8aU5/+3uoG5oeP9UJBfEzMxUfIV8lVrokocgKkBN9UOyq+fiIY8se
-   JiBsmW4y2d4op6+pk4MOQzuDlAZBgoXbfyVzrJsqtWktDE1CwQSPXC5DB
-   gVde3mq1lvylByxU1/qvbwBFwinPaozT5fiM2GYXrv3h/2y5T0/8PSAC7
-   Ivd9/L8m/R11Gp7Y6h0e9Nj5HBKojlxR/Rk4KE8DtgozTe6lzIiatkPC/
-   oPutI7kuAWyu5zhUe8qVX6lktfMaB9lIpymHbPnoQIqDexz6JW52Wk6sa
+  bh=Y4POAu62YfYnWwWGQvxx3BP1z5ymhvFkHDZmXfln3G0=;
+  b=J/hUhqvzPoScmSVpZiHY01KOupdDHd8axg21NiDf08Ie1Tmvexn8ufC/
+   TRPSzOw5ffjoskMky9jipxtEd59KlcrDqTFaxi6WYfAOIgK8Seym46DbC
+   O+bDNjE0SYWrL6AkWa7VwwE1wUWQUBC0A8klMBwSwjy4izgSoMe5YBEEo
+   AJwQXyYlhHOad9qNFIS0dn55pMjF0Da/NDfQAqyk3jXrBjTGC/pyPJot6
+   cfyccyahdCyngEEeOhc/lvOZ7CYBxcqjOgUmtP9F16m3lobugvNUqxj5Q
+   xkq1iAVQeaqyFnZZToc1gggfUWw5XTx6ikIPqEe4oNp8SrHDy3SM+0SyP
    A==;
-X-CSE-ConnectionGUID: +doy/ObpQXCw+AEegXg2kg==
-X-CSE-MsgGUID: uYC0TuubR2CJRbCZkoYufA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="9952356"
+X-CSE-ConnectionGUID: e0Sro405QPWV94I0Nb679Q==
+X-CSE-MsgGUID: WZVBUL9YSZqgfddaK1Gktg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="9952526"
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="9952356"
+   d="scan'208";a="9952526"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 17:21:34 -0700
-X-CSE-ConnectionGUID: 2oDbvIwzTemvlZ4VmFw/sg==
-X-CSE-MsgGUID: 28hoaf4IRIqgZ+xHN8LIxg==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 17:22:15 -0700
+X-CSE-ConnectionGUID: EwH6Xs7lRQ6n7FZGzo+B3g==
+X-CSE-MsgGUID: NX0GqzemS+axQy3Qs4tnDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="26142257"
+   d="scan'208";a="26142313"
 Received: from biswabhx-mobl1.amr.corp.intel.com (HELO [10.212.18.127]) ([10.212.18.127])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 17:21:34 -0700
-Message-ID: <54b6262d-0e2d-486a-9747-950c12172bbe@linux.intel.com>
-Date: Mon, 29 Apr 2024 19:21:33 -0500
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 17:22:15 -0700
+Message-ID: <987255cc-e8be-4a58-bf1f-37fde8827ccb@linux.intel.com>
+Date: Mon, 29 Apr 2024 19:22:14 -0500
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,66 +52,140 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [plbossart-sound:sdw/parse-functions 8/12]
- sound/soc/sdca/sdca_functions.c:14:5: error: redefinition of 'sdca_alloc'
+Subject: Re: [plbossart-sound:sdw/parse-functions 10/12]
+ drivers/soundwire/bus_type.c:108:undefined reference to `sdca_alloc'
 To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-References: <202404182342.HH2xrWXD-lkp@intel.com>
+References: <202404182348.lRlTAIGv-lkp@intel.com>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <202404182342.HH2xrWXD-lkp@intel.com>
+In-Reply-To: <202404182348.lRlTAIGv-lkp@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 4/18/24 10:23, kernel test robot wrote:
+On 4/18/24 10:33, kernel test robot wrote:
 > tree:   https://github.com/plbossart/sound sdw/parse-functions
 > head:   999b877354e492b6b1c8206962dcf1fd21c09f15
-> commit: e02a796a482bc2bafe64571d8fdd06fd5c0008dd [8/12] ASoC: sdca: add initial module
-> config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20240418/202404182342.HH2xrWXD-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240418/202404182342.HH2xrWXD-lkp@intel.com/reproduce)
+> commit: cd24ac936a37b583771317da3d0865c6857cca92 [10/12] soundwire: add SDCA alloc/parsing
+> config: x86_64-randconfig-012-20240418 (https://download.01.org/0day-ci/archive/20240418/202404182348.lRlTAIGv-lkp@intel.com/config)
+> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240418/202404182348.lRlTAIGv-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202404182342.HH2xrWXD-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202404182348.lRlTAIGv-lkp@intel.com/
 > 
 > All errors (new ones prefixed by >>):
 > 
->>> sound/soc/sdca/sdca_functions.c:14:5: error: redefinition of 'sdca_alloc'
->       14 | int sdca_alloc(void **context,
->          |     ^~~~~~~~~~
->    In file included from sound/soc/sdca/sdca_functions.c:12:
->    include/sound/sdca.h:23:19: note: previous definition of 'sdca_alloc' with type 'int(void **, struct device *, struct sdw_slave *)'
->       23 | static inline int sdca_alloc(void **context,
+>    ld: vmlinux.o: in function `sdw_drv_probe':
+>>> drivers/soundwire/bus_type.c:108:(.text+0xac21cb): undefined reference to `sdca_alloc'
+>>> ld: drivers/soundwire/bus_type.c:114:(.text+0xac21dd): undefined reference to `sdca_find_functions'
 
-fixed with a depends on ACPI, thanks!
+Fixed, thanks!
 
->          |                   ^~~~~~~~~~
 > 
 > 
-> vim +/sdca_alloc +14 sound/soc/sdca/sdca_functions.c
+> vim +108 drivers/soundwire/bus_type.c
 > 
->     13	
->   > 14	int sdca_alloc(void **context,
->     15		       struct device *parent,
->     16		       struct sdw_slave *slave)
->     17	{
->     18		struct sdca_data *sdca;
->     19	
->     20		sdca = devm_kzalloc(parent, sizeof(*sdca), GFP_KERNEL);
->     21		if (!sdca)
->     22			return -ENOMEM;
->     23	
->     24		sdca->parent = parent;
->     25		sdca->slave = slave;
->     26	
->     27		*context = sdca;
->     28	
->     29		return 0;
->     30	}
->     31	EXPORT_SYMBOL_NS(sdca_alloc, SND_SOC_SDCA);
->     32	
+>     81	
+>     82	static int sdw_drv_probe(struct device *dev)
+>     83	{
+>     84		struct sdw_slave *slave = dev_to_sdw_dev(dev);
+>     85		struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
+>     86		const struct sdw_device_id *id;
+>     87		const char *name;
+>     88		int ret;
+>     89	
+>     90		/*
+>     91		 * fw description is mandatory to bind
+>     92		 */
+>     93		if (!dev->fwnode)
+>     94			return -ENODEV;
+>     95	
+>     96		if (!IS_ENABLED(CONFIG_ACPI) && !dev->of_node)
+>     97			return -ENODEV;
+>     98	
+>     99		id = sdw_get_device_id(slave, drv);
+>    100		if (!id)
+>    101			return -ENODEV;
+>    102	
+>    103		/*
+>    104		 * the SDCA alloc/parsing is done before the driver probe
+>    105		 * so that all the information extracted from firmware is
+>    106		 * available.
+>    107		 */
+>  > 108		ret = sdca_alloc(&slave->sdca_context,
+>    109				 &slave->dev,
+>    110				 slave);
+>    111		if (ret < 0)
+>    112			return ret;
+>    113	
+>  > 114		sdca_find_functions(slave->sdca_context);
+>    115	
+>    116		/*
+>    117		 * attach to power domain but don't turn on (last arg)
+>    118		 */
+>    119		ret = dev_pm_domain_attach(dev, false);
+>    120		if (ret)
+>    121			return ret;
+>    122	
+>    123		ret = drv->probe(slave, id);
+>    124		if (ret) {
+>    125			name = drv->name;
+>    126			if (!name)
+>    127				name = drv->driver.name;
+>    128	
+>    129			dev_err(dev, "Probe of %s failed: %d\n", name, ret);
+>    130			dev_pm_domain_detach(dev, false);
+>    131			return ret;
+>    132		}
+>    133		mutex_lock(&slave->sdw_dev_lock);
+>    134	
+>    135		/* device is probed so let's read the properties now */
+>    136		if (drv->ops && drv->ops->read_prop)
+>    137			drv->ops->read_prop(slave);
+>    138	
+>    139		if (slave->prop.use_domain_irq)
+>    140			sdw_irq_create_mapping(slave);
+>    141	
+>    142		/* init the dynamic sysfs attributes we need */
+>    143		ret = sdw_slave_sysfs_dpn_init(slave);
+>    144		if (ret < 0)
+>    145			dev_warn(dev, "Slave sysfs init failed:%d\n", ret);
+>    146	
+>    147		/*
+>    148		 * Check for valid clk_stop_timeout, use DisCo worst case value of
+>    149		 * 300ms
+>    150		 *
+>    151		 * TODO: check the timeouts and driver removal case
+>    152		 */
+>    153		if (slave->prop.clk_stop_timeout == 0)
+>    154			slave->prop.clk_stop_timeout = 300;
+>    155	
+>    156		slave->bus->clk_stop_timeout = max_t(u32, slave->bus->clk_stop_timeout,
+>    157						     slave->prop.clk_stop_timeout);
+>    158	
+>    159		slave->probed = true;
+>    160	
+>    161		/*
+>    162		 * if the probe happened after the bus was started, notify the codec driver
+>    163		 * of the current hardware status to e.g. start the initialization.
+>    164		 * Errors are only logged as warnings to avoid failing the probe.
+>    165		 */
+>    166		if (drv->ops && drv->ops->update_status) {
+>    167			ret = drv->ops->update_status(slave, slave->status);
+>    168			if (ret < 0)
+>    169				dev_warn(dev, "%s: update_status failed with status %d\n", __func__, ret);
+>    170		}
+>    171	
+>    172		mutex_unlock(&slave->sdw_dev_lock);
+>    173	
+>    174		dev_dbg(dev, "probe complete\n");
+>    175	
+>    176		return 0;
+>    177	}
+>    178	
 > 
