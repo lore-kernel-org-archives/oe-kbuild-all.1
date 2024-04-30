@@ -1,89 +1,153 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52500171679
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 13:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6F2172BD4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 14:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714482785; cv=none; b=LUleDYjTYpOAx5pclPe0o1MisGjSvATLgehpHFWExlDwWkHcCq0B2Yy0PINhnkPhXoJRNPXGjv5zAGIjnsJ6CPBevzpQLEYOKI90lqfVpaC4H6ThgyMU/KiPxguaanqiTsVIMRhr5bFLCZH+BU66WJ+PzT48ihJJL7CRH3dPifs=
+	t=1714485674; cv=none; b=lhH1fRHRXyMYV63Jwa4ICzWd9/OkjFKxhvmZYdwQRKhHUpKLK66OgxynlDkQy0bc3A1vOBKJLsNXYChoY6fpEd13BdpjnUP0LQvZgg0eq1AdzMRZA1Mt7ikqvmr4EdtV0PlHzdUXaz3xXgyR/77aL2xPwB6s313P7J9u8g5dNOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714482785; c=relaxed/simple;
-	bh=Ne5Bi0B5WsvRNZIhSyh9MsEOS7OU9xMrt51TWhQWQEg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jWbWJtE5mLkn+3p0KndnAB9i51HNTMG9gMsTXY3EUOB4wRbUWl4FfaWzt0KKJerQippRrBi3NfLUN380an6tUagmuNr5nxqhdwtD0EknJDTH2a3dWm23FxkBwzl1hy7+kHB+4E9SmaHCigD7mfuQpf1QFAqET0RE3IBybQ77LUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=LCtg2Avb; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1714485674; c=relaxed/simple;
+	bh=eRs0L7ZAubuQzJX6/wz3doHU4QIqlJv2glQxRWHroLw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IctHWKeZFNxW2Gznzhv3Md1M0kVthxbh9Gffx9Ut+496nhCLa3vSXhzkwLKdPaDNppK4BqJvK4SCBN04ZJQZJat3YkxW/Rd98I7NYfAuDxO2/C3JSaOOvc04HM6Y5xe6C+oSXu7OLYGgfCHRV3HUpDBEddycHJ1+jfmR+lmS5YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2c6qqtP; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="LCtg2Avb"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2ab48c1c007so1507902a91.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 06:13:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1714482782; x=1715087582; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5VDzIEg1ZVe1cydRAdGBXm27kG5sPMrbA3OUBoEoLQc=;
-        b=LCtg2AvboTl6S9wxppHw+8WxvKTsIRk1G/LhakBm6g8ebk+eROnjRJx7fryirngVXF
-         AuR+tSXlkKGDaBIhb1B1xW54A5iXz2H0BejpMYdzFZk6G94/4vHhGPtiCjsQ3mRCIMEX
-         EQa5ewNa2C8mHgNMVHI4uvZb6poiLFsWqWdw633ZSmrCIosf+XqB27s7ZXoFRqGu3IvO
-         RZ6FbTFYvy/cMb+AHPI5uABAlXscGNUper8hcYGno+qzFvkuk+AxLdeGe44Lw6eTzs6D
-         qT563v4IkDyNvk0ZwM2FPqiH1/BAcfN9QQEvc7e7+ZQnIuuBM13EAvFmKW7AYHB1OqW8
-         XVCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714482782; x=1715087582;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5VDzIEg1ZVe1cydRAdGBXm27kG5sPMrbA3OUBoEoLQc=;
-        b=xOH+BWAz07M2vUAy9gurco0Q/X9IZgHN4XelyQFtiRwfaqUeyjMeAHgUxQYBBdaIx9
-         XvxV+hqnQYiauw/WvHG2tqQ1nMJlEJLBfxs5sC8UJIueXF0JDpb4Dbnjs4gQa0HRQCxA
-         d5VjbdtXgBI0s1u/Yq0tuXnuF0qWO+9pIGX0HCd3M5CmbVSFqNLJ5kkrs/DG+dG8gfyA
-         bw1f4syNRMkkcK+rizNCN0VIqaUtZy8NxROHEOnNczCA+OVwtyTEundEES9rYYzyRk3h
-         29p4kpVECPgYWuU5b5awt5g+cEfP+xIr8TMeM2svdM3Dj0uQ1pY10f+ZpSqkmSmo0WXH
-         +7Bg==
-X-Gm-Message-State: AOJu0YzqIwP/OF5lpGuU+gOMm03CmsQP8XiO6TikGciiIUNsxo5zK3pq
-	f5fN63EU2DwM2fp5JzlZFGIGIlzDlGV5fPKUYpnWJxiJHBSsMRaat36EoZ+Zzc5HwQQpNYls8u4
-	S
-X-Google-Smtp-Source: AGHT+IFy60/C+LkKXI0Q9u1ZeprTkPYIrBZ7ByLHCGACNHhu+cMg8tw56ckMqc/nBJwbtqHIKu083Q==
-X-Received: by 2002:a17:902:e892:b0:1ea:95f4:579c with SMTP id w18-20020a170902e89200b001ea95f4579cmr15567894plg.1.1714482782471;
-        Tue, 30 Apr 2024 06:13:02 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.194])
-        by smtp.gmail.com with ESMTPSA id x6-20020a170902ec8600b001e446490072sm16656742plg.25.2024.04.30.06.13.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Apr 2024 06:13:01 -0700 (PDT)
-Message-ID: <8e1bbc90-c094-4562-b563-dfea59dd5a20@kernel.dk>
-Date: Tue, 30 Apr 2024 07:13:00 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2c6qqtP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714485672; x=1746021672;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eRs0L7ZAubuQzJX6/wz3doHU4QIqlJv2glQxRWHroLw=;
+  b=m2c6qqtP6ZhSyU61oy+QeHraqwcpeZx4eSdeX+ajSyw3mXEj3OXGYQ9B
+   MO9Blf5pMGGdX4XM8nja68hMBRguKWS2UlJB7SBa0YFrRElsVy8IXAFIO
+   19PrgK8ANcQXMH3mK0FbzpshNkSlMTc2VXLoJet+37AieB4DS/Xv4LEUT
+   3iV858DWh1Urpam53trcu3pgnF/yYZV22mFS/t/wxt/5RZ2yDik8+fzNG
+   052DeQJ4fYDhGsu/ZYplgPcWPxfTz2hDuWv+wHQZk9Ua3lC/xh4lheJ0Y
+   zOg2SHlUJy6uiEb8qEphQpboc44zRYU77udsJKcCHEj+ntJmOklw5+waB
+   g==;
+X-CSE-ConnectionGUID: Amyw9OFgTBenLLciNMrCoA==
+X-CSE-MsgGUID: PA+CP8ygSvy2I1ndHZeDLw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10354941"
+X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
+   d="scan'208";a="10354941"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 07:01:11 -0700
+X-CSE-ConnectionGUID: 4Abq3tc3R9i6+anKPkzuYw==
+X-CSE-MsgGUID: ULqEoewVSwKC+4qQTJ9nww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
+   d="scan'208";a="57647349"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 30 Apr 2024 07:01:10 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s1o2d-0008Br-0P;
+	Tue, 30 Apr 2024 14:01:07 +0000
+Date: Tue, 30 Apr 2024 22:00:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vamsi Attunuru <vattunuru@marvell.com>, arnd@arndb.de,
+	gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, vattunuru@marvell.com,
+	jerinj@marvell.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 1/1] misc: mrvl-cn10k-dpi: add Octeon CN10K DPI
+ administrative driver
+Message-ID: <202404302147.7X1w59Jg-lkp@intel.com>
+References: <20240429055027.2162310-1-vattunuru@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: WARNING: modpost: vmlinux: section mismatch in reference:
- psmouse_resync+0xa4 (section: .text) -> .LBB102 (section: .init.text)
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <202404300842.JYA2baD8-lkp@intel.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <202404300842.JYA2baD8-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240429055027.2162310-1-vattunuru@marvell.com>
 
-On 4/29/24 6:25 PM, kernel test robot wrote:
-> Hi Jens,
-> 
-> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   98369dccd2f8e16bf4c6621053af7aa4821dcf8e
-> commit: 6b69c4ab4f685327d9e10caf0d84217ba23a8c4b io_uring/kbuf: protect io_buffer_list teardown with a reference
+Hi Vamsi,
 
-Same as that other one, not related.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on char-misc/char-misc-testing]
+[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus soc/for-next linus/master v6.9-rc6 next-20240430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vamsi-Attunuru/misc-mrvl-cn10k-dpi-add-Octeon-CN10K-DPI-administrative-driver/20240430-142354
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20240429055027.2162310-1-vattunuru%40marvell.com
+patch subject: [PATCH v6 1/1] misc: mrvl-cn10k-dpi: add Octeon CN10K DPI administrative driver
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20240430/202404302147.7X1w59Jg-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404302147.7X1w59Jg-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404302147.7X1w59Jg-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/misc/mrvl_cn10k_dpi.c: In function 'dpi_reg_write':
+>> drivers/misc/mrvl_cn10k_dpi.c:202:9: error: implicit declaration of function 'writeq'; did you mean 'writeb'? [-Werror=implicit-function-declaration]
+     202 |         writeq(val, dpi->reg_base + offset);
+         |         ^~~~~~
+         |         writeb
+   drivers/misc/mrvl_cn10k_dpi.c: In function 'dpi_reg_read':
+>> drivers/misc/mrvl_cn10k_dpi.c:207:16: error: implicit declaration of function 'readq'; did you mean 'readb'? [-Werror=implicit-function-declaration]
+     207 |         return readq(dpi->reg_base + offset);
+         |                ^~~~~
+         |                readb
+   drivers/misc/mrvl_cn10k_dpi.c: In function 'dpi_free_irq_vectors':
+>> drivers/misc/mrvl_cn10k_dpi.c:453:9: error: implicit declaration of function 'pci_free_irq_vectors'; did you mean 'dpi_free_irq_vectors'? [-Werror=implicit-function-declaration]
+     453 |         pci_free_irq_vectors((struct pci_dev *)pdev);
+         |         ^~~~~~~~~~~~~~~~~~~~
+         |         dpi_free_irq_vectors
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/compat.h:9,
+                    from drivers/misc/mrvl_cn10k_dpi.c:8:
+   drivers/misc/mrvl_cn10k_dpi.c: In function 'dpi_remove':
+   include/linux/stddef.h:8:14: error: called object is not a function or function pointer
+       8 | #define NULL ((void *)0)
+         |              ^
+   include/linux/pci.h:2445:41: note: in expansion of macro 'NULL'
+    2445 | #define pci_sriov_configure_simple      NULL
+         |                                         ^~~~
+   drivers/misc/mrvl_cn10k_dpi.c:661:9: note: in expansion of macro 'pci_sriov_configure_simple'
+     661 |         pci_sriov_configure_simple(pdev, 0);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mrvl_cn10k_dpi.c: At top level:
+>> drivers/misc/mrvl_cn10k_dpi.c:681:1: warning: data definition has no type or storage class
+     681 | module_pci_driver(dpi_driver);
+         | ^~~~~~~~~~~~~~~~~
+>> drivers/misc/mrvl_cn10k_dpi.c:681:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Werror=implicit-int]
+>> drivers/misc/mrvl_cn10k_dpi.c:681:1: warning: parameter names (without types) in function declaration
+>> drivers/misc/mrvl_cn10k_dpi.c:673:26: warning: 'dpi_driver' defined but not used [-Wunused-variable]
+     673 | static struct pci_driver dpi_driver = {
+         |                          ^~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +202 drivers/misc/mrvl_cn10k_dpi.c
+
+   199	
+   200	static inline void dpi_reg_write(struct dpipf *dpi, u64 offset, u64 val)
+   201	{
+ > 202		writeq(val, dpi->reg_base + offset);
+   203	}
+   204	
+   205	static inline u64 dpi_reg_read(struct dpipf *dpi, u64 offset)
+   206	{
+ > 207		return readq(dpi->reg_base + offset);
+   208	}
+   209	
 
 -- 
-Jens Axboe
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
