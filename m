@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCCA205E2E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 09:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BD5128833
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 10:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714467647; cv=none; b=r7sI+W7ojrn00fZcslEFtT2nqIR+ULg5u967TQMpf0P8e1ImfnqhQETq7Kv7tyCylffuFFJH1S0c29GSscRt52gEM0GfRJk23v+a8VVom2/VSfcPQqLBo6bRTclZ/1kC/QTWnMb+0h/U4NOV7s0OVXDza/hDO+pxQXg4iLX83js=
+	t=1714471297; cv=none; b=IfkgPWnbsEyTohQojRy4GKfjASGMcUMEqGqJf9d2CzlstlHjZuM29Ud6ClQO2Pk0zJzHyGTtHuRf6Pj3gNggAXn0uhjSzIioggcWwUGF846FBEyWanifYi2wXXTgENcQixzvZa32aiZdYU4fGWtErRJAN0nAeVcCF03vcxxQoSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714467647; c=relaxed/simple;
-	bh=3vRBqP8VpZM8cAKU/Oa9w0EQQKpZQz47V92hiizlLVg=;
+	s=arc-20240116; t=1714471297; c=relaxed/simple;
+	bh=JZ5rLtyKWX/b1ns6HVsS6w82/9YJ5fCjlyWkXPHR0ec=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SJnLf89b6KXMJi4x5NRMIRHauCdkWW/T3RnlHVQxVRyIhWW+fRJi+zIc+lNW0xxvR2RDe1PKls8MU4aHg9R+/BbJfv1kYZ0gqp1OFsZrhAPhbZ7+VSXlW0YhuHnOi0R5j2HyhzliTZY4lAKmrTld8ZqcCfa7jSz6pXlQyoHWTF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mvXINk5S; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=spNknWjTn4Hoe5RS14NMpwe4l58W01r5t1+O48Nq7E676GLn3N3Zb7HYZjfN1uNRbO5cWo58f/a0g/GAiGaYVm4FqOMA/Rw9/1ywb+53mT+dS8xNnbS7QiQZNsSRWIF3l2XPLyNhEf4MGRI01EpAiW8+EcWXP/L1LvBdiBK4Ws0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B/QU4ViJ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mvXINk5S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B/QU4ViJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714467646; x=1746003646;
+  t=1714471295; x=1746007295;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3vRBqP8VpZM8cAKU/Oa9w0EQQKpZQz47V92hiizlLVg=;
-  b=mvXINk5SV7GdOzAxxbz5hBKNhsdlpl5WnclvexyAMfxYxgCt0LNAJk9M
-   2UHd2P9FiwpXtreCEkpG/vZoXZUquepd8DGFAB4T5DAs8aGaabl5KcLe2
-   +7vbCenM7YBQT175evvZYCjWuJEnigyF3ovSL22UiFX+hv5/EHRf4BwtW
-   bFCIHPZnN3tn11Jwt8HuwHIlrlXnAjaBpR26A/vGHYghOZI229WkeA3hK
-   sZiIIeT8G5EJo3UXuzjvaatkihFx+KdR0DhUq6HtDGo9JbC6TFlLGwGs+
-   WL1vt6HfH7LZk1A7rDABEgDogbf3epB5bg5Oo8k2yaZGjNA+TrFOPluu3
-   A==;
-X-CSE-ConnectionGUID: nClTwtoSQSul0fL+2XAu8w==
-X-CSE-MsgGUID: vnnbUtXuR2mib4DWAncD6Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10381706"
+  bh=JZ5rLtyKWX/b1ns6HVsS6w82/9YJ5fCjlyWkXPHR0ec=;
+  b=B/QU4ViJ8OgBY99GDiWQTTgdQ2lwpM/K965wXI09XiObMxz2nYnH9UZC
+   Y0Pwb/hp+S4BoLFTseq/ZSBAdyTmtDJcTCT87ORlICMqWUBQQkvk8bVKl
+   sVvmNqW8C8BJPPXUeAyD95DWvgGzaIrpsLTL4wDfzGTd61SbKw6FHF5gO
+   EG7yi5ZE96qZxmRJJM9EEsdXrpHYA5xKy8aGzsY2OVQT6UMNxoOAedFYV
+   zuHGsKpdtLESp53v599GeFYRu5yWO8b8gUo2v5gwaOo3kKk5fvFsXpQlo
+   v6xmMFIxkwsIDxjVtM+/8VYQ7UdZIfkSSQqsa9IJkPIlGAeumcTePyxtO
+   w==;
+X-CSE-ConnectionGUID: kB5iFF8pTP24ledtvNxzVg==
+X-CSE-MsgGUID: qPniwWRMT9S1JmfeNuxi4A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="21318466"
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="10381706"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 02:00:22 -0700
-X-CSE-ConnectionGUID: xHPTeobGQtO+7l//4ZZL8w==
-X-CSE-MsgGUID: JmZsYxAjSoe133oa9ev/mA==
+   d="scan'208";a="21318466"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 03:01:34 -0700
+X-CSE-ConnectionGUID: Dm3XwOHdTMycFVrW+xNR9A==
+X-CSE-MsgGUID: WEiHntqsRI2XL9kzih/9Ew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="26331922"
+   d="scan'208";a="31127128"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Apr 2024 02:00:21 -0700
+  by orviesa003.jf.intel.com with ESMTP; 30 Apr 2024 03:01:33 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1jLX-0007xn-2D;
-	Tue, 30 Apr 2024 09:00:19 +0000
-Date: Tue, 30 Apr 2024 16:59:47 +0800
+	id 1s1kIk-00080t-37;
+	Tue, 30 Apr 2024 10:01:30 +0000
+Date: Tue, 30 Apr 2024 18:00:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-1.0.x-imx 5948/11728]
- drivers/firmware/imx/sm-bbm.c:122:5: warning: no previous prototype for
- 'scmi_imx_bbm_pwrkey_event'
-Message-ID: <202404301640.dWDkfv9r-lkp@intel.com>
+To: Peter Yin <peteryin.openbmc@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: [linux-next:master 8736/9709] drivers/hwmon/pmbus/xdp710.c:20:11:
+ sparse: sparse: symbol 'micro_ohm_rsense' was not declared. Should it be
+ static?
+Message-ID: <202404301738.J71xGyaR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,53 +65,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
-head:   37770f55ac9c4f6cd958eb5544939207eed8478f
-commit: bd493ca3f0194d0b2b41e5b3b03f35ce6f4d792d [5948/11728] LF-10711-7 firmware: imx: sm-bbm: support pwrkey
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240430/202404301640.dWDkfv9r-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404301640.dWDkfv9r-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d04466706db5e241ee026f17b5f920e50dee26b5
+commit: edf18a3ef6df1ad1be19143d0ee7d7324eb7b74e [8736/9709] hwmon: (pmbus) Add support for Infineon XDP710
+config: arc-randconfig-r121-20240430 (https://download.01.org/0day-ci/archive/20240430/202404301738.J71xGyaR-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240430/202404301738.J71xGyaR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404301640.dWDkfv9r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404301738.J71xGyaR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hwmon/pmbus/xdp710.c:20:11: sparse: sparse: symbol 'micro_ohm_rsense' was not declared. Should it be static?
 
->> drivers/firmware/imx/sm-bbm.c:122:5: warning: no previous prototype for 'scmi_imx_bbm_pwrkey_event' [-Wmissing-prototypes]
-     122 | int scmi_imx_bbm_pwrkey_event(struct scmi_imx_bbm *bbnsm)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+vim +/micro_ohm_rsense +20 drivers/hwmon/pmbus/xdp710.c
 
-
-vim +/scmi_imx_bbm_pwrkey_event +122 drivers/firmware/imx/sm-bbm.c
-
-   121	
- > 122	int scmi_imx_bbm_pwrkey_event(struct scmi_imx_bbm *bbnsm)
-   123	{
-   124		struct input_dev *input = bbnsm->input;
-   125	
-   126		schedule_delayed_work(&bbnsm->check_work, msecs_to_jiffies(DEBOUNCE_TIME));
-   127	
-   128		/*
-   129		 * Directly report key event after resume to make no key press
-   130		 * event is missed.
-   131		 */
-   132		if (bbnsm->suspended) {
-   133			bbnsm->keystate = 1;
-   134			input_event(input, EV_KEY, bbnsm->keycode, 1);
-   135			input_sync(input);
-   136		}
-   137	
-   138		return 0;
-   139	}
-   140	static void scmi_imx_bbm_pwrkey_act(void *pdata)
-   141	{
-   142		struct scmi_imx_bbm *bbnsm = pdata;
-   143	
-   144		cancel_delayed_work_sync(&bbnsm->check_work);
-   145	}
-   146	
+    15	
+    16	/*
+    17	 * The table to map configuration register values
+    18	 * to sense resistor values
+    19	 */
+  > 20	const int micro_ohm_rsense[] = {
+    21		200, 250, 300, 330, 400, 470, 500, 600,
+    22		670, 700, 750, 800, 900, 1000, 1100, 1200,
+    23		1250, 1300, 1400, 1500, 1600, 1700, 1800, 1900,
+    24		2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700,
+    25		2800, 3000, 3100, 3200, 3300, 3400, 3500, 3600,
+    26		3700, 3800, 3900, 4000, 4100, 4200, 4300, 4400,
+    27		4500, 4600, 4700, 4800, 4900, 5000, 5500, 6000,
+    28		6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000
+    29	};
+    30	
 
 -- 
 0-DAY CI Kernel Test Service
