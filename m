@@ -1,394 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C70712B176
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 11:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540E912D750
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 11:08:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714475019; cv=none; b=UiqxM4T/DfB1WQVdUfuYSPAkScj9PimbGYVTZ225UYI0IDZ8BVDjOLBwvX/dL5YjVhDRfGRGmHTTkvAi4C7FXqvuhEtsznUdmio3qin/XOdSeLPmk+RlDl/7V2DDADXjEoOv+WNrVz8jsFLjRGn/xWifGh7iSGOxPTVh1XnRKFs=
+	t=1714475293; cv=none; b=ujiJ7gSTeBNrZuvRf1Kwyp9tpW1ylX/LFVt+VHsZdEp2/KGd3wFWhUvZhBtFM8E9SxGwFSiWaCB9TjuiHGLCh1Y/f1vSbtDbc6OsbY7pluk1mkrOud5dJiMGUqJUaJLu41V/ubtKO1yR3EU3NNF7FjFpQMSFah2ja9MLgo9IgSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714475019; c=relaxed/simple;
-	bh=NVSLX5RkcazniOM4CcxL2EfKOdq/b/a5XSoT8RIVKzU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XY+tLVoA/GRLccNGoqu3iXQdrMnE45iWIausmu61LP/CAakLeK07QDKxA9RoIPRJiVCNRgXQe1JI1ROq10beq+e/QFKjpL4yM5zDtqia3RTth6KrBTNG8g3q4LMdMlJqq/A+dgAiyJJsSXJemjnKYUjGutylZ5/WjI1Kty7d9Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JwpD/Esq; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714475293; c=relaxed/simple;
+	bh=wESdq211asekhD+eOOklxIrPcvjthYKLfk6mE8/JL5s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ee+74ldxaTquZKgxNsl4Ozz0OUgGK8wo6R6rW4S/whrpq6x+11DS3VDpcbLV8kJUCTrLTBmlyX+sfXj+sN9Vg+H1mfCORtgv4jJmBxmvxsVdvOTYFPVqjayEDJbUfXhCcJwZ2QCgIyVFi7tbR/usYA9cvDDOYEQkJl1sGaY8wSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TZZlQhpv; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JwpD/Esq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714475018; x=1746011018;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NVSLX5RkcazniOM4CcxL2EfKOdq/b/a5XSoT8RIVKzU=;
-  b=JwpD/EsquJR5l6E3zUPvrbXSr0ULX2QijfNlNQUpT4dHvF7g/PQNONGn
-   86poy0g/hMIueypNMIYFdI+lAOX/i4/auhgJzqBVbqvr88zkGgMp126+i
-   6/dBPcS1TZvO3SC+k4pr3D5tp0Rxjs+LZ2B1zjQDYoLdZFUOf9mZygcya
-   bpwrOZafnYmFa1aadXk2PbgDZVgW+4VaVj2xeMVgF2lKKVZ9l8nfuL8RD
-   4SlORqx/LnZDcSlkZQqLOMjVxFne6Njlh+DTa8msyrzDnJbi8q4zp/PW1
-   OVP/o4S7OELadpYItwcJbptC9GO4pO7qRVlW2vTnAi3KIAUn1E2icNkKS
-   Q==;
-X-CSE-ConnectionGUID: y07z7z2zSseRrVXR4rbfjg==
-X-CSE-MsgGUID: TU/LPGXcSsOIOWt0PgHFaw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10051715"
-X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="10051715"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 04:03:37 -0700
-X-CSE-ConnectionGUID: +Z42UG5FSmWj+NaDoNLkjA==
-X-CSE-MsgGUID: onRaXnErQn649wa35OwzmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="30880209"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 30 Apr 2024 04:03:35 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s1lGm-000843-2F;
-	Tue, 30 Apr 2024 11:03:32 +0000
-Date: Tue, 30 Apr 2024 19:03:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master /9709] dtbs_check:
- arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb:
- pmic@3a3: regulators: 'boost' does not match any of the regexes:
- '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$',
- 'pinctrl-[0...
-Message-ID: <202404301941.eZF5aiRQ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TZZlQhpv"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a58fbbcd77aso275923766b.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 04:08:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714475290; x=1715080090; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fCMqw7nCSvY2cVfV712Gd21YvJ5nyvK6rdErCKyrofU=;
+        b=TZZlQhpv5JJAUdZGMmo6R7WHk3yMqPer6wng6r+ykFhJ4u6kzCtSzn5XwoO8b3YaNf
+         c2SVv2WKn5OxRDaLObYiTjjlxja49cO+05+oWUNOo8KwIM1dNHFrSgSuizjv+TU3Afjf
+         5XJh3I9/WO6n5t7zgCHnuQlqfFdI18S7sCo9lcusSiaxPOq5VpjFfVCToRQX70VX4db6
+         NbZtZuJfROWwXqmb2Q1Nnz77+bgv5CM+t1BJSzYIhQos0y06eVQ7+LBqwxpmiPtWo9lX
+         raCfmg5piVTc2pXBuZAi92Geflzv/dSJuWwiIyQMFZEcQKUKqr5pOT50LuxkwCuo8N4g
+         z3kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714475290; x=1715080090;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fCMqw7nCSvY2cVfV712Gd21YvJ5nyvK6rdErCKyrofU=;
+        b=Vsrw0cbXQ7IgZaCB+czZx9ynKeQZWhB9SGU+yLTiLC6OYEgvfoqXYcfuQWynwTvS/9
+         E9RNMEv+g+/RJqxZDsJnKUNkFz2ejy/8YA1/QXUiu8wR7ToYFS5w9F/BZoSk54xDWxkV
+         7CiNN/00wjd3m2ZnIo7gUqtZDA8jYVrl1pFN37TWysrImasmiePVPT7/DerW62WfjsAA
+         eY60Dl2NOCgULF+FYtHHbT6naaVznyFxdC5HFNRUyCXnUMoHJ10lU+mbOyguPp673UlS
+         999U5U/unh7B2osDSFUL73U9mkl2v9UFaXjL+jhvVYeIs1jZ7Rtc05GEaJ3NbjznGWjw
+         W+XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWX1uvFA/l/jhT11BHrTiaW1r/toU5zjJXNJ5C1xtKZesUUbu0qqYjoP/5J2RqjHRHNPRuTyg/5FQbu6NHUIdpYz8M2FAIWKPiDJTb3hg==
+X-Gm-Message-State: AOJu0Yy4q6unSK5uf7PWcCmjLyKvjMcorHXu1uE0Lkb2NPLEJQKS5m44
+	+s5X3iMjJdp+WHLDchSth5J3nVDpIdMoXYfVuGW6XbvmbNHBgmD69tUQCPfBHzQ=
+X-Google-Smtp-Source: AGHT+IEW0hxbwsW1u6SttzpRpyX7Q6sCxkQ9mD8o2epmv7KvexUu0H2je1I6KIVYMzQvfcruQOGxIg==
+X-Received: by 2002:a17:906:b305:b0:a55:5b50:847f with SMTP id n5-20020a170906b30500b00a555b50847fmr6396590ejz.22.1714475290463;
+        Tue, 30 Apr 2024 04:08:10 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id gr13-20020a170906e2cd00b00a4e696e613esm9750095ejb.153.2024.04.30.04.08.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Apr 2024 04:08:10 -0700 (PDT)
+Date: Tue, 30 Apr 2024 14:08:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [linux-next:master 1128/2532] drivers/pwm/core.c:1530 pwm_put()
+ warn: variable dereferenced before check 'pwm' (see line 1528)
+Message-ID: <7ab56969-2524-4458-9881-8b63fc80cca8@moroto.mountain>
+References: <086d46a0-70a2-41cf-94e5-5cd2377a0937@moroto.mountain>
+ <ylioua4xvt7cbbhk6vnqmywbtj5zuk6lonxjyfaggrb7urvayz@pqglnven76ai>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ylioua4xvt7cbbhk6vnqmywbtj5zuk6lonxjyfaggrb7urvayz@pqglnven76ai>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b0a2c79c6f3590b74742cbbc76687014d47972d8
-commit: 4a9da9a43f99e537e1dad5759b3863ce34febd2d [/9709] Merge branch 'for-mfd-next' of git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-dtschema version: 2024.4
-reproduce: (https://download.01.org/0day-ci/archive/20240430/202404301941.eZF5aiRQ-lkp@intel.com/reproduce)
+On Tue, Apr 02, 2024 at 05:11:22PM +0200, Uwe Kleine-König wrote:
+> Hello,
+> 
+> > 8138d2ddbcca2a Thierry Reding   2012-03-26  1526  void pwm_put(struct pwm_device *pwm)
+> > 8138d2ddbcca2a Thierry Reding   2012-03-26  1527  {
+> > d60bc299573248 Uwe Kleine-König 2024-03-17 @1528  	struct pwm_chip *chip = pwm->chip;
+> >                                                                                 ^^^^^^^^^^
+> > Dereference
+> > 
+> > d60bc299573248 Uwe Kleine-König 2024-03-17  1529  
+> > 8138d2ddbcca2a Thierry Reding   2012-03-26 @1530  	if (!pwm)
+> >                                                             ^^^^
+> > Too late.
+> > 
+> > 8138d2ddbcca2a Thierry Reding   2012-03-26  1531  		return;
+> > 8138d2ddbcca2a Thierry Reding   2012-03-26  1532  
+> > 8138d2ddbcca2a Thierry Reding   2012-03-26  1533  	mutex_lock(&pwm_lock);
+> 
+> This is already addressed in fbf632f9dc55.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404301941.eZF5aiRQ-lkp@intel.com/
+Apparently we never merged that commit, though...  It's not in
+linux-next.
 
-All errors (new ones prefixed by >>):
+regards,
+dan carpenter
 
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-lite2'},
-   	                      {'const': 'allwinner,sun50i-h6'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-mini'},
-   	                      {'const': 'allwinner,sun7i-a20'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-one'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-one-plus'},
-   	                      {'const': 'allwinner,sun50i-h6'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-pc'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-pc2'},
-   	                      {'const': 'allwinner,sun50i-h5'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-pc-plus'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-plus'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-plus2e'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-prime'},
-   	                      {'const': 'allwinner,sun50i-h5'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-r1'},
-   	                      {'const': 'allwinner,sun8i-h2-plus'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-win'},
-   	                      {'const': 'allwinner,sun50i-a64'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero'},
-   	                      {'const': 'allwinner,sun8i-h2-plus'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero-plus'},
-   	                      {'const': 'allwinner,sun50i-h5'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero-plus2'},
-   	                      {'const': 'allwinner,sun50i-h5'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero-plus2-h3'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero2'},
-   	                      {'const': 'allwinner,sun50i-h616'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero2w'},
-   	                      {'const': 'allwinner,sun50i-h618'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero3'},
-   	                      {'const': 'allwinner,sun50i-h618'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'}]}
-   	from schema $id: http://devicetree.org/schemas/arm/sunxi.yaml#
-   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: /soc/interrupt-controller@7010320: failed to match any schema with compatible: ['allwinner,sun50i-h616-nmi', 'allwinner,sun9i-a80-nmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: pmic@3a3: regulators: 'boost' does not match any of the regexes: '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
---
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-lite2'},
-   	                      {'const': 'allwinner,sun50i-h6'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-mini'},
-   	                      {'const': 'allwinner,sun7i-a20'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-one'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-one-plus'},
-   	                      {'const': 'allwinner,sun50i-h6'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-pc'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-pc2'},
-   	                      {'const': 'allwinner,sun50i-h5'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-pc-plus'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-plus'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-plus2e'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-prime'},
-   	                      {'const': 'allwinner,sun50i-h5'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-r1'},
-   	                      {'const': 'allwinner,sun8i-h2-plus'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-win'},
-   	                      {'const': 'allwinner,sun50i-a64'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero'},
-   	                      {'const': 'allwinner,sun8i-h2-plus'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero-plus'},
-   	                      {'const': 'allwinner,sun50i-h5'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero-plus2'},
-   	                      {'const': 'allwinner,sun50i-h5'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero-plus2-h3'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero2'},
-   	                      {'const': 'allwinner,sun50i-h616'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero2w'},
-   	                      {'const': 'allwinner,sun50i-h618'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero3'},
-   	                      {'const': 'allwinner,sun50i-h618'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'}]}
-   	from schema $id: http://devicetree.org/schemas/arm/sunxi.yaml#
-   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: /soc/interrupt-controller@7010320: failed to match any schema with compatible: ['allwinner,sun50i-h616-nmi', 'allwinner,sun9i-a80-nmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: pmic@3a3: regulators: 'boost' does not match any of the regexes: '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
---
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-lite2'},
-   	                      {'const': 'allwinner,sun50i-h6'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-mini'},
-   	                      {'const': 'allwinner,sun7i-a20'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-one'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-one-plus'},
-   	                      {'const': 'allwinner,sun50i-h6'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-pc'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-pc2'},
-   	                      {'const': 'allwinner,sun50i-h5'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-pc-plus'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-plus'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-plus2e'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-prime'},
-   	                      {'const': 'allwinner,sun50i-h5'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-r1'},
-   	                      {'const': 'allwinner,sun8i-h2-plus'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-win'},
-   	                      {'const': 'allwinner,sun50i-a64'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero'},
-   	                      {'const': 'allwinner,sun8i-h2-plus'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero-plus'},
-   	                      {'const': 'allwinner,sun50i-h5'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero-plus2'},
-   	                      {'const': 'allwinner,sun50i-h5'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero-plus2-h3'},
-   	                      {'const': 'allwinner,sun8i-h3'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero2'},
-   	                      {'const': 'allwinner,sun50i-h616'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero2w'},
-   	                      {'const': 'allwinner,sun50i-h618'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'},
-   	           {'items': [{'const': 'xunlong,orangepi-zero3'},
-   	                      {'const': 'allwinner,sun50i-h618'}],
-   	            'maxItems': 2,
-   	            'minItems': 2,
-   	            'type': 'array'}]}
-   	from schema $id: http://devicetree.org/schemas/arm/sunxi.yaml#
-   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: /soc/interrupt-controller@7010320: failed to match any schema with compatible: ['allwinner,sun50i-h616-nmi', 'allwinner,sun9i-a80-nmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: pmic@3a3: regulators: 'boost' does not match any of the regexes: '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
