@@ -1,148 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DC11791EB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 16:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B481A38C2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 16:59:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714494519; cv=none; b=K5yu2b8D+igH8V7mzt9Ka9CFtk/T3khLBsIZHDHC7+nOVw1YVX2PNNFiakprYZ1oyurfE6f4vxTHGnoCw5N95yNL1z7CrBXDpExYeGoc9Qqar2UU47KeK+czppNNqu69XlTubj2pn+ftaZGHVx6ZfFu27nWFw0OHAl8817QciQs=
+	t=1714496394; cv=none; b=utfqQhZMwfeYQDevhvtiYTGJsxF3gLtc1gmVVHT6lL08ymeRzSVz/i1yzKPs/Oae3kR1/3SrK0+kmpJwiaXvNQ7ek3UKIkS57XSOLJoa6IZFC8k/jKv5IGvE/uZFQ1GRFGcU1n17qvRdPvLv73tzPKIDxsSQ9joFVmup2s3XRuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714494519; c=relaxed/simple;
-	bh=ugkt3k4B4PYbENI6jlGFe6etoG8QJ8s0xUKQxIhNEMY=;
+	s=arc-20240116; t=1714496394; c=relaxed/simple;
+	bh=qz8/q7aDjXRetfMq0QCD+Hjl+BFQCiyUaL2twD/FGsQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P6atL4xeqAxqJEzRxbuw9AP7ZUPadP6iXsksgSQoHkXq0qIK3zk6lAt6D8gNYMO7IKkJifVmQD+7TnkVjzGzhZXC97Yt7hJA2aICmF9R6yOiboXGjZXOn6G+n5DZCSv5ROIIyMaUWJQVqHppX9LMJrOaV1C0FR6UobSWOVD0k0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SNc3nYv8; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SNc3nYv8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714494518; x=1746030518;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ugkt3k4B4PYbENI6jlGFe6etoG8QJ8s0xUKQxIhNEMY=;
-  b=SNc3nYv8QZNk0MPnggrGQkbOoZDE2R/5qjQeTJCOLWvnFohctauVJB22
-   jViMQdZ92pxUlPYQlCgd8Fqfeq4YaffrU2k/4SOYVu4EctYd8rZ7lViIa
-   V8DDTuQQrMi29Xx2YRfq3PEr7WGyPzO7rlT2Nib7jaY3/v5ZbtwRfaBT+
-   W3b2rru508Q7SbYYNORy6OIWryMZkOehI8b9oCj09DbJ9GDdPDo+m4/TJ
-   gIFbSQfZN4ne4iX70Bl4me7iBYJRIcCVnsk3WgnAx/h0Wqs8KKZFX2Edc
-   lQb0rczBcHkuCCAHhR6g5uXsdLReho+8iS0ebp1ukvfxys9qjMwdPVtun
-   Q==;
-X-CSE-ConnectionGUID: aG50rR2FSIutzjqtLZ0LtA==
-X-CSE-MsgGUID: q4/Y0mA+RviXInxCjLdv1w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="13994265"
-X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="13994265"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 09:28:37 -0700
-X-CSE-ConnectionGUID: XwE2O6zpS8Onouf1kmd13g==
-X-CSE-MsgGUID: Y3r7vwXvQb6rUnmrtCY3zw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="57394192"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Apr 2024 09:28:31 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s1qLE-0008Lj-1Y;
-	Tue, 30 Apr 2024 16:28:28 +0000
-Date: Wed, 1 May 2024 00:27:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: lakshmi.sowjanya.d@intel.com, tglx@linutronix.de, jstultz@google.com,
-	giometti@enneenne.com, corbet@lwn.net, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, christopher.s.hall@intel.com,
-	subramanian.mohan@intel.com, lakshmi.sowjanya.d@intel.com,
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	pandith.n@intel.com, x86@kernel.org, eddie.dong@intel.com,
-	linux-sound@vger.kernel.org, alexandre.torgue@foss.st.com,
-	peter.hilber@opensynergy.com, joabreu@synopsys.com,
-	intel-wired-lan@lists.osuosl.org, mcoquelin.stm32@gmail.com,
-	thejesh.reddy.t.r@intel.com, perex@perex.cz,
-	anthony.l.nguyen@intel.com, andriy.shevchenko@linux.intel.com,
-	davem@davemloft.net
-Subject: Re: [Intel-wired-lan] [PATCH v7 09/12] timekeeping: Add function to
- convert realtime to base clock
-Message-ID: <202405010052.Cxh2bazm-lkp@intel.com>
-References: <20240430085225.18086-10-lakshmi.sowjanya.d@intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qcc6CSmuKRHLUbiYgtbrtQHkBtWbvuT8Y1Q3XhtDZVa6BakOfzpmHu3n25xLNitva3NhBK2gi+lBmSoO/cFrE2u7VtJ/XE6n75XdvozmFlZmXgzioOioE51ClMWKTJoD3673xjSVblVdssGM6k+096HffBwXJfryBeyTS9FSPgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s1qpS-0001MB-FN; Tue, 30 Apr 2024 18:59:42 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s1qpR-00FCBm-IF; Tue, 30 Apr 2024 18:59:41 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s1qpR-00CKvW-1Z;
+	Tue, 30 Apr 2024 18:59:41 +0200
+Date: Tue, 30 Apr 2024 18:59:41 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [linux-next:master 1128/2532] drivers/pwm/core.c:1530 pwm_put()
+ warn: variable dereferenced before check 'pwm' (see line 1528)
+Message-ID: <rxnzwxj2txeobevail7mt2xnstuwzusbcilxznjwuk7wqx2cke@y4aw2d24jzpx>
+References: <086d46a0-70a2-41cf-94e5-5cd2377a0937@moroto.mountain>
+ <ylioua4xvt7cbbhk6vnqmywbtj5zuk6lonxjyfaggrb7urvayz@pqglnven76ai>
+ <7ab56969-2524-4458-9881-8b63fc80cca8@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3neuahgzqsxkrpzm"
 Content-Disposition: inline
-In-Reply-To: <20240430085225.18086-10-lakshmi.sowjanya.d@intel.com>
-
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/timers/core]
-[also build test WARNING on tnguy-next-queue/dev-queue tnguy-net-queue/dev-queue linus/master v6.9-rc6 next-20240430]
-[cannot apply to tip/x86/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/lakshmi-sowjanya-d-intel-com/timekeeping-Add-base-clock-properties-in-clocksource-structure/20240430-165602
-base:   tip/timers/core
-patch link:    https://lore.kernel.org/r/20240430085225.18086-10-lakshmi.sowjanya.d%40intel.com
-patch subject: [Intel-wired-lan] [PATCH v7 09/12] timekeeping: Add function to convert realtime to base clock
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240501/202405010052.Cxh2bazm-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405010052.Cxh2bazm-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405010052.Cxh2bazm-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> kernel/time/timekeeping.c:1271: warning: Function parameter or struct member 'cycles' not described in 'ktime_real_to_base_clock'
-   kernel/time/timekeeping.c:2547: warning: Function parameter or struct member 'txc' not described in 'do_adjtimex'
-   kernel/time/timekeeping.c:2615: warning: Function parameter or struct member 'phase_ts' not described in 'hardpps'
-   kernel/time/timekeeping.c:2615: warning: Function parameter or struct member 'raw_ts' not described in 'hardpps'
+In-Reply-To: <7ab56969-2524-4458-9881-8b63fc80cca8@moroto.mountain>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
 
-vim +1271 kernel/time/timekeeping.c
+--3neuahgzqsxkrpzm
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  1259	
-  1260	/**
-  1261	 * ktime_real_to_base_clock() - Convert CLOCK_REALTIME timestamp to a base clock timestamp
-  1262	 * @treal:	CLOCK_REALTIME timestamp to convert
-  1263	 * @base_id:	base clocksource id
-  1264	 * @*cycles:	pointer to store the converted base clock timestamp
-  1265	 *
-  1266	 * Converts a supplied, future realtime clock value to the corresponding base clock value.
-  1267	 *
-  1268	 * Return:  true if the conversion is successful, false otherwise.
-  1269	 */
-  1270	bool ktime_real_to_base_clock(ktime_t treal, enum clocksource_ids base_id, u64 *cycles)
-> 1271	{
-  1272		struct timekeeper *tk = &tk_core.timekeeper;
-  1273		unsigned int seq;
-  1274		u64 delta;
-  1275	
-  1276		do {
-  1277			seq = read_seqcount_begin(&tk_core.seq);
-  1278			if ((u64)treal < tk->tkr_mono.base_real)
-  1279				return false;
-  1280			delta = (u64)treal - tk->tkr_mono.base_real;
-  1281			if (!convert_ns_to_cs(&delta))
-  1282				return false;
-  1283			*cycles = tk->tkr_mono.cycle_last + delta;
-  1284			if (!convert_cs_to_base(cycles, base_id))
-  1285				return false;
-  1286		} while (read_seqcount_retry(&tk_core.seq, seq));
-  1287	
-  1288		return true;
-  1289	}
-  1290	EXPORT_SYMBOL_GPL(ktime_real_to_base_clock);
-  1291	
+Hello Dan,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Tue, Apr 30, 2024 at 02:08:05PM +0300, Dan Carpenter wrote:
+> On Tue, Apr 02, 2024 at 05:11:22PM +0200, Uwe Kleine-K=F6nig wrote:
+> > Hello,
+> >=20
+> > > 8138d2ddbcca2a Thierry Reding   2012-03-26  1526  void pwm_put(struct=
+ pwm_device *pwm)
+> > > 8138d2ddbcca2a Thierry Reding   2012-03-26  1527  {
+> > > d60bc299573248 Uwe Kleine-K=F6nig 2024-03-17 @1528  	struct pwm_chip =
+*chip =3D pwm->chip;
+> > >                                                                      =
+           ^^^^^^^^^^
+> > > Dereference
+> > >=20
+> > > d60bc299573248 Uwe Kleine-K=F6nig 2024-03-17  1529 =20
+> > > 8138d2ddbcca2a Thierry Reding   2012-03-26 @1530  	if (!pwm)
+> > >                                                             ^^^^
+> > > Too late.
+> > >=20
+> > > 8138d2ddbcca2a Thierry Reding   2012-03-26  1531  		return;
+> > > 8138d2ddbcca2a Thierry Reding   2012-03-26  1532 =20
+> > > 8138d2ddbcca2a Thierry Reding   2012-03-26  1533  	mutex_lock(&pwm_lo=
+ck);
+> >=20
+> > This is already addressed in fbf632f9dc55.
+> >=20
+>=20
+> Apparently we never merged that commit, though...  It's not in
+> linux-next.
+
+Oh, I recently dropped a few commits from my for-next branch and this
+one was (wrongly) among them. Thanks for paying attention, it's back
+now.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--3neuahgzqsxkrpzm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYxI3wACgkQj4D7WH0S
+/k6YLgf/bgwGqi7ZhYTTDqJCwwDV+AjYaF9qEf9nkrttUVja+LzvOP25Z0Kij0Ub
+vhk9l8dplZ3uyswwKTLco9UCX/uKlnZiRrqf5IyACUFYJTlY6zBb2W9xpFv3joCo
+QDmvvhMBaCLEnhkUwlP1TmxIJPYlkALyemKjtLYY5gPDkMc1AwEZWfFAEjLr8t9j
+8EmqvYvxmwuOPhMpB6degs46j9SKNmNCfpwHW7GdzcZO9JNWiZuhwcHnZ+PAb8iz
+b5MNqYPOj95OVJCE2vz+dK3qyBSD8P0cZRVlum7W0uJbPM8So4wPZIpmyOwbVqYp
+50mb0cXxF0nWgNmucgXI8ERhLVnTKw==
+=ScWg
+-----END PGP SIGNATURE-----
+
+--3neuahgzqsxkrpzm--
