@@ -1,110 +1,321 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3435AF9D6;
-	Tue, 30 Apr 2024 06:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDDA1774E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 07:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714457068; cv=none; b=WlfWj5v9wDrTxi2zDU0wbWwZ7tdpIa+9Ik+nVpxZzJuIb3DzlSZfIsnr4yFhBI+SIWTvk2ZzjvhbZ1/4KhvpljbLsiLZrla0Wb94iTGC+R0+KbQz5oYcRv0zZKfk68nu54smnzjsOy0B8vZ62VrSc1affVAqF2sgfWOmsFzVoSM=
+	t=1714461874; cv=none; b=c9Q35zXGLn1t438YRa9IQFH4BVD2TLoRBw1xai9YWiRmMQnRF7qWS0RD5TabiF5j70/Eoi/bgTyU2O9V7lJjGT6yoFu9DtH9pCdhl2eN/LnTdRucop7JWG+RQQsBZFgOaRY2UY717RcM1+38SwGR/kwkFX/Yr4GXrQPBdNV7w/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714457068; c=relaxed/simple;
-	bh=IDBpX/Sk8DJAELnbvEHHvPY0x6mf14x2QXjb0/ZYPUQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gw+aAlCXQyHTK5Sv49GydwDgccNRm6KKdvK7XVM1c7wSJpxLfCHZhNZxQxln/EGM8Gcah6UZnupo3ekMaqDb8813VTaegRHb44oKANfeQr4fiAuOeawuYCAN2Wq48rHu+PxwjQdsRrYOfBdVEmwPHyFDVFLgXxXqSBHdKEq4g/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oGBcnTBb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714461874; c=relaxed/simple;
+	bh=yyZjb6uJBHtfQDi9vcRqAluwv7g2WUi3qhsCuCrRV1I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ohI61dWIboFfX82SAFowPnkJQESvfbw8pwPADcBh2eVoVNMlyQrOd4ck/15mGmdaphGklbklSuc5J6jHcmIK98Q40KWG3DNDac0gOUNJnaibx0ytr0Ejx/1Vv80AEQclFx3KEo0REQQ5bIwAAddrNGSfkhYLbQNLyyE+2aw8Bqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GROGWXH1; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oGBcnTBb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27807C2BBFC;
-	Tue, 30 Apr 2024 06:04:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714457068;
-	bh=IDBpX/Sk8DJAELnbvEHHvPY0x6mf14x2QXjb0/ZYPUQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oGBcnTBbeAff23+4eIfgcluZaPFvolQl3SL6KA7Fd09MYxCLAGlg9kGBVj8cp3AUs
-	 y/HjB1Vra0UAK6umlCZ0DADm49wJvi4bm4W57vv3M26oaBdQRq8w78CvsFvErP5aOo
-	 2bBcAmjqG2UHqp6uxmDyHBsikzIrpCMMu70XvgeyAd2aLRJtOsCII3vWlXbWa2GqNL
-	 Y2iQSakRN+sbQKE9ePIx8e0Ht5KGBwgRVbhLZHlF5V0SMuJsrdnMPAxBuIcPL5NgyL
-	 1YIGSOHETTIenIVMh2a6fWbzK5quZwny3zv+IvysFHY6Khy4LRBq1O1H+hJJR8NC5V
-	 5JiGBmDKotLgg==
-Message-ID: <15d45445-e664-40bc-b5b8-285df53167b5@kernel.org>
-Date: Tue, 30 Apr 2024 08:04:22 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GROGWXH1"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-56e6a1edecfso7979472a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 00:24:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714461870; x=1715066670; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/7s89Ib+yw/GmKuXOIYBvUFt2qfG5QHiPGhNhFrnzGQ=;
+        b=GROGWXH1zcMTxdI5cWKPqt0RBMx+nWDhom8bA+OQUO6BYz48x7cdKklNNK0sknXri1
+         5efFzwdlt9uR+gT5c8aeegNbABhWdptFc9lXIp8oPdD5+5YBzRT/gVqR1jE8o+SAEaan
+         gaoSFegtz/7vpESDtAlNb0h73O9wNxKBxqle3DIrco9xmtREODboBGaxvYGz1rSSSE6N
+         xqvCtCmTR1AVhtdlisQTwhT8B08vC080D+7f1TIoFtXKnmgXAxjuEIZ0UanHl8FnF005
+         9V1chz5lt5JUjAOKtBJ1bBb8N53McyP4uH6hvnAckWx3K33wqxMhAc8il62Cx6BGGEba
+         miEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714461870; x=1715066670;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/7s89Ib+yw/GmKuXOIYBvUFt2qfG5QHiPGhNhFrnzGQ=;
+        b=tCmUZhL3V365vHf0yjxw0HhkMkg5uOgvIYfQbuAJM2YvE7ygGE0RQRaClq27ymVMw/
+         3NFNQ/PsqWHskoq1WxCwAhVhWQgUjMo1dZ/QQMT4Su7JJNynj68mn3rhQt93C0QZe7xr
+         WkkqSIcki1w+4RZV1gH1OLBo1em0LczTaZ9zVbMXwI1D6BiztrhzJpNIL/2Xq1yc6DY3
+         trDu6YzN1swhOv/1ugfWlryeW3mV1fWz8UP2hlP07mMHApyv5bf2C54PuSVRZpkeXOXK
+         hDOiShLIhBg2G0b29iA8xqzLeLBUBQOVLCHnhrlKRRcdKiRebsMDayt0tckM2037QjAr
+         jO7A==
+X-Forwarded-Encrypted: i=1; AJvYcCV5KQFonAp7ng4cnt+fqF/OdhHLRM0eAxscfIKu7uNo4qGc0lTJmaHr2er80sLKss45L5Zi6sE44ZFkVW7qFByVwXTEMI3304d+sqK8eg==
+X-Gm-Message-State: AOJu0YzMvLIAaQ2IE9P4iXCcvcjZHnWkS4GiC0ku/ksP4G8xQn8McZdr
+	dNkFaVFf6uBz/hWPXBQcf2zQZEvS8cqU/ELB+3jwqylcQTJHk5ni08HTs8mkpwk=
+X-Google-Smtp-Source: AGHT+IEnyAcN6JEupMPAax6ZOgByVwP2oJqMT6SUvW+cb6CrU28YZX/Ub7ZnrT1/7sFjFCoZOg1jwA==
+X-Received: by 2002:a05:6402:1a4d:b0:572:8aab:4420 with SMTP id bf13-20020a0564021a4d00b005728aab4420mr2380881edb.39.1714461869687;
+        Tue, 30 Apr 2024 00:24:29 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id e12-20020a056402104c00b00571c12b388dsm13389893edu.35.2024.04.30.00.24.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Apr 2024 00:24:29 -0700 (PDT)
+Date: Tue, 30 Apr 2024 10:24:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Kemeng Shi <shikemeng@huaweicloud.com>,
+	willy@infradead.org, akpm@linux-foundation.org, jack@suse.cz,
+	tj@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/10] writeback: factor out wb_dirty_exceeded to remove
+ repeated code
+Message-ID: <6d3471cd-f491-4949-ba75-9fae63198b59@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [pinctrl-samsung:pinctrl-next 3/3]
- drivers/pinctrl/samsung/pinctrl-samsung.c:633:35: warning: variable 'drvdata'
- set but not used
-To: kernel test robot <lkp@intel.com>,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
- Peter Griffin <peter.griffin@linaro.org>,
- Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-References: <202404300825.6lxLwvUY-lkp@intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <202404300825.6lxLwvUY-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240429034738.138609-10-shikemeng@huaweicloud.com>
 
-On 30/04/2024 02:58, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinctrl/samsung.git pinctrl-next
-> head:   f9c74474797351c60e009ebc59a798fcfd93ee57
-> commit: f9c74474797351c60e009ebc59a798fcfd93ee57 [3/3] pinctrl: samsung: support a bus clock
-> config: arm-defconfig (https://download.01.org/0day-ci/archive/20240430/202404300825.6lxLwvUY-lkp@intel.com/config)
-> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404300825.6lxLwvUY-lkp@intel.com/reproduce)
-> 
-I sent a patch to fix it.
+Hi Kemeng,
 
-Guys, are your development trees tested by LKP?
+kernel test robot noticed the following build warnings:
 
-Best regards,
-Krzysztof
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/writeback-factor-out-wb_bg_dirty_limits-to-remove-repeated-code/20240429-114903
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240429034738.138609-10-shikemeng%40huaweicloud.com
+patch subject: [PATCH 09/10] writeback: factor out wb_dirty_exceeded to remove repeated code
+config: i386-randconfig-141-20240429 (https://download.01.org/0day-ci/archive/20240430/202404300231.bnb28iB8-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202404300231.bnb28iB8-lkp@intel.com/
+
+New smatch warnings:
+mm/page-writeback.c:1903 balance_dirty_pages() error: we previously assumed 'mdtc' could be null (see line 1886)
+
+vim +/mdtc +1903 mm/page-writeback.c
+
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  1800  static int balance_dirty_pages(struct bdi_writeback *wb,
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  1801  			       unsigned long pages_dirtied, unsigned int flags)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1802  {
+2bc00aef030f4f Tejun Heo       2015-05-22  1803  	struct dirty_throttle_control gdtc_stor = { GDTC_INIT(wb) };
+c2aa723a609363 Tejun Heo       2015-05-22  1804  	struct dirty_throttle_control mdtc_stor = { MDTC_INIT(wb, &gdtc_stor) };
+2bc00aef030f4f Tejun Heo       2015-05-22  1805  	struct dirty_throttle_control * const gdtc = &gdtc_stor;
+c2aa723a609363 Tejun Heo       2015-05-22  1806  	struct dirty_throttle_control * const mdtc = mdtc_valid(&mdtc_stor) ?
+c2aa723a609363 Tejun Heo       2015-05-22  1807  						     &mdtc_stor : NULL;
+c2aa723a609363 Tejun Heo       2015-05-22  1808  	struct dirty_throttle_control *sdtc;
+c8a7ee1b73042a Kemeng Shi      2024-04-23  1809  	unsigned long nr_dirty;
+83712358ba0a14 Wu Fengguang    2011-06-11  1810  	long period;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1811  	long pause;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1812  	long max_pause;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1813  	long min_pause;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1814  	int nr_dirtied_pause;
+143dfe8611a630 Wu Fengguang    2010-08-27  1815  	unsigned long task_ratelimit;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1816  	unsigned long dirty_ratelimit;
+dfb8ae56783542 Tejun Heo       2015-05-22  1817  	struct backing_dev_info *bdi = wb->bdi;
+5a53748568f796 Maxim Patlasov  2013-09-11  1818  	bool strictlimit = bdi->capabilities & BDI_CAP_STRICTLIMIT;
+e98be2d599207c Wu Fengguang    2010-08-29  1819  	unsigned long start_time = jiffies;
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  1820  	int ret = 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1821  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1822  	for (;;) {
+83712358ba0a14 Wu Fengguang    2011-06-11  1823  		unsigned long now = jiffies;
+83712358ba0a14 Wu Fengguang    2011-06-11  1824  
+c8a7ee1b73042a Kemeng Shi      2024-04-23  1825  		nr_dirty = global_node_page_state(NR_FILE_DIRTY);
+5fce25a9df4865 Peter Zijlstra  2007-11-14  1826  
+204c26b42a22b8 Kemeng Shi      2024-04-29  1827  		balance_domain_limits(gdtc, strictlimit);
+204c26b42a22b8 Kemeng Shi      2024-04-29  1828  		if (mdtc)
+c2aa723a609363 Tejun Heo       2015-05-22  1829  			/*
+c2aa723a609363 Tejun Heo       2015-05-22  1830  			 * If @wb belongs to !root memcg, repeat the same
+c2aa723a609363 Tejun Heo       2015-05-22  1831  			 * basic calculations for the memcg domain.
+c2aa723a609363 Tejun Heo       2015-05-22  1832  			 */
+204c26b42a22b8 Kemeng Shi      2024-04-29  1833  			balance_domain_limits(mdtc, strictlimit);
+5a53748568f796 Maxim Patlasov  2013-09-11  1834  
+ea6813be07dcdc Jan Kara        2022-06-23  1835  		/*
+ea6813be07dcdc Jan Kara        2022-06-23  1836  		 * In laptop mode, we wait until hitting the higher threshold
+ea6813be07dcdc Jan Kara        2022-06-23  1837  		 * before starting background writeout, and then write out all
+ea6813be07dcdc Jan Kara        2022-06-23  1838  		 * the way down to the lower threshold.  So slow writers cause
+ea6813be07dcdc Jan Kara        2022-06-23  1839  		 * minimal disk activity.
+ea6813be07dcdc Jan Kara        2022-06-23  1840  		 *
+ea6813be07dcdc Jan Kara        2022-06-23  1841  		 * In normal mode, we start background writeout at the lower
+ea6813be07dcdc Jan Kara        2022-06-23  1842  		 * background_thresh, to keep the amount of dirty memory low.
+ea6813be07dcdc Jan Kara        2022-06-23  1843  		 */
+c8a7ee1b73042a Kemeng Shi      2024-04-23  1844  		if (!laptop_mode && nr_dirty > gdtc->bg_thresh &&
+ea6813be07dcdc Jan Kara        2022-06-23  1845  		    !writeback_in_progress(wb))
+ea6813be07dcdc Jan Kara        2022-06-23  1846  			wb_start_background_writeback(wb);
+ea6813be07dcdc Jan Kara        2022-06-23  1847  
+16c4042f08919f Wu Fengguang    2010-08-11  1848  		/*
+c2aa723a609363 Tejun Heo       2015-05-22  1849  		 * If memcg domain is in effect, @dirty should be under
+c2aa723a609363 Tejun Heo       2015-05-22  1850  		 * both global and memcg freerun ceilings.
+16c4042f08919f Wu Fengguang    2010-08-11  1851  		 */
+c474a90dc076a7 Kemeng Shi      2024-04-29  1852  		if (gdtc->freerun && (!mdtc || mdtc->freerun)) {
+a37b0715ddf300 NeilBrown       2020-06-01  1853  			unsigned long intv;
+a37b0715ddf300 NeilBrown       2020-06-01  1854  			unsigned long m_intv;
+a37b0715ddf300 NeilBrown       2020-06-01  1855  
+a37b0715ddf300 NeilBrown       2020-06-01  1856  free_running:
+c474a90dc076a7 Kemeng Shi      2024-04-29  1857  			intv = domain_poll_intv(gdtc, strictlimit);
+a37b0715ddf300 NeilBrown       2020-06-01  1858  			m_intv = ULONG_MAX;
+c2aa723a609363 Tejun Heo       2015-05-22  1859  
+83712358ba0a14 Wu Fengguang    2011-06-11  1860  			current->dirty_paused_when = now;
+83712358ba0a14 Wu Fengguang    2011-06-11  1861  			current->nr_dirtied = 0;
+c2aa723a609363 Tejun Heo       2015-05-22  1862  			if (mdtc)
+c474a90dc076a7 Kemeng Shi      2024-04-29  1863  				m_intv = domain_poll_intv(mdtc, strictlimit);
+c2aa723a609363 Tejun Heo       2015-05-22  1864  			current->nr_dirtied_pause = min(intv, m_intv);
+16c4042f08919f Wu Fengguang    2010-08-11  1865  			break;
+83712358ba0a14 Wu Fengguang    2011-06-11  1866  		}
+16c4042f08919f Wu Fengguang    2010-08-11  1867  
+ea6813be07dcdc Jan Kara        2022-06-23  1868  		/* Start writeback even when in laptop mode */
+bc05873dccd27d Tejun Heo       2015-05-22  1869  		if (unlikely(!writeback_in_progress(wb)))
+9ecf4866c018ae Tejun Heo       2015-05-22  1870  			wb_start_background_writeback(wb);
+143dfe8611a630 Wu Fengguang    2010-08-27  1871  
+97b27821b4854c Tejun Heo       2019-08-26  1872  		mem_cgroup_flush_foreign(wb);
+97b27821b4854c Tejun Heo       2019-08-26  1873  
+c2aa723a609363 Tejun Heo       2015-05-22  1874  		/*
+c2aa723a609363 Tejun Heo       2015-05-22  1875  		 * Calculate global domain's pos_ratio and select the
+c2aa723a609363 Tejun Heo       2015-05-22  1876  		 * global dtc by default.
+c2aa723a609363 Tejun Heo       2015-05-22  1877  		 */
+aab09fbaa2dd34 Kemeng Shi      2024-04-29  1878  		wb_dirty_freerun(gdtc, strictlimit);
+aab09fbaa2dd34 Kemeng Shi      2024-04-29  1879  		if (gdtc->freerun)
+a37b0715ddf300 NeilBrown       2020-06-01  1880  			goto free_running;
+a37b0715ddf300 NeilBrown       2020-06-01  1881  
+8b8bf84233eccf Kemeng Shi      2024-04-29  1882  		wb_dirty_exceeded(gdtc, strictlimit);
+daddfa3cb30ebf Tejun Heo       2015-05-22  1883  		wb_position_ratio(gdtc);
+c2aa723a609363 Tejun Heo       2015-05-22  1884  		sdtc = gdtc;
+e98be2d599207c Wu Fengguang    2010-08-29  1885  
+c2aa723a609363 Tejun Heo       2015-05-22 @1886  		if (mdtc) {
+                                                                ^^^^^^^^^^^
+This code assumes mdtc can be NULL
+
+c2aa723a609363 Tejun Heo       2015-05-22  1887  			/*
+c2aa723a609363 Tejun Heo       2015-05-22  1888  			 * If memcg domain is in effect, calculate its
+c2aa723a609363 Tejun Heo       2015-05-22  1889  			 * pos_ratio.  @wb should satisfy constraints from
+c2aa723a609363 Tejun Heo       2015-05-22  1890  			 * both global and memcg domains.  Choose the one
+c2aa723a609363 Tejun Heo       2015-05-22  1891  			 * w/ lower pos_ratio.
+c2aa723a609363 Tejun Heo       2015-05-22  1892  			 */
+aab09fbaa2dd34 Kemeng Shi      2024-04-29  1893  			wb_dirty_freerun(mdtc, strictlimit);
+aab09fbaa2dd34 Kemeng Shi      2024-04-29  1894  			if (mdtc->freerun)
+a37b0715ddf300 NeilBrown       2020-06-01  1895  				goto free_running;
+aab09fbaa2dd34 Kemeng Shi      2024-04-29  1896  
+8b8bf84233eccf Kemeng Shi      2024-04-29  1897  			wb_dirty_exceeded(mdtc, strictlimit);
+c2aa723a609363 Tejun Heo       2015-05-22  1898  			wb_position_ratio(mdtc);
+c2aa723a609363 Tejun Heo       2015-05-22  1899  			if (mdtc->pos_ratio < gdtc->pos_ratio)
+c2aa723a609363 Tejun Heo       2015-05-22  1900  				sdtc = mdtc;
+c2aa723a609363 Tejun Heo       2015-05-22  1901  		}
+daddfa3cb30ebf Tejun Heo       2015-05-22  1902  
+8b8bf84233eccf Kemeng Shi      2024-04-29 @1903  		wb->dirty_exceeded = gdtc->dirty_exceeded || mdtc->dirty_exceeded;
+                                                                                                             ^^^^^^
+Unchecked dereference
+
+20792ebf3eeb82 Jan Kara        2021-09-02  1904  		if (time_is_before_jiffies(READ_ONCE(wb->bw_time_stamp) +
+45a2966fd64147 Jan Kara        2021-09-02  1905  					   BANDWIDTH_INTERVAL))
+fee468fdf41cdf Jan Kara        2021-09-02  1906  			__wb_update_bandwidth(gdtc, mdtc, true);
+e98be2d599207c Wu Fengguang    2010-08-29  1907  
+c2aa723a609363 Tejun Heo       2015-05-22  1908  		/* throttle according to the chosen dtc */
+20792ebf3eeb82 Jan Kara        2021-09-02  1909  		dirty_ratelimit = READ_ONCE(wb->dirty_ratelimit);
+c2aa723a609363 Tejun Heo       2015-05-22  1910  		task_ratelimit = ((u64)dirty_ratelimit * sdtc->pos_ratio) >>
+3a73dbbc9bb3fc Wu Fengguang    2011-11-07  1911  							RATELIMIT_CALC_SHIFT;
+c2aa723a609363 Tejun Heo       2015-05-22  1912  		max_pause = wb_max_pause(wb, sdtc->wb_dirty);
+a88a341a73be4e Tejun Heo       2015-05-22  1913  		min_pause = wb_min_pause(wb, max_pause,
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1914  					 task_ratelimit, dirty_ratelimit,
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1915  					 &nr_dirtied_pause);
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1916  
+3a73dbbc9bb3fc Wu Fengguang    2011-11-07  1917  		if (unlikely(task_ratelimit == 0)) {
+83712358ba0a14 Wu Fengguang    2011-06-11  1918  			period = max_pause;
+c8462cc9de9e92 Wu Fengguang    2011-06-11  1919  			pause = max_pause;
+143dfe8611a630 Wu Fengguang    2010-08-27  1920  			goto pause;
+e50e37201ae2e7 Wu Fengguang    2010-08-11  1921  		}
+83712358ba0a14 Wu Fengguang    2011-06-11  1922  		period = HZ * pages_dirtied / task_ratelimit;
+83712358ba0a14 Wu Fengguang    2011-06-11  1923  		pause = period;
+83712358ba0a14 Wu Fengguang    2011-06-11  1924  		if (current->dirty_paused_when)
+83712358ba0a14 Wu Fengguang    2011-06-11  1925  			pause -= now - current->dirty_paused_when;
+83712358ba0a14 Wu Fengguang    2011-06-11  1926  		/*
+83712358ba0a14 Wu Fengguang    2011-06-11  1927  		 * For less than 1s think time (ext3/4 may block the dirtier
+83712358ba0a14 Wu Fengguang    2011-06-11  1928  		 * for up to 800ms from time to time on 1-HDD; so does xfs,
+83712358ba0a14 Wu Fengguang    2011-06-11  1929  		 * however at much less frequency), try to compensate it in
+83712358ba0a14 Wu Fengguang    2011-06-11  1930  		 * future periods by updating the virtual time; otherwise just
+83712358ba0a14 Wu Fengguang    2011-06-11  1931  		 * do a reset, as it may be a light dirtier.
+83712358ba0a14 Wu Fengguang    2011-06-11  1932  		 */
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1933  		if (pause < min_pause) {
+5634cc2aa9aebc Tejun Heo       2015-08-18  1934  			trace_balance_dirty_pages(wb,
+c2aa723a609363 Tejun Heo       2015-05-22  1935  						  sdtc->thresh,
+c2aa723a609363 Tejun Heo       2015-05-22  1936  						  sdtc->bg_thresh,
+c2aa723a609363 Tejun Heo       2015-05-22  1937  						  sdtc->dirty,
+c2aa723a609363 Tejun Heo       2015-05-22  1938  						  sdtc->wb_thresh,
+c2aa723a609363 Tejun Heo       2015-05-22  1939  						  sdtc->wb_dirty,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1940  						  dirty_ratelimit,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1941  						  task_ratelimit,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1942  						  pages_dirtied,
+83712358ba0a14 Wu Fengguang    2011-06-11  1943  						  period,
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1944  						  min(pause, 0L),
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1945  						  start_time);
+83712358ba0a14 Wu Fengguang    2011-06-11  1946  			if (pause < -HZ) {
+83712358ba0a14 Wu Fengguang    2011-06-11  1947  				current->dirty_paused_when = now;
+83712358ba0a14 Wu Fengguang    2011-06-11  1948  				current->nr_dirtied = 0;
+83712358ba0a14 Wu Fengguang    2011-06-11  1949  			} else if (period) {
+83712358ba0a14 Wu Fengguang    2011-06-11  1950  				current->dirty_paused_when += period;
+83712358ba0a14 Wu Fengguang    2011-06-11  1951  				current->nr_dirtied = 0;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1952  			} else if (current->nr_dirtied_pause <= pages_dirtied)
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1953  				current->nr_dirtied_pause += pages_dirtied;
+57fc978cfb61ed Wu Fengguang    2011-06-11  1954  			break;
+e50e37201ae2e7 Wu Fengguang    2010-08-11  1955  		}
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1956  		if (unlikely(pause > max_pause)) {
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1957  			/* for occasional dropped task_ratelimit */
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1958  			now += min(pause - max_pause, max_pause);
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1959  			pause = max_pause;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1960  		}
+143dfe8611a630 Wu Fengguang    2010-08-27  1961  
+143dfe8611a630 Wu Fengguang    2010-08-27  1962  pause:
+5634cc2aa9aebc Tejun Heo       2015-08-18  1963  		trace_balance_dirty_pages(wb,
+c2aa723a609363 Tejun Heo       2015-05-22  1964  					  sdtc->thresh,
+c2aa723a609363 Tejun Heo       2015-05-22  1965  					  sdtc->bg_thresh,
+c2aa723a609363 Tejun Heo       2015-05-22  1966  					  sdtc->dirty,
+c2aa723a609363 Tejun Heo       2015-05-22  1967  					  sdtc->wb_thresh,
+c2aa723a609363 Tejun Heo       2015-05-22  1968  					  sdtc->wb_dirty,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1969  					  dirty_ratelimit,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1970  					  task_ratelimit,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1971  					  pages_dirtied,
+83712358ba0a14 Wu Fengguang    2011-06-11  1972  					  period,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1973  					  pause,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1974  					  start_time);
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  1975  		if (flags & BDP_ASYNC) {
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  1976  			ret = -EAGAIN;
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  1977  			break;
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  1978  		}
+499d05ecf990a7 Jan Kara        2011-11-16  1979  		__set_current_state(TASK_KILLABLE);
+f814bdda774c18 Jan Kara        2024-01-23  1980  		bdi->last_bdp_sleep = jiffies;
+d25105e8911bff Wu Fengguang    2009-10-09  1981  		io_schedule_timeout(pause);
+87c6a9b253520b Jens Axboe      2009-09-17  1982  
+83712358ba0a14 Wu Fengguang    2011-06-11  1983  		current->dirty_paused_when = now + pause;
+83712358ba0a14 Wu Fengguang    2011-06-11  1984  		current->nr_dirtied = 0;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1985  		current->nr_dirtied_pause = nr_dirtied_pause;
+83712358ba0a14 Wu Fengguang    2011-06-11  1986  
+ffd1f609ab1053 Wu Fengguang    2011-06-19  1987  		/*
+2bc00aef030f4f Tejun Heo       2015-05-22  1988  		 * This is typically equal to (dirty < thresh) and can also
+2bc00aef030f4f Tejun Heo       2015-05-22  1989  		 * keep "1000+ dd on a slow USB stick" under control.
+ffd1f609ab1053 Wu Fengguang    2011-06-19  1990  		 */
+1df647197c5b8a Wu Fengguang    2011-11-13  1991  		if (task_ratelimit)
+ffd1f609ab1053 Wu Fengguang    2011-06-19  1992  			break;
+499d05ecf990a7 Jan Kara        2011-11-16  1993  
+c5c6343c4d75f9 Wu Fengguang    2011-12-02  1994  		/*
+f0953a1bbaca71 Ingo Molnar     2021-05-06  1995  		 * In the case of an unresponsive NFS server and the NFS dirty
+de1fff37b2781f Tejun Heo       2015-05-22  1996  		 * pages exceeds dirty_thresh, give the other good wb's a pipe
+c5c6343c4d75f9 Wu Fengguang    2011-12-02  1997  		 * to go through, so that tasks on them still remain responsive.
+c5c6343c4d75f9 Wu Fengguang    2011-12-02  1998  		 *
+3f8b6fb7f279c7 Masahiro Yamada 2017-02-27  1999  		 * In theory 1 page is enough to keep the consumer-producer
+c5c6343c4d75f9 Wu Fengguang    2011-12-02  2000  		 * pipe going: the flusher cleans 1 page => the task dirties 1
+de1fff37b2781f Tejun Heo       2015-05-22  2001  		 * more page. However wb_dirty has accounting errors.  So use
+93f78d882865cb Tejun Heo       2015-05-22  2002  		 * the larger and more IO friendly wb_stat_error.
+c5c6343c4d75f9 Wu Fengguang    2011-12-02  2003  		 */
+2bce774e8245e9 Wang Long       2017-11-15  2004  		if (sdtc->wb_dirty <= wb_stat_error())
+c5c6343c4d75f9 Wu Fengguang    2011-12-02  2005  			break;
+c5c6343c4d75f9 Wu Fengguang    2011-12-02  2006  
+499d05ecf990a7 Jan Kara        2011-11-16  2007  		if (fatal_signal_pending(current))
+499d05ecf990a7 Jan Kara        2011-11-16  2008  			break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  2009  	}
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  2010  	return ret;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  2011  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
