@@ -1,122 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6AD63B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 02:35:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BFED53B;
+	Tue, 30 Apr 2024 02:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714444507; cv=none; b=FckEeVhUejMMJdaf2p001pRixq5AGhU4rYvEAFLe+zqr9gtuddRMc07UDsG7By/AHXNomlteWq4ZzdXM5cN27yLT+GR5yf6reeFxfJ7p49isCnWzpQCO5DjdK7Sz5HtwfyT3yVBvTUxFlyBoyZZSWkXpktDIuCKABPWjPRYgWa0=
+	t=1714445710; cv=none; b=Wbjw+cPQ0+Y3ixSJlI74fDrxqaJpVNmd6B11XMqLYE+Gi4ccvFYe4ChTZwjPosNAnj+V0XJUq8guLbaCzUS5bYRZq2MG35HYxLxpd/IHLBZlp9DLy1SuXpD6fy1Tnz6Zvm6outQI+p3Drh/SX4lc/4HaIuEwVwo5O6YGkuYREYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714444507; c=relaxed/simple;
-	bh=mBW04Q10joVZ1ZQMyWnTefjJ26duJvYfVCzyImQtuCg=;
+	s=arc-20240116; t=1714445710; c=relaxed/simple;
+	bh=ExWorg8csLev0xgzdbCQ6Dl33M2pKTLdVDyAyE9ASyM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kxQFfuo6djJ/UG5/d0NgwoDWF4/tRjVpHVSURnEpO309SyjwdmODGvUdBft/T1a2IYmucMnZ4gAgv0A8sQBSHA3OvYGyWyujkJtV7tq/2F7fEDj2hDkQvIm7ZyVM0saFYIOUepc9HEmeceknmyQTF4C+w+P/5u0YPwccGQf4moA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H2FaKOQz; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=l27SdVqdrTuSJyZGL9+470vZT94bUjOfEOgaTE+OiU+UffLIxcpZPY+yzTbRZAKn55u+RNtJ7PS0U5ik2f9iydcvFXgCNuzE55jfSrOXvBV5K1XlTuPHEotRp/QPpfBTks+FvDPhY2uN7suwlQYkM11LHYCZF5QV+eISeDyLSwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=es3ARhll; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H2FaKOQz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="es3ARhll"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714444505; x=1745980505;
+  t=1714445709; x=1745981709;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mBW04Q10joVZ1ZQMyWnTefjJ26duJvYfVCzyImQtuCg=;
-  b=H2FaKOQz5YeaE2DBPDnqfWenWe6pBhdfQDnhcu+51D3rbvtSsZrsmjhl
-   fWGMMR6/dmElyjBdLJ+znSRsgp6CSrhr8Dgcb9LX5C3tVeCTBo2Y0t251
-   niKbJwPxbBuHcGrRQrU0JgAd1F3hGmg4+cgaKurSmh2LUv4DQEi+G0LeS
-   +JRU1uH4ow4B9H7NoPQ8zb4YlbNSICT9ccwwFLwtSw+R9LS/ZTSUuV7GN
-   In5T4vC02Jae8Msjegoz9dKENTKQepL8mjeVMoDgl64Im1bPW+ldAFVzI
-   U0sCmG+myuaT/VtzS0gN68B4TQJJTqsa2X2ZLvqXRTitOeEVLxIL7apJ4
-   Q==;
-X-CSE-ConnectionGUID: dzc9cO9iT7W8TRFCrw6s9A==
-X-CSE-MsgGUID: 9TJ2SQb5TOGVPfeFy0nMww==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="21279193"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ExWorg8csLev0xgzdbCQ6Dl33M2pKTLdVDyAyE9ASyM=;
+  b=es3ARhllIKfGuQ0Vg53Gb7EOSMSRycbMu7fdQhmiQG6i5YoKUd708ai8
+   QAoLBUXLahL96JHliA5BiuyRva5kAfKpxXMIQgUNBGxWOXrPfNoP5oM6o
+   DLVOQTDiaKvdMN2s/fkSaiqbd3Bd8OVxei7MnXNY9ZmQISccZk1BhocIb
+   ZluW7YU9i63WQSdioBseFlCkxEtfVmzmTBSrgrmXqF6zox5ysWP8Eo0gY
+   9s2jbDYUjYvRKakhzWxF8nNrfUvHQOPcFWOSmFEpZPB4AzCzTErQpbrY5
+   dLMQRZcIFjQ2Jd0o/GPBxmau/16vUbaiXbVI7QaU1AJc62OriMnm7bH9Q
+   A==;
+X-CSE-ConnectionGUID: MfmoaEOyS5WB2+f69EVegw==
+X-CSE-MsgGUID: pJzOH6rQTnSMFTmkHrHIXw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="27649046"
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="21279193"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 19:35:05 -0700
-X-CSE-ConnectionGUID: D0PpkDjPSAaWH09WHdchXg==
-X-CSE-MsgGUID: O77IF/3oRzKaWpgL7k7Ugg==
+   d="scan'208";a="27649046"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 19:55:08 -0700
+X-CSE-ConnectionGUID: hjsGboJWRqK0rLAoDpFUKw==
+X-CSE-MsgGUID: uDyaMgUMR9WCv7ZKHDwQ5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="31001051"
+   d="scan'208";a="26315478"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 29 Apr 2024 19:35:01 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 29 Apr 2024 19:55:06 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1dKd-0007dQ-1U;
-	Tue, 30 Apr 2024 02:34:59 +0000
-Date: Tue, 30 Apr 2024 10:33:58 +0800
+	id 1s1de4-0007e8-0u;
+	Tue, 30 Apr 2024 02:55:04 +0000
+Date: Tue, 30 Apr 2024 10:54:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>,
-	netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 2/2] net: dsa: Remove adjust_link paths
-Message-ID: <202404301046.whP44a3U-lkp@intel.com>
-References: <20240429165405.2298962-3-florian.fainelli@broadcom.com>
+To: =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 12/12] regulator/core: use rdev->dev.driver_data
+Message-ID: <202404301020.eKVj3WAI-lkp@intel.com>
+References: <0a480abe4913f0169f9693f6f959fbe1a397ae93.1714399603.git.mirq-linux@rere.qmqm.pl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240429165405.2298962-3-florian.fainelli@broadcom.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0a480abe4913f0169f9693f6f959fbe1a397ae93.1714399603.git.mirq-linux@rere.qmqm.pl>
 
-Hi Florian,
+Hi Michał,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on broonie-regulator/for-next]
+[also build test ERROR on linus/master v6.9-rc6 next-20240429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Fainelli/net-dsa-Remove-fixed_link_update-member/20240430-005631
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240429165405.2298962-3-florian.fainelli%40broadcom.com
-patch subject: [PATCH net-next v2 2/2] net: dsa: Remove adjust_link paths
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240430/202404301046.whP44a3U-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404301046.whP44a3U-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Miros-aw/regulator-core-_regulator_get-simplify-error-returns/20240429-225643
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/0a480abe4913f0169f9693f6f959fbe1a397ae93.1714399603.git.mirq-linux%40rere.qmqm.pl
+patch subject: [PATCH v2 12/12] regulator/core: use rdev->dev.driver_data
+config: arm-randconfig-001-20240430 (https://download.01.org/0day-ci/archive/20240430/202404301020.eKVj3WAI-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404301020.eKVj3WAI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404301046.whP44a3U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404301020.eKVj3WAI-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/dsa/port.c: In function 'dsa_port_phylink_mac_link_down':
->> net/dsa/port.c:1603:17: error: 'phydev' undeclared (first use in this function)
-    1603 |                 phydev = dp->user->phydev;
-         |                 ^~~~~~
-   net/dsa/port.c:1603:17: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from drivers/pinctrl/renesas/pfc-sh73a0.c:12:
+   In file included from include/linux/regulator/driver.h:18:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/pinctrl/renesas/pfc-sh73a0.c:4027:28: error: no member named 'reg_data' in 'struct regulator_dev'
+    4027 |         struct sh_pfc *pfc = reg->reg_data;
+         |                              ~~~  ^
+   drivers/pinctrl/renesas/pfc-sh73a0.c:4060:28: error: no member named 'reg_data' in 'struct regulator_dev'
+    4060 |         struct sh_pfc *pfc = reg->reg_data;
+         |                              ~~~  ^
+   1 warning and 2 errors generated.
 
 
-vim +/phydev +1603 net/dsa/port.c
+vim +4027 drivers/pinctrl/renesas/pfc-sh73a0.c
 
-dd805cf3e80e03 Russell King (Oracle  2023-05-25  1594) 
-8ae674964e67eb Florian Fainelli      2019-12-16  1595  static void dsa_port_phylink_mac_link_down(struct phylink_config *config,
-77373d49de22e8 Ioana Ciornei         2019-05-28  1596  					   unsigned int mode,
-77373d49de22e8 Ioana Ciornei         2019-05-28  1597  					   phy_interface_t interface)
-77373d49de22e8 Ioana Ciornei         2019-05-28  1598  {
-dd0c9855b41310 Russell King (Oracle  2024-04-10  1599) 	struct dsa_port *dp = dsa_phylink_to_port(config);
-77373d49de22e8 Ioana Ciornei         2019-05-28  1600  	struct dsa_switch *ds = dp->ds;
-77373d49de22e8 Ioana Ciornei         2019-05-28  1601  
-57d77986e74287 Vladimir Oltean       2021-10-20  1602  	if (dsa_port_is_user(dp))
-6ca80638b90cec Florian Fainelli      2023-10-23 @1603  		phydev = dp->user->phydev;
-0e27921816ad99 Ioana Ciornei         2019-05-28  1604  
-e9829e26ff2c61 Florian Fainelli      2024-04-29  1605  	if (!ds->ops->phylink_mac_link_down)
-77373d49de22e8 Ioana Ciornei         2019-05-28  1606  		return;
-77373d49de22e8 Ioana Ciornei         2019-05-28  1607  
-77373d49de22e8 Ioana Ciornei         2019-05-28  1608  	ds->ops->phylink_mac_link_down(ds, dp->index, mode, interface);
-77373d49de22e8 Ioana Ciornei         2019-05-28  1609  }
-77373d49de22e8 Ioana Ciornei         2019-05-28  1610  
+5d5166dc39bcbe drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2012-12-15  4020  
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4021  /* -----------------------------------------------------------------------------
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4022   * VCCQ MC0 regulator
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4023   */
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4024  
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4025  static void sh73a0_vccq_mc0_endisable(struct regulator_dev *reg, bool enable)
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4026  {
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21 @4027  	struct sh_pfc *pfc = reg->reg_data;
+5b46ac3a772363 drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-12-11  4028  	void __iomem *addr = pfc->windows[1].virt + 4;
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4029  	unsigned long flags;
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4030  	u32 value;
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4031  
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4032  	spin_lock_irqsave(&pfc->lock, flags);
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4033  
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4034  	value = ioread32(addr);
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4035  
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4036  	if (enable)
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4037  		value |= BIT(28);
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4038  	else
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4039  		value &= ~BIT(28);
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4040  
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4041  	iowrite32(value, addr);
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4042  
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4043  	spin_unlock_irqrestore(&pfc->lock, flags);
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4044  }
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4045  
 
 -- 
 0-DAY CI Kernel Test Service
