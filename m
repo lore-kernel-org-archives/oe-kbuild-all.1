@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE39523A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 01:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2F617F5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 01:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714441262; cv=none; b=ShFC1WWZucyhsyjNl1y7zzEAsCOfNTVXk7ooWNIJ3cJkKux892u38kVWDeeEnP+37XJppgJ41HqjPub78HtzDbJ3HsAWuE3aa1B3NH+EA1q5p0anwXCEwUYef59AJsijL+iAmG7Zwm048is/jt6GM6yPdw4cfQmcSfJGW3bP88Y=
+	t=1714441326; cv=none; b=qQaU/XkC2bWeWoUXFIvf0BNOoQ357zQ231maMw57wR0gWB5PqgQPp7xoFhMgvJs7ZtGex1KcPwCK7AzXiWRYosOmB6NaKJnZUj1XOLxxS2YYatihXCWw6JpXlSuu9+lvWPFsozHWtzOGhXADa9LqqXvsqUGnfQ/PtMG6YVBYsw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714441262; c=relaxed/simple;
-	bh=6IhX8j55N1ZdHwebZDJq4mj1vDlDSNifeGdUqXvyoPg=;
+	s=arc-20240116; t=1714441326; c=relaxed/simple;
+	bh=5XoiHpSMYh2/uBEkMR7qjxCtCALdCO7yqmhoIHn7TC4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Sk6U9fFhg/eV2RNvLZ+RfeXBqX0W9BDqgAc8KcuFA3B0OK2DMJY7Tt71xXb21b1v++ot7JJfRbFWBa2lL580QJQVB85qJ/MD0zg09hdm8cQblvwdlip+BKPhxUOrNCwOQAQftWpsNSdkzFGIgC6Xj2yvGSX1frWj5Rh2KtigxIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gMNptWdI; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=CgtTLve0oxjMnx5nLBpzWk2uPTXwtEmDlCFAtZeRuyKckJu94d7fcJ7DDKDWE1DFKlB3CCrxkxfiZTfJyz+nK1GDTXZDA79hGhaXh5pwA4tF24+vwCcf71lqRic94B5hrOZIZNrgc4mSx34c/SxD5OIoHR+VUkvzc2rG5RPXDFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nAF/HbZh; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gMNptWdI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nAF/HbZh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714441260; x=1745977260;
+  t=1714441323; x=1745977323;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6IhX8j55N1ZdHwebZDJq4mj1vDlDSNifeGdUqXvyoPg=;
-  b=gMNptWdIBVO8zgXwB0wP2cfX+WNF0Iu8BWvald96KMKlJwfLBYw3vGQa
-   jFgnWHr54qXX/3pL4Cek04PtxpflGcyzIfwd5l/tuTIp9mg58vGR2FsFd
-   w6Gb9gxwGCuiqAtx707ymNvLqPVCi2P1+LQq9+DFJ72zUN9V1ccnYCL6j
-   AF2lER/2JPRhnC+PvgRpJxr9WbSeIe3N3BYbXJo6fTPM0O0LsoqQ43srY
-   ARbfgqW2yXXQzeFc8gnZmiTtYG1mRgK9hr0fEk5Mh92STfHo2Yg4oRgxY
-   8OK0itCms08maHmc9z28qzLBFkPq0v2wD8Pg/JSC+WRTvl1lrb1GCXTm2
-   g==;
-X-CSE-ConnectionGUID: cfmooA+pRo6j6djQHTFJFw==
-X-CSE-MsgGUID: sAueaFhZSZe3kiPrgbHGug==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="27573523"
+  bh=5XoiHpSMYh2/uBEkMR7qjxCtCALdCO7yqmhoIHn7TC4=;
+  b=nAF/HbZhGkTvUW4JE/L0qK8rZvkQjUfeo+Sf/Bd6tKrUklN9NW6q86/j
+   Y2WG+QMQ7DNrF4Z9oUxUOyY5hfL+pAM6vCDCpisLKC3Qx7n1DOSSC6c5o
+   K4dxzAdp2DWAqXt6ndDvvaRfHkXp97DGLk/jf13/eNSzcrcLcIP1g4tEF
+   Go32+JCy9+u/ZPssoCtAv08fTxAwcd3PaMvGrvOKI2bzgmUIE6H+9Le2H
+   xSwFk6s7syUgfHuA8GeMMn1QIbrsnwn8ZBhkKs0gPcKvZ62rwTihcgKOq
+   goCMUIvo5AjqzvrRUE/eYdw2bNf9aybQZGm0qj8z72na2J6SyUYFJX2lh
+   A==;
+X-CSE-ConnectionGUID: ZFOuGIKFS3iyodmOzFE2Zg==
+X-CSE-MsgGUID: gUf8U0k+R2S/LaCc3PbSEg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10294639"
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="27573523"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 18:40:59 -0700
-X-CSE-ConnectionGUID: w9uR4jKrQRCrPe12wdqXmA==
-X-CSE-MsgGUID: YI8CafGzQu+38Boo5LdJ8A==
+   d="scan'208";a="10294639"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 18:42:02 -0700
+X-CSE-ConnectionGUID: Yfo6QYM4S7Cv/awlpz6EIA==
+X-CSE-MsgGUID: Ik8NyoYoSIaCz/+IqPSdwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="26913840"
+   d="scan'208";a="30749717"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 29 Apr 2024 18:40:58 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 29 Apr 2024 18:42:00 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1cUJ-0007bg-1W;
-	Tue, 30 Apr 2024 01:40:55 +0000
-Date: Tue, 30 Apr 2024 09:40:41 +0800
+	id 1s1cVK-0007bk-11;
+	Tue, 30 Apr 2024 01:41:58 +0000
+Date: Tue, 30 Apr 2024 09:41:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 15647/22256]
- kernel/sched/sparsemask.h:98:17: warning: array subscript 0 is outside array
- bounds of 'const struct sparsemask_chunk[0]'
-Message-ID: <202404300955.dFOHBkZ8-lkp@intel.com>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Phil Auld <pauld@redhat.com>
+Subject: kernel/sched/isolation.c:143 housekeeping_setup() warn: always true
+ condition '(first_cpu >= 0) => (0-u32max >= 0)'
+Message-ID: <202404300915.WNvfwBz3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,295 +64,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   3c3550371ac3e9d3326c8263a6eb52d3bb0b43a8
-commit: bccfa644c1b98b9d6fa102a39a10a1c52811fd0c [15647/22256] sched/fair: Steal work from an overloaded CPU when CPU goes idle
-config: x86_64-randconfig-003-20240430 (https://download.01.org/0day-ci/archive/20240430/202404300955.dFOHBkZ8-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404300955.dFOHBkZ8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   98369dccd2f8e16bf4c6621053af7aa4821dcf8e
+commit: 257bf89d84121280904800acd25cc2c444c717ae sched/isolation: Fix boot crash when maxcpus < first housekeeping CPU
+date:   2 days ago
+config: xtensa-randconfig-r081-20240429 (https://download.01.org/0day-ci/archive/20240430/202404300915.WNvfwBz3-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404300955.dFOHBkZ8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404300915.WNvfwBz3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+kernel/sched/isolation.c:143 housekeeping_setup() warn: always true condition '(first_cpu >= 0) => (0-u32max >= 0)'
 
-   kernel/sched/fair.c:2548:6: warning: no previous prototype for 'task_numa_work' [-Wmissing-prototypes]
-    2548 | void task_numa_work(struct callback_head *work)
-         |      ^~~~~~~~~~~~~~
-   kernel/sched/fair.c:2694:6: warning: no previous prototype for 'task_tick_numa' [-Wmissing-prototypes]
-    2694 | void task_tick_numa(struct rq *rq, struct task_struct *curr)
-         |      ^~~~~~~~~~~~~~
-   kernel/sched/fair.c:3658:6: warning: no previous prototype for 'sync_entity_load_avg' [-Wmissing-prototypes]
-    3658 | void sync_entity_load_avg(struct sched_entity *se)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:3671:6: warning: no previous prototype for 'remove_entity_load_avg' [-Wmissing-prototypes]
-    3671 | void remove_entity_load_avg(struct sched_entity *se)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'update_blocked_averages':
-   kernel/sched/fair.c:7626:14: warning: variable 'done' set but not used [-Wunused-but-set-variable]
-    7626 |         bool done = true;
-         |              ^~~~
-   In function 'group_faults_priv',
-       inlined from 'task_scan_max' at kernel/sched/fair.c:1175:27:
-   kernel/sched/fair.c:1307:37: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-    1307 |                 faults += ng->faults[task_faults_idx(NUMA_MEM, node, 1)];
-         |                           ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'task_scan_max':
-   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
-    1083 |         unsigned long faults[0];
-         |                       ^~~~~~
-   In function 'group_faults_shared',
-       inlined from 'task_scan_max' at kernel/sched/fair.c:1174:26:
-   kernel/sched/fair.c:1319:37: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-    1319 |                 faults += ng->faults[task_faults_idx(NUMA_MEM, node, 0)];
-         |                           ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'task_scan_max':
-   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
-    1083 |         unsigned long faults[0];
-         |                       ^~~~~~
-   In function 'group_faults_priv',
-       inlined from 'task_scan_start' at kernel/sched/fair.c:1151:27:
-   kernel/sched/fair.c:1307:37: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-    1307 |                 faults += ng->faults[task_faults_idx(NUMA_MEM, node, 1)];
-         |                           ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'task_scan_start':
-   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
-    1083 |         unsigned long faults[0];
-         |                       ^~~~~~
-   In function 'group_faults_shared',
-       inlined from 'task_scan_start' at kernel/sched/fair.c:1150:26:
-   kernel/sched/fair.c:1319:37: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-    1319 |                 faults += ng->faults[task_faults_idx(NUMA_MEM, node, 0)];
-         |                           ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'task_scan_start':
-   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
-    1083 |         unsigned long faults[0];
-         |                       ^~~~~~
-   In file included from include/linux/bitops.h:19,
-                    from include/linux/kernel.h:11,
-                    from arch/x86/include/asm/percpu.h:45,
-                    from arch/x86/include/asm/current.h:6,
-                    from include/linux/sched.h:12,
-                    from kernel/sched/sched.h:5,
-                    from kernel/sched/fair.c:23:
-   In function 'sparsemask_test_elem',
-       inlined from 'try_steal' at kernel/sched/fair.c:10007:8:
-   kernel/sched/sparsemask.h:53:10: warning: array subscript <unknown> is outside array bounds of 'const struct sparsemask_chunk[0]' [-Warray-bounds=]
-      53 |         (&(mask)->chunks[SMASK_INDEX((mask), (elem))].word)
-   arch/x86/include/asm/bitops.h:341:37: note: in definition of macro 'test_bit'
-     341 |          : variable_test_bit((nr), (addr)))
-         |                                     ^~~~
-   kernel/sched/sparsemask.h:191:48: note: in expansion of macro 'SMASK_WORD'
-     191 |         return test_bit(SMASK_BIT(mask, elem), SMASK_WORD(mask, elem));
-         |                                                ^~~~~~~~~~
-   In file included from kernel/sched/fair.c:24:
-   kernel/sched/sparsemask.h: In function 'try_steal':
-   kernel/sched/sparsemask.h:45:33: note: while referencing 'chunks'
-      45 |         struct sparsemask_chunk chunks[0];  /* embedded array of chunks */
-         |                                 ^~~~~~
-   In function 'sparsemask_next',
-       inlined from 'try_steal' at kernel/sched/fair.c:10018:2:
-   kernel/sched/sparsemask.h:98:17: warning: array subscript <unknown> is outside array bounds of 'const struct sparsemask_chunk[0]' [-Warray-bounds=]
-      98 |         chunk = &mask->chunks[_SMASK_INDEX(density, next)];
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/sparsemask.h: In function 'try_steal':
-   kernel/sched/sparsemask.h:45:33: note: while referencing 'chunks'
-      45 |         struct sparsemask_chunk chunks[0];  /* embedded array of chunks */
-         |                                 ^~~~~~
-   In function 'sparsemask_next',
-       inlined from 'try_steal' at kernel/sched/fair.c:10018:2:
->> kernel/sched/sparsemask.h:98:17: warning: array subscript 0 is outside array bounds of 'const struct sparsemask_chunk[0]' [-Warray-bounds=]
-      98 |         chunk = &mask->chunks[_SMASK_INDEX(density, next)];
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/sparsemask.h: In function 'try_steal':
-   kernel/sched/sparsemask.h:45:33: note: while referencing 'chunks'
-      45 |         struct sparsemask_chunk chunks[0];  /* embedded array of chunks */
-         |                                 ^~~~~~
-   In function 'sparsemask_next',
-       inlined from 'try_steal' at kernel/sched/fair.c:10018:2:
-   kernel/sched/sparsemask.h:98:30: warning: array subscript <unknown> is outside array bounds of 'const struct sparsemask_chunk[0]' [-Warray-bounds=]
-      98 |         chunk = &mask->chunks[_SMASK_INDEX(density, next)];
-         |                  ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/sparsemask.h: In function 'try_steal':
-   kernel/sched/sparsemask.h:45:33: note: while referencing 'chunks'
-      45 |         struct sparsemask_chunk chunks[0];  /* embedded array of chunks */
-         |                                 ^~~~~~
-   kernel/sched/fair.c: In function 'task_numa_group':
-   kernel/sched/fair.c:2335:36: warning: array subscript i is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-    2335 |                         grp->faults[i] = p->numa_faults[i];
-         |                         ~~~~~~~~~~~^~~
-   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
-    1083 |         unsigned long faults[0];
-         |                       ^~~~~~
-   kernel/sched/fair.c:2393:31: warning: array subscript i is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-    2393 |                 my_grp->faults[i] -= p->numa_faults[i];
-         |                 ~~~~~~~~~~~~~~^~~
-   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
-    1083 |         unsigned long faults[0];
-         |                       ^~~~~~
-   kernel/sched/fair.c:2393:31: warning: array subscript i is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-    2393 |                 my_grp->faults[i] -= p->numa_faults[i];
-         |                 ~~~~~~~~~~~~~~^~~
-   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
-    1083 |         unsigned long faults[0];
-         |                       ^~~~~~
-   kernel/sched/fair.c:2394:28: warning: array subscript i is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-    2394 |                 grp->faults[i] += p->numa_faults[i];
-         |                 ~~~~~~~~~~~^~~
-   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
-    1083 |         unsigned long faults[0];
-         |                       ^~~~~~
-   kernel/sched/fair.c:2394:28: warning: array subscript i is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-    2394 |                 grp->faults[i] += p->numa_faults[i];
-         |                 ~~~~~~~~~~~^~~
-   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
-    1083 |         unsigned long faults[0];
-         |                       ^~~~~~
-   In function 'sparsemask_clear_elem',
-       inlined from 'overload_clear.part.0' at kernel/sched/fair.c:3834:3:
-   kernel/sched/sparsemask.h:53:10: warning: array subscript <unknown> is outside array bounds of 'struct sparsemask_chunk[0]' [-Warray-bounds=]
-      53 |         (&(mask)->chunks[SMASK_INDEX((mask), (elem))].word)
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/sparsemask.h:186:41: note: in expansion of macro 'SMASK_WORD'
-     186 |         clear_bit(SMASK_BIT(dst, elem), SMASK_WORD(dst, elem));
-         |                                         ^~~~~~~~~~
-   kernel/sched/sparsemask.h: In function 'overload_clear.part.0':
-   kernel/sched/sparsemask.h:45:33: note: while referencing 'chunks'
-      45 |         struct sparsemask_chunk chunks[0];  /* embedded array of chunks */
-         |                                 ^~~~~~
-   In function 'group_faults',
-       inlined from 'score_nearby_nodes.part.0' at kernel/sched/fair.c:1381:13:
-   kernel/sched/fair.c:1291:26: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-    1291 |         return ng->faults[task_faults_idx(NUMA_MEM, nid, 0)] +
-         |                ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'score_nearby_nodes.part.0':
-   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
-    1083 |         unsigned long faults[0];
-         |                       ^~~~~~
-   In function 'group_faults',
-       inlined from 'score_nearby_nodes.part.0' at kernel/sched/fair.c:1381:13:
-   kernel/sched/fair.c:1292:27: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-    1292 |                 ng->faults[task_faults_idx(NUMA_MEM, nid, 1)];
-         |                 ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'score_nearby_nodes.part.0':
-   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
-    1083 |         unsigned long faults[0];
-         |                       ^~~~~~
-   In function 'group_faults',
-       inlined from 'preferred_group_nid' at kernel/sched/fair.c:2161:16:
-   kernel/sched/fair.c:1291:26: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-    1291 |         return ng->faults[task_faults_idx(NUMA_MEM, nid, 0)] +
-         |                ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'preferred_group_nid':
-   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
-    1083 |         unsigned long faults[0];
-         |                       ^~~~~~
-   In function 'group_faults',
-       inlined from 'preferred_group_nid' at kernel/sched/fair.c:2161:16:
-   kernel/sched/fair.c:1292:27: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-    1292 |                 ng->faults[task_faults_idx(NUMA_MEM, nid, 1)];
-         |                 ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'preferred_group_nid':
-   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
-    1083 |         unsigned long faults[0];
-         |                       ^~~~~~
-   In function 'group_faults',
-       inlined from 'group_weight' at kernel/sched/fair.c:1441:11,
-       inlined from 'preferred_group_nid' at kernel/sched/fair.c:2125:12:
-   kernel/sched/fair.c:1291:26: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-    1291 |         return ng->faults[task_faults_idx(NUMA_MEM, nid, 0)] +
-         |                ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Old smatch warnings:
+arch/xtensa/include/asm/thread_info.h:97 current_thread_info() warn: inconsistent indenting
 
+vim +143 kernel/sched/isolation.c
 
-vim +98 kernel/sched/sparsemask.h
-
-6866be5a3aff4b Steve Sistare 2021-04-14   47  
-6866be5a3aff4b Steve Sistare 2021-04-14   48  #define _SMASK_INDEX(density, elem)	((elem) >> (density))
-6866be5a3aff4b Steve Sistare 2021-04-14   49  #define _SMASK_BIT(density, elem)	((elem) & ((1U << (density)) - 1U))
-6866be5a3aff4b Steve Sistare 2021-04-14   50  #define SMASK_INDEX(mask, elem)		_SMASK_INDEX((mask)->density, elem)
-6866be5a3aff4b Steve Sistare 2021-04-14   51  #define SMASK_BIT(mask, elem)		_SMASK_BIT((mask)->density, elem)
-6866be5a3aff4b Steve Sistare 2021-04-14   52  #define SMASK_WORD(mask, elem)		\
-6866be5a3aff4b Steve Sistare 2021-04-14   53  	(&(mask)->chunks[SMASK_INDEX((mask), (elem))].word)
-6866be5a3aff4b Steve Sistare 2021-04-14   54  
-6866be5a3aff4b Steve Sistare 2021-04-14   55  /*
-6866be5a3aff4b Steve Sistare 2021-04-14   56   * sparsemask_next() - Return the next one bit in a bitmap, starting at a
-6866be5a3aff4b Steve Sistare 2021-04-14   57   * specified position and wrapping from the last bit to the first, up to but
-6866be5a3aff4b Steve Sistare 2021-04-14   58   * not including a specified origin.  This is a helper, so do not call it
-6866be5a3aff4b Steve Sistare 2021-04-14   59   * directly.
-6866be5a3aff4b Steve Sistare 2021-04-14   60   *
-6866be5a3aff4b Steve Sistare 2021-04-14   61   * @mask: Bitmap to search.
-6866be5a3aff4b Steve Sistare 2021-04-14   62   * @origin: Origin.
-6866be5a3aff4b Steve Sistare 2021-04-14   63   * @prev: Previous bit. Start search after this bit number.
-6866be5a3aff4b Steve Sistare 2021-04-14   64   *	  If -1, start search at @origin.
-6866be5a3aff4b Steve Sistare 2021-04-14   65   *
-6866be5a3aff4b Steve Sistare 2021-04-14   66   * Return: the bit number, else mask->nelems if no bits are set in the range.
-6866be5a3aff4b Steve Sistare 2021-04-14   67   */
-6866be5a3aff4b Steve Sistare 2021-04-14   68  static inline int
-6866be5a3aff4b Steve Sistare 2021-04-14   69  sparsemask_next(const struct sparsemask *mask, int origin, int prev)
-6866be5a3aff4b Steve Sistare 2021-04-14   70  {
-6866be5a3aff4b Steve Sistare 2021-04-14   71  	int density = mask->density;
-6866be5a3aff4b Steve Sistare 2021-04-14   72  	int bits_per_word = 1U << density;
-6866be5a3aff4b Steve Sistare 2021-04-14   73  	const struct sparsemask_chunk *chunk;
-6866be5a3aff4b Steve Sistare 2021-04-14   74  	int nelems = mask->nelems;
-6866be5a3aff4b Steve Sistare 2021-04-14   75  	int next, bit, nbits;
-6866be5a3aff4b Steve Sistare 2021-04-14   76  	unsigned long word;
-6866be5a3aff4b Steve Sistare 2021-04-14   77  
-6866be5a3aff4b Steve Sistare 2021-04-14   78  	/* Calculate number of bits to be searched. */
-6866be5a3aff4b Steve Sistare 2021-04-14   79  	if (prev == -1) {
-6866be5a3aff4b Steve Sistare 2021-04-14   80  		nbits = nelems;
-6866be5a3aff4b Steve Sistare 2021-04-14   81  		next = origin;
-6866be5a3aff4b Steve Sistare 2021-04-14   82  	} else if (prev < origin) {
-6866be5a3aff4b Steve Sistare 2021-04-14   83  		nbits = origin - prev;
-6866be5a3aff4b Steve Sistare 2021-04-14   84  		next = prev + 1;
-6866be5a3aff4b Steve Sistare 2021-04-14   85  	} else {
-6866be5a3aff4b Steve Sistare 2021-04-14   86  		nbits = nelems - prev + origin - 1;
-6866be5a3aff4b Steve Sistare 2021-04-14   87  		next = prev + 1;
-6866be5a3aff4b Steve Sistare 2021-04-14   88  	}
-6866be5a3aff4b Steve Sistare 2021-04-14   89  
-6866be5a3aff4b Steve Sistare 2021-04-14   90  	if (unlikely(next >= nelems))
-6866be5a3aff4b Steve Sistare 2021-04-14   91  		return nelems;
-6866be5a3aff4b Steve Sistare 2021-04-14   92  
-6866be5a3aff4b Steve Sistare 2021-04-14   93  	/*
-6866be5a3aff4b Steve Sistare 2021-04-14   94  	 * Fetch and adjust first word.  Clear word bits below @next, and round
-6866be5a3aff4b Steve Sistare 2021-04-14   95  	 * @next down to @bits_per_word boundary because later ffs will add
-6866be5a3aff4b Steve Sistare 2021-04-14   96  	 * those bits back.
-6866be5a3aff4b Steve Sistare 2021-04-14   97  	 */
-6866be5a3aff4b Steve Sistare 2021-04-14  @98  	chunk = &mask->chunks[_SMASK_INDEX(density, next)];
-6866be5a3aff4b Steve Sistare 2021-04-14   99  	bit = _SMASK_BIT(density, next);
-6866be5a3aff4b Steve Sistare 2021-04-14  100  	word = chunk->word & (~0UL << bit);
-6866be5a3aff4b Steve Sistare 2021-04-14  101  	next -= bit;
-6866be5a3aff4b Steve Sistare 2021-04-14  102  	nbits += bit;
-6866be5a3aff4b Steve Sistare 2021-04-14  103  
-6866be5a3aff4b Steve Sistare 2021-04-14  104  	while (!word) {
-6866be5a3aff4b Steve Sistare 2021-04-14  105  		next += bits_per_word;
-6866be5a3aff4b Steve Sistare 2021-04-14  106  		nbits -= bits_per_word;
-6866be5a3aff4b Steve Sistare 2021-04-14  107  		if (nbits <= 0)
-6866be5a3aff4b Steve Sistare 2021-04-14  108  			return nelems;
-6866be5a3aff4b Steve Sistare 2021-04-14  109  
-6866be5a3aff4b Steve Sistare 2021-04-14  110  		if (next >= nelems) {
-6866be5a3aff4b Steve Sistare 2021-04-14  111  			chunk = mask->chunks;
-6866be5a3aff4b Steve Sistare 2021-04-14  112  			nbits -= (next - nelems);
-6866be5a3aff4b Steve Sistare 2021-04-14  113  			next = 0;
-6866be5a3aff4b Steve Sistare 2021-04-14  114  		} else {
-6866be5a3aff4b Steve Sistare 2021-04-14  115  			chunk++;
-6866be5a3aff4b Steve Sistare 2021-04-14  116  		}
-6866be5a3aff4b Steve Sistare 2021-04-14  117  		word = chunk->word;
-6866be5a3aff4b Steve Sistare 2021-04-14  118  	}
-6866be5a3aff4b Steve Sistare 2021-04-14  119  
-6866be5a3aff4b Steve Sistare 2021-04-14  120  	next += __ffs(word);
-6866be5a3aff4b Steve Sistare 2021-04-14  121  	if (next >= origin && prev != -1)
-6866be5a3aff4b Steve Sistare 2021-04-14  122  		return nelems;
-6866be5a3aff4b Steve Sistare 2021-04-14  123  	return next;
-6866be5a3aff4b Steve Sistare 2021-04-14  124  }
-6866be5a3aff4b Steve Sistare 2021-04-14  125  
-
-:::::: The code at line 98 was first introduced by commit
-:::::: 6866be5a3aff4bbd949059927d8f8790be53e3dd sched: Provide sparsemask, a reduced contention bitmap
-
-:::::: TO: Steve Sistare <steven.sistare@oracle.com>
-:::::: CC: Cheng Jian <cj.chengjian@huawei.com>
+   117	
+   118	static int __init housekeeping_setup(char *str, unsigned long flags)
+   119	{
+   120		cpumask_var_t non_housekeeping_mask, housekeeping_staging;
+   121		unsigned int first_cpu;
+   122		int err = 0;
+   123	
+   124		if ((flags & HK_FLAG_TICK) && !(housekeeping.flags & HK_FLAG_TICK)) {
+   125			if (!IS_ENABLED(CONFIG_NO_HZ_FULL)) {
+   126				pr_warn("Housekeeping: nohz unsupported."
+   127					" Build with CONFIG_NO_HZ_FULL\n");
+   128				return 0;
+   129			}
+   130		}
+   131	
+   132		alloc_bootmem_cpumask_var(&non_housekeeping_mask);
+   133		if (cpulist_parse(str, non_housekeeping_mask) < 0) {
+   134			pr_warn("Housekeeping: nohz_full= or isolcpus= incorrect CPU range\n");
+   135			goto free_non_housekeeping_mask;
+   136		}
+   137	
+   138		alloc_bootmem_cpumask_var(&housekeeping_staging);
+   139		cpumask_andnot(housekeeping_staging,
+   140			       cpu_possible_mask, non_housekeeping_mask);
+   141	
+   142		first_cpu = cpumask_first_and(cpu_present_mask, housekeeping_staging);
+ > 143		if (first_cpu >= nr_cpu_ids || first_cpu >= setup_max_cpus) {
+   144			__cpumask_set_cpu(smp_processor_id(), housekeeping_staging);
+   145			__cpumask_clear_cpu(smp_processor_id(), non_housekeeping_mask);
+   146			if (!housekeeping.flags) {
+   147				pr_warn("Housekeeping: must include one present CPU, "
+   148					"using boot CPU:%d\n", smp_processor_id());
+   149			}
+   150		}
+   151	
+   152		if (cpumask_empty(non_housekeeping_mask))
+   153			goto free_housekeeping_staging;
+   154	
+   155		if (!housekeeping.flags) {
+   156			/* First setup call ("nohz_full=" or "isolcpus=") */
+   157			enum hk_type type;
+   158	
+   159			for_each_set_bit(type, &flags, HK_TYPE_MAX)
+   160				housekeeping_setup_type(type, housekeeping_staging);
+   161		} else {
+   162			/* Second setup call ("nohz_full=" after "isolcpus=" or the reverse) */
+   163			enum hk_type type;
+   164			unsigned long iter_flags = flags & housekeeping.flags;
+   165	
+   166			for_each_set_bit(type, &iter_flags, HK_TYPE_MAX) {
+   167				if (!cpumask_equal(housekeeping_staging,
+   168						   housekeeping.cpumasks[type])) {
+   169					pr_warn("Housekeeping: nohz_full= must match isolcpus=\n");
+   170					goto free_housekeeping_staging;
+   171				}
+   172			}
+   173	
+   174			iter_flags = flags & ~housekeeping.flags;
+   175	
+   176			for_each_set_bit(type, &iter_flags, HK_TYPE_MAX)
+   177				housekeeping_setup_type(type, housekeeping_staging);
+   178		}
+   179	
+   180		if ((flags & HK_FLAG_TICK) && !(housekeeping.flags & HK_FLAG_TICK))
+   181			tick_nohz_full_setup(non_housekeeping_mask);
+   182	
+   183		housekeeping.flags |= flags;
+   184		err = 1;
+   185	
+   186	free_housekeeping_staging:
+   187		free_bootmem_cpumask_var(housekeeping_staging);
+   188	free_non_housekeeping_mask:
+   189		free_bootmem_cpumask_var(non_housekeeping_mask);
+   190	
+   191		return err;
+   192	}
+   193	
 
 -- 
 0-DAY CI Kernel Test Service
