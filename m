@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D2BD38C;
-	Tue, 30 Apr 2024 00:13:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9150A63B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 00:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714436024; cv=none; b=YwzkzHw9Yl31ekY0vTqFrOD8Z6+cqEk8AcKXzjauRHwLe7YQsvXSq7e26ciAbRGhEuHal/XPLaxMFtTtCdhQ/eEXli2Kwq6zddy3w4REVQ3/4dJbtJMY98N09zsNwM+mi5tlW4MeO2W3U6t74JPVvsePNFV8ny2laSxjr9nZKos=
+	t=1714436026; cv=none; b=XTseGVeNn9hXQvu0bi1Y5ScvGmeFbK0RLfdTUzdFyZEEL13DplWpZeByN6Wxt9l7m6L1jYxutrugrncxyB0eH16QPpI8VZ7yAVrxdgG3Px4g5ckv9ZBXcWuYvmwJHasMRd+8iy2xtnQXBdIlD1cig9DUVFtTrDYIVZzSg6VvU3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714436024; c=relaxed/simple;
-	bh=CAuthUYbFaEBvRfqH4sAFKVD5BWpl1RL0gkZT5B0vWA=;
+	s=arc-20240116; t=1714436026; c=relaxed/simple;
+	bh=+jZ5RkuDJvgEX00D+kcZ0bREV+2MB3967bErI5zdKdY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iZL3+gj2MvqbqhiS4Mo/8NRNTs5AYp6cLlwMn3ih9R+xAaJduCnrSmMv0H0Mp44VwU6JMYPhtcelyA5irzzbVdKk0YgD7JvaT3l6VI+bBNBY1dCaPN4IdkO4w3KnRfIm7AClpPMTJV1T1I0J2BNok/6x7WUyIOGAXM02W9NJh0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SWbkrj+3; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=RSJO2g7YpnRNZZfETyKqErRHIhHHqHRY7u/KsVA/8iRwWeV8MM+2zcD9mnfyD0EO6IQZ1z7/goGBjwmgccOetYr8jJMU7VfRz/dCuRi+zw3GvAWT9hHIr77scF1VeUli4OGHOmKFmB7CfM7B5EqXU5Zpjl+5ypMIEFeCCFqkGYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z39F1UcP; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SWbkrj+3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z39F1UcP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1714436024; x=1745972024;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CAuthUYbFaEBvRfqH4sAFKVD5BWpl1RL0gkZT5B0vWA=;
-  b=SWbkrj+3XiYHCswgHEeErROiVnqmdaWQ8br08vENHh4anAsC0ZQWlNBb
-   inDZmDN12vRY2czN1c5rxvQfpyM9evxfkpo3bM7x+1qYDdlUlgYXEDxgS
-   C89vpYIKMs8O2Zc35W+TXTFU7MANQBsuNw07paIWrcIBYPzql+ynER5AW
-   FoTTkWn37gRLYRiaTbEXbNLZZG77cNTWsftnEsO5Fkaoi8uXUx0Kg7235
-   jid4b3YqQrf13xm1h1p4YN0L0xGQDcsswxnCydx6abJUC7i+YVeyKu12V
-   XYv2TJj+5GpBv8j7DJCtSXt00+AZKZstHrDSZXGgJurkWjeqRKcmrHf1L
-   Q==;
-X-CSE-ConnectionGUID: jNuMI0yyRE+wPYUNRANmOQ==
-X-CSE-MsgGUID: 3wg5jiQDQfipCdU9kCTecQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10043629"
+  bh=+jZ5RkuDJvgEX00D+kcZ0bREV+2MB3967bErI5zdKdY=;
+  b=Z39F1UcP3I6kZYaVeGIGNhYL/Yt48mVB4BTzEoY/1R68Y82jYHN+9xUt
+   TllMf6p+gY2umNMQHm0QP1HVgiUvS5PBZ8ewIencB08aw4YFE1LppGsT9
+   VJkwFG0rW1DOZSQMockmbrwvGYoK4O/jwau2uiwfel340SOomNxqGYLeL
+   ku2Vto1HdLd2fxdvv3Q8cfMH0m2wt5LdKYTKsqD+igxZzXycnioiUJxeN
+   rDvjap24rX9MFDW4j1eHQUxGi/ufZ09eKAUXv2Uwkb9yNyAspukD4+bNm
+   7g6TKDIUrKAoCqkbqo5ZySPlT463ljps5gy2W7yNDMQbw1q+CKo0yof/j
+   w==;
+X-CSE-ConnectionGUID: IuF+9ecAR4eujbXxAGgHgA==
+X-CSE-MsgGUID: su7z4eHqSmCV/sXXEhLRvw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="13911448"
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="10043629"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 17:13:43 -0700
-X-CSE-ConnectionGUID: d3RxB0TcShme3fx1ZNph1w==
-X-CSE-MsgGUID: H9PkcojbQnOzQL2pHbAIRw==
+   d="scan'208";a="13911448"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 17:13:43 -0700
+X-CSE-ConnectionGUID: AUPW7x8fQgiBE7cyWORGeQ==
+X-CSE-MsgGUID: lOrT2mW5QCuREQzY8/dp4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="57473209"
+   d="scan'208";a="30729105"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 29 Apr 2024 17:13:41 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 29 Apr 2024 17:13:41 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1b7q-0007Xk-2Q;
+	id 1s1b7q-0007Xv-2r;
 	Tue, 30 Apr 2024 00:13:38 +0000
-Date: Tue, 30 Apr 2024 08:13:15 +0800
+Date: Tue, 30 Apr 2024 08:13:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vasant Hegde <vasant.hegde@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Joerg Roedel <jroedel@suse.de>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: [linux-next:master 8395/9390] drivers/iommu/amd/pasid.c:172:3:
- error: call to undeclared function 'mmu_notifier_unregister'; ISO C99 and
- later do not support implicit function declarations
-Message-ID: <202404300810.iTQNKCkI-lkp@intel.com>
+To: Ryan Ware <ryan.ware@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, zhenyu.z.wang@intel.com,
+	terrence.xu@intel.com, intel-gvt-dev@lists.freedesktop.org,
+	linux-doc@vger.kernel.org
+Subject: [intel-gvt:pr/236 1/1] htmldocs: Warning:
+ Documentation/doc-guide/sphinx.rst references a file that doesn't exist:
+ Documentation/sphinx/requirements.txt
+Message-ID: <202404300814.T7UmgzBA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,69 +65,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b0a2c79c6f3590b74742cbbc76687014d47972d8
-commit: a5a91e54846d35c234939fb9170e035805353049 [8395/9390] iommu/amd: Add SVA domain support
-config: x86_64-buildonly-randconfig-006-20240430 (https://download.01.org/0day-ci/archive/20240430/202404300810.iTQNKCkI-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404300810.iTQNKCkI-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/gvt-linux.git pr/236
+head:   610b2bb74d663c7cc375650ffe6f8b285e18bff4
+commit: 610b2bb74d663c7cc375650ffe6f8b285e18bff4 [1/1] Removed unneeded requirements.txt pointing to insecure version of Jinja2.
+reproduce: (https://download.01.org/0day-ci/archive/20240430/202404300814.T7UmgzBA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404300810.iTQNKCkI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404300814.T7UmgzBA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/iommu/amd/pasid.c:172:3: error: call to undeclared function 'mmu_notifier_unregister'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     172 |                 mmu_notifier_unregister(&sva_pdom->mn, domain->mm);
-         |                 ^
-   drivers/iommu/amd/pasid.c:172:3: note: did you mean 'mmu_notifier_release'?
-   include/linux/mmu_notifier.h:636:20: note: 'mmu_notifier_release' declared here
-     636 | static inline void mmu_notifier_release(struct mm_struct *mm)
-         |                    ^
->> drivers/iommu/amd/pasid.c:195:8: error: call to undeclared function 'mmu_notifier_register'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     195 |         ret = mmu_notifier_register(&pdom->mn, mm);
-         |               ^
-   drivers/iommu/amd/pasid.c:195:8: note: did you mean 'mmu_notifier_release'?
-   include/linux/mmu_notifier.h:636:20: note: 'mmu_notifier_release' declared here
-     636 | static inline void mmu_notifier_release(struct mm_struct *mm)
-         |                    ^
-   2 errors generated.
-
-
-vim +/mmu_notifier_unregister +172 drivers/iommu/amd/pasid.c
-
-   166	
-   167	static void iommu_sva_domain_free(struct iommu_domain *domain)
-   168	{
-   169		struct protection_domain *sva_pdom = to_pdomain(domain);
-   170	
-   171		if (sva_pdom->mn.ops)
- > 172			mmu_notifier_unregister(&sva_pdom->mn, domain->mm);
-   173	
-   174		amd_iommu_domain_free(domain);
-   175	}
-   176	
-   177	static const struct iommu_domain_ops amd_sva_domain_ops = {
-   178		.set_dev_pasid = iommu_sva_set_dev_pasid,
-   179		.free	       = iommu_sva_domain_free
-   180	};
-   181	
-   182	struct iommu_domain *amd_iommu_domain_alloc_sva(struct device *dev,
-   183							struct mm_struct *mm)
-   184	{
-   185		struct protection_domain *pdom;
-   186		int ret;
-   187	
-   188		pdom = protection_domain_alloc(IOMMU_DOMAIN_SVA);
-   189		if (!pdom)
-   190			return ERR_PTR(-ENOMEM);
-   191	
-   192		pdom->domain.ops = &amd_sva_domain_ops;
-   193		pdom->mn.ops = &sva_mn;
-   194	
- > 195		ret = mmu_notifier_register(&pdom->mn, mm);
+   Warning: Documentation/admin-guide/kernel-parameters.txt references a file that doesn't exist: Documentation/admin-guide/media/meye.rst
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
+>> Warning: Documentation/doc-guide/sphinx.rst references a file that doesn't exist: Documentation/sphinx/requirements.txt
+>> Warning: Documentation/doc-guide/sphinx.rst references a file that doesn't exist: Documentation/sphinx/requirements.txt
+   Warning: Documentation/mm/hugetlbfs_reserv.rst references a file that doesn't exist: Documentation/mm/hugetlbpage.rst
+   Warning: Documentation/mm/physical_memory.rst references a file that doesn't exist: Documentation/admin-guide/mm/memory_hotplug.rst
+   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
+>> Warning: Documentation/translations/it_IT/doc-guide/sphinx.rst references a file that doesn't exist: Documentation/sphinx/requirements.txt
+>> Warning: Documentation/translations/it_IT/doc-guide/sphinx.rst references a file that doesn't exist: Documentation/sphinx/requirements.txt
+>> Warning: Documentation/translations/zh_CN/doc-guide/sphinx.rst references a file that doesn't exist: Documentation/sphinx/requirements.txt
+>> Warning: Documentation/translations/zh_CN/doc-guide/sphinx.rst references a file that doesn't exist: Documentation/sphinx/requirements.txt
+   Warning: Documentation/translations/zh_CN/mm/hugetlbfs_reserv.rst references a file that doesn't exist: Documentation/mm/hugetlbpage.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mfd/da90*.yaml
+   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
+>> Warning: scripts/sphinx-pre-install references a file that doesn't exist: Documentation/sphinx/requirements.txt
+   Warning: tools/power/cpupower/man/cpupower-powercap-info.1 references a file that doesn't exist: Documentation/power/powercap/powercap.txt
+   Can't open ./Documentation/sphinx/requirements.txt at ./scripts/sphinx-pre-install line 297.
+   make[1]: *** [Documentation/Makefile:95: htmldocs] Error 2
+   make: *** [Makefile:1821: htmldocs] Error 2
 
 -- 
 0-DAY CI Kernel Test Service
