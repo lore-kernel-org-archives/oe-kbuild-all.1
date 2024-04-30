@@ -1,221 +1,103 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8826F41236
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 07:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1F914AB7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 07:55:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714462408; cv=none; b=dc6rXvPA4h/FgUciIb047rb/7dnvIHb2Wx2doVuEzRvGSUoAaSlfAL2wvj4udGLTEB8qUHFWhC0v3YdN0ddt7BzQdLdnjHwPUBK1LNsnUhRzIol4/9JcUrt72E0UfxMuofUp+Q6W7LQFOKu1aXPZEtUWpkcMcc0BWiOdYHpz9to=
+	t=1714463707; cv=none; b=m8swwnLSsAuY+UhzURx6O8kXGFXa2JSFvDWcArynlJMkx6AyT301CEnXhCgdUbgRH/SfTvJP58FijoykxGLqkU7L13s3fe95ZepFRYp/3oxiXnxC8HjZCSEdrC66lOMM7pojhFCd72HKeQpPEzYHxwmkBhSn6fJnDq7hb9Vp9Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714462408; c=relaxed/simple;
-	bh=usao4WAlYXr8kcI9QgFXoJORxGd4PqxjfZxpOYnNC9g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DAQdEKjajrdRNAx85+94IgzomvQBDDA5hDUxYz/58i5qlmlr4H6w/fGELLIHEP79yhwSeIvv9cdWGlgItEZkL1v+xAxn1jdr+dK5YCc1qj4pk/SwclYLiLMY4Je/csFHcC8vlezZxkbWO6sFzi+PqpVosOhN2EbWFpYVG2Et4BM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q8YFDwPJ; arc=none smtp.client-ip=209.85.208.42
+	s=arc-20240116; t=1714463707; c=relaxed/simple;
+	bh=QyO7UPtlHnW+b6HUplDf5qADygYlgox3avpwPbUW9Vk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=RsbMyLqCl33nvjjQGlC4yImb4XoAVMhkggxn0qRtnZsJsQiAPJuzvI0AnCkZq6uAsfSA5/t7ozMO6h+lrnpGRUIsykGAfxo7smfjCJXlPEuI2GVPTl+MACfNqs0O3SY9NXGWC+o6AHSFOg/mx4/b8OnppgdyUYUXsSfcWVsocTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BTCPzA9d; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q8YFDwPJ"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-57258c90899so6594064a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 00:33:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BTCPzA9d"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-41ba0bb5837so26539895e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 00:55:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714462405; x=1715067205; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BELG/VPBraGO7uII+UjoA23wnh5dvAeA/xpYuXhlAqo=;
-        b=Q8YFDwPJ+OehgkXw7Q831yq8P2pPwKpNXJXJRG1nRxlGcCVK9X4EQiQC6QaFiCnx54
-         2pmBHC/qoSCd0tvSJFN6pa/n42Hlp02qW1hY6tGPGkUIdPrtumLusjEFknLNNoVSXjea
-         62GONYK9V2DGZwgekl9wraVHLOQOg30Z+7l0OAfz07ednrvxfIJg9872x1+uWocrqri/
-         HeVBZv36ZQxZlgUcJz0qTy7jmDFnXuV3D2PWOp9jL1E62AAx8YmizJEZQwPktzoZI2Jn
-         2w5ScpN7T6zJW8nLexml0iikF7Q9CU9+gqZ6mnMpK9bf+3GgwolCPkeg8ECg2nYiA/7I
-         3iKQ==
+        d=linaro.org; s=google; t=1714463705; x=1715068505; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=QyO7UPtlHnW+b6HUplDf5qADygYlgox3avpwPbUW9Vk=;
+        b=BTCPzA9dmR94shD+LqCl7jQPzIPkEXTu3vZ7MpRx+40xU1kDoEUQzhAMPburau6i0R
+         J8cTBuw9WeCjhWg6K7LH21zXNJXzBVIZQVwoYmF01BGnCIE0rMzmuEbRbWQ1+GNmPQof
+         uA7spT2s6cVzdoWDpWd3x8+A8ZN00N0Z44rI2yTKg1SuC2LS98csPnW+ExzM4O1hJAJR
+         ymSpig9AfOa522gBdakUXxb56lodM2xWBl/X0Kpv13sWuUIr7t9bVcXfB9cRXpzSt8SW
+         aKjMJRM2Kf1yetHf9IKCsUg1mmEB2u7yR5wiKF6bZWMfJjP2C5NHpqkpF+2/ww8RuoUn
+         91ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714462405; x=1715067205;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BELG/VPBraGO7uII+UjoA23wnh5dvAeA/xpYuXhlAqo=;
-        b=CmHa/HumLiwaNEBT5XumnTR4T8wjhOvo17ytmwVs3AT8jXIqzV0nkqynjUAU1FKH46
-         RCVTRNP34a3C4Y6llqFj3EQf+jiUsxfAKfuedac7WHHkIgBlO31IapZenpSy9k6sZMyQ
-         vdtSX/NXXUOj3mpVsTF6DW/cXBMiVOsiZ/afcdnUEwIVpdVSXFliKTJ0HN73LCa8EZof
-         XLJ3sLCTzz2sfdgMEexT6PZxlppUGPWRaLKKd1PNHspBHN0fL8wExMrZUEVQP8QKvDsb
-         ZvthKjLih1JzF1VmD0pBltNFmJg9jk8XWOR5m/jfezfRRUVTr+9lnHYICGsdRRn5uIaE
-         BBQw==
-X-Forwarded-Encrypted: i=1; AJvYcCVHEo085SxR/yLQUyOzpTdg8VK1CTxsRZGgfL+5yIE46uxWpJeCtNiHWJKNlzDCbwErD7mAd0YUy7KuBvey1r1TZRazWenkyx8J9x7yQA==
-X-Gm-Message-State: AOJu0Yzm1hGuH5q0/iZ4DZQaurVI4AlJyukq00GAi+NpQQuWaodNw4QK
-	g24HAM3ty5Xt+bwrPWkS+lP0vFt96WE7D4ZT8QAYBSHfd6N87NgTOg0nyk5BJ6A=
-X-Google-Smtp-Source: AGHT+IFpPQefdWqsOcGW4xVCqQg6dLiSu9f0gk3ocsobkDMKst688OBb71Zev8gcwAek+9QtNPs5nA==
-X-Received: by 2002:a50:9f6a:0:b0:572:61:8560 with SMTP id b97-20020a509f6a000000b0057200618560mr1686980edf.20.1714462404606;
-        Tue, 30 Apr 2024 00:33:24 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id u25-20020a056402111900b005720c59dc57sm9506286edv.23.2024.04.30.00.33.23
+        d=1e100.net; s=20230601; t=1714463705; x=1715068505;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QyO7UPtlHnW+b6HUplDf5qADygYlgox3avpwPbUW9Vk=;
+        b=R0zu+CyeOzhgqTaGttA/nFi7X8swmmiUJv/fYQ3u95+xpaa5oFiKbz3ID4HHqltwaw
+         N5/HroWAByx/ldewsOwUxuv2NSdWlNsDUUGRCet0Sgoxe0fKnDgQp+nBb2JT7lzDGqz5
+         vsSImUllAOqNjMWKvJte4BXPUeo8cmXSpUKcLsoynK8P2VeZtJP77EamV6FQ9/6+sheO
+         BqV0nNW2FMnRHh+/UoQ196zEx32jlXRQAXKVG+0h0GQ+fspQJQywcRv1dPa/ZP4oJ3rm
+         pLfFZxyvwpdc3tuQRHgUvNs4rnyUt9VlWQnREUvQrEPDjJ/XiQj0QKTxhx8hCtS7IUPP
+         JJzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVLb9rFt3IfBA2n45X7oH/O/6cHm0KB6rS5xPZ8vExKYgnzg65ZOXQfhcPd+p44Qage3rBkJz1u7m7TCCOJROre392o5Tu3Wi1Vh/+67A==
+X-Gm-Message-State: AOJu0Yx13ar1e2JI7vk+O1f6C2auoX4O3ets0Ds809TYn9yE1O3ud/Ct
+	V+iiJGdcMyIv7anSRBrL/1ZhZWZG8mQF3IFM1BRK8abLprW8mY9GQE9tHBGXj74=
+X-Google-Smtp-Source: AGHT+IGSpoSFry4pE9uTsBILC16+fvaWelBfo7+NUhx4fBoQwfBtL8sXcmlBE2+RGEF1JtBrChz21Q==
+X-Received: by 2002:a05:600c:46ce:b0:41c:2313:da92 with SMTP id q14-20020a05600c46ce00b0041c2313da92mr4603745wmo.4.1714463704670;
+        Tue, 30 Apr 2024 00:55:04 -0700 (PDT)
+Received: from [10.1.1.109] ([80.111.64.44])
+        by smtp.gmail.com with ESMTPSA id f17-20020a05600c4e9100b004182b87aaacsm44080968wmq.14.2024.04.30.00.55.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Apr 2024 00:33:24 -0700 (PDT)
-Date: Tue, 30 Apr 2024 10:33:21 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
-	Yongqiang Liu <duanzi@zju.edu.cn>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 20772/22256] drivers/block/loop.c:1338
- loop_set_status() warn: inconsistent returns '&loop_ctl_mutex'.
-Message-ID: <1ea41018-809e-4f9d-84b9-fbb3dfa18142@moroto.mountain>
+        Tue, 30 Apr 2024 00:55:04 -0700 (PDT)
+Message-ID: <4f163ad7ea0d65d14da6431cf6c1056b8e525dff.camel@linaro.org>
+Subject: Re: [pinctrl-samsung:pinctrl-next 3/3]
+ drivers/pinctrl/samsung/pinctrl-samsung.c:633:35: warning: variable
+ 'drvdata' set but not used
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>, kernel test robot
+ <lkp@intel.com>,  Peter Griffin <peter.griffin@linaro.org>, Tudor Ambarus
+ <tudor.ambarus@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Date: Tue, 30 Apr 2024 08:55:03 +0100
+In-Reply-To: <15d45445-e664-40bc-b5b8-285df53167b5@kernel.org>
+References: <202404300825.6lxLwvUY-lkp@intel.com>
+	 <15d45445-e664-40bc-b5b8-285df53167b5@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3-1 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   3c3550371ac3e9d3326c8263a6eb52d3bb0b43a8
-commit: 1472bb0a05bd28cae465d19e9ab40c13c8f2a716 [20772/22256] loop: Check for overflow while configuring loop
-config: x86_64-randconfig-161-20240430 (https://download.01.org/0day-ci/archive/20240430/202404300746.qh94rwDQ-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+On Tue, 2024-04-30 at 08:04 +0200, Krzysztof Kozlowski wrote:
+> On 30/04/2024 02:58, kernel test robot wrote:
+> > tree:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/pinct=
+rl/samsung.git=C2=A0pinctrl-next
+> > head:=C2=A0=C2=A0 f9c74474797351c60e009ebc59a798fcfd93ee57
+> > commit: f9c74474797351c60e009ebc59a798fcfd93ee57 [3/3] pinctrl: samsung=
+: support a bus clock
+> > config: arm-defconfig (https://download.01.org/0day-ci/archive/20240430=
+/202404300825.6lxLwvUY-lkp@intel.com/config)
+> > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.gi=
+t=C2=A0f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20240430/202404300825.6lxLwvUY-lkp@intel.com/reproduce)
+> >=20
+> I sent a patch to fix it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202404300746.qh94rwDQ-lkp@intel.com/
+Thank you Krzysztof.
 
-New smatch warnings:
-drivers/block/loop.c:1338 loop_set_status() warn: inconsistent returns '&loop_ctl_mutex'.
+> Guys, are your development trees tested by LKP?
 
-Old smatch warnings:
-drivers/block/loop.c:785 loop_attr_backing_file_show() warn: passing zero to 'PTR_ERR'
-drivers/block/loop.c:2019 loop_add() warn: passing zero to 'PTR_ERR'
+Unfortunately not at this stage, no. We'll look into it.
 
-vim +1338 drivers/block/loop.c
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1217  static int
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1218  loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1219  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1220  	int err;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1221  	struct loop_func_table *xfer;
-e4849737f76c87 Eric W. Biederman 2012-02-11  1222  	kuid_t uid = current_uid();
-2a7d0112997407 Jan Kara          2018-11-08  1223  	struct block_device *bdev;
-2a7d0112997407 Jan Kara          2018-11-08  1224  	bool partscan = false;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1225  
-afa528900c5f5c Jan Kara          2018-11-08  1226  	err = mutex_lock_killable(&loop_ctl_mutex);
-cb26630f042408 Jan Kara          2018-11-08  1227  	if (err)
-cb26630f042408 Jan Kara          2018-11-08  1228  		return err;
-b0fafa816ece00 David Howells     2008-11-14  1229  	if (lo->lo_encrypt_key_size &&
-e4849737f76c87 Eric W. Biederman 2012-02-11  1230  	    !uid_eq(lo->lo_key_owner, uid) &&
-cb26630f042408 Jan Kara          2018-11-08  1231  	    !capable(CAP_SYS_ADMIN)) {
-cb26630f042408 Jan Kara          2018-11-08  1232  		err = -EPERM;
-cb26630f042408 Jan Kara          2018-11-08  1233  		goto out_unlock;
-cb26630f042408 Jan Kara          2018-11-08  1234  	}
-cb26630f042408 Jan Kara          2018-11-08  1235  	if (lo->lo_state != Lo_bound) {
-cb26630f042408 Jan Kara          2018-11-08  1236  		err = -ENXIO;
-cb26630f042408 Jan Kara          2018-11-08  1237  		goto out_unlock;
-cb26630f042408 Jan Kara          2018-11-08  1238  	}
-cb26630f042408 Jan Kara          2018-11-08  1239  	if ((unsigned int) info->lo_encrypt_key_size > LO_KEY_SIZE) {
-cb26630f042408 Jan Kara          2018-11-08  1240  		err = -EINVAL;
-cb26630f042408 Jan Kara          2018-11-08  1241  		goto out_unlock;
-cb26630f042408 Jan Kara          2018-11-08  1242  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1243  
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1244  	if (lo->lo_offset != info->lo_offset ||
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1245  	    lo->lo_sizelimit != info->lo_sizelimit) {
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1246  		sync_blockdev(lo->lo_device);
-2476d843de4788 Zheng Bin         2020-09-22  1247  		invalidate_bdev(lo->lo_device);
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1248  	}
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1249  
-ecdd09597a5725 Ming Lei          2017-02-11  1250  	/* I/O need to be drained during transfer transition */
-ecdd09597a5725 Ming Lei          2017-02-11  1251  	blk_mq_freeze_queue(lo->lo_queue);
-ecdd09597a5725 Ming Lei          2017-02-11  1252  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1253  	err = loop_release_xfer(lo);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1254  	if (err)
-cb26630f042408 Jan Kara          2018-11-08  1255  		goto out_unfreeze;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1256  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1257  	if (info->lo_encrypt_type) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1258  		unsigned int type = info->lo_encrypt_type;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1259  
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1260  		if (type >= MAX_LO_CRYPT) {
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1261  			err = -EINVAL;
-cb26630f042408 Jan Kara          2018-11-08  1262  			goto out_unfreeze;
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1263  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1264  		xfer = xfer_funcs[type];
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1265  		if (xfer == NULL) {
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1266  			err = -EINVAL;
-cb26630f042408 Jan Kara          2018-11-08  1267  			goto out_unfreeze;
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1268  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1269  	} else
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1270  		xfer = NULL;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1271  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1272  	err = loop_init_xfer(lo, xfer, info);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1273  	if (err)
-cb26630f042408 Jan Kara          2018-11-08  1274  		goto out_unfreeze;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1275  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1276  	if (lo->lo_offset != info->lo_offset ||
-1e6ec9ea89d307 Omar Sandoval     2017-08-23  1277  	    lo->lo_sizelimit != info->lo_sizelimit) {
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1278  		/* kill_bdev should have truncated all the pages */
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1279  		if (lo->lo_device->bd_inode->i_mapping->nrpages) {
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1280  			err = -EAGAIN;
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1281  			pr_warn("%s: loop%d (%s) has still dirty pages (nrpages=%lu)\n",
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1282  				__func__, lo->lo_number, lo->lo_file_name,
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1283  				lo->lo_device->bd_inode->i_mapping->nrpages);
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1284  			goto out_unfreeze;
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1285  		}
-1e6ec9ea89d307 Omar Sandoval     2017-08-23  1286  		if (figure_loop_size(lo, info->lo_offset, info->lo_sizelimit)) {
-ecdd09597a5725 Ming Lei          2017-02-11  1287  			err = -EFBIG;
-cb26630f042408 Jan Kara          2018-11-08  1288  			goto out_unfreeze;
-ecdd09597a5725 Ming Lei          2017-02-11  1289  		}
-1472bb0a05bd28 Siddh Raman Pant  2023-07-07  1290  		/* loff_t vars have been assigned __u64 */
-1472bb0a05bd28 Siddh Raman Pant  2023-07-07  1291  		if (lo->lo_offset < 0 || lo->lo_sizelimit < 0)
-1472bb0a05bd28 Siddh Raman Pant  2023-07-07  1292  			return -EOVERFLOW;
-
-goto out_unlock?
-
-b040ad9cf6a169 Arnd Bergmann     2017-06-09  1293  	}
-541c742a7559eb Guo Chao          2013-02-21  1294  
-dfaa2ef68e80c3 Lukas Czerner     2011-08-19  1295  	loop_config_discard(lo);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1296  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1297  	memcpy(lo->lo_file_name, info->lo_file_name, LO_NAME_SIZE);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1298  	memcpy(lo->lo_crypt_name, info->lo_crypt_name, LO_NAME_SIZE);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1299  	lo->lo_file_name[LO_NAME_SIZE-1] = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1300  	lo->lo_crypt_name[LO_NAME_SIZE-1] = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1301  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1302  	if (!xfer)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1303  		xfer = &none_funcs;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1304  	lo->transfer = xfer->transfer;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1305  	lo->ioctl = xfer->ioctl;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1306  
-96c5865559cee0 David Woodhouse   2008-02-06  1307  	if ((lo->lo_flags & LO_FLAGS_AUTOCLEAR) !=
-96c5865559cee0 David Woodhouse   2008-02-06  1308  	     (info->lo_flags & LO_FLAGS_AUTOCLEAR))
-96c5865559cee0 David Woodhouse   2008-02-06  1309  		lo->lo_flags ^= LO_FLAGS_AUTOCLEAR;
-96c5865559cee0 David Woodhouse   2008-02-06  1310  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1311  	lo->lo_encrypt_key_size = info->lo_encrypt_key_size;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1312  	lo->lo_init[0] = info->lo_init[0];
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1313  	lo->lo_init[1] = info->lo_init[1];
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1314  	if (info->lo_encrypt_key_size) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1315  		memcpy(lo->lo_encrypt_key, info->lo_encrypt_key,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1316  		       info->lo_encrypt_key_size);
-b0fafa816ece00 David Howells     2008-11-14  1317  		lo->lo_key_owner = uid;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1318  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1319  
-2e5ab5f379f96a Ming Lei          2015-08-17  1320  	/* update dio if lo_offset or transfer is changed */
-2e5ab5f379f96a Ming Lei          2015-08-17  1321  	__loop_update_dio(lo, lo->use_dio);
-2e5ab5f379f96a Ming Lei          2015-08-17  1322  
-cb26630f042408 Jan Kara          2018-11-08  1323  out_unfreeze:
-ecdd09597a5725 Ming Lei          2017-02-11  1324  	blk_mq_unfreeze_queue(lo->lo_queue);
-e02898b423802b Omar Sandoval     2017-03-01  1325  
-e02898b423802b Omar Sandoval     2017-03-01  1326  	if (!err && (info->lo_flags & LO_FLAGS_PARTSCAN) &&
-e02898b423802b Omar Sandoval     2017-03-01  1327  	     !(lo->lo_flags & LO_FLAGS_PARTSCAN)) {
-e02898b423802b Omar Sandoval     2017-03-01  1328  		lo->lo_flags |= LO_FLAGS_PARTSCAN;
-e02898b423802b Omar Sandoval     2017-03-01  1329  		lo->lo_disk->flags &= ~GENHD_FL_NO_PART_SCAN;
-2a7d0112997407 Jan Kara          2018-11-08  1330  		bdev = lo->lo_device;
-2a7d0112997407 Jan Kara          2018-11-08  1331  		partscan = true;
-e02898b423802b Omar Sandoval     2017-03-01  1332  	}
-cb26630f042408 Jan Kara          2018-11-08  1333  out_unlock:
-cb26630f042408 Jan Kara          2018-11-08  1334  	mutex_unlock(&loop_ctl_mutex);
-2a7d0112997407 Jan Kara          2018-11-08  1335  	if (partscan)
-2a7d0112997407 Jan Kara          2018-11-08  1336  		loop_reread_partitions(lo, bdev);
-e02898b423802b Omar Sandoval     2017-03-01  1337  
-ecdd09597a5725 Ming Lei          2017-02-11 @1338  	return err;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1339  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Andre'
 
