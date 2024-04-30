@@ -1,65 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FCC1527AF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 15:37:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768F3173344
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 15:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714491462; cv=none; b=EU0EWV6IBw7BcRU6SXqXRa5jDaBp0SEhFcsoGJzO0W4uVB2rx/fAphaKFLG5x6U2IVkHCiMFZaeFfL/M3Q1H9yZ4mXd1zlly/HgTKeurQa6jxj2s2H/XcP3Hd3iFAP5cEu7OXyJ5eV8p1yW09JpMQjRshh6P1Sn/67OOnwSaOpc=
+	t=1714492654; cv=none; b=WlY+I3FzKoNKZLN7aZLyAR7NOiv7oCA9D7LSG07gX4lgZg2Q6CVIz1+Euuzd9k9LkNUgGOEqzKZybC5q/osOe0PxA0WqLONUylJ/hkZ40U68dsmD85+4h0gjl5mjcIt4r2V0M/LvpI/7lM6T1P+xkn0HWXgJxjb5tKBpj371d5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714491462; c=relaxed/simple;
-	bh=mzCvvGmzi+tDG2LjR2pFFqD74q9WqTrcAc4c07C/Kig=;
+	s=arc-20240116; t=1714492654; c=relaxed/simple;
+	bh=qPwTiPc7rUTt8AVAcjRiJLZFPNJjjuNQnMHaV7j5wCo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KrdT85nBn398VCoSY1C7KqILAMBqh1vCmzGuKWTdR/fL0qMiVK47IjJb/weeNn+NqEr1QQnoWhHxcuEzUTwnidRK60hUPCNpqc9jUvvV6721dp9s4Gxo2kdu8t/fQof1cvrKiQUy/SDqYQzAyLR0V/jE/2NiXJ44s+k27usy0+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJH82wkB; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=May1CrV7hZb71zV3nfcLGyhTLbMtAoZtuz54gS4tlBqohuOm+wq2Vr9icTsZNpY2SKRuTdxsX6Ojs/9gZM4v7ngBWoNeREZ8FuVCoUKhk4JTRfBQDLg/c74OHBKdHjJQTE9uT+n5DodHAhcvzwnOpAPCnBdDPk0XyH4JfeZ3Z34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RYp0rIc8; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJH82wkB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RYp0rIc8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714491461; x=1746027461;
+  t=1714492652; x=1746028652;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=mzCvvGmzi+tDG2LjR2pFFqD74q9WqTrcAc4c07C/Kig=;
-  b=TJH82wkBPexVkwXuHq0vTj1ypL3+F0zMA//Qt5AFZoZCmzREvKMkQK6Z
-   EFPeL0Rqi9AFXNm/qwpc2h2N7hlzFx91vbtDbYv9HlMiBmNxi46ECdPR2
-   bVnIitnVEE3lU/iZzkbGZ3Ykvg+N9zVlIChz6vlnD8AkyH6DhDVW+Ssxx
-   kK1ps2977XHFx3PcAYPCNJkmvBWkiwfdKR0rejI1960yG1hZe6HITV6jK
-   IAAFs71MvAj7AtJuEvLBGk5bu7FLj7bG4W6KieP/9fb9Z8HYM594uHE3p
-   YkSjxbwKvoPtStH/WysA9/pnQXqpHAqV/4NcttSvBbaqstfKK2xax65Ve
-   g==;
-X-CSE-ConnectionGUID: wDins9ViTdKSgJbFt3yOkw==
-X-CSE-MsgGUID: cV/yyg57TauOlXYJEcM03g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10427245"
+  bh=qPwTiPc7rUTt8AVAcjRiJLZFPNJjjuNQnMHaV7j5wCo=;
+  b=RYp0rIc8d/jFaa0OmX+K4Sbqp+5aBl3KiKMRNG9KtUXg/MA+QHl/aAHy
+   C9zhkIkKpLQpfkCVFRB1h6Mbf3hX9ju0/cmFQmkFFlkO5fwWxBpPWd0IN
+   XOPFdjBaJ26FTmz5+4w1xAHTx8tpvfusLWsDU8jEofiPdyXtPsgJ8I658
+   nSsvafJsASZmFuvPH1mmg6OyAklYINmY4d1HYAPbS6c1yp5frbjZ3Lkbl
+   /LLd2h1j0R5nMdq/g8jNffpCZpup3CW0e5RpZ01KddbgRj2jRUD66UI9A
+   nW3X6DVRPRN3pct2ong8t/h49U4qyoNp27s+PNhG9iEnfIFNeC70bqujc
+   A==;
+X-CSE-ConnectionGUID: NnGrxPO4Ra2prnpse1ouyg==
+X-CSE-MsgGUID: 6owgDLWTSX2znCnf8blWlA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="20755017"
 X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="10427245"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 08:37:31 -0700
-X-CSE-ConnectionGUID: zSro6sTXTzSbDRXyhuVpRA==
-X-CSE-MsgGUID: 0mMX/D5zQ6OfbTmGwMreXg==
+   d="scan'208";a="20755017"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 08:57:31 -0700
+X-CSE-ConnectionGUID: YZKv/2gjRQGMcxbMntifog==
+X-CSE-MsgGUID: PIOvf8+TRg2mGXLwsnLceg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="57385201"
+   d="scan'208";a="26465061"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Apr 2024 08:37:28 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 30 Apr 2024 08:57:27 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1pXp-0008HF-2a;
-	Tue, 30 Apr 2024 15:37:25 +0000
-Date: Tue, 30 Apr 2024 23:36:29 +0800
+	id 1s1prC-0008IB-0z;
+	Tue, 30 Apr 2024 15:57:26 +0000
+Date: Tue, 30 Apr 2024 23:57:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lyndon Sanche <lsanche@lyndeno.ca>
-Cc: oe-kbuild-all@lists.linux.dev, mario.limonciello@amd.com,
-	pali@kernel.org, W_Armin@gmx.de,
-	srinivas.pandruvada@linux.intel.com, ilpo.jarvinen@linux.intel.com,
-	Matthew Garrett <mjg59@srcf.ucam.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Dell.Client.Kernel@dell.com
-Subject: Re: [PATCH v3] platform/x86: dell-laptop: Implement platform_profile
-Message-ID: <202404302351.31IWk45T-lkp@intel.com>
-References: <20240429164844.7544-2-lsanche@lyndeno.ca>
+To: Dongcheng Yan <dongcheng.yan@intel.com>, sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, tomi.valkeinen@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com, bingbu.cao@linux.intel.com,
+	daxing.li@intel.com
+Subject: Re: [PATCH v2] media: i2c: Add ar0234 camera sensor driver
+Message-ID: <202404302344.158Y810h-lkp@intel.com>
+References: <20240429051333.1306453-1-dongcheng.yan@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,83 +65,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240429164844.7544-2-lsanche@lyndeno.ca>
+In-Reply-To: <20240429051333.1306453-1-dongcheng.yan@intel.com>
 
-Hi Lyndon,
+Hi Dongcheng,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.9-rc6 next-20240430]
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on sailus-media-tree/master linuxtv-media-stage/master linus/master v6.9-rc6 next-20240430]
+[cannot apply to sailus-media-tree/streams]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lyndon-Sanche/platform-x86-dell-laptop-Implement-platform_profile/20240430-135932
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240429164844.7544-2-lsanche%40lyndeno.ca
-patch subject: [PATCH v3] platform/x86: dell-laptop: Implement platform_profile
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240430/202404302351.31IWk45T-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404302351.31IWk45T-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dongcheng-Yan/media-i2c-Add-ar0234-camera-sensor-driver/20240430-133240
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240429051333.1306453-1-dongcheng.yan%40intel.com
+patch subject: [PATCH v2] media: i2c: Add ar0234 camera sensor driver
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240430/202404302344.158Y810h-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404302344.158Y810h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404302351.31IWk45T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404302344.158Y810h-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/platform/x86/dell/dell-laptop.c:2387:5: warning: no previous prototype for 'thermal_init' [-Wmissing-prototypes]
-    2387 | int thermal_init(void)
-         |     ^~~~~~~~~~~~
->> drivers/platform/x86/dell/dell-laptop.c:2418:6: warning: no previous prototype for 'thermal_cleanup' [-Wmissing-prototypes]
-    2418 | void thermal_cleanup(void)
-         |      ^~~~~~~~~~~~~~~
+>> drivers/media/i2c/ar0234.c:1032:36: warning: 'ar0234_acpi_ids' defined but not used [-Wunused-const-variable=]
+    1032 | static const struct acpi_device_id ar0234_acpi_ids[] = {
+         |                                    ^~~~~~~~~~~~~~~
 
 
-vim +/thermal_init +2387 drivers/platform/x86/dell/dell-laptop.c
+vim +/ar0234_acpi_ids +1032 drivers/media/i2c/ar0234.c
 
-  2386	
-> 2387	int thermal_init(void)
-  2388	{
-  2389		int ret;
-  2390		int supported_modes;
-  2391	
-  2392		ret = thermal_get_supported_modes(&supported_modes);
-  2393		if (ret || !supported_modes)
-  2394			return 0;
-  2395	
-  2396		thermal_handler = kzalloc(sizeof(*thermal_handler), GFP_KERNEL);
-  2397		if (!thermal_handler)
-  2398			return -ENOMEM;
-  2399		thermal_handler->profile_get = thermal_platform_profile_get;
-  2400		thermal_handler->profile_set = thermal_platform_profile_set;
-  2401	
-  2402		if (supported_modes & DELL_QUIET)
-  2403			set_bit(PLATFORM_PROFILE_QUIET, thermal_handler->choices);
-  2404		if (supported_modes & DELL_COOL_BOTTOM)
-  2405			set_bit(PLATFORM_PROFILE_COOL, thermal_handler->choices);
-  2406		if (supported_modes & DELL_BALANCED)
-  2407			set_bit(PLATFORM_PROFILE_BALANCED, thermal_handler->choices);
-  2408		if (supported_modes & DELL_PERFORMANCE)
-  2409			set_bit(PLATFORM_PROFILE_PERFORMANCE, thermal_handler->choices);
-  2410	
-  2411		// Clean up but do not fail
-  2412		if (platform_profile_register(thermal_handler))
-  2413			kfree(thermal_handler);
-  2414	
-  2415		return 0;
-  2416	}
-  2417	
-> 2418	void thermal_cleanup(void)
-  2419	{
-  2420		if (thermal_handler) {
-  2421			platform_profile_remove();
-  2422			kfree(thermal_handler);
-  2423		}
-  2424	}
-  2425	
+  1031	
+> 1032	static const struct acpi_device_id ar0234_acpi_ids[] = {
+  1033		{ "INTC10C0" },
+  1034		{}
+  1035	};
+  1036	
 
 -- 
 0-DAY CI Kernel Test Service
