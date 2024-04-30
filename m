@@ -1,274 +1,319 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6210F770FF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 14:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF607710C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 15:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714488854; cv=none; b=jFgs4Nxs/uUuv3z/iPuQDivBHeTVkiYV/jRuDFWAsf8Ou8iMqeAjoj1suvba1q0+Q4WyVSNWiTl78KXjnzycbs2x5LK16L0xc3NWt/1ycBnZ4+pZMI9aNTsokpCW+IY3ekTcmVK40napaWPw5qMUsUey5Tl0+HEz3U7nzovcJG4=
+	t=1714489398; cv=none; b=LT+dVJnE+1VkNeOquIHengIMtzVslI5LB0hxF7BnPan5SB052c/+tWOI46uSz/GqohAVm8WvOOJ6c6eTYW31xTqdanjcp5cCINZ/V5BRUouieoo5/H/K2+xFDO9BbGXWW8TalGkTsS+kt4uoU08HZLKTFk1F8OadGZqSbhQHYwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714488854; c=relaxed/simple;
-	bh=zuncjSyTfcytMULigEblM0/EMGTaP0zuv5ek6d9/qUU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O0E6c1mlOj8/7BXbO7rfwJNDu1nH+SnLcCHSdV6VR0pfjE0N/aFeriZrZSKy7IhkKHFJiwVo4IethYxXfsrJ8tEx9O384JibKw/dcE+WQEOunqEF0zsaZNT/uK3uz716UdnrHJonJFd33mOlHxM4GifpGJk9Oxps9Dy0JP4lArk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cznx0vjH; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714489398; c=relaxed/simple;
+	bh=kJz02YWTBE93pUBLb0oNO5ux6QGP1X25TMgZ2sR2Rsc=;
+	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:References; b=T+41F67iXyirnRwOQnb5XuwXLcmW6Df/MR6vjwNMWMmZ9Oj6+ze9lX6doQWOp1lMoIva5p34AsiR53YeQCWKqtAQErohyKSJanS6tq2v25p8xYJS0oUrsEVhzq/YfweJmBnG+7iDvaxg+EA+Tz3DfgVuIzWZE2NOORVKHX/HbFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=S+5G9VFh; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cznx0vjH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714488853; x=1746024853;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zuncjSyTfcytMULigEblM0/EMGTaP0zuv5ek6d9/qUU=;
-  b=cznx0vjHjC5+9Wumcr1Lo8fN7RjZcldC7sUVheN7CPEHeqIOKohaGx+G
-   30vGgLNqNo5Et/7wMV0obPxK8jUMvY1ZXXgdKqE12D0PDYrjhObTcCg2s
-   LU5A/tc9RU+R+/a7bQS6rzG0PSVoxsRxODoRJeDxqDjB6mkxTIfCHfUjp
-   Flg8TZpGezv3++GXJtri0oMD0kMLDqqAgHgCX6E6RXupXD42NW1ciIP+L
-   upna8b7FC4K+ZCXo7PWqzgMc/+VcIhxfDivHGmMG6PbaI4q7Xyyr3ecPw
-   E5JW4YOb9B+MXE1AL1x103Dsn7ZcTBGaxUpu+MEnXNmQd+PYy+K/SnwdW
-   Q==;
-X-CSE-ConnectionGUID: UYP+ZfMAR8WbPYF6i20e1A==
-X-CSE-MsgGUID: XdfWHtkwTYa2yt/M7UCZjQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="14026721"
-X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="14026721"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 07:54:03 -0700
-X-CSE-ConnectionGUID: 7r3ZTzCCRCW/YrxOcixkTw==
-X-CSE-MsgGUID: 2JGdtH8iTIKOToXMh7bimQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="26571482"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 30 Apr 2024 07:53:59 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s1orl-0008EY-02;
-	Tue, 30 Apr 2024 14:53:57 +0000
-Date: Tue, 30 Apr 2024 22:53:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ingo Molnar <mingo@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	Hillf Danton <hdanton@sina.com>,
-	Andy Lutomirski <luto@amacapital.net>, Peter Anvin <hpa@zytor.com>,
-	Adrian Bunk <bunk@kernel.org>,
-	syzbot <syzbot+83e7f982ca045ab4405c@syzkaller.appspotmail.com>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	andrii@kernel.org, bpf@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] x86/mm: Remove broken vsyscall emulation code from the
- page fault code
-Message-ID: <202404302220.EkdfEBSB-lkp@intel.com>
-References: <Zi9Ts1HcqiKzy9GX@gmail.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="S+5G9VFh"
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20240430150308euoutp0177dd602a17e813f9172352989e6ab34b~LFwPDgRHU2187621876euoutp01U;
+	Tue, 30 Apr 2024 15:03:08 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20240430150308euoutp0177dd602a17e813f9172352989e6ab34b~LFwPDgRHU2187621876euoutp01U
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1714489388;
+	bh=s3cSKA3ptSdtmsL1iob6mG7l++rs71vpFHgkvWOqnhI=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=S+5G9VFhdXSZ/vfyMJATSiYGhwziEZLIicorvTcaXvQJcfO4CwRl+JH2WM6z1KLY0
+	 U48R/zTYU/W67erzVe0HemY3MqEmGAUhYOBDTx+aOPR+4cPwrZ+18fEidlqnxFIJpX
+	 X0fISZsWYiwJtoh4x3pXH9jK9q1C9a7tJnboU76E=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20240430150307eucas1p2c8d4a55d8ebcb9d54069ceab2a7d1c0d~LFwO9VoGu1661516615eucas1p2s;
+	Tue, 30 Apr 2024 15:03:07 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges2new.samsung.com (EUCPMTA) with SMTP id 48.29.09875.B2801366; Tue, 30
+	Apr 2024 16:03:07 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240430150307eucas1p19983581cded42ad5509f3783bfa76811~LFwOkDcZW0073400734eucas1p1d;
+	Tue, 30 Apr 2024 15:03:07 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240430150307eusmtrp23d995adb84ee9e436f4d7c54c1e182e5~LFwOjj_bN0149801498eusmtrp2x;
+	Tue, 30 Apr 2024 15:03:07 +0000 (GMT)
+X-AuditID: cbfec7f4-131ff70000002693-5d-6631082b3e53
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 09.E2.08810.B2801366; Tue, 30
+	Apr 2024 16:03:07 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240430150307eusmtip1d2008f34e04b697976af17f595ea8f67~LFwOYuy2E1663316633eusmtip1V;
+	Tue, 30 Apr 2024 15:03:07 +0000 (GMT)
+Received: from localhost (106.210.248.68) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Tue, 30 Apr 2024 16:03:06 +0100
+Date: Tue, 30 Apr 2024 17:03:02 +0200
+From: Joel Granados <j.granados@samsung.com>
+To: kernel test robot <lkp@intel.com>
+CC: <oe-kbuild-all@lists.linux.dev>, Linux Memory Management List
+	<linux-mm@kvack.org>
+Subject: Re: [linux-next:master 7116/7122]
+ init/main.c:613:(.init.text+0x358): relocation truncated to fit:
+ R_RISCV_GPREL_I against symbol `__setup_start' defined in .init.rodata
+ section in .tmp_vmlinux.kallsyms1
+Message-ID: <20240430150302.rqply6lqrfh7uqov@joelS2.panther.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="6ywvw5tieyftaf3h"
 Content-Disposition: inline
-In-Reply-To: <Zi9Ts1HcqiKzy9GX@gmail.com>
+In-Reply-To: <202404211031.J6l2AfJk-lkp@intel.com>
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA1VSe0hTURzm3HvdrqvZ9Wr4Q6PHNMssZ2K53o2MVgQ9qIiw3MijrXSuLcuK
+	MMmkrcTSILWiF2m5ckPtMQ1Wg6ystNAerrByVrZW9tBEY1vOu17/fed78f3g0CRr9Aullapt
+	WKNSpIt4AupqQ3/zlGh6amqsSTdd0n7J4ydx7OvgSawXW4n5pOzcjQ+ErPpbEV/WVVOKlpPr
+	BLNTcLpyO9aI58oFm64driDVDSuz39pzqb3IKdMjfxqYeLh19hSpRwKaZS4g0F9y+HGPHgTt
+	HXaf8h3B8f0e4nfkaIGbzwkVCJxP2nh/XKUuN/K6WKYWgWGfVo9ommLGw9dHS700j5kMzc6X
+	pBcHD9LX35QPlZLMWtC5XgyVBjE2BI6T54cEITMfzI06HocD4V5pJ8UFsuFuZy/h7SeZMKhw
+	017an4kD/fM2khsqgoKSk77Re6Cx1ubDThoKL2IOJ0Lxjzc+fxA47tTyOTwKPOZThHcPMMUI
+	LO4vfO5hQFCe2+trmgV5rZ2+hBQa7fl87yBgAuD5p0BuZwAUXT1GcrQQDuSznDsSDO1O6jAK
+	L/vnsrJ/Liv7exkHo8BYJ/6P9ZqjofzMR5LDc6Cqqps6jfiVKARnaTPSsDZOhXfEaBUZ2ixV
+	WszGzIxqNPiP7rvv9FxHFY6vMVZE0MiKIgbDHSbDIxRKqTJVWBQsPHpGnMoKUxQ7d2FNZrIm
+	Kx1rrSiMpkQhwvEpYzDLpCm24S0Yq7Hmt0rQ/qF7iZKHnhbj+eqM0cl2xpgr44e7WwP79ltG
+	XKkfGJ420K20vMy5lfcqvmCVbc175cwah2nB63pLrNEmWlXpd6jEZpebN/asDnuWnORSSheq
+	JeJjVfK3fQ2k5O6UCzmTmwolIdO25pG6cQMTeMNyrkVEvVjRHHy8K+tBx/eu1Pr1o5p6A+pL
+	RwRFhngisLwuaeK6ysfhc6nEd/0t0khd3UEiccZmmpX+FOxe6CqaJJ+ZEPXkMjYZ2sR5Aleh
+	pWtJ0+LWp1cO1d68HROafaK7h635iOKJzeZGc/QytmVFnCN2gmnD54SEcUnqI+ul+nljp6v7
+	bCNV+TkBmdZwXf/pRc7YEyJKu0kxdRKp0Sp+AUqQuYnCAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrDIsWRmVeSWpSXmKPExsVy+t/xu7raHIZpBgueyFjcW/Of1eJV8yM2
+	i0MrrzA5MHss3vOSyWPTp0nsHi82z2QMYI7SsynKLy1JVcjILy6xVYo2tDDSM7S00DMysdQz
+	NDaPtTIyVdK3s0lJzcksSy3St0vQy5jQfYW54EhQxcx77A2Mrzy6GDk5JARMJKb0/mMHsYUE
+	ljJK7LpjDhGXkdj45SorhC0s8edaF1sXIxdQzUdGiaa151ghnC2MEsc3rGbqYuTgYBFQlfh4
+	wQekgU1AR+L8mzvMILYIUHjHw2VMIDazQIRE59/b7CC9wgK3GCVezV0KluAVcJDYeaoTakMr
+	o8S1FVvZIBKCEidnPmGB6C6TWDrvGSPIMmYBaYnl/zhAwpwCRhJdN24yQ1yqJNE7Yy4ThF0r
+	8fnvM8YJjMKzkEyahWTSLIRJEGF1iT/zLjFjCGtLLFv4mhnCtpVYt+49ywJG9lWMIqmlxbnp
+	ucWGesWJucWleel6yfm5mxiBUbnt2M/NOxjnvfqod4iRiYPxEKMKUOejDasvMEqx5OXnpSqJ
+	8E5ZqJ8mxJuSWFmVWpQfX1Sak1p8iNEUGIoTmaVEk/OB6SKvJN7QzMDU0MTM0sDU0sxYSZzX
+	s6AjUUggPbEkNTs1tSC1CKaPiYNTqoFp36VPx9sPBE7Z13/KcYdD3XphD9f3HxItP2iYrtp1
+	rlxI7bexqEv1lEq7M392hs9MY+5SC2PzUCtL3Wztv1vwbPo0XiZmF6GvM97vcF0i3Zem+fb3
+	2+O1VQfPqRyoOMyryree+3PF566Ey7nCU9+86eHb47/u2MuQEycmFd5PXuaufvPjn/ZdnAe3
+	HTSdcjnMxlG86WyY5UrxTzNuFAVqBa7mEnZRN3WtruuqDNO4+tPxef6L1zfOub39tfahWsh5
+	vcL3yZdz7jZdfrlB1m754Qpr4/MHYiOLfvM4zHd/c+WRyiuT08ezJvpPb1OY1M9bbeTbq3ts
+	ucSszM2bviVfOKfj25G8/EKD1zdxsQeCSizFGYmGWsxFxYkAzffAVV8DAAA=
+X-CMS-MailID: 20240430150307eucas1p19983581cded42ad5509f3783bfa76811
+X-Msg-Generator: CA
+X-RootMTR: 20240421021112eucas1p2d8f8c557039ea1923f09668f9779ff18
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240421021112eucas1p2d8f8c557039ea1923f09668f9779ff18
+References: <CGME20240421021112eucas1p2d8f8c557039ea1923f09668f9779ff18@eucas1p2.samsung.com>
+	<202404211031.J6l2AfJk-lkp@intel.com>
 
-Hi Ingo,
+--6ywvw5tieyftaf3h
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-kernel test robot noticed the following build warnings:
+On Sun, Apr 21, 2024 at 10:10:26AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   a35e92ef04c07bd473404b9b73d489aea19a60a8
+> commit: 603cac6a968ab44e179e820fc0e2ca3ac2e1d829 [7116/7122] Merge branch=
+ 'sysctl-next' of git://git.kernel.org/pub/scm/linux/kernel/git/sysctl/sysc=
+tl.git
+> config: riscv-randconfig-001-20231020 (https://download.01.org/0day-ci/ar=
+chive/20240421/202404211031.J6l2AfJk-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240421/202404211031.J6l2AfJk-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202404211031.J6l2AfJk-lkp=
+@intel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    riscv64-linux-ld: section .data LMA [000000000099b000,0000000001424de7=
+] overlaps section .text LMA [0000000000104040,000000000213c543]
+>    riscv64-linux-ld: section .data..percpu LMA [00000000024e2000,00000000=
+026b46e7] overlaps section .rodata LMA [000000000213c580,000000000292d0dd]
+>    riscv64-linux-ld: section .rodata VMA [ffffffff8213c580,ffffffff8292d0=
+dd] overlaps section .data VMA [ffffffff82000000,ffffffff82a89de7]
+>    init/main.o: in function `rdinit_setup':
+> >> init/main.c:613:(.init.text+0x358): relocation truncated to fit: R_RIS=
+CV_GPREL_I against symbol `__setup_start' defined in .init.rodata section i=
+n .tmp_vmlinux.kallsyms1
+>    net/ipv4/ipconfig.o: in function `ic_dhcp_init_options':
+>    net/ipv4/ipconfig.c:682:(.init.text+0x9b4): relocation truncated to fi=
+t: R_RISCV_GPREL_I against `ic_bootp_cookie'
+>    net/sunrpc/auth_gss/gss_krb5_mech.o: in function `gss_krb5_prepare_enc=
+type_priority_list':
+> >> net/sunrpc/auth_gss/gss_krb5_mech.c:213:(.text.gss_krb5_prepare_enctyp=
+e_priority_list+0x9c): relocation truncated to fit: R_RISCV_GPREL_I against=
+ `gss_krb5_enctypes.0'
+>    lib/maple_tree.o: in function `mas_leaf_max_gap':
+> >> lib/maple_tree.c:1512:(.text.mas_leaf_max_gap+0x2b8): relocation trunc=
+ated to fit: R_RISCV_GPREL_I against `mt_pivots'
+>    lib/maple_tree.o: in function `ma_dead_node':
+> >> lib/maple_tree.c:560:(.text.mas_data_end+0x110): relocation truncated =
+to fit: R_RISCV_GPREL_I against `mt_pivots'
+>    lib/maple_tree.o: in function `mas_extend_spanning_null':
+> >> lib/maple_tree.c:3662:(.text.mas_extend_spanning_null+0x69c): relocati=
+on truncated to fit: R_RISCV_GPREL_I against `mt_pivots'
+>    lib/maple_tree.o: in function `mas_mab_cp':
+> >> lib/maple_tree.c:1943:(.text.mas_mab_cp+0x248): relocation truncated t=
+o fit: R_RISCV_GPREL_I against `mt_pivots'
+>    lib/maple_tree.o: in function `mab_mas_cp':
+> >> lib/maple_tree.c:2000:(.text.mab_mas_cp+0x15c): relocation truncated t=
+o fit: R_RISCV_GPREL_I against `mt_pivots'
+>    lib/maple_tree.o: in function `mas_reuse_node':
+> >> lib/maple_tree.c:3416:(.text.mas_reuse_node+0x17c): relocation truncat=
+ed to fit: R_RISCV_GPREL_I against `mt_slots'
+>    lib/maple_tree.o: in function `mt_free_walk':
+> >> lib/maple_tree.c:5238:(.text.mt_free_walk+0x15c): relocation truncated=
+ to fit: R_RISCV_GPREL_I against `mt_slots'
+>    lib/maple_tree.o: in function `mtree_lookup_walk':
+>    lib/maple_tree.c:3700:(.text.mtree_lookup_walk+0x94): additional reloc=
+ation overflows omitted from the output
+>=20
+I cross compiled this locally and I believe that the error is *NOT*
+introduced by our sysctl-next changes because I get the same 3 errors
+before and after:
+1. .data overlaps .text
+2. .data overlaps .rodata
+3. .rodata overlaps .data
 
-[auto build test WARNING on linux/master]
-[also build test WARNING on tip/x86/mm linus/master v6.9-rc6 next-20240430]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The errors are the same type but not exactly the same. I believe that
+they change as code gets modified. So before the sysctl-next changes
+went in, the error was expressed somewhere else. This is consistent with
+the way that the bot shows the "new" errors; since they always change as
+code is changed, they will always detect a "new" error.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ingo-Molnar/x86-mm-Remove-broken-vsyscall-emulation-code-from-the-page-fault-code/20240430-135258
-base:   linux/master
-patch link:    https://lore.kernel.org/r/Zi9Ts1HcqiKzy9GX%40gmail.com
-patch subject: [PATCH] x86/mm: Remove broken vsyscall emulation code from the page fault code
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240430/202404302220.EkdfEBSB-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404302220.EkdfEBSB-lkp@intel.com/reproduce)
+Another commonality is that reason for reallocation: in my tests its
+always due to R_RISCV_GPREL_I.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404302220.EkdfEBSB-lkp@intel.com/
+Here are my results (I modified them slightly for readability).
 
-All warnings (new ones prefixed by >>):
+# Before sysctl change:
 
-   arch/x86/entry/vsyscall/vsyscall_64.c: In function 'emulate_vsyscall':
->> arch/x86/entry/vsyscall/vsyscall_64.c:118:29: warning: variable 'tsk' set but not used [-Wunused-but-set-variable]
-     118 |         struct task_struct *tsk;
-         |                             ^~~
+  ~/s/linux-next (29b0937 =E2=97=BC) =E2=9D=AF=E2=9D=AF=E2=9D=AF COMPILER_I=
+NSTALL_PATH=3D/home/joel/toolchains/0day_riscv COMPILER=3Dgcc-13.2.0 /home/=
+joel/src/lkp-tests/kbuild/make.cross W=3D1 O=3Dbriscv ARCH=3Driscv SHELL=3D=
+/bin/bash
+  ...
+  /home/joel/toolchains/0day_riscv/gcc-13.2.0-nolibc/riscv64-linux/bin/risc=
+v64-linux-ld: section .data LMA [000000000098c000,0000000001416fa7] overlap=
+s section .text LMA [0000000000104040,000000000213c503]
+  /home/joel/toolchains/0day_riscv/gcc-13.2.0-nolibc/riscv64-linux/bin/risc=
+v64-linux-ld: section .data..percpu LMA [00000000024d5000,00000000026a76e7]=
+ overlaps section .rodata LMA [000000000213c540,000000000291e3dd]
+  /home/joel/toolchains/0day_riscv/gcc-13.2.0-nolibc/riscv64-linux/bin/risc=
+v64-linux-ld: section .rodata VMA [ffffffff8213c540,ffffffff8291e3dd] overl=
+aps section .data VMA [ffffffff82000000,ffffffff82a8afa7]
+  mm/vmscan.o: in function `folio_nr_pages':
+  /home/joel/src/linux-next/briscv/../include/linux/mm.h:2078:(.text.pageou=
+t+0x184): relocation truncated to fit: R_RISCV_GPREL_I against `__func__.9'
+  kernel/profile.o: in function `profile_setup':
+  /home/joel/src/linux-next/briscv/../kernel/profile.c:58:(.text.profile_se=
+tup+0x90): relocation truncated to fit: R_RISCV_GPREL_I against `sleepstr.2'
+  mm/show_mem.o: in function `show_free_areas':
+  /home/joel/src/linux-next/briscv/../mm/show_mem.c:381:(.text.show_free_ar=
+eas+0x1f54): relocation truncated to fit: R_RISCV_GPREL_I against `types.0'
+  fs/fs_types.o: in function `fs_ftype_to_dtype':
+  /home/joel/src/linux-next/briscv/../fs/fs_types.c:38:(.text.fs_ftype_to_d=
+type+0x44): relocation truncated to fit: R_RISCV_GPREL_I against `fs_dtype_=
+by_ftype'
+  fs/fs_types.o: in function `fs_umode_to_dtype':
+  /home/joel/src/linux-next/briscv/../fs/fs_types.c:103:(.text.fs_umode_to_=
+dtype+0x94): relocation truncated to fit: R_RISCV_GPREL_I against `fs_dtype=
+_by_ftype'
+  security/keys/keyctl.o: in function `keyctl_capabilities':
+  /home/joel/src/linux-next/briscv/../security/keys/keyctl.c:1855:(.text.ke=
+yctl_capabilities+0x40): relocation truncated to fit: R_RISCV_GPREL_I again=
+st `keyrings_capabilities'
+  make[3]: *** [../scripts/Makefile.vmlinux:37: vmlinux] Error 1
+  make[3]: Target '__default' not remade because of errors.
+  make[2]: *** [/home/joel/src/linux-next/Makefile:1165: vmlinux] Error 2
+  make[2]: Target '__all' not remade because of errors.
+  make[1]: *** [/home/joel/src/linux-next/Makefile:240: __sub-make] Error 2
+  make[1]: Target '__all' not remade because of errors.
+  make[1]: Leaving directory '/home/joel/src/linux-next/briscv'
+  make: *** [Makefile:240: __sub-make] Error 2
+  make: Target '__all' not remade because of errors.
 
+# After sysctl change:
 
-vim +/tsk +118 arch/x86/entry/vsyscall/vsyscall_64.c
+  ~/s/linux-next (603cac6 =E2=97=BC) =E2=9D=AF=E2=9D=AF=E2=9D=AF COMPILER_I=
+NSTALL_PATH=3D/home/joel/toolchains/0day_riscv COMPILER=3Dgcc-13.2.0 /home/=
+joel/src/lkp-tests/kbuild/make.cross W=3D1 O=3Dbriscv ARCH=3Driscv SHELL=3D=
+/bin/bash
+  ...
+  /home/joel/toolchains/0day_riscv/gcc-13.2.0-nolibc/riscv64-linux/bin/risc=
+v64-linux-ld: section .data LMA [000000000098c000,0000000001415de7] overlap=
+s section .text LMA [0000000000104000,000000000213c603]
+  /home/joel/toolchains/0day_riscv/gcc-13.2.0-nolibc/riscv64-linux/bin/risc=
+v64-linux-ld: section .data..percpu LMA [00000000024d3000,00000000026a56e7]=
+ overlaps section .rodata LMA [000000000213c640,000000000291e2fd]
+  /home/joel/toolchains/0day_riscv/gcc-13.2.0-nolibc/riscv64-linux/bin/risc=
+v64-linux-ld: section .rodata VMA [ffffffff8213c640,ffffffff8291e2fd] overl=
+aps section .data VMA [ffffffff82000000,ffffffff82a89de7]
+  init/main.o: in function `.L0 ':
+  /home/joel/src/linux-next/briscv/../init/main.c:769:(.init.text+0x2388): =
+relocation truncated to fit: R_RISCV_GPREL_I against symbol `__stop___param=
+' defined in __param section in .tmp_vmlinux.kallsyms1
+  kernel/extable.o:(.init.text+0x2c): relocation truncated to fit: R_RISCV_=
+GPREL_I against symbol `__start___ex_table' defined in __ex_table section i=
+n .tmp_vmlinux.kallsyms1
+  kernel/extable.o:(.text.search_exception_tables+0x14): relocation truncat=
+ed to fit: R_RISCV_GPREL_I against symbol `__start___ex_table' defined in _=
+_ex_table section in .tmp_vmlinux.kallsyms1
+  kernel/params.o: in function `param_sysfs_builtin':
+  /home/joel/src/linux-next/briscv/../kernel/params.c:836:(.init.text+0x354=
+): relocation truncated to fit: R_RISCV_GPREL_I against symbol `__stop___pa=
+ram' defined in __param section in .tmp_vmlinux.kallsyms1
+  make[3]: *** [../scripts/Makefile.vmlinux:37: vmlinux] Error 1
+  make[3]: Target '__default' not remade because of errors.
+  make[2]: *** [/home/joel/src/linux-next/Makefile:1165: vmlinux] Error 2
+  make[2]: Target '__all' not remade because of errors.
+  make[1]: *** [/home/joel/src/linux-next/Makefile:240: __sub-make] Error 2
+  make[1]: Target '__all' not remade because of errors.
+  make[1]: Leaving directory '/home/joel/src/linux-next/briscv'
+  make: *** [Makefile:240: __sub-make] Error 2
+  make: Target '__all' not remade because of errors.
 
-4fc3490114bb15 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-11-07  114  
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  115  bool emulate_vsyscall(unsigned long error_code,
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  116  		      struct pt_regs *regs, unsigned long address)
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  117  {
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05 @118  	struct task_struct *tsk;
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  119  	unsigned long caller;
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  120  	int vsyscall_nr, syscall_nr, tmp;
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  121  	long ret;
-fa697140f9a201 arch/x86/entry/vsyscall/vsyscall_64.c Dominik Brodowski     2018-04-05  122  	unsigned long orig_dx;
-7460ed2844ffad arch/x86_64/kernel/vsyscall.c         John Stultz           2007-02-16  123  
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  124  	/* Write faults or kernel-privilege faults never get fixed up. */
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  125  	if ((error_code & (X86_PF_WRITE | X86_PF_USER)) != X86_PF_USER)
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  126  		return false;
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  127  
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  128  	if (!(error_code & X86_PF_INSTR)) {
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  129  		/* Failed vsyscall read */
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  130  		if (vsyscall_mode == EMULATE)
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  131  			return false;
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  132  
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  133  		/*
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  134  		 * User code tried and failed to read the vsyscall page.
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  135  		 */
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  136  		warn_bad_vsyscall(KERN_INFO, regs, "vsyscall read attempt denied -- look up the vsyscall kernel parameter if you need a workaround");
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  137  		return false;
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  138  	}
-918ce325098a4e arch/x86/entry/vsyscall/vsyscall_64.c Andy Lutomirski       2019-06-26  139  
-c9712944b2a123 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-07-13  140  	/*
-3ae36655b97a03 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-10  141  	 * No point in checking CS -- the only way to get here is a user mode
-3ae36655b97a03 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-10  142  	 * trap to a high address, which means that we're in 64-bit user code.
-c9712944b2a123 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-07-13  143  	 */
-7460ed2844ffad arch/x86_64/kernel/vsyscall.c         John Stultz           2007-02-16  144  
-3ae36655b97a03 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-10  145  	WARN_ON_ONCE(address != regs->ip);
-3ae36655b97a03 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-10  146  
-3ae36655b97a03 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-10  147  	if (vsyscall_mode == NONE) {
-3ae36655b97a03 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-10  148  		warn_bad_vsyscall(KERN_INFO, regs,
-3ae36655b97a03 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-10  149  				  "vsyscall attempted with vsyscall=none");
-3ae36655b97a03 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-10  150  		return false;
-c9712944b2a123 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-07-13  151  	}
-7460ed2844ffad arch/x86_64/kernel/vsyscall.c         John Stultz           2007-02-16  152  
-3ae36655b97a03 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-10  153  	vsyscall_nr = addr_to_vsyscall_nr(address);
-c149a665ac488e arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-03  154  
-c149a665ac488e arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-03  155  	trace_emulate_vsyscall(vsyscall_nr);
-c149a665ac488e arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-03  156  
-c9712944b2a123 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-07-13  157  	if (vsyscall_nr < 0) {
-c9712944b2a123 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-07-13  158  		warn_bad_vsyscall(KERN_WARNING, regs,
-3ae36655b97a03 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-10  159  				  "misaligned vsyscall (exploit attempt or buggy program) -- look up the vsyscall kernel parameter if you need a workaround");
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  160  		goto sigsegv;
-7460ed2844ffad arch/x86_64/kernel/vsyscall.c         John Stultz           2007-02-16  161  	}
-7460ed2844ffad arch/x86_64/kernel/vsyscall.c         John Stultz           2007-02-16  162  
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  163  	if (get_user(caller, (unsigned long __user *)regs->sp) != 0) {
-3ae36655b97a03 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-10  164  		warn_bad_vsyscall(KERN_WARNING, regs,
-3ae36655b97a03 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-10  165  				  "vsyscall with bad stack (exploit attempt?)");
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  166  		goto sigsegv;
-^1da177e4c3f41 arch/x86_64/kernel/vsyscall.c         Linus Torvalds        2005-04-16  167  	}
-^1da177e4c3f41 arch/x86_64/kernel/vsyscall.c         Linus Torvalds        2005-04-16  168  
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  169  	tsk = current;
-4fc3490114bb15 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-11-07  170  
-4fc3490114bb15 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-11-07  171  	/*
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  172  	 * Check for access_ok violations and find the syscall nr.
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  173  	 *
-46ed99d1b7c929 arch/x86/kernel/vsyscall_64.c         Emil Goode            2012-04-01  174  	 * NULL is a valid user pointer (in the access_ok sense) on 32-bit and
-4fc3490114bb15 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-11-07  175  	 * 64-bit, so we don't need to special-case it here.  For all the
-46ed99d1b7c929 arch/x86/kernel/vsyscall_64.c         Emil Goode            2012-04-01  176  	 * vsyscalls, NULL means "don't write anything" not "write it at
-4fc3490114bb15 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-11-07  177  	 * address 0".
-4fc3490114bb15 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-11-07  178  	 */
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  179  	switch (vsyscall_nr) {
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  180  	case 0:
-ddccf40fe82b7a arch/x86/entry/vsyscall/vsyscall_64.c Arnd Bergmann         2017-11-23  181  		if (!write_ok_or_segv(regs->di, sizeof(struct __kernel_old_timeval)) ||
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  182  		    !write_ok_or_segv(regs->si, sizeof(struct timezone))) {
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  183  			ret = -EFAULT;
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  184  			goto check_fault;
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  185  		}
-4fc3490114bb15 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-11-07  186  
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  187  		syscall_nr = __NR_gettimeofday;
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  188  		break;
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  189  
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  190  	case 1:
-21346564ccad17 arch/x86/entry/vsyscall/vsyscall_64.c Arnd Bergmann         2019-11-05  191  		if (!write_ok_or_segv(regs->di, sizeof(__kernel_old_time_t))) {
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  192  			ret = -EFAULT;
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  193  			goto check_fault;
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  194  		}
-5651721edec25b arch/x86/kernel/vsyscall_64.c         Will Drewry           2012-07-13  195  
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  196  		syscall_nr = __NR_time;
-4fc3490114bb15 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-11-07  197  		break;
-4fc3490114bb15 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-11-07  198  
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  199  	case 2:
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  200  		if (!write_ok_or_segv(regs->di, sizeof(unsigned)) ||
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  201  		    !write_ok_or_segv(regs->si, sizeof(unsigned))) {
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  202  			ret = -EFAULT;
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  203  			goto check_fault;
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  204  		}
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  205  
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  206  		syscall_nr = __NR_getcpu;
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  207  		break;
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  208  	}
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  209  
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  210  	/*
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  211  	 * Handle seccomp.  regs->ip must be the original value.
-5fb94e9ca333f0 arch/x86/entry/vsyscall/vsyscall_64.c Mauro Carvalho Chehab 2018-05-08  212  	 * See seccomp_send_sigsys and Documentation/userspace-api/seccomp_filter.rst.
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  213  	 *
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  214  	 * We could optimize the seccomp disabled case, but performance
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  215  	 * here doesn't matter.
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  216  	 */
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  217  	regs->orig_ax = syscall_nr;
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  218  	regs->ax = -ENOSYS;
-fefad9ef58ffc2 arch/x86/entry/vsyscall/vsyscall_64.c Christian Brauner     2019-09-24  219  	tmp = secure_computing();
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  220  	if ((!tmp && regs->orig_ax != syscall_nr) || regs->ip != address) {
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  221  		warn_bad_vsyscall(KERN_DEBUG, regs,
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  222  				  "seccomp tried to change syscall nr or ip");
-fcb116bc43c8c3 arch/x86/entry/vsyscall/vsyscall_64.c Eric W. Biederman     2021-11-18  223  		force_exit_sig(SIGSYS);
-695dd0d634df89 arch/x86/entry/vsyscall/vsyscall_64.c Eric W. Biederman     2021-10-20  224  		return true;
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  225  	}
-26893107aa717c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2014-11-04  226  	regs->orig_ax = -1;
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  227  	if (tmp)
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  228  		goto do_ret;  /* skip requested */
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  229  
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  230  	/*
-198d72414c92c7 arch/x86/entry/vsyscall/vsyscall_64.c Ingo Molnar           2024-04-29  231  	 * With a real vsyscall, page faults cause SIGSEGV.
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  232  	 */
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  233  	ret = -EFAULT;
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  234  	switch (vsyscall_nr) {
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  235  	case 0:
-fa697140f9a201 arch/x86/entry/vsyscall/vsyscall_64.c Dominik Brodowski     2018-04-05  236  		/* this decodes regs->di and regs->si on its own */
-d5a00528b58cdb arch/x86/entry/vsyscall/vsyscall_64.c Dominik Brodowski     2018-04-09  237  		ret = __x64_sys_gettimeofday(regs);
-5651721edec25b arch/x86/kernel/vsyscall_64.c         Will Drewry           2012-07-13  238  		break;
-5651721edec25b arch/x86/kernel/vsyscall_64.c         Will Drewry           2012-07-13  239  
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  240  	case 1:
-fa697140f9a201 arch/x86/entry/vsyscall/vsyscall_64.c Dominik Brodowski     2018-04-05  241  		/* this decodes regs->di on its own */
-d5a00528b58cdb arch/x86/entry/vsyscall/vsyscall_64.c Dominik Brodowski     2018-04-09  242  		ret = __x64_sys_time(regs);
-4fc3490114bb15 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-11-07  243  		break;
-4fc3490114bb15 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-11-07  244  
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  245  	case 2:
-fa697140f9a201 arch/x86/entry/vsyscall/vsyscall_64.c Dominik Brodowski     2018-04-05  246  		/* while we could clobber regs->dx, we didn't in the past... */
-fa697140f9a201 arch/x86/entry/vsyscall/vsyscall_64.c Dominik Brodowski     2018-04-05  247  		orig_dx = regs->dx;
-fa697140f9a201 arch/x86/entry/vsyscall/vsyscall_64.c Dominik Brodowski     2018-04-05  248  		regs->dx = 0;
-fa697140f9a201 arch/x86/entry/vsyscall/vsyscall_64.c Dominik Brodowski     2018-04-05  249  		/* this decodes regs->di, regs->si and regs->dx on its own */
-d5a00528b58cdb arch/x86/entry/vsyscall/vsyscall_64.c Dominik Brodowski     2018-04-09  250  		ret = __x64_sys_getcpu(regs);
-fa697140f9a201 arch/x86/entry/vsyscall/vsyscall_64.c Dominik Brodowski     2018-04-05  251  		regs->dx = orig_dx;
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  252  		break;
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  253  	}
-8c73626ab28527 arch/x86/kernel/vsyscall_64.c         John Stultz           2010-07-13  254  
-87b526d349b04c arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2012-10-01  255  check_fault:
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  256  	if (ret == -EFAULT) {
-4fc3490114bb15 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-11-07  257  		/* Bad news -- userspace fed a bad pointer to a vsyscall. */
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  258  		warn_bad_vsyscall(KERN_INFO, regs,
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  259  				  "vsyscall fault (exploit attempt?)");
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  260  		goto sigsegv;
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  261  	}
-8c73626ab28527 arch/x86/kernel/vsyscall_64.c         John Stultz           2010-07-13  262  
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  263  	regs->ax = ret;
-8c73626ab28527 arch/x86/kernel/vsyscall_64.c         John Stultz           2010-07-13  264  
-5651721edec25b arch/x86/kernel/vsyscall_64.c         Will Drewry           2012-07-13  265  do_ret:
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  266  	/* Emulate a ret instruction. */
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  267  	regs->ip = caller;
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  268  	regs->sp += 8;
-3ae36655b97a03 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-10  269  	return true;
-c08c820508233b arch/x86_64/kernel/vsyscall.c         Vojtech Pavlik        2006-09-26  270  
-5cec93c216db77 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-06-05  271  sigsegv:
-3cf5d076fb4d48 arch/x86/entry/vsyscall/vsyscall_64.c Eric W. Biederman     2019-05-23  272  	force_sig(SIGSEGV);
-3ae36655b97a03 arch/x86/kernel/vsyscall_64.c         Andy Lutomirski       2011-08-10  273  	return true;
-^1da177e4c3f41 arch/x86_64/kernel/vsyscall.c         Linus Torvalds        2005-04-16  274  }
-^1da177e4c3f41 arch/x86_64/kernel/vsyscall.c         Linus Torvalds        2005-04-16  275  
+If you see any flaw in this analysis, please let me know.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best
+
+--=20
+
+Joel Granados
+
+--6ywvw5tieyftaf3h
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmYxCCUACgkQupfNUreW
+QU8XlAv+NWs+1sYTFuw9GvOVFydfuWWvJbWoUq0saC9SHz9FVq8slxgXR/teqBye
+gevTdWGThYSynLBhYYOoYl4mvKvegMuT+PRdwQg2KIZhBayrgVXe0P8k58ZKKkJC
+vQicjfCn+HHGnm7WjJ5X+GghW1uuaJMGWTVJIyDYt+clXEjF4sNzs6gRbkdsGDzH
+dmaQS1MZbnrDFKp7CAwOnFGGHyHD4srMDCJoJhp9fO2oF849/siAgmx4Ey4zc/tx
+bZKPubRjOrbePhDMQhbCqyN+3iB88jUnMr52OHauvx6VBDjOjjBIDby6EW/hui9L
+zj7Kdajo4al/aNd15WvLtCEHqPq0uJaoWUGO/HBx/QESHIOzMgzycYoJN4qm8lH2
+PazZ27yzFJJVZSu6f8+k0L02Y0bM0wWFI8QXKkJ8riInO003jMN+ovZvdbb8bEV8
+0X89ZaR2P01ZLHerFJb2uOZDGLxjeA7OxnESG2WiPCYBMyGkFwUsP2Uto37kBS2O
+I8L902Fk
+=d1R2
+-----END PGP SIGNATURE-----
+
+--6ywvw5tieyftaf3h--
