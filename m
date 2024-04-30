@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DB71870
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 00:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE39523A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 01:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714438726; cv=none; b=a5J2LEzyqs8o0cKvSBIDDkaVXTjwObO/HmwYfvogYvv0GOrmNYcWfOpjWGKGnoNWS6djepfJQL0yCNUqfIrykzJ/BfT2l6WJ8oAw6vK5kpmcH8KuwIOnaHVHaUq64/sniR5DZ0IhqVl/LS8oDvffl+lIDYzmTbl8vOsLXNbdUM4=
+	t=1714441262; cv=none; b=ShFC1WWZucyhsyjNl1y7zzEAsCOfNTVXk7ooWNIJ3cJkKux892u38kVWDeeEnP+37XJppgJ41HqjPub78HtzDbJ3HsAWuE3aa1B3NH+EA1q5p0anwXCEwUYef59AJsijL+iAmG7Zwm048is/jt6GM6yPdw4cfQmcSfJGW3bP88Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714438726; c=relaxed/simple;
-	bh=QmmFzLH4pLsnrBDzNbnT4xv4KawIxAwefbcb+NvdNiE=;
+	s=arc-20240116; t=1714441262; c=relaxed/simple;
+	bh=6IhX8j55N1ZdHwebZDJq4mj1vDlDSNifeGdUqXvyoPg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X5HI1gBP7Pu0FfdfqfCBQR4wlR0Bn3aFHgSpzPqapAVPx41c8CjRnR3NXC8X2kRkixUWSs3Prk1k+7yACcCx8YQLZYi/5wmzElygTHYrwNIG8fbfkln3SAiN0Dz/4/ppr1YbShFLjke4Ek/lSOAviEtTkREflE2ZbPVHuhTLrGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cHEVjOU8; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=Sk6U9fFhg/eV2RNvLZ+RfeXBqX0W9BDqgAc8KcuFA3B0OK2DMJY7Tt71xXb21b1v++ot7JJfRbFWBa2lL580QJQVB85qJ/MD0zg09hdm8cQblvwdlip+BKPhxUOrNCwOQAQftWpsNSdkzFGIgC6Xj2yvGSX1frWj5Rh2KtigxIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gMNptWdI; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cHEVjOU8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gMNptWdI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714438724; x=1745974724;
+  t=1714441260; x=1745977260;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QmmFzLH4pLsnrBDzNbnT4xv4KawIxAwefbcb+NvdNiE=;
-  b=cHEVjOU8WPnMlX4KAE96W3t2iX5vuFifzgZM4ActjveL8h6YsL7wJMhO
-   cBLrafOqBzBZLdtkP3eixKLOonR0Iz3IzBlzdwIyp+Ho4I7C/pZsRe2Z7
-   YFxR0qimgFzCSIKQARkxg1ys5AyTIMkMUmsRP2xpLOcB6QGiU59RArrkn
-   iaZsaZihRIVkSSwmjnd+iXPxwsv1M0w/qM9sm6Ndgo5fxYZEiHKXpu3Dr
-   XrtdxX4B67JP9BOfVjefpmZafSd/ReQIyaMkLlUFiS65ERX4lzLAo1mtJ
-   C5cmy0WiucKqXUuptaMDGz4ykTkFsFel3b/3/o2Me8KTYSdCKU8QdEk3k
-   Q==;
-X-CSE-ConnectionGUID: R4suUlioRZazwZGTPr6T/g==
-X-CSE-MsgGUID: U9JTWEJRTx+kx2qxwmxpGQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="35513173"
+  bh=6IhX8j55N1ZdHwebZDJq4mj1vDlDSNifeGdUqXvyoPg=;
+  b=gMNptWdIBVO8zgXwB0wP2cfX+WNF0Iu8BWvald96KMKlJwfLBYw3vGQa
+   jFgnWHr54qXX/3pL4Cek04PtxpflGcyzIfwd5l/tuTIp9mg58vGR2FsFd
+   w6Gb9gxwGCuiqAtx707ymNvLqPVCi2P1+LQq9+DFJ72zUN9V1ccnYCL6j
+   AF2lER/2JPRhnC+PvgRpJxr9WbSeIe3N3BYbXJo6fTPM0O0LsoqQ43srY
+   ARbfgqW2yXXQzeFc8gnZmiTtYG1mRgK9hr0fEk5Mh92STfHo2Yg4oRgxY
+   8OK0itCms08maHmc9z28qzLBFkPq0v2wD8Pg/JSC+WRTvl1lrb1GCXTm2
+   g==;
+X-CSE-ConnectionGUID: cfmooA+pRo6j6djQHTFJFw==
+X-CSE-MsgGUID: sAueaFhZSZe3kiPrgbHGug==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="27573523"
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="35513173"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 17:58:43 -0700
-X-CSE-ConnectionGUID: 7GpncuyMRQiNVqoCtKkfSA==
-X-CSE-MsgGUID: MQCmJT6fTFW3a9MMJ1f3Ww==
+   d="scan'208";a="27573523"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 18:40:59 -0700
+X-CSE-ConnectionGUID: w9uR4jKrQRCrPe12wdqXmA==
+X-CSE-MsgGUID: YI8CafGzQu+38Boo5LdJ8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="30921807"
+   d="scan'208";a="26913840"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Apr 2024 17:58:42 -0700
+  by orviesa008.jf.intel.com with ESMTP; 29 Apr 2024 18:40:58 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1bpP-0007Zw-2y;
-	Tue, 30 Apr 2024 00:58:39 +0000
-Date: Tue, 30 Apr 2024 08:58:07 +0800
+	id 1s1cUJ-0007bg-1W;
+	Tue, 30 Apr 2024 01:40:55 +0000
+Date: Tue, 30 Apr 2024 09:40:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
+To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:page_counters.1 5/7] include/linux/page_counter.h:20:27:
- error: expected parameter declarator
-Message-ID: <202404300843.HqCvlqMj-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 15647/22256]
+ kernel/sched/sparsemask.h:98:17: warning: array subscript 0 is outside array
+ bounds of 'const struct sparsemask_chunk[0]'
+Message-ID: <202404300955.dFOHBkZ8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,412 +63,295 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/rgushchin/linux.git page_counters.1
-head:   74f3bba65f60c295d6ea14d848aaefed4a70c397
-commit: 527af2b8159ca031e267813637bebe68bc14875a [5/7] mm: memcg: merge multiple page_counters into a single structure
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240430/202404300843.HqCvlqMj-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404300843.HqCvlqMj-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   3c3550371ac3e9d3326c8263a6eb52d3bb0b43a8
+commit: bccfa644c1b98b9d6fa102a39a10a1c52811fd0c [15647/22256] sched/fair: Steal work from an overloaded CPU when CPU goes idle
+config: x86_64-randconfig-003-20240430 (https://download.01.org/0day-ci/archive/20240430/202404300955.dFOHBkZ8-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404300955.dFOHBkZ8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404300843.HqCvlqMj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404300955.dFOHBkZ8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/char/mem.c:12:
-   In file included from include/linux/mm.h:2237:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/char/mem.c:19:
-   In file included from include/linux/tty.h:11:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/char/mem.c:19:
-   In file included from include/linux/tty.h:11:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/char/mem.c:19:
-   In file included from include/linux/tty.h:11:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from drivers/char/mem.c:25:
-   In file included from include/linux/shmem_fs.h:6:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:18:
-   include/linux/page_counter.h:20:1: error: unknown type name 'define'
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         | ^
->> include/linux/page_counter.h:20:27: error: expected parameter declarator
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         |                           ^
-   arch/s390/include/asm/page.h:31:26: note: expanded from macro 'HUGE_MAX_HSTATE'
-      31 | #define HUGE_MAX_HSTATE         2
-         |                                 ^
-   In file included from drivers/char/mem.c:25:
-   In file included from include/linux/shmem_fs.h:6:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:18:
-   include/linux/page_counter.h:20:27: error: expected ')'
-   arch/s390/include/asm/page.h:31:26: note: expanded from macro 'HUGE_MAX_HSTATE'
-      31 | #define HUGE_MAX_HSTATE         2
-         |                                 ^
-   include/linux/page_counter.h:20:26: note: to match this '('
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         |                          ^
->> include/linux/page_counter.h:20:26: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         |                          ^                       
-         |                                                  void
-   include/linux/page_counter.h:20:51: error: expected ';' after top level declarator
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         |                                                   ^
-         |                                                   ;
-   17 warnings and 5 errors generated.
---
-   In file included from drivers/char/tpm/tpm-interface.c:26:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:18:
-   include/linux/page_counter.h:20:1: error: unknown type name 'define'
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         | ^
->> include/linux/page_counter.h:20:27: error: expected parameter declarator
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         |                           ^
-   arch/s390/include/asm/page.h:31:26: note: expanded from macro 'HUGE_MAX_HSTATE'
-      31 | #define HUGE_MAX_HSTATE         2
-         |                                 ^
-   In file included from drivers/char/tpm/tpm-interface.c:26:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:18:
-   include/linux/page_counter.h:20:27: error: expected ')'
-   arch/s390/include/asm/page.h:31:26: note: expanded from macro 'HUGE_MAX_HSTATE'
-      31 | #define HUGE_MAX_HSTATE         2
-         |                                 ^
-   include/linux/page_counter.h:20:26: note: to match this '('
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         |                          ^
->> include/linux/page_counter.h:20:26: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         |                          ^                       
-         |                                                  void
-   include/linux/page_counter.h:20:51: error: expected ';' after top level declarator
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         |                                                   ^
-         |                                                   ;
-   In file included from drivers/char/tpm/tpm-interface.c:26:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2237:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/char/tpm/tpm-interface.c:26:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:23:
-   In file included from include/linux/writeback.h:13:
-   In file included from include/linux/blk_types.h:11:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:160:
-   include/linux/compat.h:454:22: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
-         |                             ^        ~
-   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
-      22 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/char/tpm/tpm-interface.c:26:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:23:
-   In file included from include/linux/writeback.h:13:
-   In file included from include/linux/blk_types.h:11:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:160:
-   include/linux/compat.h:454:10: warning: array index 7 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
-     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
-         |                 ^     ~
-   include/linux/compat.h:130:2: note: array 'sig' declared here
-     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
-         |         ^
-   include/linux/compat.h:454:42: warning: array index 6 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
-     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
-         |                                                 ^     ~
-   include/linux/compat.h:130:2: note: array 'sig' declared here
-     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
-         |         ^
-   include/linux/compat.h:454:53: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
-         |                                                            ^        ~
-   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
-      22 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/char/tpm/tpm-interface.c:26:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:23:
-   In file included from include/linux/writeback.h:13:
-   In file included from include/linux/blk_types.h:11:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:160:
-   include/linux/compat.h:456:22: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
-         |                             ^        ~
-   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
-      22 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/char/tpm/tpm-interface.c:26:
-   In file included from include/linux/suspend.h:5:
---
-   In file included from drivers/char/tpm/eventlog/common.c:18:
-   In file included from include/linux/security.h:33:
-   In file included from include/linux/mm.h:2237:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/char/tpm/eventlog/common.c:18:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:18:
-   include/linux/page_counter.h:20:1: error: unknown type name 'define'
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         | ^
->> include/linux/page_counter.h:20:27: error: expected parameter declarator
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         |                           ^
-   arch/s390/include/asm/page.h:31:26: note: expanded from macro 'HUGE_MAX_HSTATE'
-      31 | #define HUGE_MAX_HSTATE         2
-         |                                 ^
-   In file included from drivers/char/tpm/eventlog/common.c:18:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:18:
-   include/linux/page_counter.h:20:27: error: expected ')'
-   arch/s390/include/asm/page.h:31:26: note: expanded from macro 'HUGE_MAX_HSTATE'
-      31 | #define HUGE_MAX_HSTATE         2
-         |                                 ^
-   include/linux/page_counter.h:20:26: note: to match this '('
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         |                          ^
->> include/linux/page_counter.h:20:26: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         |                          ^                       
-         |                                                  void
-   include/linux/page_counter.h:20:51: error: expected ';' after top level declarator
-      20 | define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-         |                                                   ^
-         |                                                   ;
-   In file included from drivers/char/tpm/eventlog/common.c:20:
-   include/linux/tpm_eventlog.h:167:6: warning: variable 'mapping_size' set but not used [-Wunused-but-set-variable]
-     167 |         int mapping_size;
-         |             ^
-   In file included from drivers/char/tpm/eventlog/common.c:22:
-   In file included from drivers/char/tpm/eventlog/../tpm.h:26:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/char/tpm/eventlog/common.c:22:
-   In file included from drivers/char/tpm/eventlog/../tpm.h:26:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/char/tpm/eventlog/common.c:22:
-   In file included from drivers/char/tpm/eventlog/../tpm.h:26:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   18 warnings and 5 errors generated.
+   kernel/sched/fair.c:2548:6: warning: no previous prototype for 'task_numa_work' [-Wmissing-prototypes]
+    2548 | void task_numa_work(struct callback_head *work)
+         |      ^~~~~~~~~~~~~~
+   kernel/sched/fair.c:2694:6: warning: no previous prototype for 'task_tick_numa' [-Wmissing-prototypes]
+    2694 | void task_tick_numa(struct rq *rq, struct task_struct *curr)
+         |      ^~~~~~~~~~~~~~
+   kernel/sched/fair.c:3658:6: warning: no previous prototype for 'sync_entity_load_avg' [-Wmissing-prototypes]
+    3658 | void sync_entity_load_avg(struct sched_entity *se)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:3671:6: warning: no previous prototype for 'remove_entity_load_avg' [-Wmissing-prototypes]
+    3671 | void remove_entity_load_avg(struct sched_entity *se)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'update_blocked_averages':
+   kernel/sched/fair.c:7626:14: warning: variable 'done' set but not used [-Wunused-but-set-variable]
+    7626 |         bool done = true;
+         |              ^~~~
+   In function 'group_faults_priv',
+       inlined from 'task_scan_max' at kernel/sched/fair.c:1175:27:
+   kernel/sched/fair.c:1307:37: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
+    1307 |                 faults += ng->faults[task_faults_idx(NUMA_MEM, node, 1)];
+         |                           ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'task_scan_max':
+   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
+    1083 |         unsigned long faults[0];
+         |                       ^~~~~~
+   In function 'group_faults_shared',
+       inlined from 'task_scan_max' at kernel/sched/fair.c:1174:26:
+   kernel/sched/fair.c:1319:37: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
+    1319 |                 faults += ng->faults[task_faults_idx(NUMA_MEM, node, 0)];
+         |                           ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'task_scan_max':
+   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
+    1083 |         unsigned long faults[0];
+         |                       ^~~~~~
+   In function 'group_faults_priv',
+       inlined from 'task_scan_start' at kernel/sched/fair.c:1151:27:
+   kernel/sched/fair.c:1307:37: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
+    1307 |                 faults += ng->faults[task_faults_idx(NUMA_MEM, node, 1)];
+         |                           ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'task_scan_start':
+   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
+    1083 |         unsigned long faults[0];
+         |                       ^~~~~~
+   In function 'group_faults_shared',
+       inlined from 'task_scan_start' at kernel/sched/fair.c:1150:26:
+   kernel/sched/fair.c:1319:37: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
+    1319 |                 faults += ng->faults[task_faults_idx(NUMA_MEM, node, 0)];
+         |                           ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'task_scan_start':
+   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
+    1083 |         unsigned long faults[0];
+         |                       ^~~~~~
+   In file included from include/linux/bitops.h:19,
+                    from include/linux/kernel.h:11,
+                    from arch/x86/include/asm/percpu.h:45,
+                    from arch/x86/include/asm/current.h:6,
+                    from include/linux/sched.h:12,
+                    from kernel/sched/sched.h:5,
+                    from kernel/sched/fair.c:23:
+   In function 'sparsemask_test_elem',
+       inlined from 'try_steal' at kernel/sched/fair.c:10007:8:
+   kernel/sched/sparsemask.h:53:10: warning: array subscript <unknown> is outside array bounds of 'const struct sparsemask_chunk[0]' [-Warray-bounds=]
+      53 |         (&(mask)->chunks[SMASK_INDEX((mask), (elem))].word)
+   arch/x86/include/asm/bitops.h:341:37: note: in definition of macro 'test_bit'
+     341 |          : variable_test_bit((nr), (addr)))
+         |                                     ^~~~
+   kernel/sched/sparsemask.h:191:48: note: in expansion of macro 'SMASK_WORD'
+     191 |         return test_bit(SMASK_BIT(mask, elem), SMASK_WORD(mask, elem));
+         |                                                ^~~~~~~~~~
+   In file included from kernel/sched/fair.c:24:
+   kernel/sched/sparsemask.h: In function 'try_steal':
+   kernel/sched/sparsemask.h:45:33: note: while referencing 'chunks'
+      45 |         struct sparsemask_chunk chunks[0];  /* embedded array of chunks */
+         |                                 ^~~~~~
+   In function 'sparsemask_next',
+       inlined from 'try_steal' at kernel/sched/fair.c:10018:2:
+   kernel/sched/sparsemask.h:98:17: warning: array subscript <unknown> is outside array bounds of 'const struct sparsemask_chunk[0]' [-Warray-bounds=]
+      98 |         chunk = &mask->chunks[_SMASK_INDEX(density, next)];
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/sparsemask.h: In function 'try_steal':
+   kernel/sched/sparsemask.h:45:33: note: while referencing 'chunks'
+      45 |         struct sparsemask_chunk chunks[0];  /* embedded array of chunks */
+         |                                 ^~~~~~
+   In function 'sparsemask_next',
+       inlined from 'try_steal' at kernel/sched/fair.c:10018:2:
+>> kernel/sched/sparsemask.h:98:17: warning: array subscript 0 is outside array bounds of 'const struct sparsemask_chunk[0]' [-Warray-bounds=]
+      98 |         chunk = &mask->chunks[_SMASK_INDEX(density, next)];
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/sparsemask.h: In function 'try_steal':
+   kernel/sched/sparsemask.h:45:33: note: while referencing 'chunks'
+      45 |         struct sparsemask_chunk chunks[0];  /* embedded array of chunks */
+         |                                 ^~~~~~
+   In function 'sparsemask_next',
+       inlined from 'try_steal' at kernel/sched/fair.c:10018:2:
+   kernel/sched/sparsemask.h:98:30: warning: array subscript <unknown> is outside array bounds of 'const struct sparsemask_chunk[0]' [-Warray-bounds=]
+      98 |         chunk = &mask->chunks[_SMASK_INDEX(density, next)];
+         |                  ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/sparsemask.h: In function 'try_steal':
+   kernel/sched/sparsemask.h:45:33: note: while referencing 'chunks'
+      45 |         struct sparsemask_chunk chunks[0];  /* embedded array of chunks */
+         |                                 ^~~~~~
+   kernel/sched/fair.c: In function 'task_numa_group':
+   kernel/sched/fair.c:2335:36: warning: array subscript i is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
+    2335 |                         grp->faults[i] = p->numa_faults[i];
+         |                         ~~~~~~~~~~~^~~
+   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
+    1083 |         unsigned long faults[0];
+         |                       ^~~~~~
+   kernel/sched/fair.c:2393:31: warning: array subscript i is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
+    2393 |                 my_grp->faults[i] -= p->numa_faults[i];
+         |                 ~~~~~~~~~~~~~~^~~
+   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
+    1083 |         unsigned long faults[0];
+         |                       ^~~~~~
+   kernel/sched/fair.c:2393:31: warning: array subscript i is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
+    2393 |                 my_grp->faults[i] -= p->numa_faults[i];
+         |                 ~~~~~~~~~~~~~~^~~
+   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
+    1083 |         unsigned long faults[0];
+         |                       ^~~~~~
+   kernel/sched/fair.c:2394:28: warning: array subscript i is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
+    2394 |                 grp->faults[i] += p->numa_faults[i];
+         |                 ~~~~~~~~~~~^~~
+   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
+    1083 |         unsigned long faults[0];
+         |                       ^~~~~~
+   kernel/sched/fair.c:2394:28: warning: array subscript i is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
+    2394 |                 grp->faults[i] += p->numa_faults[i];
+         |                 ~~~~~~~~~~~^~~
+   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
+    1083 |         unsigned long faults[0];
+         |                       ^~~~~~
+   In function 'sparsemask_clear_elem',
+       inlined from 'overload_clear.part.0' at kernel/sched/fair.c:3834:3:
+   kernel/sched/sparsemask.h:53:10: warning: array subscript <unknown> is outside array bounds of 'struct sparsemask_chunk[0]' [-Warray-bounds=]
+      53 |         (&(mask)->chunks[SMASK_INDEX((mask), (elem))].word)
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/sparsemask.h:186:41: note: in expansion of macro 'SMASK_WORD'
+     186 |         clear_bit(SMASK_BIT(dst, elem), SMASK_WORD(dst, elem));
+         |                                         ^~~~~~~~~~
+   kernel/sched/sparsemask.h: In function 'overload_clear.part.0':
+   kernel/sched/sparsemask.h:45:33: note: while referencing 'chunks'
+      45 |         struct sparsemask_chunk chunks[0];  /* embedded array of chunks */
+         |                                 ^~~~~~
+   In function 'group_faults',
+       inlined from 'score_nearby_nodes.part.0' at kernel/sched/fair.c:1381:13:
+   kernel/sched/fair.c:1291:26: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
+    1291 |         return ng->faults[task_faults_idx(NUMA_MEM, nid, 0)] +
+         |                ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'score_nearby_nodes.part.0':
+   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
+    1083 |         unsigned long faults[0];
+         |                       ^~~~~~
+   In function 'group_faults',
+       inlined from 'score_nearby_nodes.part.0' at kernel/sched/fair.c:1381:13:
+   kernel/sched/fair.c:1292:27: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
+    1292 |                 ng->faults[task_faults_idx(NUMA_MEM, nid, 1)];
+         |                 ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'score_nearby_nodes.part.0':
+   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
+    1083 |         unsigned long faults[0];
+         |                       ^~~~~~
+   In function 'group_faults',
+       inlined from 'preferred_group_nid' at kernel/sched/fair.c:2161:16:
+   kernel/sched/fair.c:1291:26: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
+    1291 |         return ng->faults[task_faults_idx(NUMA_MEM, nid, 0)] +
+         |                ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'preferred_group_nid':
+   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
+    1083 |         unsigned long faults[0];
+         |                       ^~~~~~
+   In function 'group_faults',
+       inlined from 'preferred_group_nid' at kernel/sched/fair.c:2161:16:
+   kernel/sched/fair.c:1292:27: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
+    1292 |                 ng->faults[task_faults_idx(NUMA_MEM, nid, 1)];
+         |                 ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'preferred_group_nid':
+   kernel/sched/fair.c:1083:23: note: while referencing 'faults'
+    1083 |         unsigned long faults[0];
+         |                       ^~~~~~
+   In function 'group_faults',
+       inlined from 'group_weight' at kernel/sched/fair.c:1441:11,
+       inlined from 'preferred_group_nid' at kernel/sched/fair.c:2125:12:
+   kernel/sched/fair.c:1291:26: warning: array subscript <unknown> is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
+    1291 |         return ng->faults[task_faults_idx(NUMA_MEM, nid, 0)] +
+         |                ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +20 include/linux/page_counter.h
+vim +98 kernel/sched/sparsemask.h
 
-     9	
-    10	/*
-    11	 * Page counters are used by memory and hugetlb cgroups.
-    12	 * Memory cgroups are using up to 4 separate counters:
-    13	 * memory, swap (memory + swap on cgroup v1), kmem and tcpmem.
-    14	 * Hugetlb cgroups are using 2 * HUGE_MAX_HSTATE separate
-    15	 * counters: for tracking the usage and reservations of each
-    16	 * supported hugepage size.
-    17	 */
-    18	
-    19	#ifdef CONFIG_CGROUP_HUGETLB
-  > 20	define __MCT_HUGETLB_MAX (HUGE_MAX_HSTATE * 2 - 1)
-    21	#endif /* CONFIG_CGROUP_HUGETLB */
-    22	
+6866be5a3aff4b Steve Sistare 2021-04-14   47  
+6866be5a3aff4b Steve Sistare 2021-04-14   48  #define _SMASK_INDEX(density, elem)	((elem) >> (density))
+6866be5a3aff4b Steve Sistare 2021-04-14   49  #define _SMASK_BIT(density, elem)	((elem) & ((1U << (density)) - 1U))
+6866be5a3aff4b Steve Sistare 2021-04-14   50  #define SMASK_INDEX(mask, elem)		_SMASK_INDEX((mask)->density, elem)
+6866be5a3aff4b Steve Sistare 2021-04-14   51  #define SMASK_BIT(mask, elem)		_SMASK_BIT((mask)->density, elem)
+6866be5a3aff4b Steve Sistare 2021-04-14   52  #define SMASK_WORD(mask, elem)		\
+6866be5a3aff4b Steve Sistare 2021-04-14   53  	(&(mask)->chunks[SMASK_INDEX((mask), (elem))].word)
+6866be5a3aff4b Steve Sistare 2021-04-14   54  
+6866be5a3aff4b Steve Sistare 2021-04-14   55  /*
+6866be5a3aff4b Steve Sistare 2021-04-14   56   * sparsemask_next() - Return the next one bit in a bitmap, starting at a
+6866be5a3aff4b Steve Sistare 2021-04-14   57   * specified position and wrapping from the last bit to the first, up to but
+6866be5a3aff4b Steve Sistare 2021-04-14   58   * not including a specified origin.  This is a helper, so do not call it
+6866be5a3aff4b Steve Sistare 2021-04-14   59   * directly.
+6866be5a3aff4b Steve Sistare 2021-04-14   60   *
+6866be5a3aff4b Steve Sistare 2021-04-14   61   * @mask: Bitmap to search.
+6866be5a3aff4b Steve Sistare 2021-04-14   62   * @origin: Origin.
+6866be5a3aff4b Steve Sistare 2021-04-14   63   * @prev: Previous bit. Start search after this bit number.
+6866be5a3aff4b Steve Sistare 2021-04-14   64   *	  If -1, start search at @origin.
+6866be5a3aff4b Steve Sistare 2021-04-14   65   *
+6866be5a3aff4b Steve Sistare 2021-04-14   66   * Return: the bit number, else mask->nelems if no bits are set in the range.
+6866be5a3aff4b Steve Sistare 2021-04-14   67   */
+6866be5a3aff4b Steve Sistare 2021-04-14   68  static inline int
+6866be5a3aff4b Steve Sistare 2021-04-14   69  sparsemask_next(const struct sparsemask *mask, int origin, int prev)
+6866be5a3aff4b Steve Sistare 2021-04-14   70  {
+6866be5a3aff4b Steve Sistare 2021-04-14   71  	int density = mask->density;
+6866be5a3aff4b Steve Sistare 2021-04-14   72  	int bits_per_word = 1U << density;
+6866be5a3aff4b Steve Sistare 2021-04-14   73  	const struct sparsemask_chunk *chunk;
+6866be5a3aff4b Steve Sistare 2021-04-14   74  	int nelems = mask->nelems;
+6866be5a3aff4b Steve Sistare 2021-04-14   75  	int next, bit, nbits;
+6866be5a3aff4b Steve Sistare 2021-04-14   76  	unsigned long word;
+6866be5a3aff4b Steve Sistare 2021-04-14   77  
+6866be5a3aff4b Steve Sistare 2021-04-14   78  	/* Calculate number of bits to be searched. */
+6866be5a3aff4b Steve Sistare 2021-04-14   79  	if (prev == -1) {
+6866be5a3aff4b Steve Sistare 2021-04-14   80  		nbits = nelems;
+6866be5a3aff4b Steve Sistare 2021-04-14   81  		next = origin;
+6866be5a3aff4b Steve Sistare 2021-04-14   82  	} else if (prev < origin) {
+6866be5a3aff4b Steve Sistare 2021-04-14   83  		nbits = origin - prev;
+6866be5a3aff4b Steve Sistare 2021-04-14   84  		next = prev + 1;
+6866be5a3aff4b Steve Sistare 2021-04-14   85  	} else {
+6866be5a3aff4b Steve Sistare 2021-04-14   86  		nbits = nelems - prev + origin - 1;
+6866be5a3aff4b Steve Sistare 2021-04-14   87  		next = prev + 1;
+6866be5a3aff4b Steve Sistare 2021-04-14   88  	}
+6866be5a3aff4b Steve Sistare 2021-04-14   89  
+6866be5a3aff4b Steve Sistare 2021-04-14   90  	if (unlikely(next >= nelems))
+6866be5a3aff4b Steve Sistare 2021-04-14   91  		return nelems;
+6866be5a3aff4b Steve Sistare 2021-04-14   92  
+6866be5a3aff4b Steve Sistare 2021-04-14   93  	/*
+6866be5a3aff4b Steve Sistare 2021-04-14   94  	 * Fetch and adjust first word.  Clear word bits below @next, and round
+6866be5a3aff4b Steve Sistare 2021-04-14   95  	 * @next down to @bits_per_word boundary because later ffs will add
+6866be5a3aff4b Steve Sistare 2021-04-14   96  	 * those bits back.
+6866be5a3aff4b Steve Sistare 2021-04-14   97  	 */
+6866be5a3aff4b Steve Sistare 2021-04-14  @98  	chunk = &mask->chunks[_SMASK_INDEX(density, next)];
+6866be5a3aff4b Steve Sistare 2021-04-14   99  	bit = _SMASK_BIT(density, next);
+6866be5a3aff4b Steve Sistare 2021-04-14  100  	word = chunk->word & (~0UL << bit);
+6866be5a3aff4b Steve Sistare 2021-04-14  101  	next -= bit;
+6866be5a3aff4b Steve Sistare 2021-04-14  102  	nbits += bit;
+6866be5a3aff4b Steve Sistare 2021-04-14  103  
+6866be5a3aff4b Steve Sistare 2021-04-14  104  	while (!word) {
+6866be5a3aff4b Steve Sistare 2021-04-14  105  		next += bits_per_word;
+6866be5a3aff4b Steve Sistare 2021-04-14  106  		nbits -= bits_per_word;
+6866be5a3aff4b Steve Sistare 2021-04-14  107  		if (nbits <= 0)
+6866be5a3aff4b Steve Sistare 2021-04-14  108  			return nelems;
+6866be5a3aff4b Steve Sistare 2021-04-14  109  
+6866be5a3aff4b Steve Sistare 2021-04-14  110  		if (next >= nelems) {
+6866be5a3aff4b Steve Sistare 2021-04-14  111  			chunk = mask->chunks;
+6866be5a3aff4b Steve Sistare 2021-04-14  112  			nbits -= (next - nelems);
+6866be5a3aff4b Steve Sistare 2021-04-14  113  			next = 0;
+6866be5a3aff4b Steve Sistare 2021-04-14  114  		} else {
+6866be5a3aff4b Steve Sistare 2021-04-14  115  			chunk++;
+6866be5a3aff4b Steve Sistare 2021-04-14  116  		}
+6866be5a3aff4b Steve Sistare 2021-04-14  117  		word = chunk->word;
+6866be5a3aff4b Steve Sistare 2021-04-14  118  	}
+6866be5a3aff4b Steve Sistare 2021-04-14  119  
+6866be5a3aff4b Steve Sistare 2021-04-14  120  	next += __ffs(word);
+6866be5a3aff4b Steve Sistare 2021-04-14  121  	if (next >= origin && prev != -1)
+6866be5a3aff4b Steve Sistare 2021-04-14  122  		return nelems;
+6866be5a3aff4b Steve Sistare 2021-04-14  123  	return next;
+6866be5a3aff4b Steve Sistare 2021-04-14  124  }
+6866be5a3aff4b Steve Sistare 2021-04-14  125  
+
+:::::: The code at line 98 was first introduced by commit
+:::::: 6866be5a3aff4bbd949059927d8f8790be53e3dd sched: Provide sparsemask, a reduced contention bitmap
+
+:::::: TO: Steve Sistare <steven.sistare@oracle.com>
+:::::: CC: Cheng Jian <cj.chengjian@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
