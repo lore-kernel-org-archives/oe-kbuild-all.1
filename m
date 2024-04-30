@@ -1,178 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D88E79DE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 04:42:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5406125BA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 04:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714452136; cv=none; b=blVxCkoF9kN0JjNBq0Z61kDQyi6NlSEZy9aRY0UY7agYK6TvqZK9TOvQprgSZ7jBV3meMPRj+5jKil9e+IFCXGqhzLWmiYVbgRfQLGR2hum1LL+lrQsdqqGOLpesWiSEdq/m6RcV20qqMdrVIisCA2hCI9dphiC44GHBDiJKkbA=
+	t=1714452794; cv=none; b=mIb8u830WV/qVW8LDuxs87KlGMY17bC/msH4APnrJBkAGFzWZs6Tu/2CD0py6F1LzxzBbnUl9pkwn/4t6ArY0tnlF6pFBK6RO0KEaQqWl3gmaOiLmflZrdyHCWDZyOglllKav7bpUUzTyEQWCzn+CMhnNpxMFLmdVKFu0gJ4LrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714452136; c=relaxed/simple;
-	bh=z+WV9Xc1l1aVPk5yPh1yCl41Zaisfcqa+Op+uocbyZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o/FaXMIdDwCcxTevwlUHRUFqgtaUMXmN2YGiwkvCT2802EmDsaIynpFHMcQ6FM12TJ1tRSx1WsoMGrFRPRgpC23uYbrB+v8l5tdx0ZQZT9QVGRTLs2zLuXufQ1kuQMbBFhX9upnyP3mrXTmE813+SFd26NhaPfaEOj1hWNoCsRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dd5P6ysA; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1714452794; c=relaxed/simple;
+	bh=DkVvfBoEWFqQWzVcM39rawLmVug7ROd9HQ2bH24zgbo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bx5ZGbptVJKGqHalEIIYpqZLsqlzxhMYTjrBoUruJBOnxazcWpIC+ui/XnYr+vMtv44DknYqjr/kMbxzBoHNCwOs6XbuRRzJbsBpOp/NIFgJY8gFCBeBYIlmaTVbDuAK9xmOzgyjfWOhinK0YSTa26AjOixO0vvMxZ/HAuhNWZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TNbc8sTi; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dd5P6ysA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TNbc8sTi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714452134; x=1745988134;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z+WV9Xc1l1aVPk5yPh1yCl41Zaisfcqa+Op+uocbyZE=;
-  b=dd5P6ysAJ6Rzc9A+PY3TgmB37qP3LIPzA0/Lse2oUjF1GfxUf06efjIr
-   xe5kYBM5LzuQX8n+m2Bu9fqsumRB+mMy0wffNXxEtdeIhd8QAAkkP9ulO
-   i66DTITxaBMp6kBd69JXiJamh2h8w3VMFXZqdwW5lOwrELISujkQIoWzS
-   cYRVqFvVDaq+SB/Vr5LLXK5/Y8r4ykEW6Rncpqih+jZD7bt7jh8Rdg1o/
-   dnzb1g4okftJfXDcfp/nkoYaXNq+WILwjW5LKCsfPK2VtAaHdWh7o5WmI
-   jQwZ3R49tjH3fJqnT2WGke9OKQuIAftQF9evOjL073WW/MrJ0D5G2cn/R
+  t=1714452792; x=1745988792;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=DkVvfBoEWFqQWzVcM39rawLmVug7ROd9HQ2bH24zgbo=;
+  b=TNbc8sTiRQ4BGk5RUhGmvjffTsT0FryVEusy83ZBhWmm02xBvLc+bhIj
+   obYAf3OR73WDNVFZKZAzbiawqxeZFXQ+qUR0vTC0yWRKtKu+mPjTbDk96
+   Mi3AluolO4wkkbERRFOTom2vpT0yI8sJKZK4x+BjrHbOLTjTEkieVk+Py
+   jqF89S4W4bKFNKc24MsKdII/QvRSTgKU/a+D1LtGhIhwFRVIBbogZoZJ8
+   6D57syboIYwQj2PWrnjxWER4WB9pxzknD4Qx1jVfUQediNJeDFrM40KAD
+   aZXUPONhyJ3vs1oKk4lnSx16h5b2AWOxJE+DjThPfqfGFJ/MFIx2vnVZa
    g==;
-X-CSE-ConnectionGUID: NRtdRUSKQW6URMhTrdsCbQ==
-X-CSE-MsgGUID: tWYPFzomRze30mxwODJwJQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="32642695"
+X-CSE-ConnectionGUID: iuNt1MiNRO6rGFI+Nj8DzA==
+X-CSE-MsgGUID: p3o+keB1SfmoJ21iXqBD+Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="20690857"
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="32642695"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 21:42:11 -0700
-X-CSE-ConnectionGUID: SSXra7wLSQCgwAK+mwOaHQ==
-X-CSE-MsgGUID: A3tQfUshRne8oM2iDHNQ8A==
+   d="scan'208";a="20690857"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 21:53:11 -0700
+X-CSE-ConnectionGUID: 7Zm8U0+EQyeBz6/3PaAnHw==
+X-CSE-MsgGUID: JHJS+w1PRTqzdUHLK1hTJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="31031700"
+   d="scan'208";a="26341129"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 29 Apr 2024 21:42:09 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 29 Apr 2024 21:53:10 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1fJf-0007jm-1X;
-	Tue, 30 Apr 2024 04:42:07 +0000
-Date: Tue, 30 Apr 2024 12:42:03 +0800
+	id 1s1fUJ-0007kS-2h;
+	Tue, 30 Apr 2024 04:53:07 +0000
+Date: Tue, 30 Apr 2024 12:53:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Tian Wei <tianwei@phytium.com.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 21355/22260]
- drivers/gpio/gpio-phytium-platform.c:111:2-3: Unneeded semicolon
-Message-ID: <202404301203.LIsGwT62-lkp@intel.com>
+To: =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 12/12] regulator/core: use rdev->dev.driver_data
+Message-ID: <202404301218.URkWO6dj-lkp@intel.com>
+References: <0a480abe4913f0169f9693f6f959fbe1a397ae93.1714399603.git.mirq-linux@rere.qmqm.pl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0a480abe4913f0169f9693f6f959fbe1a397ae93.1714399603.git.mirq-linux@rere.qmqm.pl>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   534530510857129d59e723e50cc93349b4a59fb2
-commit: 00711bad7e372a30c4975ba43811ffa666aff0e1 [21355/22260] gpio: add phytium gpio driver
-config: arm64-randconfig-r054-20240430 (https://download.01.org/0day-ci/archive/20240430/202404301203.LIsGwT62-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
+Hi Michał,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on broonie-regulator/for-next]
+[also build test ERROR on linus/master v6.9-rc6 next-20240429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Miros-aw/regulator-core-_regulator_get-simplify-error-returns/20240429-225643
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/0a480abe4913f0169f9693f6f959fbe1a397ae93.1714399603.git.mirq-linux%40rere.qmqm.pl
+patch subject: [PATCH v2 12/12] regulator/core: use rdev->dev.driver_data
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240430/202404301218.URkWO6dj-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404301218.URkWO6dj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404301203.LIsGwT62-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404301218.URkWO6dj-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpio/gpio-phytium-platform.c:111:2-3: Unneeded semicolon
+All errors (new ones prefixed by >>):
 
-vim +111 drivers/gpio/gpio-phytium-platform.c
+   drivers/pinctrl/renesas/pfc-sh73a0.c: In function 'sh73a0_vccq_mc0_endisable':
+>> drivers/pinctrl/renesas/pfc-sh73a0.c:4027:33: error: 'struct regulator_dev' has no member named 'reg_data'
+    4027 |         struct sh_pfc *pfc = reg->reg_data;
+         |                                 ^~
+   drivers/pinctrl/renesas/pfc-sh73a0.c: In function 'sh73a0_vccq_mc0_is_enabled':
+   drivers/pinctrl/renesas/pfc-sh73a0.c:4060:33: error: 'struct regulator_dev' has no member named 'reg_data'
+    4060 |         struct sh_pfc *pfc = reg->reg_data;
+         |                                 ^~
 
-    35	
-    36	static int phytium_gpio_probe(struct platform_device *pdev)
-    37	{
-    38		struct device *dev = &pdev->dev;
-    39		struct resource *res;
-    40		struct phytium_gpio *gpio;
-    41		struct gpio_irq_chip *girq;
-    42		struct fwnode_handle *fwnode;
-    43		int err, irq_count;
-    44	
-    45		gpio = devm_kzalloc(&pdev->dev, sizeof(*gpio), GFP_KERNEL);
-    46		if (!gpio)
-    47			return -ENOMEM;
-    48	
-    49		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-    50		gpio->regs = devm_ioremap_resource(&pdev->dev, res);
-    51		if (IS_ERR(gpio->regs))
-    52			return PTR_ERR(gpio->regs);
-    53	
-    54		if (!device_get_child_node_count(dev))
-    55			return -ENODEV;
-    56	
-    57		device_for_each_child_node(dev, fwnode) {
-    58			int idx;
-    59	
-    60			if (fwnode_property_read_u32(fwnode, "reg", &idx) ||
-    61			    idx >= MAX_NPORTS) {
-    62				dev_err(dev, "missing/invalid port index\n");
-    63				fwnode_handle_put(fwnode);
-    64				return -EINVAL;
-    65			}
-    66	
-    67			if (fwnode_property_read_u32(fwnode, "nr-gpios",
-    68						     &gpio->ngpio[idx])) {
-    69				dev_info(dev,
-    70					 "failed to get number of gpios for Port%c\n",
-    71					 idx ? 'B' : 'A');
-    72				gpio->ngpio[idx] = NGPIO_DEFAULT;
-    73			}
-    74		}
-    75	
-    76		/* irq_chip support */
-    77		gpio->irq_chip.name = dev_name(dev);
-    78		gpio->irq_chip.irq_ack = phytium_gpio_irq_ack;
-    79		gpio->irq_chip.irq_mask = phytium_gpio_irq_mask;
-    80		gpio->irq_chip.irq_unmask = phytium_gpio_irq_unmask;
-    81		gpio->irq_chip.irq_set_type = phytium_gpio_irq_set_type;
-    82		gpio->irq_chip.irq_enable = phytium_gpio_irq_enable;
-    83		gpio->irq_chip.irq_disable = phytium_gpio_irq_disable;
-    84	#ifdef CONFIG_SMP
-    85		gpio->irq_chip.irq_set_affinity = phytium_gpio_irq_set_affinity;
-    86	#endif
-    87		raw_spin_lock_init(&gpio->lock);
-    88	
-    89		gpio->gc.base = -1;
-    90		gpio->gc.get_direction = phytium_gpio_get_direction;
-    91		gpio->gc.direction_input = phytium_gpio_direction_input;
-    92		gpio->gc.direction_output = phytium_gpio_direction_output;
-    93		gpio->gc.get = phytium_gpio_get;
-    94		gpio->gc.set = phytium_gpio_set;
-    95		gpio->gc.ngpio = gpio->ngpio[0] + gpio->ngpio[1];
-    96		gpio->gc.label = dev_name(dev);
-    97		gpio->gc.parent = dev;
-    98		gpio->gc.owner = THIS_MODULE;
-    99	
-   100		girq = &gpio->gc.irq;
-   101		girq->handler = handle_bad_irq;
-   102		girq->default_type = IRQ_TYPE_NONE;
-   103	
-   104		for (irq_count = 0; irq_count < gpio->ngpio[0]; irq_count++) {
-   105			gpio->irq[irq_count] = -ENXIO;
-   106			gpio->irq[irq_count] = platform_get_irq(pdev, irq_count);
-   107			if (gpio->irq[irq_count] < 0) {
-   108				dev_warn(dev, "no irq is found.\n");
-   109				break;
-   110			}
- > 111		};
-   112	
-   113		girq->num_parents = irq_count;
-   114		girq->parents = gpio->irq;
-   115		girq->parent_handler = phytium_gpio_irq_handler;
-   116	
-   117		girq->chip = &gpio->irq_chip;
-   118	
-   119		err = devm_gpiochip_add_data(dev, &gpio->gc, gpio);
-   120		if (err)
-   121			return err;
-   122	
-   123		platform_set_drvdata(pdev, gpio);
-   124		dev_info(dev, "Phytium GPIO controller @%pa registered\n",
-   125			&res->start);
-   126	
-   127		return 0;
-   128	}
-   129	
+
+vim +4027 drivers/pinctrl/renesas/pfc-sh73a0.c
+
+5d5166dc39bcbe drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2012-12-15  4020  
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4021  /* -----------------------------------------------------------------------------
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4022   * VCCQ MC0 regulator
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4023   */
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4024  
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4025  static void sh73a0_vccq_mc0_endisable(struct regulator_dev *reg, bool enable)
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4026  {
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21 @4027  	struct sh_pfc *pfc = reg->reg_data;
+5b46ac3a772363 drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-12-11  4028  	void __iomem *addr = pfc->windows[1].virt + 4;
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4029  	unsigned long flags;
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4030  	u32 value;
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4031  
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4032  	spin_lock_irqsave(&pfc->lock, flags);
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4033  
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4034  	value = ioread32(addr);
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4035  
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4036  	if (enable)
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4037  		value |= BIT(28);
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4038  	else
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4039  		value &= ~BIT(28);
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4040  
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4041  	iowrite32(value, addr);
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4042  
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4043  	spin_unlock_irqrestore(&pfc->lock, flags);
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4044  }
+ea770ad2ec054e drivers/pinctrl/sh-pfc/pfc-sh73a0.c Laurent Pinchart 2013-04-21  4045  
 
 -- 
 0-DAY CI Kernel Test Service
