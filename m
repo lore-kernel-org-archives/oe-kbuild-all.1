@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EAE211C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 18:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7703FF9EB
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 20:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714588564; cv=none; b=lU1gj4o9YTs7ZeVbg2E0EASwAyC5Bvd4LJZ7Fc5Um5UQtQR32qpihOJzwcCWNoUcqhaFkcxk4LD+DYg6ngDj/VPNn3Zl541nSsIGsAcc8ACLMs299riswvPSwjj2lhKX7gO5XwqJxEsgiGSpyL3TWB266z3lljk46l8UHojKdSI=
+	t=1714595329; cv=none; b=My5aF6EuFVZgJg7eIsYZR/w4Y7PkoZC+y+RDkS6eDAiikMCGt5Smz+jHmIU2r7EeTFcCh1inipyIzobehryKQCtow8J5SbYcBxMyAlyWawhgk2AmEHGnJWhRQmIr2kTxq6PLu4dSLXi+ydTDYExFtF31DnUblcutwLrHFjw7uyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714588564; c=relaxed/simple;
-	bh=fo1f9AB8D5Cj1qAC6ZIzrtl5lB4y6KS5yFM3QpBpDmc=;
+	s=arc-20240116; t=1714595329; c=relaxed/simple;
+	bh=bLww2GEgrWzM7ZEV9MdYXI+Y+gKNlXvru7MPSr/HgZY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZtAoBVbtYpy1zppN26mmUsrI/ApnWU/AtNqKWtihmLvL5kBsIRhe4JEkCxve7cA7S06roQP+/xGHElZT5Dy9VIvlHPZ5XVeZx8i6i2fyMkUn014GtZY1bYd5fJCGWZvZUYM0iGp1t1Ys2QD6/b8iWc/+9jdtTZsF75j/vr8vHmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kKiAzmkL; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=YEjrItiZQzXjP4AMYX8gTCqSBmkgsoFRosijLbPVryEPo0oMo3uMGwJBTNYo8eVA5/UHOKCbG9goQupLRf9XcK7zl1T8245Q6Giis4SRCz5cM031QYobFutCp+6uqY2edghxcoeLmDM2SHq3w2j4zlQKPjLKH3cOYRA8/Fy6/qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=duBW6UEO; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kKiAzmkL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="duBW6UEO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714588562; x=1746124562;
+  t=1714595328; x=1746131328;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fo1f9AB8D5Cj1qAC6ZIzrtl5lB4y6KS5yFM3QpBpDmc=;
-  b=kKiAzmkLwbbbRGGwc6unzgmyaFF6oTh62OXejANaYWM/8gzbGBYamAJI
-   FfPwgT2lL7IGPUlfwNP/rS1g0BYiOniTJNrwxwh2Hy2Z/vGvc+O6eQ6z7
-   L7vt0jaY8b7NgnBYWksAJgp2dJG9VCay5DYBN4CSkq8TLOyQNX58Irzr7
-   qpFD+7RnPDTF/WWWmQcVlJm8yOydVsrBHRHqh/tkECZXjIxhRcW1qneKO
-   b1d5SnjF3v3UM6Lp+mDW0A2BLsEI9/2TJfKnwaRziJkMYCyIXhaB3VtsZ
-   yTTEk3fwS639ZZkEFm/+jdCppEo3IqYmalhlAVVBcaGvfLxsu+mx6x6Tk
-   w==;
-X-CSE-ConnectionGUID: MUgxs/vZRxat0cD1c0n52Q==
-X-CSE-MsgGUID: 1RkJsC6LQDCweUX+NNll6A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="10264250"
+  bh=bLww2GEgrWzM7ZEV9MdYXI+Y+gKNlXvru7MPSr/HgZY=;
+  b=duBW6UEOlJrStl3yve01ZbRNhLw4o3N5R/GNTct9sYBXYNc/nLftkDkw
+   0ZOC/XxOAPUgejb4pJgg9P4nXEG9NX6EIrQmwN9Zcta/5/q3JbNVoMyUo
+   kZKRZZ9KNubuedzwSFJTFd/Q/0jhW52h8F8VKKffn+3I5G5T0bRw1VY2t
+   GMtT/apb6iK1UZba+7kxnTsCuXw+02CrzRQw8vJWfcAs5pixpCqtvZ8J3
+   X//B7BMvBxlZS0HogMhMx3qG29UOjj3rLho52IeHGtAjpYIYxOjuTSKWN
+   IsQF1LRjRgNYydgQ5icfLx9LBJMm5kdXmAEUxII8k8GkRQnoe1VKa7Yi5
+   g==;
+X-CSE-ConnectionGUID: bX7paP4eRaKV7J37D8Iy8g==
+X-CSE-MsgGUID: C7xNh7yeS5mKCcccxUivpw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="21747996"
 X-IronPort-AV: E=Sophos;i="6.07,246,1708416000"; 
-   d="scan'208";a="10264250"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 11:36:02 -0700
-X-CSE-ConnectionGUID: ov4m/6UfQySmQCXAdd04qw==
-X-CSE-MsgGUID: UU50lK/MTLaSWEE4+wUmew==
+   d="scan'208";a="21747996"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 13:28:47 -0700
+X-CSE-ConnectionGUID: V/bpNVU4TjK+W0NR7+Le2A==
+X-CSE-MsgGUID: uyn53tiCR0u63k6yH6q6Bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,246,1708416000"; 
-   d="scan'208";a="26914404"
+   d="scan'208";a="31706699"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 01 May 2024 11:36:00 -0700
+  by orviesa005.jf.intel.com with ESMTP; 01 May 2024 13:28:45 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2EoA-0009tU-0S;
-	Wed, 01 May 2024 18:35:58 +0000
-Date: Thu, 2 May 2024 02:34:56 +0800
+	id 1s2GZG-0009xY-2H;
+	Wed, 01 May 2024 20:28:42 +0000
+Date: Thu, 2 May 2024 04:27:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: [linux-next:master 8979/10134]
- arch/powerpc/platforms/pseries/lparcfg.c:189:15: sparse: sparse: symbol
- 'boot_pool_idle_time' was not declared. Should it be static?
-Message-ID: <202405020233.DULp9nru-lkp@intel.com>
+To: KP Singh <kpsingh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Kees Cook <keescook@chromium.org>,
+	Casey Schaufler <casey@schaufler-ca.com>
+Subject: [kpsingh:static_calls 5/5] trampoline.c:undefined reference to
+ `security_toggle_hook'
+Message-ID: <202405020410.cIrWYkDM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,28 +63,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f68868ba718e30594165879cc3020607165b0761
-commit: 9c74ecfd0fc46e2eaf92c1b6169cc0c8a87f1dc2 [8979/10134] powerpc/pseries: Add pool idle time at LPAR boot
-config: powerpc64-randconfig-r132-20240501 (https://download.01.org/0day-ci/archive/20240502/202405020233.DULp9nru-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240502/202405020233.DULp9nru-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kpsingh/linux.git static_calls
+head:   654713c5bec96290562355c40aca6b98bb5c01c4
+commit: 654713c5bec96290562355c40aca6b98bb5c01c4 [5/5] bpf: Only enable BPF LSM hooks when an LSM program is attached
+config: powerpc-powernv_defconfig (https://download.01.org/0day-ci/archive/20240502/202405020410.cIrWYkDM-lkp@intel.com/config)
+compiler: powerpc64le-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240502/202405020410.cIrWYkDM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405020233.DULp9nru-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405020410.cIrWYkDM-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/powerpc/platforms/pseries/lparcfg.c:189:15: sparse: sparse: symbol 'boot_pool_idle_time' was not declared. Should it be static?
-   arch/powerpc/platforms/pseries/lparcfg.c: note: in included file (through include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, include/linux/module.h):
-   include/linux/mmzone.h:2013:40: sparse: sparse: self-comparison always evaluates to false
+All error/warnings (new ones prefixed by >>):
 
-vim +/boot_pool_idle_time +189 arch/powerpc/platforms/pseries/lparcfg.c
-
-   188	
- > 189	unsigned long boot_pool_idle_time;
-   190	
+>> powerpc64le-linux-ld: warning: discarding dynamic section .glink
+>> powerpc64le-linux-ld: warning: discarding dynamic section .plt
+   powerpc64le-linux-ld: linkage table error against `security_toggle_hook'
+   powerpc64le-linux-ld: stubs don't match calculated size
+   powerpc64le-linux-ld: can not build stubs: bad value
+   powerpc64le-linux-ld: kernel/bpf/trampoline.o: in function `bpf_trampoline_toggle_lsm':
+>> trampoline.c:(.text+0x64): undefined reference to `security_toggle_hook'
+>> powerpc64le-linux-ld: trampoline.c:(.text+0x8c): undefined reference to `security_toggle_hook'
 
 -- 
 0-DAY CI Kernel Test Service
