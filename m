@@ -1,78 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1A728DC7;
-	Wed,  1 May 2024 08:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A894DA1B;
+	Wed,  1 May 2024 08:17:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714550790; cv=none; b=dSO4gdKf1X21uS8pmsdkbCSWCjD7vHMEhlD0WnzcrV6aBKcrEuGqeEVwWEwO6GtL4JYVXex4l2dz/1wvW21E+m1rYXsfEWLdMkuw7Ge/ohNkY4XCLUKP0/+ciFFl4mntma6gmySuc+zS8s3bKIQC95TFi55NvcZMeK+kUIC9cAw=
+	t=1714551448; cv=none; b=nHm/zZ+eOiMPvXTg24cpRoiccgMRhJiLd6MVc9x4qu1QirD1P8iJRcjXWGh/lShRTub9FgrgmuQY5VoSHcHUsVQI6gCNe63GzveYZgg9fzTvSY8S2z8frRFdtIKzbyqlfaZUT0fegUXMN4ZUhX57mD7MMobTK3PPhOPw+SWvy+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714550790; c=relaxed/simple;
-	bh=bBUMYKOIs+2HO77T75AUFFXxEW/yRcAvXE2lRdkSTHs=;
+	s=arc-20240116; t=1714551448; c=relaxed/simple;
+	bh=KOdtGaAloVYRcbgEMvF8HZPdgpnc+UXP5zW3aSPEydU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RxNiNAyRb7+FxUmtSkvD2CpG8pg2P7skiMsfGnPQ+JQm6eYaxX9Abog3sG6av82GOVOqnH28iQXr256N5Hl9Yna58JnNE5kicUM9Nro3nHZHkPXs0iVQITbA2lqCAw1kWXrJIUOwR+jX9+GHCRW8xvQcsewtUG9uS55YOg4RT+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PFTvxtIO; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=un0w1B8WTGQgRYc5UmNDqjfhHYVReGNNKIdu1sSg/r4Jg1pAKMMdsI0GI2SUul0DePf/Q1bpXDQD7ZaF8jdn1Tf73n3HRwR/43Rz0lLHuy3y0ctCWGxI8CA7d57fhBt68xX1ghcLIyLk7CwFHpcr7sqScA81+DJT7/cxnDwlI6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IyecZfCa; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PFTvxtIO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IyecZfCa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714550788; x=1746086788;
+  t=1714551446; x=1746087446;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=bBUMYKOIs+2HO77T75AUFFXxEW/yRcAvXE2lRdkSTHs=;
-  b=PFTvxtIOSHHuxNXX3JPS3ydkaRzQr04j/D2Kjlu4ZOXAQzEidE+ItZrA
-   D+jXl63W4MKEl4gErigxY55DVrgKF5lUODxlZXlsUwddKgxfSuvIZWC1I
-   txq9KlfSqcUFJtA9nqmrNoasHiwV6KrsU08CzwYTwGIeykR4txRfAU0Gx
-   0eADglhOe1230yvoVvsfJSUWZ+sT6bcm/bAuxkotWit5JISvesdzJ5vIE
-   dCMJAposl2RRz8uppI7waD0hKRNtyFW+zRUzeuDnYr1yQ1oFWWNV4BQjr
-   mCAQ73brZGNbb4Vgm7VBspjTKJquZ0a4eHluWfHd6gx13S7FwZ9IdjQcs
+  bh=KOdtGaAloVYRcbgEMvF8HZPdgpnc+UXP5zW3aSPEydU=;
+  b=IyecZfCaS2CgoXGQB3FqUso0s7BhWMXD7sAxaDFXbyMtwBwYsI5S7WZh
+   DavF9/kBsvY0Tt9gIRiCf8Hc5xDaY0Zh4oJuCQ14sYn7iqgSC51R/MZdC
+   xNkf4cvMCLbU2jVE8ibmxZ2vwJzMoccTfWIPkotz8IaivtJaw9OieYV5P
+   84r//MT6fewxaNO6AxTx/Xjur6LHvNKDBWhbJRJ+1Zq6RMxGnU89RJJnT
+   XePNqoBtn67S011VXbckCk2tl/XBOfxdYLblW4qiacOdAsQdwPXNrqZLI
+   xSMjAu7xFhdiMmUO91DhKq4guE3jtVBmFcLMmoLo86wLl74LMCnGTpBna
    A==;
-X-CSE-ConnectionGUID: tw/aHvBKRRu9d1EThX+LzA==
-X-CSE-MsgGUID: j5TnutiRQiyfvMld+ZEa2w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10154654"
+X-CSE-ConnectionGUID: giFFe/52S5usJodLc0ZTag==
+X-CSE-MsgGUID: KtqGlOWES9+U219OybkMTA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="20963419"
 X-IronPort-AV: E=Sophos;i="6.07,244,1708416000"; 
-   d="scan'208";a="10154654"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 01:06:27 -0700
-X-CSE-ConnectionGUID: TgjaYgiSQkCSG0FRiHRLbA==
-X-CSE-MsgGUID: 3JREX7qqQnO29AfEg4P5Xg==
+   d="scan'208";a="20963419"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 01:17:25 -0700
+X-CSE-ConnectionGUID: fZZQNo1uTyaAS1VxQWRXNQ==
+X-CSE-MsgGUID: Hvg7e5F0SGevV4xMv8rAVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,244,1708416000"; 
-   d="scan'208";a="26725211"
+   d="scan'208";a="31435222"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 01 May 2024 01:06:21 -0700
+  by orviesa003.jf.intel.com with ESMTP; 01 May 2024 01:17:22 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s24yo-0009D8-2B;
-	Wed, 01 May 2024 08:06:18 +0000
-Date: Wed, 1 May 2024 16:06:15 +0800
+	id 1s259T-0009Du-0E;
+	Wed, 01 May 2024 08:17:19 +0000
+Date: Wed, 1 May 2024 16:16:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heng Qi <hengqi@linux.alibaba.com>, netdev@vger.kernel.org,
-	virtualization@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-	Jason Wang <jasowang@redhat.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	Brett Creeley <bcreeley@amd.com>,
-	Ratheesh Kannoth <rkannoth@marvell.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Tal Gilboa <talgi@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Paul Greenwalt <paul.greenwalt@intel.com>,
-	Ahmed Zaki <ahmed.zaki@intel.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>, justinstitt@google.com
-Subject: Re: [PATCH net-next v11 2/4] ethtool: provide customized dim profile
- management
-Message-ID: <202405011418.EYj7bgrd-lkp@intel.com>
-References: <20240430173136.15807-3-hengqi@linux.alibaba.com>
+To: Lyndon Sanche <lsanche@lyndeno.ca>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	mario.limonciello@amd.com, pali@kernel.org, W_Armin@gmx.de,
+	srinivas.pandruvada@linux.intel.com, ilpo.jarvinen@linux.intel.com,
+	Matthew Garrett <mjg59@srcf.ucam.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dell.Client.Kernel@dell.com
+Subject: Re: [PATCH v3] platform/x86: dell-laptop: Implement platform_profile
+Message-ID: <202405011636.CDJVLh7l-lkp@intel.com>
+References: <20240429164844.7544-2-lsanche@lyndeno.ca>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,132 +68,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240430173136.15807-3-hengqi@linux.alibaba.com>
+In-Reply-To: <20240429164844.7544-2-lsanche@lyndeno.ca>
 
-Hi Heng,
+Hi Lyndon,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net-next/main]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.9-rc6 next-20240430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/linux-dim-move-useful-macros-to-h-file/20240501-013413
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240430173136.15807-3-hengqi%40linux.alibaba.com
-patch subject: [PATCH net-next v11 2/4] ethtool: provide customized dim profile management
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240501/202405011418.EYj7bgrd-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405011418.EYj7bgrd-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lyndon-Sanche/platform-x86-dell-laptop-Implement-platform_profile/20240430-135932
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240429164844.7544-2-lsanche%40lyndeno.ca
+patch subject: [PATCH v3] platform/x86: dell-laptop: Implement platform_profile
+config: i386-buildonly-randconfig-001-20240501 (https://download.01.org/0day-ci/archive/20240501/202405011636.CDJVLh7l-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405011636.CDJVLh7l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405011418.EYj7bgrd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405011636.CDJVLh7l-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/ethtool/coalesce.c: In function 'ethnl_update_profile':
->> net/ethtool/coalesce.c:453:46: error: 'struct net_device' has no member named 'irq_moder'
-     453 |         struct dim_irq_moder *irq_moder = dev->irq_moder;
-         |                                              ^~
-   net/ethtool/coalesce.c: At top level:
-   net/ethtool/coalesce.c:446:12: warning: 'ethnl_update_profile' defined but not used [-Wunused-function]
-     446 | static int ethnl_update_profile(struct net_device *dev,
-         |            ^~~~~~~~~~~~~~~~~~~~
-   net/ethtool/coalesce.c:151:12: warning: 'coalesce_put_profile' defined but not used [-Wunused-function]
-     151 | static int coalesce_put_profile(struct sk_buff *skb, u16 attr_type,
-         |            ^~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/x86/dell/dell-laptop.c:2387:5: warning: no previous prototype for function 'thermal_init' [-Wmissing-prototypes]
+    2387 | int thermal_init(void)
+         |     ^
+   drivers/platform/x86/dell/dell-laptop.c:2387:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2387 | int thermal_init(void)
+         | ^
+         | static 
+>> drivers/platform/x86/dell/dell-laptop.c:2418:6: warning: no previous prototype for function 'thermal_cleanup' [-Wmissing-prototypes]
+    2418 | void thermal_cleanup(void)
+         |      ^
+   drivers/platform/x86/dell/dell-laptop.c:2418:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2418 | void thermal_cleanup(void)
+         | ^
+         | static 
+   2 warnings generated.
 
 
-vim +453 net/ethtool/coalesce.c
+vim +/thermal_init +2387 drivers/platform/x86/dell/dell-laptop.c
 
-   424	
-   425	/**
-   426	 * ethnl_update_profile - get a profile nest with child nests from userspace.
-   427	 * @dev: netdevice to update the profile
-   428	 * @dst: profile get from the driver and modified by ethnl_update_profile.
-   429	 * @nests: nest attr ETHTOOL_A_COALESCE_*X_PROFILE to set profile.
-   430	 * @extack: Netlink extended ack
-   431	 *
-   432	 * Layout of nests:
-   433	 *   Nested ETHTOOL_A_COALESCE_*X_PROFILE attr
-   434	 *     Nested ETHTOOL_A_PROFILE_IRQ_MODERATION attr
-   435	 *       ETHTOOL_A_IRQ_MODERATION_USEC attr
-   436	 *       ETHTOOL_A_IRQ_MODERATION_PKTS attr
-   437	 *       ETHTOOL_A_IRQ_MODERATION_COMPS attr
-   438	 *     ...
-   439	 *     Nested ETHTOOL_A_PROFILE_IRQ_MODERATION attr
-   440	 *       ETHTOOL_A_IRQ_MODERATION_USEC attr
-   441	 *       ETHTOOL_A_IRQ_MODERATION_PKTS attr
-   442	 *       ETHTOOL_A_IRQ_MODERATION_COMPS attr
-   443	 *
-   444	 * Return: 0 on success or a negative error code.
-   445	 */
-   446	static int ethnl_update_profile(struct net_device *dev,
-   447					struct dim_cq_moder __rcu **dst,
-   448					const struct nlattr *nests,
-   449					struct netlink_ext_ack *extack)
-   450	{
-   451		int len_irq_moder = ARRAY_SIZE(coalesce_irq_moderation_policy);
-   452		struct nlattr *tb[ARRAY_SIZE(coalesce_irq_moderation_policy)];
- > 453		struct dim_irq_moder *irq_moder = dev->irq_moder;
-   454		struct dim_cq_moder *new_profile, *old_profile;
-   455		int ret, rem, i = 0, len;
-   456		struct nlattr *nest;
-   457	
-   458		if (!nests)
-   459			return 0;
-   460	
-   461		if (!*dst)
-   462			return -EOPNOTSUPP;
-   463	
-   464		old_profile = rtnl_dereference(*dst);
-   465		len = NET_DIM_PARAMS_NUM_PROFILES * sizeof(*old_profile);
-   466		new_profile = kmemdup(old_profile, len, GFP_KERNEL);
-   467		if (!new_profile)
-   468			return -ENOMEM;
-   469	
-   470		nla_for_each_nested_type(nest, ETHTOOL_A_PROFILE_IRQ_MODERATION,
-   471					 nests, rem) {
-   472			ret = nla_parse_nested(tb, len_irq_moder - 1, nest,
-   473					       coalesce_irq_moderation_policy,
-   474					       extack);
-   475			if (ret)
-   476				goto err_out;
-   477	
-   478			ret = ethnl_update_irq_moder(irq_moder, &new_profile[i].usec,
-   479						     ETHTOOL_A_IRQ_MODERATION_USEC,
-   480						     tb, DIM_COALESCE_USEC,
-   481						     extack);
-   482			if (ret)
-   483				goto err_out;
-   484	
-   485			ret = ethnl_update_irq_moder(irq_moder, &new_profile[i].pkts,
-   486						     ETHTOOL_A_IRQ_MODERATION_PKTS,
-   487						     tb, DIM_COALESCE_PKTS,
-   488						     extack);
-   489			if (ret)
-   490				goto err_out;
-   491	
-   492			ret = ethnl_update_irq_moder(irq_moder, &new_profile[i].comps,
-   493						     ETHTOOL_A_IRQ_MODERATION_COMPS,
-   494						     tb, DIM_COALESCE_COMPS,
-   495						     extack);
-   496			if (ret)
-   497				goto err_out;
-   498	
-   499			i++;
-   500		}
-   501	
-   502		rcu_assign_pointer(*dst, new_profile);
-   503		kfree_rcu(old_profile, rcu);
-   504	
-   505		return 0;
-   506	
-   507	err_out:
-   508		kfree(new_profile);
-   509		return ret;
-   510	}
-   511	
+  2386	
+> 2387	int thermal_init(void)
+  2388	{
+  2389		int ret;
+  2390		int supported_modes;
+  2391	
+  2392		ret = thermal_get_supported_modes(&supported_modes);
+  2393		if (ret || !supported_modes)
+  2394			return 0;
+  2395	
+  2396		thermal_handler = kzalloc(sizeof(*thermal_handler), GFP_KERNEL);
+  2397		if (!thermal_handler)
+  2398			return -ENOMEM;
+  2399		thermal_handler->profile_get = thermal_platform_profile_get;
+  2400		thermal_handler->profile_set = thermal_platform_profile_set;
+  2401	
+  2402		if (supported_modes & DELL_QUIET)
+  2403			set_bit(PLATFORM_PROFILE_QUIET, thermal_handler->choices);
+  2404		if (supported_modes & DELL_COOL_BOTTOM)
+  2405			set_bit(PLATFORM_PROFILE_COOL, thermal_handler->choices);
+  2406		if (supported_modes & DELL_BALANCED)
+  2407			set_bit(PLATFORM_PROFILE_BALANCED, thermal_handler->choices);
+  2408		if (supported_modes & DELL_PERFORMANCE)
+  2409			set_bit(PLATFORM_PROFILE_PERFORMANCE, thermal_handler->choices);
+  2410	
+  2411		// Clean up but do not fail
+  2412		if (platform_profile_register(thermal_handler))
+  2413			kfree(thermal_handler);
+  2414	
+  2415		return 0;
+  2416	}
+  2417	
+> 2418	void thermal_cleanup(void)
+  2419	{
+  2420		if (thermal_handler) {
+  2421			platform_profile_remove();
+  2422			kfree(thermal_handler);
+  2423		}
+  2424	}
+  2425	
 
 -- 
 0-DAY CI Kernel Test Service
