@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FE855E5C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 11:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0425644B;
+	Wed,  1 May 2024 11:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714561690; cv=none; b=mQJP9WGC06HF+NS8h3fES/+DUeRe0kG5O2aw8t6yznKg1zCNIMVpjAT8ECVMFBJACWUxdzJuZn3UKJQhLCBDgMh1anqWyttpzQDHkJfUs5s2/Bbw7tCGK1vLkmAPGki2I1bXAchdN6y0ZPjwU60DZ1o5eAa+NfHuOQQGvekG4bY=
+	t=1714561692; cv=none; b=WwJ1fhm0wpD777yajWQ3jYYU5wT0i08SFP23zbvEAC3+wHR25WCJHHSNQu39et+yujmkycEm0BhvQa9Vy3XGPW3y2Z4tMZRmsRTz0wlIUP8IAo60Sg8pHmze9lTZSdhIdgCFR5ah8VFumhuzleXtpQF0L2KZkI1X6SOHgeH7VMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714561690; c=relaxed/simple;
-	bh=oSHcnyMAhNUtD+692xdwPmctpOh6QYODsHbccexhZm0=;
+	s=arc-20240116; t=1714561692; c=relaxed/simple;
+	bh=QW/OX1Hg0ryEgQO9RBLkIoidccmiC1c4FfiHVArLhRY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dg22E8RBS1JPdY4qU8kZfe+KMcU62If8alYuBhxjLf0inw15Xbr6bpmlk/1kjpYlrwZyzIRtFHd/fYlaEFR1u1GiLEz5d/++tjlgmV2Sn8RYb4RvGK2bj6uoiRRtY80zD63+Vb+VlqLzASsN7cODKzEYGDj4PyILf2x/NYJRTrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kGyiA7wo; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=qXSqpZGfGo8qAJYFURZ76IIRsBaJiPqCBReI5YWDzXohaPGXb9Jyf6Q6bdbfE0khk0dUyvX0svIfYlsl5ZEG8CwV75a/wqkPCP5klsZXpxRs/W9VX4BP2RMRFb89SoH4LtB59FmVSk38GQ+PVq/Xnwlm2t2IbMrTzuEJZcGx0Hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QGKgTmTc; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kGyiA7wo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QGKgTmTc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1714561688; x=1746097688;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oSHcnyMAhNUtD+692xdwPmctpOh6QYODsHbccexhZm0=;
-  b=kGyiA7woOclB1QTsAaEnXcWC/ayEbdmCmQRImrzkT3cTmGuymNa9lSdO
-   B4QWk+a3YTEBWWxWhkPvjTexlHKVBb3s84UqAZ0ExiMGlp9frU02LUmZr
-   ByCc6gwvUqQK7KSuNvIjwbmBK6CjybkZmqum7TPfIn2vR5skWX3Vc5aVh
-   rBcSqRtAcmpM1x6CnyDEZWtVB2i4MiTs7ITRwnLN8Ckr/Ia4J1lvT5XPB
-   KPqJxntke2lMkQwTDFo2BrE8BPde5xnLhqzUl4tIfMeT7WFtSrkjZY2Kc
-   T/AAQvM5ULowRlDjMJ6V7RUCOHgxzD68UhGN3Vb8+EHK0+sdsq3nz1S/r
-   w==;
-X-CSE-ConnectionGUID: IvbeEpdjSFCGmQBo120kdA==
-X-CSE-MsgGUID: DqlAU2s7SRWKruwp6vML7A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10136798"
+  bh=QW/OX1Hg0ryEgQO9RBLkIoidccmiC1c4FfiHVArLhRY=;
+  b=QGKgTmTcgofRB8UsuxpLLmrD166C56vYYa3klLh5cX8Ou/ZU05g2RdpQ
+   ekKSO2bnvXCwbomCq7YsiIzXuJBhEHqV/xl6a81XdWYMEjFWkUKomxn5G
+   CpZIKTh9+oqeIsDDIpnZxbe7N33gDKIztBSwnwccNQvGRtDSKs/NnOFvZ
+   ZXAjURAcm0v9sTLuXzumnqZkHJITsMLr+I8JWRnvqkR2u3CoX8OC2xymG
+   44WHZMTn8ys3sX68MiuuePuvI5yP25jFmeYSbDRihdqtJwnU15hmwD4gJ
+   rbDp/d652kb3qla+MPbm4Tr3amW/zO3aYKUson5hrTvjR/htDxCtcF9Vw
+   Q==;
+X-CSE-ConnectionGUID: 3OPZwmWJSEmuun5DhPpSsw==
+X-CSE-MsgGUID: uVfdKMNGTVSxP7Deg/3jRw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10453089"
 X-IronPort-AV: E=Sophos;i="6.07,245,1708416000"; 
-   d="scan'208";a="10136798"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 04:08:07 -0700
-X-CSE-ConnectionGUID: dudeG1UFR6qWMGLxw8PdEQ==
-X-CSE-MsgGUID: YCwb/iILTKuubR8p0zC1LA==
+   d="scan'208";a="10453089"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 04:08:07 -0700
+X-CSE-ConnectionGUID: fLAilZWlQBWBTgGRgREPmg==
+X-CSE-MsgGUID: GDjqsnKQQLO8pjt4FQFSLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,245,1708416000"; 
-   d="scan'208";a="57647951"
+   d="scan'208";a="31471864"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 01 May 2024 04:08:06 -0700
+  by orviesa003.jf.intel.com with ESMTP; 01 May 2024 04:08:06 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s27oh-0009Sq-1W;
+	id 1s27oh-0009So-1M;
 	Wed, 01 May 2024 11:08:03 +0000
-Date: Wed, 1 May 2024 19:07:14 +0800
+Date: Wed, 1 May 2024 19:07:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [paulmck-rcu:dev.2024.04.18a 34/34]
- arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned
- int' from 'struct request *' makes integer from pointer without a cast
-Message-ID: <202405011801.nWVMOtGS-lkp@intel.com>
+To: Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Chengming Zhou <chengming.zhou@linux.dev>
+Subject: [vbabka-slab:slab/for-next 1/3] mm/slub.c:2103:11: error: call to
+ undeclared function 'get_info_end'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202405011954.GfS77PZb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,364 +65,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.04.18a
-head:   274af360588db0dafe36ffb5c61799fa77757ce7
-commit: 274af360588db0dafe36ffb5c61799fa77757ce7 [34/34] fixup! xtensa: Emulate one-byte cmpxchg
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20240501/202405011801.nWVMOtGS-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405011801.nWVMOtGS-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git slab/for-next
+head:   8acbdbf0106c179801f30bff547e9512889c624d
+commit: 7f39e23ed8ddd6c49b7a2615037af50881b50206 [1/3] mm/slub: avoid zeroing outside-object freepointer for single free
+config: x86_64-buildonly-randconfig-002-20240501 (https://download.01.org/0day-ci/archive/20240501/202405011954.GfS77PZb-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405011954.GfS77PZb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405011801.nWVMOtGS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405011954.GfS77PZb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arc/include/asm/atomic.h:13,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/lock.h:5,
-                    from arch/arc/include/asm/bitops.h:188,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from block/blk-mq.c:8:
-   block/blk-mq.c: In function 'blk_mq_clear_rq_mapping':
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct request *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
+>> mm/slub.c:2103:11: error: call to undeclared function 'get_info_end'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2103 |                 inuse = get_info_end(s);
          |                         ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   block/blk-mq.c:3237:33: note: in expansion of macro 'cmpxchg'
-    3237 |                                 cmpxchg(&drv_tags->rqs[i], rq, NULL);
-         |                                 ^~~~~~~
-   block/blk-mq.c: In function 'blk_mq_clear_flush_rq_mapping':
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct request *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
-         |                         ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   block/blk-mq.c:3602:17: note: in expansion of macro 'cmpxchg'
-    3602 |                 cmpxchg(&tags->rqs[i], flush_rq, NULL);
-         |                 ^~~~~~~
---
-   In file included from arch/arc/include/asm/atomic.h:13,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/lock.h:5,
-                    from arch/arc/include/asm/bitops.h:188,
-                    from include/linux/bitops.h:68,
-                    from include/linux/thread_info.h:27,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from fs/super.c:25:
-   fs/super.c: In function 'sb_init_dio_done_wq':
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct workqueue_struct *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
-         |                         ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   fs/super.c:2222:15: note: in expansion of macro 'cmpxchg'
-    2222 |         old = cmpxchg(&sb->s_dio_done_wq, NULL, wq);
-         |               ^~~~~~~
---
-   In file included from arch/arc/include/asm/atomic.h:13,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/lock.h:5,
-                    from arch/arc/include/asm/bitops.h:188,
-                    from include/linux/bitops.h:68,
-                    from include/linux/thread_info.h:27,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/blkdev.h:9,
-                    from fs/libfs.c:7:
-   fs/libfs.c: In function 'stash_dentry':
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct dentry *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
-         |                         ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   fs/libfs.c:2054:23: note: in expansion of macro 'cmpxchg'
-    2054 |                 old = cmpxchg(stashed, NULL, dentry);
-         |                       ^~~~~~~
-   In file included from include/linux/export.h:5,
-                    from include/linux/linkage.h:7,
-                    from include/linux/fs.h:5:
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct dentry *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
-         |                         ^
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4880:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4880 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   fs/libfs.c:2063:28: note: in expansion of macro 'try_cmpxchg'
-    2063 |                 if (likely(try_cmpxchg(stashed, &old, dentry)))
-         |                            ^~~~~~~~~~~
-   fs/libfs.c: In function 'stashed_dentry_prune':
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct dentry *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
-         |                         ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   fs/libfs.c:2131:9: note: in expansion of macro 'cmpxchg'
-    2131 |         cmpxchg(stashed, dentry, NULL);
-         |         ^~~~~~~
---
-   In file included from arch/arc/include/asm/atomic.h:13,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/lock.h:5,
-                    from arch/arc/include/asm/bitops.h:188,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from fs/eventpoll.c:10:
-   fs/eventpoll.c: In function 'list_add_tail_lockless':
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct list_head *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
-         |                         ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4880:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4880 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   fs/eventpoll.c:1206:14: note: in expansion of macro 'try_cmpxchg'
-    1206 |         if (!try_cmpxchg(&new->next, &new, head))
-         |              ^~~~~~~~~~~
-   fs/eventpoll.c: In function 'chain_epi_lockless':
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct epitem *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
-         |                         ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   fs/eventpoll.c:1245:13: note: in expansion of macro 'cmpxchg'
-    1245 |         if (cmpxchg(&epi->next, EP_UNACTIVE_PTR, NULL) != EP_UNACTIVE_PTR)
-         |             ^~~~~~~
---
-   In file included from arch/arc/include/asm/atomic.h:13,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/lock.h:5,
-                    from arch/arc/include/asm/bitops.h:188,
-                    from include/linux/bitops.h:68,
-                    from include/linux/thread_info.h:27,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/fdtable.h:11,
-                    from fs/locks.c:53:
-   fs/locks.c: In function 'locks_get_lock_context':
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct file_lock_context *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
-         |                         ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   fs/locks.c:199:13: note: in expansion of macro 'cmpxchg'
-     199 |         if (cmpxchg(&inode->i_flctx, NULL, ctx)) {
-         |             ^~~~~~~
---
-   In file included from arch/arc/include/asm/atomic.h:13,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/lock.h:5,
-                    from arch/arc/include/asm/bitops.h:188,
-                    from include/linux/bitops.h:68,
-                    from include/linux/thread_info.h:27,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from kernel/task_work.c:2:
-   kernel/task_work.c: In function 'task_work_add':
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct callback_head *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
-         |                         ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4880:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4880 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   kernel/task_work.c:55:19: note: in expansion of macro 'try_cmpxchg'
-      55 |         } while (!try_cmpxchg(&task->task_works, &head, work));
-         |                   ^~~~~~~~~~~
-   kernel/task_work.c: In function 'task_work_cancel_match':
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct callback_head *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
-         |                         ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4880:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4880 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   kernel/task_work.c:109:28: note: in expansion of macro 'try_cmpxchg'
-     109 |                 } else if (try_cmpxchg(pprev, &work, work->next))
-         |                            ^~~~~~~~~~~
-   kernel/task_work.c: In function 'task_work_run':
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct callback_head *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
-         |                         ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4880:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4880 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   kernel/task_work.c:166:27: note: in expansion of macro 'try_cmpxchg'
-     166 |                 } while (!try_cmpxchg(&task->task_works, &work, head));
-         |                           ^~~~~~~~~~~
---
-   In file included from arch/arc/include/asm/atomic.h:13,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/lock.h:5,
-                    from arch/arc/include/asm/bitops.h:188,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from lib/llist.c:13:
-   lib/llist.c: In function 'llist_add_batch':
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct llist_node *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
-         |                         ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4880:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4880 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   lib/llist.c:33:19: note: in expansion of macro 'try_cmpxchg'
-      33 |         } while (!try_cmpxchg(&head->first, &first, new_first));
-         |                   ^~~~~~~~~~~
-   lib/llist.c: In function 'llist_del_first':
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct llist_node *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
-         |                         ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4880:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4880 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   lib/llist.c:62:19: note: in expansion of macro 'try_cmpxchg'
-      62 |         } while (!try_cmpxchg(&head->first, &entry, next));
-         |                   ^~~~~~~~~~~
-   lib/llist.c: In function 'llist_del_first_this':
->> arch/arc/include/asm/cmpxchg.h:74:25: warning: assignment to 'long unsigned int' from 'struct llist_node *' makes integer from pointer without a cast [-Wint-conversion]
-      74 |                 __flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);       \
-         |                         ^
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4880:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4880 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   lib/llist.c:90:19: note: in expansion of macro 'try_cmpxchg'
-      90 |         } while (!try_cmpxchg(&head->first, &entry, next));
-         |                   ^~~~~~~~~~~
-..
+   mm/slub.c:2580:15: warning: variable 'partial_slabs' set but not used [-Wunused-but-set-variable]
+    2580 |         unsigned int partial_slabs = 0;
+         |                      ^
+>> mm/slub.c:3731:7: error: call to undeclared function 'freeptr_outside_object'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3731 |             !freeptr_outside_object(s))
+         |              ^
+   1 warning and 2 errors generated.
 
 
-vim +74 arch/arc/include/asm/cmpxchg.h
+vim +/get_info_end +2103 mm/slub.c
 
-    63	
-    64	#define arch_cmpxchg(ptr, old, new)				        \
-    65	({									\
-    66		volatile __typeof__(ptr) _p_ = (ptr);				\
-    67		__typeof__(*(ptr)) _o_ = (old);					\
-    68		__typeof__(*(ptr)) _n_ = (new);					\
-    69		__typeof__(*(ptr)) _prev_;					\
-    70		unsigned long __flags;						\
-    71										\
-    72		switch(sizeof((_p_))) {						\
-    73		case 1:								\
-  > 74			__flags = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
-    75			_prev_ = (__typeof__(*(ptr)))__flags;			\
-    76			break;							\
-    77			break;							\
-    78		case 4:								\
-    79			/*							\
-    80			 * spin lock/unlock provide the needed smp_mb()		\
-    81			 * before/after						\
-    82			 */							\
-    83			atomic_ops_lock(__flags);				\
-    84			_prev_ = *_p_;						\
-    85			if (_prev_ == _o_)					\
-    86				*_p_ = _n_;					\
-    87			atomic_ops_unlock(__flags);				\
-    88			break;							\
-    89		default:							\
-    90			BUILD_BUG();						\
-    91		}								\
-    92										\
-    93		_prev_;								\
-    94	})
-    95	
+  2061	
+  2062	/*
+  2063	 * Hooks for other subsystems that check memory allocations. In a typical
+  2064	 * production configuration these hooks all should produce no code at all.
+  2065	 *
+  2066	 * Returns true if freeing of the object can proceed, false if its reuse
+  2067	 * was delayed by KASAN quarantine, or it was returned to KFENCE.
+  2068	 */
+  2069	static __always_inline
+  2070	bool slab_free_hook(struct kmem_cache *s, void *x, bool init)
+  2071	{
+  2072		kmemleak_free_recursive(x, s->flags);
+  2073		kmsan_slab_free(s, x);
+  2074	
+  2075		debug_check_no_locks_freed(x, s->object_size);
+  2076	
+  2077		if (!(s->flags & SLAB_DEBUG_OBJECTS))
+  2078			debug_check_no_obj_freed(x, s->object_size);
+  2079	
+  2080		/* Use KCSAN to help debug racy use-after-free. */
+  2081		if (!(s->flags & SLAB_TYPESAFE_BY_RCU))
+  2082			__kcsan_check_access(x, s->object_size,
+  2083					     KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT);
+  2084	
+  2085		if (kfence_free(x))
+  2086			return false;
+  2087	
+  2088		/*
+  2089		 * As memory initialization might be integrated into KASAN,
+  2090		 * kasan_slab_free and initialization memset's must be
+  2091		 * kept together to avoid discrepancies in behavior.
+  2092		 *
+  2093		 * The initialization memset's clear the object and the metadata,
+  2094		 * but don't touch the SLAB redzone.
+  2095		 *
+  2096		 * The object's freepointer is also avoided if stored outside the
+  2097		 * object.
+  2098		 */
+  2099		if (unlikely(init)) {
+  2100			int rsize;
+  2101			unsigned int inuse;
+  2102	
+> 2103			inuse = get_info_end(s);
+  2104			if (!kasan_has_integrated_init())
+  2105				memset(kasan_reset_tag(x), 0, s->object_size);
+  2106			rsize = (s->flags & SLAB_RED_ZONE) ? s->red_left_pad : 0;
+  2107			memset((char *)kasan_reset_tag(x) + inuse, 0,
+  2108			       s->size - inuse - rsize);
+  2109		}
+  2110		/* KASAN might put x into memory quarantine, delaying its reuse. */
+  2111		return !kasan_slab_free(s, x, init);
+  2112	}
+  2113	
 
 -- 
 0-DAY CI Kernel Test Service
