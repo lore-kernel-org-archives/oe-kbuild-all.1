@@ -1,247 +1,223 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1948B4A99C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 05:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A57521105
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 06:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714542961; cv=none; b=Fy5Yf/Tw+bIy1aMhaKloMS0JCBCtpoiezrvb0euxTU3/nWCBZAIAMGs5+e0abwRs3hBAzO5rhimto8bATc65k5Dw4ERxIuFCsPy0/vf4RSs+UUR8Sfh79pgHWy6caZ9ic8Vk8xGI45r5cg3W8N+i1iXhH/eJg4jVwvYDGb96xTM=
+	t=1714545197; cv=none; b=N3Ia5IfLI5tRZHJnbq1HxxwIOu7j1hhh3W03w5zRLhz56kfbVcf7OhCrdcTy2fbzdIFJFLYlrB0xzo/HmlI+CRcix0Ys4ExqPxOpdRefWj8aGgkq/qIhq/fVh3gc/T/9CRDEWLeJWte0EBzFGTu5iMysSKrXF8LpigF3t9lc83g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714542961; c=relaxed/simple;
-	bh=aadMEr8ariBi8eE4O8hPmKJnX3oge4KGG35B7N3ApoE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=uzezMla4ETP5uneoFMfv1YZha2deW8H8VpWtaaPz4vNpntY/L5uhblXnaZdSURDmjjoDHlvDe1PGD6NjoP+BSe+Ew77rR28wI6ZgwWQCBZT8r8X8v7kALvZKlNAKm1hZj5M7IV2nn41mDSZb45MoDJtygQYia8UYOlWoZRYmf0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BmgMcEwZ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1714545197; c=relaxed/simple;
+	bh=6X5qcgsHpqVQvC4cNn1GOviSLwIEVVTJLk+m0pA9H58=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mMg+pY00RP5CXjGwks8doyh64kKgGLb4vLE7NmzOknhlQ97Kpzq2ICkJqXQfi4puYrjdWhAcTi+1eQModRE/5czPkIcetAZWB28Tqo+hKQdqW11Tu2ABhJe7oiMx/lYB6afCvbBU6WEuNLlZoZo4wsfEn89IL0SR3wbqrDhc/i4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GGFUUNFP; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BmgMcEwZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1714542959;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HcKow0zmruCffk3bO4H/bFhUq98xWg7lQzKYw8TpCpk=;
-	b=BmgMcEwZwTfIxPGkX7vuPuC9qe7Bx1lInvNsBx9IfDuNwKCvib0MCw42Phhp4r1yyDBMlQ
-	4fGGSiKfWxeIZoD6ngN8YlZRAAsM3HVWrM2l4IpyuF87hOL7RcYcVLQMJoZYKbRrLO3DqV
-	YAJcEMMbPdBHHahV/6VxvyWuMRhokMI=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-298-obZ7h901Ov-0X76aZ9x7tA-1; Wed, 01 May 2024 01:55:57 -0400
-X-MC-Unique: obZ7h901Ov-0X76aZ9x7tA-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a5564a2e3a5so468586666b.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 22:55:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714542956; x=1715147756;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HcKow0zmruCffk3bO4H/bFhUq98xWg7lQzKYw8TpCpk=;
-        b=cKG1lpXlXEgjjuSfTbDblPc9QGZuWwPlGEAsYwYC4q0LgO6XopYkzd6olUKcKhA78V
-         MYVNmbNRRx6e9gUYy2L++TMe0K6sBxwt8Z2UQmjdz1VA5kdmOSqh66C290PF6l+Xc6Vw
-         4h4MUh1/IQCxfilx5E64VFq0OteRdbEyf8jsJ1TknZSHJv6YAJUP/3+EMIqx6ZGFtu2W
-         tBSFM46nB0rty3mpupxlUqWmoOX4a5h3HpZlCnvrT+Wq9SJ1VYBpB/Bo/F/cyYghqldA
-         WUT82w7UevpjorDm0PHZr6ApngBMXrVbIFTpc2ptRFIUCdqkfuTGdbcvsOo/VPN5QQh+
-         WqJg==
-X-Forwarded-Encrypted: i=1; AJvYcCX/HSEQuhPyddN40IY/+oRRc8nGR5jKNVqzdPgjA+F5PsmErjaX9xrHeQtV9Ktah0HUHGLWgWh5Sk8toEr+ci98pvcwFrshN+/JPr0lmA==
-X-Gm-Message-State: AOJu0YzTToB9k0YdC2HHFexejVGP50YkPi0ehhNZcEHaeF2P1Oa40i5B
-	1XgRYmvjmXmycnfABmSk2DHNDJzOIoa3N+TGhCKzos3UQ5Sns3xLAgILMdUJLYjXpMW5uj+Wwfo
-	/7NzhM8IEo4A+1cMCP06MMo+Tir/1vnWVayA20TJhV4ZDz/fZK28pnEm19eTXkAk=
-X-Received: by 2002:a17:906:e4d:b0:a55:9a35:5e9d with SMTP id q13-20020a1709060e4d00b00a559a355e9dmr977259eji.42.1714542956236;
-        Tue, 30 Apr 2024 22:55:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGC1QkCHaw0iBBvM1x7ORwvPKI+KKZASL1NToTNqfz++XpK/I5PdrIKLQ0RzET8wTmc4DTiIQ==
-X-Received: by 2002:a17:906:e4d:b0:a55:9a35:5e9d with SMTP id q13-20020a1709060e4d00b00a559a355e9dmr977237eji.42.1714542955599;
-        Tue, 30 Apr 2024 22:55:55 -0700 (PDT)
-Received: from redhat.com ([2a0d:6fc7:346:6a42:bb79:449b:3f0b:a228])
-        by smtp.gmail.com with ESMTPSA id cb6-20020a170906a44600b00a58864c88aesm9121150ejb.225.2024.04.30.22.55.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Apr 2024 22:55:54 -0700 (PDT)
-Date: Wed, 1 May 2024 01:55:47 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Heng Qi <hengqi@linux.alibaba.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-	Jason Wang <jasowang@redhat.com>, Brett Creeley <bcreeley@amd.com>,
-	Ratheesh Kannoth <rkannoth@marvell.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Tal Gilboa <talgi@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Paul Greenwalt <paul.greenwalt@intel.com>,
-	Ahmed Zaki <ahmed.zaki@intel.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>, justinstitt@google.com,
-	netdev@vger.kernel.org, virtualization@lists.linux.dev
-Subject: Re: [PATCH net-next v11 2/4] ethtool: provide customized dim profile
- management
-Message-ID: <20240501015303-mutt-send-email-mst@kernel.org>
-References: <20240430173136.15807-1-hengqi@linux.alibaba.com>
- <20240430173136.15807-3-hengqi@linux.alibaba.com>
- <202405011004.Rkw6IrSl-lkp@intel.com>
- <1714538736.2472136-1-hengqi@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GGFUUNFP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714545195; x=1746081195;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6X5qcgsHpqVQvC4cNn1GOviSLwIEVVTJLk+m0pA9H58=;
+  b=GGFUUNFPfOnJU45L9foIhkeTPY+lQxZZ0572WAgrS0+72kwe8dlWf+RB
+   S0YJ4h00U8nnWa1r3pqyigNO1Y/qaoZgEWnAMOS6FC9hh9oWdXWQ95dGZ
+   cE9S8RgQTiL7++9JrxGjdN4NKN2BRsj5i6EpSgUlTOUzye+JGXpj++Wpv
+   tNIhRteUnpDfQRVFX82wxhDicdVEfZDI9+ZMSXMODUsFMZ/GlBlcXetAZ
+   uFwmB5UiaV4Zicyu0Xh0pn2PRZP3/feNbbO57F9IV57h/2pV7KE+puzIg
+   0wYDxXvPPe1blIxwWHH7c+4yjwt6Bqe8t3pWVMhN3nMHGLUMhqDnR7D0c
+   A==;
+X-CSE-ConnectionGUID: CBimA6JPSvGjwt8UXmCL4w==
+X-CSE-MsgGUID: 7Yh7FB8MSSKae3n6V9457A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10119869"
+X-IronPort-AV: E=Sophos;i="6.07,244,1708416000"; 
+   d="scan'208";a="10119869"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 23:33:14 -0700
+X-CSE-ConnectionGUID: J4r/LXQTRDqHwgzfSasauw==
+X-CSE-MsgGUID: 8raONE26QyOon0CICbzhkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,244,1708416000"; 
+   d="scan'208";a="31311970"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 30 Apr 2024 23:33:13 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s23Wh-0008zj-16;
+	Wed, 01 May 2024 06:33:11 +0000
+Date: Wed, 1 May 2024 14:32:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.6-1.0.x-imx 7401/11730]
+ drivers/gpu/arm/midgard/debug/backend/mali_kbase_debug_coresight_internal_csf.h:26:10:
+ fatal error: 'linux/mali_kbase_debug_coresight_csf.h' file not found
+Message-ID: <202405011449.WzSpaJlB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <1714538736.2472136-1-hengqi@linux.alibaba.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, May 01, 2024 at 12:45:36PM +0800, Heng Qi wrote:
-> On Wed, 1 May 2024 10:36:03 +0800, kernel test robot <lkp@intel.com> wrote:
-> > Hi Heng,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > [auto build test WARNING on net-next/main]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/linux-dim-move-useful-macros-to-h-file/20240501-013413
-> > base:   net-next/main
-> > patch link:    https://lore.kernel.org/r/20240430173136.15807-3-hengqi%40linux.alibaba.com
-> > patch subject: [PATCH net-next v11 2/4] ethtool: provide customized dim profile management
-> > config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240501/202405011004.Rkw6IrSl-lkp@intel.com/config)
-> > compiler: or1k-linux-gcc (GCC) 13.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405011004.Rkw6IrSl-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202405011004.Rkw6IrSl-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> >    net/ethtool/coalesce.c: In function 'ethnl_update_profile':
-> >    net/ethtool/coalesce.c:453:46: error: 'struct net_device' has no member named 'irq_moder'
-> >      453 |         struct dim_irq_moder *irq_moder = dev->irq_moder;
-> >          |                                              ^~
-> >    net/ethtool/coalesce.c: At top level:
-> > >> net/ethtool/coalesce.c:446:12: warning: 'ethnl_update_profile' defined but not used [-Wunused-function]
-> >      446 | static int ethnl_update_profile(struct net_device *dev,
-> >          |            ^~~~~~~~~~~~~~~~~~~~
-> > >> net/ethtool/coalesce.c:151:12: warning: 'coalesce_put_profile' defined but not used [-Wunused-function]
-> >      151 | static int coalesce_put_profile(struct sk_buff *skb, u16 attr_type,
-> >          |            ^~~~~~~~~~~~~~~~~~~~
-> > 
-> 
-> This is a known minor issue,
-> to reduce the use of 'IS_ENABLED(CONFIG_DIMLIB)'
-> mentioned in v10. Since the calls of ethnl_update_profile() and
-> coalesce_put_profile() will only occur when IS_ENABLED(CONFIG_DIMLIB) returns
-> true, the robot's warning can be ignored the code is safe.
+tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
+head:   776652a165f5bbf30c68a5f6213d75b02e8df11c
+commit: c72487fafcbdaddc79c61ac5a119c5d89af807c9 [7401/11730] MGS-7531-2 [#nxp] update the include path
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240501/202405011449.WzSpaJlB-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405011449.WzSpaJlB-lkp@intel.com/reproduce)
 
-I don't get it. The build seems to fail. How is this a minor issue?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405011449.WzSpaJlB-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/gpu/arm/midgard/mali_kbase_cache_policy.c:26:
+   In file included from drivers/gpu/arm/midgard/mali_kbase_cache_policy.h:29:
+   In file included from drivers/gpu/arm/midgard/mali_kbase.h:30:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2168:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/gpu/arm/midgard/mali_kbase_cache_policy.c:26:
+   In file included from drivers/gpu/arm/midgard/mali_kbase_cache_policy.h:29:
+   In file included from drivers/gpu/arm/midgard/mali_kbase.h:30:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/gpu/arm/midgard/mali_kbase_cache_policy.c:26:
+   In file included from drivers/gpu/arm/midgard/mali_kbase_cache_policy.h:29:
+   In file included from drivers/gpu/arm/midgard/mali_kbase.h:30:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/gpu/arm/midgard/mali_kbase_cache_policy.c:26:
+   In file included from drivers/gpu/arm/midgard/mali_kbase_cache_policy.h:29:
+   In file included from drivers/gpu/arm/midgard/mali_kbase.h:30:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/gpu/arm/midgard/mali_kbase_cache_policy.c:26:
+   In file included from drivers/gpu/arm/midgard/mali_kbase_cache_policy.h:29:
+   In file included from drivers/gpu/arm/midgard/mali_kbase.h:56:
+   In file included from drivers/gpu/arm/midgard/mali_kbase_defs.h:353:
+   In file included from drivers/gpu/arm/midgard/csf/mali_kbase_csf_defs.h:39:
+>> drivers/gpu/arm/midgard/debug/backend/mali_kbase_debug_coresight_internal_csf.h:26:10: fatal error: 'linux/mali_kbase_debug_coresight_csf.h' file not found
+      26 | #include <linux/mali_kbase_debug_coresight_csf.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   7 warnings and 1 error generated.
+--
+   In file included from drivers/gpu/arm/midgard/mali_kbase_mem.c:25:
+   In file included from include/linux/dma-buf.h:16:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/gpu/arm/midgard/mali_kbase_mem.c:25:
+   In file included from include/linux/dma-buf.h:16:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/gpu/arm/midgard/mali_kbase_mem.c:25:
+   In file included from include/linux/dma-buf.h:16:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/gpu/arm/midgard/mali_kbase_mem.c:25:
+   In file included from include/linux/dma-buf.h:19:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2168:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/gpu/arm/midgard/mali_kbase_mem.c:36:
+   In file included from drivers/gpu/arm/midgard/mali_kbase.h:56:
+   In file included from drivers/gpu/arm/midgard/mali_kbase_defs.h:353:
+   In file included from drivers/gpu/arm/midgard/csf/mali_kbase_csf_defs.h:39:
+>> drivers/gpu/arm/midgard/debug/backend/mali_kbase_debug_coresight_internal_csf.h:26:10: fatal error: 'linux/mali_kbase_debug_coresight_csf.h' file not found
+      26 | #include <linux/mali_kbase_debug_coresight_csf.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   7 warnings and 1 error generated.
 
 
-> All NIPA test cases running on my local pass successfully on V11.
-> 
-> Alternatively, I remake the series to have IS_ENABLED(CONFIG_DIMLIB) back,
-> up to Kuba (and others). :)
-> 
-> Thanks.
-> 
-> > 
-> > vim +/ethnl_update_profile +446 net/ethtool/coalesce.c
-> > 
-> >    424	
-> >    425	/**
-> >    426	 * ethnl_update_profile - get a profile nest with child nests from userspace.
-> >    427	 * @dev: netdevice to update the profile
-> >    428	 * @dst: profile get from the driver and modified by ethnl_update_profile.
-> >    429	 * @nests: nest attr ETHTOOL_A_COALESCE_*X_PROFILE to set profile.
-> >    430	 * @extack: Netlink extended ack
-> >    431	 *
-> >    432	 * Layout of nests:
-> >    433	 *   Nested ETHTOOL_A_COALESCE_*X_PROFILE attr
-> >    434	 *     Nested ETHTOOL_A_PROFILE_IRQ_MODERATION attr
-> >    435	 *       ETHTOOL_A_IRQ_MODERATION_USEC attr
-> >    436	 *       ETHTOOL_A_IRQ_MODERATION_PKTS attr
-> >    437	 *       ETHTOOL_A_IRQ_MODERATION_COMPS attr
-> >    438	 *     ...
-> >    439	 *     Nested ETHTOOL_A_PROFILE_IRQ_MODERATION attr
-> >    440	 *       ETHTOOL_A_IRQ_MODERATION_USEC attr
-> >    441	 *       ETHTOOL_A_IRQ_MODERATION_PKTS attr
-> >    442	 *       ETHTOOL_A_IRQ_MODERATION_COMPS attr
-> >    443	 *
-> >    444	 * Return: 0 on success or a negative error code.
-> >    445	 */
-> >  > 446	static int ethnl_update_profile(struct net_device *dev,
-> >    447					struct dim_cq_moder __rcu **dst,
-> >    448					const struct nlattr *nests,
-> >    449					struct netlink_ext_ack *extack)
-> >    450	{
-> >    451		int len_irq_moder = ARRAY_SIZE(coalesce_irq_moderation_policy);
-> >    452		struct nlattr *tb[ARRAY_SIZE(coalesce_irq_moderation_policy)];
-> >  > 453		struct dim_irq_moder *irq_moder = dev->irq_moder;
-> >    454		struct dim_cq_moder *new_profile, *old_profile;
-> >    455		int ret, rem, i = 0, len;
-> >    456		struct nlattr *nest;
-> >    457	
-> >    458		if (!nests)
-> >    459			return 0;
-> >    460	
-> >    461		if (!*dst)
-> >    462			return -EOPNOTSUPP;
-> >    463	
-> >    464		old_profile = rtnl_dereference(*dst);
-> >    465		len = NET_DIM_PARAMS_NUM_PROFILES * sizeof(*old_profile);
-> >    466		new_profile = kmemdup(old_profile, len, GFP_KERNEL);
-> >    467		if (!new_profile)
-> >    468			return -ENOMEM;
-> >    469	
-> >    470		nla_for_each_nested_type(nest, ETHTOOL_A_PROFILE_IRQ_MODERATION,
-> >    471					 nests, rem) {
-> >    472			ret = nla_parse_nested(tb, len_irq_moder - 1, nest,
-> >    473					       coalesce_irq_moderation_policy,
-> >    474					       extack);
-> >    475			if (ret)
-> >    476				goto err_out;
-> >    477	
-> >    478			ret = ethnl_update_irq_moder(irq_moder, &new_profile[i].usec,
-> >    479						     ETHTOOL_A_IRQ_MODERATION_USEC,
-> >    480						     tb, DIM_COALESCE_USEC,
-> >    481						     extack);
-> >    482			if (ret)
-> >    483				goto err_out;
-> >    484	
-> >    485			ret = ethnl_update_irq_moder(irq_moder, &new_profile[i].pkts,
-> >    486						     ETHTOOL_A_IRQ_MODERATION_PKTS,
-> >    487						     tb, DIM_COALESCE_PKTS,
-> >    488						     extack);
-> >    489			if (ret)
-> >    490				goto err_out;
-> >    491	
-> >    492			ret = ethnl_update_irq_moder(irq_moder, &new_profile[i].comps,
-> >    493						     ETHTOOL_A_IRQ_MODERATION_COMPS,
-> >    494						     tb, DIM_COALESCE_COMPS,
-> >    495						     extack);
-> >    496			if (ret)
-> >    497				goto err_out;
-> >    498	
-> >    499			i++;
-> >    500		}
-> >    501	
-> >    502		rcu_assign_pointer(*dst, new_profile);
-> >    503		kfree_rcu(old_profile, rcu);
-> >    504	
-> >    505		return 0;
-> >    506	
-> >    507	err_out:
-> >    508		kfree(new_profile);
-> >    509		return ret;
-> >    510	}
-> >    511	
-> > 
-> > -- 
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
+vim +26 drivers/gpu/arm/midgard/debug/backend/mali_kbase_debug_coresight_internal_csf.h
 
+d5c5f8c95d8fe5 Shuming Fan 2023-08-07  24  
+d5c5f8c95d8fe5 Shuming Fan 2023-08-07  25  #include <mali_kbase.h>
+d5c5f8c95d8fe5 Shuming Fan 2023-08-07 @26  #include <linux/mali_kbase_debug_coresight_csf.h>
+d5c5f8c95d8fe5 Shuming Fan 2023-08-07  27  
+
+:::::: The code at line 26 was first introduced by commit
+:::::: d5c5f8c95d8fe590d3ca321d3d5a04c32f50f11d MGS-7263 VX504X08X-SW-99002-r42p0-01eac0
+
+:::::: TO: Shuming Fan <shuming.fan@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
