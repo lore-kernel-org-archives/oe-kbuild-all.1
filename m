@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7B7522A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 02:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330F5101DB
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 02:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714528926; cv=none; b=b0rDWeo3jInMNW+09fRkRc3/pXgE+5eo3GxyaPv6kV0S8BQHR0EL+GuVyoq+7JSOBz5Crocz8wTh3BotqrLB4A025hgo7xrwCoxI0yTN/ET82GtnlCAne+tsD51bBvMYmQokrVwjaAs6dschFkxSZyZD+zLNFjndd34/ussG3Bk=
+	t=1714529645; cv=none; b=EkiK7MqU1z4EyM8qn+Ql74MN2FTUtATa2hu8xnTFG/+lfRftsh7E1dQpDQ/r8GmzPSIyTJYLZQ2/+cFA5QKYjaoQLLDD6J+3sBCLQgMoOcBQgNClJh2yv1A0wd1hL+rMQVbcspqBlkDYAYlZoig06c9U4HvgoIw52dPim0amNmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714528926; c=relaxed/simple;
-	bh=/dBGKupXZ/khHcTYjccN0jbn/rFJQ/T61+tz4jf++Ag=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S+HVwygvlD9/glHgj3cWd7kl0NSTrvuMoGdjSK82tJNo2iVTNT7pl1iqgtuks43w/gHBuKKzxH17ri+EYz+j6GJdKoWsYk6DhF4Jt2jNH6UQqMt5vqguOjpMIjBUZMI5Kkdh2QIHRsA4DTBxYehhHJ6t7Utal5lvQrPJ91PzElI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DKLRSs+6; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1714529645; c=relaxed/simple;
+	bh=pmFe7zXrkOB3JN0N66vunyHwoSzNg/axyWWTtADlsRo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J+ICwkVILXLUNOfd2bIwj9QxYshUzriTesG6cNh4H1KtxNIgM9E1Yjtwn09xWLTpFkakZukxEj7rC2Z/0P4KHk4fxSYfSUYzLxyG32dLYI4N1r+xecBtFE41/wRslI9eCfb8teAI6iJ9OCQvtpPT8gdSYZH5JQ2cCQiPq7axWf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JD+KtGr8; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DKLRSs+6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JD+KtGr8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714528924; x=1746064924;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/dBGKupXZ/khHcTYjccN0jbn/rFJQ/T61+tz4jf++Ag=;
-  b=DKLRSs+6Osd8xIFiZSJ1DfKle3iPZtx3kOySYCHLq3O5gSFaMjW6bshA
-   SzOqwFejtkX33zutX4U/9FKrYi9K9o7hrEl9l4Zxy64Nj8OhjEI5M198O
-   MeQfKfS5DEOQZeGdvDGAir3JMWEgw9k1LST43XlZXoDGHN6g/CX4ePD+i
-   k0cNkVysyY+YZ4vEZrrX/SQXk5umGHQqijSLgKUqIBHPnyLEmO8/1F12q
-   37r61zmPwll2SMu/ygiCnMufxX3EqECu0eF6DC6vTs1Cl3MVytU6TVwHO
-   ufG7IbdxEud06FTHem5gTDZtf1sx5Z9ayiNo1DXVV1ET9YDbmI6spxoZf
+  t=1714529644; x=1746065644;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pmFe7zXrkOB3JN0N66vunyHwoSzNg/axyWWTtADlsRo=;
+  b=JD+KtGr8JH3BWi8VWsCUu6C5Y3pZL3kUu+oggNfET9Pm+qFA9ymSVlMX
+   BXhcd20fOFFq37oMMY+NkCBgKPtuywyBl8AiP6ieNyWeAO3sWUA++mg0L
+   ySXjiV0IIrZGSakpXHBI4RkR7zFc5ztgQSXt828M4zzuLTVoq0QFW2oCW
+   PLUQcviEPSblH3925QgJNXq1F6rtFnolM0CA+/0UFXLQwkC5M1bCOgrOr
+   aloQBytlbUo0gPmQZMCFRSR2R8OTYTpIosAEVzC+6bzqRE6YIWrOSleZE
+   3cnTZurpj00MFI/KEc/MzpHrCtk88hIXswj66Fhyp5q7jPDZAVD141rgm
    Q==;
-X-CSE-ConnectionGUID: K8O+4tLCTgycAVZ02quKtA==
-X-CSE-MsgGUID: rctESlWmQR+2ip4XBFH1tA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10193350"
-X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; 
-   d="scan'208";a="10193350"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 19:02:03 -0700
-X-CSE-ConnectionGUID: w04Bob9/TcSEN0Uwn0f/QA==
-X-CSE-MsgGUID: A0UGCG33TSiIcshMxejsjw==
+X-CSE-ConnectionGUID: o4Jz/uy2TaGQ5wTPL+fhug==
+X-CSE-MsgGUID: iOABZBNVSzCfPqiMaqtxgA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="13188610"
+X-IronPort-AV: E=Sophos;i="6.07,244,1708416000"; 
+   d="scan'208";a="13188610"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 19:14:03 -0700
+X-CSE-ConnectionGUID: iv0Wb31bTReV/IO0UqXhWQ==
+X-CSE-MsgGUID: 3Zvdv6n/S+GE7cF9ReKfyw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; 
-   d="scan'208";a="26742032"
+X-IronPort-AV: E=Sophos;i="6.07,244,1708416000"; 
+   d="scan'208";a="57546296"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 30 Apr 2024 19:02:02 -0700
+  by orviesa002.jf.intel.com with ESMTP; 30 Apr 2024 19:14:02 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1zIF-0008kl-1n;
-	Wed, 01 May 2024 02:01:59 +0000
-Date: Wed, 1 May 2024 10:01:47 +0800
+	id 1s1zTr-0008l1-2O;
+	Wed, 01 May 2024 02:13:59 +0000
+Date: Wed, 1 May 2024 10:13:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Sungwoo Kim <iam@sung-woo.kim>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-1.0.x-imx 4741/11730]
- drivers/soc/fsl/dpio/qbman-portal.c:722:3: error: invalid instruction, did
- you mean: addc, andc, bc, dcba, dcbf, dcbi, dcbt, dcbz, dci, ld, sc, td?
-Message-ID: <202405010940.UwY63uc0-lkp@intel.com>
+Subject: Re: [PATCH v3] Bluetooth: msft: fix slab-use-after-free in
+ msft_do_close()
+Message-ID: <202405011016.CBytvMaJ-lkp@intel.com>
+References: <20240430162049.1516720-1-iam@sung-woo.kim>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,241 +63,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240430162049.1516720-1-iam@sung-woo.kim>
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
-head:   776652a165f5bbf30c68a5f6213d75b02e8df11c
-commit: ecf345f453d79979725e6a41fd7f8283835d1fdf [4741/11730] soc: fsl: dpio: enable qbman CENA portal memory access
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240501/202405010940.UwY63uc0-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405010940.UwY63uc0-lkp@intel.com/reproduce)
+Hi Sungwoo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bluetooth/master]
+[also build test ERROR on linus/master v6.9-rc6 next-20240430]
+[cannot apply to bluetooth-next/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sungwoo-Kim/Bluetooth-msft-fix-slab-use-after-free-in-msft_do_close/20240501-003554
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20240430162049.1516720-1-iam%40sung-woo.kim
+patch subject: [PATCH v3] Bluetooth: msft: fix slab-use-after-free in msft_do_close()
+config: x86_64-randconfig-122-20240501 (https://download.01.org/0day-ci/archive/20240501/202405011016.CBytvMaJ-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405011016.CBytvMaJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405010940.UwY63uc0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405011016.CBytvMaJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/soc/fsl/dpio/qbman-portal.c:8:
-   In file included from arch/powerpc/include/asm/cacheflush.h:7:
-   In file included from include/linux/mm.h:2168:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/soc/fsl/dpio/qbman-portal.c:722:3: error: invalid instruction, did you mean: addc, andc, bc, dcba, dcbf, dcbi, dcbt, dcbz, dci, ld, sc, td?
-     722 |                 dccvac((addr_cena + QBMAN_CENA_SWP_EQCR(eqcr_pi & half_mask)));
-         |                 ^
-   drivers/soc/fsl/dpio/qbman-portal.c:174:34: note: expanded from macro 'dccvac'
-     174 | #define dccvac(p) { asm volatile("dc cvac, %0;" : : "r" (p) : "memory"); }
-         |                                  ^
-   <inline asm>:1:2: note: instantiated into assembly here
-       1 |         dc cvac, 3;
-         |         ^~
-   drivers/soc/fsl/dpio/qbman-portal.c:876:3: error: invalid instruction, did you mean: addc, andc, bc, dcba, dcbf, dcbi, dcbt, dcbz, dci, ld, sc, td?
-     876 |                 dccvac((uint64_t *)(addr_cena +
-         |                 ^
-   drivers/soc/fsl/dpio/qbman-portal.c:174:34: note: expanded from macro 'dccvac'
-     174 | #define dccvac(p) { asm volatile("dc cvac, %0;" : : "r" (p) : "memory"); }
-         |                                  ^
-   <inline asm>:1:2: note: instantiated into assembly here
-       1 |         dc cvac, 3;
-         |         ^~
-   drivers/soc/fsl/dpio/qbman-portal.c:1142:2: error: invalid instruction, did you mean: addc, andc, bc, dcba, dcbf, dcbi, dcbt, dcbz, dci, ld, sc, td?
-    1142 |         dccvac(p);
-         |         ^
-   drivers/soc/fsl/dpio/qbman-portal.c:174:34: note: expanded from macro 'dccvac'
-     174 | #define dccvac(p) { asm volatile("dc cvac, %0;" : : "r" (p) : "memory"); }
-         |                                  ^
-   <inline asm>:1:2: note: instantiated into assembly here
-       1 |         dc cvac, 27;
-         |         ^~
-   drivers/soc/fsl/dpio/qbman-portal.c:178:2: error: invalid instruction, did you mean: addc, andc, bc, dcba, dcbf, dcbi, dcbt, dcbz, dci, ld, sc, td?
-     178 |         dcivac(p->addr_cena + offset);
-         |         ^
-   drivers/soc/fsl/dpio/qbman-portal.c:175:34: note: expanded from macro 'dcivac'
-     175 | #define dcivac(p) { asm volatile("dc ivac, %0" : : "r"(p) : "memory"); }
-         |                                  ^
-   <inline asm>:1:2: note: instantiated into assembly here
-       1 |         dc ivac, 27
-         |         ^~
-   drivers/soc/fsl/dpio/qbman-portal.c:178:2: error: invalid instruction, did you mean: addc, andc, bc, dcba, dcbf, dcbi, dcbt, dcbz, dci, ld, sc, td?
-     178 |         dcivac(p->addr_cena + offset);
-         |         ^
-   drivers/soc/fsl/dpio/qbman-portal.c:175:34: note: expanded from macro 'dcivac'
-     175 | #define dcivac(p) { asm volatile("dc ivac, %0" : : "r"(p) : "memory"); }
-         |                                  ^
-   <inline asm>:1:2: note: instantiated into assembly here
-       1 |         dc ivac, 3
-         |         ^~
-   drivers/soc/fsl/dpio/qbman-portal.c:178:2: error: invalid instruction, did you mean: addc, andc, bc, dcba, dcbf, dcbi, dcbt, dcbz, dci, ld, sc, td?
-     178 |         dcivac(p->addr_cena + offset);
-         |         ^
-   drivers/soc/fsl/dpio/qbman-portal.c:175:34: note: expanded from macro 'dcivac'
-     175 | #define dcivac(p) { asm volatile("dc ivac, %0" : : "r"(p) : "memory"); }
-         |                                  ^
-   <inline asm>:1:2: note: instantiated into assembly here
-       1 |         dc ivac, 3
-         |         ^~
-   drivers/soc/fsl/dpio/qbman-portal.c:1497:2: error: invalid instruction, did you mean: addc, andc, bc, dcba, dcbf, dcbi, dcbt, dcbz, dci, ld, sc, td?
-    1497 |         dccvac(p);
-         |         ^
-   drivers/soc/fsl/dpio/qbman-portal.c:174:34: note: expanded from macro 'dccvac'
-     174 | #define dccvac(p) { asm volatile("dc cvac, %0;" : : "r" (p) : "memory"); }
-         |                                  ^
-   <inline asm>:1:2: note: instantiated into assembly here
-       1 |         dc cvac, 26;
-         |         ^~
-   drivers/soc/fsl/dpio/qbman-portal.c:178:2: error: invalid instruction, did you mean: addc, andc, bc, dcba, dcbf, dcbi, dcbt, dcbz, dci, ld, sc, td?
-     178 |         dcivac(p->addr_cena + offset);
-         |         ^
-   drivers/soc/fsl/dpio/qbman-portal.c:175:34: note: expanded from macro 'dcivac'
-     175 | #define dcivac(p) { asm volatile("dc ivac, %0" : : "r"(p) : "memory"); }
-         |                                  ^
-   <inline asm>:1:2: note: instantiated into assembly here
-       1 |         dc ivac, 3
-         |         ^~
-   drivers/soc/fsl/dpio/qbman-portal.c:178:2: error: invalid instruction, did you mean: addc, andc, bc, dcba, dcbf, dcbi, dcbt, dcbz, dci, ld, sc, td?
-     178 |         dcivac(p->addr_cena + offset);
-         |         ^
-   drivers/soc/fsl/dpio/qbman-portal.c:175:34: note: expanded from macro 'dcivac'
-     175 | #define dcivac(p) { asm volatile("dc ivac, %0" : : "r"(p) : "memory"); }
-         |                                  ^
-   <inline asm>:1:2: note: instantiated into assembly here
-       1 |         dc ivac, 3
-         |         ^~
-   drivers/soc/fsl/dpio/qbman-portal.c:178:2: error: invalid instruction, did you mean: addc, andc, bc, dcba, dcbf, dcbi, dcbt, dcbz, dci, ld, sc, td?
-     178 |         dcivac(p->addr_cena + offset);
-         |         ^
-   drivers/soc/fsl/dpio/qbman-portal.c:175:34: note: expanded from macro 'dcivac'
-     175 | #define dcivac(p) { asm volatile("dc ivac, %0" : : "r"(p) : "memory"); }
-         |                                  ^
-   <inline asm>:1:2: note: instantiated into assembly here
-       1 |         dc ivac, 3
-         |         ^~
-   drivers/soc/fsl/dpio/qbman-portal.c:475:3: error: invalid instruction, did you mean: addc, andc, bc, dcba, dcbf, dcbi, dcbt, dcbz, dci, ld, sc, td?
-     475 |                 dccvac(cmd);
-         |                 ^
-   drivers/soc/fsl/dpio/qbman-portal.c:174:34: note: expanded from macro 'dccvac'
-     174 | #define dccvac(p) { asm volatile("dc cvac, %0;" : : "r" (p) : "memory"); }
-         |                                  ^
-   <inline asm>:1:2: note: instantiated into assembly here
-       1 |         dc cvac, 29;
-         |         ^~
-   drivers/soc/fsl/dpio/qbman-portal.c:178:2: error: invalid instruction, did you mean: addc, andc, bc, dcba, dcbf, dcbi, dcbt, dcbz, dci, ld, sc, td?
-     178 |         dcivac(p->addr_cena + offset);
+   net/bluetooth/hci_core.c: In function 'hci_release_dev':
+>> net/bluetooth/hci_core.c:2824:9: error: implicit declaration of function 'msft_release'; did you mean 'dst_release'? [-Werror=implicit-function-declaration]
+    2824 |         msft_release(hdev);
+         |         ^~~~~~~~~~~~
+         |         dst_release
+   cc1: some warnings being treated as errors
 
 
-vim +722 drivers/soc/fsl/dpio/qbman-portal.c
+vim +2824 net/bluetooth/hci_core.c
 
-   642	
-   643	/**
-   644	 * qbman_swp_enqueue_multiple_direct() - Issue a multi enqueue command
-   645	 * using one enqueue descriptor
-   646	 * @s:  the software portal used for enqueue
-   647	 * @d:  the enqueue descriptor
-   648	 * @fd: table pointer of frame descriptor table to be enqueued
-   649	 * @flags: table pointer of QBMAN_ENQUEUE_FLAG_DCA flags, not used if NULL
-   650	 * @num_frames: number of fd to be enqueued
-   651	 *
-   652	 * Return the number of fd enqueued, or a negative error number.
-   653	 */
-   654	static
-   655	int qbman_swp_enqueue_multiple_direct(struct qbman_swp *s,
-   656					      const struct qbman_eq_desc *d,
-   657					      const struct dpaa2_fd *fd,
-   658					      uint32_t *flags,
-   659					      int num_frames)
-   660	{
-   661		uint32_t *p = NULL;
-   662		const uint32_t *cl = (uint32_t *)d;
-   663		uint32_t eqcr_ci, eqcr_pi, half_mask, full_mask;
-   664		int i, num_enqueued = 0;
-   665		uint64_t addr_cena;
-   666	
-   667		spin_lock(&s->access_spinlock);
-   668		half_mask = (s->eqcr.pi_ci_mask>>1);
-   669		full_mask = s->eqcr.pi_ci_mask;
-   670	
-   671		if (!s->eqcr.available) {
-   672			eqcr_ci = s->eqcr.ci;
-   673			p = s->addr_cena + QBMAN_CENA_SWP_EQCR_CI;
-   674			s->eqcr.ci = qbman_read_register(s, QBMAN_CINH_SWP_EQCR_CI);
-   675			s->eqcr.ci &= full_mask;
-   676	
-   677			s->eqcr.available = qm_cyc_diff(s->eqcr.pi_ring_size,
-   678						eqcr_ci, s->eqcr.ci);
-   679			if (!s->eqcr.available) {
-   680				spin_unlock(&s->access_spinlock);
-   681				return 0;
-   682			}
-   683		}
-   684	
-   685		eqcr_pi = s->eqcr.pi;
-   686		num_enqueued = (s->eqcr.available < num_frames) ?
-   687				s->eqcr.available : num_frames;
-   688		s->eqcr.available -= num_enqueued;
-   689		/* Fill in the EQCR ring */
-   690		for (i = 0; i < num_enqueued; i++) {
-   691			p = (s->addr_cena + QBMAN_CENA_SWP_EQCR(eqcr_pi & half_mask));
-   692			/* Skip copying the verb */
-   693			memcpy(&p[1], &cl[1], EQ_DESC_SIZE_WITHOUT_FD - 1);
-   694			memcpy(&p[EQ_DESC_SIZE_FD_START/sizeof(uint32_t)],
-   695			       &fd[i], sizeof(*fd));
-   696			eqcr_pi++;
-   697		}
-   698	
-   699		dma_wmb();
-   700	
-   701		/* Set the verb byte, have to substitute in the valid-bit */
-   702		eqcr_pi = s->eqcr.pi;
-   703		for (i = 0; i < num_enqueued; i++) {
-   704			p = (s->addr_cena + QBMAN_CENA_SWP_EQCR(eqcr_pi & half_mask));
-   705			p[0] = cl[0] | s->eqcr.pi_vb;
-   706			if (flags && (flags[i] & QBMAN_ENQUEUE_FLAG_DCA)) {
-   707				struct qbman_eq_desc *eq_desc = (struct qbman_eq_desc *)p;
-   708	
-   709				eq_desc->dca = (1 << QB_ENQUEUE_CMD_DCA_EN_SHIFT) |
-   710					((flags[i]) & QBMAN_EQCR_DCA_IDXMASK);
-   711			}
-   712			eqcr_pi++;
-   713			if (!(eqcr_pi & half_mask))
-   714				s->eqcr.pi_vb ^= QB_VALID_BIT;
-   715		}
-   716	
-   717		/* Flush all the cacheline without load/store in between */
-   718		eqcr_pi = s->eqcr.pi;
-   719		for (i = 0; i < num_enqueued; i++)
-   720		addr_cena = (size_t)s->addr_cena;
-   721		for (i = 0; i < num_enqueued; i++) {
- > 722			dccvac((addr_cena + QBMAN_CENA_SWP_EQCR(eqcr_pi & half_mask)));
-   723			eqcr_pi++;
-   724		}
-   725		s->eqcr.pi = eqcr_pi & full_mask;
-   726		spin_unlock(&s->access_spinlock);
-   727	
-   728		return num_enqueued;
-   729	}
-   730	
+  2797	
+  2798	/* Release HCI device */
+  2799	void hci_release_dev(struct hci_dev *hdev)
+  2800	{
+  2801		debugfs_remove_recursive(hdev->debugfs);
+  2802		kfree_const(hdev->hw_info);
+  2803		kfree_const(hdev->fw_info);
+  2804	
+  2805		destroy_workqueue(hdev->workqueue);
+  2806		destroy_workqueue(hdev->req_workqueue);
+  2807	
+  2808		hci_dev_lock(hdev);
+  2809		hci_bdaddr_list_clear(&hdev->reject_list);
+  2810		hci_bdaddr_list_clear(&hdev->accept_list);
+  2811		hci_uuids_clear(hdev);
+  2812		hci_link_keys_clear(hdev);
+  2813		hci_smp_ltks_clear(hdev);
+  2814		hci_smp_irks_clear(hdev);
+  2815		hci_remote_oob_data_clear(hdev);
+  2816		hci_adv_instances_clear(hdev);
+  2817		hci_adv_monitors_clear(hdev);
+  2818		hci_bdaddr_list_clear(&hdev->le_accept_list);
+  2819		hci_bdaddr_list_clear(&hdev->le_resolv_list);
+  2820		hci_conn_params_clear_all(hdev);
+  2821		hci_discovery_filter_clear(hdev);
+  2822		hci_blocked_keys_clear(hdev);
+  2823		hci_codec_list_clear(&hdev->local_codecs);
+> 2824		msft_release(hdev);
+  2825		hci_dev_unlock(hdev);
+  2826	
+  2827		ida_destroy(&hdev->unset_handle_ida);
+  2828		ida_free(&hci_index_ida, hdev->id);
+  2829		kfree_skb(hdev->sent_cmd);
+  2830		kfree_skb(hdev->req_skb);
+  2831		kfree_skb(hdev->recv_event);
+  2832		kfree(hdev);
+  2833	}
+  2834	EXPORT_SYMBOL(hci_release_dev);
+  2835	
 
 -- 
 0-DAY CI Kernel Test Service
