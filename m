@@ -1,30 +1,58 @@
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id E70AE12E1F7
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 14:03:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.131.102.5
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7905A2581
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 14:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714572211; cv=none; b=rV5a5HRjkWXj8I4B595/rsFzBbqd6Hr+jpuAyFZwnASlwqXH6jilT7CRaYFSHBN8zwsu5LC0pZ3hclvM/8uLEz/CDkkZZArFHdzFhmFAVHtfXCtArvdBZ1MxFM53Zt302ks0YApWxuOFO9vIc/PeKN/TM8VI05oPc14qJZAjYz4=
+	t=1714573045; cv=none; b=MBXkqpW2jrZfCrjZiKs/o9S8Iz0uUPHEgDX7Az/BTpVgY4vF3a4mWkQhL/Es6Mjl+yh4mJ2fM3F97WiBuxD2uS5zgnMO5is8iXAFgza4TpuU0DrOMIflY+C8RRlkx6JSVjs1BZw/3ISZckhPqz+FHGdGyFWVSN7y89tSVd6lsxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714572211; c=relaxed/simple;
-	bh=bVdH7wiDMxqebYJ+3rGDOc0SDGA5QMqyJo55xqWs9bE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k6QU5qKGvb/09bWl4aV3r7ZgQvnSqDqwGWfc6zyRO5dJa3ZIq9WJPmS+AO3o699QDHHejhIv5KWMrNeAn06quDDMzJOgcb2hNNdeLzQMNvkd/RG7f35K/1zzwLT9sh7q4F/XzXmMoeqCpmWvlTeaNBu/hdZ2lKuFk0CjZi5LziY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=netrider.rowland.org; arc=none smtp.client-ip=192.131.102.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netrider.rowland.org
-Received: (qmail 692720 invoked by uid 1000); 1 May 2024 10:03:25 -0400
-Date: Wed, 1 May 2024 10:03:25 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kernel test robot <lkp@intel.com>,
-  Norihiko Hama <Norihiko.Hama@alpsalpine.com>, llvm@lists.linux.dev,
-  oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org
-Subject: Re: [usb:usb-testing 17/35] drivers/usb/storage/usb.c:141:21: error:
- incompatible pointer types passing 'unsigned int *' to parameter of type
- 'uint64_t *' (aka 'unsigned long long *')
-Message-ID: <3e2a7570-0704-4453-ad0b-68c5806157e5@rowland.harvard.edu>
-References: <202405011431.PvaZHpRK-lkp@intel.com>
- <2024050141-remote-mockup-f933@gregkh>
+	s=arc-20240116; t=1714573045; c=relaxed/simple;
+	bh=mcLkQLdW8uT/EVIMc1AToQwBnqAEnGpe54f1K8KhELw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WHbbh7xdWs1UWRyCHoah87MKmxf0eAmNkoAMiXLnPm8UOok/7Qd2efVE8ghtqaEZxTTUp92xVV6TUs3ELOK92SjEdsZqTk0bYUHtBOeYYcJiQncnUZwgGvNX8B7F1qudDuFdHUnXydhf4A9puXWA9nUaAe1TwIj3Ge2+Vqz78W0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TkHmTqMz; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TkHmTqMz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714573044; x=1746109044;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mcLkQLdW8uT/EVIMc1AToQwBnqAEnGpe54f1K8KhELw=;
+  b=TkHmTqMzZFiycf7dB5O5NRo5PtI7wC2+vXzggcKvIGeF4ssyViVE1vtQ
+   e0Ug+O6by3qpSeARNt/4Ji0Pvf/xmSE12X/XVfwZCl+kAyyXUgNggVFpw
+   k7qrE0+EJb1dV6HQADK1wTmhdIUlSltvhWSWgvLkOC9437i92ppl6YqW+
+   arDF5vkuKhodH6mvC3Stb1+lUoMBRYao8EoWOWxVScIOTWXPxLUNqKfUI
+   gXISQ63I9jRSqVcKu+YJC8pPle7eqU8Q5XfpbC4V7tVAn/Xoz56p6QYTg
+   HuDAYBVwjicS6Dj0ZZKZwHM5NFTwdaey8HMuPDyHKjqJ26VH1/6MHESbH
+   A==;
+X-CSE-ConnectionGUID: VFlsOqN5Qx6J05Hr1PX0sg==
+X-CSE-MsgGUID: QDcx72haSpKwcTsFcOu/vA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="20916942"
+X-IronPort-AV: E=Sophos;i="6.07,245,1708416000"; 
+   d="scan'208";a="20916942"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 07:17:23 -0700
+X-CSE-ConnectionGUID: KDGsyUWjQqGOVlswQ4jK6Q==
+X-CSE-MsgGUID: 9/p+5D04SYKyRPxmAUtajQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,245,1708416000"; 
+   d="scan'208";a="27219131"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 01 May 2024 07:17:22 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s2Alr-0009aW-1a;
+	Wed, 01 May 2024 14:17:19 +0000
+Date: Wed, 1 May 2024 22:16:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Leon Romanovsky <leonro@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [leon-rdma:dma-split-v1 5/17] kernel/dma/mapping.c:978: warning:
+ Excess function parameter 's' description in 'dma_start_range'
+Message-ID: <202405012243.ELXQt2Po-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -33,35 +61,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2024050141-remote-mockup-f933@gregkh>
 
-On Wed, May 01, 2024 at 08:50:36AM +0200, Greg Kroah-Hartman wrote:
-> On Wed, May 01, 2024 at 02:32:56PM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-> > head:   ac6a205c5bef39d65ecd9f5dd2c1d75652c35405
-> > commit: 70d66b8e47e6fa031f541291e9dd3d7f0c44b41e [17/35] usb-storage: Optimize scan delay more precisely
-> 
-> I'm going to drop this commit from my tree now.
-> 
-> But really, it feels odd to have this parsing logic in a random driver
-> for something like handling floating point numbers "properly" from
-> userspace.  Why isn't this in the core kernel somewhere?  And, as that
-> was a rhetorical question, the answer is we probably shouldn't be
-> handling floating point number parsing in the kernel...
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dma-split-v1
+head:   98d7b876bb16c599190b66330cc7c5475620ec8c
+commit: 86b6c0afbe811e9ad036864ef9b3bd419834cc09 [5/17] dma-mapping: implement link range API
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240501/202405012243.ELXQt2Po-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405012243.ELXQt2Po-lkp@intel.com/reproduce)
 
-Strictly speaking, this is fixed point rather than floating point.  And 
-the reason the commit didn't put the parsing code in the core kernel is 
-because no other places seem to need it.  Still, I get your objection.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405012243.ELXQt2Po-lkp@intel.com/
 
-> I understand the quest for handling error time outs "faster" when you
-> assume that you know that the error will never happen, but what's the
-> odds that it will end up happening...
-> 
-> there has to be a better way to do this.
+All warnings (new ones prefixed by >>):
 
-Norihiko, another possibility is to use ordinary integers but have 
-users add an "m" or "ms" suffix when they want the value to be 
-interpreted in milliseconds.  So "5" means 5 seconds, but "500ms" means 
-500 milliseconds.
+>> kernel/dma/mapping.c:978: warning: Excess function parameter 's' description in 'dma_start_range'
+>> kernel/dma/mapping.c:994: warning: Excess function parameter 's' description in 'dma_end_range'
 
-Alan Stern
+
+vim +978 kernel/dma/mapping.c
+
+   969	
+   970	/**
+   971	 * dma_start_range - Start a range of IOVA space
+   972	 * @state: IOVA state
+   973	 * @s: range state
+   974	 *
+   975	 * Start a range of IOVA space for the given IOVA state.
+   976	 */
+   977	void dma_start_range(struct dma_iova_state *state)
+ > 978	{
+   979		struct device *dev = state->iova->dev;
+   980		const struct dma_map_ops *ops = get_dma_ops(dev);
+   981	
+   982		ops->start_range(state);
+   983	}
+   984	EXPORT_SYMBOL_GPL(dma_start_range);
+   985	
+   986	/**
+   987	 * dma_end_range - End a range of IOVA space
+   988	 * @state: IOVA state
+   989	 * @s: range state
+   990	 *
+   991	 * End a range of IOVA space for the given IOVA state.
+   992	 */
+   993	void dma_end_range(struct dma_iova_state *state)
+ > 994	{
+   995		struct device *dev = state->iova->dev;
+   996		const struct dma_map_ops *ops = get_dma_ops(dev);
+   997	
+   998		ops->end_range(state);
+   999	}
+  1000	EXPORT_SYMBOL_GPL(dma_end_range);
+  1001	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
